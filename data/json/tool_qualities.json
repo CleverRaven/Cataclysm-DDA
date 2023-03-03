@@ -48,8 +48,9 @@
   },
   {
     "type": "tool_quality",
-    "id": "FISHING",
-    "name": { "str": "fishing" }
+    "id": "FISHING_ROD",
+    "name": { "str": "fishing" },
+    "usages": [ [ 1, [ "FISH_ROD" ] ] ]
   },
   {
     "type": "tool_quality",

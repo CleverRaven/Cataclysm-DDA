@@ -348,13 +348,14 @@
     "skill_used": "cooking",
     "skills_required": [ "survival", 2 ],
     "difficulty": 3,
-    "time": "30 m",
+    "time": "3 m",
+    "batch_time_factors": [ 15, 10 ],
     "autolearn": true,
-    "charges": 20,
+    "charges": 2,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_forage_cooking" } ],
     "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
-    "components": [ [ [ "acorns", 20 ] ], [ [ "water", 40 ], [ "water_clean", 40 ] ] ]
+    "components": [ [ [ "acorns", 2 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ]
   },
   {
     "type": "recipe",

@@ -1175,7 +1175,8 @@
           { "item": "recovery_spellbook", "prob": 5 },
           { "item": "eshaper_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_stamina", "prob": 50 },
-          { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 }
+          { "item": "spell_scroll_eshaper_shardstorm", "prob": 50 },
+          { "item": "spell_scroll_earthshaper_reveal_world_map", "prob": 25 }
         ],
         "prob": 10
       }

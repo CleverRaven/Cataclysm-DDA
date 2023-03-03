@@ -819,6 +819,7 @@ The following is a list of possible enchantment `values`:
 | `PAIN` | 
 | `SHOUT_NOISE` | 
 | `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from.
+| `MOTION_VISION_RANGE ` | Reveals all monsters as a red `?` within the specified radius.
 | `SKILL_RUST_RESIST` | Chance / 100 to resist skill rust.
 | `SLEEPY` | The higher this the easier you fall asleep.
 | `SOCIAL_INTIMIDATE` | 

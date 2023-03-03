@@ -391,6 +391,285 @@
     "description": { "str_sp": "minimum z level reached underwater" }
   },
   {
+    "id": "moves_veh_onboard",
+    "type": "event_transformation",
+    "event_type": "vehicle_moves",
+    "value_constraints": { "avatar_on_board": { "equals": true } },
+    "drop_fields": [ "avatar_on_board" ]
+  },
+  {
+    "id": "num_moves_veh_onboard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_veh_onboard",
+    "description": { "str": "square travelled on board vehicles", "str_pl": "squares travelled on board vehicles" }
+  },
+  {
+    "id": "min_move_veh_onboard_z",
+    "type": "event_statistic",
+    "stat_type": "minimum",
+    "field": "z",
+    "event_transformation": "moves_veh_onboard",
+    "description": { "str_sp": "minimum z level reached in a vehicle" }
+  },
+  {
+    "id": "max_move_veh_onboard_z",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "z",
+    "event_transformation": "moves_veh_onboard",
+    "description": { "str_sp": "maximum z level reached in a vehicle" }
+  },
+  {
+    "id": "moves_veh_ctrl_direct",
+    "type": "event_transformation",
+    "event_type": "vehicle_moves",
+    "value_constraints": { "avatar_is_driving": { "equals": true } },
+    "drop_fields": [ "avatar_is_driving" ]
+  },
+  {
+    "id": "num_moves_veh_ctrl_direct",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_veh_ctrl_direct",
+    "description": { "str": "square travelled while controlling vehicle", "str_pl": "squares travelled while controlling vehicle" }
+  },
+  {
+    "id": "moves_veh_ctrl_remote",
+    "type": "event_transformation",
+    "event_type": "vehicle_moves",
+    "value_constraints": { "avatar_remote_control": { "equals": true } },
+    "drop_fields": [ "avatar_remote_control" ]
+  },
+  {
+    "id": "num_moves_veh_ctrl_remote",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_veh_ctrl_remote",
+    "description": { "str": "square traversed by remote controlled vehicles", "str_pl": "squares traversed by remote controlled vehicles" }
+  },
+  {
+    "id": "moves_veh_onboard_ctrl_remote",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": { "avatar_remote_control": { "equals": true } },
+    "drop_fields": [ "avatar_remote_control" ]
+  },
+  {
+    "id": "num_moves_veh_onboard_ctrl_remote",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_veh_onboard_ctrl_remote",
+    "description": {
+      "str": "square travelled on board remote controlled vehicle",
+      "str_pl": "squares travelled on board remote controlled vehicle"
+    }
+  },
+  {
+    "id": "moves_veh_onboard_ctrl_none",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": { "avatar_is_driving": { "equals": false }, "avatar_remote_control": { "equals": false } },
+    "drop_fields": [ "avatar_is_driving", "avatar_remote_control" ]
+  },
+  {
+    "id": "num_moves_veh_onboard_ctrl_none",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_veh_onboard_ctrl_none",
+    "description": { "str": "square travelled as vehicle passenger", "str_pl": "squares travelled as vehicle passenger" }
+  },
+  {
+    "id": "moves_acft_onboard",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": { "is_flying_aircraft": { "equals": true } },
+    "drop_fields": [ "is_flying_aircraft" ]
+  },
+  {
+    "id": "num_moves_acft_onboard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_acft_onboard",
+    "description": { "str": "square travelled on board aircraft", "str_pl": "squares travelled on board aircraft" }
+  },
+  {
+    "id": "moves_acft_ctrl_direct",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_ctrl_direct",
+    "value_constraints": { "is_flying_aircraft": { "equals": true } },
+    "drop_fields": [ "is_flying_aircraft" ]
+  },
+  {
+    "id": "num_moves_acft_ctrl_direct",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_acft_ctrl_direct",
+    "description": { "str": "square travelled while piloting aircraft", "str_pl": "squares travelled while piloting aircraft" }
+  },
+  {
+    "id": "max_velocity_acft",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "velocity",
+    "event_transformation": "moves_acft_ctrl_direct",
+    "description": { "str_sp": "maximum velocity attained while piloting an aircraft" }
+  },
+  {
+    "id": "max_move_acft_ctrl_direct_z",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "z",
+    "event_transformation": "moves_acft_ctrl_direct",
+    "description": { "str_sp": "maximum z level reached while piloting an aircraft" }
+  },
+  {
+    "id": "moves_boat_onboard",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": { "is_floating_watercraft": { "equals": true } },
+    "drop_fields": [ "is_floating_watercraft" ]
+  },
+  {
+    "id": "num_moves_boat_onboard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_boat_onboard",
+    "description": { "str": "square travelled on board watercraft", "str_pl": "squares travelled on board watercraft" }
+  },
+  {
+    "id": "moves_boat_ctrl_direct",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_ctrl_direct",
+    "value_constraints": { "is_floating_watercraft": { "equals": true } },
+    "drop_fields": [ "is_floating_watercraft" ]
+  },
+  {
+    "id": "num_moves_boat_ctrl_direct",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_boat_ctrl_direct",
+    "description": { "str": "square travelled while sailing watercraft", "str_pl": "squares travelled while sailing watercraft" }
+  },
+  {
+    "id": "max_velocity_boat",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "velocity",
+    "event_transformation": "moves_boat_ctrl_direct",
+    "description": { "str_sp": "maximum velocity attained while sailing a watercraft" }
+  },
+  {
+    "id": "moves_rail_onboard",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": { "is_on_rails": { "equals": true } },
+    "drop_fields": [ "is_on_rails" ]
+  },
+  {
+    "id": "num_moves_rail_onboard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_rail_onboard",
+    "description": { "str": "square travelled on board rail vehicles", "str_pl": "squares travelled on board rail vehicles" }
+  },
+  {
+    "id": "moves_rail_ctrl_direct",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_ctrl_direct",
+    "value_constraints": { "is_on_rails": { "equals": true } },
+    "drop_fields": [ "is_on_rails" ]
+  },
+  {
+    "id": "num_moves_rail_ctrl_direct",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_rail_ctrl_direct",
+    "description": { "str": "square travelled while driving rail vehicles", "str_pl": "squares travelled while driving rail vehicles" }
+  },
+  {
+    "id": "max_velocity_rail",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "velocity",
+    "event_transformation": "moves_rail_ctrl_direct",
+    "description": { "str_sp": "maximum velocity attained while driving a rail vehicle" }
+  },
+  {
+    "id": "moves_gndv_onboard",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_onboard",
+    "value_constraints": {
+      "is_flying_aircraft": { "equals": false },
+      "is_floating_watercraft": { "equals": false },
+      "is_on_rails": { "equals": false }
+    },
+    "drop_fields": [ "is_flying_aircraft", "is_floating_watercraft", "is_on_rails" ]
+  },
+  {
+    "id": "num_moves_gndv_onboard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_gndv_onboard",
+    "description": { "str": "square travelled on board land vehicles", "str_pl": "squares travelled on board land vehicles" }
+  },
+  {
+    "id": "moves_gndv_ctrl_direct",
+    "type": "event_transformation",
+    "event_transformation": "moves_veh_ctrl_direct",
+    "value_constraints": {
+      "is_flying_aircraft": { "equals": false },
+      "is_floating_watercraft": { "equals": false },
+      "is_on_rails": { "equals": false }
+    },
+    "drop_fields": [ "is_flying_aircraft", "is_floating_watercraft", "is_on_rails" ]
+  },
+  {
+    "id": "num_moves_gndv_ctrl_direct",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_gndv_ctrl_direct",
+    "description": { "str": "square travelled while driving land vehicles", "str_pl": "squares travelled while driving land vehicles" }
+  },
+  {
+    "id": "max_velocity_gndv",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "velocity",
+    "event_transformation": "moves_gndv_ctrl_direct",
+    "description": { "str_sp": "maximum velocity attained while driving a land vehicle" }
+  },
+  {
+    "id": "max_move_gndv_ctrl_direct_z",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "z",
+    "event_transformation": "moves_gndv_ctrl_direct",
+    "description": { "str_sp": "maximum z level reached while driving a land vehicle" }
+  },
+  {
+    "id": "moves_gndv_skidding",
+    "type": "event_transformation",
+    "event_transformation": "moves_gndv_ctrl_direct",
+    "value_constraints": { "is_skidding": { "equals": true } },
+    "drop_fields": [ "is_skidding" ]
+  },
+  {
+    "id": "num_moves_gndv_skidding",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "moves_gndv_skidding",
+    "description": { "str": "square skidded while driving land vehicles", "str_pl": "squares skidded while driving land vehicles" }
+  },
+  {
+    "id": "max_velocity_skidding",
+    "type": "event_statistic",
+    "stat_type": "maximum",
+    "field": "velocity",
+    "event_transformation": "moves_gndv_skidding",
+    "description": { "str_sp": "maximum velocity that a driven vehicle skidded at" }
+  },
+  {
     "id": "avatar_wields_item",
     "type": "event_transformation",
     "event_type": "character_wields_item",
