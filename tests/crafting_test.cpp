@@ -41,6 +41,7 @@
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 
 static const flag_id json_flag_ITEM_BROKEN( "ITEM_BROKEN" );
+static const flag_id json_flag_USE_UPS( "USE_UPS" );
 
 static const itype_id itype_anvil( "anvil" );
 static const itype_id itype_awl_bone( "awl_bone" );
@@ -570,6 +571,53 @@ TEST_CASE( "UPS shows as a crafting component", "[crafting][ups]" )
     REQUIRE( units::to_kilojoule( dummy.available_ups() ) == 500 );
 }
 
+TEST_CASE( "UPS modded tools", "[crafting][ups]" )
+{
+    constexpr int ammo_count = 500;
+    bool const ups_on_ground = GENERATE( true, false );
+    CAPTURE( ups_on_ground );
+    avatar dummy;
+    clear_map();
+    clear_character( dummy );
+    tripoint const test_loc = dummy.pos();
+    dummy.worn.wear_item( dummy, item( "backpack" ), false, false );
+
+    item ups = GENERATE( item( "UPS_off" ), item( "test_ups" ) );
+    CAPTURE( ups.typeId() );
+    item_location ups_loc;
+    if( ups_on_ground ) {
+        item &ups_on_map = get_map().add_item( test_loc, ups );
+        REQUIRE( !ups_on_map.is_null() );
+        ups_loc = item_location( map_cursor( test_loc ), &ups_on_map );
+    } else {
+        ups_loc = dummy.i_add( ups );
+        REQUIRE( dummy.has_item( *ups_loc ) );
+    }
+
+    item ups_mag( ups_loc->magazine_default() );
+    ups_mag.ammo_set( ups_mag.ammo_default(), ammo_count );
+    ret_val<void> result = ups_loc->put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
+    REQUIRE( result.success() );
+
+    item_location soldering_iron = dummy.i_add( item( "soldering_iron" ) );
+    item battery_ups( "battery_ups" );
+    ret_val<void> ret_solder = soldering_iron->put_in( battery_ups, item_pocket::pocket_type::MOD );
+    REQUIRE( ret_solder.success() );
+    REQUIRE( soldering_iron->has_flag( json_flag_USE_UPS ) );
+
+    REQUIRE( ups_loc->ammo_remaining() == ammo_count );
+    if( !ups_on_ground ) {
+        REQUIRE( dummy.charges_of( soldering_iron->typeId() ) == ammo_count );
+    }
+    REQUIRE( dummy.crafting_inventory().charges_of( soldering_iron->typeId() ) == ammo_count );
+    temp_crafting_inventory tinv;
+    tinv.add_all_ref( dummy );
+    if( ups_on_ground ) {
+        tinv.add_item_ref( *ups_loc );
+    }
+    REQUIRE( tinv.charges_of( soldering_iron->typeId() ) == ammo_count );
+}
+
 TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 {
     std::vector<item> tools;
@@ -584,7 +632,6 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
         // Tools needed:
         tools.emplace_back( "screwdriver" );
         tools.emplace_back( "vac_mold" );
-
 
         // Materials needed
         tools.insert( tools.end(), 10, item( "solder_wire" ) );
@@ -769,7 +816,6 @@ TEST_CASE( "broken component", "[crafting][component]" )
         }
     }
 }
-
 
 // Resume the first in progress craft found in the player's inventory
 static int resume_craft()
@@ -1005,13 +1051,13 @@ TEST_CASE( "crafting_skill_gain", "[skill],[crafting],[slow]" )
     }
     SECTION( "lvl 3 -> lvl 4" ) {
         GIVEN( "nominal morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 12131, 0, true );
+            test_skill_progression( recipe_armguard_larmor, 12112, 0, true );
         }
         GIVEN( "high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9997, 50, true );
+            test_skill_progression( recipe_armguard_larmor, 9982, 50, true );
         }
         GIVEN( "very high morale" ) {
-            test_skill_progression( recipe_armguard_larmor, 9197, 100, true );
+            test_skill_progression( recipe_armguard_larmor, 9184, 100, true );
         }
     }
     SECTION( "lvl 4 -> 5" ) {

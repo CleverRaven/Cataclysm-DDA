@@ -1,0 +1,53 @@
+[
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CAMPER_SURVIVOR",
+    "dynamic_line": {
+      "npc_has_var": "knows_u",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "<greet>.",
+      "no": "Hey, stranger.  Glad to see a new face around here."
+    },
+    "speaker_effect": { "effect": { "npc_add_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      { "text": "<greet>", "topic": "TALK_NPC_CAMPER_SURVIVOR_INTRO" },
+      {
+        "text": "Glad to see you too.  Now, hand over your things.",
+        "trial": { "type": "INTIMIDATE", "difficulty": 30 },
+        "success": { "topic": "TALK_WEAPON_DROPPED", "effect": "drop_weapon", "opinion": { "trust": -4, "fear": 3 } },
+        "failure": { "topic": "TALK_DONE", "effect": "hostile" },
+        "condition": { "not": { "npc_has_var": "knows_u", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      { "text": "Bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CAMPER_SURVIVOR_INTRO",
+    "dynamic_line": "So, what's up?",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_NPC_CAMPER_SURVIVOR_STORY" },
+      { "text": "Care to trade?", "topic": "TALK_NPC_CAMPER_SURVIVOR_INTRO", "effect": "start_trade" },
+      {
+        "text": "Why don't you come with me?",
+        "trial": { "type": "PERSUADE", "difficulty": -15, "mod": [ [ "value", 2 ] ] },
+        "success": { "topic": "TALK_AGREE_FOLLOW", "effect": "follow", "opinion": { "trust": 1, "value": 1 } },
+        "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 0, "fear": 0 } }
+      },
+      {
+        "text": "Any jobs you need done?",
+        "condition": { "and": [ { "not": "has_assigned_mission" }, { "not": "has_many_assigned_missions" } ] },
+        "topic": "TALK_MISSION_LIST"
+      },
+      { "text": "I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_NPC_CAMPER_SURVIVOR_STORY",
+    "dynamic_line": "I was out here camping when <the_cataclysm> disturbed me.  I didn't know anything was wrong until two <zombies> stumbled up here, and tried to kill me.  I figured staying here would be my best bet, away from the cities.",
+    "responses": [ { "text": "Wow.", "topic": "TALK_NONE" } ]
+  }
+]

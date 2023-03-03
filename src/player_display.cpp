@@ -242,12 +242,6 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
         s.emplace_back( colorize( string_format( _( "Encumbrance effects: %s" ), bp->encumb_text ),
                                   c_magenta ) );
     }
-    if( bp->encumb_impacts_dodge && you.is_avatar() ) {
-        int dodge = get_avatar().limb_dodge_encumbrance();
-        nc_color dodge_c = dodge > 10 ? c_light_red : dodge > 5 ? c_yellow : c_white;
-        std::string dodge_str = colorize( string_format( "-%d", dodge ), dodge_c );
-        s.emplace_back( string_format( _( "Encumbrance dodge modifier: %s" ), dodge_str ) );
-    }
     for( const limb_score &sc : limb_score::get_all() ) {
         if( !bp->has_limb_score( sc.getId() ) ) {
             continue;
@@ -539,7 +533,7 @@ static void draw_stats_info( const catacurses::window &w_info, const Character &
     } else if( line == 5 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
-                        _( "How healthy you feel.  Excercise, vitamins, sleep and not ingesting poison will increase this overtime." ) );
+                        _( "How healthy you feel.  Exercise, vitamins, sleep and not ingesting poison will increase this overtime." ) );
     } else if( line == 6 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -1391,7 +1385,6 @@ void Character::disp_info( bool customize_character )
                                                _( "The sunlight irritates you badly.\n"
                                                   "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
         }
-
 
     } else if( has_trait( trait_TROGLO ) && g->is_in_sunlight( pos() ) &&
                incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {

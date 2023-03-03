@@ -141,6 +141,13 @@
   },
   {
     "type": "EXTERNAL_OPTION",
+    "name": "PORTAL_STORM_IGNORE_NPC",
+    "info": "Portal storm enemies will ignore NPCs no matter what.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
     "name": "CRAZY",
     "info": "A boolean specifically for Crazy Cataclysm.",
     "stype": "bool",
@@ -341,5 +348,12 @@
     "info": "Determines frequency (in minutes) of displaying music description in sidebar when listening to MP3-players and the like.",
     "stype": "int",
     "value": 5
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "ETERNAL_WEATHER",
+    "info": "Sets eternal weather.  Possible values are 'normal', 'clear', 'cloudy', 'light_drizzle', 'drizzle', 'rain', 'rainstorm', 'thunder', 'lightning', 'flurries', 'snowing', 'snowstorm', 'early_portal_storm', 'portal_storm'.  'normal' clears all eternal weather overrides and sets normal weather pattern.  Requires restart of the game after changing value to take effect.",
+    "stype": "string_input",
+    "value": "normal"
   }
 ]

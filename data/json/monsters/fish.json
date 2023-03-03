@@ -37,6 +37,7 @@
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
+    "zombify_into": "mon_meat_cocoon_med",
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "QUEEN", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -198,7 +199,7 @@
     "type": "MONSTER",
     "name": { "str_sp": "fish fry" },
     "//": "a default fish type - does not appear in-game",
-    "description": "A miniscule half-translucent fish larva.  Impossible to identify which species it belongs to.",
+    "description": "A minuscule half-translucent fish larva.  Impossible to identify which species it belongs to.",
     "default_faction": "fish",
     "bodytype": "fish",
     "categories": [ "WILDLIFE" ],
@@ -825,7 +826,7 @@
     "copy-from": "mon_fry",
     "upgrades": { "half_life": 14, "into": "mon_fish_crayfish" },
     "name": { "str": "crustacean larva", "str_pl": "crustacean larvae" },
-    "description": "A miniscule half-translucent crustacean larva.  Impossible to identify which species it belongs to.",
+    "description": "A minuscule half-translucent crustacean larva.  Impossible to identify which species it belongs to.",
     "bodytype": "crab"
   },
   {
@@ -929,6 +930,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "upgrades": { "half_life": 42, "into": "mon_crayfish_mega" },
+    "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD" ]
   },
   {
@@ -948,6 +950,7 @@
     ],
     "vision_day": 84,
     "dissect": "dissect_crustacean_large",
+    "zombify_into": "mon_meat_cocoon_large",
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
@@ -1016,6 +1019,7 @@
     "special_attacks": [ [ "SHRIEK_ALERT", 6 ], [ "SHRIEK_STUN", 1 ] ],
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
+    "zombify_into": "mon_meat_cocoon_small",
     "flags": [ "SMELLS", "HEARS", "SEES", "SWIMS", "GRABS", "ARTHROPOD_BLOOD", "PATH_AVOID_DANGER_1" ]
   },
   {

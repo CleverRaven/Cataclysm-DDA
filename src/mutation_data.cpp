@@ -384,7 +384,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "healing_awake", healing_awake, cata::nullopt );
-    optional( jo, was_loaded, "healing_resting", healing_resting, cata::nullopt );
+    optional( jo, was_loaded, "healing_multiplier", healing_multiplier, cata::nullopt );
     optional( jo, was_loaded, "mending_modifier", mending_modifier, cata::nullopt );
     optional( jo, was_loaded, "hp_modifier", hp_modifier, cata::nullopt );
     optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, cata::nullopt );
@@ -424,7 +424,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "scent_intensity", scent_intensity, cata::nullopt );
     optional( jo, was_loaded, "scent_mask", scent_mask, cata::nullopt );
     optional( jo, was_loaded, "scent_type", scent_typeid, cata::nullopt );
-    optional( jo, was_loaded, "bleed_resist", bleed_resist, 0 );
     optional( jo, was_loaded, "healthy_rate", healthy_rate, 1.0f );
     optional( jo, was_loaded, "fat_to_max_hp", fat_to_max_hp, 0.0f );
     optional( jo, was_loaded, "weakness_to_water", weakness_to_water, 0 );
@@ -555,6 +554,15 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
             restricts_gear.insert( bp );
         } else {
             restricts_gear_subparts.insert( sub_bodypart_str_id( line ) );
+        }
+    }
+
+    for( const std::string line : jo.get_array( "remove_rigid" ) ) {
+        bodypart_str_id bp( line );
+        if( bp.is_valid() ) {
+            remove_rigid.insert( bp );
+        } else {
+            remove_rigid_subparts.insert( sub_bodypart_str_id( line ) );
         }
     }
 

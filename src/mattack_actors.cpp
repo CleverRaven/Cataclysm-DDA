@@ -95,7 +95,6 @@ bool leap_actor::call( monster &z ) const
         return false;
     }
 
-
     for( const efftype_id &effect : forbidden_effects_any ) {
         if( z.has_effect( effect ) ) {
             add_msg_debug( debugmode::DF_MATTACK, "Forbidden(any) effect %s found", effect.c_str() );
@@ -562,7 +561,6 @@ bool melee_actor::call( monster &z ) const
         z.add_effect( effect_run, 4_turns );
     }
 
-
     if( uncanny_dodgeable && target->uncanny_dodge() ) {
         game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
@@ -855,7 +853,7 @@ bool gun_actor::call( monster &z ) const
 
     } else {
         target = z.attack_target();
-        if( !target || !z.sees( *target ) ) {
+        if( !target || !z.sees( *target ) || ( !target->is_monster() && !z.aggro_character ) ) {
             return false;
         }
     }

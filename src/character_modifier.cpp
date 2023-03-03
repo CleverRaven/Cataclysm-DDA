@@ -134,8 +134,8 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
         optional( jobj, was_loaded, "nominator", nominator, 0.0f );
         optional( jobj, was_loaded, "denominator", denominator, 1.0f );
         if( std::abs( denominator ) < std::numeric_limits<float>::epsilon() ) {
-            jobj.throw_error( "denominator cannot be set to 0" );
             denominator = 1.0f;
+            jobj.throw_error( "denominator cannot be set to 0" );
         }
         optional( jobj, was_loaded, "subtract", subtractor, 0.0f );
     }
@@ -273,7 +273,7 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
     bool sc_assigned = false;
     for( const auto &sc : limbscores ) {
         float mod_sc = c.get_limb_score( sc.first, limbtype, override_encumb, override_wounds );
-        mod_sc *= sc.second;
+        mod_sc = limbscore_modop == MULT ? pow( mod_sc, sc.second ) : mod_sc * sc.second;
         if( !sc_assigned ) {
             score = mod_sc;
             sc_assigned = true;

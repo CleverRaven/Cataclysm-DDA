@@ -39,6 +39,18 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_hobo_stove" }
   },
   {
+    "id": "portable_stove",
+    "type": "TOOL",
+    "symbol": "_",
+    "colo": "light_gray",
+    "container": "nylon_bag",
+    "name": { "str": "portable stove" },
+    "description": "A foldable wood stove to safely lit fires while camping in the wilderness.  Activate it to Deploy.",
+    "weight": "2670 g",
+    "volume": "3 L",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_portable_stove" }
+  },
+  {
     "id": "55gal_firebarrel",
     "type": "TOOL",
     "name": { "str": "fire barrel (200L)", "str_pl": "fire barrels (200L)" },
@@ -88,12 +100,46 @@
     "price": 5000,
     "price_postapoc": 100,
     "to_hit": -4,
-    "bashing": 3,
     "looks_like": "rollmat",
-    "material": [ "steel" ],
+    "material": [ { "type": "steel", "portion": 975 }, { "type": "cotton" } ],
     "symbol": "#",
     "color": "light_gray",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_camp_chair" }
+    "use_action": { "type": "deploy_furn", "furn_type": "f_camp_chair" },
+    "flags": [ "FRAGILE_MELEE" ]
+  },
+  {
+    "id": "deck_chair",
+    "type": "TOOL",
+    "name": { "str": "deck chair" },
+    "description": "Folded deck chair, deploy to sit down.",
+    "weight": "6 kg",
+    "volume": "20 L",
+    "longest_side": "120 cm",
+    "price": 7000,
+    "price_postapoc": 100,
+    "to_hit": -4,
+    "material": [ { "type": "wood", "portion": 975 }, { "type": "cotton" } ],
+    "symbol": "#",
+    "color": "brown",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_deckchair" },
+    "flags": [ "FRAGILE_MELEE" ]
+  },
+  {
+    "id": "chair_folding",
+    "type": "TOOL",
+    "name": { "str": "folding chair" },
+    "description": "Folded plastic chair on a metal frame, deploy to sit down.",
+    "weight": "2900 g",
+    "volume": "5 L",
+    "longest_side": "88 cm",
+    "price": 2350,
+    "price_postapoc": 100,
+    "to_hit": -4,
+    "material": [ { "type": "plastic", "portion": 60 }, { "type": "steel" } ],
+    "symbol": "#",
+    "color": "light_gray",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_chair_folding" },
+    "flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "xedra_antenna",

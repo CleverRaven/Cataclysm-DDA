@@ -26,7 +26,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "upgrades": { "half_life": 42, "into_group": "GROUP_ZOMBIE_BOOMER_UPGRADE" },
     "fungalize_into": "mon_boomer_fungus",
     "flags": [
@@ -283,7 +283,7 @@
       }
     ],
     "death_drops": "default_zombie_items",
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -332,7 +332,7 @@
       }
     ],
     "death_drops": "default_zombie_items",
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "", "corpse_type": "NO_CORPSE" },
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   }
 ]

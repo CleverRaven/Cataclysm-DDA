@@ -4,8 +4,8 @@
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "10 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "steel_chunk", 2 ] ] ]
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 2 ] ], [ [ "steel_chunk", 3 ] ], [ [ "scrap", 17 ] ], [ [ "cotton_patchwork", 15 ] ] ]
   },
   {
     "type": "uncraft",

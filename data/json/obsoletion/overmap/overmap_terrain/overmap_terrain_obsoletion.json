@@ -1,0 +1,69 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "dirt_road_turn1",
+    "copy-from": "generic_dirt_road",
+    "sym": "┌",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirt_road_turn1_forest",
+    "copy-from": "generic_dirt_road",
+    "sym": "┌",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "apartments_con_tower_001", "apartments_con_tower_101" ],
+    "copy-from": "apartments_tower_any",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "campground_1a_npc", "campground_1b_npc", "campground_2a_npc", "campground_2b_npc" ],
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_roof_npc",
+    "name": "campground roof",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_city_trailerpark",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "trailer park",
+    "sym": "#",
+    "color": "i_white",
+    "extend": { "flags": [ "GENERIC_LOOT", "SHOULD_NOT_SPAWN" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_city_trailerpark_roof",
+    "copy-from": "generic_city_trailerpark",
+    "name": "trailer park roof",
+    "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
+    "delete": { "flags": [ "GENERIC_LOOT" ] }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailerparksmall0", "trailerparksmall1", "trailerparksmall2" ],
+    "copy-from": "generic_city_trailerpark"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailerparksmall0_roof", "trailerparksmall1_roof", "trailerparksmall2_roof" ],
+    "copy-from": "generic_city_trailerpark_roof"
+  }
+]

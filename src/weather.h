@@ -45,6 +45,13 @@ static constexpr int BODYTEMP_SCORCHING = 9500;
 static constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
 
+// Wetness percentage 0.0f is DRY
+// Level 1 wetness (DAMP) is between 0.0f and Level 2
+// Level 2 wetness percentage
+static constexpr float BODYWET_PERCENT_WET = 0.3f;
+// Level 3 wetness percentage
+static constexpr float BODYWET_PERCENT_SOAKED = 0.6f;
+
 // Rough tresholds for sunlight intensity in W/m2.
 namespace irradiance
 {
