@@ -2520,6 +2520,7 @@
     ]
   },
   {
+    "type": "city_building",
     "id": "office_tower_large",
     "locations": [ "land" ],
     "overmaps": [

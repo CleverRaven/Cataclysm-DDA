@@ -31,7 +31,11 @@
         "Ŧ-----------------------",
         "ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
+      "place_nested": [
+        { "chunks": [ "apt_complex_corner_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_corner_b" ], "x": 0, "y": 0 }
+      ]
     }
   },
   {
@@ -67,6 +71,10 @@
         "........................"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
+      "place_nested": [
+        { "chunks": [ "apt_complex_corner_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_corner_b" ], "x": 0, "y": 0 }
+      ],
       "terrain": { ".": "t_open_air" }
     }
   },
@@ -138,7 +146,11 @@
         "~'''''''''''''''''''''''",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
+      "place_nested": [
+        { "chunks": [ "apt_complex_corner_inner_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_corner_inner_b" ], "x": 0, "y": 0 }
+      ]
     }
   },
   {
@@ -174,6 +186,10 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
+      "place_nested": [
+        { "chunks": [ "apt_complex_corner_inner_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_corner_inner_b" ], "x": 0, "y": 0 }
+      ],
       "terrain": { ".": "t_open_air" }
     }
   },
@@ -244,7 +260,11 @@
         "------------------------",
         "ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
+      "place_nested": [
+        { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+      ]
     }
   },
   {
@@ -280,6 +300,10 @@
         "........................"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
+      "place_nested": [
+        { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+      ],
       "terrain": { ".": "t_open_air" }
     }
   },
@@ -350,7 +374,11 @@
         "------------------------",
         "ŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦŦ"
       ],
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ]
+      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex_ground" ],
+      "place_nested": [
+        { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+      ]
     }
   },
   {
@@ -386,6 +414,10 @@
         "........................"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
+      "place_nested": [
+        { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+      ],
       "terrain": { ".": "t_open_air" }
     }
   },
@@ -467,6 +499,10 @@
         "........................"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "apt_complex" ],
+      "place_nested": [
+        { "chunks": [ "apt_complex_straight_a" ], "x": 0, "y": 0 },
+        { "chunks": [ "apt_complex_straight_b" ], "x": 0, "y": 0 }
+      ],
       "terrain": { ".": "t_open_air" }
     }
   },

@@ -32,6 +32,7 @@
       }
     },
     "terrain": {
+      "/": "t_null",
       "=": { "param": "railing_type", "fallback": "t_concrete_railing" },
       "#": { "param": "wall_type", "fallback": "t_brick_wall" },
       "~": { "param": "floor_type", "fallback": "t_linoleum_white" },
