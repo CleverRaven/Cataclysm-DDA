@@ -9,6 +9,7 @@
     "description": "A fridge for keeping food cool.  Provides some insulation from outside weather.",
     "longest_side": "1700 mm",
     "insulation": 10,
+    "material": [ "steel" ],
     "volume": "800 L",
     "weight": "70 kg",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "500 L", "max_contains_weight": "400 kg" } ]
@@ -23,6 +24,7 @@
     "description": "A disconnected freezer.  Can be plugged into a power source to start freezing food.",
     "longest_side": "1400 mm",
     "insulation": 15,
+    "material": [ "steel" ],
     "volume": "900 L",
     "weight": "50 kg",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "450 L", "max_contains_weight": "400 kg" } ]

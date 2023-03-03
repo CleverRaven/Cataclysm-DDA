@@ -64,7 +64,7 @@
       {
         "group": "no_sell",
         "rigid": true,
-        "condition": { "compare_int": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
+        "condition": { "compare_num": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
         "refusal": "<npcname> will never sell this"
       }
     ],

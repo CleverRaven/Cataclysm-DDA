@@ -17,12 +17,16 @@
     "id": "NC_ISHERWOOD_JACK",
     "name": { "str": "Jack Isherwood" },
     "job_description": "I'm the patriarch of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "common": false,
     "bonus_per": { "one_in": 4 },
     "worn_override": "NC_Isherwood_worn",
-    "carry_override": "NC_ISHERWOOD_rifle",
-    "weapon_override": "NC_ISHERWOOD_archery",
+    "weapon_override": "NC_ISHERWOOD_rifle",
     "shopkeeper_item_group": "NC_ISHERWOOD_JACK_misc",
     "skills": [
       {
@@ -43,6 +47,10 @@
     "subtype": "collection",
     "entries": [
       { "item": "backpack_leather" },
+      {
+        "collection": [ { "item": "3006", "container-item": "ammo_pouch" }, { "item": "3006", "charges": [ 4, 8 ] } ]
+      },
+      { "item": "3006", "charges": [ 4, 8 ] },
       { "item": "jeans" },
       { "item": "tshirt" },
       { "item": "gloves_fingerless" },
@@ -61,32 +69,18 @@
   },
   {
     "type": "item_group",
-    "id": "NC_ISHERWOOD_archery",
+    "id": "NC_ISHERWOOD_rifle",
     "subtype": "distribution",
-    "entries": [
-      { "item": "crossbow", "prob": 20 },
-      { "item": "shortbow", "prob": 5 },
-      { "item": "compbow", "prob": 15 },
-      { "item": "recurbow", "prob": 15 },
-      { "item": "reflexbow", "prob": 10 },
-      { "item": "longbow", "prob": 10 },
-      { "item": "hand_crossbow", "prob": 15 },
-      { "item": "selfbow", "prob": 5 }
-    ]
+    "entries": [ { "item": "browning_blr", "charges": 4, "contents-group": "NC_ISHERWOOD_rifle_mods" } ]
   },
   {
     "type": "item_group",
-    "id": "NC_ISHERWOOD_rifle",
-    "subtype": "distribution",
+    "id": "NC_ISHERWOOD_rifle_mods",
+    "subtype": "collection",
     "entries": [
-      { "item": "rifle_22", "prob": 5 },
-      { "item": "rifle_9mm", "prob": 5 },
-      { "item": "ruger_1022", "prob": 10 },
-      { "item": "browning_blr", "prob": 10 },
-      { "item": "remington_700", "prob": 10 },
-      { "item": "savage_111f", "prob": 5 },
-      { "item": "marlin_9a", "prob": 25 },
-      { "item": "m1903", "prob": 5 }
+      { "item": "shoulder_strap" },
+      { "distribution": [ { "item": "butt_hook" }, { "item": "cheek_pad" } ], "prob": 40 },
+      { "distribution": [ { "item": "improve_sights" }, { "item": "rifle_scope" } ], "prob": 90 }
     ]
   },
   {

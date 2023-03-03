@@ -819,6 +819,11 @@
     "replace": "reloaded_10mm_fmj"
   },
   {
+    "id": "armor_bio_carbon_filament",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
     "id": "locket",
     "type": "MIGRATION",
     "replace": "silver_locket"
@@ -1255,17 +1260,16 @@
     "variant": "m16a3"
   },
   {
-    "id": "scar_l",
-    "type": "MIGRATION",
-    "replace": "m27_assault_rifle",
-    "variant": "scar_l"
-  },
-  {
     "id": "nato_assault_rifle",
     "from_variant": "scar_l",
     "type": "MIGRATION",
-    "replace": "m27_assault_rifle",
-    "variant": "scar_l"
+    "replace": "scar_l"
+  },
+  {
+    "id": "m27_assault_rifle",
+    "from_variant": "scar_l",
+    "type": "MIGRATION",
+    "replace": "scar_l"
   },
   {
     "id": "m38dmr",
@@ -1879,5 +1883,122 @@
     "id": "veh_tracker",
     "type": "MIGRATION",
     "replace": "vehicle_dashboard"
+  },
+  {
+    "id": "primitive_pipebomb_act",
+    "type": "MIGRATION",
+    "replace": "pipebomb_act"
+  },
+  {
+    "id": "primitive_grenade_act",
+    "type": "MIGRATION",
+    "replace": "small_homemade_grenade_act"
+  },
+  {
+    "id": "improvised_pipebomb_act",
+    "type": "MIGRATION",
+    "replace": "pipebomb_act"
+  },
+  {
+    "id": "improvised_grenade_act",
+    "type": "MIGRATION",
+    "replace": "small_homemade_grenade_act"
+  },
+  {
+    "id": "tool_improvised_barrel_bomb_act",
+    "type": "MIGRATION",
+    "replace": "full_barrel_bomb_act"
+  },
+  {
+    "id": "can_bomb_act",
+    "type": "MIGRATION",
+    "replace": "small_homemade_grenade_act"
+  },
+  {
+    "id": "bootleg_pipebomb_act",
+    "type": "MIGRATION",
+    "replace": "military_explosive_pipebomb_act"
+  },
+  {
+    "id": "bootleg_grenade_act",
+    "type": "MIGRATION",
+    "replace": "military_explosive_small_grenade_act"
+  },
+  {
+    "id": "tool_bootleg_barrel_bomb_act",
+    "type": "MIGRATION",
+    "replace": "military_explosive_full_barrel_bomb_act"
+  },
+  {
+    "id": "primitive_demolition_charge_act",
+    "type": "MIGRATION",
+    "replace": "homemade_demolition_charge_act"
+  },
+  {
+    "id": "tool_small_primitive_fragmentation_device_act",
+    "type": "MIGRATION",
+    "replace": "homemade_bomb_act"
+  },
+  {
+    "id": "tool_small_improvised_fragmentation_device_act",
+    "type": "MIGRATION",
+    "replace": "homemade_bomb_act"
+  },
+  {
+    "id": "tool_small_bootleg_fragmentation_device_act",
+    "type": "MIGRATION",
+    "replace": "military_explosive_bomb_act"
+  },
+  {
+    "id": "improvised_demolition_charge_act",
+    "type": "MIGRATION",
+    "replace": "homemade_demolition_charge_act"
+  },
+  {
+    "id": "bag_paper_powder_small",
+    "type": "MIGRATION",
+    "replace": "bag_paper_powder"
+  },
+  {
+    "id": "r_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_red", "count": 15 } ]
+  },
+  {
+    "id": "b_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_blue", "count": 15 } ]
+  },
+  {
+    "id": "g_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_green", "count": 15 } ]
+  },
+  {
+    "id": "y_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_yellow", "count": 15 } ]
+  },
+  {
+    "id": "p_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_purple", "count": 15 } ]
+  },
+  {
+    "id": "w_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_white", "count": 15 } ]
+  },
+  {
+    "id": "black_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_black", "count": 15 } ]
   }
 ]

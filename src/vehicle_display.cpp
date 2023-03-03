@@ -182,7 +182,6 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             break;
         }
 
-
         std::string partname = vp.name();
 
         if( vp.is_fuel_store() && !vp.ammo_current().is_null() ) {
@@ -452,7 +451,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             units = _( "mL" );
         }
         if( fuel_type == itype_battery ) {
-            rate += power_to_energy_bat( net_battery_charge_rate_w(), 1_hours );
+            rate += power_to_energy_bat( net_battery_charge_rate(), 1_hours );
             units = _( "kJ" );
         }
         if( rate != 0 ) {
