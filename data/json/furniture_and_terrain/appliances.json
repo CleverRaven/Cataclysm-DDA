@@ -57,6 +57,7 @@
     "epower": "-35 W",
     "item": "freezer",
     "requirements": {
+      "removal": { "time": "2 m" },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "60 m",
