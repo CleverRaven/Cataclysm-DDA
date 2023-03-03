@@ -143,14 +143,11 @@ Creature::Creature()
 }
 
 Creature::Creature( const Creature & ) = default;
-Creature::Creature( Creature && ) noexcept( map_is_noexcept ) = default;
+Creature::Creature( Creature && ) noexcept( map_is_noexcept &&list_is_noexcept ) = default;
 Creature &Creature::operator=( const Creature & ) = default;
 Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
-
-std::queue<scheduled_effect> Creature::scheduled_effects = std::queue<scheduled_effect> {};
-std::queue<terminating_effect> Creature::terminating_effects = std::queue<terminating_effect> {};
 
 tripoint Creature::pos() const
 {

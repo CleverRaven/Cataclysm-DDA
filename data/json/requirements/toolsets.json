@@ -330,12 +330,18 @@
         [ "duct_tape", 1 ],
         [ "permanent_marker", 1 ],
         [ "survival_marker", -1 ],
-        [ "r_paint", 1 ],
-        [ "b_paint", 1 ],
-        [ "w_paint", 1 ],
-        [ "g_paint", 1 ],
-        [ "p_paint", 1 ],
-        [ "y_paint", 1 ]
+        [ "paint_red", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_white", 1 ],
+        [ "paint_green", 1 ],
+        [ "paint_purple", 1 ],
+        [ "paint_yellow", 1 ],
+        [ "paint_black", 1 ],
+        [ "paint_gray", 1 ],
+        [ "paint_brown", 1 ],
+        [ "paint_cyan", 1 ],
+        [ "paint_pink", 1 ],
+        [ "paint_orange", 1 ]
       ]
     ]
   },
@@ -347,12 +353,18 @@
       [
         [ "duct_tape", 1 ],
         [ "survival_marker", -1 ],
-        [ "r_paint", 1 ],
-        [ "b_paint", 1 ],
-        [ "w_paint", 1 ],
-        [ "g_paint", 1 ],
-        [ "p_paint", 1 ],
-        [ "y_paint", 1 ]
+        [ "paint_red", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_white", 1 ],
+        [ "paint_green", 1 ],
+        [ "paint_purple", 1 ],
+        [ "paint_yellow", 1 ],
+        [ "paint_black", 1 ],
+        [ "paint_gray", 1 ],
+        [ "paint_brown", 1 ],
+        [ "paint_cyan", 1 ],
+        [ "paint_pink", 1 ],
+        [ "paint_orange", 1 ]
       ]
     ]
   },

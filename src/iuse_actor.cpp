@@ -1204,6 +1204,27 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
             return false;
         }
     }
+    // Check for an adjacent fire container
+    for( const tripoint_bub_ms &query : here.points_in_radius( pos, 1 ) ) {
+        // Don't ask if we're setting a fire on top of a fireplace
+        // TODO: fix point types
+        if( here.has_flag_furn( "FIRE_CONTAINER", pos.raw() ) ) {
+            break;
+        }
+        // Skip the position we're trying to light on fire
+        if( query == pos ) {
+            continue;
+        }
+        // TODO: fix point types
+        if( here.has_flag_furn( "FIRE_CONTAINER", query.raw() ) ) {
+            if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
+                return false;
+            } else {
+                // Don't ask multiple times if they say no and there are multiple fireplaces
+                break;
+            }
+        }
+    }
     // Check for a brazier.
     bool has_unactivated_brazier = false;
     for( const item &i : here.i_at( pos ) ) {
@@ -1336,11 +1357,6 @@ void salvage_actor::load( const JsonObject &obj )
 {
     assign( obj, "cost", cost );
     assign( obj, "moves_per_part", moves_per_part );
-
-    if( obj.has_array( "material_whitelist" ) ) {
-        material_whitelist.clear();
-        assign( obj, "material_whitelist", material_whitelist );
-    }
 }
 
 std::unique_ptr<iuse_actor> salvage_actor::clone() const
@@ -1393,14 +1409,27 @@ static void visit_salvage_products( const item &it,
     }
 }
 
-// Helper to find smallest sub-component of an item.
-static units::mass minimal_weight_to_cut( const item &it )
+static units::mass proportional_weight( const item &it, int material_portions )
 {
-    units::mass min_weight = units::mass_max;
-    visit_salvage_products( it, [&min_weight]( const item & exemplar ) {
-        min_weight = std::min( min_weight, exemplar.weight() );
-    } );
-    return min_weight;
+    int total_portions = std::max( 1, it.type->mat_portion_total );
+    return it.weight() * material_portions / total_portions;
+}
+
+// Helper to determine if there's enough of any material to even produce a result when cut up.
+static bool can_produce_results( const item &it )
+{
+    for( const std::pair<const material_id, int> &mat : it.made_of() ) {
+        if( const cata::optional<itype_id> mat_id = mat.first->salvaged_into() ) {
+            item material( *mat_id );
+            if( material.count_by_charges() ) {
+                material.charges = 1;
+            }
+            if( material.weight() <= proportional_weight( it, mat.second ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 int salvage_actor::time_to_cut_up( const item &it ) const
@@ -1436,19 +1465,13 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
         return false;
     }
 
-    if( !it.only_made_of( material_whitelist ) ) {
-        if( p ) {
-            add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
-        }
-        return false;
-    }
     if( !it.empty() ) {
         if( p ) {
             add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
         }
         return false;
     }
-    if( it.weight() < minimal_weight_to_cut( it ) ) {
+    if( !can_produce_results( it ) ) {
         if( p ) {
             add_msg( m_info, _( "The %s is too small to salvage material from." ), it.tname() );
         }
@@ -1521,11 +1544,9 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
 
     auto distribute_uniformly = [&mat_to_weight]( const item & x, float num_adjusted ) -> void {
-        const float mat_total = std::max( x.type->mat_portion_total, 1 );
         for( const auto &type : x.made_of() )
         {
-            mat_to_weight[type.first] += x.weight() * ( static_cast<float>( type.second ) / mat_total ) *
-            num_adjusted;
+            mat_to_weight[type.first] += proportional_weight( x, type.second ) * num_adjusted;
         }
     };
 
@@ -1586,13 +1607,11 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
             // Find default components set from recipe
             for( const auto &altercomps : requirements.get_components() ) {
                 const item_comp &comp = altercomps.front();
-                if( comp.type->count_by_charges() ) {
-                    item next = item( comp.type, calendar::turn, comp.count );
-                    cut_up_component( next, num_adjusted );
-                } else {
-                    item next = item( comp.type, calendar::turn );
-                    cut_up_component( next, num_adjusted * comp.count );
+                item next = item( comp.type, calendar::turn );
+                if( next.count_by_charges() ) {
+                    next.charges = 1;
                 }
+                cut_up_component( next, num_adjusted * comp.count );
             }
         } else
         {
@@ -3769,7 +3788,10 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint &pos,
     const trap &existing_trap = here.tr_at( pos );
     if( !existing_trap.is_null() ) {
         if( existing_trap.can_see( pos, p ) ) {
-            p.add_msg_if_player( m_info, _( "You can't place a %s there.  It contains a trap already." ),
+            p.add_msg_if_player( m_info,
+                                 existing_trap.is_benign()
+                                 ? _( "You can't place a %s there.  It contains a deployed object already." )
+                                 : _( "You can't place a %s there.  It contains a trap already." ),
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );

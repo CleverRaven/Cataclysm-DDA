@@ -47,6 +47,8 @@
 #include "ui_manager.h"
 #include "uistate.h"
 
+static const limb_score_id limb_score_manip( "manip" );
+
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 
@@ -71,8 +73,8 @@ enum CRAFTING_SPEED_STATE {
 static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reason_strings = {
     {TOO_DARK_TO_CRAFT, to_translation( "too dark to craft" )},
     {TOO_SLOW_TO_CRAFT, to_translation( "unable to craft" )},
-    {SLOW_BUT_CRAFTABLE, to_translation( "crafting is slow %d%%" )},
-    {FAST_CRAFTING, to_translation( "crafting is fast %d%%" )},
+    {SLOW_BUT_CRAFTABLE, to_translation( "crafting is slowed to %d%%: %s" )},
+    {FAST_CRAFTING, to_translation( "crafting is accelerated to %d%% due to amount of manipulators" )},
     {NORMAL_CRAFTING, to_translation( "craftable" )}
 };
 
@@ -81,7 +83,6 @@ static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 
 static bool query_is_yes( const std::string &query );
-static int craft_info_width( int window_width );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const catacurses::window &w,
@@ -1043,7 +1044,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
 
         width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) :
                 FULL_SCREEN_WIDTH;
-        const unsigned int header_info_width = craft_info_width( width );
+        const unsigned int header_info_width = width - FULL_SCREEN_WIDTH - 1;
         const int wStart = ( TERMX - width ) / 2;
 
         // Keybinding tips
@@ -2008,18 +2009,6 @@ static bool query_is_yes( const std::string &query )
            subquery == _( "yes" );
 }
 
-static int craft_info_width( const int window_width )
-{
-    int reason_width = 0;
-    //The crafting speed string is necessary.  Find the longest one
-    for( const auto &pair : craft_speed_reason_strings ) {
-        reason_width = std::max( utf8_width( pair.second.translated(), true ), reason_width );
-    }
-    reason_width += 2; //Allow for borders
-    //Use about a quarter of the screen if there's room to play, otherwise limit to the longest string
-    return std::max( window_width / 4, reason_width );
-}
-
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe )
 {
     if( amount == 1 ) {
@@ -2048,9 +2037,31 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, craft_speed_reason_strings.at( TOO_SLOW_TO_CRAFT ).translated() );
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
+        int morale_modifier = get_player_character().morale_crafting_speed_multiplier( rec ) * 100;
+        int lighting_modifier = get_player_character().lighting_craft_speed_multiplier( rec ) * 100;
+        int limb_modifier = get_player_character().get_limb_score( limb_score_manip ) * 100;
+
+        std::stringstream modifiers_list;
+        if( morale_modifier < 100 ) {
+            modifiers_list << _( "morale" ) << " " << morale_modifier << "%";
+        }
+        if( lighting_modifier < 100 ) {
+            if( !modifiers_list.str().empty() ) {
+                modifiers_list << ", ";
+            }
+            modifiers_list << _( "lighting" ) << " " << lighting_modifier << "%";
+        }
+        if( limb_modifier < 100 ) {
+            if( !modifiers_list.str().empty() ) {
+                modifiers_list << ", ";
+            }
+            modifiers_list << _( "hands encumbrance/wounds" ) << " " << limb_modifier << "%";
+        }
+
         right_print( w, 0, 1, i_yellow,
                      string_format( craft_speed_reason_strings.at( SLOW_BUT_CRAFTABLE ).translated(),
-                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
+                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ),
+                                    modifiers_list.str() ) );
     } else if( player_character.crafting_speed_multiplier( rec ) > 1.0f ) {
         right_print( w, 0, 1, i_green,
                      string_format( craft_speed_reason_strings.at( FAST_CRAFTING ).translated(),
