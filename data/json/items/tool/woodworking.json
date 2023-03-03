@@ -25,9 +25,9 @@
     "type": "TOOL",
     "name": { "str": "bow saw" },
     "description": "The bow saw is more at home outdoors than inside.  Bow saws are used for trimming trees, pruning, and cutting firewood, but may be used for other rough cuts as well.",
-    "weight": "800 g",
-    "volume": "900 ml",
-    "longest_side": "40 cm",
+    "weight": "750 g",
+    "volume": "3500 ml",
+    "longest_side": "88 cm",
     "price": "30 USD",
     "price_postapoc": "1 USD",
     "to_hit": -2,
@@ -36,7 +36,7 @@
     "symbol": "(",
     "color": "red",
     "qualities": [ [ "AXE", 2 ], [ "SAW_W", 2 ], [ "BUTCHER", -90 ] ],
-    "flags": [ "NONCONDUCTIVE", "BELT_CLIP" ]
+    "flags": [ "NONCONDUCTIVE", "BELT_CLIP", "NO_SALVAGE" ]
   },
   {
     "id": "chainsaw_off",

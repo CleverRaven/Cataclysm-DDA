@@ -1344,6 +1344,7 @@
     "category": "food",
     "name": { "str_sp": "water" },
     "description": "Water, the stuff of life, necessary for all kinds of crafting, cleaning, and avoiding an agonizing death by dehydration.  You should boil or purify it before using it as drinking water.",
+    "material": [ "water" ],
     "weight": "250 g",
     "volume": "250 ml",
     "price": 50,
