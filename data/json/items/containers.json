@@ -3354,21 +3354,21 @@
       {
         "id": "kit_300aac_ar",
         "name": { "str": "caliber retool kit" },
-        "description": "The stylized image of a rifle’s upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the.300 AAC Blackout cartridge.",
+        "description": "The stylized image of a rifle’s upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-15 pattern weapons to fire the.300 AAC Blackout cartridge.",
         "weight": 10,
         "append": true
       },
       {
         "id": "kit_9mm_ar",
         "name": { "str": "caliber retool kit" },
-        "description": "The stylized image of a carbine's upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the 9x19mm pistol cartridge.",
+        "description": "The stylized image of a carbine's upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-15 pattern weapons to fire the 9x19mm pistol cartridge.",
         "weight": 10,
         "append": true
       },
       {
         "id": "kit_22lr_ar",
         "name": { "str": "caliber retool kit" },
-        "description": "The stylized image of a carbine's upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the .22 LR cartridge.",
+        "description": "The stylized image of a carbine's upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-15 pattern weapons to fire the .22 LR cartridge.",
         "weight": 10,
         "append": true
       },
