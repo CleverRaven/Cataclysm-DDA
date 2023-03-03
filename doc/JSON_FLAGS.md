@@ -911,7 +911,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
 - ```mx_spider``` ... A big spider web, complete with spiders and eggs.
 - ```mx_supplydrop``` ... Crates with some military items in it.
-- ```mx_Trapdoor_spider_den``` ... Chunk of a forest with a spider spawning out of nowhere.
+- ```mx_Trapdoor_spider_den``` ... A spider spawning out of nowhere.
 - ```mx_trees``` ... A small chunk of forest with puddles with fresh water.
 - ```mx_trees_2``` ... A small chunk of forest with puddles with fresh water.
 
