@@ -2076,7 +2076,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( !locThisItem.get_item()->is_container() ) {
                         avatar_action::eat( u, locThisItem );
                     } else {
-                        avatar_action::eat( u, game_menus::inv::consume( u, locThisItem ) );
+                        avatar_action::eat_or_use( u, game_menus::inv::consume( u, locThisItem ) );
                     }
                     break;
                 case 'W': {
@@ -2408,7 +2408,9 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "workout" );
     ctxt.register_action( "save" );
     ctxt.register_action( "quicksave" );
+#if !defined(RELEASE)
     ctxt.register_action( "quickload" );
+#endif
     ctxt.register_action( "SUICIDE" );
     ctxt.register_action( "player_data" );
     ctxt.register_action( "map" );
@@ -2450,7 +2452,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_foraging" );
     ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "toggle_thief_mode" );
-    ctxt.register_action( "toggle_iso_walls" );
+    ctxt.register_action( "toggle_prevent_occlusion" );
     ctxt.register_action( "diary" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
@@ -7025,7 +7027,7 @@ look_around_result game::look_around(
     int &lz = lp.z();
 
     int soffset = get_option<int>( "FAST_SCROLL_OFFSET" );
-    bool fast_scroll = false;
+    static bool fast_scroll = false;
 
     std::unique_ptr<ui_adaptor> ui;
     catacurses::window w_info;
@@ -9989,7 +9991,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
                 sfx::do_obstacle( displayed_part->part().info().get_id().str() );
             } else {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ), m.name( dest_loc ) );
-                sfx::do_obstacle( m.ter( dest_loc ).id().str() );
+                if( m.has_furn( dest_loc ) ) {
+                    sfx::do_obstacle( m.furn( dest_loc ).id().str() );
+                } else {
+                    sfx::do_obstacle( m.ter( dest_loc ).id().str() );
+                }
             }
         } else {
             if( auto displayed_part = vp_here.part_displayed() ) {
@@ -9998,7 +10004,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
                 sfx::do_obstacle( displayed_part->part().info().get_id().str() );
             } else {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ) );
-                sfx::do_obstacle( m.ter( u.pos() ).id().str() );
+                if( m.has_furn( u.pos() ) ) {
+                    sfx::do_obstacle( m.furn( u.pos() ).id().str() );
+                } else {
+                    sfx::do_obstacle( m.ter( u.pos() ).id().str() );
+                }
             }
         }
     }
@@ -10115,25 +10125,28 @@ point game::place_player( const tripoint &dest_loc, bool quick )
         !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
         ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
+        const int sharp_damage = rng( 1, 10 );
         if( u.is_mounted() ) {
-            const int sharp_damage = rng( 1, 10 );
-            if( u.mounted_creature->get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage ) {
+            if( u.mounted_creature->get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage &&
+                u.mounted_creature->get_hp() > sharp_damage ) {
                 add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
                 u.mounted_creature->apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
             }
         } else {
-            const bodypart_id bp = u.get_random_body_part();
-            if( u.deal_damage( nullptr, bp, damage_instance( damage_type::CUT, rng( 1,
-                               10 ) ) ).total_damage() > 0 ) {
-                //~ 1$s - bodypart name in accusative, 2$s is terrain name.
-                add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
-                         body_part_name_accusative( bp ),
-                         m.has_flag_ter( ter_furn_flag::TFLAG_SHARP, dest_loc ) ? m.tername( dest_loc ) : m.furnname(
-                             dest_loc ) );
-                if( !u.has_flag( json_flag_INFECTION_IMMUNE ) ) {
-                    const int chance_in = u.has_trait( trait_INFRESIST ) ? 1024 : 256;
-                    if( one_in( chance_in ) ) {
-                        u.add_effect( effect_tetanus, 1_turns, true );
+            if( u.get_hp() > sharp_damage ) {
+                const bodypart_id bp = u.get_random_body_part();
+                if( u.deal_damage( nullptr, bp,
+                                   damage_instance( damage_type::CUT, sharp_damage ) ).total_damage() > 0 ) {
+                    //~ 1$s - bodypart name in accusative, 2$s is terrain name.
+                    add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
+                             body_part_name_accusative( bp ),
+                             m.has_flag_ter( ter_furn_flag::TFLAG_SHARP, dest_loc ) ? m.tername( dest_loc ) : m.furnname(
+                                 dest_loc ) );
+                    if( !u.has_flag( json_flag_INFECTION_IMMUNE ) ) {
+                        const int chance_in = u.has_trait( trait_INFRESIST ) ? 1024 : 256;
+                        if( one_in( chance_in ) ) {
+                            u.add_effect( effect_tetanus, 1_turns, true );
+                        }
                     }
                 }
             }

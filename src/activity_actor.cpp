@@ -2442,6 +2442,9 @@ void ebooksave_activity_actor::finish( player_activity &act, Character &who )
     item book_copy = *book;
     ereader->put_in( book_copy, item_pocket::pocket_type::EBOOK );
     if( who.is_avatar() ) {
+        if( !who.has_identified( book->typeId() ) ) {
+            who.identify( *book );
+        }
         add_msg( m_info, _( "You scan the book into your device." ) );
     } else { // who.is_npc()
         add_msg_if_player_sees( who, _( "%s scans the book into their device." ),
@@ -3904,7 +3907,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     if( holstered_item.first ) {
         item &it = *holstered_item.first;
         if( !it.count_by_charges() ) {
-            if( holster->can_contain( it ).success() && ( all_pockets_rigid ||
+            if( holster->can_contain_directly( it ).success() && ( all_pockets_rigid ||
                     holster.parents_can_contain_recursive( &it ) ) ) {
 
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
@@ -3923,7 +3926,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
             int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
                           holster.max_charges_by_parent_recursive( it ) );
 
-            if( charges > 0 && holster->can_contain_partial( it ) ) {
+            if( charges > 0 && holster->can_contain_partial_directly( it ) ) {
                 int result = holster->fill_with( it, charges,
                                                  /*unseal_pockets=*/true,
                                                  /*allow_sealed=*/true,
@@ -3959,6 +3962,9 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
 
     items.pop_front();
     if( items.empty() || !success || items.front().first == item_location::nowhere ) {
+        if( !holster->active ) {
+            get_map().make_active( holster );
+        }
         handler.handle_by( who );
         act.set_to_null();
         return;
@@ -5756,8 +5762,16 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     int charges_consumed = actor->finish_using( who, *patient,
                            *used_tool, healed );
     std::list<item>used;
-    if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+    if( used_tool->has_flag( flag_SINGLE_USE ) ) {
         it.remove_item();
+    } else if( used_tool->is_medication() ) {
+        if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+            it.remove_item();
+        }
+    } else if( used_tool->is_tool() ) {
+        if( used_tool->type->charges_to_use() ) {
+            it->activation_consume( charges_consumed, it.position(), &who );
+        }
     }
 
     // Erase activity and values.

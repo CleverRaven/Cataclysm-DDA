@@ -72,7 +72,8 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": "Your dreams can change reality."
+    "description": "Your dreams can change reality.",
+    "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
     "type": "mutation",
@@ -83,7 +84,8 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": "Your dreams can change reality."
+    "description": "Your dreams can change reality.",
+    "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
     "type": "mutation",
