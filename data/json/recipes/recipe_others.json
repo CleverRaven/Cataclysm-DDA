@@ -2774,7 +2774,7 @@
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
       [ [ "spike", 4 ] ],
-      [ [ "pipe_fittings", 19 ] ]
+      [ [ "pipe_fittings", 15 ] ]
     ]
   },
   {
