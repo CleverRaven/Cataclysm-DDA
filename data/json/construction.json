@@ -17,7 +17,7 @@
     "group": "deconstruct_simple_furniture",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "10 m",
+    "time": "10 s",
     "pre_note": "Certain terrain and furniture can be deconstructed without any tools.",
     "pre_flags": "EASY_DECONSTRUCT",
     "pre_special": "check_deconstruct",
