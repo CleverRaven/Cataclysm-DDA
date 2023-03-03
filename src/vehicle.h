@@ -1231,6 +1231,8 @@ class vehicle
         // get a list of part indices and Creature pointers with a rider
         std::vector<rider_data> get_riders() const;
 
+        // is given character a passenger of this vehicle
+        bool is_passenger( Character &c ) const;
         // get passenger at part p
         Character *get_passenger( int you ) const;
         // get monster on a boardable part at p

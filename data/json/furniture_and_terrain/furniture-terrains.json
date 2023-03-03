@@ -1012,5 +1012,30 @@
         { "item": "rebar", "count": [ 0, 2 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_room_divider",
+    "name": "room divider",
+    "description": "A tall piece of furniture used to divide rooms into separate areas.",
+    "move_cost_mod": -1,
+    "required_str": 8,
+    "coverage": 80,
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "f_curtain",
+    "flags": [ "THIN_OBSTACLE", "TRANSPARENT", "CLIMBABLE", "BLOCKSDOOR", "NOITEM", "PERMEABLE" ],
+    "examine_action": "chainfence",
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "pipe", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 1, 3 ] },
+        { "item": "plastic_chunk", "count": [ 1, 6 ] }
+      ]
+    }
   }
 ]

@@ -2053,7 +2053,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "riot chest guard" },
-    "description": "A hard chest protector, attached to thigh and upper arm guards.  Used by riot police officers.  Molle webbing is attached to the thighs.  The word POLICE is emblazoned across the front.",
+    "description": "A hard chest protector, attached to thigh and upper arm guards.  Used by riot police officers.  Molle webbing is attached to the torso and the word POLICE is emblazoned across the front.",
     "weight": "2 kg",
     "volume": "10000 ml",
     "price": 40000,

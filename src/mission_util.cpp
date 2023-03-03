@@ -397,7 +397,7 @@ mission_target_params<dialogue> mission_util::parse_mission_om_target( const Jso
         p.overmap_special = get_str_or_var<dialogue>( jo.get_member( "om_special" ), "om_special", true );
     }
     if( jo.has_member( "reveal_radius" ) ) {
-        p.reveal_radius = get_int_or_var<dialogue>( jo, "reveal_radius" );
+        p.reveal_radius = get_dbl_or_var<dialogue>( jo, "reveal_radius" );
     }
     if( jo.has_member( "must_see" ) ) {
         p.must_see = jo.get_bool( "must_see" );
@@ -411,8 +411,8 @@ mission_target_params<dialogue> mission_util::parse_mission_om_target( const Jso
     if( jo.has_member( "random" ) ) {
         p.random = jo.get_bool( "random" );
     }
-    p.search_range  = get_int_or_var<dialogue>( jo, "search_range", false, OMAPX );
-    p.min_distance  = get_int_or_var<dialogue>( jo, "min_distance", false );
+    p.search_range  = get_dbl_or_var<dialogue>( jo, "search_range", false, OMAPX );
+    p.min_distance  = get_dbl_or_var<dialogue>( jo, "min_distance", false );
 
     if( jo.has_member( "offset_x" ) || jo.has_member( "offset_y" ) || jo.has_member( "offset_z" ) ) {
         tripoint_rel_omt offset;
@@ -428,7 +428,7 @@ mission_target_params<dialogue> mission_util::parse_mission_om_target( const Jso
         p.offset = offset;
     }
     if( jo.has_member( "z" ) ) {
-        p.z = get_int_or_var<dialogue>( jo, "z" );
+        p.z = get_dbl_or_var<dialogue>( jo, "z" );
     }
     if( jo.has_member( "var" ) ) {
         p.target_var = read_var_info( jo.get_object( "var" ) );
