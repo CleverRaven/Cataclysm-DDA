@@ -4,11 +4,13 @@ aboveground
 abso
 acausal
 accessorized
+accessorizing
 acclimatization
 accoustrement
 accuracies
 accurize
 accurized
+accurizing 
 achelousaurus
 acho
 acidball
@@ -208,6 +210,7 @@ bakelite
 baldric
 balefires
 balisong
+ballistae
 ballistoceras
 balogna
 bandolier
@@ -314,6 +317,7 @@ bodkin
 bodyglove
 bodymesh
 bodypart
+bodyweight 
 bokken
 bolas
 bolded
@@ -525,6 +529,7 @@ coifs
 coilgun
 coipo
 colorant
+combatives
 comestible
 comestibles
 commendably
@@ -1169,6 +1174,7 @@ gunblade
 gunfighting
 gunmod
 gunmods
+gunshop
 gunsmithing
 gunsmoke
 gushingly
@@ -1698,6 +1704,7 @@ moas
 mobbings
 modding
 moder
+modernday
 modifier
 modifiers
 modularity
@@ -1726,6 +1733,7 @@ mountable
 mouthgear
 mouthpart
 mouthparts
+movesets
 movestr
 mph
 mr
@@ -2082,6 +2090,7 @@ posthuman
 potboiler
 potentiates
 pouncer
+powerlifting
 powerplants
 powertool
 prancer
