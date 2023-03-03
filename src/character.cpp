@@ -4330,16 +4330,6 @@ void Character::regen( int rate_multiplier )
     }
 }
 
-void Character::enforce_minimum_healing()
-{
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( get_part_healed_total( bp ) <= 0 ) {
-            heal( bp, 1 );
-        }
-        set_part_healed_total( bp, 0 );
-    }
-}
-
 void Character::update_health()
 {
     // Limit daily_health to [-200, 200].
@@ -5745,7 +5735,7 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
 static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
 mutation_value_map = {
     { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
-    { "healing_resting", calc_mutation_value<&mutation_branch::healing_resting> },
+    { "healing_multiplier", calc_mutation_value_multiplicative<&mutation_branch::healing_multiplier> },
     { "mending_modifier", calc_mutation_value_multiplicative<&mutation_branch::mending_modifier> },
     { "hp_modifier", calc_mutation_value<&mutation_branch::hp_modifier> },
     { "hp_modifier_secondary", calc_mutation_value<&mutation_branch::hp_modifier_secondary> },
@@ -5798,30 +5788,31 @@ float Character::mutation_value( const std::string &val ) const
     }
 }
 
+namespace
+{
+float _hp_modified_rate( Character const &who, float rate )
+{
+    float const primary_hp_mod = who.mutation_value( "hp_modifier" );
+    if( primary_hp_mod < 0.0f ) {
+        cata_assert( primary_hp_mod >= -1.0f );
+        return rate * ( 1.0f + primary_hp_mod );
+    }
+
+    return rate;
+}
+} // namespace
+
 float Character::healing_rate( float at_rest_quality ) const
 {
+    float const rest = clamp( at_rest_quality, 0.0f, 1.0f );
     // TODO: Cache
-    float heal_rate;
-    if( !is_npc() ) {
-        heal_rate = get_option< float >( "PLAYER_HEALING_RATE" );
-    } else {
-        heal_rate = get_option< float >( "NPC_HEALING_RATE" );
-    }
-    float awake_rate = heal_rate * mutation_value( "healing_awake" );
-    float final_rate = 0.0f;
-    if( awake_rate > 0.0f ) {
-        final_rate += awake_rate;
-    } else if( at_rest_quality < 1.0f ) {
-        // Resting protects from rot
-        final_rate += ( 1.0f - at_rest_quality ) * awake_rate;
-    }
-    float asleep_rate = 0.0f;
-    if( at_rest_quality > 0.0f ) {
-        asleep_rate = at_rest_quality * heal_rate * ( 1.0f + mutation_value( "healing_resting" ) );
-    }
-    if( asleep_rate > 0.0f ) {
-        final_rate += asleep_rate * ( 1.0f + get_lifestyle() / 200.0f );
-    }
+    float const base_heal_rate = is_avatar() ? get_option<float>( "PLAYER_HEALING_RATE" )
+                                 : get_option<float>( "NPC_HEALING_RATE" );
+    float const heal_rate =
+        base_heal_rate * mutation_value( "healing_multiplier" );
+    float const awake_rate = ( 1.0f - rest ) * heal_rate * mutation_value( "healing_awake" );
+    float const asleep_rate = rest * heal_rate * ( 1.0f + get_lifestyle() / 200.0f );
+    float final_rate = awake_rate + asleep_rate;
 
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
@@ -5831,13 +5822,8 @@ float Character::healing_rate( float at_rest_quality ) const
         return 0.0f;
     }
 
-    float primary_hp_mod = mutation_value( "hp_modifier" );
-    if( primary_hp_mod < 0.0f ) {
-        // HP mod can't get below -1.0
-        final_rate *= 1.0f + primary_hp_mod;
-    }
-
-    return enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, final_rate );
+    return enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP,
+                                            _hp_modified_rate( *this, final_rate ) );
 }
 
 float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
@@ -5846,6 +5832,9 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
 
     for( const auto &elem : *effects ) {
         for( const std::pair<const bodypart_id, effect> &i : elem.second ) {
+            if( i.first != bp ) {
+                continue;
+            }
             const effect &eff = i.second;
             float tmp_rate = static_cast<float>( eff.get_amount( "HEAL_RATE" ) ) / to_turns<int>
                              ( 24_hours );
@@ -5860,8 +5849,8 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
         }
     }
 
-    rate_medicine *= 1.0f + mutation_value( "healing_resting" );
-    rate_medicine *= 1.0f + at_rest_quality;
+    rate_medicine *= mutation_value( "healing_multiplier" );
+    rate_medicine *= 1.0f + clamp( at_rest_quality, 0.0f, 1.0f );
 
     // increase healing if character has both effects
     if( has_effect( effect_bandaged ) && has_effect( effect_disinfected ) ) {
@@ -5873,12 +5862,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
     } else {
         rate_medicine *= 1.0f + get_lifestyle() / 400.0f;
     }
-    float primary_hp_mod = mutation_value( "hp_modifier" );
-    if( primary_hp_mod < 0.0f ) {
-        // HP mod can't get below -1.0
-        rate_medicine *= 1.0f + primary_hp_mod;
-    }
-    return rate_medicine;
+    return _hp_modified_rate( *this, rate_medicine );
 }
 
 float Character::get_bmi() const
