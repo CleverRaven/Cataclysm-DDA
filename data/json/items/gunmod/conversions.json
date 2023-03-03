@@ -2,7 +2,7 @@
   {
     "id": "retool_ar15_223rem",
     "type": "GUNMOD",
-    "name": { "str": "AR-15 .223 upper Receiver" },
+    "name": { "str": ".223 AR-15 upper Receiver" },
     "description": "This is a fully furnished and standard upper assembly for an AR-15-style rifle with a 16-inch, 5.56mm barrel and includes a charging handle, forward assist, and bolt carrier group.  Given the right mechanical and weapon-related knowledge, it may be fitted or dismounted from the lower frame of a suitable rifle.",
     "weight": "2000 g",
     "volume": "1550 ml",
@@ -25,15 +25,19 @@
     "id": "retool_m4_223rem",
     "copy-from": "retool_ar15_223rem",
     "type": "GUNMOD",
-    "name": { "str": "AR-15 .223 upper Receiver" },
-    "description": "This is a fully furnished and standard upper assembly for an AR-15-style rifle with a 16-inch, 5.56mm barrel and includes a charging handle, forward assist, and bolt carrier group.  Given the right mechanical and weapon-related knowledge, it may be fitted or dismounted from the lower frame of a suitable rifle.",
-    "weight": "2000 g",
-    "volume": "1550 ml",
+    "name": { "str": "SOCOM M4 upper Receiver" },
+    "description": "This is a fully furnished and military-specification upper assembly for an AR-15-style carbine with a shortened 14.5-inch, 5.56mm barrel and includes a charging handle, forward assist, and bolt carrier group.  Given the right mechanical and weapon-related knowledge, it may be fitted or dismounted from the lower frame of a suitable rifle.",
     "longest_side": "445 mm",
-    "integral_volume": "1550 ml",
-    "integral_weight": "2000 g",
-    "integral_longest_side": "41 cm",
-    "price": 51499
+    "integral_longest_side": "368 mm"
+  },
+  {
+    "id": "retool_mk18_223rem",
+    "copy-from": "retool_ar15_223rem",
+    "type": "GUNMOD",
+    "name": { "str": "CQB MK 18 upper Receiver" },
+    "description": "This is a fully furnished and military-specification upper assembly for an AR-15-style carbine with a shortened 10.3-inch, 5.56mm barrel and includes a charging handle, forward assist, and bolt carrier group.  Given the right mechanical and weapon-related knowledge, it may be fitted or dismounted from the lower frame of a suitable rifle.",
+    "longest_side": "337 mm",
+    "integral_longest_side": "261 mm"
   },
   {
     "id": "retool_ar15_300blk",

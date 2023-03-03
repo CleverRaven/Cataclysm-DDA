@@ -378,9 +378,10 @@
     "name": { "str": "M4 carbine" },
     "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
     "ascii_picture": "m4a1",
-    "weight": "2880 g",
-    "volume": "3310 ml",
-    "longest_side": "758 mm",
+    "weight": "880 g",
+    "volume": "1760 ml",
+    "longest_side": "390 mm",
+    "//": "The volume, weight, and overall length of an average AR-15’s complete upper receiver module have been deducted and will be made up for by the installable upper assemblies.",
     "price": 240000,
     "price_postapoc": 5000,
     "variant_type": "gun",
@@ -408,7 +409,7 @@
     "dispersion": 180,
     "durability": 6,
     "min_cycle_recoil": 1350,
-    "default_mods": [ "retool_ar15_223rem" ],
+    "default_mods": [ "retool_m4_223rem" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "pocket_data": [
       {
