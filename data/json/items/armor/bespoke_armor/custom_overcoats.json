@@ -254,7 +254,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
-        "encumbrance": [ 5, 5 ]
+        "encumbrance": [ 0, 0 ]
       }
     ],
     "pocket_data": [
@@ -355,7 +355,7 @@
         "covers": [ "leg_l", "leg_r" ],
         "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
         "coverage": 80,
-        "encumbrance": [ 5, 5 ]
+        "encumbrance": [ 0, 0 ]
       }
     ]
   }
