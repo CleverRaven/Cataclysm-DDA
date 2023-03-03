@@ -12,18 +12,6 @@
     "components": [ [ [ "molotov", 1 ] ], [ [ "fuse", 1 ] ] ]
   },
   {
-    "result": "sling-ready_acidbomb",
-    "type": "recipe",
-    "activity_level": "fake",
-    "category": "CC_*",
-    "subcategory": "CSC_*_NESTED",
-    "skill_used": "fabrication",
-    "time": "10 s",
-    "reversible": true,
-    "autolearn": true,
-    "components": [ [ [ "acidbomb", 1 ] ] ]
-  },
-  {
     "result": "sling-ready_grenade",
     "type": "recipe",
     "activity_level": "fake",
