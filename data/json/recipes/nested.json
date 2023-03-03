@@ -4266,6 +4266,17 @@
     "nested_category_data": [ "scrap_aluminum_melted_foil", "scrap_aluminum_assorted_scrap" ]
   },
   {
+    "id": "nested_pemmican",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "pemmican",
+    "description": "Recipes related to making pemmican.",
+    "skill_used": "cooking",
+    "nested_category_data": [ "pemmican", "pemmican_veggy", "pemmican_meat" ]
+  },
+  {
     "id": "nested_chairs",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
@@ -4298,7 +4309,7 @@
     "name": "planks",
     "description": "Recipes related to constructing 4ft planks.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "2x4_from long planks by hand", "2x4_from long planks with powertools" ]
+    "nested_category_data": [ "2x4_from long planks by hand", "2x4_from long planks with powertools", "2x4_from logs with powertools" ]
   },
   {
     "id": "nested_planks_short",

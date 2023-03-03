@@ -109,7 +109,7 @@
     "aggro_character": false,
     "hp": 125,
     "color": "light_gray",
-    "melee_skill": 8,
+    "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],
@@ -166,7 +166,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "exodii_weapon_pod", "min_level": 1 },
-        "cooldown": 200,
+        "cooldown": 2,
         "monster_message": "The Exodii quadruped fires its weapon pod!"
       },
       {

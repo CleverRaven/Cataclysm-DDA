@@ -18,6 +18,7 @@
 #include "json.h"
 #include "map.h"
 #include "output.h"
+#include "overmapbuffer.h"
 #include "path_info.h"
 #include "popup.h"
 #include "string_formatter.h"
@@ -193,7 +194,7 @@ void mapbuffer::save_quad(
         submap_addr += offsets_offset;
         submap_addrs.push_back( submap_addr );
         submap *sm = submaps[submap_addr].get();
-        if( sm != nullptr && !sm->is_uniform ) {
+        if( sm != nullptr && !sm->is_uniform() ) {
             all_uniform = false;
         }
     }
@@ -280,9 +281,12 @@ submap *mapbuffer::unserialize_submaps( const tripoint_abs_sm &p )
         // If it doesn't exist, trigger generating it.
         return nullptr;
     }
+    // fill in uniform submaps that were not serialized
+    oter_id const oid = overmap_buffer.ter( om_addr );
+    generate_uniform_omt( project_to<coords::sm>( om_addr ), oid );
     if( submaps.count( p ) == 0 ) {
-        debugmsg( "file %s did not contain the expected submap %s", quad_path.generic_u8string(),
-                  p.to_string() );
+        debugmsg( "file %s did not contain the expected submap %s for non-uniform terrain %s",
+                  quad_path.generic_u8string(), p.to_string(), oid.id().str() );
         return nullptr;
     }
     return submaps[ p ].get();

@@ -68,8 +68,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.has_flag( flag_INTEGRATED ) ) {
         return ret_val<void>::make_success();
     }
-    // need to ignore inherited flags for this because items in pockets likely have CANT_WEAR
-    if( it.has_flag( flag_CANT_WEAR, true ) ) {
+    if( it.has_flag( flag_CANT_WEAR ) ) {
         return ret_val<void>::make_failure( _( "Can't be worn directly." ) );
     }
     if( has_effect( effect_incorporeal ) ) {
@@ -584,22 +583,6 @@ bool Character::is_worn_item_visible( std::list<item>::const_iterator worn_item 
 std::list<item> Character::get_visible_worn_items() const
 {
     return worn.get_visible_worn_items( *this );
-}
-
-bool outfit::is_wearing_helmet() const
-{
-    for( const item &i : worn ) {
-        if( i.covers( body_part_head ) && !i.has_flag( flag_SKINTIGHT ) && !i.has_flag( flag_PERSONAL ) &&
-            !i.has_flag( flag_AURA ) && !i.has_flag( flag_SEMITANGIBLE ) && !i.has_flag( flag_OVERSIZE ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Character::is_wearing_helmet() const
-{
-    return worn.is_wearing_helmet();
 }
 
 double Character::armwear_factor() const
@@ -2539,7 +2522,10 @@ void outfit::organize_items_menu()
         { "FAV_BLACKLIST", translation() },
         { "FAV_CLEAR", translation() },
         { "FAV_MOVE_ITEM", translation() },
-        { "FAV_CONTEXT_MENU", translation() }
+        { "FAV_CONTEXT_MENU", translation() },
+        { "FAV_SAVE_PRESET", translation() },
+        { "FAV_APPLY_PRESET", translation() },
+        { "FAV_DEL_PRESET", translation() }
     };
     // we override confirm
     pocket_selector.allow_confirm = false;

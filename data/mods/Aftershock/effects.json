@@ -57,6 +57,24 @@
   },
   {
     "type": "effect_type",
+    "id": "migo_rad_away",
+    "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -1 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
+    "blood_analysis_description": "Strange proteins are ingesting radioactive particles and flushing themselves from the host.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "migo_rad_flush",
+    "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -5 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
+    "blood_analysis_description": "Strange proteins are ingesting radioactive particles and containing all emmissions.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_mastodon",
     "name": [ "Mastodon Mutation", "Mastodon Transformation", "Mastodon Metamorphosis" ],
     "desc": [
@@ -212,7 +230,7 @@
     "rating": "bad",
     "int_dur_factor": "8 h",
     "max_duration": "24 h",
-    "base_mods": { "stim_amount": [ -5 ], "stim_max": [ -60 ], "perspiration_amount": [ 2 ], "stamina_amount": [ -10 ] },
+    "base_mods": { "stim_amount": [ -5 ], "stim_max_val": [ -60 ], "perspiration_amount": [ 2 ], "stamina_amount": [ -10 ] },
     "blood_analysis_description": "Post overdose quantities of multiple drugs in analyzed blood.",
     "show_in_info": true
   },

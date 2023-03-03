@@ -1071,9 +1071,30 @@
     "description": "Precise step-by-step instructions and other required data for installation of Railgun CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
   },
   {
+    "id": "toolset_extended",
+    "type": "TOOL",
+    "name": { "str": "extended multitool" },
+    "description": "Your multitool, extended.  Ready to do repair work.",
+    "symbol": "#",
+    "color": "white",
+    "weight": "226 g",
+    "bashing": 3,
+    "cutting": 1,
+    "flags": [ "NO_UNWIELD", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID" ]
+  },
+  {
     "id": "UNARMED_WEAPON",
     "type": "json_flag",
     "//": "REMOVE After 0.G.",
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
+  },
+  {
+    "type": "mutation",
+    "id": "PORTAL_RESURRECTION",
+    "name": { "str": "Marked" },
+    "description": "Sometimes when your mind wanders you can feel something inside yourself, deeper than any mere physical sensation.  Your mind wants to call it a lifeline or a tendril or a leash.  Whatever it is, something much bigger than you has an interest in your success.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false
   }
 ]

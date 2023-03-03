@@ -157,6 +157,22 @@
     "max_duration": 720000
   },
   {
+    "type": "SPELL",
+    "id": "afs_motion_sensor_spell",
+    "name": { "str": "motion sensor spell" },
+    "description": "EOCs the victim.",
+    "valid_targets": [ "self", "hostile", "ally" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "base_casting_time": 75,
+    "shape": "blast",
+    "min_range": 0,
+    "min_aoe": 1,
+    "max_aoe": 1,
+    "effect": "effect_on_condition",
+    "effect_str": "afs_motion_sensor_eoc"
+  },
+  {
     "id": "cream_greater_prot_cold",
     "type": "SPELL",
     "name": "Heat Retention Cream Xtreme",
