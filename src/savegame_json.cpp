@@ -3270,22 +3270,6 @@ void vehicle_part::deserialize( const JsonObject &data )
         precalc[1].z = z_offset;
     }
 
-    // load legacy bike rack data
-    JsonArray ja = data.get_array( "carry" );
-    // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
-    static constexpr int name_offset = 7;
-    for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
-        const std::string raw = ja.get_string( index );
-        const bool migrate_x_axis = raw[0] == 'X';
-        const int mount_offset = std::stoi( raw.substr( 1, 3 ) );
-        carried_stack.push( {
-            tripoint( mount_offset, 0, 0 ),
-            units::from_degrees( std::stoi( raw.substr( 4, 3 ) ) ),
-            raw.substr( name_offset ),
-            migrate_x_axis,
-        } );
-    }
-
     // load new bike rack data
     JsonArray ja_carried = data.get_array( "carried_stack" );
     // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
