@@ -159,8 +159,6 @@ static const ter_str_id ter_t_rubble( "t_rubble" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
 
 static const vpart_id vpart_turret_mount( "turret_mount" );
-static const vproto_id vehicle_prototype_bicycle( "bicycle" );
-static const vproto_id vehicle_prototype_bicycle_folding( "bicycle_folding" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
 obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
@@ -3562,28 +3560,6 @@ void vehicle::deserialize( const JsonObject &data )
     } else {
         // Compatibility with 0.F
         // It is a small and not important number so just ignore it.
-    }
-
-    // TODO: Remove after enough time passes for save games to migrate.
-    // This migrates old "convertible" vehicles to new generic "folding" ones
-    if( has_tag( "convertible" ) ) {
-        // remove tags starting from "convertible"
-        for( auto it = tags.begin(); it != tags.end(); ) {
-            if( it->rfind( "convertible", 0 ) == 0 ) {
-                it = tags.erase( it );
-            } else {
-                ++it;
-            }
-        }
-
-        // Special case convertible folding bicycles as they had non-foldable parts
-        // as part of their vehicle prototype. Other in-tree "convertibles"
-        // (wheelchair, inflatable boat) can just have their tags removed as their
-        // vehicles were made from foldable parts already
-        if( type == vehicle_prototype_bicycle ) {
-            type = vehicle_prototype_bicycle_folding;
-            parts = type.obj().blueprint->parts;
-        }
     }
 
     refresh();
