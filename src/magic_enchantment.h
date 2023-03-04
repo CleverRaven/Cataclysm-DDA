@@ -70,6 +70,7 @@ enum class mod : int {
     MOD_HEALTH,
     MOD_HEALTH_CAP,
     READING_EXP,
+    SKILL_RUST_RESIST,
     LEARNING_FOCUS,
     ARMOR_BASH,
     ARMOR_CUT,

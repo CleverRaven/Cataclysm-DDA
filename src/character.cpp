@@ -3246,7 +3246,7 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, 0 );
+        const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_RESIST, 0 );
         const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
             add_msg_if_player( m_warning,
