@@ -286,8 +286,6 @@ struct body_part_type {
         // if a limb is vital and at 0 hp, you die.
         bool is_vital = false;
         bool is_limb = false;
-        // If true, extra encumbrance on this limb affects dodge effectiveness
-        bool encumb_impacts_dodge = false;
 
         bool was_loaded = false;
 

@@ -1080,21 +1080,6 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     g->reenter_fullscreen();
 }
 
-static void make_active( item_location loc )
-{
-    map &here = get_map();
-    switch( loc.where() ) {
-        case item_location::type::map:
-            here.make_active( loc );
-            break;
-        case item_location::type::vehicle:
-            here.veh_at( loc.position() )->vehicle().make_active( loc );
-            break;
-        default:
-            break;
-    }
-}
-
 static void update_lum( item_location loc, bool add )
 {
     switch( loc.where() ) {
@@ -1187,7 +1172,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         you.use( loc, pre_obtain_moves, method );
         update_lum( loc, true );
 
-        make_active( loc );
+        loc.make_active();
     } else {
         you.use( loc, pre_obtain_moves, method );
 
