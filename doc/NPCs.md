@@ -1,6 +1,9 @@
 # Contents
 
 - [Creating new NPCs](#creating-new-npcs)
+  - [NPC Class definition](#npc-class-definition)
+    - [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
+  - [NPC instance definition](#npc-instance-definition)
 - [Writing dialogues](#writing-dialogues)
   - [Validating Dialogues](#validating-dialogues)
   - [Customizing NPC speech](#customizing-npc-speech)
