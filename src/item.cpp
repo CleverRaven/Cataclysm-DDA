@@ -11067,8 +11067,8 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     }
 
     const units::energy wanted_energy = qty;
-	
-	// TODO do something about rounding
+
+    // TODO do something about rounding
 
     // Consume energy from battery charge
     if( is_battery() ) {
@@ -11077,26 +11077,23 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     }
 
     // Consume energy from contained magazine
-    if( uses_magazine() )
-    {
+    if( uses_magazine() ) {
         qty -= magazine_current()->energy_consume( qty, pos, carrier );
     }
 
     // Consume UPS energy from various sources
-    if( carrier != nullptr && has_flag( flag_USE_UPS ) )
-    {
+    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
         qty -= carrier->consume_ups( qty );
     }
 
     // Consume bio energy
-    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) )
-    {
+    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
         units::energy bio_used = std::min( carrier->get_power_level(), qty );
         carrier->mod_power_level( -bio_used );
         qty -= bio_used;
-}
+    }
 
-return wanted_energy - qty;
+    return wanted_energy - qty;
 }
 
 int item::activation_consume( int qty, const tripoint &pos, Character *carrier )
