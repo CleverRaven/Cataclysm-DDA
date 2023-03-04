@@ -440,7 +440,7 @@
     "type": "GENERIC",
     "id": "dreamforged_tsurugi_speed",
     "copy-from": "dreamforged_broadsword",
-    "name": { "str": "tsurugi of speed", "str_pl": "tsurugi of speed" },
+    "name": { "str_sp": "tsurugi of speed", "str_pl": "tsurugis of speed" },
     "description": "Classic japanese tsurugi sword with razor sharp blade.  You start to think you need to move faster, and effect intensifies when you are surrounded.",
     "relic_data": { "passive_effects": [ { "id": "MON_NEARBY_SPEED" } ] }
   },
@@ -448,7 +448,7 @@
     "type": "GENERIC",
     "id": "dreamforged_q_staff_exp",
     "copy-from": "dreamforged_q_staff",
-    "name": { "str": "bo of practice", "str_pl": "bo of practices" },
+    "name": { "str": "bo of practice", "str_pl": "bos of practices" },
     "description": "Long, straight stick.  Simple weapon, it is powered by your own experience of fighting dreadful creatures",
     "relic_data": { "passive_effects": [ { "id": "EXP_BASH" } ] }
   }

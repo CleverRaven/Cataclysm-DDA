@@ -495,7 +495,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "dreamforged full helmet" },
-    "description": "Manually forged helmet, that resemble the shape of modern army helmets.  This one protect both face and eyes, using a special forged mask, but has no visor, and not so comfortable. The dreamdross grant it some small magical properties, but you can't control their effects.",
+    "description": "Manually forged helmet, that resemble the shape of modern army helmets.  This one protect both face and eyes, using a special forged mask, but has no visor, and not so comfortable.  The dreamdross grant it some small magical properties, but you can't control their effects.",
     "weight": "750 g",
     "price": 25000,
     "price_postapoc": 0,
