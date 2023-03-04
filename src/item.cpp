@@ -5903,7 +5903,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         }
     } else if( has_flag( flag_LEAK_DAM ) && has_flag( flag_RADIOACTIVE ) && damage() > 0 ) {
         ret = c_light_green;
-    } else if( ( active && !has_temperature() &&  !is_corpse() ) || ( is_corpse() && can_revive() ) ) {
+    } else if( ( active && !has_temperature() ) || ( is_corpse() && can_revive() ) ) {
         // Active items show up as yellow (corpses only if reviving)
         ret = c_yellow;
     } else if( is_medication() || is_medical_tool() ) {
@@ -6572,8 +6572,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         tagtext += _( " (lit)" );
     } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
         tagtext += _( " (plugged in)" );
-    } else if( active && !has_temperature() && !is_corpse() &&
-               !string_ends_with( typeId().str(), "_on" ) ) {
+    } else if( active && !has_temperature() && !string_ends_with( typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         tagtext += _( " (active)" );
