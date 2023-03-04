@@ -166,7 +166,6 @@ static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
-static const activity_id ACT_WASH( "ACT_WASH" );
 
 static const ammotype ammo_battery( "battery" );
 
@@ -308,7 +307,6 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_VIEW_RECIPE, view_recipe_finish },
-    { ACT_WASH, washing_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },

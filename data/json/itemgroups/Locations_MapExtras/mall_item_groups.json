@@ -80,7 +80,7 @@
     "id": "vitamin_shop",
     "type": "item_group",
     "items": [
-      { "item": "adhesive_bandages", "prob": 25, "count": 20 },
+      { "group": "adhesive_bandages_box_full", "prob": 25 },
       { "group": "full_1st_aid", "prob": 15 },
       { "group": "full_ifak", "prob": 15 },
       [ "vitamins", 75 ],

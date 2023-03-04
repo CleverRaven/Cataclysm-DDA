@@ -148,7 +148,7 @@
     "name": { "str": "Protective Lenses" },
     "description": "Your eye sockets have been surgically sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "MEMBRANE", "EYESTALKS1", "EYESTALKS2" ],
     "social_modifiers": { "intimidate": 10 },
     "passive_pseudo_items": [ "armor_bio_eyes" ]
   },
@@ -937,6 +937,13 @@
     "occupied_bodyparts": [ [ "hand_l", 1 ] ],
     "toggled_pseudo_items": [ "electrohack" ],
     "flags": [ "BIONIC_TOGGLED", "USES_BIONIC_POWER" ]
+  },
+  {
+    "id": "bio_fitnessband",
+    "type": "bionic",
+    "name": { "str": "Calorie Tracker" },
+    "description": "A module implanted in your body measures your calorie intake and expenditure at all times.",
+    "occupied_bodyparts": [ [ "torso", 1 ] ]
   },
   {
     "id": "bio_flashbang",

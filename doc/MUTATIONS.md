@@ -197,8 +197,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "fatigue_regen_modifier": 0.333,            // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
   "stamina_regen_modifier": 0.1,              // Increase stamina regen by this proportion (1.0 being 100% of normal regen).
   "cardio_multiplier": 1.5,                   // Multiplies total cardio fitness by this amount.
-  "healing_awake": 1.0,                       // Healing rate per turn while awake.
-  "healing_resting": 0.5,                     // Healing rate per turn while resting.
+  "healing_multiplier": 0.5,                  // Multiplier to PLAYER/NPC_HEALING_RATE.
+  "healing_awake": 1.0,                       // Percentage of healing rate used while awake.
   "mending_modifier": 1.2,                    // Multiplier on how fast your limbs mend (1.2 is 20% faster).
   "attackcost_modifier": 0.9,                 // Attack cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_modifier": 0.9,                   // Overall movement speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).

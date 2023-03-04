@@ -25,7 +25,7 @@
     "bashing": 2,
     "cutting": 14,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -45,7 +45,7 @@
     "bashing": 2,
     "cutting": 7,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -66,7 +66,7 @@
     "bashing": 1,
     "cutting": 6,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "knife_chef",
@@ -86,7 +86,7 @@
     "bashing": 2,
     "cutting": 16,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 10 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -107,7 +107,7 @@
     "bashing": 1,
     "cutting": 18,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 22 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -128,7 +128,7 @@
     "cutting": 6,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "line", "balance": "neutral" },
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "knife_vegetable_cleaver",
@@ -148,7 +148,7 @@
     "bashing": 3,
     "cutting": 17,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "knife_meat_cleaver",
@@ -168,6 +168,6 @@
     "bashing": 6,
     "cutting": 16,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 25 ] ],
-    "flags": [ "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   }
 ]
