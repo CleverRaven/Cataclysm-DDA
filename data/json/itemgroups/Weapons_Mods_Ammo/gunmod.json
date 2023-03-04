@@ -207,12 +207,5 @@
     "id": "gunmod_archery",
     "//": "Gunmods for bows and crossbows.",
     "items": [ [ "arrowrest", 100 ], [ "bow_sight", 100 ], [ "bow_stabilizer", 100 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "group_retool_items",
-    "//": "Miscellaneous items assigned to spawn within conversion kits, including some tools and the instructions.",
-    "subtype": "collection",
-    "entries": [ { "item": "retool_instructions" }, { "item": "bubblewrap" } ]
   }
 ]

@@ -1,0 +1,43 @@
+[
+  {
+    "type": "item_group",
+    "id": "nested_retool_extras",
+    "//": "Miscellaneous items assigned to spawn within conversion kits, including some tools and the instructions.",
+    "subtype": "collection",
+    "entries": [ { "item": "retool_instructions" }, { "item": "bubblewrap" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_retool_300blk",
+    "//": "An assortment of different upper receiver kits, all of the same caliber, of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "retool_ar15_300blk", "prob": 10 },
+          { "item": "retool_ar15_300blk_medium", "prob": 10 },
+          { "item": "retool_ar15_300blk_short", "prob": 10 }
+        ],
+        "prob": 100
+      },
+      { "group": "nested_retool_extras" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_retool_223rem",
+    "//": "An assortment of different upper receiver kits, all of the same caliber, of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "retool_ar15_223rem", "prob": 10 },
+          { "item": "retool_ar15_223rem_medium", "prob": 10 },
+          { "item": "retool_ar15_223rem_short", "prob": 10 }
+        ],
+        "prob": 100
+      },
+      { "group": "nested_retool_extras" }
+    ]
+  }
+]
