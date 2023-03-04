@@ -1709,7 +1709,7 @@
     ]
   },
   {
-    "id": "xl_aketon_hood_wools",
+    "id": "xl_aketon_hood_wool",
     "//": "surface area of XL body assumed to be 50% greater and materials used are also 50% greater.",
     "type": "ARMOR",
     "name": { "str": "XL wool coif" },
