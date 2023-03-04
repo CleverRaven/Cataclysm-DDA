@@ -10887,6 +10887,17 @@ int item::ammo_remaining( const Character *carrier ) const
         }
     }
 
+    // UPS/bionic power can replace battery ammo requirement.
+    // Only for tools. Guns should always use energy_drain for electricity use.
+    if( carrier != nullptr && type->tool && type->tool->ammo_id.count( ammo_battery ) ) {
+        if( has_flag( flag_USES_BIONIC_POWER ) ) {
+            ret += units::to_kilojoule( carrier->get_power_level() );
+        }
+        if( has_flag( flag_USE_UPS ) ) {
+            ret += units::to_kilojoule( carrier->available_ups() );
+        }
+    }
+
     return ret;
 }
 
