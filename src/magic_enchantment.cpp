@@ -761,6 +761,9 @@ void enchant_cache::activate_passive( Character &guy ) const
     guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
     guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
 
+    guy.mod_num_blocks_bonus( get_value_add( enchant_vals::mod::BONUS_BLOCK ) );
+    guy.mod_num_blocks_bonus( mult_bonus( enchant_vals::mod::BONUS_BLOCK, guy.get_num_blocks_base() ) );
+
     if( emitter ) {
         get_map().emit_field( guy.pos(), *emitter );
     }

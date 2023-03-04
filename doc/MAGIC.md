@@ -779,14 +779,15 @@ The following is a list of possible enchantment `values`:
 | `ARMOR_STAB` | 
 | `ATTACK_SPEED` | Affects attack speed of item even if it's not the one you're wielding.
 | `BIONIC_POWER` |
-| `BONUS_DODGE` | 
+| `BONUS_BLOCK` | Affects the number of blocks you can perform.
+| `BONUS_DODGE` | Affects the number of dodges you can perform.
 | `CARRY_WEIGHT` |
 | `CLIMATE_CONTROL_HEAT` | Moves body temperature up towards comfortable by number of warmth units up to value.
 | `CLIMATE_CONTROL_CHILL` | Moves body temperature down towards comfortable by number of warmth units up to value.
-| `DEXTERITY` | 
-| `INTELLIGENCE` | 
-| `PERCEPTION` | 
-| `STRENGTH` | 
+| `DEXTERITY` | Affects the dexterity stat.
+| `INTELLIGENCE` | Affects the intelligence stat.
+| `PERCEPTION` | Affects the perception stat.
+| `STRENGTH` | Affects the strength stat.
 | `SPEED` | 
 | `EFFECTIVE_HEALTH_MOD` | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
 | `EXTRA_ACID` | EXTRA_TYPE increases received damage of the selected type.
@@ -818,12 +819,12 @@ The following is a list of possible enchantment `values`:
 | `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from.
 | `MOTION_VISION_RANGE ` | Reveals all monsters as a red `?` within the specified radius.
 | `SLEEPY` | The higher this the easier you fall asleep.
-| `SOCIAL_INTIMIDATE` | 
-| `SOCIAL_LIE` | 
-| `SOCIAL_PERSUADE` | 
+| `SOCIAL_INTIMIDATE` | Affects your ability to intimidate.
+| `SOCIAL_LIE` | Affects your ability to lie.
+| `SOCIAL_PERSUADE` | Affects your ability to persuade.
 | `READING_EXP` | Changes the minimum you learn from each reading increment.
 | `RECOIL_MODIFIER` | Affects recoil when shooting a gun.
-| `REGEN_HP` | 
+| `REGEN_HP` | Affects the rate you recover hp.
 | `REGEN_MANA` | 
 | `REGEN_STAMINA` | 
 | `THIRST` | 

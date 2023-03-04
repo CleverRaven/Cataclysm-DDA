@@ -490,6 +490,7 @@
     "enchantments": [
       {
         "values": [
+          { "value": "BONUS_BLOCK", "add": 1 },
           { "value": "BONUS_DODGE", "add": 1 },
           { "value": "DEXTERITY", "add": 2 },
           { "value": "PERCEPTION", "add": 4 },

@@ -160,6 +160,7 @@
         "values": [
           { "value": "STRENGTH", "add": 3 },
           { "value": "MAX_HP", "add": 17 },
+          { "value": "BONUS_BLOCK", "add": 3 },
           { "value": "MAX_STAMINA", "multiply": 1.25 },
           { "value": "THIRST", "multiply": 2.5 },
           { "value": "METABOLISM", "multiply": 2.5 },
