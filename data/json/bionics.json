@@ -1094,7 +1094,7 @@
     "occupied_bodyparts": [ [ "hand_r", 1 ] ],
     "act_cost": "30 kJ",
     "fake_weapon": "bio_laser_gun",
-    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
+    "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_leaky",

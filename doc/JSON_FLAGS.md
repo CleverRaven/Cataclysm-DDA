@@ -932,7 +932,6 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 ### Flags
 
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
-- ```BIONIC_WEAPON``` Cannot wield this item normally. It has to be attached to a bionic and equipped through activation of the bionic.
 - ```DIAMOND``` Diamond coating adds 30% bonus to cutting and piercing damage.
 - ```MESSY``` Creates more mess when pulping.
 - ```NO_CVD``` Item can never be used with a CVD machine.
