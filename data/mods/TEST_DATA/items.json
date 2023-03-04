@@ -28,7 +28,6 @@
     "insulation": 10,
     "volume": "800 L",
     "weight": "70 kg",
-    "flags": [ "ZERO_WEIGHT" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
