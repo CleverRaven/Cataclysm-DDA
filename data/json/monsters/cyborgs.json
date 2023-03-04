@@ -109,7 +109,7 @@
     "aggro_character": false,
     "hp": 125,
     "color": "light_gray",
-    "melee_skill": 8,
+    "melee_skill": 6,
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 12 } ],

@@ -64,6 +64,13 @@ bool active_item_cache::add( item &it, point location, item *parent,
         return ret;
     }
     std::list<item_reference> &target_list = active_items[it.processing_speed()];
+    // If the item is already in the cache for some reason, don't add a second reference
+    if( std::find_if( target_list.begin(),
+    target_list.end(), [&it]( const item_reference & active_item_ref ) {
+    return &it == active_item_ref.item_ref.get();
+    } ) != target_list.end() ) {
+        return true;
+    }
     item_reference ref{ location, it.get_safe_reference(), parent, pocket_chain };
     if( it.can_revive() ) {
         special_items[special_item_type::corpse].emplace_back( ref );

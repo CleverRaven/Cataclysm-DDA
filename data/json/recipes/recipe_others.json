@@ -2878,7 +2878,7 @@
     "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "steel_grille", 1 ] ],
-      [ [ "platinum_small", 100 ] ],
+      [ [ "platinum_small", 1 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "any_strong_acid", 1, "LIST" ] ]
     ]
