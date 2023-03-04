@@ -959,7 +959,7 @@ void avatar::power_bionics()
                             } else {
                                 activate_bionic( bio, false, &close_ui );
                                 // Exit this ui if we are firing a complex bionic
-                                if( close_ui && tmp->get_weapon().ammo_remaining( this ) ) {
+                                if( close_ui && tmp->get_weapon().shots_remaining( this ) > 0 ) {
                                     break;
                                 }
                             }
