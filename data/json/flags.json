@@ -1727,6 +1727,10 @@
     "type": "json_flag"
   },
   {
+    "id": "TOUGH_FEET",
+    "type": "json_flag"
+  },
+  {
     "id": "TOURNIQUET",
     "type": "json_flag"
   },
