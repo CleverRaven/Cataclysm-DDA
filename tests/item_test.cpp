@@ -719,7 +719,7 @@ static float max_density_for_mats( const std::map<material_id, int> &mats, float
 
 static float item_density( const item &target )
 {
-    return static_cast<float>( to_gram( target.weight( false ) ) ) / static_cast<float>( to_milliliter(
+    return static_cast<float>( to_gram( target.weight() ) ) / static_cast<float>( to_milliliter(
                 target.volume() ) );
 }
 
