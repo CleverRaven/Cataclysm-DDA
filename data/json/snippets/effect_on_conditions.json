@@ -520,5 +520,16 @@
       "The wall is carpeted by green-gray mushrooms, their caps turning towards you with anticipation.",
       "The wall's concrete is warped into a spiral relief, drawing your eye inexorably to its center.  You force yourself to look away, and feel something shift behind the wall."
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "play_piano",
+    "text": [
+      "You play a short, light-hearted ditty.",
+      "You play a deep, sonorous symphony.",
+      "You play a short requiem.",
+      "You play a few notes, but nothing comes to you.",
+      "You want to be Mozart, but the best you can do is Schubert."
+    ]
   }
 ]

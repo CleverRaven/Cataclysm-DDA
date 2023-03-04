@@ -599,6 +599,12 @@
   },
   {
     "type": "mutation",
+    "id": "DENSE_BONES",
+    "copy-from": "DENSE_BONES",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
     "id": "MUT_TOUGH",
     "copy-from": "MUT_TOUGH",
     "extend": { "category": [ "MASTODON" ] }

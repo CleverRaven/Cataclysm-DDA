@@ -286,7 +286,7 @@
     "types": [ "HEALING" ],
     "cancels": [ "LIGHTEATER", "COLDBLOOD", "COLDBLOOD2", "COLDBLOOD3", "COLDBLOOD4", "WAKEFUL", "WAKEFUL2", "WAKEFUL3" ],
     "prereqs": [ "HUNGER" ],
-    "healing_resting": 0.25,
+    "healing_multiplier": 0.25,
     "fatigue_modifier": 0.75,
     "fatigue_regen_modifier": 0.5,
     "metabolism_modifier": 0.4
