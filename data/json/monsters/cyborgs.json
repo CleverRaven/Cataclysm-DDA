@@ -231,7 +231,7 @@
     "id": "mon_zomborg_devourer",
     "type": "MONSTER",
     "name": { "str": "zomborg devourer" },
-    "description": "Human bodies, robots, and cybernetic enhancements fused together into a colossus, with heads and limbs both biological and robotic sticking out of its bloated body at grotesque angles.  The nature of the thing makes it difficult to estimate how close it is to dying, and its capabilities might change if it manages to assimilate more zombies and cybernetics into itself.",
+    "description": "Human bodies, robots, and cybernetic enhancements fused together into a colossus, with heads and limbs both biological and robotic sticking out of its bloated body at grotesque angles.  The nature of the thing makes it difficult to estimate how close it is to dying.",
     "default_faction": "zombie",
     "bodytype": "human",
     "diff": 8,
