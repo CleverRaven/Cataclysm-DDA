@@ -11,7 +11,7 @@
     "extend": { "flags": [ "NOT_HALLUCINATION" ] }
   },
   {
-    "id": "mon_human",
+    "id": "mon_child",
     "type": "MONSTER",
     "name": { "str": "child" },
     "description": "Placeholder for children corpses.  If you see this, it's a bug.",
