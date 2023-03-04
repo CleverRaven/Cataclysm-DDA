@@ -43,7 +43,6 @@ class aim_activity_actor : public activity_actor
 {
     private:
         cata::optional<item> fake_weapon;
-        units::energy bp_cost_per_shot = 0_J;
         std::vector<tripoint> fin_trajectory;
 
     public:

@@ -934,12 +934,14 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-        if( !current_ammo.is_null() ) {
-            cycle_action( gun, current_ammo, pos() );
+        const units::energy energ_req = gun.get_gun_energy_drain();
+        if( gun.energy_consume( energ_req, pos(), this ) != energ_req ) {
+            debugmsg( "Unexpected shortage of energy whilst firing %s", gun.tname() );
+            break;
         }
 
-        if( !gun.has_flag( flag_VEHICLE ) ) {
-            consume_ups( gun.get_gun_ups_drain() ); //TODO check what this does
+        if( !current_ammo.is_null() ) {
+            cycle_action( gun, current_ammo, pos() );
         }
 
         if( gun_skill == skill_launcher ) {
