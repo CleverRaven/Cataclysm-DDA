@@ -39,6 +39,23 @@
     ]
   },
   {
+    "id": "xl_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "XL gambeson" },
+    "copy-from": "gambeson",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "gambeson_xs",
+    "type": "ARMOR",
+    "copy-from": "gambeson",
+    "looks_like": "gambeson",
+    "name": { "str": "XS gambeson" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "gambeson_vest",
     "type": "ARMOR",
     "name": { "str": "padded gambeson vest" },
@@ -68,11 +85,28 @@
     ]
   },
   {
+    "id": "xl_gambeson_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL gambeson vest" },
+    "copy-from": "gambeson_vest",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "gambeson_vest_xs",
+    "type": "ARMOR",
+    "copy-from": "gambeson_vest",
+    "looks_like": "gambeson",
+    "name": { "str": "XS gambeson vest" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "gambeson_pants",
     "type": "ARMOR",
     "name": { "str_sp": "padded arming pants" },
     "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.",
-    "weight": "2700 g",
+    "weight": "2736 g",
     "volume": "1750 ml",
     "price": 14000,
     "price_postapoc": 1000,
@@ -86,15 +120,30 @@
     "armor": [
       {
         "material": [
-          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2 },
-          { "type": "cotton", "covered_by_mat": 95, "thickness": 2 },
+          { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 1 },
           { "type": "cotton", "covered_by_mat": 95, "thickness": 2 }
         ],
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 100,
-        "encumbrance": 25
+        "encumbrance": 15
       }
     ]
+  },
+  {
+    "id": "xl_gambeson_pants",
+    "type": "ARMOR",
+    "name": { "str": "XL arming pants", "str_pl": "pairs of XL arming pants" },
+    "copy-from": "gambeson_pants",
+    "proportional": { "weight": 1.5, "volume": 1.5, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "gambeson_pants_xs",
+    "type": "ARMOR",
+    "name": { "str": "XL arming pants", "str_pl": "pairs of XL arming pants" },
+    "copy-from": "gambeson_pants",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "aketon_canvas",
