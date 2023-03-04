@@ -3631,7 +3631,7 @@
       [ [ "flour", 22 ], [ "bread_flour", 5 ] ],
       [ [ "yeast", 1 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "sugar", 1 ] ]
+      [ [ "sugar", 4 ] ]
     ]
   },
   {
@@ -3654,7 +3654,7 @@
     ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "flour_wheat_free", 20 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "flour_wheat_free", 22 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ], [ [ "sugar", 4 ] ] ]
   },
   {
     "type": "recipe",
