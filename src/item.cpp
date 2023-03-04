@@ -10855,6 +10855,18 @@ int item::gun_range( const Character *p ) const
     return std::max( 0, ret );
 }
 
+int item::shots_remaining( const Character *carrier ) const
+{
+    int ret = 1000; // Arbitrary large number for things that do not require ammo.
+    if( ammo_required() ) {
+        ret = std::min( ammo_remaining( carrier ) / ammo_required(), ret );
+    }
+    if( get_gun_energy_drain() > 0_kJ ) {
+        ret = std::min( static_cast<int>( energy_remaining( carrier ) / get_gun_energy_drain() ), ret );
+    }
+    return ret;
+}
+
 int item::ammo_remaining( const Character *carrier ) const
 {
     int ret = 0;
@@ -10888,6 +10900,7 @@ int item::ammo_remaining( const Character *carrier ) const
             }
         }
     }
+
     return ret;
 }
 
@@ -10916,14 +10929,15 @@ units::energy item::energy_remaining( const Character *carrier ) const
         ret += carrier->available_ups();
     }
 
-    // Battery charge from magazines and integral magazines on their own
+    // Battery(ammo) contained within
     if( is_magazine() ) {
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
             if( e->typeId() == itype_battery ) {
-                ret += 1_kJ * e->charges;
+                ret += units::from_kilojoule( e->charges );
             }
         }
     }
+
     return ret;
 }
 
@@ -10999,16 +11013,7 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
         return ammo_remaining( carrier ) >= qty;
     }
 
-    bool enough_ammo = true;
-    bool enough_energy = true;
-
-    if( ammo_required() ) {
-        enough_ammo = ammo_remaining( carrier ) >= ammo_required() * qty;
-    }
-    if( get_gun_energy_drain() > 0_kJ ) {
-        enough_energy = energy_remaining( carrier ) >= get_gun_energy_drain() * qty;
-    }
-    return enough_ammo && enough_energy;
+    return shots_remaining( carrier ) >= qty;
 }
 
 bool item::ammo_sufficient( const Character *carrier, const std::string &method, int qty ) const
@@ -11017,15 +11022,8 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
     if( iter != type->ammo_scale.end() ) {
         qty *= iter->second;
     }
-    bool enough_ammo = true;
-    bool enough_energy = true;
-    if( ammo_required() ) {
-        enough_ammo = ammo_remaining( carrier ) >= ammo_required() * qty;
-    }
-    if( get_gun_energy_drain() > 0_kJ ) {
-        enough_energy = energy_remaining( carrier ) >= get_gun_energy_drain() * qty;
-    }
-    return enough_ammo && enough_energy;
+
+    return ammo_sufficient( carrier, qty );
 }
 
 int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
@@ -11034,7 +11032,6 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
         return 0;
     }
-
     const int wanted_qty = qty;
 
     // Consume charges loaded in the item or its magazines
@@ -11056,6 +11053,24 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty -= charg_used;
     }
 
+    // Modded items can sonsume UPS/bionic energy instead of ammo.
+    if( carrier != nullptr ) {
+        units::energy wanted_energy = units::from_kilojoule( qty );
+
+        if( has_flag( flag_USE_UPS ) ) {
+            wanted_energy -= carrier->consume_ups( wanted_energy );
+        }
+
+        if( has_flag( flag_USES_BIONIC_POWER ) ) {
+            units::energy bio_used = std::min( carrier->get_power_level(), wanted_energy );
+            carrier->mod_power_level( -bio_used );
+            wanted_energy -= bio_used;
+        }
+
+        // It is possible for this to cause rounding error due to different precision of energy
+        // But that can happen only if there was not enough ammo and you shouldn't be able to shoot without sufficient ammo
+        qty = units::to_kilojoule( wanted_energy );
+    }
     return wanted_qty - qty;
 }
 
@@ -11068,12 +11083,10 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
 
     const units::energy wanted_energy = qty;
 
-    // TODO do something about rounding
-
-    // Consume energy from battery charge
+    // Consume battery(ammo)
     if( is_battery() ) {
         int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos );
-        qty -= 1_kJ * consumed_kj;
+        qty -= units::from_kilojoule( consumed_kj );
     }
 
     // Consume energy from contained magazine

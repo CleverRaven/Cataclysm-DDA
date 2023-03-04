@@ -2254,7 +2254,13 @@ class item : public visitable
 
         void clear_itype_variant();
 
-        /** Quantity of energy currently loaded in tool or battery */
+        /**
+         * Quantity of shots in the gun. Looks at both ammo and available energy.
+         * @param carrier is used for UPS and bionic power
+         */
+        int shots_remaining( const Character *carrier ) const;
+
+        /** Energy available from battery/UPS/bionics */
         units::energy energy_remaining( const Character *carrier = nullptr ) const;
 
         /**
@@ -2316,7 +2322,7 @@ class item : public visitable
         int ammo_consume( int qty, const tripoint &pos, Character *carrier );/**
 
          * Consume energy (if available) and return the amount of energy that was consumed
-         * Consume order: loaded items, UPS, bionic
+         * Consume order: battery, UPS, bionic
          * @param qty maximum amount of energy that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
          * @param carrier holder of the item, used for getting UPS and bionic power
