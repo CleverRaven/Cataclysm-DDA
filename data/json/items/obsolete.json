@@ -454,34 +454,6 @@
     "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 } ]
   },
   {
-    "id": "xl_gambeson",
-    "type": "ARMOR",
-    "name": { "str": "XL gambeson" },
-    "copy-from": "gambeson",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_gambeson_loose", "menu_text": "Loosen" }
-  },
-  {
-    "id": "xl_gambeson_vest",
-    "type": "ARMOR",
-    "name": { "str": "XL gambeson vest" },
-    "copy-from": "gambeson_vest",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_gambeson_vest_loose", "menu_text": "Loosen" }
-  },
-  {
-    "id": "gambeson_xs",
-    "type": "ARMOR",
-    "copy-from": "gambeson",
-    "looks_like": "gambeson",
-    "name": { "str": "XS gambeson" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
-  },
-  {
     "id": "gambeson_xs_loose",
     "repairs_like": "gambeson",
     "type": "ARMOR",
@@ -497,16 +469,6 @@
     }
   },
   {
-    "id": "gambeson_vest_xs",
-    "type": "ARMOR",
-    "copy-from": "gambeson_vest",
-    "looks_like": "gambeson",
-    "name": { "str": "XS gambeson vest" },
-    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
-    "extend": { "flags": [ "UNDERSIZE" ] },
-    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "gambeson_xs_loose", "menu_text": "Loosen" }
-  },
-  {
     "id": "gambeson_vest_xs_loose",
     "repairs_like": "gambeson_vest",
     "type": "ARMOR",
@@ -520,14 +482,6 @@
       "target": "gambeson_vest_xs",
       "menu_text": "Adjust tighter"
     }
-  },
-  {
-    "id": "xl_gambeson_pants",
-    "type": "ARMOR",
-    "name": { "str": "XL arming pants", "str_pl": "pairs of XL arming pants" },
-    "copy-from": "gambeson_pants",
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
     "id": "xl_gambeson_loose",
