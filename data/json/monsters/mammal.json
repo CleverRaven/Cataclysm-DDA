@@ -19,6 +19,7 @@
     "copy-from": "mon_zombie_child",
     "symbol": "h",
     "zombify_into": "mon_zombie_child",
+    "weight": "30 kg",
     "extend": { "flags": [ "NOT_HALLUCINATION" ] }
   },
   {
