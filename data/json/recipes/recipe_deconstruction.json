@@ -7637,6 +7637,14 @@
     "components": [ [ [ "yarn", 90 ] ] ]
   },
   {
+    "result": "scarf_long",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "yarn", 160 ] ] ]
+  },
+  {
     "result": "gloves_wool",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

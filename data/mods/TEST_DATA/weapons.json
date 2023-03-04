@@ -11,6 +11,7 @@
     "description": "Test melee weapon 1.",
     "weight": "1 kg",
     "volume": "1 L",
+    "flags": [ "ZERO_WEIGHT" ],
     "symbol": ";"
   },
   {
@@ -20,6 +21,7 @@
     "description": "Test melee weapon 2.",
     "weight": "1 kg",
     "volume": "1 L",
+    "flags": [ "ZERO_WEIGHT" ],
     "symbol": ";",
     "weapon_category": [ "TEST_CAT1" ]
   },

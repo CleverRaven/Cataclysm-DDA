@@ -10,7 +10,7 @@
     "price": 10500,
     "price_postapoc": 750,
     "bashing": 11,
-    "cutting": 23,
+    "cutting": 24,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "uneven" },
     "material": [ "wood", "steel" ],
     "symbol": "/",
