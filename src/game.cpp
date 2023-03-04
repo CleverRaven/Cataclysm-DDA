@@ -827,11 +827,12 @@ bool game::start_game()
             omtstart = start_loc.find_player_initial_location( u.world_origin.value_or( point_abs_om() ) );
         }
         if( omtstart == overmap::invalid_tripoint ) {
-            if( query_yn(
+
+            MAPBUFFER.clear();
+            overmap_buffer.clear();
+
+            if( !query_yn(
                     _( "Try again?\n\nIt may require several attempts until the game finds a valid starting location." ) ) ) {
-                MAPBUFFER.clear();
-                overmap_buffer.clear();
-            } else {
                 return false;
             }
         }
