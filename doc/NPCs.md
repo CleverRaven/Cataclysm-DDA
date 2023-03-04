@@ -1072,7 +1072,7 @@ Condition | Type | Description
     }
   },
   "effect": {
-    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes" }
+    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
   }
 },
 {
