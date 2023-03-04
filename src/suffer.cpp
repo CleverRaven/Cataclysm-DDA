@@ -1316,11 +1316,11 @@ void suffer::from_radiation( Character &you )
         you.add_msg_if_player( m_warning,
                                _( "You feel an anomalous sensation coming from "
                                   "your radiation sensors." ) );
-    }
-    else if ( radiation_increasing && calendar::once_every( 3_minutes ) && you.has_active_mutation( trait_RADSENSE ) ) {
+    } else if( radiation_increasing && calendar::once_every( 3_minutes ) &&
+               you.has_active_mutation( trait_RADSENSE ) ) {
         you.add_msg_if_player( m_warning,
-            _( "You feel a peculiar sensation from within.  " 
-                "Perhaps you should get out of here." ) );
+                               _( "You feel a peculiar sensation from within.  "
+                                  "Perhaps you should get out of here." ) );
     }
 
     if( calendar::once_every( 15_minutes ) ) {
