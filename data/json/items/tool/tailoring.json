@@ -97,6 +97,7 @@
         "kevlar",
         "kevlar_layered",
         "gutskin",
+        "denim",
         "canvas"
       ],
       "skill": "tailor",
@@ -194,6 +195,7 @@
         "kevlar",
         "kevlar_layered",
         "gutskin",
+        "denim",
         "canvas"
       ],
       "skill": "tailor",
@@ -234,6 +236,7 @@
         "kevlar",
         "kevlar_layered",
         "gutskin",
+        "denim",
         "canvas"
       ],
       "skill": "tailor",
@@ -403,6 +406,7 @@
           "kevlar_layered",
           "neoprene",
           "gutskin",
+          "denim",
           "canvas"
         ],
         "skill": "tailor",

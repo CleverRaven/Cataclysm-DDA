@@ -1399,9 +1399,13 @@ jerrycan
 jerrypack
 jewelboxes
 jians
+jirt
+jirts
 johnnycake
 jointer
 jointing
+jort
+jorts
 jtest
 junglefowl
 junipers
