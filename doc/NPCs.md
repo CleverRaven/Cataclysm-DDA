@@ -1,6 +1,9 @@
 # Contents
 
 - [Creating new NPCs](#creating-new-npcs)
+  - [NPC Class definition](#npc-class-definition)
+    - [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
+  - [NPC instance definition](#npc-instance-definition)
 - [Writing dialogues](#writing-dialogues)
   - [Validating Dialogues](#validating-dialogues)
   - [Customizing NPC speech](#customizing-npc-speech)
@@ -20,7 +23,7 @@ Often you will want to create new NPCs to either add quests, flavor, or to intro
 
 There are two parts to creating a new NPC, apart from any dialogue you may want to add.
 
-#### NPC Class
+## NPC Class definition
 First there is the `npc_class` which follows the following template.
 Format:
 ```json
@@ -62,16 +65,20 @@ Format:
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
-There are a couple of items in the above template that may not be self explanatory:
+There are some items in the above template that may not be self explanatory:
 * `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified.
+* See also [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
+
+### Shopkeeper NPC configuration
+`npc_class` supports several properties for configuring the behavior of NPCs that behave as shopkeepers:
 * `"sells_belongings": false` means that this NPC's worn or held items will strictly be excluded from their shopkeeper list; otherwise, they'll be happy to sell things like their pants. It defaults to `true` if not specified.
-*`"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+* `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
 * `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
 * `"shopkeeper_price_rules"` optional to define personal price rules with the same format as faction price rules (see [FACTIONS.md](FACTIONS.md)). These take priority over faction rules
 * `"shopkeeper_blacklist"` optional to define blacklists for this shopkeeper
 * `"restock_interval"`: optional. Default is 6 days
 
-##### Shopkeeper item groups
+#### Shopkeeper item groups
 `"shopkeeper_item_group"` entries have the following fields:
 - `"group"` : Identifies an item group to include in the possible shop rotation
 - `"trust"` : (_optional_) If the faction's trust with the player is below this value, items in this group will not be available for sale (Defaults to 0)
@@ -80,8 +87,8 @@ There are a couple of items in the above template that may not be self explanato
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
 - `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
 
-##### `shopkeeper_consumption_rates`
-
+#### Shopkeeper consumption rates
+Controls consumption of shopkeeper's stock of items (simulates purchase by other people besides they player).
 ```JSON
   "type": "shopkeeper_consumption_rates",
   "id": "basic_shop_rates",
@@ -101,8 +108,8 @@ There are a couple of items in the above template that may not be self explanato
 ```
 `condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](#player-or-npc-conditions).
 
-##### `shopkeeper_blacklist`
-Similar to `shopkeeper_consumption_rates`
+#### Shopkeeper blacklists
+Specifies blacklist of items that shopkeeper will not accept for trade.  Format is similar to `shopkeeper_consumption_rates`.
 
 ```JSON
   "type": "shopkeeper_blacklist",
@@ -118,7 +125,7 @@ Similar to `shopkeeper_consumption_rates`
   ]
 ```
 
-##### Shop restocking
+#### Shop restocking
 NPCs with at least one `shopkeeper_item_group` will (re)stock their shop in nearby loot zones (within `PICKUP_RANGE` = 6 tiles) owned by their faction and will ignore all other items. If there isn't at least one `LOOT_UNSORTED` zone nearby, fallback zones will be automatically placed on all nearby, reachable, unsealed furniture with either the `CONTAINER` flag or a max volume higher than the floor. If there is no suitable furniture around, a 3x3 zone centered on the NPC will be created instead.
 
 Before restocking, items owned by the NPC's faction within these zones will be consumed according to `shopkeeper_consumption_rates`.
@@ -127,7 +134,7 @@ The shop restocks every `restock_interval` regardless of interactions with the a
 
 NOTE: do not place items within these loot zones in mapgen definitions as these will be consumed during the first restock. Add them to the item groups instead.
 
-#### NPC
+## NPC instance definition
 There is a second template required for a new NPC. It looks like this:
 Format:
 ```json
@@ -1072,7 +1079,7 @@ Condition | Type | Description
     }
   },
   "effect": {
-    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes" }
+    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
   }
 },
 {
