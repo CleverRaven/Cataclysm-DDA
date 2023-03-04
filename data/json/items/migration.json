@@ -1817,11 +1817,6 @@
     "replace": "syringe"
   },
   {
-    "id": "sheet_metal_lit",
-    "type": "MIGRATION",
-    "replace": "sheet_metal"
-  },
-  {
     "id": "ammunition_box_9mm",
     "type": "MIGRATION",
     "replace": "ammunition_box_308"

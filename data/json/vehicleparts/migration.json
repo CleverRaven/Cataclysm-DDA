@@ -1,7 +1,0 @@
-[
-  {
-    "type": "vehicle_part_migration",
-    "from": "lit_aisle",
-    "to": "aisle"
-  }
-]
