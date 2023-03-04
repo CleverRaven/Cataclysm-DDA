@@ -2267,7 +2267,8 @@ void item_contents::process( map &here, Character *carrier, const tripoint &pos,
                              temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
+            pocket.is_type( item_pocket::pocket_type::CABLE ) ) {
             pocket.process( here, carrier, pos, insulation, flag, spoil_multiplier_parent );
         }
     }
