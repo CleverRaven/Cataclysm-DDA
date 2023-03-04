@@ -5814,12 +5814,6 @@ float Character::healing_rate( float at_rest_quality ) const
         return 0.0f;
     }
 
-    float primary_hp_mod = mutation_value( "hp_modifier" );
-    if( primary_hp_mod < 0.0f ) {
-        // HP mod can't get below -1.0
-        final_rate *= 1.0f + primary_hp_mod;
-    }
-
     return final_rate;
 }
 
