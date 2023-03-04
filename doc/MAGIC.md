@@ -777,6 +777,7 @@ The following is a list of possible enchantment `values`:
 | `ARMOR_ELEC` | 
 | `ARMOR_HEAT` | 
 | `ARMOR_STAB` | 
+| `ATTACK_NOISE` | Affects the amount of noise you make while melee attacking.
 | `ATTACK_SPEED` | Affects attack speed of item even if it's not the one you're wielding.
 | `BIONIC_POWER` |
 | `BONUS_BLOCK` | Affects the number of blocks you can perform.

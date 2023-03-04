@@ -55,6 +55,7 @@ enum class mod : int {
     BONUS_DODGE,
     BONUS_BLOCK,
     MELEE_DAMAGE,
+    ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
     SIGHT_RANGE_ELECTRIC,

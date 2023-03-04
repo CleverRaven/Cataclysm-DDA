@@ -512,7 +512,12 @@
     "points": 3,
     "description": "Your body is one with the night.  You make less noise when the moon is up in the sky, even when you cannot see it.",
     "category": [ "TROGLOBITE" ],
-    "enchantments": [ { "condition": { "not": "is_day" }, "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.5 } ] } ]
+    "enchantments": [
+      {
+        "condition": { "not": "is_day" },
+        "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.5 }, { "value": "ATTACK_NOISE", "multiply": -0.2 } ]
+      }
+    ]
   },
   {
     "type": "mutation",
