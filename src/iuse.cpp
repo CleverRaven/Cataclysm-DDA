@@ -8522,6 +8522,42 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
     return 0;
 }
 
+std::optional<int> iuse::plug_in( Character *p, item *it, bool, const tripoint & )
+{
+    map &here = get_map();
+    item cable( "device_power_cord" );
+    const std::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to appliance where?" ) );
+    if( !posp_ ) {
+        return std::nullopt;
+    }
+    const tripoint posp = *posp_;
+    const optional_vpart_position vp = here.veh_at( posp );
+    if( !vp ) {
+        p->add_msg_if_player( _( "There's no appliance here." ) );
+        return std::nullopt;
+    } else {
+        const tripoint abspos = here.getabs( posp );
+        cable.set_var( "source_x", abspos.x );
+        cable.set_var( "source_y", abspos.y );
+        cable.set_var( "source_z", here.get_abs_sub().z() );
+
+        cable.set_var( "cable_length", 4 );
+        cable.set_var( "parent_itype", it->typeId().str() );
+
+        const std::string prev_state = cable.get_var( "state" );
+        cable.set_var( "state", "pay_out_cable" );
+        cable.active = true;
+        it->put_in( cable, item_pocket::pocket_type::CABLE );
+        it->process( get_map(), p, p->pos() );
+        p->moves -= 15;
+
+        p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), 
+                              it->tname( 1, false ), vp->vehicle().name );
+    }
+
+    return 0;
+}
+
 std::optional<int> iuse::shavekit( Character *p, item *it, bool, const tripoint & )
 {
     if( p->cant_do_mounted() ) {

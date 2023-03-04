@@ -346,6 +346,7 @@
       "EBOOKREAD",
       "ELECTRICSTORAGE",
       "PORTABLE_GAME",
+      "PLUG_IN",
       {
         "type": "effect_on_conditions",
         "menu_text": "Dig into local files and logs",
@@ -402,6 +403,7 @@
       "EBOOKREAD",
       "ELECTRICSTORAGE",
       "PORTABLE_GAME",
+      "PLUG_IN",
       {
         "type": "effect_on_conditions",
         "menu_text": "Dig into local files and logs",

@@ -165,6 +165,7 @@ std::optional<int> pack_item( Character *, item *, bool, const tripoint & );
 std::optional<int> pick_lock( Character *p, item *it, bool, const tripoint &pos );
 std::optional<int> pickaxe( Character *, item *, bool, const tripoint & );
 std::optional<int> play_game( Character *, item *, bool, const tripoint & );
+std::optional<int> plug_in( Character *, item *, bool, const tripoint & );
 std::optional<int> portable_game( Character *, item *, bool active, const tripoint & );
 std::optional<int> portal( Character *, item *, bool, const tripoint & );
 std::optional<int> radglove( Character *, item *, bool, const tripoint & );

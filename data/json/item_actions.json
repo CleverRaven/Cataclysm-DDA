@@ -327,6 +327,11 @@
   },
   {
     "type": "item_action",
+    "id": "PLUG_IN",
+    "name": { "str": "Plug in" }
+  },
+  {
+    "type": "item_action",
     "id": "CAMERA",
     "name": { "str": "Use camera" }
   },
