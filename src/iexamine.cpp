@@ -137,11 +137,9 @@ static const furn_str_id furn_f_diesel_tank( "f_diesel_tank" );
 static const furn_str_id furn_f_gas_tank( "f_gas_tank" );
 static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
-static const furn_str_id furn_f_rope_up( "f_rope_up" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill( "f_water_mill" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
-static const furn_str_id furn_f_web_up( "f_web_up" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
@@ -162,7 +160,6 @@ static const itype_id itype_fire( "fire" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
-static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_hickory_root( "hickory_root" );
 static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_leg_splint( "leg_splint" );
@@ -183,7 +180,6 @@ static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
-static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
