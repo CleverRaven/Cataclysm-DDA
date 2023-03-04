@@ -245,8 +245,7 @@ aim_activity_actor aim_activity_actor::use_wielded()
     return aim_activity_actor();
 }
 
-aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
-        const units::energy &cost_per_shot )
+aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun )
 {
     aim_activity_actor act = aim_activity_actor();
     act.fake_weapon = fake_gun;
@@ -335,10 +334,6 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         restore_view();
         return;
     }
-
-    // Fire!
-    gun_mode gun = weapon->gun_current_mode();
-    int shots_fired = who.fire_gun( fin_trajectory.back(), gun.qty, *gun );
 
     if( weapon && weapon->gun_current_mode()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         // RAS weapons are currently bugged, this is a workaround so bug impact

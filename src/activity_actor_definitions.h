@@ -76,7 +76,7 @@ class aim_activity_actor : public activity_actor
         static aim_activity_actor use_wielded();
 
         /** Aiming fake gun provided by a bionic */
-        static aim_activity_actor use_bionic( const item &fake_gun, const units::energy &cost_per_shot );
+        static aim_activity_actor use_bionic( const item &fake_gun );
 
         /** Aiming fake gun provided by a mutation */
         static aim_activity_actor use_mutation( const item &fake_gun );
