@@ -23,7 +23,7 @@ class JsonOut;
 class item;
 struct dialogue;
 template<class T>
-struct int_or_var;
+struct dbl_or_var;
 namespace enchant_vals
 {
 // the different types of values that can be modified by enchantments
@@ -59,8 +59,8 @@ enum class mod : int {
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
-    SIGHT_RANGE,
     SIGHT_RANGE_ELECTRIC,
+    MOTION_VISION_RANGE,
     CARRY_WEIGHT,
     WEAPON_DISPERSION,
     SOCIAL_LIE,
@@ -71,7 +71,6 @@ enum class mod : int {
     EFFECTIVE_HEALTH_MOD,
     MOD_HEALTH,
     MOD_HEALTH_CAP,
-    MAP_MEMORY,
     READING_EXP,
     SKILL_RUST_RESIST,
     LEARNING_FOCUS,
@@ -197,14 +196,14 @@ class enchantment
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value
-        std::map<enchant_vals::mod, int_or_var<dialogue>> values_add; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var<dialogue>> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
-        std::map<enchant_vals::mod, int_or_var<dialogue>> values_multiply; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var<dialogue>> values_multiply; // NOLINT(cata-serialize)
 
         // the exact same as above, though specifically for skills
-        std::map<skill_id, int_or_var<dialogue>> skill_values_add; // NOLINT(cata-serialize)
-        std::map<skill_id, int_or_var<dialogue>> skill_values_multiply; // NOLINT(cata-serialize)
+        std::map<skill_id, dbl_or_var<dialogue>> skill_values_add; // NOLINT(cata-serialize)
+        std::map<skill_id, dbl_or_var<dialogue>> skill_values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;

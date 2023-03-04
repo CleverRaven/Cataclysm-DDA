@@ -417,22 +417,45 @@ Example:
 ```
 
 Currently the defined flags are as follows:
+- Clearing flags for layered mapgens: see [dedicated section below](#clearing-flags-for-layered-mapgens)
+- `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
+- `AVOID_CREATURES` If a creature is present, terrain, furniture and traps won't be placed.
 
-* `ERASE_ALL_BEFORE_PLACING_TERRAIN` and `ALLOW_TERRAIN_UNDER_OTHER_DATA` are
-  mutually exclusive flags that can be used with any mapgen which is layered on
-  top of existing terrain.  This can be update mapgen, nested mapgen, or
-  regular mapgen with a predecessor.  It specifies the behaviour to follow when
-  an existing terrain is changed by the update, but the tile has existing
-  items, trap, or furniture on it.  If neither flag is provided this is an
-  error.  If `ERASE_ALL_BEFORE_PLACING_TERRAIN` is given then any items, trap,
-  or furniture will be removed before changing the terrain.  If
-  `ALLOW_TERRAIN_UNDER_OTHER_DATA` is given then they will be retained without
-  an error.  If you require more fine-grained control over this behaviour than
-  can be provided by these flags, then each of these things can be removed
-  either individually or together.  See the other entries below, such as
-  `remove_all`.
-  `NO_UNDERLYING_ROTATE` The map won't be rotated even if the underlying tile is.
-  `AVOID_CREATURES` If a creature is present terrain, furniture and traps won't be placed.
+### Clearing flags for layered mapgens
+Some mapgens are intended to be layered on top of existing terrain.  This can be update mapgen,
+nested mapgen, or regular mapgen with a predecessor.  When the mapgen changes an existing terrain,
+the tile may already contain preexisting furniture, traps and items.  The following flags provide
+a mechanism for specifying the behaviour to follow in such situations.  It is an error if existing
+furniture, traps or items are encountered but no behaviour has been given.
+
+A blanket policy can be set using one of these three (mutually exclusive) shorthand flags:
+- `ALLOW_TERRAIN_UNDER_OTHER_DATA` retains preexisting furniture, traps and items without triggering
+  an error.
+- `DISMANTLE_ALL_BEFORE_PLACING_TERRAIN` causes any furniture to be deconstructed or bashed, while
+  traps are disarmed.  The outputs, along with any other preexisting items, are then retained.
+- `ERASE_ALL_BEFORE_PLACING_TERRAIN` removes all preexisting furniture, traps and items before
+  changing the terrain.
+
+For finer-grained control, the following flags can be used to set different behaviors for furniture, traps and items:
+- `ALLOW_TERRAIN_UNDER_FURNITURE`, `DISMANTLE_FURNITURE_BEFORE_PLACING_TERRAIN` and `ERASE_FURNITURE_BEFORE_PLACING_TERRAIN`
+  are mutually exclusive flags for determining the disposition of furniture.
+- `ALLOW_TERRAIN_UNDER_TRAP`, `DISMANTLE_TRAP_BEFORE_PLACING_TERRAIN` and `ERASE_TRAP_BEFORE_PLACING_TERRAIN`
+  are mutually exclusive flags for determining the disposition of traps.
+- `ALLOW_TERRAIN_UNDER_ITEMS` and `ERASE_ITEMS_BEFORE_PLACING_TERRAIN`
+  are mutually exclusive flags for determining the disposition of items.
+
+The fine-grained flags can be used in conjunction with any of the three shorthand flags to override
+behavior for furniture/traps/items specifically.  Alternatively, the shorthand flags can be omitted
+entirely, and all behavior specified using a combination of fine-grained flags.  
+Not all combinations necessarily make sense; illogical settings will trigger a warning output.
+
+**Note:** depending on the new terrain being set by the mapgen, furniture, traps and items may still
+be "stomped out" by the new terrain, regardless of these settings.
+
+For targeted removal of things from specific tiles or areas, further options are available below:
+- `trap_remove` and `item_remove` can be applied to a [point](#set-things-at-a-point), [line](#set-things-in-a-line) or [square](#set-things-in-a-square) regions.
+- [`remove_all`](#remove-everything-with-remove_all) can be used to remove all fields, items, traps, graffiti, and furniture from a specific tile.
+
 
 ## Set terrain, furniture, or traps with a "set" array
 **optional** Specific commands to set terrain, furniture, traps, radiation, etc. Array is processed in order.
@@ -536,7 +559,7 @@ Value: `[ array of {objects} ]: [ { "monster": ... } ]`
 | name        | Extra name to display on the monster.
 | target      | Set to true to make this into mission target. Only works when the monster is spawned from a mission.
 | spawn_data  | An optional object that contains additional details for spawning the monster.
-
+| use_pack_size | An optional bool, defaults to false.  If it is true and `group` is used then pack_size values from the monster group will be used.
 Note that high spawn density game setting can cause extra monsters to spawn when `monster` is used. When `group` is used
 only one monster will spawn.
 

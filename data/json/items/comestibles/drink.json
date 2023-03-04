@@ -915,10 +915,11 @@
     "symbol": "~",
     "color": "brown",
     "comestible_type": "DRINK",
-    "calories": 78,
+    "calories": 104,
     "quench": 35,
     "fun": 10,
     "spoils_in": "1 day",
+    "vitamins": [ [ "calcium", 7 ], [ "iron", 3 ] ],
     "flags": [ "EATEN_HOT" ]
   },
   {

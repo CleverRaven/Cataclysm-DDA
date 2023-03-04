@@ -148,7 +148,7 @@
     "rating": "good",
     "blocks_effects": [ "vampire_virus" ],
     "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
-    "max_duration": 86400,
+    "max_duration": 8640000,
     "dur_add_perc": 25
   },
   {
@@ -334,6 +334,19 @@
     }
   },
   {
+    "id": "eater_lump_pool",
+    "type": "effect_type",
+    "name": [ "Dream Gorging" ],
+    "desc": [
+      "You ate a whole dreamdross ingot.  It is too much for your body, but temporarily you have a +6 to your strength and better regeneration."
+    ],
+    "apply_message": "A huge warm wave moves from your stomach through your body.",
+    "remove_message": "The warm feeling fades away.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 6 }, { "value": "REGEN_HP", "multiply": 1 } ] } ]
+  },
+  {
     "type": "effect_type",
     "id": "blind_rage",
     "name": [ "Blind Rage" ],
@@ -347,13 +360,20 @@
     "id": "spell_stamina_eff",
     "name": [ "Circulatory" ],
     "desc": [ "You can't get tired." ],
-    "max_intensity": 30,
-    "int_add_val": 1,
-    "show_intensity": false,
     "apply_message": "You feel a deep energy in your muscles, exuberant and coiled.",
     "remove_message": "The energy in your body fades away.",
-    "base_mods": { "stamina_min": [ 2 ] },
-    "scaling_mods": { "stamina_min": [ 2 ] }
+    "rating": "good",
+    "//": "+0.1x smamina regen for each level",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_STAMINA",
+            "multiply": { "arithmetic": [ { "u_val": "spell_level", "spell": "spell_stamina_wonder" }, "/", { "const": 10 } ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "effect_dodge",
@@ -407,12 +427,19 @@
     "desc": [ "A burst of speed and stamina." ],
     "apply_message": "Your lungs seem to gain capacity and your legs feel longer.",
     "remove_message": "Your body shrinks back into its normal space.",
-    "max_intensity": 30,
-    "int_add_val": 1,
-    "show_intensity": false,
     "rating": "good",
-    "base_mods": { "speed_mod": [ 3 ], "stamina_min": [ 1 ] },
-    "scaling_mods": { "speed_mod": [ 3 ], "stamina_min": [ 1 ] }
+    "show_intensity": false,
+    "//": "+3 speed for each level",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spell_speed_wonder" }, "*", { "const": 3 } ] }
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "effect_weakening",

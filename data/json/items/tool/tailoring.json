@@ -325,7 +325,7 @@
   {
     "id": "kevlar_shears",
     "type": "TOOL",
-    "name": { "str": "pair of Kevlar shears", "str_pl": "pairs of Kevlar shears" },
+    "name": { "str": "pair of Kevlar cutters", "str_pl": "pairs of Kevlar cutters" },
     "description": "These are a pair of heavy-duty shears with a blade suitable for cutting particularly tough materials, from polyaramid fabrics to tough plastics and thin metals.  The blades feature a flat shearing edge and a fine serration.",
     "ascii_picture": "scissors",
     "weight": "113 g",
@@ -338,7 +338,7 @@
     "symbol": ",",
     "color": "yellow",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 5 ], [ "FABRIC_CUT", 2 ] ],
-    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "SHIVS" ]
   },
   {

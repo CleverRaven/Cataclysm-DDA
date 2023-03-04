@@ -1647,9 +1647,17 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
     SECTION( "weapon mods" ) {
         CHECK( item_info_str( compbow, { iteminfo_parts::DESCRIPTION_GUN_MODS } ) ==
                "--\n"
-               "<color_c_white>Mods</color>: <color_c_white>0/2</color> accessories;"
-               " <color_c_white>0/1</color> dampening; <color_c_white>0/1</color> sights;"
-               " <color_c_white>0/1</color> stabilizer; <color_c_white>0/1</color> underbarrel.\n" );
+               "<color_c_white>Mods</color>:\n"
+               "<color_cyan># </color>accessories:\n"
+               "    <color_dark_gray>[-empty-]</color> <color_dark_gray>[-empty-]</color>\n"
+               "<color_cyan># </color>dampening:\n"
+               "    <color_dark_gray>[-empty-]</color>\n"
+               "<color_cyan># </color>sights:\n"
+               "    <color_dark_gray>[-empty-]</color>\n"
+               "<color_cyan># </color>stabilizer:\n"
+               "    <color_dark_gray>[-empty-]</color>\n"
+               "<color_cyan># </color>underbarrel:\n"
+               "    <color_dark_gray>[-empty-]</color>\n" );
     }
 
     SECTION( "weapon dispersion" ) {
@@ -2462,14 +2470,14 @@ TEST_CASE( "repairable and with what tools", "[iteminfo][repair]" )
 
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using extended multitool, arc welder, makeshift arc welder, or welding kit.\n"
+           "<color_c_white>Repair</color> using integrated multitool, arc welder, makeshift arc welder, or welding kit.\n"
            "<color_c_white>With</color> <color_c_cyan>Steel</color>.\n"
          );
 
     // FIXME: Use an item that can only be repaired by test tools
     CHECK( item_info_str( hazmat, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or extended multitool.\n"
+           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or integrated multitool.\n"
            "<color_c_white>With</color> <color_c_cyan>Plastic</color>.\n" );
 
     CHECK( item_info_str( rock, repaired ) ==
