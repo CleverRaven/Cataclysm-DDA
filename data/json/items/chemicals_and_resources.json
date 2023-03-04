@@ -1245,7 +1245,7 @@
     "type": "COMESTIBLE",
     "id": "water_sewage",
     "name": { "str_sp": "sewage water" },
-    "material": [ "water, feces" ],
+    "material": [ "water", "feces" ],
     "weight": "262 g",
     "color": "green",
     "container": "bottle_plastic",
