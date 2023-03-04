@@ -455,8 +455,7 @@
     "material_thickness": 2,
     "environmental_protection": 2,
     "flags": [ "OUTER" ]
-  }
-,
+  },
   {
     "id": "felinesuit_head",
     "type": "ARMOR",
