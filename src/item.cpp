@@ -12724,15 +12724,23 @@ std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &po
 bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
 {
     bool carrying_item = false;
+    std::string state = get_var( "state" );
+    itype_id parent_itype = itype_id( get_var( "parent_itype" ) );
+    item *parent_item = nullptr;
 
     if( carrier != nullptr ) {
-        for( item_location &loc : carrier->all_items_loc() ) {
-            if( loc.get_item() == this ) {
+        item *wielded = carrier->get_wielded_item().get_item();
+        if( wielded == this ) {
                 carrying_item = true;
+        } else {
+            item *found_parent = carrier->find_parent( *this );
+            if( found_parent ) {
+                carrying_item = true;
+                if( found_parent->typeId() == parent_itype && found_parent->contained_where( *this ) ) {
+                    parent_item = found_parent;
             }
         }
-
-        std::string state = get_var( "state" );
+        }
 
         if( state == "solar_pack_link" || state == "solar_pack" ) {
             if( !carrying_item || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
@@ -12756,9 +12764,16 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
                 return false;
             }
         }
-    } else {
-        reset_cable( carrier );
+    } else if( !parent_itype.is_empty() ) {
+        std::list<item_location> found_map_parents = here.items_with( pos, [&]( const item & it ) {
+            if( it.typeId() != parent_itype ) {
         return false;
+    }
+            return it.contained_where( *this ) != nullptr;
+        } );
+        if( !found_map_parents.empty() ) {
+            parent_item = found_map_parents.front().get_item();
+        }
     }
 
     if( state == "needs_reeling" && carrying_item ) {
@@ -12767,27 +12782,49 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
         active = false;
         return has_flag( flag_AUTO_CABLE ) ? true : false;
     }
+
+    const cata::optional<tripoint> source = get_cable_target( carrier, pos );
     if( !source ) {
         return false;
     }
 
-    if( !here.veh_at( *source ) ) {
+    const optional_vpart_position vp = here.veh_at( *source );
+    if( !vp ) {
         if( carrying_item ) {
-            carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
+            carrier->add_msg_if_player( m_bad, parent_itype.is_empty() ?
+                                        string_format( _( "You notice your %s has come loose!" ), tname( 1, false ) ) :
+                                        string_format( _( "You notice your %s's cable has come loose!" ), parent_itype.str() ) );
+        } else {
+            add_msg_if_player_sees( pos, m_bad, parent_itype.is_empty() ?
+                                    string_format( _( "You notice the %s has come loose!" ), tname( 1, false ) ) :
+                                    string_format( _( "You notice the %s's cable has come loose!" ), parent_itype.str() ) );
         }
         reset_cable( carrier );
-        return false;
+        return has_flag( flag_AUTO_CABLE ) ? true : false;
     }
 
     int distance = rl_dist( pos, *source );
-    int max_charges = type->maximum_charges();
+    int max_charges = get_var( "cable_length", type->maximum_charges() );
     charges = max_charges - distance;
 
     if( charges < 1 ) {
         if( carrying_item ) {
-            carrier->add_msg_if_player( m_bad, _( "The over-extended cable breaks loose!" ) );
+            carrier->add_msg_if_player( m_bad, parent_itype.is_empty() ?
+                                        string_format( _( "Your over-extended %s breaks loose!" ), tname( 1, false ) ) :
+                                        string_format( _( "Your %s's over-extended cable breaks loose!" ), parent_itype.str() ) );
+        } else {
+            add_msg_if_player_sees( pos, m_bad, parent_itype.is_empty() ?
+                                    string_format( _( "The over-extended %s breaks loose!" ), tname( 1, false ) ) :
+                                    string_format( _( "The %s's over-extended cable breaks loose!" ), parent_itype.str() ) );
         }
         reset_cable( carrier );
+        return has_flag( flag_AUTO_CABLE ) ? true : false;
+    }
+
+    if( parent_item != nullptr ) {
+    } else if( has_flag( flag_AUTO_CABLE ) ) {
+        debugmsg( "Auto cable %s can't find parent item %s.", tname(), parent_itype.str() );
+        return true;
     }
 
     return false;
