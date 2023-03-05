@@ -663,6 +663,7 @@
     "wind_resist": 75
   },
   {
+    "type": "material",
     "id": "denim",
     "name": "Denim",
     "//": "Denim clothing is usually measured in oz rather than mm thickness.  For our purposes, assume 6 oz denim is equal to 0.4mm and scale up from there.",
