@@ -838,6 +838,10 @@ void Character::load( const JsonObject &data )
     recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
+    my_bionics->erase( std::remove_if( my_bionics->begin(), my_bionics->end(),
+    []( const bionic & it ) {
+        return it.id.is_null(); // remove obsoleted bionics
+    } ), my_bionics->end() );
 
     data.read( "known_monsters", known_monsters );
 

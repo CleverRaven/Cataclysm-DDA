@@ -704,7 +704,8 @@
     "description": "The bottoms of your feet are tough, and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
     "starting_trait": true,
     "types": [ "SOLES" ],
-    "category": [ "GASTROPOD" ]
+    "category": [ "GASTROPOD" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -2074,7 +2075,7 @@
     "visibility": 1,
     "description": "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
     "types": [ "EYES" ],
-    "prereqs": [ "PER_UP" ],
+    "prereqs": [ "PER_UP_4" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
     "passive_mods": { "per_mod": 4 }
@@ -3644,7 +3645,8 @@
     "visibility": 1,
     "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
     "types": [ "SOLES" ],
-    "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE", "SPIDER" ]
+    "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE", "SPIDER" ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -3759,7 +3761,8 @@
       "attack_text_npc": "%1$s kicks %2$s with their hooves",
       "chance": 15,
       "strength_damage": { "damage_type": "bash", "amount": 3 }
-    }
+    },
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -5285,7 +5288,6 @@
     "description": "Your senses are a little keener.  +1 Perception.",
     "types": [ "PER" ],
     "changes_to": [ "PER_UP_2" ],
-    "leads_to": [ "BIRD_EYE" ],
     "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SLIME", "SPIDER" ],
     "passive_mods": { "per_mod": 1 }
   },
@@ -5322,6 +5324,7 @@
     "description": "You can sense things you never imagined.  +7 Perception.",
     "types": [ "PER" ],
     "prereqs": [ "PER_UP_3" ],
+    "leads_to": [ "BIRD_EYE" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
     "passive_mods": { "per_mod": 7 }
@@ -6684,7 +6687,8 @@
     "threshreq": [ "THRESH_PLANT" ],
     "changes_to": [ "ROOTS3" ],
     "category": [ "PLANT" ],
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
+    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",
@@ -7143,7 +7147,8 @@
     ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "movecost_modifier": 1.2,
-    "noise_modifier": 0.0
+    "noise_modifier": 0.0,
+    "flags": [ "TOUGH_FEET" ]
   },
   {
     "type": "mutation",

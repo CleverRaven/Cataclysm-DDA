@@ -754,7 +754,7 @@ These are interactive graphs that highlight different body parts or sub body par
 | `fill_sym` | (_optional_) Specifies a character to fill all sections of the graph when viewing in-game.
 | `fill_color` | (_optional_) Specifies a color to use for unselected sections of the graph when viewing in-game.
 | `rows` | Array of strings that form the graph. The symbols used for each fragment may correspond to an entry in `parts`, which form the sections of the graph. Empty spaces (` `) are ignored for the purposes of filling.
-| `mirror` | (_optional_) Can be specified instead of `rows`. This takes a string ID refering to a different body_graph, which will be flipped horizontally and used as the rows in this graph (ex: `hand_l` mirrors `hand_r`).
+| `mirror` | (_optional_) Can be specified instead of `rows`. This takes a string ID referring to a different body_graph, which will be flipped horizontally and used as the rows in this graph (ex: `hand_l` mirrors `hand_r`).
 | `parts` | A list of symbols present in the graph that correspond to specific body parts or sub body parts.
 
 The resolution limit for the `rows` field is 40x20, in order to maintain compatibility with 80x24 terminals.
@@ -5101,21 +5101,25 @@ Migration is used, when we want to remove one item by replacing it with another 
 
 // it seems MIGRATION accept any field actually, but i need someone to confirm it
 
-For vehicle parts, you should use `vehicle_part_migration` inside `data/json/vehicleparts/migration.json`
+Migrating vehicle parts is done using `vehicle_part_migration` type, in the example below - when loading the vehicle any part with id `from` will have it's id switched to `to`.
 
 ```json
-
   {
     "type": "vehicle_part_migration",
     "from": "old_vpart_id",
     "to": "new_vpart_id"
-  },
-  {
-    "type": "vehicle_part_migration",
-    "from": "lit_aisle",
-    "to": "aisle"
   }
 
+```
+
+For bionics, you should use `bionic_migration` type. The migration happens when character is loaded; if `to` is `null` the bionic will be deleted, if `to` is not null the id will be changed to the provided value.
+
+```json
+  {
+    "type": "bionic_migration",
+    "from": "bio_tools_extend",
+    "to": null
+  }
 ```
 
 Obsoletion is used, when we want to remove the item entirely from the game, without any migration. For this you, again, **do not remove item** from the game.
