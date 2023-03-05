@@ -2590,5 +2590,17 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 1, 2 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fungus_colony",
+    "name": "mushroom colony",
+    "description": "A large pile of organic matter which has molded over with fungus.  The caps of many mundane mushrooms spring from the top, you can even recognise some.  The fungi growing here don't seem edible, though.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "coverage": 80,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "bash": { "str_min": 2, "str_max": 6, "ter_set": "t_dirt", "sound": "crunch.", "sound_fail": "whish." }
   }
 ]
