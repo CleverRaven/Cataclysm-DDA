@@ -258,6 +258,7 @@ void DynamicDataLoader::initialize()
     add( "vitamin", &vitamin::load_vitamin );
     add( "material", &materials::load );
     add( "bionic", &bionic_data::load_bionic );
+    add( "bionic_migration", &bionic_data::load_bionic_migration );
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
     add( "proficiency", &proficiency::load_proficiencies );

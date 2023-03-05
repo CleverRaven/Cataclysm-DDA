@@ -5101,21 +5101,25 @@ Migration is used, when we want to remove one item by replacing it with another 
 
 // it seems MIGRATION accept any field actually, but i need someone to confirm it
 
-For vehicle parts, you should use `vehicle_part_migration` inside `data/json/vehicleparts/migration.json`
+Migrating vehicle parts is done using `vehicle_part_migration` type, in the example below - when loading the vehicle any part with id `from` will have it's id switched to `to`.
 
 ```json
-
   {
     "type": "vehicle_part_migration",
     "from": "old_vpart_id",
     "to": "new_vpart_id"
-  },
-  {
-    "type": "vehicle_part_migration",
-    "from": "lit_aisle",
-    "to": "aisle"
   }
 
+```
+
+For bionics, you should use `bionic_migration` type. The migration happens when character is loaded; if `to` is `null` the bionic will be deleted, if `to` is not null the id will be changed to the provided value.
+
+```json
+  {
+    "type": "bionic_migration",
+    "from": "bio_tools_extend",
+    "to": null
+  }
 ```
 
 Obsoletion is used, when we want to remove the item entirely from the game, without any migration. For this you, again, **do not remove item** from the game.
