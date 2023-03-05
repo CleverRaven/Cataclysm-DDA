@@ -1259,5 +1259,20 @@
     "dispersion": 0,
     "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
     "relative": { "range": 10, "damage": { "damage_type": "stab", "amount": -5, "armor_penetration": 15 } }
+  },
+  {
+    "type": "AMMO",
+    "id": "unfinished_cac2",
+    "category": "spare_parts",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "unfinished calcium carbide" },
+    "symbol": "=",
+    "color": "white",
+    "description": "The incomplete process of converting coal and lime into calcium carbide.  Useless in this state.",
+    "material": [ "stone" ],
+    "volume": "250 ml",
+    "weight": "300 g",
+    "ammo_type": "components"
   }
 ]
