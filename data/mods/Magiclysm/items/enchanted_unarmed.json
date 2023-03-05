@@ -94,7 +94,7 @@
     "to_hit": 1,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS", "NONCONDUCTIVE" ],
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
   }
 ]

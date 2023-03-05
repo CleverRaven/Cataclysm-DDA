@@ -323,6 +323,7 @@ static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
 static const json_character_flag json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
@@ -419,11 +420,9 @@ static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
-static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
-static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
@@ -474,7 +473,6 @@ static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
@@ -9240,8 +9238,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         // ROOTS3 does slow you down as your roots are probing around for nutrients,
         // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
         // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-        const bool mutfeet = has_trait( trait_LEG_TENTACLES ) || has_trait( trait_PADDED_FEET ) ||
-                             has_trait( trait_HOOVES ) || has_trait( trait_TOUGH_FEET ) || has_trait( trait_ROOTS2 );
+        const bool mutfeet = has_flag( json_flag_TOUGH_FEET ) || worn_with_flag( flag_TOUGH_FEET );
         if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
             movecost += 8;
         }
