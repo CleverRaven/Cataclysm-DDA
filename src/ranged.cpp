@@ -3979,8 +3979,8 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    if( gmode->get_gun_ups_drain() > 0_kJ ) {
-        const units::energy ups_drain = gmode->get_gun_ups_drain();
+    if( gmode->get_gun_energy_drain() > 0_kJ ) {
+        const units::energy energy_drain = gmode->get_gun_energy_drain();
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
@@ -3988,19 +3988,20 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                 is_mech_weapon = true;
             }
         }
-        // TODO different messages for UPS/bionic
-        if( !is_mech_weapon ) {
-            if( you.available_ups() < ups_drain ) {
-                messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
-                                        gmode->tname(), units::to_kilojoule( ups_drain ) ) );
-                result = false;
-            }
-        } else {
-            if( you.available_ups() < ups_drain ) {
+
+        if( gmode->energy_remaining( &you ) < energy_drain ) {
+            result = false;
+            if( is_mech_weapon ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
-                result = false;
+            } else if( gmode->has_flag( flag_USES_BIONIC_POWER ) ) {
+                messages.push_back( string_format(
+                                        _( "You need at least %2$d kJ of bionic power to fire the %1$s!" ),
+                                        gmode->tname(), units::to_kilojoule( energy_drain ) ) );
+            } else if( gmode->has_flag( flag_USE_UPS ) ) {
+                messages.push_back( string_format(
+                                        _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
+                                        gmode->tname(), units::to_kilojoule( energy_drain ) ) );
             }
         }
     }
