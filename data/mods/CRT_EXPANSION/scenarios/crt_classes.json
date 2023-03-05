@@ -178,7 +178,7 @@
           "socks",
           "crt_la_boots",
           "two_way_radio",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           "crt_backpack",
           "knife_swissarmy",
           "UPS_off"

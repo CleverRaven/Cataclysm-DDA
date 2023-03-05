@@ -1817,29 +1817,6 @@
     "replace": "syringe"
   },
   {
-    "id": "sheet_metal_lit",
-    "type": "MIGRATION",
-    "replace": "sheet_metal"
-  },
-  {
-    "id": "folding_bicycle",
-    "type": "MIGRATION",
-    "replace": "folded_bicycle",
-    "reset_item_vars": true
-  },
-  {
-    "id": "folded_wheelchair",
-    "type": "MIGRATION",
-    "replace": "folded_wheelchair_generic",
-    "reset_item_vars": true
-  },
-  {
-    "id": "inflatable_boat",
-    "type": "MIGRATION",
-    "replace": "folded_inflatable_boat",
-    "reset_item_vars": true
-  },
-  {
     "id": "ammunition_box_9mm",
     "type": "MIGRATION",
     "replace": "ammunition_box_308"

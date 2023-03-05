@@ -74,6 +74,7 @@
       "terrain": { "5": "t_ramp_up_high", "6": "t_ramp_up_low", "#": "t_rock" },
       "furniture": {
         "@": "f_sleep_pod",
+        "~": "f_shower",
         "1": [ "f_mil_comms_power", "f_mil_comms_power_broken" ],
         "2": "f_mil_comms_terminal",
         "3": "f_mil_comms_heatsink",

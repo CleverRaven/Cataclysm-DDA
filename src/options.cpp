@@ -1467,6 +1467,16 @@ void options_manager::add_options_general()
     "ALWAYS"
        );
 
+    add( "FORCE_SMART_CONTROLLER_OFF_ON_ENGINE_STOP", "general",
+         to_translation( "Force smart engine controller off" ),
+         to_translation( "If enabled, turn off the smart engine controller when you turn off the engine of the car without an electric motor" ),
+    {
+        { "disabled", to_translation( "options", "Disabled" ) },
+        { "enabled", to_translation( "Enabled" ) },
+        { "ask", to_translation( "Ask" ) }
+    }, "ask"
+       );
+
     add_empty_line();
 
     add( "SAFEMODE", "general", to_translation( "Safe mode" ),
@@ -2043,6 +2053,11 @@ void options_manager::add_options_graphics()
        );
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
+
+    add( "BLINK_SPEED", "graphics", to_translation( "Blinking effects speed" ),
+         to_translation( "The speed of every blinking effects in ms." ),
+         100, 5000, 300
+       );
 
     add( "FORCE_REDRAW", "graphics", to_translation( "Force redraw" ),
          to_translation( "If true, forces the game to redraw at least once per turn." ),

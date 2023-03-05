@@ -326,6 +326,7 @@ extern const flag_id flag_THIN_OBSTACLE;
 extern const flag_id flag_TIE_UP;
 extern const flag_id flag_TINDER;
 extern const flag_id flag_TOBACCO;
+extern const flag_id flag_TOUGH_FEET;
 extern const flag_id flag_TOURNIQUET;
 extern const flag_id flag_TOW_CABLE;
 extern const flag_id flag_TRADER_AVOID;

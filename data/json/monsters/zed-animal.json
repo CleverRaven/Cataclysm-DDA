@@ -665,7 +665,7 @@
     "armor_cut": 2,
     "armor_bullet": 1,
     "vision_night": 7,
-    "harvest": "zombie",
+    "harvest": "zombie_acid",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "type": "leap", "cooldown": 10, "move_cost": 0, "max_range": 10, "min_consider_range": 2 } ],
     "special_when_hit": [ "ACIDSPLASH", 100 ],

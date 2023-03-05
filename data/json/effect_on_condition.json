@@ -34,7 +34,17 @@
     "type": "effect_on_condition",
     "id": "scenario_paralyzepoison",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "effect": [ { "u_add_effect": "paralyzepoison", "intensity": 4, "duration": "20 minutes" } ]
+    "effect": [ { "u_add_effect": "paralyzepoison", "intensity": 3, "duration": "10 minutes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_mansion_pursuit",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_spawn_monster": "GROUP_MANSION_ARMORED", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 30 },
+      { "u_spawn_monster": "GROUP_MANSION_START", "group": true, "real_count": 2, "min_radius": 10, "max_radius": 18 },
+      { "u_spawn_monster": "GROUP_MANSION_START", "group": true, "real_count": 2, "min_radius": 15, "max_radius": 25 }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -464,6 +474,15 @@
         "u_message": "As the last of the horrors fell dead, you notice a strange thing popped up from nowhere and dropped on the ground.",
         "type": "info"
       }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PLAY_PIANO",
+    "effect": [
+      { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 10 },
+      { "u_make_sound": "music", "type": "music", "volume": 10 },
+      { "u_message": "play_piano", "snippet": true }
     ]
   },
   {
