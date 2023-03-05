@@ -28,7 +28,7 @@
     "looks_like": "jacket_light",
     "color": "light_gray",
     "warmth": 50,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
         "material": [
@@ -93,7 +93,7 @@
     "looks_like": "vest",
     "color": "light_gray",
     "warmth": 50,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
         "material": [
