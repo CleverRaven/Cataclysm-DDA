@@ -186,18 +186,18 @@ struct str_or_var {
 };
 
 template<class T>
-struct int_or_var_part {
-    cata::optional<int> int_val;
+struct dbl_or_var_part {
+    cata::optional<double> dbl_val;
     cata::optional<var_info> var_val;
-    cata::optional<int> default_val;
+    cata::optional<double> default_val;
     cata::optional<talk_effect_fun_t<T>> arithmetic_val;
-    int evaluate( const T &d ) const {
-        if( int_val.has_value() ) {
-            return int_val.value();
+    double evaluate( const T &d ) const {
+        if( dbl_val.has_value() ) {
+            return dbl_val.value();
         } else if( var_val.has_value() ) {
             std::string val = read_var_value( var_val.value(), d );
             if( !val.empty() ) {
-                return std::stoi( val );
+                return std::stof( val );
             }
             if( default_val.has_value() ) {
                 return default_val.value();
@@ -206,7 +206,7 @@ struct int_or_var_part {
                 if( var_name.find( "npctalk_var" ) != std::string::npos ) {
                     var_name = var_name.substr( 12 );
                 }
-                debugmsg( "No default value provided for int_or_var_part while encountering unused variable %s.  Add a \"default\" member to prevent this.",
+                debugmsg( "No default value provided for dbl_or_var_part while encountering unused variable %s.  Add a \"default\" member to prevent this.",
                           var_name );
                 return 0;
             }
@@ -215,24 +215,24 @@ struct int_or_var_part {
             var_info info = var_info( var_type::global, "temp_var" );
             std::string val = read_var_value( info, d );
             if( !val.empty() ) {
-                return std::stoi( val );
+                return std::stof( val );
             } else {
-                debugmsg( "No valid arithmetic value for int_or_var_part." );
+                debugmsg( "No valid arithmetic value for dbl_or_var_part." );
                 return 0;
             }
         } else {
-            debugmsg( "No valid value for int_or_var_part." );
+            debugmsg( "No valid value for dbl_or_var_part." );
             return 0;
         }
     }
 };
 
 template<class T>
-struct int_or_var {
+struct dbl_or_var {
     bool pair = false;
-    int_or_var_part<T> min;
-    int_or_var_part<T> max;
-    int evaluate( const T &d ) const {
+    dbl_or_var_part<T> min;
+    dbl_or_var_part<T> max;
+    double evaluate( const T &d ) const {
         if( pair ) {
             return rng( min.evaluate( d ), max.evaluate( d ) );
         } else {

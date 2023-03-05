@@ -77,6 +77,7 @@
         { "item": "boxing_misc", "x": [ 16, 20 ], "y": [ 22, 22 ], "chance": 60, "repeat": [ 1, 4 ] },
         { "item": "vending_drink", "x": [ 10, 11 ], "y": [ 16, 16 ], "chance": 70 }
       ],
+      "place_monster": [ { "group": "GROUP_DOJO", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 3, 8 ] } ],
       "vehicles": { "Á": { "vehicle": "parking_garage_short", "chance": 20, "rotation": 90 } }
     }
   },

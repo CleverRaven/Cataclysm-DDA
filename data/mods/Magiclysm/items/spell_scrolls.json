@@ -59,6 +59,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_thought_shield",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Thought Shield", "str_pl": "Scrolls of Thought Shield" },
+    "description": "Harried by evil spirits or creatures from beyond?  This spell will keep your mind safe!",
+    "use_action": { "type": "learn_spell", "spells": [ "thought_shield" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_holographic_transposition",
     "//": "Technomancer spell",
     "name": { "str": "Scroll of Holographic Transposition", "str_pl": "Scrolls of Holographic Transposition" },
@@ -522,6 +531,15 @@
     "name": { "str": "Scroll of Summon Boulder", "str_pl": "Scrolls of Summon Boulder" },
     "description": "Pull the smooth rock underground, using your forces of earth shaping.  You can use it as a table, or as a primitive anvil.",
     "use_action": { "type": "learn_spell", "spells": [ "earthshaper_boulder" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_reveal_world_map",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Reading the Earthbones", "str_pl": "Scrolls of Reading the Earthbone" },
+    "description": "Use magic to reveal nearby terrain .",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_reveal_world_map" ] }
   },
   {
     "type": "BOOK",

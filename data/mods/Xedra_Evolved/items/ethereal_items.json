@@ -141,5 +141,36 @@
         "move_cost": 100
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "constructed_hammer",
+    "name": { "str": "constructed hammer" },
+    "description": "A long handle ending in a two-sided head, one of which is hollow, and the other… does not exist.  Weirdly, both heads are equally useful, and the balance of hammer is pretty good to be useful as a weapon.  By activating and attacking with the hollow part, the hammer creates a tremendous force, able to break a thick tree (or someone's spine) in half, but will be destroyed afterwards.",
+    "copy-from": "mace",
+    "weight": "1250 g",
+    "color": "dark_gray",
+    "symbol": "/",
+    "material": [ "forged_dreamstuff" ],
+    "volume": "1050 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "cast_spell", "spell_id": "constructed_hammer_attack", "no_fail": true, "level": 0, "need_wielding": true },
+    "qualities": [ [ "PRY", 4 ], [ "HAMMER", 2 ], [ "PRYING_NAIL", 1 ] ]
+  },
+  {
+    "id": "winch_stone",
+    "type": "ARMOR",
+    "name": { "str": "constructed winch", "str_pl": "constructed winches" },
+    "description": "A small token that floats near your right hand.  It pulls you to determined coordinates when you command it.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "dreamstuff" ],
+    "symbol": "*",
+    "color": "pink",
+    "flags": [ "SINGLE_USE", "TRADER_AVOID", "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 0, "coverage": 0, "covers": [ "hand_r" ] } ],
+    "use_action": { "type": "effect_on_conditions", "description": "Jump.", "effect_on_conditions": [ "EOC_WINCH_TELEPORT" ] }
   }
 ]

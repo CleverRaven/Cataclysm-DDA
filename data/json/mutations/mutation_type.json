@@ -177,6 +177,10 @@
   },
   {
     "type": "mutation_type",
+    "id": "TUSKS"
+  },
+  {
+    "type": "mutation_type",
     "id": "EARS"
   },
   {

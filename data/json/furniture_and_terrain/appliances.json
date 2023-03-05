@@ -13,7 +13,7 @@
     "durability": 100,
     "description": "A fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
     "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
-    "epower": -30,
+    "epower": "-30 W",
     "size": "500 L",
     "item": "fridge",
     "requirements": {
@@ -53,8 +53,8 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "A chest freezer.  When turned on, it will freeze and preserve the food inside.",
-    "epower": -35,
     "size": "450 L",
+    "epower": "-35 W",
     "item": "freezer",
     "requirements": {
       "repair": {
@@ -98,7 +98,7 @@
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "pseudo_app_oven_hotplate", "hotkey": "h" } ],
     "//": "Doesn't draw power at baseline, only when cooking.",
-    "epower": 0,
+    "epower": "0 W",
     "item": "oven",
     "looks_like": "f_oven",
     "breaks_into": [
@@ -124,7 +124,7 @@
     "durability": 60,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "pseudo_water_purifier", "hotkey": "p" } ],
-    "epower": 0,
+    "epower": "0 W",
     "item": "stationary_water_purifier",
     "looks_like": "f_water_purifier",
     "breaks_into": [
@@ -152,7 +152,7 @@
     "damage_reduction": { "all": 10 },
     "durability": 80,
     "flags": [ "OBSTACLE", "COVERED", "APPLIANCE", "ENABLED_DRAINS_EPOWER", "ARCADE", "CTRL_ELECTRONIC" ],
-    "epower": -150,
+    "epower": "-150 W",
     "item": "arcade_machine",
     "looks_like": "f_arcade_machine",
     "breaks_into": [
@@ -250,7 +250,7 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "drill_press_tool" } ],
-    "epower": 0,
+    "epower": "0 W",
     "item": "drill_press",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -276,7 +276,7 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "tablesaw_tool" } ],
-    "epower": 0,
+    "epower": "0 W",
     "item": "tablesaw",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -302,7 +302,7 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "mitresaw_tool" } ],
-    "epower": 0,
+    "epower": "0 W",
     "item": "mitresaw",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -328,7 +328,7 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "bandsaw_tool" } ],
-    "epower": 0,
+    "epower": "0 W",
     "item": "bandsaw",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -354,7 +354,7 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "router_tool" } ],
-    "epower": 0,
+    "epower": "0 W",
     "item": "router",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -380,7 +380,7 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "planer_tool" } ],
-    "epower": 0,
+    "epower": "0 W",
     "item": "planer",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -406,7 +406,7 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "jointer_tool" } ],
-    "epower": 0,
+    "epower": "0 W",
     "item": "jointer",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -430,7 +430,7 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "hydraulic_press_tool" } ],
-    "epower": 0,
+    "epower": "0 W",
     "item": "hydraulic_press",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -454,7 +454,7 @@
     "durability": 80,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "air_compressor_tool" } ],
-    "epower": 0,
+    "epower": "0 W",
     "item": "air_compressor",
     "breaks_into": [
       { "item": "cable", "charges": [ 0, 4 ] },
@@ -609,7 +609,7 @@
     "broken_symbol": "s",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": 0,
+    "epower": "0 W",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "A power cord sticking out of an appliance.  You need to plug it in a powered grid for the appliance to work properly.",
@@ -628,7 +628,7 @@
     "broken_color": "blue",
     "durability": 20,
     "description": "An electrical device containing an electric lamp that provides illumination.",
-    "epower": -20,
+    "epower": "-20 W",
     "bonus": 200,
     "damage_modifier": 10,
     "looks_like": "f_floor_lamp",
@@ -896,7 +896,7 @@
   {
     "type": "vehicle_part",
     "id": "ap_compact_ASRG_containment",
-    "name": { "str": "Compact Advanced Sterling Radioisotope Generator" },
+    "name": { "str": "advanced Stirling radioisotope generator" },
     "looks_like": "f_compact_ASRG_containment",
     "symbol": "0",
     "categories": [ "energy" ],
@@ -905,10 +905,10 @@
     "broken_color": "blue",
     "location": "structure",
     "damage_modifier": 80,
-    "durability": 500,
-    "description": "A military-grade ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
+    "durability": 400,
+    "description": "A military ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
     "epower": 130,
-    "size": "450 L",
+    "size": "150 L",
     "item": "compact_ASRG_containment",
     "requirements": {
       "repair": {
@@ -917,23 +917,13 @@
         "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "flags": [
-      "CARGO",
-      "OBSTACLE",
-      "LEAK_DAM",
-      "RADIOACTIVE",
-      "COVERED",
-      "ENABLED_DRAINS_EPOWER",
-      "APPLIANCE",
-      "PERPETUAL",
-      "REACTOR"
-    ],
+    "flags": [ "OBSTACLE", "RADIOACTIVE", "COVERED", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "PERPETUAL", "REACTOR" ],
     "breaks_into": [
       { "item": "scrap", "count": [ 4, 16 ] },
       { "item": "steel_chunk", "count": [ 1, 6 ] },
-      { "item": "plutonium", "charges": [ 0, 3 ] },
+      { "item": "plutonium", "charges": [ 0, 2 ] },
       { "item": "lead", "charges": [ 12, 18 ] }
     ],
-    "damage_reduction": { "all": 80 }
+    "damage_reduction": { "all": 60 }
   }
 ]

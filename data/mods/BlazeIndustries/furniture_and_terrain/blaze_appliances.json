@@ -37,7 +37,7 @@
     "looks_like": "f_washer",
     "durability": 200,
     "description": "A medium-sized household washing machine, converted to utilize vehicle power.  When turned on, filthy items will be laundered.",
-    "epower": -400,
+    "epower": "-400 W",
     "size": "135 L",
     "item": "household_washing_machine"
   }

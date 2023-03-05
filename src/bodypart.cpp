@@ -321,7 +321,6 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
-    optional( jo, was_loaded, "encumb_impacts_dodge", encumb_impacts_dodge, false );
     if( jo.has_array( "limb_types" ) ) {
         limbtypes.clear();
         body_part_type::type first_type = body_part_type::type::num_types;

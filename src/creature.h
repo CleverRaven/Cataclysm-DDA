@@ -674,6 +674,7 @@ class Creature : public viewer
         virtual int get_num_blocks_bonus() const;
         virtual int get_num_dodges_bonus() const;
         virtual int get_num_dodges_base() const;
+        virtual int get_num_blocks_base() const;
 
         virtual int get_env_resist( bodypart_id bp ) const;
 
@@ -848,6 +849,7 @@ class Creature : public viewer
         virtual void mod_stat( const std::string &stat, float modifier );
 
         virtual void set_num_blocks_bonus( int nblocks );
+        virtual void mod_num_blocks_bonus( int nblocks );
         virtual void mod_num_dodges_bonus( int ndodges );
 
         virtual void set_armor_bash_bonus( int nbasharm );
@@ -1202,8 +1204,8 @@ class Creature : public viewer
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
         pimpl<effects_map> effects;
-        static std::queue<scheduled_effect> scheduled_effects;
-        static std::queue<terminating_effect> terminating_effects;
+        std::queue<scheduled_effect, std::list<scheduled_effect>> scheduled_effects;
+        std::queue<terminating_effect, std::list<terminating_effect>> terminating_effects;
 
         std::vector<damage_over_time_data> damage_over_time_map;
 
