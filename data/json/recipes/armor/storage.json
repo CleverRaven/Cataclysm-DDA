@@ -919,9 +919,10 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "time": "1 h",
-    "reversible": true,
+    "reversible": { "time": "1 m" },
     "autolearn": true,
-    "using": [ [ "tailoring_leather_small", 3 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 5 ] ],
+    "components": [ [ [ "buckle_steel", 1 ], [ "button", 1, "LIST" ], [ "snapfastener_steel", 2 ], [ "touch_fastener", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
