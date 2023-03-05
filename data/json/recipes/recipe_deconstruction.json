@@ -64,14 +64,6 @@
     "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
   },
   {
-    "result": "bronze_medal",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap", 1 ] ] ]
-  },
-  {
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "result": "can_opener",
@@ -7560,8 +7552,8 @@
     "result": "manhole_cover",
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
-    "time": "6 h",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
     "components": [ [ [ "steel_lump", 130 ] ] ]
   },
   {
@@ -7675,5 +7667,45 @@
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 31 ] ] ]
+  },
+  {
+    "result": "wrench_large",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "15 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 3 ] ] ]
+  },
+  {
+    "result": "wheel_rim_bicycle",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "scrap_aluminum", 15 ] ] ]
+  },
+  {
+    "result": "wheel_rim_motorbike",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "20 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 3 ] ] ]
+  },
+  {
+    "result": "wheel_rim_medium",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "45 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 5 ], [ "steel_chunk", 1 ] ] ]
+  },
+  {
+    "result": "wheel_rim_wide",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_lump", 7 ], [ "steel_chunk", 2 ] ] ]
   }
 ]
