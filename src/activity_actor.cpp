@@ -335,6 +335,9 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
+    gun_mode gun = weapon->gun_current_mode();
+    who.fire_gun( fin_trajectory.back(), gun.qty, *gun );
+
     if( weapon && weapon->gun_current_mode()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         // RAS weapons are currently bugged, this is a workaround so bug impact
         // isn't amplified, once #54997 and #50571 are fixed this can be removed.
