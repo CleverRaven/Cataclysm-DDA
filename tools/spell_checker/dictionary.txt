@@ -337,6 +337,7 @@ bootup
 boozeberry
 borderless
 boreas
+bos
 bovid
 bowfin
 bowyery
