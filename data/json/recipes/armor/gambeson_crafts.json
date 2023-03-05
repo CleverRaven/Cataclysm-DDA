@@ -1303,7 +1303,23 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "result_mult": 4,
-    "components": [ [ [ "scrap_cotton", 200 ], [ "scrap_felt", 200 ], [ "scrap_canvas", 100 ], [ "scrap_fur", 67 ],  [ "cotton_patchwork", 40 ], [ "felt_patch", 67 ], [ "wool_staple", 1 ], [ "sinew", 200 ], [ "thread", 200 ], [ "yarn", 200 ], [ "plant_fibre", 200 ], [ "straw_pile", 10 ], [ "cable", 37 ] ] ]
+    "components": [
+      [
+        [ "scrap_cotton", 200 ],
+        [ "scrap_felt", 200 ],
+        [ "scrap_canvas", 100 ],
+        [ "scrap_fur", 67 ],
+        [ "cotton_patchwork", 40 ],
+        [ "felt_patch", 67 ],
+        [ "wool_staple", 1 ],
+        [ "sinew", 200 ],
+        [ "thread", 200 ],
+        [ "yarn", 200 ],
+        [ "plant_fibre", 200 ],
+        [ "straw_pile", 10 ],
+        [ "cable", 37 ]
+      ]
+    ]
   },
   {
     "result": "gambeson",
