@@ -221,11 +221,6 @@
     ]
   },
   {
-    "id": "mushroom_colony_harvest",
-    "type": "harvest",
-    "entries": [ { "drop": "mushroom", "base_num": [ 3, 9 ] }, { "drop": "mushroom_morel", "base_num": [ 2, 5 ] } ]
-  },
-  {
     "id": "elderberry_harv",
     "type": "harvest",
     "entries": [ { "drop": "elderberries", "base_num": [ 8, 20 ], "scale_num": [ 0, 0.5 ] } ]
