@@ -7266,10 +7266,7 @@ item vehicle::get_folded_item() const
 
 bool vehicle::restore_folded_parts( const item &it )
 {
-    // TODO: Remove folding_bicycle_parts after savegames migrate
-    const std::string data = it.has_var( "folding_bicycle_parts" )
-                             ? it.get_var( "folding_bicycle_parts" )
-                             : it.get_var( "folded_parts" );
+    const std::string data = it.get_var( "folded_parts" );
     try {
         JsonValue json = json_loader::from_string( data );
         parts.clear();
