@@ -17,7 +17,7 @@
     "id": "gambeson",
     "type": "ARMOR",
     "name": { "str": "padded gambeson" },
-    "description": "A padded jacket assembled by quilting readily available fabric and stuffing the layers with waste fabric or horse hair that was intended as standalone armor, being too thick to comfortably fit a cuirass over.  Likely either a historical artifact or a low-quality reproduction.  Though inferior to a proper layered aketon or gambeson it still offers decent protection.",
+    "description": "A padded greatcaot assembled by quilting readily available fabric and stuffing the layers with waste fabric or horse hair that was intended as standalone armor, being too thick to comfortably fit a cuirass over.  Likely either a historical artifact or a low-quality reproduction.  Though inferior to a proper layered aketon or gambeson it still offers decent protection.",
     "weight": "11850 g",
     "volume": "7500 ml",
     "price": 20000,
@@ -27,7 +27,7 @@
     "symbol": "[",
     "looks_like": "jacket_light",
     "color": "light_gray",
-    "warmth": 30,
+    "warmth": 50,
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
@@ -49,6 +49,15 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 25
+      },
+      {
+        "material": [ { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 8,
+        "layers": [ "BELTED" ],
+        "warmth": 20
       }
     ]
   },
@@ -73,7 +82,7 @@
     "id": "gambeson_vest",
     "type": "ARMOR",
     "name": { "str": "padded gambeson vest" },
-    "description": "A thick padded vest assembled by quilting readily available fabric and stuffing the layers with waste fabric or horse hair that was intended as standalone armor, being too thick to comfortably fit a cuirass over.  Likely either a historical artifact or a low-quality reproduction.  Though inferior to a proper layered gambeson its sheer thickness is still quite protective.",
+    "description": "A thick padded surcoat assembled by quilting readily available fabric and stuffing the layers with waste fabric or horse hair that was intended as standalone armor, being too thick to comfortably fit a cuirass over.  Likely either a historical artifact or a low-quality reproduction.  Though inferior to a proper layered gambeson its sheer thickness is still quite protective.",
     "weight": "9120 g",
     "volume": "6000 ml",
     "price": 20000,
@@ -83,7 +92,7 @@
     "symbol": "[",
     "looks_like": "vest",
     "color": "light_gray",
-    "warmth": 30,
+    "warmth": 50,
     "flags": [ "VARSIZE", "STURDY" ],
     "armor": [
       {
@@ -95,6 +104,15 @@
         "covers": [ "torso" ],
         "coverage": 100,
         "encumbrance": 15
+      },
+      {
+        "material": [ { "type": "cotton_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "coverage": 72,
+        "encumbrance": 8,
+        "layers": [ "BELTED" ],
+        "warmth": 20
       }
     ]
   },
