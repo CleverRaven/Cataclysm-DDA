@@ -3394,6 +3394,7 @@
     },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
+  {
     "id": "paint_can_steel",
     "type": "GENERIC",
     "category": "container",
