@@ -939,7 +939,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         if( !gun.has_flag( flag_VEHICLE ) ) {
             const units::energy energ_req = gun.get_gun_energy_drain();
             const units::energy drained = gun.energy_consume( energ_req, pos(), this );
-            if( drained != energ_req ) {
+            if( drained < energ_req ) {
                 debugmsg( "Unexpected shortage of energy whilst firing %s. Required: %i J, drained: %i J",
                           gun.tname(), units::to_joule( energ_req ), units::to_joule( drained ) );
                 break;
