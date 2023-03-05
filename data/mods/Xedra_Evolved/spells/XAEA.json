@@ -235,7 +235,7 @@
     "type": "effect_type",
     "name": [ "Sparks" ],
     "desc": [ "You feel a dancing sparks in your eyes." ],
-    "apply_message": "Tiny electric jots jump in your cornea.",
+    "apply_message": "Tiny electrical joints jump in your cornea.",
     "remove_message": "The sparks in your eyes are finally gone.",
     "rating": "good",
     "show_intensity": false,
@@ -272,7 +272,7 @@
     "max_damage": 224,
     "min_aoe": 7,
     "max_aoe": 7,
-    "message": "Silently, a part of a world nearby just dissapear.",
+    "message": "Silently, a part of a world nearby just disappear.",
     "sound_description": "",
     "extra_effects": [
       { "id": "XE_line_bash" },
