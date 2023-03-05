@@ -7,11 +7,10 @@
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
     "time": "1 m",
-    "reversible": true,
     "autolearn": true,
     "components": [
       [ [ "jar_glass_sealed", 1 ], [ "clay_canister", 2 ], [ "flask_glass", 2 ] ],
-      [ [ "any_strong_acid", 2, "LIST" ] ],
+      [ [ "any_strong_acid", 2, "LIST" ], [ "blood_acid", 2 ] ],
       [ [ "cordage_short", 1, "LIST" ] ]
     ]
   },

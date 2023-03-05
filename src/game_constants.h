@@ -22,7 +22,6 @@ static constexpr int LOCATION_WIDTH = 48;
 static constexpr int STATUS_HEIGHT = 4;
 static constexpr int STATUS_WIDTH = 55;
 
-static constexpr int BLINK_SPEED = 300;
 static constexpr int EXPLOSION_MULTIPLIER = 7;
 
 // Really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet).

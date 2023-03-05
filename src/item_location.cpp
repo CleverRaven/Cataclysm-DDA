@@ -543,6 +543,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             cur.veh.invalidate_mass();
         }
 
+        void make_active( item_location &head ) {
+            cur.veh.make_active( head );
+        }
+
         units::volume volume_capacity() const override {
             return cur.veh.free_volume( cur.part );
         }
@@ -932,6 +936,31 @@ void item_location::on_contents_changed()
         return;
     }
     ptr->on_contents_changed();
+}
+
+void item_location::make_active()
+{
+    if( !ptr->valid() ) {
+        debugmsg( "item location does not point to valid item" );
+        return;
+    }
+    switch( where() ) {
+        case type::container: {
+            parent_item().make_active();
+            break;
+        }
+        case type::map: {
+            get_map().make_active( *this );
+            break;
+        }
+        case type::vehicle: {
+            dynamic_cast<impl::item_on_vehicle *>( ptr.get() )->make_active( *this );
+        }
+        case type::invalid:
+        case type::character: {
+            // NOOP: characters don't cache active items
+        }
+    }
 }
 
 item *item_location::get_item()
