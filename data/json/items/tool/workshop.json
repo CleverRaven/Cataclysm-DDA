@@ -1156,7 +1156,7 @@
     "price_postapoc": 100,
     "bashing": 2,
     "cutting": 6,
-    "material": [ { "type": "plastic", "portion": 75 }, { "type": "copper" } ],
+    "material": [ { "type": "plastic", "portion": 75 }, { "type": "copper", "portion": 25 } ],
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "battery" ],

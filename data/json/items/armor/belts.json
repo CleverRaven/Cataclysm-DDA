@@ -123,7 +123,7 @@
     "price": 2000,
     "price_postapoc": 100,
     "bashing": 5,
-    "material": [ { "type": "leather", "portion": 75 }, { "type": "steel" } ],
+    "material": [ { "type": "leather", "portion": 75 }, { "type": "steel", "portion": 25 } ],
     "symbol": "[",
     "color": "brown",
     "material_thickness": 1.5,
