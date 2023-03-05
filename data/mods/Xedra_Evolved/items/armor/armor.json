@@ -73,7 +73,6 @@
     ],
     "warmth": 80,
     "material_thickness": 2,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "FANCY" ]
   },
@@ -160,7 +159,6 @@
     ],
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "FANCY" ]
   },
@@ -356,7 +354,7 @@
     "copy-from": "lc_chainmail_hauberk",
     "material": [ "moon_tears_fine_chain" ],
     "name": { "str": "moon tears chainmail hauberk" },
-    "description": "A fully customized high steel chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
+    "description": "A fully customized moon tears chainmail outfit, leaving the head uncovered.  Combine with a gambeson or other padded layer for optimal protection.",
     "armor": [
       {
         "material": [ { "type": "moon_tears_fine_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -420,7 +418,7 @@
     "type": "ARMOR",
     "copy-from": "hc_chainmail_vest",
     "material": [ "moon_tears_fine_chain" ],
-    "name": { "str": "high steel chainmail vest" },
+    "name": { "str": "moon tears chainmail vest" },
     "description": "A customized moon tears chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "armor": [
       {
