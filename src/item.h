@@ -2320,12 +2320,13 @@ class item : public visitable
          * @param carrier holder of the item, used for getting UPS and bionic power
          * @return amount of ammo consumed which will be between 0 and qty
          */
-        int ammo_consume( int qty, const tripoint &pos, Character *carrier );/**
+        int ammo_consume( int qty, const tripoint &pos, Character *carrier );
 
+        /**
          * Consume energy (if available) and return the amount of energy that was consumed
          * Consume order: battery, UPS, bionic
-         * When consuming energy from batteries the consumption will round up to integer kJ so more energy may be consumed than required.
-         * @param qty maximum amount of energy that should be consumed
+         * When consuming energy from batteries the consumption will round up by adding 1 kJ. More energy may be consumed than required.
+         * @param qty amount of energy that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
          * @param carrier holder of the item, used for getting UPS and bionic power
          * @return amount of energy consumed which will be between 0 kJ and qty+1 kJ
