@@ -877,9 +877,8 @@ class Character : public Creature, public visitable
          */
         void process_turn() override;
 
-        /** Recalculates HP after a change to max strength */
+        /** Recalculates HP after a change to max strength or enchantment */
         void recalc_hp();
-        int get_part_hp_max( const bodypart_id &id ) const;
 
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
