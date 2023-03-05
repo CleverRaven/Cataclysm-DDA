@@ -2075,7 +2075,7 @@
     "visibility": 1,
     "description": "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
     "types": [ "EYES" ],
-    "prereqs": [ "PER_UP" ],
+    "prereqs": [ "PER_UP_4" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
     "passive_mods": { "per_mod": 4 }
@@ -5288,7 +5288,6 @@
     "description": "Your senses are a little keener.  +1 Perception.",
     "types": [ "PER" ],
     "changes_to": [ "PER_UP_2" ],
-    "leads_to": [ "BIRD_EYE" ],
     "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SLIME", "SPIDER" ],
     "passive_mods": { "per_mod": 1 }
   },
@@ -5325,6 +5324,7 @@
     "description": "You can sense things you never imagined.  +7 Perception.",
     "types": [ "PER" ],
     "prereqs": [ "PER_UP_3" ],
+    "leads_to": [ "BIRD_EYE" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
     "passive_mods": { "per_mod": 7 }
