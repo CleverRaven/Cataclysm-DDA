@@ -286,6 +286,16 @@
     "volume": "10ml"
   },
   {
+    "id": "50beowulf_casing",
+    "copy-from": "casing",
+    "looks_like": "9mm_casing",
+    "type": "GENERIC",
+    "name": { "str": ".50 Beowulf casing" },
+    "description": "An empty casing from a .50 Beowulf round.",
+    "weight": "4 g",
+    "volume": "10ml"
+  },
+  {
     "id": "46mm_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",

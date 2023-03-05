@@ -25,6 +25,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "12.7x42mm",
+    "name": "12.7x42mm",
+    "default": "50beowulf_xtp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
     "default": "nail"
