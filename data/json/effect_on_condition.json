@@ -639,7 +639,7 @@
     "id": "EOC_ROBOFAC_ASSASSIN",
     "recurrence": [ "7 days", "14 days" ],
     "condition": {
-      "and": [ { "compare_int": [ { "faction_like": "robofac" }, "<", { "const": -30 } ] }, { "days_since_cataclysm": 5 } ]
+      "and": [ { "compare_int": [ { "faction_like": "robofac" }, "<", { "const": -230 } ] }, { "days_since_cataclysm": 5 } ]
     },
     "effect": [ { "mapgen_update": "exodii_bomb_add" } ]
   }
