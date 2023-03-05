@@ -59,6 +59,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_thought_shield",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Thought Shield", "str_pl": "Scrolls of Thought Shield" },
+    "description": "Harried by evil spirits or creatures from beyond?  This spell will keep your mind safe!",
+    "use_action": { "type": "learn_spell", "spells": [ "thought_shield" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_holographic_transposition",
     "//": "Technomancer spell",
     "name": { "str": "Scroll of Holographic Transposition", "str_pl": "Scrolls of Holographic Transposition" },

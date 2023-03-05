@@ -2466,25 +2466,9 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
             function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
                 set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
             };
-        } else if( op == "&" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) & static_cast<int>( get_second_dbl( d ) ) );
-            };
-        } else if( op == "|" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) | static_cast<int>( get_second_dbl( d ) ) );
-            };
-        } else if( op == "<<" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) << static_cast<int>( get_second_dbl( d ) ) );
-            };
-        } else if( op == ">>" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) >> static_cast<int>( get_second_dbl( d ) ) );
-            };
         } else if( op == "^" ) {
             function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) ^ static_cast<int>( get_second_dbl( d ) ) );
+                set_dbl( d, pow( get_first_dbl( d ), get_second_dbl( d ) ) );
             };
         } else {
             jo.throw_error( "unexpected operator " + op + " in " + jo.str() );

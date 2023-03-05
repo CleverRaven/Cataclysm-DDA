@@ -2630,6 +2630,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "sassafras_root",
+    "symbol": ",",
+    "color": "brown",
+    "name": { "str_sp": "sassafras root" },
+    "description": "A root taken from a sassafras tree.  Used in the production of certain sweet beverages.",
+    "price": 0,
+    "price_postapoc": 5,
+    "material": [ "wood" ],
+    "weight": "85 g",
+    "volume": "109 ml",
+    "bashing": 4,
+    "to_hit": 1
+  },
+  {
+    "type": "GENERIC",
     "id": "diamond",
     "symbol": "*",
     "color": "white",
