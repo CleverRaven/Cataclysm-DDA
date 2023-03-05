@@ -1213,7 +1213,7 @@ const translation &recipe::blueprint_parameter_ui_string(
     if( arg == translations.end() ) {
         debugmsg( "Argument value %s missing from bp_parameter_names[\"%s\"] in %s",
                   arg_value.get_string(), param_name, ident().str() );
-        static const translation error = to_translation( "[bad arg value]" );
+        static const translation error = to_translation( "[bad argument value]" );
         return error;
     }
 
