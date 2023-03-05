@@ -23,9 +23,9 @@
   },
   {
     "type": "npc",
-    "id": "hells_raiders_assasain",
+    "id": "hells_raiders_assassin",
     "//": "EOC-specific, should not spawn outside of trigger events.",
-    "name_suffix": "assasain",
+    "name_suffix": "assassin",
     "class": "NC_BOUNTY_HUNTER",
     "attitude": 10,
     "mission": 0,

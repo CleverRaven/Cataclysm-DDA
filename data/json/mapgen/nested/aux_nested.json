@@ -257,7 +257,7 @@
     "type": "mapgen",
     "update_mapgen_id": "bandit_killer_add",
     "method": "json",
-    "object": { "place_npcs": [ { "class": "hells_raiders_assasain", "x": [ 5, 18 ], "y": [ 5, 18 ] } ] }
+    "object": { "place_npcs": [ { "class": "hells_raiders_assassin", "x": [ 5, 18 ], "y": [ 5, 18 ] } ] }
   },
   {
     "type": "mapgen",
@@ -273,8 +273,8 @@
     "method": "json",
     "object": {
       "place_npcs": [
-        { "class": "old_guard_assasain", "x": [ 5, 18 ], "y": [ 5, 18 ] },
-        { "class": "old_guard_assasain", "x": [ 5, 18 ], "y": [ 5, 18 ] }
+        { "class": "old_guard_assassin", "x": [ 5, 18 ], "y": [ 5, 18 ] },
+        { "class": "old_guard_assassin", "x": [ 5, 18 ], "y": [ 5, 18 ] }
       ]
     }
   }
