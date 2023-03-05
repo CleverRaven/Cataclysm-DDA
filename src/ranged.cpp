@@ -934,10 +934,16 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-        const units::energy energ_req = gun.get_gun_energy_drain();
-        if( gun.energy_consume( energ_req, pos(), this ) != energ_req ) {
-            debugmsg( "Unexpected shortage of energy whilst firing %s", gun.tname() );
-            break;
+
+        // Vehicle turrets drain vehicle battery and do not care about this
+        if( !gun.has_flag( flag_VEHICLE ) ) {
+            const units::energy energ_req = gun.get_gun_energy_drain();
+            const units::energy drained = gun.energy_consume( energ_req, pos(), this );
+            if( drained != energ_req ) {
+                debugmsg( "Unexpected shortage of energy whilst firing %s. Required: %i J, drained: %i J", gun.tname(),
+                          units::to_joule( energ_req ), units::to_joule( drained ) );
+                break;
+            }
         }
 
         if( !current_ammo.is_null() ) {
