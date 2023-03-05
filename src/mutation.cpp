@@ -238,8 +238,6 @@ void Character::unset_mutation( const trait_id &trait_ )
     add_msg_debug( debugmode::DF_MUTATION, "unset_mutation: attempting to unset trait %s",
                    trait_.c_str() );
     const trait_id trait = trait_;
-    add_msg_debug( debugmode::DF_MUTATION, "unset_mutation: Or are we attempting to unset trait %s",
-                   trait.c_str() );
     const auto iter = my_mutations.find( trait );
     if( iter == my_mutations.end() ) {
         add_msg_debug( debugmode::DF_MUTATION, "unset_mutation: didn't find trait %s", trait.c_str() );
@@ -670,8 +668,6 @@ bool Character::is_category_allowed( const mutation_category_id &category ) cons
     if( !restricted ) {
         allowed = true;
     }
-    add_msg_debug( debugmode::DF_MUTATION, "is_category_allowed (single category) %s",
-                   allowed ? "true" : "false" );
     return allowed;
 }
 
@@ -1061,8 +1057,11 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
     bool allow_bad = picked_bad;
     bool allow_neutral = true;
 
+    add_msg_debug( debugmode::DF_MUTATION, "mutate: true_random_chance %d",
+                   true_random_chance );
+
     if( true_random_chance > 0 && one_in( true_random_chance ) ) {
-        add_msg_debug( debugmode::DF_MUTATION, "True random chance %d, random roll succeeded",
+        add_msg_debug( debugmode::DF_MUTATION, "mutate: true_random roll succeeded",
                        true_random_chance );
         cat = mutation_category_ANY;
         allow_good = true; // because i'm WILD YEAH
@@ -1081,6 +1080,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
     // Genetic Downwards Spiral has special logic that makes every possible mutation negative
     // Positive mutations can still be gained as prerequisites to a negative, but every targeted mutation will be a negative one
     if( has_trait( trait_CHAOTIC_BAD ) ) {
+        add_msg_debug( debugmode::DF_MUTATION, "mutate: Genetic Downward Spiral found, all bad traits" );
         allow_good = false;
         allow_bad = true;
     }
@@ -1106,14 +1106,14 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
             // ...those we don't have are valid.
             if( base_mdata.valid && is_category_allowed( base_mdata.category ) &&
                 !has_trait( base_mutation ) && !base_mdata.dummy ) {
-                add_msg_debug( debugmode::DF_MUTATION, "Trait %s added to valid trait list",
+                add_msg_debug( debugmode::DF_MUTATION, "mutate: trait %s added to valid trait list",
                                base_mdata.id.c_str() );
                 valid.push_back( base_mdata.id );
             }
 
             // ...dummy traits are cached.
             if( base_mdata.dummy && is_category_allowed( base_mdata.category ) ) {
-                add_msg_debug( debugmode::DF_MUTATION, "Trait %s added to dummy trait list",
+                add_msg_debug( debugmode::DF_MUTATION, "mutate: trait %s added to dummy trait list",
                                base_mdata.id.c_str() );
                 dummies.push_back( base_mdata.id );
             }
@@ -1127,7 +1127,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                         mutation_ok( mutation, allow_good, allow_bad, allow_neutral, mut_vit ) &&
                         mutation_is_in_category( mutation, cat ) ) {
                         add_msg_debug( debugmode::DF_MUTATION,
-                                       "Trait %s found, replacement trait %s pushed to upgrades list", base_mutation.c_str(),
+                                       "mutate: trait %s found, replacement trait %s pushed to upgrades list", base_mutation.c_str(),
                                        mutation.c_str() );
                         upgrades.push_back( mutation );
                     }
@@ -1138,7 +1138,8 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                     if( mutation->valid &&
                         mutation_ok( mutation, allow_good, allow_bad, allow_neutral, mut_vit ) &&
                         mutation_is_in_category( mutation, cat ) ) {
-                        add_msg_debug( debugmode::DF_MUTATION, "Trait %s found, addition trait %s pushed to upgrades list",
+                        add_msg_debug( debugmode::DF_MUTATION,
+                                       "mutate: trait %s found, addition trait %s pushed to upgrades list",
                                        base_mutation.c_str(), mutation.c_str() );
                         upgrades.push_back( mutation );
                     }
@@ -1153,7 +1154,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 size_t roll = rng( 0, upgrades.size() + 4 );
                 if( roll < upgrades.size() ) {
                     // We got a valid upgrade index, so use it and return.
-                    add_msg_debug( debugmode::DF_MUTATION, "Upgrade roll succeeded" );
+                    add_msg_debug( debugmode::DF_MUTATION, "mutate: upgrade roll succeeded" );
                     mutate_towards( upgrades[roll], cat, nullptr, use_vitamins );
                     return;
                 }
@@ -1165,7 +1166,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         for( size_t i = 0; i < valid.size(); i++ ) {
             if( ( !mutation_ok( valid[i], allow_good, allow_bad, allow_neutral, mut_vit ) ) ||
                 ( !valid[i]->valid ) ) {
-                add_msg_debug( debugmode::DF_MUTATION, "Trait %s removed from valid trait list",
+                add_msg_debug( debugmode::DF_MUTATION, "mutate: trait %s removed from valid trait list",
                                ( valid.begin() + i )->c_str() );
                 valid.erase( valid.begin() + i );
                 i--;
@@ -1178,6 +1179,7 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
         if( !dummies.empty() ) {
             std::shuffle( dummies.begin(), dummies.end(), rng_get_engine() );
             for( trait_id &tid : dummies ) {
+                add_msg_debug( debugmode::DF_MUTATION, "mutate: tried mutating dummy traits" );
                 if( has_conflicting_trait( tid ) && mutate_towards( tid, cat, nullptr, use_vitamins ) ) {
                     add_msg_if_player( m_mixed, mutation_category_trait::get_category( cat ).mutagen_message() );
                     return;
@@ -1198,7 +1200,8 @@ void Character::mutate( const int &true_random_chance, bool use_vitamins )
                 return;
             }
         } else {
-            if( mut_vit != vitamin_id::NULL_ID() && vitamin_get( mut_vit ) >= 2200 ) {
+            if( mut_vit != vitamin_id::NULL_ID() &&
+                vitamin_get( mut_vit ) >= mutation_category_trait::get_category( cat ).threshold_min ) {
                 test_crossing_threshold( cat );
             }
             if( mutate_towards( valid, cat, 2, use_vitamins ) ) {
@@ -1274,15 +1277,16 @@ static std::vector<trait_id> get_all_mutation_prereqs( const trait_id &id )
 }
 
 bool Character::mutate_towards( std::vector<trait_id> muts, const mutation_category_id &mut_cat,
-                                int num_tries, bool use_vitamins )
+                                int num_tries, bool use_vitamins, bool removed_base_trait )
 {
     while( !muts.empty() && num_tries > 0 ) {
         int i = rng( 0, muts.size() - 1 );
         add_msg_debug( debugmode::DF_MUTATION,
-                       "mutate_towards: %d tries left, attempting to mutate towards valid trait %s", num_tries,
-                       muts[i].c_str() );
+                       "mutate_towards: %d tries left, attempting to mutate towards valid trait %s, removed base trait %s",
+                       num_tries,
+                       muts[i].c_str(), removed_base_trait ? "true" : "false" );
 
-        if( mutate_towards( muts[i], mut_cat, nullptr, use_vitamins ) ) {
+        if( mutate_towards( muts[i], mut_cat, nullptr, use_vitamins, removed_base_trait ) ) {
             return true;
         }
 
@@ -1294,14 +1298,15 @@ bool Character::mutate_towards( std::vector<trait_id> muts, const mutation_categ
 }
 
 bool Character::mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat,
-                                const mutation_variant *chosen_var, const bool use_vitamins )
+                                const mutation_variant *chosen_var, const bool use_vitamins, bool removed_base_trait )
 {
     if( has_child_flag( mut ) ) {
         remove_child_flag( mut );
         return true;
     }
-    add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: %s attempting to mutate %s", name,
-                   mut.c_str() );
+    add_msg_debug( debugmode::DF_MUTATION,
+                   "mutate_towards: %s attempting to mutate %s, removed_base_trait %s", name,
+                   mut.c_str(), removed_base_trait ? "true" : "false" );
     const mutation_branch &mdata = mut.obj();
     // character has...
     bool c_has_both_prereqs = false;
@@ -1316,6 +1321,8 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
     // mutation has...
     bool mut_has_prereq1 = !mdata.prereqs.empty();
     bool mut_has_prereq2 = !mdata.prereqs2.empty();
+
+    const mutation_category_trait category = mutation_category_trait::get_category( mut_cat );
 
     // Check mutations of the same type - except for the ones we might need for pre-reqs
     for( const auto &consider : same_type ) {
@@ -1332,10 +1339,18 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         if( !has_trait( cancel[i] ) ) {
             cancel.erase( cancel.begin() + i );
             i--;
-        } else if( has_base_trait( cancel[i] ) || !purifiable( cancel[i] ) ) {
+        } else if( !purifiable( cancel[i] ) ) {
             //If we have the trait, but it's a base trait, don't allow it to be removed normally
             add_msg_debug( debugmode::DF_MUTATION,
-                           "mutate_towards: cancelled trait %s is a base trait, moving to canceltrait", cancel[i].c_str() );
+                           "mutate_towards: cancelled trait %s is not purifiable, moving to canceltrait", cancel[i].c_str() );
+            canceltrait.push_back( cancel[i] );
+            cancel.erase( cancel.begin() + i );
+            i--;
+        } else if( has_base_trait( cancel [i] ) &&
+                   !x_in_y( category.base_removal_chance, 100 ) ) {
+            add_msg_debug( debugmode::DF_MUTATION,
+                           "mutate_towards: cancelled trait %s is a starting trait and category %s failed its %d%% removal roll, moving to canceltrait",
+                           cancel[i].c_str(), category.id.c_str(), category.base_removal_chance );
             canceltrait.push_back( cancel[i] );
             cancel.erase( cancel.begin() + i );
             i--;
@@ -1347,6 +1362,14 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
             trait_id removed = cancel[i];
             add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: attempting to remove canceled trait %s",
                            removed.c_str() );
+            if( has_base_trait( removed ) ) {
+                add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: canceled trait %s is a base trait",
+                               cancel[i].c_str() );
+                // Need to pass this on, since we might end up gaining prerequisites that would not know about the removal otherwise
+                removed_base_trait = true;
+                my_traits.erase( removed );
+                add_msg_if_player( _( "Something integral to you has changed.  Good riddance." ) );
+            }
             remove_mutation( removed );
             cancel.erase( cancel.begin() + i );
             i--;
@@ -1410,9 +1433,9 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
 
     if( !c_has_both_prereqs && ( !prereqs1.empty() || !prereqs2.empty() ) ) {
         if( !c_has_prereq1 && !prereqs1.empty() ) {
-            return mutate_towards( prereqs1, mut_cat, 2, use_vitamins );
+            return mutate_towards( prereqs1, mut_cat, 2, use_vitamins, removed_base_trait );
         } else if( !c_has_prereq2 && !prereqs2.empty() ) {
-            return mutate_towards( prereqs2, mut_cat, 2, use_vitamins );
+            return mutate_towards( prereqs2, mut_cat, 2, use_vitamins, removed_base_trait );
         }
     }
 
@@ -1468,14 +1491,21 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
 
     const vitamin_id mut_vit = mut_cat == mutation_category_ANY ||
                                !use_vitamins ? vitamin_id::NULL_ID() :
-                               mutation_category_trait::get_category( mut_cat ).vitamin;
+                               category.vitamin;
 
     if( mut_vit != vitamin_id::NULL_ID() ) {
-        int vitamin_cost = mdata.vitamin_cost;
+        float vitamin_cost = mdata.vitamin_cost;
+        if( removed_base_trait ) {
+            vitamin_cost *= category.base_removal_cost_mul;
+            add_msg_debug( debugmode::DF_MUTATION,
+                           "mutate_towards: removed starting trait, vitamin cost multiplier of category %s %.1f",
+                           mut_cat.c_str(), category.base_removal_cost_mul );
+        }
         if( vitamin_get( mut_vit ) >= vitamin_cost ) {
-            add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: vitamin %s level %d, vitamin cost %d",
+            add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: vitamin %s level %d, vitamin cost %.1f",
                            mut_vit.c_str(), vitamin_get( mut_vit ), vitamin_cost );
             vitamin_mod( mut_vit, -vitamin_cost );
+            add_msg_debug( debugmode::DF_MUTATION, "mutate_towards: vitamin level %d", vitamin_get( mut_vit ) );
             // No instability necessary for true random mutations - they are, after all, true random
             vitamin_mod( vitamin_instability, vitamin_cost );
         } else {
