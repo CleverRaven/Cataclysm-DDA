@@ -71,7 +71,6 @@
           "t_tree_elm": 4,
           "t_tree_cherry": 4,
           "t_tree_plum": 2,
-          "t_tree_sassafras": 1,
           "t_region_tree_dead": 5,
           "t_region_tree_forest_other": 5
         },
@@ -88,7 +87,6 @@
           "t_tree_pear": 1,
           "t_tree_elderberry": 10,
           "t_tree_mulberry": 10,
-          "t_tree_sassafras": 2,
           "t_tree_juniper": 5
         },
         "t_region_tree_forest": { "t_region_tree_forest_dense": 2, "t_region_tree_forest_other": 1 },
@@ -119,7 +117,6 @@
           "t_tree_plum": 2,
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
-          "t_tree_sassafras": 3,
           "t_region_tree_dead": 48
         },
         "t_region_tree_shade": {
@@ -138,7 +135,6 @@
           "t_tree_coffee": 2,
           "t_tree_elderberry": 2,
           "t_tree_mulberry": 2,
-          "t_tree_sassafras": 3,
           "t_tree_dead": 2
         },
         "t_region_tree_fruit": {
@@ -271,7 +267,7 @@
       "boosted_percent_coverage": 2.5,
       "boosted_other": {
         "t_tree_young": 0.2,
-        "t_tree": 0.08,
+        "t_tree": 0.1,
         "t_tree_birch": 0.05,
         "t_tree_elm": 0.05,
         "t_tree_cottonwood": 0.05,
@@ -296,7 +292,6 @@
         "t_tree_plum": 0.02,
         "t_tree_elderberry": 0.02,
         "t_tree_mulberry": 0.02,
-        "t_tree_sassafras": 0.02,
         "t_region_tree_dead": 0.15,
         "t_shrub_blueberry": 8.0,
         "t_shrub_strawberry": 5.0,
@@ -553,7 +548,6 @@
               "t_tree_plum": 2,
               "t_tree_elderberry": 2,
               "t_tree_mulberry": 2,
-              "t_tree_sassafras": 3,
               "t_region_tree_dead": 90
             }
           },
@@ -877,6 +871,8 @@
         "bungalow12": 50,
         "bungalow13": 50,
         "bungalow14": 50,
+        "bungalow15": 50,
+        "bungalow16": 50,
         "house_w_1": 50,
         "house_two_story_basement": 50,
         "multi_unit_two_story_basement": 40,
