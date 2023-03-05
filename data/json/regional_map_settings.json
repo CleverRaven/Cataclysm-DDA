@@ -296,6 +296,7 @@
         "t_tree_plum": 0.02,
         "t_tree_elderberry": 0.02,
         "t_tree_mulberry": 0.02,
+        "t_tree_sassafras": 0.02,
         "t_region_tree_dead": 0.15,
         "t_shrub_blueberry": 8.0,
         "t_shrub_strawberry": 5.0,
