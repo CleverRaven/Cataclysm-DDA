@@ -1070,18 +1070,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 35, "into": "mon_zombie_hunter" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_regenerating",
