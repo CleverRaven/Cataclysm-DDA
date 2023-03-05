@@ -817,7 +817,7 @@
     "time": "30 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "filament_canvas", 180 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
+    "using": [ [ "filament_canvas", 300 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
@@ -833,7 +833,7 @@
     "type": "recipe",
     "copy-from": "aketon_wool",
     "time": "45 h",
-    "using": [ [ "filament_canvas", 270 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
+    "using": [ [ "filament_canvas", 450 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "quilt", 2 ], [ "quilt_patchwork", 2 ] ],
@@ -848,7 +848,7 @@
     "type": "recipe",
     "copy-from": "aketon_wool",
     "time": "22 h 30 m",
-    "using": [ [ "filament_canvas", 135 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
+    "using": [ [ "filament_canvas", 225 ], [ "fastener_large", 2 ], [ "fastener_small", 14 ] ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ],
@@ -872,7 +872,7 @@
     "time": "16 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "filament_canvas", 130 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
+    "using": [ [ "filament_canvas", 225 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
@@ -888,7 +888,7 @@
     "type": "recipe",
     "copy-from": "aketon_wool_vest",
     "time": "24 h",
-    "using": [ [ "filament_canvas", 195 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "filament_canvas", 310 ], [ "fastener_large", 2 ] ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "quilt", 2 ], [ "quilt_patchwork", 2 ] ],
@@ -903,7 +903,7 @@
     "type": "recipe",
     "copy-from": "aketon_wool_vest",
     "time": "12 h",
-    "using": [ [ "filament_canvas", 103 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "filament_canvas", 155 ], [ "fastener_large", 2 ] ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ],
@@ -927,7 +927,7 @@
     "time": "20 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "filament_canvas", 82 ], [ "fastener_small", 6 ] ],
+    "using": [ [ "filament_canvas", 150 ], [ "fastener_small", 6 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "quilt", 2 ], [ "quilt_patchwork", 2 ] ] ],
     "byproducts": [ [ "scrap_felt", 967 ], [ "felt_patch", 107 ] ]
@@ -939,7 +939,7 @@
     "type": "recipe",
     "copy-from": "aketon_pants_wool",
     "time": "30 h",
-    "using": [ [ "filament_canvas", 123 ], [ "fastener_small", 7 ] ],
+    "using": [ [ "filament_canvas", 225 ], [ "fastener_small", 7 ] ],
     "components": [ [ [ "quilt", 2 ], [ "quilt_patchwork", 2 ] ] ],
     "byproducts": [ [ "scrap_felt", 89 ], [ "felt_patch", 9 ] ]
   },
@@ -950,7 +950,7 @@
     "type": "recipe",
     "copy-from": "aketon_pants_wool",
     "time": "15 h",
-    "using": [ [ "filament_canvas", 61 ], [ "fastener_small", 5 ] ],
+    "using": [ [ "filament_canvas", 112 ], [ "fastener_small", 5 ] ],
     "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 45 ], [ "felt_patch", 4 ] ]
   },
@@ -970,7 +970,7 @@
     "time": "5 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "filament_canvas", 22 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "filament_canvas", 50 ], [ "fastener_small", 2 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 873 ], [ "felt_patch", 97 ] ]
@@ -982,7 +982,7 @@
     "type": "recipe",
     "copy-from": "aketon_hood_wool",
     "time": "7 h 30 m",
-    "using": [ [ "filament_canvas", 33 ], [ "fastener_small", 3 ] ],
+    "using": [ [ "filament_canvas", 75 ], [ "fastener_small", 3 ] ],
     "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 629 ], [ "felt_patch", 69 ] ]
   },
@@ -993,7 +993,7 @@
     "type": "recipe",
     "copy-from": "aketon_hood_wool",
     "time": "3 h 45 m",
-    "using": [ [ "filament_canvas", 17 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "filament_canvas", 37 ], [ "fastener_small", 2 ] ],
     "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 995 ], [ "felt_patch", 110 ] ]
   },
@@ -1013,7 +1013,7 @@
     "time": "10 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "filament_canvas", 15 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "filament_canvas", 36 ], [ "fastener_small", 2 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 1167 ], [ "felt_patch", 129 ] ]
@@ -1025,7 +1025,7 @@
     "type": "recipe",
     "copy-from": "aketon_gloves_wool",
     "time": "15 h",
-    "using": [ [ "filament_canvas", 33 ], [ "fastener_small", 3 ] ],
+    "using": [ [ "filament_canvas", 54 ], [ "fastener_small", 3 ] ],
     "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 1068 ], [ "felt_patch", 118 ] ]
   },
@@ -1036,7 +1036,7 @@
     "type": "recipe",
     "copy-from": "aketon_gloves_wool",
     "time": "8 h",
-    "using": [ [ "filament_canvas", 17 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "filament_canvas", 27 ], [ "fastener_small", 2 ] ],
     "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 1214 ], [ "felt_patch", 135 ] ]
   },
@@ -1056,7 +1056,7 @@
     "time": "65 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "filament_canvas", 320 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
+    "using": [ [ "filament_canvas", 700 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
@@ -1072,7 +1072,7 @@
     "type": "recipe",
     "copy-from": "gambeson_wool",
     "time": "97 h",
-    "using": [ [ "filament_canvas", 480 ], [ "fastener_large", 2 ], [ "fastener_small", 15 ] ],
+    "using": [ [ "filament_canvas", 1050 ], [ "fastener_large", 2 ], [ "fastener_small", 15 ] ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "quilt", 5 ], [ "quilt_patchwork", 5 ] ],
@@ -1087,7 +1087,7 @@
     "type": "recipe",
     "copy-from": "gambeson_wool",
     "time": "49 h",
-    "using": [ [ "filament_canvas", 240 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
+    "using": [ [ "filament_canvas", 550 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "quilt", 3 ], [ "quilt_patchwork", 3 ] ],
@@ -1111,7 +1111,7 @@
     "time": "58 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "filament_canvas", 290 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
+    "using": [ [ "filament_canvas", 600 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
@@ -1127,7 +1127,7 @@
     "type": "recipe",
     "copy-from": "gambeson_wool_thinsleeved",
     "time": "87 h",
-    "using": [ [ "filament_canvas", 435 ], [ "fastener_large", 2 ], [ "fastener_small", 15 ] ],
+    "using": [ [ "filament_canvas", 900 ], [ "fastener_large", 2 ], [ "fastener_small", 15 ] ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "quilt", 4 ], [ "quilt_patchwork", 4 ] ],
@@ -1142,7 +1142,7 @@
     "type": "recipe",
     "copy-from": "gambeson_wool_thinsleeved",
     "time": "44 h",
-    "using": [ [ "filament_canvas", 218 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
+    "using": [ [ "filament_canvas", 450 ], [ "fastener_large", 2 ], [ "fastener_small", 8 ] ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "quilt", 2 ], [ "quilt_patchwork", 2 ] ],
@@ -1166,7 +1166,7 @@
     "time": "36 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "filament_canvas", 210 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "filament_canvas", 520 ], [ "fastener_large", 2 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
@@ -1182,7 +1182,7 @@
     "type": "recipe",
     "copy-from": "gambeson_wool_vest",
     "time": "54 h",
-    "using": [ [ "filament_canvas", 305 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "filament_canvas", 795 ], [ "fastener_large", 2 ] ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "quilt", 4 ], [ "quilt_patchwork", 4 ] ],
@@ -1197,7 +1197,7 @@
     "type": "recipe",
     "copy-from": "gambeson_wool_vest",
     "time": "27 h",
-    "using": [ [ "filament_canvas", 153 ], [ "fastener_large", 2 ] ],
+    "using": [ [ "filament_canvas", 398 ], [ "fastener_large", 2 ] ],
     "components": [
       [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
       [ [ "quilt", 2 ], [ "quilt_patchwork", 2 ] ],
@@ -1221,7 +1221,7 @@
     "time": "40 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "filament_canvas", 140 ], [ "fastener_small", 5 ] ],
+    "using": [ [ "filament_canvas", 270 ], [ "fastener_small", 5 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "quilt", 2 ], [ "quilt_patchwork", 2 ] ], [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 573 ], [ "felt_patch", 63 ] ]
@@ -1233,7 +1233,7 @@
     "type": "recipe",
     "copy-from": "gambeson_pants_wool",
     "time": "60 h",
-    "using": [ [ "filament_canvas", 210 ], [ "fastener_small", 7 ] ],
+    "using": [ [ "filament_canvas", 405 ], [ "fastener_small", 7 ] ],
     "components": [ [ [ "quilt", 2 ], [ "quilt_patchwork", 2 ] ], [ [ "quilt", 2 ], [ "quilt_patchwork", 2 ] ] ],
     "byproducts": [ [ "scrap_felt", 116 ], [ "felt_patch", 20 ] ]
   },
@@ -1244,7 +1244,7 @@
     "type": "recipe",
     "copy-from": "gambeson_pants_wool",
     "time": "30 h",
-    "using": [ [ "filament_canvas", 105 ], [ "fastener_small", 5 ] ],
+    "using": [ [ "filament_canvas", 202 ], [ "fastener_small", 5 ] ],
     "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ], [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 58 ], [ "felt_patch", 10 ] ]
   },
@@ -1264,7 +1264,7 @@
     "time": "8 h",
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 3 ] ],
-    "using": [ [ "filament_canvas", 33 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "filament_canvas", 70 ], [ "fastener_small", 2 ] ],
     "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
     "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 968 ], [ "felt_patch", 107 ] ]
@@ -1276,7 +1276,7 @@
     "type": "recipe",
     "copy-from": "gambeson_gloves_wool",
     "time": "12 h",
-    "using": [ [ "filament_canvas", 50 ], [ "fastener_small", 3 ] ],
+    "using": [ [ "filament_canvas", 105 ], [ "fastener_small", 3 ] ],
     "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 702 ], [ "felt_patch", 78 ] ]
   },
@@ -1287,8 +1287,47 @@
     "type": "recipe",
     "copy-from": "gambeson_gloves_wool",
     "time": "6 h",
-    "using": [ [ "filament_canvas", 25 ], [ "fastener_small", 2 ] ],
+    "using": [ [ "filament_canvas", 52 ], [ "fastener_small", 2 ] ],
     "components": [ [ [ "quilt", 1 ], [ "quilt_patchwork", 1 ] ] ],
     "byproducts": [ [ "scrap_felt", 1031 ], [ "felt_patch", 114 ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "gambeson_batting",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "tailor",
+    "//": "basically just anything you can fit inside some sheets as stuffing to make a gambeson more cheaply",
+    "time": "5 s",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "result_mult": 4,
+    "components": [ [ [ "scrap_cotton", 200 ], [ "scrap_felt", 200 ], [ "scrap_canvas", 100 ], [ "scrap_fur", 67 ],  [ "cotton_patchwork", 40 ], [ "felt_patch", 67 ], [ "wool_staple", 1 ], [ "sinew", 200 ], [ "thread", 200 ], [ "yarn", 200 ], [ "plant_fibre", 200 ], [ "straw_pile", 10 ], [ "cable", 37 ] ] ]
+  },
+  {
+    "result": "gambeson",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "//": "420g per sheet (each Sheet is roughly 0.25mm, being two layers of cotton each about half the GSM of canvas which is .25mm)",
+    "//0": "4200g of sheets total, leaving 7650g of waste fabric batting",
+    "//1": "Garment zips up on the sides of the torso and along the underside of the arm.",
+    "//2": "roughly 40 hours total for the craft while skilled. articulation needed for the arms.  Much lower time thanks to big premade sheets + batting layers.",
+    "//3": "no byproducts because whatever is left would get shredded up and stuffed in the gambeson",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" }, { "proficiency": "prof_quilting" } ],
+    "difficulty": 5,
+    "time": "65 h",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "using": [ [ "filament_canvas", 700 ], [ "fastener_large", 2 ], [ "fastener_small", 10 ] ],
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [
+      [ [ "leather_belt", 1 ], [ "webbing_belt", 1 ], [ "santa_belt", 1 ] ],
+      [ [ "sheet", 10 ] ],
+      [ [ "gambeson_batting", 153 ] ]
+    ]
   }
 ]
