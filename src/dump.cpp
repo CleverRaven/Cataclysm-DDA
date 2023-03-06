@@ -135,11 +135,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_MELEE ) ) );
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_RANGED ) ) );
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_VITALS ) ) );
-            r.push_back( std::to_string( obj.bash_resist() ) );
-            r.push_back( std::to_string( obj.cut_resist() ) );
-            r.push_back( std::to_string( obj.bullet_resist() ) );
-            r.push_back( std::to_string( obj.acid_resist() ) );
-            r.push_back( std::to_string( obj.fire_resist() ) );
+            r.push_back( std::to_string( obj.resist( damage_type::BASH ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::CUT ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::BULLET ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::ACID ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::HEAT ) ) );
             rows.push_back( r );
         };
 
