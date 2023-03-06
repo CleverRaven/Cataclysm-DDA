@@ -325,5 +325,5 @@
       { "item": "blood", "prob": 20, "container-item": "canteen" },
       { "item": "blood", "prob": 10, "container-item": "thermos" }
     ]
-  },
+  }
 ]
