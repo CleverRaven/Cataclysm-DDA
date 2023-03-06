@@ -150,7 +150,7 @@
     "type": "item_group",
     "id": "fae_furs",
     "items": [
-      [ "hat_fur", 30  ],
+      [ "hat_fur", 30 ],
       [ "hat_faux_fur", 30 ],
       [ "sleeveless_trenchcoat_fur", 10 ],
       [ "sleeveless_duster_fur", 10 ],
