@@ -459,7 +459,7 @@
         [ "cordage_short", 2, "LIST" ],
         [ "filament", 100, "LIST" ]
       ],
-      [ [ "copper_scrap_equivalent", 12, "LIST" ] ]
+      [ [ "copper_scrap_equivalent", 1, "LIST" ] ]
     ]
   },
   {
@@ -626,7 +626,7 @@
       [ [ "long_pole", 1 ] ],
       [ [ "cotton_patchwork", 1 ], [ "felt_patch", 1 ], [ "leather", 1 ], [ "fur", 1 ] ],
       [ [ "duct_tape", 20 ], [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ],
-      [ [ "copper_scrap_equivalent", 15, "LIST" ] ]
+      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
     ]
   },
   {
@@ -691,7 +691,7 @@
       { "proficiency": "prof_redsmithing" },
       { "proficiency": "prof_carving", "fail_multiplier": 1 }
     ],
-    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "copper_scrap_equivalent", 15, "LIST" ] ] ]
+    "components": [ [ [ "spear_shaft", 1 ] ], [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",

@@ -113,10 +113,10 @@ void glare( const weather_type_id &w )
         incident_sun_irradiance( w, calendar::turn ) > irradiance::moderate ) {
         // Winter snow glare happens at lower irradiance
         effect = &effect_snow_glare;
-        dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
+        dur = player_character.has_effect( *effect ) ? 10_turns : 20_turns;
     } else if( incident_sun_irradiance( w, calendar::turn ) > irradiance::high ) {
         effect = &effect_glare;
-        dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
+        dur = player_character.has_effect( *effect ) ? 10_turns : 20_turns;
     }
 
     //apply final glare effect
@@ -125,7 +125,11 @@ void glare( const weather_type_id &w )
         if( player_character.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        player_character.add_env_effect( *effect, body_part_eyes, 2, dur );
+        // Glare in all your eyes
+        for( bodypart_id &bp : player_character.get_all_body_parts_of_type(
+                 body_part_type::type::sensor ) ) {
+            player_character.add_effect( *effect, dur, bp );
+        }
     }
 }
 

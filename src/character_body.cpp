@@ -19,6 +19,9 @@
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
+static const character_modifier_id
+character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
+
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -199,7 +202,8 @@ void Character::update_body( const time_point &from, const time_point &to )
         update_stamina( to_turns<int>( to - from ) );
     }
     if( can_recover_oxygen() && oxygen < get_oxygen_max() ) {
-        oxygen += std::max( ( to_turns<int>( to - from ) * get_stamina() * 5 ) / get_stamina_max(), 1 );
+        oxygen += std::max( static_cast<int>( to_turns<int>( to - from ) * get_stamina() * 5 * get_modifier(
+                character_modifier_stamina_recovery_breathing_mod )  / get_stamina_max() ), 1 );
         oxygen = std::min( oxygen, get_oxygen_max() );
     }
     update_stomach( from, to );

@@ -131,7 +131,7 @@
       }
     ],
     "weight": "454 g",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "price": 2000,
     "price_postapoc": 1250,
     "material": [ "paper", "plastic" ],
@@ -213,7 +213,7 @@
       }
     ],
     "weight": "454 g",
-    "volume": "250 ml",
+    "volume": "500 ml",
     "price": 5200,
     "price_postapoc": 1250,
     "material": [ "paper", "cardboard" ],

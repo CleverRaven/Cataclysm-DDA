@@ -187,7 +187,7 @@
     "looks_like": "t_water_dp",
     "color": "blue",
     "move_cost": 8,
-    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE", "SHALLOW_WATER" ],
+    "flags": [ "TRANSPARENT", "LIQUID", "NO_SCENT", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE" ],
     "connect_groups": "WATER",
     "connects_to": "WATER",
     "examine_action": "water_source"
