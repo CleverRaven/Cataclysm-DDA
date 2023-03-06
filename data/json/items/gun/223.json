@@ -6,7 +6,7 @@
     "name": { "str": "AR-15" },
     "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
     "description": "This ubiquitous rifle is the forefather of the M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version.",
-    "weight": "1170 g",
+    "weight": "902 g",
     "volume": "1550 ml",
     "longest_side": "520 mm",
     "//2": "Numbers for weight, volume, and length calculations are based upon an AR-15’s complete lower receiver. The difference will be made up for with integrated stats from the installable modular upper receivers.",
@@ -56,6 +56,7 @@
           "stanag20ranger_beowulf",
           "stanag30_beowulf",
           "stanag30ranger_beowulf",
+          "50beowulf_ar15mag",
           "survivor223mag"
         ]
       }
@@ -207,9 +208,10 @@
     "type": "GUN",
     "name": { "str": "M27 assault rifle" },
     "description": "Designed to replace the M4 Carbine, the M27 assault rifle features most of the former's strengths, while being considerably more durable.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
-    "weight": "3490 g",
-    "volume": "4957 ml",
-    "longest_side": "798 mm",
+    "weight": "1222 g",
+    "volume": "3407 ml",
+    "longest_side": "388 mm",
+    "//2": "Numbers for weight, volume, and length calculations are based upon an AR-15’s complete lower receiver. The difference will be made up for with integrated stats from the installable modular upper receivers.",
     "price": 540000,
     "price_postapoc": 2250,
     "variant_type": "gun",
@@ -277,6 +279,7 @@
           "stanag20ranger_beowulf",
           "stanag30_beowulf",
           "stanag30ranger_beowulf",
+          "50beowulf_ar15mag",
           "survivor223mag"
         ]
       }
@@ -461,6 +464,7 @@
           "stanag20ranger_beowulf",
           "stanag30_beowulf",
           "stanag30ranger_beowulf",
+          "50beowulf_ar15mag",
           "survivor223mag"
         ]
       }
@@ -473,7 +477,7 @@
     "type": "GUN",
     "name": { "str": "special duty carbine" },
     "description": "a rugged military carbine that has been outfitted with various accessories, such as an adjustable buttstock, suppressor, and shortened barrel, to improve its close-quarter battle effectiveness.  Most commonly deployed with special forces units and marines before the Cataclysm, its handy size lends itself well to room clearing and fighting within tight spaces.",
-    "weight": "676 g",
+    "weight": "1316 g",
     "volume": "1650 ml",
     "longest_side": "486 mm",
     "//": "The volume, weight, and overall length of an average AR-15’s complete upper receiver module have been deducted and will be made up for by the installable upper assemblies.",
@@ -512,6 +516,7 @@
           "stanag20ranger_beowulf",
           "stanag30_beowulf",
           "stanag30ranger_beowulf",
+          "50beowulf_ar15mag",
           "survivor223mag"
         ]
       }
@@ -524,7 +529,7 @@
     "type": "GUN",
     "name": { "str": "M16 burst rifle" },
     "description": "The M16 is a common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It fires in three round bursts, ensuring the rifle is more accurate, but at the cost of being slower than other assault rifles.  It is chambered in 5.56x45mm rounds, and accepts STANAG magazines.",
-    "weight": "1260 g",
+    "weight": "992 g",
     "volume": "3480 ml",
     "longest_side": "600 mm",
     "//": "The volume, weight, and overall length of an average AR-15’s complete upper receiver module have been deducted and will be made up for by the installable upper assemblies.",
@@ -584,6 +589,7 @@
           "stanag20ranger_beowulf",
           "stanag30_beowulf",
           "stanag30ranger_beowulf",
+          "50beowulf_ar15mag",
           "survivor223mag"
         ]
       }

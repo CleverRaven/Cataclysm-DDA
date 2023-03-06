@@ -3427,23 +3427,35 @@
     "variant_type": "generic",
     "variants": [
       {
-        "id": "kit_300aac_ar",
+        "id": "kit_300blk_ar15",
         "name": { "str": "caliber retool kit" },
         "description": "The stylized image of a rifle’s upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the.300 AAC Blackout cartridge.",
         "weight": 10,
         "append": true
       },
       {
-        "id": "kit_9mm_ar",
+        "id": "kit_223rem_ar15",
         "name": { "str": "caliber retool kit" },
-        "description": "The stylized image of a carbine's upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the 9x19mm pistol cartridge.",
+        "description": "The stylized image of a rifle's upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the .223 or 5.56x45mm cartridge.",
         "weight": 10,
         "append": true
       },
       {
-        "id": "kit_22lr_ar",
+        "id": "kit_50beowulf_ar15",
         "name": { "str": "caliber retool kit" },
-        "description": "The stylized image of a carbine's upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the .22 LR cartridge.",
+        "description": "The stylized image of a rifle's upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the high-caliber 12.7x42mm (.50 Beowulf) cartridge, as well as two appropriate magazines.",
+        "volume": "12600 ml",
+        "longest_side": "56 cm",
+        "//2": "(15x15x56)",
+        "pocket_data": [
+          {
+            "pocket_type": "CONTAINER",
+            "rigid": true,
+            "max_contains_volume": "12400 ml",
+            "max_contains_weight": "50 kg",
+            "max_item_length": "54 cm"
+          }
+        ],
         "weight": 10,
         "append": true
       },
