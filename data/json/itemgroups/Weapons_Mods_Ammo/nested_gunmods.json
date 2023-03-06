@@ -63,7 +63,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "nested_retool_mdrx223",
-    "//": "An assortment of different upper receiver kits, all of the same caliber, of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
+    "//": "An assortment of different conversion kits, all of the same caliber, of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
     "entries": [
       {
         "distribution": [
@@ -73,6 +73,17 @@
         ],
         "prob": 100
       },
+      { "item": "stanag30", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_retool_mdrx300blk",
+    "//": "An assortment of different conversion kits ), all of the same caliber (aka, one in this case), of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
+    "entries": [
+      { "distribution": [ { "item": "retool_mdrx_300blk", "prob": 10 } ], "prob": 100 },
       { "item": "stanag30", "charges": 0 },
       { "group": "nested_retool_extras" }
     ]
