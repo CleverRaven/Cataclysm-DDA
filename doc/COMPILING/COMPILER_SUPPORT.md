@@ -24,8 +24,6 @@ At the time of writing:
   which uses [gcc
   12.0](https://fedora.pkgs.org/36/fedora-x86_64/gcc-12.0.1-0.16.fc36.x86_64.rpm.html).
 * MSYS [offers gcc 12.2](https://packages.msys2.org/base).
-* Code::Blocks [offers g++
-  8.1](https://www.codeblocks.org/downloads/binaries/).
 * macOS 10.13+ has 96.0% [market
   share](https://gs.statcounter.com/os-version-market-share/macos/desktop/worldwide)
   and that corresponds to [XCode 10.1](https://xcodereleases.com/).
@@ -33,9 +31,10 @@ At the time of writing:
 In practice, compiler support is often determined by what is covered in our
 automated testing.
 
-At time of writing, the oldest relevant compiler is gcc 8.1, the latest offered by Code::Blocks.
+At time of writing, the oldest relevant compiler is XCode 10.1, the latest
+supported on macOS 10.13.
 
-With gcc 8.1, clang 10, and XCode 10.1 we can get all the C++17 language
+With gcc 9.3, clang 10, and XCode 10.1 we can get all the C++17 language
 features and [most but not all of the C++17 library
 features](https://en.cppreference.com/w/cpp/compiler_support/17).  The
 following C++17 features are not supported widely enough for us to use:
@@ -46,17 +45,14 @@ following C++17 features are not supported widely enough for us to use:
   filesystem library bundled with CDDA, so that can be used instead).
 * Polymorphic memory resources.
 * Mathematical special functions.
-* C11 features new since C99.
 * Elementary string conversions for floating point.
 * Array support in `std::shared_ptr` and `weak_ptr`.
 
 Some of these are not even supported in the latest XCode so we cannot expect to
 use them for many years.
 
-The limiting factors preventing us from using newer C++ features are currently
-Code::Blocks, where we would like to require gcc 10 or 11 to get [most C++20
-features](https://en.cppreference.com/w/cpp/compiler_support/20), and XCode,
-where we would probably want version 13.
+The limiting factor preventing us from using newer C++ features is primarily
+XCode, where we would probably want version 13 before moving to C++20.
 
 To monitor macOS market share we have a helper script in
 tools/macos-market-share.py.  Download the CSV-formatted data from
