@@ -1467,6 +1467,16 @@ void options_manager::add_options_general()
     "ALWAYS"
        );
 
+    add( "FORCE_SMART_CONTROLLER_OFF_ON_ENGINE_STOP", "general",
+         to_translation( "Force smart engine controller off" ),
+         to_translation( "If enabled, turn off the smart engine controller when you turn off the engine of the car without an electric motor" ),
+    {
+        { "disabled", to_translation( "options", "Disabled" ) },
+        { "enabled", to_translation( "Enabled" ) },
+        { "ask", to_translation( "Ask" ) }
+    }, "ask"
+       );
+
     add_empty_line();
 
     add( "SAFEMODE", "general", to_translation( "Safe mode" ),
@@ -2184,12 +2194,12 @@ void options_manager::add_options_graphics()
     get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
     get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
 
-    add( "USE_TILES_OVERMAP", "graphics", to_translation( "Use tiles to display overmap" ),
+    add( "USE_OVERMAP_TILES", "graphics", to_translation( "Use tiles to display overmap" ),
          to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
-         false, COPT_CURSES_HIDE
+         true, COPT_CURSES_HIDE
        );
 
-    get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
+    get_option( "USE_OVERMAP_TILES" ).setPrerequisite( "USE_TILES" );
 
     std::vector<options_manager::id_and_option> om_tilesets = build_tilesets_list();
     // filter out iso tilesets from overmap tilesets
@@ -2202,10 +2212,10 @@ void options_manager::add_options_graphics()
 
     add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
          to_translation( "Choose the overmap tileset you want to use." ),
-         om_tilesets, "retrodays", COPT_CURSES_HIDE
+         om_tilesets, "Larwick Overmap", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
-    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
+    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_OVERMAP_TILES" );
 
     add_empty_line();
 
@@ -3669,7 +3679,7 @@ static void update_options_cache()
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
                     get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );
-    use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
+    use_tiles_overmap = ::get_option<bool>( "USE_OVERMAP_TILES" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );

@@ -1780,6 +1780,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                     {
                         add_msg( _( "You let go of the controls." ) );
                     }
+                    disable_smart_controller_if_needed();
                     stop_engines();
                     get_player_character().controlling_vehicle = false;
                     g->setremoteveh( nullptr );
@@ -1791,6 +1792,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 .on_submit( [this] {
                     if( engine_on )
                     {
+                        disable_smart_controller_if_needed();
                         add_msg( _( "You turn the engine off." ) );
                         stop_engines();
                     } else
