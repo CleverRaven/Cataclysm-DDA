@@ -286,7 +286,7 @@ item::item() : bday( calendar::start_of_cataclysm )
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
-    corpse = has_flag( flag_CORPSE ) ? &mtype_id::NULL_ID().obj() : nullptr;
+    corpse = has_flag( flag_CORPSE ) ? &type->source_monster.obj() : nullptr;
     contents = item_contents( type->pockets );
     item_counter = type->countdown_interval;
     item_vars = type->item_variables;
@@ -13087,6 +13087,27 @@ bool item::process_fake_smoke( map &here, Character * /*carrier*/, const tripoin
 
 bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
 {
+    // cig dies out
+    if( item_counter == 0 ) {
+        if( carrier != nullptr ) {
+            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname() );
+        }
+        if( typeId() == itype_cig_lit ) {
+            convert( itype_cig_butt );
+        } else if( typeId() == itype_cigar_lit ) {
+            convert( itype_cigar_butt );
+        } else { // joint
+            convert( itype_joint_roach );
+            if( carrier != nullptr ) {
+                carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
+                here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_weedsmoke" ), 2 );
+                weed_msg( *carrier );
+            }
+        }
+        active = false;
+        return false;
+    }
+
     if( !one_in( 10 ) ) {
         return false;
     }
@@ -13137,25 +13158,6 @@ bool item::process_litcig( map &here, Character *carrier, const tripoint &pos )
         }
     }
 
-    // cig dies out
-    if( item_counter == 0 ) {
-        if( carrier != nullptr ) {
-            carrier->add_msg_if_player( m_neutral, _( "You finish your %s." ), tname() );
-        }
-        if( typeId() == itype_cig_lit ) {
-            convert( itype_cig_butt );
-        } else if( typeId() == itype_cigar_lit ) {
-            convert( itype_cigar_butt );
-        } else { // joint
-            convert( itype_joint_roach );
-            if( carrier != nullptr ) {
-                carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
-                here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_weedsmoke" ), 2 );
-                weed_msg( *carrier );
-            }
-        }
-        active = false;
-    }
     // Item remains
     return false;
 }

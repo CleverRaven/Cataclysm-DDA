@@ -203,7 +203,7 @@
       { "group": "spell_scroll_tier_1", "prob": 60 },
       { "group": "spell_scroll_tier_2", "prob": 30 },
       { "group": "magic_recipe_basic", "prob": 50 },
-      { "group": "magic_recipe_advanced", "prob": 16 },
+      { "group": "magic_recipe_advanced", "prob": 20 },
       { "group": "spellcraft_books", "prob": 40 },
       { "item": "alchemy_master", "prob": 12 }
     ]

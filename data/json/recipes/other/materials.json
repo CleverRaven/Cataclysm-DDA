@@ -125,7 +125,7 @@
         [ "can_drink", 2 ],
         [ "scrap_aluminum", 1 ]
       ],
-      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
+      [ [ "copper_scrap_equivalent", 1, "LIST" ] ]
     ]
   },
   {
