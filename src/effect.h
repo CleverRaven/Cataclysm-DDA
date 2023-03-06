@@ -62,6 +62,27 @@ struct vitamin_applied_effect {
     vitamin_id vitamin;
 };
 
+enum class mod_type : uint8_t {
+    BASE_MOD = 0,
+    SCALING_MOD = 1,
+
+    MAX,
+};
+
+using modifier_value_arr = std::array<double, static_cast<size_t>( mod_type::MAX )>;
+extern modifier_value_arr default_modifier_values;
+
+enum class mod_action : uint8_t {
+    AMOUNT,
+    CHANCE_BOT,
+    CHANCE_TOP,
+    MAX,
+    MAX_VAL,
+    MIN,
+    MIN_VAL,
+    TICK,
+};
+
 class effect_type
 {
         friend void load_effect_type( const JsonObject &jo );
@@ -107,10 +128,13 @@ class effect_type
         /** Returns true if an effect will only target main body parts (i.e., those with HP). */
         bool get_main_parts() const;
 
+        double get_mod_value( const std::string &type, mod_action action, uint8_t reduction_level,
+                              int intensity ) const;
+
         bool is_show_in_info() const;
 
         /** Loading helper functions */
-        bool load_mod_data( const JsonObject &jo, const std::string &member );
+        void load_mod_data( const JsonObject &jo );
         bool load_miss_msgs( const JsonObject &jo, const std::string &member );
         bool load_decay_msgs( const JsonObject &jo, const std::string &member );
 
@@ -130,6 +154,16 @@ class effect_type
         std::vector<enchantment_id> enchantments;
         cata::flat_set<json_character_flag> immune_flags;
     protected:
+        uint32_t get_effect_modifier_key( mod_action action, uint8_t reduction_level ) const {
+            return static_cast<uint8_t>( action ) << 0 |
+                   reduction_level << 8;
+        }
+
+        void extract_effect(
+            const JsonObject &j,
+            const std::string &effect_name,
+            const std::vector<std::pair<std::string, mod_action>> &action_keys );
+
         int max_intensity = 0;
         int max_effective_intensity = 0;
         time_duration max_duration = 365_days;
@@ -189,9 +223,7 @@ class effect_type
         translation death_msg;
         cata::optional<event_type> death_event;
 
-        /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
-        std::unordered_map <
-        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash > mod_data;
+        std::unordered_map<std::string, std::unordered_map<uint32_t, modifier_value_arr>> mod_data;
         std::vector<vitamin_rate_effect> vitamin_data;
         std::vector<std::pair<int, int>> kill_chance;
         std::vector<std::pair<int, int>> red_kill_chance;

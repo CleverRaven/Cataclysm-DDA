@@ -282,11 +282,6 @@
   },
   {
     "type": "recipe",
-    "result": "folding_bicycle",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "ballistic_vest_esapi",
     "obsolete": true
   },
@@ -839,11 +834,6 @@
   },
   {
     "type": "recipe",
-    "result": "sheet_metal_lit",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "ammo_satchel_from leather",
     "obsolete": true
   },
@@ -950,6 +940,51 @@
   {
     "type": "recipe",
     "result": "2x4_with_power_saw",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "meth",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fungicide",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_nitric_acid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "chem_hmtd",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "denat_alcohol",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "offal_canned",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "adv_UPS_off",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "fishing_rod_professional",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "plastic_shopping_bag",
     "obsolete": true
   }
 ]

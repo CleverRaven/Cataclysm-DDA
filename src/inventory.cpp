@@ -939,19 +939,6 @@ units::volume inventory::volume_without( const std::map<const item *, int> &with
     return ret;
 }
 
-std::vector<item *> inventory::active_items()
-{
-    std::vector<item *> ret;
-    for( std::list<item> &elem : items ) {
-        for( item &elem_stack_iter : elem ) {
-            if( elem_stack_iter.needs_processing() ) {
-                ret.push_back( &elem_stack_iter );
-            }
-        }
-    }
-    return ret;
-}
-
 enchant_cache inventory::get_active_enchantment_cache( const Character &owner ) const
 {
     enchant_cache temp_cache;

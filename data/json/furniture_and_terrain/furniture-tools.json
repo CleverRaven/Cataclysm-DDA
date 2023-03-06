@@ -430,9 +430,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": -1,
-    "examine_action": "arcfurnace_empty",
     "max_volume": "200 L",
-    "crafting_pseudo_item": "fake_arcfurnace",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM" ],
     "deconstruct": { "items": [ { "item": "metal_tank", "count": [ 1, 4 ] }, { "item": "pipe", "count": [ 2, 4 ] } ] },
     "bash": {
@@ -445,7 +443,8 @@
         { "item": "steel_chunk", "count": [ 0, 3 ] },
         { "item": "pipe", "count": [ 0, 4 ] }
       ]
-    }
+    },
+    "crafting_pseudo_item": "fake_arc_furnace"
   },
   {
     "type": "furniture",

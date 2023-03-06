@@ -1,9 +1,29 @@
-TODO: document the "npc" structure, used to load NPC template
+# Contents
+
+- [Creating new NPCs](#creating-new-npcs)
+  - [NPC Class definition](#npc-class-definition)
+    - [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
+  - [NPC instance definition](#npc-instance-definition)
+- [Writing dialogues](#writing-dialogues)
+  - [Validating Dialogues](#validating-dialogues)
+  - [Customizing NPC speech](#customizing-npc-speech)
+  - [Talk Topics](#talk-topics)
+  - [Dynamic Lines](#dynamic-lines)
+  - [Speaker Effects](#speaker-effects)
+  - [Responses](#responses)
+  - [Dialogue Effects](#dialogue-effects)
+  - [Dialogue Conditions](#dialogue-conditions)
+  - [Sample responses with conditions and effects](#sample-responses-with-conditions-and-effects)
+  - [Utility Structures](#utility-structures)
+
+---
+
 # Creating new NPCs
 Often you will want to create new NPCs to either add quests, flavor, or to introduce little known activities to the larger player base. New NPCs are written entirely in JSON, so they are one of the easier places to begin your contributions.
 
 There are two parts to creating a new NPC, apart from any dialogue you may want to add.
-#### NPC Class
+
+## NPC Class definition
 First there is the `npc_class` which follows the following template.
 Format:
 ```json
@@ -31,7 +51,7 @@ Format:
     { "group": "example_shopkeeper_itemgroup2", "trust": 10 },
     { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true },
-    { 
+    {
         "group": "example_shopkeeper_itemgroup4",
         "condition": { "u_has_var": "VIP", "type": "general", "context": "examples", "value": "yes" }
     }
@@ -45,16 +65,20 @@ Format:
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
-There are a couple of items in the above template that may not be self explanatory:
+There are some items in the above template that may not be self explanatory:
 * `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified.
+* See also [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
+
+### Shopkeeper NPC configuration
+`npc_class` supports several properties for configuring the behavior of NPCs that behave as shopkeepers:
 * `"sells_belongings": false` means that this NPC's worn or held items will strictly be excluded from their shopkeeper list; otherwise, they'll be happy to sell things like their pants. It defaults to `true` if not specified.
-*`"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+* `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
 * `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
 * `"shopkeeper_price_rules"` optional to define personal price rules with the same format as faction price rules (see [FACTIONS.md](FACTIONS.md)). These take priority over faction rules
 * `"shopkeeper_blacklist"` optional to define blacklists for this shopkeeper
 * `"restock_interval"`: optional. Default is 6 days
 
-##### Shopkeeper item groups
+#### Shopkeeper item groups
 `"shopkeeper_item_group"` entries have the following fields:
 - `"group"` : Identifies an item group to include in the possible shop rotation
 - `"trust"` : (_optional_) If the faction's trust with the player is below this value, items in this group will not be available for sale (Defaults to 0)
@@ -63,7 +87,45 @@ There are a couple of items in the above template that may not be self explanato
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
 - `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
 
-##### Shop restocking
+#### Shopkeeper consumption rates
+Controls consumption of shopkeeper's stock of items (simulates purchase by other people besides they player).
+```JSON
+  "type": "shopkeeper_consumption_rates",
+  "id": "basic_shop_rates",
+  "default_rate": 5, // defined as units/day since last restock
+  "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
+  "rates": [ // lower entries override higher ones
+      { "item": "hammer", "rate": 1 },
+      {
+        "item": "hammer",
+        "rate": 10,
+        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
+      },
+      { "category": "ammo", "rate": 10 },
+      { "group": "EXODII_basic_trade", "rate": 100 }
+      { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
+  ]
+```
+`condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](#player-or-npc-conditions).
+
+#### Shopkeeper blacklists
+Specifies blacklist of items that shopkeeper will not accept for trade.  Format is similar to `shopkeeper_consumption_rates`.
+
+```JSON
+  "type": "shopkeeper_blacklist",
+  "id": "basic_blacklist",
+  "entries": [
+      {
+        "item": "hammer",
+        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+        "message": "<npcname> hates this item"
+      },
+      { "category": "ammo" },
+      { "group": "EXODII_basic_trade" }
+  ]
+```
+
+#### Shop restocking
 NPCs with at least one `shopkeeper_item_group` will (re)stock their shop in nearby loot zones (within `PICKUP_RANGE` = 6 tiles) owned by their faction and will ignore all other items. If there isn't at least one `LOOT_UNSORTED` zone nearby, fallback zones will be automatically placed on all nearby, reachable, unsealed furniture with either the `CONTAINER` flag or a max volume higher than the floor. If there is no suitable furniture around, a 3x3 zone centered on the NPC will be created instead.
 
 Before restocking, items owned by the NPC's faction within these zones will be consumed according to `shopkeeper_consumption_rates`.
@@ -72,7 +134,7 @@ The shop restocks every `restock_interval` regardless of interactions with the a
 
 NOTE: do not place items within these loot zones in mapgen definitions as these will be consumed during the first restock. Add them to the item groups instead.
 
-#### NPC
+## NPC instance definition
 There is a second template required for a new NPC. It looks like this:
 Format:
 ```json
@@ -103,6 +165,8 @@ Faction determines what faction, if any, the NPC belongs to.  Some examples are 
 
 `age` and `height` are optional fields that can be used to define the age and height (in cm) of the NPC respectively.
 
+---
+
 # Writing dialogues
 Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can then respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
 
@@ -132,7 +196,22 @@ Field | Default topic ID  | Uses for...
 `talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
 `talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
 
-### Customize NPC speech
+---
+
+## Validating Dialogues
+Keeping track of talk topics and making sure that all the topics referenced in responses are
+defined, and all defined topics are referenced in a response or an NPC's chat, is very tricky.
+There is a python script in `tools/dialogue_validator.py` that will map all topics to responses
+and vice versa.  Invoke it with
+```sh
+python3 tools/dialogue_validator.py data/json/npcs/* data/json/npcs/Backgrounds/* data/json/npcs/refugee_center/*
+```
+
+If you are writing a mod with dialogue, you can add the paths to the mod's dialogue files.
+
+---
+
+## Customizing NPC speech
 NPCs have dialogue depending on the situation.
 This dialogue can be customized in `"type": "npc"` json entries.
 
@@ -163,6 +242,7 @@ Case use example:
 
 For further information on snippets, see [New Contributor Guide: Dialogue](https://github.com/CleverRaven/Cataclysm-DDA/wiki/New-Contributor-Guide-Dialogue)
 
+### Custom Entries
 Field | Default messages/snippets | Used for...
 ---|---|---
 `<acknowledged>` | `<acknowledged>` | see data/json/npcs/talk_tags.json
@@ -258,18 +338,9 @@ Field | Used for...
 `<npc_val:VAR>` | The npc variable VAR
 `<global_val:VAR>` | The global variable VAR
 
-### Validating Dialogues
-Keeping track of talk topics and making sure that all the topics referenced in responses are
-defined, and all defined topics are referenced in a response or an NPC's chat, is very tricky.
-There is a python script in `tools/dialogue_validator.py` that will map all topics to responses
-and vice versa.  Invoke it with
-```sh
-python3 tools/dialogue_validator.py data/json/npcs/* data/json/npcs/Backgrounds/* data/json/npcs/refugee_center/*
-```
+---
 
-If you are writing a mod with dialogue, you can add the paths to the mod's dialogue files.
-
-## Talk topics
+## Talk Topics
 
 Each topic consists of:
 1. a topic id (e.g. `TALK_ARSONIST`)
@@ -296,10 +367,10 @@ Format:
 }
 ```
 
-### type
+#### `type`
 Must always be there and must always be `"talk_topic"`.
 
-### id
+#### `id`
 The topic id can be one of the built-in topics or a new id. However, if several talk topics *in json* have the same id, the last topic definition will override the previous ones.
 
 The topic id can also be an array of strings. This is loaded as if several topics with the exact same content have been given in json, each associated with an id from the `id`, array. Note that loading from json will append responses and, if defined in json, override the `dynamic_line` and the `replace_built_in_responses` setting. This allows adding responses to several topics at once.
@@ -319,16 +390,16 @@ This example adds the "I'm going now!" response to all the listed topics.
 }
 ```
 
-### dynamic_line
+#### `dynamic_line`
 The `dynamic_line` is the line spoken by the NPC.  It is optional.  If it is not defined and the topic has the same id as a built-in topic, the `dynamic_line` from that built-in topic will be used.  Otherwise the NPC will say nothing.  [See the chapter about Dynamic Lines below](#dynamic-lines) for more details.
 
-### speaker_effect
+#### `speaker_effect`
 The `speaker_effect` is an object or array of effects that will occur after the NPC speaks the `dynamic_line`, no matter which response the player chooses.  [See the chapter about Speaker Effects below](#speaker-effects)) for more details.
 
-### response
+#### `response`
 The `responses` entry is an array with possible responses.  It must not be empty.  Each entry must be a response object. [See the chapter about Responses below](#responses) for more details.
 
-### replace_built_in_responses
+#### `replace_built_in_responses`
 `replace_built_in_responses` is an optional boolean that defines whether to dismiss the built-in responses for that topic (default is `false`). If there are no built-in responses, this won't do anything. If `true`, the built-in responses are ignored and only those from this definition in the current json are used. If `false`, the responses from the current json are used along with the built-in responses (if any).
 
 ---
@@ -397,6 +468,12 @@ The dynamic line will be randomly chosen from the hints snippets.
 #### A list of potential faction camp sites
 The dynamic line will list all of the possible starting sites for faction camps.
 
+```json
+{
+    "list_faction_camp_sites": true
+}
+```
+
 #### Based on a previously generated reason
 The dynamic line will be chosen from a reason generated by an earlier effect.  The reason will be cleared.  Use of it should be gated on the `"has_reason"` condition.
 
@@ -407,7 +484,7 @@ The dynamic line will be chosen from a reason generated by an earlier effect.  T
 }
 ```
 
-#### Based on any Dialogue condition
+#### Based on any dialogue condition
 The dynamic line will be chosen based on whether a single dialogue condition is true or false.  Dialogue conditions cannot be chained via `"and"`, `"or"`, or `"not"`.  If the condition is true, the `"yes"` response will be chosen and otherwise the `"no"` response will be chosen.  Both the `'"yes"` and `"no"` responses are optional.  Simple string conditions may be followed by `"true"` to make them fields in the dynamic line dictionary, or they can be followed by the response that will be chosen if the condition is true and the `"yes"` response can be omitted.
 
 ```json
@@ -441,6 +518,7 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
     }
 }
 ```
+
 ---
 
 ## Speaker Effects
@@ -479,8 +557,9 @@ The optional `condition` can be any legal condition, as described below.  If a `
 Speaker effects are useful for setting status variables to indicate that player has talked to the NPC without complicating the responses with multiple effect variables.  They can also be used, with a sentinel, to run a `mapgen_update` effect the first time the player hears some dialogue from the NPC.
 
 ---
+
 ## Responses
-A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, [see below](#trial) for details. There can be different results, used either when the trial succeeds and when it fails.
+A response contains at least a text, which is display to the user and "spoken" by the player character (its content has no meaning for the game) and a topic to which the dialogue will switch to. It can also have a trial object which can be used to either lie, persuade or intimidate the NPC, [see below](#trials) for details. There can be different results, used either when the trial succeeds and when it fails.
 
 Format:
 ```json
@@ -531,7 +610,7 @@ The short format is equivalent to (an unconditional switching of the topic, `eff
 }
 ```
 
-### text
+#### `text`
 Will be shown to the user, no further meaning.
 
 Text boxes; dialogue in general is a convenient space to sprinkle in descriptive text, something that isn't necessarily being said by any interlocutor
@@ -541,7 +620,7 @@ there are many ways to present this, ultimately is up to the writer, and their p
 Currently you may add a `&` as the first character in dialogue, this deletes quotation round the output text, denotes the descriptive nature of the displayed
 text, use `\"` escaped double quotes to indicate the start of actual dialogue.
 
-### truefalsetext
+#### `truefalsetext`
 May be used in place of text.  The player will have one response text if a condition is true, and another if it is false, but the same trial for either line.  `condition`, `true`, and `false` are all mandatory.
 
 ```json
@@ -554,28 +633,6 @@ May be used in place of text.  The player will have one response text if a condi
     "topic": "TALK_WONT_PAY"
 }
 ```
-
-### trial
-Optional, if not defined, `"NONE"` is used. Otherwise one of `"NONE"`, `"LIE"`, `"PERSUADE"`, `"INTIMIDATE"`, or `"CONDITION"`. If `"NONE"` is used, the `failure` object is not read, otherwise it's mandatory.
-
-The `difficulty` is only required if type is not `"NONE"` or `"CONDITION"` and, for most trials, specifies the success chance in percent (it is however modified by various things like mutations).  Higher difficulties are easier to pass. `"SKILL_CHECK"` trials are unique, and use the difficulty as a flat comparison.
-
-An optional `mod` array takes any of the following modifiers and increases the difficulty by the NPC's opinion of your character or personality trait for that modifier multiplied by the value: `"ANGER"`, `"FEAR"`, `"TRUST"`, `"VALUE"`, `"AGGRESSION"`, `"ALTRUISM"`, `"BRAVERY"`, `"COLLECTOR"`. The special `"POS_FEAR"` modifier treats NPC's fear of your character below 0 as though it were 0.  The special `"TOTAL"` modifier sums all previous modifiers and then multiplies the result by its value and is used when setting the owed value.
-
-`"CONDITION"` trials take a mandatory `condition` instead of `difficulty`.  The `success` object is chosen if the `condition` is true and the `failure` is chosen otherwise.
-
-`"SKILL_CHECK"` trials check the user's level in a skill, whose ID is read from the string object `skill_required`. The `success` object is chosen if the skill level is equal to or greater than `difficulty`, and `failure` is chosen otherwise.
-
-Sample trials:
-```json
-"trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
-"trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
-"trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
-"trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "swimming" }
-```
-
-### success and failure
-Both objects have the same structure. The `failure` object is used if the trial fails, the `success` object is used otherwise.
 
 #### `topic`
 `topic` defines which topic the dialogue will switch to, usually specified by giving its id.
@@ -595,9 +652,35 @@ Both objects have the same structure. The `failure` object is used if the trial 
 #### `effect`
 `effect` is a function that is executed after choosing the response, [see Dialogue Effects below](#dialogue-effects) for details.
 
-#### opinion changes
+### Trials
+A trial object can be used to attempt to lie to, persuade or intimidate the NPC. Different outcomes can be defined for use depending on whether the trial succeeds or fails.
 
-##### `opinion`
+#### `trial`
+
+Optional, if not defined, `"NONE"` is used. Otherwise one of `"NONE"`, `"LIE"`, `"PERSUADE"`, `"INTIMIDATE"`, or `"CONDITION"`. If `"NONE"` is used, the `failure` object is not read, otherwise it's mandatory.
+
+The `difficulty` is only required if type is not `"NONE"` or `"CONDITION"` and, for most trials, specifies the success chance in percent (it is however modified by various things like mutations).  Higher difficulties are easier to pass. `"SKILL_CHECK"` trials are unique, and use the difficulty as a flat comparison.
+
+An optional `mod` array takes any of the following modifiers and increases the difficulty by the NPC's opinion of your character or personality trait for that modifier multiplied by the value: `"ANGER"`, `"FEAR"`, `"TRUST"`, `"VALUE"`, `"AGGRESSION"`, `"ALTRUISM"`, `"BRAVERY"`, `"COLLECTOR"`. The special `"POS_FEAR"` modifier treats NPC's fear of your character below 0 as though it were 0.  The special `"TOTAL"` modifier sums all previous modifiers and then multiplies the result by its value and is used when setting the owed value.
+
+`"CONDITION"` trials take a mandatory `condition` instead of `difficulty`.  The `success` object is chosen if the `condition` is true and the `failure` is chosen otherwise.
+
+`"SKILL_CHECK"` trials check the user's level in a skill, whose ID is read from the string object `skill_required`. The `success` object is chosen if the skill level is equal to or greater than `difficulty`, and `failure` is chosen otherwise.
+
+Sample trials:
+```json
+"trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 3 ], [ "VALUE", 3 ], [ "ANGER", -3 ] ] }
+"trial": { "type": "INTIMIDATE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] }
+"trial": { "type": "CONDITION", "condition": { "npc_has_trait": "FARMER" } }
+"trial": { "type": "SKILL_CHECK", "difficulty": 3, "skill_required": "swimming" }
+```
+
+#### `success` and `failure`
+The `success` and `failure` objects define the outcome, depending on the result of the trial.  Both objects have the same structure; the `failure` object is used if the trial fails, the `success` object is used otherwise.
+
+### Opinion Changes
+
+#### `opinion`
 `opinion` is optional, if given it defines how the NPC's opinion of your character will change.
 
 trust, value, fear, and anger are optional fields inside the opinion object, each specifying a numeric value (defaults to 0). The given values are *added* to the opinion of the NPC.
@@ -617,7 +700,7 @@ Example opinions
 { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "fear": -1, "value": -1, "anger": 1 } }
 ```
 
-##### `mission_opinion`
+#### `mission_opinion`
 Similar to `opinion`, but adjusts the NPC's opinion of your character according to the mission value. The NPC's opinion is modified by the value of the current mission divided by the value of the keyword.
 
 ### Response Availability
@@ -647,9 +730,7 @@ The player will always have the option to return to a previous topic or end the 
 will otherwise have the option to give a $500, $50, or $5 bribe if they have the funds.  If they
 don't have at least $50, they will also have the option to provide some other bribe.
 
----
-
-## Repeat Responses
+### Repeat Responses
 Repeat responses are responses that should be added to the response list multiple times, once for each instance of an item.
 
 A repeat response has the following format:
@@ -672,22 +753,6 @@ One of `"for_item"` or `"for_category"`, and each can either be a single string 
 `"include_containers"` is an optional bool value, and if it is present, items containing an item will generate separate responses from the item itself.
 
 ---
-
-#### Variable Object
-`variable_object`: This is either an object, an `arithmetic` [expression](#compare-integers-and-arithmetics) or array describing a variable name. It can either describe an int, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is an int `default` is an int which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
-
-example json:
-```
-"effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
-  { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
-  { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
-  "duration": { "global_val": "test2", "default": "2 minutes" },
-  {
-    "u_spawn_monster": "mon_absence",
-    "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
-  } ]
-
-```
 
 ## Dialogue Effects
 The `effect` field of `speaker_effect` or a `response` can be any of the following effects. Multiple effects should be arranged in a list and are processed in the order listed.
@@ -758,8 +823,8 @@ Effect | Description
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
-`u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)) | Your character gains the item or `count` copies of the item, contained in container if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.
-`u_buy_item: `string or [variable object](#variable-object), `cost: `int or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | The NPC will sell your character the item or `count` copies of the item, contained in `container`, and will subtract `cost` from `op_of_u.owed`.  If the `op_o_u.owed` is less than `cost`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost` is satisfied.
+`u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `use_item_group: `bool) | Your character gains the item or `count` copies of the item, contained in container if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.
+`u_buy_item: `string or [variable object](#variable-object), `cost: `int or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `use_item_group: `bool) | The NPC will sell your character the item or `count` copies of the item, contained in `container`, and will subtract `cost` from `op_of_u.owed`.  If the `op_o_u.owed` is less than `cost`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost` is satisfied.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.
 `u_sell_item: `string or [variable object](#variable-object), (*optional* `cost: `int or [variable object](#variable-object)), (*optional* `count: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Your character will give the NPC the item or `count` copies of the item, and will add `cost` to the NPC's `op_of_u.owed` if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count` copies of the item, so it should be checked with.  If the item is sold, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `u_bulk_trade_accept, npc_bulk_trade_accept, u_bulk_trade_accept, npc_bulk_trade_accept: `int or [variable object](#variable-object)  | Only valid after a `repeat_response`.  The player trades all instances of the item from the `repeat_response` with the NPC.  For `u_bulk_trade_accept`, the player loses the items from their inventory and gains the same value of the NPC's faction currency; for `npc_bulk_trade_accept`, the player gains the items from the NPC's inventory and loses the same value of the NPC's faction currency.  If there is remaining value, or the NPC doesn't have a faction currency, the remainder goes into the NPC's `op_of_u.owed`. If `quantity` is specified only that many items/charges will be moved.
 `u_bulk_donate, npc_bulk_donate` or  `u_bulk_donate, npc_bulk_donate: `int or [variable object](#variable-object)  | Only valid after a `repeat_response`.  The player or NPC transfers all instances of the item from the `repeat_response`.  For `u_bulk_donate`, the player loses the items from their inventory and the NPC gains them; for `npc_bulk_donate`, the player gains the items from the NPC's inventory and the NPC loses them. If a value is specified only that many items/charges will be moved.
@@ -815,8 +880,8 @@ Effect | Description
 Effect | Description
 ---|---
 `mapgen_update: `string or [variable object](#variable-object)<br/>`mapgen_update:` *array of string or [variable objects](#variable-object)*, (optional `assign_mission_target` parameters), (optional `target_var: `[variable object](#variable-object)), (*optional* `time_in_future: `duration or [variable object](#variable-object)), (*optional* `key: `string or [variable object](#variable-object)) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update` (or for each `mapgen_update` entry). If `time_in_future` is set the update will happen that far in the future, in this case however the target location will be determined now and not changed even if its variables update.  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`. If `target_var` is set this effect will be centered on a location saved to a variable with its name instead.
-`revert_location: `[variable object](#variable-object), `time_in_future: `duration or [variable object](#variable-object) | `revert_location` is a variable object of the location.  The map tile at that location will be saved(terrain,furniture and traps) and restored at `time_in_future`.  If `key` is provided it can be used with `alter_timed_events` to force it to occur early. 
-`alter_timed_events: `string or [variable object](#variable-object), (*optional* `time_in_future: `duration or [variable object](#variable-object)) | Will cause all future events associated with the title string as a key to occur `time_in_future`(defaults to 0) in the future.  
+`revert_location: `[variable object](#variable-object), `time_in_future: `duration or [variable object](#variable-object) | `revert_location` is a variable object of the location.  The map tile at that location will be saved (terrain,furniture and traps) and restored at `time_in_future`.  If `key` is provided it can be used with `alter_timed_events` to force it to occur early.
+`alter_timed_events: `string or [variable object](#variable-object), (*optional* `time_in_future: `duration or [variable object](#variable-object)) | Will cause all future events associated with the title string as a key to occur `time_in_future` (defaults to 0) in the future.
 `lightning` | Allows supercharging monster in electrical fields, legacy command for lightning weather.
 `next_weather` | Forces a check for what weather it should be.
 `custom_light_level: `int or [variable object](#variable-object), `length: `duration or [variable object](#variable-object), (*optional* `key: `string or [variable object](#variable-object)) | Sets the ambient light from the sun/moon to be `custom_light_level`.  This can vary naturally between 0 and 125 depending on the sun to give a scale. This lasts `length`.  If `key` is provided it can be used with `alter_timed_events` to force it to occur early.
@@ -839,26 +904,10 @@ Effect | Description
 `offer_mission: `string or [variable object](#variable-object) or array of them | Adds mission_type_id(s) to the npc's missions that they offer.
 `run_eocs : effect_on_condition_array or single effect_condition_object` | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
 `queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: `duration or [variable object](#variable-object) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
-`u_roll_remainder, npc_roll_remainder : `array of strings and/or [variable objects](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Type must be either `bionic`, or `mutation`.  If the u or npc does not have all of the listed bionics, or mutations they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_roll_remainder, npc_roll_remainder : `array of strings and/or [variable objects](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Type must be either `bionic`, `mutation`, `spell` or `recipe`.  If the u or npc does not have all of the listed bionics, mutations, spells, or recipes they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `switch : arithmetic_expression`, `cases: effect_array` | Will calculate value of `switch` and then run member of `cases` with the highest `case` that the `switch` is higher or equal to. `cases` is an array of objects with an int_or_var `case` and an `effect` field which is a dialog effect.
 `u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: `array of strings and/or [variable objects](#variable-object)), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: `int or [variable object](#variable-object)), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
-`weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.
-Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.
-``` json
-    "effect": [
-      {
-        "weighted_list_eocs": [
-          [ "EOC_SLEEP", { "const": 1 } ],
-          [ {
-              "id": "eoc_test2",
-              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]
-            },
-            { "const": 10 }
-          ]
-        ]
-      }
-    ]
-```
+`weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.<br/><br/>Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.<pre>    "effect": [<br/>      {<br/>        "weighted_list_eocs": [<br/>          [ "EOC_SLEEP", { "const": 1 } ],<br/>          [ {<br/>              "id": "eoc_test2",<br/>              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]<br/>            },<br/>            { "const": 10 }<br/>          ]<br/>        ]<br/>      }<br/>    ]</pre>
 
 #### Deprecated
 Effect | Description
@@ -875,7 +924,7 @@ Effect | Description
 
 ---
 
-## Dialogue conditions
+## Dialogue Conditions
 Conditions can be a simple string with no other values, a key and an int, a key and a string, a key and an array, or a key and an object. Arrays and objects can nest with each other and can contain any other condition.
 
 The following keys and simple strings are available:
@@ -905,7 +954,7 @@ Condition | Type | Description
 `"u_has_any_trait"`<br/>`"npc_has_any_trait"` | array of strings and/or [variable objects](#variable-object) | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
 `"u_has_var"`, `"npc_has_var"` | string | `"type": type_str`, `"context": context_str`, and `"value": value_str` are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_add_var"` or `"npc_add_var"` with the string, `type_str`, `context_str`, and `value_str`.
 `"u_compare_var"`, `"npc_compare_var"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"value": `int or [variable object](#variable-object) ` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable that is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`) and value.
-`"u_compare_time_since_var"`, `"npc_compare_time_since_var_"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"time": time_string` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable and the current turn and that value (converted to a time point) plus the time_string is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`).  *example*: `{ "u_compare_time_since_var": "test", "type": "test", "context": "var_time_test", "op": ">", "time": "3 days" }` returns true if the player character has a "test", "test", "var_time_test" variable and the current turn is greater than that value plus 3 days' worth of turns.
+`"u_compare_time_since_var"`, `"npc_compare_time_since_var_"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"time": time_string` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable and the current turn and that value (converted to a time point) plus the time_string is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`).<br/><br/>Example: returns true if the player character has a "test", "test", "var_time_test" variable and the current turn is greater than that value plus 3 days' worth of turns.<pre>{<br/>  "u_compare_time_since_var": "test", "type": "test",<br/>  "context": "var_time_test", "op": ">", "time": "3 days"<br/>}</pre>
 `"compare_string"` | array | The array must contain exactly two entries.  They can be either strings and/or [variable objects](#variable-object).  Returns true if the strings are the same.
 `"u_has_strength"`<br/>`"npc_has_strength"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
 `"u_has_dexterity"`<br/>`"npc_has_dexterity"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
@@ -928,11 +977,8 @@ Condition | Type | Description
 `"u_is_deaf"`<br/>`"npc_is_deaf"` | simple string | `true` if the player character or NPC can't hear.
 `"u_is_on_terrain"`<br/>`"npc_is_on_terrain"` | string or [variable object](#variable-object) | `true` if the player character or NPC is on terrain named `"u_is_on_terrain"` or `"npc_is_on_terrain"`.
 `"u_is_in_field"`<br/>`"npc_is_in_field"` | string or [variable object](#variable-object) | `true` if the player character or NPC is in a field of type `"u_is_in_field"` or `"npc_is_in_field"`..
-`"u_query"`<br/>`"npc_query", default : bool` | string or [variable object](#variable-object) | if the player character or NPC is the avatar will popup a yes/no query with the provided message and users response is used as the return value.  If called for a non avatar will return `default`.
-example
-```
-"condition": { "u_query": "Should we test?", "default": true },
-```
+`"u_query"`<br/>`"npc_query", default : bool` | string or [variable object](#variable-object) | if the player character or NPC is the avatar will popup a yes/no query with the provided message and users response is used as the return value.  If called for a non avatar will return `default`.<br/><br/>Example:<pre>"condition": { "u_query": "Should we test?", "default": true },</pre>
+
 #### Player Only conditions
 
 Condition | Type | Description
@@ -977,6 +1023,7 @@ Condition | Type | Description
 `"u_rule" or "npc_rule"` | string or [variable object](#variable-object) | `true` if u or the NPC follower AI rule for that matches string is set.
 `"u_override" or "npc_override"` | string or [variable object](#variable-object)| `true` if u or the NPC has an override for the string.
 `"has_pickup_list" or "u_has_pickup_list" or "npc_has_pickup_list"` | simple string | `true` if u or the NPC has a pickup list.
+`"roll_contested""`, `difficulty`: int or [variable object](#variable-object), (*optional* `die_size : `int or [variable object](#variable-object) ) | [int expression](#compare-integers-and-arithmetics) | Compares a roll against a difficulty. Returns true if a random number between 1 and `die_size` (defaults to 10) plus the integer expression is greater than `difficulty`. For example { "u_roll_contested": { "u_val": "strength" }, "difficulty": 6 } will return whether a random number between 1 and 10 plus strength is greater than 6.
 
 #### NPC only conditions
 
@@ -994,7 +1041,7 @@ Condition | Type | Description
 `"is_day"` | simple string | `true` if it is currently daytime.
 `"u_is_outside"`</br>`"npc_is_outside"`  | simple string | `true` if you or the NPC is on a tile without a roof.
 `"u_is_underwater"`</br>`"npc_is_underwater"`  | simple string | `true` if you or the NPC is underwater.
-`"one_in_chance"` | intor [variable object](#variable-object) | `true` if a one in `one_in_chance` random chance occurs.
+`"one_in_chance"` | int or [variable object](#variable-object) | `true` if a one in `one_in_chance` random chance occurs.
 `"x_in_y_chance"` | object | `true` if a `x` in `y` random chance occurs. `x` and `y` are either ints  or [variable object](#variable-object).
 `"is_weather"` | string or [variable object](#variable-object)  | `true` if current weather is `"is_weather"`.
 
@@ -1004,88 +1051,9 @@ Condition | Type | Description
 --- | --- | ---
 `"mod_is_loaded"` | string or [variable object](#variable-object) | `true` if the mod with the given ID is loaded.
 
+---
 
-#### Compare Integers and Arithmetics
-`"compare_int"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
-```
-{
-  "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana with at maximum a value of 15.",
-  "topic": "TALK_DONE",
-  "condition": { "compare_int": [ { "u_val": "strength" }, ">=", { "const": 5 } ] }
-  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ], "max":15 }
-},
-```
-`min` and `max` are optional int or variable_object values.  If supplied they will limit the result, it will be no lower than `min` and no higher than `max`. `min_time` and `max_time` work the same way but will parse times written as a string i.e. "10 hours".
-`"compare_int"` supports the following operators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
-
-`"arithmetic"` supports the following operators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"` and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
-
-To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or written to follows.
-
-Example | Description
---- | ---
-`"const": 5` | A constant value, in this case 5. Can be read but not written to.
-`"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
-`"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
-`"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
-`"weather": "temperature"` | Current temperature.
-`"weather": "windpower"` | Current windpower.
-`"weather": "humidity"` | Current humidity.
-`"weather": "pressure"` | Current pressure.
-`"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
-`"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
-`"u_val": "strength_bonus"` | Player character's current strength bonus. Replace `"strength_bonus"` with `"dexterity_bonus"`, `"intelligence_bonus"`, or `"perception_bonus"` to get such values.
-`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. If `global_val` is used then a global variable will be used. If `default` is given as either an int or a variable_object then that value will be used if the variable is empty. If `default_time` is the same thing will happen, but it will be parsed as a time string aka "10 hours". Otherwise 0 will be used if the variable is empty.
-`"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used is turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
-`"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
-`"u_val": "cash"` | Amount of money the character has. Only supported for the player character. Can be read but not written to.
-`"u_val": "owed"` | Owed money to the NPC you're talking to.
-`"u_val": "sold"` | Amount sold to the NPC you're talking to.
-`"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
-`"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
-`"u_val": "pain"` | Pain level.
-`"u_val": "power"` | Bionic power in millijoule.
-`"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
-`"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
-`"u_val": "morale"` | The current morale. Can be read but not written to for players and for monsters can be read and written to.
-`"u_val": "mana"` | Current mana.
-`"u_val": "mana_max"` | Max mana. Can be read but not written to.
-`"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
-`"u_val": "thirst"` | Current thirst.
-`"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
-`"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
-`"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
-`"u_val": "exp"` | Total experience earned.
-`"u_val": "addiction_intensity", "addiction": "caffeine"` | Current intensity of the given addiction. Allows for an optional field `"mod"` which accepts an integer to multiply againt the current intensity.
-`"u_val": "addiction_turns", "addiction": "caffeine"` | Current duration left (in turns) for the given addiction.
-`"u_val": "stim"` | Current stim level.
-`"u_val": "pkill"` | Current painkiller level.
-`"u_val": "rad"` | Current radiation level.
-`"u_val": "focus"` | Current focus level.
-`"u_val": "activity_level"` | Current activity level index, from 0-5
-`"u_val": "fatigue"` | Current fatigue level.
-`"u_val": "stamina"` | Current stamina level.
-`"u_val": "sleep_deprivation"` | Current sleep deprivation level.
-`"u_val": "anger"` | Current anger level, only works for monsters.
-`"u_val": "friendly"` | Current friendly level, only works for monsters.
-`"u_val": "vitamin"` | Current vitamin level. `name` must also be specified which is the vitamins id.
-`"u_val": "age"` | Current age in years.
-`"u_val": "bmi_permil"` | Current BMI per mille (Body Mass Index x 1000)
-`"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
-`"u_val": "monsters_nearby"` | Number of monsters nearby. Optional params: `target_var` is a variable_object of a location variable to center the effect on, `id` is a variable_object, if its provided only monsters with this id will be counted, `radius` a variable_object of how far around the center to count from. 
-`"u_val": "spell_level"` | Level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Optional params: `school` gives the highest level of spells known of that school (read only), `spell` reads or writes the level of the spell with matching spell id. If no parameter is provided, you will get the highest spell level of the spells you know (read only).
-`"u_val": "spell_exp"` | Experience for a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Required param: `spell` is the id of the spell in question.
-`"u_val": "proficiency"` | Deals with a proficiency. Required params: `proficiency_id` is the id of the proficiency dealt with. `format` determines how the proficiency will be interacted with. `"format": <int>` will read or write how much you have trained a proficiency out of <int>. So for exaple, if you write a 5 to a proficiency using `"format": 10`, you will set the proficiency to be trained to 50%. `"format": "percent"` reads or writes how many percen done the learning is. `"format": "permille"` does likewise for permille. `"format": "total_time_required"` gives you total time required to train a given proficiency (read only). `"format": "time_spent"` deals with total time spent. `"format": "time_left"` sets the remaining time instead. For most formats possible, If the resulting time is set to equal or more than the time required to learn the proficiency, you learn it. If you read it and it gives back the total time required, it means it is learnt. Setting the total time practiced to a negative value completely removes the proficiency from your known and practiced proficiencies. If you try to read time spent on a proficiency that is not in your proficiency list, you will get back 0 seconds.
-`"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.
-`"hour"` | Hours since midnight.
-`"moon"` | Phase of the moon. MOON_NEW =0, WAXING_CRESCENT =1, HALF_MOON_WAXING =2, WAXING_GIBBOUS =3, FULL =4, WANING_GIBBOUS =5, HALF_MOON_WANING =6, WANING_CRESCENT =7
-`"arithmetic"` | An arithmetic expression with no result.   
-```
-"condition": { "compare_int": [ { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] }, ">", { "const": 5 } ] }
-"real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] },
-```
-
-#### Sample responses with conditions and effects
+## Sample responses with conditions and effects
 ```json
 {
   "text": "Understood.  I'll get those antibiotics.",
@@ -1111,7 +1079,7 @@ Example | Description
     }
   },
   "effect": {
-    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes" }
+    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
   }
 },
 {
@@ -1219,3 +1187,102 @@ Example | Description
   ]
 }
 ```
+
+---
+
+## Utility Structures
+
+### Variable Object
+`variable_object`: This is either an object, an `arithmetic` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
+
+example json:
+```
+"effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
+  { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
+  { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
+  "duration": { "global_val": "test2", "default": "2 minutes" },
+  {
+    "u_spawn_monster": "mon_absence",
+    "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
+  } ]
+
+```
+
+### Compare Numbers and Arithmetics
+`"compare_num"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
+```
+{
+  "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana with at maximum a value of 15.",
+  "topic": "TALK_DONE",
+  "condition": { "compare_num": [ { "u_val": "strength" }, ">=", { "const": 5 } ] }
+  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ], "max":15 }
+},
+```
+`min` and `max` are optional double or variable_object values.  If supplied they will limit the result, it will be no lower than `min` and no higher than `max`. `min_time` and `max_time` work the same way but will parse times written as a string i.e. "10 hours".
+`"compare_num"` supports the following operators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
+
+`"arithmetic"` supports the following operators: `"*"`(multiplication), `"/"`(divison), `"+"`(addition), `"-"`(subtraction), `"%"`(modulus), `"^"`(power) and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
+
+To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or written to follows.
+
+Example | Description
+--- | ---
+`"const": 5` | A constant value, in this case 5. Can be read but not written to.
+`"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
+`"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
+`"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
+`"faction_trust": "free_merchants"` | The trust the faction has for the player (see [FACTIONS.md](FACTIONS.md)) for details.
+`"faction_like": "free_merchants"` | How much the faction likes the player (see [FACTIONS.md](FACTIONS.md)) for details.
+`"faction_respect": "free_merchants"` | How much the faction respects the player(see [FACTIONS.md](FACTIONS.md)) for details.
+`"weather": "temperature"` | Current temperature.
+`"weather": "windpower"` | Current windpower.
+`"weather": "humidity"` | Current humidity.
+`"weather": "pressure"` | Current pressure.
+`"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
+`"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
+`"u_val": "strength_bonus"` | Player character's current strength bonus. Replace `"strength_bonus"` with `"dexterity_bonus"`, `"intelligence_bonus"`, or `"perception_bonus"` to get such values.
+`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified. If `global_val` is used then a global variable will be used. If `default` is given as either an int or a variable_object then that value will be used if the variable is empty. If `default_time` is the same thing will happen, but it will be parsed as a time string aka "10 hours". Otherwise 0 will be used if the variable is empty.
+`"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used is turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
+`"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
+`"u_val": "cash"` | Amount of money the character has. Only supported for the player character. Can be read but not written to.
+`"u_val": "owed"` | Owed money to the NPC you're talking to.
+`"u_val": "sold"` | Amount sold to the NPC you're talking to.
+`"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
+`"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
+`"u_val": "pain"` | Pain level.
+`"u_val": "power"` | Bionic power in millijoule.
+`"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
+`"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
+`"u_val": "morale"` | The current morale. Can be read but not written to for players and for monsters can be read and written to.
+`"u_val": "mana"` | Current mana.
+`"u_val": "mana_max"` | Max mana. Can be read but not written to.
+`"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
+`"u_val": "thirst"` | Current thirst.
+`"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy.
+`"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
+`"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
+`"u_val": "exp"` | Total experience earned.
+`"u_val": "addiction_intensity", "addiction": "caffeine"` | Current intensity of the given addiction. Allows for an optional field `"mod"` which accepts an integer to multiply againt the current intensity.
+`"u_val": "addiction_turns", "addiction": "caffeine"` | Current duration left (in turns) for the given addiction.
+`"u_val": "stim"` | Current stim level.
+`"u_val": "pkill"` | Current painkiller level.
+`"u_val": "rad"` | Current radiation level.
+`"u_val": "focus"` | Current focus level.
+`"u_val": "activity_level"` | Current activity level index, from 0-5
+`"u_val": "fatigue"` | Current fatigue level.
+`"u_val": "stamina"` | Current stamina level.
+`"u_val": "sleep_deprivation"` | Current sleep deprivation level.
+`"u_val": "anger"` | Current anger level, only works for monsters.
+`"u_val": "friendly"` | Current friendly level, only works for monsters.
+`"u_val": "vitamin"` | Current vitamin level. `name` must also be specified which is the vitamins id.
+`"u_val": "age"` | Current age in years.
+`"u_val": "bmi_permil"` | Current BMI per mille (Body Mass Index x 1000)
+`"u_val": "height"` | Current height in cm. When setting there is a range for your character size category. Setting it too high or low will use the limit instead. For tiny its 58, and 87. For small its 88 and 144. For medium its 145 and 200. For large its 201 and 250. For huge its 251 and 320.
+`"u_val": "monsters_nearby"` | Number of monsters nearby. Optional params: `target_var` is a variable_object of a location variable to center the effect on, `id` is a variable_object, if its provided only monsters with this id will be counted, `radius` a variable_object of how far around the center to count from.
+`"u_val": "spell_level"` | Level of a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Optional params: `school` gives the highest level of spells known of that school (read only), `spell` reads or writes the level of the spell with matching spell id. If no parameter is provided, you will get the highest spell level of the spells you know (read only).
+`"u_val": "spell_exp"` | Experience for a given spell. -1 means the spell is not known when read and that the spell should be forgotten if written. Required param: `spell` is the id of the spell in question.
+`"u_val": "proficiency"` | Deals with a proficiency. Required params: `proficiency_id` is the id of the proficiency dealt with. `format` determines how the proficiency will be interacted with. `"format": <int>` will read or write how much you have trained a proficiency out of <int>. So for exaple, if you write a 5 to a proficiency using `"format": 10`, you will set the proficiency to be trained to 50%. `"format": "percent"` reads or writes how many percen done the learning is. `"format": "permille"` does likewise for permille. `"format": "total_time_required"` gives you total time required to train a given proficiency (read only). `"format": "time_spent"` deals with total time spent. `"format": "time_left"` sets the remaining time instead. For most formats possible, If the resulting time is set to equal or more than the time required to learn the proficiency, you learn it. If you read it and it gives back the total time required, it means it is learnt. Setting the total time practiced to a negative value completely removes the proficiency from your known and practiced proficiencies. If you try to read time spent on a proficiency that is not in your proficiency list, you will get back 0 seconds.
+`"distance": []` | Distance between two targets. Valid targets are: "u","npc" and an object with a variable name.<br/><br/>Example:<pre>"condition": { "compare_num": [<br/>  { "distance": [ "u",{ "u_val": "stuck", "type": "ps", "context": "teleport" }  ] },<br/>  ">", { "const": 5 }<br/>] }</pre>
+`"hour"` | Hours since midnight.
+`"moon"` | Phase of the moon.<pre>MOON_NEW =0,<br/>WAXING_CRESCENT =1,<br/>HALF_MOON_WAXING =2,<br/>WAXING_GIBBOUS =3,<br/>FULL =4,<br/>WANING_GIBBOUS =5,<br/>HALF_MOON_WANING =6,<br/>WANING_CRESCENT =7</pre>
+`"arithmetic"` | An arithmetic expression with no result.<br/><br/>Example:<pre>"real_count": { "arithmetic": [<br/>  { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] },<br/>  "+", { "const": 1 }<br/>] },</pre>

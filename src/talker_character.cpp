@@ -192,6 +192,16 @@ bool talker_character_const::has_trait( const trait_id &trait_to_check ) const
     return me_chr_const->has_trait( trait_to_check );
 }
 
+bool talker_character_const::has_recipe( const recipe_id &recipe_to_check ) const
+{
+    return me_chr_const->knows_recipe( &*recipe_to_check );
+}
+
+void talker_character::learn_recipe( const recipe_id &recipe_to_learn )
+{
+    me_chr->learn_recipe( &*recipe_to_learn );
+}
+
 bool talker_character_const::is_deaf() const
 {
     return me_chr_const->is_deaf();
@@ -580,6 +590,17 @@ bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
 {
     return me_chr_const->has_item_with_flag( flag );
+}
+
+int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_func ) const
+{
+    std::vector<int> rad_vals;
+    for( const item *it : me_chr_const->all_items_with_flag( flag ) ) {
+        if( me_chr_const->is_worn( *it ) || me_chr_const->is_wielding( *it ) ) {
+            rad_vals.emplace_back( it->irradiation );
+        }
+    }
+    return aggregate( rad_vals, agg_func );
 }
 
 units::energy talker_character_const::power_cur() const
