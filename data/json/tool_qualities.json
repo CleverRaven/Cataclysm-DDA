@@ -404,10 +404,5 @@
     "type": "tool_quality",
     "id": "CUT_GLASS",
     "name": { "str": "glass cutting" }
-  },
-  {
-    "type": "tool_quality",
-    "id": "MOP",
-    "name": { "str": "mopping" }
   }
 ]

@@ -1396,13 +1396,9 @@ jerrycan
 jerrypack
 jewelboxes
 jians
-jirt
-jirts
 johnnycake
 jointer
 jointing
-jort
-jorts
 jtest
 junglefowl
 junipers
@@ -1728,7 +1724,6 @@ moonflower
 moonflowers
 moorhen
 mordant
-morels
 moriatur
 morningstar
 moroi

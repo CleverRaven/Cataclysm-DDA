@@ -493,49 +493,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "ants_fungus_colony",
-    "//": "Not related to the mycus, just a big ball of mushrooms.",
-    "object": {
-      "fill_ter": "t_dirt_underground",
-      "rows": [
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
-        "######1          #######",
-        "#######          #######",
-        "######1          1######",
-        "######1           1#####",
-        "#####1     11      1####",
-        "####1    1 111    1#####",
-        "#####1   111111   1#####",
-        "####1    1111111   1####",
-        "####1   1 11111    1####",
-        "###1      1111      1###",
-        "###1       11     11####",
-        "####111          1######",
-        "#######11     1   1#####",
-        "#########1  11     1####",
-        "########1  111   1######",
-        "#######1    11   1######",
-        "########11        1#####",
-        "##########11  11########",
-        "############11##########",
-        "########################",
-        "########################"
-      ],
-      "terrain": { "#": "t_soil", "1": "t_fungus_colony" },
-      "place_nested": [
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 2 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 3 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 4 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "om_terrain": "ants_food",
     "object": {
       "fill_ter": "t_dirt_underground",
@@ -974,49 +931,6 @@
         { "chunks": [ "ant_tunnel_bounds_v" ], "y": [ 4, 6 ], "x": 21 },
         { "chunks": [ "ant_tunnel_bounds_v" ], "y": [ 4, 6 ], "x": 22 },
         { "chunks": [ "ant_tunnel_bounds_v" ], "y": [ 4, 6 ], "x": 23 }
-      ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "acid_ants_fungus_colony",
-    "//": "Not related to the mycus, just a big ball of mushrooms.",
-    "object": {
-      "fill_ter": "t_dirt_underground",
-      "rows": [
-        "#######          #######",
-        "#######          #######",
-        "#######          #######",
-        "######1          #######",
-        "#######          #######",
-        "######1          1######",
-        "######1           1#####",
-        "#####1     11      1####",
-        "####1    1 111    1#####",
-        "#####1   111111   1#####",
-        "####1    1111111   1####",
-        "####1   1 11111    1####",
-        "###1      1111      1###",
-        "###1       11     11####",
-        "####111          1######",
-        "#######11     1   1#####",
-        "#########1  11     1####",
-        "########1  111   1######",
-        "#######1    11   1######",
-        "########11        1#####",
-        "##########11  11########",
-        "############11##########",
-        "########################",
-        "########################"
-      ],
-      "terrain": { "#": "t_soil", "1": "t_fungus_colony" },
-      "place_nested": [
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 2 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 3 },
-        { "chunks": [ "ant_tunnel_bounds_h" ], "x": [ 4, 6 ], "y": 4 }
       ]
     }
   },

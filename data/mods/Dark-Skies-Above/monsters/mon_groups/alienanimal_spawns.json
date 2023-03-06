@@ -1,0 +1,83 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "dks_mon_mossliz", "weight": 10, "cost_multiplier": 7, "starts": 72 },
+      { "monster": "dks_mon_mossliz", "weight": 13, "cost_multiplier": 7, "starts": 168 },
+      { "monster": "dks_mon_mossliz", "weight": 16, "cost_multiplier": 7, "starts": 576 },
+      { "monster": "dks_mon_mossliz", "weight": 23, "cost_multiplier": 7, "starts": 2160 },
+      { "monster": "dks_mon_packliz", "weight": 9, "cost_multiplier": 10, "pack_size": [ 3, 5 ], "starts": 96 },
+      { "monster": "dks_mon_packliz", "weight": 12, "cost_multiplier": 10, "pack_size": [ 3, 5 ], "starts": 192 },
+      { "monster": "dks_mon_packliz", "weight": 15, "cost_multiplier": 10, "pack_size": [ 3, 5 ], "starts": 600 },
+      { "monster": "dks_mon_packliz", "weight": 19, "cost_multiplier": 10, "pack_size": [ 3, 5 ], "starts": 2160 },
+      { "monster": "dks_mon_wisp", "weight": 5, "starts": 48, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "weight": 7, "starts": 96, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "weight": 9, "starts": 144, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "weight": 11, "starts": 192, "pack_size": [ 1, 6 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SWAMP",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "dks_mon_mossliz", "weight": 13, "cost_multiplier": 4, "starts": 72 },
+      { "monster": "dks_mon_mossliz", "weight": 15, "cost_multiplier": 4, "starts": 168 },
+      { "monster": "dks_mon_mossliz", "weight": 19, "cost_multiplier": 4, "starts": 576 },
+      { "monster": "dks_mon_mossliz", "weight": 24, "cost_multiplier": 4, "starts": 2160 },
+      { "monster": "dks_mon_packliz", "weight": 9, "cost_multiplier": 7, "pack_size": [ 3, 5 ], "starts": 96 },
+      { "monster": "dks_mon_packliz", "weight": 13, "cost_multiplier": 7, "pack_size": [ 3, 5 ], "starts": 192 },
+      { "monster": "dks_mon_packliz", "weight": 16, "cost_multiplier": 7, "pack_size": [ 3, 5 ], "starts": 600 },
+      { "monster": "dks_mon_packliz", "weight": 21, "cost_multiplier": 7, "pack_size": [ 3, 5 ], "starts": 2160 },
+      { "monster": "dks_mon_wisp", "weight": 8, "starts": 48, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "weight": 11, "starts": 96, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "weight": 14, "starts": 144, "pack_size": [ 1, 6 ] },
+      { "monster": "dks_mon_wisp", "weight": 17, "starts": 192, "pack_size": [ 1, 6 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RIVER",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "dks_mon_lurker", "weight": 1, "cost_multiplier": 25, "starts": 96 },
+      { "monster": "dks_mon_lurker", "weight": 10, "cost_multiplier": 25, "starts": 672 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SEWER",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "dks_mon_lurker_sewer", "weight": 5, "cost_multiplier": 10, "starts": 96 },
+      { "monster": "dks_mon_crystal_mite", "weight": 7, "cost_multiplier": 5, "pack_size": [ 4, 6 ], "starts": 1440 },
+      {
+        "monster": "dks_mon_crystal_mite",
+        "weight": 11,
+        "cost_multiplier": 10,
+        "pack_size": [ 7, 9 ],
+        "starts": 2160
+      }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SAFE",
+    "is_safe": true,
+    "is_animal": true,
+    "monsters": [ { "monster": "dks_mon_wisp", "weight": 1, "starts": 48 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_WORM",
+    "is_animal": true,
+    "monsters": [ { "monster": "dks_mon_bileworm", "weight": 30, "cost_multiplier": 20 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "DUMP_ANIMALS",
+    "monsters": [ { "monster": "dks_mon_bileworm", "weight": 10, "starts": 48 } ]
+  }
+]

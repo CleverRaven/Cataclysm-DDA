@@ -1,0 +1,21 @@
+[
+  {
+    "type": "SPECIES",
+    "id": "ALIEN",
+    "description": "an alien invader",
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "WILDALIEN",
+    "description": "an alien animal",
+    "fear_triggers": [ "HURT", "FIRE" ]
+  },
+  {
+    "type": "SPECIES",
+    "id": "BIOCRYSTAL",
+    "description": "a fusion of flesh and mineral",
+    "footsteps": "shuffling.",
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ]
+  }
+]

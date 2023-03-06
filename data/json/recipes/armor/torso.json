@@ -1754,7 +1754,7 @@
     "difficulty": 3,
     "time": "3 h 30 m",
     "autolearn": true,
-    "reversible": { "time": "10 m" },
+    "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
   },

@@ -1,0 +1,44 @@
+[
+  {
+    "type": "speech",
+    "speaker": [ "mon_dks_emissary", "mon_dks_emissary_war", "mon_dks_emissary_flame" ],
+    "sound": "booming footsteps.",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dks_emissary", "mon_dks_emissary_war", "mon_dks_emissary_flame" ],
+    "sound": "booming footsteps.",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dks_emissary", "mon_dks_emissary_war", "mon_dks_emissary_flame" ],
+    "sound": "booming footsteps.",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dks_emissary", "mon_dks_emissary_war", "mon_dks_emissary_flame" ],
+    "sound": "booming footsteps.",
+    "volume": 50
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dks_emissary", "mon_dks_emissary_war" ],
+    "sound": "a haunting mechanical humming.",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dks_emissary_flame" ],
+    "sound": "a semi-musical chirping that echos across the landscape.",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_dks_emissary", "mon_dks_emissary_war", "mon_dks_emissary_flame" ],
+    "sound": "booming footsteps.",
+    "volume": 50
+  }
+]

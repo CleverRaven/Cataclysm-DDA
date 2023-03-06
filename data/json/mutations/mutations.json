@@ -635,8 +635,7 @@
     "description": "You have a high tolerance for pain.",
     "starting_trait": true,
     "types": [ "PAIN" ],
-    "category": [ "MEDICAL", "TROGLOBITE" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.33 } ] } ]
+    "category": [ "MEDICAL", "TROGLOBITE" ]
   },
   {
     "type": "mutation",
@@ -705,8 +704,7 @@
     "description": "The bottoms of your feet are tough, and you are accustomed to going barefoot.  You receive no movement penalty for not wearing shoes.",
     "starting_trait": true,
     "types": [ "SOLES" ],
-    "category": [ "GASTROPOD" ],
-    "flags": [ "TOUGH_FEET" ]
+    "category": [ "GASTROPOD" ]
   },
   {
     "type": "mutation",
@@ -2076,7 +2074,7 @@
     "visibility": 1,
     "description": "Your vision has become particularly acute: you suspect you could pick out zombies much farther away.  Perception +4.",
     "types": [ "EYES" ],
-    "prereqs": [ "PER_UP_4" ],
+    "prereqs": [ "PER_UP" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
     "passive_mods": { "per_mod": 4 }
@@ -3646,8 +3644,7 @@
     "visibility": 1,
     "description": "The bottoms of your feet are strongly padded.  You receive no movement penalty for not wearing shoes, and even receive a 10% bonus when moving barefoot.",
     "types": [ "SOLES" ],
-    "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE", "SPIDER" ],
-    "flags": [ "TOUGH_FEET" ]
+    "category": [ "BATRACHIAN", "RABBIT", "URSINE", "FELINE", "LUPINE", "SPIDER" ]
   },
   {
     "type": "mutation",
@@ -3762,8 +3759,7 @@
       "attack_text_npc": "%1$s kicks %2$s with their hooves",
       "chance": 15,
       "strength_damage": { "damage_type": "bash", "amount": 3 }
-    },
-    "flags": [ "TOUGH_FEET" ]
+    }
   },
   {
     "type": "mutation",
@@ -3785,8 +3781,7 @@
     "prereqs": [ "PAINRESIST" ],
     "prereqs2": [ "STOCKY_TROGLO" ],
     "threshreq": [ "THRESH_TROGLOBITE" ],
-    "category": [ "TROGLOBITE" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.5 } ] } ]
+    "category": [ "TROGLOBITE" ]
   },
   {
     "type": "mutation",
@@ -4461,8 +4456,7 @@
     "starting_trait": true,
     "types": [ "PAIN" ],
     "//": "The MORE_PAIN mutations will always increase the pain you receive by at least 1.",
-    "changes_to": [ "MORE_PAIN2" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": 0.25 } ] } ]
+    "changes_to": [ "MORE_PAIN2" ]
   },
   {
     "type": "mutation",
@@ -4472,8 +4466,7 @@
     "description": "Your body experiences pain out of proportion to the physical causes.  Pain dealt to you is increased by 50%.",
     "types": [ "PAIN" ],
     "prereqs": [ "MORE_PAIN" ],
-    "changes_to": [ "MORE_PAIN3" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": 0.5 } ] } ]
+    "changes_to": [ "MORE_PAIN3" ]
   },
   {
     "type": "mutation",
@@ -4482,8 +4475,7 @@
     "points": -5,
     "description": "Your body reacts cripplingly to any source of pain.  Pain dealt to you is doubled.",
     "types": [ "PAIN_RECOVERY" ],
-    "prereqs": [ "MORE_PAIN2" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": 1 } ] } ]
+    "prereqs": [ "MORE_PAIN2" ]
   },
   {
     "type": "mutation",
@@ -5293,6 +5285,7 @@
     "description": "Your senses are a little keener.  +1 Perception.",
     "types": [ "PER" ],
     "changes_to": [ "PER_UP_2" ],
+    "leads_to": [ "BIRD_EYE" ],
     "category": [ "ALPHA", "CHIMERA", "BATRACHIAN", "ELFA", "RAPTOR", "BIRD", "SLIME", "SPIDER" ],
     "passive_mods": { "per_mod": 1 }
   },
@@ -5329,7 +5322,6 @@
     "description": "You can sense things you never imagined.  +7 Perception.",
     "types": [ "PER" ],
     "prereqs": [ "PER_UP_3" ],
-    "leads_to": [ "BIRD_EYE" ],
     "threshreq": [ "THRESH_BIRD" ],
     "category": [ "BIRD" ],
     "passive_mods": { "per_mod": 7 }
@@ -6692,8 +6684,7 @@
     "threshreq": [ "THRESH_PLANT" ],
     "changes_to": [ "ROOTS3" ],
     "category": [ "PLANT" ],
-    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ],
-    "flags": [ "TOUGH_FEET" ]
+    "encumbrance_covered": [ [ "foot_l", 10 ], [ "foot_r", 10 ] ]
   },
   {
     "type": "mutation",
@@ -6848,17 +6839,6 @@
     "types": [ "VOICE_TONE" ],
     "category": [ "LIZARD", "RAPTOR" ],
     "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
-  },
-  {
-    "type": "mutation",
-    "id": "SCREECH",
-    "name": { "str": "Screeching Voice" },
-    "mixed_effect": true,
-    "points": 0,
-    "description": "Your voice sounds like a bird trying to imitate a human.  Persuading NPCs will be more difficult, but threatening them will be easier.",
-    "types": [ "VOICE_TONE" ],
-    "category": [ "BIRD" ],
-    "social_modifiers": { "persuade": -10, "lie": -20, "intimidate": 10 }
   },
   {
     "type": "mutation",
@@ -7163,8 +7143,7 @@
     ],
     "restricts_gear": [ "foot_l", "foot_r" ],
     "movecost_modifier": 1.2,
-    "noise_modifier": 0.0,
-    "flags": [ "TOUGH_FEET" ]
+    "noise_modifier": 0.0
   },
   {
     "type": "mutation",

@@ -499,14 +499,14 @@
           { "item": "SUS_tailoring_fasteners", "chance": 30, "repeat": [ 2, 6 ] }
         ],
         ".": { "item": "clutter_basement" },
-        "=": { "item": "sex_lair", "chance": 25, "repeat": [ 2, 4 ] },
+        "=": { "item": "sex_lair", "chance": 10 },
         "!": { "item": "crate_stack", "chance": 100 },
-        "D": { "item": "sex_lair", "chance": 55, "repeat": [ 2, 6 ] },
-        "d": { "item": "sex_lair", "chance": 55, "repeat": [ 2, 6 ] }
+        "D": { "item": "sex_lair", "chance": 15 },
+        "d": { "item": "sex_lair", "chance": 15 }
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 },
-        { "monster": "GROUP_MANSION_SEX_LAIR", "x": [ 5, 19 ], "y": [ 16, 18 ], "density": 0.1 }
+        { "monster": "GROUP_MANSION_SEX_LAIR", "x": [ 6, 19 ], "y": [ 16, 18 ], "density": 0.1 }
       ]
     }
   },
@@ -604,7 +604,7 @@
         "=": { "item": "clutter_bathroom", "chance": 10 },
         ")": { "item": "bed", "chance": 40 },
         "R": { "item": "mansion_bookcase", "chance": 100 },
-        "6": { "item": "panic_room", "chance": 65, "repeat": [ 2, 6 ] },
+        "6": { "item": "panic_room", "chance": 45 },
         "I": { "item": "nightstand", "chance": 40 },
         "d": { "item": "dresser_stack", "chance": 100 }
       },
@@ -612,7 +612,7 @@
         { "group": "corpse_mansion", "x": [ 10, 12 ], "y": [ 5, 7 ], "chance": 50, "repeat": [ 0, 2 ] },
         { "item": "television", "x": 12, "y": 17, "chance": 100 }
       ],
-      "place_monsters": [ { "monster": "GROUP_PANICROOM", "x": [ 10, 13 ], "y": [ 6, 10 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_PANICROOM", "x": [ 11, 14 ], "y": [ 6, 10 ], "density": 0.1 } ]
     }
   },
   {
@@ -1644,7 +1644,7 @@
       },
       "place_monsters": [
         { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 21 ], "density": 0.1 },
-        { "monster": "GROUP_PANICROOM", "x": [ 9, 14 ], "y": [ 9, 14 ], "density": 0.1 }
+        { "monster": "GROUP_PANICROOM", "x": [ 10, 15 ], "y": [ 9, 14 ], "density": 0.1 }
       ]
     }
   },

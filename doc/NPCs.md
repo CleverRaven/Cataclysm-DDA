@@ -1,9 +1,6 @@
 # Contents
 
 - [Creating new NPCs](#creating-new-npcs)
-  - [NPC Class definition](#npc-class-definition)
-    - [Shopkeeper NPC configuration](#shopkeeper-npc-configuration)
-  - [NPC instance definition](#npc-instance-definition)
 - [Writing dialogues](#writing-dialogues)
   - [Validating Dialogues](#validating-dialogues)
   - [Customizing NPC speech](#customizing-npc-speech)
@@ -23,7 +20,7 @@ Often you will want to create new NPCs to either add quests, flavor, or to intro
 
 There are two parts to creating a new NPC, apart from any dialogue you may want to add.
 
-## NPC Class definition
+#### NPC Class
 First there is the `npc_class` which follows the following template.
 Format:
 ```json
@@ -65,20 +62,16 @@ Format:
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
 }
 ```
-There are some items in the above template that may not be self explanatory:
+There are a couple of items in the above template that may not be self explanatory:
 * `"common": false` means that this NPC class will not spawn randomly. It defaults to `true` if not specified.
-* See also [Shopkeeper NPC configuration](#shopkeeper-npc-configuration) below.
-
-### Shopkeeper NPC configuration
-`npc_class` supports several properties for configuring the behavior of NPCs that behave as shopkeepers:
 * `"sells_belongings": false` means that this NPC's worn or held items will strictly be excluded from their shopkeeper list; otherwise, they'll be happy to sell things like their pants. It defaults to `true` if not specified.
-* `"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
+*`"shopkeeper_item_group"` is only needed if the planned NPC will be a shopkeeper with a revolving stock of items that change every three in-game days. All of the item overrides will ensure that any NPC of this class spawns with specific items.
 * `"shopkeeper_consumption_rates"` optional to define item consumption rates for this shopkeeper. Default is to consume all items before restocking
 * `"shopkeeper_price_rules"` optional to define personal price rules with the same format as faction price rules (see [FACTIONS.md](FACTIONS.md)). These take priority over faction rules
 * `"shopkeeper_blacklist"` optional to define blacklists for this shopkeeper
 * `"restock_interval"`: optional. Default is 6 days
 
-#### Shopkeeper item groups
+##### Shopkeeper item groups
 `"shopkeeper_item_group"` entries have the following fields:
 - `"group"` : Identifies an item group to include in the possible shop rotation
 - `"trust"` : (_optional_) If the faction's trust with the player is below this value, items in this group will not be available for sale (Defaults to 0)
@@ -87,8 +80,8 @@ There are some items in the above template that may not be self explanatory:
 - `"rigid"` : (_optional_) By default, item groups will be continually iterated until they reach a certain value or size threshold for the NPC. Rigid groups are instead guaranteed to populate a single time if they can, and will not include duplicate reruns. (Defaults to false)
 - `"refusal"` : (_optional_) message to display in UIs (ex: trade UI) when conditions are not met. Defaults to `"<npcname> does not trust you enough"`
 
-#### Shopkeeper consumption rates
-Controls consumption of shopkeeper's stock of items (simulates purchase by other people besides they player).
+##### `shopkeeper_consumption_rates`
+
 ```JSON
   "type": "shopkeeper_consumption_rates",
   "id": "basic_shop_rates",
@@ -108,8 +101,8 @@ Controls consumption of shopkeeper's stock of items (simulates purchase by other
 ```
 `condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](#player-or-npc-conditions).
 
-#### Shopkeeper blacklists
-Specifies blacklist of items that shopkeeper will not accept for trade.  Format is similar to `shopkeeper_consumption_rates`.
+##### `shopkeeper_blacklist`
+Similar to `shopkeeper_consumption_rates`
 
 ```JSON
   "type": "shopkeeper_blacklist",
@@ -125,7 +118,7 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
   ]
 ```
 
-#### Shop restocking
+##### Shop restocking
 NPCs with at least one `shopkeeper_item_group` will (re)stock their shop in nearby loot zones (within `PICKUP_RANGE` = 6 tiles) owned by their faction and will ignore all other items. If there isn't at least one `LOOT_UNSORTED` zone nearby, fallback zones will be automatically placed on all nearby, reachable, unsealed furniture with either the `CONTAINER` flag or a max volume higher than the floor. If there is no suitable furniture around, a 3x3 zone centered on the NPC will be created instead.
 
 Before restocking, items owned by the NPC's faction within these zones will be consumed according to `shopkeeper_consumption_rates`.
@@ -134,7 +127,7 @@ The shop restocks every `restock_interval` regardless of interactions with the a
 
 NOTE: do not place items within these loot zones in mapgen definitions as these will be consumed during the first restock. Add them to the item groups instead.
 
-## NPC instance definition
+#### NPC
 There is a second template required for a new NPC. It looks like this:
 Format:
 ```json
@@ -1079,7 +1072,7 @@ Condition | Type | Description
     }
   },
   "effect": {
-    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes"
+    "npc_add_var": "has_met_PC", "type": "general", "context": "examples", "value": "yes" }
   }
 },
 {
@@ -1221,7 +1214,7 @@ example json:
 `min` and `max` are optional double or variable_object values.  If supplied they will limit the result, it will be no lower than `min` and no higher than `max`. `min_time` and `max_time` work the same way but will parse times written as a string i.e. "10 hours".
 `"compare_num"` supports the following operators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
 
-`"arithmetic"` supports the following operators: `"*"`(multiplication), `"/"`(divison), `"+"`(addition), `"-"`(subtraction), `"%"`(modulus), `"^"`(power) and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
+`"arithmetic"` supports the following operators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"` and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
 
 To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or written to follows.
 
@@ -1231,9 +1224,7 @@ Example | Description
 `"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
 `"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
 `"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
-`"faction_trust": "free_merchants"` | The trust the faction has for the player (see [FACTIONS.md](FACTIONS.md)) for details.
-`"faction_like": "free_merchants"` | How much the faction likes the player (see [FACTIONS.md](FACTIONS.md)) for details.
-`"faction_respect": "free_merchants"` | How much the faction respects the player(see [FACTIONS.md](FACTIONS.md)) for details.
+`"faction_trust": "free_merchants"` | The trust the faction has for the player.
 `"weather": "temperature"` | Current temperature.
 `"weather": "windpower"` | Current windpower.
 `"weather": "humidity"` | Current humidity.

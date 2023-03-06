@@ -56,20 +56,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "ants_fungus_colony",
-    "copy-from": "ants_food",
-    "name": "ant fungus colony",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "acid_ants_fungus_colony",
-    "copy-from": "acid_ants_food",
-    "name": "ant fungus colony",
-    "color": "light_gray"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "ants",
     "name": "ant tunnel",
     "color": "brown",
