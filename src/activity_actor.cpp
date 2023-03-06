@@ -843,7 +843,7 @@ std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue &
 
 void bookbinder_copy_activity_actor::start( player_activity &act, Character & )
 {
-    pages = 1 + rec_id->difficulty / 2;
+    pages = bookbinder_copy_activity_actor::pages_for_recipe( *rec_id );
     act.moves_total = to_moves<int>( pages * 10_minutes );
     act.moves_left = to_moves<int>( pages * 10_minutes );
 }

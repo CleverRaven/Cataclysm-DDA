@@ -9911,7 +9911,7 @@ cata::optional<int> iuse::binder_add_recipe( Character *p, item *binder, bool, c
     menu.desc_enabled = true;
     for( const recipe *r : recipes ) {
         std::string desc;
-        const int pages = 1 + r->difficulty / 2;
+        const int pages = bookbinder_copy_activity_actor::pages_for_recipe( *r );
         const std::string pages_str = string_format( n_gettext( "%1$d page", "%1$d pages", pages ), pages );
 
         if( !p->has_charges( itype_paper, pages ) ) {
@@ -9965,7 +9965,7 @@ cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool
             recipe_name += _( " (KNOWN)" );
         }
 
-        const int pages = 1 + new_recipe->difficulty / 2;
+        const int pages = bookbinder_copy_activity_actor::pages_for_recipe( *new_recipe );
         rmenu.addentry_col( -1, true, ' ', recipe_name,
                             string_format( n_gettext( "%1$d page", "%1$d pages", pages ), pages ) );
     }
@@ -9981,7 +9981,7 @@ cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool
     binder_recipes.erase( rec );
     binder->set_saved_recipes( binder_recipes );
 
-    const int pages = 1 + rec->difficulty / 2;
+    const int pages = bookbinder_copy_activity_actor::pages_for_recipe( *rec );
     binder->ammo_consume( pages, ipos, p );
 
     return cata::nullopt;
