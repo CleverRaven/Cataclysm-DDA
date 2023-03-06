@@ -30,6 +30,7 @@
   {
     "id": "stanag30_beowulf",
     "copy-from": "stanag30",
+    "type": "MAGAZINE",
     "name": { "str": "retooled STANAG 30-round magazine" },
     "description": "This 30-round box magazine is compatible with STANAG rifles and has been modified to hold a single-stack, 10-round column of .50-caliber Beowulf ammo.  The front lip of the magazine has been beveled to allow for reliable feeding of the Beowulf rounds into a properly converted weapon’s chamber, and, happily, this modification hasn’t interfered with the magazine's ability to hold standard ammunition.",
     "ammo_type": [ "50beowulf", "223", "300blk" ],

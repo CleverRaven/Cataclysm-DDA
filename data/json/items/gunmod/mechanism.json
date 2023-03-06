@@ -10,7 +10,7 @@
     "integral_weight": "0 g",
     "price": 1500,
     "price_postapoc": 500,
-    "material": [ "steel", "superalloy" ],
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "mechanism",

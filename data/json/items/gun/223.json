@@ -948,7 +948,6 @@
     "ammo": [ "223" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -6 },
     "dispersion": 240,
-    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "durability": 7,
     "min_cycle_recoil": 1350,
     "valid_mod_locations": [
@@ -966,5 +965,74 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "zpap85mag" ] } ]
+  },
+  {
+    "id": "mdrx",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "Desert Tech bullpup carbine" },
+    "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for 223 Remington, 308 Winchester, and 300 AAC Blackout being available.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mdrx",
+        "name": { "str": "Desert Tech MDRX" },
+        "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle’s most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either 223 Remington, 308 Winchester, or 300 AAC Blackout.",
+        "weight": 1
+      }
+    ],
+    "weight": "3040 g",
+    "volume": "3421 ml",
+    "longest_side": "402 mm",
+    "//": "The length and weight number is assigned to, roughly, represent an MDRX without a protruding barrel. the difference will be made up for with the installable conversion kits.",
+    "price": 173900,
+    "price_postapoc": 5000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "aluminum", "steel", "plastic" ],
+    "symbol": "(",
+    "color": "black",
+    "ammo": [ "NULL" ],
+    "dispersion": 150,
+    "durability": 8,
+    "default_mods": [ "retool_mdrx_223rem" ],
+    "min_cycle_recoil": 1250,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 2 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   }
 ]

@@ -119,7 +119,6 @@
     "symbol": "-",
     "color": "black",
     "ammo": [ "300" ],
-    "skill": "rifle",
     "dispersion": 70,
     "ranged_damage": { "damage_type": "bullet", "amount": 12 },
     "durability": 8,

@@ -93,7 +93,6 @@
     "price": 195000,
     "price_postapoc": 6500,
     "material": [ "steel", "plastic" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 6 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
