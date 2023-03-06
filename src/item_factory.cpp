@@ -425,7 +425,7 @@ void Item_factory::finalize_pre( itype &obj )
                 return e.ammo->type == am;
             } );
 
-            for( auto val : temp_vec ) {
+            for( const itype *val : temp_vec ) {
                 obj.magazine->cached_ammos[am].insert( val->get_id() );
             }
         }
@@ -565,7 +565,7 @@ void Item_factory::finalize_pre( itype &obj )
                 return e.ammo->type == am;
             } );
 
-            for( auto val : temp_vec ) {
+            for( const itype *val : temp_vec ) {
                 obj.gun->cached_ammos[am].insert( val->get_id() );
             }
         }
