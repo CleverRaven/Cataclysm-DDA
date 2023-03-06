@@ -237,8 +237,8 @@
     "time": "6 h",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 5 ], [ "manual_tailor", 3 ], [ "survival_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ],
-    "using": [ [ "tailoring_cotton", 15 ], [ "fastener_small", 1 ] ],
-    "byproducts": [ [ "scrap_cotton", 5 ], [ "cotton_patchwork", 4 ] ]
+    "using": [ [ "tailoring_denim_patchwork", 8 ], [ "fastener_small", 1 ] ],
+    "byproducts": [ [ "denim_patch", 6 ] ]
   },
   {
     "result": "skirt",
@@ -1116,8 +1116,8 @@
     "difficulty": 2,
     "time": "20 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
-    "using": [ [ "tailoring_cotton_patchwork", 8 ], [ "fastener_small", 1 ] ],
-    "byproducts": [ [ "cotton_patchwork", 4 ] ],
+    "using": [ [ "tailoring_denim_patchwork", 4 ], [ "fastener_small", 1 ] ],
+    "byproducts": [ [ "denim_patch", 6 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
@@ -1131,7 +1131,7 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 10 ] ],
     "flags": [ "NO_RESIZE" ],
-    "byproducts": [ [ "cotton_patchwork", 4 ] ],
+    "byproducts": [ [ "denim_patch", 4 ] ],
     "components": [ [ [ "jeans", 1 ] ] ]
   },
   {

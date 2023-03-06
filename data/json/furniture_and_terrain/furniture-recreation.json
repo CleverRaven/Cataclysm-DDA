@@ -427,6 +427,7 @@
     "required_str": 8,
     "//": "While heavy, most large pianos have casters for relatively easy movement.",
     "flags": [ "FLAMMABLE", "ORGANIC", "BLOCKSDOOR" ],
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_PLAY_PIANO" ] },
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": 12 },

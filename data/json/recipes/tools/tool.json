@@ -964,7 +964,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ], [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 20, "LIST" ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",

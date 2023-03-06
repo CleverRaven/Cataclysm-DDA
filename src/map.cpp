@@ -51,6 +51,7 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -4910,6 +4911,14 @@ item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overf
     return add_item_or_charges( pos.raw(), std::move( obj ), overflow );
 }
 
+float map::item_category_spawn_rate( const item &itm )
+{
+    const item_category_id &cat = itm.get_category_of_contents().id;
+    const float spawn_rate = cat.obj().get_spawn_rate();
+
+    return spawn_rate > 1.0f ? roll_remainder( spawn_rate ) : spawn_rate;
+}
+
 item &map::add_item( const tripoint &p, item new_item )
 {
     if( item_is_blacklisted( new_item.typeId() ) ) {
@@ -4919,6 +4928,7 @@ item &map::add_item( const tripoint &p, item new_item )
     if( !inbounds( p ) ) {
         return null_item_reference();
     }
+
     point l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {

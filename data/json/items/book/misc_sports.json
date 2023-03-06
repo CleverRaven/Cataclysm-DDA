@@ -23,7 +23,7 @@
     "id": "book_fict_soft_sports_tdsp",
     "type": "BOOK",
     "name": { "str": "The Touchdown Special", "str_pl": "copies of The Touchdown Special" },
-    "description": "In this absorbing novel of football fandom, a pizza delivery driver makes a desperate gamble on the monday night game.",
+    "description": "In this absorbing novel of football fandom, a pizza delivery driver makes a desperate gamble on the Monday night game.",
     "//isbn13": 9780393353785,
     "weight": "184 g",
     "volume": "450 ml",
