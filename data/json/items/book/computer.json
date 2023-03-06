@@ -176,7 +176,7 @@
       {
         "id": "mag_computer",
         "name": { "str": "Computer World", "str_pl": "issues of Computer World" },
-        "description": "An informative magazine all about computers, both hardware and software",
+        "description": "An informative magazine all about computers, both hardware and software.",
         "weight": 1
       },
       {
