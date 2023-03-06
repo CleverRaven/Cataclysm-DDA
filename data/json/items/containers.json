@@ -3412,14 +3412,14 @@
     "category": "container",
     "name": { "str": "caliber retool kit" },
     "description": "a sturdy and long cardboard box, neatly stamped with branded manufacturer’s markings, lines of printed information, and contact details for a service that likely stopped existing along with its customers.",
-    "volume": "11700 ml",
+    "volume": "8320 ml",
     "longest_side": "52 cm",
-    "//": "(15x15x52)",
+    "//": "External dimensions, (10x16x52)",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "max_contains_volume": "11500 ml",
+        "max_contains_volume": "5600 ml",
         "max_contains_weight": "50 kg",
         "max_item_length": "50 cm"
       }
@@ -3444,14 +3444,14 @@
         "id": "kit_50beowulf_ar15",
         "name": { "str": "caliber retool kit" },
         "description": "The stylized image of a rifle's upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the high-caliber 12.7x42mm (.50 Beowulf) cartridge, as well as two appropriate magazines.",
-        "volume": "12600 ml",
+        "volume": "8960 ml",
         "longest_side": "56 cm",
-        "//2": "(15x15x56)",
+        "//2": "External dimensions, (10x16x56)",
         "pocket_data": [
           {
             "pocket_type": "CONTAINER",
             "rigid": true,
-            "max_contains_volume": "12400 ml",
+            "max_contains_volume": "6272 ml",
             "max_contains_weight": "50 kg",
             "max_item_length": "54 cm"
           }
@@ -3460,9 +3460,21 @@
         "append": true
       },
       {
-        "id": "kit_cmmg57_ar",
-        "name": { "str": "caliber retool kit" },
-        "description": "The stylized image of a rifle’s upper receiver adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert AR-pattern weapons to fire the 5.7x28mm PDW cartridge.",
+        "id": "kit_223rem_mdrx",
+        "name": { "str": "Desert Tech conversion kit" },
+        "description": "The stylized image of an assembled Desert Tech MDRX rifle adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert MDRX weapons to fire the .223 cartridge, as well as an appropriate magazine.",
+        "volume": "8640 ml",
+        "longest_side": "54 cm",
+        "//3": "External dimensions, (10x16x54)",
+        "pocket_data": [
+          {
+            "pocket_type": "CONTAINER",
+            "rigid": true,
+            "max_contains_volume": "5824ml",
+            "max_contains_weight": "50 kg",
+            "max_item_length": "52 cm"
+          }
+        ],
         "weight": 10,
         "append": true
       },

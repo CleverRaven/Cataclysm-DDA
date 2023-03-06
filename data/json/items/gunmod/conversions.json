@@ -146,8 +146,8 @@
   {
     "id": "retool_mdrx_223rem",
     "type": "GUNMOD",
-    "name": { "str": "Desert Tech .223 extended-conversion" },
-    "description": "This is a number of bundled parts: a forward-ejecting, 20-inch, 5.56x45mm barrel; an appropriate bolt assembly; and a proprietary gas compensator, which, when installed, will convert an MDRX rifle to fire standard .223-caliber ammunition.",
+    "name": { "str": "MDRX .223 extended-assembly" },
+    "description": "This is a number of bundled parts: a forward-ejecting, 20-inch, 5.56x45mm barrel; an appropriate bolt assembly; and a proprietary gas compensator, which, when installed, will convert a Desert Tech MDRX rifle to fire standard .223-caliber ammunition.",
     "weight": "1000 g",
     "volume": "500 ml",
     "longest_side": "508 mm",
@@ -175,13 +175,25 @@
     "id": "retool_mdrx_223rem_medium",
     "copy-from": "retool_mdrx_223rem",
     "type": "GUNMOD",
-    "name": { "str": "Desert Tech .223 standard-conversion" },
+    "name": { "str": "MDRX .223 standard-assembly" },
     "description": "This is a number of bundled parts: a forward-ejecting, 16-inch, 5.56x45mm barrel; an appropriate bolt assembly; and a proprietary gas compensator, which, when installed, will convert an MDRX rifle to fire standard .223-caliber ammunition.",
     "weight": "840 g",
     "longest_side": "406 mm",
     "integral_weight": "840 g",
     "integral_longest_side": "203 mm",
     "price": 73000
+  },
+  {
+    "id": "retool_mdrx_223rem_short",
+    "copy-from": "retool_mdrx_223rem",
+    "type": "GUNMOD",
+    "name": { "str": "MDRX .223 MICRON assembly" },
+    "description": "This is a number of bundled parts: a forward-ejecting, 11.5-inch, 5.56x45mm barrel; an appropriate bolt assembly; and a proprietary gas compensator, which, when installed, will convert an MDRX rifle to fire standard .223-caliber ammunition.  Given the MDRX’s bullpup configuration, the provided 11.5-inch barrel would barely protrude beyond the lip of the receiver once installed, making the carbine incredibly compact.",
+    "weight": "680 g",
+    "longest_side": "292 mm",
+    "integral_weight": "680 g",
+    "integral_longest_side": "89 mm",
+    "ranged_damage": { "damage_type": "bullet", "amount": -4 }
   },
   {
     "id": "staff_sling_grenade_cradle",

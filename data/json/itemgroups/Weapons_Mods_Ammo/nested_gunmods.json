@@ -58,5 +58,23 @@
       { "item": "50beowulf_ar15mag", "charges": 0 },
       { "group": "nested_retool_extras" }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_retool_mdrx223",
+    "//": "An assortment of different upper receiver kits, all of the same caliber, of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "retool_mdrx_223rem", "prob": 10 },
+          { "item": "retool_mdrx_223rem_medium", "prob": 10 },
+          { "item": "retool_mdrx_223rem_short", "prob": 10 }
+        ],
+        "prob": 100
+      },
+      { "item": "stanag30", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
   }
 ]
