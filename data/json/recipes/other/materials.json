@@ -125,7 +125,7 @@
         [ "can_drink", 2 ],
         [ "scrap_aluminum", 1 ]
       ],
-      [ [ "copper_scrap_equivalent", 2, "LIST" ] ]
+      [ [ "copper_scrap_equivalent", 1, "LIST" ] ]
     ]
   },
   {
@@ -827,6 +827,18 @@
     "tools": [ [ [ "electric_spinwheel", 181 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread_canvas", 80 ] ], [ [ "wax", 1 ] ] ]
+  },
+  {
+    "result": "sheet_denim_patchwork",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "tailor",
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 2 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "denim_patch", 8 ] ], [ [ "filament", 15, "LIST" ] ] ]
   },
   {
     "result": "sheet_canvas_patchwork",
