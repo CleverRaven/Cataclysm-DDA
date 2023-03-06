@@ -985,7 +985,7 @@
     "volume": "2500 ml",
     "price": 10000,
     "price_postapoc": 750,
-    "material": [ "kevlar", "cotton", "plastic_pad" ],
+    "material": [ "kevlar", "denim", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "jeans",
     "color": "dark_gray",
@@ -996,8 +996,8 @@
     "armor": [
       {
         "material": [
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.25 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.6 }
         ],
         "encumbrance": [ 10, 14 ],
         "coverage": 100,
@@ -1006,8 +1006,8 @@
       },
       {
         "material": [
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.25 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.6 },
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 12 }
         ],
         "encumbrance": [ 0, 0 ],
@@ -1016,6 +1016,7 @@
         "specifically_covers": [ "leg_knee_l", "leg_knee_r" ]
       }
     ],
+    "//": "Mid-heavyweight 14 oz denim jeans.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

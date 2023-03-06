@@ -3959,6 +3959,9 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     assign( jo, "variables", def.item_variables );
     assign( jo, "flags", def.item_tags );
+    if( jo.has_member( "source_monster" ) ) {
+        assign( jo, "source_monster", def.source_monster );
+    }
     assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {

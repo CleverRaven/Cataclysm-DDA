@@ -323,6 +323,7 @@ static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
 static const json_character_flag json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
@@ -419,18 +420,13 @@ static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
-static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
-static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
-static const trait_id trait_MORE_PAIN2( "MORE_PAIN2" );
-static const trait_id trait_MORE_PAIN3( "MORE_PAIN3" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
@@ -443,8 +439,6 @@ static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
-static const trait_id trait_PAINRESIST( "PAINRESIST" );
-static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
@@ -474,7 +468,6 @@ static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
@@ -2212,16 +2205,12 @@ void Character::recalc_hp()
         str_boost_val = str_boost->calc_bonus( skill_total );
     }
     // Mutated toughness stacks with starting, by design.
-    float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
-    float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
+    float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" ) +
+                   enchantment_cache->get_value_multiply( enchant_vals::mod::MAX_HP );
+    float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 ) +
+                          enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
                        get_int_base(), get_lifestyle(), get_fat_to_hp() );
-}
-
-int Character::get_part_hp_max( const bodypart_id &id ) const
-{
-    return enchantment_cache->modify_value( enchant_vals::mod::MAX_HP,
-                                            Creature::get_part_hp_max( id ) );
 }
 
 // This must be called when any of the following change:
@@ -3255,7 +3244,7 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, 0 );
+        const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_RESIST, 0 );
         const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
             add_msg_if_player( m_warning,
@@ -4272,7 +4261,8 @@ int Character::get_max_healthy() const
 
 void Character::regen( int rate_multiplier )
 {
-    int pain_ticks = rate_multiplier;
+    int pain_ticks = std::max( 1, roll_remainder( enchantment_cache->modify_value(
+                                   enchant_vals::mod::PAIN_REMOVE, rate_multiplier ) ) );
     while( get_pain() > 0 && pain_ticks-- > 0 ) {
         mod_pain( -roll_remainder( 0.2f + get_pain() / 50.0f ) );
     }
@@ -5813,7 +5803,7 @@ float Character::healing_rate( float at_rest_quality ) const
     float const awake_rate = ( 1.0f - rest ) * heal_rate * mutation_value( "healing_awake" );
     float const asleep_rate = rest * heal_rate * ( 1.0f + get_lifestyle() / 200.0f );
     float final_rate = awake_rate + asleep_rate;
-
+    final_rate = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, final_rate );
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
     static constexpr float eps = 0.000007f;
@@ -5822,8 +5812,7 @@ float Character::healing_rate( float at_rest_quality ) const
         return 0.0f;
     }
 
-    return enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP,
-                                            _hp_modified_rate( *this, final_rate ) );
+    return final_rate;
 }
 
 float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
@@ -7114,6 +7103,7 @@ void Character::recalculate_enchantment_cache()
     if( enchantment_cache->modifies_bodyparts() ) {
         recalculate_bodyparts();
     }
+    recalc_hp();
 }
 
 double Character::calculate_by_enchantment( double modify, enchant_vals::mod value,
@@ -9240,8 +9230,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         // ROOTS3 does slow you down as your roots are probing around for nutrients,
         // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
         // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-        const bool mutfeet = has_trait( trait_LEG_TENTACLES ) || has_trait( trait_PADDED_FEET ) ||
-                             has_trait( trait_HOOVES ) || has_trait( trait_TOUGH_FEET ) || has_trait( trait_ROOTS2 );
+        const bool mutfeet = has_flag( json_flag_TOUGH_FEET ) || worn_with_flag( flag_TOUGH_FEET );
         if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
             movecost += 8;
         }
@@ -10776,9 +10765,12 @@ void Character::recalc_speed_bonus()
         }
         const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
         if( temperature_speed_modifier != 0 ) {
+            const int climate_control = climate_control_strength().first;
             const units::temperature player_local_temp = get_weather().get_temperature( pos() );
-            if( has_flag( json_flag_ECTOTHERM ) || player_local_temp < units::from_fahrenheit( 65 ) ) {
-                mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier );
+            if( has_flag( json_flag_ECTOTHERM ) ||
+                player_local_temp < units::from_fahrenheit( 65 - climate_control ) ) {
+                mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) *
+                                 temperature_speed_modifier );
             }
         }
     }
@@ -10921,26 +10913,21 @@ bool Character::immune_to( const bodypart_id &bp, damage_unit dam ) const
 void Character::mod_pain( int npain )
 {
     if( npain > 0 ) {
+        double mult = enchantment_cache->get_value_multiply( enchant_vals::mod::PAIN );
         if( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) {
             return;
         }
-        // always increase pain gained by one from these bad mutations
-        if( has_trait( trait_MORE_PAIN ) ) {
-            npain += std::max( 1, roll_remainder( npain * 0.25 ) );
-        } else if( has_trait( trait_MORE_PAIN2 ) ) {
-            npain += std::max( 1, roll_remainder( npain * 0.5 ) );
-        } else if( has_trait( trait_MORE_PAIN3 ) ) {
-            npain += std::max( 1, roll_remainder( npain * 1.0 ) );
+        // if there is a positive multiplier we always want to add at least 1 pain
+        if( mult > 0 ) {
+            npain += std::max( 1, roll_remainder( npain * mult ) );
         }
+        if( mult < 0 ) {
+            npain = roll_remainder( npain * ( 1 + mult ) );
+        }
+        npain += enchantment_cache->get_value_add( enchant_vals::mod::PAIN );
 
-        if( npain > 1 ) {
-            // if it's 1 it'll just become 0, which is bad
-            if( has_trait( trait_PAINRESIST_TROGLO ) ) {
-                npain = roll_remainder( npain * 0.5 );
-            } else if( has_trait( trait_PAINRESIST ) ) {
-                npain = roll_remainder( npain * 0.67 );
-            }
-        }
+        // no matter how powerful the enchantment if we are gaining pain we always gain at least a little/don't lose any
+        npain = std::max( 1, npain );
     }
     Creature::mod_pain( npain );
 }

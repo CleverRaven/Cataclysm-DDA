@@ -149,8 +149,11 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     abstract = jo.has_string( "abstract" );
 
     const std::string type = jo.get_string( "type" );
-    for( JsonValue jv : jo.get_array( "result_eocs" ) ) {
-        result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+    if( jo.has_member( "result_eocs" ) ) {
+        result_eocs.clear();
+        for( JsonValue jv : jo.get_array( "result_eocs" ) ) {
+            result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        }
     }
     if( abstract ) {
         ident_ = recipe_id( jo.get_string( "abstract" ) );

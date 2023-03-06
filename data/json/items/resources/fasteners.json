@@ -6,7 +6,7 @@
     "name": { "str": "steel buckle" },
     "description": "A steel buckle, like the kind usually found on belts.",
     "weight": "24 g",
-    "volume": "5 ml",
+    "volume": "10 ml",
     "price": 100,
     "price_postapoc": 10,
     "material": [ "steel" ],

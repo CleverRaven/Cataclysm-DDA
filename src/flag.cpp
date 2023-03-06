@@ -321,6 +321,7 @@ const flag_id flag_THERMOMETER( "THERMOMETER" );
 const flag_id flag_TIE_UP( "TIE_UP" );
 const flag_id flag_TINDER( "TINDER" );
 const flag_id flag_TOBACCO( "TOBACCO" );
+const flag_id flag_TOUGH_FEET( "TOUGH_FEET" );
 const flag_id flag_TOURNIQUET( "TOURNIQUET" );
 const flag_id flag_TOW_CABLE( "TOW_CABLE" );
 const flag_id flag_TRADER_AVOID( "TRADER_AVOID" );

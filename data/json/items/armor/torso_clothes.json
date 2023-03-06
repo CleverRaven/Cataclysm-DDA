@@ -1595,7 +1595,7 @@
       {
         "id": "pumpkin_time",
         "name": { "str": "pumpkin time t-shirt" },
-        "description": "This shirt displays a picture of a jack o'lantern with a tiny smiling black bat popping out of the top.",
+        "description": "This shirt displays a picture of a jack-o'-lantern with a tiny smiling black bat popping out of the top.",
         "weight": 1
       },
       {
@@ -1615,7 +1615,7 @@
       {
         "id": "swordocracy_tshirt",
         "name": { "str": "Down with Swordocracy t-shirt", "str_pl": "Down with Swordocracy t-shirts" },
-        "description": "A t-shirt with a picture of a peasant with a fist raised, eyes alight with the fire of freedom, proclaiming, 'Down with sword-based goverments!'",
+        "description": "A t-shirt with a picture of a peasant with a fist raised, eyes alight with the fire of freedom, proclaiming, 'Down with sword-based governments!'",
         "color": "light_red",
         "weight": 1
       },

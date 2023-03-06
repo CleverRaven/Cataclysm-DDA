@@ -2774,7 +2774,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "paint_white", 25 ] ] ],
+    "components": [ [ [ "paint_white", 3 ] ] ],
     "pre_terrain": "t_grass",
     "post_terrain": "t_grass_white"
   },
@@ -2786,7 +2786,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "paint_white", 25 ] ] ],
+    "components": [ [ [ "paint_white", 3 ] ] ],
     "pre_terrain": "t_grass_dead",
     "post_terrain": "t_grass_white"
   },
@@ -2798,7 +2798,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "paint_white", 25 ] ] ],
+    "components": [ [ [ "paint_white", 3 ] ] ],
     "pre_terrain": "t_grass_golf",
     "post_terrain": "t_grass_white"
   },
@@ -2810,7 +2810,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "paint_yellow", 25 ] ] ],
+    "components": [ [ [ "paint_yellow", 3 ] ] ],
     "pre_terrain": "t_pavement",
     "post_terrain": "t_pavement_y"
   },
@@ -2822,7 +2822,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "4 m",
     "tools": [ [ "paint_brush" ] ],
-    "components": [ [ [ "paint_yellow", 25 ] ] ],
+    "components": [ [ [ "paint_yellow", 3 ] ] ],
     "pre_terrain": "t_pavement_bg_dp",
     "post_terrain": "t_pavement_y_bg_dp"
   },
