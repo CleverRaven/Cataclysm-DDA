@@ -544,6 +544,23 @@
     ]
   },
   {
+    "type": "npc_class",
+    "id": "NC_EVAC_GODCO_TRADER",
+    "name": { "str": "Merchant" },
+    "job_description": "I'm a local shopkeeper.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_GODCO_MERCHANT_sell",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "GODCO_helena_worn",
     "subtype": "collection",
@@ -981,7 +998,7 @@
     "type": "item_group",
     "id": "GODCO_kostas_carried",
     "subtype": "collection",
-    "//": "camping itemgroup modified to remove junk/common/lenghty items.",
+    "//": "camping itemgroup modified to remove junk/common/lengthy items.",
     "items": [
       { "item": "rebreather", "prob": 3, "charges-min": 30 },
       { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
@@ -1056,8 +1073,8 @@
       [ "large_tent_kit", 15 ],
       [ "camelbak", 5 ],
       [ "sleeping_bag", 10 ],
+      { "group": "tools_fishingrods_portable", "prob": 20 },
       [ "fishing_waders", 12 ],
-      [ "plastichoboreel", 10 ],
       [ "boots_hiking", 20 ],
       [ "e_tool", 10 ],
       [ "flaregun", 20 ],
@@ -1260,5 +1277,10 @@
     "id": "GODCO_russell_sell",
     "subtype": "collection",
     "entries": [ { "item": "tanned_hide", "count": [ 10, 12 ] }, { "item": "tanned_pelt", "count": [ 8, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_GODCO_MERCHANT_sell",
+    "items": [ { "group": "NC_EVAC_SHOPKEEP_misc", "prob": 100, "repeat": [ 3, 5 ] } ]
   }
 ]

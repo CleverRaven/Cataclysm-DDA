@@ -468,6 +468,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PLAY_PIANO",
+    "effect": [
+      { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 10 },
+      { "u_make_sound": "music", "type": "music", "volume": 10 },
+      { "u_message": "play_piano", "snippet": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_RANDOM_HALLUCINATIONS",
     "recurrence": [ "1 hours", "3 hours" ],
     "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 1, "y": 6 } } ] },

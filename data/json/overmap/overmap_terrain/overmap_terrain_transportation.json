@@ -83,6 +83,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "godco_enter",
+    "name": "dirt road",
+    "sym": "│",
+    "copy-from": "generic_rural_road"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bridgehead_ramp",
     "copy-from": "generic_bridge",
     "name": "bridgehead (ramp)",
@@ -94,8 +101,7 @@
     "name": "roadstop",
     "sym": "^",
     "color": "light_blue",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -103,8 +109,7 @@
     "name": "public washroom",
     "sym": "^",
     "color": "light_blue",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -112,8 +117,7 @@
     "name": "roadside foodcart",
     "sym": "^",
     "color": "magenta",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",

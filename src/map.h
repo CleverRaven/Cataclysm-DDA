@@ -1293,6 +1293,13 @@ class map
         }
 
         /**
+         * Checks for spawn_rate value for item category of 'itm'.
+         * If spawn_rate is less than 1.0, it will make a random roll (0.1-1.0) to check if the item will have a chance to spawn.
+         * If spawn_rate is more than or equal to 1.0, it will make item spawn that many times (using roll_remainder).
+        */
+        float item_category_spawn_rate( const item &itm );
+
+        /**
          * Place an item on the map, despite the parameter name, this is not necessarily a new item.
          * WARNING: does -not- check volume or stack charges. player functions (drop etc) should use
          * map::add_item_or_charges

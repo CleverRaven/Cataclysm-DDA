@@ -562,7 +562,7 @@
         "items": [ "longshirt", "pants", "socks", "sneakers", "gloves_medical", "coat_lab", "xacto", "wristwatch" ],
         "entries": [
           { "item": "disinfectant_makeshift", "charges": 10, "container-item": "bottle_plastic_small" },
-          { "item": "bandages", "charges": 15 },
+          { "item": "bandages", "count": 15 },
           { "group": "charged_cell_phone" }
         ]
       },

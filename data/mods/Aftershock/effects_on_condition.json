@@ -5,5 +5,46 @@
     "recurrence": [ "8 hours", "72 hours" ],
     "condition": { "and": [ { "one_in_chance": 3 }, { "not": "is_day" }, "u_can_see", { "is_weather": "clear" }, "u_is_outside" ] },
     "effect": [ { "u_message": "AFS_NIGHT_MESSAGES_1", "snippet": true } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_motion_sensor_eoc",
+    "condition": { "u_has_items": { "item": "afs_motion_sensor_on", "charges": 1 } },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "afs_motion_sensor_audio_warning_high",
+            "condition": { "compare_int": [ { "global_val": "monsters_nearby", "radius": 24 }, ">", { "const": 15 } ] },
+            "effect": [ { "u_message": "The motion detector whines distressingly!", "type": "warning" } ],
+            "false_effect": {
+              "run_eocs": [
+                {
+                  "id": "afs_motion_sensor_audio_warning_medium",
+                  "condition": { "compare_int": [ { "global_val": "monsters_nearby", "radius": 24 }, ">", { "const": 5 } ] },
+                  "effect": [ { "u_message": "The motion detector emits a short series of warning beeps.", "type": "warning" } ],
+                  "false_effect": {
+                    "run_eocs": [
+                      {
+                        "id": "afs_motion_sensor_audio_warning_low",
+                        "condition": { "compare_int": [ { "global_val": "monsters_nearby", "radius": 24 }, ">", { "const": 1 } ] },
+                        "effect": [ { "u_message": "The motion detector emits a single warning beep.", "type": "info" } ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      { "u_adjust_var": "afs_motion_sensor_ping", "type": "flag", "context": "motion_sensor", "adjustment": 1 },
+      { "queue_eocs": "afs_motion_sensor_eoc_end_ping", "time_in_future": [ "2 seconds", "2 seconds" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "afs_motion_sensor_eoc_end_ping",
+    "effect": [ { "u_add_var": "afs_motion_sensor_ping", "type": "flag", "context": "motion_sensor", "value": "0" } ]
   }
 ]

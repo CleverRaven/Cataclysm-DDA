@@ -1218,7 +1218,7 @@
     "volume": "3250 ml",
     "price": 4000,
     "price_postapoc": 250,
-    "material": [ "cotton" ],
+    "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "jacket_windbreaker",
     "color": "light_blue",
@@ -1243,8 +1243,9 @@
         "moves": 80
       }
     ],
-    "warmth": 30,
-    "material_thickness": 0.2,
+    "warmth": 10,
+    "material_thickness": 0.55,
+    "//": "Lightweight 8 oz denim jacket.",
     "snippet_category": [
       {
         "id": "patched",

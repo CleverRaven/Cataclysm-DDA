@@ -5,6 +5,65 @@
     "category": "manuals",
     "name": { "str": "Tactical Handgun Digest", "str_pl": "issues of Tactical Handgun Digest" },
     "description": "A glossy magazine all about handguns and shooting.  There is a good article about proper sighting near the middle.",
+    "variants": [
+      {
+        "id": "mag_pistol",
+        "name": { "str": "Tactical Handgun Digest", "str_pl": "issues of Tactical Handgun Digest" },
+        "description": "A glossy magazine all about handguns and shooting.  There is a good article about proper sighting near the middle.",
+        "weight": 1
+      },
+      {
+        "id": "mag_pistol_1",
+        "name": { "str": "Shooting Handguns", "str_pl": "copies of Shooting Handguns" },
+        "description": "Simple beginner's guide of shooting handgun safely and effectively - simple and effective rules with some key information about handguns itself.",
+        "//": "978-0764358371",
+        "max_level": 3,
+        "fun": 0,
+        "weight": 1
+      },
+      {
+        "id": "mag_pistol_2",
+        "name": {
+          "str": "The Practical Guide to Guns and Shooting, Handgun Edition",
+          "str_pl": "copies of The Practical Guide to Guns and Shooting, Handgun Edition"
+        },
+        "description": "Practical guide for one who want to buy a gun - how they differ, how to choose the right, ammo, techniques and lot of another info.",
+        "//": "978-0996085342",
+        "max_level": 3,
+        "fun": 0,
+        "weight": 1
+      },
+      {
+        "id": "mag_pistol_3",
+        "name": { "str": "Defensive Handgun for the Armed Citizen", "str_pl": "copies of Defensive Handgun for the Armed Citizen" },
+        "description": "The book that take carrying handgun serious, and deliver lot of information user need to know, including concepts of self defense, deadly force, analyzing confrontation, handgun tactics and techniques.",
+        "//": "9781438948928",
+        "max_level": 3,
+        "fun": 0,
+        "weight": 1
+      },
+      {
+        "id": "mag_pistol_4",
+        "name": { "str": "The Gun Digest Book of the Revolver", "str_pl": "copies of The Gun Digest Book of the Revolver" },
+        "description": "This book covers all aspects of living with the double-action revolver: shooting, handling, carrying, maintaining and accessorizing - everything you need to know to operate the quintessential American handgun.",
+        "proficiencies": [
+          { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.85, "fail_factor": 0.5 },
+          { "proficiency": "prof_gunsmithing_revolver", "time_factor": 0.85, "fail_factor": 0.5 }
+        ],
+        "//": "978-1440218125",
+        "max_level": 3,
+        "fun": 0,
+        "weight": 1
+      },
+      {
+        "id": "mag_pistol_5",
+        "name": { "str": "American Handgunner", "str_pl": "issues of American Handgunner" },
+        "description": "Shiny magazine about handguns and activities around them - handgun hunting, competition shooting, reloading, new brands and gears, ammo and similar.",
+        "max_level": 3,
+        "fun": 1,
+        "weight": 1
+      }
+    ],
     "weight": "90 g",
     "volume": "250 ml",
     "price": 450,
@@ -25,6 +84,79 @@
     "category": "manuals",
     "name": { "str": "The Tao of the Handgun", "str_pl": "copies of The Tao of the Handgun" },
     "description": "This introspective volume covers proper usage of handguns, from safety and stance, to maintenance and proper sighting technique.",
+    "variants": [
+      {
+        "id": "manual_pistol",
+        "name": { "str": "The Tao of the Handgun", "str_pl": "copies of The Tao of the Handgun" },
+        "description": "This introspective volume covers proper usage of handguns, from safety and stance, to maintenance and proper sighting technique.",
+        "weight": 1
+      },
+      {
+        "id": "manual_pistol_2",
+        "name": {
+          "str": "Gun Safety: For Home Defense And Concealed Carry",
+          "str_pl": "copies of Gun Safety: For Home Defense And Concealed Carry"
+        },
+        "description": "Book for responsible gun owner, it highlight important part of using weapon in civil world, with lot of rules and legal recommendation, same as rules of using it properly to cause no harm for user and his environment.",
+        "//": "978-0989038232",
+        "weight": 1
+      },
+      {
+        "id": "manual_pistol_3",
+        "name": {
+          "str": "Pistols & Revolvers: From 1400 to the Present Day",
+          "str_pl": "copies of Pistols & Revolvers: From 1400 to the Present Day"
+        },
+        "description": "The book contain long, detailed history of handguns - from the very first hand cannons to the latest automatics and machine pistols, with photos, technical specifications and some artwork.",
+        "proficiencies": [
+          { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.75, "fail_factor": 0.25 },
+          { "proficiency": "prof_gunsmithing_antique", "time_factor": 0.4, "fail_factor": 0.5 }
+        ],
+        "//": "978-1782741503",
+        "weight": 1
+      },
+      {
+        "id": "manual_pistol_4",
+        "name": { "str": "Pistol & Revolver Handbook", "str_pl": "copies of Pistol & Revolver Handbook" },
+        "description": "Complete guide about handgun maintaining - lot of information about components, reloading, bullet types and ballistics.",
+        "proficiencies": [ { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.85, "fail_factor": 0.5 } ],
+        "//": "9780912412122",
+        "weight": 1
+      },
+      {
+        "id": "manual_pistol_5",
+        "name": {
+          "str": "Gun Digest Book of Automatic Pistols Assembly/Disassembly",
+          "str_pl": "copies of Gun Digest Book of Automatic Pistols Assembly/Disassembly"
+        },
+        "description": "Giant, 1000 page manual of step-by-step automatic pistol disassembly, with over 100 models covered, with clear photos and procedure tips and advices.",
+        "proficiencies": [ { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.6, "fail_factor": 0.5 } ],
+        "//": "978-1951115500",
+        "weight": 1
+      },
+      {
+        "id": "manual_pistol_6",
+        "name": { "str": "Book of Revolvers Assembly/Disassembly", "str_pl": "copies of Book of Revolvers Assembly/Disassembly" },
+        "description": "700-page instruction of different revolver disassembly processes, with photos, detailed steps, and additional info.",
+        "proficiencies": [
+          { "proficiency": "prof_gunsmithing_basic", "time_factor": 0.75, "fail_factor": 0.7 },
+          { "proficiency": "prof_gunsmithing_revolver", "time_factor": 0.75, "fail_factor": 1 }
+        ],
+        "//": "978-1946267498",
+        "weight": 1
+      },
+      {
+        "id": "manual_pistol_7",
+        "name": {
+          "str": "FM 3-23.35: Combat Training With Pistols, M9 And M11",
+          "str_pl": "copies of FM 3-23.35: Combat Training With Pistols, M9 And M11"
+        },
+        "description": "Official U.S. Army manual, that describe the full information about how M9 and M11 handguns works, and how to use them safely and effective.",
+        "max_level": 3,
+        "fun": 0,
+        "weight": 1
+      }
+    ],
     "weight": "440 g",
     "volume": "500 ml",
     "price": 2200,
