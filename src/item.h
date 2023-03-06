@@ -2196,6 +2196,15 @@ class item : public visitable
          */
         void mark_chapter_as_read( const Character &u );
         /**
+         * Returns recipes stored on the item (laptops, smartphones, sd cards etc)
+         * Filters out !is_valid() recipes
+         */
+        std::set<recipe_id> get_saved_recipes() const;
+        /**
+        * Sets recipes stored on the item (laptops, smartphones, sd cards etc)
+        */
+        void set_saved_recipes( const std::set<recipe_id> &recipes );
+        /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
         std::vector<std::pair<const recipe *, int>> get_available_recipes( const Character &u ) const;
