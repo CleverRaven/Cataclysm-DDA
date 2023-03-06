@@ -6,16 +6,21 @@
 
 #include "cata_catch.h"
 #include "character.h"
+#include "effect_on_condition.h"
 #include "mutation.h"
 #include "npc.h"
 #include "player_helpers.h"
 #include "type_id.h"
+
+static const effect_on_condition_id effect_on_condition_changing_mutate2( "changing_mutate2" );
 
 static const morale_type morale_perm_debug( "morale_perm_debug" );
 
 static const mutation_category_id mutation_category_ALPHA( "ALPHA" );
 static const mutation_category_id mutation_category_CHIMERA( "CHIMERA" );
 static const mutation_category_id mutation_category_FELINE( "FELINE" );
+static const mutation_category_id mutation_category_HUMAN( "HUMAN" );
+static const mutation_category_id mutation_category_REMOVAL_TEST( "REMOVAL_TEST" );
 static const mutation_category_id mutation_category_LUPINE( "LUPINE" );
 static const mutation_category_id mutation_category_MOUSE( "MOUSE" );
 static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
@@ -23,6 +28,8 @@ static const mutation_category_id mutation_category_RAPTOR( "RAPTOR" );
 static const trait_id trait_EAGLEEYED( "EAGLEEYED" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_SMELLY( "SMELLY" );
+static const trait_id trait_TEST_REMOVAL_1( "TEST_REMOVAL_1" );
+static const trait_id trait_TEST_REMOVAL_2( "TEST_REMOVAL_2" );
 static const trait_id trait_TEST_TRIGGER( "TEST_TRIGGER" );
 static const trait_id trait_TEST_TRIGGER_2( "TEST_TRIGGER_2" );
 static const trait_id trait_TEST_TRIGGER_2_active( "TEST_TRIGGER_2_active" );
@@ -31,7 +38,10 @@ static const trait_id trait_UGLY( "UGLY" );
 static const trait_id trait_UNOBSERVANT( "UNOBSERVANT" );
 
 static const vitamin_id vitamin_instability( "instability" );
+static const vitamin_id vitamin_mutagen( "mutagen" );
+static const vitamin_id vitamin_mutagen_human( "mutagen_human" );
 static const vitamin_id vitamin_mutagen_test( "mutagen_test" );
+static const vitamin_id vitamin_mutagen_test_removal( "mutagen_test_removal" );
 
 static std::string get_mutations_as_string( const Character &you );
 
@@ -235,6 +245,65 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
                 CHECK( breach_chance >= BREACH_POWER_MIN );
             }
         }
+    }
+}
+
+TEST_CASE( "Mutation/starting trait interactions", "[mutations]" )
+{
+    Character &dummy = get_player_character();
+    clear_avatar();
+
+    SECTION( "Purifier test" ) {
+        // Set up for purifier test
+        dummy.my_traits.insert( trait_TEST_REMOVAL_1 );
+        dummy.set_mutation( trait_TEST_REMOVAL_1 );
+        dummy.vitamin_set( vitamin_mutagen_human, 1500 );
+        dummy.vitamin_set( vitamin_mutagen, 1500 );
+
+        // Check that everything works as it should
+        CHECK( mutation_category_trait::get_category( mutation_category_HUMAN ).base_removal_chance == 0 );
+        CHECK( dummy.has_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.vitamin_get( vitamin_mutagen_human ) == 1500 );
+        CHECK( dummy.vitamin_get( vitamin_mutagen ) == 1500 );
+
+        // Trigger a mutation
+        dialogue newDialog( get_talker_for( dummy ), nullptr );
+        effect_on_condition_changing_mutate2->activate( newDialog );
+
+        // Mutation triggered as expected, trait not removed
+        CHECK( dummy.vitamin_get( vitamin_mutagen ) < 1500 );
+        CHECK( dummy.has_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_1 ) );
+    }
+
+    SECTION( "Removal via mutation test" ) {
+        clear_avatar();
+        dummy.my_traits.insert( trait_TEST_REMOVAL_1 );
+        dummy.set_mutation( trait_TEST_REMOVAL_1 );
+        dummy.vitamin_set( vitamin_mutagen, 1500 );
+        dummy.vitamin_set( vitamin_mutagen_test_removal, 1500 );
+
+        CHECK( mutation_category_trait::get_category( mutation_category_REMOVAL_TEST ).base_removal_chance
+               ==
+               100 );
+        CHECK( mutation_category_trait::get_category( mutation_category_REMOVAL_TEST ).base_removal_cost_mul
+               ==
+               2.0 );
+        CHECK( dummy.has_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.has_base_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.vitamin_get( vitamin_mutagen_test_removal ) == 1500 );
+        CHECK( dummy.vitamin_get( vitamin_mutagen ) == 1500 );
+
+        // Trigger a mutation
+        dialogue newDialog( get_talker_for( dummy ), nullptr );
+        effect_on_condition_changing_mutate2->activate( newDialog );
+
+        // Mutation triggered as expected, trait removed at the specified cost multiplier
+        CHECK( dummy.vitamin_get( vitamin_mutagen ) < 1500 );
+        CHECK( !dummy.has_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( !dummy.has_base_trait( trait_TEST_REMOVAL_1 ) );
+        CHECK( dummy.vitamin_get( vitamin_mutagen_test_removal ) == 1300 );
     }
 }
 
