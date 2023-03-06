@@ -6841,7 +6841,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                     pose = _( "stands" );
                 }
                 const std::vector<std::string> vec = guy->short_description_parts();
-                figure_appearance = join( vec, "\n\n" );
+                figure_appearance = string_join( vec, "\n\n" );
                 figure_name = guy->get_name();
                 pronoun_gender = guy->male ? _( "He" ) : _( "She" );
                 creature = guy;

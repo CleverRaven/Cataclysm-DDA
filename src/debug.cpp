@@ -1803,7 +1803,7 @@ std::string game_info::mods_loaded()
         return string_format( "%s [%s]", mod->name(), mod->ident.str() );
     } );
 
-    return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
+    return string_join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
 }
 
 std::string game_info::game_report()

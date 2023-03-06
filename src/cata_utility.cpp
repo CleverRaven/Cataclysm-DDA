@@ -651,19 +651,6 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
-std::string join( const std::vector<std::string> &strings, const std::string &joiner )
-{
-    std::ostringstream buffer;
-
-    for( auto a = strings.begin(); a != strings.end(); ++a ) {
-        if( a != strings.begin() ) {
-            buffer << joiner;
-        }
-        buffer << *a;
-    }
-    return buffer.str();
-}
-
 template<>
 std::string io::enum_to_string<holiday>( holiday data )
 {

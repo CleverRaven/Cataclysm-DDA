@@ -9522,7 +9522,7 @@ std::vector<std::string> Character::short_description_parts() const
 
 std::string Character::short_description() const
 {
-    return join( short_description_parts(), ";   " );
+    return string_join( short_description_parts(), ";   " );
 }
 
 void Character::process_one_effect( effect &it, bool is_new )
