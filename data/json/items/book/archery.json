@@ -97,7 +97,7 @@
       {
         "id": "mag_archery_1",
         "name": { "str": "Archery Drill Book", "str_pl": "copies of Archery Drill Book" },
-        "description": "Become a more consistent and accurate archer!  The Archery Drill Book covers all aspects of the sport, with 130 of the best drills for developing superior technique, skill, physical stamina, and the focused mindset needed to shoot under pressure.",
+        "description": "\"Become a more consistent and accurate archer!\", The Archery Drill Book covers all aspects of the sport, with 130 of the best drills for developing superior technique, skill, physical stamina, and the focused mindset needed to shoot under pressure.",
         "//": "978-1492588344",
         "weight": 1
       },
