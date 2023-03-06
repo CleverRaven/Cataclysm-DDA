@@ -1559,6 +1559,7 @@ loadouts
 loamy
 lobotomizer
 lockpick
+lockpickers
 lockpicking
 longarm
 longear
@@ -1738,6 +1739,7 @@ mosasaurus
 mostlike
 mostravam
 motorpool
+motorsports
 mountable
 mouthgear
 mouthpart
@@ -2788,6 +2790,7 @@ transp
 transpositions
 transuranic
 trapezoidal
+travelogue
 travelpack
 traversal
 travois
@@ -3061,6 +3064,7 @@ woodlouse
 woodsmanship
 woom
 woosh
+workarounds
 workcycle
 workshifts
 worldgen
