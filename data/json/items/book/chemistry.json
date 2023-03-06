@@ -225,7 +225,7 @@
     "name": { "str": "chemical reference-CLASSIFIED", "str_pl": "chemical references-CLASSIFIED" },
     "description": "This somewhat technical binder has several intimidating security warnings on the cover, yet guarantees unauthorized readers \"permanent employment, for life\".  It contains useful information on \"basic\" chemical projects like methamphetamine and heroin, along with briefing on things called \"XE037\" and \"PE012\".",
     "weight": "2000 g",
-    "volume": "500 ml",
+    "volume": "2 L",
     "price": 64000,
     "price_postapoc": 2000,
     "material": [ "paper", "plastic" ],

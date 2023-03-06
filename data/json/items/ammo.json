@@ -382,7 +382,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Plastic jacketed copper cable of the type used in small electronics.",
-    "material": [ "plastic", "copper" ],
+    "material": [ { "type": "copper", "portion": 85 }, { "type": "plastic", "portion": 15 } ],
     "//": "Calculated off of copper wire with an extra 0.5mm of diameter and 0.66g.",
     "volume": "155 ml",
     "weight": "5413 mg",

@@ -3,11 +3,23 @@
     "id": "mon_human",
     "type": "MONSTER",
     "name": { "str": "human" },
-    "description": "Place holder for human corpses.  If you see this, it's a bug.",
+    "description": "Placeholder for human corpses.  If you see this, it's a bug.",
     "bodytype": "human",
     "copy-from": "mon_zombie",
     "symbol": "h",
     "zombify_into": "mon_zombie",
+    "extend": { "flags": [ "NOT_HALLUCINATION" ] }
+  },
+  {
+    "id": "mon_child",
+    "type": "MONSTER",
+    "name": { "str": "child" },
+    "description": "Placeholder for children corpses.  If you see this, it's a bug.",
+    "bodytype": "human",
+    "copy-from": "mon_zombie_child",
+    "symbol": "h",
+    "zombify_into": "mon_zombie_child",
+    "weight": "30 kg",
     "extend": { "flags": [ "NOT_HALLUCINATION" ] }
   },
   {
