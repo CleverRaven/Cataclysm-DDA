@@ -34,14 +34,14 @@
       {
         "id": "manual_business_1",
         "name": { "str": "How To Day Trade For A Living", "str_pl": "copies of How To Day Trade For A Living" },
-        "description": "The fundamentals of day trading, explained by the author how it differs from other styles of trading and investment, with elaboration on important trading strategies that many traders use every day.",
+        "description": "The fundamentals of day trading, and how it differs from other styles of trading and investment, with elaboration on important trading strategies that many traders use every day.",
         "//": "978-1535585958",
         "weight": 1
       },
       {
         "id": "manual_business_1",
         "name": { "str": "Trading Psychology For Dummies", "str_pl": "copies of Trading Psychology For Dummies" },
-        "description": "A guide to help you develop a mindset to trade on a rapidly changing stock market.  Not much useful in current moment, when the main stock you have is a stock of your gun, or maybe a soup.",
+        "description": "A guide to help you develop a mindset to trade on a rapidly changing stock market.  Not very useful in current moment, when the main stock you have is a stock of ammo, or maybe just soup.",
         "//": "978-1119879589",
         "weight": 1
       }
@@ -85,7 +85,7 @@
       {
         "id": "textbook_business_2",
         "name": { "str": "Trading Basics", "str_pl": "copies of Trading Basics" },
-        "description": "Comprehensive coverage of most major trading styles.",
+        "description": "Comprehensive coverage of most major stock trading styles.",
         "//": "978-1118464212",
         "weight": 1
       }
