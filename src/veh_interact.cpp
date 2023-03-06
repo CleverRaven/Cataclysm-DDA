@@ -749,14 +749,11 @@ bool veh_interact::is_drive_conflict()
 
 bool veh_interact::can_self_jack()
 {
-    int lvl = jack_quality( *veh );
-
+    int lvl = 0;
     for( const vpart_reference &vp : veh->get_avail_parts( "SELF_JACK" ) ) {
-        if( vp.part().base.has_quality( qual_SELF_JACK, lvl ) ) {
-            return true;
-        }
+        lvl += vp.part().base.get_quality( qual_SELF_JACK );
     }
-    return false;
+    return lvl >= jack_quality( *veh );
 }
 
 bool veh_interact::update_part_requirements()
