@@ -85,7 +85,16 @@
   {
     "type": "mood_face",
     "id": "THRESH_URSINE",
-    "copy-from": "DEFAULT"
+    "values": [
+      { "value": 200, "face": "<color_green>8(80D)</color>" },
+      { "value": 100, "face": "<color_green>8(:0D)</color>" },
+      { "value": 50, "face": "<color_green>8(:0))</color>" },
+      { "value": 10, "face": "<color_green>8(:0P)</color>" },
+      { "value": -10, "face": "<color_white>8(:0|)</color>" },
+      { "value": -50, "face": "<color_red>8(:0/)</color>" },
+      { "value": -100, "face": "<color_red>8(:0()</color>" },
+      { "value": -200, "face": "<color_red>8(>:0()</color>" }
+    ]
   },
   {
     "type": "mood_face",

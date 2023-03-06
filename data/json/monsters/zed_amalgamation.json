@@ -122,7 +122,7 @@
     "volume": "120 L",
     "weight": "120 kg",
     "hp": 180,
-    "melee_skill": 8,
+    "melee_skill": 7,
     "dodge": 5,
     "armor_bash": 16,
     "armor_cut": 10,
@@ -175,7 +175,8 @@
       {
         "type": "spell",
         "spell_data": { "id": "create_noise", "hit_self": true },
-        "monster_message": "The amalgamation screams!"
+        "monster_message": "The amalgamation screams!",
+        "cooldown": 12
       }
     ],
     "vision_day": 60,
@@ -294,7 +295,7 @@
     "weight": "200 kg",
     "speed": 100,
     "attack_cost": 150,
-    "melee_skill": 10,
+    "melee_skill": 8,
     "melee_dice": 4,
     "melee_dice_sides": 4,
     "special_attacks": [

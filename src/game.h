@@ -873,6 +873,8 @@ class game
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest, bool quick = false );
         void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
+        void perhaps_add_random_npc( bool ignore_spawn_timers_and_rates );
+        static void display_om_pathfinding_progress( size_t open_set, size_t known_size );
 
         unsigned int get_seed() const;
 
@@ -933,10 +935,7 @@ class game
          * point to a different monster after calling this (or to no monster at all).
          */
         void despawn_monster( monster &critter );
-
     private:
-        void perhaps_add_random_npc();
-
         // Routine loop functions, approximately in order of execution
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool do_regular_action( action_id &act, avatar &player_character,
@@ -1111,7 +1110,10 @@ class game
         weather_manager weather; // NOLINT(cata-serialize)
 
     public:
-        int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
+        // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
+        // Please note that this does not count ignored monsters, so this value might
+        // be 0 even if the player currently sees some monsters.
+        int mostseen = 0;
     private:
         shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)
 

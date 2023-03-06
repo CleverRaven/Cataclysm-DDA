@@ -103,6 +103,7 @@ static const oter_str_id oter_river_sw( "river_sw" );
 static const oter_str_id oter_river_west( "river_west" );
 static const oter_str_id oter_road_nesw( "road_nesw" );
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
+static const oter_str_id oter_sewer_end_north( "sewer_end_north" );
 static const oter_str_id oter_sewer_isolated( "sewer_isolated" );
 static const oter_str_id oter_sewer_sub_station( "sewer_sub_station" );
 static const oter_str_id oter_solid_earth( "solid_earth" );
@@ -126,6 +127,7 @@ static const oter_type_str_id oter_type_lab_stairs( "lab_stairs" );
 static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_road_nesw_manhole( "road_nesw_manhole" );
+static const oter_type_str_id oter_type_sewer_connector( "sewer_connector" );
 static const oter_type_str_id oter_type_slimepit_bottom( "slimepit_bottom" );
 static const oter_type_str_id oter_type_slimepit_down( "slimepit_down" );
 static const oter_type_str_id oter_type_solid_earth( "solid_earth" );
@@ -3557,6 +3559,12 @@ bool overmap::generate_sub( const int z )
             const oter_id oter_above = ter_unsafe( p + tripoint_above );
             const oter_id oter_ground = ter_unsafe( tripoint_om_omt( p.xy(), 0 ) );
 
+            if( oter_here.get_type_id() == oter_type_sewer_connector ) {
+                om_direction::type rotation = oter_here.get_dir();
+                ter_set( p, oter_sewer_end_north.id()->get_rotated( rotation ) );
+                sewer_points.emplace_back( p.xy() );
+            }
+
             if( oter_here.get_type_id() == oter_type_microlab_sub_connector ) {
                 om_direction::type rotation = oter_here.get_dir();
                 ter_set( p, oter_subway_end_north.id()->get_rotated( rotation ) );
@@ -3854,8 +3862,7 @@ tripoint_om_omt overmap::find_random_omt( const std::pair<std::string, ot_match_
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
                 tripoint_om_omt p( i, j, k );
                 if( is_ot_match( target.first, ter( p ), target.second ) ) {
-                    if( !check_nearest_city ||
-                        ( check_nearest_city && get_nearest_city( p ) == target_city.value() ) ) {
+                    if( !check_nearest_city || get_nearest_city( p ) == target_city.value() ) {
                         valid.push_back( p );
                     }
                 }
@@ -6582,20 +6589,6 @@ void overmap::add_mon_group( const mongroup &group, int radius )
             // an overmap and moves groups with out-of-bounds position to another overmap.
             add_mon_group( tmp );
         }
-    }
-}
-
-void overmap::for_each_npc( const std::function<void( npc & )> &callback )
-{
-    for( auto &guy : npcs ) {
-        callback( *guy );
-    }
-}
-
-void overmap::for_each_npc( const std::function<void( const npc & )> &callback ) const
-{
-    for( const auto &guy : npcs ) {
-        callback( *guy );
     }
 }
 

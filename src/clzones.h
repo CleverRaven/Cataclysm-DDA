@@ -56,6 +56,7 @@ class zone_type
         std::string desc() const;
 
         bool can_be_personal = false;
+        bool hidden = false;
 
         static void load_zones( const JsonObject &jo, const std::string &src );
         static void reset();
@@ -277,7 +278,6 @@ class unload_options : public zone_options, public mark_option
             return always_unload;
         }
 
-
         void set_mark( std::string const &nmark ) {
             mark = nmark;
         }
@@ -415,7 +415,7 @@ class zone_data
             }
             return tripoint_abs_ms{ end };
         }
-        void update_cached_shift( tripoint_abs_ms player_loc ) {
+        void update_cached_shift( const tripoint_abs_ms &player_loc ) {
             cached_shift = player_loc;
         }
         tripoint_abs_ms get_center_point() const;

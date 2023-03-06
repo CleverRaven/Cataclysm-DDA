@@ -358,5 +358,29 @@
       { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
       { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
     ]
+  },
+  {
+    "id": "zed_dino_leather_acid",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "blood_acid", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 }
+    ]
+  },
+  {
+    "id": "zed_dino_feather_acid",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "blood_acid", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.002 },
+      { "drop": "down_feather", "type": "skin", "mass_ratio": 0.001 }
+    ]
   }
 ]

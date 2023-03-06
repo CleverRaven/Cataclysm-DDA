@@ -1115,7 +1115,7 @@
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
       "hurt_chance": [ -22 ],
-      "hurt_tick": [ 20 ],
+      "hurt_tick": [ 200 ],
       "pain_min": [ 1 ],
       "pain_max": [ 2 ],
       "pain_chance": [ 50 ],
@@ -2065,7 +2065,7 @@
     "id": "shakes",
     "name": [ "Shakes" ],
     "desc": [ "Your hands just won't stop shaking." ],
-    "miss_messages": [ [ "You tremble", 4 ] ],
+    "miss_messages": [ [ "You tremble.", 4 ] ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] },
     "max_duration": 7200,
     "dur_add_perc": 30
@@ -3683,7 +3683,7 @@
     "remove_message": "Reality reasserts itself and your perspective returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "base_mods": { "per_mod": [ 6, 0 ] }
+    "base_mods": { "per_mod": [ -6, 0 ] }
   },
   {
     "id": "weakened_gravity",
@@ -3707,7 +3707,7 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "global_val": "var", "var_name": "portal_dungeon_carry_strength" } } ]
+        "values": [ { "value": "CARRY_WEIGHT", "add": { "global_val": "var", "var_name": "portal_dungeon_carry_strength" } } ]
       }
     ]
   },
@@ -3720,8 +3720,6 @@
     "remove_message": "Reality reasserts itself and your time returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "enchantments": [
-      { "values": [ { "value": "SPEED", "multiply": { "global_val": "var", "var_name": "portal_dungeon_slow_strength" } } ] }
-    ]
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "global_val": "var", "var_name": "portal_dungeon_slow_strength" } } ] } ]
   }
 ]

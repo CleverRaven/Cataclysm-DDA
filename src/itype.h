@@ -306,7 +306,6 @@ struct armor_portion_data {
 
     std::set<sub_bodypart_str_id> sub_coverage;
 
-
     // What layer does it cover if any
     std::set<layer_level> layers;
 
@@ -559,6 +558,7 @@ struct islot_book {
     std::vector<book_proficiency_bonus> proficiencies;
 
     bool was_loaded = false;
+    bool is_scannable = false;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );

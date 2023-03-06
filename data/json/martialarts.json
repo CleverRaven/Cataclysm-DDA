@@ -1202,7 +1202,7 @@
       {
         "id": "buff_snake_onpause",
         "name": "Snake's Coil",
-        "description": "Every snake waits for the perfect moment to strike.  Aim as your opponents approve and attack their weakness without mercy!\n\n+1 accuracy, +1 blocking effectiveness, +5% critical hit chance.\nLasts 4 turns.  Stacks 3 times.",
+        "description": "Every snake waits for the perfect moment to strike.  Aim as your opponents approach and attack their weakness without mercy!\n\n+1 accuracy, +1 blocking effectiveness, +5% critical hit chance.\nLasts 4 turns.  Stacks 3 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 4,
