@@ -964,18 +964,22 @@ static void draw_speed_tab( const catacurses::window &w_speed,
 
     const float temperature_speed_modifier = you.mutation_value( "temperature_speed_modifier" );
     if( temperature_speed_modifier != 0 ) {
+        const int climate_control = you.enchantment_cache->get_value_add(
+                                        enchant_vals::mod::CLIMATE_CONTROL_HEAT );
         nc_color pen_color;
         std::string pen_sign;
         const units::temperature player_local_temp = get_weather().get_temperature( you.pos() );
-        if( you.has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
+        if( you.has_flag( json_flag_ECTOTHERM ) &&
+            player_local_temp > units::from_fahrenheit( 65 - climate_control ) ) {
             pen_color = c_green;
             pen_sign = "+";
-        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
+        } else if( player_local_temp < units::from_fahrenheit( 65 - climate_control ) ) {
             pen_color = c_red;
             pen_sign = "-";
         }
         if( !pen_sign.empty() ) {
-            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
+            pen = ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) *
+                  temperature_speed_modifier;
             mvwprintz( w_speed, point( 1, line ), pen_color,
                        //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
                        pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );
