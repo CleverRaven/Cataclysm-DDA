@@ -865,8 +865,10 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         return;
     }
 
-    const bool rec_added = book_binder->eipc_recipe_add( rec_id );
-    if( rec_added ) {
+    std::set<recipe_id> recipes = book_binder->get_saved_recipes();
+
+    if( recipes.emplace( rec_id ).second ) { // if .second is true then recipe was inserted
+        book_binder->set_saved_recipes( recipes );
         p.add_msg_if_player( m_good, _( "You copy the recipe for %1$s into your recipe book." ),
                              rec_id->result_name() );
 

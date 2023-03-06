@@ -4507,23 +4507,14 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     }
 
     // Display e-ink tablet copied recipes from SD cards
-    if( has_var( "EIPC_RECIPES" ) && !is_broken_on_active() ) {
+    const std::set<recipe_id> saved_recipes = get_saved_recipes();
+    if( !saved_recipes.empty() ) {
         std::vector<std::string> known_recipe_list;
         std::vector<std::string> learnable_recipe_list;
         std::vector<std::string> unlearnable_recipe_list;
 
-        const std::string recipes = get_var( "EIPC_RECIPES" );
-        // Capture the index one past the delimiter, i.e. start of target string.
-        size_t first_string_index = recipes.find_first_of( ',' ) + 1;
-        while( first_string_index != std::string::npos ) {
-            size_t next_string_index = recipes.find_first_of( ',', first_string_index );
-            if( next_string_index == std::string::npos ) {
-                break;
-            }
-            std::string new_recipe = recipes.substr( first_string_index,
-                                     next_string_index - first_string_index );
-
-            const recipe *r = &recipe_id( new_recipe ).obj();
+        for( const recipe_id &rid : saved_recipes ) {
+            const recipe *r = &rid.obj();
 
             const bool knows_it = player_character.knows_recipe( r );
             const bool can_learn = player_character.get_skill_level( r->skill_used ) >= r->difficulty;
@@ -4539,8 +4530,6 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             } else {
                 learnable_recipe_list.emplace_back( "<dark>" + name + "</dark>" );
             }
-
-            first_string_index = next_string_index + 1;
         }
 
         int total_recipes = known_recipe_list.size() + learnable_recipe_list.size() +
@@ -9932,42 +9921,15 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes(
                 recipe_entries.emplace_back( elem.recipe, elem.skill_level );
             }
         }
-    } else if( has_var( "EIPC_RECIPES" ) && !is_broken_on_active() ) {
-        // See eipc_recipe_add() in item.cpp where this is set.
-        const std::string recipes = get_var( "EIPC_RECIPES" );
-        // Capture the index one past the delimiter, i.e. start of target string.
-        size_t first_string_index = recipes.find_first_of( ',' ) + 1;
-        while( first_string_index != std::string::npos ) {
-            size_t next_string_index = recipes.find_first_of( ',', first_string_index );
-            if( next_string_index == std::string::npos ) {
-                break;
-            }
-            std::string new_recipe = recipes.substr( first_string_index,
-                                     next_string_index - first_string_index );
-            const recipe *r = &recipe_id( new_recipe ).obj();
+    } else {
+        for( const recipe_id &rid : get_saved_recipes() ) {
+            const recipe *r = &rid.obj();
             if( u.get_knowledge_level( r->skill_used ) >= r->difficulty ) {
                 recipe_entries.emplace_back( r, r->difficulty );
             }
-            first_string_index = next_string_index + 1;
         }
     }
     return recipe_entries;
-}
-
-bool item::eipc_recipe_add( const recipe_id &recipe_id )
-{
-    bool recipe_success = false;
-
-    const std::string old_recipes = this->get_var( "EIPC_RECIPES" );
-    if( old_recipes.empty() ) {
-        recipe_success = true;
-        this->set_var( "EIPC_RECIPES", "," + recipe_id.str() + "," );
-    } else if( old_recipes.find( "," + recipe_id.str() + "," ) == std::string::npos ) {
-        recipe_success = true;
-        this->set_var( "EIPC_RECIPES", old_recipes + recipe_id.str() + "," );
-    }
-
-    return recipe_success;
 }
 
 const material_type &item::get_random_material() const
