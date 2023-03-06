@@ -3163,24 +3163,6 @@ void item::deserialize( const JsonObject &data )
         contents = item_contents( type->pockets );
     }
 
-    // Remove after 0.F: artifact migration code
-    if( typeId().str().substr( 0, 9 ) == "artifact_" ) {
-        relic_procgen_data::generation_rules rules;
-        rules.max_attributes = 5;
-        rules.max_negative_power = -1000;
-        rules.power_level = 2000;
-
-        item_contents temp_migrate( contents );
-
-        *this = relic_procgen_data_cult->create_item( rules );
-
-        if( !temp_migrate.empty() ) {
-            for( const item *it : temp_migrate.all_items_top() ) {
-                contents.insert_item( *it, item_pocket::pocket_type::MIGRATION );
-            }
-        }
-    }
-
     // FIXME: batch_size migration from charges - remove after 0.G
     if( is_craft() && craft_data_->batch_size <= 0 ) {
         craft_data_->batch_size = clamp( charges, 1, charges );
@@ -3201,17 +3183,6 @@ void item::deserialize( const JsonObject &data )
 
 void item::serialize( JsonOut &json ) const
 {
-    // Remove after 0.F: artifact migration code
-    if( typeId().str().substr( 0, 9 ) == "artifact_" ) {
-        relic_procgen_data::generation_rules rules;
-        rules.max_attributes = 5;
-        rules.max_negative_power = -1000;
-        rules.power_level = 2000;
-
-        relic_procgen_data_cult->create_item( rules ).serialize( json );
-        return;
-    }
-
     // Skip the serialization check because this is forwarding serialization to
     // another function
     // CATA_DO_NOT_CHECK_SERIALIZE
