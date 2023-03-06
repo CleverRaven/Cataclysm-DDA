@@ -822,6 +822,7 @@ reference at least one body part or sub body part.
 | `techniques`           | (_optional_) List of melee techniques granted by this limb as long as it's above its `health_limit` HP.  The chance for the technique to be included in each attack's tech list is dependent on limb encumbrance. ( `!x_in_y(current encumbrance / technique_encumbrance_limit`)
 | `technique_encumbrance_limit` | (_optional_) Level of encumbrance that disables the given techniques for this limb completely, lower encumbrance still reduces the chances of the technique being chosen (see above).
 | `limb_scores`          | (_optional_) List of arrays defining limb scores. Each array contains 2 mandatory values and 1 optional value. Value 1 is a reference to a `limb_score` id. Value 2 is a float defining the limb score's value. (optional) Value 3 is a float defining the limb score's maximum value (mostly just used for manipulator score).
+| `effects_on_hit`       | (_optional_) Array of effects that can apply whenever the limb is damaged.  For details see below.
 | `unarmed_damage`       | (_optional_) An array of objects, each detailing the amount of unarmed damage the bodypart contributes to unarmed attacks and their armor penetration. The unarmed damages of each limb are summed and added to the base unarmed damage. Should be used for limbs the character is expected to *always* attack with, for special attacks use a dedicated technique.
 | `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
 
@@ -858,6 +859,55 @@ reference at least one body part or sub body part.
   "smash_message": "You elbow-smash the %s.",
   "bionic_slots": 20,
   "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
+}
+```
+
+# On-hit Effects
+
+An array of effects to add whenever the limb in question takes damage. Variables for each entry:
+
+| `Identifier`           | Description
+|---                     |---
+| `id`                   | (_mandatory_) ID of the effect to apply.
+| `global`               | (_optional_) Bool, if true the effect won't apply to the bodypart but to the whole character. Default false.
+| `dmg_type`             | (_optional_) String id of the damage type eligible to apply the effect. Defaults to all damage.
+| `dmg_threshold`        | (_optional_) Integer, amount of damage to trigger the effect. For main parts used as percent of limb max health, for minor parts as absolute damage amount. Default 1.
+| `dmg_scale_increment`  | (_optional_) Float, steps of scaling based on damage above `damage_threshold`. Default 1.
+| `chance`               | (_optional_) Integer, percent chance to trigger the effect. Default 100.
+| `chance_dmg_scaling`   | (_optional_) Float, chance is increased by this value for every `dmg_scale_increment` above `dmg_threshold`. Default 0.
+| `intensity`            | (_optional_) Integer, intensity of effect to apply. Default 1.
+| `intensity_dmg_scaling`| (_optional_) Float, intensity is increased by this value for every `dmg_scale_increment` above `dmg_threshold`. Default 0.
+| `max_intensity`        | (_optional_) Integer, max intensity the limb can gain as part of the onhit effect - other sources of effects like spells or explicit special attack effects can still apply higher intensities. Default INT_MAX.
+| `duration`             | (_optional_) Integer, duration of effect to apply in seconds. Default 1.
+| `duration_dmg_scaling` | (_optional_) Float, duration is increased by this value for every `dmg_scale_increment` above `dmg_threshold`. Default 0.
+| `max_duration`         | (_optional_) Integer, max seconds duration the limb can gain as part of the onhit effect - see `max_intensity`. Default INT_MAX.
+
+
+```json
+{
+"effects_on_hit": [
+    {
+      "id": "staggered",
+      "dmg_type": "bash",
+      "dmg_threshold": 5,
+      "dmg_scale_increment": 5,
+      "chance": 10,
+      "chance_dmg_scaling": 10,
+      "duration": 5,
+      "duration_dmg_scaling": 2,
+      "max_duration": 15
+    },
+    {
+      "id": "downed",
+      "global": true,
+      "dmg_threshold": 20,
+      "dmg_scale_increment": 10,
+      "chance": 5,
+      "chance_dmg_scaling": 20,
+      "duration": 2,
+      "duration_dmg_scaling": 0.5
+    }
+  ]
 }
 ```
 

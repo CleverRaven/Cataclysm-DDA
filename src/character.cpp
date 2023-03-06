@@ -38,7 +38,6 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
-#include "debug.h"
 #include "disease.h"
 #include "display.h"
 #include "effect.h"
@@ -3148,11 +3147,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
-void Character::make_bleed( const effect_source &source, const bodypart_id &bp,
-                            time_duration duration, int intensity, bool permanent, bool force, bool defferred )
-{
-    add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
-}
 
 void Character::normalize()
 {
@@ -3779,9 +3773,9 @@ int Character::get_arm_str() const
 
 int Character::get_eff_per() const
 {
-    return Character::get_per() * get_limb_score( limb_score_vision ) + int( Character::has_proficiency(
-                proficiency_prof_spotting ) ) *
-           Character::get_per_base();
+    return ( Character::get_per() + int( Character::has_proficiency(
+            proficiency_prof_spotting ) ) *
+             Character::get_per_base() ) * get_limb_score( limb_score_vision ) ;
 }
 
 int Character::ranged_dex_mod() const
@@ -4211,8 +4205,65 @@ bool Character::is_mute() const
                    is_wearing( itype_foodperson_mask_on ) ) ) ||
            has_trait( trait_MUTE );
 }
-void Character::on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp )
+void Character::on_damage_of_type( const effect_source &source, int adjusted_damage,
+                                   damage_type type,
+                                   const bodypart_id &bp )
 {
+    // Handle bp onhit effects
+    bodypart *body_part = get_part( bp );
+    const bool is_minor = bp->main_part != bp->id;
+    add_msg_debug( debugmode::DF_CHARACTER, "Targeting limb %s with %d %s type damage", bp->name,
+                   adjusted_damage, name_by_dt( type ) );
+    // Damage as a percent of the limb's max hp or raw dmg for minor parts
+    float dmg_ratio = is_minor ? adjusted_damage : 100 * adjusted_damage / body_part->get_hp_max();
+    add_msg_debug( debugmode::DF_CHARACTER, "Main BP max hp %d, damage ratio %.1f",
+                   body_part->get_hp_max(), dmg_ratio );
+    for( const bp_onhit_effect &eff : body_part->get_onhit_effects( type ) ) {
+        if( dmg_ratio >= eff.dmg_threshold ) {
+            float scaling = ( dmg_ratio - eff.dmg_threshold ) / eff.scale_increment;
+            int scaled_chance = roll_remainder( std::max( static_cast<float>( eff.chance ),
+                                                eff.chance + eff.chance_dmg_scaling * scaling ) );
+            add_msg_debug( debugmode::DF_CHARACTER, "Scaling factor %.1f, base chance %d%%, scaled chance %d%%",
+                           scaling, eff.chance, scaled_chance );
+            if( x_in_y( scaled_chance, 100 ) ) {
+
+                // Scale based on damage done
+                int scaled_dur = roll_remainder( std::max( static_cast<float>( eff.duration ),
+                                                 eff.duration + eff.duration_dmg_scaling * scaling ) );
+                int scaled_int = roll_remainder( std::max( static_cast<float>( eff.intensity ),
+                                                 eff.intensity + eff.intensity_dmg_scaling * scaling ) );
+                add_msg_debug( debugmode::DF_CHARACTER,
+                               "Atempting to add effect %s, scaled duration %d turns, scaled intensity %d", eff.id.c_str(),
+                               scaled_dur,
+                               scaled_int );
+
+                // Handle intensity/duration clamping
+                if( eff.max_intensity != INT_MAX ) {
+                    int prev_int = get_effect( eff.id, bp ).get_intensity();
+                    add_msg_debug( debugmode::DF_CHARACTER,
+                                   "Max intensity %d, current intensity %d", eff.max_intensity, prev_int );
+                    if( ( prev_int + scaled_int ) > eff.max_intensity ) {
+                        scaled_int = eff.max_intensity - prev_int;
+                        add_msg_debug( debugmode::DF_CHARACTER,
+                                       "Limiting added intensity to %d", scaled_int );
+                    }
+                }
+                if( eff.max_duration != INT_MAX ) {
+                    int prev_dur = to_turns<int>( get_effect( eff.id, bp ).get_duration() );
+                    add_msg_debug( debugmode::DF_CHARACTER,
+                                   "Max duration %d, current duration %d", eff.max_duration, prev_dur );
+                    if( ( prev_dur + scaled_dur ) > eff.max_duration ) {
+                        scaled_dur = eff.max_duration - prev_dur;
+                        add_msg_debug( debugmode::DF_CHARACTER,
+                                       "Limiting added duration to %d seconds", scaled_dur );
+                    }
+                }
+                // Add the effect globally if defined
+                add_effect( source, eff.id, 1_turns * scaled_dur, eff.global ? bodypart_str_id::NULL_ID() : bp,
+                            false, scaled_int );
+            }
+        }
+    }
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
     if( type == damage_type::ELECTRIC ) {
         const time_duration min_disable_time = 10_turns * adjusted_damage;
@@ -7547,14 +7598,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
 
     int recoil_mul = 100;
 
-    if( bp == body_part_eyes ) {
-        if( dam > 5 || cut_dam > 0 ) {
-            const time_duration minblind = std::max( 1_turns, 1_turns * ( dam + cut_dam ) / 10 );
-            const time_duration maxblind = std::min( 5_turns, 1_turns * ( dam + cut_dam ) / 4 );
-            add_effect( effect_blind, rng( minblind, maxblind ) );
-        }
-    } else if( bp == body_part_hand_l || bp == body_part_arm_l ||
-               bp == body_part_hand_r || bp == body_part_arm_r ) {
+    if( bp == body_part_hand_l || bp == body_part_arm_l ||
+        bp == body_part_hand_r || bp == body_part_arm_r ) {
         recoil_mul = 200;
     } else if( bp == bodypart_str_id::NULL_ID() ) {
         debugmsg( "Wacky body part hit!" );

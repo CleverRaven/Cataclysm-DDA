@@ -89,12 +89,10 @@ character_modifier_melee_thrown_move_lift_mod( "melee_thrown_move_lift_mod" );
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_beartrap( "beartrap" );
-static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_incorporeal( "incorporeal" );
@@ -374,11 +372,6 @@ float Character::hit_roll() const
         hit -= 8.0f;
     } else if( is_crouching() ) {
         hit -= 2.0f;
-    }
-
-    //Unstable ground chance of failure
-    if( has_effect( effect_bouldering ) ) {
-        hit *= 0.75f;
     }
 
     hit *= get_modifier( character_modifier_melee_attack_roll_mod );
@@ -1139,29 +1132,10 @@ float Character::get_dodge() const
         ret /= 2;
     }
 
-    creature_tracker &creatures = get_creature_tracker();
-    if( has_effect( effect_grabbed ) ) {
-        int zed_number = 0;
-        for( const tripoint &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
-            const monster *const mon = creatures.creature_at<monster>( dest );
-            if( mon && mon->has_effect( effect_grabbing ) ) {
-                zed_number++;
-            }
-        }
-        if( zed_number > 0 ) {
-            ret /= zed_number + 1;
-            add_msg_debug( debugmode::DF_MELEE, "%d grabbing monsters found, modified dodge %.1f", ret );
-        }
-    }
-
     if( worn_with_flag( flag_ROLLER_INLINE ) ||
         worn_with_flag( flag_ROLLER_QUAD ) ||
         worn_with_flag( flag_ROLLER_ONE ) ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
-    }
-
-    if( has_effect( effect_bouldering ) ) {
-        ret /= 4;
     }
 
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
