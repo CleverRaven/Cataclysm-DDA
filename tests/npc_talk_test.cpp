@@ -1289,7 +1289,7 @@ TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
     prep_test( d );
 
     d.add_topic( "TALK_TEST_ARITHMETIC_OP" );
-    gen_response_lines( d, 19 );
+    gen_response_lines( d, 14 );
 
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
@@ -1323,86 +1323,56 @@ TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
     CHECK( calendar::turn == time_point( 5 ) );
 
     calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to 3 & 6 turns.  (2)"
+    // "Sets time since cataclysm to 2 ^ 5 turns.  (32)"
     effects = d.responses[ 5 ].success;
     effects.apply( d );
-    CHECK( calendar::turn == time_point( 2 ) );
-
-    calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to 2 | 4 turns.  (6)"
-    effects = d.responses[ 6 ].success;
-    effects.apply( d );
-    CHECK( calendar::turn == time_point( 6 ) );
-
-    calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to 3 << 2 turns.  (12)"
-    effects = d.responses[ 7 ].success;
-    effects.apply( d );
-    CHECK( calendar::turn == time_point( 12 ) );
-
-    calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to 12 >> 2 turns.  (3)"
-    effects = d.responses[ 8 ].success;
-    effects.apply( d );
-    CHECK( calendar::turn == time_point( 3 ) );
-
-    calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to  ~5 turns.  (?)"
-    effects = d.responses[ 9 ].success;
-    effects.apply( d );
-    CHECK( calendar::turn == time_point( ~5 ) );
-
-    calendar::turn = calendar::turn_zero;
-    // "Sets time since cataclysm to 2 ^ 5 turns.  (7)"
-    effects = d.responses[ 10 ].success;
-    effects.apply( d );
-    CHECK( calendar::turn == time_point( 7 ) );
+    CHECK( calendar::turn == time_point( 32 ) );
 
     calendar::turn = calendar::turn_zero;
     // "Sets time since cataclysm to 5 turns.  (5)"
-    effects = d.responses[ 11 ].success;
+    effects = d.responses[ 6 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 5 ) );
 
     calendar::turn = time_point( 5 );
     // "Sets time since cataclysm to *= 5 turns."
-    effects = d.responses[ 12 ].success;
+    effects = d.responses[ 7 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 25 ) );
 
     calendar::turn = time_point( 5 );
     // "Sets time since cataclysm to /= 5 turns."
-    effects = d.responses[ 13 ].success;
+    effects = d.responses[ 8 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 1 ) );
 
     calendar::turn = time_point( 5 );
     // "Sets time since cataclysm to += 5 turns."
-    effects = d.responses[ 14 ].success;
+    effects = d.responses[ 9 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 10 ) );
 
     calendar::turn = time_point( 11 );
     // "Sets time since cataclysm to -= 5 turns."
-    effects = d.responses[ 15 ].success;
+    effects = d.responses[ 10 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 6 ) );
 
     calendar::turn = time_point( 17 );
     // "Sets time since cataclysm to %= 5 turns."
-    effects = d.responses[ 16 ].success;
+    effects = d.responses[ 11 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 2 ) );
 
     calendar::turn = time_point( 5 );
     // "Sets time since cataclysm++."
-    effects = d.responses[ 17 ].success;
+    effects = d.responses[ 12 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 6 ) );
 
     calendar::turn = time_point( 5 );
     // "Sets time since cataclysm--."
-    effects = d.responses[ 18 ].success;
+    effects = d.responses[ 13 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 4 ) );
 }

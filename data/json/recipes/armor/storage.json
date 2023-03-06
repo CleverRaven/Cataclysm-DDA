@@ -919,9 +919,10 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
     "time": "1 h",
-    "reversible": true,
+    "reversible": { "time": "1 m" },
     "autolearn": true,
-    "using": [ [ "tailoring_leather_small", 3 ], [ "clasps", 1 ] ],
+    "using": [ [ "tailoring_leather_small", 5 ] ],
+    "components": [ [ [ "buckle_steel", 1 ], [ "button", 1, "LIST" ], [ "snapfastener_steel", 2 ], [ "touch_fastener", 2 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ]
   },
   {
@@ -991,7 +992,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "4 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "15 m" },
     "using": [ [ "tailoring_nylon_patchwork", 3 ], [ "fastener_small", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "chestpouch", 2 ] ] ]
@@ -1595,7 +1596,7 @@
     "skills_required": [ "fabrication", 3 ],
     "time": "59 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "90 m" },
     "using": [ [ "tailoring_nylon_patchwork", 45 ], [ "strap_small", 10 ], [ "filament", 10 ] ]
   },
   {
@@ -1801,14 +1802,14 @@
     "difficulty": 3,
     "time": "4 h",
     "autolearn": true,
-    "reversible": true,
-    "using": [ [ "tailoring_leather_small", 6 ], [ "clasps", 3 ] ],
+    "reversible": { "time": "10 m" },
+    "using": [ [ "tailoring_leather_small", 12 ], [ "clasps", 5 ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ],
-    "components": [ [ [ "leather_pouch", 6 ] ] ]
+    "components": [ [ [ "leather_pouch", 2 ] ], [ [ "leather_belt", 1 ] ] ]
   },
   {
     "result": "javelin_bag",

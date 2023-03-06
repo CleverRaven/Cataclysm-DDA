@@ -17,10 +17,14 @@
     "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "SOFT" ],
     "armor": [
       {
-        "material": [ { "type": "veggy", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "material": [
+          { "type": "veggy", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "wood", "covered_by_mat": 100, "thickness": 0.5 }
+        ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
-        "encumbrance": 5
+        "encumbrance": 1,
+        "breathability": "GOOD"
       }
     ]
   },
@@ -31,7 +35,7 @@
     "name": { "str_sp": "protective bark" },
     "description": "A powerful layer of bark, thicker in parts.",
     "weight": "6 kg",
-    "volume": "300 ml",
+    "volume": "7500 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "wood" ],
@@ -39,7 +43,7 @@
     "color": "brown",
     "warmth": 1,
     "environmental_protection": 3,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 4 }, { "type": "wood", "covered_by_mat": 75, "thickness": 6 } ],
@@ -56,7 +60,7 @@
     "name": { "str_sp": "distributed bark" },
     "description": "Your bark is spread evenly across your body.",
     "weight": "12 kg",
-    "volume": "300 ml",
+    "volume": "15 L",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "wood" ],
@@ -64,7 +68,7 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 6 }, { "type": "wood", "covered_by_mat": 75, "thickness": 7 } ],
@@ -81,7 +85,7 @@
     "name": { "str_sp": "consolidated bark" },
     "description": "Your bark is pulled together to protect your torso.",
     "weight": "12 kg",
-    "volume": "300 ml",
+    "volume": "15 L",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "wood" ],
@@ -89,7 +93,7 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 15 } ],
@@ -121,7 +125,7 @@
     "name": { "str_sp": "latticed bark" },
     "description": "Your bark is latticed into a larger frame.",
     "weight": "12 kg",
-    "volume": "300 ml",
+    "volume": "15 L",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "wood" ],
@@ -129,7 +133,7 @@
     "color": "brown",
     "warmth": 2,
     "environmental_protection": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "OUTER", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "OUTER", "PADDED" ],
     "armor": [
       {
         "material": [
@@ -234,7 +238,7 @@
     "color": "black",
     "warmth": 45,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "SOFT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "SOFT" ],
     "armor": [
       {
         "material": [ { "type": "mut_fur", "covered_by_mat": 100, "thickness": 14 } ],
@@ -356,29 +360,29 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "jumbled skin" },
-    "description": "Skin like a spilled tub of paints, splattered in abstract shapes of scales, fur, and leather.",
+    "description": "Skin like a spilled tub of paints, splattered in abstract shapes of chitin, fur, and hide.",
     "weight": "1 kg",
     "volume": "1 L",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "fur", "cured_meat", "wool" ],
+    "material": [ "leather", "fur", "leather_arthropod", "wool", "hflesh" ],
     "symbol": "x",
     "color": "light_red",
-    "warmth": 10,
+    "warmth": 7,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "SOFT" ],
     "armor": [
       {
         "material": [
           { "type": "leather", "covered_by_mat": 33, "thickness": 3 },
           { "type": "fur", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "cured_meat", "covered_by_mat": 33, "thickness": 3 },
+          { "type": "leather_arthropod", "covered_by_mat": 33, "thickness": 3 },
           { "type": "wool", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 2 }
+          { "type": "hflesh", "covered_by_mat": 100, "thickness": 2 }
         ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
-        "encumbrance": 4
+        "encumbrance": 3
       }
     ]
   },
@@ -392,26 +396,26 @@
     "volume": "500 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "bone", "fur", "acidchitin", "cured_meat", "wool" ],
+    "material": [ "leather", "bone", "fur", "acidchitin", "leather_arthropod", "wool", "flesh" ],
     "symbol": "x",
     "color": "light_red",
-    "warmth": 14,
+    "warmth": 12,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "SOFT", "TOUGH_FEET" ],
     "armor": [
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "bone", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "fur", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "acidchitin", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "cured_meat", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "wool", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 2.2 }
+          { "type": "leather", "covered_by_mat": 35, "thickness": 3 },
+          { "type": "bone", "covered_by_mat": 35, "thickness": 3 },
+          { "type": "fur", "covered_by_mat": 35, "thickness": 3 },
+          { "type": "acidchitin", "covered_by_mat": 35, "thickness": 3 },
+          { "type": "leather_arthropod", "covered_by_mat": 35, "thickness": 3 },
+          { "type": "wool", "covered_by_mat": 35, "thickness": 3 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 2.5 }
         ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
-        "encumbrance": 7
+        "encumbrance": 5
       }
     ]
   },
@@ -425,28 +429,28 @@
     "volume": "800 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "alien_carapace", "bone", "fur", "kevlar", "acidchitin", "cured_meat", "wool" ],
+    "material": [ "leather", "alien_carapace", "bone", "fur", "kevlar", "acidchitin", "leather_arthropod", "wool", "flesh" ],
     "symbol": "x",
     "color": "light_red",
-    "warmth": 20,
+    "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "PADDED" ],
     "armor": [
       {
         "material": [
-          { "type": "leather", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "alien_carapace", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "bone", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "fur", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "kevlar", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "acidchitin", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "cured_meat", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "wool", "covered_by_mat": 33, "thickness": 3 },
-          { "type": "flesh", "covered_by_mat": 100, "thickness": 2.4 }
+          { "type": "leather", "covered_by_mat": 41, "thickness": 3 },
+          { "type": "alien_carapace", "covered_by_mat": 41, "thickness": 3 },
+          { "type": "bone", "covered_by_mat": 41, "thickness": 3 },
+          { "type": "fur", "covered_by_mat": 41, "thickness": 3 },
+          { "type": "kevlar", "covered_by_mat": 41, "thickness": 3 },
+          { "type": "acidchitin", "covered_by_mat": 41, "thickness": 3 },
+          { "type": "leather_arthropod", "covered_by_mat": 41, "thickness": 3 },
+          { "type": "wool", "covered_by_mat": 41, "thickness": 3 },
+          { "type": "flesh", "covered_by_mat": 100, "thickness": 3 }
         ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
-        "encumbrance": 12
+        "encumbrance": 9
       }
     ]
   },
@@ -538,7 +542,7 @@
     "color": "dark_gray",
     "warmth": 8,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.8 } ],
@@ -704,11 +708,12 @@
     "color": "magenta",
     "warmth": 5,
     "environmental_protection": 10,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "BELTED", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 10 } ],
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_back" ],
         "coverage": 100,
         "encumbrance": 5
       }
@@ -738,11 +743,12 @@
     ],
     "warmth": 7,
     "environmental_protection": 13,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "BELTED", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "chitin_light", "covered_by_mat": 100, "thickness": 15 } ],
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_back" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -772,11 +778,12 @@
     ],
     "warmth": 7,
     "environmental_protection": 13,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "OUTER", "BELTED", "WATERPROOF", "PADDED" ],
     "armor": [
       {
         "material": [ { "type": "bone", "covered_by_mat": 100, "thickness": 20 } ],
         "covers": [ "torso" ],
+        "specifically_covers": [ "torso_upper", "torso_lower", "torso_hanging_back" ],
         "coverage": 100,
         "encumbrance": 10
       }
@@ -827,7 +834,7 @@
     "color": "light_red",
     "warmth": 3,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "PADDED", "SOFT", "TOUGH_FEET" ],
     "armor": [
       {
         "material": [
@@ -868,7 +875,7 @@
     "color": "light_red",
     "warmth": 5,
     "environmental_protection": 3,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "NORMAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
     "armor": [
       {
         "material": [
@@ -927,36 +934,6 @@
         "encumbrance": 5,
         "rigid_layer_only": true,
         "cover_vitals": 90
-      }
-    ]
-  },
-  {
-    "id": "armor_bio_carbon_filament",
-    "type": "ARMOR",
-    "category": "armor",
-    "weight": "500 g",
-    "volume": "1200 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "symbol": ",",
-    "color": "brown",
-    "warmth": 0,
-    "environmental_protection": 1,
-    "material_thickness": 1.25,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "PADDED", "WATER_FRIENDLY", "SOFT", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS" ],
-    "material": [ "nanotubes" ],
-    "name": { "str_sp": "subdermal carbon filament" },
-    "description": "A layer of thin carbon nanotubes implanted in your skin.  Helps protect your vitals from laceration.",
-    "armor": [
-      {
-        "material": [
-          { "type": "nanotubes", "covered_by_mat": 100, "thickness": 1 },
-          { "type": "nanotubes", "covered_by_mat": 75, "thickness": 0.25 }
-        ],
-        "covers": [ "torso", "head", "mouth", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "foot_l", "foot_r" ],
-        "coverage": 100,
-        "encumbrance": 0,
-        "cover_vitals": 60
       }
     ]
   }

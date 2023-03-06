@@ -9,6 +9,7 @@
     "difficulty": 1,
     "time": "30 s",
     "autolearn": true,
+    "result_mult": 3,
     "components": [
       [ [ "cotton_patchwork", 3 ], [ "medical_gauze", 1 ] ],
       [ [ "duct_tape", 20 ], [ "medical_tape", 5 ] ],
@@ -30,7 +31,6 @@
     "skill_used": "tailor",
     "time": "9 s",
     "autolearn": true,
-    "charges": 1,
     "flags": [ "BLIND_EASY" ],
     "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
   },
@@ -45,6 +45,7 @@
     "time": "5 m",
     "batch_time_factors": [ 95, 4 ],
     "autolearn": true,
+    "result_mult": 3,
     "components": [ [ [ "bandages_makeshift", 3 ] ], [ [ "bleach", 1 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ]
   },
   {
@@ -60,6 +61,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 9, "LIST" ] ] ],
+    "result_mult": 3,
     "components": [ [ [ "bandages_makeshift", 3 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ]
   },
   {
@@ -70,11 +72,11 @@
     "subcategory": "CSC_*_NESTED",
     "skill_used": "firstaid",
     "difficulty": 1,
-    "time": "1 m",
-    "batch_time_factors": [ 50, 2 ],
+    "time": "20 m",
+    "result_mult": 30,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "medical_gauze", 1 ] ], [ [ "duct_tape", 1 ], [ "medical_tape", 1 ] ] ]
+    "components": [ [ [ "medical_gauze", 1 ] ], [ [ "duct_tape", 8 ], [ "medical_tape", 10 ] ] ]
   },
   {
     "result": "tourniquet_upper",
@@ -199,7 +201,7 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "charges": 2,
+    "result_mult": 2,
     "flags": [ "BLIND_EASY" ],
     "components": [ [ [ "cotton_patchwork", 2 ] ], [ [ "disinfectant", 1 ] ] ]
   },
@@ -213,7 +215,7 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
-    "charges": 4,
+    "result_mult": 4,
     "flags": [ "BLIND_EASY" ],
     "components": [ [ [ "cotton_ball", 4 ] ], [ [ "disinfectant", 1 ] ] ]
   },
@@ -294,7 +296,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cotton_ball",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -303,6 +305,7 @@
     "time": "54 m",
     "autolearn": true,
     "byproduct_group": [ { "item": "seed_cotton_boll", "charges": 2 } ],
+    "result_mult": 10,
     "components": [ [ [ "cotton_boll", 1 ] ] ]
   },
   {

@@ -382,7 +382,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "Plastic jacketed copper cable of the type used in small electronics.",
-    "material": [ "plastic", "copper" ],
+    "material": [ { "type": "copper", "portion": 85 }, { "type": "plastic", "portion": 15 } ],
     "//": "Calculated off of copper wire with an extra 0.5mm of diameter and 0.66g.",
     "volume": "155 ml",
     "weight": "5413 mg",
@@ -518,7 +518,7 @@
     "dispersion": 14,
     "loudness": 0,
     "to_hit": -1,
-    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80" ],
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING", "RECOVER_80", "ALLOWS_BODY_BLOCK" ],
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
@@ -617,7 +617,7 @@
     "volume": "200ml",
     "weight": "1 g",
     "ammo_type": "BB",
-    "damage": { "damage_type": "bullet", "amount": 2 },
+    "damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 100,
     "count": 500,
     "stack_size": 200,
@@ -1007,24 +1007,6 @@
   },
   {
     "type": "AMMO",
-    "id": "cac2powder",
-    "category": "spare_parts",
-    "price": 200,
-    "price_postapoc": 500,
-    "name": { "str_sp": "calcium carbide premix" },
-    "symbol": "=",
-    "color": "dark_gray",
-    "description": "A powdered mixture of coke and lime ready to be smelted into usable calcium carbide in an arc furnace.",
-    "material": [ "cac2powder" ],
-    "phase": "solid",
-    "volume": "250 ml",
-    "weight": "11 g",
-    "ammo_type": "cac2powder",
-    "count": 25,
-    "stack_size": 10
-  },
-  {
-    "type": "AMMO",
     "id": "coal_lump",
     "category": "spare_parts",
     "price": 200,
@@ -1090,6 +1072,23 @@
     "ammo_type": "stimpack_ammo",
     "count": 5,
     "stack_size": 10
+  },
+  {
+    "type": "AMMO",
+    "id": "liq_bandage",
+    "category": "drugs",
+    "price": 200,
+    "price_postapoc": 40,
+    "name": { "str_sp": "liquid bandage" },
+    "symbol": "=",
+    "color": "white",
+    "description": "A polymer dissolved in solvent, with antiseptic added, for topical treatment of minor cuts and scrapes.",
+    "material": [ "water" ],
+    "volume": "10 ml",
+    "weight": "33 mg",
+    "count": 30,
+    "phase": "liquid",
+    "ammo_type": "liq_bandage"
   },
   {
     "type": "AMMO",
@@ -1239,21 +1238,6 @@
     "volume": "250 ml",
     "weight": "300 g",
     "ammo_type": "unfinished_char"
-  },
-  {
-    "type": "AMMO",
-    "id": "unfinished_cac2",
-    "category": "spare_parts",
-    "price": 0,
-    "price_postapoc": 0,
-    "name": { "str_sp": "unfinished calcium carbide" },
-    "symbol": "=",
-    "color": "white",
-    "description": "The incomplete process of converting coal and lime into calcium carbide.  Useless in this state.",
-    "material": [ "cac2powder" ],
-    "volume": "250 ml",
-    "weight": "300 g",
-    "ammo_type": "unfinished_cac2"
   },
   {
     "type": "AMMO",

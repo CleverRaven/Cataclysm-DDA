@@ -1196,20 +1196,20 @@ tripoint_abs_omt overmapbuffer::find_closest( const tripoint_abs_omt &origin,
     const int max_dist = params.search_range ? params.search_range : OMAPX * 5;
 
     std::vector<tripoint_abs_omt> result;
-    cata::optional<int> found_dist;
+    int found_dist = std::numeric_limits<int>::max();
 
     for( const point_abs_omt &loc_xy : closest_points_first( origin.xy(), min_dist, max_dist ) ) {
         const int dist_xy = square_dist( origin.xy(), loc_xy );
 
-        if( found_dist && *found_dist < dist_xy ) {
+        if( found_dist < dist_xy ) {
             break;
         }
 
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        for( int z = params.min_z; z <= params.max_z; z++ ) {
             const tripoint_abs_omt loc( loc_xy, z );
             const int dist = square_dist( origin, loc );
 
-            if( found_dist && *found_dist < dist ) {
+            if( found_dist < dist ) {
                 continue;
             }
 

@@ -31,6 +31,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "2x4",
+    "id_suffix": "from logs",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 10 ], [ "2x4", 7 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "//": "Hopefully a balanced method of crafting planks without going through interface hoops",
+    "components": [ [ [ "log", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "wood_beam",
     "id_suffix": "with_planer",
@@ -544,7 +560,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 8, "LIST" ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",

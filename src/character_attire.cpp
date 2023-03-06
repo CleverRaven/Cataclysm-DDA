@@ -585,22 +585,6 @@ std::list<item> Character::get_visible_worn_items() const
     return worn.get_visible_worn_items( *this );
 }
 
-bool outfit::is_wearing_helmet() const
-{
-    for( const item &i : worn ) {
-        if( i.covers( body_part_head ) && !i.has_flag( flag_SKINTIGHT ) && !i.has_flag( flag_PERSONAL ) &&
-            !i.has_flag( flag_AURA ) && !i.has_flag( flag_SEMITANGIBLE ) && !i.has_flag( flag_OVERSIZE ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Character::is_wearing_helmet() const
-{
-    return worn.is_wearing_helmet();
-}
-
 double Character::armwear_factor() const
 {
     double ret = 0;
@@ -1890,7 +1874,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
                 for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
                     if( covered_sbps.count( under_sbp ) != 1 ) {
                         guy.add_msg_if_player(
-                            string_format( _( "<color_c_red> the %s rubs uncomfortably against your unpadded %s </color>" ),
+                            string_format( _( "<color_c_red>The %s rubs uncomfortably against your unpadded %s.</color>" ),
                                            i.display_name(), under_sbp->name ) );
                         uncomfortable_bps.insert( sbp->parent );
                     }
@@ -2538,7 +2522,10 @@ void outfit::organize_items_menu()
         { "FAV_BLACKLIST", translation() },
         { "FAV_CLEAR", translation() },
         { "FAV_MOVE_ITEM", translation() },
-        { "FAV_CONTEXT_MENU", translation() }
+        { "FAV_CONTEXT_MENU", translation() },
+        { "FAV_SAVE_PRESET", translation() },
+        { "FAV_APPLY_PRESET", translation() },
+        { "FAV_DEL_PRESET", translation() }
     };
     // we override confirm
     pocket_selector.allow_confirm = false;

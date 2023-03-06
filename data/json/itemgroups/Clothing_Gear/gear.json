@@ -84,8 +84,8 @@
       [ "fire_ax", 60 ],
       [ "halligan", 50 ],
       { "group": "used_1st_aid", "prob": 10 },
-      [ "bandages", 5 ],
-      [ "cotton_ball", 2 ],
+      { "item": "bandages", "prob": 5, "count": [ 1, 3 ] },
+      { "group": "cotton_ball_bag_used", "prob": 2 },
       [ "crowbar", 15 ],
       [ "entry_suit", 10 ],
       [ "hammer_sledge", 5 ],
@@ -221,7 +221,40 @@
     "id": "civilian_body_armor",
     "subtype": "distribution",
     "//": "armor that a civilian might have.",
-    "entries": [ { "item": "kevlar", "prob": 20 } ]
+    "entries": [
+      { "item": "kevlar", "prob": 20 },
+      { "item": "soft_3a_vest", "prob": 15 },
+      { "item": "stab_vest", "prob": 15 },
+      { "item": "chestguard_hard", "prob": 5 },
+      { "item": "vest_leather", "prob": 10 },
+      {
+        "collection": [ { "item": "ballistic_vest_light" }, { "group": "civilian_ballistic_inserts", "prob": 50 } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "ballistic_vest_light_pouches" }, { "group": "civilian_ballistic_inserts", "prob": 50 } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "ballistic_vest_light_operator" }, { "group": "civilian_ballistic_inserts", "prob": 50 } ],
+        "prob": 10
+      },
+      {
+        "collection": [ { "item": "level_3_vest", "variant": "fema_armor_vest" }, { "group": "civilian_ballistic_inserts", "prob": 75 } ],
+        "prob": 5
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "civilian_ballistic_inserts",
+    "subtype": "distribution",
+    "//": "armor that a civilian might have.",
+    "entries": [
+      { "group": "some_steel_front_plates", "prob": 30 },
+      { "group": "some_stab_front_plates", "prob": 45 },
+      { "group": "pristine_esapi_front_plates", "prob": 25 }
+    ]
   },
   {
     "type": "item_group",

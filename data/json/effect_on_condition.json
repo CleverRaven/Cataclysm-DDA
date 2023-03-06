@@ -34,7 +34,17 @@
     "type": "effect_on_condition",
     "id": "scenario_paralyzepoison",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "effect": [ { "u_add_effect": "paralyzepoison", "intensity": 4, "duration": "20 minutes" } ]
+    "effect": [ { "u_add_effect": "paralyzepoison", "intensity": 3, "duration": "10 minutes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_mansion_pursuit",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_spawn_monster": "GROUP_MANSION_ARMORED", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 30 },
+      { "u_spawn_monster": "GROUP_MANSION_START", "group": true, "real_count": 2, "min_radius": 10, "max_radius": 18 },
+      { "u_spawn_monster": "GROUP_MANSION_START", "group": true, "real_count": 2, "min_radius": 15, "max_radius": 25 }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -98,7 +108,7 @@
       "and": [
         { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] },
         { "one_in_chance": 50 },
-        { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
+        { "compare_num": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] } },
@@ -116,7 +126,7 @@
       "and": [
         { "is_weather": "lightning" },
         { "one_in_chance": 600 },
-        { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
+        { "compare_num": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "lightning" } },
@@ -134,7 +144,7 @@
     "global": true,
     "run_for_npcs": true,
     "condition": {
-      "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside", { "compare_int": [ { "u_val": "pain" }, "<", { "const": 30 } ] } ]
+      "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside", { "compare_num": [ { "u_val": "pain" }, "<", { "const": 30 } ] } ]
     },
     "deactivate_condition": { "not": { "is_weather": "acid_drizzle" } },
     "effect": [
@@ -152,7 +162,7 @@
       "and": [
         { "is_weather": "acid_rain" },
         "u_is_outside",
-        { "compare_int": [ { "u_val": "pain" }, "<", { "const": 100 } ] },
+        { "compare_num": [ { "u_val": "pain" }, "<", { "const": 100 } ] },
         {
           "not": { "or": [ { "u_has_wielded_with_flag": "RAIN_PROTECT" }, { "u_has_worn_with_flag": "RAINPROOF" } ] }
         }
@@ -185,7 +195,7 @@
     "type": "effect_on_condition",
     "id": "bio_drain",
     "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
-    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "compare_int": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ] },
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "compare_num": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
       { "u_message": "Your batteries discharge slightly.", "type": "bad" },
@@ -287,7 +297,7 @@
     "id": "bio_shakes",
     "recurrence": [ "1 hours", "3 hours" ],
     "condition": {
-      "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_int": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ]
+      "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_num": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ]
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_shakes" } },
     "effect": [
@@ -305,7 +315,7 @@
       "and": [
         { "u_has_bionics": "bio_glowy" },
         { "not": { "u_has_effect": "glowy_led" } },
-        { "compare_int": [ { "u_val": "power" }, ">=", { "power": "1 kJ" } ] }
+        { "compare_num": [ { "u_val": "power" }, ">=", { "power": "1 kJ" } ] }
       ]
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_glowy" } },
@@ -383,7 +393,7 @@
     "id": "EOC_DEATH_PORTAL_DUNGEON",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
+    "condition": { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
     "effect": [
       {
         "u_message": "Your ultimate fate is hard to sum up in words but suffice to say, the thing that used to be you wishes it had hidden from the storm.",
@@ -400,35 +410,6 @@
       "and": [ { "npc_allies_global": 1 }, { "u_query": "You have died. Continue as one of your followers?", "default": false } ]
     },
     "effect": [ "take_control_menu" ]
-  },
-  {
-    "id": "EOC_PREVENT_DEATH",
-    "type": "effect_on_condition",
-    "eoc_type": "PREVENT_DEATH",
-    "condition": { "u_has_trait": "PORTAL_RESURRECTION" },
-    "effect": [
-      { "u_set_hp": 50, "only_increase": true, "main_only": true },
-      { "u_set_hp": 0, "max": true, "minor_only": true },
-      { "u_add_effect": "incorporeal", "duration": [ "5 minutes", "10 minutes" ] },
-      { "u_lose_effect": "jetinjector" },
-      { "u_lose_effect": "effect_adrenaline" },
-      { "u_lose_effect": "effect_drunk" },
-      { "u_lose_effect": "datura" },
-      { "u_lose_effect": "hypovolemia" },
-      { "u_lose_effect": "redcells_anemia" },
-      { "u_lose_trait": "PORTAL_RESURRECTION" },
-      { "arithmetic": [ { "u_val": "stored_kcal" }, "=", { "u_val": "stored_kcal" } ], "min": 5000 },
-      { "arithmetic": [ { "u_val": "pkill" }, "=", { "u_val": "pkill" } ], "max": 200 },
-      { "arithmetic": [ { "u_val": "stim" }, "=", { "u_val": "stim" } ], "max": 200, "min": -100 },
-      { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 0 } ] },
-      { "arithmetic": [ { "u_val": "thirst" }, "=", { "const": 0 } ] },
-      { "arithmetic": [ { "u_val": "fatigue" }, "=", { "const": 0 } ] },
-      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "=", { "const": 0 } ] },
-      {
-        "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien, and merciless reach through a preexisting connection to give you just enough energy to exist.  Its motives for doing so are not likely to be benign.",
-        "popup": true
-      }
-    ]
   },
   {
     "type": "effect_on_condition",
@@ -485,7 +466,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_last_amigara_death",
-    "condition": { "compare_int": [ { "global_val": "monsters_nearby", "id": "mon_amigara_horror" }, "<", { "const": 1 } ] },
+    "condition": { "compare_num": [ { "global_val": "monsters_nearby", "id": "mon_amigara_horror" }, "<", { "const": 1 } ] },
     "effect": [
       { "mapgen_update": "amigara_death" },
       { "u_lose_effect": "effect_amigara" },
@@ -497,6 +478,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PLAY_PIANO",
+    "effect": [
+      { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 10 },
+      { "u_make_sound": "music", "type": "music", "volume": 10 },
+      { "u_message": "play_piano", "snippet": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_RANDOM_HALLUCINATIONS",
     "recurrence": [ "1 hours", "3 hours" ],
     "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 1, "y": 6 } } ] },
@@ -504,7 +494,7 @@
       {
         "run_eocs": {
           "id": "EOC_HALLUCINATION_ATTACKS",
-          "condition": { "compare_int": [ { "global_val": "monsters_nearby" }, ">", { "const": 1 } ] },
+          "condition": { "compare_num": [ { "global_val": "monsters_nearby" }, ">", { "const": 1 } ] },
           "effect": [
             {
               "u_spawn_monster": "GROUP_YOUR_FEARS",
