@@ -52,6 +52,10 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "stanag20_beowulf",
+          "stanag20ranger_beowulf",
+          "stanag30_beowulf",
+          "stanag30ranger_beowulf",
           "survivor223mag"
         ]
       }
@@ -269,6 +273,10 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "stanag20_beowulf",
+          "stanag20ranger_beowulf",
+          "stanag30_beowulf",
+          "stanag30ranger_beowulf",
           "survivor223mag"
         ]
       }
@@ -449,6 +457,10 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "stanag20_beowulf",
+          "stanag20ranger_beowulf",
+          "stanag30_beowulf",
+          "stanag30ranger_beowulf",
           "survivor223mag"
         ]
       }
@@ -496,6 +508,10 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "stanag20_beowulf",
+          "stanag20ranger_beowulf",
+          "stanag30_beowulf",
+          "stanag30ranger_beowulf",
           "survivor223mag"
         ]
       }
@@ -564,6 +580,10 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
+          "stanag20_beowulf",
+          "stanag20ranger_beowulf",
+          "stanag30_beowulf",
+          "stanag30ranger_beowulf",
           "survivor223mag"
         ]
       }

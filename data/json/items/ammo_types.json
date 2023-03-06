@@ -25,7 +25,7 @@
   },
   {
     "type": "ammunition_type",
-    "id": "12.7x42mm",
+    "id": "50beowulf",
     "name": "12.7x42mm",
     "default": "50beowulf_xtp"
   },

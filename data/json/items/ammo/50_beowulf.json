@@ -14,7 +14,7 @@
     "color": "yellow",
     "count": 20,
     "stack_size": 20,
-    "ammo_type": "12.7x42mm",
+    "ammo_type": "50beowulf",
     "casing": "50beowulf_casing",
     "range": 23,
     "damage": { "damage_type": "bullet", "amount": 54, "armor_penetration": 8 },
