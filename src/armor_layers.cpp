@@ -235,7 +235,7 @@ std::vector<std::string> clothing_properties(
         // if there is only one data entry for the armor
         if( worn_item.find_armor_data()->sub_data.size() > 1 ) {
             props.push_back( string_format( "<color_c_red>%s</color>",
-                                            _( "Armor is nonuniform. Specify a limb to get armor data" ) ) );
+                                            _( "Armor is nonuniform.  Specify a limb to get armor data" ) ) );
             return props;
         } else {
             used_bp = *worn_item.get_covered_body_parts().begin();
