@@ -651,6 +651,27 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
+std::vector<std::string> string_split( const std::string &string, char delim )
+{
+    std::vector<std::string> elems;
+
+    if( string.empty() ) {
+        return elems; // Well, that was easy.
+    }
+
+    std::stringstream ss( string );
+    std::string item;
+    while( std::getline( ss, item, delim ) ) {
+        elems.push_back( item );
+    }
+
+    if( string.back() == delim ) {
+        elems.emplace_back( "" );
+    }
+
+    return elems;
+}
+
 template<>
 std::string io::enum_to_string<holiday>( holiday data )
 {

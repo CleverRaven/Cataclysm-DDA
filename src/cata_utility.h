@@ -490,6 +490,10 @@ std::string string_join( const Container &iterable, const std::string &joiner )
     return buffer.str();
 }
 
+/**
+* Splits a string by delimiter into a vector of strings
+*/
+std::vector<std::string> string_split( const std::string &string, char delim );
 
 /**
  * Append all arguments after the first to the first.
