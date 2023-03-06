@@ -2215,7 +2215,8 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
     std::string nmsg;
     avatar &player_character = get_avatar();
 
-    if( sel_vpart_info.has_flag( "NEEDS_JACKING" ) ) {
+    const bool jack = sel_vpart_info.has_flag( "NEEDS_JACKING" );
+    if( jack && !float_in_lieu_of_jack ) {
         qual = qual_JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
@@ -2223,6 +2224,13 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
         use_str = player_character.can_lift( *veh );
     } else {
         item base( sel_vpart_info.base_item );
+        if( jack /* && float_in_lieu_of_jack */ ) {
+            // account for buoyancy, assume half-submerged (density of water: 1 g/cm³)
+            const units::mass buoyancy = units::from_gram( units::to_milliliter( base.volume() / 2 ) );
+            // when too much flotation, need to force down rather than lift up
+            const units::mass effective_weight = units::fabs( base.weight() - buoyancy );
+            base.set_var( "weight", to_milligram( effective_weight ) );
+        }
         qual = qual_LIFT;
         lvl = std::ceil( units::quantity<double, units::mass::unit_type>( base.weight() ) /
                          lifting_quality_to_mass( 1 ) );
@@ -2271,6 +2279,11 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
     nmsg += string_format( _( "> %1$s <color_white>OR</color> %2$s" ),
                            colorize( aid_string, aid_color ),
                            colorize( str_string, str_color ) ) + "\n";
+
+    if( jack && float_in_lieu_of_jack ) {
+        nc_color flj_color = ok ? c_green : c_dark_gray;
+        nmsg += colorize( _( "  (Using flotation in lieu of jacking)" ), flj_color ) + "\n";
+    }
 
     std::pair<bool, std::string> result( ok, nmsg );
     return result;
@@ -2386,6 +2399,13 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
 
     /* Update the lifting quality to be the that is available for this newly selected tile */
     cache_tool_availability_update_lifting( vehp );
+
+    // Check whether jacking requirement in this square should use flotation logic instead
+    float_in_lieu_of_jack =
+        // current square is a water tile
+        here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, vehp )
+        // vehicle as a whole is viable watercraft, floating in enough (> 1/2 of veh. tiles) water
+        && veh->is_watercraft() && veh->can_float();
 }
 
 void veh_interact::display_grid()

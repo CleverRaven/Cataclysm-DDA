@@ -281,6 +281,10 @@ class veh_interact
          * Updated whenever the cursor moves. */
         std::vector<int> parts_here;
 
+        /* Whether flotation logic is to be used instead of jacking for the current square.
+         * Updated whenever the cursor moves. */
+        bool float_in_lieu_of_jack;
+
         /* called by exec() */
         void cache_tool_availability();
         void allocate_windows();
