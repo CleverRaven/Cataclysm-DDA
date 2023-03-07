@@ -1209,6 +1209,8 @@ heatsink
 heatsinks
 heear
 heelys
+helipad
+helipads
 hellmouth
 helpdesk
 hematite
@@ -2365,6 +2367,8 @@ scruffs
 scutcher
 scutellosaurus
 scuttles
+sealab
+sealabs
 sealable
 seater
 secretively
