@@ -249,7 +249,8 @@
     "revert_to_itype": "bot_bloodhound_drone",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ], [ "turret_searchlight", 1 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "extend": { "flags": [ "HIT_AND_RUN", "SMELLS" ] }
+    "extend": { "flags": [ "HIT_AND_RUN", "SMELLS" ] },
+    "delete": { "flags": [ "PACIFIST" ] }
   },
   {
     "id": "mon_utilibot",
