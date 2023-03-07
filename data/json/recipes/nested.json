@@ -4423,7 +4423,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_HANDS",
     "name": "nylon arming gloves",
-    "description": "Recipes related to armored cloth gloves made of sythetic fabric.",
+    "description": "Recipes related to armored cloth gloves made of synthetic fabric.",
     "skill_used": "tailor",
     "nested_category_data": [
       "aketon_gloves_nylon",
