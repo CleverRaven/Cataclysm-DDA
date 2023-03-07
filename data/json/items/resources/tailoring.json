@@ -504,7 +504,20 @@
     "price": 1000,
     "price_postapoc": 40
   },
-  {
+    {
+    "id": "gambeson_batting",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "gambeson batting", "str_pl": "clumps of gambeson batting" },
+    "description": "A pile of shredded fabric, dry grass, hair or other cheap materials which could be used to stuff the fabric layers of a gambeson to create armor more cheaply and easily than properly layering and quilting the entire product.",
+    "weight": "50 g",
+    "volume": "50 ml",
+    "price": 0,
+    "price_postapoc": 8,
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "NO_SALVAGE" ]
+  },  {
     "type": "AMMO",
     "id": "thread_kevlar",
     "category": "spare_parts",
