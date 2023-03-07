@@ -30,7 +30,7 @@
         "topic": "TALK_LULIYA_BUTTON"
       },
       {
-        "text": "[HAS STETHOSCOPE] Is this alive? <CHECK FOR A PULSE>",
+        "text": "[HAS STETHOSCOPE] Is this alive?  <CHECK FOR A PULSE>",
         "condition": {
           "and": [
             { "not": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
@@ -40,7 +40,7 @@
         "topic": "TALK_LULIYA_PULSE"
       },
       {
-        "text": "Stupid piece of junk! <KICK THAT PIECE OF JUNK>",
+        "text": "Stupid piece of junk!  <KICK THAT PIECE OF JUNK>",
         "condition": { "not": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_LULIYA_KICK"
       },
@@ -54,7 +54,7 @@
         "topic": "TALK_LULIYA_ENGLISH",
         "condition": {
           "and": [
-            { "condition": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
             {
               "not": { "u_has_var": "u_asked_luliya_english", "type": "general", "context": "meeting", "value": "yes" }
             }
