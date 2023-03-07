@@ -228,6 +228,7 @@
       [ "bucket", 40 ],
       { "item": "chainsaw_off", "prob": 30, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 30, "charges": [ 0, 500 ] },
+      { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] },
       [ "g_shovel", 40 ],
       [ "hand_drill", 20 ],
       [ "hoe", 60 ],
@@ -834,6 +835,7 @@
     "type": "item_group",
     "items": [
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
+      { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "trimmer_off", "prob": 40, "charges": [ 0, 600 ] },
       { "item": "jackhammer", "prob": 50, "charges": [ 0, 1200 ] },
@@ -852,6 +854,7 @@
     "items": [
       [ "ax", 100 ],
       { "item": "chainsaw_off", "prob": 80, "charges": [ 0, 400 ] },
+      { "item": "polesaw_off", "prob": 75, "charges": [ 0, 400 ] },
       [ "saw", 100 ],
       { "item": "bow_saw", "prob": 80 },
       { "item": "circsaw_off", "prob": 50, "charges": [ 0, 500 ] },

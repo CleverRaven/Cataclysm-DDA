@@ -826,7 +826,20 @@
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 42, "into": "mon_zombie_predator" },
     "fungalize_into": "mon_zombie_fungus",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "CLIMBS",
+      "PUSH_MON",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_zombie_mancroc",
@@ -1057,7 +1070,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 35, "into": "mon_zombie_hunter" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_regenerating",
@@ -1153,7 +1166,7 @@
     ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY" ]
   },
   {
     "id": "mon_zombie_screecher",
