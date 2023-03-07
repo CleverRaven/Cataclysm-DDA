@@ -2486,5 +2486,18 @@
       { "item": "bren2_762mag30", "prob": 50 },
       { "group": "on_hand_762" }
     ]
+  },
+  {
+    "id": "nested_mdrx",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "mdrx", "charges-min": 0, "charges-max": 30 },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
   }
 ]

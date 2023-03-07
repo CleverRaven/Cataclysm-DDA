@@ -87,5 +87,19 @@
       { "item": "stanag30", "charges": 0 },
       { "group": "nested_retool_extras" }
     ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_retool_mdrx308",
+    "//": "An assortment of different conversion kits, all of the same caliber, of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
+    "entries": [
+      {
+        "distribution": [ { "item": "retool_mdrx_308win", "prob": 10 }, { "item": "retool_mdrx_308win_medium", "prob": 10 } ],
+        "prob": 100
+      },
+      { "item": "ar10mag", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
   }
 ]
