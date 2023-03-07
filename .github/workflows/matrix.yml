@@ -78,7 +78,7 @@ jobs:
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
-          - compiler: clang++-10.0
+          - compiler: clang++-10
             os: ubuntu-20.04
             tiles: 0
             sound: 0
