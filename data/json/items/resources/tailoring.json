@@ -504,7 +504,7 @@
     "price": 1000,
     "price_postapoc": 40
   },
-    {
+  {
     "id": "gambeson_batting",
     "type": "TOOL",
     "category": "spare_parts",
@@ -517,7 +517,8 @@
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_SALVAGE" ]
-  },  {
+  },
+  {
     "type": "AMMO",
     "id": "thread_kevlar",
     "category": "spare_parts",
