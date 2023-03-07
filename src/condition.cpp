@@ -1459,6 +1459,18 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObje
             faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
             return fac->trusts_u;
         };
+    } else if( jo.has_member( "faction_like" ) ) {
+        str_or_var<T> name = get_str_or_var<T>( jo.get_member( "faction_like" ), "faction_like" );
+        return [name]( const T & d ) {
+            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
+            return fac->likes_u;
+        };
+    } else if( jo.has_member( "faction_respect" ) ) {
+        str_or_var<T> name = get_str_or_var<T>( jo.get_member( "faction_respect" ), "faction_respect" );
+        return [name]( const T & d ) {
+            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
+            return fac->respects_u;
+        };
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
                jo.has_member( "global_val" ) ) {
         const bool is_npc = jo.has_member( "npc_val" );
@@ -2068,9 +2080,21 @@ static std::function<void( const T &, double )> get_set_dbl( const JsonObject &j
         }
     } else if( jo.has_member( "faction_trust" ) ) {
         str_or_var<T> name = get_str_or_var<T>( jo.get_member( "faction_trust" ), "faction_trust" );
-        return [name, min, max]( const T & d, int input ) {
+        return [name, min, max]( const T & d, double input ) {
             faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
-            fac->trusts_u += handle_min_max<T>( d, input, min, max );
+            fac->trusts_u = handle_min_max<T>( d, input, min, max );
+        };
+    } else if( jo.has_member( "faction_like" ) ) {
+        str_or_var<T> name = get_str_or_var<T>( jo.get_member( "faction_like" ), "faction_like" );
+        return [name, min, max]( const T & d, double input ) {
+            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
+            fac->likes_u = handle_min_max<T>( d, input, min, max );
+        };
+    } else if( jo.has_member( "faction_respect" ) ) {
+        str_or_var<T> name = get_str_or_var<T>( jo.get_member( "faction_respect" ), "faction_respect" );
+        return [name, min, max]( const T & d, double input ) {
+            faction *fac = g->faction_manager_ptr->get( faction_id( name.evaluate( d ) ) );
+            fac->respects_u = handle_min_max<T>( d, input, min, max );
         };
     } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ||
                jo.has_member( "global_val" ) || jo.has_member( "faction_val" ) || jo.has_member( "party_val" ) ) {
@@ -2442,25 +2466,9 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
             function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
                 set_dbl( d, static_cast<int>( get_first_dbl( d ) ) % static_cast<int>( get_second_dbl( d ) ) );
             };
-        } else if( op == "&" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) & static_cast<int>( get_second_dbl( d ) ) );
-            };
-        } else if( op == "|" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) | static_cast<int>( get_second_dbl( d ) ) );
-            };
-        } else if( op == "<<" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) << static_cast<int>( get_second_dbl( d ) ) );
-            };
-        } else if( op == ">>" ) {
-            function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) >> static_cast<int>( get_second_dbl( d ) ) );
-            };
         } else if( op == "^" ) {
             function = [get_first_dbl, get_second_dbl, set_dbl]( const T & d ) {
-                set_dbl( d, static_cast<int>( get_first_dbl( d ) ) ^ static_cast<int>( get_second_dbl( d ) ) );
+                set_dbl( d, pow( get_first_dbl( d ), get_second_dbl( d ) ) );
             };
         } else {
             jo.throw_error( "unexpected operator " + op + " in " + jo.str() );
@@ -2618,7 +2626,7 @@ void conditional_t<T>::set_has_skill( const JsonObject &jo, const std::string &m
 template<class T>
 void conditional_t<T>::set_roll_contested( const JsonObject &jo, const std::string &member )
 {
-    std::function<int( const T & )> get_check = conditional_t< T >::get_get_dbl( jo.get_object(
+    std::function<double( const T & )> get_check = conditional_t< T >::get_get_dbl( jo.get_object(
                 member ) );
     dbl_or_var<T> difficulty = get_dbl_or_var<T>( jo, "difficulty", true );
     dbl_or_var<T> die_size = get_dbl_or_var<T>( jo, "die_size", false, 10 );
