@@ -696,7 +696,7 @@
   {
     "type": "furniture",
     "id": "f_impaled_officer",
-    "name": "impaled mercenary",
+    "name": "impaled officer",
     "description": "A dead body encased in high tech armor hanging in the air.  Their form seems twisted and refracted in the light of the strange glowing crystal that has seeped out of the ground and impaled their body.",
     "symbol": "!",
     "color": "red",
@@ -712,44 +712,36 @@
       "sound_fail": "an absence of sound.",
       "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
     },
+    "chat_topics": [ "COMP_RET_COMM_OFFICE" ],
     "examine_action": {
       "type": "effect_on_condition",
       "effect_on_conditions": [
         {
-          "id": "EOC_HAUNTING_BEGIN",
-          "condition": { "u_has_effect": "medium" },
-          "effect": [
-            { "queue_eocs": "EOC_HAUNTING", "time_in_future": [ "20 seconds", "30 seconds" ] },
-            { "run_eocs": "EOC_HAUNTING_SPAWN" },
-            { "u_transform_radius": 5, "ter_furn_transform": "merc_spike_transform" },
-            {
-              "u_message": "With a terrible shriek the mercenary falls off the spike.  It stares right at you before vanishing."
-            },
-            {
-              "u_message": "You hear an almost human voice saying \"Target aquired.  Falling back, regroup and prepare to attack the intruder.\"",
-              "sound": true,
-              "type": "bad"
-            },
-            {
-              "u_message": "You can here the rushing of boots all around you, and the chattering of radios.  It must still be close.",
-              "type": "info"
-            }
-          ]
-        },
-        {
           "id": "EOC_HAUNTING_WARN",
-          "condition": { "not": { "u_has_effect": "medium" } },
-          "effect": [
-            {
-              "u_message": "You reach out as if compelled to.  The crystal feels like nothing but the corpse inside is screaming, it needs your help.",
-              "popup": true
-            },
-            { "u_message": "You hear an almost human voice saying \"FREE ME.\"", "sound": true, "type": "mixed" },
-            { "u_add_effect": "medium", "duration": 30 }
-          ]
+          "effect": [ "open_dialogue" ]
         }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_impaled_soldier",
+    "description": "A dead body encased in military armor hanging in the air.  Their form seems twisted and refracted in the light of the strange glowing crystal that has seeped out of the ground and impaled their body.",
+    "name": "impaled mercenary",
+    "symbol": "!",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "deconstruct": { "items": [ { "item": "glass", "count": 1000 } ] },
+    "required_str": -1,
+    "bash": {
+      "str_min": 100,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "an absence of sound.",
+      "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "ORGANIC" ]
   },
   {
     "type": "furniture",
