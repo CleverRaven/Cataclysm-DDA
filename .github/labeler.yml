@@ -64,6 +64,7 @@
   - "**/effect_on_condition**"
   - "**/**eocs**"
   - "**/eocs**"
+  - "**/condition**"
 
 "Fields / Furniture / Terrain / Traps":
   - "**/**furniture**"
