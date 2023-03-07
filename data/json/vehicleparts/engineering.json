@@ -168,7 +168,10 @@
       { "item": "scrap", "count": [ 8, 24 ] },
       { "item": "jack", "count": [ 1, 1 ] }
     ],
-    "qualities": [ [ "SELF_JACK", 17 ] ],
+    "qualities": [ [ "SELF_JACK", 2 ] ],
+    "//0": "jacking ability equiv. to 1 ton. compare to:",
+    "//1": "600kg ea @ 12bar -- https://www.nukeperformance.com/category.html/air-jacks",
+    "//2": "675kg ea @ 30bar -- https://apracing.com/race-car/air-jacks",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -191,6 +194,7 @@
     "description": "A kickstand to keep the bike from falling over.  You could use this to lean it forward or backward to change a tire.",
     "breaks_into": [ { "item": "pipe", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "qualities": [ [ "SELF_JACK", 1 ] ],
+    "//": "jacking ability 500kg; heaviest motocycles are 400~500 kg",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
