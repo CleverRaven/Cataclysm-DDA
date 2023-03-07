@@ -6555,6 +6555,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( has_flag( flag_WET ) || wetness ) {
         tagtext += _( " (wet)" );
     }
+    if( plugged_in ) {
+        tagtext += _( " (plugged in)" );
+    }
     if( already_used_by_player( player_character ) ) {
         tagtext += _( " (used)" );
     }
@@ -12032,7 +12035,7 @@ int item::processing_speed() const
         return to_turns<int>( 10_minutes );
     }
 
-    if( active || ethereal || wetness || has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
+    if( active || ethereal || wetness || plugged_in || has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
         // Unless otherwise indicated, update every turn.
         return 1;
     }
@@ -12721,31 +12724,18 @@ std::optional<tripoint> item::get_cable_target( Character *p, const tripoint &po
     return here.getlocal( source );
 }
 
-bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
+bool item::process_cable( map &here, Character *carrier, const tripoint &pos, item *parent_item )
 {
     bool carrying_item = false;
     std::string state = get_var( "state" );
-    itype_id parent_itype = itype_id( get_var( "parent_itype" ) );
-    item *parent_item = nullptr;
 
     if( carrier != nullptr ) {
-        item *wielded = carrier->get_wielded_item().get_item();
-        if( wielded == this ) {
-                carrying_item = true;
-        } else {
-            item *found_parent = carrier->find_parent( *this );
-            if( found_parent ) {
-                carrying_item = true;
-                if( found_parent->typeId() == parent_itype && found_parent->contained_where( *this ) ) {
-                    parent_item = found_parent;
-            }
-        }
-        }
+        carrying_item = carrier->has_item( parent_item != nullptr ? *parent_item : *this );
 
         if( state == "solar_pack_link" || state == "solar_pack" ) {
             if( !carrying_item || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
                 carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
-                reset_cable( carrier );
+                reset_cable( carrier, parent_item );
                 return false;
             }
         }
@@ -12760,19 +12750,9 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
                 for( item *used : carrier->items_with( used_ups ) ) {
                     used->erase_var( "cable" );
                 }
-                reset_cable( carrier );
+                reset_cable( carrier, parent_item );
                 return false;
             }
-        }
-    } else if( !parent_itype.is_empty() ) {
-        std::list<item_location> found_map_parents = here.items_with( pos, [&]( const item & it ) {
-            if( it.typeId() != parent_itype ) {
-        return false;
-    }
-            return it.contained_where( *this ) != nullptr;
-        } );
-        if( !found_map_parents.empty() ) {
-            parent_item = found_map_parents.front().get_item();
         }
     }
 
@@ -12791,15 +12771,15 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
     const optional_vpart_position vp = here.veh_at( *source );
     if( !vp ) {
         if( carrying_item ) {
-            carrier->add_msg_if_player( m_bad, parent_itype.is_empty() ?
+            carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
                                         string_format( _( "You notice your %s has come loose!" ), tname( 1, false ) ) :
-                                        string_format( _( "You notice your %s's cable has come loose!" ), parent_itype.str() ) );
+                                        string_format( _( "You notice your %s's cable has come loose!" ), parent_item->typeId().str() ) );
         } else {
-            add_msg_if_player_sees( pos, m_bad, parent_itype.is_empty() ?
+            add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
                                     string_format( _( "You notice the %s has come loose!" ), tname( 1, false ) ) :
-                                    string_format( _( "You notice the %s's cable has come loose!" ), parent_itype.str() ) );
+                                    string_format( _( "You notice the %s's cable has come loose!" ), parent_item->typeId().str() ) );
         }
-        reset_cable( carrier );
+        reset_cable( carrier, parent_item );
         return has_flag( flag_AUTO_CABLE ) ? true : false;
     }
 
@@ -12809,15 +12789,15 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
 
     if( charges < 1 ) {
         if( carrying_item ) {
-            carrier->add_msg_if_player( m_bad, parent_itype.is_empty() ?
+            carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
                                         string_format( _( "Your over-extended %s breaks loose!" ), tname( 1, false ) ) :
-                                        string_format( _( "Your %s's over-extended cable breaks loose!" ), parent_itype.str() ) );
+                                        string_format( _( "Your %s's over-extended cable breaks loose!" ), parent_item->typeId().str() ) );
         } else {
-            add_msg_if_player_sees( pos, m_bad, parent_itype.is_empty() ?
+            add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
                                     string_format( _( "The over-extended %s breaks loose!" ), tname( 1, false ) ) :
-                                    string_format( _( "The %s's over-extended cable breaks loose!" ), parent_itype.str() ) );
+                                    string_format( _( "The %s's over-extended cable breaks loose!" ), parent_item->typeId().str() ) );
         }
-        reset_cable( carrier );
+        reset_cable( carrier, parent_item );
         return has_flag( flag_AUTO_CABLE ) ? true : false;
     }
 
@@ -12838,14 +12818,14 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos )
             }
         }
     } else if( has_flag( flag_AUTO_CABLE ) ) {
-        debugmsg( "Auto cable %s can't find parent item %s.", tname(), parent_itype.str() );
+        debugmsg( "Auto cable %s can't find parent item.", tname() );
         return true;
     }
 
     return false;
 }
 
-void item::reset_cable( Character *p )
+void item::reset_cable( Character *p, item *parent_item )
 {
     int max_charges = type->maximum_charges();
 
@@ -12861,6 +12841,9 @@ void item::reset_cable( Character *p )
         active = false;
     } else {
         set_var( "state", "needs_reeling" );
+    }
+    if( parent_item != nullptr ) {
+        parent_item->plugged_in = false;
     }
 }
 
@@ -13014,6 +12997,18 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
 
     if( wetness > 0 ) {
         wetness -= 1;
+    }
+
+    if( plugged_in ) {
+        std::vector<item *> cables = contents.cables( true );
+        if( !cables.empty() ) {
+            for( item *cable : cables ) {
+                cable->process_cable( here, carrier, pos, this );
+            }
+        } else {
+            debugmsg( "%s was labeled as plugged in but had no active cables inside.", tname() );
+            plugged_in = false;
+        }
     }
 
     // Remaining stuff is only done for active items.

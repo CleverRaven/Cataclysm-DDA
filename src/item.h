@@ -1417,7 +1417,7 @@ class item : public visitable
         /**
          * Helper to bring a cable back to its initial state.
          */
-        void reset_cable( Character *p );
+        void reset_cable( Character *p, item *parent_item = nullptr );
 
         /**
          * Whether the item should be processed (by calling @ref process).
@@ -2848,7 +2848,7 @@ class item : public visitable
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( map &here, Character *carrier, const tripoint &pos );
         bool process_fake_mill( map &here, Character *carrier, const tripoint &pos );
-        bool process_cable( map &here, Character *carrier, const tripoint &pos );
+        bool process_cable( map &here, Character *carrier, const tripoint &pos, item *parent_item = nullptr );
         bool process_UPS( Character *carrier, const tripoint &pos );
         bool process_blackpowder_fouling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
@@ -2930,6 +2930,7 @@ class item : public visitable
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;
         int wetness = 0;           // Turns until this item is completely dry.
+        bool plugged_in = false;
 
         int seed = rng( 0, INT_MAX );  // A random seed for layering and other options
 

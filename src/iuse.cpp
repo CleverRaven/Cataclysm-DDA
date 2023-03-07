@@ -8553,6 +8553,7 @@ std::optional<int> iuse::plug_in( Character *p, item *it, bool, const tripoint &
 
         p->add_msg_if_player( _( "You connect the %1$s to the %2$s." ), 
                               it->tname( 1, false ), vp->vehicle().name );
+        it->plugged_in = true;
     }
 
     return 0;
