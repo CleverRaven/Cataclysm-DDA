@@ -252,7 +252,8 @@
       { "item": "bio_sleep_shutdown", "prob": 1 },
       { "item": "bio_faulty_electromagnetic_leak", "prob": 1 },
       { "item": "bio_faulty_grossfood", "prob": 1 },
-      { "item": "bio_radleak", "prob": 1 }
+      { "item": "bio_radleak", "prob": 1 },
+      { "item": "bio_ar", "prob": 1 },
     ]
   },
   {
@@ -315,7 +316,8 @@
       { "item": "bio_weight", "prob": 1 },
       { "item": "bio_faulty_electromagnetic_leak", "prob": 1 },
       { "item": "bio_faulty_grossfood", "prob": 1 },
-      { "item": "bio_radleak", "prob": 1 }
+      { "item": "bio_radleak", "prob": 1 },
+      { "item": "bio_ar", "prob": 1 },
     ]
   }
 ]
