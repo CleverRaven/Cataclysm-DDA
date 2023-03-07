@@ -181,7 +181,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             collision = true;
             collision_angle = rng( 0, 360 );
             g->fling_creature( poor_soul, units::from_degrees( collision_angle - 180 ), 50 );
-            explosion_handler::explosion( target, 25 );
+            explosion_handler::explosion( &critter, target, 25 );
             poor_soul->remove_effect( effect_grabbed );
             poor_soul->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
             poor_soul->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
