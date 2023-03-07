@@ -133,4 +133,4 @@ It is possible to use ccache with Visual Studio and gain the same benefits as ot
 </Project>
 ```
 
-5. ccache should now just work when building with Release modes in Visual Studio. Debug builds do not work because of limitations from the size of CDDA and the msvc toolchain. However, Debug builds are almost intolerably slow anyway so this limitation is not something we are going to fix right now.
+5. ccache should now just work when building with Release modes in Visual Studio. Debug builds do not work because of the size of CDDA and limitations in the msvc toolchain. However, Debug builds are almost intolerably slow anyway so this limitation is not something we are going to fix right now.
