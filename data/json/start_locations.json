@@ -584,8 +584,20 @@
   {
     "type": "start_location",
     "id": "sloc_mansion_basement",
-    "name": "Mansion Basement",
-    "terrain": [ "mansion_t2d", "mansion_c2d", "mansion_c3d", "mansion_c4d", "mansion_t4d" ]
+    "name": "Normal Mansion Basement (Random)",
+    "terrain": [ "mansion_t2d", "mansion_t6d", "mansion_+2d" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_enclosed_mansion_panic_room",
+    "name": "Enclosed Mansion Panic Room",
+    "terrain": [ "mansion_boarded_t2_start" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_enclosed_mansion_sex_lair",
+    "name": "Enclosed Mansion Sex Lair",
+    "terrain": [ "mansion_boarded_t2d_start" ]
   },
   {
     "type": "start_location",

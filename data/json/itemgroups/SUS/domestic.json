@@ -193,7 +193,7 @@
       { "item": "fishing_hook_basic", "prob": 25 },
       { "item": "balloon", "prob": 20, "count": [ 1, 2 ] },
       { "item": "lighter", "prob": 25, "count": [ 2, 7 ], "charges-min": 0, "charges-max": 12 },
-      { "item": "adhesive_bandages", "prob": 25, "count": [ 1, 20 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 25 },
       { "item": "marble", "prob": 20, "charges-min": 1, "charges-max": 3 },
       { "item": "coin_nickel", "prob": 20, "count": [ 1, 8 ] },
       { "item": "button_plastic", "prob": 25, "count": [ 2, 8 ], "charges": 1 },
@@ -308,7 +308,7 @@
       { "item": "scissors", "prob": 65 },
       { "item": "pliers", "prob": 65 },
       { "item": "permanent_marker", "prob": 70, "charges-min": 50 },
-      { "item": "adhesive_bandages", "prob": 60, "count": [ 1, 20 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 60 },
       { "item": "pen", "count": [ 1, 3 ], "prob": 55, "charges-min": 50 },
       { "item": "sandpaper", "prob": 50 },
       { "item": "old_key", "prob": 50 },
@@ -361,7 +361,7 @@
       { "item": "office_letter_opener", "prob": 75 },
       { "item": "candle", "count": [ 1, 2 ], "prob": 75, "charges-min": 70 },
       { "item": "corkscrew", "prob": 70 },
-      { "item": "adhesive_bandages", "prob": 60, "count": [ 1, 20 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 60 },
       { "item": "light_battery_cell", "count": 4, "prob": 50, "charges": 100 },
       { "item": "deck_of_cards", "prob": 50 },
       { "item": "teleumbrella", "prob": 50 },
@@ -662,7 +662,7 @@
       { "item": "soap", "count": [ 1, 4 ], "prob": 75, "charges": [ 1, 10 ] },
       { "item": "soap_holder", "prob": 40 },
       { "item": "razor_shaving", "count": [ 1, 2 ], "prob": 20 },
-      { "item": "cotton_ball", "prob": 50 },
+      { "group": "cotton_ball_bag_used", "prob": 50 },
       { "item": "comb_lice", "prob": 2 },
       { "item": "bleach", "prob": 15, "charges-min": 1 },
       { "item": "ammonia_hydroxide", "prob": 20, "charges-min": 1 },
@@ -693,7 +693,7 @@
       { "item": "pepto", "prob": 70, "charges-min": 1, "container-item": "bottle_plastic_small" },
       { "item": "inhaler", "prob": 25, "charges-min": 10, "charges-max": 100 },
       { "item": "disinfectant", "prob": 40, "charges-min": 1 },
-      { "item": "alcohol_wipes", "prob": 60, "charges": [ 1, 40 ] },
+      { "group": "alcohol_wipes_box_used", "prob": 60 },
       {
         "distribution": [
           { "item": "pills_sleep", "prob": 60, "charges": [ 1, 10 ] },
@@ -707,8 +707,9 @@
       },
       {
         "distribution": [
-          { "item": "adhesive_bandages", "prob": 30, "count": [ 1, 20 ] },
-          { "item": "bandages", "prob": 30, "charges": [ 1, 6 ] },
+          { "group": "adhesive_bandages_box_used", "prob": 30 },
+          { "item": "bandages", "prob": 30, "count": [ 1, 6 ] },
+          { "item": "liq_bandage", "prob": 5, "charges-min": 1 },
           { "item": "medical_gauze", "prob": 20 },
           { "group": "full_1st_aid", "prob": 10 }
         ],

@@ -819,6 +819,11 @@
     "replace": "reloaded_10mm_fmj"
   },
   {
+    "id": "armor_bio_carbon_filament",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
     "id": "locket",
     "type": "MIGRATION",
     "replace": "silver_locket"
@@ -1255,17 +1260,16 @@
     "variant": "m16a3"
   },
   {
-    "id": "scar_l",
-    "type": "MIGRATION",
-    "replace": "m27_assault_rifle",
-    "variant": "scar_l"
-  },
-  {
     "id": "nato_assault_rifle",
     "from_variant": "scar_l",
     "type": "MIGRATION",
-    "replace": "m27_assault_rifle",
-    "variant": "scar_l"
+    "replace": "scar_l"
+  },
+  {
+    "id": "m27_assault_rifle",
+    "from_variant": "scar_l",
+    "type": "MIGRATION",
+    "replace": "scar_l"
   },
   {
     "id": "m38dmr",
@@ -1813,29 +1817,6 @@
     "replace": "syringe"
   },
   {
-    "id": "sheet_metal_lit",
-    "type": "MIGRATION",
-    "replace": "sheet_metal"
-  },
-  {
-    "id": "folding_bicycle",
-    "type": "MIGRATION",
-    "replace": "folded_bicycle",
-    "reset_item_vars": true
-  },
-  {
-    "id": "folded_wheelchair",
-    "type": "MIGRATION",
-    "replace": "folded_wheelchair_generic",
-    "reset_item_vars": true
-  },
-  {
-    "id": "inflatable_boat",
-    "type": "MIGRATION",
-    "replace": "folded_inflatable_boat",
-    "reset_item_vars": true
-  },
-  {
     "id": "ammunition_box_9mm",
     "type": "MIGRATION",
     "replace": "ammunition_box_308"
@@ -1954,5 +1935,47 @@
     "id": "bag_paper_powder_small",
     "type": "MIGRATION",
     "replace": "bag_paper_powder"
+  },
+  {
+    "id": "r_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_red", "count": 15 } ]
+  },
+  {
+    "id": "b_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_blue", "count": 15 } ]
+  },
+  {
+    "id": "g_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_green", "count": 15 } ]
+  },
+  {
+    "id": "y_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_yellow", "count": 15 } ]
+  },
+  {
+    "id": "p_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_purple", "count": 15 } ]
+  },
+  {
+    "id": "w_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_white", "count": 15 } ]
+  },
+  {
+    "id": "black_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_black", "count": 15 } ]
   }
 ]

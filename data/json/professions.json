@@ -688,7 +688,7 @@
     "id": "churl",
     "name": "Churl",
     "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous Cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
-    "points": 1,
+    "points": 0,
     "items": {
       "both": {
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "small_relic", "gloves_wraps", "tunic_rag" ],
@@ -706,7 +706,8 @@
       { "level": 1, "name": "fabrication" },
       { "level": 1, "name": "tailor" }
     ],
-    "traits": [ "PROF_CHURL" ]
+    "traits": [ "PROF_CHURL", "ILLITERATE" ],
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -1599,7 +1600,7 @@
           "glasses_safety",
           "wristwatch",
           "water_clean",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           { "item": "adhesive_bandages", "count": 10 },
           "aspirin",
           "stethoscope"
@@ -1710,7 +1711,7 @@
           "dress_shoes",
           "coat_lab",
           "water_clean",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           { "item": "adhesive_bandages", "count": 10 },
           "aspirin",
           "stethoscope",
@@ -4766,7 +4767,8 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_HELICOPTER_PILOT" ]
   },
   {
     "type": "profession",
@@ -4811,7 +4813,7 @@
           "wristwatch",
           "boots",
           "mbag",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           "stethoscope",
           "scissors",
           "syringe",
@@ -4864,7 +4866,7 @@
           "boots_combat",
           "wristwatch",
           "thermometer",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           "scalpel",
           "syringe",
           "morphine",
@@ -4913,7 +4915,7 @@
           "sneakers",
           "mbag",
           { "item": "adhesive_bandages", "count": 10 },
-          "bandages",
+          { "item": "bandages", "count": 3 },
           "water_clean",
           "water_clean",
           "water_clean",
@@ -5001,7 +5003,6 @@
     "items": {
       "both": {
         "items": [
-          "tux",
           "fedora",
           "socks",
           "dress_shoes",

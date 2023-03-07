@@ -22,6 +22,7 @@
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
+#include "flag.h"
 #include "enum_conversions.h"
 #include "game.h"
 #include "input.h"
@@ -242,18 +243,26 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
         s.emplace_back( colorize( string_format( _( "Encumbrance effects: %s" ), bp->encumb_text ),
                                   c_magenta ) );
     }
-    if( bp->encumb_impacts_dodge && you.is_avatar() ) {
-        int dodge = get_avatar().limb_dodge_encumbrance();
-        nc_color dodge_c = dodge > 10 ? c_light_red : dodge > 5 ? c_yellow : c_white;
-        std::string dodge_str = colorize( string_format( "-%d", dodge ), dodge_c );
-        s.emplace_back( string_format( _( "Encumbrance dodge modifier: %s" ), dodge_str ) );
-    }
     for( const limb_score &sc : limb_score::get_all() ) {
         if( !bp->has_limb_score( sc.getId() ) ) {
             continue;
         }
         float cur_score = part->get_limb_score( sc.getId() );
         float bp_score = bp->get_limb_score( sc.getId() );
+        // Check for any global limb score modifiers
+        for( const effect &eff : you.get_effects_with_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
+            cur_score *= eff.get_limb_score_mod( sc.getId(), you.resists_effect( eff ) );
+        }
+        // Check for local score-modifying effects only if we have any
+        if( you.has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+            for( const effect &local : you.get_effects_from_bp( part->get_id() ) ) {
+                float local_mul = 1.0f;
+                if( local.has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+                    local_mul = local.get_limb_score_mod( sc.getId(), you.resists_effect( local ) );
+                    cur_score *= local_mul;
+                }
+            }
+        }
         s.emplace_back( get_score_text( sc.name().translated(), cur_score, bp_score ) );
     }
     for( const character_modifier &mod : character_modifier::get_all() ) {
@@ -970,18 +979,22 @@ static void draw_speed_tab( const catacurses::window &w_speed,
 
     const float temperature_speed_modifier = you.mutation_value( "temperature_speed_modifier" );
     if( temperature_speed_modifier != 0 ) {
+        const int climate_control = you.enchantment_cache->get_value_add(
+                                        enchant_vals::mod::CLIMATE_CONTROL_HEAT );
         nc_color pen_color;
         std::string pen_sign;
         const units::temperature player_local_temp = get_weather().get_temperature( you.pos() );
-        if( you.has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
+        if( you.has_flag( json_flag_ECTOTHERM ) &&
+            player_local_temp > units::from_fahrenheit( 65 - climate_control ) ) {
             pen_color = c_green;
             pen_sign = "+";
-        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
+        } else if( player_local_temp < units::from_fahrenheit( 65 - climate_control ) ) {
             pen_color = c_red;
             pen_sign = "-";
         }
         if( !pen_sign.empty() ) {
-            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
+            pen = ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) *
+                  temperature_speed_modifier;
             mvwprintz( w_speed, point( 1, line ), pen_color,
                        //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
                        pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );

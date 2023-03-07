@@ -511,12 +511,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "cac2powder",
-    "name": "powdered calcium carbide premix",
-    "default": "cac2powder"
-  },
-  {
-    "type": "ammunition_type",
     "id": "thrown",
     "name": "throwing weapon",
     "default": "thrown"
@@ -532,6 +526,12 @@
     "id": "albuterol",
     "name": "albuterol",
     "default": "albuterol"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "liq_bandage",
+    "name": "liquid bandage",
+    "default": "liq_bandage"
   },
   {
     "type": "ammunition_type",
@@ -646,12 +646,6 @@
     "id": "unfinished_char",
     "name": "semi-charred fuel",
     "default": "unfinished_charcoal"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "unfinished_cac2",
-    "name": "partially burned calcium carbide",
-    "default": "unfinished_cac2"
   },
   {
     "type": "ammunition_type",

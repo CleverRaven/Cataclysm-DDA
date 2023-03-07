@@ -62,5 +62,16 @@
     "time_to_learn": "4 h",
     "default_time_multiplier": 1.5,
     "default_fail_multiplier": 2
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_weapon_enchanting",
+    "category": "prof_alchemy",
+    "name": { "str": "Enchanting" },
+    "description": "You are an experienced enchanter.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "default_time_multiplier": 2,
+    "default_fail_multiplier": 1
   }
 ]

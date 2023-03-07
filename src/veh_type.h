@@ -448,10 +448,10 @@ class vpart_info
         int dmg_mod = 100;
 
         /**
-         * Electrical power, flat rate (watts); positive for generation, negative for consumption
-         * For motor consumption scaled with powertrain demand see @ref energy_consumption instead
+         * Electrical power, flat rate energy (per second); positive for generation, negative for consumption
+         * For electric motor consumption scaled with powertrain demand see @ref energy_consumption instead
          */
-        int epower = 0;
+        units::power epower = 0_W;
 
         /**
          * Energy consumed per second by engines and motors when delivering max @ref power
@@ -463,7 +463,7 @@ class vpart_info
          * For engines and motors this is maximum output (watts)
          * For alternators is engine power consumed (negative value)
          */
-        int power = 0;
+        units::power power = 0_W;
 
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
         int install_moves = to_moves<int>( 1_hours );

@@ -515,7 +515,7 @@
       [ "rebreather", 5 ],
       [ "rebreather_filter", 5 ],
       [ "diveknife", 10 ],
-      [ "fishing_rod_professional", 3 ],
+      { "group": "tools_fishingrods_commercial", "prob": 3 },
       [ "alarmclock", 5 ],
       [ "bagh_nakha", 2 ],
       [ "leathersandals", 10 ],
@@ -894,7 +894,58 @@
     "type": "item_group",
     "id": "paintball_items",
     "//": "For paintball_field.json",
-    "items": [ [ "paintballgun", 55 ], [ "paintball", 45 ], [ "goggles_swim", 15 ] ]
+    "items": [
+      {
+        "distribution": [
+          { "item": "paintball", "prob": 125 },
+          { "item": "paintballgun", "prob": 100, "charges": [ 0, 50 ] },
+          { "group": "paintball_clothes", "prob": 30 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "paintball_clothes",
+    "//": "For paintball_field.json",
+    "items": [
+      {
+        "distribution": [
+          { "item": "airsoft_helmet", "prob": 35, "contents-group": "airsoft_helmet_attachments" },
+          { "item": "gloves_airsoft", "prob": 20 },
+          { "item": "glasses_bal", "prob": 20 },
+          { "item": "stab_vest", "variant": "airsoft_stab_vest", "prob": 10 },
+          { "item": "face_shield_plastic", "prob": 4 },
+          { "item": "plastic_mandible_guard", "prob": 4 },
+          { "item": "gloves_tactical", "prob": 4 },
+          { "item": "counterweight_pouch", "prob": 1 },
+          { "item": "legguard_hard", "prob": 2 },
+          { "item": "elbow_pads", "prob": 2 },
+          { "item": "armguard_hard", "prob": 2 },
+          { "item": "knee_pads", "prob": 1 },
+          { "item": "load_bearing_vest", "prob": 1 },
+          { "item": "light_load_bearing_vest", "prob": 1 },
+          { "group": "jackets", "prob": 5 },
+          { "group": "mil_armor_pants", "prob": 5 },
+          { "group": "clothing_outdoor_shoes", "prob": 5 }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "airsoft_helmet_attachments",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "distribution": [ { "item": "face_shield_plastic", "prob": 90 }, { "item": "face_shield", "prob": 10 } ] },
+          {
+            "distribution": [ { "item": "plastic_mandible_guard", "prob": 90 }, { "item": "ballistic_mandible_guard", "prob": 10 } ]
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "musicstore_showpiece",
@@ -1881,8 +1932,9 @@
     "//": "for veterinarian",
     "type": "item_group",
     "items": [
-      { "item": "bandages", "prob": 30, "charges": [ 1, 3 ] },
-      { "item": "adhesive_bandages", "prob": 30, "count": [ 1, 20 ] },
+      { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 30 },
+      { "item": "liq_bandage", "prob": 5, "charges-min": 1 },
       { "group": "full_1st_aid", "prob": 10 },
       { "item": "saline", "prob": 20, "charges": [ 1, 5 ] },
       { "item": "vitamins", "prob": 15, "charges": [ 1, 20 ] },
@@ -1995,7 +2047,8 @@
       [ "shorts", 30 ],
       { "item": "coke", "prob": 3, "charges": [ 1, 8 ] },
       [ "longshirt", 30 ],
-      { "item": "adhesive_bandages", "prob": 10, "count": [ 1, 20 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 10 },
+      { "item": "liq_bandage", "prob": 2, "charges-min": 1 },
       [ "heatpack", 10 ],
       { "item": "gum", "prob": 12, "charges": [ 1, 10 ] },
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },

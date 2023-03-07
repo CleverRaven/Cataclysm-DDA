@@ -93,7 +93,8 @@
       [ "spell_scroll_boneclub", 20 ],
       [ "spell_scroll_flamesword", 35 ],
       [ "spell_scroll_force_jar", 30 ],
-      [ "spell_scroll_flamebreath", 30 ]
+      [ "spell_scroll_flamebreath", 30 ],
+      [ "spell_scroll_thought_shield", 35 ]
     ]
   },
   {
@@ -170,7 +171,8 @@
       [ "spell_scroll_freezing_touch", 40 ],
       [ "spell_scroll_focused_bolt", 4 ],
       [ "spell_scroll_rupture", 4 ],
-      [ "spell_scroll_cause_rot", 4 ]
+      [ "spell_scroll_cause_rot", 4 ],
+      [ "spell_scroll_earthshaper_reveal_world_map", 15 ]
     ]
   },
   {
