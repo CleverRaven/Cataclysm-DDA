@@ -57,7 +57,7 @@
     "color": "blue",
     "skill": "rifle",
     "range": 30,
-    "ranged_damage": { "damage_type": "heat", "amount": 40, "armor_penetration": 30 },
+    "ranged_damage": { "damage_type": "heat", "amount": 40 },
     "dispersion": 100,
     "durability": 8,
     "loudness": 12,
