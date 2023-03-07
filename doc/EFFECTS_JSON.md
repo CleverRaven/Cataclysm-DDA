@@ -207,9 +207,9 @@ Having any of the defined character flags (See JSON_FLAGS.md#Character flags) wi
 
 ### Bodypart Immunity Flags
 
-´´´JSON
+```JSON
 "immune_bp_flags": [ "LIMB_UPPER" ]
-````
+```
 
 When applying the effect to a bodypart directly the part in question having this JSON character flag will prevent the effect from applying.
 
