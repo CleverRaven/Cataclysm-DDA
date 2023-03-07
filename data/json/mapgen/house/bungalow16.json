@@ -20,7 +20,7 @@
         ".#  |BtS8Q|  |||||||+|#.",
         ".#  |B____+  ((      T#^",
         ".#  |||||||           #.",
-        ".#    TVV|y     R|+|++#.",
+        ".#Y   TVV|y     R|+|++#.",
         ".#476           R|q|ZW#.",
         ".#2           |+||||||#.",
         ".o1 JA   |(  i|===ddb=o.",
@@ -119,7 +119,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { ".": "t_shingle_flat_roof", "=": "t_shingle_flat_roof", "X": "t_shingle_flat_roof", "N": "t_shingle_flat_roof" }
+      "terrain": { ".": "t_shingle_flat_roof" }
     }
   }
 ]
