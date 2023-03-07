@@ -3496,5 +3496,24 @@
         ],
         "weight": 10,
         "append": true
+  },
+      {
+        "id": "kit_300blk_mdrx",
+        "name": { "str": "Desert Tech conversion kit" },
+        "description": "The stylized image of an assembled Desert Tech MDRX rifle adorns the box’s front, with large text promising the inclusion of all the necessary parts required to convert MDRX weapons to fire the .300 AAC Blackout cartridge, as well as an appropriate magazine.",
+        "volume": "8640 ml",
+        "longest_side": "54 cm",
+        "//5": "External dimensions, (10x16x54)",
+        "pocket_data": [
+          {
+            "pocket_type": "CONTAINER",
+            "rigid": true,
+            "max_contains_volume": "5824ml",
+            "max_contains_weight": "50 kg",
+            "max_item_length": "52 cm"
+          }
+        ],
+        "weight": 10,
+        "append": true
   }
 ]
