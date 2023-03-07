@@ -712,13 +712,12 @@
       "sound_fail": "an absence of sound.",
       "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
     },
-    "chat_topics": [ "COMP_RET_COMM_OFFICE" ],
     "examine_action": {
       "type": "effect_on_condition",
       "effect_on_conditions": [
         {
           "id": "EOC_HAUNTING_WARN",
-          "effect": [ "open_dialogue" ]
+          "effect": [ { "open_dialogue": { "topic": "TALK_XEDRA_MERC_MAIN" } } ]
         }
       ]
     }

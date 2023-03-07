@@ -523,14 +523,6 @@
       { "item": "gloves_tactical", "prob": 80 },
       { "group": "xedra_ballistic_vest_heavy_pristine", "prob": 100 },
       { "group": "clothing_tactical_leg", "prob": 80 },
-      {
-        "distribution": [
-          { "item": "glasses_bal", "prob": 30 },
-          { "item": "goggles_nv", "prob": 30, "charges": [ 50, 100 ] },
-          { "item": "goggles_ir", "prob": 30, "charges": [ 50, 100 ] }
-        ],
-        "prob": 60
-      },
       { "group": "clothing_watch", "prob": 45 },
       {
         "distribution": [
@@ -540,7 +532,10 @@
         ],
         "prob": 100
       },
-      { "group": "xedra_gun" }
+      { "group": "xedra_gun" },
+      { "group": "cop_melee" },
+      { "group": "cop_holster_field" }
+
     ]
   },
   {

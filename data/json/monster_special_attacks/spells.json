@@ -965,6 +965,22 @@
   },
   {
     "type": "SPELL",
+    "id": "spell_conjure_hand",
+    "name": { "str": "Shadow Hand" },
+    "description": "Conjures an entity to give you a hand.",
+    "copy-from": "base_portal",
+    "effect_str": "EOC_conjure_hand"
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_conjure_memories",
+    "name": { "str": "Life Flashing" },
+    "description": "Brings back memories.",
+    "copy-from": "base_portal",
+    "effect_str": "EOC_conjure_memories"
+  },
+  {
+    "type": "SPELL",
     "id": "guilt_attack",
     "name": { "str": "Guilt Attack" },
     "description": "Makes things heavier.",

@@ -1304,6 +1304,38 @@
     "type": "MONSTER",
     "name": { "str": "mercenary officer" },
     "copy-from": "mon_zombie_bio_op",
+    "hp": 1,
+    "armor_bash": 30,
+    "armor_cut": 30,
+    "armor_bullet": 40,
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "ACIDPROOF",
+      "NO_BREATHE"
+    ],
+    "bleed_rate": 0,
+    "vision_day": 40,
+    "vision_night": 40,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "spell_conjure_hand" },
+        "cooldown": 30,
+        "monster_message": "The creatures hands move and a giant appendage errupts from the darkness."
+      },
+      {
+        "type": "spell",
+        "spell_data": { "id": "spell_conjure_memories" },
+        "cooldown": 30,
+        "monster_message": "The creature screams \"SOMEONE HELP ME, ANYONE!\"."
+      }
+    ],
     "death_function": { "effect": { "id": "mon_XEDRA_officer_banish", "hit_self": true }, "corpse_type": "NO_CORPSE" }
   },
   {

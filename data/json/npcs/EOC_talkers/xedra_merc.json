@@ -1,56 +1,33 @@
 [
     {
         "type": "talk_topic",
-        "id": "COMP_REFUGEE_CENTER_MAIN",
-        "dynamic_line": "The computer awaits input…",
+        "id": "TALK_XEDRA_MERC_MAIN",
+        "dynamic_line": "As you approach you feel compelled to touch the creature encased in glass the corpse inside is screaming, it needs your help.",
         "responses": [
-          { "text": "Emergency Message.", "topic": "COMP_EMERGENCY_MESSAGE" },
-          {
-            "condition": { "u_has_mission": "MISSION_OLD_GUARD_NEC_COMMO_2" },
-            "text": "Disable External Power",
-            "topic": "COMP_DISABLE_EXTERNAL_POWER"
-          },
-          { "text": "Contact Us", "topic": "COMP_FIND_REFUGEE_CENTER" },
-          { "text": "Log off.", "topic": "TALK_DONE" }
+          { "text": "Say: \"Is someone there?\"", "topic": "TALK_XEDRA_MERC_SCREEM" },
+          { "text": "Touch it.", "topic": "TALK_XEDRA_MERC_HAUNTING" },
+          { "text": "Back away.", "topic": "TALK_DONE" }
         ]
       },
       {
         "type": "talk_topic",
-        "id": "COMP_EMERGENCY_MESSAGE",
-        "dynamic_line": "GREETINGS CITIZEN.  A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF EMERGENCY HAS BEEN DECLARED.  EMERGENCY PERSONNEL WILL BE AIDING YOU SHORTLY.  TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW.\n 1. DO NOT PANIC.\n 2. REMAIN INSIDE THE BUILDING.\n 3. SEEK SHELTER IN THE BASEMENT.\n 4. USE PROVIDED GAS MASKS.\n 5. AWAIT FURTHER INSTRUCTIONS.",
-        "responses": [ { "text": "Press any key.", "topic": "COMP_REFUGEE_CENTER_MAIN" } ]
+        "id": "TALK_XEDRA_MERC_SCREEM",
+        "dynamic_line": "A almost human voice errupts in your mind:\n\"FREE ME!\"",
+        "responses": [ 
+        { "text": "Touch it.", "topic": "TALK_XEDRA_MERC_HAUNTING" },
+        { "text": "Back away.", "topic": "TALK_DONE" } ]
       },
       {
         "type": "talk_topic",
-        "id": "COMP_DISABLE_EXTERNAL_POWER",
-        "dynamic_line": "--ACCESS GRANTED--\nMission Complete!",
-        "responses": [
-          {
-            "text": "Press any key.",
-            "topic": "COMP_REFUGEE_CENTER_MAIN",
-            "effect": { "finish_mission": "MISSION_OLD_GUARD_NEC_COMMO_2", "step": 1 }
-          }
-        ]
-      },
-      {
-        "type": "talk_topic",
-        "id": "COMP_FIND_REFUGEE_CENTER",
-        "dynamic_line": "REFUGEE CENTER FOUND!  IF YOU HAVE ANY FEEDBACK CONCERNING YOUR VISIT PLEASE CONTACT\n THE DEPARTMENT OF EMERGENCY MANAGEMENT PUBLIC AFFAIRS OFFICE.\n THE LOCAL OFFICE CAN BE REACHED BETWEEN THE HOURS OF 9AM AND\n 4PM AT 555-0164.\n\nIF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\nTO WRITE US A LETTER PLEASE SEND IT TO…",
-        "responses": [
-          {
-            "condition": { "not": { "compare_num": [ { "global_val": "var", "var_name": "find_refugee_center" }, "=", { "const": 1 } ] } },
-            "text": "Make a note of the location.",
-            "topic": "COMP_REFUGEE_CENTER_MAIN",
-            "effect": [
-              { "assign_mission": "MISSION_REACH_REFUGEE_CENTER" },
-              { "arithmetic": [ { "global_val": "var", "var_name": "find_refugee_center" }, "=", { "const": 1 } ] }
-            ]
-          },
-          {
-            "condition": { "compare_num": [ { "global_val": "var", "var_name": "find_refugee_center" }, "=", { "const": 1 } ] },
-            "text": "Press any key.",
-            "topic": "COMP_REFUGEE_CENTER_MAIN"
-          }
-        ]
+        "id": "TALK_XEDRA_MERC_HAUNTING",
+        "dynamic_line": "With a terrible shriek the mercenary falls off the spike and begins to move.  It stares right at you before vanishing.  In the distance you can hear a radio squelch:\n\"Target aquired.  Falling back, regroup and prepare to attack the intruder.\"",
+        "responses": [ 
+        { "text": "You can here the rushing of boots all around you, and the chattering of radios.  It must still be close and you are their target.", 
+        "effect": [
+            { "queue_eocs": "EOC_HAUNTING", "time_in_future": [ "20 seconds", "30 seconds" ] },
+            { "run_eocs": "EOC_HAUNTING_SPAWN" },
+            { "u_transform_radius": 5, "ter_furn_transform": "merc_spike_transform" }
+        ],
+        "topic": "TALK_DONE" } ]
       }
 ]
