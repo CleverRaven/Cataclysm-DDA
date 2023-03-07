@@ -25,9 +25,8 @@ These sites are owned and managed by the project directly.
 
 ## Community Managed Resources
 These are resources provided by third parties that the project sees as helpful to users.
-* [Wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php)
-* [Item Browser](http://cdda-trunk.chezzo.com/)
 * [Hitchhiker's Guide to the Cataclysm](https://nornagon.github.io/cdda-guide/)
+* [Wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php)
 
 ## System Requirements
 ### Minimum
@@ -75,4 +74,4 @@ Please submit an issue on [our GitHub page](https://github.com/CleverRaven/Catac
 
 #### I'd like to contribute financially to Cataclysm: Dark Days Ahead
 
-Check out [our page on BountySource](https://www.bountysource.com/teams/cataclysm-dda) and consider sponsoring an issue.
+Check out [our donations page]({{ site.baseurl }}{% link donations.md %}) for ways to donate.
