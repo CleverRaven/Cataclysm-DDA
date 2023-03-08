@@ -157,7 +157,7 @@
       },
       { "text": "State your name and function machine.", "topic": "TALK_LULIYA" },
       {
-        "text": "[INT 18]  Huh.  That sounds a little familiar, a little like Arabic.  Earabiun? <slowly and clearly>  EARABIUN?",
+        "text": "[INT 18]  Huh.  That sounds a little familiar, a little like Arabic.  Earabiun?  <slowly and clearly>  EARABIUN?",
         "topic": "TALK_LULIYA_ARABIC",
         "condition": { "u_has_intelligence": 18 }
       },
@@ -167,7 +167,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LULIYA_PULSE",
-    "dynamic_line": "<You press your stethoscope to the chest of the figure and hear a clear strong heartbeat and a strange whirring sound like clockwork>  She's alive.",
+    "dynamic_line": "<You press your stethoscope to the chest of the figure and hear a clear strong heartbeat and a strange whirring sound like clockwork>.",
     "responses": [
       { "text": "So she's alive then.", "topic": "TALK_LULIYA" },
       { "text": "Probably fine then.  Anyway, I need to move along.", "topic": "TALK_DONE" }
@@ -197,7 +197,7 @@
     "type": "talk_topic",
     "id": "TALK_LULIYA_NAME",
     "dynamic_line": "<A long pause.  You can't see her eyes but it seems like she is studying your face.>  Sime Luliya ibalalehu.  <She points to her own chest.>  Luliya.  <She points to your chest.>  <u_name>.  Siletewawekini desi bilonyali, <u_name>.  <A grainy image of a smile flashes on the screen strapped to her face.>",
-    "speaker_effect": { "effect": { "u_add_var": "u_not_english_luliya", "type": "general", "context": "language", "value": "yes" } },
+    "speaker_effect": { "effect": { "u_add_var": "u_luliya_name", "type": "general", "context": "name", "value": "yes" } },
     "responses": [ { "text": "We're getting somewhere.  Pleased to meet you Luliya.", "topic": "TALK_DONE" } ]
   },
   {
