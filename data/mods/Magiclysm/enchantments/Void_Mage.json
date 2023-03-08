@@ -5,7 +5,7 @@
     "name": "Void Claws",
     "description": "This is a spell that causes a DoT effect whenever you hit.",
     "valid_targets": [ "hostile" ],
-    "flags": [ "SILENT", "NO_PROJECTILE" ],
+    "flags": [ "SILENT", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
     "effect": "attack",
     "shape": "blast",
     "min_dot": 8,
@@ -22,6 +22,7 @@
     "type": "enchantment",
     "id": "VOID_MAGE",
     "condition": "ALWAYS",
+    "modified_bodyparts": [ { "gain": "dark_eye" } ],
     "hit_you_effect": [
       {
         "id": "void_claws",
@@ -29,5 +30,28 @@
         "npc_message": "%1$s's attacks seems to have an afterimage of shadowy claws striking behind them about a half a second."
       }
     ]
+  },
+  {
+    "id": "dark_eye",
+    "type": "body_part",
+    "name": "dark eye",
+    "name_multiple": "dark eyes",
+    "heading": "dark eye",
+    "heading_multiple": "dark eyes",
+    "encumbrance_text": "",
+    "hit_size": 0,
+    "heal_bonus": 15,
+    "mend_rate": 100,
+    "drench_capacity": 4,
+    "main_part": "dark_eye",
+    "hit_difficulty": 0.8,
+    "limb_type": "tail",
+    "limb_scores": [ [ "night_vis", 20 ] ],
+    "opposite_part": "dark_eye",
+    "side": "both",
+    "connected_to": "head",
+    "accusative": { "ctxt": "bodypart_accusative", "str": "dark eye" },
+    "hp_bar_ui_text": "dark eye",
+    "base_hp": 20
   }
 ]

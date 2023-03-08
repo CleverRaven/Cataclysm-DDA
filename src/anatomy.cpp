@@ -245,7 +245,6 @@ bodypart_id anatomy::select_body_part( int min_hit, int max_hit, bool can_attack
     return *ret;
 }
 
-
 bodypart_id anatomy::select_blocking_part( const Creature *blocker, bool arm, bool leg,
         bool nonstandard ) const
 {

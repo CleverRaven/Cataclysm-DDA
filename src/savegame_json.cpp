@@ -147,8 +147,6 @@ static const itype_id itype_usb_drive( "usb_drive" );
 
 static const matype_id style_none( "style_none" );
 
-static const relic_procgen_id relic_procgen_data_cult( "cult" );
-
 static const skill_id skill_chemistry( "chemistry" );
 
 static const ter_str_id ter_t_ash( "t_ash" );
@@ -159,8 +157,6 @@ static const ter_str_id ter_t_rubble( "t_rubble" );
 static const ter_str_id ter_t_wreckage( "t_wreckage" );
 
 static const vpart_id vpart_turret_mount( "turret_mount" );
-static const vproto_id vehicle_prototype_bicycle( "bicycle" );
-static const vproto_id vehicle_prototype_bicycle_folding( "bicycle_folding" );
 
 static const std::array<std::string, static_cast<size_t>( object_type::NUM_OBJECT_TYPES )>
 obj_type_name = { { "OBJECT_NONE", "OBJECT_ITEM", "OBJECT_ACTOR", "OBJECT_PLAYER",
@@ -227,7 +223,6 @@ void item_contents::serialize( JsonOut &json ) const
         json.member( "contents", contents );
         json.member( "additional_pockets", additional_pockets );
 
-
         json.end_object();
     }
 }
@@ -246,7 +241,6 @@ void item_pocket::serialize( JsonOut &json ) const
     json.member( "pocket_type", data->type );
     json.member( "contents", contents );
     json.member( "_sealed", _sealed );
-    json.member( "allowed", allowed );
     if( !this->settings.is_null() ) {
         json.member( "favorite_settings", this->settings );
     }
@@ -262,7 +256,6 @@ void item_pocket::deserialize( const JsonObject &data )
     _saved_type = static_cast<item_pocket::pocket_type>( saved_type_int );
     data.read( "_sealed", _sealed );
     _saved_sealed = _sealed;
-    data.read( "allowed", allowed );
     if( data.has_member( "favorite_settings" ) ) {
         data.read( "favorite_settings", this->settings );
     } else {
@@ -273,6 +266,7 @@ void item_pocket::deserialize( const JsonObject &data )
 void item_pocket::favorite_settings::serialize( JsonOut &json ) const
 {
     json.start_object();
+    json.member( "name", preset_name );
     json.member( "priority", priority_rating );
     json.member( "item_whitelist", item_whitelist );
     json.member( "item_blacklist", item_blacklist );
@@ -287,6 +281,9 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
 void item_pocket::favorite_settings::deserialize( const JsonObject &data )
 {
     data.allow_omitted_members();
+    if( data.has_member( "name" ) ) {
+        data.read( "name", preset_name );
+    }
     data.read( "priority", priority_rating );
     data.read( "item_whitelist", item_whitelist );
     data.read( "item_blacklist", item_blacklist );
@@ -727,17 +724,6 @@ void Character::load( const JsonObject &data )
     data.read( "stashed_outbounds_activity", stashed_outbounds_activity );
     data.read( "stashed_outbounds_backlog", stashed_outbounds_backlog );
 
-    if( data.has_array( "backlog" ) ) {
-        data.read( "backlog", backlog );
-    }
-    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
-            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
-                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
-        requirement_data fetch_reqs;
-        data.read( "fetch_data", fetch_reqs );
-        const requirement_id req_id( backlog.front().str_values.back() );
-        requirement_data::save_requirement( fetch_reqs, req_id );
-    }
     // npc activity on vehicles.
     data.read( "activity_vehicle_part_index", activity_vehicle_part_index );
     // health
@@ -848,6 +834,10 @@ void Character::load( const JsonObject &data )
     recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
+    my_bionics->erase( std::remove_if( my_bionics->begin(), my_bionics->end(),
+    []( const bionic & it ) {
+        return it.id.is_null(); // remove obsoleted bionics
+    } ), my_bionics->end() );
 
     data.read( "known_monsters", known_monsters );
 
@@ -1106,6 +1096,18 @@ void Character::load( const JsonObject &data )
     }
 
     data.read( "activity", activity );
+    if( data.has_array( "backlog" ) ) {
+        data.read( "backlog", backlog );
+    }
+    if( !backlog.empty() && !backlog.front().str_values.empty() && ( ( activity &&
+            activity.id() == ACT_FETCH_REQUIRED ) || ( destination_activity &&
+                    destination_activity.id() == ACT_FETCH_REQUIRED ) ) ) {
+        requirement_data fetch_reqs;
+        data.read( "fetch_data", fetch_reqs );
+        const requirement_id req_id( backlog.front().str_values.back() );
+        requirement_data::save_requirement( fetch_reqs, req_id );
+    }
+
     data.read( "addictions", addictions );
 
     for( bionic &bio : *my_bionics ) {
@@ -1434,7 +1436,6 @@ void Character::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-
 
     // energy
     json.member( "last_sleep_check", last_sleep_check );
@@ -2674,7 +2675,7 @@ void monster::load( const JsonObject &data )
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
     data.read( "fish_population", fish_population );
-    data.read( "lifespan_end ", lifespan_end );
+    data.read( "lifespan_end", lifespan_end );
     //for older saves convert summon time limit to lifespan end
     cata::optional<time_duration> summon_time_limit;
     data.read( "summon_time_limit", summon_time_limit );
@@ -3012,7 +3013,6 @@ void item::io( Archive &archive )
         specific_energy /= 100000;
     }
 
-
     // erase all invalid flags (not defined in flags.json)
     // warning was generated earlier on load
     erase_if( item_tags, [&]( const flag_id & f ) {
@@ -3062,9 +3062,16 @@ void item::io( Archive &archive )
         }
     }
 
-    // Remove stored translated gerund in favor of storing the inscription tool type
-    item_vars.erase( "item_label_type" );
-    item_vars.erase( "item_note_type" );
+    static const std::set<std::string> removed_item_vars = {
+        // Searchlight monster setting vars
+        "SL_PREFER_UP", "SL_PREFER_DOWN", "SL_PREFER_RIGHT", "SL_PREFER_LEFT", "SL_SPOT_X", "SL_SPOT_Y", "SL_POWER", "SL_DIR",
+        // Remove stored translated gerund in favor of storing the inscription tool type
+        "item_label_type", "item_note_type"
+    };
+
+    for( const std::string &var : removed_item_vars ) {
+        item_vars.erase( var );
+    }
 
     current_phase = static_cast<phase_id>( cur_phase );
     // override phase if frozen, needed for legacy save
@@ -3154,24 +3161,6 @@ void item::deserialize( const JsonObject &data )
         contents = item_contents( type->pockets );
     }
 
-    // Remove after 0.F: artifact migration code
-    if( typeId().str().substr( 0, 9 ) == "artifact_" ) {
-        relic_procgen_data::generation_rules rules;
-        rules.max_attributes = 5;
-        rules.max_negative_power = -1000;
-        rules.power_level = 2000;
-
-        item_contents temp_migrate( contents );
-
-        *this = relic_procgen_data_cult->create_item( rules );
-
-        if( !temp_migrate.empty() ) {
-            for( const item *it : temp_migrate.all_items_top() ) {
-                contents.insert_item( *it, item_pocket::pocket_type::MIGRATION );
-            }
-        }
-    }
-
     // FIXME: batch_size migration from charges - remove after 0.G
     if( is_craft() && craft_data_->batch_size <= 0 ) {
         craft_data_->batch_size = clamp( charges, 1, charges );
@@ -3186,22 +3175,12 @@ void item::deserialize( const JsonObject &data )
         }
     }
 
+    update_inherited_flags();
     on_damage_changed();
 }
 
 void item::serialize( JsonOut &json ) const
 {
-    // Remove after 0.F: artifact migration code
-    if( typeId().str().substr( 0, 9 ) == "artifact_" ) {
-        relic_procgen_data::generation_rules rules;
-        rules.max_attributes = 5;
-        rules.max_negative_power = -1000;
-        rules.power_level = 2000;
-
-        relic_procgen_data_cult->create_item( rules ).serialize( json );
-        return;
-    }
-
     // Skip the serialization check because this is forwarding serialization to
     // another function
     // CATA_DO_NOT_CHECK_SERIALIZE
@@ -3262,22 +3241,6 @@ void vehicle_part::deserialize( const JsonObject &data )
         }
         precalc[0].z = z_offset;
         precalc[1].z = z_offset;
-    }
-
-    // load legacy bike rack data
-    JsonArray ja = data.get_array( "carry" );
-    // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
-    static constexpr int name_offset = 7;
-    for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
-        const std::string raw = ja.get_string( index );
-        const bool migrate_x_axis = raw[0] == 'X';
-        const int mount_offset = std::stoi( raw.substr( 1, 3 ) );
-        carried_stack.push( {
-            tripoint( mount_offset, 0, 0 ),
-            units::from_degrees( std::stoi( raw.substr( 4, 3 ) ) ),
-            raw.substr( name_offset ),
-            migrate_x_axis,
-        } );
     }
 
     // load new bike rack data
@@ -3554,28 +3517,6 @@ void vehicle::deserialize( const JsonObject &data )
     } else {
         // Compatibility with 0.F
         // It is a small and not important number so just ignore it.
-    }
-
-    // TODO: Remove after enough time passes for save games to migrate.
-    // This migrates old "convertible" vehicles to new generic "folding" ones
-    if( has_tag( "convertible" ) ) {
-        // remove tags starting from "convertible"
-        for( auto it = tags.begin(); it != tags.end(); ) {
-            if( it->rfind( "convertible", 0 ) == 0 ) {
-                it = tags.erase( it );
-            } else {
-                ++it;
-            }
-        }
-
-        // Special case convertible folding bicycles as they had non-foldable parts
-        // as part of their vehicle prototype. Other in-tree "convertibles"
-        // (wheelchair, inflatable boat) can just have their tags removed as their
-        // vehicles were made from foldable parts already
-        if( type == vehicle_prototype_bicycle ) {
-            type = vehicle_prototype_bicycle_folding;
-            parts = type.obj().blueprint->parts;
-        }
     }
 
     refresh();
@@ -4687,6 +4628,19 @@ void stats_tracker::deserialize( const JsonObject &jo )
     jo.read( "initial_scores", initial_scores );
 }
 
+namespace
+{
+
+void _write_rle_terrain( JsonOut &jsout, std::string const &ter, int num )
+{
+    jsout.start_array();
+    jsout.write( ter );
+    jsout.write( num );
+    jsout.end_array();
+}
+
+} // namespace
+
 void submap::store( JsonOut &jsout ) const
 {
     jsout.member( "turn_last_touched", last_touched );
@@ -4696,12 +4650,17 @@ void submap::store( JsonOut &jsout ) const
     // this feature but the algorithm is backward compatible.
     jsout.member( "terrain" );
     jsout.start_array();
+    if( is_uniform() ) {
+        _write_rle_terrain( jsout, uniform_ter.id().str(), SEEX * SEEY );
+        jsout.end_array();
+        return;
+    }
     std::string last_id;
     int num_same = 1;
     for( int j = 0; j < SEEY; j++ ) {
         // NOLINTNEXTLINE(modernize-loop-convert)
         for( int i = 0; i < SEEX; i++ ) {
-            const std::string this_id = ter[i][j].obj().id.str();
+            const std::string this_id = m->ter[i][j].obj().id.str();
             if( !last_id.empty() ) {
                 if( this_id == last_id ) {
                     num_same++;
@@ -4710,10 +4669,7 @@ void submap::store( JsonOut &jsout ) const
                         // if there's only one element don't write as an array
                         jsout.write( last_id );
                     } else {
-                        jsout.start_array();
-                        jsout.write( last_id );
-                        jsout.write( num_same );
-                        jsout.end_array();
+                        _write_rle_terrain( jsout, last_id, num_same );
                         num_same = 1;
                     }
                     last_id = this_id;
@@ -4781,12 +4737,12 @@ void submap::store( JsonOut &jsout ) const
     jsout.start_array();
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
-            if( itm[i][j].empty() ) {
+            if( m->itm[i][j].empty() ) {
                 continue;
             }
             jsout.write( i );
             jsout.write( j );
-            jsout.write( itm[i][j] );
+            jsout.write( m->itm[i][j] );
         }
     }
     jsout.end_array();
@@ -4814,11 +4770,11 @@ void submap::store( JsonOut &jsout ) const
     for( int j = 0; j < SEEY; j++ ) {
         for( int i = 0; i < SEEX; i++ ) {
             // Save fields
-            if( fld[i][j].field_count() > 0 ) {
+            if( m->fld[i][j].field_count() > 0 ) {
                 jsout.write( i );
                 jsout.write( j );
                 jsout.start_array();
-                for( const auto &elem : fld[i][j] ) {
+                for( const auto &elem : m->fld[i][j] ) {
                     const field_entry &cur = elem.second;
                     jsout.write( cur.get_field_type().id() );
                     jsout.write( cur.get_field_intensity() );
@@ -4908,6 +4864,7 @@ void submap::store( JsonOut &jsout ) const
 
 void submap::load( const JsonValue &jv, const std::string &member_name, int version )
 {
+    ensure_nonuniform();
     bool rubpow_update = version < 22;
     if( member_name == "turn_last_touched" ) {
         last_touched = time_point( jv.get_int() );
@@ -4925,26 +4882,26 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     const ter_str_id tid( terrain_json.next_string() );
 
                     if( tid == ter_t_rubble ) {
-                        ter[i][j] = ter_id( "t_dirt" );
-                        frn[i][j] = furn_id( "f_rubble" );
-                        itm[i][j].insert( rock );
-                        itm[i][j].insert( rock );
+                        m->ter[i][j] = ter_id( "t_dirt" );
+                        m->frn[i][j] = furn_id( "f_rubble" );
+                        m->itm[i][j].insert( rock );
+                        m->itm[i][j].insert( rock );
                     } else if( tid == ter_t_wreckage ) {
-                        ter[i][j] = ter_id( "t_dirt" );
-                        frn[i][j] = furn_id( "f_wreckage" );
-                        itm[i][j].insert( chunk );
-                        itm[i][j].insert( chunk );
+                        m->ter[i][j] = ter_id( "t_dirt" );
+                        m->frn[i][j] = furn_id( "f_wreckage" );
+                        m->itm[i][j].insert( chunk );
+                        m->itm[i][j].insert( chunk );
                     } else if( tid == ter_t_ash ) {
-                        ter[i][j] = ter_id( "t_dirt" );
-                        frn[i][j] = furn_id( "f_ash" );
+                        m->ter[i][j] = ter_id( "t_dirt" );
+                        m->frn[i][j] = furn_id( "f_ash" );
                     } else if( tid == ter_t_pwr_sb_support_l ) {
-                        ter[i][j] = ter_id( "t_support_l" );
+                        m->ter[i][j] = ter_id( "t_support_l" );
                     } else if( tid == ter_t_pwr_sb_switchgear_l ) {
-                        ter[i][j] = ter_id( "t_switchgear_l" );
+                        m->ter[i][j] = ter_id( "t_switchgear_l" );
                     } else if( tid == ter_t_pwr_sb_switchgear_s ) {
-                        ter[i][j] = ter_id( "t_switchgear_s" );
+                        m->ter[i][j] = ter_id( "t_switchgear_s" );
                     } else {
-                        ter[i][j] = tid.id();
+                        m->ter[i][j] = tid.id();
                     }
                 }
             }
@@ -4972,7 +4929,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     } else {
                         --remaining;
                     }
-                    ter[i][j] = iid;
+                    m->ter[i][j] = iid;
                 }
             }
             if( remaining ) {
@@ -4997,7 +4954,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
         for( JsonArray furniture_entry : furniture_json ) {
             int i = furniture_entry.next_int();
             int j = furniture_entry.next_int();
-            frn[i][j] = furn_id( furniture_entry.next_string() );
+            m->frn[i][j] = furn_id( furniture_entry.next_string() );
             if( furniture_entry.size() > 3 ) {
                 furniture_entry.throw_error( "Too many values for furniture entry." );
             }
@@ -5009,17 +4966,15 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             int j = items_json.next_int();
             const point p( i, j );
 
-            if( !items_json.next_value().read( itm[p.x][p.y], false ) ) {
+            if( !items_json.next_value().read( m->itm[p.x][p.y], false ) ) {
                 debugmsg( "Items array is corrupt in submap at: %s, skipping", p.to_string() );
             }
             // some portion could've been read even if error occurred
-            for( item &it : itm[p.x][p.y] ) {
+            for( item &it : m->itm[p.x][p.y] ) {
                 if( it.is_emissive() ) {
                     update_lum_add( p, it );
                 }
-                if( it.needs_processing() ) {
-                    active_items.add( it, p );
-                }
+                active_items.add( it, p );
                 if( savegame_loading_version < 33 ) {
                     // remove after 0.F
                     migrate_item_charges( it );
@@ -5034,7 +4989,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
             const point p( i, j );
             // TODO: jsin should support returning an id like jsin.get_id<trap>()
             const trap_str_id trid( trap_entry.next_string() );
-            trp[p.x][p.y] = trid.id();
+            m->trp[p.x][p.y] = trid.id();
             if( trap_entry.size() > 3 ) {
                 trap_entry.throw_error( "Too many values for trap entry" );
             }
@@ -5064,7 +5019,7 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                 } else {
                     ft = field_types::get_field_type_by_legacy_enum( type_int ).id;
                 }
-                if( fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) ) ) {
+                if( m->fld[i][j].add_field( ft, intensity, time_duration::from_turns( age ) ) ) {
                     field_count++;
                 }
             }

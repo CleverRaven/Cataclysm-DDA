@@ -134,7 +134,7 @@ class monster : public Creature
 
         static std::string speed_description( float mon_speed_rating,
                                               bool immobile = false,
-                                              speed_description_id speed_desc = speed_description_id::NULL_ID() );
+                                              const speed_description_id &speed_desc = speed_description_id::NULL_ID() );
 
         // Access
         std::string get_name() const override;
@@ -327,8 +327,8 @@ class monster : public Creature
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
-        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
+        void make_bleed( const effect_source &source, time_duration duration,
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
 
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
                                      damage_instance &dam ) override;
@@ -539,6 +539,8 @@ class monster : public Creature
         int fish_population = 1;
 
         short ignoring = 0;
+        bool aggro_character = true;
+
         cata::optional<time_point> lastseen_turn;
 
         // Stair data.
@@ -605,8 +607,6 @@ class monster : public Creature
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_point> lifespan_end = cata::nullopt;
         int turns_since_target = 0;
-
-        bool aggro_character = true;
 
         Character *find_dragged_foe();
         void nursebot_operate( Character *dragged_foe );

@@ -36,7 +36,6 @@ namespace catacurses
 class window;
 } // namespace catacurses
 
-
 namespace overmap_ui
 {
 void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,

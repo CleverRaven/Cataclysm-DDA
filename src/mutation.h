@@ -114,7 +114,6 @@ struct trait_and_var {
     trait_and_var() = default;
     trait_and_var( const trait_id &t, const std::string &v ) : trait( t ), variant( v ) {}
 
-
     void deserialize( const JsonValue &jv );
     void serialize( JsonOut &jsout ) const;
 
@@ -202,7 +201,7 @@ struct mutation_branch {
         int bodytemp_sleep = 0;
         // Healing per turn
         cata::optional<float> healing_awake = cata::nullopt;
-        cata::optional<float> healing_resting = cata::nullopt;
+        cata::optional<float> healing_multiplier = cata::nullopt;
         // Limb mending bonus
         cata::optional<float> mending_modifier = cata::nullopt;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
@@ -233,7 +232,6 @@ struct mutation_branch {
         float scent_modifier = 1.0f;
         cata::optional<int> scent_intensity;
         cata::optional<int> scent_mask;
-        int bleed_resist = 0;
 
         int butchering_quality = 0;
 
@@ -389,6 +387,9 @@ struct mutation_branch {
         // Body parts that now need OVERSIZE gear
         std::set<bodypart_str_id> restricts_gear;
         std::set<sub_bodypart_str_id> restricts_gear_subparts;
+        // Body parts that will now already have rigid gear
+        std::set<bodypart_str_id> remove_rigid;
+        std::set<sub_bodypart_str_id> remove_rigid_subparts;
         // item flags that allow wearing gear even if its body part is restricted
         std::set<flag_id> allowed_items;
         // Mutation stat mods
@@ -429,6 +430,10 @@ struct mutation_branch {
          * Returns true if a character with this mutation shouldn't be able to wear given item.
          */
         bool conflicts_with_item( const item &it ) const;
+        /**
+         * Returns true if a character with this mutation has to take off rigid items at the location.
+         */
+        bool conflicts_with_item_rigid( const item &it ) const;
         /**
          * Returns damage resistance on a given body part granted by this mutation.
          */

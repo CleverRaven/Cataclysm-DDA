@@ -475,6 +475,17 @@ void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
     bionic_factory.load( jo, src );
 }
 
+std::map<bionic_id, bionic_id> bionic_data::migrations;
+
+void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string & )
+{
+    const bionic_id from( jo.get_string( "from" ) );
+    const bionic_id to = jo.has_string( "to" )
+                         ? bionic_id( jo.get_string( "to" ) )
+                         : bionic_id::NULL_ID();
+    migrations.emplace( from, to );
+}
+
 const std::vector<bionic_data> &bionic_data::get_all()
 {
     return bionic_factory.get_all();
@@ -520,11 +531,14 @@ void bionic_data::check_bionic_consistency()
                           bio.id.c_str(), pseudo.c_str() );
             }
         }
-
+        for( const trait_id &mid : bio.mutation_conflicts ) {
+            if( !mid.is_valid() ) {
+                debugmsg( "Bionic %s conflicts with undefined mutation %s", bio.id.c_str(), mid.c_str() );
+            }
+        }
         for( const trait_id &mid : bio.canceled_mutations ) {
             if( !mid.is_valid() ) {
-                debugmsg( "Bionic %s cancels undefined mutation %s",
-                          bio.id.c_str(), mid.c_str() );
+                debugmsg( "Bionic %s cancels undefined mutation %s", bio.id.c_str(), mid.c_str() );
             }
         }
         for( const enchantment_id &eid : bio.id->enchantments ) {
@@ -811,6 +825,13 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         get_wielded_item()->invlet = '#';
         weapon_bionic_uid = bio.get_uid();
     } else if( bio.id == bio_evap ) {
+        if( player_character.is_underwater() ) {
+            add_msg_if_player( m_info,
+                               _( "There's a lot of water around you already, no need to use your %s." ), bio.info().name );
+            bio.powered = false;
+            return false;
+        }
+
         add_msg_activate();
         const w_point weatherPoint = *get_weather().weather_precise;
         int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
@@ -1168,13 +1189,12 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
 
         const std::vector<bionic_id> &deactivated_bionics = bio.info().autodeactivated_bionics;
         if( !deactivated_bionics.empty() ) {
-            for( bionic &bio : *my_bionics ) {
+            for( bionic &it : *my_bionics ) {
                 if( std::find( deactivated_bionics.begin(), deactivated_bionics.end(),
-                               bio.id ) != deactivated_bionics.end() ) {
-                    if( bio.powered ) {
-                        bio.powered = false;
-                        add_msg_if_player( m_info, _( "Your %s automatically turn off." ),
-                                           bio.info().name );
+                               it.id ) != deactivated_bionics.end() ) {
+                    if( it.powered ) {
+                        it.powered = false;
+                        add_msg_if_player( m_info, _( "Your %s automatically turn off." ), it.info().name );
                     }
                 }
             }
@@ -1707,6 +1727,12 @@ void Character::process_bionic( bionic &bio )
             remove_effect( effect_asthma );
         }
     } else if( bio.id == bio_evap ) {
+        if( is_underwater() ) {
+            add_msg_if_player( m_info,
+                               _( "Your %s deactivates after it finds itself completely submerged in water." ), bio.info().name );
+            deactivate_bionic( bio );
+        }
+
         // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
@@ -2132,10 +2158,9 @@ bool Character::uninstall_bionic( const bionic &bio, Character &installer, bool 
     int chance_of_success = bionic_success_chance( autodoc, skill_level, difficulty + 2, installer );
 
     // Surgery is imminent, retract claws or blade if active
-    for( size_t i = 0; i < installer.my_bionics->size(); i++ ) {
-        bionic &bio = ( *installer.my_bionics )[ i ];
-        if( bio.powered && bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
-            installer.deactivate_bionic( bio );
+    for( bionic &it : *installer.my_bionics ) {
+        if( it.powered && it.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
+            installer.deactivate_bionic( it );
         }
     }
 
@@ -2193,8 +2218,6 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         cbm.set_flag( flag_NO_PACKED );
         cbm.faults.emplace( fault_bionic_salvaged );
         here.add_item( pos(), cbm );
-
-        invalidate_pseudo_items();
     } else {
         get_event_bus().send<event_type::fails_to_remove_cbm>( getID(), bio.id );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -2260,11 +2283,11 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
             add_msg( m_mixed, _( "Successfully removed %s." ), bio.info().name );
         }
 
-        patient.remove_bionic( bio );
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bio.info().itype() ) ) {
             cbm = bionic_to_uninstall;
         }
+        patient.remove_bionic( bio );
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
@@ -2277,9 +2300,8 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
     return false;
 }
 
-ret_val<void> Character::is_installable( const item_location &loc, const bool by_autodoc ) const
+ret_val<void> Character::is_installable( const item *it, const bool by_autodoc ) const
 {
-    const item *it = loc.get_item();
     const itype *itemtype = it->type;
     const bionic_id &bid = itemtype->bionic->id;
 
@@ -2748,7 +2770,7 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
         spell &known_spell = magic->get_spell( learned_spell );
         // spells you learn from installing a bionic upgrade spells you know if they are the same
         if( known_spell.get_level() < spell_pair.second ) {
-            known_spell.set_level( spell_pair.second );
+            known_spell.set_level( *this, spell_pair.second );
         }
     }
 
@@ -2849,6 +2871,7 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
+    invalidate_pseudo_items();
     update_bionic_power_capacity();
     calc_encumbrance();
     recalc_sight_limits();
@@ -2875,6 +2898,7 @@ void Character::clear_bionics()
 
 void reset_bionics()
 {
+    bionic_data::migrations.clear();
     faulty_bionics.clear();
     bionic_factory.reset();
 }
@@ -3088,9 +3112,33 @@ void bionic::serialize( JsonOut &json ) const
     json.end_object();
 }
 
+static bionic_id migrate_bionic_id( const bionic_id &original )
+{
+    bionic_id bid = original;
+
+    // limit up to 10 migrations per bionic (guard in case of accidental loops)
+    for( int i = 0; i < 10; i++ ) {
+        const auto &migration_it = bionic_data::migrations.find( bid );
+        if( migration_it == bionic_data::migrations.cend() ) {
+            break;
+        }
+        bid = migration_it->second;
+    }
+
+    if( bid != original ) {
+        DebugLog( D_WARNING, D_MAIN ) << "Migrating bionic with id " << original.str() << " to " <<
+                                      bid.str();
+    }
+
+    return bid;
+}
+
 void bionic::deserialize( const JsonObject &jo )
 {
-    id = bionic_id( jo.get_string( "id" ) );
+    id = migrate_bionic_id( bionic_id( jo.get_string( "id" ) ) );
+    if( id.is_null() ) {
+        return; // obsoleted bionic
+    }
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
 
@@ -3100,7 +3148,6 @@ void bionic::deserialize( const JsonObject &jo )
     } else {
         jo.read( "charge_timer", charge_timer );
     }
-
 
     if( jo.has_int( "incapacitated_time" ) ) {
         incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );

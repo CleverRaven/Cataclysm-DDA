@@ -49,7 +49,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "result": "metal_tank",
     "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "20 m",
@@ -64,7 +64,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "result": "metal_tank_little",
     "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
+    "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "20 m",
@@ -76,7 +76,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "sheet_metal_small", 3 ] ] ]
+    "components": [ [ [ "sheet_metal_small", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -109,26 +109,12 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "jerrycan_big",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_CONTAINERS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "30 m",
-    "autolearn": true,
-    "using": [ [ "cordage", 1 ] ],
-    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "metal_tank", 1 ] ], [ [ "scrap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
-    "result": "jerrycan_big",
     "id_suffix": "welder",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "difficulty": 2,
-    "time": "20 m",
+    "time": "30 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ] ],
     "proficiencies": [
@@ -137,7 +123,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "sheet_metal_small", 8 ], [ "scrap", 40 ] ] ]
+    "components": [ [ [ "sheet_metal", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -293,7 +279,7 @@
     "difficulty": 8,
     "time": "7 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 16 ] ],
+    "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 20 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
@@ -308,7 +294,7 @@
     "difficulty": 8,
     "time": "4 h 20 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 40 ], [ "steel_standard", 10 ] ],
+    "using": [ [ "blacksmithing_standard", 31 ], [ "steel_standard", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ]
   },
@@ -329,7 +315,7 @@
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "sheet_metal", 3 ], [ "sheet_metal_small", 72 ] ] ]
+    "components": [ [ [ "sheet_metal", 4 ], [ "sheet_metal_small", 80 ] ] ]
   },
   {
     "type": "recipe",
@@ -348,7 +334,7 @@
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 48 ] ] ]
+    "components": [ [ [ "sheet_metal", 2 ], [ "sheet_metal_small", 32 ] ] ]
   },
   {
     "type": "recipe",
@@ -1227,7 +1213,7 @@
     "using": [ [ "blacksmithing_standard", 40 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "components": [ [ [ "scrap_aluminum", 120 ], [ "material_aluminium_ingot", 10 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 52 ], [ "material_aluminium_ingot", 4 ] ] ]
   },
   {
     "type": "recipe",

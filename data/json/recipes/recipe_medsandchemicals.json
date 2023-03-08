@@ -619,11 +619,7 @@
     "using": [ [ "sewing_standard", 1 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [
-      [ [ "cotton_patchwork", 1 ], [ "bag_plastic", 1 ], [ "heatpack_used", 1 ] ],
-      [ [ "oxy_powder", 5 ] ],
-      [ [ "scrap", 1 ] ]
-    ]
+    "components": [ [ [ "bag_plastic", 1 ], [ "heatpack_used", 1 ] ], [ [ "oxy_powder", 5 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -859,7 +855,7 @@
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [
       [ [ "electrolysis_kit", 500 ] ],
-      [ [ "welder", 100 ], [ "welder_crude", 150 ] ],
+      [ [ "welder", 100 ], [ "welding_kit", 100 ], [ "welder_crude", 150 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ],
     "components": [ [ [ "salt_water", 4 ] ], [ [ "water_clean", 1 ] ] ]
@@ -1093,7 +1089,7 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "chem_black_powder",
-    "id_suffix": "sulpherless",
+    "id_suffix": "sulfurless",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_COMPONENTS",
     "skill_used": "chemistry",
@@ -1217,7 +1213,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "splinter", 40 ], [ "2x4", 12 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
+    "components": [ [ [ "splinter", 55 ] ], [ [ "water", 50 ], [ "water_clean", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -1420,6 +1416,7 @@
   },
   {
     "result": "chem_zinc_powder",
+    "id_suffix": "with_carbon",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_CHEM",
@@ -1807,5 +1804,43 @@
     ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "components": [ [ [ "chem_turpentine", 50 ] ], [ [ "chem_ethanol", 150 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "cac2powder",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "autolearn": true,
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "//0": "Ultimately, cac2powder premix feeds into CaO + 3 C -> CaC2 + CO",
+    "//1": "105g quicklime = 1.8724 moles of CaO (1.8724×3 = 5.6172)",
+    "//2": "75g anthracite coal @ ~90% carbon = 5.620 moles C",
+    "//3": "If no losses, this mix is equivalent to 1.8724 moles of CaC2; but make this grinding process a bit lossy",
+    "charges": 175,
+    "components": [ [ [ "coal_lump", 2 ] ], [ [ "material_quicklime", 7 ] ] ]
+  },
+  {
+    "result": "chem_carbide",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_CHEMICALS",
+    "//": "electric arc furnace smelting, cooling, then grinding",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "60 m",
+    "//1": "multiple batches worth can be smelted and cooled at once, but grinding time dominates",
+    "batch_time_factors": [ 25, 2 ],
+    "//2": "some loss/waste, e.g. imperfect smelting; powder escaping",
+    "charges": 95,
+    "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
+    "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
+    "//3": "460kJ per mole @ 70% energy efficiency",
+    "tools": [ [ [ "fake_arc_furnace", 650 ] ] ],
+    "components": [ [ [ "cac2powder", 100 ] ] ]
   }
 ]

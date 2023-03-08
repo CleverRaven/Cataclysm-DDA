@@ -1707,7 +1707,6 @@ static std::string windows_version()
             }
         }
 
-
         RegCloseKey( handle_key );
     }
 

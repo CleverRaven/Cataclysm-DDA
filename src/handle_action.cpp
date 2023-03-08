@@ -160,7 +160,6 @@ static const zone_type_id zone_type_zone_disassemble( "zone_disassemble" );
 static const zone_type_id zone_type_zone_strip( "zone_strip" );
 static const zone_type_id zone_type_zone_unload_all( "zone_unload_all" );
 
-
 static const std::string flag_CANT_DRAG( "CANT_DRAG" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -838,7 +837,7 @@ static void smash()
     const bash_params bash_result = here.bash( smashp, smashskill, false, false, smash_floor );
     // Weariness scaling
     float weary_mult = 1.0f;
-    item_location weapon = player_character.get_wielded_item();
+    item_location weapon = player_character.used_weapon();
     if( bash_result.did_bash ) {
         if( !mech_smash ) {
             player_character.set_activity_level( MODERATE_EXERCISE );
@@ -925,11 +924,21 @@ static void wait()
     bool setting_alarm = false;
     map &here = get_map();
 
-    if( player_character.controlling_vehicle &&
-        ( here.veh_at( player_character.pos() )->vehicle().velocity ||
-          here.veh_at( player_character.pos() )->vehicle().cruise_velocity ) ) {
-        popup( _( "You can't pass time while controlling a moving vehicle." ) );
-        return;
+    if( player_character.controlling_vehicle ) {
+        const vehicle &veh = here.veh_at( player_character.pos() )->vehicle();
+        if( !veh.can_use_rails() && (   // control optional if on rails
+                veh.is_flying_in_air() ||   // control required: fuel is consumed even at hover
+                veh.is_falling ||           // *not* vertical_velocity, which is only used for collisions
+                veh.velocity ||             // is moving
+                ( veh.cruise_velocity && (  // would move if it could
+                      ( veh.is_watercraft() && veh.can_float() ) || // is viable watercraft floating on water
+                      veh.sufficient_wheel_config() // is viable land vehicle on ground or fording shallow water
+                  ) ) ||
+                ( veh.is_in_water( true ) && !veh.can_float() ) // is sinking in deep water
+            ) ) {
+            popup( _( "You can't pass time while controlling a moving vehicle." ) );
+            return;
+        }
     }
 
     if( player_character.has_alarm_clock() ) {
@@ -966,8 +975,8 @@ static void wait()
 
     } else {
         if( player_character.get_stamina() < player_character.get_stamina_max() ) {
-            as_m.addentry( 12, true, 'w', _( "Wait until you catch your breath" ) );
-            durations.emplace( 12, 15_minutes ); // to hide it from showing
+            as_m.addentry( 14, true, 'w', _( "Wait until you catch your breath" ) );
+            durations.emplace( 14, 15_minutes ); // to hide it from showing
         }
         add_menu_item( 1, '1', !has_watch ? _( "Wait 20 heartbeats" ) : "", 20_seconds );
         add_menu_item( 2, '2', !has_watch ? _( "Wait 60 heartbeats" ) : "", 1_minutes );
@@ -1029,7 +1038,7 @@ static void wait()
     if( setting_alarm ) {
         // Setting alarm
         player_character.remove_effect( effect_alarm_clock );
-        if( as_m.ret == 11 ) {
+        if( as_m.ret == 13 ) {
             add_msg( _( "You cancel your alarm." ) );
         } else {
             player_character.add_effect( effect_alarm_clock, time_to_wait );
@@ -1039,9 +1048,9 @@ static void wait()
     } else {
         // Waiting
         activity_id actType;
-        if( as_m.ret == 11 ) {
+        if( as_m.ret == 13 ) {
             actType = ACT_WAIT_WEATHER;
-        } else if( as_m.ret == 12 ) {
+        } else if( as_m.ret == 14 ) {
             actType = ACT_WAIT_STAMINA;
         } else {
             actType = ACT_WAIT;
@@ -1654,7 +1663,8 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
             distraction_type::talked_to,
             distraction_type::asthma,
             distraction_type::motion_alarm,
-            distraction_type::weather_change
+            distraction_type::weather_change,
+            distraction_type::mutation
         };
         for( const distraction_type ignored : ignored_distractions ) {
             spell_act.ignore_distraction( ignored );
@@ -1698,7 +1708,7 @@ void game::open_consume_item_menu()
             avatar_action::eat( player_character, game_menus::inv::consume_drink( player_character ) );
             break;
         case 2:
-            avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
+            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds( player_character ) );
             break;
         default:
             break;
@@ -2217,7 +2227,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_EAT:
             if( !avatar_action::eat_here( player_character ) ) {
-                avatar_action::eat( player_character, game_menus::inv::consume( player_character ) );
+                avatar_action::eat_or_use( player_character, game_menus::inv::consume( player_character ) );
             }
             break;
 
@@ -2764,8 +2774,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             handle_debug_mode();
             break;
 
-        case ACTION_DISPLAY_ISO_WALLS:
-            get_options().get_option( "RETRACT_ISO_WALLS" ).setNext();
+        case ACTION_TOGGLE_PREVENT_OCCLUSION:
+            get_options().get_option( "PREVENT_OCCLUSION" ).setNext();
             get_options().save();
             break;
 

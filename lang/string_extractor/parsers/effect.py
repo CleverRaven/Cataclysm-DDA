@@ -18,3 +18,10 @@ def parse_effect(effects, origin):
                     continue
                 write_text(eff["u_message"], origin,
                            comment="Message about the player in an effect")
+            if "run_eocs" in eff:
+                if type(eff["run_eocs"]) is list:
+                    for eoc in eff["run_eocs"]:
+                        if "false_effect" in eoc:
+                            parse_effect(eoc["false_effect"], origin)
+                        elif "effect" in eoc:
+                            parse_effect(eoc["effect"], origin)

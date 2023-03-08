@@ -107,7 +107,7 @@ struct islot_tool {
     int charge_factor = 1;
     int charges_per_use = 0;
     int turns_per_charge = 0;
-    units::energy power_draw = 0_J;
+    units::power power_draw = 0_W;
 
     std::vector<int> rand_charges;
 };
@@ -305,7 +305,6 @@ struct armor_portion_data {
     cata::optional<body_part_set> covers;
 
     std::set<sub_bodypart_str_id> sub_coverage;
-
 
     // What layer does it cover if any
     std::set<layer_level> layers;
@@ -559,6 +558,7 @@ struct islot_book {
     std::vector<book_proficiency_bonus> proficiencies;
 
     bool was_loaded = false;
+    bool is_scannable = false;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
@@ -1222,6 +1222,8 @@ struct itype {
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
 
+        // used for corpses placed by mapgen
+        mtype_id source_monster = mtype_id::NULL_ID();
     private:
         FlagsSetType item_tags;
 
@@ -1411,12 +1413,5 @@ struct itype {
 
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
 void load_charge_migration_blacklist( const JsonObject &jo, const std::string &src );
-// can be removed once all known bad items got fixed
-class known_bad_density
-{
-    public:
-        static std::set<itype_id> known_bad;
-        static void load( const JsonObject &jo );
-};
 
 #endif // CATA_SRC_ITYPE_H

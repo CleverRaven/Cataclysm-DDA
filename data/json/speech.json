@@ -2024,7 +2024,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"You have right to remain silent!\"",
+    "sound": "\"You have the right to remain silent!\"",
     "volume": 15
   },
   {
@@ -2229,7 +2229,7 @@
   {
     "type": "speech",
     "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Foodplace: Don’t get caught in the web of unsafe diet.\"",
+    "sound": "\"Foodplace: Don’t get caught in the web of an unsafe diet.\"",
     "volume": 15
   },
   {
@@ -2734,6 +2734,18 @@
     "type": "speech",
     "speaker": [ "mon_feral_granny" ],
     "sound": "\"That's my purse!  I don't know you!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "sound": "crackling sounds.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "sound": "high-pitched hum.",
     "volume": 20
   }
 ]

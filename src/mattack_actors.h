@@ -30,8 +30,12 @@ class leap_actor : public mattack_actor
         float min_range = 0.0f;
         // Don't leap without a hostile target creature
         bool allow_no_target = false;
+        // Always leap, even when already adjacent to target
+        bool prefer_leap = false;
+        // Leap completely randomly regardless of target distance/direction
+        bool random_leap = false;
         int move_cost = 0;
-        // Range below which we don't consider jumping at all
+        // Range to target below which we don't consider jumping at all
         float min_consider_range = 0.0f;
         // Don't jump if distance to target is more than this
         float max_consider_range = 0.0f;
@@ -41,6 +45,9 @@ class leap_actor : public mattack_actor
         std::vector<efftype_id> forbidden_effects_all;
         std::vector<efftype_id> required_effects_any;
         std::vector<efftype_id> required_effects_all;
+        std::vector<mon_effect_data> self_effects;
+
+        translation message;
 
         leap_actor() = default;
         ~leap_actor() override = default;

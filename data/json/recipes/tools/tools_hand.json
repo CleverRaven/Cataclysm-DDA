@@ -371,6 +371,26 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "needle_steel",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 minutes",
+    "autolearn": true,
+    "using": [ [ "forging_standard", 1 ] ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "wrench",
     "category": "CC_OTHER",
@@ -648,7 +668,7 @@
     "difficulty": 6,
     "time": "6 h",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
+    "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 1 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -657,7 +677,7 @@
     ],
     "book_learn": [ [ "textbook_fabrication", 4 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
     "type": "recipe",

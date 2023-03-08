@@ -42,7 +42,7 @@ This mod is still work-in-progress, but a basic set of 21 new Pleistocene-era an
 **domesticated replacements**
 *Usage* (modern analogue): MEGAFAUNA replacement
 
-*meat/leather production* (pigs) = flat headed peccaries (sligthly smaller, but otherwise sameish use).
+*meat/leather production* (pigs) = flat headed peccaries (slightly smaller, but otherwise sameish use).
 
 *wool* (sheep) = mammoths, if you are brave enough. otherwise bison, camelops, oxen, giant sloth, mayfields goat, and muskox [WIP].
 
@@ -81,7 +81,7 @@ Possibly also some birds (Titanis/Paracrax/Aiolornis, Auk), if evidence exists a
 
 Add new monsters to monster groups/implement spawn:
 - tweak spawn rates [done]
-- consider if spawns should occour in specific types of region (meaning, costum moster groups apart from "forest") [done]
+- consider if spawns should occur in specific types of region (meaning, custom monster groups apart from "forest") [done]
 - extra: make "family" monstergroups that spawn adults and juveniles together in the appropriate season
 
 
@@ -92,7 +92,7 @@ Add new monsters to monster groups/implement spawn:
 - tweak speed and sizes: 
     -> f.e., panthera atrox apparently bigger than smilodon?
     -> giant short faced bear might have been quite fast due to characteristically long limbs
-    -> dire wolf might have been slower than modern wolves due to shorter limbs(theorized that scavanger more than hunter)
+    -> dire wolf might have been slower than modern wolves due to shorter limbs(theorized that scavenger more than hunter)
 - tweak reproduction data (gestation times, grow-up-times etc)
 - add weakpoints
 - flesh out behaviour (like scent_tracked)

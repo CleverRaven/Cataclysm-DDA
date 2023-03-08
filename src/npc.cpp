@@ -85,7 +85,6 @@
 #include "vpart_range.h"
 #include "name.h"
 
-
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
@@ -151,6 +150,7 @@ static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_MUTE( "MUTE" );
+static const trait_id trait_NO_BASH( "NO_BASH" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -297,8 +297,6 @@ void npc_template::load( const JsonObject &jsobj )
         } else {
             tem.gender_override = gender::female;
         }
-    } else {
-        tem.gender_override = gender::random;
     }
     if( jsobj.has_string( "faction" ) ) {
         guy.set_fac_id( jsobj.get_string( "faction" ) );
@@ -740,8 +738,6 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.snip_give_carry_too_heavy = tguy.chatbin.snip_give_carry_too_heavy;
     chatbin.snip_wear = tguy.chatbin.snip_wear;
 
-    set_base_age( tguy.base_age() );
-    set_base_height( tguy.base_height() );
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
@@ -881,9 +877,12 @@ void npc::randomize( const npc_class_id &type )
         this->magic->learn_spell( spell_pair.first, *this, true );
         spell &sp = this->magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
-            sp.gain_level();
+            sp.gain_level( *this );
         }
     }
+
+    set_base_age( rng( 18, 55 ) );
+    randomize_height();
 
     // Add eocs
     effect_on_conditions::load_new_character( *this );
@@ -1978,12 +1977,10 @@ bool npc::wants_to_sell( const item_location &it ) const
     if( !it->is_owned_by( *this ) ) {
         return false;
     }
-    const int market_price = it->price( true );
-    return wants_to_sell( it, value( *it, market_price ), market_price ).success();
+    return wants_to_sell( it, value( *it ) ).success();
 }
 
-ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
-                                  int /*market_price*/ ) const
+ret_val<void> npc::wants_to_sell( const item_location &it, int at_price ) const
 {
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
@@ -2013,12 +2010,15 @@ ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
 
 bool npc::wants_to_buy( const item &it ) const
 {
-    const int market_price = it.price( true );
-    return wants_to_buy( it, value( it, market_price ), market_price ).success();
+    return wants_to_buy( it, value( it ) ).success();
 }
 
-ret_val<void> npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
 {
+    if( it.has_flag( flag_DANGEROUS ) || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        return ret_val<void>::make_failure();
+    }
+
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
     }
@@ -2027,7 +2027,7 @@ ret_val<void> npc::wants_to_buy( const item &it, int at_price, int /*market_pric
         return ret_val<void>::make_failure( _( "<npcname> will never buy this" ) );
     }
 
-    if( mission != NPC_MISSION_SHOPKEEP && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
+    if( !is_shopkeeper() && has_trait( trait_SQUEAMISH ) && it.is_filthy() ) {
         return ret_val<void>::make_failure( _( "<npcname> will not buy filthy items" ) );
     }
 
@@ -2101,17 +2101,17 @@ int npc::max_willing_to_owe() const
 
 void npc::shop_restock()
 {
-    // NPCs refresh every week, since the last time you checked in
+    // Shops restock once every restock_interval
     time_duration const elapsed =
         restock != calendar::turn_zero ? calendar::turn - restock : 0_days;
     if( ( restock != calendar::turn_zero ) && ( elapsed < 0_days ) ) {
         return;
     }
 
-    restock = calendar::turn + myclass->get_shop_restock_interval();
-    if( is_player_ally() ) {
+    if( is_player_ally() || !is_shopkeeper() ) {
         return;
     }
+    restock = calendar::turn + myclass->get_shop_restock_interval();
 
     std::vector<item_group_id> rigid_groups;
     std::vector<item_group_id> value_groups;
@@ -2129,7 +2129,7 @@ void npc::shop_restock()
     int shop_value = 75000;
     if( my_fac ) {
         shop_value = my_fac->wealth * 0.0075;
-        if( mission == NPC_MISSION_SHOPKEEP && !my_fac->currency.is_empty() ) {
+        if( !my_fac->currency.is_empty() ) {
             item my_currency( my_fac->currency );
             if( !my_currency.is_null() ) {
                 my_currency.set_owner( *this );
@@ -2180,17 +2180,14 @@ void npc::shop_restock()
         }
     }
 
-    if( mission == NPC_MISSION_SHOPKEEP ) {
-        add_fallback_zone( *this );
-        consume_items_in_zones( *this, elapsed );
-        distribute_items_to_npc_zones( ret, *this );
-    } else {
-        for( const item &i : ret ) {
-            i_add( i, true, nullptr, nullptr, true, false );
-        }
-        DebugLog( DebugLevel::D_WARNING, DebugClass::D_GAME )
-                << "shop_restock() called on NPC who is not a shopkeeper " << name;
-    }
+    add_fallback_zone( *this );
+    consume_items_in_zones( *this, elapsed );
+    distribute_items_to_npc_zones( ret, *this );
+}
+
+bool npc::is_shopkeeper() const
+{
+    return !is_player_ally() && !myclass->get_shopkeeper_items().empty();
 }
 
 int npc::minimum_item_value() const
@@ -2213,17 +2210,17 @@ void npc::update_worst_item_value()
 
 double npc::value( const item &it ) const
 {
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        return -1000;
+    }
+
     int market_price = it.price( true );
     return value( it, market_price );
 }
 
 double npc::value( const item &it, double market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
-        // NPCs won't be interested in buying active explosives
-        return -1000;
-    }
-    if( mission == NPC_MISSION_SHOPKEEP ||
+    if( is_shopkeeper() ||
         // faction currency trades at market price
         ( my_fac != nullptr && my_fac->currency == it.typeId() ) ) {
         return market_price;
@@ -3423,6 +3420,9 @@ const pathfinding_settings &npc::get_pathfinding_settings() const
 const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) const
 {
     path_settings->bash_strength = no_bashing ? 0 : smash_ability();
+    if( has_trait( trait_NO_BASH ) ) {
+        path_settings->bash_strength = 0;
+    }
     // TODO: Extract climb skill
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
@@ -3889,6 +3889,16 @@ std::string npc::get_current_activity() const
         return current_activity_id.obj().verb().translated();
     } else {
         return _( "nothing" );
+    }
+}
+
+void npc::update_missions_target( character_id old_character, character_id new_character )
+{
+    for( ::mission *&temp : chatbin.missions_assigned ) {
+        if( temp->get_assigned_player_id() == old_character ||
+            temp->get_assigned_player_id() == character_id( - 1 ) ) {
+            temp->set_assigned_player_id( new_character );
+        }
     }
 }
 
