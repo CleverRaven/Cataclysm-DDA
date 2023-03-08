@@ -4,13 +4,46 @@
     "id": "exodii_cleaner",
     "//": "Cleaning lady and music fan from another Ethiopia.",
     "name_suffix": "Cyborg",
-    "class": "NC_EXODII_TYPE_1_Cleaner",
+    "class": "NC_EXODII_TYPE_2_Cleaner",
     "name_unique": "Luliya",
     "attitude": 0,
     "mission": 0,
     "chat": "TALK_EXODII_CLEANER",
     "faction": "exodii",
     "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_EXODII_TYPE_2_Cleaner",
+    "name": { "str": "Cyborg, type 2" },
+    "job_description": "I'm a cleaning cyborg.",
+    "traits": [ { "trait": "EXODII_BODY_2" } ],
+    "common": false,
+    "bonus_str": { "rng": [ 0, 6 ] },
+    "bonus_dex": { "rng": [ 0, 6 ] },
+    "bonus_int": { "rng": [ 0, 2 ] },
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "carry_override": "NC_EXODII_TYPE_2_carried",
+    "worn_override": "EMPTY_GROUP",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": 0 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 7, 10 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 5, 8 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_EXODII_TYPE_2_carried",
+    "//": "Broom for Luliya.",
+    "items": [ { "item": "broom" } ]
   },
   {
     "type": "talk_topic",
