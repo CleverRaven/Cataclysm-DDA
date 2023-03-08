@@ -150,7 +150,7 @@
     "dispersion": 800,
     "durability": 4,
     "min_cycle_recoil": 450,
-	"faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ],
 	"blackpowder_tolerance": 96,
 	"reload": 300,
