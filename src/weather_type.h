@@ -109,6 +109,8 @@ struct weather_type {
         weather_animation_t weather_animation;
         // if playing sound effects what to use
         weather_sound_category sound_category = weather_sound_category::silent;
+        // if multiple weather conditions are true the higher load order wins
+        int load_order = 0;
         // when this weather should happen
         std::function<bool( const dialogue & )> condition;
         std::vector<weather_type_id> required_weathers;
@@ -126,8 +128,6 @@ struct weather_type {
 };
 namespace weather_types
 {
-/** Get all currently loaded weather types */
-const std::vector<weather_type> &get_all();
 /** Finalize all loaded weather types */
 void finalize_all();
 /** Clear all loaded weather types (invalidating any pointers) */

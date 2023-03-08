@@ -195,9 +195,7 @@ weather_type_id weather_generator::get_weather_conditions( const w_point &w ) co
 
     weather_type_id current_conditions = WEATHER_CLEAR;
     dialogue d( get_talker_for( get_avatar() ), nullptr );
-    for( const std::string &weather_type : weather_types ) {
-        weather_type_id type = weather_type_id( weather_type );
-
+    for( const weather_type_id &type : sorted_weather ) {
         bool required_weather = type->required_weathers.empty();
         if( !required_weather ) {
             for( const weather_type_id &weather : type->required_weathers ) {
@@ -331,9 +329,10 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.summer_humidity_manual_mod = jo.get_int( "summer_humidity_manual_mod", 0 );
     ret.autumn_humidity_manual_mod = jo.get_int( "autumn_humidity_manual_mod", 0 );
     ret.winter_humidity_manual_mod = jo.get_int( "winter_humidity_manual_mod", 0 );
-    ret.weather_types = jo.get_string_array( "weather_types" );
-    if( ret.weather_types.size() < 2 ) {
-        jo.throw_error( "Need at least 2 weather types per region for null and default." );
+    ret.weather_black_list = jo.get_string_array( "weather_black_list" );
+    ret.weather_white_list = jo.get_string_array( "weather_white_list" );
+    if( !ret.weather_black_list.empty() && !ret.weather_white_list.empty() ) {
+        jo.throw_error( "weather_black_list and weather_white_list are mutually exclusive" );
     }
     return ret;
 }

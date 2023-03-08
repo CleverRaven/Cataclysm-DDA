@@ -8,6 +8,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
+#include <weather.h>
 
 namespace
 {
@@ -110,6 +111,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
+    mandatory( jo, was_loaded, "load_order", load_order );
     optional( jo, was_loaded, "sun_multiplier", sun_multiplier, 1.f );
 
     mandatory( jo, was_loaded, "sound_attn", sound_attn );
@@ -148,14 +150,24 @@ void weather_types::reset()
 void weather_types::finalize_all()
 {
     weather_type_factory.finalize();
+    weather_generator cur_weather = get_weather().get_cur_weather_gen();
     for( const weather_type &wt : weather_type_factory.get_all() ) {
         const_cast<weather_type &>( wt ).finalize();
+        // if we have a white list, only add those, if we have a black list, add all but those
+        if( cur_weather.weather_white_list.empty() ) {
+            if( std::find( cur_weather.weather_black_list.begin(), cur_weather.weather_black_list.end(),
+                           wt.id.c_str() ) == cur_weather.weather_black_list.end() ) {
+                cur_weather.sorted_weather.push_back( wt.id );
+            }
+        } else if( std::find( cur_weather.weather_white_list.begin(), cur_weather.weather_white_list.end(),
+                              wt.id.c_str() ) != cur_weather.weather_white_list.end() ) {
+            cur_weather.sorted_weather.push_back( wt.id );
+        }
     }
-}
-
-const std::vector<weather_type> &weather_types::get_all()
-{
-    return weather_type_factory.get_all();
+    sort( cur_weather.sorted_weather.begin(), cur_weather.sorted_weather.end(), []( const weather_type_id & a,
+    const weather_type_id & b ) {
+        return a->load_order < b->load_order;
+    } );
 }
 
 void weather_types::check_consistency()

@@ -79,11 +79,9 @@ bool is_creature_outside( const Creature &target )
 weather_type_id get_bad_weather()
 {
     weather_type_id bad_weather = WEATHER_NULL;
-    const weather_generator &weather_gen = get_weather().get_cur_weather_gen();
-    for( const std::string &weather_type : weather_gen.weather_types ) {
-        weather_type_id current_conditions = weather_type_id( weather_type );
-        if( current_conditions->precip == precip_class::heavy ) {
-            bad_weather = current_conditions;
+    for( const weather_type_id &weather_type : get_weather().get_cur_weather_gen().sorted_weather ) {
+        if( weather_type->precip == precip_class::heavy ) {
+            bad_weather = weather_type;
         }
     }
     return bad_weather;

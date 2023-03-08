@@ -47,7 +47,10 @@ class weather_generator
         //How much the wind follows seasonal variation ( lower means more change )
         int base_wind_season_variation = 0;
         static int current_winddir;
-        std::vector<std::string> weather_types;
+        std::vector<std::string> weather_black_list;
+        std::vector<std::string> weather_white_list;
+        /** All the current weather types based on white or black list and sorted by load order */
+        std::vector<weather_type_id> sorted_weather;
         weather_generator();
 
         /**

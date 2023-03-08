@@ -26,8 +26,10 @@ Each weather type is a type of weather that occurs, and what causes it. The only
 | `duration_min`                 | Optional, the lower bound on the amount of time this weather can last. Defaults to 5 minutes.
 | `duration_max`                 | Optional, the upper bound on the amount of time this weather can last. Defaults to 5 minutes.
 | `weather_animation`            | Optional, Information controlling weather animations.  Members: factor, color and glyph |
-|	`required_weathers`          | A string array of possible weathers, it is at this point in the loop. i.e. rain can only happen if the conditions for clouds light drizzle or drizzle are present |
 | `condition`                  | A dialog condition to determine if this weather is happening.  See Dialogue conditions section of [NPCs](NPCs.md)
+| `load_order`                  | An integer.  If the condition of multiple weather types are true the higher load order wins
+|	`required_weathers`          | A string array of possible weathers, it is at this point in the loop. i.e. rain can only happen if the conditions for clouds light drizzle or drizzle are present.  Required weathers need to have lower load orders to be  |
+
 
 #### `weather_type` example
 
@@ -49,6 +51,7 @@ Each weather type is a type of weather that occurs, and what causes it. The only
     "rains": true,
     "acidic": false,
     "required_weathers": [ "thunder" ],
+    "load_order": 80,
     "condition": { "not": { "is_pressure": 990 } }
   }
 ]
