@@ -1324,6 +1324,6 @@
     "flags": [ "FREEZERBURN" ],
     "charges": 4,
     "vitamins": [ [ "iron", 2 ] ],
-    "fun": -1
+    "fun": 2
   }
 ]
