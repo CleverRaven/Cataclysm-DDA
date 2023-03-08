@@ -7709,22 +7709,6 @@
     "components": [ [ [ "steel_lump", 7 ], [ "steel_chunk", 2 ] ] ]
   }
   {
-    "result": "meat",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "20 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "meat_scrap", 10 ] ] ]
-  },
-  {
-    "result": "meat",
-    "type": "uncraft",
-    "activity_level": "NO_EXERCISE",
-    "time": "20 s",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "meat_scrap", 10 ] ] ]
-  },
-  {
     "result": "fish",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
