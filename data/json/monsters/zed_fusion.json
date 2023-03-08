@@ -124,7 +124,7 @@
     "death_function": {
       "message": "The creature grows sluggish before freezing in place for a moment.  Suddenly its flesh turns black and recedes to coat the central figure, which reaches out towards you before collapsing into a pinprick of shimmering air.  Torn uniforms and other gear tumble to the ground.",
       "corpse_type": "NO_CORPSE",
-      "effect": { "id": "death_portal", "hit_self": true, "min_level": 1 }
+      "effect": { "id": "mtf_death", "hit_self": true, "min_level": 1 }
     },
     "death_drops": "mon_devourer_lab_sec_death_drops",
     "regenerates": 2,
