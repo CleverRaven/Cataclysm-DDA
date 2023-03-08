@@ -12827,13 +12827,11 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
 void item::reset_cable( Character *p, item *parent_item )
 {
-    int max_charges = type->maximum_charges();
-
     set_var( "state", "attach_first" );
     erase_var( "source_x" );
     erase_var( "source_y" );
     erase_var( "source_z" );
-    charges = max_charges;
+    charges = get_var( "cable_length", type->maximum_charges() );
 
     if( p != nullptr ) {
         p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
