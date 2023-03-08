@@ -93,7 +93,7 @@
         "text": "I saw you sweeping the floor.  <You point at Luliya and the broom and make a motion with your arms like sweeping.>  Do you clean?  Can you clean things?",
         "condition": {
           "and": [
-            { "condition": { "u_has_var": "u_luliya_name", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "u_luliya_name", "type": "general", "context": "meeting", "value": "yes" },
             {
               "u_compare_time_since_var": "u_met_luliya",
               "type": "test",
