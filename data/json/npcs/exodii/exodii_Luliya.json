@@ -257,8 +257,8 @@
     "dynamic_line": "<You perform on your musical instrument with everything you have, giving a strong performance.  Luliya sways and begins to sing along.  Her voice is beautiful, she sounds like she has had some formal voice training.>",
     "speaker_effect": { "effect": { "u_add_var": "u_jammed_luliya", "type": "general", "context": "music", "value": "yes" } },
     "responses": [
-      { "text": "Fun, thank you for singing with me Luliya.", "effect": { "u_add_morale": 5 }, "topic": "TALK_LULIYA" },
-      { "text": "Fun, thank you.  Anyway I have to go.", "effect": { "u_add_morale": 5 }, "topic": "TALK_DONE" }
+      { "text": "Fun, thank you for singing with me Luliya.", "effect": [ { "u_add_morale": 5 } ], "topic": "TALK_LULIYA" },
+      { "text": "Fun, thank you.  Anyway I have to go.", "effect": [ { "u_add_morale": 5 } ], "topic": "TALK_DONE" }
     ]
   },
   {
