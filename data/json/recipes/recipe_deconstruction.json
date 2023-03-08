@@ -7707,7 +7707,7 @@
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "steel_lump", 7 ], [ "steel_chunk", 2 ] ] ]
-  }
+  },
   {
     "result": "fish",
     "type": "uncraft",
