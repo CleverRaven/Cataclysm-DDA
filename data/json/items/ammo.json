@@ -1250,21 +1250,6 @@
   },
   {
     "type": "AMMO",
-    "id": "unfinished_cac2",
-    "category": "spare_parts",
-    "price": 0,
-    "price_postapoc": 0,
-    "name": { "str_sp": "unfinished calcium carbide" },
-    "symbol": "=",
-    "color": "white",
-    "description": "The result of an incomplete process of converting coal and lime into calcium carbide.  Useless in this state.",
-    "material": [ "cac2powder" ],
-    "volume": "250 ml",
-    "weight": "300 g",
-    "ammo_type": "unfinished_cac2"
-  },
-  {
-    "type": "AMMO",
     "id": "lamellae_lc",
     "category": "spare_parts",
     "name": { "str_sp": "low steel lamellae" },
