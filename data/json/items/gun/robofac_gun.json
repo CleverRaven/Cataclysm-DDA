@@ -91,15 +91,7 @@
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
     ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "xedra40",
-          "xedra10"
-        ]
-      }
-    ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xedra40", "xedra10" ] } ]
   },
   {
     "id": "robofac_gun_ar",

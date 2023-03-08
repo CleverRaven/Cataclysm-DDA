@@ -500,11 +500,17 @@
     "id": "xedra_gun",
     "items": [
       {
-        "collection": [ { "item": "xedra_gun", "prob": 100, "charges": 0, "contents-item": "xedra_gun_ar" }, { "group": "field_xedra_rifle" } ],
+        "collection": [
+          { "item": "xedra_gun", "prob": 100, "charges": 0, "contents-item": "xedra_gun_ar" },
+          { "group": "field_xedra_rifle" }
+        ],
         "prob": 50
       },
       {
-        "collection": [ { "item": "xedra_gun", "prob": 100, "charges": 0, "contents-item": "xedra_gun_shotgun" }, { "group": "field_xedra_shotgun" } ],
+        "collection": [
+          { "item": "xedra_gun", "prob": 100, "charges": 0, "contents-item": "xedra_gun_shotgun" },
+          { "group": "field_xedra_shotgun" }
+        ],
         "prob": 50
       }
     ]
@@ -535,7 +541,6 @@
       { "group": "xedra_gun" },
       { "group": "cop_melee" },
       { "group": "cop_holster_field" }
-
     ]
   },
   {

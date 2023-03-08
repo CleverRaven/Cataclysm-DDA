@@ -714,12 +714,7 @@
     },
     "examine_action": {
       "type": "effect_on_condition",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_HAUNTING_WARN",
-          "effect": [ { "open_dialogue": { "topic": "TALK_XEDRA_MERC_MAIN" } } ]
-        }
-      ]
+      "effect_on_conditions": [ { "id": "EOC_HAUNTING_WARN", "effect": [ { "open_dialogue": { "topic": "TALK_XEDRA_MERC_MAIN" } } ] } ]
     }
   },
   {

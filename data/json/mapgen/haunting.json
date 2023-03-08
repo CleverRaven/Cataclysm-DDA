@@ -12,7 +12,12 @@
   {
     "type": "ter_furn_transform",
     "id": "merc_darkness_transform_walls",
-    "terrain": [ { "result": [ "t_nether_glass_floor", [ "t_nether_glass_wall", 2 ] ], "valid_terrain": [ "t_wall_glass", "t_concrete_wall" ] } ]
+    "terrain": [
+      {
+        "result": [ "t_nether_glass_floor", [ "t_nether_glass_wall", 2 ] ],
+        "valid_terrain": [ "t_wall_glass", "t_concrete_wall" ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -58,9 +63,16 @@
         "target_var": { "global_val": "MERC_LOC" },
         "false_eocs": [ "EOC_HAUNTING_SPAWN" ]
       },
-        { "u_transform_radius": 20, "target_var": { "global_val": "MERC_LOC" }, "ter_furn_transform": "merc_darkness_transform" },
-        { "u_transform_radius": 20, "target_var": { "global_val": "MERC_LOC" }, "ter_furn_transform": "merc_darkness_transform_walls" }
-
+      {
+        "u_transform_radius": 20,
+        "target_var": { "global_val": "MERC_LOC" },
+        "ter_furn_transform": "merc_darkness_transform"
+      },
+      {
+        "u_transform_radius": 20,
+        "target_var": { "global_val": "MERC_LOC" },
+        "ter_furn_transform": "merc_darkness_transform_walls"
+      }
     ]
   },
   {
@@ -77,28 +89,13 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_conjure_hand",
-    "effect": {
-      "u_spawn_monster": "mon_giant_appendage",
-      "real_count": 1,
-      "hallucination_count": 3,
-      "outdoor_only": false,
-      "min_radius": 3,
-      "max_radius": 20,
-      "lifespan": [ "5 seconds", "45 seconds" ],
-      "spawn_message": "A gigantic limb tears its way into reality.",
-      "spawn_message_plural": "Gigantic limbs tear their way into reality around you."
-    }
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_conjure_memories",
     "effect": {
       "u_spawn_monster": "mon_memory",
       "real_count": 10,
       "hallucination_count": 10,
       "outdoor_only": false,
-      "lifespan": [ "5 seconds", "2 minutes" ],
+      "lifespan": [ "5 seconds", "30 seconds" ],
       "spawn_message": "A flickering silhouette appears nearby.",
       "spawn_message_plural": "Human silhouettes appear and surround you."
     }
