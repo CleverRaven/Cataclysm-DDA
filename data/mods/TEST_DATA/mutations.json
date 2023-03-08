@@ -319,6 +319,14 @@
     "wip": true
   },
   {
+    "type": "mutation",
+    "id": "THRESH_TEST_REMOVAL",
+    "name": { "str": "Test threshold mutations" },
+    "points": 0,
+    "valid": true,
+    "description": "Test threshold for removal test"
+  },
+  {
     "id": "mutagen_test_removal",
     "type": "vitamin",
     "vit_type": "counter",
@@ -326,6 +334,16 @@
     "min": 0,
     "max": 2500,
     "rate": "1 h"
+  },
+  {
+    "type": "mutation",
+    "id": "TEST_REMOVAL_0",
+    "name": { "str": "Removal test zeroth (non-purifiable)" },
+    "points": 1,
+    "valid": false,
+    "purifiable": false,
+    "description": "Test mutation for the starting trait removal test",
+    "category": [ "INST_TEST" ]
   },
   {
     "type": "mutation",
@@ -342,7 +360,7 @@
     "name": { "str": "Removal test second" },
     "points": 1,
     "valid": true,
-    "cancels": [ "TEST_REMOVAL_1" ],
+    "cancels": [ "TEST_REMOVAL_1", "TEST_REMOVAL_0" ],
     "description": "Test good mutation for startin trait removal test",
     "category": [ "REMOVAL_TEST" ]
   }

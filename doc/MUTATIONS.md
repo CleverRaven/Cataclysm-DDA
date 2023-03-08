@@ -89,6 +89,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "id": "LIGHTEATER",                         // Unique ID.
   "name": "Optimist",                         // In-game name displayed.
   "points": 2,                                // Point cost of the trait.  Positive values cost points and negative values give points.
+  "vitamin_cost"                              // Category vitamin cost of gaining this trait (default: 100)
   "visibility": 0,                            // Visibility of the trait for purposes of NPC interaction (default: 0).
   "ugliness": 0,                              // Ugliness of the trait for purposes of NPC interaction (default: 0).
   "cut_dmg_bonus": 3,                         // Bonus to unarmed cut damage (default: 0).
