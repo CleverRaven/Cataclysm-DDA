@@ -152,14 +152,8 @@
     "min_cycle_recoil": 450,
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ],
-	"blackpowder_tolerance": 96,
-	"reload": 300,
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE",
-        "rigid": true,
-        "ammo_restriction": { "flintlock": 6 }
-      }
-    ]
+    "blackpowder_tolerance": 96,
+    "reload": 300,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "flintlock": 6 } } ]
   }
 ]
