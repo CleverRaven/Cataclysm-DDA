@@ -127,5 +127,39 @@
     "price_postapoc": 2500,
     "relative": { "range": 2 },
     "proportional": { "dispersion": 0.5, "reload": 1.1 }
+  },
+  {
+    "id": "pepperbox_revolver",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": { "str_sp": "pepperbox revolver" },
+    "description": "A crude pepperbox revolver made out of scrap.",
+    "weight": "850 g",
+    "volume": "300 ml",
+    "longest_side": "100 mm",
+    "price": 25000,
+    "price_postapoc": 2500,
+    "to_hit": -2,
+    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
+    "bashing": 4,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": [ "flintlock" ],
+    "range": 6,
+    "dispersion": 800,
+    "durability": 4,
+    "min_cycle_recoil": 450,
+	"faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
+    "flags": [ "RELOAD_ONE" ],
+	"blackpowder_tolerance": 96,
+	"reload": 300,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "ammo_restriction": { "flintlock": 6 }
+      }
+    ]
   }
 ]
