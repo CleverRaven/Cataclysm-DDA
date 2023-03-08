@@ -1587,7 +1587,7 @@
       {
         "id": "xedra_machete",
         "name": { "str": "hazardous environment blade" },
-        "description": "This black tempered steel bushcrafting machete has been reinforced for use in exotic environments.  \"HE Blade\" is engraved in the steel.",
+        "description": "This black tempered steel bushcraft machete has been reinforced for use in exotic environments.  \"HE Blade\" is engraved in the steel.",
         "color": "dark_gray",
         "weight": 0,
         "append": false
