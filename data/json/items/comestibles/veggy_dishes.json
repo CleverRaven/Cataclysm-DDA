@@ -1314,7 +1314,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": 3,
-    "calories": 48,
+    "calories": 85,
     "description": "Chopped tomatoes, spices, and any number of other vegetables, used as a condiment in Mexican food.  Not so good on its own, but great in a dish.",
     "price": 200,
     "price_postapoc": 100,
