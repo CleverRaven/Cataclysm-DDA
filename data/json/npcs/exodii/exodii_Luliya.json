@@ -7,7 +7,7 @@
     "class": "NC_EXODII_TYPE_1_Cleaner",
     "name_unique": "Luliya",
     "attitude": 0,
-    "mission": 3,
+    "mission": 0,
     "chat": "TALK_EXODII_CLEANER",
     "faction": "exodii",
     "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
