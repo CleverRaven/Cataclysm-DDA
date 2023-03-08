@@ -6522,14 +6522,12 @@ void vehicle::invalidate_towing( bool first_vehicle )
     if( !is_towing() && !is_towed() ) {
         return;
     }
-    vehicle *other_veh = nullptr;
-    if( is_towing() ) {
-        other_veh = tow_data.get_towed();
-    } else if( is_towed() ) {
-        other_veh = tow_data.get_towed_by();
-    }
-    if( other_veh && first_vehicle ) {
-        other_veh->invalidate_towing();
+    if( first_vehicle ) {
+        vehicle *other_veh = is_towing() ? tow_data.get_towed() :
+                             is_towed() ? tow_data.get_towed_by() : nullptr;
+        if( other_veh ) {
+            other_veh->invalidate_towing();
+        }
     }
     map &here = get_map();
     for( const vpart_reference &vp : get_all_parts() ) {
