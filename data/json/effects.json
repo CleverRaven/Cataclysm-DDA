@@ -1700,6 +1700,7 @@
     "desc": [ "The sun is in your eyes." ],
     "apply_message": "The sunlight's glare makes it hard to see.",
     "rating": "bad",
+    "max_duration": "1 m",
     "base_mods": { "per_mod": [ -1 ] },
     "//": "No night vision for you",
     "limb_score_mods": [

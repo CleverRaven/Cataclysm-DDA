@@ -841,8 +841,6 @@ Effect | Description
 `assign_guard` | Makes the NPC into a guard.  If allied and at a camp, they will be assigned to that camp.
 `stop_guard` | Releases the NPC from their guard duty (also see `assign_guard`).  Friendly NPCs will return to following.
 `start_camp` | The NPC will start a faction camp with the player.
-`recover_camp` | Makes the NPC the overseer of an existing camp that doesn't have an overseer.
-`remove_overseer` | Makes the NPC stop being an overseer, abandoning the faction camp.
 `wake_up` | Wakes up sleeping, but not sedated, NPCs.
 `reveal_stats` | Reveals the NPC's stats, based on the player's skill at assessing them.
 `end_conversation` | Ends the conversation and makes the NPC ignore you from now on.
@@ -917,9 +915,9 @@ Effect | Description
 #### Sample effects
 ```json
 { "topic": "TALK_EVAC_GUARD3_HOSTILE", "effect": [ { "u_faction_rep": -15 }, { "npc_change_faction": "hells_raiders" } ] }
-{ "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_EVAC_MERCHANT" },
-{ "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": { "companion_mission": "FACTION_CAMP" } }
-{ "text": "Do you like it?", "topic": "TALK_CAMP_OVERSEER", "effect": [ { "u_add_effect": "concerned", "duration": 600 }, { "npc_add_effect": "touched", "duration": 3600 }, { "u_add_effect": "empathetic", "duration": "PERMANENT" } ] }
+{ "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_EVAC_MERCHANT" }
+{ "text": "Show me what needs to be done at the camp.", "topic": "TALK_DONE", "effect": "basecamp_mission", "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" } }
+{ "text": "Do you like it?", "topic": "TALK_EXAMPLE", "effect": [ { "u_add_effect": "concerned", "duration": 600 }, { "npc_add_effect": "touched", "duration": 3600 }, { "u_add_effect": "empathetic", "duration": "PERMANENT" } ] }
 ```
 
 ---

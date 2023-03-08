@@ -286,10 +286,16 @@ item::item() : bday( calendar::start_of_cataclysm )
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
-    corpse = has_flag( flag_CORPSE ) ? &type->source_monster.obj() : nullptr;
     contents = item_contents( type->pockets );
     item_counter = type->countdown_interval;
     item_vars = type->item_variables;
+
+    if( has_flag( flag_CORPSE ) ) {
+        corpse = &type->source_monster.obj();
+        if( !type->source_monster.is_null() && !type->source_monster->zombify_into.is_empty() ) {
+            set_var( "zombie_form", type->source_monster->zombify_into.c_str() );
+        }
+    }
 
     if( qty >= 0 ) {
         charges = qty;
@@ -6725,7 +6731,7 @@ std::string item::display_name( unsigned int quantity ) const
 
     if( amount || show_amt ) {
         if( is_money() ) {
-            amt = format_money( amount );
+            amt = " " + format_money( amount );
         } else {
             if( !ammotext.empty() ) {
                 ammotext = " " + ammotext;

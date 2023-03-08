@@ -1231,6 +1231,8 @@ heatsink
 heatsinks
 heear
 heelys
+helipad
+helipads
 hellmouth
 helpdesk
 hematite
@@ -1560,6 +1562,7 @@ loadouts
 loamy
 lobotomizer
 lockpick
+lockpickers
 lockpicking
 longarm
 longear
@@ -1739,6 +1742,7 @@ mosasaurus
 mostlike
 mostravam
 motorpool
+motorsports
 mountable
 mouthgear
 mouthpart
@@ -1858,6 +1862,7 @@ nonrevealing
 nonromantic
 nonsedated
 nonstandard
+nonuniform
 nonverbally
 noone
 nopal
@@ -2409,6 +2414,8 @@ scruffs
 scutcher
 scutellosaurus
 scuttles
+sealab
+sealabs
 sealable
 seater
 secretively
@@ -2789,6 +2796,7 @@ transp
 transpositions
 transuranic
 trapezoidal
+travelogue
 travelpack
 traversal
 travois
@@ -3062,6 +3070,7 @@ woodlouse
 woodsmanship
 woom
 woosh
+workarounds
 workcycle
 workshifts
 worldgen
