@@ -79,7 +79,6 @@
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 42, "into_group": "GROUP_FERROUS_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",

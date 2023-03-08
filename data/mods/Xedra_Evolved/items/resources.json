@@ -20,7 +20,7 @@
     "type": "AMMO",
     "category": "spare_parts",
     "name": { "str": "scrap dreamdross", "str_pl": "scraps of dreamdross" },
-    "description": "A bulky assortment of small bits of scrap dreamdross useful in all kinds of crafting ephemeral things.",
+    "description": "A bulky assortment of small bits of scrap dreamdross, useful in all kinds of ephemeral crafting.",
     "weight": "5 g",
     "volume": "25 ml",
     "price": 500,

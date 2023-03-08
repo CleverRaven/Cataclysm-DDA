@@ -631,8 +631,7 @@
         "emptyresidentiallot": 200,
         "house_vacant": 200,
         "house_vacant2": 200,
-        "motel_city": 5,
-        "trailerpark_city": 15
+        "motel_city": 5
       },
       "parks": {
         "s_gas": 200,

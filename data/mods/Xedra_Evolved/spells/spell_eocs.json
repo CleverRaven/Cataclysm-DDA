@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "eoc_artifact_spawn",
-    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "creative_spark" }, ">=", { "const": 1 } ] },
+    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "creative_spark" }, ">=", { "const": 1 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "arithmetic": [ { "u_val": "vitamin", "name": "creative_spark" }, "-=", { "const": 1 } ] },
@@ -16,7 +16,7 @@
     "id": "EOC_ARTIFACT_SPAWN",
     "condition": { "u_has_effect": "manic_fugue" },
     "effect": [
-      { "mapgen_update": "spawn_minor_spark_artifact" },
+      { "u_spawn_item": "minor_spark_artifact", "use_item_group": true },
       {
         "u_message": "As you leave the fugue state, you realize you have managed to create a thing.  Now to figure out what it does.",
         "type": "info"

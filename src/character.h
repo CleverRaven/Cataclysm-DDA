@@ -34,6 +34,7 @@
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
+#include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
@@ -723,9 +724,6 @@ class Character : public Creature, public visitable
 
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> gunmod_installation_odds( const item_location &gun, const item &mod ) const;
-        /// called once per 24 hours to enforce the minimum of 1 hp healed per day
-        /// @todo Move to Character once heal() is moved
-        void enforce_minimum_healing();
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
         void set_underwater( bool );
@@ -745,8 +743,6 @@ class Character : public Creature, public visitable
 
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
-        /** get best quality item that this character has */
-        item *best_quality_item( const quality_id &qual );
         /** Handles health fluctuations over time */
         virtual void update_health();
         /** Updates all "biology" by one turn. Should be called once every turn. */
@@ -854,7 +850,7 @@ class Character : public Creature, public visitable
         void try_remove_webs();
         void try_remove_impeding_effect();
         // Calculate generic trap escape chance
-        bool can_escape_trap( int difficulty, bool manip );
+        bool can_escape_trap( int difficulty, bool manip ) const;
 
         /** Check against the character's current movement mode */
         bool movement_mode_is( const move_mode_id &mode ) const;
@@ -871,7 +867,6 @@ class Character : public Creature, public visitable
         void make_footstep_noise() const;
         void make_clatter_sound() const;
 
-
         bool can_switch_to( const move_mode_id &mode ) const;
         steed_type get_steed_type() const;
         virtual void set_movement_mode( const move_mode_id &mode ) = 0;
@@ -883,9 +878,8 @@ class Character : public Creature, public visitable
          */
         void process_turn() override;
 
-        /** Recalculates HP after a change to max strength */
+        /** Recalculates HP after a change to max strength or enchantment */
         void recalc_hp();
-        int get_part_hp_max( const bodypart_id &id ) const;
 
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
@@ -1239,6 +1233,8 @@ class Character : public Creature, public visitable
         float get_limb_score( const limb_score_id &score,
                               const body_part_type::type &bp = body_part_type::type::num_types,
                               int override_encumb = -1, int override_wounds = -1 ) const;
+        float manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
+                                 body_part_type::type type, int override_encumb, int override_wounds ) const;
 
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
@@ -1288,7 +1284,6 @@ class Character : public Creature, public visitable
                                  bool show_all, bool precise,
                                  int normal_bonus, int head_bonus, int torso_bonus,
                                  int bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
-
 
         static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;
@@ -1514,7 +1509,7 @@ class Character : public Creature, public visitable
         bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 ) const;
         /** Is this bionic elligible to be installed in the player? */
-        ret_val<void> is_installable( const item_location &loc, bool by_autodoc ) const;
+        ret_val<void> is_installable( const item *it, bool by_autodoc ) const;
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
@@ -1537,7 +1532,7 @@ class Character : public Creature, public visitable
         /** Uses a tool */
         void use( int inventory_position );
         /** Uses a tool at location */
-        void use( item_location loc, int pre_obtain_moves = -1 );
+        void use( item_location loc, int pre_obtain_moves = -1, std::string const &method = {} );
         /** Uses the current wielded weapon */
         void use_wielded();
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
@@ -1629,7 +1624,7 @@ class Character : public Creature, public visitable
 
         /** Select ammo from the provided options */
         item::reload_option select_ammo( const item_location &base, std::vector<item::reload_option> opts,
-                                         std::string name_override = std::string() ) const;
+                                         const std::string &name_override = std::string() ) const;
 
         void process_items();
         void leak_items();
@@ -1950,12 +1945,12 @@ class Character : public Creature, public visitable
         /** How much dispersion does one point of target's dodge add when throwing at said target? */
         int throw_dispersion_per_dodge( bool add_encumbrance = true ) const;
 
-        /** True if unarmed or wielding a weapon with the UNARMED_WEAPON flag */
+        /** True if unarmed */
         bool unarmed_attack() const;
+
         /// Checks for items, tools, and vehicles with the Lifting quality near the character
         /// returning the largest weight liftable by an item in range.
         units::mass best_nearby_lifting_assist() const;
-
         /// Alternate version if you need to specify a different origin point for nearby vehicle sources of lifting
         /// used for operations on distant objects (e.g. vehicle installation/uninstallation)
         units::mass best_nearby_lifting_assist( const tripoint &world_pos ) const;
@@ -2169,8 +2164,10 @@ class Character : public Creature, public visitable
         // Mental skills and stats
         /** Returns the player's reading speed as a percentage*/
         int read_speed() const;
-        /** Returns a value used when attempting to convince NPC's of something */
-        int talk_skill() const;
+        /** Returns a value used when attempting to convince NPC's of something false*/
+        int lie_skill() const;
+        /** Returns a value used when attempting to convince NPC's of something true*/
+        int persuade_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
@@ -2212,9 +2209,6 @@ class Character : public Creature, public visitable
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
         bool cast_spell( spell &sp, bool fake_spell, const cata::optional<tripoint> &target );
-
-        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
@@ -2700,7 +2694,7 @@ class Character : public Creature, public visitable
 
         /** How many moves does it take to aim gun to the target accuracy. */
         int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL,
-                                  Target_attributes attributes = Target_attributes() ) const;
+                                  const Target_attributes &attributes = Target_attributes() ) const;
 
         /**
          *  Fires a gun or auxiliary gunmod (ignoring any current mode)
@@ -2723,7 +2717,8 @@ class Character : public Creature, public visitable
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
     protected:
-        void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
+        void on_damage_of_type( const effect_source &source, int adjusted_damage, damage_type type,
+                                const bodypart_id &bp ) override;
     public:
         /** Called when an item is worn */
         void on_item_wear( const item &it );
@@ -2782,8 +2777,8 @@ class Character : public Creature, public visitable
 
         /** Monster cameras are mtype_ids with an integer range of transmission */
         void clear_moncams();
-        void remove_moncam( mtype_id moncam_id );
-        void add_moncam( std::pair<mtype_id, int> moncam );
+        void remove_moncam( const mtype_id &moncam_id );
+        void add_moncam( const std::pair<mtype_id, int> &moncam );
         void set_moncams( std::map<mtype_id, int> nmoncams );
         std::map<mtype_id, int> const &get_moncams() const;
         using cached_moncam = std::pair<monster const *, tripoint_abs_ms>;
@@ -2812,11 +2807,6 @@ class Character : public Creature, public visitable
         float power_rating() const override;
         float speed_rating() const override;
 
-        /** Returns the item in the player's inventory with the highest of the specified quality.
-         * @param qid The quality to search
-         * @param tool_not_container If true, then recurse into the container to find the base tool
-        */
-        item &item_with_best_of_quality( const quality_id &qid, bool tool_not_container = false );
         /**
          * Check whether the this player can see the other creature with infrared. This implies
          * this player can see infrared and the target is visible with infrared (is warm).
@@ -2981,20 +2971,21 @@ class Character : public Creature, public visitable
         /** Returns allergy type or MORALE_NULL if not allergic for this character */
         morale_type allergy_type( const item &food ) const;
         nutrients compute_effective_nutrients( const item & ) const;
-        /** Returns true if the character is wearing something on the entered body part */
+        /** Returns true if the character is wearing something on the entered body part. Ignores INTEGRATED */
         bool wearing_something_on( const bodypart_id &bp ) const;
-        /** Returns true if the character is wearing something occupying the helmet slot */
-        bool is_wearing_helmet() const;
+        /** Returns true if the character is wearing something on the entered body part. Ignores INTEGRATED and OVERSIZE */
+        bool wearing_fitting_on( const bodypart_id &bp ) const;
         /** Same as footwear factor, but for arms */
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both,
          *  and zero if on neither */
         int shoe_type_count( const itype_id &it ) const;
-        /** Returns 1 if the player is wearing footwear on both feet, .5 if on one,
-         *  and 0 if on neither */
-        double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes( const side &check_side = side::BOTH ) const;
+
+        /** Returns true if the player is not wearing anything that covers the soles of their feet,
+            ignoring INTEGRATED */
+        bool is_barefoot() const;
 
         /** Returns true if the worn item is visible (based on layering and coverage) */
         bool is_worn_item_visible( std::list<item>::const_iterator ) const;
@@ -3326,6 +3317,11 @@ class Character : public Creature, public visitable
                                            const time_duration &error_magnitude,
                                            const time_duration &minimum_error, int threshold, const Creature &target ) const;
 
+        /** Look for items in the player's inventory that have the specified quality; return the one with highest level
+         * @param qual_id The quality to search
+        */
+        item &best_item_with_quality( const quality_id &qid );
+
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
         int max_quality( const quality_id &qual ) const override;
@@ -3493,7 +3489,7 @@ class Character : public Creature, public visitable
         /** Current quantity for each vitamin today first value is expected second value is actual (digested) in vitamin units*/
         std::map<vitamin_id, std::pair<int, int>> daily_vitamins;
         /** Returns the % of your RDA that ammount of vitamin represents */
-        int vitamin_RDA( vitamin_id vitamin, int ammount ) const;
+        int vitamin_RDA( const vitamin_id &vitamin, int ammount ) const;
 
         pimpl<player_morale> morale;
         /** Processes human-specific effects of an effect. */

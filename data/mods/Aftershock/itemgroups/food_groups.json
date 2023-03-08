@@ -12,6 +12,80 @@
     ]
   },
   {
+    "id": "afs_spices",
+    "type": "item_group",
+    "//": "This group is for cupboard, drawer, or rack with spices.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "salt", "count": [ 2, 4 ], "prob": 15, "container-item": "afs_foil_bag" },
+      { "item": "cinnamon", "prob": 5, "container-item": "afs_foil_bag" },
+      { "item": "chilly-p", "prob": 15, "container-item": "afs_foil_bag" },
+      { "item": "sugar", "prob": 5, "container-item": "afs_foil_bag" },
+      { "item": "artificial_sweetener", "prob": 15, "container-item": "afs_foil_bag" },
+      { "item": "curry_powder", "prob": 25, "container-item": "afs_foil_bag" },
+      { "item": "garlic_powder", "prob": 25, "container-item": "afs_foil_bag" },
+      { "item": "seasoning_salt", "prob": 50, "container-item": "afs_foil_bag" },
+      { "group": "ketchup_sealed_rng", "prob": 35 },
+      { "group": "mustard_sealed_rng", "prob": 35 },
+      { "item": "soysauce", "prob": 25 },
+      { "item": "hot_sauce", "prob": 25 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_dry_goods",
+    "ammo": 75,
+    "magazine": 100,
+    "subtype": "distribution",
+    "entries": [
+      { "item": "instant_coffee", "prob": 40, "container-item": "afs_foil_bag" },
+      { "item": "flour", "prob": 40, "container-item": "afs_foil_bag" },
+      { "item": "yeast", "prob": 50, "container-item": "afs_foil_bag" },
+      { "item": "fruit_leather", "prob": 15, "container-item": "afs_foil_bag" },
+      { "item": "dry_beans", "prob": 10, "container-item": "afs_foil_bag" },
+      { "item": "dry_lentils", "prob": 10, "container-item": "afs_foil_bag" },
+      { "item": "dry_rice", "prob": 10, "container-item": "afs_foil_bag" },
+      { "item": "gelatin_powder", "prob": 40, "container-item": "afs_foil_bag" },
+      { "item": "chem_agar", "prob": 15, "container-item": "afs_foil_bag" },
+      { "item": "gelatin_dessert_powder", "prob": 40, "container-item": "afs_foil_bag" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "afs_stored_meals",
+    "//": "Meals that require little to no preparation before eating.",
+    "entries": [
+      { "item": "afs_kibble", "prob": 10, "container-item": "afs_foil_bag" },
+      { "group": "astronaut_mre_full_pack", "prob": 10 },
+      { "group": "afs_cheap_food", "count": [ 2, 4 ], "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "afs_stored_meats",
+    "entries": [
+      { "item": "afs_synthetic_meat", "prob": 10, "container-item": "afs_foil_bag" },
+      { "item": "afs_jerky", "prob": 40, "container-item": "afs_foil_bag" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "afs_stored_veggies",
+    "entries": [ { "item": "afs_kelp", "prob": 40, "container-item": "afs_foil_bag" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "distribution",
+    "id": "afs_ruined_food",
+    "entries": [
+      { "item": "afs_ruined_food", "prob": 10, "charges": 2, "container-item": "can_food" },
+      { "item": "afs_ruined_food", "prob": 10, "container-item": "afs_foil_bag" }
+    ]
+  },
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "afs_mealgrub_procesing",
