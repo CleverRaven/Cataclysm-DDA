@@ -1618,5 +1618,31 @@
       "explosion": { "power": 69200, "shrapnel": { "casing_mass": 12000, "fragment_mass": 600 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
+  },
+  {
+    "id": "exodii_bomb",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "strange alien bomb" },
+    "description": "A strange device that you do not recognize, shaped like a football and filled with wires, fluids, and other such things.  It's making a beeping noise that you don't feel right about.",
+    "weight": "4400 g",
+    "volume": "10 L",
+    "price": 0,
+    "to_hit": -5,
+    "bashing": 20,
+    "material": [ "steel" ],
+    "symbol": "(",
+    "color": "light_red",
+    "initial_charges": 2,
+    "max_charges": 2,
+    "turns_per_charge": 1,
+    "explode_in_fire": true,
+    "explosion": { "power": 25000, "max_noise": 1200 },
+    "use_action": {
+      "type": "explosion",
+      "no_deactivate_msg": "The device seems to be a bomb - clear the area immediately!",
+      "explosion": { "power": 25000, "max_noise": 1200 }
+    },
+    "flags": [ "BOMB", "TRADER_AVOID" ]
   }
 ]
