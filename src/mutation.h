@@ -201,7 +201,7 @@ struct mutation_branch {
         int bodytemp_sleep = 0;
         // Healing per turn
         cata::optional<float> healing_awake = cata::nullopt;
-        cata::optional<float> healing_resting = cata::nullopt;
+        cata::optional<float> healing_multiplier = cata::nullopt;
         // Limb mending bonus
         cata::optional<float> mending_modifier = cata::nullopt;
         cata::optional<float> pain_multiplier = cata::nullopt;

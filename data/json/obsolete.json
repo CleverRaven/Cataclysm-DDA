@@ -694,49 +694,6 @@
     "deconstruct": { "items": [ { "item": "compact_ASRG_containment", "count": 1 } ] }
   },
   {
-    "id": "folding_bicycle",
-    "type": "TOOL",
-    "name": { "str": "folding bicycle" },
-    "description": "This is a bicycle folded into a relatively portable package.",
-    "weight": "10160 g",
-    "volume": "76651 ml",
-    "//": "Data taken from given values/dimensions for the Brompton S1E folding bicycle",
-    "price": 35000,
-    "price_postapoc": 2000,
-    "to_hit": -5,
-    "bashing": 10,
-    "material": [ "steel" ],
-    "symbol": "0",
-    "color": "light_gray"
-  },
-  {
-    "id": "folded_wheelchair",
-    "type": "TOOL",
-    "name": { "str": "folded wheelchair" },
-    "description": "A folded wheelchair.",
-    "weight": "10586 g",
-    "volume": "13500 ml",
-    "longest_side": "92 cm",
-    "symbol": "/",
-    "color": "light_gray",
-    "flags": [ "NO_REPAIR" ]
-  },
-  {
-    "id": "inflatable_boat",
-    "type": "TOOL",
-    "symbol": "0",
-    "color": "light_gray",
-    "name": { "str": "inflatable boat" },
-    "description": "This rubber rowboat (oars included) is deflated for storage.  Activate it (having an air pump in inventory) to inflate and launch.",
-    "price": 350000,
-    "price_postapoc": 4000,
-    "material": [ "rubber" ],
-    "weight": "1100 g",
-    "volume": "10000 ml",
-    "bashing": 10,
-    "to_hit": -5
-  },
-  {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "rapier",
@@ -1071,9 +1028,30 @@
     "description": "Precise step-by-step instructions and other required data for installation of Railgun CBM, stored on a data card of proprietary form-factor, designed to be used extensively by an Autodoc, and allowing bionic installation with minimal failure chance.  Integrated security subroutine renders it unusable after installation."
   },
   {
+    "id": "toolset_extended",
+    "type": "TOOL",
+    "name": { "str": "extended multitool" },
+    "description": "Your multitool, extended.  Ready to do repair work.",
+    "symbol": "#",
+    "color": "white",
+    "weight": "226 g",
+    "bashing": 3,
+    "cutting": 1,
+    "flags": [ "NO_UNWIELD", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID" ]
+  },
+  {
     "id": "UNARMED_WEAPON",
     "type": "json_flag",
     "//": "REMOVE After 0.G.",
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
+  },
+  {
+    "type": "mutation",
+    "id": "PORTAL_RESURRECTION",
+    "name": { "str": "Marked" },
+    "description": "Sometimes when your mind wanders you can feel something inside yourself, deeper than any mere physical sensation.  Your mind wants to call it a lifeline or a tendril or a leash.  Whatever it is, something much bigger than you has an interest in your success.",
+    "points": 0,
+    "valid": false,
+    "purifiable": false
   }
 ]

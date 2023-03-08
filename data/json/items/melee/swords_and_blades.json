@@ -238,7 +238,7 @@
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "STAB" ],
+    "flags": [ "STAB", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "variant_type": "generic",
     "variants": [
@@ -273,7 +273,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "BELT_CLIP" ],
+    "flags": [ "STAB", "BELT_CLIP", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -303,7 +303,7 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -339,7 +339,7 @@
     "symbol": "/",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 30 ] ],
-    "flags": [ "SHEATH_KNIFE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -381,16 +381,16 @@
     "type": "TOOL",
     "category": "weapons",
     "name": { "str": "RM42 fighting knife", "str_pl": "RM42 fighting knives" },
-    "description": "This sturdy, matte black Rivtech combat dagger features a long, slim double-edged blade with a spear point and a distinctive slip-resistant grip, which can also be used to affix it to a suitable firearm as a bayonet.  Originally manufactured for the military, it was very popular in films and among collectors due to its fearsome appearance.",
-    "weight": "188 g",
-    "volume": "750 ml",
-    "longest_side": "30 cm",
-    "price": 45000,
-    "price_postapoc": 4000,
+    "description": "Widely regarded as Rivtech's most successful failure, this matte black knife is made of top-quality steel with an incredibly sharp diamond edge.  Though too expensive for the military or for most collectors, impossible to sharpen once dulled, too large to conceal easily and rather impractical in a world with guns but without trench warfare, it is nonetheless a very deadly weapon and did find its way into the hands of some private contractors before the end of all things.  It can be affixed to a gun as a bayonet.",
+    "weight": "612 g",
+    "volume": "650 ml",
+    "longest_side": "45 cm",
+    "price": 720000,
+    "price_postapoc": 5000,
     "bashing": 4,
-    "cutting": 22,
-    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "material": [ "ceramic", "plastic" ],
+    "cutting": 27,
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "point", "balance": "good" },
+    "material": [ "qt_steel", "diamond" ],
     "symbol": "/",
     "color": "dark_gray",
     "gunmod_data": {
@@ -401,9 +401,9 @@
     },
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "techniques": [ "RAPID", "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
-    "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NO_CVD" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 24 ] ],
+    "thrown_damage": [ { "damage_type": "stab", "amount": 22 } ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "DIAMOND", "NO_REPAIR" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -423,7 +423,7 @@
     "symbol": ";",
     "color": "red",
     "qualities": [ [ "CUT", 2 ], [ "SAW_W", 1 ], [ "SAW_M", 1 ], [ "SCREW", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB" ]
+    "flags": [ "STAB", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "id": "knife_trench",
@@ -464,7 +464,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 11 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -485,7 +485,7 @@
     "to_hit": { "grip": "solid", "length": "hand", "surface": "point", "balance": "neutral" },
     "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -504,7 +504,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 15 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -1647,7 +1647,7 @@
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 18 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "category": "weapons"
   },
@@ -1897,7 +1897,7 @@
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -1919,7 +1919,7 @@
     "color": "dark_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -3343,7 +3343,7 @@
     "bashing": 2,
     "cutting": 14,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "KNIVES" ],
     "price": 10000,
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 14 ] ]
@@ -3379,7 +3379,7 @@
     "bashing": 2,
     "cutting": 15,
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "any", "balance": "neutral" },
-    "flags": [ "DURABLE_MELEE" ],
+    "flags": [ "DURABLE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "CLAWS" ],
     "price": 20000,
     "price_postapoc": 250,

@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "glasknife", "str_pl": "glasknives" },
-    "description": "This is a knife that appears to be made of glass, it's much more durable than glass appearing to be some sort of crystal with the strength of metal.",
+    "description": "This is a knife that seems to be made of glass, but significantly more durable, like some sort of crystal with the strength of metal.",
     "copy-from": "knife_combat",
     "volume": "500 ml",
     "longest_side": "30 cm",
@@ -64,7 +64,7 @@
     "type": "GENERIC",
     "name": { "str": "redcap club" },
     "copy-from": "mace",
-    "description": "A giant bloodstained club, barely human wieldable with two hands.  You see whenever it connects with an enemy shadowy tendrils of blood stick to whatever it hits and burn like acid.",
+    "description": "A giant bloodstained club, barely human wieldable with two hands.  You see shadowy tendrils of blood whenever it connects with an enemy, sticking to whatever it hits and burning like acid.",
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "ALWAYS_TWOHAND" ],
     "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "blood_tendrils" } ] } ] }
   },

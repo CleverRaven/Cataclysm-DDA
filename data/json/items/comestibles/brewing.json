@@ -730,5 +730,27 @@
       "transform_age": 28800,
       "not_ready_msg": "The yogurt is still fermenting."
     }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "brew_rootbeer",
+    "looks_like": "brew_mead",
+    "name": { "str": "unfermented root beer" },
+    "description": "A mixture of water, sugar, yeast and sassafras roots that will eventually become root beer.",
+    "weight": "260 g",
+    "color": "brown",
+    "container": "bottle_glass",
+    "symbol": "~",
+    "calories": 106,
+    "quench": 6,
+    "fun": -4,
+    "price": 0,
+    "volume": "250 ml",
+    "price_postapoc": 2,
+    "charges": 7,
+    "phase": "liquid",
+    "comestible_type": "DRINK",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "brewable": { "time": "1 days", "results": [ "rootbeer_brewed" ] }
   }
 ]

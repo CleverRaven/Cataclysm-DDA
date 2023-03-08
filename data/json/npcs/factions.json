@@ -164,9 +164,10 @@
       {
         "item": "RobofacCoin",
         "fixed_adj": 0.15,
-        "condition": { "compare_int": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 2 } ] }
+        "condition": { "compare_num": [ { "global_val": "var", "var_name": "free_merchants_hub_trade_route" }, "==", { "const": 2 } ] }
       },
-      { "group": "NC_ROBOFAC_gear", "markup": 2.5 }
+      { "group": "NC_ROBOFAC_gear", "markup": 2.5 },
+      { "group": "games_board_all", "premium": 2.5 }
     ],
     "relations": {
       "free_merchants": {
@@ -872,6 +873,7 @@
     "power": 100,
     "food_supply": 115200,
     "wealth": 75000000,
+    "price_rules": [ { "group": "games_board_all", "premium": 2.5 } ],
     "relations": {
       "free_merchants": {
         "kill on sight": false,

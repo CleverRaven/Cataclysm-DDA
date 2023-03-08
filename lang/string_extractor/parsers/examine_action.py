@@ -14,4 +14,5 @@ def parse_examine_action(json, origin, name):
                    comment="Redundant message of {}".format(name))
     if "effect_on_conditions" in json:
         for eoc in json["effect_on_conditions"]:
-            parse_effect_on_condition(eoc, origin)
+            if type(eoc) is dict:
+                parse_effect_on_condition(eoc, origin)

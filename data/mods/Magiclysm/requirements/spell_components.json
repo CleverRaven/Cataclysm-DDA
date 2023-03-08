@@ -84,6 +84,16 @@
     "components": [ [ [ "aura_stoneskin", 1 ] ] ]
   },
   {
+    "id": "spell_components_rune_animist",
+    "type": "requirement",
+    "components": [ [ [ "rune_animist", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_rune_animist_3",
+    "type": "requirement",
+    "components": [ [ [ "rune_animist", 3 ] ] ]
+  },
+  {
     "id": "spell_components_potion_starter",
     "type": "requirement",
     "components": [ [ [ "water", 1 ], [ "salt_water", 1 ], [ "water_clean", 1 ] ] ]

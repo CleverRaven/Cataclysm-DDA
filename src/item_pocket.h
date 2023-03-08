@@ -113,11 +113,15 @@ class item_pocket
                 bool is_unloadable() const;
                 void set_unloadable( bool );
 
+                const cata::optional<std::string> &get_preset_name() const;
+                void set_preset_name( const std::string & );
+
                 void info( std::vector<iteminfo> &info ) const;
 
                 void serialize( JsonOut &json ) const;
                 void deserialize( const JsonObject &data );
             private:
+                cata::optional<std::string> preset_name;
                 int priority_rating = 0;
                 cata::flat_set<itype_id> item_whitelist;
                 cata::flat_set<itype_id> item_blacklist;
@@ -131,7 +135,7 @@ class item_pocket
         item_pocket() = default;
         explicit item_pocket( const pocket_data *data ) : data( data ) {}
 
-        bool stacks_with( const item_pocket &rhs ) const;
+        bool stacks_with( const item_pocket &rhs, int depth = 0, int maxdepth = 2 ) const;
         bool is_funnel_container( units::volume &bigger_than ) const;
         bool is_restricted() const;
         bool has_any_with( const std::function<bool( const item & )> &filter ) const;
@@ -380,6 +384,17 @@ class item_pocket
         bool operator==( const item_pocket &rhs ) const;
 
         favorite_settings settings;
+
+        // Pocket presets functions
+        static void serialize_presets( JsonOut &json );
+        static void deserialize_presets( const JsonArray &ja );
+        static void load_presets();
+        static void add_preset( const item_pocket::favorite_settings &preset );
+        static void save_presets();
+        static std::vector<item_pocket::favorite_settings>::iterator find_preset( const std::string &s );
+        static bool has_preset( const std::string &s );
+        static void delete_preset( std::vector<item_pocket::favorite_settings>::iterator iter );
+        static std::vector<item_pocket::favorite_settings> pocket_presets;
 
         // should the name of this pocket be used as a description
         bool name_as_description = false; // NOLINT(cata-serialize)

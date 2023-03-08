@@ -80,6 +80,13 @@ std::string trade_preset::get_denial( const item_location &loc ) const
         }
     }
 
+    if( _u.is_worn( *loc ) ) {
+        ret_val<void> const ret = const_cast<Character &>( _u ).can_takeoff( *loc );
+        if( !ret.success() ) {
+            return _u.replace_with_npc_name( ret.str() );
+        }
+    }
+
     return inventory_selector_preset::get_denial( loc );
 }
 

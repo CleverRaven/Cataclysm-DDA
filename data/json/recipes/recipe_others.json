@@ -849,7 +849,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_quenching", "fail_multiplier": 2 }
     ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
   },
   {
@@ -877,7 +877,7 @@
       [ [ "wire_draw_machine", 100 ] ],
       [ [ "swage", -1 ] ],
       [ [ "metal_tank", -1 ] ],
-      [ [ "water", -120 ] ]
+      [ [ "water", -120 ], [ "water_clean", -120 ] ]
     ],
     "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "coal_lump", 22 ], [ "charcoal", 19 ] ] ]
   },
@@ -1215,7 +1215,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 25, "LIST" ] ], [ [ "tin", 30 ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 3, "LIST" ] ], [ [ "tin", 30 ] ] ]
   },
   {
     "type": "recipe",
@@ -1233,7 +1233,7 @@
     "qualities": [ { "id": "HAMMER", "level": 3 } ],
     "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
-      [ [ "copper_scrap_equivalent", 25, "LIST" ] ],
+      [ [ "copper_scrap_equivalent", 3, "LIST" ] ],
       [ [ "tin", 30 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "any_strong_acid", 1, "LIST" ] ]
@@ -2769,12 +2769,12 @@
     ],
     "components": [
       [ [ "scrap", 6 ] ],
-      [ [ "pipe", 12 ], [ "cu_pipe", 12 ], [ "frame", 2 ] ],
+      [ [ "pipe", 18 ], [ "cu_pipe", 18 ], [ "frame", 3 ] ],
       [ [ "nail", 12 ] ],
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "vine_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_natural", 1, "LIST" ] ],
-      [ [ "spike", 2 ] ],
-      [ [ "pipe_fittings", 24 ] ]
+      [ [ "spike", 4 ] ],
+      [ [ "pipe_fittings", 15 ] ]
     ]
   },
   {
@@ -2878,7 +2878,7 @@
     "tools": [ [ [ "electrolysis_kit", 10 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [
       [ [ "steel_grille", 1 ] ],
-      [ [ "platinum_small", 100 ] ],
+      [ [ "platinum_small", 1 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "any_strong_acid", 1, "LIST" ] ]
     ]
@@ -3025,7 +3025,7 @@
       [ [ "wood_panel", 1 ] ],
       [ [ "2x4", 2 ] ],
       [ [ "nail", 30 ] ],
-      [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 25, "LIST" ] ],
+      [ [ "duct_tape", 25 ], [ "medical_tape", 50 ], [ "paint", 1, "LIST" ] ],
       [ [ "2x4", 4 ], [ "log", 1 ], [ "wood_beam", 1 ] ]
     ]
   },
@@ -3168,7 +3168,7 @@
     "reversible": true,
     "time": "1 s",
     "autolearn": true,
-    "components": [ [ [ "welder", 1 ] ], [ [ "welding_blanket", 1 ] ] ]
+    "components": [ [ [ "welder", 1 ] ], [ [ "welding_blanket", 1 ], [ "makeshift_welding_blanket", 1 ] ] ]
   },
   {
     "type": "recipe",
