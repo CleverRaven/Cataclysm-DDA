@@ -66,7 +66,7 @@
         "topic": "TALK_LULIYA_NAME",
         "condition": {
           "and": [
-            { "condition": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
             {
               "not": { "condition": { "u_has_var": "u_luliya_name", "type": "general", "context": "meeting", "value": "yes" } }
             }
@@ -77,7 +77,7 @@
         "text": "I heard you singing.  <You gesture at your mouth>  La la la.  Do you like music Luliya?",
         "condition": {
           "and": [
-            { "condition": { "u_has_var": "u_luliya_name", "type": "general", "context": "meeting", "value": "yes" } },
+            { "u_has_var": "u_luliya_name", "type": "general", "context": "meeting", "value": "yes" },
             {
               "u_compare_time_since_var": "u_met_luliya",
               "type": "test",
