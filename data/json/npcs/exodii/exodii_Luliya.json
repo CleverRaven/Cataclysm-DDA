@@ -1,22 +1,22 @@
 [
   {
     "type": "npc",
-    "id": "exodii_cleaner",
-    "//": "Cleaning lady and music fan from another Ethiopia.",
+    "id": "exodii_materials",
+    "//": "Materials manager and music fan from another Ethiopia.",
     "name_suffix": "Cyborg",
-    "class": "NC_EXODII_TYPE_2_Cleaner",
+    "class": "NC_EXODII_TYPE_2_Materials",
     "name_unique": "Luliya",
     "attitude": 0,
     "mission": 0,
-    "chat": "TALK_EXODII_CLEANER",
+    "chat": "TALK_EXODII_MATERIALS",
     "faction": "exodii",
     "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
   },
   {
     "type": "npc_class",
-    "id": "NC_EXODII_TYPE_2_Cleaner",
+    "id": "NC_EXODII_TYPE_2_Materials",
     "name": { "str": "Cyborg, type 2" },
-    "job_description": "I'm a cleaning cyborg.",
+    "job_description": "I'm a cyborg.",
     "traits": [ { "trait": "EXODII_BODY_2" } ],
     "common": false,
     "bonus_str": { "rng": [ 0, 6 ] },
@@ -42,8 +42,8 @@
   {
     "type": "item_group",
     "id": "NC_EXODII_TYPE_2_carried",
-    "//": "Broom for Luliya.",
-    "items": [ { "item": "broom" } ]
+    "//": "Golden krar for Luliya.",
+    "items": [ { "item": "krar_gold" } ]
   },
   {
     "type": "talk_topic",
@@ -54,7 +54,7 @@
       "context": "meeting",
       "value": "yes",
       "yes": [ "Inikwani dehina metahi tegwazhi." ],
-      "no": "<You see a tall golden figure in the closet with female features.  Strapped to the back of the head with copper wire is a glass cylinder containing long frizzy black hair.  The body stands still and emits an unpleasant beeping sound.  On the back there is a large red button with strange markings.>"
+      "no": "<You see a tall golden figure in the closet with female features.  Strapped to the back of the head with copper wire is a glass cylinder containing long frizzy black hair.  The body stands still and emits an unpleasant beeping sound.  On the back there is a large red button with strange markings.  There is a golden harp of some kind.>"
     },
     "responses": [
       {
@@ -71,11 +71,6 @@
           ]
         },
         "topic": "TALK_LULIYA_PULSE"
-      },
-      {
-        "text": "Stupid piece of junk!  <KICK THAT PIECE OF JUNK>",
-        "condition": { "not": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" } },
-        "topic": "TALK_LULIYA_KICK"
       },
       {
         "text": "<DO NOTHING>",
@@ -105,7 +100,7 @@
         }
       },
       {
-        "text": "I heard you singing.  <You gesture at your mouth>  La la la.  Do you like music Luliya?",
+        "text": "I heard you playing that.  <You point at the golden harp she holds>  La la la.  Do you like music Luliya?",
         "condition": {
           "and": [
             { "u_has_var": "u_luliya_name", "type": "general", "context": "meeting", "value": "yes" },
@@ -121,7 +116,7 @@
         "topic": "TALK_LULIYA_MUSIC"
       },
       {
-        "text": "I saw you sweeping the floor.  <You point at Luliya and the broom and make a motion with your arms like sweeping.>  Do you clean?  Can you clean things?",
+        "text": "Is there anything I can do for you Luliya?",
         "condition": {
           "and": [
             { "u_has_var": "u_luliya_name", "type": "general", "context": "meeting", "value": "yes" },
@@ -175,16 +170,6 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_LULIYA_KICK",
-    "dynamic_line": "<With all your might you give the golden figure a swift kick in the shins.  Nothing happens.>",
-    "responses": [
-      { "text": "That's right.", "topic": "TALK_LULIYA" },
-      { "text": "Oh, we're not done yet.", "topic": "TALK_LULIYA_KICK" },
-      { "text": "Showed you.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
     "id": "TALK_LULIYA_ENGLISH",
     "dynamic_line": "<A long pause, then she shakes her head>  Inigilizinya yelemi.  No.",
     "speaker_effect": { "effect": { "u_add_var": "u_not_english_luliya", "type": "general", "context": "language", "value": "yes" } },
@@ -196,7 +181,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LULIYA_NAME",
-    "dynamic_line": "<A long pause.  You can't see her eyes but it seems like she is studying your face.>  Sime Luliya ibalalehu.  <She points to her own chest.>  Luliya.  <She points to your chest.>  <u_name>.  Siletewawekini desi bilonyali, <u_name>.  <A grainy image of a smile flashes on the screen strapped to her face.>",
+    "dynamic_line": "<A long pause.  You can't see her eyes but it seems like she is studying your face.>  Sime Luliya ibalalehu.  <She points to her own chest.>  Luliya.  <She points to your chest.>  <u_name>.  Siletewawekini desi bilonyali, <u_name>.  <She strums a pleasant melody on her krar.>",
     "speaker_effect": { "effect": { "u_add_var": "u_luliya_name", "type": "general", "context": "name", "value": "yes" } },
     "responses": [ { "text": "We're getting somewhere.  Pleased to meet you Luliya.", "topic": "TALK_DONE" } ]
   },
@@ -213,36 +198,36 @@
   {
     "type": "talk_topic",
     "id": "TALK_LULIYA_MUSIC",
-    "dynamic_line": "<She nods enthusiastically and a grainy image of a smile flashes on the screen strapped to her face> Awo muzika iwedalehu.",
+    "dynamic_line": "<She nods enthusiastically and strums a few notes on her krar.> Awo muzika iwedalehu.",
     "responses": [
       {
-        "text": "[HAS GUITAR] I happen to have a nice guitar, want to hear something?",
+        "text": "[HAS GUITAR] I happen to have a nice guitar, want to play with me?",
         "topic": "TALK_LULIYA_MUSIC2",
         "condition": { "u_has_item": "guitar" }
       },
       {
-        "text": "[HAS TRUMPET] I happen to have a nice trumpet, want to hear something?",
+        "text": "[HAS TRUMPET] I happen to have a nice trumpet, want to play with me?",
         "topic": "TALK_LULIYA_MUSIC2",
         "condition": { "u_has_item": "trumpet" }
       },
       {
-        "text": "[HAS SAXOPHONE] I happen to have a nice saxophone, want to hear something?",
+        "text": "[HAS SAXOPHONE] I happen to have a nice saxophone, want to play with me?",
         "topic": "TALK_LULIYA_MUSIC2",
         "condition": { "u_has_item": "saxophone" }
       },
       {
-        "text": "[HAS VIOLIN] I happen to have a nice violin, want to hear something?",
+        "text": "[HAS VIOLIN] I happen to have a nice violin, want to play with me?",
         "topic": "TALK_LULIYA_MUSIC2",
         "condition": { "u_has_item": "violin" }
       },
       {
-        "text": "[HAS HARMONICA] I happen to have a nice harmonica, want to hear something?",
+        "text": "[HAS HARMONICA] I happen to have a nice harmonica, want to play with me?",
         "topic": "TALK_LULIYA_MUSIC2",
         "condition": { "u_has_item": "harmonica" }
       },
       {
-        "text": "[HAS COWBELL] I happen to have a nice cowbell, want to hear something?",
-        "topic": "TALK_LULIYA_MUSIC_NO",
+        "text": "[HAS COWBELL] I happen to have a nice cowbell, want to play with me?",
+        "topic": "TALK_LULIYA_MUSIC2",
         "condition": { "u_has_item": "cowbell" }
       },
       {
@@ -254,7 +239,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_LULIYA_MUSIC2",
-    "dynamic_line": "<You perform on your musical instrument with everything you have, giving a strong performance.  Luliya sways and begins to sing along.  Her voice is beautiful, she sounds like she has had some formal voice training.>",
+    "dynamic_line": "<You perform on your musical instrument with everything you have, giving a strong performance.  Luliya sways and begins to play her instrument and sing along.  The music and her voice are beautiful, she sounds like she has had some formal musical training.>",
     "speaker_effect": {
       "effect": [
         { "u_add_var": "u_jammed_luliya", "type": "general", "context": "music", "value": "yes" },
@@ -263,38 +248,8 @@
       ]
     },
     "responses": [
-      { "text": "Fun, thank you for singing with me Luliya.", "topic": "TALK_LULIYA" },
+      { "text": "Fun, thank you for playing with me Luliya.", "topic": "TALK_LULIYA" },
       { "text": "Fun, thank you.  Anyway I have to go.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_LULIYA_MUSIC_NO",
-    "dynamic_line": "<You perform on your musical instrument with everything you have, giving a strong performance.  Luliya stands stock still and stares at you with her head cocked to the side.  When you finally stop she shakes her head.>",
-    "responses": [
-      { "text": "That was my best yet.  Not a big music fan I guess?", "topic": "TALK_LULIYA" },
-      { "text": "That was so good.  Anyway I have to go.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_LULIYA_CLEAN",
-    "dynamic_line": "<She is quiet for a moment and looks at the broom, then back at you, then makes the same sweeping movement.>  Caleen.  Awo.  <She nods.>  Yehone negeri inidatseda tifeligalehi?  Luliya caleen?  <She holds out her hands.>",
-    "responses": [
-      { "text": "You can clean something for me?", "topic": "TALK_LULIYA_CLEAN2" },
-      { "text": "OK.  Luliya caleen.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_LULIYA_CLEAN2",
-    "dynamic_line": "<She nods and shakes her open hands gently, looking at you.>  Caleen.  Awo.  Mini inidatseda tifeligalehi?  Caleen?",
-    "responses": [
-      {
-        "//": "This is where CBM cleaning service would be implemented, starting with a power CBM",
-        "text": "Nothing right now but thank you Luliya.  <You raise your empty hands.>",
-        "topic": "TALK_LULIYA"
-      }
     ]
   }
 ]
