@@ -2,10 +2,7 @@
   {
     "type": "region_overlay",
     "regions": [ "all" ],
-    "city": {
-      "houses": { "safe_house": 5 },
-      "parks": { "vampire_cathedral": 50 }
-    },
+    "city": { "houses": { "safe_house": 5 }, "parks": { "vampire_cathedral": 50 } },
     "map_extras": {
       "road": {
         "chance": 75,
