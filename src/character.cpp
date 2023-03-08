@@ -5779,7 +5779,6 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
 static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
 mutation_value_map = {
     { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
-    { "pain_multiplier", calc_mutation_value_multiplicative<&mutation_branch::pain_multiplier> },
     { "pain_modifier", calc_mutation_value<&mutation_branch::pain_modifier> },
     { "healing_multiplier", calc_mutation_value_multiplicative<&mutation_branch::healing_multiplier> },
     { "mending_modifier", calc_mutation_value_multiplicative<&mutation_branch::mending_modifier> },
