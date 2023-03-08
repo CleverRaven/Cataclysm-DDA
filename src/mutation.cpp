@@ -1464,12 +1464,18 @@ bool Character::mutate_towards( const trait_id &mut, const mutation_category_id 
         if( bid->mutation_conflicts.count( mut ) != 0 ) {
             add_msg_debug( debugmode::DF_MUTATION,
                            "mutate_towards: failed, bionic %s prevents mutation (mutation conflict)", bid.c_str() );
+            add_msg_if_player(
+                _( "Your churning flesh strains painfully against your %1$s for a moment, then the feeling fades." ),
+                bid->name );
             return false;
         }
         for( const trait_id &mid : bid->canceled_mutations ) {
             if( mid == mut ) {
                 add_msg_debug( debugmode::DF_MUTATION,
                                "mutate_towards: failed, bionic %s prevents mutation (canceled mutation)", bid.c_str() );
+                add_msg_if_player(
+                    _( "Your churning flesh strains painfully against your %1$s for a moment, then the feeling fades." ),
+                    bid->name );
                 return false;
             }
         }
