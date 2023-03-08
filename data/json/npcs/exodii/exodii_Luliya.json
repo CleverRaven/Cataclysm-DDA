@@ -195,7 +195,7 @@
         "condition": { "u_has_item": "trumpet" }
       },
       {
-        "text": "[HAS SAXOPHONE] I happen to have a nice trumpet, want to hear something?",
+        "text": "[HAS SAXOPHONE] I happen to have a nice saxophone, want to hear something?",
         "topic": "TALK_LULIYA_MUSIC2",
         "condition": { "u_has_item": "saxophone" }
       },
