@@ -12809,10 +12809,10 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
             // IRL Laptop battery with 70 wHr capacity and 96W charger is full in ~50 minutes.
             // medium_battery_cell is 500 capacity, so +1 every 6 seconds to fill in ~50 minutes.
-            if( calendar::once_every( 6_seconds ) ) {
+            if( calendar::once_every( time_duration::from_seconds( get_var( "charge_interval", 6 ) ) ) ) {
                 const int battery_deficit = vp->vehicle().discharge_battery( 1, true );
                 // Around 85% efficient; a few of the discharges don't actually recharge
-                if( battery_deficit == 0 && !one_in( 7 ) ) {
+                if( battery_deficit == 0 && !one_in( get_var( "efficiency", 7 ) ) ) {
                     parent_item->ammo_set( itype_battery, parent_item->ammo_remaining() + 1 );
                 }
             }
