@@ -259,7 +259,7 @@
           "glasses_safety",
           "coat_lab",
           "mbag",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           "wristwatch",
           "stethoscope"
         ],

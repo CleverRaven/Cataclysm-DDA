@@ -85,7 +85,6 @@
 #include "vpart_range.h"
 #include "name.h"
 
-
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
@@ -298,8 +297,6 @@ void npc_template::load( const JsonObject &jsobj )
         } else {
             tem.gender_override = gender::female;
         }
-    } else {
-        tem.gender_override = gender::random;
     }
     if( jsobj.has_string( "faction" ) ) {
         guy.set_fac_id( jsobj.get_string( "faction" ) );
@@ -741,8 +738,6 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.snip_give_carry_too_heavy = tguy.chatbin.snip_give_carry_too_heavy;
     chatbin.snip_wear = tguy.chatbin.snip_wear;
 
-    set_base_age( tguy.base_age() );
-    set_base_height( tguy.base_height() );
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
@@ -882,9 +877,12 @@ void npc::randomize( const npc_class_id &type )
         this->magic->learn_spell( spell_pair.first, *this, true );
         spell &sp = this->magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
-            sp.gain_level();
+            sp.gain_level( *this );
         }
     }
+
+    set_base_age( rng( 18, 55 ) );
+    randomize_height();
 
     // Add eocs
     effect_on_conditions::load_new_character( *this );
@@ -1979,12 +1977,10 @@ bool npc::wants_to_sell( const item_location &it ) const
     if( !it->is_owned_by( *this ) ) {
         return false;
     }
-    const int market_price = it->price( true );
-    return wants_to_sell( it, value( *it, market_price ), market_price ).success();
+    return wants_to_sell( it, value( *it ) ).success();
 }
 
-ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
-                                  int /*market_price*/ ) const
+ret_val<void> npc::wants_to_sell( const item_location &it, int at_price ) const
 {
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
@@ -2014,12 +2010,15 @@ ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
 
 bool npc::wants_to_buy( const item &it ) const
 {
-    const int market_price = it.price( true );
-    return wants_to_buy( it, value( it, market_price ), market_price ).success();
+    return wants_to_buy( it, value( it ) ).success();
 }
 
-ret_val<void> npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
 {
+    if( it.has_flag( flag_DANGEROUS ) || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        return ret_val<void>::make_failure();
+    }
+
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
     }
@@ -2211,16 +2210,16 @@ void npc::update_worst_item_value()
 
 double npc::value( const item &it ) const
 {
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        return -1000;
+    }
+
     int market_price = it.price( true );
     return value( it, market_price );
 }
 
 double npc::value( const item &it, double market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
-        // NPCs won't be interested in buying active explosives
-        return -1000;
-    }
     if( is_shopkeeper() ||
         // faction currency trades at market price
         ( my_fac != nullptr && my_fac->currency == it.typeId() ) ) {
@@ -3890,6 +3889,16 @@ std::string npc::get_current_activity() const
         return current_activity_id.obj().verb().translated();
     } else {
         return _( "nothing" );
+    }
+}
+
+void npc::update_missions_target( character_id old_character, character_id new_character )
+{
+    for( ::mission *&temp : chatbin.missions_assigned ) {
+        if( temp->get_assigned_player_id() == old_character ||
+            temp->get_assigned_player_id() == character_id( - 1 ) ) {
+            temp->set_assigned_player_id( new_character );
+        }
     }
 }
 

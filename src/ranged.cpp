@@ -524,23 +524,31 @@ static double occupied_tile_fraction( creature_size target_size )
 
 double Creature::ranged_target_size() const
 {
+    double stance_factor = 1.0;
+    if( const Character *character = this->as_character() ) {
+        if( character->is_crouching() ) {
+            stance_factor = 0.6;
+        } else if( character->is_prone() ) {
+            stance_factor = 0.25;
+        }
+    }
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case creature_size::tiny:
             case creature_size::small:
-                return occupied_tile_fraction( creature_size::tiny );
+                return stance_factor * occupied_tile_fraction( creature_size::tiny );
             case creature_size::medium:
-                return occupied_tile_fraction( creature_size::small );
+                return stance_factor * occupied_tile_fraction( creature_size::small );
             case creature_size::large:
-                return occupied_tile_fraction( creature_size::medium );
+                return stance_factor * occupied_tile_fraction( creature_size::medium );
             case creature_size::huge:
-                return occupied_tile_fraction( creature_size::large );
+                return stance_factor * occupied_tile_fraction( creature_size::large );
             case creature_size::num_sizes:
                 debugmsg( "ERROR: Invalid Creature size class." );
                 break;
         }
     }
-    return occupied_tile_fraction( get_size() );
+    return stance_factor * occupied_tile_fraction( get_size() );
 }
 
 int range_with_even_chance_of_good_hit( int dispersion )
@@ -555,7 +563,7 @@ int range_with_even_chance_of_good_hit( int dispersion )
 }
 
 int Character::gun_engagement_moves( const item &gun, int target, int start,
-                                     Target_attributes attributes ) const
+                                     const Target_attributes &attributes ) const
 {
     int mv = 0;
     double penalty = start;
@@ -1876,7 +1884,6 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
 
             print_colored_text( w, point( 1, line_number++ ), col, col, desc );
 
-
             if( display_numbers ) {
                 const std::string line = enumerate_as_string( out.chances.cbegin(), out.chances.cend(),
                 []( const aim_type_prediction::aim_confidence & conf ) {
@@ -2279,7 +2286,6 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
                               300 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
     }
 
-
     float disperation_mod = enchantment_cache->modify_value( enchant_vals::mod::WEAPON_DISPERSION,
                             1.0f );
     if( disperation_mod != 1.0f ) {
@@ -2533,7 +2539,6 @@ target_handler::trajectory target_ui::run()
             activity->aif_duration += 1;
         }
     }
-
 
     // Event loop!
     ExitCode loop_exit_code;

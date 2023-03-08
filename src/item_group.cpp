@@ -420,12 +420,8 @@ void Item_modifier::modify( item &new_item, const std::string &context ) const
     item cont;
     if( container != nullptr ) {
         cont = container->create_single( new_item.birthday() );
-    }
-    if( cont.is_null() && new_item.type->default_container.has_value() ) {
-        const itype_id &cont_value = new_item.type->default_container.value_or( "null" );
-        if( !cont_value.is_null() ) {
-            cont = item( cont_value, new_item.birthday() );
-        }
+    } else if( new_item.type->default_container.has_value() ) {
+        cont = item( *new_item.type->default_container, new_item.birthday() );
     }
 
     int max_capacity = -1;
@@ -721,6 +717,25 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
     }
     const std::size_t items_created = list.size() - prev_list_size;
     put_into_container( list, items_created, container_item, birthday, on_overflow, context() );
+
+    if( birthday == calendar::start_of_cataclysm ) {
+        // randomize rot value for comestibles generated at the 'start of cataclysm'
+        for( item &e : list ) {
+            e.visit_items( []( item * visit_itm, item * ) {
+                if( visit_itm->is_comestible() && visit_itm->get_comestible()->spoils > 0_turns ) {
+                    const double x_input = rng_float( 0.0, 1.0 );
+                    const double k_rot = ( 1.0 - x_input ) / ( 1.0 + 2 * x_input );
+                    visit_itm->set_rot( visit_itm->get_shelf_life() * k_rot );
+                    return VisitResponse::SKIP;
+                } else  if( visit_itm->is_container() && visit_itm->all_pockets_sealed() ) {
+                    return VisitResponse::SKIP;
+                }
+
+                return VisitResponse::NEXT;
+            } );
+        }
+    }
+
     return list.size() - prev_list_size;
 }
 

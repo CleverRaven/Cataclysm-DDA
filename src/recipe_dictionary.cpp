@@ -167,7 +167,6 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
-
 std::vector<const recipe *> recipe_subset::search(
     const std::string &txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const

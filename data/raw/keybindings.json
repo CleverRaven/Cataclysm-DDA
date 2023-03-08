@@ -265,6 +265,34 @@
   },
   {
     "type": "keybinding",
+    "id": "CHOOSE_INVLET",
+    "category": "SPELL_MENU",
+    "name": "Choose a hotkey for a spell",
+    "bindings": [ { "input_method": "keyboard_any", "key": "=" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CAST_IGNORE",
+    "category": "SPELL_MENU",
+    "name": "Toggle ignore distractions",
+    "bindings": [ { "input_method": "keyboard_char", "key": "I" }, { "input_method": "keyboard_code", "key": "i", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_UP_SPELL_MENU",
+    "category": "SPELL_MENU",
+    "name": "Scroll up spell info",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_DOWN_SPELL_MENU",
+    "category": "SPELL_MENU",
+    "name": "Scroll down spell info",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_RULE",
     "category": "AUTO_PICKUP",
     "name": "Add rule",
@@ -1014,20 +1042,6 @@
       { "input_method": "keyboard_any", "key": "SPACE" },
       { "input_method": "mouse", "key": "MOUSE_RIGHT" }
     ]
-  },
-  {
-    "type": "keybinding",
-    "id": "ZOOM_OUT",
-    "category": "OVERMAP",
-    "name": "Zoom out",
-    "bindings": [ { "input_method": "keyboard_char", "key": "Z" }, { "input_method": "keyboard_code", "key": "z", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "ZOOM_IN",
-    "category": "OVERMAP",
-    "name": "Zoom in",
-    "bindings": [ { "input_method": "keyboard_any", "key": "z" } ]
   },
   {
     "type": "keybinding",
@@ -1992,6 +2006,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SHOW_HIDE_CONTENTS_ALL",
+    "category": "INVENTORY",
+    "name": "Show/hide all contents",
+    "bindings": [ { "input_method": "keyboard_char", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_SKIP_UNSELECTABLE",
     "category": "INVENTORY",
     "name": "Toggle skipping unselectable items"
@@ -2540,8 +2561,7 @@
     "type": "keybinding",
     "name": "Abandon character",
     "category": "DEFAULTMODE",
-    "id": "SUICIDE",
-    "bindings": [ { "input_method": "keyboard_char", "key": "Q" }, { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] } ]
+    "id": "SUICIDE"
   },
   {
     "type": "keybinding",
@@ -2758,6 +2778,12 @@
     "name": "Toggle auto pickup",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_pickup"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle prevent occlusion (off->on->auto->)",
+    "category": "DEFAULTMODE",
+    "id": "toggle_prevent_occlusion"
   },
   {
     "type": "keybinding",
@@ -4073,6 +4099,27 @@
     "category": "INVENTORY",
     "name": "Switch to modifying blacklist",
     "bindings": [ { "input_method": "keyboard_any", "key": "b" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_SAVE_PRESET",
+    "category": "INVENTORY",
+    "name": "Save preset",
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_APPLY_PRESET",
+    "category": "INVENTORY",
+    "name": "Apply preset",
+    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_DEL_PRESET",
+    "category": "INVENTORY",
+    "name": "Delete preset",
+    "bindings": [ { "input_method": "keyboard_char", "key": "D" }, { "input_method": "keyboard_code", "key": "d", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",

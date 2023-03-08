@@ -2,11 +2,12 @@
   {
     "type": "region_overlay",
     "regions": [ "all" ],
+    "city": { "houses": { "safe_house": 5 }, "parks": { "vampire_cathedral": 50 } },
     "map_extras": {
       "road": {
         "chance": 75,
         "extras": {
-          "mx_golden_monolith": 10,
+          "mx_golden_monolith": 15,
           "mx_military": 50,
           "mx_science": 400,
           "mx_collegekids": 500,
