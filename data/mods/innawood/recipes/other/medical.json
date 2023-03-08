@@ -9,6 +9,7 @@
     "difficulty": 1,
     "time": "30 s",
     "autolearn": true,
+    "result_mult": 3,
     "components": [
       [ [ "cotton_patchwork", 3 ], [ "medical_gauze", 1 ], [ "fibercloth_patchwork", 3 ] ],
       [ [ "duct_tape", 20 ], [ "medical_tape", 5 ] ],

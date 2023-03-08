@@ -23,7 +23,7 @@ class JsonOut;
 class item;
 struct dialogue;
 template<class T>
-struct int_or_var;
+struct dbl_or_var;
 namespace enchant_vals
 {
 // the different types of values that can be modified by enchantments
@@ -37,7 +37,6 @@ enum class mod : int {
     PERCEPTION,
     INTELLIGENCE,
     SPEED,
-    ATTACK_COST,
     ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
     MOVE_COST,
     METABOLISM,
@@ -51,16 +50,16 @@ enum class mod : int {
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
     FATIGUE,       // fatigue rate
-    PAIN,          // cost or regen over time
+    PAIN,
+    PAIN_REMOVE,
     BONUS_DODGE,
     BONUS_BLOCK,
-    BONUS_DAMAGE,
     MELEE_DAMAGE,
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
-    SIGHT_RANGE,
     SIGHT_RANGE_ELECTRIC,
+    MOTION_VISION_RANGE,
     CARRY_WEIGHT,
     WEAPON_DISPERSION,
     SOCIAL_LIE,
@@ -71,7 +70,6 @@ enum class mod : int {
     EFFECTIVE_HEALTH_MOD,
     MOD_HEALTH,
     MOD_HEALTH_CAP,
-    MAP_MEMORY,
     READING_EXP,
     SKILL_RUST_RESIST,
     LEARNING_FOCUS,
@@ -106,7 +104,6 @@ enum class mod : int {
     ITEM_DAMAGE_ELEC,
     ITEM_DAMAGE_ACID,
     ITEM_DAMAGE_BIO,
-    ITEM_DAMAGE_AP,      // armor piercing
     ITEM_ARMOR_BASH,
     ITEM_ARMOR_CUT,
     ITEM_ARMOR_STAB,
@@ -116,12 +113,7 @@ enum class mod : int {
     ITEM_ARMOR_ELEC,
     ITEM_ARMOR_ACID,
     ITEM_ARMOR_BIO,
-    ITEM_WEIGHT,
-    ITEM_ENCUMBRANCE,
-    ITEM_VOLUME,
-    ITEM_COVERAGE,
     ITEM_ATTACK_SPEED,
-    ITEM_WET_PROTECTION,
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
     NUM_MOD
@@ -197,14 +189,14 @@ class enchantment
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value
-        std::map<enchant_vals::mod, int_or_var<dialogue>> values_add; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var<dialogue>> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
-        std::map<enchant_vals::mod, int_or_var<dialogue>> values_multiply; // NOLINT(cata-serialize)
+        std::map<enchant_vals::mod, dbl_or_var<dialogue>> values_multiply; // NOLINT(cata-serialize)
 
         // the exact same as above, though specifically for skills
-        std::map<skill_id, int_or_var<dialogue>> skill_values_add; // NOLINT(cata-serialize)
-        std::map<skill_id, int_or_var<dialogue>> skill_values_multiply; // NOLINT(cata-serialize)
+        std::map<skill_id, dbl_or_var<dialogue>> skill_values_add; // NOLINT(cata-serialize)
+        std::map<skill_id, dbl_or_var<dialogue>> skill_values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;

@@ -306,7 +306,6 @@ struct armor_portion_data {
 
     std::set<sub_bodypart_str_id> sub_coverage;
 
-
     // What layer does it cover if any
     std::set<layer_level> layers;
 
@@ -559,6 +558,7 @@ struct islot_book {
     std::vector<book_proficiency_bonus> proficiencies;
 
     bool was_loaded = false;
+    bool is_scannable = false;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
@@ -1222,6 +1222,8 @@ struct itype {
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
 
+        // used for corpses placed by mapgen
+        mtype_id source_monster = mtype_id::NULL_ID();
     private:
         FlagsSetType item_tags;
 

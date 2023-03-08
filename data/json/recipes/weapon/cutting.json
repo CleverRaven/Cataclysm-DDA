@@ -97,7 +97,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -598,7 +598,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_quenching" } ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -703,7 +703,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -804,7 +804,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -981,7 +981,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 4 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -1063,7 +1063,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1082,7 +1082,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 4 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -1164,7 +1164,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1183,7 +1183,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 4 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -1265,7 +1265,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 4 ], [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -1284,7 +1284,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 3 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 4 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -1366,7 +1366,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1467,7 +1467,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 3 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1568,7 +1568,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 4 ], [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -1669,7 +1669,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 4 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 4 ], [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -1688,7 +1688,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "using": [ [ "forging_standard", 2 ], [ "lc_steel_standard", 2 ] ],
-    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 4 }, { "id": "GRIND", "level": 2 } ],
+    "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
@@ -1770,7 +1770,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 2 ], [ "plastic_chunk", 1 ] ] ]
   },
   {
@@ -1871,7 +1871,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 4 ], [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -1972,7 +1972,7 @@
     ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "mc_steel_standard", 5 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ],
     "components": [ [ [ "scrap_kevlar", 4 ], [ "plastic_chunk", 2 ] ] ]
   },
   {
@@ -2148,7 +2148,7 @@
     "book_learn": [ [ "textbook_weapwest", 5 ], [ "welding_book", 6 ] ],
     "using": [ [ "soldering_standard", 20 ], [ "blacksmithing_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 2 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -80 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -80 ], [ "water_clean", -80 ] ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_quenching", "fail_multiplier": 2 } ],
     "components": [
       [ [ "machete", 1 ] ],
@@ -2157,5 +2157,44 @@
       [ [ "leather", 2 ], [ "chunk_rubber", 1 ] ],
       [ [ "rubber_cement", 1 ], [ "superglue", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "ax_sheets_bolted",
+    "byproducts": [ [ "sheet_metal_small", 6 ] ],
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "6 h",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "pipe_fittings", 1 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "nuts_bolts", 4 ] ],
+      [ [ "duct_tape", 50 ] ]
+    ],
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "DRILL", "level": 2 } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "ax_sheets_welded",
+    "byproducts": [ [ "sheet_metal_small", 6 ] ],
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_CUTTING",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "6 h",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
+    "using": [ [ "welding_standard", 5 ] ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "pipe_fittings", 1 ] ], [ [ "sheet_metal", 1 ] ], [ [ "duct_tape", 50 ] ] ],
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ]
   }
 ]

@@ -475,7 +475,7 @@
     "name": { "str": "fork" },
     "description": "A fork, if you stab something with it, you eat it right away.  Wait… nevermind.",
     "copy-from": "base_silverware",
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "type": "GENERIC",
@@ -488,7 +488,7 @@
     "longest_side": "15 cm",
     "looks_like": "fork",
     "copy-from": "base_plastic_silverware",
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "type": "GENERIC",
@@ -497,7 +497,7 @@
     "name": { "str": "spoon" },
     "description": "Do not try to bend the spoon.  That is impossible.",
     "copy-from": "base_silverware",
-    "flags": [ "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "type": "GENERIC",
@@ -510,7 +510,7 @@
     "longest_side": "15 cm",
     "looks_like": "spoon",
     "copy-from": "base_plastic_silverware",
-    "flags": [ "SHEATH_KNIFE" ]
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "type": "GENERIC",
@@ -537,7 +537,7 @@
     "id": "knife_butter",
     "name": { "str": "butter knife", "str_pl": "butter knives" },
     "description": "A dull knife, absolutely worthless in combat.  Excellent for spreading soft things on bread.",
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "copy-from": "base_silverware"
   },
   {
@@ -550,7 +550,7 @@
     "volume": "10 ml",
     "longest_side": "15 cm",
     "looks_like": "knife_butter",
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "copy-from": "base_plastic_silverware"
   },
   {
@@ -578,7 +578,7 @@
     "id": "peeler",
     "name": { "str": "vegetable peeler" },
     "description": "A simple tool for peeling the outer skin off fruits and veggies without stabbing yourself.",
-    "flags": [ "SHEATH_KNIFE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "knife_butter",
     "copy-from": "base_silverware"
   },
@@ -614,7 +614,7 @@
     "id": "spork",
     "name": { "str": "spork" },
     "description": "The bastardized hybrid of a spoon and fork, with all the power and capabilities of both in a more annoying to use package.",
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "fork",
     "copy-from": "base_silverware"
   },
@@ -624,7 +624,7 @@
     "id": "foon",
     "name": { "str": "foon" },
     "description": "Clearly the superior instrument.  Sporks are just imitators.",
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "looks_like": "spork",
     "copy-from": "base_silverware"
   },
@@ -634,7 +634,7 @@
     "id": "chopsticks",
     "name": { "str": "chopsticks", "str_pl": "pairs of chopsticks" },
     "description": "One of the most popular eating utensils in the world.  Does double duty as a way of dealing with especially fragile vampires.",
-    "flags": [ "STAB" ],
+    "flags": [ "STAB", "ALLOWS_BODY_BLOCK" ],
     "symbol": "X",
     "color": "light_gray",
     "price": 100,
@@ -701,7 +701,7 @@
     "looks_like": "fork",
     "copy-from": "base_utensil",
     "proportional": { "cutting": 2 },
-    "flags": [ "STAB", "SHEATH_KNIFE" ]
+    "flags": [ "STAB", "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ]
   },
   {
     "type": "GENERIC",
@@ -740,8 +740,8 @@
     "copy-from": "base_cookpot",
     "material": [ "steel" ],
     "color": "light_gray",
-    "weight": "550 g",
-    "volume": "2100 ml",
+    "weight": "880 g",
+    "volume": "3500 ml",
     "longest_side": "23 cm",
     "bashing": 6,
     "pocket_data": [
@@ -787,7 +787,7 @@
     "material": [ "copper" ],
     "color": "light_red",
     "weight": "750 g",
-    "volume": "2100 ml",
+    "volume": "3500 ml",
     "longest_side": "23 cm",
     "bashing": 6,
     "to_hit": -2,
@@ -939,14 +939,14 @@
     "material": [ "steel" ],
     "color": "light_gray",
     "looks_like": "pan",
-    "weight": "528 g",
-    "volume": "1 L",
+    "weight": "660 g",
+    "volume": "3 L",
     "longest_side": "35 cm",
     "bashing": 8,
     "to_hit": -2,
     "pocket_data": [
       {
-        "max_contains_volume": "800 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "1 kg",
         "watertight": true,
         "open_container": true,
@@ -967,7 +967,7 @@
     "color": "light_red",
     "looks_like": "pan",
     "weight": "628 g",
-    "volume": "1050 ml",
+    "volume": "3 L",
     "longest_side": "35 cm",
     "bashing": 7,
     "to_hit": -2,
@@ -1018,8 +1018,8 @@
     "category": "tools",
     "name": { "str": "makeshift copper pot" },
     "description": "A cooking pot crudely hammered out of copper.  Good enough to cook food and boil water, but not as useful as proper cookware.",
-    "weight": "884 g",
-    "volume": "1050 ml",
+    "weight": "300 g",
+    "volume": "1100 ml",
     "longest_side": "20 cm",
     "price": 200,
     "price_postapoc": 5,
@@ -1134,7 +1134,7 @@
     "name": { "str": "icecream scoop" },
     "description": "A utensil used for scooping icecream into bowls.  It has a spring powered lever to assist.",
     "looks_like": "spoon",
-    "flags": [ "SHEATH_KNIFE" ],
+    "flags": [ "SHEATH_KNIFE", "ALLOWS_BODY_BLOCK" ],
     "copy-from": "base_silverware"
   },
   {
@@ -1213,15 +1213,15 @@
     "material": [ "aluminum" ],
     "color": "light_gray",
     "looks_like": "pan",
-    "weight": "200 g",
-    "volume": "1050 ml",
+    "weight": "400 g",
+    "volume": "3 L",
     "longest_side": "35 cm",
     "bashing": 7,
     "to_hit": -2,
     "pocket_data": [
       {
         "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "800 g",
         "watertight": true,
         "open_container": true,
         "rigid": true

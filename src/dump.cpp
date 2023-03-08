@@ -135,11 +135,11 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_MELEE ) ) );
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_RANGED ) ) );
             r.push_back( std::to_string( obj.get_coverage( bp, item::cover_type::COVER_VITALS ) ) );
-            r.push_back( std::to_string( obj.bash_resist() ) );
-            r.push_back( std::to_string( obj.cut_resist() ) );
-            r.push_back( std::to_string( obj.bullet_resist() ) );
-            r.push_back( std::to_string( obj.acid_resist() ) );
-            r.push_back( std::to_string( obj.fire_resist() ) );
+            r.push_back( std::to_string( obj.resist( damage_type::BASH ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::CUT ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::BULLET ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::ACID ) ) );
+            r.push_back( std::to_string( obj.resist( damage_type::HEAT ) ) );
             rows.push_back( r );
         };
 
@@ -315,7 +315,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( std::to_string( veh_fueled.acceleration() / 100 ) );
             r.push_back( std::to_string( veh_fueled.coeff_air_drag() ) );
             r.push_back( std::to_string( veh_fueled.coeff_rolling_drag() ) );
-            r.push_back( std::to_string( veh_fueled.static_drag( false ) ) );
+            r.push_back( std::to_string( units::to_watt( veh_fueled.static_drag( false ) ) ) );
             r.push_back( std::to_string( static_cast<int>( 50 *
                                          veh_fueled.k_traction( veh_fueled.wheel_area() ) ) ) );
             rows.push_back( r );

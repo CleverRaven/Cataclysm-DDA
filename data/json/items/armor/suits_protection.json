@@ -1361,7 +1361,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "riot armor suit" },
-    "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance then its constituent parts.  Molle webbing is attached to the thighs and the word POLICE is emblazoned across the front.",
+    "description": "A full suit of black plastic body armor plates used by riot police.  Cleverly placed velcro straps secure each piece, resulting in slightly less encumbrance then its constituent parts.  Molle webbing is attached to the torso and the word POLICE is emblazoned across the front.",
     "weight": "3 kg",
     "volume": "12500 ml",
     "price": 60000,
@@ -1959,28 +1959,33 @@
   {
     "id": "chainmail_suit_faraday",
     "type": "ARMOR",
-    "copy-from": "lc_chainmail_suit",
+    "copy-from": "qt_chainmail_suit",
     "name": { "str": "faraday chainmail suit" },
-    "description": "A fully customized chainmail suit with integrated rubber boots that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
+    "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
     "armor": [
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "mouth", "eyes" ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "head" ],
         "coverage": 100,
         "encumbrance": 30
       },
       {
-        "material": [ { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_upper_l", "leg_knee_l", "leg_hip_l", "leg_upper_r", "leg_knee_r", "leg_hip_r" ],
-        "coverage": 100,
-        "encumbrance": 30
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "eyes" ],
+        "coverage": 95,
+        "encumbrance": 7
       },
       {
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
-        "covers": [ "leg_l", "leg_r" ],
-        "specifically_covers": [ "leg_lower_l", "leg_lower_r" ],
-        "coverage": 100
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "covers": [ "mouth" ],
+        "coverage": 95,
+        "encumbrance": 1
       },
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -1994,16 +1999,8 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 3.0 } ],
-        "layers": [ "NORMAL" ],
-        "encumbrance": 30,
-        "coverage": 100
-      },
-      {
-        "covers": [ "foot_l", "foot_r" ],
-        "specifically_covers": [ "foot_sole_r", "foot_sole_l" ],
-        "material": [ { "type": "rubber", "covered_by_mat": 100, "thickness": 6.0 } ],
-        "layers": [ "NORMAL" ],
+        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "encumbrance": 10,
         "coverage": 100
       }
     ],

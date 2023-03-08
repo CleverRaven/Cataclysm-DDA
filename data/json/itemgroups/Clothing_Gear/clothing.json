@@ -755,6 +755,45 @@
     ]
   },
   {
+    "id": "prof-plumbing_gear",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "wearable utility or protective gear for a plumbing job, includes tools",
+    "//2": "Intended to be a set of clothing for NPCs or monsters",
+    "items": [
+      { "item": "tool_belt", "prob": 60 },
+      { "group": "tools_plumbing", "count": [ 1, 2 ] },
+      { "group": "tools_common_small", "count": [ 1, 2 ] },
+      { "group": "supplies_plumbing" },
+      { "group": "large_bags" },
+      { "item": "knee_pads", "prob": 30 },
+      {
+        "distribution": [ { "item": "gloves_leather", "prob": 70 }, { "item": "gloves_rubber", "prob": 30 } ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "boots_rubber" },
+          { "item": "boots" },
+          { "item": "boots_steel" },
+          { "item": "sneakers_steel" },
+          { "item": "fishing_waders" }
+        ]
+      },
+      { "distribution": [ { "item": "socks" }, { "item": "socks_ankle" } ] },
+      {
+        "distribution": [ { "item": "jumpsuit" }, { "collection": [ { "group": "clothing_work_torso" }, { "group": "clothing_work_pants" } ] } ]
+      },
+      [ "hat_hard", 50 ],
+      {
+        "distribution": [ { "item": "apron_plastic", "prob": 30 }, { "item": "apron_leather", "prob": 10 } ],
+        "prob": 30
+      },
+      { "item": "mask_filter", "prob": 20, "charges": [ 0, 100 ] },
+      { "item": "wearable_light", "prob": 70, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
     "id": "hazmat_suits",
     "type": "item_group",
     "//": "Various types of hazmat suits, without masks",
@@ -2599,18 +2638,41 @@
   },
   {
     "type": "item_group",
-    "id": "postman_gear",
+    "id": "postman_carried",
+    "subtype": "collection",
+    "container-item": "mbag",
+    "on_overflow": "spill",
     "items": [
-      [ "postman_hat", 50 ],
-      [ "postman_shirt", 70 ],
-      [ "postman_shorts", 70 ],
-      [ "mbag", 40 ],
-      [ "newest_newspaper", 10 ],
-      [ "wristwatch", 50 ],
-      [ "leather_belt", 70 ],
-      [ "briefs", 90 ],
-      [ "socks", 70 ],
-      [ "sneakers", 70 ]
+      { "item": "letter", "container-item": "envelope" },
+      { "item": "letter", "container-item": "envelope" },
+      { "item": "postcard", "container-item": "envelope" },
+      { "item": "letter", "count": [ 0, 5 ] },
+      { "item": "postcard", "count": [ 0, 5 ] },
+      { "item": "envelope", "count": [ 0, 5 ] },
+      { "item": "newest_newspaper", "count": [ 0, 5 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "postman_gear",
+    "subtype": "collection",
+    "items": [
+      { "distribution": [ { "item": "postman_hat", "prob": 80 }, { "item": "hat_ball", "prob": 20 } ] },
+      { "item": "postman_shirt" },
+      { "item": "postman_shorts" },
+      { "group": "postman_carried" },
+      { "item": "wristwatch" },
+      { "item": "leather_belt", "prob": 70 },
+      {
+        "distribution": [
+          { "distribution": [ { "item": "briefs" }, { "item": "boxer_briefs" }, { "item": "boxer_shorts" } ] },
+          {
+            "collection": [ { "distribution": [ { "item": "bra" }, { "item": "sports_bra" } ] }, { "item": "panties" } ]
+          }
+        ]
+      },
+      { "item": "socks" },
+      { "item": "sneakers" }
     ]
   },
   {

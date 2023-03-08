@@ -252,7 +252,7 @@ resistances::resistances( const item &armor, bool to_self, int roll, const bodyp
     if( to_self || armor.is_armor() || armor.is_pet_armor() ) {
         for( int i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
             damage_type dt = static_cast<damage_type>( i );
-            set_resist( dt, armor.damage_resist( dt, to_self, bp, roll ) );
+            set_resist( dt, armor.resist( dt, to_self, bp, roll ) );
         }
     }
 }
@@ -263,7 +263,7 @@ resistances::resistances( const item &armor, bool to_self, int roll, const sub_b
     if( to_self || armor.is_armor() ) {
         for( int i = 0; i < static_cast<int>( damage_type::NUM ); i++ ) {
             damage_type dt = static_cast<damage_type>( i );
-            set_resist( dt, armor.damage_resist( dt, to_self, bp, roll ) );
+            set_resist( dt, armor.resist( dt, to_self, bp, roll ) );
         }
     }
 }
