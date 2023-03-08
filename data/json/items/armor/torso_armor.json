@@ -2072,6 +2072,7 @@
         "encumbrance": 6,
         "coverage": 75,
         "covers": [ "torso" ],
+        "volume_encumber_modifier": 0.3,
         "material": [
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 7 },
           { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 2 }
