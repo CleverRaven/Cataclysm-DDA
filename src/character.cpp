@@ -4067,7 +4067,7 @@ void Character::set_stored_calories( int cal )
 int Character::get_healthy_kcal() const
 {
     float healthy_weight = 5.0f * std::pow( height() / 100.0f, 2 );
-    return std::floor( 7716.17 * healthy_weight );
+    return std::floor( KCAL_PER_KG * healthy_weight );
 }
 
 float Character::get_kcal_percent() const
@@ -5946,7 +5946,7 @@ float Character::get_bmi_lean() const
 
 float Character::get_bmi_fat() const
 {
-    return ( get_stored_kcal() / 7716.17f ) / std::pow( height() / 100.0f, 2 );
+    return ( get_stored_kcal() / KCAL_PER_KG ) / std::pow( height() / 100.0f, 2 );
 }
 
 units::mass Character::bodyweight() const
@@ -5956,7 +5956,7 @@ units::mass Character::bodyweight() const
 
 units::mass Character::bodyweight_fat() const
 {
-    return units::from_kilogram( get_stored_kcal() / 7716.17 );
+    return units::from_kilogram( get_stored_kcal() / KCAL_PER_KG );
 }
 
 units::mass Character::bodyweight_lean() const
@@ -6407,7 +6407,7 @@ void Character::burn_move_stamina( int moves )
     int overburden_percentage = 0;
     //add half the difference between current stored kcal weight and healthy stored kcal weight to weight of carried gear
     units::mass fat_penalty = units::from_kilogram( 0.5f * std::max( 0.0f,
-                              ( get_healthy_kcal() - get_stored_kcal() ) / 7716.17f ) );
+                              ( get_healthy_kcal() - get_stored_kcal() ) / KCAL_PER_KG ) );
     units::mass current_weight = weight_carried() + fat_penalty;
     // Make it at least 1 gram to avoid divide-by-zero warning
     units::mass max_weight = std::max( weight_capacity(), 1_gram );
