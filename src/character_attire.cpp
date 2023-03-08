@@ -1805,12 +1805,13 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     }
 }
 
-float outfit::damage_resist( damage_type dt, bodypart_id bp, bool to_self ) const
+float outfit::damage_resist( const damage_type dmg_type, const bodypart_id &bp,
+                             const bool to_self ) const
 {
     float ret = 0.0f;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.damage_resist( dt, to_self );
+            ret += i.resist( dmg_type, to_self, bp );
         }
     }
     return ret;
@@ -1874,7 +1875,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
                 for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
                     if( covered_sbps.count( under_sbp ) != 1 ) {
                         guy.add_msg_if_player(
-                            string_format( _( "<color_c_red> the %s rubs uncomfortably against your unpadded %s </color>" ),
+                            string_format( _( "<color_c_red>The %s rubs uncomfortably against your unpadded %s.</color>" ),
                                            i.display_name(), under_sbp->name ) );
                         uncomfortable_bps.insert( sbp->parent );
                     }

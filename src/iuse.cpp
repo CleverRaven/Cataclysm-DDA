@@ -8466,6 +8466,10 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
                     p->add_msg_if_player( _( "You can't attach the tow-line to an internal part." ) );
                     return cata::nullopt;
                 }
+                if( !source_veh->part( vp->part_index() ).carried_stack.empty() ) {
+                    p->add_msg_if_player( _( "You can't attach the tow-line to a racked part." ) );
+                    return cata::nullopt;
+                }
             }
             const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
@@ -8537,6 +8541,10 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
             }
             if( !target_veh->is_external_part( vpos ) ) {
                 p->add_msg_if_player( _( "You can't attach the tow-line to an internal part." ) );
+                return cata::nullopt;
+            }
+            if( !target_veh->part( target_vp->part_index() ).carried_stack.empty() ) {
+                p->add_msg_if_player( _( "You can't attach the tow-line to a racked part." ) );
                 return cata::nullopt;
             }
             const vpart_id vpid( it->typeId().str() );

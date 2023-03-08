@@ -1218,12 +1218,12 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
                                    float acid = 0.0f, float fire = 0.0f, float env = 0.0f )
 {
     CAPTURE( armor.typeId().str() );
-    REQUIRE( armor.bash_resist() == Approx( bash ) );
-    REQUIRE( armor.cut_resist() == Approx( cut ) );
-    REQUIRE( armor.stab_resist() == Approx( stab ) );
-    REQUIRE( armor.bullet_resist() == Approx( bullet ) );
-    REQUIRE( armor.acid_resist() == Approx( acid ) );
-    REQUIRE( armor.fire_resist() == Approx( fire ) );
+    REQUIRE( armor.resist( damage_type::BASH ) == Approx( bash ) );
+    REQUIRE( armor.resist( damage_type::CUT ) == Approx( cut ) );
+    REQUIRE( armor.resist( damage_type::STAB ) == Approx( stab ) );
+    REQUIRE( armor.resist( damage_type::BULLET ) == Approx( bullet ) );
+    REQUIRE( armor.resist( damage_type::ACID ) == Approx( acid ) );
+    REQUIRE( armor.resist( damage_type::HEAT ) == Approx( fire ) );
     REQUIRE( armor.get_env_resist() == Approx( env ) );
 }
 
