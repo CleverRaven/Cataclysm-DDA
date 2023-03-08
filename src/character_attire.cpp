@@ -1805,12 +1805,13 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     }
 }
 
-float outfit::damage_resist( damage_type dt, bodypart_id bp, bool to_self ) const
+float outfit::damage_resist( const damage_type dmg_type, const bodypart_id &bp,
+                             const bool to_self ) const
 {
     float ret = 0.0f;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.damage_resist( dt, to_self );
+            ret += i.resist( dmg_type, to_self, bp );
         }
     }
     return ret;

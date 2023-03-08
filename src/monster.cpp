@@ -2167,7 +2167,7 @@ int monster::get_worn_armor_val( damage_type dt ) const
         return 0;
     }
     if( armor_item ) {
-        return armor_item->damage_resist( dt );
+        return armor_item->resist( dt );
     }
     return 0;
 }
