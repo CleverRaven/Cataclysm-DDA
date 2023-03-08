@@ -346,7 +346,6 @@
       "EBOOKREAD",
       "ELECTRICSTORAGE",
       "PORTABLE_GAME",
-      "PLUG_IN",
       {
         "type": "effect_on_conditions",
         "menu_text": "Dig into local files and logs",
@@ -362,7 +361,8 @@
         "need_charges": 1,
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform"
-      }
+      },
+      { "type": "plug_in", "ammo_scale": 0, "cable_length": 5, "charge_rate": 6 }
     ],
     "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
@@ -403,7 +403,6 @@
       "EBOOKREAD",
       "ELECTRICSTORAGE",
       "PORTABLE_GAME",
-      "PLUG_IN",
       {
         "type": "effect_on_conditions",
         "menu_text": "Dig into local files and logs",
@@ -417,7 +416,8 @@
         "msg": "You stop lighting up the screen.",
         "menu_text": "Turn off",
         "type": "transform"
-      }
+      },
+      { "type": "plug_in", "ammo_scale": 0, "cable_length": 5, "charge_rate": 6 }
     ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },

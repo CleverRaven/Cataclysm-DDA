@@ -4349,6 +4349,75 @@ void modify_gunmods_actor::finalize( const itype_id &my_item_type )
     }
 }
 
+std::unique_ptr<iuse_actor> plug_in_actor::clone() const
+{
+    return std::make_unique<plug_in_actor>( *this );
+}
+
+void plug_in_actor::load( const JsonObject &obj )
+{
+    type = itype_id( obj.get_string( "cable_type", "generic_device_cable" ) );
+    cable_length = obj.get_int( "cable_length", 4 );
+    charge_interval = obj.get_int( "charge_interval", 6 );
+    efficiency = obj.get_int( "efficiency", 7 );
+    obj.read( "menu_text", menu_text );
+}
+
+void plug_in_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    dump.emplace_back( "TOOL", _( "<bold>Can be plugged into a power grid</bold>" ) );
+    dump.emplace_back( "TOOL", _( "Cable length: " ), cable_length );
+}
+
+std::string plug_in_actor::get_name() const
+{
+    if( !menu_text.empty() ) {
+        return menu_text.translated();
+    }
+    return iuse_actor::get_name();
+}
+
+cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tripoint & ) const
+{
+    if( t ) {
+        return cata::nullopt; // invoked from active item processing, do nothing.
+    }
+    map &here = get_map();
+    item cable( type );
+    const cata::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to appliance where?" ) );
+    if( !posp_ ) {
+        return cata::nullopt;
+    }
+    const tripoint posp = *posp_;
+    const optional_vpart_position vp = here.veh_at( posp );
+    if( !vp ) {
+        p.add_msg_if_player( _( "There's no appliance here." ) );
+        return cata::nullopt;
+    } else {
+        const tripoint abspos = here.getabs( posp );
+        cable.set_var( "source_x", abspos.x );
+        cable.set_var( "source_y", abspos.y );
+        cable.set_var( "source_z", here.get_abs_sub().z() );
+
+        cable.set_var( "cable_length", cable_length );
+        cable.set_var( "charge_interval", charge_interval );
+        cable.set_var( "efficiency", efficiency );
+
+        cable.set_var( "state", "pay_out_cable" );
+        cable.active = true;
+        if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
+        it.process( get_map(), &p, p.pos() );
+        p.moves -= 15;
+
+        p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ), 
+                             it.tname( 1, false ), vp->vehicle().name );
+        it.plugged_in = true;
+    }
+    }
+
+    return 0;
+}
+
 std::unique_ptr<iuse_actor> deploy_tent_actor::clone() const
 {
     return std::make_unique<deploy_tent_actor>( *this );

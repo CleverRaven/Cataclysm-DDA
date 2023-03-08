@@ -22,9 +22,9 @@
   },
   {
     "type": "TOOL",
-    "id": "device_power_cord",
-    "name": { "str": "device power cord" },
-    "description": "A cord for attaching devices to power or to other devices.",
+    "id": "generic_device_cable",
+    "name": { "str": "device cable" },
+    "description": "A cable for attaching devices to power or to other devices.",
     "//": "This cable is automatically handled by devices and is used for connecting them to vehicles/appliances",
     "to_hit": 1,
     "color": "dark_gray",
@@ -36,8 +36,8 @@
     "category": "tools",
     "price": 1,
     "price_postapoc": 70,
-    "max_charges": 2,
-    "initial_charges": 2,
+    "max_charges": 4,
+    "initial_charges": 4,
     "flags": [ "CABLE_SPOOL", "AUTO_CABLE" ]
   },
   {

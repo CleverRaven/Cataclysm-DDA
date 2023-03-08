@@ -1035,6 +1035,25 @@ class modify_gunmods_actor : public iuse_actor
         void finalize( const itype_id &my_item_type ) override;
 };
 
+class plug_in_actor : public iuse_actor
+{
+public:
+    itype_id type; /** The type of cable created with this action */
+    int cable_length; /** Maximum length of the cable */
+    int charge_interval; /** How many seconds for 1 charge to be transferred to batteries */
+    int efficiency; /** one_in(this) chance to fail adding 1 charge */
+    translation menu_text;
+
+    plug_in_actor() : iuse_actor( "plug_in" ) {}
+
+    ~plug_in_actor() override = default;
+    void load( const JsonObject &obj ) override;
+    cata::optional<int> use( Character &p, item &it, bool t, const tripoint & ) const override;
+    std::unique_ptr<iuse_actor> clone() const override;
+    void info( const item &, std::vector<iteminfo> & ) const override;
+    std::string get_name() const override;
+};
+
 class deploy_tent_actor : public iuse_actor
 {
     public:

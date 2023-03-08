@@ -1710,7 +1710,6 @@ void Item_factory::init()
     add_iuse( "LUMBER", &iuse::lumber );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "PLAY_GAME", &iuse::play_game );
-    add_iuse( "PLUG_IN", &iuse::plug_in );
     add_iuse( "MAKEMOUND", &iuse::makemound );
     add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
     add_iuse( "MARLOSS", &iuse::marloss );
@@ -1827,6 +1826,7 @@ void Item_factory::init()
     add_actor( std::make_unique<install_bionic_actor>() );
     add_actor( std::make_unique<detach_gunmods_actor>() );
     add_actor( std::make_unique<modify_gunmods_actor>() );
+    add_actor( std::make_unique<plug_in_actor>() );
     add_actor( std::make_unique<deploy_tent_actor>() );
     add_actor( std::make_unique<learn_spell_actor>() );
     add_actor( std::make_unique<cast_spell_actor>() );

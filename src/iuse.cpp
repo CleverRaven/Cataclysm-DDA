@@ -8524,6 +8524,7 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
 
 std::optional<int> iuse::plug_in( Character *p, item *it, bool, const tripoint & )
 {
+    //TODOkama delete this?
     map &here = get_map();
     item cable( "device_power_cord" );
     const std::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to appliance where?" ) );
