@@ -1306,7 +1306,7 @@
     "type": "COMESTIBLE",
     "id": "salsa",
     "name": { "str_sp": "salsa" },
-    "weight": "240 g",
+    "weight": "80 g",
     "color": "red",
     "spoils_in": "4 days",
     "container": "jar_glass_sealed",
