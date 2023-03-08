@@ -7747,5 +7747,5 @@
     "time": "20 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "mutant_meat_scrap", 10 ] ] ]
-  },
+  }
 ]
