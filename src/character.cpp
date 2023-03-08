@@ -10963,7 +10963,7 @@ void Character::mod_pain( int npain )
 {
     if( npain > 0 ) {
         double mult = enchantment_cache->get_value_multiply( enchant_vals::mod::PAIN );
-        if( has_flag( json_flag_PAIN_IMMUNE ) || has_effect( effect_narcosis ) || ) {
+        if( has_flag( json_flag_PAIN_IMMUNE ) || has_effect( effect_narcosis ) ) {
             return;
         }
         // if there is a positive multiplier we always want to add at least 1 pain
