@@ -75,7 +75,7 @@
     "symbol": "/",
     "color": "yellow",
     "looks_like": "hoe",
-    "qualities": [ [ "DIG", 1 ], [ "SAW_W", 1 ]	],
+    "qualities": [ [ "DIG", 1 ], [ "SAW_W", 1 ] ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "NONCONDUCTIVE" ],
     "weapon_category": [ "BLADED_FARMING", "HOOKING_WEAPONRY" ],
