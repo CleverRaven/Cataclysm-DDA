@@ -399,7 +399,6 @@ caesariense
 cafeterias
 caffex
 calcifying
-caleen
 californium
 callosum
 callsigns
@@ -1476,6 +1475,7 @@ kops
 kord
 kosmoceratops
 krabgek
+krar
 kreck
 krick
 kriegsmesser
