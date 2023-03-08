@@ -4416,8 +4416,6 @@ void talk_effect_t<T>::parse_string_effect( const std::string &effect_id, const 
             WRAP( buy_cow ),
             WRAP( buy_chicken ),
             WRAP( buy_horse ),
-            WRAP( recover_camp ),
-            WRAP( remove_overseer ),
             WRAP( basecamp_mission ),
             WRAP( wake_up ),
             WRAP( reveal_stats ),

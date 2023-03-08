@@ -672,7 +672,7 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
             if( bcp ) {
                 return true;
             }
-            // legacy check
+            // TODO: legacy check to be removed once primitive field camp OMTs have been purged
             return omt_str.find( "faction_base_camp" ) != std::string::npos;
         } else if( location.evaluate( d ) == "FACTION_CAMP_START" ) {
             return !recipe_group::get_recipes_by_id( "all_faction_base_types", omt_str ).empty();
@@ -700,7 +700,7 @@ void conditional_t<T>::set_near_om_location( const JsonObject &jo, const std::st
                 if( bcp ) {
                     return true;
                 }
-                // legacy check
+                // TODO: legacy check to be removed once primitive field camp OMTs have been purged
                 if( omt_str.find( "faction_base_camp" ) != std::string::npos ) {
                     return true;
                 }
