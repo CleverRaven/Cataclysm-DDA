@@ -102,6 +102,7 @@ static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 static const efftype_id effect_winded( "winded" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_SEESLEEP( "SEESLEEP" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
@@ -123,7 +124,6 @@ static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
@@ -721,7 +721,7 @@ static void eff_fun_datura( Character &u, effect &it )
     }
 
     if( dur > 1800_minutes && one_in( 300 * 512 ) ) {
-        if( !u.has_trait( trait_NOPAIN ) ) {
+        if( !u.has_flag( json_flag_PAIN_IMMUNE ) ) {
             u.add_msg_if_player( m_bad,
                                  _( "Your heart spasms painfully and stops, dragging you back to reality as you die." ) );
         } else {

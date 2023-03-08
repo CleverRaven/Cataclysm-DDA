@@ -69,6 +69,8 @@ static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const bionic_id bio_fitnessband( "bio_fitnessband" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+
 static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
 
 static const itype_id itype_fitness_band( "fitness_band" );
@@ -78,7 +80,6 @@ static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 static const requirement_id requirement_data_anesthetic( "anesthetic" );
 
 static const trait_id trait_DEBUG_BIONICS( "DEBUG_BIONICS" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
@@ -2227,7 +2228,7 @@ static item_location autodoc_internal( Character &you, Character &patient,
     int drug_count = 0;
 
     if( !surgeon ) {//surgeon use their own anesthetic, player just need money
-        if( patient.has_trait( trait_NOPAIN ) ) {
+        if( patient.has_flag( json_flag_PAIN_IMMUNE ) ) {
             hint = _( "<color_yellow>Patient has deadened nerves.  Anesthesia unneeded.</color>" );
         } else if( patient.has_bionic( bio_painkiller ) ) {
             hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
