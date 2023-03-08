@@ -1545,7 +1545,9 @@ bool Character::consume_effects( item &food )
     stomach.ingest( ingested );
 
     // update speculative values
-    get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+    if( is_avatar() ) {
+        get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+    }
     for( const auto &v : ingested.nutr.vitamins ) {
         // update the estimated values for daily vitamins
         // actual vitamins happen during digestion
@@ -1608,11 +1610,13 @@ time_duration Character::get_consume_time( const item &it ) const
     } else if( !eat_verb && comest_type == "DRINK" ) {
         time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
         consume_time_modifier = mutation_value( "consume_time_modifier" );
+    } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
+        time = time_duration::from_moves( dynamic_cast<heal_actor const *>
+                                          ( fun->get_actor_ptr() )->move_cost );
     } else if( it.is_medication() ) {
         const use_function *consume_drug = it.type->get_use( "consume_drug" );
         const use_function *smoking = it.type->get_use( "SMOKING" );
         const use_function *adrenaline_injector = it.type->get_use( "ADRENALINE_INJECTOR" );
-        const use_function *heal = it.type->get_use( "heal" );
         if( consume_drug != nullptr ) { //its a drug
             const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                     ( consume_drug->get_actor_ptr() );
@@ -1627,8 +1631,8 @@ time_duration Character::get_consume_time( const item &it ) const
             }
         } else if( smoking != nullptr ) {
             time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
-        } else if( adrenaline_injector != nullptr || heal != nullptr ) {
-            //epi-pens, bandages and disinfectant are fairly quick
+        } else if( adrenaline_injector != nullptr ) {
+            //epi-pens, and disinfectant are fairly quick
             time = time_duration::from_seconds( 15 );
         } else {
             time = time_duration::from_seconds( 5 ); //probably pills so quick

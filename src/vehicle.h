@@ -114,7 +114,7 @@ struct smart_controller_cache {
     bool gas_engine_shutdown_forbidden = false;
     int velocity = 0;
     int battery_percent = 0;
-    units::energy battery_net_charge_rate = 0_J;
+    units::power battery_net_charge_rate = 0_W;
     float load = 0.0f;
 };
 
@@ -766,16 +766,13 @@ class vehicle
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
-        int part_vpower_w( int index, bool at_full_hp = false ) const;
+        units::power part_vpower_w( int index, bool at_full_hp = false ) const;
 
-        // get vpart epowerinfo for part number.
-        int part_epower_w( int index ) const;
+        // Get part power consumption/production for part number.
+        units::power part_epower( int index ) const;
 
         // convert watts over time to battery energy (kJ)
-        int power_to_energy_bat( int power_w, const time_duration &d ) const;
-
-        // convert vhp to watts.
-        static int vhp_to_watts( int power );
+        int power_to_energy_bat( units::power power, const time_duration &d ) const;
 
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects() const;
@@ -1234,6 +1231,8 @@ class vehicle
         // get a list of part indices and Creature pointers with a rider
         std::vector<rider_data> get_riders() const;
 
+        // is given character a passenger of this vehicle
+        bool is_passenger( Character &c ) const;
         // get passenger at part p
         Character *get_passenger( int you ) const;
         // get monster on a boardable part at p
@@ -1295,7 +1294,7 @@ class vehicle
         units::energy drain_energy( const itype_id &ftype, units::energy wanted_energy );
 
         // fuel consumption of vehicle engines of given type
-        int basic_consumption( const itype_id &ftype ) const;
+        units::power basic_consumption( const itype_id &ftype ) const;
         // Fuel consumption mL/hour
         int consumption_per_hour( const itype_id &ftype, units::energy fuel_per_s ) const;
 
@@ -1304,13 +1303,13 @@ class vehicle
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
          */
-        std::map<itype_id, units::energy> fuel_usage() const;
+        std::map<itype_id, units::power> fuel_usage() const;
 
         /**
         * Fuel usage for specific engine
         * @param e is the index of the engine in the engines array
         */
-        units::energy engine_fuel_usage( int e ) const;
+        units::power engine_fuel_usage( int e ) const;
         /**
          * Get all vehicle lights (excluding any that are destroyed)
          * @param active if true return only lights which are enabled
@@ -1320,43 +1319,47 @@ class vehicle
         void update_alternator_load();
 
         // Total drain or production of electrical power from engines.
-        int total_engine_epower_w() const;
+        units::power total_engine_epower() const;
         // Total production of electrical power from alternators.
-        int total_alternator_epower_w() const;
+        units::power total_alternator_epower() const;
         // Total power (W) currently being produced by all solar panels.
-        int total_solar_epower_w() const;
+        units::power total_solar_epower() const;
         // Total power currently being produced by all wind turbines.
-        int total_wind_epower_w() const;
+        units::power total_wind_epower() const;
         // Total power currently being produced by all water wheels.
-        int total_water_wheel_epower_w() const;
+        units::power total_water_wheel_epower() const;
         // Total power drain across all vehicle accessories.
-        int total_accessory_epower_w() const;
+        units::power total_accessory_epower() const;
         // Net power draw or drain on batteries.
-        int net_battery_charge_rate_w( bool include_reactors = true,
-                                       bool connected_vehicles = false ) const;
+        units::power net_battery_charge_rate( bool include_reactors = true,
+                                              bool connected_vehicles = false ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
-        int max_reactor_epower_w() const;
+        units::power max_reactor_epower() const;
         // Active power from reactors that is actually being drained by batteries.
-        int active_reactor_epower_w( bool connected_vehicles ) const;
+        units::power active_reactor_epower( bool connected_vehicles ) const;
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();
 
-        // Current and total battery power level as a pair
+        // Current and total battery power (kJ) level as a pair
         std::pair<int, int> battery_power_level() const;
 
-        // Current and total battery power level of all connected vehicles as a pair
+        // Current and total battery power (kJ) level of all connected vehicles as a pair
         std::pair<int, int> connected_battery_power_level() const;
 
         /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
+         * @param amount to discharge in kJ
+         * @param include_other_vehicles if true charge also to cable connected vehicles.
          * @return amount of charge left over.
          */
         int charge_battery( int amount, bool include_other_vehicles = true );
 
         /**
          * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
+         * @param amount to discharge in kJ
+         * @param recurse if true draws also from cable connected vehicles.
          * @return amount of request unfulfilled (0 if totally successful).
          */
         int discharge_battery( int amount, bool recurse = true );
@@ -1386,7 +1389,7 @@ class vehicle
         // Get combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted.  If safe == true, then limit engine power to
         // their safe power.
-        int total_power_w( bool fueled = true, bool safe = false ) const;
+        units::power total_power( bool fueled = true, bool safe = false ) const;
 
         // Get ground acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle has fuel for are included
@@ -1527,7 +1530,7 @@ class vehicle
 
         // Extra drag on the vehicle from components other than wheels.
         // @param actual is current drag if true or nominal drag otherwise
-        int static_drag( bool actual = true ) const;
+        units::power static_drag( bool actual = true ) const;
 
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;
@@ -1570,6 +1573,9 @@ class vehicle
          */
         void smart_controller_handle_turn( bool thrusting = false,
                                            const cata::optional<float> &k_traction_cache = cata::nullopt );
+
+        bool has_available_electric_engine();
+        void disable_smart_controller_if_needed();
 
         //deceleration due to ground friction and air resistance
         int slowdown( int velocity ) const;
@@ -2113,7 +2119,7 @@ class vehicle
         float of_turn = 0.0f; // NOLINT(cata-serialize)
         // leftover from previous turn
         float of_turn_carry = 0.0f;
-        int extra_drag = 0; // NOLINT(cata-serialize)
+        units::power extra_drag = 0_W; // NOLINT(cata-serialize)
         // the time point when it was successfully stolen
         cata::optional<time_point> theft_time;
         // rotation used for mount precalc values

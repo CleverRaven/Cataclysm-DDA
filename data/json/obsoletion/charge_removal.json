@@ -33,7 +33,17 @@
       "sheet_nylon",
       "sheet_nylon_patchwork",
       "napkin",
-      "cardboard"
+      "cardboard",
+      "adhesive_bandages",
+      "alcohol_wipes",
+      "bandages",
+      "bandages_makeshift",
+      "bandages_makeshift_bleached",
+      "bandages_makeshift_boiled",
+      "cotton_ball",
+      "disinrag",
+      "disincotton_ball",
+      "medical_gauze"
     ]
   },
   {

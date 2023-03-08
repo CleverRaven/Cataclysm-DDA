@@ -44,22 +44,6 @@
     "use_action": { "type": "consume_drug", "activation_message": "You take some stimulants." }
   },
   {
-    "id": "adhesive_bandages",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str": "adhesive bandage" },
-    "description": "A small medical dressing made of a piece of sterile cloth and sticky tape, used for small injuries not serious enough to require a full-size bandage.",
-    "weight": "2 g",
-    "volume": "2 ml",
-    "price": 5,
-    "price_postapoc": 2,
-    "material": "cotton",
-    "symbol": "!",
-    "color": "white",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 1, "bleed": 4, "move_cost": 750 }
-  },
-  {
     "id": "adrenaline_injector",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -163,56 +147,6 @@
     }
   },
   {
-    "id": "bandages",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str": "bandage" },
-    "description": "A sterile cloth bandage.  Used for stopping blood loss and protecting wounds from aggravation to help them heal faster.",
-    "weight": "70 g",
-    "volume": "250 ml",
-    "price": 600,
-    "price_postapoc": 200,
-    "material": [ "cotton" ],
-    "symbol": "!",
-    "color": "white",
-    "charges": 3,
-    "stack_size": 9,
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 15, "move_cost": 6000 }
-  },
-  {
-    "id": "bandages_makeshift",
-    "type": "COMESTIBLE",
-    "name": { "str": "makeshift bandage" },
-    "copy-from": "bandages",
-    "description": "A reasonably clean piece of cloth wrapped for use as a simple bandage.  Better than nothing.",
-    "weight": "38 g",
-    "volume": "423 ml",
-    "price_postapoc": 100,
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 10, "move_cost": 6000 }
-  },
-  {
-    "id": "bandages_makeshift_bleached",
-    "type": "COMESTIBLE",
-    "name": { "str": "bleached makeshift bandage" },
-    "copy-from": "bandages_makeshift",
-    "description": "A piece of cloth treated with a bleach solution to sterilize it for use as a bandage.",
-    "price_postapoc": 150,
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 6000 }
-  },
-  {
-    "id": "bandages_makeshift_boiled",
-    "type": "COMESTIBLE",
-    "name": { "str": "boiled makeshift bandage" },
-    "copy-from": "bandages_makeshift",
-    "description": "A piece of cloth boiled in water to sterilize it for use as a bandage.",
-    "price_postapoc": 150,
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 10, "move_cost": 6000 }
-  },
-  {
     "id": "bfipowder",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -314,7 +248,7 @@
     "color": "white",
     "phase": "liquid",
     "container": "bottle_plastic_small",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
@@ -479,25 +413,6 @@
     "flags": [ "NO_INGEST", "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ]
   },
   {
-    "id": "cotton_ball",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str_sp": "cotton balls" },
-    "description": "Fluffy balls of clean, white cotton.  They can serve as makeshift bandages in an emergency.",
-    "category": "spare_parts",
-    "weight": "22 g",
-    "volume": "250 ml",
-    "price": 500,
-    "price_postapoc": 50,
-    "charges": 10,
-    "material": [ "cotton" ],
-    "symbol": "*",
-    "color": "white",
-    "container": "bag_plastic",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 2, "bleed": 3, "move_cost": 3000 }
-  },
-  {
     "id": "crack",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -562,7 +477,7 @@
     "color": "light_cyan",
     "phase": "liquid",
     "container": "bottle_plastic_small",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 3000 }
   },
   {
@@ -574,24 +489,6 @@
     "description": "Makeshift antiseptic made from ethanol.  Can be used to disinfect wounds.",
     "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 3000 }
-  },
-  {
-    "id": "alcohol_wipes",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str_sp": "alcohol wipe" },
-    "description": "A wet wipe saturated with alcohol and stored in a sterile package.  Used for personal hygiene or disinfecting small wounds.",
-    "weight": "5 g",
-    "volume": "25 ml",
-    "freezing_point": -48,
-    "price": 400,
-    "price_postapoc": 250,
-    "charges": 40,
-    "symbol": ",",
-    "color": "white",
-    "container": "box_small",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ],
-    "use_action": { "type": "heal", "disinfectant_power": 2, "bite": 0.3, "move_cost": 500 }
   },
   {
     "id": "diazepam",
@@ -921,22 +818,6 @@
     }
   },
   {
-    "id": "medical_gauze",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str": "medical gauze" },
-    "description": "A decent-sized piece of cotton, sterilized and sealed.  It's designed for medical purposes.",
-    "weight": "90 g",
-    "volume": "200 ml",
-    "price": 350,
-    "price_postapoc": 200,
-    "material": [ "cotton" ],
-    "symbol": ",",
-    "color": "white",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": { "type": "heal", "bandages_power": 4, "bleed": 5, "move_cost": 6000 }
-  },
-  {
     "id": "meth",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -1039,7 +920,7 @@
       "move_cost": 2500,
       "effects": [ { "id": "pkill_wintergreen_oil", "duration": "1 h" } ]
     },
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ]
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "mugwort_oil",
@@ -1366,7 +1247,7 @@
     "color": "yellow",
     "phase": "liquid",
     "spoils_in": "28 days",
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "ALLOWS_REMOTE_USE" ],
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 3000 }
   },
   {
@@ -1642,53 +1523,6 @@
     "use_action": [ "XANAX" ]
   },
   {
-    "id": "disinrag",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str": "antiseptic soaked rag" },
-    "description": "A rag soaked in antiseptic.  Useful for light wounds, probably won't help with deep bites.",
-    "weight": "80 g",
-    "//": "Can't copy-from rag, it breaks the stacking for some reason!",
-    "volume": "250 ml",
-    "price": 250,
-    "price_postapoc": 50,
-    "material": [ "cotton" ],
-    "symbol": ",",
-    "color": "white",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "heal",
-      "disinfectant_power": 2,
-      "bite": 0.5,
-      "move_cost": 6000,
-      "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] }
-    }
-  },
-  {
-    "id": "disincotton_ball",
-    "type": "COMESTIBLE",
-    "comestible_type": "MED",
-    "name": { "str_sp": "antiseptic soaked cotton balls" },
-    "description": "Fluffy balls of clean white cotton.  Now that they've been soaked with antiseptic, they are somewhat useful to disinfect a wound.",
-    "weight": "25 g",
-    "//": "Can't copy-from cotton_ball, breaks volume",
-    "volume": "30 ml",
-    "price": 250,
-    "price_postapoc": 50,
-    "material": [ "cotton" ],
-    "symbol": "*",
-    "color": "white",
-    "category": "drugs",
-    "flags": [ "NO_INGEST", "EDIBLE_FROZEN" ],
-    "use_action": {
-      "type": "heal",
-      "disinfectant_power": 3,
-      "bite": 0.66,
-      "move_cost": 6000,
-      "used_up_item": { "id": "cotton_ball", "quantity": 1, "charges": 1, "flags": [ "FILTHY" ] }
-    }
-  },
-  {
     "id": "weak_antibiotic",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
@@ -1769,7 +1603,7 @@
     "phase": "liquid",
     "symbol": "~",
     "color": "light_blue",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 1,

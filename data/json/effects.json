@@ -395,7 +395,12 @@
     "rating": "bad",
     "resist_traits": [ "GASTROPOD_FOOT" ],
     "show_in_info": true,
-    "flags": [ "DISABLE_FLIGHT" ]
+    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.1, "resist_modifier": 0.8 },
+      { "limb_score": "reaction", "modifier": 0.5 },
+      { "limb_score": "block", "modifier": 0.5 }
+    ]
   },
   {
     "type": "effect_type",
@@ -440,14 +445,28 @@
       "pain_min": [ 1 ],
       "pain_chance": [ 1 ],
       "pain_max_val": [ 20 ]
-    }
+    },
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.5 },
+      { "limb_score": "lift", "modifier": 0.75 },
+      { "limb_score": "block", "modifier": 0.75 },
+      { "limb_score": "manip", "modifier": 0.5 },
+      { "limb_score": "swim", "modifier": 0.3 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
     "id": "darkness",
     "apply_message": "Your vision flickers and goes gray!",
     "remove_message": "The world flickers back to normality.",
-    "rating": "bad"
+    "rating": "bad",
+    "resist_traits": [ "PER_SLIME_OK" ],
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5, "resist_modifier": 1.0 },
+      { "limb_score": "night_vis", "modifier": 0.1, "resist_modifier": 1.0 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -457,7 +476,8 @@
     "apply_message": "You're stunned!",
     "rating": "bad",
     "show_in_info": true,
-    "flags": [ "DISABLE_FLIGHT" ]
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.2 }, { "limb_score": "reaction", "modifier": 0.0 } ],
+    "flags": [ "DISABLE_FLIGHT", "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -478,9 +498,14 @@
     "max_intensity": 10,
     "max_duration": "10 m",
     "int_add_val": 2,
-    "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -3 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "balance", "modifier": 0.5 },
+      { "limb_score": "reaction", "modifier": 0.35 },
+      { "limb_score": "vision", "modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -488,7 +513,9 @@
     "name": [ "Riding" ],
     "desc": [ "You are riding an animal." ],
     "apply_message": "You mount your steed.",
-    "rating": "good"
+    "rating": "good",
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.8 }, { "limb_score": "reaction", "modifier": 0.75 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -511,7 +538,9 @@
     "desc": [ "Your footing is unstable.  It's more difficult to fight while standing here." ],
     "apply_message": "You try to keep your balance.",
     "resist_traits": [ "GASTROPOD_BALANCE" ],
-    "rating": "bad"
+    "rating": "bad",
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.75 }, { "limb_score": "footing", "modifier": 0.4 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -523,14 +552,21 @@
     "remove_message": "Your sight returns!",
     "rating": "bad",
     "show_in_info": true,
-    "flags": [ "BLIND" ]
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.0 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD", "BLIND" ]
   },
   {
     "type": "effect_type",
     "id": "earphones",
     "name": [ "Wearing Earphones" ],
     "desc": [ "You are wearing earphones and can't hear much from outside world." ],
-    "rating": "bad"
+    "rating": "bad",
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -547,7 +583,9 @@
     "max_intensity": 3,
     "int_dur_factor": "100 s",
     "base_mods": { "pain_min": [ 1 ], "pain_chance": [ -50 ], "pain_chance_bot": [ 1000 ] },
-    "scaling_mods": { "pain_max_val": [ 5 ], "pain_chance": [ 150 ] }
+    "scaling_mods": { "pain_max_val": [ 5 ], "pain_chance": [ 150 ] },
+    "limb_score_mods": [ { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.2 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -564,6 +602,17 @@
     "base_mods": { "pain_min": [ 1 ] },
     "show_in_info": true,
     "blood_analysis_description": "Stung"
+  },
+  {
+    "type": "effect_type",
+    "id": "staggered_character",
+    "name": [ "Staggered" ],
+    "desc": [ "You've been knocked off-balance by an attack." ],
+    "apply_message": "You're staggered off-balance.",
+    "rating": "bad",
+    "limb_score_mods": [ { "limb_score": "balance", "modifier": 0.8 }, { "limb_score": "reaction", "modifier": 0.8 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "show_in_info": true
   },
   {
     "type": "effect_type",
@@ -638,6 +687,8 @@
       "cough_chance": [ 10 ]
     },
     "show_in_info": true,
+    "limb_score_mods": [ { "limb_score": "breathing", "modifier": 0.6 } ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "blood_analysis_description": "Unknown Organic Toxin"
   },
   {
@@ -707,7 +758,16 @@
       "stamina_min": [ -0.351, -0.151 ],
       "stamina_chance": [ -0.021, -0.051 ],
       "speed_mod": [ -0.31, -0.21 ]
-    }
+    },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
+      { "limb_score": "lift", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
+      { "limb_score": "grip", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 },
+      { "limb_score": "reaction", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.025 },
+      { "limb_score": "balance", "modifier": 1.0, "scaling": -0.01, "resist_scaling": -0.0025 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -727,7 +787,13 @@
     "int_decay_remove": true,
     "resist_traits": [ "ELFA_NV" ],
     "base_mods": { "per_mod": [ -3, 0 ] },
-    "scaling_mods": { "per_mod": [ -2, -1 ] }
+    "scaling_mods": { "per_mod": [ -2, -1 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.75, "resist_modifier": 1.0, "scaling": -0.25, "resist_scaling": -0.1 },
+      { "limb_score": "night_vis", "modifier": 1.0, "resist_modifier": 1.0, "scaling": 0.0, "resist_scaling": 0.0 },
+      { "limb_score": "reaction", "modifier": 1.0, "resist_modifier": 1.0, "scaling": 0.0, "resist_scaling": 0.0 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ]
   },
   {
     "type": "effect_type",
@@ -798,6 +864,37 @@
     "int_decay_tick": 600,
     "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
     "scaling_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
+    "limb_score_mods": [
+      {
+        "//": "Worse for fine manipulation than large movements",
+        "limb_score": "manip",
+        "modifier": 0.8,
+        "resist_modifier": 1.0,
+        "scaling": -0.1,
+        "resist_scaling": -0.025
+      },
+      { "limb_score": "lift", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 },
+      { "limb_score": "grip", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.1, "resist_scaling": -0.025 },
+      { "limb_score": "block", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 },
+      {
+        "limb_score": "breathing",
+        "modifier": 0.9,
+        "resist_modifier": 1.0,
+        "scaling": -0.05,
+        "resist_scaling": -0.00125
+      },
+      {
+        "limb_score": "move_speed",
+        "modifier": 0.9,
+        "resist_modifier": 1.0,
+        "scaling": -0.05,
+        "resist_scaling": -0.00125
+      },
+      { "limb_score": "balance", "modifier": 0.8, "resist_modifier": 1.0, "scaling": -0.1, "resist_scaling": -0.025 },
+      { "limb_score": "swim", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 },
+      { "limb_score": "crawl", "modifier": 0.9, "resist_modifier": 1.0, "scaling": -0.05, "resist_scaling": -0.00125 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true,
     "blood_analysis_description": "Paralyzing Poison"
   },
@@ -1115,7 +1212,7 @@
       "hurt_min": [ 1 ],
       "hurt_max": [ 2 ],
       "hurt_chance": [ -22 ],
-      "hurt_tick": [ 20 ],
+      "hurt_tick": [ 200 ],
       "pain_min": [ 1 ],
       "pain_max": [ 2 ],
       "pain_chance": [ 50 ],
@@ -1603,7 +1700,15 @@
     "desc": [ "The sun is in your eyes." ],
     "apply_message": "The sunlight's glare makes it hard to see.",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -1 ] }
+    "max_duration": "1 m",
+    "base_mods": { "per_mod": [ -1 ] },
+    "//": "No night vision for you",
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ]
   },
   {
     "type": "effect_type",
@@ -1612,7 +1717,13 @@
     "desc": [ "The sunlight is reflecting off the snow." ],
     "apply_message": "The sunlight reflecting off the snow makes it hard to see.",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -1 ] }
+    "base_mods": { "per_mod": [ -1 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ]
   },
   {
     "type": "effect_type",
@@ -1654,6 +1765,13 @@
     "harmful_cough": true,
     "max_duration": "30 m",
     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -2 ], "per_mod": [ -5 ], "speed_mod": [ -10 ], "cough_chance": [ 5 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.5 },
+      { "limb_score": "night_vis", "modifier": 0.5 },
+      { "limb_score": "reaction", "modifier": 0.75 },
+      { "limb_score": "breathing", "modifier": 0.3 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   },
   {
@@ -1663,7 +1781,13 @@
     "desc": [ "Range of Sight: 1; You are covered in magenta bile!" ],
     "apply_message": "You're covered in bile!",
     "rating": "bad",
-    "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] }
+    "base_mods": { "per_mod": [ -3 ], "vomit_chance": [ 500 ] },
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.1 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -1759,7 +1883,13 @@
     "name": [ "Poor Sight" ],
     "desc": [ "You can't see very far from this spot." ],
     "apply_message": "Your sight distance is impaired.",
-    "rating": "bad"
+    "rating": "bad",
+    "limb_score_mods": [
+      { "limb_score": "vision", "modifier": 0.1 },
+      { "limb_score": "night_vis", "modifier": 0.0 },
+      { "limb_score": "reaction", "modifier": 0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -1821,6 +1951,13 @@
     "int_add_val": 1,
     "base_mods": { "speed_mod": [ -20 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "breathing", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true,
     "show_intensity": false
   },
@@ -1833,6 +1970,12 @@
     "rating": "bad",
     "miss_messages": [ [ "The sludge restricts your movement.", 4 ] ],
     "max_intensity": 3,
+    "limb_score_mods": [
+      { "limb_score": "move_speed", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "footing", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "balance", "modifier": 8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "show_in_info": true
   },
   {
@@ -2021,7 +2164,14 @@
     "int_add_val": 1,
     "int_dur_factor": "5 m",
     "base_mods": { "speed_mod": [ -20 ], "str_mod": [ 0 ], "dex_mod": [ -1 ], "per_mod": [ -2 ], "vomit_chance": [ 20 ] },
-    "scaling_mods": { "speed_mod": [ -10 ], "int_mod": [ -2 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -2 ] }
+    "scaling_mods": { "speed_mod": [ -10 ], "int_mod": [ -2 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -2 ] },
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "vision", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "night_vis", "modifier": 0.9, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2034,6 +2184,11 @@
     "desc": [ "You can't trust everything that you see." ],
     "rating": "bad",
     "base_mods": { "int_mod": [ -2 ], "dex_mod": [ -1 ], "per_mod": [ -4 ] },
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
     "blood_analysis_description": "Hallucinations"
   },
   {
@@ -2065,10 +2220,17 @@
     "id": "shakes",
     "name": [ "Shakes" ],
     "desc": [ "Your hands just won't stop shaking." ],
-    "miss_messages": [ [ "You tremble", 4 ] ],
+    "miss_messages": [ [ "You tremble.", 4 ] ],
     "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] },
     "max_duration": 7200,
-    "dur_add_perc": 30
+    "dur_add_perc": 30,
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.7 },
+      { "limb_score": "block", "modifier": 0.5 },
+      { "limb_score": "balance", "modifier": 0.75 },
+      { "limb_score": "footing", "modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2079,7 +2241,15 @@
     "remove_message": "You regain control of your muscles!",
     "desc": [ "Your muscles have seized up, and you can't control them!" ],
     "miss_messages": [ [ "Your muscles won't cooperate!", 20 ] ],
-    "base_mods": { "str_mod": [ -12 ], "dex_mod": [ -20 ] }
+    "base_mods": { "str_mod": [ -12 ], "dex_mod": [ -20 ] },
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.2 },
+      { "limb_score": "block", "modifier": 0 },
+      { "limb_score": "balance", "modifier": 0.2 },
+      { "limb_score": "footing", "modifier": 0.2 },
+      { "limb_score": "crawl", "modifier": 0 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2188,13 +2358,25 @@
     "rating": "bad",
     "miss_messages": [ [ "This goo makes you slip", 2 ] ],
     "base_mods": { "dex_mod": [ -2 ], "speed_mod": [ -25 ], "vomit_chance": [ 2100 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "breathing", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
     "id": "hallu",
     "max_duration": "6 h",
-    "blood_analysis_description": "Hallucinations"
+    "blood_analysis_description": "Hallucinations",
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2216,7 +2398,16 @@
       "pkill_max_val": [ 30 ],
       "stamina_chance": [ 2 ],
       "stamina_min": [ -2 ]
-    }
+    },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "grip", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "move_speed", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "crawl", "modifier": 0.9, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ]
   },
   {
     "type": "effect_type",
@@ -2286,7 +2477,16 @@
     "speed_name": "Frostbite",
     "dur_add_perc": 0,
     "max_intensity": 2,
-    "scaling_mods": { "speed_mod": [ -5 ] }
+    "scaling_mods": { "speed_mod": [ -5 ] },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0 },
+      { "limb_score": "grip", "modifier": 0 },
+      { "limb_score": "block", "modifier": 0.5, "scaling": -0.25 },
+      { "limb_score": "lift", "modifier": 0.5, "scaling": -0.25 },
+      { "limb_score": "move_speed", "modifier": 0.75, "scaling": -0.25 },
+      { "limb_score": "crawl", "modifier": 0.75, "scaling": -0.25 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL" ]
   },
   {
     "type": "effect_type",
@@ -2340,7 +2540,14 @@
     "apply_message": "You're coated in sap!",
     "rating": "bad",
     "miss_messages": [ [ "The sap's too sticky for you to fight effectively.", 3 ] ],
-    "base_mods": { "speed_mod": [ -25 ], "dex_mod": [ -3 ] }
+    "base_mods": { "speed_mod": [ -25 ], "dex_mod": [ -3 ] },
+    "limb_score_mods": [
+      { "limb_score": "lift", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "block", "modifier": 0.8, "scaling": -0.15 },
+      { "limb_score": "breathing", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2656,7 +2863,18 @@
       "sleep_chance": [ 501 ],
       "pkill_max_val": [ 10 ],
       "pkill_tick": [ -10 ]
-    }
+    },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.9, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "vision", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.2 },
+      { "limb_score": "move_speed", "modifier": 1.0, "scaling": -0.05 },
+      { "limb_score": "balance", "modifier": 0.9, "scaling": -0.2 },
+      { "limb_score": "footing", "modifier": 0.8, "scaling": -0.2 },
+      { "limb_score": "swim", "modifier": 1.0, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2685,7 +2903,20 @@
     "int_dur_factor": "200 s",
     "miss_messages": [ [ "You're winded.", 3 ] ],
     "base_mods": { "str_mod": [ -2 ], "dex_mod": [ -3 ], "speed_mod": [ -20 ] },
-    "scaling_mods": { "speed_mod": [ -40 ] }
+    "scaling_mods": { "speed_mod": [ -40 ] },
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.9, "scaling": -0.25 },
+      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.2 },
+      { "limb_score": "grip", "modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "block", "modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "breathing", "modifier": 0.8, "scaling": -0.1 },
+      { "limb_score": "reaction", "modifier": 1.0, "scaling": -0.2 },
+      { "limb_score": "move_speed", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 1.0, "scaling": -0.1 },
+      { "limb_score": "swim", "modifier": 0.75, "scaling": -0.25 },
+      { "limb_score": "crawl", "modifier": 0.9, "scaling": -0.1 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2727,7 +2958,13 @@
     "apply_message": "You inhale sweetish gas.",
     "remove_message": "The slackness leaves your muscles.",
     "rating": "bad",
-    "base_mods": { "str_mod": [ -3 ], "dex_mod": [ -3 ], "int_mod": [ -2 ], "per_mod": [ -4 ] }
+    "base_mods": { "str_mod": [ -3 ], "dex_mod": [ -3 ], "int_mod": [ -2 ], "per_mod": [ -4 ] },
+    "limb_score_mods": [
+      { "limb_score": "reaction", "modifier": 0.5 },
+      { "limb_score": "move_speed", "modifier": 0.75 },
+      { "limb_score": "balance", "modifier": 0.75 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2821,7 +3058,19 @@
     "max_intensity": 15,
     "base_mods": { "speed_mod": [ -15 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "show_intensity": true,
+    "//": "Monster attacks only grab the torso to keep the intensity check consistent, but assume limbs getting grabbed as well",
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.8, "scaling": -0.05 },
+      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "block", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "breathing", "modifier": 0.8, "scaling": -0.1 },
+      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 0.655, "scaling": -0.07 },
+      { "limb_score": "swim", "modifier": 0.8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -2921,7 +3170,17 @@
     "max_duration": "2 s",
     "dur_add_perc": 20,
     "base_mods": { "speed_mod": [ -1000 ], "dex_mod": [ -100 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "limb_score_mods": [
+      { "limb_score": "manip", "modifier": 0.8, "scaling": -0.05 },
+      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "block", "modifier": 0.7, "scaling": -0.1 },
+      { "limb_score": "breathing", "modifier": 0.8, "scaling": -0.1 },
+      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.1 },
+      { "limb_score": "balance", "modifier": 0.75, "scaling": -0.05 },
+      { "limb_score": "swim", "modifier": 0.8, "scaling": -0.2 }
+    ],
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
   },
   {
     "type": "effect_type",
@@ -3683,7 +3942,7 @@
     "remove_message": "Reality reasserts itself and your perspective returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "base_mods": { "per_mod": [ 6, 0 ] }
+    "base_mods": { "per_mod": [ -6, 0 ] }
   },
   {
     "id": "weakened_gravity",
@@ -3707,7 +3966,7 @@
     "show_intensity": false,
     "enchantments": [
       {
-        "values": [ { "value": "CARRY_WEIGHT", "multiply": { "global_val": "var", "var_name": "portal_dungeon_carry_strength" } } ]
+        "values": [ { "value": "CARRY_WEIGHT", "add": { "global_val": "var", "var_name": "portal_dungeon_carry_strength" } } ]
       }
     ]
   },
@@ -3720,8 +3979,6 @@
     "remove_message": "Reality reasserts itself and your time returns to normal.",
     "rating": "bad",
     "show_intensity": false,
-    "enchantments": [
-      { "values": [ { "value": "SPEED", "multiply": { "global_val": "var", "var_name": "portal_dungeon_slow_strength" } } ] }
-    ]
+    "enchantments": [ { "values": [ { "value": "SPEED", "add": { "global_val": "var", "var_name": "portal_dungeon_slow_strength" } } ] } ]
   }
 ]

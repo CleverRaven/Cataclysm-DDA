@@ -2891,7 +2891,7 @@ bool mattack::ranged_pull( monster *z )
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     //Duration needs to be at least 2, or grab will immediately be removed
     target->add_effect( effect_grabbed, 2_turns, body_part_torso, false, prev_effect + 4 );
-    z->add_effect( effect_grabbing, 2_turns );
+    z->add_effect( effect_grabbing, 2_turns, true );
     return true;
 }
 
@@ -2960,7 +2960,7 @@ bool mattack::grab( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
-    z->add_effect( effect_grabbing, 2_turns );
+    z->add_effect( effect_grabbing, 2_turns, true );
     target->add_effect( effect_grabbed, 2_turns, body_part_torso, false,
                         prev_effect + z->get_grab_strength() );
 
@@ -3044,7 +3044,7 @@ bool mattack::grab_drag( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
-    z->add_effect( effect_grabbing, 2_turns );
+    z->add_effect( effect_grabbing, 2_turns, true );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
 
     // cooldown was not reset prior to refactor here
@@ -4784,7 +4784,8 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at your neck, cutting your throat for %2$d damage!" ),
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
-        target->make_bleed( effect_source( z ), bodypart_id( "head" ), 15_minutes );
+        target->add_effect( effect_source( z ), effect_bleed, 15_minutes,
+                            target->get_random_body_part_of_type( body_part_type::type::head ) );
     } else {
         target->add_msg_player_or_npc( _( "The %1$s slashes at your %2$s, but glances off your armor!" ),
                                        _( "The %1$s slashes at <npcname>'s %2$s, but glances off armor!" ),
@@ -5603,7 +5604,8 @@ bool mattack::bio_op_impale( monster *z )
         // Handle mons earlier - less to check for
         target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::STAB, dam ) );
         if( do_bleed ) {
-            target->make_bleed( effect_source( z ), bodypart_id( "torso" ), rng( 3_minutes, 10_minutes ) );
+            target->add_effect( effect_source( z ), effect_bleed, rng( 3_minutes, 10_minutes ),
+                                target->get_random_body_part_of_type( body_part_type::type::torso ) );
         }
         if( seen ) {
             add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );
@@ -5612,7 +5614,7 @@ bool mattack::bio_op_impale( monster *z )
         return true;
     }
 
-    const bodypart_id hit = target->get_random_body_part();
+    const bodypart_id hit = target->get_random_body_part( true );
 
     t_dam = foe->deal_damage( z, hit, damage_instance( damage_type::STAB, dam ) ).total_damage();
 
@@ -5624,7 +5626,7 @@ bool mattack::bio_op_impale( monster *z )
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            target->make_bleed( effect_source( z ), hit, rng( 75_turns, 125_turns ) );
+            target->add_effect( effect_source( z ), effect_bleed, rng( 75_turns, 125_turns ), hit );
         }
     } else {
         target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),
