@@ -6332,10 +6332,6 @@ void vehicle::do_towing_move()
         return;
     }
     bool invalidate = false;
-    if( !tow_data.get_towed() ) {
-        debugmsg( "tried to do towing move, but no towed vehicle!" );
-        invalidate = true;
-    }
     const int tow_index = get_tow_part();
     if( tow_index == -1 ) {
         debugmsg( "tried to do towing move, but no tow part" );
@@ -6356,7 +6352,7 @@ void vehicle::do_towing_move()
         // how the hellicopter did this happen?
         // yes, this can happen when towing over a bridge (see #47293)
         invalidate = true;
-        add_msg( m_info, _( "A towing cable snaps off of %s." ), tow_data.get_towed()->disp_name() );
+        add_msg( m_info, _( "A towing cable snaps off of %s." ), towed_veh->disp_name() );
     }
     if( invalidate ) {
         invalidate_towing( true );
