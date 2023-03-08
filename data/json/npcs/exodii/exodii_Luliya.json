@@ -255,10 +255,16 @@
     "type": "talk_topic",
     "id": "TALK_LULIYA_MUSIC2",
     "dynamic_line": "<You perform on your musical instrument with everything you have, giving a strong performance.  Luliya sways and begins to sing along.  Her voice is beautiful, she sounds like she has had some formal voice training.>",
-    "speaker_effect": { "effect": { "u_add_var": "u_jammed_luliya", "type": "general", "context": "music", "value": "yes" } },
+    "speaker_effect": {
+      "effect": [
+        { "u_add_var": "u_jammed_luliya", "type": "general", "context": "music", "value": "yes" },
+        { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 10 },
+        { "u_make_sound": "music", "type": "music", "volume": 10 }
+      ]
+    },
     "responses": [
-      { "text": "Fun, thank you for singing with me Luliya.", "effect": [ { "u_add_morale": 5 } ], "topic": "TALK_LULIYA" },
-      { "text": "Fun, thank you.  Anyway I have to go.", "effect": [ { "u_add_morale": 5 } ], "topic": "TALK_DONE" }
+      { "text": "Fun, thank you for singing with me Luliya.", "topic": "TALK_LULIYA" },
+      { "text": "Fun, thank you.  Anyway I have to go.", "topic": "TALK_DONE" }
     ]
   },
   {
