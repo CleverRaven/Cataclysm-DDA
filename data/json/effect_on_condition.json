@@ -572,6 +572,7 @@
     "condition": { "compare_int": [ { "global_val": "monsters_nearby", "id": "mon_zomborg" }, ">", { "const": 0 } ] },
     "effect": { "u_add_var": "seen_zomborg", "type": "dialogue", "context": "exodii", "value": "yes" }
   },
+  {
     "id": "EOC_BANDIT_ASSASSIN",
     "recurrence": [ "7 days", "14 days" ],
     "condition": {
