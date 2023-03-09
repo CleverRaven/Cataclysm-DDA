@@ -10368,6 +10368,35 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
     return ammo_sufficient( carrier, qty );
 }
 
+bool item::ammo_sufficient( const Character *carrier, const std::string &method, tripoint pos, int qty ) const
+{
+    auto iter = type->ammo_scale.find( method );
+    if( iter != type->ammo_scale.end() ) {
+        qty *= iter->second;
+    }
+    if( ammo_required() ) {
+        int ammo_required_total = ammo_required() * qty;
+        if( plugged_in ) {
+            const item *cable = contents.cables( true ).front();//TODOkama don't just use front here
+            const cata::optional<tripoint> source = get_cable_target( carrier, pos );
+            if( source ) {
+                const optional_vpart_position vp = get_map().veh_at( *source );
+                if( vp ) {
+                    ammo_required_total -= vp->vehicle().connected_battery_power_level().first;
+                    if( ammo_required_total <= 0 ) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return ammo_remaining( carrier ) >= ammo_required_total;
+
+    } else if( get_gun_ups_drain() > 0_kJ ) {
+        return carrier->available_ups() >= get_gun_ups_drain() * qty;
+    }
+    return true;
+}
+
 int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 {
     if( qty < 0 ) {
