@@ -298,7 +298,7 @@ ifneq ($(CLANG), 0)
   endif
   ifdef USE_LIBCXX
     OTHERS += -stdlib=libc++
-    LDFLAGS += -stdlib=libc++
+    LDFLAGS += -stdlib=libc++ -Wno-unused-command-line-argument
   endif
   ifeq ($(CCACHE), 1)
     CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
@@ -468,7 +468,7 @@ ifeq ($(PCH), 1)
   endif
 endif
 
-CPPFLAGS += -isystem ${SRC_DIR}/third-party
+CPPFLAGS += -Isrc -isystem ${SRC_DIR}/third-party
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS)
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
@@ -500,6 +500,10 @@ ifeq ($(NATIVE), linux64)
     CXXFLAGS += -fuse-ld=gold
     LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
   endif
+  ifeq ($(MOLD), 1)
+    CXXFLAGS += -fuse-ld=mold
+    LDFLAGS += -fuse-ld=mold
+  endif
 else
   # Linux 32-bit
   ifeq ($(NATIVE), linux32)
@@ -509,6 +513,10 @@ else
     ifeq ($(GOLD), 1)
       CXXFLAGS += -fuse-ld=gold
       LDFLAGS += -fuse-ld=gold -Wl,--detect-odr-violations
+    endif
+    ifeq ($(MOLD), 1)
+      CXXFLAGS += -fuse-ld=mold
+      LDFLAGS += -fuse-ld=mold
     endif
   endif
 endif
@@ -535,6 +543,10 @@ ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
   LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation -Wl,-headerpad_max_install_names
+  ifeq ($(ARCH),arm64)
+    CXXFLAGS += -arch arm64
+    LDFLAGS += -arch arm64
+  endif
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
@@ -820,6 +832,7 @@ endif
 
 # Enumerations of all the source files and headers.
 SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
+THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
@@ -841,6 +854,9 @@ ASTYLE_SOURCES := $(sort \
   $(CHKJSON_SOURCES) \
   $(CLANG_TIDY_PLUGIN_SOURCES) \
   $(CLANG_TIDY_PLUGIN_HEADERS))
+
+# Third party sources should not be astyle'd
+SOURCES += $(THIRD_PARTY_SOURCES)
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
@@ -939,8 +955,9 @@ prefix:
             if [ "x$$PREFIX_STRING" != "x$$OLDPREFIX" ]; then printf '// NOLINT(cata-header-guard)\n#define PREFIX "%s"\n' "$$PREFIX_STRING" | tee $(SRC_DIR)/prefix.h ; fi \
          )
 
-# Unconditionally create the object dir on every invocation.
-$(shell mkdir -p $(ODIR))
+# Unconditionally create the object dirs on every invocation.
+DIRS = $(sort $(dir $(OBJS)))
+$(shell mkdir -p $(DIRS))
 
 $(ODIR)/%.inc: $(SRC_DIR)/%.cpp
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -H -E $< -o /dev/null 2> $@
@@ -978,7 +995,7 @@ lang/mo_built.stamp: $(MO_DEPS)
 localization: lang/mo_built.stamp
 
 $(CHKJSON_BIN): $(CHKJSON_SOURCES)
-	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
+	$(CXX) $(CXXFLAGS) $(TOOL_CXXFLAGS) -Isrc/chkjson -Isrc -isystem src/third-party $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
@@ -1203,7 +1220,10 @@ $(ODIR)/.astyle-check-stamp: $(ASTYLE_SOURCES)
 endif
 
 astyle-fast: $(ASTYLE_SOURCES)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
+	echo $(ASTYLE_SOURCES) | xargs -P 0 -L 1 $(ASTYLE_BINARY) --quiet --options=.astylerc -n
+
+astyle-diff: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $$(git diff --name-only src/*.h src/*.cpp tests/*.h tests/*.cpp)
 
 astyle-all: $(ASTYLE_SOURCES)
 	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
@@ -1240,7 +1260,7 @@ style-all-json-parallel: $(JSON_FORMATTER_BIN)
 	find data -name "*.json" -print0 | xargs -0 -L 1 -P $$(nproc) $(JSON_FORMATTER_BIN)
 
 $(JSON_FORMATTER_BIN): $(JSON_FORMATTER_SOURCES)
-	$(CXX) $(CXXFLAGS) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc \
+	$(CXX) $(CXXFLAGS) -MMD -MP $(TOOL_CXXFLAGS) -Itools/format -Isrc -isystem src/third-party \
 	  $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
 python-check:

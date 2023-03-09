@@ -206,7 +206,10 @@ cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
 
 std::string gun_type_type::name() const
 {
-    return pgettext( "gun_type_type", name_.c_str() );
+    const itype_id gun_type_as_id( name_ );
+    return gun_type_as_id.is_valid()
+           ? gun_type_as_id->nname( 1 )
+           : pgettext( "gun_type_type", name_.c_str() );
 }
 
 bool itype::can_have_charges() const
@@ -388,12 +391,3 @@ std::tuple<encumbrance_modifier_type, int> armor_portion_data::convert_descripto
 }
 
 std::map<itype_id, std::set<itype_id>> islot_magazine::compatible_guns;
-
-std::set<itype_id> known_bad_density::known_bad;
-
-void known_bad_density::load( const JsonObject &jo )
-{
-    std::set<itype_id> new_known_bad;
-    jo.read( "list", new_known_bad );
-    known_bad.insert( new_known_bad.begin(), new_known_bad.end() );
-}

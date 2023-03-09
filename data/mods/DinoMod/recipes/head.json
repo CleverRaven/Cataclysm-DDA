@@ -1,0 +1,198 @@
+[
+  {
+    "result": "helmet_dino",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "skull_dino_small", 1 ], [ "skull_dino_med", 1 ], [ "skull_dino_large", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ], [ "meal_bone", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "helmet_ceratopsian",
+    "type": "recipe",
+    "id_suffix": "triceratops",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "skull_triceratops", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ], [ "meal_bone", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "helmet_ceratopsian",
+    "type": "recipe",
+    "id_suffix": "centrosaurus",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "skull_centrosaurus", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ], [ "meal_bone", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "helmet_ceratopsian",
+    "type": "recipe",
+    "id_suffix": "torosaurus",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "skull_torosaurus", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ], [ "meal_bone", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "helmet_ceratopsian",
+    "type": "recipe",
+    "id_suffix": "styracosaurus",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "skull_styracosaurus", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ], [ "meal_bone", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "helmet_dino_pred",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "skull_dino_pred_small", 1 ], [ "skull_dino_pred_med", 1 ], [ "skull_dino_pred_large", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ], [ "meal_bone", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "helmet_dino_pred",
+    "type": "recipe",
+    "id_suffix": "tyrannosaurus",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "skull_tyrannosaurus", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ], [ "meal_bone", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "helmet_dino_pred",
+    "type": "recipe",
+    "id_suffix": "allosaurus",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "skull_allosaurus", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ], [ "meal_bone", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ]
+  },
+  {
+    "result": "helmet_dino_pred",
+    "type": "recipe",
+    "id_suffix": "acrocanthosaurus",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": "4 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "skull_acrocanthosaurus", 1 ] ] ],
+    "using": [ [ "tailoring_leather_patchwork", 2 ] ],
+    "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 1 ], [ "meal_bone", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_carving" }
+    ]
+  }
+]

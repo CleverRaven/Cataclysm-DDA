@@ -351,7 +351,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         tally_max -= byproduct_nutr;
     }
 
-    int charges = comest.count();
+    int charges = rec.makes_amount();
     return { tally_min / charges, tally_max / charges };
 }
 
@@ -581,6 +581,11 @@ int Character::vitamin_mod( const vitamin_id &vit, int qty )
     } else if( qty < 0 ) {
         it->second = std::max( it->second + qty, v.min() );
         update_vitamins( vit );
+        for( const std::pair<vitamin_id, int> &dcy : v.decays_into() ) {
+            if( it->second != 0 ) {
+                vitamin_mod( dcy.first, dcy.second * std::abs( qty ) );
+            }
+        }
     }
 
     return it->second;
@@ -813,26 +818,6 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
         }
     }
 
-    return ret_val<edible_rating>::make_success();
-}
-
-ret_val<edible_rating> Character::can_consume_fuel( const item &fuel ) const
-{
-    if( !can_fuel_bionic_with( fuel ) ) {
-        return ret_val<edible_rating>::make_failure( _( "That doesn't look useable as fuel." ) );
-    } else {
-        std::string item_name = fuel.tname();
-        material_id mat_type = fuel.get_base_material().id;
-        if( fuel.type->magazine ) {
-            const item ammo = item( fuel.ammo_current() );
-            item_name = ammo.tname();
-            mat_type = ammo.get_base_material().id;
-        }
-        if( get_fuel_capacity( mat_type ) <= 0 ) {
-            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
-        }
-
-    }
     return ret_val<edible_rating>::make_success();
 }
 
@@ -1560,7 +1545,9 @@ bool Character::consume_effects( item &food )
     stomach.ingest( ingested );
 
     // update speculative values
-    get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+    if( is_avatar() ) {
+        get_avatar().add_ingested_kcal( ingested.nutr.calories / 1000 );
+    }
     for( const auto &v : ingested.nutr.vitamins ) {
         // update the estimated values for daily vitamins
         // actual vitamins happen during digestion
@@ -1568,81 +1555,6 @@ bool Character::consume_effects( item &food )
     }
 
     return true;
-}
-
-bool Character::fuel_bionic_with( item &it )
-{
-    if( !can_fuel_bionic_with( it ) ) {
-        return false;
-    }
-
-    if( it.is_favorite &&
-        !get_avatar().query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
-        return false;
-    }
-
-    const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-
-    const bool is_magazine = !!it.type->magazine;
-    int loadable;
-    material_id mat = it.get_base_material().id;
-
-    if( is_magazine ) {
-        const item ammo = item( it.ammo_current() );
-        mat = ammo.get_base_material().id;
-        loadable = std::min( it.ammo_remaining(), get_fuel_capacity( mat ) );
-        it.ammo_set( ammo.typeId(), it.ammo_remaining() - loadable );
-    } else if( it.flammable() ) {
-        // This a special case for items that are not fuels and don't have charges
-        loadable = std::min( units::to_milliliter( it.volume() ), get_fuel_capacity( mat ) );
-        it.charges -= it.charges_per_volume( units::from_milliliter( loadable ) );
-    } else {
-        loadable = std::min( it.charges, get_fuel_capacity( mat ) );
-        it.charges -= loadable;
-    }
-
-    const std::string str_loaded  = get_value( mat.str() );
-    int loaded = 0;
-    if( !str_loaded.empty() ) {
-        loaded = std::stoi( str_loaded );
-    }
-
-    const std::string new_charge = std::to_string( loadable + loaded );
-
-    // Type and amount of fuel
-    set_value( mat.str(), new_charge );
-    update_fuel_storage( mat );
-    add_msg_player_or_npc( m_info,
-                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           n_gettext( "You load %1$i charge of %2$s in your %3$s.",
-                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
-                           //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
-                           n_gettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
-                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
-                           bio->name );
-
-    // Return false for magazines because only their ammo is consumed
-    return !is_magazine;
-}
-
-int Character::get_acquirable_energy( const item &it ) const
-{
-    const std::vector<bionic_id> &bids = get_bionic_fueled_with( it );
-    if( bids.empty() ) {
-        return 0;
-    }
-    const bionic_id &bid = get_most_efficient_bionic( bids );
-    int to_consume;
-    units::energy energy_per_charge;
-    item fuel;
-    if( it.type->magazine ) {
-        fuel = it.loaded_ammo();
-    } else {
-        fuel = it;
-    }
-    energy_per_charge = fuel.fuel_energy() / fuel.charges;
-    to_consume = std::min( fuel.charges, bid->fuel_capacity );
-    return units::to_kilojoule( energy_per_charge * to_consume * bid->fuel_efficiency );
 }
 
 bool Character::can_estimate_rot() const
@@ -1698,11 +1610,13 @@ time_duration Character::get_consume_time( const item &it ) const
     } else if( !eat_verb && comest_type == "DRINK" ) {
         time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
         consume_time_modifier = mutation_value( "consume_time_modifier" );
+    } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
+        time = time_duration::from_moves( dynamic_cast<heal_actor const *>
+                                          ( fun->get_actor_ptr() )->move_cost );
     } else if( it.is_medication() ) {
         const use_function *consume_drug = it.type->get_use( "consume_drug" );
         const use_function *smoking = it.type->get_use( "SMOKING" );
         const use_function *adrenaline_injector = it.type->get_use( "ADRENALINE_INJECTOR" );
-        const use_function *heal = it.type->get_use( "heal" );
         if( consume_drug != nullptr ) { //its a drug
             const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                     ( consume_drug->get_actor_ptr() );
@@ -1717,8 +1631,8 @@ time_duration Character::get_consume_time( const item &it ) const
             }
         } else if( smoking != nullptr ) {
             time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
-        } else if( adrenaline_injector != nullptr || heal != nullptr ) {
-            //epi-pens, bandages and disinfectant are fairly quick
+        } else if( adrenaline_injector != nullptr ) {
+            //epi-pens, and disinfectant are fairly quick
             time = time_duration::from_seconds( 15 );
         } else {
             time = time_duration::from_seconds( 5 ); //probably pills so quick
@@ -1805,18 +1719,19 @@ static bool consume_med( item &target, Character &you )
         you.modify_radiation( comest );
         you.modify_addiction( comest );
         you.modify_morale( target );
+        activate_consume_eocs( you, target );
     } else {
         // Take by mouth
-        you.consume_effects( target );
+        if( !you.consume_effects( target ) ) {
+            activate_consume_eocs( you, target );
+        }
     }
-
-    activate_consume_eocs( you, target );
 
     target.mod_charges( -amount_used );
     return true;
 }
 
-trinary Character::consume( item &target, bool force, bool refuel )
+trinary Character::consume( item &target, bool force )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1838,10 +1753,6 @@ trinary Character::consume( item &target, bool force, bool refuel )
         return trinary::NONE;
     }
 
-    if( refuel ) {
-        return fuel_bionic_with( target ) && target.charges <= 0 ? trinary::ALL : trinary::SOME;
-    }
-
     if( consume_med( target, *this ) || eat( target, *this, force ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
@@ -1853,7 +1764,7 @@ trinary Character::consume( item &target, bool force, bool refuel )
     return trinary::NONE;
 }
 
-trinary Character::consume( item_location loc, bool force, bool refuel )
+trinary Character::consume( item_location loc, bool force )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );
@@ -1861,7 +1772,7 @@ trinary Character::consume( item_location loc, bool force, bool refuel )
     }
     contents_change_handler handler;
     item &target = *loc;
-    trinary result = consume( target, force, refuel );
+    trinary result = consume( target, force );
     if( result != trinary::NONE ) {
         handler.unseal_pocket_containing( loc );
     }

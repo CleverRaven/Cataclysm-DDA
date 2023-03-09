@@ -9,11 +9,13 @@
 #include <chrono>
 #include <csignal>
 #include <cstdlib>
+#include <functional>
 #include <iomanip> // IWYU pragma: keep
 #include <iostream>
 #include <iterator>
 #include <limits>
 #include <list>
+#include <locale>
 #include <map>
 #include <memory>
 #include <new>
@@ -97,6 +99,7 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "tgz_archiver.h"
 #include "trait_group.h"
 #include "translations.h"
 #include "try_parse_integer.h"
@@ -120,6 +123,7 @@ static const achievement_id achievement_achievement_arcade_mode( "achievement_ar
 static const bodypart_str_id body_part_no_a_real_part( "no_a_real_part" );
 
 static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bleed( "bleed" );
 
 static const faction_id faction_no_faction( "no_faction" );
 
@@ -152,6 +156,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::LONG_TELEPORT: return "LONG_TELEPORT";
         case debug_menu::debug_menu_index::REVEAL_MAP: return "REVEAL_MAP";
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
+        case debug_menu::debug_menu_index::SPAWN_OM_NPC: return "SPAWN_OM_NPC";
         case debug_menu::debug_menu_index::SPAWN_MON: return "SPAWN_MON";
         case debug_menu::debug_menu_index::GAME_STATE: return "GAME_STATE";
         case debug_menu::debug_menu_index::KILL_AREA: return "KILL_AREA";
@@ -180,6 +185,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_WEATHER: return "DISPLAY_WEATHER";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS: return "DISPLAY_SCENTS";
         case debug_menu::debug_menu_index::CHANGE_TIME: return "CHANGE_TIME";
+        case debug_menu::debug_menu_index::FORCE_TEMP: return "FORCE_TEMP";
         case debug_menu::debug_menu_index::SET_AUTOMOVE: return "SET_AUTOMOVE";
         case debug_menu::debug_menu_index::SHOW_MUT_CAT: return "SHOW_MUT_CAT";
         case debug_menu::debug_menu_index::OM_EDITOR: return "OM_EDITOR";
@@ -206,6 +212,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::WRITE_TIMED_EVENTS: return "WRITE_TIMED_EVENTS";
         case debug_menu::debug_menu_index::SAVE_SCREENSHOT: return "SAVE_SCREENSHOT";
         case debug_menu::debug_menu_index::GAME_REPORT: return "GAME_REPORT";
+        case debug_menu::debug_menu_index::GAME_MIN_ARCHIVE: return "GAME_MIN_ARCHIVE";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_LOCAL: return "DISPLAY_SCENTS_LOCAL";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL: return "DISPLAY_SCENTS_TYPE_LOCAL";
         case debug_menu::debug_menu_index::DISPLAY_TEMP: return "DISPLAY_TEMP";
@@ -232,6 +239,144 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
 }
 
 } // namespace io
+
+namespace
+{
+struct fake_tripoint { // NOLINT(cata-xy)
+    int x = 0, y = 0, z = 0;
+};
+
+struct OM_point { // NOLINT(cata-xy)
+    int x = 0, y = 0;
+};
+
+std::istream &operator>>( std::istream &is, fake_tripoint &pos )
+{
+    char c = 0;
+    is >> pos.x &&is.get( c ) &&c == '.' &&is >> pos.y &&is.get( c ) &&c == '.' &&is >> pos.z;
+    return is;
+}
+
+std::istream &operator>>( std::istream &is, OM_point &pos )
+{
+    char c = 0;
+    is >> pos.x &&is.get( c ) &&c == '.' &&is >> pos.y;
+    return is;
+}
+
+template<typename T>
+T _from_fs_string( std::string const &s )
+{
+    std::istringstream is( s );
+    is.imbue( std::locale::classic() );
+    T result;
+    is >> result;
+    if( !is ) {
+        return T{};
+    }
+    return result;
+}
+
+tripoint _from_map_string( std::string const &s )
+{
+    fake_tripoint const ft = _from_fs_string<fake_tripoint>( s );
+    return { ft.x, ft.y, ft.z };
+}
+
+tripoint _from_OM_string( std::string const &s )
+{
+    OM_point const om = _from_fs_string<OM_point>( s );
+    return { om.x, om.y, 0 };
+}
+
+using rdi_t = fs::recursive_directory_iterator;
+using f_validate_t = std::function<bool( fs::path const &dep, rdi_t &iter )>;
+
+bool _add_dir( tgz_archiver &tgz, fs::path const &root, f_validate_t const &validate = {} )
+{
+    fs::path const cnc = root.has_root_path() ?  fs::canonical( root ) : root;
+    fs::path const parent_cnc = cnc.parent_path();
+
+    for( auto iter = rdi_t( cnc ); iter != rdi_t(); ++iter ) {
+        fs::path const dep = iter->path().lexically_relative( parent_cnc );
+
+        if( validate && !validate( dep, iter ) ) {
+            continue;
+        }
+
+        if( !tgz.add_file( *iter, dep ) ) {
+            popup( _( "Failed to create minimized archive" ) );
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool _trim_mapbuffer( fs::path const &dep, rdi_t &iter, tripoint_range<tripoint> const &segs,
+                      tripoint_range<tripoint> const &regs )
+{
+    // discard map memory outside of current region and adjacent regions
+    if( dep.parent_path().extension() == ".mm1" &&
+        !regs.is_point_inside( tripoint{ _from_map_string( dep.stem().string() ).xy(), 0 } ) ) {
+        return false;
+    }
+    // discard map buffer outside of current and adjacent segments
+    if( dep.parent_path().filename() == "maps" &&
+        !segs.is_point_inside(
+            tripoint{ _from_map_string( dep.filename().string() ).xy(), 0 } ) ) {
+        iter.disable_recursion_pending();
+        return false;
+    }
+    return true;
+}
+
+bool _trim_overmapbuffer( fs::path const &dep, tripoint_range<tripoint> const &oms )
+{
+    std::string const fname = dep.filename().generic_u8string();
+
+    std::string::size_type const seenpos = fname.find( ".seen." );
+    if( seenpos != std::string::npos ) {
+        return oms.is_point_inside( _from_OM_string( fname.substr( seenpos + 6 ) ) );
+    }
+
+    return fname.size() < 4 || fname[0] != 'o' || fname[1] != '.' ||
+           oms.is_point_inside( _from_OM_string( fname.substr( 2 ) ) );
+}
+
+bool _discard_temporary( fs::path const &dep )
+{
+    return !dep.has_extension() || dep.extension() != ".temp";
+}
+
+void write_min_archive()
+{
+    tripoint_abs_seg const seg = project_to<coords::seg>( get_avatar().get_location() );
+    tripoint_range<tripoint> const segs = points_in_radius( tripoint{ seg.xy().raw(), 0 }, 1 );
+    point sm = project_to<coords::sm>( get_avatar().get_location() ).raw().xy();
+    point const reg = sm_to_mmr_remain( sm.x, sm.y );
+    tripoint_range<tripoint> const regs = points_in_radius( tripoint{ reg, 0 }, 1 );
+    tripoint_abs_om const om = project_to<coords::om>( get_avatar().get_location() );
+    tripoint_range<tripoint> const oms = points_in_radius( tripoint{ om.raw().xy(), 0 }, 1 );
+
+    fs::path const save_root( PATH_INFO::world_base_save_path_path() );
+    std::string const ofile = save_root.string() + "-trimmed.tar.gz";
+
+    tgz_archiver tgz( ofile );
+
+    f_validate_t const mb_validate = [&segs, &regs, &oms]( fs::path const & dep, rdi_t & iter ) {
+        return _discard_temporary( dep ) && _trim_mapbuffer( dep, iter, segs, regs ) &&
+               _trim_overmapbuffer( dep, oms );
+    };
+
+    if( _add_dir( tgz, save_root, mb_validate ) &&
+        _add_dir( tgz, fs::path( PATH_INFO::config_dir_path() ) ) ) {
+        tgz.finalize();
+        popup( string_format( _( "Minimized archive saved to %s" ), ofile ) );
+    }
+}
+
+} // namespace
 
 namespace debug_menu
 {
@@ -295,6 +440,7 @@ static int info_uilist( bool display_all_entries = true )
     std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::SAVE_SCREENSHOT, true, 'H', _( "Take screenshot" ) ) },
         { uilist_entry( debug_menu_index::GAME_REPORT, true, 'r', _( "Generate game report" ) ) },
+        { uilist_entry( debug_menu_index::GAME_MIN_ARCHIVE, true, '!', _( "Generate minimized save archive" ) ) },
     };
 
     if( display_all_entries ) {
@@ -382,6 +528,7 @@ static int spawning_uilist()
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::WISH, true, 'w', _( "Spawn an item" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_NPC, true, 'n', _( "Spawn NPC" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_OM_NPC, true, 'N', _( "Spawn random NPC on overmap" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_MON, true, 'm', _( "Spawn monster" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 'v', _( "Spawn a vehicle" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_ARTIFACT, true, 'a', _( "Spawn artifact" ) ) },
@@ -404,6 +551,7 @@ static int map_uilist()
         { uilist_entry( debug_menu_index::GEN_SOUND, true, 'S', _( "Generate sound" ) ) },
         { uilist_entry( debug_menu_index::KILL_MONS, true, 'K', _( "Kill all monsters" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_TIME, true, 't', _( "Change time" ) ) },
+        { uilist_entry( debug_menu_index::FORCE_TEMP, true, 'T', _( "Force temperature" ) ) },
         { uilist_entry( debug_menu_index::OM_EDITOR, true, 'O', _( "Overmap editor" ) ) },
         { uilist_entry( debug_menu_index::MAP_EXTRA, true, 'm', _( "Spawn map extra" ) ) },
         { uilist_entry( debug_menu_index::NESTED_MAPGEN, true, 'n', _( "Spawn nested mapgen" ) ) },
@@ -492,7 +640,7 @@ static void spell_description(
 
     const int spl_level = std::get<1>( spl_data );
     spell spl( std::get<0>( spl_data ).id );
-    spl.set_level( spl_level );
+    spl.set_level( npc(), spl_level );
 
     nc_color gray = c_light_gray;
     nc_color yellow = c_yellow;
@@ -503,7 +651,6 @@ static void spell_description(
 
     // Name: spell name
     description << string_format( _( "Name: %1$s" ), colorize( spl.name(), c_white ) ) << '\n';
-
 
     // Class: Spell Class
     description << string_format( _( "Class: %1$s" ), colorize( spl.spell_class() == trait_NONE ?
@@ -529,7 +676,6 @@ static void spell_description(
                     //~ %1$d - difficulty, %2$s - failure chance
                     _( "Difficulty: %1$d (%2$s)" ),
                     spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) << '\n';
-
 
     const std::string impeded = _( "(impeded)" );
 
@@ -650,7 +796,6 @@ static void spell_description(
     // Range / AOE in two columns
     description << string_format( _( "Range: %1$s" ),
                                   spl.range() <= 0 ? _( "self" ) : std::to_string( spl.range() ) ) << '\n';
-
 
     description << aoe_string << '\n';
 
@@ -1089,14 +1234,18 @@ static void spawn_artifact()
     relic_menu.query();
     int artifact_max_attributes;
     int artifact_power_level;
+    bool artifact_is_resonant = false;
     int artifact_max_negative_value;
     if( relic_menu.ret >= 0 && relic_menu.ret < static_cast<int>( relic_list.size() ) ) {
         if( query_int( artifact_max_attributes, _( "Enter max attributes:" ) )
             && query_int( artifact_power_level, _( "Enter power level:" ) )
             && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) ) {
             if( const cata::optional<tripoint> center = g->look_around() ) {
+                if( query_yn( _( "Is the artifact resonant?" ) ) ) {
+                    artifact_is_resonant = true;
+                }
                 here.spawn_artifact( *center, relic_list[relic_menu.ret], artifact_max_attributes,
-                                     artifact_power_level, artifact_max_negative_value );
+                                     artifact_power_level, artifact_max_negative_value, artifact_is_resonant );
             }
         }
     }
@@ -2415,6 +2564,60 @@ static void debug_menu_change_time()
     } while( smenu.ret != UILIST_CANCEL );
 }
 
+static void debug_menu_force_temperature()
+{
+    uilist tempmenu;
+    cata::optional<units::temperature> &forced_temp = get_weather().forced_temperature;
+
+    tempmenu.addentry( 0, forced_temp.has_value(), MENU_AUTOASSIGN, _( "Reset" ) );
+    tempmenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Set" ) );
+    tempmenu.query();
+    if( tempmenu.ret == 0 ) {
+        forced_temp.reset();
+    } else {
+        string_input_popup pop;
+
+        auto ask = [&pop]( const std::string & unit, cata::optional<int> current ) {
+            int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
+                      .width( 20 )
+                      .text( current ? std::to_string( *current ) : "" )
+                      .only_digits( true )
+                      .query_int();
+
+            return pop.canceled() ? current : cata::optional<int>( ret );
+        };
+
+        cata::optional<int> current;
+        std::string option = get_option<std::string>( "USE_CELSIUS" );
+
+        if( option == "celsius" ) {
+            if( forced_temp ) {
+                current = units::to_celsius( *forced_temp );
+            }
+            cata::optional<int> ret = ask( "C", current );
+            if( ret ) {
+                forced_temp = units::from_celsius( *ret );
+            }
+        } else if( option == "kelvin" ) {
+            if( forced_temp ) {
+                current = units::to_kelvin( *forced_temp );
+            }
+            cata::optional<int> ret = ask( "K", current );
+            if( ret ) {
+                forced_temp = units::from_kelvin( *ret );
+            }
+        } else {
+            if( forced_temp ) {
+                current = units::to_fahrenheit( *forced_temp );
+            }
+            cata::optional<int> ret = ask( "F", current );
+            if( ret ) {
+                forced_temp = units::from_fahrenheit( *ret );
+            }
+        }
+    }
+}
+
 void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
@@ -2426,6 +2629,7 @@ void debug()
     static const std::unordered_set<debug_menu_index> non_cheaty_options = {
         debug_menu_index::SAVE_SCREENSHOT,
         debug_menu_index::GAME_REPORT,
+        debug_menu_index::GAME_MIN_ARCHIVE,
         debug_menu_index::ENABLE_ACHIEVEMENTS,
         debug_menu_index::UNLOCK_ALL,
         debug_menu_index::BENCHMARK,
@@ -2496,6 +2700,16 @@ void debug()
                                     faction_id( new_fac_id ), faction_no_faction );
             temp->set_fac( new_solo_fac ? new_solo_fac->id : faction_no_faction );
             g->load_npcs();
+        }
+        break;
+
+        case debug_menu_index::SPAWN_OM_NPC: {
+            int num_of_npcs = 1;
+            if( query_int( num_of_npcs, _( "How many npcs to try spawning?" ), num_of_npcs ) ) {
+                for( int i = 0; i < num_of_npcs; i++ ) {
+                    g->perhaps_add_random_npc( true );
+                }
+            }
         }
         break;
 
@@ -2740,7 +2954,7 @@ void debug()
             bodypart_id part;
             int dbg_damage;
             if( smenu.ret >= 0 && static_cast<std::size_t>( smenu.ret ) <= parts.size() ) {
-                part = parts.at( smenu.ret );
+                part = parts[smenu.ret];
             }
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 player_character.apply_damage( nullptr, part, dbg_damage );
@@ -2786,7 +3000,7 @@ void debug()
                     break;
             }
             if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
-                player_character.make_bleed( effect_source::empty(), part, 1_minutes * intensity );
+                player_character.add_effect( effect_bleed,  1_minutes * intensity, part );
             }
         }
         break;
@@ -2857,6 +3071,9 @@ void debug()
             break;
         case debug_menu_index::CHANGE_TIME:
             debug_menu_change_time();
+            break;
+        case debug_menu_index::FORCE_TEMP:
+            debug_menu_force_temperature();
             break;
         case debug_menu_index::SET_AUTOMOVE: {
             const cata::optional<tripoint> dest = g->look_around();
@@ -3094,6 +3311,17 @@ void debug()
             popup( popup_msg );
         }
         break;
+        case debug_menu_index::GAME_MIN_ARCHIVE: {
+            g->quicksave();
+
+            static_popup popup;
+            popup.message( "%s", _( "Writing archive, this may take a while." ) );
+            ui_manager::redraw();
+            refresh_display();
+
+            write_min_archive();
+            break;
+        }
         case debug_menu_index::CHANGE_SPELLS:
             change_spells( player_character );
             break;

@@ -21,14 +21,15 @@ namespace avatar_action
 {
 
 /** Eat food or fuel  'E' (or 'a') */
-void eat( avatar &you, const item_location &loc, bool refuel = false );
+void eat( avatar &you, const item_location &loc );
 void eat( avatar &you, const item_location &loc,
           const std::vector<int> &consume_menu_selections,
           const std::vector<item_location> &consume_menu_selected_items,
-          const std::string &consume_menu_filter, activity_id type, bool refuel = false );
+          const std::string &consume_menu_filter, activity_id type );
 // special rules for eating: grazing etc
 // returns false if no rules are needed
 bool eat_here( avatar &you );
+void eat_or_use( avatar &you, item_location loc );
 
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
@@ -78,7 +79,7 @@ void plthrow( avatar &you, item_location loc,
 void unload( avatar &you );
 
 // Use item; also tries E,R,W  'a'
-void use_item( avatar &you, item_location &loc );
+void use_item( avatar &you, item_location &loc, std::string const &method = {} );
 void use_item( avatar &you );
 } // namespace avatar_action
 

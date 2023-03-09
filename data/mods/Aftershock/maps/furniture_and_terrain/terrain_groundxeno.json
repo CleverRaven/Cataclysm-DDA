@@ -237,7 +237,6 @@
     "coverage": 100,
     "roof": "t_basaltfloor",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": {
       "str_min": 80,
       "str_max": 300,
@@ -258,7 +257,6 @@
     "coverage": 100,
     "roof": "t_ice",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": { "str_min": 50, "str_max": 100, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_ice" }
   },
   {
@@ -272,7 +270,6 @@
     "coverage": 100,
     "roof": "t_snow_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
     "bash": { "str_min": 50, "str_max": 100, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_null", "bash_below": true }
   },
   {

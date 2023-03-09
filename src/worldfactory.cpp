@@ -21,6 +21,7 @@
 #include "filesystem.h"
 #include "input.h"
 #include "json.h"
+#include "json_loader.h"
 #include "mod_manager.h"
 #include "name.h"
 #include "output.h"
@@ -98,6 +99,11 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 std::string WORLD::folder_path() const
 {
     return PATH_INFO::savedir() + world_name;
+}
+
+cata_path WORLD::folder_path_path() const
+{
+    return PATH_INFO::savedir_path() / world_name;
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -725,13 +731,12 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    cata::ifstream file( fs::u8path( PATH_INFO::lastworld() ),
-                         std::ifstream::in | std::ifstream::binary );
-    if( !file.good() ) {
+    cata_path lastworld_path = PATH_INFO::lastworld();
+    if( !file_exist( lastworld_path ) ) {
         return;
     }
 
-    JsonIn jsin( file );
+    JsonValue jsin = json_loader::from_path( lastworld_path );
     JsonObject data = jsin.get_object();
     last_world_name = data.get_string( "world_name" );
     last_character_name = data.get_string( "character_name" );
@@ -814,14 +819,11 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
         const int wwidth = getmaxx( w ) - 1 - 3; // border (1) + ">> " (3)
 
         unsigned int iNum = 0;
-        int index = 0;
         bool bKeepIter = false;
-        int iCatBeforeCursor = 0;
 
         for( size_t i = 0; i <= iActive; i++ ) {
             if( !mSortCategory[i].empty() ) {
                 iActive++;
-                iCatBeforeCursor++;
             }
         }
 
@@ -836,7 +838,7 @@ std::map<int, inclusive_rectangle<point>> worldfactory::draw_mod_list( const cat
         }
 
         int larger = ( iMaxRows > static_cast<int>( iModNum ) ) ? static_cast<int>( iModNum ) : iMaxRows;
-        for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
+        for( auto iter = mods.begin(); iter != mods.end(); ) {
             if( iNum >= static_cast<size_t>( start ) && iNum < static_cast<size_t>( start ) + larger ) {
                 if( !mSortCategory[iNum].empty() ) {
                     bKeepIter = true;
@@ -929,10 +931,8 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
         const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
         const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
 
-        w_border = catacurses::newwin( TERMY - 11, iMinScreenWidth / 2 - 3,
-                                       point( iOffsetX, 4 ) );
-        w_mods   = catacurses::newwin( TERMY - 13, iMinScreenWidth / 2 - 4,
-                                       point( iOffsetX, 5 ) );
+        w_border = catacurses::newwin( TERMY - 11, iMinScreenWidth, point( iOffsetX, 4 ) );
+        w_mods   = catacurses::newwin( TERMY - 13, iMinScreenWidth - 1, point( iOffsetX, 5 ) );
 
         ui.position_from_window( w_border );
     };
@@ -2077,13 +2077,11 @@ bool worldfactory::valid_worldname( const std::string &name, bool automated ) co
     return false;
 }
 
-void WORLD::load_options( JsonIn &jsin )
+void WORLD::load_options( const JsonArray &options_json )
 {
     options_manager &opts = get_options();
 
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
+    for( JsonObject jo : options_json ) {
         jo.allow_omitted_members();
         const std::string name = opts.migrateOptionName( jo.get_string( "name" ) );
         const std::string value = opts.migrateOptionValue( jo.get_string( "name" ),
@@ -2103,8 +2101,8 @@ bool WORLD::load_options()
 {
     WORLD_OPTIONS = get_options().get_world_defaults();
 
-    const std::string path = folder_path() + "/" + PATH_INFO::worldoptions();
-    return read_from_file_optional_json( path, [this]( JsonIn & jsin ) {
+    const cata_path path = folder_path_path() / PATH_INFO::worldoptions();
+    return read_from_file_optional_json( path, [this]( const JsonValue & jsin ) {
         this->load_options( jsin );
     } );
 }

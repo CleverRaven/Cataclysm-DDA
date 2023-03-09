@@ -113,10 +113,10 @@ void glare( const weather_type_id &w )
         incident_sun_irradiance( w, calendar::turn ) > irradiance::moderate ) {
         // Winter snow glare happens at lower irradiance
         effect = &effect_snow_glare;
-        dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
+        dur = player_character.has_effect( *effect ) ? 10_turns : 20_turns;
     } else if( incident_sun_irradiance( w, calendar::turn ) > irradiance::high ) {
         effect = &effect_glare;
-        dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
+        dur = player_character.has_effect( *effect ) ? 10_turns : 20_turns;
     }
 
     //apply final glare effect
@@ -125,7 +125,11 @@ void glare( const weather_type_id &w )
         if( player_character.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        player_character.add_env_effect( *effect, body_part_eyes, 2, dur );
+        // Glare in all your eyes
+        for( bodypart_id &bp : player_character.get_all_body_parts_of_type(
+                 body_part_type::type::sensor ) ) {
+            player_character.add_effect( *effect, dur, bp );
+        }
     }
 }
 
@@ -648,7 +652,7 @@ std::string print_temperature( units::temperature temperature, int decimals )
 
     if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
         return string_format( pgettext( "temperature in Celsius", "%sC" ),
-                              text( units::to_celcius( temperature ) ) );
+                              text( units::to_celsius( temperature ) ) );
     } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
         return string_format( pgettext( "temperature in Kelvin", "%sK" ),
                               text( units::to_kelvin( temperature ) ) );
@@ -681,7 +685,7 @@ units::temperature get_local_windchill( units::temperature temperature, double h
 {
     double windchill_k = 0;
 
-    const double temperature_c = units::to_celcius( temperature );
+    const double temperature_c = units::to_celsius( temperature );
 
     if( temperature_c < 10 ) {
         /// Model 1, cold wind chill (only valid for temps below 50F/10C)
@@ -950,9 +954,15 @@ void weather_manager::update_weather()
         w = weather_gen.get_weather( player_character.get_location().raw(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
-        weather_id = weather_override == WEATHER_NULL ?
-                     weather_gen.get_weather_conditions( w )
-                     : weather_override;
+        std::string eternal_weather_option = get_option<std::string>( "ETERNAL_WEATHER" );
+        if( eternal_weather_option != "normal" ) {
+            weather_id = static_cast<weather_type_id>( eternal_weather_option );
+        } else if( weather_override == WEATHER_NULL ) {
+            weather_id = weather_gen.get_weather_conditions( w );
+        } else {
+            weather_id = weather_override;
+        }
+
         sfx::do_ambient();
         temperature = w.temperature;
         winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
@@ -992,11 +1002,14 @@ void weather_manager::set_nextweather( time_point t )
 
 units::temperature weather_manager::get_temperature( const tripoint &location )
 {
+    if( forced_temperature ) {
+        return *forced_temperature;
+    }
+
     const auto &cached = temperature_cache.find( location );
     if( cached != temperature_cache.end() ) {
         return cached->second;
     }
-
 
     //underground temperature = average New England temperature = 43F/6C
     units::temperature temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +

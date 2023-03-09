@@ -600,8 +600,8 @@
     "components": [
       [ [ "mutagen", 1 ] ],
       [ [ "bird_sample", 1 ] ],
-      [ [ "eggs_bird", 2, "LIST" ] ],
-      [ [ "feather", 2 ], [ "bird_sample", 1 ] ]
+      [ [ "eggs_bird", 2, "LIST" ], [ "bird_sample", 1 ] ],
+      [ [ "feather", 2 ] ]
     ],
     "flags": [ "SECRET" ]
   },

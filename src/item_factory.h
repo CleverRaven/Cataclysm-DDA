@@ -35,7 +35,6 @@ using Item_list = std::vector<item>;
 
 class Item_factory;
 class JsonArray;
-class JsonIn;
 class JsonObject;
 
 extern std::unique_ptr<Item_factory> item_controller;
@@ -383,6 +382,8 @@ class Item_factory
         void register_cached_uses( const itype &obj );
         /** Applies part of finalization that depends on other items. */
         void finalize_post( itype &obj );
+
+        void finalize_post_armor( itype &obj );
 
         //iuse stuff
         std::map<item_action_id, use_function> iuse_function_list;

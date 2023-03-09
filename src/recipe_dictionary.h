@@ -15,7 +15,7 @@
 #include "recipe.h"
 #include "type_id.h"
 
-class JsonIn;
+class JsonArray;
 class JsonObject;
 class JsonOut;
 
@@ -39,6 +39,8 @@ class recipe_dictionary
         const std::set<const recipe *> &all_blueprints() const {
             return blueprints;
         }
+
+        std::map<recipe_id, const recipe *> find_obsoletes( const itype_id &item_id ) const;
 
         size_t size() const;
         std::map<recipe_id, recipe>::const_iterator begin() const;
@@ -76,6 +78,7 @@ class recipe_dictionary
         std::set<const recipe *> autolearn;
         std::set<const recipe *> nested;
         std::set<const recipe *> blueprints;
+        std::map<const itype_id, const recipe *> obsoletes;
         std::unordered_set<itype_id> items_on_loops;
 
         static void finalize_internal( std::map<recipe_id, recipe> &obj );
@@ -201,6 +204,6 @@ class recipe_subset
 };
 
 void serialize( const recipe_subset &value, JsonOut &jsout );
-void deserialize( recipe_subset &value, JsonIn &jsin );
+void deserialize( recipe_subset &value, const JsonArray &ja );
 
 #endif // CATA_SRC_RECIPE_DICTIONARY_H

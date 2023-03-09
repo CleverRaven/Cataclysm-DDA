@@ -98,7 +98,7 @@ static const item_group_id
 Item_spawn_data_foraging_faction_camp_winter( "foraging_faction_camp_winter" );
 static const item_group_id Item_spawn_data_forest( "forest" );
 static const item_group_id
-Item_spawn_data_gathering_faction_base_camp_firewood( "gathering_faction_base_camp_firewood" );
+Item_spawn_data_gathering_faction_camp_firewood( "gathering_faction_camp_firewood" );
 
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
@@ -197,7 +197,6 @@ namespace base_camps
 {
 static const translation recover_ally_string = to_translation( "Recover Ally, " );
 static const translation expansion_string = to_translation( " Expansion" );
-
 
 static recipe_id select_camp_option( const std::map<recipe_id, translation> &pos_options,
                                      const std::string &option );
@@ -517,13 +516,13 @@ static bool update_emergency_recall( std::string &entry, const comp_list &npc_li
     return avail;
 }
 
-static bool extract_and_check_orientation_flags( const recipe_id recipe,
+static bool extract_and_check_orientation_flags( const recipe_id &recipe,
         const point &dir,
         bool &mirror_horizontal,
         bool &mirror_vertical,
         int &rotation,
-        const std::string base_error_message,
-        const std::string actor )
+        const std::string &base_error_message,
+        const std::string &actor )
 {
     mirror_horizontal = recipe->has_flag( "MAP_MIRROR_HORIZONTAL" );
     mirror_vertical = recipe->has_flag( "MAP_MIRROR_VERTICAL" );
@@ -708,29 +707,6 @@ void talk_function::start_camp( npc &p )
     }
 }
 
-void talk_function::recover_camp( npc &p )
-{
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
-    const std::string &omt_ref = overmap_buffer.ter( omt_pos ).id().c_str();
-    if( omt_ref.find( "faction_base_camp" ) == std::string::npos ) {
-        popup( _( "There is no faction camp here to recover!" ) );
-        return;
-    }
-    get_basecamp( p );
-}
-
-void talk_function::remove_overseer( npc &p )
-{
-    size_t suffix = p.get_name().find( _( ", Camp Manager" ) );
-    if( suffix != std::string::npos ) {
-        p.get_name() = p.get_name().substr( 0, suffix );
-    }
-
-    add_msg( _( "%s has abandoned the camp." ), p.get_name() );
-    p.companion_mission_role_id.clear();
-    stop_guard( p );
-}
-
 void talk_function::basecamp_mission( npc &p )
 {
     const std::string title = _( "Base Missions" );
@@ -773,7 +749,6 @@ void basecamp::add_available_recipes( mission_data &mission_key, mission_kind ki
                                       const point &dir,
                                       const std::map<recipe_id, translation> &craft_recipes )
 {
-    const std::string dir_id = base_camps::all_directions.at( dir ).id;
     const std::string dir_abbr = base_camps::all_directions.at( dir ).bracket_abbr.translated();
     for( const auto &recipe_data : craft_recipes ) {
         const mission_id miss_id = {kind, recipe_data.first.str(), dir};
@@ -845,7 +820,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                                   "%s\n"
                                   "Risk: Very Low\n"
                                   "Time: 3 Hours, Repeated\n"
-                                  "Positions: %d/3\n" ), gathering_description( gather_bldg ),
+                                  "Positions: %d/3\n" ), gathering_description(),
                                npc_list.size() );
         mission_key.add_start( miss_id, name_display_of( miss_id ),
                                entry, npc_list.size() < 3 );
@@ -1481,7 +1456,7 @@ void basecamp::get_available_missions( mission_data &mission_key )
     }
 
     std::vector<ui_mission_id> k;
-    for( int tab_num = base_camps::TAB_MAIN; tab_num < base_camps::TAB_NW; tab_num++ ) {
+    for( int tab_num = base_camps::TAB_MAIN; tab_num <= base_camps::TAB_NW; tab_num++ ) {
         if( temp_ui_mission_keys.size() < size_t( tab_num ) + 1 ) {
             temp_ui_mission_keys.push_back( k );
         } else {
@@ -1843,7 +1818,7 @@ void basecamp::start_upgrade( const mission_id &miss_id )
     //Stop upgrade if you don't have materials
     if( making.deduped_requirements().can_make_with_inventory(
             _inv, making.get_component_filter() ) ) {
-        bool must_feed = miss_id.parameters != "faction_base_camp_1";
+        bool must_feed = !making.has_flag( "NO_FOOD_REQ" );
 
         basecamp_action_components components( making, 1, *this );
         if( !components.choose_components() ) {
@@ -1928,7 +1903,7 @@ void basecamp::scan_pseudo_items()
             }
 
             if( expansion_map.veh_at( pos ).has_value() &&
-                expansion_map.veh_at( pos )->vehicle().has_tag( "APPLIANCE" ) ) {
+                expansion_map.veh_at( pos )->vehicle().is_appliance() ) {
                 const std::vector<std::pair<itype_id, int>> tools =
                             expansion_map.veh_at( pos )->part_displayed().value().get_tools();
 
@@ -2329,7 +2304,6 @@ void basecamp::start_setup_hide_site( const mission_id &miss_id )
         drop_locations losing_equipment = give_equipment( pc, preset,
                                           _( "These are the items you've selected so far." ), _( "Select items to send" ), total_volume,
                                           total_mass );
-
 
         int trips = om_carry_weight_to_trips( total_mass, total_volume, nullptr );
         int haulage = trips <= 2 ? 0 : losing_equipment.size();
@@ -3241,7 +3215,6 @@ npc_ptr basecamp::companion_crafting_choose_return( const mission_id &miss_id )
     return talk_function::companion_choose_return( npc_list );
 }
 
-
 void basecamp::finish_return( npc &comp, const bool fixed_time, const std::string &return_msg,
                               const std::string &skill, int difficulty, const bool cancel )
 {
@@ -3313,7 +3286,6 @@ npc_ptr basecamp::crafting_mission_return( const mission_id &miss_id, const std:
     }
     return comp;
 }
-
 
 npc_ptr basecamp::emergency_recall( const mission_id &miss_id )
 {
@@ -3475,9 +3447,9 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
 
     item_group_id itemlist( "forest" );
     if( miss_id.id == Camp_Collect_Firewood ) {
-        itemlist = Item_spawn_data_gathering_faction_base_camp_firewood;
+        itemlist = Item_spawn_data_gathering_faction_camp_firewood;
     } else if( miss_id.id == Camp_Gather_Materials ) {
-        itemlist = get_gatherlist();
+        itemlist = Item_spawn_data_forest;
     } else if( miss_id.id == Camp_Foraging ) {
         switch( season_of_year( calendar::turn ) ) {
             case SPRING:
@@ -3608,7 +3580,7 @@ bool basecamp::salt_water_pipe_swamp_return( const mission_id &miss_id,
 {
     const point dir = miss_id.dir.value();  //  Will always have a value
 
-    expansion_salt_water_pipe *pipe;
+    expansion_salt_water_pipe *pipe = nullptr;
 
     bool found = false;
     for( expansion_salt_water_pipe *element : salt_water_pipes ) {
@@ -3694,7 +3666,7 @@ bool basecamp::salt_water_pipe_return( const mission_id &miss_id,
     const recipe &making = recipe_id( miss_id.parameters ).obj();
     const point dir = miss_id.dir.value();  //  Will always have a value
 
-    expansion_salt_water_pipe *pipe;
+    expansion_salt_water_pipe *pipe = nullptr;
 
     bool found = false;
     for( expansion_salt_water_pipe *element : salt_water_pipes ) {
@@ -4669,7 +4641,7 @@ drop_locations basecamp::give_equipment( Character *pc, const inventory_filter_p
     return selected;
 }
 
-drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint target, Character *pc,
+drop_locations basecamp::get_equipment( tinymap *target_bay, const tripoint &target, Character *pc,
                                         const inventory_filter_preset &preset,
                                         const std::string &msg, const std::string &title, units::volume &total_volume,
                                         units::mass &total_mass )
@@ -4765,6 +4737,7 @@ std::vector<std::pair<std::string, tripoint_abs_omt>> talk_function::om_building
         const oter_id &omt_rnear = overmap_buffer.ter( omt_near_pos );
         std::string om_rnear_id = omt_rnear.id().c_str();
         if( !purge || ( om_rnear_id.find( "faction_base_" ) != std::string::npos &&
+                        // TODO: this exclusion check can be removed once primitive field camp OMTs have been purged
                         om_rnear_id.find( "faction_base_camp" ) == std::string::npos ) ) {
             om_camp_region.emplace_back( om_rnear_id, omt_near_pos );
         }
@@ -4906,14 +4879,9 @@ std::string basecamp::recruit_description( int npc_count ) const
     return desc;
 }
 
-std::string basecamp::gathering_description( const std::string &bldg )
+std::string basecamp::gathering_description()
 {
-    item_group_id itemlist;
-    if( item_group::group_is_defined( item_group_id( "gathering_" + bldg ) ) ) {
-        itemlist = item_group_id( "gathering_" + bldg );
-    } else {
-        itemlist = Item_spawn_data_forest;
-    }
+    item_group_id itemlist = Item_spawn_data_forest;
     std::string output;
 
     // Functions like the debug item group tester but only rolls 6 times so the player

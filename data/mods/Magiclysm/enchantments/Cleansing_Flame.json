@@ -1,0 +1,8 @@
+[
+  {
+    "type": "enchantment",
+    "id": "CLEANSING_FLAME",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ]
+  }
+]

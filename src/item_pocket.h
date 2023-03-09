@@ -113,11 +113,15 @@ class item_pocket
                 bool is_unloadable() const;
                 void set_unloadable( bool );
 
+                const cata::optional<std::string> &get_preset_name() const;
+                void set_preset_name( const std::string & );
+
                 void info( std::vector<iteminfo> &info ) const;
 
                 void serialize( JsonOut &json ) const;
                 void deserialize( const JsonObject &data );
             private:
+                cata::optional<std::string> preset_name;
                 int priority_rating = 0;
                 cata::flat_set<itype_id> item_whitelist;
                 cata::flat_set<itype_id> item_blacklist;
@@ -131,7 +135,7 @@ class item_pocket
         item_pocket() = default;
         explicit item_pocket( const pocket_data *data ) : data( data ) {}
 
-        bool stacks_with( const item_pocket &rhs ) const;
+        bool stacks_with( const item_pocket &rhs, int depth = 0, int maxdepth = 2 ) const;
         bool is_funnel_container( units::volume &bigger_than ) const;
         bool is_restricted() const;
         bool has_any_with( const std::function<bool( const item & )> &filter ) const;
@@ -159,8 +163,7 @@ class item_pocket
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
         bool is_standard_type() const;
 
-        bool is_allowed() const;
-        void set_usability( bool show );
+        bool is_forbidden() const;
 
         const translation &get_description() const;
         const translation &get_name() const;
@@ -178,8 +181,6 @@ class item_pocket
         const item &front() const;
         size_t size() const;
         void pop_back();
-
-
 
         /**
          * Is the pocket compatible with the specified item?
@@ -317,13 +318,16 @@ class item_pocket
         }
 
         // tries to put an item in the pocket. returns false if failure
-        ret_val<contain_code> insert_item( const item &it );
+        ret_val<contain_code> insert_item( const item &it, bool into_bottom = false );
         /**
           * adds an item to the pocket with no checks
           * may create a new pocket
           */
         void add( const item &it, item **ret = nullptr );
         bool can_unload_liquid() const;
+
+        int fill_with( const item &contained, Character &guy, int amount = 0,
+                       bool allow_unseal = false, bool ignore_settings = false );
 
         /**
         * @brief Check contents of pocket to see if it contains a valid item/pocket to store the given item.
@@ -381,6 +385,17 @@ class item_pocket
 
         favorite_settings settings;
 
+        // Pocket presets functions
+        static void serialize_presets( JsonOut &json );
+        static void deserialize_presets( const JsonArray &ja );
+        static void load_presets();
+        static void add_preset( const item_pocket::favorite_settings &preset );
+        static void save_presets();
+        static std::vector<item_pocket::favorite_settings>::iterator find_preset( const std::string &s );
+        static bool has_preset( const std::string &s );
+        static void delete_preset( std::vector<item_pocket::favorite_settings>::iterator iter );
+        static std::vector<item_pocket::favorite_settings> pocket_presets;
+
         // should the name of this pocket be used as a description
         bool name_as_description = false; // NOLINT(cata-serialize)
     private:
@@ -391,8 +406,6 @@ class item_pocket
         // the items inside the pocket
         std::list<item> contents;
         bool _sealed = false;
-
-        bool allowed = true; // is it possible to put things in this pocket
 };
 
 /**
@@ -515,11 +528,15 @@ class pocket_data
         // items stored are restricted to these item ids.
         // this takes precedence over the other two restrictions
         cata::flat_set<itype_id> item_id_restriction;
+        // Restricts items by their material.
+        cata::flat_set<material_id> material_restriction;
         cata::flat_set<itype_id> allowed_speedloaders;
         // the first in the json array for item_id_restriction when loaded
         itype_id default_magazine = itype_id::NULL_ID();
         // container's size and encumbrance does not change based on contents.
         bool rigid = false;
+        // if true, the pocket cannot be used by the player
+        bool forbidden = false;
 
         bool operator==( const pocket_data &rhs ) const;
 

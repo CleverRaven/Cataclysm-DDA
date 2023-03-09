@@ -141,6 +141,8 @@ class proficiency_set
         bool has_prereqs( const proficiency_id &query ) const;
 
         float pct_practiced( const proficiency_id &query ) const;
+        time_duration pct_practiced_time( const proficiency_id &query ) const;
+        void set_time_practiced( const proficiency_id &practicing, const time_duration &amount );
         time_duration training_time_needed( const proficiency_id &query ) const;
         std::vector<proficiency_id> known_profs() const;
         std::vector<proficiency_id> learning_profs() const;

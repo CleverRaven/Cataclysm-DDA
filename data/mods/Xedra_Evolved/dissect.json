@@ -1,0 +1,21 @@
+[
+  {
+    "id": "dissect_renfield_bionic_monster",
+    "type": "harvest",
+    "message": "You search for any salvageable hardware in what's left of this monstrous ghoul.",
+    "entries": [
+      {
+        "drop": "bio_power_storage",
+        "type": "bionic",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      },
+      {
+        "drop": "bionic_renfield_harvest",
+        "type": "bionic_group",
+        "flags": [ "FILTHY", "NO_STERILE", "NO_PACKED" ],
+        "faults": [ "fault_bionic_salvaged" ]
+      }
+    ]
+  }
+]

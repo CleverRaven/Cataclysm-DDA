@@ -40,8 +40,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-static const item_group_id Item_spawn_data_forest( "forest" );
-
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
@@ -180,7 +178,7 @@ void basecamp::add_expansion( const std::string &bldg, const tripoint_abs_omt &n
 
 void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_type )
 {
-    query_new_name();
+    query_new_name( true );
     omt_pos = p;
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // purging the regions guarantees all entries will start with faction_base_
@@ -293,9 +291,8 @@ bool basecamp::can_expand() const
 
 bool basecamp::has_water() const
 {
-    return has_provides( "water_well" ) || has_provides( "fbmh_well_north" ) ||
-           has_provides( "faction_base_camp_12" ) || has_provides( "faction_base_kitchen_6" ) ||
-           has_provides( "faction_base_blacksmith_11" );
+    // special case required for fbmh_well_north constructed between b9162 (Jun 16, 2019) and b9644 (Sep 20, 2019)
+    return has_provides( "water_well" ) || has_provides( "fbmh_well_north" );
 }
 
 std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
@@ -377,19 +374,6 @@ std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
 std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg ) const
 {
     return recipe_group::get_recipes_by_bldg( bldg );
-}
-
-item_group_id basecamp::get_gatherlist() const
-{
-    const auto &e = expansions.find( base_camps::base_dir );
-    if( e != expansions.end() ) {
-        item_group_id gatherlist(
-            "gathering_" + base_camps::faction_encode_abs( e->second, 4 ) );
-        if( item_group::group_is_defined( gatherlist ) ) {
-            return gatherlist;
-        }
-    }
-    return Item_spawn_data_forest;
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )
@@ -596,18 +580,29 @@ comp_list basecamp::get_mission_workers( const mission_id &miss_id, bool contain
     return available;
 }
 
-void basecamp::query_new_name()
+void basecamp::query_new_name( bool force )
 {
-    string_input_popup popup;
+    string_input_popup input_popup;
+    bool done = false;
+    bool need_input = true;
     do {
-        popup.title( _( "Name this camp" ) )
+        input_popup.title( _( "Name this camp" ) )
         .width( 40 )
-        .text( "" )
         .max_length( 25 )
         .query();
-    } while( popup.canceled() || popup.text().empty() );
-
-    name = popup.text();
+        if( input_popup.canceled() || input_popup.text().empty() ) {
+            if( name.empty() || force ) {
+                popup( _( "You need to input the base camp name." ) );
+            } else {
+                need_input = false;
+            }
+        } else {
+            done = true;
+        }
+    } while( !done && need_input );
+    if( done ) {
+        name = input_popup.text();
+    }
 }
 
 void basecamp::set_name( const std::string &new_name )

@@ -22,7 +22,6 @@ static constexpr int LOCATION_WIDTH = 48;
 static constexpr int STATUS_HEIGHT = 4;
 static constexpr int STATUS_WIDTH = 55;
 
-static constexpr int BLINK_SPEED = 300;
 static constexpr int EXPLOSION_MULTIPLIER = 7;
 
 // Really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet).
@@ -102,13 +101,13 @@ constexpr units::temperature fridge = units::from_fahrenheit( 37 ); // ~ 2.7 Cel
 constexpr units::temperature cold = units::from_fahrenheit( 40 ); // ~4.4 C
 
 // Temperature inside an active freezer in Fahrenheit.
-constexpr units::temperature freezer = units::from_celcius( -5 ); // -5 Celsius
+constexpr units::temperature freezer = units::from_celsius( -5 ); // -5 Celsius
 
 // Temperature in which water freezes.
-constexpr units::temperature freezing = units::from_celcius( 0 ); // 0 Celsius
+constexpr units::temperature freezing = units::from_celsius( 0 ); // 0 Celsius
 
 // Temperature in which water boils.
-constexpr units::temperature boiling = units::from_celcius( 100 ); // 100 Celsius
+constexpr units::temperature boiling = units::from_celsius( 100 ); // 100 Celsius
 } // namespace temperatures
 
 // Slowest speed at which a gun can be aimed.

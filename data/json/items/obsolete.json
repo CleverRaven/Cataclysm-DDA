@@ -609,11 +609,11 @@
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
-    "warmth": 20,
+    "warmth": 25,
     "longest_side": "60 cm",
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER" ],
-    "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 50, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armor_plate",
@@ -648,11 +648,11 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
-    "warmth": 20,
+    "warmth": 25,
     "longest_side": "60 cm",
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+    "armor": [ { "encumbrance": 35, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armor_lightplate",
@@ -1197,5 +1197,125 @@
     "volume": "1 L",
     "weight": "600 g",
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "veh_tracker",
+    "name": { "str": "vehicle tracking device" },
+    "description": "A vehicle tracking device.  When installed on a vehicle it allows you track the vehicle.",
+    "weight": "400 g",
+    "color": "red",
+    "symbol": ";",
+    "material": [ "plastic", "aluminum" ],
+    "volume": "500 ml",
+    "bashing": 1,
+    "category": "veh_parts",
+    "price": 80000,
+    "price_postapoc": 750
+  },
+  {
+    "type": "ammunition_type",
+    "id": "metal_rail",
+    "name": "ferrous rail projectile",
+    "default": "steel_rail"
+  },
+  {
+    "id": "rebar_rail",
+    "type": "AMMO",
+    "name": { "str": "rebar rail" },
+    "description": "A short piece of ferromagnetic rebar which has been straightened and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",
+    "weight": "236 g",
+    "longest_side": "16 cm",
+    "volume": "300 ml",
+    "price": 1000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 5,
+    "cutting": 1,
+    "material": [ "steel" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "count": 10,
+    "ammo_type": "metal_rail",
+    "range": 40,
+    "damage": { "damage_type": "stab", "amount": 70, "armor_penetration": 25 },
+    "dispersion": 150,
+    "effects": [ "RECYCLED", "NON_FOULING" ]
+  },
+  {
+    "id": "steel_rail",
+    "copy-from": "rebar_rail",
+    "type": "AMMO",
+    "name": { "str": "steel rail" },
+    "description": "A short piece of steel which has been forged true and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",
+    "weight": "212 g",
+    "volume": "270 ml",
+    "price": 1500,
+    "price_postapoc": 500,
+    "bashing": 4,
+    "cutting": 2,
+    "material": [ "steel" ],
+    "color": "light_gray",
+    "dispersion": 0,
+    "effects": [ "NEVER_MISFIRES", "NON_FOULING" ],
+    "relative": { "range": 10, "damage": { "damage_type": "stab", "amount": -5, "armor_penetration": 15 } }
+  },
+  {
+    "type": "AMMO",
+    "id": "unfinished_cac2",
+    "category": "spare_parts",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "unfinished calcium carbide" },
+    "symbol": "=",
+    "color": "white",
+    "description": "The incomplete process of converting coal and lime into calcium carbide.  Useless in this state.",
+    "material": [ "stone" ],
+    "volume": "250 ml",
+    "weight": "300 g",
+    "ammo_type": "components"
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "superalloy_harness_dog",
+    "copy-from": "kevlar_harness",
+    "color": "light_cyan",
+    "name": { "str": "superalloy tactical dog outfit" },
+    "description": "A thin mesh interwoven with superalloy plates and pouches, for military working dogs.  Covers from the dewlap to the croup, down to the elbows.  You could put this on a friendly dog.",
+    "price": 130000,
+    "price_postapoc": 5000,
+    "material": [ "superalloy" ],
+    "weight": "3125 g",
+    "min_pet_vol": "20000 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "80 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "80 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "30 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "30 cm",
+        "moves": 200
+      }
+    ]
   }
 ]

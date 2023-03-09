@@ -13,7 +13,7 @@
 #include "weather_gen.h"
 #include "weather_type.h"
 
-class JsonIn;
+class JsonObject;
 class JsonOut;
 class translation;
 
@@ -44,6 +44,13 @@ static constexpr int BODYTEMP_SCORCHING = 9500;
 //!< Additional Threshold before speed is impacted by heat.
 static constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
+
+// Wetness percentage 0.0f is DRY
+// Level 1 wetness (DAMP) is between 0.0f and Level 2
+// Level 2 wetness percentage
+static constexpr float BODYWET_PERCENT_WET = 0.3f;
+// Level 3 wetness percentage
+static constexpr float BODYWET_PERCENT_SOAKED = 0.6f;
 
 // Rough tresholds for sunlight intensity in W/m2.
 namespace irradiance
@@ -203,6 +210,9 @@ class weather_manager
         weather_type_id weather_id = WEATHER_NULL;
         int winddirection = 0;
         int windspeed = 0;
+
+        // For debug menu option "Force temperature"
+        cata::optional<units::temperature> forced_temperature;
         // Cached weather data
         pimpl<w_point> weather_precise;
         cata::optional<int> wind_direction_override;
@@ -219,7 +229,8 @@ class weather_manager
         // Returns outdoor or indoor temperature of given location
         units::temperature get_temperature( const tripoint_abs_omt &location ) const;
         void clear_temp_cache();
-        static void unserialize_all( JsonIn &jsin );
+        static void serialize_all( JsonOut &json );
+        static void unserialize_all( const JsonObject &w );
 };
 
 weather_manager &get_weather();

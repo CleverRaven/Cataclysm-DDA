@@ -132,6 +132,12 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "sewer_connector",
+    "copy-from": "pump_station_3",
+    "flags": [ "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "dumpsite", "dumpsite_edge" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "dumpsite",
@@ -146,6 +152,14 @@
     "sym": "D",
     "color": "i_brown",
     "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "trailer_public_00", "trailer_public_00_roof" ],
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "garbage collection point",
+    "sym": "D",
+    "color": "i_brown"
   },
   {
     "type": "overmap_terrain",
@@ -240,7 +254,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cs_open_sewer",
+    "id": [ "cs_open_sewer", "cs_open_sewer_undergound" ],
     "copy-from": "generic_city_building",
     "name": "open sewer",
     "sym": "s",

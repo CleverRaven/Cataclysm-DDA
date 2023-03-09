@@ -47,9 +47,10 @@
 #include "ui_manager.h"
 #include "uistate.h"
 
+static const limb_score_id limb_score_manip( "manip" );
+
 static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
-
 
 class npc;
 
@@ -72,8 +73,8 @@ enum CRAFTING_SPEED_STATE {
 static const std::map<const CRAFTING_SPEED_STATE, translation> craft_speed_reason_strings = {
     {TOO_DARK_TO_CRAFT, to_translation( "too dark to craft" )},
     {TOO_SLOW_TO_CRAFT, to_translation( "unable to craft" )},
-    {SLOW_BUT_CRAFTABLE, to_translation( "crafting is slow %d%%" )},
-    {FAST_CRAFTING, to_translation( "crafting is fast %d%%" )},
+    {SLOW_BUT_CRAFTABLE, to_translation( "crafting is slowed to %d%%: %s" )},
+    {FAST_CRAFTING, to_translation( "crafting is accelerated to %d%% due to amount of manipulators" )},
     {NORMAL_CRAFTING, to_translation( "craftable" )}
 };
 
@@ -82,7 +83,6 @@ static std::vector<std::string> craft_cat_list;
 static std::map<std::string, std::vector<std::string> > craft_subcat_list;
 
 static bool query_is_yes( const std::string &query );
-static int craft_info_width( int window_width );
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe );
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec );
 static std::map<size_t, inclusive_rectangle<point>> draw_recipe_tabs( const catacurses::window &w,
@@ -98,7 +98,6 @@ static std::string peek_related_recipe( const recipe *current, const recipe_subs
 static int related_menu_fill( uilist &rmenu,
                               const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                               const recipe_subset &available );
-
 
 static std::string get_cat_unprefixed( const std::string &prefixed_name )
 {
@@ -293,7 +292,6 @@ static std::vector<std::string> recipe_info(
 
     oss << string_format( _( "Primary skill: %s\n" ), recp.primary_skill_string( guy ) );
 
-
     if( !recp.required_skills.empty() ) {
         oss << string_format( _( "Other skills: %s\n" ), recp.required_skills_string( guy ) );
     }
@@ -393,7 +391,6 @@ static std::vector<std::string> recipe_info(
             const itype *t = item::find_type( bp.first );
             int amount = bp.second * batch_size;
             if( t->count_by_charges() ) {
-                amount *= t->charges_default();
                 oss << string_format( "> %s (%d)\n", t->nname( 1 ), amount );
             } else {
                 oss << string_format( "> %d %s\n", amount,
@@ -555,7 +552,13 @@ void recipe_result_info_cache::get_item_details( item &dummy_item,
     std::vector<iteminfo> temp_info;
     int total_quantity = quantity_per_batch * cached_batch_size;
     get_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges );
-    dummy_item.info( true, temp_info, total_quantity );
+    if( uses_charges ) {
+        dummy_item.charges *= total_quantity;
+        dummy_item.info( true, temp_info );
+        dummy_item.charges /= total_quantity;
+    } else {
+        dummy_item.info( true, temp_info, total_quantity );
+    }
     details_info.insert( std::end( details_info ), std::begin( temp_info ), std::end( temp_info ) );
 }
 
@@ -565,7 +568,7 @@ void recipe_result_info_cache::get_item_header( item &dummy_item, const int quan
     int total_quantity = quantity_per_batch * cached_batch_size;
     //Handle multiple charges and multiple discrete items separately
     if( uses_charges ) {
-        dummy_item.charges *= total_quantity;
+        dummy_item.charges = total_quantity;
         info.emplace_back( "DESCRIPTION",
                            "<bold>" + classification + ": </bold>" + dummy_item.display_name() );
         //Reset charges so that multiple calls to this function don't produce unexpected results
@@ -890,14 +893,20 @@ static bool mouse_in_window( cata::optional<point> coord, const catacurses::wind
 
 static void recursively_expance_recipes( std::vector<const recipe *> &current,
         std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache, int i,
-        Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes )
+        Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes,
+        const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes )
 {
     std::vector<const recipe *> tmp;
     for( const recipe_id &nested : current[i]->nested_category_data ) {
-        tmp.push_back( &nested.obj() );
-        indent.insert( indent.begin() + i + 1, indent[i] + 2 );
-        if( !availability_cache.count( &nested.obj() ) ) {
-            availability_cache.emplace( &nested.obj(), availability( &nested.obj() ) );
+
+        if( available_recipes.contains( &nested.obj() ) &&
+            hidden_recipes.find( nested ) == hidden_recipes.end() ) {
+            // only do this if we can actually craft the recipe
+            tmp.push_back( &nested.obj() );
+            indent.insert( indent.begin() + i + 1, indent[i] + 2 );
+            if( !availability_cache.count( &nested.obj() ) ) {
+                availability_cache.emplace( &nested.obj(), availability( &nested.obj() ) );
+            }
         }
     }
 
@@ -935,7 +944,8 @@ static void recursively_expance_recipes( std::vector<const recipe *> &current,
 // take the current and itterate through expanding each recipe
 static void expand_recipes( std::vector<const recipe *> &current,
                             std::vector<int> &indent, std::map<const recipe *, availability> &availability_cache,
-                            Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes )
+                            Character &player_character, bool unread_recipes_first, bool highlight_unread_recipes,
+                            const recipe_subset &available_recipes, const std::set<recipe_id> &hidden_recipes )
 {
     //TODO Make this more effecient
     for( size_t i = 0; i < current.size(); ++i ) {
@@ -943,7 +953,7 @@ static void expand_recipes( std::vector<const recipe *> &current,
             uistate.expanded_recipes.find( current[i]->ident() ) != uistate.expanded_recipes.end() ) {
             // add all the recipes from the nests
             recursively_expance_recipes( current, indent, availability_cache, i, player_character,
-                                         unread_recipes_first, highlight_unread_recipes );
+                                         unread_recipes_first, highlight_unread_recipes, available_recipes, hidden_recipes );
         }
     }
 }
@@ -998,7 +1008,7 @@ static bool selection_ok( const std::vector<const recipe *> &list, const int cur
     return false;
 }
 
-const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_recipe )
+const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto_recipe )
 {
     recipe_result_info_cache result_info;
     recipe_info_cache r_info_cache;
@@ -1034,7 +1044,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
 
         width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) :
                 FULL_SCREEN_WIDTH;
-        const unsigned int header_info_width = craft_info_width( width );
+        const unsigned int header_info_width = width - FULL_SCREEN_WIDTH - 1;
         const int wStart = ( TERMX - width ) / 2;
 
         // Keybinding tips
@@ -1440,8 +1450,6 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                     num_recipe = picking.size();
                 }
 
-
-
                 available.reserve( current.size() );
                 // cache recipe availability on first display
                 for( const recipe *e : current ) {
@@ -1484,7 +1492,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id goto_
                 // have to do this after we sort the list
                 indent.assign( current.size(), 0 );
                 expand_recipes( current, indent, availability_cache, player_character, unread_recipes_first,
-                                highlight_unread_recipes );
+                                highlight_unread_recipes, available_recipes, uistate.hidden_recipes );
 
                 std::transform( current.begin(), current.end(),
                 std::back_inserter( available ), [&]( const recipe * e ) {
@@ -2001,18 +2009,6 @@ static bool query_is_yes( const std::string &query )
            subquery == _( "yes" );
 }
 
-static int craft_info_width( const int window_width )
-{
-    int reason_width = 0;
-    //The crafting speed string is necessary.  Find the longest one
-    for( const auto &pair : craft_speed_reason_strings ) {
-        reason_width = std::max( utf8_width( pair.second.translated(), true ), reason_width );
-    }
-    reason_width += 2; //Allow for borders
-    //Use about a quarter of the screen if there's room to play, otherwise limit to the longest string
-    return std::max( window_width / 4, reason_width );
-}
-
 static void draw_hidden_amount( const catacurses::window &w, int amount, int num_recipe )
 {
     if( amount == 1 ) {
@@ -2041,9 +2037,31 @@ static void draw_can_craft_indicator( const catacurses::window &w, const recipe 
     } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, craft_speed_reason_strings.at( TOO_SLOW_TO_CRAFT ).translated() );
     } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
+        int morale_modifier = get_player_character().morale_crafting_speed_multiplier( rec ) * 100;
+        int lighting_modifier = get_player_character().lighting_craft_speed_multiplier( rec ) * 100;
+        int limb_modifier = get_player_character().get_limb_score( limb_score_manip ) * 100;
+
+        std::stringstream modifiers_list;
+        if( morale_modifier < 100 ) {
+            modifiers_list << _( "morale" ) << " " << morale_modifier << "%";
+        }
+        if( lighting_modifier < 100 ) {
+            if( !modifiers_list.str().empty() ) {
+                modifiers_list << ", ";
+            }
+            modifiers_list << _( "lighting" ) << " " << lighting_modifier << "%";
+        }
+        if( limb_modifier < 100 ) {
+            if( !modifiers_list.str().empty() ) {
+                modifiers_list << ", ";
+            }
+            modifiers_list << _( "hands encumbrance/wounds" ) << " " << limb_modifier << "%";
+        }
+
         right_print( w, 0, 1, i_yellow,
                      string_format( craft_speed_reason_strings.at( SLOW_BUT_CRAFTABLE ).translated(),
-                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
+                                    static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ),
+                                    modifiers_list.str() ) );
     } else if( player_character.crafting_speed_multiplier( rec ) > 1.0f ) {
         right_print( w, 0, 1, i_green,
                      string_format( craft_speed_reason_strings.at( FAST_CRAFTING ).translated(),

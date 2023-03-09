@@ -96,6 +96,8 @@ class item_location
         /** Handles updates to the item location, mostly for caching. */
         void on_contents_changed();
 
+        void make_active();
+
         /** Gets the selected item or nullptr */
         item *get_item();
         const item *get_item() const;
@@ -106,7 +108,7 @@ class item_location
         item_location parent_item() const;
 
         /** returns true if the item is in the inventory of the given character **/
-        bool held_by( Character &who ) const;
+        bool held_by( Character const &who ) const;
 
         /**
          * true if this item location can and does have a parent

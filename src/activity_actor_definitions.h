@@ -31,7 +31,6 @@
 
 class Character;
 class Creature;
-class JsonIn;
 class JsonOut;
 class avatar;
 class npc;
@@ -250,6 +249,10 @@ class bookbinder_copy_activity_actor: public activity_actor
             const bookbinder_copy_activity_actor &act = static_cast<const bookbinder_copy_activity_actor &>
                     ( other );
             return rec_id == act.rec_id && book_binder == act.book_binder;
+        }
+
+        static int pages_for_recipe( const recipe &r ) {
+            return 1 + r.difficulty / 2;
         }
 
         void start( player_activity &act, Character & ) override;
@@ -693,7 +696,6 @@ class consume_activity_actor : public activity_actor
         std::string consume_menu_filter;
         bool canceled = false;
         activity_id type;
-        bool refuel = false;
         /**
          * @pre @p other is a consume_activity_actor
          */
@@ -706,12 +708,12 @@ class consume_activity_actor : public activity_actor
         consume_activity_actor( const item_location &consume_location,
                                 std::vector<int> consume_menu_selections,
                                 const std::vector<item_location> &consume_menu_selected_items,
-                                const std::string &consume_menu_filter, activity_id type, bool refuel = false ) :
+                                const std::string &consume_menu_filter, activity_id type ) :
             consume_location( consume_location ),
             consume_menu_selections( std::move( consume_menu_selections ) ),
             consume_menu_selected_items( consume_menu_selected_items ),
             consume_menu_filter( consume_menu_filter ),
-            type( type ), refuel( refuel ) {}
+            type( type ) {}
 
         explicit consume_activity_actor( const item_location &consume_location ) :
             consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
@@ -944,7 +946,6 @@ class drop_or_stash_item_info
         int _count = 0;
 };
 
-
 /**
  * Activity to drop items to the ground or into a vehicle cargo part.
  * @items is the list of items to drop
@@ -1060,11 +1061,7 @@ class harvest_activity_actor : public activity_actor
 class reload_activity_actor : public activity_actor
 {
     public:
-        reload_activity_actor() = default;
-        reload_activity_actor( int moves, int qty,
-                               std::vector<item_location> &targets ) : moves_total( moves ), quantity( qty ),
-            reload_targets( targets ) {
-        }
+        explicit reload_activity_actor( item::reload_option &&opt, int extra_moves = 0 );
 
         activity_id get_type() const override {
             return activity_id( "ACT_RELOAD" );
@@ -1083,9 +1080,11 @@ class reload_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
 
     private:
-        int moves_total{};
-        int quantity{};
-        std::vector<item_location> reload_targets{};
+        explicit reload_activity_actor() = default;
+        int moves_total = 0;
+        int quantity = 0;
+        item_location target_loc;
+        item_location ammo_loc;
 
         bool can_reload() const;
         static void make_reload_sound( Character &who, item &reloadable );
@@ -1541,6 +1540,36 @@ class vehicle_unfolding_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+class wash_activity_actor : public activity_actor
+{
+    private:
+        wash_activity_actor() = default;
+    public:
+        wash_activity_actor( drop_locations to_wash,
+                             washing_requirements &requirements ) :
+            to_wash( std::move( to_wash ) ),
+            requirements( requirements ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_WASH" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &p ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wash_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        drop_locations to_wash;
+        washing_requirements requirements;
 };
 
 class wear_activity_actor : public activity_actor

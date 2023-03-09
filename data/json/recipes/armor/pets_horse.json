@@ -28,6 +28,7 @@
     "skills_required": [ [ "fabrication", 4 ] ],
     "using": [ [ "cordage", 7 ] ],
     "components": [ [ [ "chitin_piece", 84 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_chitinworking" },
@@ -294,7 +295,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE STORAGE",
-    "skills_required": [ "tailor", 4 ],
+    "skill_used": "tailor",
+    "difficulty": 4,
     "time": "6 h",
     "autolearn": true,
     "using": [ [ "tailoring_leather_patchwork", 4 ], [ "clasps", 2 ] ],

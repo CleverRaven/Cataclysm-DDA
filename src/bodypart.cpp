@@ -14,7 +14,6 @@
 #include "json.h"
 #include "rng.h"
 
-
 const bodypart_str_id body_part_arm_l( "arm_l" );
 const bodypart_str_id body_part_arm_r( "arm_r" );
 const bodypart_str_id body_part_bp_null( "bp_null" );
@@ -322,7 +321,6 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "is_limb", is_limb, false );
     optional( jo, was_loaded, "is_vital", is_vital, false );
-    optional( jo, was_loaded, "encumb_impacts_dodge", encumb_impacts_dodge, false );
     if( jo.has_array( "limb_types" ) ) {
         limbtypes.clear();
         body_part_type::type first_type = body_part_type::type::num_types;
@@ -422,6 +420,15 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         }
     }
 
+    if( jo.has_array( "effects_on_hit" ) ) {
+        effects_on_hit.clear();
+        for( const JsonObject effect_jo : jo.get_array( "effects_on_hit" ) ) {
+            bp_onhit_effect eff;
+            eff.load( effect_jo );
+            effects_on_hit.push_back( eff );
+        }
+    }
+
     if( jo.has_array( "temp_mod" ) ) {
         JsonArray temp_array = jo.get_array( "temp_mod" );
         temp_min = temp_array.get_int( 0 );
@@ -455,6 +462,23 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
             encumbrance_per_weight.insert( std::pair<units::mass, int>( weight, encumbrance ) );
         }
     }
+}
+
+void bp_onhit_effect::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "id", id );
+    optional( jo, false, "global", global );
+    optional( jo, false, "dmg_type", dtype, damage_type::NONE );
+    optional( jo, false, "dmg_threshold", dmg_threshold, 1 );
+    optional( jo, false, "dmg_scale_increment", scale_increment, 1.0f );
+    optional( jo, false, "chance", chance, 100 );
+    optional( jo, false, "chance_dmg_scaling", chance_dmg_scaling, 0.0f );
+    optional( jo, false, "intensity", intensity, 1 );
+    optional( jo, false, "intensity_dmg_scaling", intensity_dmg_scaling, 0.0f );
+    optional( jo, false, "max_intensity", max_intensity, INT_MAX );
+    optional( jo, false, "duration", duration, 1 );
+    optional( jo, false, "duration_dmg_scaling", duration_dmg_scaling, 0.0f );
+    optional( jo, false, "max_duration", max_duration, INT_MAX );
 }
 
 void body_part_type::reset()
@@ -600,8 +624,11 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
         // try to find all matching sublimbs from the parent
         bool found_all = true;
         for( const sub_bodypart_str_id &searching : sbp->parent->sub_parts ) {
-            found_all = std::find( covered.begin(), covered.end(), searching.id() ) != covered.end() &&
-                        found_all;
+            //skip secondary locations for this
+            if( !searching->secondary ) {
+                found_all = std::find( covered.begin(), covered.end(), searching.id() ) != covered.end() &&
+                            found_all;
+            }
         }
 
         // if found all consolidate all the limb bits together
@@ -610,8 +637,10 @@ std::set<translation, localized_comparator> body_part_type::consolidate(
             full_bps.emplace_back( sbp->parent );
             // set the initial to a skipped value
             for( const sub_bodypart_str_id &searching : sbp->parent->sub_parts ) {
-                auto sbp_it = std::find( covered.begin(), covered.end(), searching.id() );
-                *sbp_it = sub_body_part_sub_limb_debug;
+                if( !searching->secondary ) {
+                    auto sbp_it = std::find( covered.begin(), covered.end(), searching.id() );
+                    *sbp_it = sub_body_part_sub_limb_debug;
+                }
             }
         }
     }
@@ -897,6 +926,17 @@ std::set<matec_id> bodypart::get_limb_techs() const
     if( !x_in_y( get_encumbrance_data().encumbrance, id->technique_enc_limit  &&
                  hp_cur > id->health_limit ) ) {
         result.insert( id->techniques.begin(), id->techniques.end() );
+    }
+    return result;
+}
+
+std::vector<bp_onhit_effect> bodypart::get_onhit_effects( damage_type dtype ) const
+{
+    std::vector<bp_onhit_effect> result;
+    for( const bp_onhit_effect &effect : id->effects_on_hit ) {
+        if( effect.dtype == dtype || effect.dtype == damage_type::NONE ) {
+            result.push_back( effect );
+        }
     }
     return result;
 }

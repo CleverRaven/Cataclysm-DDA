@@ -40,7 +40,7 @@ static void create_char( Character &dude )
 {
     clear_character( dude, true );
 
-    dude.enchantment_cache->force_add( *enchantment_ENCH_TEST_TAIL );
+    dude.enchantment_cache->force_add( *enchantment_ENCH_TEST_TAIL, dude );
     dude.recalculate_bodyparts();
     REQUIRE( dude.has_part( body_part_test_tail ) );
 }
@@ -49,7 +49,7 @@ static void create_bird_char( Character &dude )
 {
     clear_character( dude, true );
 
-    dude.enchantment_cache->force_add( *enchantment_ENCH_TEST_BIRD_PARTS );
+    dude.enchantment_cache->force_add( *enchantment_ENCH_TEST_BIRD_PARTS, dude );
     dude.recalculate_bodyparts();
     REQUIRE( dude.has_part( body_part_test_corvid_beak ) );
     REQUIRE( dude.has_part( body_part_test_bird_wing_l ) );
@@ -287,7 +287,7 @@ TEST_CASE( "Mutation armor vs. damage", "[character][mutation]" )
     }
 
     GIVEN( "+ body part with 5 bash / 5 acid" ) {
-        dude.enchantment_cache->force_add( *enchantment_ENCH_TEST_TAIL );
+        dude.enchantment_cache->force_add( *enchantment_ENCH_TEST_TAIL, dude );
         dude.recalculate_bodyparts();
         REQUIRE( dude.has_part( body_part_test_tail ) );
 

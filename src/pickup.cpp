@@ -159,7 +159,8 @@ bool Pickup::query_thief()
 }
 
 // Returns false if pickup caused a prompt and the player selected to cancel pickup
-static bool pick_one_up( item_location &loc, int quantity, bool &got_water, PickupMap &mapPickup,
+static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &got_gas,
+                         PickupMap &mapPickup,
                          bool autopickup, bool &stash_successful, bool &got_frozen_liquid )
 {
     Character &player_character = get_player_character();
@@ -215,6 +216,8 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
         }
     } else if( newit.made_of_from_type( phase_id::LIQUID ) ) {
         got_water = true;
+    } else if( newit.made_of_from_type( phase_id::GAS ) ) {
+        got_gas = true;
     } else if( !player_character.can_pickWeight_partial( newit, false ) ||
                !player_character.can_stash_partial( newit, false ) ) {
         option = CANCEL;
@@ -258,20 +261,13 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
             }
         // Intentional fallthrough
         case STASH: {
-            item_location added_it = player_character.i_add( newit, true, nullptr, &it,
-                                     /*allow_drop=*/false, /*allow_wield=*/false, false );
-            if( added_it == item_location::nowhere ) {
-                // failed to add, fill pockets if it's a stack
-                if( newit.count_by_charges() ) {
-                    int remaining_charges = newit.charges;
-                    item_location carried_item = player_character.get_wielded_item();
-                    if( carried_item && !carried_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) &&
-                        carried_item->can_contain_partial( newit ) ) {
-                        int used_charges = carried_item->fill_with( newit, remaining_charges, false, false, false );
-                        remaining_charges -= used_charges;
-                    }
-                    player_character.worn.pickup_stash( newit, remaining_charges, false );
-                    newit.charges -= remaining_charges;
+            int last_charges = newit.charges;
+            ret_val<item_location> ret = player_character.i_add_or_fill( newit, true, nullptr, &it,
+                                         /*allow_drop=*/false, /*allow_wield=*/false, false );
+            item_location added_it = ret.value();
+            if( ret.success() ) {
+                if( added_it == item_location::nowhere ) {
+                    newit.charges = last_charges - newit.charges;
                     newit.on_pickup( player_character );
                     if( newit.charges != 0 ) {
                         auto &entry = mapPickup[newit.tname()];
@@ -279,18 +275,17 @@ static bool pick_one_up( item_location &loc, int quantity, bool &got_water, Pick
                         entry.first = newit;
                         picked_up = true;
                     }
+                } else if( &*added_it == &it ) {
+                    // merged to the original stack, restore original charges
+                    it.charges = last_charges;
+                } else {
+                    // successfully added
+                    auto &entry = mapPickup[newit.tname()];
+                    entry.second += newit.count();
+                    entry.first = newit;
+                    picked_up = true;
                 }
-            } else if( &*added_it == &it ) {
-                // merged to the original stack, restore original charges
-                it.charges -= newit.charges;
-            } else {
-                // successfully added
-                auto &entry = mapPickup[newit.tname()];
-                entry.second += newit.count();
-                entry.first = newit;
-                picked_up = true;
             }
-
             break;
         }
     }
@@ -319,6 +314,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
                         bool autopickup, bool &stash_successful )
 {
     bool got_water = false;
+    bool got_gas = false;
     bool got_frozen_liquid = false;
     Character &player_character = get_player_character();
     bool weight_is_okay = ( player_character.weight_carried() <= player_character.weight_capacity() );
@@ -341,7 +337,8 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
             continue;
         }
 
-        problem = !pick_one_up( target, quantity, got_water, mapPickup, autopickup, stash_successful,
+        problem = !pick_one_up( target, quantity, got_water, got_gas, mapPickup, autopickup,
+                                stash_successful,
                                 got_frozen_liquid );
     }
 
@@ -353,6 +350,9 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     }
     if( got_water ) {
         add_msg( m_info, _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
+    }
+    if( got_gas ) {
+        add_msg( m_info, _( "Spilt gasses cannot be picked up.  They will disappear over time." ) );
     }
     if( weight_is_okay && player_character.weight_carried() > player_character.weight_capacity() ) {
         add_msg( m_bad, _( "You're overburdened!" ) );

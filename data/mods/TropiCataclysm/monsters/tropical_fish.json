@@ -342,7 +342,7 @@
     "copy-from": "mon_fish_tiny",
     "name": { "str": "discus", "str_pl": "discuses" },
     "reproduction": { "baby_egg": "egg_discus", "baby_count": 2, "baby_timer": 17 },
-    "description": "A round and colorful genus of fish native to the Amazon river basin.  Very popular in aquariums but expensive to mantain in captivity."
+    "description": "A round and colorful genus of fish native to the Amazon river basin.  Very popular in aquariums but expensive to maintain in captivity."
   },
   {
     "id": "mon_fry_discus",

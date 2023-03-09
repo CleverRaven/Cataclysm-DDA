@@ -56,6 +56,7 @@
 #include "veh_interact.h"
 #include "veh_type.h"
 #include "veh_utils.h"
+#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
@@ -95,8 +96,6 @@ static const skill_id skill_mechanics( "mechanics" );
 static const vpart_id vpart_horn_bicycle( "horn_bicycle" );
 
 static const zone_type_id zone_type_VEHICLE_PATROL( "VEHICLE_PATROL" );
-
-static const std::string flag_APPLIANCE( "APPLIANCE" );
 
 void handbrake()
 {
@@ -558,11 +557,6 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     target_veh->install_part( vcoords, target_part );
 }
 
-void vehicle::start_folding_activity()
-{
-    get_avatar().assign_activity( player_activity( vehicle_folding_activity_actor( *this ) ) );
-}
-
 double vehicle::engine_cold_factor( const int e ) const
 {
     if( !part_info( engines[e] ).has_flag( "E_COLD_START" ) ) {
@@ -591,10 +585,9 @@ int vehicle::engine_start_time( const int e ) const
     // diesel engines with working glow plugs always start with f = 0.6 (or better)
     const double cold = 100 / tanh( 1 - std::min( engine_cold_factor( e ), 0.9 ) );
 
-    // watts to old vhp = watts / 373
     // divided by magic 16 = watts / 6000
     const double watts_per_time = 6000;
-    return part_vpower_w( engines[ e ], true ) / watts_per_time + 100 * dmg + cold;
+    return units::to_watt( part_vpower_w( engines[ e ], true ) ) / watts_per_time + 100 * dmg + cold;
 }
 
 bool vehicle::auto_select_fuel( int e )
@@ -648,7 +641,7 @@ bool vehicle::start_engine( const int e )
     }
 
     const double dmg = parts[engines[e]].damage_percent();
-    const int engine_power = std::abs( part_epower_w( engines[e] ) );
+    const units::power engine_power = -part_epower( engines[e] );
     const double cold_factor = engine_cold_factor( e );
     const int start_moves = engine_start_time( e );
 
@@ -942,7 +935,7 @@ void vehicle::play_chimes() const
 
 void vehicle::crash_terrain_around()
 {
-    if( total_power_w() <= 0 ) {
+    if( total_power() <= 0_W ) {
         return;
     }
     map &here = get_map();
@@ -952,7 +945,7 @@ void vehicle::crash_terrain_around()
         const transform_terrain_data &ttd = vp.info().transform_terrain;
         for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
              !here.inbounds_z( crush_target.z ); i++ ) {
-            tripoint cur_pos = start_pos + eight_horizontal_neighbors.at( i );
+            tripoint cur_pos = start_pos + eight_horizontal_neighbors[i];
             bool busy_pos = false;
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
                 busy_pos |= vp_tmp.pos() == cur_pos;
@@ -1202,11 +1195,6 @@ void vehicle::close( int part_index )
     } else {
         open_or_close( part_index, false );
     }
-}
-
-bool vehicle::is_open( int part_index ) const
-{
-    return parts[part_index].open;
 }
 
 bool vehicle::can_close( int part_index, Character &who )
@@ -1484,7 +1472,7 @@ void vehicle::use_dishwasher( int p )
         player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
-                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled from the water tanks" ) );
+                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled from the water tanks." ) );
     }
 }
 
@@ -1719,7 +1707,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     const bool controls_here = has_part_here( "CONTROLS" );
     const bool player_is_driving = get_player_character().controlling_vehicle;
 
-    if( !has_tag( flag_APPLIANCE ) && !player_is_driving ) {
+    if( !is_appliance() ) {
         menu.add( _( "Examine vehicle" ) )
         .skip_theft_check()
         .skip_locked_check()
@@ -1792,6 +1780,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                     {
                         add_msg( _( "You let go of the controls." ) );
                     }
+                    disable_smart_controller_if_needed();
                     stop_engines();
                     get_player_character().controlling_vehicle = false;
                     g->setremoteveh( nullptr );
@@ -1803,6 +1792,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 .on_submit( [this] {
                     if( engine_on )
                     {
+                        disable_smart_controller_if_needed();
                         add_msg( _( "You turn the engine off." ) );
                         stop_engines();
                     } else
@@ -1841,7 +1831,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .on_submit( [this] { toggle_autopilot(); } );
     }
 
-    if( has_tag( flag_APPLIANCE ) || vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
+    if( is_appliance() || vp.avail_part_with_feature( "CTRL_ELECTRONIC" ) ) {
         build_electronics_menu( menu );
     }
 
@@ -1897,8 +1887,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             item::reload_option opt = get_player_character().select_ammo( loc, true );
             if( opt )
             {
-                std::vector<item_location> targets { { opt.target, std::move( opt.ammo ) } };
-                reload_activity_actor reload_act( opt.moves(), opt.qty(), targets );
+                reload_activity_actor reload_act( std::move( opt ) );
                 get_player_character().assign_activity( player_activity( reload_act ) );
             }
         } );
@@ -2005,23 +1994,43 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         } );
     }
 
-    if( vp.part_with_tool( itype_water_faucet ) && fuel_left( itype_water_clean ) > 0 ) {
-        menu.add( _( "Fill a container with water" ) )
-        .hotkey( "FAUCET_FILL" )
-        .skip_locked_check()
-        .on_submit( [this] { get_player_character().siphon( *this, itype_water_clean ); } );
-
-        menu.add( _( "Have a drink" ) )
-        .hotkey( "FAUCET_DRINK" )
-        .skip_locked_check()
-        .on_submit( [this] {
-            const item water( itype_water_clean, calendar::turn_zero );
-            if( get_player_character().can_consume_as_is( water ) )
-            {
-                get_player_character().assign_activity( player_activity( consume_activity_actor( water ) ) );
-                drain( itype_water_clean, 1 );
+    if( vp.part_with_tool( itype_water_faucet ) ) {
+        int vp_tank_idx = -1;
+        item *water_item = nullptr;
+        for( const int i : fuel_containers ) {
+            vehicle_part &part = parts[i];
+            if( part.ammo_current() == itype_water_clean &&
+                part.base.only_item().made_of( phase_id::LIQUID ) ) {
+                vp_tank_idx = i;
+                water_item = &part.base.only_item();
+                break;
             }
-        } );
+        }
+
+        if( vp_tank_idx != -1 && water_item != nullptr ) {
+            menu.add( _( "Fill a container with water" ) )
+            .hotkey( "FAUCET_FILL" )
+            .skip_locked_check()
+            .on_submit( [this, vp_tank_idx] {
+                item &vp_tank_item = parts[vp_tank_idx].base;
+                item &water = vp_tank_item.only_item();
+                liquid_handler::handle_liquid( water, &vp_tank_item, 1, nullptr, this, vp_tank_idx );
+            } );
+
+            menu.add( _( "Have a drink" ) )
+            .enable( get_player_character().will_eat( *water_item ).success() )
+            .hotkey( "FAUCET_DRINK" )
+            .skip_locked_check()
+            .on_submit( [this, vp_tank_idx] {
+                vehicle_part &vp_tank = parts[vp_tank_idx];
+                // this is not "proper" use of vehicle_cursor, but should be good enough for reducing
+                // charges and deleting the liquid on last charge drained, for more details see #61164
+                item_location base_loc( vehicle_cursor( *this, vp_tank_idx ), &vp_tank.base );
+                item_location water_loc( base_loc, &vp_tank.base.only_item() );
+                const consume_activity_actor consume_act( water_loc );
+                get_player_character().assign_activity( player_activity( consume_act ) );
+            } );
+        }
     }
 
     if( vp.part_with_tool( itype_pseudo_water_purifier ) ) {
@@ -2100,7 +2109,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( is_foldable() && !remote ) {
         menu.add( string_format( _( "Fold %s" ), name ) )
         .hotkey( "FOLD_VEHICLE" )
-        .on_submit( [this] { start_folding_activity(); } );
+        .on_submit( [this] {
+            vehicle_folding_activity_actor folding_act( *this );
+            get_avatar().assign_activity( player_activity( folding_act ) );
+        } );
     }
 }
 

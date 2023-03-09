@@ -140,6 +140,7 @@ static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
 static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE_FOLD( "ACT_VEHICLE_FOLD" );
 static const activity_id ACT_VEHICLE_UNFOLD( "ACT_VEHICLE_UNFOLD" );
+static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 static const activity_id ACT_WIELD( "ACT_WIELD" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
@@ -173,13 +174,18 @@ static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
+static const itype_id itype_soap( "soap" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
@@ -824,7 +830,10 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
-void hacking_activity_actor::serialize( JsonOut & ) const {}
+void hacking_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.write_null();
+}
 
 std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue & )
 {
@@ -834,7 +843,7 @@ std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue &
 
 void bookbinder_copy_activity_actor::start( player_activity &act, Character & )
 {
-    pages = 1 + rec_id->difficulty / 2;
+    pages = bookbinder_copy_activity_actor::pages_for_recipe( *rec_id );
     act.moves_total = to_moves<int>( pages * 10_minutes );
     act.moves_left = to_moves<int>( pages * 10_minutes );
 }
@@ -856,8 +865,10 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         return;
     }
 
-    const bool rec_added = book_binder->eipc_recipe_add( rec_id );
-    if( rec_added ) {
+    std::set<recipe_id> recipes = book_binder->get_saved_recipes();
+
+    if( recipes.emplace( rec_id ).second ) { // if .second is true then recipe was inserted
+        book_binder->set_saved_recipes( recipes );
         p.add_msg_if_player( m_good, _( "You copy the recipe for %1$s into your recipe book." ),
                              rec_id->result_name() );
 
@@ -911,7 +922,7 @@ void hotwire_car_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void hotwire_car_activity_actor::do_turn( player_activity &act, Character & )
+void hotwire_car_activity_actor::do_turn( player_activity &act, Character &who )
 {
     map &here = get_map();
     if( calendar::once_every( 1_minutes ) ) {
@@ -919,6 +930,9 @@ void hotwire_car_activity_actor::do_turn( player_activity &act, Character & )
         if( lost ) {
             act.set_to_null();
             debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
+        }
+        if( calendar::once_every( 5_minutes ) ) {
+            who.practice( skill_mechanics, 1, 2, true );
         }
     }
 }
@@ -1402,8 +1416,8 @@ void read_activity_actor::read_book( Character &learner,
 
     min_ex = learner.enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, min_ex );
 
-    min_ex = learner.adjust_for_focus( min_ex ) / 100;
-    max_ex = learner.adjust_for_focus( max_ex ) / 100;
+    min_ex = std::lround( learner.adjust_for_focus( min_ex ) );
+    max_ex = std::lround( learner.adjust_for_focus( max_ex ) );
 
     max_ex = clamp( max_ex, 2, 10 );
     max_ex = std::max( min_ex, max_ex );
@@ -1504,14 +1518,13 @@ bool read_activity_actor::player_read( avatar &you )
             read_book( *learner, islotbook, skill_level, penalty );
             const int newSkillLevel = skill_level.knowledgeLevel();
 
-
             // levels up the skill
             if( newSkillLevel != originalSkillLevel ) {
                 get_event_bus().send<event_type::gains_skill_level>(
                     learner->getID(), skill, skill_level.knowledgeLevel() );
 
                 if( learner->is_avatar() ) {
-                    add_msg( m_good, _( "You theoretical knowledge of %s increases to level %d." ), skill.obj().name(),
+                    add_msg( m_good, _( "Your theoretical knowledge of %s increases to level %d." ), skill.obj().name(),
                              originalSkillLevel + 1 );
                 } else {
                     add_msg( m_good, _( "%s increases their %s knowledge." ), learner->disp_name(),
@@ -1852,7 +1865,7 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
         }
 
         // Check that we can pick it up.
-        if( !target->made_of_from_type( phase_id::LIQUID ) ) {
+        if( target->made_of_from_type( phase_id::SOLID ) ) {
             item &leftovers = *target;
             // Make a copy to be put in the destination location
             item newit = leftovers;
@@ -1957,7 +1970,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     // Otherwise, we are done.
     if( !keep_going || target_items.empty() ) {
         if( !stash_successful && !autopickup ) {
-            add_msg( m_bad, _( "Some items were not picked up" ) );
+            add_msg( m_bad, _( "Some items were not picked up!" ) );
         }
 
         cancel_pickup( who );
@@ -2118,7 +2131,6 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
                        true, "tool", "boltcutters" );
     }
 
-
     for( const activity_byproduct &byproduct : data->byproducts() ) {
         const int amount = byproduct.roll();
         if( byproduct.item->count_by_charges() ) {
@@ -2155,7 +2167,6 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
     data.read( "tool", actor.tool );
     return actor.clone();
 }
-
 
 lockpick_activity_actor lockpick_activity_actor::use_item(
     int moves_total,
@@ -2219,7 +2230,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
     if( here.has_furn( target ) ) {
         if( furn_type->lockpick_result.is_null() ) {
-            debugmsg( "%s lockpick_result is null", furn_type.id().str() );
+            who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
             return;
         }
 
@@ -2229,7 +2240,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         }
     } else {
         if( ter_type->lockpick_result.is_null() ) {
-            debugmsg( "%s lockpick_result is null", ter_type.id().str() );
+            who.add_msg_if_player( m_bad, _( "You can't open this lock." ) );
             return;
         }
 
@@ -2439,6 +2450,9 @@ void ebooksave_activity_actor::finish( player_activity &act, Character &who )
     item book_copy = *book;
     ereader->put_in( book_copy, item_pocket::pocket_type::EBOOK );
     if( who.is_avatar() ) {
+        if( !who.has_identified( book->typeId() ) ) {
+            who.identify( *book );
+        }
         add_msg( m_info, _( "You scan the book into your device." ) );
     } else { // who.is_npc()
         add_msg_if_player_sees( who, _( "%s scans the book into their device." ),
@@ -2535,12 +2549,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     Character &player_character = get_player_character();
     if( consume_location ) {
         ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        if( refuel ) {
-            ret = player_character.can_consume_fuel( *consume_location );
-        } else {
-            ret = player_character.will_eat( *consume_location, true );
-        }
-
+        ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -2551,11 +2560,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         }
     } else if( !consume_item.is_null() ) {
         ret_val<edible_rating> ret = ret_val<edible_rating>::make_success();
-        if( refuel ) {
-            ret = player_character.can_consume_fuel( consume_item );
-        } else {
-            ret = player_character.will_eat( consume_item, true );
-        }
+        ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             canceled = true;
             consume_menu_selections = std::vector<int>();
@@ -2591,9 +2596,9 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     avatar &player_character = get_avatar();
     if( !canceled ) {
         if( consume_loc ) {
-            player_character.consume( consume_loc, /*force=*/true, refuel );
+            player_character.consume( consume_loc, /*force=*/true );
         } else if( !consume_item.is_null() ) {
-            player_character.consume( consume_item, /*force=*/true, refuel );
+            player_character.consume( consume_item, /*force=*/true );
         } else {
             debugmsg( "Item location/name to be consumed should not be null." );
         }
@@ -2641,7 +2646,6 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "consume_menu_filter", consume_menu_filter );
     jsout.member( "canceled", canceled );
     jsout.member( "type", type );
-    jsout.member( "refuel", refuel );
 
     jsout.end_object();
 }
@@ -2660,7 +2664,6 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &
     data.read( "consume_menu_filter", actor.consume_menu_filter );
     data.read( "canceled", actor.canceled );
     data.read( "type", actor.type );
-    data.read( "refuel", actor.refuel );
 
     return actor.clone();
 }
@@ -2703,7 +2706,6 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     }
     who.set_movement_mode( move_mode_walk );
 }
-
 
 void try_sleep_activity_actor::canceled( player_activity &, Character &who )
 {
@@ -3114,7 +3116,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10'000'000 ) {
         if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
-            if( query_yn( _( "Keep practicing until proficiency increase?" ) ) ) {
+            if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
                 is_long = true;
                 *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
             }
@@ -3593,7 +3595,7 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
     if( harvest.is_null() || harvest->empty() ) {
         if( !auto_forage ) {
             who.add_msg_if_player( m_info,
-                                   _( "Nothing can be harvested from this plant in current season." ) );
+                                   _( "Nothing can be harvested from this plant in the current season." ) );
         }
 
         if( who.manual_examine ) {
@@ -3913,7 +3915,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     if( holstered_item.first ) {
         item &it = *holstered_item.first;
         if( !it.count_by_charges() ) {
-            if( holster->can_contain( it ).success() && ( all_pockets_rigid ||
+            if( holster->can_contain_directly( it ).success() && ( all_pockets_rigid ||
                     holster.parents_can_contain_recursive( &it ) ) ) {
 
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
@@ -3932,7 +3934,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
             int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
                           holster.max_charges_by_parent_recursive( it ) );
 
-            if( charges > 0 && holster->can_contain_partial( it ) ) {
+            if( charges > 0 && holster->can_contain_partial_directly( it ) ) {
                 int result = holster->fill_with( it, charges,
                                                  /*unseal_pockets=*/true,
                                                  /*allow_sealed=*/true,
@@ -3967,7 +3969,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     }
 
     items.pop_front();
-    if( items.empty() || !success ) {
+    if( items.empty() || !success || items.front().first == item_location::nowhere ) {
+        holster.make_active();
         handler.handle_by( who );
         act.set_to_null();
         return;
@@ -4010,19 +4013,27 @@ std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonVal
     return actor.clone();
 }
 
+reload_activity_actor::reload_activity_actor( item::reload_option &&opt, int extra_moves )
+{
+    moves_total = opt.moves() + extra_moves;
+    quantity = opt.qty();
+    target_loc = std::move( opt.target );
+    ammo_loc = std::move( opt.ammo );
+}
+
 bool reload_activity_actor::can_reload() const
 {
-    if( reload_targets.size() != 2 || quantity <= 0 ) {
+    if( quantity <= 0 ) {
         debugmsg( "invalid arguments to ACT_RELOAD" );
         return false;
     }
 
-    if( !reload_targets[0] ) {
+    if( !target_loc ) {
         debugmsg( "reload target is null, failed to reload" );
         return false;
     }
 
-    if( !reload_targets[1] ) {
+    if( !ammo_loc ) {
         debugmsg( "ammo target is null, failed to reload" );
         return false;
     }
@@ -4053,15 +4064,15 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
-    item &reloadable = *reload_targets[ 0 ];
-    item &ammo = *reload_targets[ 1 ];
+    item &reloadable = *target_loc;
+    item &ammo = *ammo_loc;
     const std::string reloadable_name = reloadable.tname();
     // cache check results because reloading deletes the ammo item
     const std::string ammo_name = ammo.tname();
     const bool ammo_is_filthy = ammo.is_filthy();
     const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
 
-    if( !reloadable.reload( who, std::move( reload_targets[ 1 ] ), quantity ) ) {
+    if( !reloadable.reload( who, std::move( ammo_loc ), quantity ) ) {
         add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
         return;
     }
@@ -4089,7 +4100,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
 
     who.recoil = MAX_RECOIL;
 
-    item_location loc = reload_targets[0];
+    item_location loc = target_loc;
     // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
     if( loc.check_parent_capacity_recursive() ) {
@@ -4150,7 +4161,8 @@ void reload_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves_total", moves_total );
     jsout.member( "qty", quantity );
-    jsout.member( "reload_targets", reload_targets );
+    jsout.member( "target_loc", target_loc );
+    jsout.member( "ammo_loc", ammo_loc );
 
     jsout.end_object();
 }
@@ -4163,7 +4175,8 @@ std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonValue &j
 
     data.read( "moves_total", actor.moves_total );
     data.read( "qty", actor.quantity );
-    data.read( "reload_targets", actor.reload_targets );
+    data.read( "target_loc", actor.target_loc );
+    data.read( "ammo_loc", actor.ammo_loc );
     return actor.clone();
 }
 
@@ -4196,7 +4209,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
     item milk( milked_item->first, calendar::turn, milked_item->second );
-    milk.set_item_temperature( units::from_celcius( 38.6 ) );
+    milk.set_item_temperature( units::from_celsius( 38.6 ) );
     if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, source_mon ) ) {
         milked_item->second = 0;
         if( milk.charges > 0 ) {
@@ -5420,7 +5433,7 @@ void chop_logs_activity_actor::finish( player_activity &act, Character &who )
     int splint_quan;
     if( here.ter( pos ) == t_trunk ) {
         log_quan = rng( 2, 3 );
-        stick_quan = rng( 0, 1 );
+        stick_quan = rng( 0, 3 );
         splint_quan = 0;
     } else if( here.ter( pos ) == t_stump ) {
         log_quan = rng( 0, 2 );
@@ -5755,8 +5768,16 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     int charges_consumed = actor->finish_using( who, *patient,
                            *used_tool, healed );
     std::list<item>used;
-    if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+    if( used_tool->has_flag( flag_SINGLE_USE ) ) {
         it.remove_item();
+    } else if( used_tool->is_medication() ) {
+        if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+            it.remove_item();
+        }
+    } else if( used_tool->is_tool() ) {
+        if( used_tool->type->charges_to_use() ) {
+            it->activation_consume( charges_consumed, it.position(), &who );
+        }
     }
 
     // Erase activity and values.
@@ -6120,7 +6141,6 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
     return actor.clone();
 }
 
-
 void unload_loot_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -6172,7 +6192,7 @@ static void move_item( Character &you, item &it, const int quantity, const tripo
 
     map &here = get_map();
     // Check that we can pick it up.
-    if( !it.made_of_from_type( phase_id::LIQUID ) ) {
+    if( it.made_of_from_type( phase_id::SOLID ) ) {
         you.mod_moves( -activity_handlers::move_cost( it, src, dest ) );
 
         put_into_vehicle_or_drop( you, item_drop_reason::deliberate, { it }, dest );
@@ -6425,8 +6445,26 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            if( it->first->is_ammo_belt() ) {
+                                if( it->first->type->magazine->linkage ) {
+                                    item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
+                                    if( this_veh != nullptr ) {
+                                        this_veh->add_item( this_part, link );
+                                    } else {
+                                        here.add_item_or_charges( src_loc, link );
+                                    }
+                                }
+                            }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
+
+                            if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                                if( this_veh != nullptr ) {
+                                    this_veh->remove_item( this_part, it->first );
+                                } else {
+                                    here.i_rem( src_loc, it->first );
+                                }
+                            }
                         }
                         if( you.moves <= 0 ) {
                             return;
@@ -6548,7 +6586,7 @@ bool vehicle_folding_activity_actor::fold_vehicle( Character &p, bool check_only
 vehicle_folding_activity_actor::vehicle_folding_activity_actor( const vehicle &target )
 {
     folding_time = target.folding_time();
-    target_pos = target.pos_bub();
+    target_pos = target.bub_part_pos( 0 );
 }
 
 void vehicle_folding_activity_actor::start( player_activity &act, Character &p )
@@ -6623,7 +6661,7 @@ bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_
         here.destroy_vehicle( veh );
         return false;
     }
-    const bool cant_float = size( veh->get_avail_parts( "FLOATS" ) ) <= 2;
+    const bool cant_float = !veh->can_float();
     const auto invalid_pos = [&here, &cant_float]( const tripoint & p ) {
         return ( cant_float && here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, p ) )
                || here.veh_at( p )
@@ -6728,6 +6766,91 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
     return actor.clone();
 }
 
+void wash_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = requirements.time;
+    act.moves_left = requirements.time;
+}
+
+void wash_activity_actor::finish( player_activity &act, Character &p )
+{
+    const auto is_liquid_crafting_component = []( const item & it ) {
+        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) );
+    };
+    const inventory &crafting_inv = p.crafting_inventory();
+    if( !crafting_inv.has_charges( itype_water, requirements.water, is_liquid_crafting_component ) &&
+        !crafting_inv.has_charges( itype_water_clean, requirements.water, is_liquid_crafting_component ) ) {
+        p.add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
+                             requirements.water );
+        act.set_to_null();
+        return;
+    } else if( !crafting_inv.has_charges( itype_soap, requirements.cleanser ) &&
+               !crafting_inv.has_charges( itype_detergent, requirements.cleanser ) &&
+               !crafting_inv.has_charges( itype_liquid_soap, requirements.cleanser,
+                                          is_liquid_crafting_component ) ) {
+        p.add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
+                             requirements.cleanser );
+        act.set_to_null();
+        return;
+    }
+
+    for( drop_location &ait : to_wash ) {
+        item_location filthy_item = ait.first;
+        if( filthy_item->count_by_charges() ) {
+            item copy( *filthy_item );
+            copy.charges = ait.second;
+            copy.unset_flag( flag_FILTHY );
+            filthy_item->charges -= ait.second;
+            if( filthy_item->charges <= 0 ) {
+                filthy_item.remove_item();
+            }
+            p.i_add_or_drop( copy );
+        } else {
+            filthy_item->unset_flag( flag_FILTHY );
+            p.on_worn_item_washed( *filthy_item );
+        }
+    }
+
+    std::vector<item_comp> comps;
+    comps.emplace_back( itype_water, requirements.water );
+    comps.emplace_back( itype_water_clean, requirements.water );
+    p.consume_items( comps, 1, is_liquid_crafting_component );
+
+    std::vector<item_comp> comps1;
+    comps1.emplace_back( itype_soap, requirements.cleanser );
+    comps1.emplace_back( itype_detergent, requirements.cleanser );
+    comps1.emplace_back( itype_liquid_soap, requirements.cleanser );
+    p.consume_items( comps1 );
+
+    p.add_msg_if_player( m_good, _( "You washed your items." ) );
+
+    // Make sure newly washed components show up as available if player attempts to craft immediately
+    p.invalidate_crafting_inventory();
+
+    act.set_to_null();
+}
+
+void wash_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "to_wash", to_wash );
+    jsout.member( "time", requirements.time );
+    jsout.member( "water", requirements.water );
+    jsout.member( "cleanser", requirements.cleanser );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonValue &jsin )
+{
+    wash_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "to_wash", actor.to_wash );
+    data.read( "time", actor.requirements.time );
+    data.read( "water", actor.requirements.water );
+    data.read( "cleanser", actor.requirements.cleanser );
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -6788,6 +6911,7 @@ deserialize_functions = {
     { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
+    { ACT_WASH, &wash_activity_actor::deserialize },
     { ACT_WEAR, &wear_activity_actor::deserialize },
     { ACT_WIELD, &wield_activity_actor::deserialize},
     { ACT_WORKOUT_ACTIVE, &workout_activity_actor::deserialize },
@@ -6811,7 +6935,7 @@ void serialize( const cata::clone_ptr<activity_actor> &actor, JsonOut &jsout )
     }
 }
 
-void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin )
+void deserialize( cata::clone_ptr<activity_actor> &actor, const JsonValue &jsin )
 {
     if( jsin.test_null() ) {
         actor = nullptr;

@@ -50,5 +50,23 @@
     "copy-from": "fridgesnacks",
     "subtype": "distribution",
     "extend": { "entries": [ { "group": "powerthirst_flavors", "prob": 10 } ] }
+  },
+  {
+    "id": "virology_lab_fridge",
+    "type": "item_group",
+    "copy-from": "virology_lab_fridge",
+    "extend": { "items": [ [ "flu_shot_fun", 50 ] ] }
+  },
+  {
+    "id": "drugs_misc",
+    "type": "item_group",
+    "copy-from": "drugs_misc",
+    "extend": { "items": [ [ "flu_shot_fun", 50 ] ] }
+  },
+  {
+    "id": "harddrugs",
+    "type": "item_group",
+    "copy-from": "harddrugs",
+    "extend": { "items": [ [ "flu_shot_fun", 50 ] ] }
   }
 ]

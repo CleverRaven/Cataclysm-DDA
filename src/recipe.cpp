@@ -15,6 +15,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enum_traits.h"
+#include "effect_on_condition.h"
 #include "flag.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -148,7 +149,12 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     abstract = jo.has_string( "abstract" );
 
     const std::string type = jo.get_string( "type" );
-
+    if( jo.has_member( "result_eocs" ) ) {
+        result_eocs.clear();
+        for( JsonValue jv : jo.get_array( "result_eocs" ) ) {
+            result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        }
+    }
     if( abstract ) {
         ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else if( type == "practice" ) {
@@ -173,9 +179,15 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         never_learn = true;
     } else {
         if( !jo.read( "result", result_, true ) && !result_ ) {
-            jo.throw_error( "Recipe missing result" );
+            if( result_eocs.empty() ) {
+                jo.throw_error( "Recipe missing result" );
+            } else {
+                mandatory( jo, false, "name", name_ );
+                ident_ = recipe_id( jo.get_string( "id" ) );
+            }
+        } else {
+            ident_ = recipe_id( result_.str() );
         }
-        ident_ = recipe_id( result_.str() );
     }
 
     if( type == "recipe" && jo.has_string( "id_suffix" ) ) {
@@ -653,7 +665,7 @@ static void create_byproducts_group( const item_group_id &bplist, std::vector<it
             if( !it.craft_has_charges() ) {
                 it.charges = 0;
             }
-            for( int i = 0; i < batch; ++i ) {
+            for( int i = 1; i < batch; ++i ) {
                 bps_out.push_back( it );
             }
         }
@@ -677,7 +689,10 @@ std::map<itype_id, int> recipe::get_byproducts() const
 {
     std::map<itype_id, int> ret;
     if( !byproducts.empty() ) {
-        ret.insert( byproducts.begin(), byproducts.end() );
+        for( const std::pair<const itype_id, int> &byproduct : byproducts ) {
+            int count = byproduct.first->count_by_charges() ? byproduct.first->charges_default() : 1;
+            ret.emplace( byproduct.first, byproduct.second * count );
+        }
     }
     if( !!byproduct_group ) {
         std::vector<item> tmp = item_group::items_from( *byproduct_group );
@@ -828,7 +843,7 @@ std::vector<proficiency_id> recipe::used_proficiencies() const
     return ret;
 }
 
-static float get_aided_proficiency_level( const Character &crafter, proficiency_id prof )
+static float get_aided_proficiency_level( const Character &crafter, const proficiency_id &prof )
 {
     float max_prof = crafter.get_proficiency_practice( prof );
     for( const npc *helper : crafter.get_crafting_helpers() ) {
@@ -1216,14 +1231,13 @@ bool recipe::hot_result() const
 
 int recipe::makes_amount() const
 {
-    int makes = 0;
+    int makes_charges = 1;  // stays 1 if item isn't counted in charges
     if( charges.has_value() ) {
-        makes = charges.value();
+        makes_charges = charges.value();
     } else if( item::count_by_charges( result_ ) ) {
-        makes = item::find_type( result_ )->charges_default();
+        makes_charges = item::find_type( result_ )->charges_default();
     }
-    // return either charges * mult or 1
-    return makes ? makes * result_mult : 1 ;
+    return makes_charges * result_mult;
 }
 
 void recipe::incorporate_build_reqs()

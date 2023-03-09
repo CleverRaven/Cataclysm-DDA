@@ -543,6 +543,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             cur.veh.invalidate_mass();
         }
 
+        void make_active( item_location &head ) {
+            cur.veh.make_active( head );
+        }
+
         units::volume volume_capacity() const override {
             return cur.veh.free_volume( cur.part );
         }
@@ -564,6 +568,9 @@ class item_location::impl::item_in_container : public item_location::impl
         // figures out the index for the item, which is where it is in the total list of contents
         // note: could be a better way of handling this?
         int calc_index() const {
+            if( !container ) {
+                return -1;
+            }
             int idx = 0;
             for( const item *it : container->all_items_top() ) {
                 if( target() == it ) {
@@ -645,6 +652,19 @@ class item_location::impl::item_in_container : public item_location::impl
                 // it's liable to end up back in the same pocket, where shenanigans ensue
                 return item_location( container, target() );
             }
+            if( target()->made_of( phase_id::LIQUID ) && container->num_item_stacks() == 1 ) {
+                item_location inv =
+                    ch.i_add( *container, should_stack, nullptr, &*container, false );
+                if( inv == item_location::nowhere ) {
+                    DebugLog( D_INFO, DC_ALL )
+                            << "failed to add item " << target()->tname()
+                            << " to character inventory while obtaining from container";
+                    return {};
+                }
+                container.remove_item();
+                return item_location{ inv, &inv->only_item() };
+            }
+
             const item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return ch.i_add( obj, should_stack,/*avoid=*/nullptr, nullptr,/*allow_drop=*/false );
@@ -652,7 +672,10 @@ class item_location::impl::item_in_container : public item_location::impl
                 item_location inv = ch.i_add( *target(), should_stack,/*avoid=*/nullptr,
                                               target(), /*allow_drop=*/false );
                 if( inv == item_location::nowhere ) {
-                    debugmsg( "failed to add item to character inventory while obtaining from container" );
+                    DebugLog( D_INFO, DC_ALL )
+                            << "failed to add item " << target()->tname()
+                            << " to character inventory while obtaining from container";
+                    return {};
                 }
                 remove_item();
                 return inv;
@@ -820,7 +843,6 @@ item_location item_location::parent_item() const
     if( where() == type::container ) {
         return ptr->parent_item();
     }
-    debugmsg( "this item location type has no parent" );
     return item_location::nowhere;
 }
 
@@ -932,6 +954,31 @@ void item_location::on_contents_changed()
     ptr->on_contents_changed();
 }
 
+void item_location::make_active()
+{
+    if( !ptr->valid() ) {
+        debugmsg( "item location does not point to valid item" );
+        return;
+    }
+    switch( where() ) {
+        case type::container: {
+            parent_item().make_active();
+            break;
+        }
+        case type::map: {
+            get_map().make_active( *this );
+            break;
+        }
+        case type::vehicle: {
+            dynamic_cast<impl::item_on_vehicle *>( ptr.get() )->make_active( *this );
+        }
+        case type::invalid:
+        case type::character: {
+            // NOOP: characters don't cache active items
+        }
+    }
+}
+
 item *item_location::get_item()
 {
     return ptr->target();
@@ -947,7 +994,7 @@ void item_location::set_should_stack( bool should_stack ) const
     ptr->should_stack = should_stack;
 }
 
-bool item_location::held_by( Character &who ) const
+bool item_location::held_by( Character const &who ) const
 {
     if( where() == type::character &&
         get_creature_tracker().creature_at<Character>( position() ) == &who ) {

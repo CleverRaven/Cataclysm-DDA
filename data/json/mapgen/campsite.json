@@ -74,6 +74,67 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "campsite" ],
+    "weight": 20,
+    "object": {
+      "predecessor_mapgen": "forest",
+      "rows": [
+        "                        ",
+        "                        ",
+        "         S....          ",
+        "         .....          ",
+        "         .....          ",
+        "         .....          ",
+        "         .....          ",
+        "          ...           ",
+        " E....           W....  ",
+        " ......         ......  ",
+        " ......   .-.   ......  ",
+        " ......  -ddd-  ......  ",
+        " .....   .dbd.   .....  ",
+        "         -ddd-          ",
+        " E....    .-.    W....  ",
+        " ......         ......  ",
+        " ......         ......  ",
+        " ......   ...   ......  ",
+        " .....   N....   .....  ",
+        "         .....          ",
+        "         .....          ",
+        "         .....          ",
+        "         .....          ",
+        "                        "
+      ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
+      "nested": {
+        "N": { "chunks": [ [ "tent_3x3_N", 20 ], [ "tent_5x5_N", 10 ], [ "null", 5 ] ] },
+        "S": { "chunks": [ [ "tent_3x3_S", 20 ], [ "tent_5x5_S", 10 ], [ "null", 5 ] ] },
+        "E": { "chunks": [ [ "tent_3x3_E", 20 ], [ "tent_5x5_E", 10 ], [ "null", 5 ] ] },
+        "W": { "chunks": [ [ "tent_3x3_W", 20 ], [ "tent_5x5_W", 10 ], [ "null", 5 ] ] }
+      },
+      "place_npcs": [ { "class": "survivor_camper", "x": 10, "y": 10 } ],
+      "terrain": {
+        "-": "t_region_groundcover",
+        "b": "t_pit_shallow",
+        "d": "t_region_soil",
+        "r": "t_region_groundcover",
+        ".": [ [ "t_region_groundcover", 2 ], "t_region_groundcover_forest" ],
+        "S": "t_region_groundcover",
+        "E": "t_region_groundcover",
+        "W": "t_region_groundcover",
+        "N": "t_region_groundcover"
+      },
+      "furniture": { "-": "f_camp_chair", "b": "f_firering", "r": "f_tourist_table" },
+      "place_items": [
+        { "item": "cannedfood", "x": [ 5, 16 ], "y": [ 7, 17 ], "chance": 75 },
+        { "item": "cannedfood", "x": [ 5, 16 ], "y": [ 7, 17 ], "chance": 75 },
+        { "item": "pasta", "x": [ 5, 16 ], "y": [ 7, 17 ], "chance": 75 },
+        { "item": "camping", "x": [ 5, 16 ], "y": [ 7, 17 ], "chance": 75 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "campsite_cabin_incomplete" ],
     "weight": 500,
     "object": {

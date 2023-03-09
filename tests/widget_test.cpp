@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "cata_utility.h"
 #include "game.h"
 #include "game_constants.h"
 #include "player_helpers.h"
@@ -643,7 +644,6 @@ TEST_CASE( "widgets showing avatar weight", "[widget][weight]" )
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Morbidly Obese</color>" );
     set_avatar_bmi( ava, 50.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Morbidly Obese</color>" );
-
 
     // "Fun" version with customized thresholds, text, and color
     widget weight_clause_fun_w = widget_test_weight_clauses_fun.obj();
@@ -1600,24 +1600,24 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_light_gray>Unknown</color>" );
 
     // Acquire and wear a radiation badge
-    item_location rad_badge = ava.i_add( item( itype_rad_badge ) );
-    ava.worn.wear_item( ava, *rad_badge, false, false );
+    item rad_badge( itype_rad_badge );
+    item *rad_badge_worn = & **ava.worn.wear_item( ava, rad_badge, false, false );
 
     // Color indicator is shown when character has radiation badge
-    ava.set_rad( 0 );
+    rad_badge_worn->irradiation = 0;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_white_green> green </color>" );
     // Any positive value turns it blue
-    ava.set_rad( 1 );
+    rad_badge_worn->irradiation = 1;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
-    ava.set_rad( 29 );
+    rad_badge_worn->irradiation = 29;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_h_white> blue </color>" );
-    ava.set_rad( 31 );
+    rad_badge_worn->irradiation = 31;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_i_yellow> yellow </color>" );
-    ava.set_rad( 61 );
+    rad_badge_worn->irradiation = 61;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_yellow> orange </color>" );
-    ava.set_rad( 121 );
+    rad_badge_worn->irradiation = 121;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_red_red> red </color>" );
-    ava.set_rad( 241 );
+    rad_badge_worn->irradiation = 241;
     CHECK( rads_w.layout( ava ) == "RADIATION: <color_c_pink> black </color>" );
 }
 
@@ -1985,7 +1985,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
             brown_dot, h_brown_dot, brown_dot, "\n",
             brown_dot, brown_dot, brown_dot
         };
-        CHECK( overmap_w.layout( ava ) == join( field_3x3, "" ) );
+        CHECK( overmap_w.layout( ava ) == string_join( field_3x3, "" ) );
     }
 
     SECTION( "forest" ) {
@@ -2000,7 +2000,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
             green_F, h_green_F, red_star, "\n",
             green_F, green_F, green_F
         };
-        CHECK( overmap_w.layout( ava ) == join( forest_3x3, "" ) );
+        CHECK( overmap_w.layout( ava ) == string_join( forest_3x3, "" ) );
     }
 
     SECTION( "central lab" ) {
@@ -2016,7 +2016,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
             blue_L, h_blue_L, blue_L, "\n",
             red_star, blue_L, blue_L
         };
-        CHECK( overmap_w.layout( ava ) == join( lab_3x3, "" ) );
+        CHECK( overmap_w.layout( ava ) == string_join( lab_3x3, "" ) );
     }
 
     // TODO: Horde indicators
@@ -2674,7 +2674,7 @@ TEST_CASE( "widget rows in columns", "[widget]" )
     SECTION( "3 columns, multiline/rows/rows" ) {
         const std::string brown_dot = "<color_c_brown>.</color>";
         const std::string h_brown_dot = "<color_h_brown>.</color>";
-        const std::string expected = join( {
+        const std::string expected = string_join( std::vector<std::string> {
             brown_dot, brown_dot, brown_dot, "         MOVE:  0    STR: 8    \n",
             brown_dot, h_brown_dot, brown_dot, "         SPEED: 100  DEX: 8    \n",
             brown_dot, brown_dot, brown_dot, "         FOCUS: 100  INT: 8    \n",
@@ -2690,22 +2690,22 @@ TEST_CASE( "widget rows in columns", "[widget]" )
     SECTION( "3 columns nested in 2 columns, rows/columns, multiline/rows/rows" ) {
         const std::string brown_dot = "<color_c_brown>.</color>";
         const std::string h_brown_dot = "<color_h_brown>.</color>";
-        const std::string expected = join( {
-            join( {
+        const std::string expected = string_join( std::vector<std::string> {
+            string_join( std::vector<std::string> {
                 "CLAUSE: Zero                       ",
                 brown_dot,
                 brown_dot,
                 brown_dot,
                 "         MOVE:  0    STR: 8   \n"
             }, "" ),
-            join( {
+            string_join( std::vector<std::string> {
                 "POOL:   0000                       ",
                 brown_dot,
                 h_brown_dot,
                 brown_dot,
                 "         SPEED: 100  DEX: 8   \n"
             }, "" ),
-            join( {
+            string_join( std::vector<std::string> {
                 "NUM:    0                          ",
                 brown_dot,
                 brown_dot,

@@ -17,6 +17,7 @@ const field_type_str_id fd_blood( "fd_blood" );
 const field_type_str_id fd_blood_insect( "fd_blood_insect" );
 const field_type_str_id fd_blood_invertebrate( "fd_blood_invertebrate" );
 const field_type_str_id fd_blood_veggy( "fd_blood_veggy" );
+const field_type_str_id fd_churned_earth( "fd_churned_earth" );
 const field_type_str_id fd_cold_air2( "fd_cold_air2" );
 const field_type_str_id fd_cold_air3( "fd_cold_air3" );
 const field_type_str_id fd_cold_air4( "fd_cold_air4" );
@@ -279,6 +280,11 @@ void field_type::load( const JsonObject &jo, const std::string & )
     }
     for( JsonArray jao : jid.get_array( "immunity_flags_worn" ) ) {
         immunity_data_part_item_flags.emplace_back( std::make_pair(
+                    io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_string( 1 ) ) );
+    }
+
+    for( JsonArray jao : jid.get_array( "immunity_flags_worn_any" ) ) {
+        immunity_data_part_item_flags_any.emplace_back( std::make_pair(
                     io::string_to_enum<body_part_type::type>( jao.get_string( 0 ) ), jao.get_string( 1 ) ) );
     }
 

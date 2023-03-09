@@ -232,7 +232,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
                                _( "The type of effect the spell can have.  See MAGIC.md for details." ) ) );
     effect_box.show();
     QStringList spell_effects;
-    for( const auto spell_effect_pair : spell_effect::effect_map ) {
+    for( const auto &spell_effect_pair : spell_effect::effect_map ) {
         spell_effects.append( QString( spell_effect_pair.first.c_str() ) );
     }
     effect_box.addItems( spell_effects );
@@ -260,7 +260,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     shape_box.move( QPoint( col * default_text_box_width,
                             row++ * default_text_box_height ) );
     QStringList spell_shapes;
-    for( const auto spell_shape_pair : spell_effect::shape_map ) {
+    for( const auto &spell_shape_pair : spell_effect::shape_map ) {
         spell_shapes.append( QString( io::enum_to_string<spell_shape>( spell_shape_pair.first ).c_str() ) );
     }
     shape_box.addItems( spell_shapes );
@@ -446,7 +446,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
 
     QStringList all_mtypes;
     for( const mtype &mon : MonsterGenerator::generator().get_all_mtypes() ) {
-        all_mtypes.append( mon.id.c_str() );
+        all_mtypes.append( QString( mon.id.str().c_str() ) );
     }
 
     targeted_monster_ids_box.initialize( all_mtypes );
@@ -1315,7 +1315,7 @@ void creator::spell_window::write_json()
     jo.write( std::vector<spell_type> { editable_spell } );
 
     std::istringstream in_stream( stream.str() );
-    JsonIn jsin( in_stream );
+    TextJsonIn jsin( in_stream );
 
     std::ostringstream window_out;
     JsonOut window_jo( window_out, true );
@@ -1474,11 +1474,10 @@ void creator::spell_window::populate_fields()
                 }
             }
 
-            std::string field = sp_t.field->id().str();
-            field_type_id fieldid = sp_t.field->id();
             field_id_box.setCurrentIndex( field_id_box.findText( QString( "NONE" ) ) );
             if( sp_t.field ) {
-                index = field_id_box.findText( QString( field.c_str() ) );
+                QString field = sp_t.field->id().c_str();
+                index = field_id_box.findText( field );
                 if( index != -1 ) {
                     field_id_box.setCurrentIndex( index );
                 }

@@ -199,6 +199,19 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "still_alcohol",
+    "//": "Alcohol you'd find in at a still or moonshine camp",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "brandied_fruit", "prob": 75, "repeat": [ 3, 6 ] },
+      { "item": "moonshine", "prob": 86, "repeat": [ 3, 6 ] },
+      { "item": "beer", "prob": 80, "repeat": [ 3, 6 ] },
+      { "item": "fruit_wine", "prob": 40, "repeat": [ 3, 6 ] },
+      { "item": "brandy", "prob": 20, "repeat": [ 3, 6 ] }
+    ]
+  },
+  {
     "id": "bar_food",
     "type": "item_group",
     "subtype": "distribution",
@@ -884,6 +897,7 @@
       { "item": "butter", "prob": 35, "charges": 8, "container-item": "wrapper" },
       { "item": "buttermilk", "prob": 15 },
       { "item": "cheese", "prob": 60 },
+      { "item": "cottage_cheese", "prob": 30 },
       { "item": "yoghurt", "prob": 40 },
       { "item": "pudding", "prob": 30 },
       { "item": "icecream", "prob": 30 },
@@ -1057,6 +1071,7 @@
       [ "seasoning_salt", 15 ],
       [ "seasoning_italian", 15 ],
       [ "garlic", 10 ],
+      [ "garlic_powder", 10 ],
       [ "thyme", 10 ],
       [ "can_chicken", 10 ],
       [ "ghee", 15 ],
@@ -1398,7 +1413,13 @@
         ],
         "prob": 60
       },
-      { "item": "nachos", "prob": 30, "container-item": "ceramic_bowl" },
+      {
+        "collection": [
+          { "item": "nachos", "prob": 100, "container-item": "ceramic_bowl" },
+          { "item": "salsa", "prob": 90, "container-item": "ceramic_bowl" }
+        ],
+        "prob": 60
+      },
       { "item": "hot_sauce", "prob": 40 }
     ]
   },
@@ -1507,7 +1528,8 @@
     "subtype": "collection",
     "entries": [
       { "group": "pantry_liquids", "prob": 30 },
-      { "item": "tortilla_corn", "prob": 60, "count": [ 1, 3 ] },
+      { "item": "tortilla_corn", "prob": 50, "count": [ 1, 3 ] },
+      { "item": "tortilla_flour", "prob": 50, "count": [ 1, 3 ] },
       { "item": "sauce_red", "prob": 30 },
       { "item": "nachos", "prob": 60, "count": [ 1, 3 ] },
       { "item": "cheese_hard", "prob": 40 },

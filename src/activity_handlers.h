@@ -161,7 +161,6 @@ void butcher_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
 void consume_drink_menu_do_turn( player_activity *act, Character *you );
 void consume_food_menu_do_turn( player_activity *act, Character *you );
-void consume_fuel_menu_do_turn( player_activity *act, Character *you );
 void consume_meds_menu_do_turn( player_activity *act, Character *you );
 void eat_menu_do_turn( player_activity *act, Character *you );
 void fertilize_plot_do_turn( player_activity *act, Character *you );
@@ -234,7 +233,6 @@ void wait_finish( player_activity *act, Character *you );
 void wait_npc_finish( player_activity *act, Character *you );
 void wait_stamina_finish( player_activity *act, Character *you );
 void wait_weather_finish( player_activity *act, Character *you );
-void washing_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest,
