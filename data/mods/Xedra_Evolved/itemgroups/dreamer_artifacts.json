@@ -1,7 +1,7 @@
 [
   {
     "type": "item_group",
-    "//": "Inventor artifact creation itemgroup.",
+    "//": "Dreamer artifact creation itemgroup.",
     "id": "dreamer_artifacts",
     "subtype": "distribution",
     "items": [
