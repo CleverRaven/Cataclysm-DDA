@@ -270,3 +270,4 @@
 "Vehicles":
   - "**/**vehicle**"
   - "**/vehicle**"
+  - "src/veh_**"
