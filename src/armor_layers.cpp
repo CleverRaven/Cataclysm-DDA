@@ -233,7 +233,7 @@ std::vector<std::string> clothing_properties(
     bodypart_id used_bp = bp;
     if( bp == bodypart_id( "bp_null" ) ) {
         // if the armor has no protection data
-        if( worn_item.find_armor_data()->sub_data.size() == 0 ) {
+        if( worn_item.find_armor_data()->sub_data.empty() ) {
             props.push_back( string_format( "<color_c_red>%s</color>",
                                             _( "Item provides no protection" ) ) );
             return props;
