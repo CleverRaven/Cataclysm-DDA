@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "egg_owlbear",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -15,7 +15,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "glow_light",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",

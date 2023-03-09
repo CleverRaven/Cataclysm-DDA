@@ -2,7 +2,7 @@
   {
     "result": "orichalcum_ingot",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -23,7 +23,7 @@
     "result": "orichalcum_ingot",
     "id_suffix": "with_bronze",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
@@ -41,7 +41,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "fireproof_mortar",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -59,7 +59,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "alumentum",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
