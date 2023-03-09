@@ -1,7 +1,6 @@
 [
   {
     "id": "ar15",
-    "copy-from": "rifle_semi",
     "type": "GUN",
     "name": { "str": "AR-15" },
     "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
@@ -14,6 +13,7 @@
     "price_postapoc": 4000,
     "to_hit": -1,
     "bashing": 12,
+    "skill": "rifle",
     "material": [ "aluminum", "steel", "plastic" ],
     "symbol": "(",
     "color": "black",
@@ -203,7 +203,6 @@
   {
     "//": "Groups all 'H&K416' related rifles together. Used M27 due to it being the most popular of the three in the US.",
     "id": "m27_assault_rifle",
-    "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "M27 assault rifle" },
@@ -236,6 +235,7 @@
     ],
     "to_hit": -1,
     "bashing": 12,
+    "skill": "rifle",
     "material": [ "aluminum", "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -405,7 +405,6 @@
   },
   {
     "id": "m4_carbine",
-    "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "M4 carbine" },
@@ -429,6 +428,7 @@
     ],
     "to_hit": -1,
     "bashing": 12,
+    "skill": "rifle",
     "material": [ "aluminum", "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -472,7 +472,6 @@
   },
   {
     "id": "m4_cqbr",
-    "copy-from": "m4a1",
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "special duty carbine" },
@@ -481,6 +480,8 @@
     "volume": "1650 ml",
     "longest_side": "486 mm",
     "//": "The volume, weight, and overall length of an average AR-15’s complete upper receiver module have been deducted and will be made up for by the installable upper assemblies.",
+    "price": 240000,
+    "price_postapoc": 5000,
     "variant_type": "gun",
     "variants": [
       {
@@ -490,6 +491,18 @@
         "weight": 1
       }
     ],
+    "to_hit": -1,
+    "bashing": 12,
+    "skill": "rifle",
+    "material": [ "aluminum", "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "NULL" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 180,
+    "durability": 6,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "default_mods": [ "pistol_grip", "retool_ar15_223rem_short", "suppressor", "adjustable_stock" ],
     "pocket_data": [
       {
@@ -524,7 +537,6 @@
   },
   {
     "id": "m16a4",
-    "copy-from": "rifle_semi",
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "M16 burst rifle" },
@@ -548,6 +560,7 @@
     "bashing": 12,
     "symbol": "(",
     "color": "dark_gray",
+    "skill": "rifle",
     "material": [ "aluminum", "steel", "plastic" ],
     "ammo": [ "NULL" ],
     "default_mods": [ "retool_ar15_223rem" ],
@@ -1030,8 +1043,8 @@
           "stanag100",
           "stanag100drum",
           "stanag150",
-          "AR-10 20-round magazine",
-          "AR-10 5-round makeshift magazine",
+          "ar10_makeshiftmag",
+          "ar10mag_20rd",
           "survivor223mag"
         ]
       }

@@ -71,7 +71,7 @@
     "entries": [
       {
         "distribution": [
-          { "item": "mdrx_223medium", "charges-min": 0, "charges-max": 30, "prob": 10 },
+          { "item": "mdrx_223", "charges-min": 0, "charges-max": 30, "prob": 10 },
           { "item": "mdrx_223short", "charges-min": 0, "charges-max": 30, "prob": 8 }
         ],
         "prob": 100
@@ -141,7 +141,7 @@
         "distribution": [
           { "group": "nested_mdrx_retool_223rem", "prob": 30 },
           { "group": "nested_mdrx_retool_300blk", "prob": 20 },
-          { "group": "nested_mdrx_retool_308", "prob": 15 }
+          { "group": "nested_mdrx_retool_308win", "prob": 15 }
         ],
         "prob": 100
       }

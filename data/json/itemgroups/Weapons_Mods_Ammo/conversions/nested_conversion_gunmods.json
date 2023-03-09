@@ -98,7 +98,7 @@
         "distribution": [ { "item": "retool_mdrx_308win", "prob": 10 }, { "item": "retool_mdrx_308win_medium", "prob": 10 } ],
         "prob": 100
       },
-      { "item": "ar10mag", "charges": 0 },
+      { "item": "ar10mag_20rd", "charges": 0 },
       { "group": "nested_retool_extras" }
     ]
   },

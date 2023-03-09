@@ -447,7 +447,7 @@
       { "item": "reloaded_300blk", "prob": 10 },
       { "item": "reloaded_50beowulf_xtp", "prob": 15 },
       { "item": "reloaded_50beowulf_penetrator", "prob": 10 },
-      { "item": "reloaded_450_xtp", "prob": 15 },
+      { "item": "reloaded_450_ftx", "prob": 15 },
       { "item": "reloaded_450_penetrator", "prob": 10 }
     ]
   },
