@@ -692,5 +692,78 @@
     "move_cost_mod": -1,
     "required_str": -1,
     "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_impaled_officer",
+    "name": "impaled officer",
+    "description": "A dead body encased in high tech armor hanging in the air.  Their form seems twisted and refracted in the light of the strange glowing crystal that has seeped out of the ground and impaled their body.",
+    "symbol": "!",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "flags": [ "TRANSPARENT", "ORGANIC" ],
+    "deconstruct": { "items": [ { "item": "glass", "count": 1000 } ] },
+    "required_str": -1,
+    "bash": {
+      "str_min": 100,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "an absence of sound.",
+      "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
+    },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [ { "id": "EOC_HAUNTING_WARN", "effect": [ { "open_dialogue": { "topic": "TALK_XEDRA_MERC_MAIN" } } ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_impaled_soldier",
+    "description": "A dead body encased in military armor hanging in the air.  Their form seems twisted and refracted in the light of the strange glowing crystal that has seeped out of the ground and impaled their body.",
+    "name": "impaled mercenary",
+    "symbol": "!",
+    "color": "brown",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "deconstruct": { "items": [ { "item": "glass", "count": 1000 } ] },
+    "required_str": -1,
+    "bash": {
+      "str_min": 100,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "an absence of sound.",
+      "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
+    },
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "ORGANIC" ]
+  },
+  {
+    "type": "furniture",
+    "id": "f_empty_spike",
+    "name": "empty spike",
+    "description": "A strange otherworldly spike that refracts light in strange ways.  The body no longer rests on it.",
+    "symbol": "!",
+    "color": "black",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "flags": [ "TRANSPARENT", "ORGANIC" ],
+    "deconstruct": { "items": [ { "item": "glass", "count": 1000 } ] },
+    "required_str": -1,
+    "bash": {
+      "str_min": 100,
+      "str_max": 100,
+      "sound": "smash!",
+      "sound_fail": "an absence of sound.",
+      "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
+    },
+    "examine_action": {
+      "type": "effect_on_condition",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_MISSING_BODY",
+          "effect": [ { "u_message": "The body is gone but it can't have gone far, you need to destroy it." } ]
+        }
+      ]
+    }
   }
 ]

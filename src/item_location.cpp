@@ -652,6 +652,19 @@ class item_location::impl::item_in_container : public item_location::impl
                 // it's liable to end up back in the same pocket, where shenanigans ensue
                 return item_location( container, target() );
             }
+            if( target()->made_of( phase_id::LIQUID ) && container->num_item_stacks() == 1 ) {
+                item_location inv =
+                    ch.i_add( *container, should_stack, nullptr, &*container, false );
+                if( inv == item_location::nowhere ) {
+                    DebugLog( D_INFO, DC_ALL )
+                            << "failed to add item " << target()->tname()
+                            << " to character inventory while obtaining from container";
+                    return {};
+                }
+                container.remove_item();
+                return item_location{ inv, &inv->only_item() };
+            }
+
             const item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return ch.i_add( obj, should_stack,/*avoid=*/nullptr, nullptr,/*allow_drop=*/false );
@@ -659,7 +672,10 @@ class item_location::impl::item_in_container : public item_location::impl
                 item_location inv = ch.i_add( *target(), should_stack,/*avoid=*/nullptr,
                                               target(), /*allow_drop=*/false );
                 if( inv == item_location::nowhere ) {
-                    debugmsg( "failed to add item to character inventory while obtaining from container" );
+                    DebugLog( D_INFO, DC_ALL )
+                            << "failed to add item " << target()->tname()
+                            << " to character inventory while obtaining from container";
+                    return {};
                 }
                 remove_item();
                 return inv;

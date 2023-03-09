@@ -1589,7 +1589,7 @@ const requirement_data *Character::select_requirements(
         std::vector<std::string> component_lines =
             req->get_folded_components_list( TERMX - 4, c_light_gray, inv, filter, batch, "",
                                              requirement_display_flags::no_unavailable );
-        menu.addentry_desc( "", join( component_lines, "\n" ) );
+        menu.addentry_desc( "", string_join( component_lines, "\n" ) );
     }
 
     menu.allow_cancel = true;

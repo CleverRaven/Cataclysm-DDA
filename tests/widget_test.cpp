@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "cata_utility.h"
 #include "game.h"
 #include "game_constants.h"
 #include "player_helpers.h"
@@ -1984,7 +1985,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
             brown_dot, h_brown_dot, brown_dot, "\n",
             brown_dot, brown_dot, brown_dot
         };
-        CHECK( overmap_w.layout( ava ) == join( field_3x3, "" ) );
+        CHECK( overmap_w.layout( ava ) == string_join( field_3x3, "" ) );
     }
 
     SECTION( "forest" ) {
@@ -1999,7 +2000,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
             green_F, h_green_F, red_star, "\n",
             green_F, green_F, green_F
         };
-        CHECK( overmap_w.layout( ava ) == join( forest_3x3, "" ) );
+        CHECK( overmap_w.layout( ava ) == string_join( forest_3x3, "" ) );
     }
 
     SECTION( "central lab" ) {
@@ -2015,7 +2016,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
             blue_L, h_blue_L, blue_L, "\n",
             red_star, blue_L, blue_L
         };
-        CHECK( overmap_w.layout( ava ) == join( lab_3x3, "" ) );
+        CHECK( overmap_w.layout( ava ) == string_join( lab_3x3, "" ) );
     }
 
     // TODO: Horde indicators
@@ -2673,7 +2674,7 @@ TEST_CASE( "widget rows in columns", "[widget]" )
     SECTION( "3 columns, multiline/rows/rows" ) {
         const std::string brown_dot = "<color_c_brown>.</color>";
         const std::string h_brown_dot = "<color_h_brown>.</color>";
-        const std::string expected = join( {
+        const std::string expected = string_join( std::vector<std::string> {
             brown_dot, brown_dot, brown_dot, "         MOVE:  0    STR: 8    \n",
             brown_dot, h_brown_dot, brown_dot, "         SPEED: 100  DEX: 8    \n",
             brown_dot, brown_dot, brown_dot, "         FOCUS: 100  INT: 8    \n",
@@ -2689,22 +2690,22 @@ TEST_CASE( "widget rows in columns", "[widget]" )
     SECTION( "3 columns nested in 2 columns, rows/columns, multiline/rows/rows" ) {
         const std::string brown_dot = "<color_c_brown>.</color>";
         const std::string h_brown_dot = "<color_h_brown>.</color>";
-        const std::string expected = join( {
-            join( {
+        const std::string expected = string_join( std::vector<std::string> {
+            string_join( std::vector<std::string> {
                 "CLAUSE: Zero                       ",
                 brown_dot,
                 brown_dot,
                 brown_dot,
                 "         MOVE:  0    STR: 8   \n"
             }, "" ),
-            join( {
+            string_join( std::vector<std::string> {
                 "POOL:   0000                       ",
                 brown_dot,
                 h_brown_dot,
                 brown_dot,
                 "         SPEED: 100  DEX: 8   \n"
             }, "" ),
-            join( {
+            string_join( std::vector<std::string> {
                 "NUM:    0                          ",
                 brown_dot,
                 brown_dot,

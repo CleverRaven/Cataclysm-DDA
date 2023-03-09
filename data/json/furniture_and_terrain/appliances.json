@@ -57,6 +57,7 @@
     "epower": "-35 W",
     "item": "freezer",
     "requirements": {
+      "removal": { "time": "2 m" },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "60 m",
@@ -908,7 +909,6 @@
     "durability": 400,
     "description": "A military ASRG covered in heavy plating.  Provides constant power when plugged in to your power grid.",
     "epower": 130,
-    "size": "150 L",
     "item": "compact_ASRG_containment",
     "requirements": {
       "repair": {
