@@ -1077,7 +1077,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "lobotomizer",
     "obsolete": true,
   }
