@@ -1274,6 +1274,7 @@ honeygold
 honker
 hoose
 hooved
+horchata
 hosomaki
 hotcut
 hotkey
