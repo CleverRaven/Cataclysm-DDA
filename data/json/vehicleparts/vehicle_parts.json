@@ -627,7 +627,7 @@
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "plastic_chunk","count":[ 3, 6 ]},
+      { "item": "plastic_chunk", "count": [ 3, 6 ] },
       { "item": "hose", "prob": 50 },
       { "item": "motor_tiny", "prob": 25 }
     ],
@@ -663,7 +663,7 @@
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "plastic_chunk","count":[ 5, 8 ]},
+      { "item": "plastic_chunk", "count": [ 5, 8 ] },
       { "item": "hose", "prob": 50 },
       { "item": "motor_tiny", "prob": 25 }
     ],
