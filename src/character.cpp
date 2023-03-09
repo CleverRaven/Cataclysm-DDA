@@ -5399,7 +5399,7 @@ bool Character::is_elec_immune() const
 bool Character::is_immune_effect( const efftype_id &eff ) const
 {
     if( eff == effect_downed ) {
-        return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && is_barefoot() );
+        return ( has_trait( trait_LEG_TENT_BRACE ) && is_barefoot() );
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_type::HEAT );
     } else if( eff == effect_deaf ) {
@@ -10573,7 +10573,7 @@ int Character::has_flag( const json_character_flag &flag ) const
 {
     // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
     return count_trait_flag( flag ) + count_bionic_with_flag( flag ) + has_effect_with_flag(
-               flag ) + count_bodypart_with_flag( flag );
+               flag ) + count_bodypart_with_flag( flag ) + count_mabuff_flag( flag );
 }
 
 bool Character::is_driving() const
