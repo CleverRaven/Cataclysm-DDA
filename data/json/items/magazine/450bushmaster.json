@@ -1,0 +1,19 @@
+[
+  {
+    "id": "450_ar15mag",
+    "type": "MAGAZINE",
+    "name": { "str": ".450 4-roung conversion magazine" },
+    "description": "an aluminum box magazine containing a single 4-round stack of.450 Bushmaster cartridges, engineered to fit and feed appropriately converted AR-platform rifles.",
+    "weight": "226 g",
+    "volume": "290 ml",
+    "longest_side": "190 mm",
+    "price": 2999,
+    "price_postapoc": 250,
+    "material": [ "aluminum" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "450" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "450": 4 } } ]
+  }
+]
