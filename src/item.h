@@ -1413,7 +1413,7 @@ class item : public visitable
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
          */
-        std::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
+        std::optional<tripoint> get_cable_target( const Character *p, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
