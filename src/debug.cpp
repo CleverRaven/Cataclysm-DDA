@@ -231,6 +231,7 @@ std::string filter_name( debug_filter value )
         case DF_CHARACTER: return "DF_CHARACTER";
         case DF_CHAR_CALORIES: return "DF_CHAR_CALORIES";
         case DF_CHAR_HEALTH: return "DF_CHAR_HEALTH";
+        case DF_CRAFTING: return "DF_CRAFTING";
         case DF_CREATURE: return "DF_CREATURE";
         case DF_EFFECT: return "DF_EFFECT";
         case DF_EXPLOSION: return "DF_EXPLOSION";
