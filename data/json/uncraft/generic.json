@@ -170,7 +170,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "scrap_copper", 103 ] ] ]
+    "components": [ [ [ "scrap_copper", 175 ] ] ]
   },
   {
     "result": "exodii_ingot_aluminum",

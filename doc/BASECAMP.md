@@ -54,7 +54,8 @@ provides `"id"` | meaning
 `"farming"` | after this upgrade mission is complete, the Plow Fields, Plant Fields, Fertilize Fields, and Harvest Fields basecamp missions will be available.
 `"reseeding"` | after this upgrade mission is complete, recipe groups with `"building_type": "FARM"` will become visible.
 `"kitchen"` | after this upgrade mission is complete, recipe groups with `"building_type": "COOK"` will become visible.
-`"blacksmith"` |after this upgrade mission is complete, recipe groups with `"building_type": "SMITH"` will become visible.
+`"blacksmith"` | after this upgrade mission is complete, recipe groups with `"building_type": "SMITH"` will become visible.
+`"water_well"` | after this upgrade mission is complete, the camp will have a permanent water source. This enables your followers at or near the camp to automatically drink from its well when they are thirsty.
 
 `blueprint_provides` can also be used to name objects from `recipe_group.json`. The recipes will be craftable by NPCs at that expansion, allowing the creation of custom recipes that can be performed exclusively at faction camps.
 

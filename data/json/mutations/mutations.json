@@ -6851,6 +6851,17 @@
   },
   {
     "type": "mutation",
+    "id": "SCREECH",
+    "name": { "str": "Screeching Voice" },
+    "mixed_effect": true,
+    "points": 0,
+    "description": "Your voice sounds like a bird trying to imitate a human.  Persuading NPCs will be more difficult, but threatening them will be easier.",
+    "types": [ "VOICE_TONE" ],
+    "category": [ "BIRD" ],
+    "social_modifiers": { "persuade": -10, "lie": -20, "intimidate": 10 }
+  },
+  {
+    "type": "mutation",
     "id": "SHOUT1",
     "name": { "str": "Shouter" },
     "points": -2,

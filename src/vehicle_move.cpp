@@ -42,6 +42,7 @@
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_stunned( "stunned" );
@@ -1080,10 +1081,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bodypart_id( "torso" ), dam );
                 if( part_flag( ret.part, "SHARP" ) ) {
-                    critter->make_bleed( effect_source( driver ), bodypart_id( "torso" ), 1_minutes * rng( 1, dam ) );
+                    critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes * rng( 1, dam ),
+                                         critter->get_random_body_part_of_type( body_part_type::type::torso ) );
                 } else if( dam > 18 && rng( 1, 20 ) > 15 ) {
                     //low chance of lighter bleed even with non sharp objects.
-                    critter->make_bleed( effect_source( driver ), bodypart_id( "torso" ), 1_minutes );
+                    critter->add_effect( effect_source( driver ), effect_bleed, 1_minutes,
+                                         critter->get_random_body_part_of_type( body_part_type::type::torso ) );
                 }
                 add_msg_debug( debugmode::DF_VEHICLE_MOVE, "Critter collision damage: %d", dam );
             }

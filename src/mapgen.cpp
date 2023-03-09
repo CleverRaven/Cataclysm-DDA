@@ -3289,9 +3289,7 @@ class jmapgen_remove_vehicles : public jmapgen_piece
                     const auto rit = std::find( vehicles_to_remove.begin(), vehicles_to_remove.end(),
                                                 vp->vehicle().type );
                     if( rit != vehicles_to_remove.end() ) {
-                        if( get_map().inbounds( dat.m.getglobal( start ) ) ) {
-                            get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z, end.z );
-                        }
+                        get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z, end.z );
                         dat.m.destroy_vehicle( &vp->vehicle() );
                     }
                 }

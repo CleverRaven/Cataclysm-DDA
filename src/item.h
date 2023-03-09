@@ -1208,55 +1208,71 @@ class item : public visitable
         /*@}*/
 
         /**
+        * Helper function to retrieve any applicable resistance bonuses from item mods.
+        * @param dmg_type Damage type
+        * @return Amount of additional modded resistance
+        */
+        float get_clothing_mod_val_for_damage_type( damage_type dmg_type ) const;
+
+        /**
+        * Helper function to perform damage_type::NONE checks for forward-declared damage_type.
+        */
+        bool damage_type_none( damage_type dmg_type ) const;
+
+        /**
+        * Helper function to perform damage_type validity check for forward-declared damage_type.
+        */
+        bool damage_type_invalid( damage_type dmg_type ) const;
+
+        /**
+        * Helper function to check whether a damage_type can damage items for forward-declared
+        * damage_type.
+        */
+        bool damage_type_can_damage_items( damage_type dmg_type ) const;
+
+
+
+        /**
          * Resistance against different damage types (@ref damage_type).
          * Larger values means more resistance are thereby better, but there is no absolute value to
          * compare them to. The values can be interpreted as chance (@ref one_in) of damaging the item
          * when exposed to the type of damage.
+         * @param dmg_type The type of incoming damage
          * @param to_self If this is true, it returns item's own resistance, not one it gives to wearer.
+         * @param bodypart_target The bodypart_id or sub_bodypart_id of the target bodypart.
+         * @param resist_value A supplied roll against coverage for physical attacks. A value of -1 causes rolls
+         *                     against each item material individually. For environmental type damage such as
+         *                     fire and acid, this value can be used to allow hypothetical calculations for
+         *                     environmental protection items such as gas masks.
+         */
+        /*@{*/
+
+        template<typename bodypart_target = bodypart_id>
+        float resist( damage_type dmg_type, bool to_self = false,
+                      const bodypart_target &bp = bodypart_target(),
+                      int resist_value = 0 ) const;
+
+    private:
+        float _resist( damage_type dmg_type, bool to_self = false, int resist_value = 0,
+                       bool bp_null = true,
+                       const std::vector<const part_material *> &armor_mats = {},
+                       float avg_thickness = 1.0f ) const;
+        /**
+         * Handles the special rules regarding environmental type damage such as fire and acid.
+         * Currently does not damage items as damage to items from fire is handled elsewhere, and
+         * acid is currently not intended to cause item damage.
+         * @param dmg_type The type of incoming damage
+         * @param to_self If this is true, it returns item's own resistance, not one it gives to wearer.
+         * @param bodypart_target The bodypart_id or sub_bodypart_id of the target bodypart.
          * @param base_env_resist Will override the base environmental
          * resistance (to allow hypothetical calculations for gas masks).
          */
-        /*@{*/
-        float acid_resist( bool to_self = false, int base_env_resist = 0,
-                           const bodypart_id &bp = bodypart_id() ) const;
-        float fire_resist( bool to_self = false, int base_env_resist = 0,
-                           const bodypart_id &bp = bodypart_id() ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bash_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                           int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float cut_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                          int roll = 0 )  const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float stab_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                           int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                             int roll = 0 ) const;
-        float biological_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                                 int roll = 0 ) const;
-        float electric_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                               int roll = 0 ) const;
-        float cold_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                           int roll = 0 ) const;
+        float _environmental_resist( damage_type dmg_type, bool to_self = false,
+                                     int base_env_resist = 0,
+                                     bool bp_null = true,
+                                     const std::vector<const part_material *> &armor_mats = {} ) const;
         /*@}*/
-
-        // same as above but specific to the sublocation
-        float acid_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
-        float fire_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bash_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float cut_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 )  const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float stab_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
-        float biological_resist( const sub_bodypart_id &bp, bool to_self = false,
-                                 int roll = 0 ) const;
-        float electric_resist( const sub_bodypart_id &bp, bool to_self = false,
-                               int roll = 0 ) const;
-        float cold_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+    public:
 
         /**
          * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.
@@ -1276,13 +1292,6 @@ class item : public visitable
          */
         void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
         void mitigate_damage( damage_unit &du, const sub_bodypart_id &bp, int roll = 0 ) const;
-        /**
-         * Resistance provided by this item against damage type given by an enum.
-         */
-        float damage_resist( damage_type dt, bool to_self = false,
-                             const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
-        float damage_resist( damage_type dt, bool to_self,
-                             const sub_bodypart_id &bp, int roll = 0 ) const;
 
         /**
          * Returns resistance to being damaged by attack against the item itself.
@@ -2012,6 +2021,11 @@ class item : public visitable
          * relative value that affects the items resistance against bash / cutting / bullet damage.
          */
         float get_thickness( const bodypart_id &bp ) const;
+        /**
+        * Returns the average thickness value for the specified sub-bodypart, or 0 for non-armor. Thickness
+        * is a relative value that affects the items resistance against bash / cutting / bullet damage.
+        */
+        float get_thickness( const sub_bodypart_id &bp ) const;
         /**
          * Returns clothing layer for item.
          */
@@ -2982,6 +2996,14 @@ class item : public visitable
         float get_clothing_mod_val( clothing_mod_type type ) const;
         void update_clothing_mod_val();
 };
+
+extern template float item::resist<bodypart_id>( damage_type dmg_type, bool to_self,
+        const bodypart_id &bp,
+        int resist_value ) const;
+extern template float item::resist<sub_bodypart_id>( damage_type dmg_type,
+        bool to_self,
+        const sub_bodypart_id &bp,
+        int resist_value ) const;
 
 template<>
 struct enum_traits<item::encumber_flags> {

@@ -34,12 +34,12 @@ TEST_CASE( "Resistance vs. material portions", "[material]" )
     REQUIRE( mostly_steel.get_base_material().id == material_steel );
     REQUIRE( mostly_plastic.get_base_material().id == material_plastic );
 
-    CHECK( mostly_steel.cut_resist() > mostly_plastic.cut_resist() );
-    CHECK( mostly_steel.acid_resist() == mostly_plastic.acid_resist() );
-    CHECK( mostly_steel.bash_resist() > mostly_plastic.bash_resist() );
-    CHECK( mostly_steel.fire_resist() == mostly_plastic.fire_resist() );
-    CHECK( mostly_steel.stab_resist() > mostly_plastic.stab_resist() );
-    CHECK( mostly_steel.bullet_resist() > mostly_plastic.bullet_resist() );
+    CHECK( mostly_steel.resist( damage_type::CUT ) > mostly_plastic.resist( damage_type::CUT ) );
+    CHECK( mostly_steel.resist( damage_type::ACID ) == mostly_plastic.resist( damage_type::ACID ) );
+    CHECK( mostly_steel.resist( damage_type::BASH ) > mostly_plastic.resist( damage_type::BASH ) );
+    CHECK( mostly_steel.resist( damage_type::HEAT ) == mostly_plastic.resist( damage_type::HEAT ) );
+    CHECK( mostly_steel.resist( damage_type::STAB ) > mostly_plastic.resist( damage_type::STAB ) );
+    CHECK( mostly_steel.resist( damage_type::BULLET ) > mostly_plastic.resist( damage_type::BULLET ) );
     CHECK( mostly_steel.chip_resistance() > mostly_plastic.chip_resistance() );
 }
 
