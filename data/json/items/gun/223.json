@@ -996,7 +996,7 @@
     "ammo": [ "NULL" ],
     "dispersion": 150,
     "durability": 8,
-    "default_mods": [ "retool_mdrx_223rem" ],
+    "default_mods": [ "retool_mdrx_223rem_medium" ],
     "min_cycle_recoil": 1250,
     "valid_mod_locations": [
       [ "accessories", 4 ],

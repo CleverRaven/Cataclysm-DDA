@@ -428,7 +428,9 @@
       { "group": "nested_ak556", "prob": 2 },
       { "group": "nested_bren2_762", "prob": 1 },
       { "group": "nested_mdrx", "prob": 1 },
-      { "group": "nested_zpapm90", "prob": 1 }
+      { "group": "nested_zpapm90", "prob": 1 },
+      { "group": "nested_converted_ar15", "prob": 6 },
+      { "group": "nested_converted_mdrx", "prob": 1 }
     ]
   },
   {
