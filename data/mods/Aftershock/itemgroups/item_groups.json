@@ -425,9 +425,9 @@
       { "group": "afs_plastic_armor_g", "chance": 33 },
       { "group": "afs_carbide_raider_armor_g", "chance": 10 },
       { "group": "mil_armor", "chance": 10 },
-      { "group": "shirts_unisex_afs", "chance": 100 },
-      { "group": "pants_unisex_afs", "chance": 100 },
-      { "group": "shoes_unisex_afs", "chance": 100 },
+      { "group": "afs_colonist_shirt", "chance": 100 },
+      { "group": "afs_colonist_pants", "chance": 100 },
+      { "group": "afs_colonist_shoes", "chance": 100 },
       { "group": "drugs_soldier", "chance": 25 }
     ]
   },
