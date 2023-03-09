@@ -44,12 +44,12 @@
       "| U|2|||2||55|   h |U     iccc   6|         Y2    ch | PP  PP  PP |M M RR        O| yy | y y |6   hHHh    |  |M My =M= |",
       "|  | c|U U|  |FFFFF|U     c      6|  |||||||||    cc | PP  PP  PP |M M RR         ||||||||||||6   hHHh   B|  |M My -=- |",
       "|  |      |  |||||||      c c|c   |22|6hh6|cc        | PP  PP  PP |         c|c   |^^|6hh6|B             B|  |M My     |",
-      "|$|||||||||  (    |      cc c|c  c|  | cc |      cc  | PP  PP  PP |  ========|    |  | cc |B    |||||||||||  |   yyyyyy|",
-      "| ########|  5    2      ||||||||||  | cc | c c  cc  | PP      PP |=[=1111111811c |  |    |B    |OOOOOOOOO|  |MMMMMM   |",
-      "| #||||||||  |||||||||22||Y          2    | c c      | PP b  b PP |11=1111111811112             |O       O|  ||||||||((|",
-      "| #| hth        VVN|6   ^|           |ccrr| c c   |||| PP b  b PP |8881111111|1YY1|  | h h|hdhdh|O  RRR   5  |66666|6  |",
-      "| #|     ^         |dh  ^|  |||||||||||||||      F|XX= PP      PP =1881111111|FFFF|  |6666|ddddd|OOOOOOOOO|  2     2   |",
-      "|$|| hth ^     hth |d   ||  |OO           |||||||||XX= PP ==== PP 111888|||||||||||  ||||||||||||||||||||||  |(((((||| |",
+      "|$|||||||||  (    |      cc c|c  c|  | cc |      cc  | PP1 PP1 PP |  ========|    |  | cc |B    |||||||||||  |   yyyyyy|",
+      "| ########|  5    2      ||||||||||  | cc | c c  cc  | PP 1ü 11PP |=[=1111111811c |  |    |B    |OOOOOOOOO|  |MMMMMM   |",
+      "| #||||||||  |||||||||22||Y          2    | c c      | PP b11büPP |11=1111111811112             |O       O|  ||||||||((|",
+      "| #| hth        VVN|6   ^|           |ccrr| c c   |||| PP bäüb PP |8881111111|1YY1|  | h h|hdhdh|O  RRR   5  |66666|6  |",
+      "| #|     ^         |dh  ^|  |||||||||||||||      F|XX= PPü 11 1PP =1881111111|FFFF|  |6666|ddddd|OOOOOOOOO|  2     2   |",
+      "|$|| hth ^     hth |d   ||  |OO           |||||||||XX= PP1==== PP 111888|||||||||||  ||||||||||||||||||||||  |(((((||| |",
       "| O|     ^     hth ||    |  |N   RRRRRRRR | ccc  F|XX= PP =XX= PP111 811             |  5   |  5   |  5   |       ^|6  |",
       "| O| hth       hth |d    2  |||           |      F|XX= PP =XX= P111  8c11            | 9| A | 9| A | 9| A |       V|6h |",
       "| O||=====|  |====||dh  ^|  |th  RRRRRRRR |  ||||||XX= PP =XX=11P =XX8c=   ||||||||||| d|   | d|   | d|   |||||   ^|6  |",
@@ -89,12 +89,15 @@
       "D": "f_desk",
       "Ó": "f_utility_shelf",
       "7": "f_machinery_light",
-      "&": "f_machinery_electronic"
+      "&": "f_machinery_electronic",
+      "ä": "f_impaled_officer",
+      "ü": "f_impaled_soldier"
     },
     "items": {
       "A": { "item": "altered_object_i", "chance": 100 },
       "Ñ": [ { "item": "guns_milspec", "chance": 10 }, { "item": "ammo_milspec", "chance": 70 } ],
-      "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 }
+      "Ó": { "item": "yrax_scrap", "chance": 100, "repeat": 3 },
+      "ü": { "item": "xedra_kill_team_set", "chance": 100 }
     },
     "computers": {
       "9": {

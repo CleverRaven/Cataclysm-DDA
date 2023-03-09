@@ -2908,6 +2908,7 @@ unpadded
 unpowered
 unpressurised
 unreinforced
+unrifled
 unrushed
 unsaved
 unseasoned
