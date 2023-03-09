@@ -59,6 +59,12 @@
       "bungalow06",
       "bungalow07",
       "bungalow08",
+      "bungalow09",
+      "bungalow10",
+      "bungalow11",
+      "bungalow12",
+      "bungalow13",
+      "bungalow14",
       "duplex",
       "garden_house_1_floor_1",
       "garden_house_1_floor_2",
@@ -340,6 +346,12 @@
       "bungalow06_roof",
       "bungalow07_roof",
       "bungalow08_roof",
+      "bungalow09_roof",
+      "bungalow10_roof",
+      "bungalow11_roof",
+      "bungalow12_roof",
+      "bungalow13_roof",
+      "bungalow14_roof",
       "duplex_roof",
       "garden_house_1_roof",
       "house_01_roof",
@@ -531,7 +543,8 @@
       "urban_18_1",
       "urban_18_2"
     ],
-    "copy-from": "generic_city_house_basement"
+    "copy-from": "generic_city_house_basement",
+    "spawns": { "group": "GROUP_BASEMENT_HOUSE", "population": [ 1, 1 ], "chance": 80 }
   },
   {
     "type": "overmap_terrain",
@@ -601,33 +614,6 @@
     "name": "open air",
     "sym": ".",
     "color": "blue"
-  },
-  {
-    "type": "overmap_terrain",
-    "abstract": "generic_city_trailerpark",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "trailer park",
-    "sym": "#",
-    "color": "i_white",
-    "extend": { "flags": [ "GENERIC_LOOT" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "abstract": "generic_city_trailerpark_roof",
-    "copy-from": "generic_city_trailerpark",
-    "name": "trailer park roof",
-    "spawns": { "group": "GROUP_ROOF_ANIMAL", "population": [ 0, 3 ], "chance": 2 },
-    "delete": { "flags": [ "GENERIC_LOOT" ] }
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "trailerparksmall0", "trailerparksmall1", "trailerparksmall2" ],
-    "copy-from": "generic_city_trailerpark"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": [ "trailerparksmall0_roof", "trailerparksmall1_roof", "trailerparksmall2_roof" ],
-    "copy-from": "generic_city_trailerpark_roof"
   },
   {
     "type": "overmap_terrain",

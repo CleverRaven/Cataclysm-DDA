@@ -4,10 +4,13 @@ aboveground
 abso
 acausal
 accessorized
+accessorizing
 acclimatization
 accoustrement
+accuracies
 accurize
 accurized
+accurizing 
 achelousaurus
 acho
 acidball
@@ -207,12 +210,14 @@ bakelite
 baldric
 balefires
 balisong
+ballistae
 ballistoceras
 balogna
 bandolier
 bandoliers
 bangin
 barbute
+bardiche
 barding
 barebones
 barghest
@@ -262,6 +267,8 @@ bioblaster
 biocompatibility
 bioelectricity
 bioforms
+biofuel
+biofuels
 biographic
 biohacker
 biollante
@@ -311,6 +318,7 @@ bodkin
 bodyglove
 bodymesh
 bodypart
+bodyweight 
 bokken
 bolas
 bolded
@@ -522,6 +530,7 @@ coifs
 coilgun
 coipo
 colorant
+combatives
 comestible
 comestibles
 commendably
@@ -567,6 +576,7 @@ corporeality
 corvid
 corythosaurus
 countermine
+countertime
 couters
 coverplate
 crablike
@@ -688,6 +698,7 @@ destructing
 deth
 deuyl
 devilling
+devourer
 devs
 dewlap
 dextrous
@@ -776,6 +787,9 @@ dubiously
 ductile
 dulcis
 dumpsite
+dunderfuck
+duplicator
+duplicators
 dynamically
 dyoplosaurus
 dysfunctions
@@ -991,6 +1005,8 @@ flippin
 floppies
 flours
 floury
+flowchart
+flowcharts
 fluffies
 fluidly
 flummox
@@ -1094,6 +1110,7 @@ genecraft
 genemod
 genemoded
 generalist
+generically
 geometries
 gesticulates
 getups
@@ -1108,6 +1125,8 @@ glassblowing
 glassteel
 glassworking
 glazes
+glitched
+glitchiness
 gliters
 gloppy
 glowstick
@@ -1158,6 +1177,7 @@ gunblade
 gunfighting
 gunmod
 gunmods
+gunshop
 gunsmithing
 gunsmoke
 gushingly
@@ -1175,6 +1195,8 @@ hahahaha
 hahahahahaha
 hakama
 halazone
+halberd
+halberds
 halfpike
 halite
 halligan
@@ -1209,6 +1231,8 @@ heatsink
 heatsinks
 heear
 heelys
+helipad
+helipads
 hellmouth
 helpdesk
 hematite
@@ -1250,6 +1274,7 @@ honeygold
 honker
 hoose
 hooved
+horchata
 hosomaki
 hotcut
 hotkey
@@ -1283,6 +1308,7 @@ hypacrosaurus
 hyperaggressive
 hyperdimensional
 hypergeometric
+hypermedia
 hypervelocity
 hypervitaminosis
 hypno
@@ -1374,9 +1400,13 @@ jerrycan
 jerrypack
 jewelboxes
 jians
+jirt
+jirts
 johnnycake
 jointer
 jointing
+jort
+jorts
 jtest
 junglefowl
 junipers
@@ -1427,6 +1457,7 @@ km
 knacks
 knapping
 knifehand
+knifemaker
 knockback
 knotweed
 knowium
@@ -1481,6 +1512,7 @@ lbs
 leache
 leatherbacked
 leatherbound
+leathercrafters 
 leatherworking
 leavening
 lectern
@@ -1531,6 +1563,7 @@ loadouts
 loamy
 lobotomizer
 lockpick
+lockpickers
 lockpicking
 longarm
 longear
@@ -1627,6 +1660,7 @@ metalworking
 metamaterial
 metatopography
 methacola
+methodologies
 methothexazole
 metrology
 miasaura
@@ -1683,6 +1717,7 @@ moas
 mobbings
 modding
 moder
+modernday
 modifier
 modifiers
 modularity
@@ -1698,6 +1733,7 @@ moonflower
 moonflowers
 moorhen
 mordant
+morels
 moriatur
 morningstar
 moroi
@@ -1707,10 +1743,12 @@ mosasaurus
 mostlike
 mostravam
 motorpool
+motorsports
 mountable
 mouthgear
 mouthpart
 mouthparts
+movesets
 movestr
 mph
 mr
@@ -1825,6 +1863,7 @@ nonrevealing
 nonromantic
 nonsedated
 nonstandard
+nonuniform
 nonverbally
 noone
 nopal
@@ -1864,6 +1903,8 @@ openable
 openair
 opengl
 openingly
+ophanim
+ophanims
 optimality
 opy
 orgs
@@ -2003,6 +2044,7 @@ pileus
 pinita
 pinnata
 pinout
+pinyin
 pipebomb
 pipettes
 pipework
@@ -2035,6 +2077,8 @@ pokeball
 polearm
 polearms
 poleaxe
+poleaxe
+poleaxes
 poleyns
 pollinator
 polyaramid
@@ -2064,6 +2108,7 @@ posthuman
 potboiler
 potentiates
 pouncer
+powerlifting
 powerplants
 powertool
 prancer
@@ -2106,6 +2151,7 @@ proten
 prototyping
 protuberances
 prybar
+pseudocode
 pseudopod
 pseudopods
 pshht
@@ -2194,6 +2240,7 @@ realtime
 reamer
 reamers
 rearwards
+reassembly
 reasserts
 rebalanced
 rebars
@@ -2247,6 +2294,7 @@ reprises
 reptiloid
 requisites
 rerio
+resealable
 resinosa
 resinous
 resizing
@@ -2286,12 +2334,14 @@ robustly
 rockfeeder
 rockwheel
 rocuronium
+rodding
 roguelike
 roguelikes
 roleplay
 roleplaying
 rollerskates
 rollmat
+roncone
 roofless
 rootlike
 ropy
@@ -2365,6 +2415,8 @@ scruffs
 scutcher
 scutellosaurus
 scuttles
+sealab
+sealabs
 sealable
 seater
 secretively
@@ -2635,6 +2687,7 @@ swappable
 swashbucklers
 sweetish
 switchgear
+swordmanship
 syde
 sylvatica
 sylvite
@@ -2744,6 +2797,7 @@ transp
 transpositions
 transuranic
 trapezoidal
+travelogue
 travelpack
 traversal
 travois
@@ -2794,6 +2848,7 @@ uggo
 uistate
 ultracapacitor
 ultralight
+ultras 
 ultratech
 unarmored
 unawareness
@@ -2854,6 +2909,7 @@ unpadded
 unpowered
 unpressurised
 unreinforced
+unrifled
 unrushed
 unsaved
 unseasoned
@@ -3016,6 +3072,7 @@ woodlouse
 woodsmanship
 woom
 woosh
+workarounds
 workcycle
 workshifts
 worldgen
@@ -3037,6 +3094,7 @@ xiph
 xiphos
 xp
 yandere
+yari
 yark
 yarker
 yarkin
@@ -3048,6 +3106,7 @@ ynn
 yoroi
 youre
 yourselves
+youthful 
 yowl
 yugg
 yukata

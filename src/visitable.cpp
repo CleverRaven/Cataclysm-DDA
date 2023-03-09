@@ -694,9 +694,6 @@ std::list<item> map_cursor::remove_items_with( const
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
         if( filter( *iter ) ) {
-            // remove from the active items cache (if it isn't there does nothing)
-            sub->active_items.remove( &*iter );
-
             // if necessary remove item from the luminosity map
             sub->update_lum_rem( offset, *iter );
 
@@ -715,7 +712,6 @@ std::list<item> map_cursor::remove_items_with( const
             ++iter;
         }
     }
-    here.update_submap_active_item_status( pos() );
     return res;
 }
 
@@ -753,9 +749,6 @@ std::list<item> vehicle_cursor::remove_items_with( const
     vehicle_part &p = veh.part( idx );
     for( auto iter = p.items.begin(); iter != p.items.end(); ) {
         if( filter( *iter ) ) {
-            // remove from the active items cache (if it isn't there does nothing)
-            veh.active_items.remove( &*iter );
-
             res.push_back( *iter );
             iter = p.items.erase( iter );
 

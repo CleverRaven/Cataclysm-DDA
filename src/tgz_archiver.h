@@ -13,7 +13,8 @@ class tgz_archiver
     private:
         static constexpr std::size_t tar_block_size = 512;
         using tar_block_t = std::array<char, tar_block_size>;
-        std::string _gen_tar_header( char const *name, fs::directory_entry const &path );
+        std::string _gen_tar_header( fs::path const &file_name, fs::path const &prefix,
+                                     fs::path const &real_path );
 
         gzFile fd = nullptr;
         std::string const output;

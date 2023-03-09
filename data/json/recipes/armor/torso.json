@@ -1754,7 +1754,7 @@
     "difficulty": 3,
     "time": "3 h 30 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "10 m" },
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
   },
@@ -1792,7 +1792,6 @@
     "difficulty": 3,
     "time": "6 h",
     "autolearn": true,
-    "reversible": true,
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 550 ] ]
   },
@@ -1806,10 +1805,9 @@
     "difficulty": 2,
     "time": "7 h",
     "autolearn": true,
-    "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
-    "using": [ [ "tailoring_wool_knitting", 620 ] ]
+    "using": [ [ "tailoring_wool_knitting", 478 ] ]
   },
   {
     "result": "turtleneck_shirt",

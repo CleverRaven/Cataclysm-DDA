@@ -34,6 +34,7 @@
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
+#include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
@@ -723,9 +724,6 @@ class Character : public Creature, public visitable
 
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> gunmod_installation_odds( const item_location &gun, const item &mod ) const;
-        /// called once per 24 hours to enforce the minimum of 1 hp healed per day
-        /// @todo Move to Character once heal() is moved
-        void enforce_minimum_healing();
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
         void set_underwater( bool );
@@ -852,7 +850,7 @@ class Character : public Creature, public visitable
         void try_remove_webs();
         void try_remove_impeding_effect();
         // Calculate generic trap escape chance
-        bool can_escape_trap( int difficulty, bool manip );
+        bool can_escape_trap( int difficulty, bool manip ) const;
 
         /** Check against the character's current movement mode */
         bool movement_mode_is( const move_mode_id &mode ) const;
@@ -880,9 +878,8 @@ class Character : public Creature, public visitable
          */
         void process_turn() override;
 
-        /** Recalculates HP after a change to max strength */
+        /** Recalculates HP after a change to max strength or enchantment */
         void recalc_hp();
-        int get_part_hp_max( const bodypart_id &id ) const;
 
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
@@ -1236,6 +1233,8 @@ class Character : public Creature, public visitable
         float get_limb_score( const limb_score_id &score,
                               const body_part_type::type &bp = body_part_type::type::num_types,
                               int override_encumb = -1, int override_wounds = -1 ) const;
+        float manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
+                                 body_part_type::type type, int override_encumb, int override_wounds ) const;
 
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
@@ -1510,7 +1509,7 @@ class Character : public Creature, public visitable
         bool can_install_bionics( const itype &type, Character &installer, bool autodoc = false,
                                   int skill_level = -1 ) const;
         /** Is this bionic elligible to be installed in the player? */
-        ret_val<void> is_installable( const item_location &loc, bool by_autodoc ) const;
+        ret_val<void> is_installable( const item *it, bool by_autodoc ) const;
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
@@ -1533,7 +1532,7 @@ class Character : public Creature, public visitable
         /** Uses a tool */
         void use( int inventory_position );
         /** Uses a tool at location */
-        void use( item_location loc, int pre_obtain_moves = -1 );
+        void use( item_location loc, int pre_obtain_moves = -1, std::string const &method = {} );
         /** Uses the current wielded weapon */
         void use_wielded();
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
@@ -2165,8 +2164,10 @@ class Character : public Creature, public visitable
         // Mental skills and stats
         /** Returns the player's reading speed as a percentage*/
         int read_speed() const;
-        /** Returns a value used when attempting to convince NPC's of something */
-        int talk_skill() const;
+        /** Returns a value used when attempting to convince NPC's of something false*/
+        int lie_skill() const;
+        /** Returns a value used when attempting to convince NPC's of something true*/
+        int persuade_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
@@ -2208,9 +2209,6 @@ class Character : public Creature, public visitable
         // spells returned are a copy, do not try to edit them from here, instead use known_magic::get_spell
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
         bool cast_spell( spell &sp, bool fake_spell, const cata::optional<tripoint> &target );
-
-        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
@@ -2719,7 +2717,8 @@ class Character : public Creature, public visitable
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
     protected:
-        void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
+        void on_damage_of_type( const effect_source &source, int adjusted_damage, damage_type type,
+                                const bodypart_id &bp ) override;
     public:
         /** Called when an item is worn */
         void on_item_wear( const item &it );
@@ -2976,8 +2975,6 @@ class Character : public Creature, public visitable
         bool wearing_something_on( const bodypart_id &bp ) const;
         /** Returns true if the character is wearing something on the entered body part. Ignores INTEGRATED and OVERSIZE */
         bool wearing_fitting_on( const bodypart_id &bp ) const;
-        /** Returns true if the character is wearing something occupying the helmet slot */
-        bool is_wearing_helmet() const;
         /** Same as footwear factor, but for arms */
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both,
