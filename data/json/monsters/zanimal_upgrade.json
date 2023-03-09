@@ -285,6 +285,7 @@
     "dodge": 3,
     "bleed_rate": 50,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
+    "harvest": "zombie_leather_acid",
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "flags": [
@@ -317,6 +318,7 @@
     "color": "light_gray_yellow",
     "bleed_rate": 40,
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_biochemistry" ],
+    "harvest": "zombie_leather_acid",
     "special_attacks": [ [ "ACID", 15 ] ],
     "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "flags": [

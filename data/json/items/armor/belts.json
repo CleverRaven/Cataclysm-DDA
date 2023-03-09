@@ -118,15 +118,15 @@
     "type": "ARMOR",
     "name": { "str": "leather belt" },
     "description": "A leather belt.  Designed to look good and hold up a pair of pants, but you should be able to attach a small tool or weapon to one of the belt loops.",
-    "weight": "102 g",
-    "volume": "250 ml",
-    "price": 9000,
-    "price_postapoc": 250,
+    "weight": "150 g",
+    "volume": "350 ml",
+    "price": 2000,
+    "price_postapoc": 100,
     "bashing": 5,
-    "material": [ "leather", "steel" ],
+    "material": [ { "type": "leather", "portion": 75 }, { "type": "steel", "portion": 25 } ],
     "symbol": "[",
     "color": "brown",
-    "material_thickness": 1.5,
+    "material_thickness": 2,
     "pocket_data": [
       {
         "holster": true,
@@ -139,7 +139,17 @@
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
     "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "coverage": 50, "covers": [ "torso" ], "specifically_covers": [ "torso_waist" ] } ]
+    "armor": [
+      {
+        "covers": [ "torso" ],
+        "coverage": 50,
+        "specifically_covers": [ "torso_waist" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
+        ]
+      }
+    ]
   },
   {
     "id": "obi_gi",
@@ -245,8 +255,8 @@
     "type": "ARMOR",
     "name": { "str": "tool belt" },
     "description": "A common belt with pockets, loops and sheaths to store up to six tools or blades.  Widely used by handymen and electricians.",
-    "weight": "3850 g",
-    "volume": "3500 ml",
+    "weight": "1000 g",
+    "volume": "2500 ml",
     "price": 4500,
     "price_postapoc": 1500,
     "bashing": 5,
@@ -338,7 +348,7 @@
       { "type": "attach_molle", "size": 4 },
       { "type": "detach_molle" }
     ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY", "NONCONDUCTIVE" ],
     "armor": [
       {
         "encumbrance": 1,

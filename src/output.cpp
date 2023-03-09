@@ -3142,27 +3142,6 @@ std::string wildcard_trim_rule( const std::string &pattern_in )
     return pattern;
 }
 
-std::vector<std::string> string_split( const std::string &text_in, char delim_in )
-{
-    std::vector<std::string> elems;
-
-    if( text_in.empty() ) {
-        return elems; // Well, that was easy.
-    }
-
-    std::stringstream ss( text_in );
-    std::string item;
-    while( std::getline( ss, item, delim_in ) ) {
-        elems.push_back( item );
-    }
-
-    if( text_in.back() == delim_in ) {
-        elems.emplace_back( "" );
-    }
-
-    return elems;
-}
-
 // find substring (case insensitive)
 int ci_find_substr( const std::string &str1, const std::string &str2, const std::locale &loc )
 {

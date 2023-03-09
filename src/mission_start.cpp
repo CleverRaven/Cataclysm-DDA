@@ -40,8 +40,6 @@ mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
-static const overmap_special_id overmap_special_evac_center( "evac_center" );
-
 /* These functions are responsible for making changes to the game at the moment
  * the mission is accepted by the player.  They are also responsible for
  * updating *miss with the target and any other important information.
@@ -296,12 +294,23 @@ void mission_start::place_book( mission * )
 
 void mission_start::reveal_refugee_center( mission *miss )
 {
-    mission_target_params t;
-    t.overmap_terrain = "refctr_S3e";
-    t.overmap_special = overmap_special_evac_center;
+    mission_target_params<dialogue> t;
+    str_or_var<dialogue> overmap_terrain;
+    overmap_terrain.str_val = "refctr_S3e";
+    t.overmap_terrain = overmap_terrain;
+    str_or_var<dialogue> overmap_special;
+    overmap_special.str_val = "evac_center";
+    t.overmap_special = overmap_special;
     t.mission_pointer = miss;
-    t.search_range = 0;
-    t.reveal_radius = 1;
+    dbl_or_var<dialogue> search_range;
+    search_range.min.dbl_val = 0;
+    t.search_range = search_range;
+    dbl_or_var<dialogue> reveal_radius;
+    reveal_radius.min.dbl_val = 1;
+    t.reveal_radius = reveal_radius;
+    dbl_or_var<dialogue> min_distance;
+    min_distance.min.dbl_val = 0;
+    t.min_distance = min_distance;
 
     cata::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
 
@@ -317,8 +326,12 @@ void mission_start::reveal_refugee_center( mission *miss )
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
         //reset the mission target to the refugee center entrance and reveal path from the road
-        t.overmap_terrain = "evac_center_18";
-        t.reveal_radius = 3;
+        str_or_var<dialogue> overmap_terrain;
+        overmap_terrain.str_val = "refctr_S3e";
+        t.overmap_terrain = overmap_terrain;
+        dbl_or_var<dialogue> reveal_radius;
+        reveal_radius.min.dbl_val = 3;
+        t.reveal_radius = reveal_radius;
         target_pos = mission_util::assign_mission_target( t );
         const tripoint_abs_omt dest_refugee_center = overmap_buffer.find_closest( *target_pos,
                 "evac_center_18", 1, false );

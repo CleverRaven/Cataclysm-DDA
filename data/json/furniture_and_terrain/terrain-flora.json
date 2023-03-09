@@ -1566,6 +1566,60 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_sassafras",
+    "name": "sassafras tree",
+    "looks_like": "t_tree_mulberry",
+    "description": "This tree is a member of the 'Sassafras' genus, known for its aromatic qualities.  In the winter and spring, the sap rich roots can be harvested to make a sweet beverage.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green_yellow", "yellow_red", "brown" ],
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_sassafras_harvested",
+    "examine_action": "harvest_ter",
+    "harvest_by_season": [ { "seasons": [ "winter", "spring" ], "id": "sassafras_harv" } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_sassafras_harvested",
+    "name": "sassafras tree",
+    "description": "This tree is a member of the 'Sassafras' genus, known for its aromatic qualities.  This tree's roots have been harvested, any more and the tree will die.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green_yellow", "yellow_red", "brown" ],
+    "//": "Cannot be harvested",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_sassafras",
+    "looks_like": "t_tree_mulberry_harvested",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_underbrush",
     "name": "underbrush",
     "looks_like": "t_shrub",
@@ -2536,5 +2590,17 @@
       "ter_set": "t_dirt",
       "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 1, 2 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_fungus_colony",
+    "name": "mushroom colony",
+    "description": "A large pile of organic matter which has molded over with fungus.  The caps of many mundane mushrooms spring from the top, you can even recognise some.  The fungi growing here don't seem edible, though.",
+    "symbol": "#",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "coverage": 80,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "bash": { "str_min": 2, "str_max": 6, "ter_set": "t_dirt", "sound": "crunch.", "sound_fail": "whish." }
   }
 ]

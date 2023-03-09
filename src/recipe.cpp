@@ -15,6 +15,7 @@
 #include "color.h"
 #include "debug.h"
 #include "enum_traits.h"
+#include "effect_on_condition.h"
 #include "flag.h"
 #include "game_constants.h"
 #include "generic_factory.h"
@@ -148,7 +149,12 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     abstract = jo.has_string( "abstract" );
 
     const std::string type = jo.get_string( "type" );
-
+    if( jo.has_member( "result_eocs" ) ) {
+        result_eocs.clear();
+        for( JsonValue jv : jo.get_array( "result_eocs" ) ) {
+            result_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        }
+    }
     if( abstract ) {
         ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else if( type == "practice" ) {
@@ -173,9 +179,15 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         never_learn = true;
     } else {
         if( !jo.read( "result", result_, true ) && !result_ ) {
-            jo.throw_error( "Recipe missing result" );
+            if( result_eocs.empty() ) {
+                jo.throw_error( "Recipe missing result" );
+            } else {
+                mandatory( jo, false, "name", name_ );
+                ident_ = recipe_id( jo.get_string( "id" ) );
+            }
+        } else {
+            ident_ = recipe_id( result_.str() );
         }
-        ident_ = recipe_id( result_.str() );
     }
 
     if( type == "recipe" && jo.has_string( "id_suffix" ) ) {

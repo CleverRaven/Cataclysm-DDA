@@ -1557,5 +1557,52 @@
     "name": { "str": "pair of XL tempered steel mitten gauntlets", "str_pl": "pairs of XL tempered steel mitten gauntlets" },
     "proportional": { "weight": 1.5, "volume": 1.5 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "gloves_airsoft",
+    "repairs_like": "gloves_survivor",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of airsoft gloves", "str_pl": "pairs of airsoft gloves" },
+    "description": "A pair of fingerless gloves with hard plastic reinforcing the backs of the hands to protect against BB pellets and other light projectiles.",
+    "weight": "200 g",
+    "volume": "300 ml",
+    "price": 4000,
+    "price_postapoc": 1000,
+    "to_hit": 2,
+    "material": [ "leather", "thermo_resin" ],
+    "symbol": "[",
+    "looks_like": "gloves_tactical",
+    "color": "dark_gray",
+    "warmth": 20,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [
+      {
+        "encumbrance": 4,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.6 } ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.6 },
+          { "type": "thermo_resin", "covered_by_mat": 95, "thickness": 1 }
+        ]
+      },
+      {
+        "encumbrance": 0,
+        "coverage": 50,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 0.6 },
+          { "type": "thermo_resin", "covered_by_mat": 50, "thickness": 0.5 }
+        ]
+      }
+    ]
   }
 ]

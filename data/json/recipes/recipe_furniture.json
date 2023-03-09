@@ -84,7 +84,7 @@
     "time": "60 m",
     "autolearn": true,
     "tools": [ [ [ "paint_brush", -1 ] ] ],
-    "components": [ [ [ "chair_wood", 1 ] ], [ [ "black_paint", 100 ] ] ]
+    "components": [ [ [ "chair_wood", 1 ] ], [ [ "paint_black", 3 ] ] ]
   },
   {
     "result": "chair_wood_white",
@@ -97,6 +97,6 @@
     "time": "60 m",
     "autolearn": true,
     "tools": [ [ [ "paint_brush", -1 ] ] ],
-    "components": [ [ [ "chair_wood", 1 ] ], [ [ "w_paint", 100 ] ] ]
+    "components": [ [ [ "chair_wood", 1 ] ], [ [ "paint_white", 3 ] ] ]
   }
 ]

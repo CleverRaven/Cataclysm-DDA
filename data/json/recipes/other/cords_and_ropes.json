@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "string_6",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -60,7 +60,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "rope_6",
     "id_suffix": "from_filament",
     "category": "CC_*",
@@ -122,7 +122,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "string_36",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -151,7 +151,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "rope_30",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -180,7 +180,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "rope_30",
     "id_suffix": "from_cloth",
     "category": "CC_*",
@@ -212,7 +212,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "rope_30",
     "id_suffix": "from_string",
     "category": "CC_*",
@@ -242,7 +242,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "rope_30",
     "id_suffix": "from_filament",
     "category": "CC_*",
@@ -272,7 +272,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "cordage_6",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -301,7 +301,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "cordage_36",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -330,7 +330,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "cordage_36",
     "id_suffix": "from_cordage_6",
     "category": "CC_*",
@@ -384,7 +384,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "rope_makeshift_6",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -413,7 +413,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "rope_makeshift_30",
     "id_suffix": "from_cordage",
     "category": "CC_*",
@@ -443,7 +443,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "rope_makeshift_30",
     "id_suffix": "from_rope_makeshift_6",
     "category": "CC_*",

@@ -136,6 +136,34 @@
   },
   {
     "type": "material",
+    "id": "paint",
+    "name": "Paint",
+    "//": "almost everything in here is copied from alcohol, if someone has anything more appropriate then feel free to correct it",
+    "density": 1.3,
+    "specific_heat_liquid": 4,
+    "specific_heat_solid": 2,
+    "latent_heat": 310,
+    "bash_resist": 0,
+    "cut_resist": 0,
+    "bullet_resist": 0,
+    "acid_resist": 0,
+    "fire_resist": 0,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "fuel_data": {
+      "energy": "15600 kJ",
+      "explosion_data": { "chance_hot": 5, "chance_cold": 10, "factor": 0.2, "fiery": true, "size_factor": 0.1 }
+    },
+    "burn_data": [
+      { "fuel": 150, "smoke": 0, "burn": 1 },
+      { "fuel": 300, "smoke": 0, "burn": 2 },
+      { "fuel": 450, "smoke": 0, "burn": 3 }
+    ]
+  },
+  {
+    "type": "material",
     "id": "alien_liquid",
     "name": "Non-Newtonian Fluid",
     "//": "science values for this are probably all wrong taken partially from water",
@@ -186,9 +214,9 @@
     "specific_heat_liquid": 1.18,
     "specific_heat_solid": 0.91,
     "latent_heat": 398,
-    "bash_resist": 0,
-    "cut_resist": 4,
-    "bullet_resist": 2,
+    "bash_resist": 1,
+    "cut_resist": 2,
+    "bullet_resist": 1,
     "acid_resist": 4,
     "fire_resist": 2,
     "conductive": true,
@@ -577,7 +605,7 @@
     "type": "material",
     "id": "copper",
     "name": "Copper",
-    "density": 9.0,
+    "density": 8.96,
     "specific_heat_liquid": 0.49,
     "specific_heat_solid": 0.39,
     "latent_heat": 205,
@@ -619,6 +647,36 @@
     "cut_dmg_verb": "cut",
     "burn_data": [
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "1250 ml" },
+      { "fuel": 1, "smoke": 1, "burn": 1 },
+      { "fuel": 1, "smoke": 1, "burn": 2 }
+    ]
+  },
+  {
+    "type": "material",
+    "id": "denim",
+    "name": "Denim",
+    "//": "Denim clothing is usually measured in oz rather than mm thickness.  For our purposes, assume 6 oz denim is equal to 0.4mm and scale up from there.",
+    "density": 1.6,
+    "specific_heat_liquid": 0.02,
+    "specific_heat_solid": 0.02,
+    "latent_heat": 205,
+    "soft": true,
+    "reinforces": true,
+    "bash_resist": 2,
+    "cut_resist": 2.25,
+    "bullet_resist": 2,
+    "acid_resist": 4,
+    "fire_resist": 0,
+    "chip_resist": 7,
+    "breathability": "AVERAGE",
+    "wind_resist": 75,
+    "repaired_with": "denim_patch",
+    "salvaged_into": "denim_patch",
+    "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut",
+    "burn_data": [
+      { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "750 ml" },
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 }
     ]
@@ -738,7 +796,8 @@
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
     ],
-    "burn_products": [ [ "corpse_ash", 0.035 ] ]
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "soft": true
   },
   {
     "type": "material",
@@ -988,7 +1047,8 @@
       { "fuel": 1, "smoke": 1, "burn": 1, "volume_per_turn": "2500 ml" },
       { "fuel": 2, "smoke": 3, "burn": 2, "volume_per_turn": "10000 ml" },
       { "fuel": 3, "smoke": 10, "burn": 3 }
-    ]
+    ],
+    "soft": true
   },
   {
     "type": "material",
@@ -1710,26 +1770,6 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged"
-  },
-  {
-    "type": "material",
-    "id": "cac2powder",
-    "name": "Powder",
-    "density": 1,
-    "specific_heat_liquid": 1.5,
-    "specific_heat_solid": 1.2,
-    "latent_heat": 10,
-    "soft": true,
-    "bash_resist": 1,
-    "cut_resist": 1,
-    "bullet_resist": 1,
-    "acid_resist": 0,
-    "fire_resist": 20,
-    "chip_resist": 0,
-    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
-    "bash_dmg_verb": "damaged",
-    "cut_dmg_verb": "damaged",
-    "fuel_data": { "energy": "5200 kJ" }
   },
   {
     "type": "material",

@@ -217,6 +217,7 @@ void avatar::control_npc_menu()
         }
     }
     if( followers.empty() ) {
+        popup( _( "There's no one to take control of!" ) );
         return;
     }
     charmenu.w_y_setup = 0;
@@ -928,28 +929,6 @@ void avatar::disp_morale()
     morale->display( equilibrium, pain_penalty, fatigue_penalty );
 }
 
-int avatar::limb_dodge_encumbrance() const
-{
-    std::map<body_part_type::type, std::vector<bodypart_id>> bps;
-    for( const auto &bp : body ) {
-        if( bp.first->encumb_impacts_dodge ) {
-            bps[bp.first->primary_limb_type()].emplace_back( bp.first );
-        }
-    }
-
-    float total = 0.0f;
-    for( auto &bp : bps ) {
-        float sub_total = 0.0f;
-        for( auto &b : bp.second ) {
-            sub_total += encumb( b );
-        }
-        sub_total /= bp.second.size() * 10.0f;
-        total += sub_total;
-    }
-
-    return std::floor( total );
-}
-
 void avatar::reset_stats()
 {
     const int current_stim = get_stim();
@@ -1058,7 +1037,7 @@ void avatar::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - limb_dodge_encumbrance() );
+    mod_dodge_bonus( mabuff_dodge_bonus() );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );

@@ -1250,5 +1250,10 @@
     "type": "requirement",
     "//": "Flour, irrespective of whether it's wheat-free or wheat-full.",
     "components": [ [ [ "flour", 1 ], [ "flour_wheat_free", 1 ], [ "bread_flour", 1 ] ] ]
+  },
+  {
+    "id": "tortilla_any",
+    "type": "requirement",
+    "components": [ [ [ "tortilla_corn", 1 ], [ "tortilla_flour", 1 ] ] ]
   }
 ]
