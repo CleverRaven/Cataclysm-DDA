@@ -62,6 +62,7 @@
       - [Flags](#flags-11)
     - [Camp building recipes](#camp-building-recipes)
       - [Flags](#flags-12)
+      - [Blueprint reorientation flags](#blueprint-reorientation-flags)
   - [Scenarios](#scenarios)
     - [Flags](#flags-13)
       - [Profession Flags](#profession-flags)
@@ -1271,6 +1272,10 @@ These flags apply to crafting recipes, i.e. those that fall within the following
 These flags apply only to camp building recipes (hubs and expansions), i.e. those that have category `CC_BUILDING`.
 
 #### Flags
+
+- ```NO_FOOD_REQ``` Food requirements are waived for this camp building recipe.
+
+#### Blueprint reorientation flags
 The purpose of these flags is to allow reuse of blueprints to create the "same" facility oriented differently. Mirroring takes place before
 rotation, and it is an error to try to apply mirroring multiple times with the same orientation, as well as to try to apply multiple
 rotations. It is permitted to apply different versions of the flags if they apply to different directions (and it is indeed the primary

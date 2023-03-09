@@ -265,7 +265,7 @@
   {
     "id": "mon_zombie_wretch",
     "type": "MONSTER",
-    "name": { "str": "promethean wretch", "str_pl": "promethean wretches" },
+    "name": { "str": "wretched hatchery", "str_pl": "wretched hatcheries" },
     "description": "Lethargically resting on its back, this hideous mass of sagging flesh and writhing organs, which used to be a child, twitches feebly as its midsection churns.  Almost bursting from its skin, the child’s ribcage has arched outward, forming a hive-like construct covered by severely stretched epidermis.  Through the wretched organism’s taut abdominal flesh, you witness small forms swarming within its ribcage—its guts roiling as new beings are sculpted from pilfered flesh and bone.  The creature’s limbs rest haphazardly on the ground, contorted in ways that suggest the absence of bones or any interior construct.",
     "default_faction": "zombie",
     "bodytype": "blob",

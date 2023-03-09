@@ -253,7 +253,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "clay_quern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

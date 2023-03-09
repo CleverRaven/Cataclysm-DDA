@@ -1809,7 +1809,7 @@ class repair_inventory_preset: public inventory_selector_preset
                                                            num_comp ), num_comp < comp_needed ? c_red : c_unset ) );
                     }
                 }
-                std::string ret = join( material_list, ", " );
+                std::string ret = string_join( material_list, ", " );
                 if( ret.empty() ) {
                     ret = _( "<color_red>NONE</color>" );
                 }
