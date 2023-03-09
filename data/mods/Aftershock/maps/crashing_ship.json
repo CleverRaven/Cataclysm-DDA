@@ -163,7 +163,7 @@
             { "item": "afs_plastic_armor_g", "chance": 33 },
             { "item": "afs_carbide_raider_armor_g", "chance": 10 },
             { "item": "mil_armor", "chance": 10 },
-			{ "item": "afs_colonist_outfit", "chance": 75, "repeat" [ 3, 5 ] },
+			{ "item": "afs_colonist_outfit", "chance": 75, "repeat": [ 3, 5 ] },
             { "item": "drugs_soldier", "chance": 25 },
             { "item": "tools_survival", "chance": 60 }
           ]
