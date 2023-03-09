@@ -57,10 +57,4 @@ struct mtype_special_attack {
         }
 };
 
-struct grab_data {
-public:
-    int grab_skill = 5;
-    bool pull = false;
-};
-
 #endif // CATA_SRC_MATTACK_COMMON_H
