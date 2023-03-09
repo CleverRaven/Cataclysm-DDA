@@ -29,6 +29,7 @@
 #include "optional.h"
 #include "output.h"
 #include "proficiency.h"
+#include "recipe_dictionary.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id_utils.h"
@@ -40,6 +41,8 @@
 
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_hotplate( "hotplate" );
+
+static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -581,7 +584,8 @@ std::string recipe::get_consistency_error() const
     return std::string();
 }
 
-item recipe::create_result() const
+std::vector<item> recipe::create_result( bool set_components, bool is_food,
+        item_components *used ) const
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
 
@@ -589,44 +593,81 @@ item recipe::create_result() const
         newit.set_flag( flag_FIT );
     }
 
-    if( charges ) {
-        newit.charges = *charges;
+    // Newly-crafted items are perfect by default. Inspect their materials to see if they shouldn't be
+    if( used ) {
+        newit.inherit_flags( *used, *this );
     }
 
-    if( !newit.craft_has_charges() ) {
-        newit.charges = 0;
-    } else if( result_mult != 1 ) {
-        // TODO: Make it work for charge-less items (update makes amount)
-        newit.charges *= result_mult;
+    for( const flag_id &flag : flags_to_delete ) {
+        newit.unset_flag( flag );
+    }
+
+    // If the recipe has a `FULL_MAGAZINE` flag, fill it with ammo
+    if( newit.is_magazine() && has_flag( flag_FULL_MAGAZINE ) ) {
+        newit.ammo_set( newit.ammo_default(),
+                        newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
+    }
+
+    int amount = charges ? *charges : newit.count();
+
+    bool is_cooked = hot_result() || removes_raw();
+    if( set_components ) {
+        if( is_food ) {
+            newit.components = *used;
+            newit.recipe_charges = amount;
+        } else {
+            newit.components = used->split( amount, 0, is_cooked );
+        }
     }
 
     if( contained ) {
-        if( newit.count_by_charges() ) {
-            newit = newit.in_container( container, newit.charges, sealed );
-        } else {
-            newit = newit.in_container( container, item::INFINITE_CHARGES, sealed );
+        newit = newit.in_container( container, amount, sealed );
+        return { newit };
+    } else if( newit.count_by_charges() ) {
+        newit.charges = amount;
+        return { newit };
+    } else {
+        std::vector<item> items;
+        for( int i = 0; i < amount; i++ ) {
+            if( set_components ) {
+                newit.components = used->split( amount, i, is_cooked );
+            }
+            items.push_back( newit );
         }
+        return items;
     }
-
-    return newit;
 }
 
-std::vector<item> recipe::create_results( int batch ) const
+std::vector<item> recipe::create_results( int batch, item_components *used ) const
 {
     std::vector<item> items;
 
-    const bool by_charges = item::count_by_charges( result_ );
-    if( contained || !by_charges ) {
-        // by_charges items get their charges multiplied in create_result
-        const int num_results = by_charges ? batch : batch * result_mult;
-        for( int i = 0; i < num_results; i++ ) {
-            item newit = create_result();
-            items.push_back( newit );
+    for( int i = 0; i < batch; i++ ) {
+        item_components batch_comps;
+        item temp( result_ );
+        bool is_uncraftable = recipe_dictionary::get_uncraft( result_ ) && !result_->count_by_charges() &&
+                              is_reversible();
+        bool is_food_no_override = temp.is_food() && !temp.has_flag( flag_NUTRIENT_OVERRIDE );
+        bool set_components = used && ( is_uncraftable || is_food_no_override );
+        if( set_components ) {
+            batch_comps = used->split( batch, i );
         }
-    } else {
-        item newit = create_result();
-        newit.charges *= batch;
-        items.push_back( newit );
+        for( int j = 0; j < result_mult; j++ ) {
+            item_components mult_comps = batch_comps.split( result_mult, j );
+            std::vector<item> newits = create_result( set_components, temp.is_food(), &mult_comps );
+
+            for( const item &it : newits ) {
+                // try to combine batch results for liquid handling
+                auto found = std::find_if( items.begin(), items.end(), [it]( const item & rhs ) {
+                    return it.can_combine( rhs );
+                } );
+                if( found != items.end() ) {
+                    found->combine( it );
+                } else {
+                    items.emplace_back( it );
+                }
+            }
+        }
     }
 
     return items;
@@ -1054,7 +1095,7 @@ bool recipe::will_be_blacklisted() const
 std::function<bool( const item & )> recipe::get_component_filter(
     const recipe_filter_flags flags ) const
 {
-    const item result = create_result();
+    const item result( result_ );
 
     // Disallow crafting of non-perishables with rotten components
     // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
@@ -1213,7 +1254,8 @@ void recipe::check_blueprint_requirements()
 
 bool recipe::removes_raw() const
 {
-    return create_result().is_comestible() && !create_result().has_flag( flag_RAW );
+    item result( result_ );
+    return result.is_comestible() && !result.has_flag( flag_RAW );
 }
 
 bool recipe::hot_result() const
@@ -1234,7 +1276,7 @@ bool recipe::hot_result() const
     // the check includes this tool in addition to the hotplate.
     //
     // TODO: Make this less of a hack
-    if( create_result().has_temperature() ) {
+    if( item( result_ ).has_temperature() ) {
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
@@ -1249,13 +1291,13 @@ bool recipe::hot_result() const
 
 int recipe::makes_amount() const
 {
-    int makes_charges = 1;  // stays 1 if item isn't counted in charges
+    int makes = 1;
     if( charges.has_value() ) {
-        makes_charges = charges.value();
+        makes = charges.value();
     } else if( item::count_by_charges( result_ ) ) {
-        makes_charges = item::find_type( result_ )->charges_default();
+        makes = item::find_type( result_ )->charges_default();
     }
-    return makes_charges * result_mult;
+    return makes * result_mult;
 }
 
 void recipe::incorporate_build_reqs()
