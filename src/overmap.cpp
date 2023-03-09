@@ -816,8 +816,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "travel_cost", travel_cost, strict );
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
-    assign( jo, "entry_EOC", entry_EOC, strict );
-    assign( jo, "exit_EOC", exit_EOC, strict );
+    assign( jo, "entry_eoc", entry_EOC, strict );
+    assign( jo, "exit_eoc", exit_EOC, strict );
     assign( jo, "spawns", static_spawns, strict );
     assign( jo, "color", color );
     assign( jo, "land_use_code", land_use_code, strict );
