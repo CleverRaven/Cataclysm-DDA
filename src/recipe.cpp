@@ -760,15 +760,15 @@ static std::string profstring( const prof_penalty &prof,
     }
 
     if( prof.time_mult == 1.0f ) {
-        return string_format( _( "<color_%s>%s</color> (<color_%s>%.2f\u00a0skill penalty</color>%s)" ),
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%.2f\u00a0skill bonus</color>%s)" ),
                               name_color, prof.id->name(), color, prof.skill_penalty, mitigated_str );
     } else if( prof.skill_penalty == 0.0f ) {
-        return string_format( _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0time</color>%s)" ),
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%.2fx\u00a0time</color>%s)" ),
                               name_color, prof.id->name(), color, prof.time_mult, mitigated_str );
     }
 
     return string_format(
-               _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0time, %.2f\u00a0skill penalty</color>%s)" ),
+               _( "<color_%s>%s</color> (<color_%s>%.2fx\u00a0time, %.2f\u00a0skill bonus</color>%s)" ),
                name_color, prof.id->name(), color, prof.time_mult, prof.skill_penalty, mitigated_str );
 }
 
@@ -787,7 +787,7 @@ std::string recipe::used_proficiencies_string( const Character *c ) const
         }
     }
 
-    std::string color = "light_gray";
+    std::string color = "light_green";
     std::string used = enumerate_as_string( used_profs.begin(),
     used_profs.end(), [&]( const prof_penalty & prof ) {
         return profstring( prof, color );
@@ -876,6 +876,15 @@ float recipe::proficiency_time_maluses( const Character &crafter ) const
     return total_malus;
 }
 
+float recipe::max_proficiency_time_maluses( const Character & ) const
+{
+    float total_malus = 1.0f;
+    for( const recipe_proficiency &prof : proficiencies ) {
+        total_malus *= prof.time_multiplier;
+    }
+    return total_malus;
+}
+
 static float proficiency_skill_malus( const Character &crafter, const recipe_proficiency &prof )
 {
     if( !crafter.has_proficiency( prof.id ) &&
@@ -896,6 +905,15 @@ float recipe::proficiency_skill_maluses( const Character &crafter ) const
     float total_malus = 0.f;
     for( const recipe_proficiency &prof : proficiencies ) {
         total_malus += proficiency_skill_malus( crafter, prof );
+    }
+    return total_malus;
+}
+
+float recipe::max_proficiency_skill_maluses( const Character & ) const
+{
+    float total_malus = 0.f;
+    for( const recipe_proficiency &prof : proficiencies ) {
+        total_malus += prof.skill_penalty;
     }
     return total_malus;
 }
@@ -923,7 +941,7 @@ std::string recipe::missing_proficiencies_string( const Character *crafter ) con
         }
     }
 
-    std::string color = "yellow";
+    std::string color = "dark_gray";
     std::string missing = enumerate_as_string( missing_profs.begin(),
     missing_profs.end(), [&]( const prof_penalty & prof ) {
         return profstring( prof, color, crafter->has_prof_prereqs( prof.id ) ? "cyan" : "red" );
