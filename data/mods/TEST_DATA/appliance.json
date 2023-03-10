@@ -97,7 +97,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": "1 W",
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "A long orange extension cord for connecting appliances.  Currently plugged in.",
