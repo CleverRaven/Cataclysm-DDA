@@ -47,7 +47,6 @@
         "Q": "t_floor_waxed"
       },
       "furniture": { "!": "f_table", "&": "f_boulder_large", "/": [ [ "f_null", 4 ], "f_ladder" ] }
-    
     }
   },
   {
