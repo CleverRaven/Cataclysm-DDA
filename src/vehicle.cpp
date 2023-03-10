@@ -4694,26 +4694,18 @@ std::pair<int, int> vehicle::battery_power_level() const
 
 std::pair<int, int> vehicle::connected_battery_power_level() const
 {
+    int total_epower_remaining = 0;
     int total_epower_capacity = 0;
-    int remaining_epower = 0;
 
-    std::tie( remaining_epower, total_epower_capacity ) = battery_power_level();
+    for( const std::pair<const vehicle *const, float> &pair : search_connected_vehicles() ) {
+        int epower_remaining;
+        int epower_capacity;
+        std::tie( epower_remaining, epower_capacity ) = pair.first->battery_power_level();
+        total_epower_remaining += epower_remaining;
+        total_epower_capacity += epower_capacity;
+    }
 
-    auto get_power_visitor = [&]( vehicle const * veh, int amount, int ) {
-        int other_total_epower_capacity = 0;
-        int other_remaining_epower = 0;
-
-        std::tie( other_remaining_epower, other_total_epower_capacity ) = veh->battery_power_level();
-
-        total_epower_capacity += other_total_epower_capacity;
-        remaining_epower += other_remaining_epower;
-
-        return amount;
-    };
-
-    traverse_vehicle_graph( this, 1, get_power_visitor );
-
-    return std::make_pair( remaining_epower, total_epower_capacity );
+    return std::make_pair( total_epower_remaining, total_epower_capacity );
 }
 
 bool vehicle::start_engine( vehicle_part &vp, bool turn_on )
@@ -5760,13 +5752,10 @@ void vehicle::gain_moves()
         thrust( 0 );
     }
 
-    // Force off-map vehicles to load by visiting them every time we gain moves.
+    // Force off-map connected vehicles to load by visiting them every time we gain moves.
     // This is expensive so we allow a slightly stale result
     if( calendar::once_every( 5_turns ) ) {
-        auto nil_visitor = []( vehicle *, int amount, int ) {
-            return amount;
-        };
-        traverse_vehicle_graph( this, 1, nil_visitor );
+        search_connected_vehicles();
     }
 
     if( check_environmental_effects ) {
