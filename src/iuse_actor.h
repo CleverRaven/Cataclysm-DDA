@@ -1040,7 +1040,7 @@ class plug_in_actor : public iuse_actor
 public:
     itype_id type; /** The type of cable created with this action */
     int cable_length; /** Maximum length of the cable */
-    int charge_interval; /** How many seconds for 1 charge to be transferred to batteries */
+    int wattage; /** Wattage of the cable */
     int efficiency; /** one_in(this) chance to fail adding 1 charge */
     translation menu_text;
 
