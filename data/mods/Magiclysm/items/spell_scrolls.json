@@ -382,6 +382,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_bandage",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Vegetative Poultice", "str_pl": "Scrolls of Vegetative Poultice" },
+    "description": "Turn a bunch of leaves and bark into an effective bandage.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_bandage_heal" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_stonefist",
     "//": "Earthshaper spell",
     "name": { "str": "Scroll of Stonefist", "str_pl": "Scrolls of Stonefist" },
