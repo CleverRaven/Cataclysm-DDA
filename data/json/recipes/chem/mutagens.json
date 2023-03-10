@@ -860,7 +860,7 @@
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
-      {"proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
       { "proficiency": "prof_intro_chem_synth" },
       { "proficiency": "prof_chem_synth" }
     ],
