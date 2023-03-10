@@ -498,7 +498,7 @@ void recipe::finalize()
             rpof.time_multiplier = rpof.id->default_time_multiplier();
         }
 
-        if( rpof.skill_penalty == 0.0f ) {
+        if( !rpof._skill_penalty_assigned ) {
             rpof.skill_penalty = rpof.id->default_skill_penalty();
         }
 
@@ -886,9 +886,9 @@ static float proficiency_skill_malus( const Character &crafter, const recipe_pro
         // The failure malus is not completely eliminated until the proficiency is mastered.
         // Most of the mitigation happens at higher pl. See #49198
         malus *= 1.0 - ( 0.75 * std::pow( pl, 3 ) );
-        return static_cast<float>( 1.0 + malus );
+        return static_cast<float>( malus );
     }
-    return 1.0f;
+    return 0.0f;
 }
 
 float recipe::proficiency_skill_maluses( const Character &crafter ) const
@@ -1270,7 +1270,7 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "proficiency", id );
     jo.read( "required", required );
     jo.read( "time_multiplier", time_multiplier );
-    jo.read( "skill_penalty", skill_penalty );
+    _skill_penalty_assigned = jo.read( "skill_penalty", skill_penalty );
     jo.read( "learning_time_multiplier", learning_time_mult );
     jo.read( "max_experience", max_experience );
 
