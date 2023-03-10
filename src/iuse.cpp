@@ -7911,7 +7911,7 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *&v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
-            v->fuel_left( itype_battery, true ) > 0 &&
+            v->fuel_left( itype_battery ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
               ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
             vehs.push_back( v );
@@ -7952,7 +7952,7 @@ cata::optional<int> iuse::remoteveh( Character *p, item *it, bool t, const tripo
         } else if( remote == nullptr ) {
             p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
             stop = true;
-        } else if( remote->fuel_left( itype_battery, true ) == 0 ) {
+        } else if( remote->fuel_left( itype_battery ) == 0 ) {
             p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
             stop = true;
         }
@@ -10023,7 +10023,7 @@ cata::optional<int> iuse::voltmeter( Character *p, item *, bool, const tripoint 
         p->add_msg_if_player( _( "There's nothing to measure there." ) );
         return cata::nullopt;
     }
-    if( vp->vehicle().fuel_left( itype_battery, true ) ) {
+    if( vp->vehicle().fuel_left( itype_battery ) ) {
         p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
     } else {
         p->add_msg_if_player( _( "The %1$s has no voltage." ), vp->vehicle().name );

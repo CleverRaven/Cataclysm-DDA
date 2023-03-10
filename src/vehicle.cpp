@@ -3291,10 +3291,24 @@ point vehicle::pivot_displacement() const
     return dp.xy();
 }
 
-int64_t vehicle::fuel_left( const itype_id &ftype, bool recurse,
+int64_t vehicle::fuel_left( const itype_id &ftype,
                             const std::function<bool( const vehicle_part & )> &filter ) const
 {
     int64_t fl = 0;
+    if( ftype == fuel_type_battery ) {
+        for( const std::pair<const vehicle *const, float> &pair : search_connected_vehicles() ) {
+            const vehicle &veh = *pair.first;
+            const float loss = pair.second;
+            for( const int part_idx : veh.fuel_containers ) {
+                const vehicle_part &vp = parts[part_idx];
+                if( vp.ammo_current() != fuel_type_battery || !filter( vp ) ) {
+                    continue;
+                }
+                fl += vp.ammo_remaining() * ( 1.0f - loss );
+            }
+        }
+        return fl;
+    }
 
     for( const int i : fuel_containers ) {
         const vehicle_part &part = parts[i];
@@ -3305,17 +3319,6 @@ int64_t vehicle::fuel_left( const itype_id &ftype, bool recurse,
             continue;
         }
         fl += part.ammo_remaining();
-    }
-
-    if( recurse && ftype == fuel_type_battery ) {
-        auto fuel_counting_visitor = [&]( vehicle const * veh, int amount, int ) {
-            return amount + veh->fuel_left( ftype, false );
-        };
-
-        // HAX: add 1 to the initial amount so traversal doesn't immediately stop just
-        // 'cause we have 0 fuel left in the current vehicle. Subtract the 1 immediately
-        // after traversal.
-        fl = traverse_vehicle_graph( this, fl + 1, fuel_counting_visitor ) - 1;
     }
 
     //muscle engines have infinite fuel
@@ -3348,9 +3351,9 @@ int64_t vehicle::fuel_left( const itype_id &ftype, bool recurse,
     return fl;
 }
 
-int vehicle::engine_fuel_left( const vehicle_part &vp, bool recurse ) const
+int vehicle::engine_fuel_left( const vehicle_part &vp ) const
 {
-    return fuel_left( vp.fuel_current(), recurse );
+    return fuel_left( vp.fuel_current() );
 }
 
 int vehicle::fuel_capacity( const itype_id &ftype ) const
@@ -7526,7 +7529,7 @@ void vehicle::update_time( const time_point &update_to )
             const cata::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
                     .part_with_tool( itype_pseudo_water_purifier );
 
-            if( vp_purifier && ( fuel_left( itype_battery, true ) > cost_to_purify ) ) {
+            if( vp_purifier && ( fuel_left( itype_battery ) > cost_to_purify ) ) {
                 tank->ammo_set( itype_water_clean, c_qty );
                 discharge_battery( cost_to_purify );
             } else {
