@@ -194,7 +194,13 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_creepy", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_biochemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" }
+    ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
