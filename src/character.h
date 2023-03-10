@@ -3122,13 +3122,25 @@ class Character : public Creature, public visitable
                              const cata::optional<tripoint> &loc );
         /** consume components and create an active, in progress craft containing them */
         void start_craft( craft_command &command, const cata::optional<tripoint> &loc );
+
+        struct craft_roll_data {
+            float center;
+            float stddev;
+            float final_difficulty;
+        };
         /**
          * Calculate a value representing the success of the player at crafting the given recipe,
          * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
          * @param making the recipe for which to calculate
          * @return a value >= 0.0 with >= 1.0 representing unequivocal success
          */
-        double crafting_success_roll( const recipe &making ) const;
+        float crafting_success_roll( const recipe &making ) const;
+        float crafting_failure_roll( const recipe &making ) const;
+        float get_recipe_weighted_skill_average( const recipe &making ) const;
+        float recipe_success_chance( const recipe &making ) const;
+        float item_destruction_chance( const recipe &making ) const;
+        craft_roll_data recipe_success_roll_data( const recipe &making ) const;
+        craft_roll_data recipe_failure_roll_data( const recipe &making ) const;
         void complete_craft( item &craft, const cata::optional<tripoint> &loc );
         /**
          * Check if the player meets the requirements to continue the in progress craft and if

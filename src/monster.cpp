@@ -1936,7 +1936,7 @@ void monster::deal_damage_handle_type( const effect_source &source, const damage
         case damage_type::CUT:
         case damage_type::STAB:
         case damage_type::BULLET:
-            make_bleed( source, 1_minutes * rng( 1, adjusted_damage ) );
+            make_bleed( source, 1_minutes * rng( 0, adjusted_damage ) );
         default:
             break;
     }

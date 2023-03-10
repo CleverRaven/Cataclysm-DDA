@@ -37,7 +37,7 @@
   {
     "result": "bandages_makeshift_bleached",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "firstaid",
@@ -113,7 +113,7 @@
   {
     "result": "disinfectant_makeshift",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "chemistry",
@@ -193,7 +193,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "disinrag",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -207,7 +207,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "disincotton_ball",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -310,7 +310,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "arm_xlsplint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -327,7 +327,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "arm_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -344,7 +344,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "arm_xs_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -361,7 +361,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "leg_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -378,7 +378,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "leg_xlsplint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -395,7 +395,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "leg_xs_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
