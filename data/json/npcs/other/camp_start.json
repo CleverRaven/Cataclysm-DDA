@@ -1,0 +1,35 @@
+[
+  {
+    "type": "npc",
+    "id": "your_follower_base_setup",
+    "//": "Scenario specific, should not spawn outside of trigger events.  Workaround to start a faction camp",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 1,
+    "mission": 0,
+    "chat": "TALK_FACTION_CAMP_START",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "your_follower",
+    "//": "Scenario specific, should not spawn outside of trigger events.",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 3,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "your_followers"
+  },
+  {
+    "id": "TALK_FACTION_CAMP_START",
+    "type": "talk_topic",
+    "dynamic_line": [ "Hey, I did some surveying and I believe this is a good spot to set up at." ],
+    "responses": [
+      {
+        "text": "Let's stay here, then.  I trust your decisions.",
+        "topic": "TALK_DONE",
+        "effect": [ "start_camp", "follow" ],
+        "condition": { "npc_at_om_location": "FACTION_CAMP_START" }
+      }
+    ]
+  }
+]

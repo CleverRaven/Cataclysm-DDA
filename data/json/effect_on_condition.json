@@ -83,6 +83,12 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "faction_camp_start",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "faction_start_add" } ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "get_katana",
     "global": true,
     "effect": { "u_spawn_item": "katana" }
