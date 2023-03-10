@@ -190,7 +190,11 @@
     "time": "30 m",
     "batch_time_factors": [ 80, 2 ],
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "components": [ [ [ "chem_muriatic_acid", 1 ] ], [ [ "material_limestone", 45 ], [ "material_quicklime", 24 ] ] ]
   },
