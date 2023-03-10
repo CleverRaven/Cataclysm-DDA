@@ -3377,6 +3377,8 @@ class Character : public Creature, public visitable
 
             bool show_sprite = true;
 
+            bool from_enchantment = false;
+
             /** A trait variant if it has one, or nullptr */
             const mutation_variant *variant = nullptr;
 
@@ -3384,6 +3386,8 @@ class Character : public Creature, public visitable
             void deserialize( const JsonObject &data );
 
             trait_data() = default;
+            explicit trait_data( const bool is_powered, const bool is_enchantment ) : powered( is_powered ),
+                from_enchantment( is_enchantment ) {}
             explicit trait_data( const mutation_variant *chosen ) : variant( chosen ) {}
         };
 
@@ -3445,6 +3449,15 @@ class Character : public Creature, public visitable
          * contains the entry, the character has the mutation.
          */
         std::unordered_map<trait_id, trait_data> my_mutations;
+
+        /**
+         * Traits / mutations of the character. Key is the mutation id (it's also a valid
+         * key into @ref mutation_data), the value describes the status of the mutation.
+         * If there is not entry for a mutation, the character does not have it. If the map
+         * contains the entry, the character has the mutation. This includes mutations provided by enchantments.
+         */
+        std::unordered_map<trait_id, trait_data> get_my_mutations( bool ignore_enchantment = false ) const;
+
         /**
          * Contains mutation ids of the base traits.
          */

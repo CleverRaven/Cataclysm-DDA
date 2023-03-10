@@ -2964,6 +2964,21 @@ bool Character::is_wielding( const item &target ) const
     return &weapon == &target;
 }
 
+std::unordered_map<trait_id, Character::trait_data> Character::get_my_mutations(
+    bool ignore_enchantments ) const
+{
+    std::unordered_map<trait_id, Character::trait_data> result( my_mutations );
+    if( !ignore_enchantments ) {
+        for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
+            if( result.find( ench_trait ) == result.end() ) {
+                // enchantment mutations should be assumed to be on
+                result[ench_trait] = trait_data( true, true );
+            }
+        }
+    }
+    return result;
+}
+
 std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() const
 {
     std::vector<std::pair<std::string, std::string>> rval;
@@ -2977,7 +2992,7 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     }
 
     // then get mutations
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut : get_my_mutations() ) {
         if( !mut.second.show_sprite ) {
             continue;
         }
@@ -7121,7 +7136,7 @@ void Character::recalculate_enchantment_cache()
     } );
 
     // get from traits/ mutations
-    for( const std::pair<const trait_id, trait_data> &mut_map : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut_map : get_my_mutations() ) {
         const mutation_branch &mut = mut_map.first.obj();
 
         for( const enchantment_id &ench_id : mut.enchantments ) {
@@ -9002,7 +9017,7 @@ std::unordered_set<trait_id> Character::get_opposite_traits( const trait_id &fla
             traits.insert( i );
         }
     }
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
+    for( const std::pair<const trait_id, trait_data> &mut : get_my_mutations( true ) ) {
         for( const trait_id &canceled_trait : mut.first->cancels ) {
             if( canceled_trait == flag ) {
                 traits.insert( mut.first );
