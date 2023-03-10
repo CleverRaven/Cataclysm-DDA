@@ -3299,8 +3299,8 @@ int64_t vehicle::fuel_left( const itype_id &ftype,
         for( const std::pair<const vehicle *const, float> &pair : search_connected_vehicles() ) {
             const vehicle &veh = *pair.first;
             const float loss = pair.second;
-            for( const int part_idx : veh.fuel_containers ) {
-                const vehicle_part &vp = parts[part_idx];
+            for( const int part_idx : veh.batteries ) {
+                const vehicle_part &vp = veh.parts[part_idx];
                 if( vp.ammo_current() != fuel_type_battery || !filter( vp ) ) {
                     continue;
                 }
