@@ -1553,16 +1553,9 @@ class vehicle
         /** Returns roughly driving skill level at which there is no chance of fumbling. */
         float handling_difficulty() const;
 
-        /**
-        * Use vehicle::traverse_vehicle_graph (breadth-first search) to enumerate all vehicles
-        * connected to @ref origins by parts with POWER_TRANSFER flag.
-        * @param origins set of pointers to vehicles to start searching from
-        * @return a map of vehicle pointers to a bool that is true if the
-        * vehicle is in the @ref origins set.
-        */
-        static std::map<vehicle *, bool> enumerate_vehicles( const std::set<vehicle *> &origins );
         // idle fuel consumption
-        void idle( bool on_map = true );
+        // @param on_map if true vehicle processes noise/smoke and updates time
+        void idle( bool on_map );
         // continuous processing for running vehicle alarms
         void alarm();
         // leak from broken tanks

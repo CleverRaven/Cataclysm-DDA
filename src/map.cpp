@@ -585,17 +585,21 @@ void map::vehmove()
         }
     }
     dirty_vehicle_list.clear();
-    std::set<vehicle *> origins;
+    std::map<vehicle *, bool> vehs; // value true means in on map
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
         const level_cache *cache = get_cache_lazy( zlev );
-        if( cache ) {
-            for( vehicle *veh : cache->vehicle_list ) {
-                origins.emplace( veh );
+        if( !cache ) {
+            continue;
+        }
+        for( vehicle *veh : cache->vehicle_list ) {
+            vehs[veh] = true; // force on map vehicles to true
+            for( const std::pair<vehicle *const, float> &pair : veh->search_connected_vehicles() ) {
+                vehs.emplace( pair.first, false ); // add with 'false' if does not exist (off map)
             }
         }
     }
-    for( const std::pair<vehicle *const, bool> &veh_pair : vehicle::enumerate_vehicles( origins ) ) {
-        veh_pair.first->idle( veh_pair.second );
+    for( const std::pair<vehicle *const, bool> &veh_pair : vehs ) {
+        veh_pair.first->idle( /* on_map = */ veh_pair.second );
     }
 
     // refresh vehicle zones for moved vehicles

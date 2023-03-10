@@ -126,11 +126,7 @@ veh_app_interact::veh_app_interact( vehicle &veh, const point &p )
 // @returns true if a battery part exists on any vehicle connected to veh
 static bool has_battery_in_grid( vehicle *veh )
 {
-    const std::map<vehicle *, bool> veh_map = vehicle::enumerate_vehicles( { veh } );
-    return std::any_of( veh_map.begin(), veh_map.end(),
-    []( const std::pair<vehicle *, bool> &p ) {
-        return !p.first->batteries.empty();
-    } );
+    return !veh->search_connected_batteries().empty();
 }
 
 void veh_app_interact::init_ui_windows()

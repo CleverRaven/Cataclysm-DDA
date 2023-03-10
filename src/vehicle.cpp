@@ -5083,20 +5083,6 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
     return nullptr;
 }
 
-std::map<vehicle *, bool> vehicle::enumerate_vehicles( const std::set<vehicle *> &origins )
-{
-    std::map<vehicle *, bool> result; // the bool represents if vehicle ptr is in origins set
-    const auto enumerate_visitor = [&result]( vehicle * veh, int amount, int /* loss_amount */ ) {
-        result.emplace( veh, false ); // only add if element is not present already.
-        return amount;
-    };
-    for( vehicle *veh : origins ) {
-        result[veh] = true; // add or overwrite the value
-        traverse_vehicle_graph( veh, 1, enumerate_visitor );
-    }
-    return result;
-}
-
 template <typename Func, typename Vehicle>
 int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action )
 {
