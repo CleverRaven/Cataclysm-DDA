@@ -10379,7 +10379,7 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
         int ammo_required_total = ammo_required() * qty;
         if( plugged_in ) {
             const item *cable = contents.cables( true ).front();//TODOkama don't just use front here
-            const cata::optional<tripoint> source = get_cable_target( carrier, pos );
+            const cata::optional<tripoint> source = cable->get_cable_target( carrier, pos );
             if( source ) {
                 const optional_vpart_position vp = get_map().veh_at( *source );
                 if( vp ) {
