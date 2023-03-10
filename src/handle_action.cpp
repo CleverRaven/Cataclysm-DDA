@@ -1890,27 +1890,31 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
     }
 }
 
-static const std::map<action_id, std::string> actions_disabled_in_shell {
-    { ACTION_OPEN,               _( "You can't open things while you're in your shell." ) },
-    { ACTION_CLOSE,              _( "You can't close things while you're in your shell." ) },
-    { ACTION_SMASH,              _( "You can't smash things while you're in your shell." ) },
-    { ACTION_EXAMINE,            _( "You can't examine your surroundings while you're in your shell." ) },
-    { ACTION_EXAMINE_AND_PICKUP, _( "You can't examine your surroundings while you're in your shell." ) },
-    { ACTION_ADVANCEDINV,        _( "You can't move mass quantities while you're in your shell." ) },
-    { ACTION_PICKUP,             _( "You can't pick anything up while you're in your shell." ) },
-    { ACTION_PICKUP_ALL,         _( "You can't pick anything up while you're in your shell." ) },
-    { ACTION_GRAB,               _( "You can't grab things while you're in your shell." ) },
-    { ACTION_HAUL,               _( "You can't haul things while you're in your shell." ) },
-    { ACTION_BUTCHER,            _( "You can't butcher while you're in your shell." ) },
-    { ACTION_PEEK,               _( "You can't peek around corners while you're in your shell." ) },
-    { ACTION_DROP,               _( "You can't drop things while you're in your shell." ) },
-    { ACTION_CRAFT,              _( "You can't craft while you're in your shell." ) },
-    { ACTION_RECRAFT,            _( "You can't craft while you're in your shell." ) },
-    { ACTION_LONGCRAFT,          _( "You can't craft while you're in your shell." ) },
-    { ACTION_DISASSEMBLE,        _( "You can't disassemble while you're in your shell." ) },
-    { ACTION_CONSTRUCT,          _( "You can't construct while you're in your shell." ) },
-    { ACTION_CONTROL_VEHICLE,    _( "You can't operate a vehicle while you're in your shell." ) },
-};
+
+static std::map<action_id, std::string> get_actions_disabled_in_shell()
+{
+    return std::map<action_id, std::string> {
+        { ACTION_OPEN,               _( "You can't open things while you're in your shell." ) },
+        { ACTION_CLOSE,              _( "You can't close things while you're in your shell." ) },
+        { ACTION_SMASH,              _( "You can't smash things while you're in your shell." ) },
+        { ACTION_EXAMINE,            _( "You can't examine your surroundings while you're in your shell." ) },
+        { ACTION_EXAMINE_AND_PICKUP, _( "You can't examine your surroundings while you're in your shell." ) },
+        { ACTION_ADVANCEDINV,        _( "You can't move mass quantities while you're in your shell." ) },
+        { ACTION_PICKUP,             _( "You can't pick anything up while you're in your shell." ) },
+        { ACTION_PICKUP_ALL,         _( "You can't pick anything up while you're in your shell." ) },
+        { ACTION_GRAB,               _( "You can't grab things while you're in your shell." ) },
+        { ACTION_HAUL,               _( "You can't haul things while you're in your shell." ) },
+        { ACTION_BUTCHER,            _( "You can't butcher while you're in your shell." ) },
+        { ACTION_PEEK,               _( "You can't peek around corners while you're in your shell." ) },
+        { ACTION_DROP,               _( "You can't drop things while you're in your shell." ) },
+        { ACTION_CRAFT,              _( "You can't craft while you're in your shell." ) },
+        { ACTION_RECRAFT,            _( "You can't craft while you're in your shell." ) },
+        { ACTION_LONGCRAFT,          _( "You can't craft while you're in your shell." ) },
+        { ACTION_DISASSEMBLE,        _( "You can't disassemble while you're in your shell." ) },
+        { ACTION_CONSTRUCT,          _( "You can't construct while you're in your shell." ) },
+        { ACTION_CONTROL_VEHICLE,    _( "You can't operate a vehicle while you're in your shell." ) },
+    };
+}
 
 static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_OPEN,
@@ -1930,21 +1934,24 @@ static const std::set<action_id> actions_disabled_in_incorporeal {
     ACTION_CONTROL_VEHICLE,
 };
 
-static const std::map<action_id, std::string> actions_disabled_mounted {
-    { ACTION_DISASSEMBLE,        _( "You can't disassemble items while you're riding." ) },
-    { ACTION_CONSTRUCT,          _( "You can't construct while you're riding." ) },
-    { ACTION_OPEN,               _( "You can't open things while you're riding." ) },
-    { ACTION_ADVANCEDINV,        _( "You can't move mass quantities while you're riding." ) },
-    { ACTION_PICKUP,             _( "You can't pick anything up while you're riding." ) },
-    { ACTION_PICKUP_ALL,         _( "You can't pick anything up while you're riding." ) },
-    { ACTION_GRAB,               _( "You can't grab things while you're riding." ) },
-    { ACTION_HAUL,               _( "You can't haul things while you're riding." ) },
-    { ACTION_BUTCHER,            _( "You can't butcher while you're riding." ) },
-    { ACTION_PEEK,               _( "You can't peek around corners while you're riding." ) },
-    { ACTION_CRAFT,              _( "You can't craft while you're riding." ) },
-    { ACTION_RECRAFT,            _( "You can't craft while you're riding." ) },
-    { ACTION_LONGCRAFT,          _( "You can't craft while you're riding." ) },
-};
+static std::map<action_id, std::string> get_actions_disabled_mounted()
+{
+    return std::map<action_id, std::string> {
+        { ACTION_DISASSEMBLE,        _( "You can't disassemble items while you're riding." ) },
+        { ACTION_CONSTRUCT,          _( "You can't construct while you're riding." ) },
+        { ACTION_OPEN,               _( "You can't open things while you're riding." ) },
+        { ACTION_ADVANCEDINV,        _( "You can't move mass quantities while you're riding." ) },
+        { ACTION_PICKUP,             _( "You can't pick anything up while you're riding." ) },
+        { ACTION_PICKUP_ALL,         _( "You can't pick anything up while you're riding." ) },
+        { ACTION_GRAB,               _( "You can't grab things while you're riding." ) },
+        { ACTION_HAUL,               _( "You can't haul things while you're riding." ) },
+        { ACTION_BUTCHER,            _( "You can't butcher while you're riding." ) },
+        { ACTION_PEEK,               _( "You can't peek around corners while you're riding." ) },
+        { ACTION_CRAFT,              _( "You can't craft while you're riding." ) },
+        { ACTION_RECRAFT,            _( "You can't craft while you're riding." ) },
+        { ACTION_LONGCRAFT,          _( "You can't craft while you're riding." ) },
+    };
+}
 
 bool game::do_regular_action( action_id &act, avatar &player_character,
                               const cata::optional<tripoint> &mouse_target )
@@ -1952,6 +1959,9 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
     item_location weapon = player_character.get_wielded_item();
     const bool in_shell = player_character.has_active_mutation( trait_SHELL2 )
                           || player_character.has_active_mutation( trait_SHELL3 );
+
+    const std::map<action_id, std::string> actions_disabled_mounted = get_actions_disabled_mounted();
+    const std::map<action_id, std::string> actions_disabled_in_shell = get_actions_disabled_in_shell();
 
     if( in_shell && actions_disabled_in_shell.count( act ) > 0 ) {
         add_msg( m_info, actions_disabled_in_shell.at( act ) );
