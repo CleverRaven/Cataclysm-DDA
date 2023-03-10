@@ -2806,6 +2806,9 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     // Roll skill and damage checks for successful recovery of each component
     for( const item_components::type_vector_pair &tvp : components ) {
         for( const item &newit : tvp.second ) {
+            if( newit.has_flag( flag_UNRECOVERABLE ) ) {
+                continue;
+            }
             // Use item type to index recover/destroy tallies
             const itype_id it_type_id = newit.typeId();
             // Chance of failure based on character skill and recipe difficulty
