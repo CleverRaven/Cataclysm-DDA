@@ -1144,33 +1144,33 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                 const std::string state = cable->get_var( "state" );
                 if( state == "cable_charger" ) {
                     add_msg_if_player( m_info,
-                                       _( "Cable is plugged-in to the CBM but it has to be also connected to the power source." ) );
+                                       _( "Cable is attached to your CBM but it also has to be connected to a power source." ) );
                 }
                 if( state == "cable_charger_link" ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
-                                       _( "You are plugged to the vehicle.  It will charge you if it has some juice in it." ) );
+                                       _( "You are attached to a vehicle.  It will charge you if it has some juice in it." ) );
                 }
                 if( state == "solar_pack_link" ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
-                                       _( "You are plugged to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
+                                       _( "You are attached to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
                 }
                 if( state == "UPS_link" ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
-                                       _( "You are plugged to a UPS.  It will charge you if it has some juice in it." ) );
+                                       _( "You are attached to a UPS.  It will charge you if it has some juice in it." ) );
                 }
                 if( state == "solar_pack" || state == "UPS" ) {
                     add_msg_if_player( m_info,
-                                       _( "You have a cable plugged to a portable power source, but you need to plug it in to the CBM." ) );
+                                       _( "You have a cable attached to a portable power source, but you also need to connect it to your CBM." ) );
                 }
                 if( state == "pay_out_cable" ) {
                     add_msg_if_player( m_info,
-                                       _( "You have a cable plugged to a vehicle, but you need to plug it in to the CBM." ) );
+                                       _( "You have a cable attached to a vehicle, but you also need to connect it to your CBM." ) );
                 }
                 if( state == "attach_first" ) {
                     free_cable = true;
@@ -1179,7 +1179,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
 
             if( free_cable ) {
                 add_msg_if_player( m_info,
-                                   _( "You have at least one free cable in your inventory that you could use to plug yourself in." ) );
+                                   _( "You have at least one free cable in your inventory that you could use to connect yourself." ) );
             }
         }
         if( !success ) {
