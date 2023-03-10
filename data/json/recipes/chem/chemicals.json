@@ -338,7 +338,11 @@
     "difficulty": 5,
     "time": "30 m",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "tools": [
       [ [ "electrolyzer_makeshift", 10500 ] ],
       [ [ "ammonia_machine_reactor", 50000 ] ],
