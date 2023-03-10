@@ -4410,7 +4410,7 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         cable.active = true;
         if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
             it.process( get_map(), &p, p.pos() );
-            p.moves -= 15;
+            p.moves -= 5;
 
             p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ),
                                  it.tname( 1, false ), vp->vehicle().name );
