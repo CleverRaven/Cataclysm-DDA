@@ -2345,6 +2345,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "reset_move" );
     ctxt.register_action( "toggle_run" );
     ctxt.register_action( "toggle_crouch" );
+    ctxt.register_action( "toggle_prone" );
     ctxt.register_action( "open_movement" );
     ctxt.register_action( "open" );
     ctxt.register_action( "close" );
@@ -11116,7 +11117,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     }
 }
 
-static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts )
+cata::optional<tripoint> game::point_selection_menu( const std::vector<tripoint> &pts, bool up )
 {
     if( pts.empty() ) {
         debugmsg( "point_selection_menu called with empty point set" );
@@ -11135,9 +11136,10 @@ static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint
         // TODO: Sort the menu so that it can be used with numpad directions
         const std::string &dir_arrow = direction_arrow( direction_from( upos.xy(), pt.xy() ) );
         const std::string &dir_name = direction_name( direction_from( upos.xy(), pt.xy() ) );
+        const std::string &up_or_down = up ? _( "Climb up %s (%s)" ) : _( "Climb down %s (%s)" );
         // TODO: Inform player what is on said tile
         // But don't just print terrain name (in many cases it will be "open air")
-        pmenu.addentry( num++, true, MENU_AUTOASSIGN, _( "Climb %s (%s)" ), dir_name, dir_arrow );
+        pmenu.addentry( num++, true, MENU_AUTOASSIGN, string_format( up_or_down, dir_name, dir_arrow ) );
     }
 
     pmenu.query();
@@ -12467,6 +12469,125 @@ bool game::slip_down( bool check_for_traps )
         return true;
     }
     return false;
+}
+
+void game::climb_down( const tripoint &examp )
+{
+    map &here = get_map();
+    Character &you = get_player_character();
+
+    // Weariness scaling
+    float weary_mult = 1.0f;
+
+    // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
+    if( !you.move_effects( false ) ) {
+        you.moves -= 100;
+        return;
+    }
+
+    if( !here.valid_move( you.pos(), examp, false, true ) ) {
+        // Covered with something
+        return;
+    }
+
+    tripoint where = examp;
+    tripoint below = examp;
+    below.z--;
+    while( here.valid_move( where, below, false, true ) ) {
+        where.z--;
+        below.z--;
+    }
+
+    const int height = examp.z - where.z;
+    add_msg_debug( debugmode::DF_IEXAMINE, "Ledge height %d", height );
+    if( height == 0 ) {
+        you.add_msg_if_player( _( "You can't climb down there." ) );
+        return;
+    }
+
+    bool has_grapnel = you.has_amount( itype_grapnel, 1 );
+    bool web_rappel = you.has_flag( json_flag_WEB_RAPPEL );
+    const int climb_cost = you.climbing_cost( where, examp );
+    const float fall_mod = you.fall_damage_mod();
+    add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", climb_cost );
+    add_msg_debug( debugmode::DF_IEXAMINE, "Fall damage modifier %.2f", fall_mod );
+    const char *query_str;
+    if( !web_rappel ) {
+        query_str = n_gettext( "Looks like %d story.  Jump down?",
+                               "Looks like %d stories.  Jump down?",
+                               height );
+    } else {
+        query_str = n_gettext( "Looks like %d story.  Nothing your webs can't handle.  Descend?",
+                               "Looks like %d stories.  Nothing your webs can't handle.  Descend?", height );
+    }
+
+    if( height > 1 && !query_yn( query_str, height ) ) {
+        return;
+    } else if( height == 1 ) {
+        you.set_activity_level( ACTIVE_EXERCISE );
+        weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
+
+        if( has_grapnel ) {
+            if( !query_yn( _( "Use your grappling hook to climb down?" ) ) ) {
+                has_grapnel = false;
+            } else {
+                web_rappel = false;
+            }
+        }
+
+        if( !has_grapnel ) {
+            const char *query;
+            if( web_rappel ) {
+                query = _( "Use your webs to descend?" );
+            } else {
+                if( climb_cost <= 0 && fall_mod > 0.8 ) {
+                    query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
+                } else if( climb_cost <= 0 ) {
+                    query = _( "You probably won't be able to get back up.  Climb down?" );
+                } else if( climb_cost < 200 ) {
+                    query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
+                } else {
+                    query = _( "You may have problems climbing back up.  Climb down?" );
+                }
+            }
+
+            if( !query_yn( query ) ) {
+                return;
+            }
+        }
+    }
+
+    you.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
+    you.setpos( examp );
+
+    if( web_rappel ) {
+        you.add_msg_if_player(
+            _( "You affix a long, sticky strand on the ledge and begin your descent." ) );
+        tripoint web = examp;
+        web.z--;
+        // Leave a web rope on each step
+        for( int i = 0; i < height; i++ ) {
+            here.furn_set( web, furn_f_web_up );
+            web.z--;
+        }
+        g->vertical_move( -height, true );
+    } else if( has_grapnel ) {
+        you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
+        g->vertical_move( -1, true );
+        you.use_amount( itype_grapnel, 1 );
+        here.furn_set( you.pos(), furn_f_rope_up );
+    } else if( !g->slip_down( true ) ) {
+        // One tile of falling less (possibly zero)
+        add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
+        g->vertical_move( -1, true );
+    } else {
+        return;
+    }
+    if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
+        you.set_underwater( true );
+        g->water_affect_items( you );
+        you.add_msg_if_player( _( "You climb down and dive underwater." ) );
+    }
 }
 
 namespace cata_event_dispatch

@@ -21,6 +21,7 @@
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"
+#include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -205,7 +206,7 @@ class item : public visitable
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
+        item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections );
 
         /** For constructing in-progress disassemblies */
         item( const recipe *rec, int qty, item &component );
@@ -2695,7 +2696,7 @@ class item : public visitable
          *
          * @param parents Items to inherit from
          */
-        void inherit_flags( const std::list<item> &parents, const recipe &making );
+        void inherit_flags( const item_components &parents, const recipe &making );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
@@ -2868,7 +2869,7 @@ class item : public visitable
         static const int INFINITE_CHARGES;
 
         const itype *type;
-        std::list<item> components;
+        item_components components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
 

@@ -232,6 +232,13 @@ std::vector<std::string> clothing_properties(
     std::vector<std::string> props;
     bodypart_id used_bp = bp;
     if( bp == bodypart_id( "bp_null" ) ) {
+        // if the armor has no protection data
+        if( worn_item.find_armor_data()->sub_data.empty() ) {
+            props.push_back( string_format( "<color_c_red>%s</color>",
+                                            _( "Item provides no protection" ) ) );
+            return props;
+        }
+
         // if there is only one data entry for the armor
         if( worn_item.find_armor_data()->sub_data.size() > 1 ) {
             props.push_back( string_format( "<color_c_red>%s</color>",
@@ -326,10 +333,11 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
 
     // if bp is null its gonna be impossible to really get good info
     if( bp == bodypart_id( "bp_null" ) ) {
-        if( worn_item.find_armor_data()->sub_data.size() > 1 ) {
-            return prot;
-        } else {
+        // if we have exactly one entry for armor we can use that data
+        if( worn_item.find_armor_data()->sub_data.size() == 1 ) {
             used_bp = *worn_item.get_covered_body_parts().begin();
+        } else {
+            return prot;
         }
     }
 

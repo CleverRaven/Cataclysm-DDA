@@ -650,32 +650,6 @@ void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_
     last_craft->execute();
 }
 
-// @param offset is the index of the created item in the range [0, batch_size-1],
-// it makes sure that the used items are distributed equally among the new items.
-static void set_components( std::list<item> &components, const std::list<item> &used,
-                            const int batch_size, const size_t offset )
-{
-    if( batch_size <= 1 ) {
-        components.insert( components.begin(), used.begin(), used.end() );
-        return;
-    }
-    // This count does *not* include items counted by charges!
-    size_t non_charges_counter = 0;
-    for( const item &tmp : used ) {
-        if( tmp.count_by_charges() ) {
-            components.push_back( tmp );
-            // This assumes all (count-by-charges) items of the same type have been merged into one,
-            // which has a charges value that can be evenly divided by batch_size.
-            components.back().charges = tmp.charges / batch_size;
-        } else {
-            if( ( non_charges_counter + offset ) % batch_size == 0 ) {
-                components.push_back( tmp );
-            }
-            non_charges_counter++;
-        }
-    }
-}
-
 static cata::optional<item_location> wield_craft( Character &p, item &craft )
 {
     if( p.wield( craft ) ) {
@@ -1061,11 +1035,9 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
                    total_skill_modifiers, int_cur / 4.f );
 
     // Missing proficiencies penalize skill level
-    // At the time of writing this is currently called a fail multiplier.
-    // TK: change the name of this feature to "skill penalty".
     for( const recipe_proficiency &recip : making.proficiencies ) {
         if( !recip.required && !has_proficiency( recip.id ) ) {
-            total_skill_modifiers -= ( recip.fail_multiplier - 1.0f );
+            total_skill_modifiers -= recip.skill_penalty;
         }
     }
 
@@ -1288,7 +1260,7 @@ static void destroy_random_component( item &craft, const Character &crafter )
         return;
     }
 
-    item destroyed = random_entry_removed( craft.components );
+    item destroyed = craft.components.get_and_remove_random_entry();
 
     crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
                                    _( "You mess up and destroy the %s." ),
@@ -1379,10 +1351,12 @@ void item::inherit_flags( const item &parent, const recipe &making )
     }
 }
 
-void item::inherit_flags( const std::list<item> &parents, const recipe &making )
+void item::inherit_flags( const item_components &parents, const recipe &making )
 {
-    for( const item &parent : parents ) {
-        inherit_flags( parent, making );
+    for( const item_components::type_vector_pair &tvp : parents ) {
+        for( const item &parent : tvp.second ) {
+            inherit_flags( parent, making );
+        }
     }
 }
 
@@ -1395,7 +1369,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
     const recipe &making = craft.get_making();
     const int batch_size = craft.get_making_batch_size();
-    std::list<item> &used = craft.components;
+    item_components &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
     const bool should_heat = making.hot_result();
     const bool remove_raw = making.removes_raw();
@@ -1457,49 +1431,39 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either lose this information or merge it somehow.
-            set_components( food_contained.components, used, batch_size, newit_counter );
+            food_contained.components = used.split( batch_size, newit_counter );
             newit_counter++;
         } else if( food_contained.is_food() && !food_contained.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
             // use a copy of the used list so that the byproducts don't build up over iterations (#38071)
-            std::list<item> usedbp;
+            item_components usedbp;
 
             // if a component item has "cooks_like" it will be replaced by that item as a component
-            for( item &comp : used ) {
-                // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
-                if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
-                    const double relative_rot = comp.get_relative_rot();
-                    comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
-                    comp.set_relative_rot( relative_rot );
-                }
-                // If this recipe is cooked, components are no longer raw.
-                if( should_heat || remove_raw ) {
-                    comp.set_flag_recursive( flag_COOKED );
-                }
-
-                // when batch crafting, set_components depends on components being merged, so merge any unmerged ones here
-                if( comp.count_by_charges() ) {
-                    auto it = std::find_if( usedbp.begin(), usedbp.end(), [&comp]( const item & usedit ) {
-                        return usedit.type == comp.type;
-                    } );
-
-                    if( it != usedbp.end() ) {
-                        it->charges += comp.charges;
-                        continue;
+            for( item_components::type_vector_pair &tvp : used ) {
+                for( item &comp : tvp.second ) {
+                    // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
+                    if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
+                        const double relative_rot = comp.get_relative_rot();
+                        comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
+                        comp.set_relative_rot( relative_rot );
                     }
-                }
+                    // If this recipe is cooked, components are no longer raw.
+                    if( should_heat || remove_raw ) {
+                        comp.set_flag_recursive( flag_COOKED );
+                    }
 
-                usedbp.emplace_back( comp );
+                    usedbp.add( comp );
+                }
             }
 
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
             if( making.has_byproducts() ) {
                 for( item &byproduct : making.create_byproducts( batch_size ) ) {
                     byproduct.set_flag( flag_BYPRODUCT );
-                    usedbp.push_back( byproduct );
+                    usedbp.add( byproduct );
                 }
             }
             // store components for food recipes that do not have the override flag
-            set_components( food_contained.components, usedbp, batch_size, newit_counter );
+            food_contained.components = usedbp.split( batch_size, newit_counter );
 
             // store the number of charges the recipe would create with batch size 1.
             if( &newit != &food_contained ) {  // If a canned/contained item was crafted…
@@ -1674,7 +1638,9 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             item_selections.push_back( is );
         }
         for( const auto &it : item_selections ) {
-            craft.components.splice( craft.components.end(), consume_items( it, batch_size, filter ) );
+            for( item &itm : consume_items( it, batch_size, filter ) ) {
+                craft.components.add( itm );
+            }
         }
     }
 
@@ -2410,7 +2376,7 @@ ret_val<void> Character::can_disassemble( const item &obj, const read_only_visit
     }
 
     const recipe &r = recipe_dictionary::get_uncraft( ( obj.typeId() == itype_disassembly ) ?
-                      obj.components.front().typeId() : obj.typeId() );
+                      obj.components.only_item().typeId() : obj.typeId() );
 
     // check sufficient light
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
@@ -2671,7 +2637,7 @@ void Character::complete_disassemble( item_location target )
 {
     // Disassembly has 2 parallel vectors:
     // item location, and recipe id
-    item temp = target.get_item()->components.front();
+    item temp = target.get_item()->components.only_item();
     const recipe &rec = recipe_dictionary::get_uncraft( temp.typeId() );
 
     if( rec ) {
@@ -2702,7 +2668,7 @@ void Character::complete_disassemble( item_location target )
     }
     // Set get and set duration of next uncraft
     const recipe &next_recipe = recipe_dictionary::get_uncraft( ( next_item->typeId() ==
-                                itype_disassembly ) ? next_item->components.front().typeId() : next_item->typeId() );
+                                itype_disassembly ) ? next_item->components.only_item().typeId() : next_item->typeId() );
 
     if( !next_recipe ) {
         debugmsg( "bad disassembly recipe" );
@@ -2745,7 +2711,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // Get the item to disassemble, and make a copy to keep its data (damage/components)
     // after the original has been removed.
-    item org_item = target.get_item()->components.front();
+    item org_item = target.get_item()->components.only_item();
     item dis_item = org_item;
 
     if( this->is_avatar() ) {
@@ -2767,7 +2733,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // If the components aren't empty, we want items exactly identical to them
     // Even if the best-fit recipe does not involve those items
-    std::list<item> components = dis_item.components;
+    item_components components = dis_item.components;
 
     // If the components are empty, item is the default kind and made of default components
     if( components.empty() ) {
@@ -2807,7 +2773,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             }
 
             for( ; compcount > 0; compcount-- ) {
-                components.emplace_back( newit );
+                components.add( newit );
             }
         }
     }
@@ -2838,65 +2804,63 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     std::map<itype_id, int> destroy_tally;
 
     // Roll skill and damage checks for successful recovery of each component
-    for( const item &newit : components ) {
-        // Use item type to index recover/destroy tallies
-        const itype_id it_type_id = newit.typeId();
-        // Chance of failure based on character skill and recipe difficulty
-        const bool comp_success = dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides );
-        // If original item was damaged, there is another chance for recovery to fail
-        const bool dmg_success = component_success_chance > rng_float( 0, 1 );
+    for( const item_components::type_vector_pair &tvp : components ) {
+        for( const item &newit : tvp.second ) {
+            // Use item type to index recover/destroy tallies
+            const itype_id it_type_id = newit.typeId();
+            // Chance of failure based on character skill and recipe difficulty
+            const bool comp_success = dice( skill_dice, skill_sides ) > dice( diff_dice, diff_sides );
+            // If original item was damaged, there is another chance for recovery to fail
+            const bool dmg_success = component_success_chance > rng_float( 0, 1 );
 
-        // If component recovery failed, tally it and continue with the next component
-        if( ( dis.difficulty != 0 && !comp_success ) || !dmg_success ) {
-            // Count destroyed items
-            if( destroy_tally.count( it_type_id ) == 0 ) {
-                destroy_tally[it_type_id] = newit.count();
+            // If component recovery failed, tally it and continue with the next component
+            if( ( dis.difficulty != 0 && !comp_success ) || !dmg_success ) {
+                // Count destroyed items
+                if( destroy_tally.count( it_type_id ) == 0 ) {
+                    destroy_tally[it_type_id] = newit.count();
+                } else {
+                    destroy_tally[it_type_id] += newit.count();
+                }
+                continue;
+            }
+
+            // Component recovered successfully; add to the tally
+            if( recover_tally.count( it_type_id ) == 0 ) {
+                recover_tally[it_type_id] = newit.count();
             } else {
-                destroy_tally[it_type_id] += newit.count();
+                recover_tally[it_type_id] += newit.count();
             }
-            continue;
-        }
 
-        // Component recovered successfully; add to the tally
-        if( recover_tally.count( it_type_id ) == 0 ) {
-            recover_tally[it_type_id] = newit.count();
-        } else {
-            recover_tally[it_type_id] += newit.count();
-        }
+            // Use item from components list, or (if not contained)
+            // use newit, the default constructed.
+            item act_item = newit;
 
-        // Use item from components list, or (if not contained)
-        // use newit, the default constructed.
-        item act_item = newit;
-
-        if( act_item.has_temperature() ) {
-            // TODO: fix point types
-            act_item.set_item_temperature( get_weather().get_temperature( loc.raw() ) );
-        }
-
-        // Refitted clothing disassembles into refitted components (when applicable)
-        if( dis_item.has_flag( flag_FIT ) && act_item.has_flag( flag_VARSIZE ) ) {
-            act_item.set_flag( flag_FIT );
-        }
-
-        // Filthy items yield filthy components
-        if( dis_item.is_filthy() ) {
-            act_item.set_flag( flag_FILTHY );
-        }
-
-        for( std::list<item>::iterator a = dis_item.components.begin(); a != dis_item.components.end();
-             ++a ) {
-            if( a->type == newit.type ) {
-                act_item = *a;
-                dis_item.components.erase( a );
-                break;
+            if( act_item.has_temperature() ) {
+                // TODO: fix point types
+                act_item.set_item_temperature( get_weather().get_temperature( loc.raw() ) );
             }
-        }
 
-        //NPCs are too dumb to be able to handle liquid (for now)
-        if( act_item.made_of( phase_id::LIQUID ) && !is_npc() ) {
-            liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
-        } else {
-            drop_items.push_back( act_item );
+            // Refitted clothing disassembles into refitted components (when applicable)
+            if( dis_item.has_flag( flag_FIT ) && act_item.has_flag( flag_VARSIZE ) ) {
+                act_item.set_flag( flag_FIT );
+            }
+
+            // Filthy items yield filthy components
+            if( dis_item.is_filthy() ) {
+                act_item.set_flag( flag_FILTHY );
+            }
+
+            ret_val<item> removed = dis_item.components.remove( newit.typeId() );
+            if( removed.success() ) {
+                act_item = removed.value();
+            }
+
+            //NPCs are too dumb to be able to handle liquid (for now)
+            if( act_item.made_of( phase_id::LIQUID ) && !is_npc() ) {
+                liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
+            } else {
+                drop_items.push_back( act_item );
+            }
         }
     }
 
