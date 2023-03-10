@@ -761,13 +761,7 @@
       "palettes": [ "field_office_palette" ],
       "place_monsters": [
         { "monster": "GROUP_FERAL_AGENTS", "x": [ 10, 23 ], "y": [ 10, 23 ], "chance": 2, "repeat": [ 1, 4 ] },
-        {
-          "monster": "GROUP_Exodii_Jotunn",
-          "x": [ 26, 38 ],
-          "y": [ 26, 38 ],
-          "chance": 2,
-          "repeat": [ 1, 4 ]
-        }
+        { "monster": "GROUP_Exodii_Jotunn", "x": [ 26, 38 ], "y": [ 26, 38 ], "chance": 2, "repeat": [ 1, 4 ] }
       ],
       "place_nested": [
         {
