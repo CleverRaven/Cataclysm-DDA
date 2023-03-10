@@ -6,7 +6,12 @@
     "weight": 50,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_lino_kitchen","standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_landscaping_palette"
+      ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "...........--...........",
