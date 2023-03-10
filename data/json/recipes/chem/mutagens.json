@@ -77,7 +77,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_creepy", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -99,7 +99,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_plant", 2 ] ], [ [ "plant_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -138,7 +138,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_maiar", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_insect", 2 ] ], [ [ "insect_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -177,7 +177,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_maiar", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_spider", 2 ] ], [ [ "spider_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -216,7 +216,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_snail", 2 ] ], [ [ "gastropod_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -233,7 +233,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_maiar", 6 ], [ "recipe_creepy", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 40 ] ],
     "components": [ [ [ "mutagen", 1 ] ], [ [ "slime_sample", 1 ] ], [ [ "mutagen", 2 ], [ "slime_sample", 2 ] ] ],
     "flags": [ "SECRET" ]
@@ -250,7 +250,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_maiar", 6 ], [ "recipe_creepy", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_slime", 2 ] ], [ [ "slime_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -297,7 +297,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_fish", 2 ] ], [ [ "fish_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -314,7 +314,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_creepy", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -336,7 +336,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_rat", 2 ] ], [ [ "rat_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -353,7 +353,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -392,7 +392,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -414,7 +414,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_ursine", 2 ] ], [ [ "ursine_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -431,7 +431,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -453,7 +453,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_mouse", 2 ] ], [ [ "mouse_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -470,7 +470,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -492,7 +492,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_feline", 2 ] ], [ [ "feline_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -509,7 +509,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -531,7 +531,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_lupine", 2 ] ], [ [ "lupine_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -548,7 +548,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -570,7 +570,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_cattle", 2 ] ], [ [ "cattle_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -587,7 +587,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_creepy", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -609,7 +609,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_cephalopod", 2 ] ], [ [ "cephalopod_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -626,7 +626,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -648,7 +648,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_bird", 2 ] ], [ [ "bird_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -665,7 +665,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -687,7 +687,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_lizard", 2 ] ], [ [ "lizard_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -704,7 +704,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -726,7 +726,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_animal", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_batrachian", 2 ] ], [ [ "batrachian_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -766,7 +766,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_maiar", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_troglobite", 2 ] ], [ [ "troglobite_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -783,7 +783,7 @@
     "time": "45 m",
     "batch_time_factors": [ 80, 20 ],
     "book_learn": [ [ "recipe_medicalmut", 7 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [ [ [ "mutagen", 2 ] ], [ [ "medical_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
@@ -800,7 +800,7 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_medicalmut", 7 ], [ "recipe_serum", 7 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_biochemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_medical", 2 ] ], [ [ "medical_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
