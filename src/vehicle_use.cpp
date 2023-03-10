@@ -671,7 +671,7 @@ bool vehicle::start_engine( vehicle_part &vp )
         const double cold_factor = engine_cold_factor( vp );
         const units::power start_power = -part_epower( vp ) * ( dmg * 5 + cold_factor * 2 + 10 );
         const int start_bat = power_to_energy_bat( start_power, start_time );
-        if( discharge_battery( start_bat, true ) != 0 ) {
+        if( discharge_battery( start_bat ) != 0 ) {
             sounds::sound( pos, vpi.engine_noise_factor(), sounds::sound_t::alarm,
                            string_format( _( "the %s rapidly clicking." ), vp.name() ), true, "vehicle",
                            "engine_multi_click_fail" );

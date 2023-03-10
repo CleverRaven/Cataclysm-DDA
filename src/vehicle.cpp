@@ -3372,7 +3372,7 @@ int vehicle::drain( const itype_id &ftype, int amount,
         // Batteries get special handling to take advantage of jumper
         // cables -- discharge_battery knows how to recurse properly
         // (including taking cable power loss into account).
-        int remnant = discharge_battery( amount, true );
+        int remnant = discharge_battery( amount );
 
         // discharge_battery returns amount of charges that were not
         // found anywhere in the power network, whereas this function
@@ -5235,78 +5235,96 @@ std::map<vpart_reference, float> vehicle::search_connected_batteries()
     return result;
 }
 
-int vehicle::charge_battery( int amount, bool include_other_vehicles )
+int vehicle::charge_battery( int amount )
 {
-    // Key parts by percentage charge level.
-    std::multimap<int, vehicle_part *> chargeable_parts;
-    for( vehicle_part &p : parts ) {
-        if( p.is_available() && p.is_battery() &&
-            p.ammo_capacity( ammo_battery ) > p.ammo_remaining() ) {
-            chargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity( ammo_battery ), &p } );
+    // pair of battery reference and line loss factor (0.01 = 1% charge lost)
+    using batref_t = std::pair<const vpart_reference, float>;
+    // batteries keyed by percentage of charge
+    std::multimap<int, const batref_t> batteries;
+    const auto requeue_battery = [&batteries]( const batref_t &cb ) {
+        const vehicle_part &vp = cb.first.part();
+        const int capacity = vp.ammo_capacity( ammo_battery );
+        const int remaining = vp.ammo_remaining();
+        if( capacity > remaining ) { // can still charge
+            batteries.emplace( 100 * remaining / capacity, cb );
         }
-    }
-    while( amount > 0 && !chargeable_parts.empty() ) {
-        // Grab first part, charge until it reaches the next %, then re-insert with new % key.
-        auto iter = chargeable_parts.begin();
-        int charge_level = iter->first;
-        vehicle_part *p = iter->second;
-        chargeable_parts.erase( iter );
-        // Calculate number of charges to reach the next %, but insure it's at least
-        // one more than current charge.
-        int next_charge_level = ( ( charge_level + 1 ) * p->ammo_capacity( ammo_battery ) ) / 100;
-        next_charge_level = std::max( next_charge_level, p->ammo_remaining() + 1 );
-        int qty = std::min( amount, next_charge_level - p->ammo_remaining() );
-        p->ammo_set( fuel_type_battery, p->ammo_remaining() + qty );
-        amount -= qty;
-        if( p->ammo_capacity( ammo_battery ) > p->ammo_remaining() ) {
-            chargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity( ammo_battery ), p } );
-        }
-    }
-
-    auto charge_visitor = []( vehicle * veh, int amount, int lost ) {
-        add_msg_debug( debugmode::DF_VEHICLE, "CH: %d", amount - lost );
-        return veh->charge_battery( amount - lost, false );
     };
 
-    if( amount > 0 && include_other_vehicles ) { // still a bit of charge we could send out...
-        amount = traverse_vehicle_graph( this, amount, charge_visitor );
+    for( const batref_t &br : search_connected_batteries() ) {
+        requeue_battery( br );
     }
 
-    return amount;
+    int total_lost = 0;
+    int total_gained = 0;
+    // Grab first part, charge until it reaches the next %, then re-insert with new % key.
+    while( amount > 0 && !batteries.empty() ) {
+        const auto iter = batteries.begin();
+        const int next_percent = iter->first + 1;
+        const batref_t br = iter->second;
+        batteries.erase( iter );
+        vehicle_part &vp = br.first.part();
+        const int capacity = vp.ammo_capacity( ammo_battery );
+        const int remaining = vp.ammo_remaining();
+        const int next_percent_charge = std::max( next_percent * capacity / 100, remaining + 1 );
+        const int qty = std::min( amount, next_percent_charge - remaining );
+        amount -= qty;
+        const int lost = roll_remainder( qty * br.second );
+        const int gained = qty - lost;
+        vp.ammo_set( fuel_type_battery, remaining + gained );
+        total_lost += lost;
+        total_gained += gained;
+        requeue_battery( br );
+    }
+    add_msg_debug( debugmode::DF_VEHICLE, "charged %d ( usable %d lost %d )",
+                   total_gained + total_lost, total_gained, total_lost );
+
+    return amount; // non-zero if all batteries are full before expending amount
 }
 
-int vehicle::discharge_battery( int amount, bool recurse )
+int vehicle::discharge_battery( int amount )
 {
-    // Key parts by percentage charge level.
-    std::multimap<int, vehicle_part *> dischargeable_parts;
-    for( vehicle_part &p : parts ) {
-        if( p.is_available() && p.is_battery() && p.ammo_remaining() > 0 && !p.is_fake ) {
-            dischargeable_parts.insert( { ( p.ammo_remaining() * 100 ) / p.ammo_capacity( ammo_battery ), &p } );
+    // pair of battery reference and line loss factor (0.01 = 1% charge lost)
+    using batref_t = std::pair<const vpart_reference, float>;
+    // batteries keyed by percentage of charge
+    std::multimap<int, const batref_t> batteries;
+    const auto requeue_battery = [&batteries]( const batref_t &cb ) {
+        const vehicle_part &vp = cb.first.part();
+        const int capacity = vp.ammo_capacity( ammo_battery );
+        const int remaining = vp.ammo_remaining();
+        if( remaining > 0 ) { // can still discharge
+            batteries.emplace( 100 * remaining / capacity, cb );
         }
-    }
-    while( amount > 0 && !dischargeable_parts.empty() ) {
-        // Grab first part, discharge until it reaches the next %, then re-insert with new % key.
-        auto iter = std::prev( dischargeable_parts.end() );
-        const int prev_charge_level = iter->first - 1;
-        vehicle_part *p = iter->second;
-        dischargeable_parts.erase( iter );
-        // Calculate number of charges to reach the previous %.
-        int prev_charge_amount = std::max( 0, prev_charge_level * p->ammo_capacity( ammo_battery ) ) / 100;
-        int amount_to_discharge = std::min( p->ammo_remaining() - prev_charge_amount, amount );
-        p->ammo_consume( amount_to_discharge, global_part_pos3( *p ) );
-        amount -= amount_to_discharge;
-        if( p->ammo_remaining() > 0 ) {
-            dischargeable_parts.insert( { ( p->ammo_remaining() * 100 ) / p->ammo_capacity( ammo_battery ), p } );
-        }
+    };
+
+    for( const batref_t &br : search_connected_batteries() ) {
+        requeue_battery( br );
     }
 
-    auto discharge_visitor = []( vehicle * veh, int amount, int lost ) {
-        add_msg_debug( debugmode::DF_VEHICLE, "CH: %d", amount + lost );
-        return veh->discharge_battery( amount + lost, false );
-    };
-    if( amount > 0 && recurse ) { // need more power!
-        amount = traverse_vehicle_graph( this, amount, discharge_visitor );
+    int total_lost = 0;
+    int total_gained = 0;
+    // Grab first part, discharge until it reaches the next %, then re-insert with new % key.
+    while( amount > 0 && !batteries.empty() ) {
+        const auto iter = batteries.begin();
+        const int prev_percent = iter->first - 1;
+        const batref_t br = iter->second;
+        batteries.erase( iter );
+        vehicle_part &vp = br.first.part();
+        const int capacity = vp.ammo_capacity( ammo_battery );
+        const int remaining = vp.ammo_remaining();
+        const int prev_percent_charge = std::max( prev_percent * capacity / 100, 0 );
+        const int prev_charge_amount = std::max( 0, prev_percent_charge );
+        const int qty = std::min( remaining - prev_charge_amount, amount );
+        cata_assert( qty >= 0 );
+        vp.ammo_consume( qty, br.first.pos() );
+        const int lost = roll_remainder( qty * br.second );
+        const int gained = qty - lost;
+        total_lost += lost;
+        total_gained += gained;
+        requeue_battery( br );
+        amount -= gained;
     }
+    add_msg_debug( debugmode::DF_VEHICLE, "discharged %d ( usable %d lost %d )",
+                   total_gained + total_lost, total_gained, total_lost );
 
     return amount; // non-zero if we weren't able to fulfill demand.
 }

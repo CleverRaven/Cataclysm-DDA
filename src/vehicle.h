@@ -1357,20 +1357,18 @@ class vehicle
         std::pair<int, int> connected_battery_power_level() const;
 
         /**
-         * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
-         * @param amount to discharge in kJ
-         * @param include_other_vehicles if true charge also to cable connected vehicles.
-         * @return amount of charge left over.
+         * Charges batteries in connected vehicles/appliances
+         * @param amount to charge in kJ
+         * @return left over charge in kJ - no battery capacity left to charge up
          */
-        int charge_battery( int amount, bool include_other_vehicles = true );
+        int charge_battery( int amount );
 
         /**
-         * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
+         * Discharges batteries in connected vehicles/appliances
          * @param amount to discharge in kJ
-         * @param recurse if true draws also from cable connected vehicles.
-         * @return amount of request unfulfilled (0 if totally successful).
+         * @return unfulfilled charge in kJ or 0 if fully fulfilled
          */
-        int discharge_battery( int amount, bool recurse = true );
+        int discharge_battery( int amount );
 
         /**
          * Mark mass caches and pivot cache as dirty
