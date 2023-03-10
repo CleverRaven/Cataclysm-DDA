@@ -2,7 +2,7 @@
   {
     "result": "butchering_kit_plus_one",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -20,7 +20,7 @@
   {
     "result": "butchering_kit_plus_two",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -37,7 +37,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "copper_circlet",
     "byproducts": [ [ "tinder", 1 ] ],
     "category": "CC_ENCHANTED",
@@ -57,7 +57,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "copper_infuser",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",
@@ -75,7 +75,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "silver_infuser",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",
@@ -93,7 +93,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "rune_alchemist",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",
@@ -107,7 +107,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cauldron_demon_chitin",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",
@@ -122,7 +122,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "demon_forge",
     "category": "CC_ENCHANTED",
     "subcategory": "CSC_ENCHANTED_TOOLS",

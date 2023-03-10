@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "atomic_butter",
     "result_mult": 1,
     "category": "CC_FOOD",
@@ -15,7 +15,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "afs_calorie_water",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREAD",
@@ -27,7 +27,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cream_prot_cold",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
@@ -46,7 +46,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "cream_greater_prot_cold",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",
