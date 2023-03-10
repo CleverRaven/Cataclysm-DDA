@@ -122,7 +122,7 @@ std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
             case damage_type::COLD:
             case damage_type::ELECTRIC: {
                 for( const item *it : clothing_map.at( bp ) ) {
-                    per_bp.second += it->damage_resist( dt, false, bp );
+                    per_bp.second += it->resist( dt, false, bp );
                 }
 
                 per_bp.second += mutation_armor( bp, dt );

@@ -5,11 +5,43 @@
 <color_yellow>Whales</color> (<color_dark_gray>Αναχώρησε</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>Τρέχον Κύριοι Προγραμματιστές:</color>
+<color_yellow>I-am-Erk</color> - Ultica, lore writing, ideas guy.
+<color_yellow>KorGgenT</color> - Professional yak shaver.
+
+<color_white>Ιδιαίτερες ευχαριστίες στους:</color>
+<color_yellow>anothersimulacrum</color> - For stepping in and doing the hard work.
+<color_yellow>BombasticSlacks</color> - For fleshing out the armor system and making us sweat.
+<color_yellow>Fris0uman</color> - For getting our fridges working.
+<color_yellow>John-Candlebury</color> - For Hub01 and all the beautiful maps.
+<color_yellow>jbytheway</color> - For parametric mapgen and mutable locations.
+<color_yellow>BrettDong</color> - For translations and analyzing weird bugs.
+<color_yellow>wapcaplet</color> - For all things sidebar-related.
+<color_yellow>ZhilkinSerg</color> - For merging all the things.
+<color_yellow>Rivet-the-Zombie</color> - For keeping up the one-merge-per-day record.
+<color_yellow>Night-Pryanik</color> - For countless bugfixes and enhancements.
+<color_yellow>Qrox</color> - For making the UI infrastructure even better.
+<color_yellow>Ramza13</color> - For turning JSON into a turing-complete language.
+<color_yellow>Drew4484</color> - For all the steel.
+<color_yellow>LyleSY</color> - For even more dinosaurrrs.
+<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, and <color_yellow>Eltank</color>.
+
+<color_white>Ιδιαίτερες ευχαριστίες για τη τέχνη τους:</color>
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, and many more.
+
+<color_white>Για μια πλήρη λίστα των συντελεστών παρακαλώ δείτε:</color>
+<color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
+
+<color_light_cyan>Cataclysm</color>: <color_light_blue>Dark Days Ahead</color> is released under <color_white>CC-BY-SA 3.0</color>:
+<color_cyan>https://creativecommons.org/licenses/by-sa/3.0/</color>
+
+******************************************************************************
+
+<color_white>Main Developers (<color_cyan>0.F</color>):</color>
 <color_yellow>mlangsdorf</color> - Οχήματα, βάρκες, βασικούς σταθμούς και οδηγούς τροποποίησης.
 <color_yellow>I-am-Erk</color> - Η κληρονομιά του Ultica συνεχίζει να είναι καρποφόρα.
 <color_yellow>KorGgenT</color> - Να μη με λέει που να βάζω τα δύο-επί-τέσσερά μου.
 
-<color_white>Ιδιαίτερες ευχαριστίες στους:</color>
+<color_white>Special thanks to (<color_cyan>0.F</color>):</color>
 <color_yellow>Aivean</color> - Για την εξαιρετική επίδοση του.
 <color_yellow>anothersimulacrum</color> - For making me weary.
 <color_yellow>jbytheway</color> - For making me achieve things.
@@ -17,7 +49,7 @@
 <color_yellow>Qrox</color> - Για τη βοήθειά του με τα διάφορα μυνήματα σφαλμάτων.
 <color_yellow>LyleSY</color> - Για τους δινόσαυρρρρρρους.
 
-<color_white>Ιδιαίτερες ευχαριστίες για τη τέχνη τους:</color>
+<color_white>Special thanks for art contributions (<color_cyan>0.F</color>):</color>
 <color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, και πολλοί άλλοι.
 
 <color_white>Για μια πλήρη λίστα των συντελεστών παρακαλώ δείτε:</color>

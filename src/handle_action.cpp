@@ -1708,7 +1708,7 @@ void game::open_consume_item_menu()
             avatar_action::eat( player_character, game_menus::inv::consume_drink( player_character ) );
             break;
         case 2:
-            avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
+            avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds( player_character ) );
             break;
         default:
             break;
@@ -2013,7 +2013,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 }
             }
             break;
-        case ACTION_MOVE_DOWN:
+        case ACTION_MOVE_DOWN: {
             if( player_character.is_mounted() ) {
                 auto *mon = player_character.mounted_creature.get();
                 if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -2021,6 +2021,29 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                     break;
                 }
             }
+
+            std::vector<tripoint> pts;
+            bool climbed = false;
+            for( const tripoint &p : m.points_in_radius( player_character.pos(), 1 ) ) {
+                if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+                    pts.push_back( p );
+                }
+            }
+
+            if( !pts.empty() ) {
+                const cata::optional<tripoint> pnt = point_selection_menu( pts, false );
+                if( !pnt ) {
+                    break;
+                }
+
+                climb_down( *pnt );
+                climbed = true;
+            }
+
+            if( climbed ) {
+                break;
+            }
+
             if( !player_character.in_vehicle ) {
                 vertical_move( -1, false );
             } else if( has_vehicle_control( player_character ) ) {
@@ -2030,6 +2053,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 }
             }
             break;
+        }
 
         case ACTION_MOVE_UP:
             if( player_character.is_mounted() ) {
@@ -2227,7 +2251,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_EAT:
             if( !avatar_action::eat_here( player_character ) ) {
-                avatar_action::eat( player_character, game_menus::inv::consume( player_character ) );
+                avatar_action::eat_or_use( player_character, game_menus::inv::consume( player_character ) );
             }
             break;
 
@@ -2774,8 +2798,8 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             handle_debug_mode();
             break;
 
-        case ACTION_DISPLAY_ISO_WALLS:
-            get_options().get_option( "RETRACT_ISO_WALLS" ).setNext();
+        case ACTION_TOGGLE_PREVENT_OCCLUSION:
+            get_options().get_option( "PREVENT_OCCLUSION" ).setNext();
             get_options().save();
             break;
 

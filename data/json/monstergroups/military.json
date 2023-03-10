@@ -19,7 +19,8 @@
     "monsters": [
       { "monster": "mon_zombie_soldier", "weight": 645 },
       { "monster": "mon_zombie_soldier", "weight": 150, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_zombie_military_pilot", "weight": 5 }
+      { "monster": "mon_zombie_military_pilot", "weight": 5 },
+      { "monster": "mon_feral_soldier", "weight": 15 }
     ]
   },
   {
@@ -37,6 +38,17 @@
     ]
   },
   {
+    "name": "GROUP_MIL_HELIPAD",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "weight": 645 },
+      { "monster": "mon_zombie_soldier", "weight": 150, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_zombie_milbase_personnel", "weight": 100 },
+      { "monster": "mon_zombie_military_pilot", "weight": 45 },
+      { "monster": "mon_feral_soldier", "weight": 15 }
+    ]
+  },
+  {
     "name": "GROUP_MIL_PILOT",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_zombie_military_pilot" } ]
@@ -45,9 +57,14 @@
     "name": "GROUP_MIL_PASSENGER",
     "type": "monstergroup",
     "monsters": [
-      { "monster": "mon_zombie_soldier", "weight": 5 },
-      { "monster": "mon_zombie_bio_op" },
-      { "monster": "mon_zombie_scientist" }
+      { "monster": "mon_zombie_soldier", "weight": 245 },
+      { "monster": "mon_zombie_hazmat", "weight": 25 },
+      { "monster": "mon_zombie_bio_op", "weight": 5 },
+      { "monster": "mon_zombie_soldier_blackops_1", "weight": 5 },
+      { "monster": "mon_zombie_armored", "weight": 1, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_scientist", "weight": 20 },
+      { "monster": "mon_zombie_medical", "weight": 6 },
+      { "monster": "mon_zombie", "weight": 5 }
     ]
   },
   {

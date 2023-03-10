@@ -1099,6 +1099,7 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::game_load:
         case event_type::game_save:
         case event_type::u_var_changed:
+        case event_type::vehicle_moves:
             break;
         case event_type::num_event_types: {
             debugmsg( "Invalid event type" );

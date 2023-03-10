@@ -68,12 +68,13 @@ enum mission_goal {
     MGOAL_FIND_NPC,          // Find a given NPC
     MGOAL_ASSASSINATE,       // Kill a given NPC
     MGOAL_KILL_MONSTER,      // Kill a particular hostile monster
+    MGOAL_KILL_MONSTERS,     // Kill a number of particular hostile monsters
     MGOAL_KILL_MONSTER_TYPE, // Kill a number of a given monster type
     MGOAL_KILL_NEMESIS,      // Kill the nemesis monster from the "hunted" trait
     MGOAL_RECRUIT_NPC,       // Recruit a given NPC
     MGOAL_RECRUIT_NPC_CLASS, // Recruit an NPC class
     MGOAL_COMPUTER_TOGGLE,   // Activating the correct terminal will complete the mission
-    MGOAL_KILL_MONSTER_SPEC,  // Kill a number of monsters from a given species
+    MGOAL_KILL_MONSTER_SPEC, // Kill a number of monsters from a given species
     MGOAL_TALK_TO_NPC,       // Talk to a given NPC
     MGOAL_CONDITION,         // Satisfy the dynamically created condition and talk to the mission giver
     NUM_MGOAL
@@ -124,25 +125,26 @@ struct mission_fail {
     static void standard( mission * ) {}
 };
 
+template<class T>
 struct mission_target_params {
-    std::string overmap_terrain;
+    str_or_var<T> overmap_terrain;
     ot_match_type overmap_terrain_match_type = ot_match_type::type;
     mission *mission_pointer = nullptr;
 
     bool origin_u = true;
     cata::optional<tripoint_rel_omt> offset;
-    cata::optional<std::string> replaceable_overmap_terrain;
-    cata::optional<overmap_special_id> overmap_special;
-    cata::optional<int> reveal_radius;
+    cata::optional<str_or_var<T>> replaceable_overmap_terrain;
+    cata::optional<str_or_var<T>> overmap_special;
+    cata::optional<dbl_or_var<T>> reveal_radius;
     cata::optional<var_info> target_var;
-    int min_distance = 0;
+    dbl_or_var<T> min_distance;
 
     bool must_see = false;
     bool cant_see = false;
     bool random = false;
     bool create_if_necessary = true;
-    int search_range = OMAPX;
-    cata::optional<int> z;
+    dbl_or_var<T> search_range;
+    cata::optional<dbl_or_var<T>> z;
     npc *guy = nullptr;
 };
 
@@ -164,9 +166,10 @@ void set_reveal( const std::string &terrain,
                  std::vector<std::function<void( mission *miss )>> &funcs );
 void set_reveal_any( const JsonArray &ja,
                      std::vector<std::function<void( mission *miss )>> &funcs );
-mission_target_params parse_mission_om_target( const JsonObject &jo );
-cata::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params &params );
-tripoint_abs_omt get_om_terrain_pos( const mission_target_params &params );
+mission_target_params<dialogue> parse_mission_om_target( const JsonObject &jo );
+cata::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params<dialogue>
+        &params );
+tripoint_abs_omt get_om_terrain_pos( const mission_target_params<dialogue> &params );
 void set_assign_om_target( const JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
 bool set_update_mapgen( const JsonObject &jo,
@@ -364,6 +367,9 @@ class mission
         character_id get_npc_id() const;
         const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         bool has_generic_rewards() const;
+        void register_kill_needed() {
+            monster_kill_goal++;
+        };
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and
          * can be assigned.

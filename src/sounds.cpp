@@ -1151,7 +1151,8 @@ void sfx::do_ambient()
             channel::outdoor_blizzard,
             channel::outdoors_clear_env,
             channel::outdoors_sunny_env,
-            channel::outdoors_cloudy_env
+            channel::outdoors_cloudy_env,
+            channel::outdoors_portal_storm_env
         };
         std::set<channel> active_channels;
         for( const channel &ch : outdoor_channels ) {
@@ -1839,26 +1840,30 @@ void sfx::do_obstacle( const std::string &obst )
         return;
     }
 
-    const Character &player_character = get_player_character();
-    const season_type seas = season_of_year( calendar::turn );
-    const std::string seas_str = season_str( seas );
-    const bool indoors = !is_creature_outside( player_character );
-    const bool night = is_night( calendar::turn );
-    int heard_volume = sfx::get_heard_volume( player_character.pos() );
-    if( sfx::has_variant_sound( "plmove", obst, seas_str, indoors, night ) ) {
-        play_variant_sound( "plmove", obst, seas_str, indoors, night,
-                            heard_volume, 0_degrees, 0.8, 1.2 );
-    } else if( ter_str_id( obst ).is_valid() &&
-               ( ter_id( obst )->has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ||
-                 ter_id( obst )->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) ) {
-        play_variant_sound( "plmove", "walk_water", seas_str, indoors, night,
-                            heard_volume, 0_degrees, 0.8, 1.2 );
-    } else {
-        play_variant_sound( "plmove", "clear_obstacle", seas_str, indoors,
-                            night, heard_volume, 0_degrees, 0.8, 1.2 );
+    end_sfx_timestamp = std::chrono::high_resolution_clock::now();
+    sfx_time = end_sfx_timestamp - start_sfx_timestamp;
+    if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
+        const Character &player_character = get_player_character();
+        const season_type seas = season_of_year( calendar::turn );
+        const std::string seas_str = season_str( seas );
+        const bool indoors = !is_creature_outside( player_character );
+        const bool night = is_night( calendar::turn );
+        int heard_volume = sfx::get_heard_volume( player_character.pos() );
+        if( sfx::has_variant_sound( "plmove", obst, seas_str, indoors, night ) ) {
+            play_variant_sound( "plmove", obst, seas_str, indoors, night,
+                                heard_volume, 0_degrees, 0.8, 1.2 );
+        } else if( ter_str_id( obst ).is_valid() &&
+                   ( ter_id( obst )->has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ||
+                     ter_id( obst )->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) ) {
+            play_variant_sound( "plmove", "walk_water", seas_str, indoors, night,
+                                heard_volume, 0_degrees, 0.8, 1.2 );
+        } else {
+            play_variant_sound( "plmove", "clear_obstacle", seas_str, indoors,
+                                night, heard_volume, 0_degrees, 0.8, 1.2 );
+        }
+        // prevent footsteps from triggering
+        start_sfx_timestamp = std::chrono::high_resolution_clock::now();
     }
-    // prevent footsteps from triggering
-    start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 }
 
 void sfx::play_activity_sound( const std::string &id, const std::string &variant, int volume )

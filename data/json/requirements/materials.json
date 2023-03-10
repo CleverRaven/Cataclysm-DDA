@@ -45,7 +45,7 @@
     "id": "copper_scrap_equivalent",
     "type": "requirement",
     "//": "Material used for equivalence between one unit of scrap copper and corresponding amount of elemental copper.",
-    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 50 ] ] ]
+    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 32 ] ] ]
   },
   {
     "id": "plant_cordage",
@@ -440,7 +440,16 @@
     "id": "paint",
     "type": "requirement",
     "//": "Materials used for painting something of any color",
-    "components": [ [ [ "r_paint", 1 ], [ "b_paint", 1 ], [ "w_paint", 1 ], [ "g_paint", 1 ], [ "p_paint", 1 ], [ "y_paint", 1 ] ] ]
+    "components": [
+      [
+        [ "paint_red", 1 ],
+        [ "paint_blue", 1 ],
+        [ "paint_white", 1 ],
+        [ "paint_green", 1 ],
+        [ "paint_purple", 1 ],
+        [ "paint_yellow", 1 ]
+      ]
+    ]
   },
   {
     "id": "shoe_rubber",
