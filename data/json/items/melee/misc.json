@@ -35,27 +35,6 @@
     "flags": [ "REACH_ATTACK", "WHIP", "NONCONDUCTIVE" ]
   },
   {
-    "id": "lobotomizer",
-    "type": "GENERIC",
-    "category": "weapons",
-    "name": { "str": "lobotomizer" },
-    "description": "A hand-forged collapsible tool with two axe heads and a sharp shovel-like tip on one end.  It can be used as a shovel, or you could chop some zombies with it instead.",
-    "weight": "2722 g",
-    "volume": "1750 ml",
-    "price": 25000,
-    "price_postapoc": 1250,
-    "bashing": 18,
-    "cutting": 37,
-    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "neutral" },
-    "material": [ "steel" ],
-    "symbol": "/",
-    "color": "dark_gray",
-    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
-    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
-    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ]
-  },
-  {
     "id": "tazer",
     "type": "TOOL",
     "category": "weapons",
