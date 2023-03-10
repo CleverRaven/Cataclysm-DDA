@@ -5399,7 +5399,7 @@ bool Character::is_elec_immune() const
 bool Character::is_immune_effect( const efftype_id &eff ) const
 {
     if( eff == effect_downed ) {
-        return ( has_trait( trait_LEG_TENT_BRACE ) && is_barefoot() );
+        return has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_type::HEAT );
     } else if( eff == effect_deaf ) {

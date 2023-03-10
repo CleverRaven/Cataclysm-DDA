@@ -2809,10 +2809,6 @@ bool mattack::ranged_pull( monster *z )
         int attacker_check = rng( 0, z->type->melee_sides + z->type->melee_dice );
         const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
 
-        if( pl->is_throw_immune() ) {
-            defender_check = defender_check + 2;
-        }
-
         if( pl->get_effect_int( effect_stunned ) ) {
             defender_check = defender_check - 2;
         }
@@ -2933,10 +2929,6 @@ bool mattack::grab( monster *z )
     const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
 
     if( pl->has_grab_break_tec() ) {
-        defender_check = defender_check + 2;
-    }
-
-    if( pl->is_throw_immune() ) {
         defender_check = defender_check + 2;
     }
 
@@ -4928,59 +4920,6 @@ bool mattack::slimespring( monster *z )
     return true;
 }
 
-bool mattack::thrown_by_judo( monster *z )
-{
-    Creature *target = z->attack_target();
-    if( target == nullptr ||
-        !z->is_adjacent( target, false ) ||
-        !z->sees( *target ) ) {
-        return false;
-    }
-
-    Character *foe = dynamic_cast< Character * >( target );
-    if( foe == nullptr ) {
-        // No mons for now
-        return false;
-    }
-    // "Wimpy" Judo is about to pay off... :D
-    if( foe->is_throw_immune() ) {
-        // DX + Unarmed
-        ///\EFFECT_DEX increases chance judo-throwing a monster
-
-        ///\EFFECT_UNARMED increases chance of judo-throwing monster, vs their melee skill
-        if( ( foe->dex_cur + foe->get_skill_level( skill_unarmed ) ) > ( z->type->melee_skill + rng( 0,
-                3 ) ) ) {
-            target->add_msg_if_player( m_good, _( "but you grab its arm and flip it to the ground!" ) );
-
-            // most of the time, when not isolated
-            if( !one_in( 4 ) && !target->is_elec_immune() && z->type->sp_defense == &mdefense::zapback ) {
-                // If it all pans out, we're zap the player's arm as he flips the monster.
-                target->add_msg_if_player( _( "The flip does shock you…" ) );
-                // Discounted electric damage for quick flip
-                damage_instance shock;
-                shock.add_damage( damage_type::ELECTRIC, rng( 1, 3 ) );
-                foe->deal_damage( z, bodypart_id( "arm_l" ), shock );
-                foe->deal_damage( z, bodypart_id( "arm_r" ), shock );
-                foe->check_dead_state();
-            }
-            // Monster is down,
-            z->add_effect( effect_downed, 5_turns );
-            const int min_damage = 10 + foe->get_skill_level( skill_unarmed );
-            const int max_damage = 20 + foe->get_skill_level( skill_unarmed );
-            // Deal moderate damage
-            const int damage = rng( min_damage, max_damage );
-            z->apply_damage( foe, bodypart_id( "torso" ), damage );
-            z->check_dead_state();
-        } else {
-            // Still avoids the major hit!
-            target->add_msg_if_player( _( "but you deftly spin out of its grasp!" ) );
-        }
-        return true;
-    } else {
-        return false;
-    }
-}
-
 bool mattack::riotbot( monster *z )
 {
     Creature *target = z->attack_target();
@@ -5513,10 +5452,6 @@ bool mattack::bio_op_takedown( monster *z )
         int attacker_check = rng( 0, z->type->melee_sides + z->type->melee_dice );
         const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
 
-        if( pl->is_throw_immune() ) {
-            defender_check = defender_check + 2;
-        }
-
         if( pl->get_effect_int( effect_stunned ) ) {
             defender_check = defender_check - 2;
         }
@@ -5530,23 +5465,21 @@ bool mattack::bio_op_takedown( monster *z )
             return true;
         }
     }
-    if( !foe->is_throw_immune() ) {
-        if( !target->is_immune_effect( effect_downed ) ) {
-            if( one_in( 4 ) ) {
-                hit = bodypart_id( "head" );
-                // 50% damage buff for the headshot.
-                dam = rng( 9, 21 );
-                target->add_msg_if_player( m_bad, _( "and slams you, face first, to the ground for %d damage!" ),
-                                           dam );
-                foe->deal_damage( z, bodypart_id( "head" ), damage_instance( damage_type::BASH, dam ) );
-            } else {
-                hit = bodypart_id( "torso" );
-                dam = rng( 6, 18 );
-                target->add_msg_if_player( m_bad, _( "and slams you to the ground for %d damage!" ), dam );
-                foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
-            }
-            foe->add_effect( effect_downed, 3_turns );
+    if( !target->is_immune_effect( effect_downed ) ) {
+        if( one_in( 4 ) ) {
+            hit = bodypart_id( "head" );
+            // 50% damage buff for the headshot.
+            dam = rng( 9, 21 );
+            target->add_msg_if_player( m_bad, _( "and slams you, face first, to the ground for %d damage!" ),
+                                       dam );
+            foe->deal_damage( z, bodypart_id( "head" ), damage_instance( damage_type::BASH, dam ) );
+        } else {
+            hit = bodypart_id( "torso" );
+            dam = rng( 6, 18 );
+            target->add_msg_if_player( m_bad, _( "and slams you to the ground for %d damage!" ), dam );
+            foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
         }
+        foe->add_effect( effect_downed, 3_turns );
     } else if( !foe->is_armed() ||
                foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item()->typeId() ) ) {
         // Saved by the tentacle-bracing! :)
