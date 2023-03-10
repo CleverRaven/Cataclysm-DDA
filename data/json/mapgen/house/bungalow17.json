@@ -1,12 +1,16 @@
 [
-  
   {
     "type": "mapgen",
     "om_terrain": "bungalow17",
     "weight": 50,
     "method": "json",
     "object": {
-      "palettes": [ "standard_domestic_palette", "standard_domestic_lino_bathroom", "standard_domestic_lino_kitchen","standard_domestic_landscaping_palette" ],
+      "palettes": [
+        "standard_domestic_palette",
+        "standard_domestic_lino_bathroom",
+        "standard_domestic_lino_kitchen",
+        "standard_domestic_landscaping_palette"
+      ],
       "fill_ter": "t_floor_waxed",
       "rows": [
         "...........--...........",
@@ -43,7 +47,6 @@
         "Q": "t_floor_waxed"
       },
       "furniture": { "!": "f_table", "&": "f_boulder_large", "/": [ [ "f_null", 4 ], "f_ladder" ] }
-    
     }
   },
   {
@@ -53,7 +56,7 @@
     "method": "json",
     "object": {
       "palettes": [ "roof_palette" ],
-      "fill_ter": "t_shingle_flat_roof", 
+      "fill_ter": "t_shingle_flat_roof",
       "rows": [
         "                        ",
         "                        ",
@@ -81,7 +84,6 @@
         "                        "
       ],
       "terrain": { ".": "t_shingle_flat_roof" }
-     
     }
   }
 ]
