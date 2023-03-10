@@ -813,21 +813,6 @@ class vehicle
          */
         static vehicle *find_vehicle( const tripoint &where );
 
-        /**
-         * Traverses the graph of connected vehicles, starting from start_veh, and continuing
-         * along all vehicles connected by some kind of POWER_TRANSFER part.
-         * @param start_veh The vehicle to start traversing from. NB: the start_vehicle is
-         * assumed to have been already visited!
-         * @param amount An amount of power to traverse with. This is passed back to the visitor,
-         * and reset to the visitor's return value at each step.
-         * @param action A function(vehicle* veh, int amount, int loss) returning int. The function
-         * may do whatever it desires, and may be a lambda (including a capturing lambda).
-         * NB: returning 0 from a visitor will stop traversal immediately!
-         * @return The last visitor's return value.
-         */
-        template <typename Func, typename Vehicle>
-        static int traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action );
-
         /// Returns a map of connected vehicle pointers to power loss factor:
         /// Keys are vehicles connected by POWER_TRANSFER parts, includes self
         /// Values are line loss, 0.01 corresponds to 1% charge loss to wire resistance
