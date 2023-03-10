@@ -508,7 +508,7 @@ item vehicle::init_cord( const tripoint &pos )
     powercord.set_var( "source_x", pos.x );
     powercord.set_var( "source_y", pos.y );
     powercord.set_var( "source_z", pos.z );
-    powercord.set_var( "state", "pay_out_cable" );
+    powercord.set_var( "state", "hanging_from_vehicle" );
     powercord.active = true;
 
     return powercord;

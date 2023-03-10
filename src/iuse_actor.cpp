@@ -4406,7 +4406,7 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         cable.set_var( "charge_interval",
                        std::max( 1, static_cast<int>( std::floor( 1000.0 / wattage + 0.5 ) ) ) );
 
-        cable.set_var( "state", "pay_out_cable" );
+        cable.set_var( "state", "hanging_from_vehicle" );
         cable.active = true;
         if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
             it.process( get_map(), &p, p.pos() );

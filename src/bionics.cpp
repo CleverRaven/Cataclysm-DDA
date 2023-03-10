@@ -1142,37 +1142,37 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         } else {
             for( item *cable : cables ) {
                 const std::string state = cable->get_var( "state" );
-                if( state == "cable_charger" ) {
+                if( state == "hanging_from_bionic" ) {
                     add_msg_if_player( m_info,
                                        _( "Cable is attached to your CBM but it also has to be connected to a power source." ) );
                 }
-                if( state == "cable_charger_link" ) {
+                if( state == "vehicle_bionic_link" ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a vehicle.  It will charge you if it has some juice in it." ) );
                 }
-                if( state == "solar_pack_link" ) {
+                if( state == "solarpack_bionic_link" ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a solar pack.  It will charge you if it's unfolded and in sunlight." ) );
                 }
-                if( state == "UPS_link" ) {
+                if( state == "UPS_bionic_link" ) {
                     add_msg_activate();
                     success = true;
                     add_msg_if_player( m_info,
                                        _( "You are attached to a UPS.  It will charge you if it has some juice in it." ) );
                 }
-                if( state == "solar_pack" || state == "UPS" ) {
+                if( state == "hanging_from_solarpack" || state == "hanging_from_UPS" ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to a portable power source, but you also need to connect it to your CBM." ) );
                 }
-                if( state == "pay_out_cable" ) {
+                if( state == "hanging_from_vehicle" ) {
                     add_msg_if_player( m_info,
                                        _( "You have a cable attached to a vehicle, but you also need to connect it to your CBM." ) );
                 }
-                if( state == "attach_first" ) {
+                if( state == "no_attachments" ) {
                     free_cable = true;
                 }
             }
@@ -3334,7 +3334,7 @@ std::vector<item *> Character::get_cable_ups()
     std::vector<item *> stored_fuels;
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.get_var( "state" ) == "UPS_link";
+        return it.get_var( "state" ) == "UPS_bionic_link";
     } );
     int n = cables.size();
     if( n == 0 ) {
@@ -3367,7 +3367,7 @@ std::vector<item *> Character::get_cable_solar()
     std::vector<item *> solar_sources;
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.get_var( "state" ) == "solar_pack_link";
+        return it.get_var( "state" ) == "solarpack_bionic_link";
     } );
     int n = cables.size();
     if( n == 0 ) {
@@ -3398,7 +3398,7 @@ std::vector<vehicle *> Character::get_cable_vehicle()
     std::vector<vehicle *> remote_vehicles;
 
     const std::vector<item *> cables = items_with( []( const item & it ) {
-        return it.get_var( "state" ) == "cable_charger_link";
+        return it.get_var( "state" ) == "vehicle_bionic_link";
     } );
     int n = cables.size();
     if( n == 0 ) {

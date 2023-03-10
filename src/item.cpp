@@ -12751,7 +12751,7 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
 std::optional<tripoint> item::get_cable_target( const Character *p, const tripoint &pos ) const
 {
     const std::string &state = get_var( "state" );
-    if( state != "pay_out_cable" && state != "cable_charger_link" ) {
+    if( state != "hanging_from_vehicle" && state != "vehicle_bionic_link" ) {
         return std::nullopt;
     }
     map &here = get_map();
@@ -12776,7 +12776,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     if( carrier != nullptr ) {
         carrying_item = carrier->has_item( parent_item != nullptr ? *parent_item : *this );
 
-        if( state == "solar_pack_link" || state == "solar_pack" ) {
+        if( state == "solarpack_bionic_link" || state == "hanging_from_solarpack" ) {
             if( !carrying_item || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
                 carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                 reset_cable( carrier, parent_item );
@@ -12788,7 +12788,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
             return itm.get_var( "cable" ) == "plugged_in";
         };
 
-        if( state == "UPS" ) {
+        if( state == "hanging_from_UPS" ) {
             if( !carrying_item || !carrier->has_item_with( used_ups ) ) {
                 carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                 for( item *used : carrier->items_with( used_ups ) ) {
@@ -12873,7 +12873,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
 void item::reset_cable( Character *p, item *parent_item )
 {
-    set_var( "state", "attach_first" );
+    set_var( "state", "no_attachments" );
     erase_var( "source_x" );
     erase_var( "source_y" );
     erase_var( "source_z" );
@@ -12899,8 +12899,8 @@ bool item::process_UPS( Character *carrier, const tripoint & /*pos*/ )
         return false;
     }
     bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL ) && ( it.get_var( "state" ) == "UPS_link" ||
-                it.get_var( "state" ) == "UPS" );
+        return it.active && it.has_flag( flag_CABLE_SPOOL ) && ( it.get_var( "state" ) == "UPS_bionic_link" ||
+                it.get_var( "state" ) == "hanging_from_UPS" );
     } );
     if( !has_connected_cable ) {
         erase_var( "cable" );
