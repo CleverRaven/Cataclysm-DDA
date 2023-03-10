@@ -12755,7 +12755,7 @@ std::optional<tripoint> item::get_cable_target( const Character *p, const tripoi
         return std::nullopt;
     }
     map &here = get_map();
-    const optional_vpart_position vp_pos = here.veh_at( pos );
+    const optional_vpart_position vp_pos = here.veh_at( pos );//TODOkama this needs to be changed, #26385, commit 7bed7fa
     if( vp_pos ) {
         const std::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
         if( seat && p == seat->vehicle().get_passenger( seat->part_index() ) ) {
