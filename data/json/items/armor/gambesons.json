@@ -14,7 +14,7 @@
     "looks_like": "jacket_light",
     "color": "light_gray",
     "warmth": 50,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "BLOCK_WHILE_WORN" ],
     "armor": [
       {
         "material": [
@@ -183,7 +183,7 @@
     "color": "light_gray",
     "warmth": 30,
     "material_thickness": 3.5,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
@@ -234,7 +234,7 @@
     "color": "light_gray",
     "warmth": 30,
     "material_thickness": 3.5,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
@@ -279,7 +279,7 @@
     "color": "light_gray",
     "warmth": 30,
     "material_thickness": 3.0,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
@@ -324,7 +324,7 @@
     "color": "light_gray",
     "warmth": 25,
     "material_thickness": 2.0,
-    "flags": [ "VARSIZE", "STURDY", "SKINTIGHT" ],
+    "flags": [ "VARSIZE", "STURDY", "SKINTIGHT", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
@@ -419,7 +419,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -490,7 +490,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -557,7 +557,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -614,7 +614,7 @@
     "color": "light_gray",
     "warmth": 55,
     "material_thickness": 6.0,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -663,7 +663,7 @@
     "color": "light_gray",
     "warmth": 50,
     "material_thickness": 6.0,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -726,7 +726,7 @@
     "color": "light_gray",
     "warmth": 30,
     "material_thickness": 3.5,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
@@ -777,7 +777,7 @@
     "color": "light_gray",
     "warmth": 30,
     "material_thickness": 3.5,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.5 } ],
@@ -822,7 +822,7 @@
     "color": "light_gray",
     "warmth": 30,
     "material_thickness": 3.0,
-    "flags": [ "VARSIZE", "STURDY" ],
+    "flags": [ "VARSIZE", "STURDY", "WATERPROOF" ],
     "armor": [
       {
         "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 3.0 } ],
@@ -962,7 +962,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -1033,7 +1033,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -1100,7 +1100,7 @@
     "color": "light_gray",
     "warmth": 60,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -1157,7 +1157,7 @@
     "color": "light_gray",
     "warmth": 55,
     "material_thickness": 6.0,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -1206,7 +1206,7 @@
     "color": "light_gray",
     "warmth": 50,
     "material_thickness": 6.0,
-    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER", "WATERPROOF" ],
     "armor": [
       {
         "material": [
@@ -1582,7 +1582,7 @@
     "color": "light_gray",
     "warmth": 66,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
         "material": [
@@ -1650,7 +1650,7 @@
     "color": "light_gray",
     "warmth": 66,
     "material_thickness": 7.5,
-    "flags": [ "VARSIZE", "STURDY", "BLOCK_WHILE_WORN", "NORMAL", "OUTER" ],
+    "flags": [ "VARSIZE", "STURDY", "NORMAL", "OUTER" ],
     "armor": [
       {
         "material": [
