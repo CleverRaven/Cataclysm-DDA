@@ -860,7 +860,7 @@
     "description": "A length of thin, relatively stiff steel wire.  Like the sort you find in chain link fences.",
     "category": "spare_parts",
     "price": 20000,
-    "price_postapoc": 100,
+    "price_postapoc": 10,
     "material": [ "steel" ],
     "weight": "151 g",
     "volume": "100 ml",
