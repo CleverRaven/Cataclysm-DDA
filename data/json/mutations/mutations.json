@@ -8264,6 +8264,7 @@
     "craft_skill_bonus": [ [ "electronics", -1 ], [ "tailor", -1 ], [ "mechanics", -1 ] ],
     "types": [ "HANDS" ],
     "cancels": [ "TALONS" ],
+    "changes_to": [ "PAWS" ],
     "category": [ "RABBIT", "LUPINE", "RAT", "FELINE", "BEAST", "URSINE" ],
     "bash_dmg_bonus": 1
   },
