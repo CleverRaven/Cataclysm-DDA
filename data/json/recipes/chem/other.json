@@ -26,9 +26,7 @@
     "difficulty": 3,
     "time": "12 m",
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_intro_chemistry" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
@@ -80,10 +78,7 @@
     "time": "60 m",
     "batch_time_factors": [ 70, 10 ],
     "autolearn": true,
-    "proficiencies": [
-      { "proficiency": "prof_intro_chemistry" },
-      { "proficiency": "prof_distilling" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_distilling" } ],
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "pine_bough", 1 ] ] ]
