@@ -10368,7 +10368,8 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
     return ammo_sufficient( carrier, qty );
 }
 
-bool item::ammo_sufficient( const Character *carrier, const std::string &method, tripoint pos, int qty ) const
+bool item::ammo_sufficient( const Character *carrier, const std::string &method,
+                            tripoint pos, int qty ) const
 {
     auto iter = type->ammo_scale.find( method );
     if( iter != type->ammo_scale.end() ) {
@@ -12077,7 +12078,8 @@ int item::processing_speed() const
         return to_turns<int>( 10_minutes );
     }
 
-    if( active || ethereal || wetness || plugged_in || has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
+    if( active || ethereal || wetness || plugged_in ||
+        has_flag( flag_RADIO_ACTIVATION ) || has_relic_recharge() ) {
         // Unless otherwise indicated, update every turn.
         return 1;
     }
@@ -12829,10 +12831,10 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     int max_charges = get_var( "cable_length", type->maximum_charges() );
     charges = max_charges - distance;
 
-    if( charges == 1 && carrying_item) {
+    if( charges == 1 && carrying_item ) {
         carrier->add_msg_if_player( m_warning, parent_item == nullptr ?
-            string_format( _( "Your %s is stretched to its limit!" ), label( 1 ) ) :
-            string_format( _( "Your %s's cable is stretched to its limit!" ), parent_item->label( 1 ) ) );
+                                    string_format( _( "Your %s is stretched to its limit!" ), label( 1 ) ) :
+                                    string_format( _( "Your %s's cable is stretched to its limit!" ), parent_item->label( 1 ) ) );
     } else if( charges < 1 ) {
         if( carrying_item ) {
             carrier->add_msg_if_player( m_bad, parent_item == nullptr ?

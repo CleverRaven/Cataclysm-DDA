@@ -2291,7 +2291,8 @@ class item : public visitable
          */
         bool ammo_sufficient( const Character *carrier, int qty = 1 ) const;
         bool ammo_sufficient( const Character *carrier, const std::string &method, int qty = 1 ) const;
-        bool ammo_sufficient( const Character *carrier, const std::string &method, tripoint pos, int qty = 1 ) const;
+        bool ammo_sufficient( const Character *carrier, const std::string &method,
+                              tripoint pos, int qty = 1 ) const;
 
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
@@ -2848,7 +2849,8 @@ class item : public visitable
         // Place conditions that should remove fake smoke item in this sub-function
         bool process_fake_smoke( map &here, Character *carrier, const tripoint &pos );
         bool process_fake_mill( map &here, Character *carrier, const tripoint &pos );
-        bool process_cable( map &here, Character *carrier, const tripoint &pos, item *parent_item = nullptr );
+        bool process_cable( map &here, Character *carrier, const tripoint &pos,
+                            item *parent_item = nullptr );
         bool process_UPS( Character *carrier, const tripoint &pos );
         bool process_blackpowder_fouling( Character *carrier );
         bool process_tool( Character *carrier, const tripoint &pos );
