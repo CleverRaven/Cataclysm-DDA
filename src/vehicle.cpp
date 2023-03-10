@@ -5162,6 +5162,79 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
     return amount;
 }
 
+template<typename Vehicle>
+std::map<Vehicle *, float> vehicle::search_connected_vehicles( Vehicle *start )
+{
+    std::map<Vehicle *, float> distances; // distance represents sum of cable losses
+    std::vector<Vehicle *> queue;
+
+    distances[start] = 0;
+    queue.emplace_back( start );
+    constexpr float infinity_distance = 10000.0f; // should be enough to represent "infinity"
+
+    // Run dijkstra to get shortest distance tree of paths
+    // Tree will span from self(root) to other connected vehicles
+    // where distance metric is power transfer loss ( resistance to heat inefficiency )
+    while( !queue.empty() ) {
+        Vehicle *const veh = queue.back();
+        queue.pop_back();
+
+        for( const int part_idx : veh->loose_parts ) { // graph "edges" are POWER_TRANSFER parts
+            const vehicle_part &vp = veh->part( part_idx );
+            const vpart_info &vpi = vp.info();
+            if( !vpi.has_flag( "POWER_TRANSFER" ) ) {
+                continue;
+            }
+
+            Vehicle *const v_next = vehicle::find_vehicle( vp.target.second );
+            if( v_next == nullptr ) { // vehicle's rolled away or off-map
+                continue;
+            }
+            // try insert infinity for initial unvisited node distance
+            distances.insert( { v_next, infinity_distance } );
+
+            const float loss = units::to_kilowatt<float>( vpi.epower ) / 100.0f;
+            const float new_dist = loss + distances[veh];
+            if( distances[v_next] > new_dist ) {
+                distances[v_next] = new_dist;
+                queue.emplace_back( v_next );
+            }
+        }
+    }
+    return distances;
+}
+
+std::map<vehicle *, float> vehicle::search_connected_vehicles()
+{
+    return search_connected_vehicles( this );
+}
+
+std::map<const vehicle *, float> vehicle::search_connected_vehicles() const
+{
+    return search_connected_vehicles( this );
+}
+
+std::map<vpart_reference, float> vehicle::search_connected_batteries()
+{
+    std::map<vpart_reference, float> result;
+
+    for( const std::pair<vehicle *const, float> &pair : search_connected_vehicles() ) {
+        vehicle *veh = pair.first;
+        const float efficiency = pair.second;
+        for( const int part_idx : veh->batteries ) {
+            const vpart_reference vpr( *veh, part_idx );
+            if( vpr.part().is_fake ) {
+                continue;
+            }
+            result.emplace( vpr, efficiency );
+            add_msg_debug( debugmode::DF_VEHICLE, "%s at %s loss factor %.2f",
+                           vpr.info().name(), vpr.pos().to_string_writable(), efficiency * 100.0f );
+        }
+    }
+
+    return result;
+}
+
 int vehicle::charge_battery( int amount, bool include_other_vehicles )
 {
     // Key parts by percentage charge level.
@@ -7319,6 +7392,13 @@ const vpart_info &vpart_reference::info() const
 Character *vpart_reference::get_passenger() const
 {
     return vehicle().get_passenger( part_index() );
+}
+
+bool vpart_position::operator<( const vpart_position &other ) const
+{
+    const ::vehicle *const v1 = &vehicle();
+    const ::vehicle *const v2 = &other.vehicle();
+    return std::make_pair( v1, part_index_ ) < std::make_pair( v2, other.part_index_ );
 }
 
 point vpart_position::mount() const

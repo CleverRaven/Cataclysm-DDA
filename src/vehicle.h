@@ -827,7 +827,25 @@ class vehicle
          */
         template <typename Func, typename Vehicle>
         static int traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action );
+
+        /// Returns a map of connected vehicle pointers to power loss factor:
+        /// Keys are vehicles connected by POWER_TRANSFER parts, includes self
+        /// Values are line loss, 0.01 corresponds to 1% charge loss to wire resistance
+        /// May load the connected vehicles' submaps
+        template<typename Vehicle>
+        static std::map<Vehicle *, float> search_connected_vehicles( Vehicle *start );
     public:
+        //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
+        std::map<vehicle *, float> search_connected_vehicles();
+        //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
+        std::map<const vehicle *, float> search_connected_vehicles() const;
+
+        /// Returns a map of connected battery references to power loss factor
+        /// Keys are batteries in vehicles (includes self) connected by POWER_TRANSFER parts
+        /// Values are line loss, 0.01 corresponds to 1% charge loss to wire resistance
+        /// May load the connected vehicles' submaps
+        std::map<vpart_reference, float> search_connected_batteries();
+
         vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel = -1,
                  int init_veh_status = -1, bool may_spawn_locked = false );
         vehicle();
