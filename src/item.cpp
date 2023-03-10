@@ -13517,6 +13517,9 @@ std::vector<item_comp> item::get_uncraft_components() const
         //Make a new vector of components from the registered components
         for( const item_components::type_vector_pair &tvp : components ) {
             for( const item &component : tvp.second ) {
+                if( component.has_flag( flag_UNRECOVERABLE ) ) {
+                    continue;
+                }
                 auto iter = std::find_if( ret.begin(), ret.end(), [component]( item_comp & obj ) {
                     return obj.type == component.typeId();
                 } );
