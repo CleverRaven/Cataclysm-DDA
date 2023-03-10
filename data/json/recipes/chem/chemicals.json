@@ -214,7 +214,11 @@
     "time": "1 h",
     "batch_time_factors": [ 80, 2 ],
     "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 6 ], [ "recipe_labchem", 5 ], [ "atomic_survival", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "salt_water", 3 ] ], [ [ "material_limestone", 8 ] ], [ [ "ammonia_liquid", 4 ] ] ]
