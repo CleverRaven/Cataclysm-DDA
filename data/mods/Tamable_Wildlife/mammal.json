@@ -350,7 +350,7 @@
     "name": { "str_sp": "reindeer" },
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
-    {
+  {
     "id": "mon_tusked_moose_calf",
     "type": "MONSTER",
     "copy-from": "mon_tusked_moose_calf",
