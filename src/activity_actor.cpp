@@ -843,7 +843,7 @@ std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue &
 
 void bookbinder_copy_activity_actor::start( player_activity &act, Character & )
 {
-    pages = 1 + rec_id->difficulty / 2;
+    pages = bookbinder_copy_activity_actor::pages_for_recipe( *rec_id );
     act.moves_total = to_moves<int>( pages * 10_minutes );
     act.moves_left = to_moves<int>( pages * 10_minutes );
 }
@@ -865,8 +865,10 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         return;
     }
 
-    const bool rec_added = book_binder->eipc_recipe_add( rec_id );
-    if( rec_added ) {
+    std::set<recipe_id> recipes = book_binder->get_saved_recipes();
+
+    if( recipes.emplace( rec_id ).second ) { // if .second is true then recipe was inserted
+        book_binder->set_saved_recipes( recipes );
         p.add_msg_if_player( m_good, _( "You copy the recipe for %1$s into your recipe book." ),
                              rec_id->result_name() );
 

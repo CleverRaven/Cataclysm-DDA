@@ -209,7 +209,7 @@ struct availability {
     private:
         const recipe *rec;
         mutable float proficiency_time_maluses = -1.0f;
-        mutable float proficiency_failure_maluses = -1.0f;
+        mutable float proficiency_skill_maluses = -1.0f;
     public:
         float get_proficiency_time_maluses() const {
             if( proficiency_time_maluses < 0 ) {
@@ -219,13 +219,13 @@ struct availability {
 
             return proficiency_time_maluses;
         }
-        float get_proficiency_failure_maluses() const {
-            if( proficiency_failure_maluses < 0 ) {
+        float get_proficiency_skill_maluses() const {
+            if( proficiency_skill_maluses < 0 ) {
                 Character &player = get_player_character();
-                proficiency_failure_maluses = rec->proficiency_failure_maluses( player );
+                proficiency_skill_maluses = rec->proficiency_skill_maluses( player );
             }
 
-            return proficiency_failure_maluses;
+            return proficiency_skill_maluses;
         }
 
         nc_color selected_color() const {
@@ -279,6 +279,41 @@ struct availability {
 };
 } // namespace
 
+static std::string craft_success_chance_string( const recipe &recp, const Character &guy )
+{
+    float chance = 100.f * ( 1.f - guy.recipe_success_chance( recp ) );
+    std::string color;
+    if( chance > 75 ) {
+        color = "yellow";
+    } else if( chance > 50 ) {
+        color = "light_gray";
+    } else if( chance > 25 ) {
+        color = "green";
+    } else {
+        color = "cyan";
+    }
+
+    return string_format( _( "Minor Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
+}
+
+static std::string cata_fail_chance_string( const recipe &recp, const Character &guy )
+{
+    float chance = 100.f * guy.item_destruction_chance( recp );
+    std::string color;
+    if( chance > 50 ) {
+        color = "i_red";
+    } else if( chance > 20 ) {
+        color = "red";
+    } else if( chance > 5 ) {
+        color = "yellow";
+    } else {
+        color = "light_gray";
+    }
+
+    return string_format( _( "Catastrophic Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
+}
+
+
 static std::vector<std::string> recipe_info(
     const recipe &recp,
     const availability &avail,
@@ -308,6 +343,9 @@ static std::vector<std::string> recipe_info(
     if( !missing_profs.empty() ) {
         oss << string_format( _( "Proficiencies Missing: %s\n" ), missing_profs );
     }
+
+    oss << craft_success_chance_string( recp, guy ) << "\n";
+    oss << cata_fail_chance_string( recp, guy ) << "\n";
 
     if( !recp.is_nested() ) {
         const int expected_turns = guy.expected_time_to_craft( recp, batch_size )
@@ -368,17 +406,18 @@ static std::vector<std::string> recipe_info(
                   "for multiple components</color>\n" );
     }
     const float time_maluses = avail.get_proficiency_time_maluses();
-    const float fail_maluses = avail.get_proficiency_failure_maluses();
-    if( time_maluses != 1.0 && fail_maluses != 1.0 ) {
+    const float skill_maluses = avail.get_proficiency_skill_maluses();
+    if( time_maluses != 1.0 && skill_maluses != 0.0 ) {
         oss << string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
-                                 "and be %.1fx more likely to incur failures, because you "
-                                 "lack some of the proficiencies used.</color>\n" ), time_maluses, fail_maluses );
+                                 "and your effective skill will be %.2f levels lower than normal, because you "
+                                 "lack some of the proficiencies used.</color>\n" ), time_maluses, skill_maluses );
     } else if( time_maluses != 1.0 ) {
         oss << string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
                                  "because you lack some of the proficiencies used.</color>\n" ), time_maluses );
-    } else if( fail_maluses != 1.0 ) {
-        oss << string_format( _( "<color_yellow>This recipe will be %.1fx more likely to incur failures, "
-                                 "because you lack some of the proficiencies used.</color>\n" ), fail_maluses );
+    } else if( skill_maluses != 0.0 ) {
+        oss << string_format(
+                _( "<color_yellow>Your effective skill will be %.2f levels lower than normal, "
+                   "because you lack some of the proficiencies used.</color>\n" ), skill_maluses );
     }
     if( !can_craft_this && !avail.has_proficiencies ) {
         oss << _( "<color_red>Cannot be crafted because you lack"

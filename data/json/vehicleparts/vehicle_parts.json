@@ -627,6 +627,7 @@
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "plastic_chunk", "count": [ 3, 6 ] },
       { "item": "hose", "prob": 50 },
       { "item": "motor_tiny", "prob": 25 }
     ],
@@ -662,6 +663,7 @@
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "plastic_chunk", "count": [ 5, 8 ] },
       { "item": "hose", "prob": 50 },
       { "item": "motor_tiny", "prob": 25 }
     ],
@@ -1856,7 +1858,7 @@
   },
   {
     "type": "vehicle_part",
-    "id": "ap_compact_ASRG_containment",
+    "id": "compact_ASRG_containment",
     "name": { "str": "advanced Stirling radioisotope generator" },
     "looks_like": "f_compact_ASRG_containment",
     "symbol": "0",
