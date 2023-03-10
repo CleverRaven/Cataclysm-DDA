@@ -1690,7 +1690,7 @@ float Character::mabuff_attack_cost_mult() const
 int Character::count_mabuff_flag( const json_character_flag &flag ) const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( *effects, [&ret, flag]( const ma_buff & b ) {
+    accumulate_ma_buff_effects( *effects, [&ret, flag]( const ma_buff & b, const effect & ) {
         ret += b.has_flag( flag );
     } );
     return ret;
