@@ -1912,22 +1912,22 @@ static const std::map<action_id, std::string> actions_disabled_in_shell {
     { ACTION_CONTROL_VEHICLE,    _( "You can't operate a vehicle while you're in your shell." ) },
 };
 
-static const std::map<action_id, std::string> actions_disabled_in_incorporeal {
-    { ACTION_OPEN,               _( "You lack the substance to affect anything." ) },
-    { ACTION_CLOSE,              _( "You lack the substance to affect anything." ) },
-    { ACTION_SMASH,              _( "You lack the substance to affect anything." ) },
-    { ACTION_ADVANCEDINV,        _( "You lack the substance to affect anything." ) },
-    { ACTION_PICKUP,             _( "You lack the substance to affect anything." ) },
-    { ACTION_PICKUP_ALL,         _( "You lack the substance to affect anything." ) },
-    { ACTION_GRAB,               _( "You lack the substance to affect anything." ) },
-    { ACTION_HAUL,               _( "You lack the substance to affect anything." ) },
-    { ACTION_BUTCHER,            _( "You lack the substance to affect anything." ) },
-    { ACTION_CRAFT,              _( "You lack the substance to affect anything." ) },
-    { ACTION_RECRAFT,            _( "You lack the substance to affect anything." ) },
-    { ACTION_LONGCRAFT,          _( "You lack the substance to affect anything." ) },
-    { ACTION_DISASSEMBLE,        _( "You lack the substance to affect anything." ) },
-    { ACTION_CONSTRUCT,          _( "You lack the substance to affect anything." ) },
-    { ACTION_CONTROL_VEHICLE,    _( "You lack the substance to affect anything." ) },
+static const std::set<action_id> actions_disabled_in_incorporeal {
+    ACTION_OPEN,
+    ACTION_CLOSE,
+    ACTION_SMASH,
+    ACTION_ADVANCEDINV,
+    ACTION_PICKUP,
+    ACTION_PICKUP_ALL,
+    ACTION_GRAB,
+    ACTION_HAUL,
+    ACTION_BUTCHER,
+    ACTION_CRAFT,
+    ACTION_RECRAFT,
+    ACTION_LONGCRAFT,
+    ACTION_DISASSEMBLE,
+    ACTION_CONSTRUCT,
+    ACTION_CONTROL_VEHICLE,
 };
 
 static const std::map<action_id, std::string> actions_disabled_mounted {
@@ -1959,7 +1959,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
     }
 
     if( u.has_effect( effect_incorporeal ) && actions_disabled_in_incorporeal.count( act ) > 0 ) {
-        add_msg( m_info, actions_disabled_in_incorporeal.at( act ) );
+        add_msg( m_info, _( "You lack the substance to affect anything." ) );
         return true;
     }
 
