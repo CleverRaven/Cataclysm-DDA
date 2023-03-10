@@ -168,7 +168,11 @@
     "difficulty": 5,
     "time": "1 h",
     "book_learn": [ [ "adv_chemistry", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "charges": 49,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "electrolysis_kit", 50 ] ] ],
