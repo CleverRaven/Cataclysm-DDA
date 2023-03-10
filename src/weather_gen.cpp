@@ -312,6 +312,28 @@ void weather_generator::test_weather( unsigned seed ) const
     }, "weather test file" );
 }
 
+
+void weather_generator::sort_weather()
+{
+    sorted_weather.clear();
+    for( const weather_type &wt : weather_types::get_all() ) {
+        // if we have a white list, only add those, if we have a black list, add all but those
+        if( weather_white_list.empty() ) {
+            if( std::find( weather_black_list.begin(), weather_black_list.end(),
+                           wt.id.c_str() ) == weather_black_list.end() ) {
+                sorted_weather.push_back( wt.id );
+            }
+        } else if( std::find( weather_white_list.begin(), weather_white_list.end(),
+                              wt.id.c_str() ) != weather_white_list.end() || wt.id == WEATHER_CLEAR ) {
+            sorted_weather.push_back( wt.id );
+        }
+    }
+    std::sort( sorted_weather.begin(), sorted_weather.end(), []( const weather_type_id & a,
+    const weather_type_id & b ) {
+        return a->load_order < b->load_order;
+    } );
+}
+
 weather_generator weather_generator::load( const JsonObject &jo )
 {
     weather_generator ret;

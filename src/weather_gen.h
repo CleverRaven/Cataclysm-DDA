@@ -65,7 +65,7 @@ class weather_generator
         int convert_winddir( int ) const;
         units::temperature get_water_temperature() const;
         void test_weather( unsigned seed ) const;
-
+        void sort_weather();
         units::temperature get_weather_temperature( const tripoint &, const time_point &, unsigned ) const;
 
         static weather_generator load( const JsonObject &jo );

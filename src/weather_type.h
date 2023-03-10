@@ -128,6 +128,8 @@ struct weather_type {
 };
 namespace weather_types
 {
+/** Get all currently loaded weather types */
+const std::vector<weather_type> &get_all();
 /** Finalize all loaded weather types */
 void finalize_all();
 /** Clear all loaded weather types (invalidating any pointers) */
