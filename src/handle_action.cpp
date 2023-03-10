@@ -1930,6 +1930,22 @@ static const std::map<action_id, std::string> actions_disabled_in_incorporeal {
     { ACTION_CONTROL_VEHICLE,    _( "You lack the substance to affect anything." ) },
 };
 
+static const std::map<action_id, std::string> actions_disabled_mounted {
+    { ACTION_DISASSEMBLE,        _( "You can't disassemble items while you're riding." ) },
+    { ACTION_CONSTRUCT,          _( "You can't construct while you're riding." ) },
+    { ACTION_OPEN,               _( "You can't open things while you're riding." ) },
+    { ACTION_ADVANCEDINV,        _( "You can't move mass quantities while you're riding." ) },
+    { ACTION_PICKUP,             _( "You can't pick anything up while you're riding." ) },
+    { ACTION_PICKUP_ALL,         _( "You can't pick anything up while you're riding." ) },
+    { ACTION_GRAB,               _( "You can't grab things while you're riding." ) },
+    { ACTION_HAUL,               _( "You can't haul things while you're riding." ) },
+    { ACTION_BUTCHER,            _( "You can't butcher while you're riding." ) },
+    { ACTION_PEEK,               _( "You can't peek around corners while you're riding." ) },
+    { ACTION_CRAFT,              _( "You can't craft while you're riding." ) },
+    { ACTION_RECRAFT,            _( "You can't craft while you're riding." ) },
+    { ACTION_LONGCRAFT,          _( "You can't craft while you're riding." ) },
+};
+
 bool game::do_regular_action( action_id &act, avatar &player_character,
                               const cata::optional<tripoint> &mouse_target )
 {
@@ -1944,6 +1960,11 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
     if( u.has_effect( effect_incorporeal ) && actions_disabled_in_incorporeal.count( act ) > 0 ) {
         add_msg( m_info, actions_disabled_in_incorporeal.at( act ) );
+        return true;
+    }
+
+    if( player_character.is_mounted() && actions_disabled_mounted.count( act ) > 0 ) {
+        add_msg( m_info, actions_disabled_mounted.at( act ) );
         return true;
     }
 
@@ -2125,11 +2146,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_OPEN:
-            if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't open things while you're riding." ) );
-            } else {
-                open();
-            }
+            open();
             break;
 
         case ACTION_CLOSE:
@@ -2164,18 +2181,12 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_ADVANCEDINV:
-            if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't move mass quantities while you're riding." ) );
-            } else {
-                create_advanced_inv();
-            }
+            create_advanced_inv();
             break;
 
         case ACTION_PICKUP:
         case ACTION_PICKUP_ALL:
-            if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't pick anything up while you're riding." ) );
-            } else if( mouse_target ) {
+            if( mouse_target ) {
                 pickup( *mouse_target );
             } else {
                 if( act == ACTION_PICKUP_ALL ) {
@@ -2187,27 +2198,15 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_GRAB:
-            if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't grab things while you're riding." ) );
-            } else {
-                grab();
-            }
+            grab();
             break;
 
         case ACTION_HAUL:
-            if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't haul things while you're riding." ) );
-            } else {
-                haul();
-            }
+            haul();
             break;
 
         case ACTION_BUTCHER:
-            if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't butcher while you're riding." ) );
-            } else {
-                butcher();
-            }
+            butcher();
             break;
 
         case ACTION_CHAT:
@@ -2215,11 +2214,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_PEEK:
-            if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't peek around corners while you're riding." ) );
-            } else {
-                peek();
-            }
+            peek();
             break;
 
         case ACTION_LIST_ITEMS:
@@ -2387,34 +2382,20 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_CRAFT:
-            if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't craft while you're riding." ) );
-            } else {
-                player_character.craft();
-            }
+            player_character.craft();
             break;
 
         case ACTION_RECRAFT:
-            if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't craft while you're riding." ) );
-            } else {
-                player_character.recraft();
-            }
+            player_character.recraft();
             break;
 
         case ACTION_LONGCRAFT:
-            if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't craft while you're riding." ) );
-            } else {
-                player_character.long_craft();
-            }
+            player_character.long_craft();
             break;
 
         case ACTION_DISASSEMBLE:
             if( player_character.controlling_vehicle ) {
                 add_msg( m_info, _( "You can't disassemble items while driving." ) );
-            } else if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
             } else {
                 player_character.disassemble();
             }
@@ -2423,8 +2404,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
         case ACTION_CONSTRUCT:
             if( player_character.in_vehicle ) {
                 add_msg( m_info, _( "You can't construct while in a vehicle." ) );
-            } else if( player_character.is_mounted() ) {
-                add_msg( m_info, _( "You can't construct while you're riding." ) );
             } else {
                 construction_menu( false );
             }
