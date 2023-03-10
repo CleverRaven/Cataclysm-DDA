@@ -358,7 +358,7 @@
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "extend": { "flags": [ "CANPLAY" ] }
   },
-      {
+  {
     "id": "mon_moose_calf",
     "type": "MONSTER",
     "copy-from": "mon_moose_calf",
