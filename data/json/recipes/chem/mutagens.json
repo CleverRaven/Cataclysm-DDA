@@ -222,7 +222,12 @@
     "time": "2 h",
     "batch_time_factors": [ 20, 5 ],
     "book_learn": [ [ "recipe_serum", 6 ], [ "recipe_creepy", 6 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_chem_synth" } ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" }
+    ],
     "using": [ [ "serum_production_standard", 37 ] ],
     "components": [ [ [ "mutagen_snail", 2 ] ], [ [ "gastropod_sample", 1 ] ] ],
     "flags": [ "SECRET" ]
