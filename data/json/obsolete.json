@@ -1078,6 +1078,6 @@
   {
     "type": "recipe",
     "result": "lobotomizer",
-    "obsolete": true,
+    "obsolete": true
   }
 ]
