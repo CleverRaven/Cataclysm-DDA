@@ -130,7 +130,11 @@
     "time": "12 h",
     "batch_time_factors": [ 99, 2 ],
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 5 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_intro_chem_synth" }, { "proficiency": "prof_organic_chemistry" } ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "qualities": [
       { "id": "CHEM", "level": 2 },
       { "id": "HAMMER", "level": 1 },
