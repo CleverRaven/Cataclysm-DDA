@@ -382,11 +382,19 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_min;
         nutrients this_max;
 
-        item result_it = rec->create_result();
-        if( result_it.num_item_stacks() == 1 ) {
-            const item alt_result = result_it.legacy_front();
-            if( alt_result.typeId() == comest_it.typeId() ) {
-                result_it = alt_result;
+        std::vector<item> results = rec->create_results();
+        item result_it = results.front();
+        for( item &it : results ) {
+            if( it.typeId() == comest_it.typeId() ) {
+                result_it = it;
+                break;
+            }
+            if( !it.is_container_empty() ) {
+                const item alt_result = it.legacy_front();
+                if( alt_result.typeId() == comest_it.typeId() ) {
+                    result_it = alt_result;
+                    break;
+                }
             }
         }
         if( result_it.typeId() != comest_it.typeId() ) {
