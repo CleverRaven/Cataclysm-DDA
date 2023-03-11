@@ -55,9 +55,7 @@ AST_MATCHER_P( StringLiteral, isMarkedString, tidy::cata::TranslatorCommentsChec
 }
 } // namespace
 } // namespace ast_matchers
-namespace tidy
-{
-namespace cata
+namespace tidy::cata
 {
 
 class TranslatorCommentsCheck::TranslatorCommentsHandler : public CommentHandler
@@ -353,6 +351,5 @@ void TranslatorCommentsCheck::onEndOfTranslationUnit()
     ClangTidyCheck::onEndOfTranslationUnit();
 }
 
-} // namespace cata
-} // namespace tidy
+} // namespace tidy::cata
 } // namespace clang

@@ -1967,7 +1967,8 @@ static void character_edit_menu()
                     uilist ssmenu;
                     std::vector<std::pair<std::string, mutation_category_id>> mutation_categories_list;
                     mutation_categories_list.reserve( mutations_category.size() );
-                    for( const std::pair<mutation_category_id, std::vector<trait_id> > mut_cat : mutations_category ) {
+                    for( const std::pair<const mutation_category_id, std::vector<trait_id> > &mut_cat :
+                         mutations_category ) {
                         mutation_categories_list.emplace_back( mut_cat.first.c_str(), mut_cat.first );
                     }
                     ssmenu.text = _( "Choose mutation category:" );
@@ -2327,8 +2328,8 @@ void mission_debug::edit_mission( mission &m )
 static void draw_benchmark( const int max_difference )
 {
     // call the draw procedure as many times as possible in max_difference milliseconds
-    auto start_tick = std::chrono::steady_clock::now();
-    auto end_tick = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point start_tick = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point end_tick = std::chrono::steady_clock::now();
     int64_t difference = 0;
     int draw_counter = 0;
 
