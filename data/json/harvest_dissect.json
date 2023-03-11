@@ -660,7 +660,10 @@
     "id": "dissect_flying_rodent_single",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ { "drop": "mouse_sample_single", "type": "mutagen_group" }, { "drop": "bird_sample_single", "type": "mutagen_group" } ]
+    "entries": [
+      { "drop": "mouse_sample_single", "type": "mutagen_group" },
+      { "drop": "bird_sample_single", "type": "mutagen_group" }
+    ]
   },
   {
     "id": "dissect_flying_rodent_small",
