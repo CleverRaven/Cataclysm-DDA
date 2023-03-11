@@ -470,23 +470,34 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
         return result;
     }
 
+    // We gather the mapgen params from the mapgen function
     const update_mapgen_function_json &json_func = *funcs.front();
     const mapgen_parameters &mapgen_params = json_func.get_parameters();
 
-    std::vector<std::string> mapgen_param_names;
+    std::map<std::string, std::vector<std::string>> mapgen_param_names_and_possible_values;
     for( const std::pair<const std::string, mapgen_parameter> &mapgen_param : mapgen_params.map ) {
-        mapgen_param_names.push_back( mapgen_param.first );
+        mapgen_param_names_and_possible_values.emplace(
+            mapgen_param.first, mapgen_param.second.all_possible_values( mapgen_params ) );
     }
-    // NOLINTNEXTLINE(cata-use-localized-sorting)
-    std::sort( mapgen_param_names.begin(), mapgen_param_names.end() );
 
+    std::vector<std::string> mapgen_param_names;
+    mapgen_param_names.reserve( mapgen_param_names_and_possible_values.size() );
+    for( const std::pair<const std::string, std::vector<std::string>> &name_and_values :
+         mapgen_param_names_and_possible_values ) {
+        mapgen_param_names.push_back( name_and_values.first );
+    }
+    cata_assert( std::is_sorted( mapgen_param_names.begin(), mapgen_param_names.end() ) );
+
+    // Then we gather the blueprint params from the recipe
     std::vector<std::string> bp_param_names;
     bp_param_names.reserve( bp_params.size() );
     for( const auto &bp_param : bp_params ) {
         bp_param_names.push_back( bp_param.first );
     }
+    // NOLINTNEXTLINE(cata-use-localized-sorting)
     cata_assert( std::is_sorted( bp_param_names.begin(), bp_param_names.end() ) );
 
+    // And check they match
     if( mapgen_param_names != bp_param_names ) {
         debugmsg( "parameter names listed in blueprint do not match those from corresponding "
                   "update_mapgen id %s.\nBlueprint had %s.\nupdate_mapgen had %s.",
@@ -494,6 +505,33 @@ static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
                   enumerate_as_string( bp_param_names ),
                   enumerate_as_string( mapgen_param_names ) );
         return result;
+    }
+
+    // Furthermore, we check that, for each parameter, the set of possible
+    // values in the mapgen matches the set of translated ids in the blueprint
+    for( const auto &bp_param : bp_params ) {
+        const std::string &name = bp_param.first;
+
+        std::vector<std::string> &mapgen_values = mapgen_param_names_and_possible_values[name];
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        std::sort( mapgen_values.begin(), mapgen_values.end() );
+
+        std::vector<std::string> bp_values;
+        for( const std::pair<const std::string, translation> &p : bp_param.second ) {
+            bp_values.push_back( p.first );
+        }
+        cata_assert( std::is_sorted( bp_values.begin(), bp_values.end() ) );
+
+        if( mapgen_values != bp_values ) {
+            debugmsg( "parameter values for parameter %s listed in blueprint do not match those "
+                      "from corresponding update_mapgen id %s.\nBlueprint had %s.\n"
+                      "update_mapgen had %s.",
+                      name,
+                      id.str(),
+                      enumerate_as_string( bp_values ),
+                      enumerate_as_string( mapgen_values ) );
+            return result;
+        }
     }
 
     // Each inner vector is a list of (param_name, param_value) pairs where
