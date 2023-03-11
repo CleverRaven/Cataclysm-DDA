@@ -1457,6 +1457,12 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
     bool enable = false;
     if( new_part.is_engine() ) {
         enable = true;
+        // if smart controller is enabled there is charge in battery, no need to test it
+        if( has_enabled_smart_controller && !engine_on && new_part.info().fuel_type == fuel_type_battery &&
+            !has_available_electric_engine() ) {
+            engine_on = true;
+            sfx::do_vehicle_engine_sfx();
+        }
     } else {
         // TODO: read toggle groups from JSON
         static const std::vector<std::string> enable_like = {{
@@ -1491,7 +1497,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
         }
     }
     // refresh will add them back if needed
-    remove_fake_parts( false );
+    remove_fake_parts( true );
     parts.push_back( new_part );
     vehicle_part &pt = parts.back();
     int new_part_index = parts.size() - 1;
@@ -2092,6 +2098,10 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
         new_mounts.push_back( mount.xy() );
     }
 
+    for( const int &rack_part : racks ) {
+        parts[rack_part].remove_flag( vehicle_part::carrying_flag );
+        parts[rack_part].remove_flag( vehicle_part::tracked_flag );
+    }
     if( split_vehicles( here, { carried_parts }, { new_vehicle }, { new_mounts } ) ) {
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
@@ -2124,14 +2134,14 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
                 new_vehicle->parts[idx].enabled = true;
             }
         }
-        for( const int &rack_part : racks ) {
-            parts[rack_part].remove_flag( vehicle_part::carrying_flag );
-            parts[rack_part].remove_flag( vehicle_part::tracked_flag );
-        }
         here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
         return true;
     } else {
+        for( const int &rack_part : racks ) {
+            parts[rack_part].set_flag( vehicle_part::carrying_flag );
+            parts[rack_part].set_flag( vehicle_part::tracked_flag );
+        }
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );
         return false;
@@ -5430,6 +5440,46 @@ void vehicle::slow_leak()
     }
 }
 
+bool vehicle::has_available_electric_engine()
+{
+    for( int i = 0; i < static_cast<int>( engines.size() ); ++i ) {
+        if( is_engine_type( i, fuel_type_battery ) && ( parts[engines[i]].is_available() ||
+                is_part_on( engines[i] ) ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void vehicle::disable_smart_controller_if_needed()
+{
+    const auto get_force_smart_controller_off_when_engine_stop = [] {
+        std::string force_stop_option = get_option<std::string>( "FORCE_SMART_CONTROLLER_OFF_ON_ENGINE_STOP" );
+        if( force_stop_option == "enabled" )
+        {
+            return true;
+        }
+        if( force_stop_option == "disabled" )
+        {
+            return false;
+        }
+        if( force_stop_option != "ask" )
+        {
+            debugmsg( "Unexpected option \"%s\" for \"FORCE_SMART_CONTROLLER_OFF_ON_ENGINE_STOP\"",
+                      force_stop_option );
+        }
+        return query_yn( _( "Smart controller engine may turn on engine back.  Disable it?" ) );
+    };
+
+    if( has_enabled_smart_controller && !has_available_electric_engine() &&
+        get_force_smart_controller_off_when_engine_stop() ) {
+        for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
+            vp.part().enabled = false;
+            add_msg( _( "Turned off %s." ), vp.part().name() );
+        }
+    }
+}
+
 // total volume of all the things
 units::volume vehicle::stored_volume( const int part ) const
 {
@@ -6282,10 +6332,6 @@ void vehicle::do_towing_move()
         return;
     }
     bool invalidate = false;
-    if( !tow_data.get_towed() ) {
-        debugmsg( "tried to do towing move, but no towed vehicle!" );
-        invalidate = true;
-    }
     const int tow_index = get_tow_part();
     if( tow_index == -1 ) {
         debugmsg( "tried to do towing move, but no tow part" );
@@ -6306,7 +6352,7 @@ void vehicle::do_towing_move()
         // how the hellicopter did this happen?
         // yes, this can happen when towing over a bridge (see #47293)
         invalidate = true;
-        add_msg( m_info, _( "A towing cable snaps off of %s." ), tow_data.get_towed()->disp_name() );
+        add_msg( m_info, _( "A towing cable snaps off of %s." ), towed_veh->disp_name() );
     }
     if( invalidate ) {
         invalidate_towing( true );
@@ -6476,14 +6522,12 @@ void vehicle::invalidate_towing( bool first_vehicle )
     if( !is_towing() && !is_towed() ) {
         return;
     }
-    vehicle *other_veh = nullptr;
-    if( is_towing() ) {
-        other_veh = tow_data.get_towed();
-    } else if( is_towed() ) {
-        other_veh = tow_data.get_towed_by();
-    }
-    if( other_veh && first_vehicle ) {
-        other_veh->invalidate_towing();
+    if( first_vehicle ) {
+        vehicle *other_veh = is_towing() ? tow_data.get_towed() :
+                             is_towed() ? tow_data.get_towed_by() : nullptr;
+        if( other_veh ) {
+            other_veh->invalidate_towing();
+        }
     }
     map &here = get_map();
     for( const vpart_reference &vp : get_all_parts() ) {
@@ -7220,10 +7264,7 @@ item vehicle::get_folded_item() const
 
 bool vehicle::restore_folded_parts( const item &it )
 {
-    // TODO: Remove folding_bicycle_parts after savegames migrate
-    const std::string data = it.has_var( "folding_bicycle_parts" )
-                             ? it.get_var( "folding_bicycle_parts" )
-                             : it.get_var( "folded_parts" );
+    const std::string data = it.get_var( "folded_parts" );
     try {
         JsonValue json = json_loader::from_string( data );
         parts.clear();

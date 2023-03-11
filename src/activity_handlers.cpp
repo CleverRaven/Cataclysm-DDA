@@ -171,6 +171,7 @@ static const ammotype ammo_battery( "battery" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -2350,7 +2351,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                                 ammo_remaining, used_tool->ammo_capacity( current_ammo ),
                                 ammo_name,
                                 used_tool->ammo_required() );
-        title += string_format( _( "Materials available: %s\n" ), join( material_list, ", " ) );
+        title += string_format( _( "Materials available: %s\n" ), string_join( material_list, ", " ) );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
                                 actor->used_skill.obj().name(), level );
         title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
@@ -2886,7 +2887,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
             }
             if( !bps.empty() ) {
                 for( const bodypart_id &bp : bps ) {
-                    you->make_bleed( effect_source::empty(), bp, 1_turns, difficulty, true );
+                    you->add_effect( effect_bleed,  1_minutes * difficulty, bp, false, true );
                     you->apply_damage( nullptr, bp, 20 * difficulty );
 
                     if( u_see ) {
@@ -2899,7 +2900,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                     }
                 }
             } else {
-                you->make_bleed( effect_source::empty(), bodypart_id( "bp_null" ), 1_turns, difficulty, true );
+                you->add_effect( effect_bleed,  1_minutes * difficulty, bodypart_str_id::NULL_ID(), false, true );
                 you->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }

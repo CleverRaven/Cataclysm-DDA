@@ -475,6 +475,17 @@ void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
     bionic_factory.load( jo, src );
 }
 
+std::map<bionic_id, bionic_id> bionic_data::migrations;
+
+void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string & )
+{
+    const bionic_id from( jo.get_string( "from" ) );
+    const bionic_id to = jo.has_string( "to" )
+                         ? bionic_id( jo.get_string( "to" ) )
+                         : bionic_id::NULL_ID();
+    migrations.emplace( from, to );
+}
+
 const std::vector<bionic_data> &bionic_data::get_all()
 {
     return bionic_factory.get_all();
@@ -2887,6 +2898,7 @@ void Character::clear_bionics()
 
 void reset_bionics()
 {
+    bionic_data::migrations.clear();
     faulty_bionics.clear();
     bionic_factory.reset();
 }
@@ -3100,9 +3112,33 @@ void bionic::serialize( JsonOut &json ) const
     json.end_object();
 }
 
+static bionic_id migrate_bionic_id( const bionic_id &original )
+{
+    bionic_id bid = original;
+
+    // limit up to 10 migrations per bionic (guard in case of accidental loops)
+    for( int i = 0; i < 10; i++ ) {
+        const auto &migration_it = bionic_data::migrations.find( bid );
+        if( migration_it == bionic_data::migrations.cend() ) {
+            break;
+        }
+        bid = migration_it->second;
+    }
+
+    if( bid != original ) {
+        DebugLog( D_WARNING, D_MAIN ) << "Migrating bionic with id " << original.str() << " to " <<
+                                      bid.str();
+    }
+
+    return bid;
+}
+
 void bionic::deserialize( const JsonObject &jo )
 {
-    id = bionic_id( jo.get_string( "id" ) );
+    id = migrate_bionic_id( bionic_id( jo.get_string( "id" ) ) );
+    if( id.is_null() ) {
+        return; // obsoleted bionic
+    }
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
 

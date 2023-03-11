@@ -14,34 +14,45 @@ compile for older macOS, so to support a reasonable number of users we aim to
 support at least 95% of users by macOS market share.
 
 At the time of writing:
-* Bionic is the oldest Ubuntu LTS, and [defaults to g++ 7.3 or
-  7.5](https://packages.ubuntu.com/bionic/g++), depending on the platform, and
-  [clang 6.0](https://packages.ubuntu.com/bionic/clang).
-* Debian stable is Buster, and [defaults to g++
-  8.3](https://packages.debian.org/buster/g++).
-* Oldest [supported Fedora](https://fedoraproject.org/wiki/Releases) is 34,
+* Bionic is about to end general support, so we aim to support the next oldest
+  Ubuntu LTS (Focal).  Focal [defaults to g++
+  9.3](https://packages.ubuntu.com/focal/g++) and [clang
+  10](https://packages.ubuntu.com/focal/clang).
+* Debian stable is Bullseye, and [defaults to g++
+  10.2](https://packages.debian.org/bullseye/g++).
+* Oldest [supported Fedora](https://fedoraproject.org/wiki/Releases) is 36,
   which uses [gcc
-  11.0](https://fedora.pkgs.org/34/fedora-x86_64/gcc-11.0.1-0.3.fc34.x86_64.rpm.html).
-* MSYS [offers gcc 10.2](https://packages.msys2.org/base).
-* Code::Blocks [offers g++
-  8.1](https://www.codeblocks.org/downloads/binaries/).
-* macOS 10.12+ has 95.3% [market
+  12.0](https://fedora.pkgs.org/36/fedora-x86_64/gcc-12.0.1-0.16.fc36.x86_64.rpm.html).
+* MSYS [offers gcc 12.2](https://packages.msys2.org/base).
+* macOS 10.13+ has 96.0% [market
   share](https://gs.statcounter.com/os-version-market-share/macos/desktop/worldwide)
-  and that corresponds to [XCode 8.3](https://xcodereleases.com/).
+  and that corresponds to [XCode 10.1](https://xcodereleases.com/).
 
 In practice, compiler support is often determined by what is covered in our
 automated testing.
 
-At time of writing, the oldest relevant compiler is gcc 7.5, shipped in the
-Ubuntu Bionic LTS release.  The default version is 7.3 only on platforms other
-than x86, and we deem it unlikely that potential users or developers would be
-using an Ubuntu LTS release on such a platform.
+At time of writing, the oldest relevant compiler is XCode 10.1, the latest
+supported on macOS 10.13.
 
-The limiting factor preventing us from using newer C++ features is currently
-XCode, where we would like to require 10.0 to get [most C++17
-features](https://en.cppreference.com/w/cpp/compiler_support/17).  That
-[requires macOS 10.13](https://xcodereleases.com/) so we need to wait until
-macOS versions up to 10.12 drop below 5% market share (currently 7.4%).
+With gcc 9.3, clang 10, and XCode 10.1 we can get all the C++17 language
+features and [most but not all of the C++17 library
+features](https://en.cppreference.com/w/cpp/compiler_support/17).  The
+following C++17 features are not supported widely enough for us to use:
+
+* Parallel algorithms and execution policies.
+* Hardware interference size.
+* File system library (note, we already have a backported version of the
+  filesystem library bundled with CDDA, so that can be used instead).
+* Polymorphic memory resources.
+* Mathematical special functions.
+* Elementary string conversions for floating point.
+* Array support in `std::shared_ptr` and `weak_ptr`.
+
+Some of these are not even supported in the latest XCode so we cannot expect to
+use them for many years.
+
+The limiting factor preventing us from using newer C++ features is primarily
+XCode, where we would probably want version 13 before moving to C++20.
 
 To monitor macOS market share we have a helper script in
 tools/macos-market-share.py.  Download the CSV-formatted data from
@@ -56,16 +67,16 @@ it varies across time.  For example, this output:
 ```
 
 shows that cumulative market share for versions up to 10.11 first dropped below
-5% in 2021-07, at which point we can (following the above guidelines) allow
+5% in 2021-07, at which point we (following the above guidelines) allowed
 ourselves to drop support for 10.11.
 
 ## GCC
 
-We support and test gcc from version 7.5.
+We support and test gcc from version 8.1.
 
 ## Clang
 
-We support and test Clang from version 6.0.
+We support and test Clang from version 10.0.
 
 ## Mingw and Mingw-w64
 
@@ -82,8 +93,8 @@ work to that end is welcome.
 
 ## Visual Studio
 
-We also support [Visual Studio](COMPILING-VS-VCPKG.md) 2015 Update 3 and above.
+We support and test [Visual Studio](COMPILING-VS-VCPKG.md) 2019 and above.
 
 ## XCode
 
-We support macOS 10.12 and above, which effectively means XCode 8.3+.
+We support macOS 10.13 and above, using XCode 10.1 and above.

@@ -23,7 +23,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_gunsmithing_basic" },
       { "proficiency": "prof_gunsmithing_antique" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 }
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
@@ -52,7 +52,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_gunsmithing_basic" },
       { "proficiency": "prof_gunsmithing_antique" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 }
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
@@ -81,7 +81,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_gunsmithing_basic" },
       { "proficiency": "prof_gunsmithing_antique" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 }
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
@@ -110,7 +110,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_gunsmithing_basic" },
       { "proficiency": "prof_gunsmithing_antique" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 }
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
@@ -133,7 +133,7 @@
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_gunsmithing_basic" },
       { "proficiency": "prof_gunsmithing_antique" },
-      { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 }
+      { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 }
     ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "pipe", 2 ] ], [ [ "sharp_rock", 2 ] ] ]
   },
@@ -173,7 +173,7 @@
       { "id": "WRENCH", "level": 1 }
     ],
     "proficiencies": [
-      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "skill_penalty": 0.15 },
       { "proficiency": "prof_gunsmithing_spring" }
     ],
     "components": [
@@ -197,7 +197,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "proficiencies": [
-      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "skill_penalty": 0.15 },
       { "proficiency": "prof_gunsmithing_spring" }
     ],
     "autolearn": true,
@@ -213,7 +213,7 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "traps", 2 ], [ "archery", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "skill_penalty": 0.15 },
       { "proficiency": "prof_gunsmithing_spring" },
       { "proficiency": "prof_carving", "time_multiplier": 1.5 }
     ],
@@ -237,7 +237,7 @@
     "reversible": true,
     "decomp_learn": 2,
     "proficiencies": [
-      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_bowyery", "time_multiplier": 1.5, "skill_penalty": 0.15 },
       { "proficiency": "prof_gunsmithing_spring" }
     ],
     "autolearn": true,

@@ -849,9 +849,11 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
         }
     }
 
-    if( dealt_dam.bp_hit == bodypart_id( "head" ) && proj_effects.count( "BLINDS_EYES" ) ) {
+    if( dealt_dam.bp_hit->has_type( body_part_type::type::head ) &&
+        proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
-        target.add_env_effect( effect_blind, bodypart_id( "eyes" ), 5, rng( 3_turns, 10_turns ) );
+        target.add_env_effect( effect_blind,
+                               target.get_random_body_part_of_type( body_part_type::type::sensor ), 5, rng( 3_turns, 10_turns ) );
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
@@ -1243,14 +1245,11 @@ void Creature::deal_damage_handle_type( const effect_source &source, const damag
         case damage_type::CUT:
         case damage_type::STAB:
         case damage_type::BULLET:
-            // these are bleed inducing damage types
-            make_bleed( source, bp, 1_minutes * rng( 1, adjusted_damage ) );
-
         default:
             break;
     }
 
-    on_damage_of_type( adjusted_damage, du.type, bp );
+    on_damage_of_type( source, adjusted_damage, du.type, bp );
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );
@@ -1366,6 +1365,12 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
     if( type.get_main_parts() ) {
         bp = bp->main_part;
     }
+
+    // Filter out bodypart immunity
+    for( json_character_flag flag : eff_id->immune_bp_flags )
+        if( bp->has_flag( flag ) ) {
+            return;
+        }
 
     bool found = false;
     // Check if we already have it
@@ -1630,6 +1635,19 @@ std::vector<effect> Creature::get_effects() const
     return effs;
 }
 
+std::vector<effect> Creature::get_effects_from_bp( const bodypart_id &bp ) const
+{
+    std::vector<effect> effs;
+    for( auto &elem : *effects ) {
+        for( const std::pair<const bodypart_id, effect> &_it : elem.second ) {
+            if( _it.first == bp ) {
+                effs.push_back( _it.second );
+            }
+        }
+    }
+    return effs;
+}
+
 effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_id &bp )
 {
     return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
@@ -1822,18 +1840,27 @@ int Creature::get_num_blocks() const
 {
     return num_blocks + num_blocks_bonus;
 }
+
 int Creature::get_num_dodges() const
 {
     return num_dodges + num_dodges_bonus;
 }
+
 int Creature::get_num_blocks_bonus() const
 {
     return num_blocks_bonus;
 }
+
 int Creature::get_num_dodges_bonus() const
 {
     return num_dodges_bonus;
 }
+
+int Creature::get_num_blocks_base() const
+{
+    return num_blocks;
+}
+
 int Creature::get_num_dodges_base() const
 {
     return num_dodges;
@@ -2421,6 +2448,11 @@ std::vector<bodypart_id> Creature::get_all_body_parts_of_type(
     return bodyparts;
 }
 
+bodypart_id Creature::get_random_body_part_of_type( body_part_type::type part_type ) const
+{
+    return random_entry( get_all_body_parts_of_type( part_type ) );
+}
+
 std::vector<bodypart_id> Creature::get_all_body_parts_with_flag( const json_character_flag &flag )
 const
 {
@@ -2587,6 +2619,12 @@ void Creature::set_num_blocks_bonus( int nblocks )
 {
     num_blocks_bonus = nblocks;
 }
+
+void Creature::mod_num_blocks_bonus( int nblocks )
+{
+    num_blocks_bonus += nblocks;
+}
+
 void Creature::mod_num_dodges_bonus( int ndodges )
 {
     num_dodges_bonus += ndodges;

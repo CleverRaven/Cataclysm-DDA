@@ -472,7 +472,7 @@
     "enchantments": [
       {
         "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 }, { "value": "ITEM_DAMAGE_AP", "add": 6 } ]
+        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 } ]
       }
     ]
   },

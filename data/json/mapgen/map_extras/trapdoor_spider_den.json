@@ -44,7 +44,8 @@
     "object": {
       "mapgensize": [ 3, 3 ],
       "place_nested": [ { "chunks": [ [ "null", 2 ], [ "wasp_gibs", 1 ] ], "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 3, 8 ] } ],
-      "place_traps": [ { "trap": "tr_spider", "x": 1, "y": 1 } ]
+      "place_traps": [ { "trap": "tr_spider", "x": 1, "y": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
   {
@@ -55,7 +56,8 @@
     "object": {
       "mapgensize": [ 3, 3 ],
       "place_nested": [ { "chunks": [ [ "null", 2 ], [ "wasp_gibs", 1 ] ], "x": [ 0, 2 ], "y": [ 0, 2 ], "repeat": [ 3, 8 ] } ],
-      "place_terrain": [ { "ter": "t_dirtmound", "x": 1, "y": 1 } ]
+      "place_terrain": [ { "ter": "t_dirtmound", "x": 1, "y": 1 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   }
 ]

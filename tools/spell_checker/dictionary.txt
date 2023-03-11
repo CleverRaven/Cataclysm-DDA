@@ -699,6 +699,7 @@ destructing
 deth
 deuyl
 devilling
+devourer
 devs
 dewlap
 dextrous
@@ -1235,6 +1236,8 @@ heatsink
 heatsinks
 heear
 heelys
+helipad
+helipads
 hellmouth
 helpdesk
 hematite
@@ -1276,6 +1279,7 @@ honeygold
 honker
 hoose
 hooved
+horchata
 hosomaki
 hotcut
 hotkey
@@ -1401,9 +1405,13 @@ jerrycan
 jerrypack
 jewelboxes
 jians
+jirt
+jirts
 johnnycake
 jointer
 jointing
+jort
+jorts
 jtest
 junglefowl
 junipers
@@ -1563,6 +1571,7 @@ loadouts
 loamy
 lobotomizer
 lockpick
+lockpickers
 lockpicking
 longarm
 longear
@@ -1732,6 +1741,7 @@ moonflower
 moonflowers
 moorhen
 mordant
+morels
 moriatur
 morningstar
 morningstars
@@ -1742,6 +1752,7 @@ mosasaurus
 mostlike
 mostravam
 motorpool
+motorsports
 mountable
 mouthgear
 mouthpart
@@ -1861,6 +1872,7 @@ nonrevealing
 nonromantic
 nonsedated
 nonstandard
+nonuniform
 nonverbally
 noone
 nopal
@@ -2412,6 +2424,8 @@ scruffs
 scutcher
 scutellosaurus
 scuttles
+sealab
+sealabs
 sealable
 seater
 secretively
@@ -2707,6 +2721,7 @@ tarket
 tassed
 tassin
 tastemakers
+tawa
 taxa
 tazed
 tazer
@@ -2756,6 +2771,7 @@ thyreophoran
 tileset
 tillable
 tillage
+timelapse
 tinamou
 tinning
 tiredly
@@ -2792,6 +2808,7 @@ transp
 transpositions
 transuranic
 trapezoidal
+travelogue
 travelpack
 traversal
 travois
@@ -2905,6 +2922,7 @@ unpadded
 unpowered
 unpressurised
 unreinforced
+unrifled
 unrushed
 unsaved
 unseasoned
@@ -3068,6 +3086,7 @@ woodlouse
 woodsmanship
 woom
 woosh
+workarounds
 workcycle
 workshifts
 worldgen

@@ -62,6 +62,7 @@
       - [Flags](#flags-11)
     - [Camp building recipes](#camp-building-recipes)
       - [Flags](#flags-12)
+      - [Blueprint reorientation flags](#blueprint-reorientation-flags)
   - [Scenarios](#scenarios)
     - [Flags](#flags-13)
       - [Profession Flags](#profession-flags)
@@ -598,6 +599,7 @@ Effect flags. These are checked by hardcode for monsters (introducing new flags 
 
 - ```DISABLE_FLIGHT``` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
 - ```EFFECT_IMPEDING``` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
+- ```EFFECT_LIMB_SCORE_MOD``` Effect with a limb score component to be used in Character::get_limb_score. See [EFFECTS_JSON.md](EFFECTS_JSON.md) for the exact function of limb score modifiers and [JSON_INFO.md](JSON_INFO.md#limb-scores) for the effects of the scores.
 
 ## Furniture and Terrain
 
@@ -850,15 +852,12 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```SPEEDLOADER``` Acts like a magazine, except it transfers rounds to the emptied target gun or magazine instead of being inserted into it.
 - ```SPEEDLOADER_CLIP``` Acts like a ```SPEEDLOADER```, except the target gun or magazine don't have to be emptied to oocur the transferments.
 
-    
-## Mapgen
-    
-- ```ERASE_ALL_BEFORE_PLACING_TERRAIN``` Clear items, traps, or furniture before placing terrain tile. See also [`remove_all`](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MAPGEN.md#remove-everything-with-remove_all). Mutually exclusive with `ALLOW_TERRAIN_UNDER_OTHER_DATA `.
-- ```ALLOW_TERRAIN_UNDER_OTHER_DATA``` Keep items, traps, or furniture before placing terrain tile. Mutually exclusive with `ERASE_ALL_BEFORE_PLACING_TERRAIN`.
-- ```NO_UNDERLYING_ROTATE``` The map won't be rotated even if the underlying tile is.
-- ```AVOID_CREATURES``` If a creature is present on terrain, furniture and traps won't be placed.
 
-    
+## Mapgen
+
+See [Mapgen flags](MAPGEN.md#mapgen-flags).
+
+
 ## Map Specials
 
 - ```mx_bandits_block``` ...  Road block made by bandits from tree logs, caltrops, or nailboards.
@@ -911,7 +910,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
 - ```mx_spider``` ... A big spider web, complete with spiders and eggs.
 - ```mx_supplydrop``` ... Crates with some military items in it.
-- ```mx_Trapdoor_spider_den``` ... Chunk of a forest with a spider spawning out of nowhere.
+- ```mx_Trapdoor_spider_den``` ... A spider spawning out of nowhere.
 - ```mx_trees``` ... A small chunk of forest with puddles with fresh water.
 - ```mx_trees_2``` ... A small chunk of forest with puddles with fresh water.
 
@@ -1273,6 +1272,10 @@ These flags apply to crafting recipes, i.e. those that fall within the following
 These flags apply only to camp building recipes (hubs and expansions), i.e. those that have category `CC_BUILDING`.
 
 #### Flags
+
+- ```NO_FOOD_REQ``` Food requirements are waived for this camp building recipe.
+
+#### Blueprint reorientation flags
 The purpose of these flags is to allow reuse of blueprints to create the "same" facility oriented differently. Mirroring takes place before
 rotation, and it is an error to try to apply mirroring multiple times with the same orientation, as well as to try to apply multiple
 rotations. It is permitted to apply different versions of the flags if they apply to different directions (and it is indeed the primary
@@ -1384,7 +1387,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
-    
+
 ### Use actions
 
 These flags apply to the `use_action` field, instead of the `flags` field.

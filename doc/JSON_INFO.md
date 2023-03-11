@@ -29,6 +29,7 @@ Use the `Home` key to return to the top.
     - [Body Graphs](#body-graphs)
       - [Graph Parts](#graph-parts)
     - [Body_parts](#body_parts)
+- [On-hit Effects](#on-hit-effects)
     - [Limb scores](#limb-scores)
     - [Character Modifiers](#character-modifiers)
       - [Character Modifiers - Value](#character-modifiers---value)
@@ -754,7 +755,7 @@ These are interactive graphs that highlight different body parts or sub body par
 | `fill_sym` | (_optional_) Specifies a character to fill all sections of the graph when viewing in-game.
 | `fill_color` | (_optional_) Specifies a color to use for unselected sections of the graph when viewing in-game.
 | `rows` | Array of strings that form the graph. The symbols used for each fragment may correspond to an entry in `parts`, which form the sections of the graph. Empty spaces (` `) are ignored for the purposes of filling.
-| `mirror` | (_optional_) Can be specified instead of `rows`. This takes a string ID refering to a different body_graph, which will be flipped horizontally and used as the rows in this graph (ex: `hand_l` mirrors `hand_r`).
+| `mirror` | (_optional_) Can be specified instead of `rows`. This takes a string ID referring to a different body_graph, which will be flipped horizontally and used as the rows in this graph (ex: `hand_l` mirrors `hand_r`).
 | `parts` | A list of symbols present in the graph that correspond to specific body parts or sub body parts.
 
 The resolution limit for the `rows` field is 40x20, in order to maintain compatibility with 80x24 terminals.
@@ -822,6 +823,7 @@ reference at least one body part or sub body part.
 | `techniques`           | (_optional_) List of melee techniques granted by this limb as long as it's above its `health_limit` HP.  The chance for the technique to be included in each attack's tech list is dependent on limb encumbrance. ( `!x_in_y(current encumbrance / technique_encumbrance_limit`)
 | `technique_encumbrance_limit` | (_optional_) Level of encumbrance that disables the given techniques for this limb completely, lower encumbrance still reduces the chances of the technique being chosen (see above).
 | `limb_scores`          | (_optional_) List of arrays defining limb scores. Each array contains 2 mandatory values and 1 optional value. Value 1 is a reference to a `limb_score` id. Value 2 is a float defining the limb score's value. (optional) Value 3 is a float defining the limb score's maximum value (mostly just used for manipulator score).
+| `effects_on_hit`       | (_optional_) Array of effects that can apply whenever the limb is damaged.  For details see below.
 | `unarmed_damage`       | (_optional_) An array of objects, each detailing the amount of unarmed damage the bodypart contributes to unarmed attacks and their armor penetration. The unarmed damages of each limb are summed and added to the base unarmed damage. Should be used for limbs the character is expected to *always* attack with, for special attacks use a dedicated technique.
 | `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
 
@@ -858,6 +860,55 @@ reference at least one body part or sub body part.
   "smash_message": "You elbow-smash the %s.",
   "bionic_slots": 20,
   "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
+}
+```
+
+# On-hit Effects
+
+An array of effects to add whenever the limb in question takes damage. Variables for each entry:
+
+| `Identifier`           | Description
+|---                     |---
+| `id`                   | (_mandatory_) ID of the effect to apply.
+| `global`               | (_optional_) Bool, if true the effect won't apply to the bodypart but to the whole character. Default false.
+| `dmg_type`             | (_optional_) String id of the damage type eligible to apply the effect. Defaults to all damage.
+| `dmg_threshold`        | (_optional_) Integer, amount of damage to trigger the effect. For main parts used as percent of limb max health, for minor parts as absolute damage amount. Default 1.
+| `dmg_scale_increment`  | (_optional_) Float, steps of scaling based on damage above `damage_threshold`. Default 1.
+| `chance`               | (_optional_) Integer, percent chance to trigger the effect. Default 100.
+| `chance_dmg_scaling`   | (_optional_) Float, chance is increased by this value for every `dmg_scale_increment` above `dmg_threshold`. Default 0.
+| `intensity`            | (_optional_) Integer, intensity of effect to apply. Default 1.
+| `intensity_dmg_scaling`| (_optional_) Float, intensity is increased by this value for every `dmg_scale_increment` above `dmg_threshold`. Default 0.
+| `max_intensity`        | (_optional_) Integer, max intensity the limb can gain as part of the onhit effect - other sources of effects like spells or explicit special attack effects can still apply higher intensities. Default INT_MAX.
+| `duration`             | (_optional_) Integer, duration of effect to apply in seconds. Default 1.
+| `duration_dmg_scaling` | (_optional_) Float, duration is increased by this value for every `dmg_scale_increment` above `dmg_threshold`. Default 0.
+| `max_duration`         | (_optional_) Integer, max seconds duration the limb can gain as part of the onhit effect - see `max_intensity`. Default INT_MAX.
+
+
+```json
+{
+"effects_on_hit": [
+    {
+      "id": "staggered",
+      "dmg_type": "bash",
+      "dmg_threshold": 5,
+      "dmg_scale_increment": 5,
+      "chance": 10,
+      "chance_dmg_scaling": 10,
+      "duration": 5,
+      "duration_dmg_scaling": 2,
+      "max_duration": 15
+    },
+    {
+      "id": "downed",
+      "global": true,
+      "dmg_threshold": 20,
+      "dmg_scale_increment": 10,
+      "chance": 5,
+      "chance_dmg_scaling": 20,
+      "duration": 2,
+      "duration_dmg_scaling": 0.5
+    }
+  ]
 }
 ```
 
@@ -1166,14 +1217,16 @@ When you sort your inventory by category, these are the categories that are disp
 | zone            | The corresponding loot_zone (see loot_zones.json)
 | sort_rank       | Used to sort categories when displaying.  Lower values are shown first
 | priority_zones  | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
+|spawn_rate       | Sets amount of items from item category that might spawn.  Checks for `spawn_rate` value for item category.  If `spawn_chance` is less than 1.0, it will make a random roll (0.1-1.0) to check if the item will have a chance to spawn.  If `spawn_chance` is more than or equal to 1.0, it will add a chance to spawn additional items from the same category.  Items will be taken from item group which original item was located in.  Therefore this parameter won't affect chance to spawn additional items for items set to spawn solitary in mapgen (e.g. through use of `item` or `place_item`).
 
 ```C++
 {
-    "id":"armor",
+    "id": "armor",
     "name": "ARMOR",
     "zone": "LOOT_ARMOR",
     "sort_rank": -21,
     "priority_zones": [ { "id": "LOOT_FARMOR", "filthy": true, "flags": [ "RAINPROOF" ] } ],
+    "spawn_rate": 0.5
 }
 ```
 
@@ -1661,7 +1714,7 @@ Crafting recipes are defined as a JSON object with the following fields:
       "proficiency": "prof_knapping", // The id of a proficiency
       "required": false, // Whether or not you must have the proficiency to craft it. Incompatible with `time_multiplier`
       "time_multiplier": 2.0 // The multiplier on time taken to craft this recipe if you do not have this proficiency
-      "fail_multiplier": 2.5 // The multiplier on failure chance when crafting without this proficiency. Defaults to 2.5. Multiple proficiencies will multiply this value. (if all have the default, it's fail_multiplier ^ n, where n is the number of proficiencies that are lacked)
+      "skill_penalty": 1.5 // The effective skill penalty when crafting without this proficiency. Defaults to 1.0. Multiple proficiencies will add to this value.
       "learning_time_multiplier": 1.2 // The multiplier on learning speed for this proficiency. By default, it's the time of the recipe, divided by the time multiplier, and by the number of proficiencies that can also be learned from it.
       "max_experience": "15 m" // This recipe cannot raise your experience for that proficiency above 15 minutes worth.
     }
@@ -2955,6 +3008,20 @@ See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteri
 "loudness": 10,       // (Optional) Modifier that can increase or decrease base gun's noise when firing. If loudness value is not specified, then game calculates it automatically from ammo's range, damage, and armor penetration.
 
 "effects" : ["COOKOFF", "SHOT"]
+```
+
+### Ammo Effects
+
+```C++
+    "id": "TACTICAL_LASER_EXPLOSION",   // Defines this as some generic item
+    "type": "ammo_effect",              // Defines this as an ammo_effect 
+    "trigger_chance": 5,                // Option one in X chances for the rest of json defined ammo_effect properties to trigger at the hit location. Defaults to 1
+    "explosion": {  }                   // (Optional) Creates an explosion at the hit location. See "explosion" for details.
+    "aoe": {  },                        // (Optional) Spawn a square of specified fields on the hit location.
+    "trail": {  }                       // (Optional) Spawn a line of fields on the projectiles path.  Not affected by trigger_chance.
+    "foamcrete_build": true             // (Optional) Creates foamcrete fields and walls on the hit location.
+    "do_flashbang": true                // (Optional) Creates a hardcoded Flashbang explosion.
+    "do_emp_blast": true                // (Optional) Creates a one tile radious EMP explosion at the hit location.
 ```
 
 ### Magazine
@@ -5099,21 +5166,25 @@ Migration is used, when we want to remove one item by replacing it with another 
 
 // it seems MIGRATION accept any field actually, but i need someone to confirm it
 
-For vehicle parts, you should use `vehicle_part_migration` inside `data/json/vehicleparts/migration.json`
+Migrating vehicle parts is done using `vehicle_part_migration` type, in the example below - when loading the vehicle any part with id `from` will have it's id switched to `to`.
 
 ```json
-
   {
     "type": "vehicle_part_migration",
     "from": "old_vpart_id",
     "to": "new_vpart_id"
-  },
-  {
-    "type": "vehicle_part_migration",
-    "from": "lit_aisle",
-    "to": "aisle"
   }
 
+```
+
+For bionics, you should use `bionic_migration` type. The migration happens when character is loaded; if `to` is `null` the bionic will be deleted, if `to` is not null the id will be changed to the provided value.
+
+```json
+  {
+    "type": "bionic_migration",
+    "from": "bio_tools_extend",
+    "to": null
+  }
 ```
 
 Obsoletion is used, when we want to remove the item entirely from the game, without any migration. For this you, again, **do not remove item** from the game.
