@@ -14,7 +14,7 @@
       "fill_ter": "t_floor_waxed",
       "rows": [
         "...........--...........",
-        "...,,,.....--.....,,,...",
+        "...,,,...p.--.....,,,...",
         "...,&,.....--.....,&,...",
         "...,,,.....--.....,,,...",
         "...........--...........",
@@ -29,7 +29,7 @@
         ".:  ff  V||||  |dd| ¤@o.",
         ".: hffh yRRRR  |||||||#-",
         ".:  ff                *-",
-        ".:y h          RR||+||#-",
+        ".:y h   Y      RR||+||#-",
         ".#||| ||||  l H|||   ¤#.",
         ".#723_JJJ|a l H|d|  @@o.",
         ".o6______|    H| +  @@o.",
@@ -41,12 +41,12 @@
       "terrain": {
         "_": "t_linoleum_gray",
         ",": "t_dirtmound",
-        "?": "t_shrub_lilac",
+        "?": "t_region_shrub_decorative",
         "/": "t_region_groundcover_urban",
         "&": "t_region_groundcover_urban",
         "Q": "t_floor_waxed"
       },
-      "furniture": { "!": "f_table", "&": "f_boulder_large", "/": [ [ "f_null", 4 ], "f_ladder" ] }
+      "furniture": { "&": "f_boulder_large", "/": [ [ "f_null", 4 ], "f_ladder" ] }
     }
   },
   {
