@@ -74,7 +74,7 @@
     "symbol": "?",
     "color": "green",
     "skill": "traps",
-    "max_level": 3,
+    "max_level": 5,
     "intelligence": 4,
     "time": "20 m"
   },
