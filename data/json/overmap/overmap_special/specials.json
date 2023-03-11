@@ -4444,8 +4444,8 @@
     "locations": [ "forest" ],
     "city_distance": [ 20, 60 ],
     "city_sizes": [ 8, -1 ],
-    "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
+    "occurrences": [ 1, 5 ],
+    "flags": [ "UNIQUE", "CLASSIC", "WILDERNESS", "MAN_MADE" ]
   },
   {
     "id": "Railroad Station",
