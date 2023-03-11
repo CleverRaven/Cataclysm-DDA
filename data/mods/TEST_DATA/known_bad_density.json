@@ -2,7 +2,6 @@
   {
     "type": "test_data",
     "known_bad": [
-      "bread",
       "8mm_inc",
       "meal_chitin_piece",
       "blood",
@@ -278,7 +277,6 @@
       "dried_salad",
       "AID_bio_geiger",
       "8mm_caseless",
-      "sandwich_sauce",
       "lung_provence",
       "portal",
       "dandelion_tea",
@@ -847,7 +845,6 @@
       "firehelmet",
       "wild_herbs",
       "fake_burrowing",
-      "bread_wheat_free",
       "base_plastic_silverware",
       "chopsticks",
       "mannequin_decoy",
