@@ -60,10 +60,7 @@
     "id": "manual_traps_mil",
     "type": "BOOK",
     "category": "manuals",
-    "name": {
-      "str": "FM 20-32 Mine/Countermine Operations manual",
-      "str_pl": "copies of FM 20-32 Mine/Countermine Operations manual"
-    },
+    "name": { "str": "FM 20-32 Mine/Countermine Operations", "str_pl": "copies of FM 20-32 Mine/Countermine Operations" },
     "description": "A hefty military field manual about mine-warfare principles, the mechanics of different types of mines/IED's, and countermine operations.",
     "looks_like": "manual_rifle",
     "weight": "422 g",
