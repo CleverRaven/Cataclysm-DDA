@@ -2104,35 +2104,42 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 }
             }
 
-            std::vector<tripoint> pts;
-            bool climbed = false;
-            for( const tripoint &p : m.points_in_radius( player_character.pos(), 1 ) ) {
-                if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
-                    pts.push_back( p );
-                }
-            }
-
-            if( !pts.empty() ) {
-                const cata::optional<tripoint> pnt = point_selection_menu( pts, false );
-                if( !pnt ) {
-                    break;
-                }
-
-                climb_down( *pnt );
-                climbed = true;
-            }
-
-            if( climbed ) {
-                break;
-            }
-
-            if( !player_character.in_vehicle ) {
-                vertical_move( -1, false );
-            } else if( has_vehicle_control( player_character ) ) {
+            if( has_vehicle_control( player_character ) ) {
                 const optional_vpart_position vp = get_map().veh_at( player_character.pos() );
                 if( vp->vehicle().is_rotorcraft() ) {
                     pldrive( tripoint_below );
+                    break;
                 }
+            }
+
+            if( !player_character.in_vehicle ) {
+                // We're NOT standing on tiles with stairs, ropes, ladders etc
+                if( !m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, player_character.pos() ) ) {
+                    std::vector<tripoint> pts;
+
+                    // Check tiles around player character for open air
+                    for( const tripoint &p : m.points_in_radius( player_character.pos(), 1 ) ) {
+                        if( m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+                            pts.push_back( p );
+                        }
+                    }
+
+                    // If we found tiles with open air, prompt player with query on direction they want to climb
+                    if( !pts.empty() ) {
+                        const cata::optional<tripoint> pnt = point_selection_menu( pts, false );
+                        if( !pnt ) {
+                            break;
+                        }
+
+                        // If player selected direction, climb down there, and exit from the whole ACTION_MOVE_DOWN case
+                        climb_down( *pnt );
+                        break;
+                    }
+                }
+
+                // If we're here, we might or might not be standing on tiles with stairs, ropes, ladders etc
+                // In any case, attempt a descend
+                vertical_move( -1, false );
             }
             break;
         }
