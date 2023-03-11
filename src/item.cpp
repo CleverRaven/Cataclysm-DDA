@@ -11050,7 +11050,7 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty -= charg_used;
     }
 
-    // Modded items can sonsume UPS/bionic energy instead of ammo.
+    // Modded items can consume UPS/bionic energy instead of ammo.
     if( carrier != nullptr ) {
         units::energy wanted_energy = units::from_kilojoule( qty );
 
