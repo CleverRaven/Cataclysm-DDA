@@ -88,7 +88,7 @@
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
-      { "item": "mess_kit", "prob": 5, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 5 },
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "hotplate_induction", "prob": 4, "charges": [ 0, 500 ] },
       { "item": "coffeemaker", "prob": 10, "charges": [ 0, 500 ] },

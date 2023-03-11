@@ -2744,7 +2744,7 @@
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "optical_cloak", 1 ],
       { "item": "holo_cloak", "prob": 1, "charges": [ 0, 1000 ] },
-      { "item": "mess_kit", "prob": 9, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 9 },
       [ "backpack", 38 ],
       [ "briefcase", 10 ],
       { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },

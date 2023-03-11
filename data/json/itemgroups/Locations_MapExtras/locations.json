@@ -2487,7 +2487,7 @@
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 5, "charges": [ 0, 300 ] },
-      { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 10 },
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "popcan_stove", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
