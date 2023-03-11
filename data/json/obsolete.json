@@ -1074,10 +1074,5 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ]
-  },
-  {
-    "type": "recipe",
-    "result": "lobotomizer",
-    "obsolete": true
   }
 ]

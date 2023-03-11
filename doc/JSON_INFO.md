@@ -5193,18 +5193,7 @@ For items, monsters, furniture, terrain, factions, loot groups and lot of simila
 
 For maps, you also remove it from all the places it can occur, add the map into `data/json/obsoletion/`, and also add the location into `data/json/obsolete_terrains.json` list
 
-For recipes, you overwrite the existed recipe like the json below, and add it into `data/json/recipes/recipe_obsolete.json`
-
-```json
-
-{
-  "type": "recipe",
-  "result": "blindfold",
-  "id_suffix": "from_tape",
-  "obsolete": true
-},
-
-```
+For recipes, deleting the recipe is enough.
 
 For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevent the mod from showing into the mod list.
 

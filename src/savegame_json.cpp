@@ -2845,7 +2845,13 @@ void item::craft_data::deserialize( const JsonObject &obj )
     if( disassembly ) {
         making = &recipe_dictionary::get_uncraft( itype_id( recipe_string ) );
     } else {
-        making = &recipe_id( recipe_string ).obj();
+        recipe_id rid( recipe_string );
+        if( !rid.is_valid() ) {
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_MAIN )
+                    << "item::craft_data deserialized invalid recipe_id '" << recipe_string << "'";
+            rid = recipe_id::NULL_ID();
+        }
+        making = &rid.obj();
     }
     obj.read( "comps_used", comps_used );
     next_failure_point = obj.get_int( "next_failure_point", -1 );
@@ -4282,7 +4288,13 @@ void deserialize( recipe_subset &value, const JsonArray &ja )
 {
     value.clear();
     for( std::string && recipe_id_string : ja ) {
-        value.include( &recipe_id( std::move( recipe_id_string ) ).obj() );
+        recipe_id rid( std::move( recipe_id_string ) );
+        if( !rid.is_valid() ) {
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_MAIN )
+                    << "recipe_subset deserialized invalid recipe_id '" << rid.str() << "'";
+            rid = recipe_id::NULL_ID();
+        }
+        value.include( &rid.obj() );
     }
 }
 
