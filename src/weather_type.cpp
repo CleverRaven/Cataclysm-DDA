@@ -111,7 +111,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "ranged_penalty", ranged_penalty );
     mandatory( jo, was_loaded, "sight_penalty", sight_penalty );
     mandatory( jo, was_loaded, "light_modifier", light_modifier );
-    mandatory( jo, was_loaded, "load_order", load_order );
+    mandatory( jo, was_loaded, "priority", priority );
     optional( jo, was_loaded, "sun_multiplier", sun_multiplier, 1.f );
 
     mandatory( jo, was_loaded, "sound_attn", sound_attn );

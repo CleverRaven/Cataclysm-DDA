@@ -15,7 +15,7 @@
     "rains": false,
     "acidic": false,
     "sound_category": "sunny",
-    "load_order": 10,
+    "priority": 10,
     "condition": {
       "and": [
         "is_day",
@@ -41,7 +41,7 @@
     "rains": false,
     "acidic": false,
     "sound_category": "cloudy",
-    "load_order": 20,
+    "priority": 20,
     "condition": {
       "and": [
         { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 40 } ] },
@@ -69,7 +69,7 @@
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "," },
     "sound_category": "drizzle",
     "required_weathers": [ "cloudy" ],
-    "load_order": 30,
+    "priority": 30,
     "condition": {
       "or": [
         { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 96 } ] },
@@ -97,7 +97,7 @@
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "." },
     "sound_category": "drizzle",
     "required_weathers": [ "light_drizzle" ],
-    "load_order": 40,
+    "priority": 40,
     "condition": {
       "or": [
         { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 97 } ] },
@@ -125,7 +125,7 @@
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "," },
     "sound_category": "rainy",
     "required_weathers": [ "light_drizzle", "drizzle" ],
-    "load_order": 50,
+    "priority": 50,
     "condition": {
       "or": [
         { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 98 } ] },
@@ -153,7 +153,7 @@
     "sound_category": "rainstorm",
     "sun_intensity": "none",
     "required_weathers": [ "rain" ],
-    "load_order": 60,
+    "priority": 60,
     "condition": {
       "and": [
         { "compare_num": [ { "weather": "temperature" }, ">=", { "const": 33 } ] },
@@ -181,7 +181,7 @@
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "." },
     "sound_category": "thunder",
     "required_weathers": [ "rain" ],
-    "load_order": 70,
+    "priority": 70,
     "condition": { "compare_num": [ { "weather": "pressure" }, "<", { "const": 996 } ] }
   },
   {
@@ -204,7 +204,7 @@
     "weather_animation": { "factor": 0.04, "color": "light_blue", "sym": "," },
     "sound_category": "thunder",
     "required_weathers": [ "thunder" ],
-    "load_order": 80,
+    "priority": 80,
     "condition": { "compare_num": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
   },
   {
@@ -227,7 +227,7 @@
     "weather_animation": { "factor": 0.01, "color": "light_green", "sym": "." },
     "sound_category": "drizzle",
     "required_weathers": [ "drizzle" ],
-    "load_order": 83
+    "priority": 83
   },
   {
     "id": "acid_rain",
@@ -249,7 +249,7 @@
     "weather_animation": { "factor": 0.02, "color": "light_green", "sym": "," },
     "sound_category": "rainy",
     "required_weathers": [ "rain" ],
-    "load_order": 84
+    "priority": 84
   },
   {
     "id": "flurries",
@@ -271,7 +271,7 @@
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
     "required_weathers": [ "flurries" ],
-    "load_order": 90,
+    "priority": 90,
     "condition": { "compare_num": [ { "weather": "temperature" }, "<", { "const": 33 } ] }
   },
   {
@@ -294,7 +294,7 @@
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "," },
     "sound_category": "snow",
     "required_weathers": [ "rain", "thunder", "lightning" ],
-    "load_order": 100,
+    "priority": 100,
     "condition": { "compare_num": [ { "weather": "temperature" }, "<", { "const": 33 } ] }
   },
   {
@@ -317,7 +317,7 @@
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
     "required_weathers": [ "thunder", "lightning" ],
-    "load_order": 110,
+    "priority": 110,
     "condition": {
       "and": [
         { "compare_num": [ { "weather": "temperature" }, "<", { "const": 33 } ] },
@@ -346,7 +346,7 @@
     "tiles_animation": "weather_portal_storm",
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
-    "load_order": 120,
+    "priority": 120,
     "condition": { "compare_num": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
   },
   {
@@ -370,7 +370,7 @@
     "tiles_animation": "weather_portal_storm",
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
-    "load_order": 130,
+    "priority": 130,
     "condition": { "compare_num": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] }
   }
 ]

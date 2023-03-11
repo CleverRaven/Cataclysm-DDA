@@ -330,7 +330,7 @@ void weather_generator::sort_weather()
     }
     std::sort( sorted_weather.begin(), sorted_weather.end(), []( const weather_type_id & a,
     const weather_type_id & b ) {
-        return a->load_order < b->load_order;
+        return a->priority < b->priority;
     } );
 }
 
