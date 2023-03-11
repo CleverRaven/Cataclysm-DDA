@@ -4853,6 +4853,18 @@
   },
   {
     "type": "construction",
+    "id": "app_microwave",
+    "group": "place_microwave",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "microwave", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_foodco",
     "group": "place_foodco",
     "category": "APPLIANCE",

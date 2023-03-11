@@ -65,7 +65,6 @@
       "folding_solar_panel_v2",
       "broken_mech_combat",
       "beer",
-      "chem_hexamine",
       "sandwich_sauce_wheat_free",
       "mutant_human_flesh",
       "adobe_pallet_full",
@@ -725,7 +724,6 @@
       "mutant_human_cracklins",
       "ammonia_liquid",
       "tainted_marrow",
-      "atomic_coffeepot",
       "human_cooked",
       "AID_bio_armor_legs",
       "5liron",
@@ -946,7 +944,8 @@
       "impure_meat",
       "lizardfolk_club",
       "adrenal_gland_large",
-      "rocuronium"
+      "rocuronium",
+      "alumentum"
     ]
   }
 ]
