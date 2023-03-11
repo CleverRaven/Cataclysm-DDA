@@ -386,6 +386,21 @@
     "obsolete": true
   },
   {
+    "result": "k_gambeson_hood",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson_hood",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xs_k_gambeson_hood",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
     "type": "recipe",
     "result": "tool_small_bootleg_fragmentation_device",
     "obsolete": true
