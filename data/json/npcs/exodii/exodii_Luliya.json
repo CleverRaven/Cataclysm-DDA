@@ -116,22 +116,6 @@
         "topic": "TALK_LULIYA_MUSIC"
       },
       {
-        "text": "Is there anything I can do for you Luliya?",
-        "condition": {
-          "and": [
-            { "u_has_var": "u_luliya_name", "type": "general", "context": "meeting", "value": "yes" },
-            {
-              "u_compare_time_since_var": "u_met_luliya",
-              "type": "test",
-              "context": "var_time_test",
-              "op": ">",
-              "time": "14 days"
-            }
-          ]
-        },
-        "topic": "TALK_LULIYA_CLEAN"
-      },
-      {
         "text": "I can't understand you.",
         "condition": { "u_has_var": "u_met_luliya", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
