@@ -2891,7 +2891,7 @@
     "name": "padded arming pants",
     "description": "Recipes related to constructing padded arming pants.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "gambeson_pants", "xl_gambeson_pants" ],
+    "nested_category_data": [ "gambeson_pants", "xl_gambeson_pants", "gambeson_pants_xs" ],
     "difficulty": 1
   },
   {
