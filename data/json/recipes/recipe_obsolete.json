@@ -340,6 +340,35 @@
     "result": "xl_k_gambeson_pants",
     "type": "recipe",
     "obsolete": true
+  }  {
+    "result": "gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xs_gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xs_k_gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
   },
   {
     "type": "recipe",
