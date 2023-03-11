@@ -40,7 +40,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "quiver_large",
-    "color": "light_gray",
+    "color": "brown",
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -242,20 +242,32 @@
   },
   {
     "id": "western_holster",
-    "copy-from": "holster",
     "type": "ARMOR",
-    "name": { "str": "western holster" },
-    "description": "A Western-style holster as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
+    "name": { "str": "western gun belt" },
+    "description": "A Western-style gun belt as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
     "weight": "260 g",
     "volume": "550 ml",
     "price_postapoc": 500,
     "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "sheath",
+    "color": "light_gray",
     "sided": true,
+    "material_thickness": 2,
     "armor": [
-      { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 1, 1 ], "specifically_covers": [ "torso_lower" ] },
+      {
+        "covers": [ "torso" ],
+        "coverage": 50,
+        "specifically_covers": [ "torso_waist" ],
+        "encumbrance": [ 1, 1 ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
+        ]
+      },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 5,
+        "coverage": 40,
         "encumbrance": [ 2, 3 ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
@@ -298,7 +310,8 @@
         "moves": 20
       }
     ],
-    "use_action": { "type": "holster" }
+    "use_action": { "type": "holster" },
+    "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
     "id": "sholster",

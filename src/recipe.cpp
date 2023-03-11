@@ -498,13 +498,13 @@ void recipe::finalize()
             rpof.time_multiplier = rpof.id->default_time_multiplier();
         }
 
-        if( rpof.fail_multiplier == 0.0f ) {
-            rpof.fail_multiplier = rpof.id->default_fail_multiplier();
+        if( !rpof._skill_penalty_assigned ) {
+            rpof.skill_penalty = rpof.id->default_skill_penalty();
         }
 
-        if( rpof.fail_multiplier < 1.0f && rpof.id->default_fail_multiplier() < 1.0f ) {
-            debugmsg( "proficiency %s provides a fail bonus for not being known in recipe %s  Fail multiplier: %s Default multiplier: %s",
-                      rpof.id.str(), ident_.str(), rpof.fail_multiplier, rpof.id->default_fail_multiplier() );
+        if( rpof.skill_penalty < 0.f && rpof.id->default_skill_penalty() < 0.f ) {
+            debugmsg( "proficiency %s provides a skill bonus for not being known in recipe %s skill penalty: %g default multiplier: %g",
+                      rpof.id.str(), ident_.str(), rpof.skill_penalty, rpof.id->default_skill_penalty() );
         }
 
         // Now that we've done the error checking, log that a proficiency with this id is used
@@ -746,7 +746,7 @@ std::string recipe::required_proficiencies_string( const Character *c ) const
 struct prof_penalty {
     proficiency_id id;
     float time_mult;
-    float failure_mult;
+    float skill_penalty;
     bool mitigated = false;
 };
 
@@ -760,16 +760,16 @@ static std::string profstring( const prof_penalty &prof,
     }
 
     if( prof.time_mult == 1.0f ) {
-        return string_format( _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0failure</color>%s)" ),
-                              name_color, prof.id->name(), color, prof.failure_mult, mitigated_str );
-    } else if( prof.failure_mult == 1.0f ) {
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%.2f\u00a0skill penalty</color>%s)" ),
+                              name_color, prof.id->name(), color, prof.skill_penalty, mitigated_str );
+    } else if( prof.skill_penalty == 0.0f ) {
         return string_format( _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0time</color>%s)" ),
                               name_color, prof.id->name(), color, prof.time_mult, mitigated_str );
     }
 
     return string_format(
-               _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0time, %.1fx\u00a0failure</color>%s)" ),
-               name_color, prof.id->name(), color, prof.time_mult, prof.failure_mult, mitigated_str );
+               _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0time, %.2f\u00a0skill penalty</color>%s)" ),
+               name_color, prof.id->name(), color, prof.time_mult, prof.skill_penalty, mitigated_str );
 }
 
 std::string recipe::used_proficiencies_string( const Character *c ) const
@@ -782,7 +782,7 @@ std::string recipe::used_proficiencies_string( const Character *c ) const
     for( const recipe_proficiency &rec : proficiencies ) {
         if( !rec.required ) {
             if( c->has_proficiency( rec.id ) || helpers_have_proficiencies( *c, rec.id ) )  {
-                used_profs.push_back( { rec.id, rec.time_multiplier, rec.fail_multiplier } );
+                used_profs.push_back( { rec.id, rec.time_multiplier, rec.skill_penalty} );
             }
         }
     }
@@ -876,26 +876,26 @@ float recipe::proficiency_time_maluses( const Character &crafter ) const
     return total_malus;
 }
 
-static float proficiency_failure_malus( const Character &crafter, const recipe_proficiency &prof )
+static float proficiency_skill_malus( const Character &crafter, const recipe_proficiency &prof )
 {
     if( !crafter.has_proficiency( prof.id ) &&
-        !helpers_have_proficiencies( crafter, prof.id ) && prof.fail_multiplier > 1.0f ) {
-        double malus =  prof.fail_multiplier - 1.0f;
+        !helpers_have_proficiencies( crafter, prof.id ) && prof.skill_penalty > 0.f ) {
+        double malus =  prof.skill_penalty;
         malus *= 1.0 - crafter.crafting_inventory().get_book_proficiency_bonuses().fail_factor( prof.id );
         double pl = get_aided_proficiency_level( crafter, prof.id );
         // The failure malus is not completely eliminated until the proficiency is mastered.
         // Most of the mitigation happens at higher pl. See #49198
         malus *= 1.0 - ( 0.75 * std::pow( pl, 3 ) );
-        return static_cast<float>( 1.0 + malus );
+        return static_cast<float>( malus );
     }
-    return 1.0f;
+    return 0.0f;
 }
 
-float recipe::proficiency_failure_maluses( const Character &crafter ) const
+float recipe::proficiency_skill_maluses( const Character &crafter ) const
 {
-    float total_malus = 1.0f;
+    float total_malus = 0.f;
     for( const recipe_proficiency &prof : proficiencies ) {
-        total_malus *= proficiency_failure_malus( crafter, prof );
+        total_malus += proficiency_skill_malus( crafter, prof );
     }
     return total_malus;
 }
@@ -914,7 +914,7 @@ std::string recipe::missing_proficiencies_string( const Character *crafter ) con
             if( !( crafter->has_proficiency( prof.id ) || helpers_have_proficiencies( *crafter, prof.id ) ) ) {
                 prof_penalty pen = { prof.id,
                                      proficiency_time_malus( *crafter, prof ),
-                                     proficiency_failure_malus( *crafter, prof )
+                                     proficiency_skill_malus( *crafter, prof )
                                    };
                 pen.mitigated = book_bonuses.time_factor( pen.id ) != 0.0f ||
                                 book_bonuses.fail_factor( pen.id ) != 0.0f;
@@ -1270,9 +1270,17 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "proficiency", id );
     jo.read( "required", required );
     jo.read( "time_multiplier", time_multiplier );
-    jo.read( "fail_multiplier", fail_multiplier );
+    _skill_penalty_assigned = jo.read( "skill_penalty", skill_penalty );
     jo.read( "learning_time_multiplier", learning_time_mult );
     jo.read( "max_experience", max_experience );
+
+    // TODO: Remove at some point
+    if( jo.has_number( "fail_multiplier" ) ) {
+        debugmsg( "Proficiency %s in a recipe uses 'fail_multiplier' instead of 'skill_penalty'",
+                  id.c_str() );
+        jo.read( "fail_multiplier", skill_penalty );
+        skill_penalty -= 1;
+    }
 }
 
 void book_recipe_data::deserialize( const JsonObject &jo )

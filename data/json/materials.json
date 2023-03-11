@@ -605,7 +605,7 @@
     "type": "material",
     "id": "copper",
     "name": "Copper",
-    "density": 9.0,
+    "density": 8.96,
     "specific_heat_liquid": 0.49,
     "specific_heat_solid": 0.39,
     "latent_heat": 205,

@@ -49,9 +49,10 @@ struct enum_traits<recipe_filter_flags> {
 
 struct recipe_proficiency {
     proficiency_id id;
+    bool _skill_penalty_assigned = false;
     bool required = false;
     float time_multiplier = 0.0f;
-    float fail_multiplier = 0.0f;
+    float skill_penalty = 0.0f;
     float learning_time_mult = 1.0f;
     cata::optional<time_duration> max_experience = cata::nullopt;
 
@@ -214,8 +215,8 @@ class recipe
         std::vector<proficiency_id> used_proficiencies() const;
         // The time malus due to proficiencies lacking
         float proficiency_time_maluses( const Character &crafter ) const;
-        // The failure malus due to proficiencies lacking
-        float proficiency_failure_maluses( const Character &crafter ) const;
+        // The skill malus due to proficiencies lacking
+        float proficiency_skill_maluses( const Character &crafter ) const;
 
         // How active of exercise this recipe is
         float exertion_level() const;
