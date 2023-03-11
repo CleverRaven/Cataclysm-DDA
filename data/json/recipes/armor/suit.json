@@ -2917,7 +2917,7 @@
     ]
   },
   {
-    "result": "xs_gambeson",
+    "result": "gambeson_xs",
     "//": "420g per sheet (each Sheet is roughly 0.25mm, being two layers of cotton each about half the GSM of canvas which is .25mm)",
     "//0": "3360g of sheets total for a 8887g product, leaving 5527g of waste fabric batting",
     "type": "recipe",
@@ -2972,7 +2972,7 @@
     ]
   },
   {
-    "result": "xs_gambeson_vest",
+    "result": "gambeson_vest_xs",
     "//": "420g per sheet (each Sheet is roughly 0.25mm, being two layers of cotton each about half the GSM of canvas which is .25mm)",
     "//0": "3360g of sheets total for a 6840g product, leaving 3480g of waste fabric batting",
     "type": "recipe",
@@ -3019,7 +3019,7 @@
     "components": [ [ [ "sheet", 6 ] ], [ [ "gambeson_batting", 32 ] ] ]
   },
   {
-    "result": "xs_gambeson_pants",
+    "result": "gambeson_pants_xs",
     "//": "420g per sheet (each Sheet is roughly 0.25mm, being two layers of cotton each about half the GSM of canvas which is .25mm)",
     "//0": "1260g of sheets total for a 2052g product, leaving 792g of waste fabric batting",
     "type": "recipe",
