@@ -266,6 +266,82 @@
     "obsolete": true
   },
   {
+    "result": "gambeson_vest",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "gambeson_vest_xs",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_xs",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_pants",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_vest",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_vest",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_vest_xs",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_vest_xs",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "xl_gambeson_vest",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson_vest",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson_vest",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson_pants",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
     "type": "recipe",
     "result": "tool_small_bootleg_fragmentation_device",
     "obsolete": true
