@@ -2867,11 +2867,7 @@
     "name": "gambeson vests",
     "description": "Recipes related to constructing padded gambesons without sleeves.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "gambeson_vest",
-      "gambeson_vest_xs",
-      "xl_gambeson_vest"
-    ],
+    "nested_category_data": [ "gambeson_vest", "gambeson_vest_xs", "xl_gambeson_vest" ],
     "difficulty": 1
   },
   {
@@ -2907,11 +2903,7 @@
     "name": "padded gambeson hoods",
     "description": "Recipes related to constructing padded gambeson hoods.",
     "skill_used": "fabrication",
-    "nested_category_data": [
-      "gambeson_hood",
-      "xl_gambeson_hood",
-      "xs_gambeson_hood"
-    ],
+    "nested_category_data": [ "gambeson_hood", "xl_gambeson_hood", "xs_gambeson_hood" ],
     "difficulty": 1
   },
   {
