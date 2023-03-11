@@ -621,6 +621,43 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "apartment_complex_entrance",
+      "apartment_complex_corner_ground",
+      "apartment_complex_corner_inner_ground",
+      "apartment_complex_straight_ground",
+      "apartment_complex_straight_stairs_even_ground",
+      "apartment_complex_center_stairs_even_ground",
+      "apartment_complex_corner",
+      "apartment_complex_corner_inner",
+      "apartment_complex_straight",
+      "apartment_complex_straight_stairs_even",
+      "apartment_complex_straight_stairs_odd",
+      "apartment_complex_center_stairs_even",
+      "apartment_complex_center_stairs_odd",
+      "apartment_complex_corner_roof",
+      "apartment_complex_corner_inner_roof",
+      "apartment_complex_straight_roof",
+      "apartment_complex_straight_stairs_even_roof",
+      "apartment_complex_straight_stairs_odd_roof",
+      "apartment_complex_straight_stairs_roof_+1",
+      "apartment_complex_center_stairs_even_roof",
+      "apartment_complex_center_stairs_odd_roof",
+      "apartment_complex_center_stairs_roof_+1"
+    ],
+    "copy-from": "apartments_tower_any",
+    "name": "apartment complex"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "apartment_complex_courtyard",
+    "copy-from": "generic_city_building",
+    "name": "courtyard",
+    "sym": "O",
+    "color": "light_gray"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "homelesscamp", "homelesscamp_npc" ],
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "homeless camp",
