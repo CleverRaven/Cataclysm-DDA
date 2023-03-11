@@ -1330,5 +1330,29 @@
     "copy-from": "groundnut_prepared",
     "description": "Boiled ground nuts.  They look and taste a little like potatoes, but with a slight nutty taste.",
     "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "salsa",
+    "name": { "str_sp": "salsa" },
+    "weight": "67 g",
+    "color": "red",
+    "spoils_in": "4 days",
+    "container": "jar_glass_sealed",
+    "sealed": false,
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 3,
+    "calories": 42,
+    "description": "Chopped tomatoes, spices, and any number of other vegetables, used as a condiment in Mexican food.  Not so good on its own, but great in a dish.",
+    "price": 200,
+    "price_postapoc": 100,
+    "material": [ "tomato", "veggy" ],
+    "primary_material": "tomato",
+    "volume": "250 ml",
+    "flags": [ "FREEZERBURN" ],
+    "charges": 4,
+    "vitamins": [ [ "iron", 2 ] ],
+    "fun": 2
   }
 ]

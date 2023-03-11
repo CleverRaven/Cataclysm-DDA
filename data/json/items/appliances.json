@@ -327,7 +327,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "compact_ASRG_containment",
-    "name": { "str": "advanced Stirling radioisotope generator", "str_sp": "advanced Stirling radioisotope generators" },
+    "name": { "str": "advanced Stirling radioisotope generator" },
     "looks_like": "t_plut_generator",
     "description": "A rather heavy brick of metal housing an ASRG, formerly designed by NASA and repurposed for terrestrial use.  Will provide about 130w, basically forever as far as you're concerned.  Even though the alpha radiation these run off of isn't very dangerous in case of a breach, this unit appears to be armored to take a beating and is a good deal heavier owing to its composite plating.",
     "//0": "the base unit is 39x46x76cm (136 liters) and weighs 32 kg. I am assuming that XEDRA or another org added a lot of armor as a hedge against portal fuckery",

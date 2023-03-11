@@ -315,23 +315,23 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "WARMTH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->bash_resist() );
+                return get_decimal_string( loc->resist( damage_type::BASH ) );
             }, _( "BASH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->cut_resist() );
+                return get_decimal_string( loc->resist( damage_type::CUT ) );
             }, _( "CUT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->bullet_resist() );
+                return get_decimal_string( loc->resist( damage_type::BULLET ) );
             }, _( "BULLET" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->acid_resist() );
+                return get_decimal_string( loc->resist( damage_type::ACID ) );
             }, _( "ACID" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->fire_resist() );
+                return get_decimal_string( loc->resist( damage_type::HEAT ) );
             }, _( "FIRE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -1809,7 +1809,7 @@ class repair_inventory_preset: public inventory_selector_preset
                                                            num_comp ), num_comp < comp_needed ? c_red : c_unset ) );
                     }
                 }
-                std::string ret = join( material_list, ", " );
+                std::string ret = string_join( material_list, ", " );
                 if( ret.empty() ) {
                     ret = _( "<color_red>NONE</color>" );
                 }

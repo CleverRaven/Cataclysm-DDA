@@ -2950,6 +2950,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle prone",
+    "category": "DEFAULTMODE",
+    "id": "toggle_prone"
+  },
+  {
+    "type": "keybinding",
     "name": "Movement mode menu",
     "category": "DEFAULTMODE",
     "id": "open_movement",

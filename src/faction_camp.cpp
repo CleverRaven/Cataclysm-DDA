@@ -98,7 +98,7 @@ static const item_group_id
 Item_spawn_data_foraging_faction_camp_winter( "foraging_faction_camp_winter" );
 static const item_group_id Item_spawn_data_forest( "forest" );
 static const item_group_id
-Item_spawn_data_gathering_faction_base_camp_firewood( "gathering_faction_base_camp_firewood" );
+Item_spawn_data_gathering_faction_camp_firewood( "gathering_faction_camp_firewood" );
 
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
@@ -707,29 +707,6 @@ void talk_function::start_camp( npc &p )
     }
 }
 
-void talk_function::recover_camp( npc &p )
-{
-    const tripoint_abs_omt omt_pos = p.global_omt_location();
-    const std::string &omt_ref = overmap_buffer.ter( omt_pos ).id().c_str();
-    if( omt_ref.find( "faction_base_camp" ) == std::string::npos ) {
-        popup( _( "There is no faction camp here to recover!" ) );
-        return;
-    }
-    get_basecamp( p );
-}
-
-void talk_function::remove_overseer( npc &p )
-{
-    size_t suffix = p.get_name().find( _( ", Camp Manager" ) );
-    if( suffix != std::string::npos ) {
-        p.get_name() = p.get_name().substr( 0, suffix );
-    }
-
-    add_msg( _( "%s has abandoned the camp." ), p.get_name() );
-    p.companion_mission_role_id.clear();
-    stop_guard( p );
-}
-
 void talk_function::basecamp_mission( npc &p )
 {
     const std::string title = _( "Base Missions" );
@@ -843,7 +820,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
                                   "%s\n"
                                   "Risk: Very Low\n"
                                   "Time: 3 Hours, Repeated\n"
-                                  "Positions: %d/3\n" ), gathering_description( gather_bldg ),
+                                  "Positions: %d/3\n" ), gathering_description(),
                                npc_list.size() );
         mission_key.add_start( miss_id, name_display_of( miss_id ),
                                entry, npc_list.size() < 3 );
@@ -1841,7 +1818,7 @@ void basecamp::start_upgrade( const mission_id &miss_id )
     //Stop upgrade if you don't have materials
     if( making.deduped_requirements().can_make_with_inventory(
             _inv, making.get_component_filter() ) ) {
-        bool must_feed = miss_id.parameters != "faction_base_camp_1";
+        bool must_feed = !making.has_flag( "NO_FOOD_REQ" );
 
         basecamp_action_components components( making, 1, *this );
         if( !components.choose_components() ) {
@@ -3470,9 +3447,9 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
 
     item_group_id itemlist( "forest" );
     if( miss_id.id == Camp_Collect_Firewood ) {
-        itemlist = Item_spawn_data_gathering_faction_base_camp_firewood;
+        itemlist = Item_spawn_data_gathering_faction_camp_firewood;
     } else if( miss_id.id == Camp_Gather_Materials ) {
-        itemlist = get_gatherlist();
+        itemlist = Item_spawn_data_forest;
     } else if( miss_id.id == Camp_Foraging ) {
         switch( season_of_year( calendar::turn ) ) {
             case SPRING:
@@ -4760,6 +4737,7 @@ std::vector<std::pair<std::string, tripoint_abs_omt>> talk_function::om_building
         const oter_id &omt_rnear = overmap_buffer.ter( omt_near_pos );
         std::string om_rnear_id = omt_rnear.id().c_str();
         if( !purge || ( om_rnear_id.find( "faction_base_" ) != std::string::npos &&
+                        // TODO: this exclusion check can be removed once primitive field camp OMTs have been purged
                         om_rnear_id.find( "faction_base_camp" ) == std::string::npos ) ) {
             om_camp_region.emplace_back( om_rnear_id, omt_near_pos );
         }
@@ -4901,14 +4879,9 @@ std::string basecamp::recruit_description( int npc_count ) const
     return desc;
 }
 
-std::string basecamp::gathering_description( const std::string &bldg )
+std::string basecamp::gathering_description()
 {
-    item_group_id itemlist;
-    if( item_group::group_is_defined( item_group_id( "gathering_" + bldg ) ) ) {
-        itemlist = item_group_id( "gathering_" + bldg );
-    } else {
-        itemlist = Item_spawn_data_forest;
-    }
+    item_group_id itemlist = Item_spawn_data_forest;
     std::string output;
 
     // Functions like the debug item group tester but only rolls 6 times so the player

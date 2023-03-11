@@ -1184,11 +1184,11 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
             info.back().bNewLine = true;
 
             info.emplace_back( arm_type_str, _( "<bold>Protection</bold>: Bash: " ), "",
-                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.bash_resist() );
+                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.resist( damage_type::BASH ) );
             info.emplace_back( arm_type_str, space + _( "Cut: " ), "",
-                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.cut_resist() );
+                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.resist( damage_type::CUT ) );
             info.emplace_back( arm_type_str, space + _( "Ballistic: " ), "", iteminfo::is_decimal,
-                               ablative_armor.bullet_resist() );
+                               ablative_armor.resist( damage_type::BULLET ) );
         }
     } else if( data->ammo_restriction.empty() ) {
         // With no ammo_restriction defined, show current volume/weight, and total capacity

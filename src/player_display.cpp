@@ -22,6 +22,7 @@
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
+#include "flag.h"
 #include "enum_conversions.h"
 #include "game.h"
 #include "input.h"
@@ -248,6 +249,20 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
         }
         float cur_score = part->get_limb_score( sc.getId() );
         float bp_score = bp->get_limb_score( sc.getId() );
+        // Check for any global limb score modifiers
+        for( const effect &eff : you.get_effects_with_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
+            cur_score *= eff.get_limb_score_mod( sc.getId(), you.resists_effect( eff ) );
+        }
+        // Check for local score-modifying effects only if we have any
+        if( you.has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+            for( const effect &local : you.get_effects_from_bp( part->get_id() ) ) {
+                float local_mul = 1.0f;
+                if( local.has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+                    local_mul = local.get_limb_score_mod( sc.getId(), you.resists_effect( local ) );
+                    cur_score *= local_mul;
+                }
+            }
+        }
         s.emplace_back( get_score_text( sc.name().translated(), cur_score, bp_score ) );
     }
     for( const character_modifier &mod : character_modifier::get_all() ) {

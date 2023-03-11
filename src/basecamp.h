@@ -231,7 +231,6 @@ class basecamp
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
         std::list<item> use_charges( const itype_id &fake_id, int &quantity );
-        item_group_id get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search
@@ -267,7 +266,7 @@ class basecamp
         std::string recruit_description( int npc_count ) const;
         /// Provides a "guess" for some of the things your gatherers will return with
         /// to upgrade the camp
-        std::string gathering_description( const std::string &bldg );
+        std::string gathering_description();
         /// Returns a string for the number of plants that are harvestable, plots ready to plant,
         /// and ground that needs tilling
         std::string farm_description( const tripoint_abs_omt &farm_pos, size_t &plots_count,

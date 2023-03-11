@@ -650,32 +650,6 @@ void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_
     last_craft->execute();
 }
 
-// @param offset is the index of the created item in the range [0, batch_size-1],
-// it makes sure that the used items are distributed equally among the new items.
-static void set_components( std::list<item> &components, const std::list<item> &used,
-                            const int batch_size, const size_t offset )
-{
-    if( batch_size <= 1 ) {
-        components.insert( components.begin(), used.begin(), used.end() );
-        return;
-    }
-    // This count does *not* include items counted by charges!
-    size_t non_charges_counter = 0;
-    for( const item &tmp : used ) {
-        if( tmp.count_by_charges() ) {
-            components.push_back( tmp );
-            // This assumes all (count-by-charges) items of the same type have been merged into one,
-            // which has a charges value that can be evenly divided by batch_size.
-            components.back().charges = tmp.charges / batch_size;
-        } else {
-            if( ( non_charges_counter + offset ) % batch_size == 0 ) {
-                components.push_back( tmp );
-            }
-            non_charges_counter++;
-        }
-    }
-}
-
 static cata::optional<item_location> wield_craft( Character &p, item &craft )
 {
     if( p.wield( craft ) ) {
@@ -1008,95 +982,246 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
     return player_gained_prof;
 }
 
-double Character::crafting_success_roll( const recipe &making ) const
+float Character::get_recipe_weighted_skill_average( const recipe &making ) const
 {
-    if( has_trait( trait_DEBUG_CNF ) ) {
-        return 1.0;
-    }
-
-    // Adjust skill and difficulty such that the lowest level is 1 not 0
-    // This allows characters with 0 level skills to attempt higher level recipes
-    int primary_skill_level = get_skill_level( making.skill_used ) + 1;
-    int primary_difficulty = making.difficulty + 1;
-
-    int secondary_dice = 0;
+    int secondary_skill_total = 0;
     int secondary_difficulty = 0;
-    for( const auto &pr : making.required_skills ) {
-        // Adjust skill and difficulty such that the lowest level is 1 not 0
-        // This allows characters with 0 level skills to attempt higher level recipes
-        secondary_dice += get_skill_level( pr.first ) + 1;
-        secondary_difficulty += pr.second + 1;
+    for( const std::pair<const skill_id, int> &count_secondaries : making.required_skills ) {
+        // the difficulty of each secondary skill, count_secondaries.second, adds weight:
+        // skills required at a higher level count more.
+        secondary_skill_total += get_skill_level( count_secondaries.first ) * count_secondaries.second;
+        secondary_difficulty += count_secondaries.second;
     }
+    add_msg_debug( debugmode::DF_CRAFTING,
+                   "For craft %s, has %d secondary skills with difficulty sum %d", making.ident().str(),
+                   secondary_skill_total, secondary_difficulty );
+    // The primary required skill counts extra compared to the secondary skills, before factoring in the
+    // weight added by the required level.
+    const float weighted_skill_average =
+        ( ( 2.0f * making.difficulty * get_skill_level( making.skill_used ) ) + secondary_skill_total ) /
+        // No DBZ
+        std::max( 1.f, ( 2.0f * making.difficulty + secondary_difficulty ) );
+    add_msg_debug( debugmode::DF_CRAFTING, "Weighted skill average: %g", weighted_skill_average );
 
-    // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
-    int skill_dice;
-    if( secondary_difficulty > 0 ) {
-        skill_dice = primary_skill_level * 3 + secondary_dice;
-    } else {
-        skill_dice = primary_skill_level * 4;
-    }
-    // Even with no skill you should have "some" chance to complete a craft
-    // this is equilavant to a quarter of a level
-    if( skill_dice == 0 ) {
-        skill_dice = 1;
-    }
-
-    for( const npc *np : get_crafting_helpers() ) {
-        if( np->get_skill_level( making.skill_used ) >=
-            get_skill_level( making.skill_used ) ) {
-            // NPC assistance is worth half a skill level
-            skill_dice += 2;
-            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->get_name() );
-            break;
-        }
-    }
+    float total_skill_modifiers = 0.0f;
 
     // farsightedness can impose a penalty on electronics and tailoring success
-    // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
+    // This should be changed to a json-defined penalty by skill (vision_penalty) in skills.json
     if( has_flag( json_flag_HYPEROPIC ) && !worn_with_flag( flag_FIX_FARSIGHT ) &&
         !has_effect( effect_contacts ) ) {
-        int main_rank_penalty = 0;
+        float vision_penalty = 0.0f;
         if( making.skill_used == skill_electronics ) {
-            main_rank_penalty = 2;
+            vision_penalty = 2.0f;
         } else if( making.skill_used == skill_tailor ) {
-            main_rank_penalty = 1;
+            vision_penalty = 1.0f;
         }
-        skill_dice -= main_rank_penalty * 4;
+        total_skill_modifiers -= vision_penalty;
     }
 
-    // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
-    // not inability to see what you're doing
+    // Mutations can define specific skill bonuses and penalties.  Gotta include those.
     for( const trait_id &mut : get_mutations() ) {
-        for( const std::pair<const skill_id, int> &skib : mut->craft_skill_bonus ) {
-            if( making.skill_used == skib.first ) {
-                skill_dice += skib.second;
+        for( const std::pair<const skill_id, int> &skill_bonuses : mut->craft_skill_bonus ) {
+            if( making.skill_used == skill_bonuses.first ) {
+                total_skill_modifiers += skill_bonuses.second * 1.0f;
             }
         }
     }
 
-    // Sides on dice is 16 plus your current intelligence
-    ///\EFFECT_INT increases crafting success chance
-    const int skill_sides = 16 + int_cur;
+    // TO DO: Attribute role should also be data-driven either in skills.json or in the recipe itself.
+    // For now let's just use Intelligence.  For the average intelligence of 8, give +2.  Inc/dec by 0.25 per stat point.
+    // This ensures that at parity, where skill = difficulty, you have a roughly 85% chance of success at average intelligence.
+    total_skill_modifiers += int_cur / 4.0f;
+    add_msg_debug( debugmode::DF_CRAFTING, "Total skill modifiers: %g (+%g from int)",
+                   total_skill_modifiers, int_cur / 4.f );
 
-    int diff_dice;
-    if( secondary_difficulty > 0 ) {
-        diff_dice = primary_difficulty * 3 + secondary_difficulty;
-    } else {
-        // Since skill level is * 4 also
-        diff_dice = primary_difficulty * 4;
+    // Missing proficiencies penalize skill level
+    for( const recipe_proficiency &recip : making.proficiencies ) {
+        if( !recip.required && !has_proficiency( recip.id ) ) {
+            total_skill_modifiers -= recip.skill_penalty;
+        }
     }
 
-    const int diff_sides = 24; // 16 + 8 (default intelligence)
+    add_msg_debug( debugmode::DF_CHARACTER, "Total skill modifiers after proficiencies: %g",
+                   total_skill_modifiers );
+    return weighted_skill_average + total_skill_modifiers;
+}
 
-    const double skill_roll = dice( skill_dice, skill_sides );
-    const double diff_roll = dice( diff_dice, diff_sides );
-
-    if( diff_roll == 0 ) {
-        // Automatic success
-        return 2;
+Character::craft_roll_data Character::recipe_success_roll_data( const recipe &making ) const
+{
+    // We're going to use a sqrt( sum of squares ) method here to give diminishing returns for more low level helpers.
+    float player_weighted_skill_average = get_recipe_weighted_skill_average( making );
+    bool negative = player_weighted_skill_average < 0;
+    player_weighted_skill_average = std::pow( player_weighted_skill_average, 2 );
+    if( negative ) {
+        player_weighted_skill_average *= -1;
     }
 
-    return ( skill_roll / diff_roll ) / making.proficiency_failure_maluses( *this );
+    float npc_helpers_weighted_average = 0.0f;
+    for( const npc *np : get_crafting_helpers() ) {
+        // can the NPC actually craft this recipe?
+        bool has_all_skills = np->get_skill_level( making.skill_used ) >= making.difficulty;
+        if( has_all_skills ) {
+            for( const std::pair<const skill_id, int> &secondary_skills : making.required_skills ) {
+                if( np->get_skill_level( secondary_skills.first ) < secondary_skills.second ) {
+                    has_all_skills = false;
+                }
+            }
+        }
+        if( has_all_skills && !making.character_has_required_proficiencies( *np ) ) {
+            has_all_skills = false;
+        }
+        if( has_all_skills ) {
+            const float helper_skill_average = std::max( np->get_recipe_weighted_skill_average( making ),
+                                               0.0f );
+            npc_helpers_weighted_average += std::pow( helper_skill_average, 2 );
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
+        }
+    }
+
+    // Use a sum of squares to determine the final weighted average.
+    negative = false;
+    float summed_skills = player_weighted_skill_average + npc_helpers_weighted_average;
+    if( summed_skills < 0 ) {
+        negative = true;
+        // Store that it was negative to reapply later, then make it positive because we need a sqrt.
+        summed_skills *= -1;
+    }
+    float weighted_skill_average = sqrt( summed_skills );
+    if( negative ) {
+        weighted_skill_average *= -1;
+    }
+    add_msg_debug( debugmode::DF_CHARACTER, "Skill combined with followers: %f",
+                   weighted_skill_average );
+
+    int secondary_difficulty = 0;
+    int secondary_level_count = 0;
+    for( const std::pair<const skill_id, int> &count_secondaries : making.required_skills ) {
+        secondary_level_count += count_secondaries.second;
+        secondary_difficulty += std::pow( count_secondaries.second, 2 );
+    }
+
+    // The actual difficulty of the skill check is equal to:
+    // (2*(primary skill difficulty)^2 + (sum of secondary difficulties)) / (2*(primary skill difficulty) + number of secondary skills)
+    // This is basically just a hard to read weighted average formula: the fact that the primary difficulty gets squared
+    // and then divided out again makes it a bit messy. Sorry, less mathy friends.
+    const float final_difficulty =
+        ( 2.0f * making.difficulty * making.difficulty + 1.0f * secondary_difficulty ) /
+        // NO DBZ
+        std::max( 1.f, ( 2.0f * making.difficulty + 1.0f * secondary_level_count ) );
+    add_msg_debug( debugmode::DF_CHARACTER, "Final craft difficulty: %f", final_difficulty );
+
+    // in the future we might want to make the standard deviation vary depending on some feature of the recipe.
+    // For now, it varies only depending on your skill relative to the recipe's difficulty.
+    float crafting_stddev = 2.0f;
+    if( final_difficulty > weighted_skill_average ) {
+        // Increase the standard deviation by 0.33 for every point below the difficulty your skill level is.
+        // This makes the rolls more random and "swingy" at low levels, based more on luck.
+        crafting_stddev += ( final_difficulty - weighted_skill_average ) / 3;
+    }
+    if( final_difficulty < weighted_skill_average ) {
+        // decrease the standard deviation by 0.25 for every point above the difficulty your skill level is, to a cap of 1.
+        // This means that luck plays less of a role the more overqualified you are.
+        crafting_stddev -= std::min( ( weighted_skill_average - final_difficulty ) / 4, 1.0f );
+    }
+
+    // Let's just be careful, I don't want to touch a negative stddev
+    crafting_stddev = std::max( crafting_stddev, 0.f );
+
+    craft_roll_data ret;
+    ret.center = weighted_skill_average;
+    ret.stddev = crafting_stddev;
+    ret.final_difficulty = final_difficulty + 1;
+    if( has_trait( trait_DEBUG_CNF ) ) {
+        ret.center = 2.f;
+        ret.stddev = 0.f;
+        ret.final_difficulty = 0.f;
+    }
+    return ret;
+}
+
+Character::craft_roll_data Character::recipe_failure_roll_data( const recipe &making ) const
+{
+    craft_roll_data data = recipe_success_roll_data( making );
+    // Fund the numbers for the outcomes we want
+    data.final_difficulty -= 1;
+    data.final_difficulty *= 0.25;
+    data.stddev *= 0.5;
+    return data;
+}
+
+float Character::crafting_success_roll( const recipe &making ) const
+{
+    craft_roll_data data = recipe_success_roll_data( making );
+    float craft_roll = std::max( normal_roll( data.center, data.stddev ), 0.0 );
+
+    add_msg_debug( debugmode::DF_CHARACTER, "Crafting skill roll: %f, final difficulty %g", craft_roll,
+                   data.final_difficulty );
+
+    return std::max( craft_roll - data.final_difficulty, 0.0f );
+}
+
+float Character::crafting_failure_roll( const recipe &making ) const
+{
+    craft_roll_data data = recipe_failure_roll_data( making );
+    float craft_roll = std::max( normal_roll( data.center, data.stddev ), 0.0 );
+
+    add_msg_debug( debugmode::DF_CHARACTER, "Crafting skill roll: %f, final difficulty %g", craft_roll,
+                   data.final_difficulty );
+
+    return std::max( craft_roll, 0.0f );
+}
+
+// Returns the area under a curve with provided standard deviation and center
+// from difficulty to positive to infinity. That is, the chance that a normal roll on
+// said curve will return a value of difficulty or greater.
+static float normal_roll_chance( float center, float stddev, float difficulty )
+{
+    cata_assert( stddev >= 0.f );
+    // We're going to be using them a lot, so let's name our variables.
+    // M = the given "center" of the curve
+    // S = the given standard deviation of the curve
+    // A = the difficulty
+    // So, the equation of the normal curve is...
+    // y = (1.f/(S*std::sqrt(2 * M_PI))) * exp(-(std::pow(x - M, 2))/(2 * std::pow(S, 2)))
+    // Thanks to wolfram alpha, we know the integral of that from A to B to be
+    // 0.5 * (erf((M-A)/(std::sqrt(2) * S)) - erf((M-B)/(std::sqrt(2) * S)))
+    // And since we know B to be infinity, we can simplify that to
+    // 0.5 * (erfc((A-m)/(std::sqrt(2)* S))+sgn(S)-1) (as long as S != 0)
+    // Wait a second, what are erf, erfc and sgn?
+    // Oh, those are the error function, complementary error function, and sign function
+    // Luckily, erf() is provided to us in math.h, and erfc is just 1 - erf
+    // Sign is pretty obvious x > 0 ? x == 0 ? 0 : 1 : -1;
+    // Since we know S will always be > 0, that term vanishes.
+
+    // With no standard deviation, we will always return center
+    if( stddev == 0.f ) {
+        return ( center > difficulty ) ? 1.f : 0.f;
+    }
+
+    float numerator = difficulty - center;
+    float denominator = std::sqrt( 2 ) * stddev;
+    float compl_erf = 1.f - std::erf( numerator / denominator );
+    return 0.5 * compl_erf;
+}
+
+float Character::recipe_success_chance( const recipe &making ) const
+{
+    // We calculate the failure chance of a recipe by performing a normal roll with a given
+    // standard deviation and center, then subtracting a "final difficulty" score from that.
+    // If that result is above 1, there is no chance of failure.
+    craft_roll_data data = recipe_success_roll_data( making );
+
+    return normal_roll_chance( data.center, data.stddev, 1.f + data.final_difficulty );
+}
+
+float Character::item_destruction_chance( const recipe &making ) const
+{
+    // If a normal roll with these parameters rolls over 1, we will not have a catastrophic failure
+    // If we roll under one, we will
+    craft_roll_data data = recipe_failure_roll_data( making );
+
+    // normal_roll_chance returns the chance that we roll over, we want the chance we roll under
+    return 1.f - normal_roll_chance( data.center, data.stddev, 1.f + data.final_difficulty );
 }
 
 int item::get_next_failure_point() const
@@ -1116,9 +1241,16 @@ void item::set_next_failure_point( const Character &crafter )
     }
 
     const int percent = 10000000;
-    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent;
+    const float roll = crafter.crafting_success_roll( get_making() );
+    const int failure_point_delta = roll * percent;
 
     craft_data_->next_failure_point = item_counter + failure_point_delta;
+    // Accurately prints if we multiply by 100
+    const float percent_fp = static_cast<float>( percent ) * 100;
+    add_msg_debug( debugmode::DF_CRAFTING,
+                   "Set failure point: chose +%g%% for %s, will occur when progress hits %g%% (roll %g)",
+                   failure_point_delta / percent_fp, get_making().ident().str(),
+                   craft_data_->next_failure_point / percent_fp, roll );
 }
 
 static void destroy_random_component( item &craft, const Character &crafter )
@@ -1128,7 +1260,7 @@ static void destroy_random_component( item &craft, const Character &crafter )
         return;
     }
 
-    item destroyed = random_entry_removed( craft.components );
+    item destroyed = craft.components.get_and_remove_random_entry();
 
     crafter.add_msg_player_or_npc( game_message_params( game_message_type::m_bad ),
                                    _( "You mess up and destroy the %s." ),
@@ -1142,7 +1274,7 @@ bool item::handle_craft_failure( Character &crafter )
         return false;
     }
 
-    const double success_roll = crafter.crafting_success_roll( get_making() );
+    const double success_roll = crafter.crafting_failure_roll( get_making() );
     const int starting_components = this->components.size();
     // Destroy at most 75% of the components, always a chance of losing 1 though
     const size_t max_destroyed = std::max<size_t>( 1, components.size() * 3 / 4 );
@@ -1219,10 +1351,12 @@ void item::inherit_flags( const item &parent, const recipe &making )
     }
 }
 
-void item::inherit_flags( const std::list<item> &parents, const recipe &making )
+void item::inherit_flags( const item_components &parents, const recipe &making )
 {
-    for( const item &parent : parents ) {
-        inherit_flags( parent, making );
+    for( const item_components::type_vector_pair &tvp : parents ) {
+        for( const item &parent : tvp.second ) {
+            inherit_flags( parent, making );
+        }
     }
 }
 
@@ -1235,7 +1369,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
     const recipe &making = craft.get_making();
     const int batch_size = craft.get_making_batch_size();
-    std::list<item> &used = craft.components;
+    item_components &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
     const bool should_heat = making.hot_result();
     const bool remove_raw = making.removes_raw();
@@ -1297,49 +1431,39 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either lose this information or merge it somehow.
-            set_components( food_contained.components, used, batch_size, newit_counter );
+            food_contained.components = used.split( batch_size, newit_counter );
             newit_counter++;
         } else if( food_contained.is_food() && !food_contained.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
             // use a copy of the used list so that the byproducts don't build up over iterations (#38071)
-            std::list<item> usedbp;
+            item_components usedbp;
 
             // if a component item has "cooks_like" it will be replaced by that item as a component
-            for( item &comp : used ) {
-                // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
-                if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
-                    const double relative_rot = comp.get_relative_rot();
-                    comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
-                    comp.set_relative_rot( relative_rot );
-                }
-                // If this recipe is cooked, components are no longer raw.
-                if( should_heat || remove_raw ) {
-                    comp.set_flag_recursive( flag_COOKED );
-                }
-
-                // when batch crafting, set_components depends on components being merged, so merge any unmerged ones here
-                if( comp.count_by_charges() ) {
-                    auto it = std::find_if( usedbp.begin(), usedbp.end(), [&comp]( const item & usedit ) {
-                        return usedit.type == comp.type;
-                    } );
-
-                    if( it != usedbp.end() ) {
-                        it->charges += comp.charges;
-                        continue;
+            for( item_components::type_vector_pair &tvp : used ) {
+                for( item &comp : tvp.second ) {
+                    // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
+                    if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
+                        const double relative_rot = comp.get_relative_rot();
+                        comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
+                        comp.set_relative_rot( relative_rot );
                     }
-                }
+                    // If this recipe is cooked, components are no longer raw.
+                    if( should_heat || remove_raw ) {
+                        comp.set_flag_recursive( flag_COOKED );
+                    }
 
-                usedbp.emplace_back( comp );
+                    usedbp.add( comp );
+                }
             }
 
             // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
             if( making.has_byproducts() ) {
                 for( item &byproduct : making.create_byproducts( batch_size ) ) {
                     byproduct.set_flag( flag_BYPRODUCT );
-                    usedbp.push_back( byproduct );
+                    usedbp.add( byproduct );
                 }
             }
             // store components for food recipes that do not have the override flag
-            set_components( food_contained.components, usedbp, batch_size, newit_counter );
+            food_contained.components = usedbp.split( batch_size, newit_counter );
 
             // store the number of charges the recipe would create with batch size 1.
             if( &newit != &food_contained ) {  // If a canned/contained item was crafted…
@@ -1514,7 +1638,9 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
             item_selections.push_back( is );
         }
         for( const auto &it : item_selections ) {
-            craft.components.splice( craft.components.end(), consume_items( it, batch_size, filter ) );
+            for( item &itm : consume_items( it, batch_size, filter ) ) {
+                craft.components.add( itm );
+            }
         }
     }
 
@@ -1589,7 +1715,7 @@ const requirement_data *Character::select_requirements(
         std::vector<std::string> component_lines =
             req->get_folded_components_list( TERMX - 4, c_light_gray, inv, filter, batch, "",
                                              requirement_display_flags::no_unavailable );
-        menu.addentry_desc( "", join( component_lines, "\n" ) );
+        menu.addentry_desc( "", string_join( component_lines, "\n" ) );
     }
 
     menu.allow_cancel = true;
@@ -2250,7 +2376,7 @@ ret_val<void> Character::can_disassemble( const item &obj, const read_only_visit
     }
 
     const recipe &r = recipe_dictionary::get_uncraft( ( obj.typeId() == itype_disassembly ) ?
-                      obj.components.front().typeId() : obj.typeId() );
+                      obj.components.only_item().typeId() : obj.typeId() );
 
     // check sufficient light
     if( lighting_craft_speed_multiplier( r ) == 0.0f ) {
@@ -2511,7 +2637,7 @@ void Character::complete_disassemble( item_location target )
 {
     // Disassembly has 2 parallel vectors:
     // item location, and recipe id
-    item temp = target.get_item()->components.front();
+    item temp = target.get_item()->components.only_item();
     const recipe &rec = recipe_dictionary::get_uncraft( temp.typeId() );
 
     if( rec ) {
@@ -2542,7 +2668,7 @@ void Character::complete_disassemble( item_location target )
     }
     // Set get and set duration of next uncraft
     const recipe &next_recipe = recipe_dictionary::get_uncraft( ( next_item->typeId() ==
-                                itype_disassembly ) ? next_item->components.front().typeId() : next_item->typeId() );
+                                itype_disassembly ) ? next_item->components.only_item().typeId() : next_item->typeId() );
 
     if( !next_recipe ) {
         debugmsg( "bad disassembly recipe" );
@@ -2585,7 +2711,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // Get the item to disassemble, and make a copy to keep its data (damage/components)
     // after the original has been removed.
-    item org_item = target.get_item()->components.front();
+    item org_item = target.get_item()->components.only_item();
     item dis_item = org_item;
 
     if( this->is_avatar() ) {
@@ -2607,7 +2733,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // If the components aren't empty, we want items exactly identical to them
     // Even if the best-fit recipe does not involve those items
-    std::list<item> components = dis_item.components;
+    item_components components = dis_item.components;
 
     // If the components are empty, item is the default kind and made of default components
     if( components.empty() ) {
@@ -2647,7 +2773,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             }
 
             for( ; compcount > 0; compcount-- ) {
-                components.emplace_back( newit );
+                components.add( newit );
             }
         }
     }
@@ -2678,65 +2804,66 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     std::map<itype_id, int> destroy_tally;
 
     // Roll skill and damage checks for successful recovery of each component
-    for( const item &newit : components ) {
-        // Use item type to index recover/destroy tallies
-        const itype_id it_type_id = newit.typeId();
-        // Chance of failure based on character skill and recipe difficulty
-        const bool comp_success = dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides );
-        // If original item was damaged, there is another chance for recovery to fail
-        const bool dmg_success = component_success_chance > rng_float( 0, 1 );
+    for( const item_components::type_vector_pair &tvp : components ) {
+        for( const item &newit : tvp.second ) {
+            if( newit.has_flag( flag_UNRECOVERABLE ) ) {
+                continue;
+            }
+            // Use item type to index recover/destroy tallies
+            const itype_id it_type_id = newit.typeId();
+            // Chance of failure based on character skill and recipe difficulty
+            const bool comp_success = dice( skill_dice, skill_sides ) > dice( diff_dice, diff_sides );
+            // If original item was damaged, there is another chance for recovery to fail
+            const bool dmg_success = component_success_chance > rng_float( 0, 1 );
 
-        // If component recovery failed, tally it and continue with the next component
-        if( ( dis.difficulty != 0 && !comp_success ) || !dmg_success ) {
-            // Count destroyed items
-            if( destroy_tally.count( it_type_id ) == 0 ) {
-                destroy_tally[it_type_id] = newit.count();
+            // If component recovery failed, tally it and continue with the next component
+            if( ( dis.difficulty != 0 && !comp_success ) || !dmg_success ) {
+                // Count destroyed items
+                if( destroy_tally.count( it_type_id ) == 0 ) {
+                    destroy_tally[it_type_id] = newit.count();
+                } else {
+                    destroy_tally[it_type_id] += newit.count();
+                }
+                continue;
+            }
+
+            // Component recovered successfully; add to the tally
+            if( recover_tally.count( it_type_id ) == 0 ) {
+                recover_tally[it_type_id] = newit.count();
             } else {
-                destroy_tally[it_type_id] += newit.count();
+                recover_tally[it_type_id] += newit.count();
             }
-            continue;
-        }
 
-        // Component recovered successfully; add to the tally
-        if( recover_tally.count( it_type_id ) == 0 ) {
-            recover_tally[it_type_id] = newit.count();
-        } else {
-            recover_tally[it_type_id] += newit.count();
-        }
+            // Use item from components list, or (if not contained)
+            // use newit, the default constructed.
+            item act_item = newit;
 
-        // Use item from components list, or (if not contained)
-        // use newit, the default constructed.
-        item act_item = newit;
-
-        if( act_item.has_temperature() ) {
-            // TODO: fix point types
-            act_item.set_item_temperature( get_weather().get_temperature( loc.raw() ) );
-        }
-
-        // Refitted clothing disassembles into refitted components (when applicable)
-        if( dis_item.has_flag( flag_FIT ) && act_item.has_flag( flag_VARSIZE ) ) {
-            act_item.set_flag( flag_FIT );
-        }
-
-        // Filthy items yield filthy components
-        if( dis_item.is_filthy() ) {
-            act_item.set_flag( flag_FILTHY );
-        }
-
-        for( std::list<item>::iterator a = dis_item.components.begin(); a != dis_item.components.end();
-             ++a ) {
-            if( a->type == newit.type ) {
-                act_item = *a;
-                dis_item.components.erase( a );
-                break;
+            if( act_item.has_temperature() ) {
+                // TODO: fix point types
+                act_item.set_item_temperature( get_weather().get_temperature( loc.raw() ) );
             }
-        }
 
-        //NPCs are too dumb to be able to handle liquid (for now)
-        if( act_item.made_of( phase_id::LIQUID ) && !is_npc() ) {
-            liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
-        } else {
-            drop_items.push_back( act_item );
+            // Refitted clothing disassembles into refitted components (when applicable)
+            if( dis_item.has_flag( flag_FIT ) && act_item.has_flag( flag_VARSIZE ) ) {
+                act_item.set_flag( flag_FIT );
+            }
+
+            // Filthy items yield filthy components
+            if( dis_item.is_filthy() ) {
+                act_item.set_flag( flag_FILTHY );
+            }
+
+            ret_val<item> removed = dis_item.components.remove( newit.typeId() );
+            if( removed.success() ) {
+                act_item = removed.value();
+            }
+
+            //NPCs are too dumb to be able to handle liquid (for now)
+            if( act_item.made_of( phase_id::LIQUID ) && !is_npc() ) {
+                liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
+            } else {
+                drop_items.push_back( act_item );
+            }
         }
     }
 

@@ -379,6 +379,13 @@
     "entries": [ { "item": "ballistic_vest_heavy", "contents-group": "kitted_heavy_vest" } ]
   },
   {
+    "id": "xedra_ballistic_vest_heavy_pristine",
+    "type": "item_group",
+    "//": "heavy xedra ballistic vest plus plates",
+    "subtype": "collection",
+    "entries": [ { "item": "ballistic_vest_heavy", "variant": "ballistic_vest_heavy_xedra", "contents-group": "kitted_heavy_vest" } ]
+  },
+  {
     "id": "military_ballistic_vest_heavy",
     "type": "item_group",
     "//": "heavy ballistic vest plus plates",
@@ -486,6 +493,54 @@
       { "item": "shoulder_strap", "prob": 70 },
       { "item": "rail_laser_sight", "prob": 30 },
       { "item": "suppressor", "prob": 70 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "xedra_gun",
+    "items": [
+      {
+        "collection": [
+          { "item": "xedra_gun", "prob": 100, "charges": 0, "contents-item": "xedra_gun_ar" },
+          { "group": "field_xedra_rifle" }
+        ],
+        "prob": 50
+      },
+      {
+        "collection": [
+          { "item": "xedra_gun", "prob": 100, "charges": 0, "contents-item": "xedra_gun_shotgun" },
+          { "group": "field_xedra_shotgun" }
+        ],
+        "prob": 50
+      }
+    ]
+  },
+  {
+    "id": "xedra_kill_team_set",
+    "type": "item_group",
+    "subtype": "collection",
+    "container_item": "xedra_corpse",
+    "items": [
+      { "group": "clothing_military" },
+      { "item": "elbow_pads", "prob": 80 },
+      { "item": "knee_pads", "prob": 85 },
+      { "item": "tac_helmet", "prob": 100 },
+      { "item": "mask_gas", "prob": 100 },
+      { "item": "gloves_tactical", "prob": 80 },
+      { "group": "xedra_ballistic_vest_heavy_pristine", "prob": 100 },
+      { "group": "clothing_tactical_leg", "prob": 80 },
+      { "group": "clothing_watch", "prob": 45 },
+      {
+        "distribution": [
+          { "item": "glasses_bal", "prob": 30 },
+          { "item": "goggles_nv", "prob": 30, "charges": [ 50, 100 ] },
+          { "item": "goggles_ir", "prob": 30, "charges": [ 50, 100 ] }
+        ],
+        "prob": 100
+      },
+      { "group": "xedra_gun" },
+      { "group": "cop_melee" },
+      { "group": "cop_holster_field" }
     ]
   },
   {

@@ -21,6 +21,7 @@
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"
+#include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -205,7 +206,7 @@ class item : public visitable
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
+        item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections );
 
         /** For constructing in-progress disassemblies */
         item( const recipe *rec, int qty, item &component );
@@ -1208,55 +1209,71 @@ class item : public visitable
         /*@}*/
 
         /**
+        * Helper function to retrieve any applicable resistance bonuses from item mods.
+        * @param dmg_type Damage type
+        * @return Amount of additional modded resistance
+        */
+        float get_clothing_mod_val_for_damage_type( damage_type dmg_type ) const;
+
+        /**
+        * Helper function to perform damage_type::NONE checks for forward-declared damage_type.
+        */
+        bool damage_type_none( damage_type dmg_type ) const;
+
+        /**
+        * Helper function to perform damage_type validity check for forward-declared damage_type.
+        */
+        bool damage_type_invalid( damage_type dmg_type ) const;
+
+        /**
+        * Helper function to check whether a damage_type can damage items for forward-declared
+        * damage_type.
+        */
+        bool damage_type_can_damage_items( damage_type dmg_type ) const;
+
+
+
+        /**
          * Resistance against different damage types (@ref damage_type).
          * Larger values means more resistance are thereby better, but there is no absolute value to
          * compare them to. The values can be interpreted as chance (@ref one_in) of damaging the item
          * when exposed to the type of damage.
+         * @param dmg_type The type of incoming damage
          * @param to_self If this is true, it returns item's own resistance, not one it gives to wearer.
+         * @param bodypart_target The bodypart_id or sub_bodypart_id of the target bodypart.
+         * @param resist_value A supplied roll against coverage for physical attacks. A value of -1 causes rolls
+         *                     against each item material individually. For environmental type damage such as
+         *                     fire and acid, this value can be used to allow hypothetical calculations for
+         *                     environmental protection items such as gas masks.
+         */
+        /*@{*/
+
+        template<typename bodypart_target = bodypart_id>
+        float resist( damage_type dmg_type, bool to_self = false,
+                      const bodypart_target &bp = bodypart_target(),
+                      int resist_value = 0 ) const;
+
+    private:
+        float _resist( damage_type dmg_type, bool to_self = false, int resist_value = 0,
+                       bool bp_null = true,
+                       const std::vector<const part_material *> &armor_mats = {},
+                       float avg_thickness = 1.0f ) const;
+        /**
+         * Handles the special rules regarding environmental type damage such as fire and acid.
+         * Currently does not damage items as damage to items from fire is handled elsewhere, and
+         * acid is currently not intended to cause item damage.
+         * @param dmg_type The type of incoming damage
+         * @param to_self If this is true, it returns item's own resistance, not one it gives to wearer.
+         * @param bodypart_target The bodypart_id or sub_bodypart_id of the target bodypart.
          * @param base_env_resist Will override the base environmental
          * resistance (to allow hypothetical calculations for gas masks).
          */
-        /*@{*/
-        float acid_resist( bool to_self = false, int base_env_resist = 0,
-                           const bodypart_id &bp = bodypart_id() ) const;
-        float fire_resist( bool to_self = false, int base_env_resist = 0,
-                           const bodypart_id &bp = bodypart_id() ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bash_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                           int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float cut_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                          int roll = 0 )  const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float stab_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                           int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bullet_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                             int roll = 0 ) const;
-        float biological_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                                 int roll = 0 ) const;
-        float electric_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                               int roll = 0 ) const;
-        float cold_resist( bool to_self = false, const bodypart_id &bp = bodypart_id(),
-                           int roll = 0 ) const;
+        float _environmental_resist( damage_type dmg_type, bool to_self = false,
+                                     int base_env_resist = 0,
+                                     bool bp_null = true,
+                                     const std::vector<const part_material *> &armor_mats = {} ) const;
         /*@}*/
-
-        // same as above but specific to the sublocation
-        float acid_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
-        float fire_resist( const sub_bodypart_id &bp, bool to_self = false, int base_env_resist = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bash_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float cut_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 )  const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float stab_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
-        // for incoming direct attacks roll is the actual roll for that attack
-        float bullet_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
-        float biological_resist( const sub_bodypart_id &bp, bool to_self = false,
-                                 int roll = 0 ) const;
-        float electric_resist( const sub_bodypart_id &bp, bool to_self = false,
-                               int roll = 0 ) const;
-        float cold_resist( const sub_bodypart_id &bp, bool to_self = false, int roll = 0 ) const;
+    public:
 
         /**
          * Breathability is the ability of a fabric to allow moisture vapor to be transmitted through the material.
@@ -1276,13 +1293,6 @@ class item : public visitable
          */
         void mitigate_damage( damage_unit &du, const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
         void mitigate_damage( damage_unit &du, const sub_bodypart_id &bp, int roll = 0 ) const;
-        /**
-         * Resistance provided by this item against damage type given by an enum.
-         */
-        float damage_resist( damage_type dt, bool to_self = false,
-                             const bodypart_id &bp = bodypart_id(), int roll = 0 ) const;
-        float damage_resist( damage_type dt, bool to_self,
-                             const sub_bodypart_id &bp, int roll = 0 ) const;
 
         /**
          * Returns resistance to being damaged by attack against the item itself.
@@ -2013,6 +2023,11 @@ class item : public visitable
          */
         float get_thickness( const bodypart_id &bp ) const;
         /**
+        * Returns the average thickness value for the specified sub-bodypart, or 0 for non-armor. Thickness
+        * is a relative value that affects the items resistance against bash / cutting / bullet damage.
+        */
+        float get_thickness( const sub_bodypart_id &bp ) const;
+        /**
          * Returns clothing layer for item.
          */
         std::vector<layer_level> get_layer() const;
@@ -2182,17 +2197,19 @@ class item : public visitable
          */
         void mark_chapter_as_read( const Character &u );
         /**
+         * Returns recipes stored on the item (laptops, smartphones, sd cards etc)
+         * Filters out !is_valid() recipes
+         */
+        std::set<recipe_id> get_saved_recipes() const;
+        /**
+        * Sets recipes stored on the item (laptops, smartphones, sd cards etc)
+        */
+        void set_saved_recipes( const std::set<recipe_id> &recipes );
+        /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
         std::vector<std::pair<const recipe *, int>> get_available_recipes( const Character &u ) const;
         /*@}*/
-
-        /**
-         * Add a recipe to the EIPC_RECIPES variable.
-         *
-         * @return true if the recipe was added, false if it is a duplicate
-         */
-        bool eipc_recipe_add( const recipe_id &recipe_id );
 
         /**
          * @name Martial art techniques
@@ -2257,6 +2274,7 @@ class item : public visitable
 
         /** Quantity of energy currently loaded in tool or battery */
         units::energy energy_remaining() const;
+
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
@@ -2346,6 +2364,8 @@ class item : public visitable
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return itype_id::NULL_ID() if item does have a magazine for a specific ammo type */
         itype_id ammo_default( bool conversion = true ) const;
+        // format a string with all the ammo that this mag can use
+        std::string print_ammo( ammotype at ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
          * @param conversion whether to include the effect of any flags or mods which convert the type
@@ -2676,7 +2696,7 @@ class item : public visitable
          *
          * @param parents Items to inherit from
          */
-        void inherit_flags( const std::list<item> &parents, const recipe &making );
+        void inherit_flags( const item_components &parents, const recipe &making );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
@@ -2849,7 +2869,7 @@ class item : public visitable
         static const int INFINITE_CHARGES;
 
         const itype *type;
-        std::list<item> components;
+        item_components components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
 
@@ -2982,6 +3002,14 @@ class item : public visitable
         float get_clothing_mod_val( clothing_mod_type type ) const;
         void update_clothing_mod_val();
 };
+
+extern template float item::resist<bodypart_id>( damage_type dmg_type, bool to_self,
+        const bodypart_id &bp,
+        int resist_value ) const;
+extern template float item::resist<sub_bodypart_id>( damage_type dmg_type,
+        bool to_self,
+        const sub_bodypart_id &bp,
+        int resist_value ) const;
 
 template<>
 struct enum_traits<item::encumber_flags> {
