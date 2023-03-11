@@ -101,22 +101,6 @@ jobs:
             ext: zip
             content: application/zip
             sound: 1
-          - name: Windows Tiles x32 MSVC
-            artifact: windows-tiles-x32-msvc
-            arch: x86
-            os: windows-2019
-            mxe: none
-            ext: zip
-            content: application/zip
-            sound: 0
-          - name: Windows Tiles Sounds x32 MSVC
-            artifact: windows-tiles-sounds-x32-msvc
-            arch: x86
-            os: windows-2019
-            mxe: none
-            ext: zip
-            content: application/zip
-            sound: 1
           - name: Windows Tiles x64
             mxe: x86_64
             artifact: windows-tiles-x64
@@ -127,20 +111,6 @@ jobs:
           - name: Windows Tiles Sounds x64
             mxe: x86_64
             artifact: windows-tiles-sounds-x64
-            os: ubuntu-latest
-            ext: zip
-            content: application/zip
-            sound: 1
-          - name: Windows Tiles x32
-            mxe: i686
-            artifact: windows-tiles-x32
-            os: ubuntu-latest
-            ext: zip
-            content: application/zip
-            sound: 0
-          - name: Windows Tiles Sounds x32
-            mxe: i686
-            artifact: windows-tiles-sounds-x32
             os: ubuntu-latest
             ext: zip
             content: application/zip
@@ -228,9 +198,9 @@ jobs:
         uses: lukka/run-vcpkg@v10
         id: runvcpkg
         with:
-          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**', '.github/vckg_ports/**' ) }}-x64
+          appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**', '.github/vckg_ports/**' ) }}
           # Rev this value to drop cache without changing vcpkg commit
-          prependedCacheKey: v0
+          prependedCacheKey: v1-${{ matrix.arch }}
           vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
           # We have to use at least this version of vcpkg to include fixes for yasm-tool's
           # availability only as an x86 host tool. Keep it in sync with the builtin-baseline

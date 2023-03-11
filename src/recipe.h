@@ -49,6 +49,7 @@ struct enum_traits<recipe_filter_flags> {
 
 struct recipe_proficiency {
     proficiency_id id;
+    bool _skill_penalty_assigned = false;
     bool required = false;
     float time_multiplier = 0.0f;
     float skill_penalty = 0.0f;
