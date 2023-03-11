@@ -675,7 +675,7 @@
     "id": "dissect_deer_mutant_spider_small",
     "type": "harvest",
     "message": "With cuts and pulls equally similar to both extraction and vandalism, you scrape together the most important parts of the creature.",
-    "entries": [ 
+    "entries": [
       { "drop": "cattle_sample_small", "type": "mutagen_group" },
       { "drop": "spider_sample_small", "type": "mutagen_group" }
     ]
