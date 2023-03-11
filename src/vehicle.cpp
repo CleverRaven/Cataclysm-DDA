@@ -2414,18 +2414,6 @@ item_location vehicle::part_base( int p )
     return item_location( vehicle_cursor( *this, p ), &parts[ p ].base );
 }
 
-int vehicle::find_part( const item &it ) const
-{
-    int index = INT_MIN;
-    for( const vpart_reference &vpr : get_all_parts() ) {
-        if( &vpr.part().base == &it ) {
-            index = vpr.part_index();
-            break;
-        }
-    }
-    return index;
-}
-
 item_group::ItemList vehicle_part::pieces_for_broken_part() const
 {
     const item_group_id &group = info().breaks_into_group;
@@ -3393,11 +3381,6 @@ int vehicle::engine_fuel_left( const int e, bool recurse ) const
         return fuel_left( parts[ engines[ e ] ].fuel_current(), recurse );
     }
     return 0;
-}
-
-itype_id vehicle::engine_fuel_current( int e ) const
-{
-    return parts[ engines[ e ] ].fuel_current();
 }
 
 int vehicle::fuel_capacity( const itype_id &ftype ) const
