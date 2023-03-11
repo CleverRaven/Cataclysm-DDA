@@ -52,7 +52,7 @@
     "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "clay_canister", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ] ],
-    "autolearn": [  ],
+    "autolearn": false,
     "book_learn": [ [ "manual_traps_mil_basic", 1 ], [ "manual_traps_mil", 1 ] ],
     "flags": [ "BLIND_HARD" ]
   },
@@ -78,7 +78,7 @@
       [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
       [ [ "bb", 60 ], [ "nail", 30 ] ]
     ],
-    "autolearn": [  ],
+    "autolearn": false,
     "book_learn": [ [ "manual_traps_mil", 3 ] ],
     "flags": [ "BLIND_HARD" ]
   }
