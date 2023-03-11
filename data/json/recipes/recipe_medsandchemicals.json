@@ -718,8 +718,8 @@
     "autolearn": true,
     "batch_time_factors": [ 90, 4 ],
     "//": "reversal of the recipe above",
-    "//": [
-      "Nope, not gonna add proficiencies to _reverse_ recipes. ",
+    "//1": [
+      "Not gonna add proficiencies to _reverse_ recipes. ",
       "We shall avoid grinding; besides, pouring some powder into water is too simple."
     ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "lye_powder", 100 ] ] ],
@@ -1983,14 +1983,14 @@
     "difficulty": 2,
     "time": "20 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
-    "//": "Biochemistry because one needs to know where to look.",
     "autolearn": true,
+    "//": "Biochemistry is added because one needs to know where to look.",
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_biochemistry" },
       { "proficiency": "prof_intro_chem_synth" }
     ],
-    "//": "Should likely come from an entomology text, or something similar, in the future; but still relatively basic.",
+    "//1": "Should likely come from an entomology text, or something similar, in the future; but still relatively basic. ",
     "tools": [ [ [ "funnel", -1 ] ] ],
     "components": [ [ [ "wasp_sting", 1 ], [ "bee_sting", 1 ] ] ]
   },
@@ -2174,10 +2174,10 @@
     "//2": "some loss/waste, e.g. imperfect smelting; powder escaping",
     "charges": 95,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
-    "//": "At least some knowledge on chemicals handling is required.",
+    "//3": "At least some knowledge on chemicals handling is required.",
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "//3": "460kJ per mole @ 70% energy efficiency",
+    "//4": "460kJ per mole @ 70% energy efficiency",
     "tools": [ [ [ "fake_arc_furnace", 650 ] ] ],
     "components": [ [ [ "cac2powder", 100 ] ] ]
   }
