@@ -321,10 +321,11 @@
       { "item": "8mm_civilian", "prob": 15 },
       { "item": "300blk", "prob": 15 },
       { "item": "300blk_ss", "prob": 10 },
-      { "item": "50beowulf_xtp", "prob": 10 },
-      { "item": "50beowulf_penetrator", "prob": 8 },
-      { "item": "450_ftx", "prob": 15 },
-      { "item": "450_penetrator", "prob": 10 }
+      { "item": "50beowulf_xtp", "prob": 15 },
+      { "item": "50beowulf_penetrator", "prob": 10 },
+      { "item": "450_ftx", "prob": 20 },
+      { "item": "450_penetrator", "prob": 15 },
+      { "item": "338lapua_hpbt", "prob": 15 }
     ]
   },
   {
@@ -346,10 +347,11 @@
       { "item": "762_54R", "prob": 35 },
       { "item": "762_m43", "prob": 20 },
       { "item": "300blk_ss", "prob": 15 },
-      { "item": "50beowulf_xtp", "prob": 10 },
-      { "item": "50beowulf_penetrator", "prob": 8 },
-      { "item": "450_ftx", "prob": 15 },
-      { "item": "450_penetrator", "prob": 10 }
+      { "item": "50beowulf_xtp", "prob": 15 },
+      { "item": "50beowulf_penetrator", "prob": 10 },
+      { "item": "450_ftx", "prob": 20 },
+      { "item": "450_penetrator", "prob": 15 },
+      { "item": "338lapua_hpbt", "prob": 15 }
     ]
   },
   {
@@ -371,8 +373,9 @@
       { "item": "4570_low", "prob": 25 },
       { "item": "50beowulf_xtp", "prob": 15 },
       { "item": "50beowulf_penetrator", "prob": 10 },
-      { "item": "450_ftx", "prob": 20 },
-      { "item": "450_penetrator", "prob": 15 }
+      { "item": "450_ftx", "prob": 25 },
+      { "item": "450_penetrator", "prob": 15 },
+      { "item": "338lapua_hpbt", "prob": 15 }
     ]
   },
   {
@@ -402,7 +405,8 @@
       { "item": "8mm_inc", "prob": 20 },
       { "item": "8mm_jhp", "prob": 10 },
       { "item": "300blk", "prob": 15 },
-      { "item": "300blk_ss", "prob": 10 }
+      { "item": "300blk_ss", "prob": 10 },
+      { "item": "338lapua_fmjbt", "prob": 15 }
     ]
   },
   {
@@ -445,10 +449,11 @@
       { "item": "reloaded_762_54R", "prob": 40 },
       { "item": "reloaded_762_m43", "prob": 20 },
       { "item": "reloaded_300blk", "prob": 10 },
-      { "item": "reloaded_50beowulf_xtp", "prob": 15 },
-      { "item": "reloaded_50beowulf_penetrator", "prob": 10 },
-      { "item": "reloaded_450_ftx", "prob": 15 },
-      { "item": "reloaded_450_penetrator", "prob": 10 }
+      { "item": "reloaded_50beowulf_xtp", "prob": 10 },
+      { "item": "reloaded_50beowulf_penetrator", "prob": 5 },
+      { "item": "reloaded_450_ftx", "prob": 10 },
+      { "item": "reloaded_450_penetrator", "prob": 5 },
+      { "item": "reloaded_338lapua_hpbt", "prob": 5 }
     ]
   },
   {
@@ -753,6 +758,7 @@
       { "item": "545_casing", "prob": 60 },
       { "item": "50beowulf_casing", "prob": 45 },
       { "item": "450_casing", "prob": 45 },
+      { "item": "338lapua_casing", "prob": 45 },
       { "item": "57mm_casing", "prob": 60 },
       { "item": "5x50_hull", "prob": 60 },
       { "item": "700nx_casing", "prob": 40 },

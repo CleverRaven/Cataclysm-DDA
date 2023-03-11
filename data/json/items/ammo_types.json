@@ -37,6 +37,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "338lapua",
+    "name": ".338 Lapua",
+    "default": "338lapua_hpbt"
+  },
+  {
+    "type": "ammunition_type",
     "id": "nail",
     "name": "nails",
     "default": "nail"
