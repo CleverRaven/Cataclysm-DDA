@@ -843,6 +843,7 @@
       { "item": "manual_rifle", "prob": 5 },
       { "item": "manual_pistol", "prob": 5 },
       { "item": "manual_traps_mil", "prob": 5 },
+      { "item": "manual_traps_mil_basic", "prob": 5 },
       { "item": "mag_pistol", "prob": 10 },
       { "item": "mag_rifle", "prob": 10 }
     ]

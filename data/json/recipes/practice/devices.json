@@ -53,7 +53,7 @@
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "clay_canister", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ] ],
     "autolearn": [  ],
-    "book_learn": [ [ "manual_traps_mil", 3 ] ],
+    "book_learn": [ [ "manual_traps_mil_basic", 1 ], [ "manual_traps_mil", 1 ] ],
     "flags": [ "BLIND_HARD" ]
   },
   {
