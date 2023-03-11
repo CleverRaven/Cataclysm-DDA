@@ -1048,7 +1048,7 @@ class item : public visitable
         void set_rot( time_duration val );
 
         /**
-         * Set item @ref rot to a random value. If the item is a container 
+         * Set item @ref rot to a random value. If the item is a container
          * (such as MRE) - processes its contents recursively.
          */
         void randomize_rot();
