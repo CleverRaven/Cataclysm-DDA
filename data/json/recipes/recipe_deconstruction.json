@@ -6527,14 +6527,6 @@
     "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
-    "result": "backpack",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "10 m",
-    "components": [ [ [ "nylon", 16 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
-  },
-  {
     "result": "blazer",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -7727,5 +7719,53 @@
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "result": "rucksack",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 h",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_nylon", 28 ] ], [ [ "zipper_long_plastic", 3 ] ] ]
+  },
+  {
+    "result": "molle_pack",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 h",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_nylon", 24 ] ], [ [ "zipper_long_plastic", 3 ] ] ]
+  },
+  {
+    "result": "daypack",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "35 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_nylon", 18 ] ], [ [ "zipper_long_plastic", 2 ] ] ]
+  },
+  {
+    "result": "daypack",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "25 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_nylon", 12 ] ], [ [ "zipper_long_plastic", 2 ] ] ]
+  },
+  {
+    "result": "camera_bag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "25 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_nylon", 8 ] ], [ [ "zipper_long_plastic", 1 ] ] ]
+  },
+  {
+    "result": "bag_canvas",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_canvas", 3 ] ], [ [ "thread_canvas", 40 ] ] ]
   }
 ]
