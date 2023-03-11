@@ -1,5 +1,13 @@
 [
   {
+    "id": "mon_tawa_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "magenta and green hatchling",
+    "default_faction": "tawa_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_tawa" }
+  },
+  {
     "id": "mon_coelophysis_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
