@@ -6488,6 +6488,7 @@ std::vector<item *> map::place_items(
             }
         }
 
+        e->randomize_rot();
         e->set_owner( faction_id( faction ) );
     }
     return res;

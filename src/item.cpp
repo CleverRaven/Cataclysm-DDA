@@ -7592,6 +7592,22 @@ void item::set_rot( time_duration val )
     rot = val;
 }
 
+void item::randomize_rot()
+{
+    visit_items( []( item * visit_itm, item * ) {
+        if( visit_itm->is_container() && visit_itm->all_pockets_sealed() ) {
+            return VisitResponse::SKIP;
+        } else if( visit_itm->is_comestible() && visit_itm->get_comestible()->spoils > 0_turns ) {
+            const double x_input = rng_float( 0.0, 1.0 );
+            const double k_rot = ( 1.0 - x_input ) / ( 1.0 + 2 * x_input );
+            visit_itm->set_rot( visit_itm->get_shelf_life() * k_rot );
+            return VisitResponse::SKIP;
+        }
+
+        return VisitResponse::NEXT;
+    } );
+}
+
 int item::spoilage_sort_order() const
 {
     int bottom = std::numeric_limits<int>::max();
