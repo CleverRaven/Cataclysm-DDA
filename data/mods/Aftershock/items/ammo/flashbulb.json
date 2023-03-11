@@ -7,7 +7,7 @@
     "name": { "str": "82x225mm flashbulb" },
     "symbol": "=",
     "color": "dark_gray",
-    "description": "Pyrotechnic flash lamps designed to emit and focus a milisecond pulse laser through controlled detonation.",
+    "description": "Pyrotechnic flash lamps designed to emit and focus a millisecond pulse laser through controlled detonation.",
     "material": [ "steel", "powder" ],
     "volume": "1250 ml",
     "longest_side": "246 mm",
