@@ -153,7 +153,7 @@ void for_each_dir_entry( const fs::path &path, Function &&function )
                                       e_str << "\".";
         return;
     }
-    for( const ghc::filesystem::directory_entry &dir_entry : dir_iter ) {
+    for( const fs::directory_entry &dir_entry : dir_iter ) {
         function( dir_entry );
     }
 }

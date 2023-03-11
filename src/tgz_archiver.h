@@ -2,6 +2,7 @@
 #define CATA_SRC_MAP_TGZ_ARCHIVER_H
 #include <array>
 #include <chrono>
+#include <filesystem>
 #include <string>
 #include <utility>
 
@@ -18,7 +19,8 @@ class tgz_archiver
 
         gzFile fd = nullptr;
         std::string const output;
-        std::chrono::system_clock::time_point const _fsnow, _sysnow;
+        fs::file_time_type const _fsnow;
+        std::chrono::system_clock::time_point const _sysnow;
 
     public:
         explicit tgz_archiver( std::string ofile )
