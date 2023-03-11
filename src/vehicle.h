@@ -1040,9 +1040,6 @@ class vehicle
         /** Get handle for base item of part */
         item_location part_base( int p );
 
-        /** Get index of part with matching base item or INT_MIN if not found */
-        int find_part( const item &it ) const;
-
         /**
          * Remove a part from a targeted remote vehicle. Useful for, e.g. power cables that have
          * a vehicle part on both sides.
@@ -1275,8 +1272,6 @@ class vehicle
         const;
         // Checks how much of an engine's current fuel is left in the tanks.
         int engine_fuel_left( int e, bool recurse = false ) const;
-        // Returns what type of fuel an engine uses
-        itype_id engine_fuel_current( int e ) const;
         // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
 
