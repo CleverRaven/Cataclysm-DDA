@@ -65,7 +65,7 @@
     "name": "military traps (advanced)",
     "description": "Practice setting and disarming booby traps and mines safely.",
     "skill_used": "traps",
-    "practice_data": { "min_difficulty": 3, "max_difficulty": 3, "skill_limit": 7 },
+    "practice_data": { "min_difficulty": 3, "max_difficulty": 3, "skill_limit": 6 },
     "proficiencies": [
       { "proficiency": "prof_traps", "time_multiplier": 0.2, "skill_penalty": 0 },
       { "proficiency": "prof_trapsetting", "time_multiplier": 1, "skill_penalty": 0 },
