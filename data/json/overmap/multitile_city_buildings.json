@@ -2444,10 +2444,12 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "apartment_complex_corner_ground_east" },
       { "point": [ 1, 0, 0 ], "overmap": "apartment_complex_corner_ground_south" },
+      { "point": [ 2, 0, 0 ], "overmap": "apartment_complex_courtyard_south" },
       { "point": [ 3, 0, 0 ], "overmap": "apartment_complex_corner_ground_east" },
       { "point": [ 4, 0, 0 ], "overmap": "apartment_complex_corner_ground_south" },
       { "point": [ 0, 1, 0 ], "overmap": "apartment_complex_straight_ground_east" },
       { "point": [ 1, 1, 0 ], "overmap": "apartment_complex_straight_stairs_even_ground_west" },
+      { "point": [ 2, 1, 0 ], "overmap": "apartment_complex_courtyard_north" },
       { "point": [ 3, 1, 0 ], "overmap": "apartment_complex_straight_stairs_even_ground_east" },
       { "point": [ 4, 1, 0 ], "overmap": "apartment_complex_straight_ground_west" },
       { "point": [ 0, 2, 0 ], "overmap": "apartment_complex_straight_ground_east" },
