@@ -1213,7 +1213,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     // ablative pockets have their contents displayed earlier in the UI
     if( !is_ablative() ) {
-        // Create map here for item contents, use name is key and value as number held, after traversing the entire inventory dump the map into the vector.
+        // Create map here for item contents, use name as key and value as number held, after traversing the entire pocket dump the map into the vector.
         std::unordered_map<std::string, int> counted_contents;
         bool contents_header = false;
         for( const item &contents_item : contents ) {
