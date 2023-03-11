@@ -6206,14 +6206,6 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
-    "result": "webbing_belt",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "30 s",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "nylon", 3 ] ], [ [ "scrap", 1 ] ] ]
-  },
-  {
     "result": "kevlar_shears",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
@@ -6533,6 +6525,14 @@
     "time": "10 m",
     "components": [ [ [ "felt_patch", 150 ] ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "backpack",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "25 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_nylon", 15 ] ], [ [ "zipper_long_plastic", 2 ] ] ]
   },
   {
     "result": "office_holepunch",
@@ -7737,7 +7737,7 @@
     "components": [ [ [ "sheet_nylon", 24 ] ], [ [ "zipper_long_plastic", 3 ] ] ]
   },
   {
-    "result": "daypack",
+    "result": "mbag",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "35 m",
