@@ -7,8 +7,8 @@
     "class": "NC_EXODII_TYPE_2_Materials",
     "name_unique": "Luliya",
     "attitude": 0,
-    "mission": 0,
-    "chat": "TALK_EXODII_MATERIALS",
+    "mission": 7,
+    "chat": "TALK_LULIYA",
     "faction": "exodii",
     "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
   },
