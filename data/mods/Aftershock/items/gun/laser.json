@@ -232,7 +232,7 @@
     "type": "GUN",
     "name": { "str": "Shikishma A-82 tactical laser" },
     "copy-from": "afs_a7",
-    "description": "Crown jewel of Shikishma armories, and possible product of unsanctioned data scavenging, the A-82 is the undisputed market leader when it comes to man portable laser weaponry. Sustained fire at a single target is likely to cause secondary explosions as target layers are vaporized.",
+    "description": "Crown jewel of Shikishma armories, and possible product of unsanctioned data scavenging, the A-82 is the undisputed market leader when it comes to man portable laser weaponry.  Sustained fire is likely to cause secondary explosions as target layers are vaporized.",
     "price": "2 kUSD",
     "price_postapoc": "2 kUSD",
     "ammo": [ "battery" ],
