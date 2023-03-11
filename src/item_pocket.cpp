@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <utility>
@@ -1212,6 +1213,8 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     // ablative pockets have their contents displayed earlier in the UI
     if( !is_ablative() ) {
+        // Create map here for item contents, use name is key and value as number held, after traversing the entire inventory dump the map into the vector.
+        std::unordered_map<std::string, int> counted_contents;
         bool contents_header = false;
         for( const item &contents_item : contents ) {
             if( !contents_header ) {
@@ -1221,13 +1224,31 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
             const translation &desc = contents_item.type->description;
 
+            std::string colored_name = colorize( contents_item.display_name(),
+                                                 contents_item.color_in_inventory() );
+            std::string colored_name_plural = colorize( contents_item.display_name( 2 ),
+                                              contents_item.color_in_inventory() );
+
             if( contents_item.made_of_from_type( phase_id::LIQUID ) ) {
                 info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
                                    contents_item.color_in_inventory() ) );
                 info.emplace_back( vol_to_info( cont_type_str, desc + space, contents_item.volume() ) );
             } else {
-                info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
-                                   contents_item.color_in_inventory() ) );
+                if( counted_contents.find( colored_name_plural ) != counted_contents.end() ) {
+                    counted_contents[colored_name_plural] += 1;
+                } else if( counted_contents.find( colored_name ) != counted_contents.end() ) {
+                    counted_contents.erase( counted_contents.find( colored_name ) );
+                    counted_contents[colored_name_plural] = 2;
+                } else {
+                    counted_contents[colored_name] = counted_contents[colored_name] += 1;
+                }
+            }
+        }
+        for( auto &content : counted_contents ) {
+            if( content.second > 1 ) {
+                info.emplace_back( "DESCRIPTION", space + std::to_string( content.second ) + " " + content.first );
+            } else {
+                info.emplace_back( "DESCRIPTION", space + content.first );
             }
         }
     }
