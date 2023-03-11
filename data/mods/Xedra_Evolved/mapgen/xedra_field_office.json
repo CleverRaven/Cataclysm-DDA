@@ -622,7 +622,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "field_office_1", "field_office_2" ], [ "field_office_3", "field_office_4" ] ],
+    "om_terrain": [ [ "field_office_ex_1", "field_office_ex_2" ], [ "field_office_ex_3", "field_office_ex_4" ] ],
     "//": "Feral Xedra remnants and Exodii are fighting here",
     "method": "json",
     "weight": 250,
@@ -693,17 +693,12 @@
         { "vehicle": "beetle", "x": 28, "y": 40, "rotation": 270, "chance": 25 }
       ],
       "place_monsters": [ { "monster": "GROUP_FERAL_AGENTS", "x": [ 5, 19 ], "y": [ 5, 19 ], "density": 0.4 } ],
-      "place_fields": [
-        { "field": "fd_web", "x": [ 5, 23 ], "y": [ 4, 16 ], "repeat": 60 },
-        { "field": "fd_web", "x": [ 26, 40 ], "y": [ 4, 16 ], "repeat": 60 },
-        { "field": "fd_web", "x": [ 26, 40 ], "y": [ 26, 34 ], "repeat": 60 }
-      ],
       "palettes": [ "field_office_palette" ]
     }
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "field_office_5", "field_office_6" ], [ "field_office_7", "field_office_8" ] ],
+    "om_terrain": [ [ "field_office_ex_5", "field_office_ex_6" ], [ "field_office_ex_7", "field_office_ex_8" ] ],
     "method": "json",
     "weight": 250,
     "object": {
@@ -873,7 +868,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "field_office_9", "field_office_10" ], [ "field_office_11", "field_office_12" ] ],
+    "om_terrain": [ [ "field_office_ex_9", "field_office_ex_10" ], [ "field_office_ex_11", "field_office_ex_12" ] ],
     "method": "json",
     "weight": 250,
     "object": {
@@ -1044,7 +1039,7 @@
           "y": [ 14, 14 ]
         },
         {
-          "chunks": [ [ "xed_8x8_containment", 20 ], [ "xed_8x8_containment_broken", 20 ] ],
+          "chunks": [ [ "xed_8x8_containment", 20 ], [ "xed_8x8_containment_empty", 20 ] ],
           "x": [ 16, 16 ],
           "y": [ 4, 4 ]
         },
@@ -1079,7 +1074,7 @@
   },
   {
     "type": "mapgen",
-    "om_terrain": [ [ "field_office_13", "field_office_14" ], [ "field_office_15", "field_office_16" ] ],
+    "om_terrain": [ [ "field_office_ex_13", "field_office_ex_14" ], [ "field_office_ex_15", "field_office_ex_16" ] ],
     "method": "json",
     "weight": 250,
     "object": {
