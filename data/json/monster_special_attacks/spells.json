@@ -93,6 +93,19 @@
   },
   {
     "type": "SPELL",
+    "id": "wretch_hurt_self",
+    "name": { "str": "Wretch Hurt Self" },
+    "description": "Hurts yourself.",
+    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 5,
+    "max_damage": 15,
+    "damage_type": "cut",
+    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "type": "SPELL",
     "id": "frog_mother_hurt_self",
     "name": { "str": "Frog Mother Hurt Self" },
     "description": "Hurts yourself.",
@@ -140,6 +153,23 @@
   },
   {
     "type": "SPELL",
+    "id": "wretch_raptor_spawn",
+    "name": { "str": "Summon Raptor" },
+    "description": "Summons a flesh raptor while dealing some damage to the zombie.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "extra_effects": [ { "id": "wretch_hurt_self", "hit_self": true } ],
+    "base_casting_time": 200,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_spawn_raptor"
+  },
+  {
+    "type": "SPELL",
     "id": "hive_raptor_spawn",
     "name": { "str": "Summon Raptor" },
     "description": "Summons a zombie-spawn raptor without killing the zombie.",
@@ -170,6 +200,23 @@
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_spawn_raptor_shady"
+  },
+  {
+    "type": "SPELL",
+    "id": "wretch_fungal_raptor_spawn",
+    "name": { "str": "Summon Raptor" },
+    "description": "Summons a fungal flesh raptor while dealing some damage to the zombie.",
+    "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
+    "valid_targets": [ "ground", "self" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "extra_effects": [ { "id": "wretch_hurt_self", "hit_self": true } ],
+    "base_casting_time": 250,
+    "shape": "blast",
+    "effect": "summon",
+    "effect_str": "mon_fungal_raptor"
   },
   {
     "type": "SPELL",
@@ -556,7 +603,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_absence_capture_attack",
-    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 3 } ] },
+    "condition": { "compare_num": [ { "distance": [ "u", "npc" ] }, ">", { "const": 3 } ] },
     "effect": [
       { "u_location_variable": { "global_val": "portal_cage" } },
       {
@@ -688,7 +735,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_mon_swarm_structure_attack",
-    "condition": { "compare_int": [ { "distance": [ "u", "npc" ] }, ">", { "const": 4 } ] },
+    "condition": { "compare_num": [ { "distance": [ "u", "npc" ] }, ">", { "const": 4 } ] },
     "effect": [
       { "u_location_variable": { "npc_val": "swarm_target" }, "min_radius": 1, "max_radius": 2 },
       { "npc_teleport": { "npc_val": "swarm_target" } }
@@ -768,9 +815,9 @@
                       "id": "portal_storm_reflection_summon_guilt",
                       "condition": {
                         "and": [
-                          { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
                           {
-                            "compare_int": [
+                            "compare_num": [
                               { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_guilt" },
                               "<",
                               { "const": 1 }
@@ -795,9 +842,9 @@
                       "id": "portal_storm_reflection_summon_sloth",
                       "condition": {
                         "and": [
-                          { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
+                          { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, ">", { "const": 0 } ] },
                           {
-                            "compare_int": [
+                            "compare_num": [
                               { "global_val": "monsters_nearby", "target_var": { "global_val": "dungeon_loc" }, "id": "mon_sloth" },
                               "<",
                               { "const": 1 }
@@ -841,6 +888,21 @@
     "shape": "blast",
     "effect": "effect_on_condition",
     "effect_str": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN"
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_XEDRA_officer_banish",
+    "name": { "str": "Officer banish" },
+    "description": "Stops the haunting.",
+    "valid_targets": [ "self", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 15,
+    "max_range": 15,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HAUNTING_QUEUE_STOP"
   },
   {
     "type": "effect_on_condition",
@@ -915,6 +977,14 @@
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_slow_strength" }, "--" ], "min": -75 },
       { "u_add_effect": "slowed_time", "duration": [ "4 hours", "6 hours" ] }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_conjure_memories",
+    "name": { "str": "Life Flashing" },
+    "description": "Brings back memories.",
+    "copy-from": "base_portal",
+    "effect_str": "EOC_conjure_memories"
   },
   {
     "type": "SPELL",

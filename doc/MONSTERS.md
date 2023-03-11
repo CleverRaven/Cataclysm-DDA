@@ -56,6 +56,7 @@ Monsters may also have any of these optional properties:
 | `melee_dice`             | (integer) Number of dice rolled on monster melee attack to determine bash damage
 | `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
 | `grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`, simulating `n` regular zombie grabs
+| `melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to `melee_skill + 2`.
 | `armor_bash`             | (integer) Monster's protection from bash damage
 | `armor_bullet`           | (integer) Monster's protection from bullet damage
 | `armor_cut`              | (integer) Monster's protection from cut damage
@@ -480,6 +481,15 @@ Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list.
 (array of strings, optional)
 
 What makes the monster afraid / angry / what calms it. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list
+
+## "chat_topics"
+(string, optional)
+
+Lists possible chat topics that will be used as dialogue display when talking to a monster, done by `e`xamining it and `c`hatting with it. The creature in question must be friendly to the player in order to talk to it. Monsters can be assigned variables, but cannot trade with the exchange interface. Listing multiple chat topics will cause the game to crash. This must be defined as an array.
+
+```JSON
+"chat_topics": [ "TALK_FREE_MERCHANTS_MERCHANT" ]
+```
 
 ## "revert_to_itype"
 (string, optional)

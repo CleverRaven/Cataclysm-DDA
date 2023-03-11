@@ -80,7 +80,7 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
 }
 
 timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_ms p,
-                          int s, std::string s_id, submap_revert &sr, std::string key )
+                          int s, std::string s_id, submap sr, std::string key )
     : type( e_t )
     , when( w )
     , faction_id( f_id )
@@ -88,9 +88,9 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
     , strength( s )
     , string_id( std::move( s_id ) )
     , key( std::move( key ) )
+    , revert( std::move( sr ) )
 {
     map_point = project_to<coords::sm>( map_square );
-    revert = sr;
 }
 
 void timed_event::actualize()
@@ -433,10 +433,10 @@ void timed_event_manager::add( timed_event_type type, const time_point &when,
 void timed_event_manager::add( timed_event_type type, const time_point &when,
                                const int faction_id,
                                const tripoint_abs_ms &where,
-                               int strength, const std::string &string_id, submap_revert sr,
+                               int strength, const std::string &string_id, submap sr,
                                const std::string &key )
 {
-    events.emplace_back( type, when, faction_id, where, strength, string_id, sr, key );
+    events.emplace_back( type, when, faction_id, where, strength, string_id, std::move( sr ), key );
 }
 
 bool timed_event_manager::queued( const timed_event_type type ) const
@@ -464,7 +464,7 @@ timed_event *timed_event_manager::get( const timed_event_type type, const std::s
     return nullptr;
 }
 
-std::list<timed_event> timed_event_manager::get_all() const
+std::list<timed_event> const &timed_event_manager::get_all() const
 {
     return events;
 }

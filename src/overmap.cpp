@@ -103,6 +103,7 @@ static const oter_str_id oter_river_sw( "river_sw" );
 static const oter_str_id oter_river_west( "river_west" );
 static const oter_str_id oter_road_nesw( "road_nesw" );
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
+static const oter_str_id oter_sewer_end_north( "sewer_end_north" );
 static const oter_str_id oter_sewer_isolated( "sewer_isolated" );
 static const oter_str_id oter_sewer_sub_station( "sewer_sub_station" );
 static const oter_str_id oter_solid_earth( "solid_earth" );
@@ -126,6 +127,7 @@ static const oter_type_str_id oter_type_lab_stairs( "lab_stairs" );
 static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_road_nesw_manhole( "road_nesw_manhole" );
+static const oter_type_str_id oter_type_sewer_connector( "sewer_connector" );
 static const oter_type_str_id oter_type_slimepit_bottom( "slimepit_bottom" );
 static const oter_type_str_id oter_type_slimepit_down( "slimepit_down" );
 static const oter_type_str_id oter_type_solid_earth( "solid_earth" );
@@ -814,6 +816,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "travel_cost", travel_cost, strict );
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
+    assign( jo, "entry_eoc", entry_EOC, strict );
+    assign( jo, "exit_eoc", exit_EOC, strict );
     assign( jo, "spawns", static_spawns, strict );
     assign( jo, "color", color );
     assign( jo, "land_use_code", land_use_code, strict );
@@ -2638,7 +2642,7 @@ struct mutable_overmap_special_data : overmap_special_data {
             debugmsg( "Spawn of mutable special %s had unresolved joins.  Existing terrain "
                       "at %s was %s; joins were %s\nComplete record of placement follows:\n%s",
                       parent_id.str(), p.to_string(), current_terrain.id().str(), joins,
-                      join( descriptions, "\n" ) );
+                      string_join( descriptions, "\n" ) );
 
             om.add_note(
                 p, string_format(
@@ -3556,6 +3560,12 @@ bool overmap::generate_sub( const int z )
             const oter_t &oter_here = *oter_id_here;
             const oter_id oter_above = ter_unsafe( p + tripoint_above );
             const oter_id oter_ground = ter_unsafe( tripoint_om_omt( p.xy(), 0 ) );
+
+            if( oter_here.get_type_id() == oter_type_sewer_connector ) {
+                om_direction::type rotation = oter_here.get_dir();
+                ter_set( p, oter_sewer_end_north.id()->get_rotated( rotation ) );
+                sewer_points.emplace_back( p.xy() );
+            }
 
             if( oter_here.get_type_id() == oter_type_microlab_sub_connector ) {
                 om_direction::type rotation = oter_here.get_dir();

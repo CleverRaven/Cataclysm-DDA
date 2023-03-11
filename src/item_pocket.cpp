@@ -23,6 +23,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "localized_comparator.h"
 #include "map.h"
 #include "math_defines.h"
@@ -57,6 +58,8 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
 
 constexpr units::volume pocket_data::max_volume_for_container;
 constexpr units::mass pocket_data::max_weight_for_container;
+
+std::vector<item_pocket::favorite_settings> item_pocket::pocket_presets;
 
 std::string pocket_data::check_definition() const
 {
@@ -1181,11 +1184,11 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
             info.back().bNewLine = true;
 
             info.emplace_back( arm_type_str, _( "<bold>Protection</bold>: Bash: " ), "",
-                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.bash_resist() );
+                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.resist( damage_type::BASH ) );
             info.emplace_back( arm_type_str, space + _( "Cut: " ), "",
-                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.cut_resist() );
+                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.resist( damage_type::CUT ) );
             info.emplace_back( arm_type_str, space + _( "Ballistic: " ), "", iteminfo::is_decimal,
-                               ablative_armor.bullet_resist() );
+                               ablative_armor.resist( damage_type::BULLET ) );
         }
     } else if( data->ammo_restriction.empty() ) {
         // With no ammo_restriction defined, show current volume/weight, and total capacity
@@ -1497,10 +1500,20 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
     if( ammo.has_flag( flag_SPEEDLOADER ) ) {
         // The speedloader needs to be compatible,
         // The ammo in it needs to be compatible,
-        // and the pocket needs to be empty (except casings)
+        // and the opcket needs to have enough space (except casings)
         return allows_speedloader( ammo.typeId() ) &&
                is_compatible( ammo.loaded_ammo() ).success() &&
                ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) >= ammo.ammo_remaining() );
+    }
+
+    if( ammo.has_flag( flag_SPEEDLOADER_CLIP ) ) {
+        // The speedloader clip needs to be compatible,
+        // The ammo in it needs to be compatible,
+        // and the pocket don't needs have enough space (except casings(if any))
+        return allows_speedloader( ammo.typeId() ) &&
+               is_compatible( ammo.loaded_ammo() ).success() &&
+               ( remaining_ammo_capacity( ammo.loaded_ammo().ammo_type() ) + ammo_capacity(
+                     ammo.loaded_ammo().ammo_type() ) > ammo_capacity( ammo.loaded_ammo().ammo_type() ) );
     }
 
     if( !is_compatible( ammo ).success() ) {
@@ -1778,23 +1791,23 @@ void item_pocket::leak( map &here, Character *carrier, const tripoint &pos, item
             }
             item *it = &*iter;
 
-            if( pocke ) {
+            if( pocke != nullptr ) {
                 if( pocke->watertight() ) {
                     ++iter;
                     continue;
                 }
                 pocke->add( *it );
-                contents.erase( iter );
             } else {
                 iter->unset_flag( flag_FROM_FROZEN_LIQUID );
                 iter->on_drop( pos );
                 here.add_item_or_charges( pos, *iter );
-                contents.erase( iter );
                 carrier->add_msg_if_player( _( "Liquid leaked out from the %s and dripped onto the ground!" ),
                                             this->get_name() );
             }
+            iter = contents.erase( iter );
+        } else {
+            ++iter;
         }
-        ++iter;
     }
 }
 
@@ -2133,6 +2146,83 @@ void item_pocket::heat_up()
     }
 }
 
+void item_pocket::add_preset( const item_pocket::favorite_settings &preset )
+{
+    pocket_presets.emplace_back( preset );
+    save_presets();
+}
+
+void item_pocket::save_presets()
+{
+    cata_path file = PATH_INFO::pocket_presets();
+
+    write_to_file( file, [&]( std::ostream & fout ) {
+        JsonOut jout( fout, true );
+        serialize_presets( jout );
+    }, _( "pocket preset configuration" ) );
+}
+
+bool item_pocket::has_preset( const std::string &s )
+{
+    return find_preset( s ) != pocket_presets.end();
+}
+
+std::vector<item_pocket::favorite_settings>::iterator item_pocket::find_preset(
+    const std::string &s )
+{
+    std::vector<item_pocket::favorite_settings>::iterator iter = std::find_if( pocket_presets.begin(),
+            pocket_presets.end(),
+    [&s]( const item_pocket::favorite_settings & preset ) {
+        return preset.get_preset_name().value() == s;
+    } );
+    return iter;
+}
+
+void item_pocket::delete_preset( const std::vector<item_pocket::favorite_settings>::iterator iter )
+{
+    pocket_presets.erase( iter );
+    save_presets();
+}
+
+void item_pocket::load_presets()
+{
+    cata::ifstream fin;
+    cata_path file = PATH_INFO::pocket_presets();
+
+    fs::path file_path = file.get_unrelative_path();
+    fin.open( file_path, std::ifstream::in | std::ifstream::binary );
+
+    if( fin.good() ) {
+        try {
+            JsonValue jsin = json_loader::from_path( file );
+            deserialize_presets( jsin.get_array() );
+        } catch( const JsonError &e ) {
+            debugmsg( "Error while loading pocket presets: %s", e.what() );
+        }
+    }
+
+    fin.close();
+}
+
+void item_pocket::serialize_presets( JsonOut &json )
+{
+    json.start_array();
+    for( const item_pocket::favorite_settings &preset : pocket_presets ) {
+        preset.serialize( json );
+    }
+    json.end_array();
+}
+
+void item_pocket::deserialize_presets( const JsonArray &ja )
+{
+    pocket_presets.clear();
+    for( JsonObject jo : ja ) {
+        item_pocket::favorite_settings preset;
+        preset.deserialize( jo );
+        pocket_presets.emplace_back( preset );
+    }
+}
+
 units::volume pocket_data::max_contains_volume() const
 {
     if( ammo_restriction.empty() ) {
@@ -2157,6 +2247,7 @@ units::volume pocket_data::max_contains_volume() const
 
 void item_pocket::favorite_settings::clear()
 {
+    preset_name = cata::nullopt;
     priority_rating = 0;
     item_whitelist.clear();
     item_blacklist.clear();
@@ -2360,6 +2451,16 @@ void item_pocket::favorite_settings::set_unloadable( bool flag )
     unload = flag;
 }
 
+void item_pocket::favorite_settings::set_preset_name( const std::string &s )
+{
+    preset_name = s;
+}
+
+const cata::optional<std::string> &item_pocket::favorite_settings::get_preset_name() const
+{
+    return preset_name;
+}
+
 template<typename T>
 std::string enumerate( cata::flat_set<T> container )
 {
@@ -2380,6 +2481,10 @@ void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
         info.emplace_back( "BASE", string_format(
                                _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them." ) ) );
     }
+    if( preset_name.has_value() ) {
+        info.emplace_back( "BASE", string_format( _( "Preset Name: %s" ), preset_name.value() ) );
+    }
+
     info.emplace_back( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) );
     info.emplace_back( "BASE", string_format( _( "Item Whitelist: %s" ),
                        item_whitelist.empty() ? _( "(empty)" ) :

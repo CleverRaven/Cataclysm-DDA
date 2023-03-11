@@ -48,6 +48,11 @@
     "info": "This gear has an <info>alarm clock</info> feature."
   },
   {
+    "id": "ALLOWS_BODY_BLOCK",
+    "type": "json_flag",
+    "info": "This item <info>allows to block with your body</info> when wielded as a weapon."
+  },
+  {
     "id": "ALLOWS_NATURAL_ATTACKS",
     "type": "json_flag",
     "info": "This clothing won't hinder special attacks that involve <info>mutated or cybernetic anatomy</info>."
@@ -1316,14 +1321,6 @@
     "type": "json_flag"
   },
   {
-    "id": "FISH_GOOD",
-    "type": "json_flag"
-  },
-  {
-    "id": "FISH_POOR",
-    "type": "json_flag"
-  },
-  {
     "id": "FIT",
     "type": "json_flag"
   },
@@ -1687,7 +1684,15 @@
   },
   {
     "id": "SPEEDLOADER",
-    "type": "json_flag"
+    "info": "This item can quickly reload rounds into gun or magazine that <info>have enough space</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER_CLIP" ]
+  },
+  {
+    "id": "SPEEDLOADER_CLIP",
+    "info": "This item can quickly reload rounds into gun or magazine that <info>don't have enough space</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER" ]
   },
   {
     "id": "SPLINT",
@@ -1719,6 +1724,10 @@
   },
   {
     "id": "TOBACCO",
+    "type": "json_flag"
+  },
+  {
+    "id": "TOUGH_FEET",
     "type": "json_flag"
   },
   {

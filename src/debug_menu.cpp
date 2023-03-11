@@ -123,6 +123,7 @@ static const achievement_id achievement_achievement_arcade_mode( "achievement_ar
 static const bodypart_str_id body_part_no_a_real_part( "no_a_real_part" );
 
 static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bleed( "bleed" );
 
 static const faction_id faction_no_faction( "no_faction" );
 
@@ -155,6 +156,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::LONG_TELEPORT: return "LONG_TELEPORT";
         case debug_menu::debug_menu_index::REVEAL_MAP: return "REVEAL_MAP";
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
+        case debug_menu::debug_menu_index::SPAWN_OM_NPC: return "SPAWN_OM_NPC";
         case debug_menu::debug_menu_index::SPAWN_MON: return "SPAWN_MON";
         case debug_menu::debug_menu_index::GAME_STATE: return "GAME_STATE";
         case debug_menu::debug_menu_index::KILL_AREA: return "KILL_AREA";
@@ -244,6 +246,10 @@ struct fake_tripoint { // NOLINT(cata-xy)
     int x = 0, y = 0, z = 0;
 };
 
+struct OM_point { // NOLINT(cata-xy)
+    int x = 0, y = 0;
+};
+
 std::istream &operator>>( std::istream &is, fake_tripoint &pos )
 {
     char c = 0;
@@ -251,16 +257,36 @@ std::istream &operator>>( std::istream &is, fake_tripoint &pos )
     return is;
 }
 
-tripoint _from_fs_string( const std::string &s )
+std::istream &operator>>( std::istream &is, OM_point &pos )
+{
+    char c = 0;
+    is >> pos.x &&is.get( c ) &&c == '.' &&is >> pos.y;
+    return is;
+}
+
+template<typename T>
+T _from_fs_string( std::string const &s )
 {
     std::istringstream is( s );
     is.imbue( std::locale::classic() );
-    fake_tripoint result;
+    T result;
     is >> result;
     if( !is ) {
-        return tripoint_zero;
+        return T{};
     }
-    return { result.x, result.y, result.z };
+    return result;
+}
+
+tripoint _from_map_string( std::string const &s )
+{
+    fake_tripoint const ft = _from_fs_string<fake_tripoint>( s );
+    return { ft.x, ft.y, ft.z };
+}
+
+tripoint _from_OM_string( std::string const &s )
+{
+    OM_point const om = _from_fs_string<OM_point>( s );
+    return { om.x, om.y, 0 };
 }
 
 using rdi_t = fs::recursive_directory_iterator;
@@ -288,37 +314,59 @@ bool _add_dir( tgz_archiver &tgz, fs::path const &root, f_validate_t const &vali
 }
 
 bool _trim_mapbuffer( fs::path const &dep, rdi_t &iter, tripoint_range<tripoint> const &segs,
-                      point const &reg )
+                      tripoint_range<tripoint> const &regs )
 {
-    // discard map memory outside of current region
+    // discard map memory outside of current region and adjacent regions
     if( dep.parent_path().extension() == ".mm1" &&
-        _from_fs_string( dep.stem().string() ).xy() != reg ) {
+        !regs.is_point_inside( tripoint{ _from_map_string( dep.stem().string() ).xy(), 0 } ) ) {
         return false;
     }
     // discard map buffer outside of current and adjacent segments
     if( dep.parent_path().filename() == "maps" &&
         !segs.is_point_inside(
-            tripoint{ _from_fs_string( dep.filename().string() ).xy(), 0 } ) ) {
+            tripoint{ _from_map_string( dep.filename().string() ).xy(), 0 } ) ) {
         iter.disable_recursion_pending();
         return false;
     }
     return true;
 }
 
+bool _trim_overmapbuffer( fs::path const &dep, tripoint_range<tripoint> const &oms )
+{
+    std::string const fname = dep.filename().generic_u8string();
+
+    std::string::size_type const seenpos = fname.find( ".seen." );
+    if( seenpos != std::string::npos ) {
+        return oms.is_point_inside( _from_OM_string( fname.substr( seenpos + 6 ) ) );
+    }
+
+    return fname.size() < 4 || fname[0] != 'o' || fname[1] != '.' ||
+           oms.is_point_inside( _from_OM_string( fname.substr( 2 ) ) );
+}
+
+bool _discard_temporary( fs::path const &dep )
+{
+    return !dep.has_extension() || dep.extension() != ".temp";
+}
+
 void write_min_archive()
 {
     tripoint_abs_seg const seg = project_to<coords::seg>( get_avatar().get_location() );
-    tripoint_range<tripoint> const segs = points_in_radius( seg.raw(), 1 );
+    tripoint_range<tripoint> const segs = points_in_radius( tripoint{ seg.xy().raw(), 0 }, 1 );
     point sm = project_to<coords::sm>( get_avatar().get_location() ).raw().xy();
     point const reg = sm_to_mmr_remain( sm.x, sm.y );
+    tripoint_range<tripoint> const regs = points_in_radius( tripoint{ reg, 0 }, 1 );
+    tripoint_abs_om const om = project_to<coords::om>( get_avatar().get_location() );
+    tripoint_range<tripoint> const oms = points_in_radius( tripoint{ om.raw().xy(), 0 }, 1 );
 
     fs::path const save_root( PATH_INFO::world_base_save_path_path() );
     std::string const ofile = save_root.string() + "-trimmed.tar.gz";
 
     tgz_archiver tgz( ofile );
 
-    f_validate_t const mb_validate = [&segs, &reg]( fs::path const & dep, rdi_t & iter ) {
-        return _trim_mapbuffer( dep, iter, segs, reg );
+    f_validate_t const mb_validate = [&segs, &regs, &oms]( fs::path const & dep, rdi_t & iter ) {
+        return _discard_temporary( dep ) && _trim_mapbuffer( dep, iter, segs, regs ) &&
+               _trim_overmapbuffer( dep, oms );
     };
 
     if( _add_dir( tgz, save_root, mb_validate ) &&
@@ -480,6 +528,7 @@ static int spawning_uilist()
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::WISH, true, 'w', _( "Spawn an item" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_NPC, true, 'n', _( "Spawn NPC" ) ) },
+        { uilist_entry( debug_menu_index::SPAWN_OM_NPC, true, 'N', _( "Spawn random NPC on overmap" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_MON, true, 'm', _( "Spawn monster" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_VEHICLE, true, 'v', _( "Spawn a vehicle" ) ) },
         { uilist_entry( debug_menu_index::SPAWN_ARTIFACT, true, 'a', _( "Spawn artifact" ) ) },
@@ -2654,6 +2703,16 @@ void debug()
         }
         break;
 
+        case debug_menu_index::SPAWN_OM_NPC: {
+            int num_of_npcs = 1;
+            if( query_int( num_of_npcs, _( "How many npcs to try spawning?" ), num_of_npcs ) ) {
+                for( int i = 0; i < num_of_npcs; i++ ) {
+                    g->perhaps_add_random_npc( true );
+                }
+            }
+        }
+        break;
+
         case debug_menu_index::SPAWN_MON:
             debug_menu::wishmonster( cata::nullopt );
             break;
@@ -2941,7 +3000,7 @@ void debug()
                     break;
             }
             if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
-                player_character.make_bleed( effect_source::empty(), part, 1_minutes * intensity );
+                player_character.add_effect( effect_bleed,  1_minutes * intensity, part );
             }
         }
         break;

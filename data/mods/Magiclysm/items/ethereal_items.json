@@ -6,6 +6,7 @@
     "description": "A magical flexible stonelike substance for protection and attack.",
     "weight": "1 g",
     "volume": "250 ml",
+    "longest_side": "20 cm",
     "price": 1,
     "to_hit": 2,
     "bashing": 20,
@@ -121,6 +122,7 @@
     "description": "A lightweight but tough shield crafted entirely of magical ice.",
     "weight": "1 kg",
     "volume": "5 L",
+    "longest_side": "50 cm",
     "price": 1,
     "to_hit": 1,
     "bashing": 14,
@@ -141,6 +143,7 @@
     "description": "A magical slick icy coating on your feet.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
     "weight": "1 g",
     "volume": "250 ml",
+    "longest_side": "15 cm",
     "price": 1,
     "to_hit": -2,
     "bashing": 6,
@@ -161,6 +164,7 @@
     "name": { "str": "The Stormhammer" },
     "description": "A crackling magical warhammer full of lightning to smite your foes with, and of course, smash things to bits!",
     "weight": "1337 g",
+    "longest_side": "70 cm",
     "to_hit": 2,
     "color": "brown",
     "symbol": "/",
@@ -193,6 +197,7 @@
     "material": [ "concentrated_mana" ],
     "volume": "155 ml",
     "weight": "300 g",
+    "longest_side": "25 cm",
     "bashing": 6,
     "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "LIGHT_5", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ] },
@@ -230,6 +235,7 @@
     "description": "A long, writhing, tentacle covered in sharp bonelike blades and spikey protrusions.",
     "weight": "2460 g",
     "volume": "1975 ml",
+    "longest_side": "40 cm",
     "material": [ "bone", "flesh" ],
     "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
     "flags": [
@@ -255,6 +261,7 @@
     "description": "A long whip made of blue-hot magical flames.  The heat is horrendous when touching an enemy.",
     "weight": "60 g",
     "volume": "1500 ml",
+    "longest_side": "40 cm",
     "material": [ "concentrated_mana" ],
     "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
     "flags": [
@@ -329,6 +336,7 @@
     "techniques": [ "WBLOCK_2", "WIDE", "SWEEP", "BRUTAL" ],
     "weight": "2175 g",
     "volume": "2500 ml",
+    "longest_side": "183 cm",
     "bashing": 16,
     "cutting": 36,
     "to_hit": 2
@@ -360,6 +368,7 @@
     "skill": "archery",
     "min_strength": 9,
     "weight": "540 g",
+    "longest_side": "140 cm",
     "bashing": 12,
     "to_hit": 1,
     "reload_noise_volume": 3,
@@ -717,6 +726,7 @@
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "weight": "86 g",
     "volume": "250 ml",
+    "longest_side": "25 cm",
     "skill": "throw",
     "price_postapoc": 250,
     "to_hit": -1,
@@ -834,6 +844,7 @@
     "description": "Claws made from ice, able to freeze on contact while mauling foes.  You, however, feel only a slight chill on your hands.",
     "weight": "100 g",
     "volume": "100 ml",
+    "longest_side": "15 cm",
     "price": 1,
     "bashing": 6,
     "cutting": 12,
@@ -955,6 +966,7 @@
     "symbol": "*",
     "color": "yellow",
     "qualities": [ [ "BOIL", 2 ], [ "COOK", 3 ] ],
+    "sub": "fire",
     "use_action": [
       {
         "target": "pocket_sun_cover",
@@ -964,7 +976,7 @@
       },
       { "type": "firestarter", "moves": 10, "moves_slow": 100 }
     ],
-    "flags": [ "LIGHT_700", "TRADER_AVOID" ]
+    "flags": [ "FIRE", "LIGHT_700", "TRADER_AVOID" ]
   },
   {
     "id": "pocket_sun_cover",
@@ -1166,6 +1178,65 @@
       "NONCONDUCTIVE",
       "TRADER_AVOID",
       "REBREATHER"
+    ]
+  },
+  {
+    "id": "thought_shield_item",
+    "name": { "str_sp": "thought shields" },
+    "description": "These two tiny shields on your temples should protect your mind from outside influences",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "weight": "0 g",
+    "material": [ "concentrated_mana" ],
+    "environmental_protection": 1,
+    "volume": "1 ml",
+    "symbol": "0",
+    "color": "white",
+    "armor": [ { "encumbrance": 0, "coverage": 75, "covers": [ "head", "mouth", "eyes" ] } ],
+    "flags": [
+      "WATER_FRIENDLY",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "OVERSIZE",
+      "AURA",
+      "ZERO_WEIGHT",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "TRADER_AVOID",
+      "PSYSHIELD_PARTIAL"
+    ]
+  },
+  {
+    "id": "thought_shield_plus_item",
+    "name": { "str_sp": "thought suit" },
+    "description": "The tiny shields all over your body should protect your mind from outside influences and your body from being moved by outside magic",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "weight": "0 g",
+    "material": [ "concentrated_mana" ],
+    "environmental_protection": 1,
+    "volume": "1 ml",
+    "symbol": "0",
+    "color": "white",
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ],
+    "flags": [
+      "WATER_FRIENDLY",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "OVERSIZE",
+      "AURA",
+      "ZERO_WEIGHT",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "TRADER_AVOID",
+      "PSYSHIELD_PARTIAL",
+      "PORTAL_PROOF"
     ]
   }
 ]

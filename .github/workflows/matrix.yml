@@ -59,6 +59,8 @@ jobs:
         with:
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   matrix-variables:
+    permissions:
+      contents: none
     continue-on-error: true
     runs-on: ubuntu-latest
     outputs:
@@ -169,9 +171,9 @@ jobs:
             sound: 1
             localize: 1
             libbacktrace: 1
-            title: GCC 11, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
+            title: GCC 12, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
-            mxe_target: x86_64-w64-mingw32.static.gcc11
+            mxe_target: x86_64-w64-mingw32.static.gcc12
             wine: wine
             # ~285MB in a clean build
             # ~36MB compressed

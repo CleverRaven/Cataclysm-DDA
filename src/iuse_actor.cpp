@@ -131,6 +131,7 @@ static const proficiency_id proficiency_prof_wound_care( "prof_wound_care" );
 static const proficiency_id proficiency_prof_wound_care_expert( "prof_wound_care_expert" );
 
 static const quality_id qual_DIG( "DIG" );
+static const quality_id qual_MOP( "MOP" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -1085,10 +1086,34 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
         return cata::nullopt;
     }
+
     if( here.has_items( pnt ) ) {
-        p.add_msg_if_player( m_info, _( "Before deploying furniture, you need to clear the tile." ) );
-        return cata::nullopt;
+        // Check that there are no other people's belongings in the place where the furniture is placed.
+        // Avoid easy theft of NPC items (e.g. carton theft).
+        map &temp = get_map();
+        for( item &i : temp.i_at( pnt ) ) {
+            if( !i.is_owned_by( p, true ) ) {
+                p.add_msg_if_player( m_info, _( "You can't deploy furniture on other people's belongings!" ) );
+                return cata::nullopt;
+            }
+        }
+
+        // Check that there is no liquid on the floor.
+        // If there is, it needs to be mopped dry with a mop.
+        if( here.terrain_moppable( tripoint_bub_ms( pnt ) ) ) {
+            if( get_avatar().crafting_inventory().has_quality( qual_MOP ) ) {
+                here.mop_spills( tripoint_bub_ms( pnt ) );
+                p.add_msg_if_player( m_info,
+                                     _( "You mopped up the spill with a nearby mop when deploying furniture." ) );
+                p.moves -= 15;
+            } else {
+                p.add_msg_if_player( m_info,
+                                     _( "You need a mop to clean up liquids before deploying furniture." ) );
+                return cata::nullopt;
+            }
+        }
     }
+
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
     p.mod_moves( -to_moves<int>( 2_seconds ) );
@@ -1202,6 +1227,27 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
     if( target_is_firewood ) {
         if( !query_yn( _( "Do you really want to burn your firewood source?" ) ) ) {
             return false;
+        }
+    }
+    // Check for an adjacent fire container
+    for( const tripoint_bub_ms &query : here.points_in_radius( pos, 1 ) ) {
+        // Don't ask if we're setting a fire on top of a fireplace
+        // TODO: fix point types
+        if( here.has_flag_furn( "FIRE_CONTAINER", pos.raw() ) ) {
+            break;
+        }
+        // Skip the position we're trying to light on fire
+        if( query == pos ) {
+            continue;
+        }
+        // TODO: fix point types
+        if( here.has_flag_furn( "FIRE_CONTAINER", query.raw() ) ) {
+            if( !query_yn( _( "Are you sure you want to start fire here?  There's a fireplace adjacent." ) ) ) {
+                return false;
+            } else {
+                // Don't ask multiple times if they say no and there are multiple fireplaces
+                break;
+            }
         }
     }
     // Check for a brazier.
@@ -1336,11 +1382,6 @@ void salvage_actor::load( const JsonObject &obj )
 {
     assign( obj, "cost", cost );
     assign( obj, "moves_per_part", moves_per_part );
-
-    if( obj.has_array( "material_whitelist" ) ) {
-        material_whitelist.clear();
-        assign( obj, "material_whitelist", material_whitelist );
-    }
 }
 
 std::unique_ptr<iuse_actor> salvage_actor::clone() const
@@ -1393,14 +1434,27 @@ static void visit_salvage_products( const item &it,
     }
 }
 
-// Helper to find smallest sub-component of an item.
-static units::mass minimal_weight_to_cut( const item &it )
+static units::mass proportional_weight( const item &it, int material_portions )
 {
-    units::mass min_weight = units::mass_max;
-    visit_salvage_products( it, [&min_weight]( const item & exemplar ) {
-        min_weight = std::min( min_weight, exemplar.weight() );
-    } );
-    return min_weight;
+    int total_portions = std::max( 1, it.type->mat_portion_total );
+    return it.weight() * material_portions / total_portions;
+}
+
+// Helper to determine if there's enough of any material to even produce a result when cut up.
+static bool can_produce_results( const item &it )
+{
+    for( const std::pair<const material_id, int> &mat : it.made_of() ) {
+        if( const cata::optional<itype_id> mat_id = mat.first->salvaged_into() ) {
+            item material( *mat_id );
+            if( material.count_by_charges() ) {
+                material.charges = 1;
+            }
+            if( material.weight() <= proportional_weight( it, mat.second ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 int salvage_actor::time_to_cut_up( const item &it ) const
@@ -1436,19 +1490,13 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
         return false;
     }
 
-    if( !it.only_made_of( material_whitelist ) ) {
-        if( p ) {
-            add_msg( m_info, _( "The %s is made of material that cannot be cut up." ), it.tname() );
-        }
-        return false;
-    }
     if( !it.empty() ) {
         if( p ) {
             add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
         }
         return false;
     }
-    if( it.weight() < minimal_weight_to_cut( it ) ) {
+    if( !can_produce_results( it ) ) {
         if( p ) {
             add_msg( m_info, _( "The %s is too small to salvage material from." ), it.tname() );
         }
@@ -1521,11 +1569,9 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
 
     auto distribute_uniformly = [&mat_to_weight]( const item & x, float num_adjusted ) -> void {
-        const float mat_total = std::max( x.type->mat_portion_total, 1 );
         for( const auto &type : x.made_of() )
         {
-            mat_to_weight[type.first] += x.weight() * ( static_cast<float>( type.second ) / mat_total ) *
-            num_adjusted;
+            mat_to_weight[type.first] += proportional_weight( x, type.second ) * num_adjusted;
         }
     };
 
@@ -1561,8 +1607,10 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         // All intact components are also cut up and destroyed
         if( !curr.components.empty() )
         {
-            for( const item &iter : curr.components ) {
-                cut_up_component( iter, num_adjusted );
+            for( const item_components::type_vector_pair &tvp : curr.components ) {
+                for( const item &iter : tvp.second ) {
+                    cut_up_component( iter, num_adjusted );
+                }
             }
             return;
         }
@@ -1586,13 +1634,11 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
             // Find default components set from recipe
             for( const auto &altercomps : requirements.get_components() ) {
                 const item_comp &comp = altercomps.front();
-                if( comp.type->count_by_charges() ) {
-                    item next = item( comp.type, calendar::turn, comp.count );
-                    cut_up_component( next, num_adjusted );
-                } else {
-                    item next = item( comp.type, calendar::turn );
-                    cut_up_component( next, num_adjusted * comp.count );
+                item next = item( comp.type, calendar::turn );
+                if( next.count_by_charges() ) {
+                    next.charges = 1;
                 }
+                cut_up_component( next, num_adjusted * comp.count );
             }
         } else
         {
@@ -3769,7 +3815,10 @@ bool place_trap_actor::is_allowed( Character &p, const tripoint &pos,
     const trap &existing_trap = here.tr_at( pos );
     if( !existing_trap.is_null() ) {
         if( existing_trap.can_see( pos, p ) ) {
-            p.add_msg_if_player( m_info, _( "You can't place a %s there.  It contains a trap already." ),
+            p.add_msg_if_player( m_info,
+                                 existing_trap.is_benign()
+                                 ? _( "You can't place a %s there.  It contains a deployed object already." )
+                                 : _( "You can't place a %s there.  It contains a trap already." ),
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
@@ -4597,17 +4646,23 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
             prompt = obj.destroy_prompt.translated();
         }
         std::string desc;
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Bash" ), mod.bash_resist(),
-                                         temp_item.bash_resist() ), get_compare_color( mod.bash_resist(), temp_item.bash_resist(), true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Cut" ), mod.cut_resist(),
-                                         temp_item.cut_resist() ), get_compare_color( mod.cut_resist(), temp_item.cut_resist(), true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Ballistic" ), mod.bullet_resist(),
-                                         temp_item.bullet_resist() ), get_compare_color( mod.bullet_resist(), temp_item.bullet_resist(),
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Bash" ), mod.resist( damage_type::BASH ),
+                                         temp_item.resist( damage_type::BASH ) ), get_compare_color( mod.resist( damage_type::BASH ),
+                                                 temp_item.resist( damage_type::BASH ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Cut" ), mod.resist( damage_type::CUT ),
+                                         temp_item.resist( damage_type::CUT ) ), get_compare_color( mod.resist( damage_type::CUT ),
+                                                 temp_item.resist( damage_type::CUT ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Ballistic" ),
+                                         mod.resist( damage_type::BULLET ),
+                                         temp_item.resist( damage_type::BULLET ) ), get_compare_color( mod.resist( damage_type::BULLET ),
+                                                 temp_item.resist( damage_type::BULLET ),
                                                  true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Acid" ), mod.acid_resist(),
-                                         temp_item.acid_resist() ), get_compare_color( mod.acid_resist(), temp_item.acid_resist(), true ) );
-        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Fire" ), mod.fire_resist(),
-                                         temp_item.fire_resist() ), get_compare_color( mod.fire_resist(), temp_item.fire_resist(), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Acid" ), mod.resist( damage_type::ACID ),
+                                         temp_item.resist( damage_type::ACID ) ), get_compare_color( mod.resist( damage_type::ACID ),
+                                                 temp_item.resist( damage_type::ACID ), true ) );
+        desc += colorize( string_format( "%s: %.2f->%.2f\n", _( "Fire" ), mod.resist( damage_type::HEAT ),
+                                         temp_item.resist( damage_type::HEAT ) ), get_compare_color( mod.resist( damage_type::HEAT ),
+                                                 temp_item.resist( damage_type::HEAT ), true ) );
         desc += colorize( string_format( "%s: %d->%d\n", _( "Warmth" ), mod.get_warmth(),
                                          temp_item.get_warmth() ), get_compare_color( mod.get_warmth(), temp_item.get_warmth(), true ) );
         desc += colorize( string_format( "%s: %d->%d\n", _( "Encumbrance" ), mod.get_avg_encumber( p ),

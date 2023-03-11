@@ -4111,6 +4111,11 @@ void npc::set_omt_destination()
             // those having equal minimal distance
             find_params.search_range = 75;
             find_params.existing_only = false;
+            // force finding goal on the same zlevel (for random spawned NPCs that's z=0), otherwise
+            // we may target unreachable overmap tiles (no ramp up/down) which makes
+            // overmap_buffer.get_travel_path waste a lot of time
+            find_params.min_z = surface_omt_loc.z();
+            find_params.max_z = surface_omt_loc.z();
             goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
             npc_need_goal_cache &cache = goal_cache[fulfill];
             cache.goal = goal;

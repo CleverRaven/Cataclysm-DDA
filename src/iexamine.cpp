@@ -137,11 +137,9 @@ static const furn_str_id furn_f_diesel_tank( "f_diesel_tank" );
 static const furn_str_id furn_f_gas_tank( "f_gas_tank" );
 static const furn_str_id furn_f_metal_smoking_rack( "f_metal_smoking_rack" );
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
-static const furn_str_id furn_f_rope_up( "f_rope_up" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill( "f_water_mill" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
-static const furn_str_id furn_f_web_up( "f_web_up" );
 static const furn_str_id furn_f_wind_mill( "f_wind_mill" );
 static const furn_str_id furn_f_wind_mill_active( "f_wind_mill_active" );
 
@@ -162,7 +160,6 @@ static const itype_id itype_fire( "fire" );
 static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
-static const itype_id itype_grapnel( "grapnel" );
 static const itype_id itype_hickory_root( "hickory_root" );
 static const itype_id itype_id_science( "id_science" );
 static const itype_id itype_leg_splint( "leg_splint" );
@@ -183,7 +180,6 @@ static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const json_character_flag json_flag_WALL_CLING( "WALL_CLING" );
-static const json_character_flag json_flag_WEB_RAPPEL( "WEB_RAPPEL" );
 
 static const material_id material_bone( "bone" );
 static const material_id material_cac2powder( "cac2powder" );
@@ -2886,11 +2882,22 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
         add_msg( _( "This kiln is empty.  Fill it with wood or bone and try again." ) );
         return;
     }
-
+    // https://energypedia.info/wiki/Charcoal_Production
+    // charcoal has about 25% of the density of wood, and wood pyrolysis produces about 10-15% charcoal by weight for a stone kiln.
+    // listed efficiency is for primitive or DIY production, industrial process in a metal kiln is more efficient at 20-25%
+    // 100% efficient conversion would be 1kg wood = 0.25kg charcoal, 1:1 volume conversion
+    // fabrication should help here as kiln design and how you stack the wood matter to a degree, though the impact is low overall
+    // For a cruddy kiln (a pit with a rock chimney) assume 10-15% efficiency, depending on fabrication (40-60% wastage)
+    // For a well made kiln (industrial-style metal kiln) assume 20-25% efficiency, depending on fabrication (0-20% wastage)
     ///\EFFECT_FABRICATION decreases loss when firing a kiln
     const int skill = you.get_skill_level( skill_fabrication );
-    int loss = 60 - 2 *
-               skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
+    int loss = 0;
+    // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
+    if( cur_kiln_type == f_kiln_metal_empty ) {
+        loss = 20 - 2 * skill;
+    } else {
+        loss = 60 - 2 * skill;
+    }
 
     // Burn stuff that should get charred, leave out the rest
     units::volume total_volume = 0_ml;
@@ -2946,7 +2953,6 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
                   here.furn( examp ).id().c_str() );
         return;
     }
-
     map_stack items = here.i_at( examp );
     if( items.empty() ) {
         add_msg( _( "This kiln is empty…" ) );
@@ -2955,7 +2961,8 @@ void iexamine::kiln_full( Character &, const tripoint &examp )
     }
     const itype *char_type = item::find_type( itype_charcoal );
     add_msg( _( "There's a charcoal kiln there." ) );
-    const time_duration firing_time = 6_hours; // 5 days in real life
+    const time_duration firing_time =
+        24_hours; // internet guides claim about one day for a fairly large pot
     const time_duration time_left = firing_time - items.only_item().age();
     if( time_left > 0_turns ) {
         int hours = to_hours<int>( time_left );
@@ -3617,8 +3624,8 @@ void iexamine::keg( Character &you, const tripoint &examp )
 {
     none( you, examp );
     map &here = get_map();
-    const auto keg_name = here.name( examp );
-    units::volume keg_cap = get_keg_capacity( examp );
+    const std::string keg_name = here.name( examp );
+    const units::volume keg_cap = get_keg_capacity( examp );
 
     const bool has_container_with_liquid = map_cursor( examp ).has_item_with( []( const item & it ) {
         return !it.is_container_empty() && it.can_unload_liquid();
@@ -3641,12 +3648,14 @@ void iexamine::keg( Character &you, const tripoint &examp )
         std::vector<itype_id> drink_types;
         std::vector<std::string> drink_names;
         std::vector<double> drink_rot;
+        std::vector<time_point> drink_bday;
         for( item *&drink : drinks_inv ) {
             auto found_drink = std::find( drink_types.begin(), drink_types.end(), drink->typeId() );
             if( found_drink == drink_types.end() ) {
                 drink_types.push_back( drink->typeId() );
                 drink_names.push_back( item::nname( drink->typeId() ) );
                 drink_rot.push_back( drink->get_relative_rot() );
+                drink_bday.push_back( drink->birthday() );
             } else {
                 auto rot_iter = std::next( drink_rot.begin(), std::distance( drink_types.begin(), found_drink ) );
                 // Yep, worst rot wins.
@@ -3676,7 +3685,7 @@ void iexamine::keg( Character &you, const tripoint &examp )
         //Store liquid chosen in the keg
         itype_id drink_type = drink_types[ drink_index ];
         int charges_held = you.charges_of( drink_type );
-        item drink( drink_type, calendar::turn_zero );
+        item drink( drink_type, drink_bday[ drink_index ] );
         drink.set_relative_rot( drink_rot[ drink_index ] );
         drink.charges = 0;
         bool keg_full = false;
@@ -3709,17 +3718,17 @@ void iexamine::keg( Character &you, const tripoint &examp )
             DISPENSE,
             HAVE_A_DRINK,
             REFILL,
-            EXAMINE,
         };
         uilist selectmenu;
+        //~ $1 - furniture name, $2 - liquid name, $3 - liquid charges, $4 - liquid volume, $5 - liquid capacity
+        selectmenu.text = string_format( _( "%1$s with %2$s (%3$d)    %4$s / %5$s" ),
+                                         uppercase_first_letter( keg_name ), drink_tname, drink.charges,
+                                         vol_to_string( drink.volume(), true, true ), vol_to_string( keg_cap, true, true ) );
         selectmenu.addentry( DISPENSE, drink.made_of( phase_id::LIQUID ), MENU_AUTOASSIGN,
                              _( "Dispense or dump %s" ), drink_tname );
         selectmenu.addentry( HAVE_A_DRINK, drink.is_food() && drink.made_of( phase_id::LIQUID ),
                              MENU_AUTOASSIGN, _( "Have a drink" ) );
         selectmenu.addentry( REFILL, true, MENU_AUTOASSIGN, _( "Refill" ) );
-        selectmenu.addentry( EXAMINE, true, MENU_AUTOASSIGN, _( "Examine" ) );
-
-        selectmenu.text = _( "Select an action" );
         selectmenu.query();
 
         switch( selectmenu.ret ) {
@@ -3759,12 +3768,6 @@ void iexamine::keg( Character &you, const tripoint &examp )
                 you.use_charges( drink.typeId(), charges_held - tmp.charges );
                 add_msg( _( "You fill the %1$s with %2$s." ), keg_name, drink_nname );
                 you.moves -= to_moves<int>( 10_seconds );
-                return;
-            }
-
-            case EXAMINE: {
-                add_msg( m_info, _( "It contains %s (%d), %0.f%% full." ),
-                         drink_tname, drink.charges, drink.volume() * 100.0 / keg_cap );
                 return;
             }
 
@@ -4920,8 +4923,6 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 
     cmenu.query();
 
-    // Weariness scaling
-    float weary_mult = 1.0f;
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     switch( cmenu.ret ) {
@@ -4954,116 +4955,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             break;
         }
         case 2: {
-            // If player is grabbed, trapped, or somehow otherwise movement-impeded, first try to break free
-            if( !you.move_effects( false ) ) {
-                you.moves -= 100;
-                return;
-            }
-
-            if( !here.valid_move( you.pos(), examp, false, true ) ) {
-                // Covered with something
-                return;
-            }
-
-            tripoint where = examp;
-            tripoint below = examp;
-            below.z--;
-            while( here.valid_move( where, below, false, true ) ) {
-                where.z--;
-                below.z--;
-            }
-
-            const int height = examp.z - where.z;
-            add_msg_debug( debugmode::DF_IEXAMINE, "Ledge height %d", height );
-            if( height == 0 ) {
-                you.add_msg_if_player( _( "You can't climb down there." ) );
-                return;
-            }
-
-            bool has_grapnel = you.has_amount( itype_grapnel, 1 );
-            bool web_rappel = you.has_flag( json_flag_WEB_RAPPEL );
-            const int climb_cost = you.climbing_cost( where, examp );
-            const float fall_mod = you.fall_damage_mod();
-            add_msg_debug( debugmode::DF_IEXAMINE, "Climb cost %d", climb_cost );
-            add_msg_debug( debugmode::DF_IEXAMINE, "Fall damage modifier %.2f", fall_mod );
-            const char *query_str;
-            if( !web_rappel ) {
-                query_str = n_gettext( "Looks like %d story.  Jump down?",
-                                       "Looks like %d stories.  Jump down?",
-                                       height );
-            } else {
-                query_str = n_gettext( "Looks like %d story.  Nothing your webs can't handle.  Descend?",
-                                       "Looks like %d stories.  Nothing your webs can't handle.  Descend?", height );
-            }
-
-            if( height > 1 && !query_yn( query_str, height ) ) {
-                return;
-            } else if( height == 1 ) {
-                you.set_activity_level( ACTIVE_EXERCISE );
-                weary_mult = 1.0f / you.exertion_adjusted_move_multiplier( ACTIVE_EXERCISE );
-
-                if( has_grapnel ) {
-                    if( !query_yn( _( "Use your grappling hook to climb down?" ) ) ) {
-                        has_grapnel = false;
-                    } else {
-                        web_rappel = false;
-                    }
-                }
-
-                if( !has_grapnel ) {
-                    const char *query;
-                    if( web_rappel ) {
-                        query = _( "Use your webs to descend?" );
-                    } else {
-                        if( climb_cost <= 0 && fall_mod > 0.8 ) {
-                            query = _( "You probably won't be able to get up and jumping down may hurt.  Jump?" );
-                        } else if( climb_cost <= 0 ) {
-                            query = _( "You probably won't be able to get back up.  Climb down?" );
-                        } else if( climb_cost < 200 ) {
-                            query = _( "You should be able to climb back up easily if you climb down there.  Climb down?" );
-                        } else {
-                            query = _( "You may have problems climbing back up.  Climb down?" );
-                        }
-                    }
-
-                    if( !query_yn( query ) ) {
-                        return;
-                    }
-                }
-            }
-
-            you.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod ) * weary_mult;
-            you.setpos( examp );
-
-            if( web_rappel ) {
-                you.add_msg_if_player(
-                    _( "You affix a long, sticky strand on the ledge and begin your descent." ) );
-                tripoint web = examp;
-                web.z--;
-                // Leave a web rope on each step
-                for( int i = 0; i < height; i++ ) {
-                    here.furn_set( web, furn_f_web_up );
-                    web.z--;
-                }
-                g->vertical_move( -height, true );
-            } else if( has_grapnel ) {
-                you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
-                g->vertical_move( -1, true );
-                you.use_amount( itype_grapnel, 1 );
-                here.furn_set( you.pos(), furn_f_rope_up );
-            } else if( !g->slip_down( true ) ) {
-                // One tile of falling less (possibly zero)
-                add_msg_debug( debugmode::DF_IEXAMINE, "Safe movement down one Z-level" );
-                g->vertical_move( -1, true );
-            } else {
-                return;
-            }
-            if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, you.pos() ) ) {
-                you.set_underwater( true );
-                g->water_affect_items( you );
-                you.add_msg_if_player( _( "You climb down and dive underwater." ) );
-            }
-
+            g->climb_down( examp );
             break;
         }
         case 3: {
@@ -5619,10 +5511,11 @@ void iexamine::autodoc( Character &you, const tripoint &examp )
     }
 }
 
+//food avg. 1.1 kg/L, which would be 110u of smoking_heat or 686 charcoal. rounding down to 600 as there are likely some batch fuel savings involved. it's roughly 1:1-1:2 charcoal:food to smoke.
 namespace sm_rack
 {
-static const int MIN_CHARCOAL = 100;
-static const int CHARCOAL_PER_LITER = 25;
+static const int MIN_CHARCOAL = 1200;
+static const int CHARCOAL_PER_LITER = 600;
 static const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
 static const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
 } // namespace sm_rack
@@ -5863,7 +5756,7 @@ void iexamine::mill_finalize( Character &, const tripoint &examp, const time_poi
                 iter = items.erase( iter );
             } else {
                 item result( mdata.into_, start_time + milling_time, charges );
-                result.components.push_back( it );
+                result.components.add( it );
                 // copied from item::inherit_flags, which can not be called here because it requires a recipe.
                 for( const flag_id &f : it.type->get_flags() ) {
                     if( f->craft_inherit() ) {
@@ -5928,7 +5821,7 @@ static void smoker_finalize( Character &, const tripoint &examp, const time_poin
                         // Set charges to 1 for stacking purposes.
                         it = item( it.get_comestible()->cooks_like, it.birthday(), 1 );
                     }
-                    result.components.push_back( it );
+                    result.components.add( it );
                     // Smoking is always 1:1, so these must be equal for correct kcal/vitamin calculation.
                     result.recipe_charges = it.charges;
                     result.set_flag_recursive( flag_COOKED );

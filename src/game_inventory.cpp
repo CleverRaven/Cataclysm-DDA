@@ -66,6 +66,7 @@ static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
+static const bionic_id bio_fitnessband( "bio_fitnessband" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
@@ -163,7 +164,11 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         // Set position after filter to keep cursor at the right position
         bool position_set = false;
         if( !u.activity.targets.empty() ) {
-            position_set = inv_s.highlight_one_of( u.activity.targets );
+            bool const hidden = u.activity.values.size() >= 3 && static_cast<bool>( u.activity.values[2] );
+            position_set = inv_s.highlight_one_of( u.activity.targets, hidden );
+            if( !position_set && hidden ) {
+                position_set = inv_s.highlight_one_of( u.activity.targets );
+            }
         }
         if( !position_set && u.activity.values.size() >= 2 ) {
             inv_s.highlight_position( std::make_pair( u.activity.values[0], u.activity.values[1] ) );
@@ -181,13 +186,18 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
     item_location location = inv_s.execute();
 
     if( u.has_activity( consuming ) ) {
+        inventory_entry const &e = inv_s.get_highlighted();
+        bool const collated = e.is_collation_entry();
         u.activity.values.clear();
         const auto init_pair = inv_s.get_highlighted_position();
         u.activity.values.push_back( init_pair.first );
         u.activity.values.push_back( init_pair.second );
+        u.activity.values.push_back( collated );
         u.activity.str_values.clear();
         u.activity.str_values.emplace_back( inv_s.get_filter() );
-        u.activity.targets = inv_s.get_highlighted().locations;
+        u.activity.targets = collated ? std::vector<item_location> { location, inv_s.get_collation_next() }
+                             :
+                             inv_s.get_highlighted().locations;
     }
 
     return location;
@@ -305,23 +315,23 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "WARMTH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->bash_resist() );
+                return get_decimal_string( loc->resist( damage_type::BASH ) );
             }, _( "BASH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->cut_resist() );
+                return get_decimal_string( loc->resist( damage_type::CUT ) );
             }, _( "CUT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->bullet_resist() );
+                return get_decimal_string( loc->resist( damage_type::BULLET ) );
             }, _( "BULLET" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->acid_resist() );
+                return get_decimal_string( loc->resist( damage_type::ACID ) );
             }, _( "ACID" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->fire_resist() );
+                return get_decimal_string( loc->resist( damage_type::HEAT ) );
             }, _( "FIRE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -612,6 +622,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         explicit comestible_inventory_preset( const Character &you ) : you( you ) {
 
             _indent_entries = false;
+            _collate_entries = true;
 
             append_cell( [&you]( const item_location & loc ) {
                 const nutrients nutr = you.compute_effective_nutrients( *loc );
@@ -727,7 +738,8 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return loc->is_comestible() && you.can_consume_as_is( *loc );
+            return ( loc->is_comestible() && you.can_consume_as_is( *loc ) ) ||
+                   loc->is_medical_tool();
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -750,7 +762,8 @@ class comestible_inventory_preset : public inventory_selector_preset
             }
 
             const item &it = *loc;
-            const ret_val<edible_rating> res = you.can_eat( it );
+            const ret_val<edible_rating> res =
+                it.is_medical_tool() ? ret_val<edible_rating>::make_success() : you.can_eat( it );
 
             if( !res.success() ) {
                 return res.str();
@@ -874,7 +887,7 @@ static std::string get_consume_needs_hint( Character &you )
     int kcal_ingested_yesterday = you.as_avatar()->get_daily_ingested_kcal( true );
     int kcal_spent_today = you.as_avatar()->get_daily_spent_kcal( false );
     int kcal_spent_yesterday = you.as_avatar()->get_daily_spent_kcal( true );
-    bool has_fitness_band =  you.is_wearing( itype_fitness_band );
+    bool has_fitness_band =  you.is_wearing( itype_fitness_band ) || you.has_bionic( bio_fitnessband );
     bool has_tracker = has_fitness_band || you.has_item_with_flag( json_flag_CALORIES_INTAKE );
 
     std::string kcal_estimated_intake;
@@ -1022,7 +1035,7 @@ item_location game_menus::inv::consume_meds( avatar &you )
     std::string none_message = you.activity.str_values.size() == 2 ?
                                _( "You have no more medication to consume." ) : _( "You have no medication to consume." );
     return inv_internal( you, comestible_filtered_inventory_preset( you, []( const item & it ) {
-        return it.is_medication();
+        return it.is_medication() || it.is_medical_tool();
     } ),
     _( "Consume medication" ), 1,
     none_message,
@@ -1034,6 +1047,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
     public:
         explicit activatable_inventory_preset( const Character &you ) : pickup_inventory_preset( you ),
             you( you ) {
+            _collate_entries = true;
             if( get_option<bool>( "INV_USE_ACTION_NAMES" ) ) {
                 append_cell( [ this ]( const item_location & loc ) {
                     return string_format( "<color_light_green>%s</color>", get_action_name( *loc ) );
@@ -1569,7 +1583,7 @@ drop_locations game_menus::inv::holster( avatar &you, const item_location &holst
     const std::string hint = string_format( _( "Choose an item to put into your %s" ),
                                             holster_name );
 
-    inventory_holster_preset holster_preset( holster );
+    inventory_holster_preset holster_preset( holster, &get_avatar() );
 
     inventory_drop_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
                                          /*warn_liquid=*/false );
@@ -1795,7 +1809,7 @@ class repair_inventory_preset: public inventory_selector_preset
                                                            num_comp ), num_comp < comp_needed ? c_red : c_unset ) );
                     }
                 }
-                std::string ret = join( material_list, ", " );
+                std::string ret = string_join( material_list, ", " );
                 if( ret.empty() ) {
                     ret = _( "<color_red>NONE</color>" );
                 }
