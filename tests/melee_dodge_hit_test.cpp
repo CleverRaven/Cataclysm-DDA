@@ -11,6 +11,7 @@
 #include "game.h"
 #include "item.h"
 #include "map_helpers.h"
+#include "monattack.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player_helpers.h"
@@ -20,7 +21,7 @@
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 
-static const mtype_id debug_mon( "debug_mon" );
+static const mtype_id mon_debug_grab( "mon_debug_grab" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 
@@ -266,12 +267,12 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
     }
 
     SECTION( "unstable footing: 1/4 dodge" ) {
-        CHECK( dodge_with_effect( dummy, "bouldering" ) == base_dodge / 4 );
+        CHECK( dodge_with_effect( dummy, "bouldering" ) == Approx( base_dodge / 4 ).margin( 0.1f ) );
     }
 
     SECTION( "skating: amateur or pro?" ) {
-        item skates( "rollerskates" );
-        item blades( "roller_blades" );
+        item skates( "test_rollerskates" );
+        item blades( "test_roller_blades" );
         item heelys( "roller_shoes_on" );
 
         REQUIRE( skates.has_flag( flag_ROLLER_QUAD ) );
@@ -315,10 +316,10 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
     tripoint mon4_pos = dummy.pos() + tripoint_west;
 
     // Surrounded by zombies!
-    monster *zed1 = g->place_critter_at( debug_mon, mon1_pos );
-    monster *zed2 = g->place_critter_at( debug_mon, mon2_pos );
-    monster *zed3 = g->place_critter_at( debug_mon, mon3_pos );
-    monster *zed4 = g->place_critter_at( debug_mon, mon4_pos );
+    monster *zed1 = g->place_critter_at( mon_debug_grab, mon1_pos );
+    monster *zed2 = g->place_critter_at( mon_debug_grab, mon2_pos );
+    monster *zed3 = g->place_critter_at( mon_debug_grab, mon3_pos );
+    monster *zed4 = g->place_critter_at( mon_debug_grab, mon4_pos );
 
     // Make sure zombies are in their places
     REQUIRE( creatures.creature_at<monster>( mon1_pos ) );
@@ -326,50 +327,60 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
     REQUIRE( creatures.creature_at<monster>( mon3_pos ) );
     REQUIRE( creatures.creature_at<monster>( mon4_pos ) );
 
-    // Get grabbed
-    dummy.add_effect( effect_grabbed, 1_minutes );
-    REQUIRE( dummy.has_effect( effect_grabbed ) );
+    zed1->set_dest( dummy.get_location() );
+    zed2->set_dest( dummy.get_location() );
+    zed3->set_dest( dummy.get_location() );
+    zed4->set_dest( dummy.get_location() );
 
-    // When grabbed, dodge skill reduces for each additional grab
+    // Use actual grabbing attacks
 
-    SECTION( "1 grab: 1/2 dodge" ) {
-        zed1->add_effect( effect_grabbing, 1_minutes );
+    SECTION( "1 grab: approx.  1/2 dodge" ) {
+        mattack::grab( zed1 );
         REQUIRE( zed1->has_effect( effect_grabbing ) );
 
-        CHECK( dummy.get_dodge() == base_dodge / 2 );
+        REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 1 );
+
+        CHECK( dummy.get_dodge() == Approx( base_dodge / 2 ).margin( 0.1f ) );
     }
 
-    SECTION( "2 grabs: 1/3 dodge" ) {
-        zed1->add_effect( effect_grabbing, 1_minutes );
-        zed2->add_effect( effect_grabbing, 1_minutes );
+    SECTION( "2 grabs:approx.  1/3 dodge" ) {
+        mattack::grab( zed1 );
+        mattack::grab( zed2 );
         REQUIRE( zed1->has_effect( effect_grabbing ) );
         REQUIRE( zed2->has_effect( effect_grabbing ) );
 
-        CHECK( dummy.get_dodge() == base_dodge / 3 );
+        REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 2 );
+
+        CHECK( dummy.get_dodge() == Approx( base_dodge / 3 ).margin( 0.1f ) );
     }
 
-    SECTION( "3 grabs: 1/4 dodge" ) {
-        zed1->add_effect( effect_grabbing, 1_minutes );
-        zed2->add_effect( effect_grabbing, 1_minutes );
-        zed3->add_effect( effect_grabbing, 1_minutes );
+    SECTION( "3 grabs: approx.  1/4 dodge" ) {
+        mattack::grab( zed1 );
+        mattack::grab( zed2 );
+        mattack::grab( zed3 );
         REQUIRE( zed1->has_effect( effect_grabbing ) );
         REQUIRE( zed2->has_effect( effect_grabbing ) );
         REQUIRE( zed3->has_effect( effect_grabbing ) );
 
-        CHECK( dummy.get_dodge() == base_dodge / 4 );
+        REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 3 );
+
+        CHECK( dummy.get_dodge() == Approx( base_dodge / 4 ).margin( 0.1f ) );
     }
 
-    SECTION( "4 grabs: 1/5 dodge" ) {
-        zed1->add_effect( effect_grabbing, 1_minutes );
-        zed2->add_effect( effect_grabbing, 1_minutes );
-        zed3->add_effect( effect_grabbing, 1_minutes );
-        zed4->add_effect( effect_grabbing, 1_minutes );
+    SECTION( "4 grabs: approx.  1/5 dodge" ) {
+        mattack::grab( zed1 );
+        mattack::grab( zed2 );
+        mattack::grab( zed3 );
+        mattack::grab( zed4 );
+
         REQUIRE( zed1->has_effect( effect_grabbing ) );
         REQUIRE( zed2->has_effect( effect_grabbing ) );
         REQUIRE( zed3->has_effect( effect_grabbing ) );
         REQUIRE( zed4->has_effect( effect_grabbing ) );
 
-        CHECK( dummy.get_dodge() == base_dodge / 5 );
+        REQUIRE( dummy.get_effect_int( effect_grabbed, body_part_torso ) == 4 );
+
+        CHECK( dummy.get_dodge() == Approx( base_dodge / 5 ).margin( 0.1f ) );
     }
 }
 

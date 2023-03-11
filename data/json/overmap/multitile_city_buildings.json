@@ -139,6 +139,60 @@
   },
   {
     "type": "city_building",
+    "id": "bungalow11",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow11_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow11_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "bungalow12",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow12_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow12_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "bungalow13",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow13_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow13_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "bungalow14",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow14_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow14_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "bungalow15",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow15_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow15_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "bungalow16",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow16_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow16_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "urban_1_house",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "urban_1_1_south" },
@@ -4486,6 +4540,16 @@
       { "point": [ 2, 0, 1 ], "overmap": "strip_mall_roof_3_south" },
       { "point": [ 1, 0, 1 ], "overmap": "strip_mall_roof_4_south" },
       { "point": [ 0, 0, 1 ], "overmap": "strip_mall_roof_5_south" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "cs_open_sewer",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_open_sewer_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "cs_open_sewer_undergound_north" },
+      { "point": [ 0, -1, -1 ], "overmap": "sewer_connector_north" }
     ]
   },
   {

@@ -376,6 +376,7 @@
       { "id": "sheet_metal", "description": " Craft: Sheet Metal" },
       { "id": "chain", "description": " Craft: Chain" },
       { "id": "shovel", "description": " Craft: Shovel" },
+      { "id": "welding_rod_steel", "description": " Craft: Steel Welding Rod" },
       { "id": "rebar", "description": " Craft: Rebar" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
       { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },
@@ -604,9 +605,9 @@
     "id": "fishing_recipes",
     "building_type": "COOK",
     "recipes": [
-      { "id": "fish_npc_fish_trap", "description": " Fishing: fish, plastic fish trap" },
-      { "id": "fish_npc_fish_rod", "description": " Fishing: fish, basic fishing rod" },
-      { "id": "fish_npc_fish_rod_pro", "description": " Fishing: fish, pro fishing rod" }
+      { "id": "fish_npc_fish_trap", "description": " Fishing: fish, fish trap" },
+      { "id": "fish_npc_fish_rod_lvl1", "description": " Fishing: fish, level 1 fishing rod" },
+      { "id": "fish_npc_fish_rod_lvl2", "description": " Fishing: fish, level 2 fishing rod" }
     ]
   },
   {

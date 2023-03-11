@@ -1231,6 +1231,8 @@ class vehicle
         // get a list of part indices and Creature pointers with a rider
         std::vector<rider_data> get_riders() const;
 
+        // is given character a passenger of this vehicle
+        bool is_passenger( Character &c ) const;
         // get passenger at part p
         Character *get_passenger( int you ) const;
         // get monster on a boardable part at p
@@ -1571,6 +1573,9 @@ class vehicle
          */
         void smart_controller_handle_turn( bool thrusting = false,
                                            const cata::optional<float> &k_traction_cache = cata::nullopt );
+
+        bool has_available_electric_engine();
+        void disable_smart_controller_if_needed();
 
         //deceleration due to ground friction and air resistance
         int slowdown( int velocity ) const;

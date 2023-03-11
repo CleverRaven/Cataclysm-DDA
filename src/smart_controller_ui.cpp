@@ -27,8 +27,7 @@ static catacurses::window init_window()
 }
 
 smart_controller_settings::smart_controller_settings( bool &enabled, int &battery_lo,
-        int &battery_hi ) : enabled(
-                enabled ), battery_lo( battery_lo ), battery_hi( battery_hi ) {}
+        int &battery_hi ) : enabled( enabled ), battery_lo( battery_lo ), battery_hi( battery_hi ) {}
 
 smart_controller_ui::smart_controller_ui( smart_controller_settings initial_settings ) :
     win( init_window() ), input_ctx( "SMART_ENGINE_CONTROLLER" ), settings( initial_settings )
@@ -62,12 +61,14 @@ void smart_controller_ui::refresh()
     if( settings.enabled ) {
         mvwprintz( win, point( LEFT_MARGIN + 1, y ), white, "X" );
     }
-    mvwprintz( win, point( LEFT_MARGIN + 4, y ), selection == 0 ? hilite( white ) : gray,
+    mvwprintz( win, point( LEFT_MARGIN + 4, y ),
+               selection == smart_controller_ui_selection::enabled ? hilite( white ) : gray,
                _( "Enabled" ) );
 
     // battery % slider
     y += MENU_ITEM_HEIGHT;
-    mvwprintz( win, point( LEFT_MARGIN, y - 1 ), selection == 1 ? white : gray,
+    mvwprintz( win, point( LEFT_MARGIN, y - 1 ),
+               selection == smart_controller_ui_selection::lo_and_hi_slider ? white : gray,
                _( "Electric motor use (%% battery)" ) );
 
     int lo_slider_x = settings.battery_lo * SLIDER_W / 100;
@@ -75,12 +76,14 @@ void smart_controller_ui::refresh()
     // print selected % numbers
     std::string battery_low_text = string_format( "%d%%", settings.battery_lo );
     mvwprintz( win, point( LEFT_MARGIN + lo_slider_x - battery_low_text.length() + 1, y + 2 ),
-               selection == 1 && slider == 0 ? hilite( white ) : red, battery_low_text );
+               selection == smart_controller_ui_selection::lo_and_hi_slider &&
+               slider == 0 ? hilite( white ) : red, battery_low_text );
     mvwprintz( win, point( LEFT_MARGIN + hi_slider_x, y + 2 ),
-               selection == 1 && slider == 1 ? hilite( white ) : lgreen, "%d%%", settings.battery_hi );
+               selection == smart_controller_ui_selection::lo_and_hi_slider &&
+               slider == 1 ? hilite( white ) : lgreen, "%d%%", settings.battery_hi );
     // draw slider horizontal line
     for( int i = 0; i < SLIDER_W; ++i ) {
-        nc_color col = selection == 1 ? white : gray;
+        nc_color col = selection == smart_controller_ui_selection::lo_and_hi_slider ? white : gray;
         mvwprintz( win, point( LEFT_MARGIN + i, y + 1 ), col, "-" );
     }
     // print LO and HI on the slider line
@@ -94,14 +97,17 @@ void smart_controller_ui::refresh()
     mvwprintz( win, point( LEFT_MARGIN + hi_slider_x + std::max( ( SLIDER_W - hi_slider_x -
                            hi_text_l ) / 2, 1 ), y + 1 ), lgreen, hi_text );
     // print bars on the slider
-    mvwprintz( win, point( LEFT_MARGIN + lo_slider_x, y + 1 ), selection == 1 &&
+    mvwprintz( win, point( LEFT_MARGIN + lo_slider_x, y + 1 ),
+               selection == smart_controller_ui_selection::lo_and_hi_slider &&
                slider == 0 ? hilite( white ) : red, "|" );
-    mvwprintz( win, point( LEFT_MARGIN + hi_slider_x, y + 1 ), selection == 1 &&
+    mvwprintz( win, point( LEFT_MARGIN + hi_slider_x, y + 1 ),
+               selection == smart_controller_ui_selection::lo_and_hi_slider &&
                slider == 1 ? hilite( white ) : lgreen, "|" );
 
     // user manual
     y += MENU_ITEM_HEIGHT;
-    mvwprintz( win, point( LEFT_MARGIN, y ), selection == 2 ? hilite( white ) : gray,
+    mvwprintz( win, point( LEFT_MARGIN, y ),
+               selection == smart_controller_ui_selection::manual ? hilite( white ) : gray,
                _( "User manual" ) );
 
     // key descriptions
@@ -145,15 +151,16 @@ void smart_controller_ui::control()
         ui_manager::redraw();
         action = input_ctx.handle_input();
 
-        if( action == "CONFIRM" || ( action == "NEXT_TAB" && selection == 1 ) ) {
+        if( action == "CONFIRM" || ( action == "NEXT_TAB" &&
+                                     selection == smart_controller_ui_selection::lo_and_hi_slider ) ) {
             switch( selection ) {
-                case 0:
+                case smart_controller_ui_selection::enabled:
                     settings.enabled = !settings.enabled;
                     break;
-                case 1:
+                case smart_controller_ui_selection::lo_and_hi_slider:
                     slider = 1 - slider;
                     break;
-                case 2:
+                case smart_controller_ui_selection::manual:
                     const translation manual =
                         SNIPPET.random_from_category( "smart_engine_controller_manual" ).value_or( translation() );
 
@@ -167,7 +174,8 @@ void smart_controller_ui::control()
         } else  if( action == "DOWN" || action == "UP" ) {
             const int dy = action == "DOWN" ? 1 : -1;
             selection  = ( selection + MENU_ITEMS_N + dy ) % MENU_ITEMS_N;
-        } else if( selection == 1 && ( action == "LEFT" || action == "RIGHT" ) ) {
+        } else if( selection == smart_controller_ui_selection::lo_and_hi_slider && ( action == "LEFT" ||
+                   action == "RIGHT" ) ) {
             const int dx = action == "RIGHT" ? 1 : -1;
 
             if( slider == 0 ) {

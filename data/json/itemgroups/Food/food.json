@@ -240,6 +240,8 @@
       { "item": "flour", "charges": [ 1, 175 ], "prob": 5, "container-item": "bag_plastic" },
       { "item": "milk_powder", "prob": 20 },
       { "item": "cornmeal", "prob": 30 },
+      { "item": "tortilla_corn", "prob": 20 },
+      { "item": "tortilla_flour", "prob": 20 },
       { "item": "powder_eggs", "prob": 20 },
       {
         "item": "protein_powder",

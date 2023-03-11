@@ -1080,21 +1080,6 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     g->reenter_fullscreen();
 }
 
-static void make_active( item_location loc )
-{
-    map &here = get_map();
-    switch( loc.where() ) {
-        case item_location::type::map:
-            here.make_active( loc );
-            break;
-        case item_location::type::vehicle:
-            here.veh_at( loc.position() )->vehicle().make_active( loc );
-            break;
-        default:
-            break;
-    }
-}
-
 static void update_lum( item_location loc, bool add )
 {
     switch( loc.where() ) {
@@ -1157,8 +1142,8 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
         item_location::type loc_where = loc.where_recursive();
+        std::string const name = loc->display_name();
         if( loc_where != item_location::type::character ) {
-            you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
             pre_obtain_moves = -1;
             on_person = false;
         }
@@ -1177,8 +1162,11 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
             pre_obtain_moves = you.moves;
         }
         if( !loc ) {
-            debugmsg( "Failed to obtain target item" );
+            you.add_msg_if_player( _( "Couldn't pick up the %s." ), name );
             return;
+        }
+        if( loc_where != item_location::type::character ) {
+            you.add_msg_if_player( _( "You pick up the %s." ), name );
         }
     }
 
@@ -1187,7 +1175,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         you.use( loc, pre_obtain_moves, method );
         update_lum( loc, true );
 
-        make_active( loc );
+        loc.make_active();
     } else {
         you.use( loc, pre_obtain_moves, method );
 

@@ -251,6 +251,10 @@ class bookbinder_copy_activity_actor: public activity_actor
             return rec_id == act.rec_id && book_binder == act.book_binder;
         }
 
+        static int pages_for_recipe( const recipe &r ) {
+            return 1 + r.difficulty / 2;
+        }
+
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character &p ) override;
         void finish( player_activity &act, Character &p ) override;
@@ -1536,6 +1540,36 @@ class vehicle_unfolding_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+};
+
+class wash_activity_actor : public activity_actor
+{
+    private:
+        wash_activity_actor() = default;
+    public:
+        wash_activity_actor( drop_locations to_wash,
+                             washing_requirements &requirements ) :
+            to_wash( std::move( to_wash ) ),
+            requirements( requirements ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_WASH" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {};
+        void finish( player_activity &act, Character &p ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<wash_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonValue &jsin );
+
+    private:
+        drop_locations to_wash;
+        washing_requirements requirements;
 };
 
 class wear_activity_actor : public activity_actor

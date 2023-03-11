@@ -2262,7 +2262,7 @@ void talk_effect_fun_t<T>::set_adjust_var( const JsonObject &jo, const std::stri
 }
 
 static void receive_item( itype_id &item_name, int count, const std::string &container_name,
-                          const dialogue &d, bool use_item_group )
+                          const dialogue &d, bool use_item_group, bool suppress_message )
 {
     item new_item;
     if( use_item_group ) {
@@ -2282,7 +2282,7 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
                 d.actor( false )->i_add_or_drop( new_item );
             }
         }
-        if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
+        if( !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
             if( count == 1 ) {
                 //~ %1%s is the NPC name, %2$s is an item
                 popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
@@ -2298,7 +2298,7 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
         container.put_in( new_item,
                           item_pocket::pocket_type::CONTAINER );
         d.actor( false )->i_add_or_drop( container );
-        if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
+        if( !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
         }
@@ -2316,20 +2316,21 @@ void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::st
         container_name.str_val = "";
     }
     bool use_item_group = jo.get_bool( "use_item_group", false );
-    dbl_or_var<T> cost = get_dbl_or_var<T>( jo, "cost", false, 0 );
+    bool suppress_message = jo.get_bool( "suppress_message", false );
     dbl_or_var<T> count;
     if( !jo.has_int( "charges" ) ) {
         count = get_dbl_or_var<T>( jo, "count", false, 1 );
     } else {
         count = get_dbl_or_var<T>( jo, "count", false, 0 );
     }
-    function = [item_name, count, container_name, use_item_group]( const T & d ) {
+    function = [item_name, count, container_name, use_item_group, suppress_message]( const T & d ) {
         itype_id iname = itype_id( item_name.evaluate( d ) );
         receive_item( iname, count.evaluate( d ),
-                      container_name.evaluate( d ), d, use_item_group );
+                      container_name.evaluate( d ), d, use_item_group, suppress_message );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr );
-    likely_rewards.emplace_back( count.evaluate( d ), itype_id( item_name.evaluate( d ) ) );
+    likely_rewards.emplace_back( static_cast<int>( count.evaluate( d ) ),
+                                 itype_id( item_name.evaluate( d ) ) );
 }
 
 template<class T>
@@ -2345,15 +2346,17 @@ void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::stri
         count = get_dbl_or_var<T>( jo, "count", false, 0 );
     }
     bool use_item_group = jo.get_bool( "use_item_group", false );
+    bool suppress_message = jo.get_bool( "suppress_message", false );
     str_or_var<T> container_name;
     if( jo.has_member( "container" ) ) {
         container_name = get_str_or_var<T>( jo.get_member( "container" ), "container", true );
     } else {
         container_name.str_val = "";
     }
+
     str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
     function = [item_name, cost, count, container_name, true_eocs, false_eocs,
-               use_item_group]( const T & d ) {
+               use_item_group, suppress_message]( const T & d ) {
         if( !d.actor( true )->buy_from( cost.evaluate( d ) ) ) {
             popup( _( "You can't afford it!" ) );
             run_eoc_vector( false_eocs, d );
@@ -2361,7 +2364,7 @@ void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::stri
         }
         itype_id iname = itype_id( item_name.evaluate( d ) );
         receive_item( iname, count.evaluate( d ),
-                      container_name.evaluate( d ), d, use_item_group );
+                      container_name.evaluate( d ), d, use_item_group, suppress_message );
         run_eoc_vector( true_eocs, d );
     };
 }
@@ -3654,7 +3657,7 @@ template<class T>
 void talk_effect_fun_t<T>::set_weighted_list_eocs( const JsonObject &jo,
         const std::string &member )
 {
-    std::vector<std::pair<effect_on_condition_id, std::function<int( const dialogue & )>>> eoc_pairs;
+    std::vector<std::pair<effect_on_condition_id, std::function<double( const dialogue & )>>> eoc_pairs;
     for( JsonArray ja : jo.get_array( member ) ) {
         JsonValue eoc = ja.next_value();
         JsonObject weight = ja.next_object();
@@ -3663,7 +3666,7 @@ void talk_effect_fun_t<T>::set_weighted_list_eocs( const JsonObject &jo,
     }
     function = [eoc_pairs]( const T & d ) {
         weighted_int_list<effect_on_condition_id> eocs;
-        for( const std::pair<effect_on_condition_id, std::function<int( const dialogue & )>> &eoc_pair :
+        for( const std::pair<effect_on_condition_id, std::function<double( const dialogue & )>> &eoc_pair :
              eoc_pairs ) {
             eocs.add( eoc_pair.first, eoc_pair.second( d ) );
         }
@@ -3677,7 +3680,7 @@ template<class T>
 void talk_effect_fun_t<T>::set_switch( const JsonObject &jo,
                                        const std::string &member )
 {
-    std::function<int( const T & )> eoc_switch = conditional_t< T >::get_get_dbl(
+    std::function<double( const T & )> eoc_switch = conditional_t< T >::get_get_dbl(
                 jo.get_object( member ) );
     std::vector<std::pair<dbl_or_var<T>, talk_effect_t<T>>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
@@ -3687,7 +3690,7 @@ void talk_effect_fun_t<T>::set_switch( const JsonObject &jo,
         case_pairs.emplace_back( get_dbl_or_var<T>( array_case, "case" ), case_effect );
     }
     function = [eoc_switch, case_pairs]( const T & d ) {
-        int switch_int = eoc_switch( d );
+        const double switch_int = eoc_switch( d );
         talk_effect_t<T> case_effect;
         for( const std::pair<dbl_or_var<T>, talk_effect_t<T>> &case_pair :
              case_pairs ) {
@@ -4416,8 +4419,6 @@ void talk_effect_t<T>::parse_string_effect( const std::string &effect_id, const 
             WRAP( buy_cow ),
             WRAP( buy_chicken ),
             WRAP( buy_horse ),
-            WRAP( recover_camp ),
-            WRAP( remove_overseer ),
             WRAP( basecamp_mission ),
             WRAP( wake_up ),
             WRAP( reveal_stats ),

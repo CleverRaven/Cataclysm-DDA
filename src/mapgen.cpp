@@ -2892,7 +2892,7 @@ class jmapgen_terrain : public jmapgen_piece
                 if( !error.empty() ) {
                     debugmsg( "In %s on %s, setting terrain to %s (from %s) at %s when %s.  "
                               "Resolve this either by removing the terrain from this mapgen, "
-                              "adding suitable removal commands to the mapgen, or by adding an"
+                              "adding suitable removal commands to the mapgen, or by adding an "
                               "appropriate clearing flag to the innermost layered mapgen.  "
                               "Consult the \"mapgen flags\" section in MAPGEN.md for options.",
                               context, dat.terrain_type().id().str(), chosen_id.id().str(),
@@ -3289,9 +3289,7 @@ class jmapgen_remove_vehicles : public jmapgen_piece
                     const auto rit = std::find( vehicles_to_remove.begin(), vehicles_to_remove.end(),
                                                 vp->vehicle().type );
                     if( rit != vehicles_to_remove.end() ) {
-                        if( get_map().inbounds( dat.m.getglobal( start ) ) ) {
-                            get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z, end.z );
-                        }
+                        get_map().remove_vehicle_from_cache( &vp->vehicle(), start.z, end.z );
                         dat.m.destroy_vehicle( &vp->vehicle() );
                     }
                 }
@@ -6440,8 +6438,43 @@ std::vector<item *> map::place_items(
             tries++;
         } while( is_valid_terrain( p ) && tries < 20 );
         if( tries < 20 ) {
-            auto put = put_items_from_loc( group_id, p, turn );
-            res.insert( res.end(), put.begin(), put.end() );
+            for( const item &itm : item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate ) ) {
+                const float item_cat_spawn_rate = std::max( 0.0f, item_category_spawn_rate( itm ) );
+                // for items with category spawn rate less than or equal to 1, roll a dice to see if they should spawn
+                if( item_cat_spawn_rate <= 1 ) {
+                    if( rng_float( 0.1f, 1 ) <= item_cat_spawn_rate ) {
+                        item &it = add_item_or_charges( p, itm );
+                        if( !it.is_null() ) {
+                            res.push_back( &it );
+                        }
+                    }
+                    // for items with category spawn rate more than 1, spawn item at least one time...
+                } else {
+                    item &it = add_item_or_charges( p, itm );
+                    if( !it.is_null() ) {
+                        res.push_back( &it );
+                    }
+
+                    // ...then create a list with items from the same item group and remove all items with differing category from that list
+                    // so if the original item was e.g. from 'guns' category, the list will contain only items from the 'guns' category...
+                    Item_list extra_spawn = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
+                    extra_spawn.erase( std::remove_if( extra_spawn.begin(), extra_spawn.end(), [&itm]( item & it ) {
+                        return it.get_category_of_contents() != itm.get_category_of_contents();
+                    } ), extra_spawn.end() );
+
+                    // ...then add a chance to spawn additional items from the list, amount is based on the item category spawn rate
+                    for( int i = 0; i < item_cat_spawn_rate; i++ ) {
+                        for( const item &it : extra_spawn ) {
+                            if( rng( 1, 100 ) <= chance ) {
+                                item &new_item = add_item_or_charges( p, it );
+                                if( !new_item.is_null() ) {
+                                    res.push_back( &new_item );
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     for( item *e : res ) {

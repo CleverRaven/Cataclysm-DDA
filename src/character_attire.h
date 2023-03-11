@@ -78,7 +78,6 @@ class outfit
         bool hands_conductive() const;
         bool can_pickVolume( const item &it, bool ignore_pkt_settings = true ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
-        bool is_wearing_helmet() const;
         bool is_barefoot() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
@@ -142,7 +141,7 @@ class outfit
         bool adjust_worn( npc &guy );
         float clothing_wetness_mult( const bodypart_id &bp ) const;
         void damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const;
-        float damage_resist( damage_type dt, bodypart_id bp, bool to_self = false ) const;
+        float damage_resist( damage_type dmg_type, const bodypart_id &bp, bool to_self = false ) const;
         // sums the coverage of items that do not have the listed flags
         int coverage_with_flags_exclude( const bodypart_id &bp, const std::vector<flag_id> &flags ) const;
         int get_coverage( bodypart_id bp,
