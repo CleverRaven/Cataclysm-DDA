@@ -371,6 +371,21 @@
     "obsolete": true
   },
   {
+    "id": "nested_gambeson_sleeves",
+    "type": "nested_category",
+    "obsolete": true
+  },
+  {
+    "id": "nested_kevlar_gambeson_full",
+    "type": "nested_category",
+    "obsolete": true
+  },
+  {
+    "id": "nested_kevlar_gambeson_vest",
+    "type": "nested_category",
+    "obsolete": true
+  },
+  {
     "type": "recipe",
     "result": "tool_small_bootleg_fragmentation_device",
     "obsolete": true
