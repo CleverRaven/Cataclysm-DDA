@@ -25,34 +25,19 @@
         ".oy           T  +    #.",
         ".#|+||           |||||#^",
         ".#W/Z|  R|         666#.",
-        ".#||||  R|    h |&   7#.",
-        ".#  ll  T|a hff |& J 4#.",
-        ".ox ll  E|   ffh|Y J 2o.",
-        ".o       |    h      2o.",
+        ".#||||  R|    h |    7#.",
+        ".#  xx  T|a hff |& J 4#.",
+        ".ol     E|   ffh|Y J 2o.",
+        ".ol      |    h      2o.",
         ".# sHHHsy|VV      F5O1#.",
         ".##oo#######oo#:¶:#####.",
         "...............---......"
       ],
-      "terrain": {
-        "/": "t_linoleum_gray",
-        "Z": "t_linoleum_gray",
-        "W": "t_linoleum_gray",
-        "#": "t_adobe_brick_wall",
-        "Q": "t_floor_waxed"
-      },
+      "terrain": { "/": "t_linoleum_gray", "Z": "t_linoleum_gray", "W": "t_linoleum_gray", "#": "t_adobe_brick_wall" },
       "furniture": { "&": "f_bookcase", "?": "f_rack" },
       "items": { "?": { "item": "clothing_outdoor_shoes", "chance": 50, "repeat": [ 1, 3 ] } },
-      "place_loot": [
-        { "item": "television", "x": 2, "y": 19 },
-        { "item": "fermenting_book", "x": 17, "y": [ 17, 18 ], "chance": 2 },
-        { "item": "baking_book", "x": 17, "y": [ 17, 18 ], "chance": 50 },
-        { "item": "vinegar_maker", "x": 17, "y": [ 17, 18 ], "chance": 5 },
-        { "item": "cookbook_indian", "x": 17, "y": [ 17, 18 ], "chance": 15 },
-        { "item": "cookbook_daintydishes", "x": 17, "y": [ 17, 18 ], "chance": 25 },
-        { "item": "brewing_cookbook", "x": 17, "y": [ 17, 18 ], "chance": 10 },
-        { "item": "cookbook", "x": 17, "y": [ 17, 18 ], "chance": 50 }
-      ],
-      "place_vehicles": [ { "vehicle": "car", "x": 18, "y": 2, "chance": 15, "fuel": 80, "status": 50, "rotation": 270 } ]
+      "place_loot": [ { "item": "television", "x": [ 4, 5 ], "y": 18 }, { "group": "SUS_cooking_bookcase", "x": 17, "y": 18 } ],
+      "place_vehicles": [ { "vehicle": "car", "x": 18, "y": 2, "chance": 15, "rotation": 270 } ]
     }
   },
   {
