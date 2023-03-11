@@ -6351,7 +6351,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     // item damage and/or fouling level
     std::string damtext;
 
-    if( get_option<std::string>( "ASTERISK_POSITION" ) == "prefix" ) {
+    if( get_option<std::string>( "ASTERISK_POSITION" ) == "prefix" && with_prefix ) {
         if( is_favorite ) {
             damtext = _( "* " ); // Display asterisk for favorite items, before item's name
         }
