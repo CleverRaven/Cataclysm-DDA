@@ -215,8 +215,12 @@ class recipe
         std::vector<proficiency_id> used_proficiencies() const;
         // The time malus due to proficiencies lacking
         float proficiency_time_maluses( const Character &crafter ) const;
+        // The time malus if all the proficiencies were lacking
+        float max_proficiency_time_maluses( const Character &crafter ) const;
         // The skill malus due to proficiencies lacking
         float proficiency_skill_maluses( const Character &crafter ) const;
+        // The max skill malus due to proficiencies lacking
+        float max_proficiency_skill_maluses( const Character &crafter ) const;
 
         // How active of exercise this recipe is
         float exertion_level() const;
