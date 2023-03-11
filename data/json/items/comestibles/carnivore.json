@@ -249,6 +249,7 @@
     "comestible_type": "DRINK",
     "looks_like": "blood",
     "symbol": "~",
+    "charges": 1,
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
   },
@@ -379,6 +380,7 @@
     "looks_like": "blood",
     "symbol": "~",
     "material": "blood",
+    "charges": 1,
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
   },
@@ -414,6 +416,7 @@
     "looks_like": "blood",
     "symbol": "~",
     "material": "hblood",
+    "charges": 1,
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
   },
@@ -1272,6 +1275,7 @@
     "price": 0,
     "material": [ "hblood" ],
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
   },
@@ -1443,6 +1447,7 @@
     "looks_like": "blood",
     "symbol": "~",
     "material": "blood",
+    "charges": 1,
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
   },
@@ -1848,6 +1853,7 @@
     "looks_like": "blood",
     "symbol": "~",
     "material": "blood",
+    "charges": 1,
     "phase": "liquid",
     "delete": { "flags": [ "SMOKABLE" ] }
   },

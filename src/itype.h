@@ -124,7 +124,7 @@ struct islot_comestible {
         itype_id tool = itype_id::NULL_ID();
 
         /** Defaults # of charges (drugs, loaf of bread? etc) */
-        int def_charges = 1;
+        int def_charges = 0;
 
         /** effect on character thirst (may be negative) */
         int quench = 0;

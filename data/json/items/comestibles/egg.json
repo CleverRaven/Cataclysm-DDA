@@ -1003,6 +1003,8 @@
     "description": "Roe in the process of becoming fully cured with salt, capable of becoming homemade caviar.  The flavor is slowly developing at this stage, and is currently significantly unpleasant due to the residual salt.  Activate it once completed to make use of the final product.",
     "weight": "96 g",
     "volume": "500ml",
+    "charges": 1,
+    "stack_size": 4,
     "calories": 68,
     "price": 500,
     "price_postapoc": 250,

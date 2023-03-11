@@ -22,6 +22,7 @@
     "material": [ "alcohol" ],
     "primary_material": "water",
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "flags": [ "EATEN_COLD", "NO_AUTO_CONSUME" ],
     "use_action": { "type": "cast_spell", "spell_id": "blackout_rage_drink", "no_fail": true, "level": 0 },

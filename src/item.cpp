@@ -7203,7 +7203,7 @@ units::volume item::base_volume() const
         return ret;
     }
 
-    if( count_by_charges() ) {
+    if( count_by_charges() && type->stack_size > 0 ) {
         if( type->volume % type->stack_size == 0_ml ) {
             return type->volume / type->stack_size;
         } else {
@@ -7253,7 +7253,11 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
         units::quantity<int64_t, units::volume_in_milliliter_tag> num = ret * static_cast<int64_t>
                 ( charges_in_vol );
         if( type->stack_size <= 0 ) {
-            debugmsg( "Item type %s has invalid stack_size %d", typeId().str(), type->stack_size );
+            if( type->charges_default() <= 0 ) {
+                debugmsg( "Item type %s has invalid default charges %d", typeId().str(), type->charges_default() );
+            } else {
+                debugmsg( "Item type %s has invalid stack_size %d", typeId().str(), type->stack_size );
+            }
             ret = num;
         } else {
             ret = num / type->stack_size;

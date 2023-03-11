@@ -59,6 +59,7 @@
     "category": "mutagen",
     "weight": "250 g",
     "volume": "250 ml",
+    "charges": 1,
     "phase": "liquid",
     "container": "flask_glass",
     "symbol": "~",

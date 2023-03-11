@@ -38,6 +38,7 @@
     "name": "owlbear egg yolk",
     "copy-from": "egg_chicken",
     "phase": "liquid",
+    "charges": 1,
     "healthy": 3,
     "color": "yellow",
     "description": "The liquid innards of an owlbear egg.  Good eating."
