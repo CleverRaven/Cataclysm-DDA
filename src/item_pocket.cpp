@@ -1244,7 +1244,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                 }
             }
         }
-        for( auto &content : counted_contents ) {
+        for( std::pair<const std::string, int> &content : counted_contents ) {
             if( content.second > 1 ) {
                 info.emplace_back( "DESCRIPTION", space + std::to_string( content.second ) + " " + content.first );
             } else {
