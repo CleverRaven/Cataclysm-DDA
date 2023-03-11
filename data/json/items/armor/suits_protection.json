@@ -2805,7 +2805,6 @@
     "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
-    "-----------------------------------------------------------------------": "----------------------------------------------------------------------",
     "id": "aketon_nylon",
     "//-1": "Going off the Rule of Nines for body proportions and assuming about 20 ft sq for the whole surface area of the body",
     "//": "roughly 0.25mm per sheet of nylon making this a 14-layer jack, sheets are 1x2 feet. 49 sheets for the vest and 18 sheets for the arms (67 total).",
