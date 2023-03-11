@@ -36,6 +36,8 @@ void AlmostNeverAutoCheck::registerMatchers( MatchFinder *Finder )
 {
     Finder->addMatcher(
         varDecl(
+            // Exclude lambda captures with initializers
+            unless( hasParent( lambdaExpr() ) ),
             anyOf(
                 varDecl( hasType( autoType() ) ),
                 varDecl( hasType( references( autoType() ) ) )
