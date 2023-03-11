@@ -3315,18 +3315,10 @@
   {
     "result": "mess_kit",
     "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "electronics",
-    "time": "10 m",
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "element", 3 ] ],
-      [ [ "amplifier", 1 ] ],
-      [ [ "scrap_aluminum", 6 ] ],
-      [ [ "plastic_chunk", 1 ] ],
-      [ [ "cable", 8 ] ]
-    ]
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_aluminum", 10 ] ] ]
   },
   {
     "result": "mess_tray",
@@ -3353,15 +3345,6 @@
       [ [ "motor_micro", 1 ] ],
       [ [ "magnetron", 1 ] ]
     ]
-  },
-  {
-    "result": "mil_mess_kit",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "electronics",
-    "time": "10 m",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "element", 3 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 8 ] ] ]
   },
   {
     "result": "militarymap",
@@ -6519,20 +6502,20 @@
     "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
-    "result": "blazer",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "time": "10 m",
-    "components": [ [ [ "felt_patch", 150 ] ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ]
-  },
-  {
     "result": "backpack",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
     "time": "25 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_nylon", 15 ] ], [ [ "zipper_long_plastic", 2 ] ] ]
+  },
+  {
+    "result": "blazer",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "components": [ [ [ "felt_patch", 150 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
     "result": "office_holepunch",

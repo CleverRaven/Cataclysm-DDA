@@ -90,5 +90,10 @@
     "id": "spider_egg",
     "type": "MIGRATION",
     "replace": "egg_spider_cellar"
+  },
+  {
+    "id": "mil_mess_kit",
+    "type": "MIGRATION",
+    "replace": "mess_kit"
   }
 ]

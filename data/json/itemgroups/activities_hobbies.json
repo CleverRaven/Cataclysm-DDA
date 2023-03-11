@@ -419,7 +419,6 @@
       [ "barometer", 3 ],
       [ "straw_basket", 1 ],
       [ "straw_hat", 5 ],
-      { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
       [ "tourist_table", 30 ],
       [ "trailmap", 5 ],
       [ "chem_hexamine", 5 ],
