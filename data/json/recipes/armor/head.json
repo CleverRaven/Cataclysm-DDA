@@ -281,7 +281,7 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "tailor",
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_articulation" }, { "proficiency": "prof_quilting" } ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_quilting" } ],
     "difficulty": 5,
     "time": "3 h",
     "autolearn": true,
