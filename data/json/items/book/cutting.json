@@ -35,7 +35,7 @@
       {
         "id": "mag_cutting_3",
         "name": { "str": "Basics Of Stage Combat", "str_pl": "copies of Basics Of Stage Combat" },
-        "description": "Foundation of using single handed sword on stade and on screen, with different tricks how to make a good show of it.",
+        "description": "Foundation of using single handed sword on stage and on screen, with different tricks how to make a good show of it.",
         "//": "978-1612331720",
         "max_level": 2,
         "intelligence": 6,
