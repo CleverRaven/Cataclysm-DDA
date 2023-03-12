@@ -67,5 +67,30 @@
     "type": "item_group",
     "id": "foraging_faction_camp_winter",
     "items": [ { "item": "cattail_rhizome", "count": [ 1, 4 ], "prob": 25 }, { "group": "forage_winter", "prob": 75 } ]
+  },
+  {
+    "id": "faction_camp_misc",
+    "//": "Miscellaneous stuff that faction camps need.  Should appear in and around areas that are faction-related camps.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "nail", "count": [ 75, 100 ], "prob": 80 },
+      { "item": "wood_sheet", "count": [ 3, 5 ], "prob": 80 },
+      { "item": "wood_panel", "count": [ 2, 7 ], "prob": 80 }
+    ]
+  },
+  {
+    "id": "faction_camp_tools",
+    "//": "Tools that faction camps need.  Should appear in and around areas that are faction-related camps.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "shovel", "prob": 80 },
+      { "item": "ax", "prob": 80 },
+      { "item": "saw", "prob": 80 },
+      { "item": "bow_saw", "prob": 80 },
+      { "item": "hammer", "prob": 80 },
+      { "item": "hacksaw", "prob": 50 }
+    ]
   }
 ]

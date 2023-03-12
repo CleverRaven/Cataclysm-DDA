@@ -7351,7 +7351,7 @@
     "skill_used": "cooking",
     "time": "5 m",
     "autolearn": true,
-    "result_mult": 2,
+    "charges": 2,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "sweet_fruit", 1, "LIST" ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "hard_liquor", 1, "LIST" ] ] ]
   },
@@ -7366,7 +7366,7 @@
     "skill_used": "cooking",
     "time": "5 m",
     "autolearn": true,
-    "result_mult": 12,
+    "charges": 12,
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "components": [ [ [ "sweet_fruit", 8, "LIST" ] ], [ [ "jar_3l_glass_sealed", 1 ] ], [ [ "hard_liquor", 5, "LIST" ] ] ]
   },

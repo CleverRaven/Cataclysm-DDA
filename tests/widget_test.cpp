@@ -592,9 +592,12 @@ TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )
 // Set the avatar's stored kcals to reach a given BMI value
 static void set_avatar_bmi( avatar &ava, float bmi )
 {
-    // get_bmi uses ( 12 * get_kcal_percent + 13 )
+    // BMI is split into muscle, fat and other. Other is always 12 and muscle is 1:1 strength stat.
+    // It is normal to have 5 BMIs of fat (this is bordering Normal and Overweight - BMI 25 for an 8 str character)
+    // Normal BMI is now irrelevant for almost everything, as "fat bmis" are what determine your obesity.
+    // Your natural strength trends down to 0 as you starve (below 2 fat BMIs - emaciated/skeletal) meaning you die at BMI 12.
     // (see char_biometrics_test.cpp for more BMI details)
-    ava.set_stored_kcal( ava.get_healthy_kcal() * ( bmi - 13 ) / 12 );
+    ava.set_stored_kcal( ava.get_healthy_kcal() * ( bmi / 5 ) );
 }
 
 TEST_CASE( "widgets showing avatar weight", "[widget][weight]" )
@@ -605,56 +608,56 @@ TEST_CASE( "widgets showing avatar weight", "[widget][weight]" )
     // Classic weight widget, modeled after the one shown in-game
     widget weight_clause_w = widget_test_weight_clauses_normal.obj();
 
-    set_avatar_bmi( ava, 12.0 );
+    set_avatar_bmi( ava, 0.5 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Skeletal</color>" );
-    set_avatar_bmi( ava, 14.0 );
+    set_avatar_bmi( ava, 1.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Skeletal</color>" );
 
-    set_avatar_bmi( ava, 14.1 );
+    set_avatar_bmi( ava, 1.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_red>Emaciated</color>" );
-    set_avatar_bmi( ava, 16.0 );
+    set_avatar_bmi( ava, 2.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_red>Emaciated</color>" );
 
-    set_avatar_bmi( ava, 16.1 );
+    set_avatar_bmi( ava, 2.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_yellow>Underweight</color>" );
-    set_avatar_bmi( ava, 18.5 );
+    set_avatar_bmi( ava, 2.9 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_yellow>Underweight</color>" );
 
-    set_avatar_bmi( ava, 18.6 );
+    set_avatar_bmi( ava, 3.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_gray>Normal</color>" );
-    set_avatar_bmi( ava, 25.0 );
+    set_avatar_bmi( ava, 5.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_gray>Normal</color>" );
 
-    set_avatar_bmi( ava, 25.1 );
+    set_avatar_bmi( ava, 5.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_yellow>Overweight</color>" );
-    set_avatar_bmi( ava, 30.0 );
+    set_avatar_bmi( ava, 10.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_yellow>Overweight</color>" );
 
-    set_avatar_bmi( ava, 30.1 );
+    set_avatar_bmi( ava, 10.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_red>Obese</color>" );
-    set_avatar_bmi( ava, 35.0 );
+    set_avatar_bmi( ava, 15.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_red>Obese</color>" );
 
-    set_avatar_bmi( ava, 35.1 );
+    set_avatar_bmi( ava, 15.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Very Obese</color>" );
-    set_avatar_bmi( ava, 40.0 );
+    set_avatar_bmi( ava, 20.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Very Obese</color>" );
 
-    set_avatar_bmi( ava, 40.1 );
+    set_avatar_bmi( ava, 20.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Morbidly Obese</color>" );
-    set_avatar_bmi( ava, 50.0 );
+    set_avatar_bmi( ava, 25.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Morbidly Obese</color>" );
 
     // "Fun" version with customized thresholds, text, and color
     widget weight_clause_fun_w = widget_test_weight_clauses_fun.obj();
 
-    set_avatar_bmi( ava, 18.0 );
+    set_avatar_bmi( ava, 2.0 );
     CHECK( weight_clause_fun_w.layout( ava ) == "Thiccness: <color_c_yellow>Skin and Bones</color>" );
-    set_avatar_bmi( ava, 18.1 );
+    set_avatar_bmi( ava, 3.6 );
     CHECK( weight_clause_fun_w.layout( ava ) == "Thiccness: <color_c_white>Boring</color>" );
-    set_avatar_bmi( ava, 30.0 );
+    set_avatar_bmi( ava, 10.0 );
     CHECK( weight_clause_fun_w.layout( ava ) == "Thiccness: <color_c_white>Boring</color>" );
-    set_avatar_bmi( ava, 30.1 );
+    set_avatar_bmi( ava, 20.1 );
     CHECK( weight_clause_fun_w.layout( ava ) == "Thiccness: <color_c_pink>C H O N K</color>" );
 
 }

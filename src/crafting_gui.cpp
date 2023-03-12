@@ -1958,7 +1958,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     std::sort( related_components.begin(), related_components.end(), compare_second );
     // current recipe result
     std::vector<std::pair<itype_id, std::string>> related_results;
-    item tmp = current->create_result();
+    item tmp( current->result() );
     // use this item
     const itype_id tid = tmp.typeId();
     const std::set<const recipe *> &known_recipes =

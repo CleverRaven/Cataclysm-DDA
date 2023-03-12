@@ -2,9 +2,10 @@
 #ifndef CATA_SRC_ITEM_COMPONENTS_H
 #define CATA_SRC_ITEM_COMPONENTS_H
 
-#include <map>
-#include <vector>
 #include <iterator>
+#include <map>
+#include <set>
+#include <vector>
 
 #include "type_id.h"
 
@@ -47,7 +48,7 @@ class item_components
         item get_and_remove_random_entry();
 
         // used to distribute the components of a finished craft to the resulting items
-        item_components split( int batch_size, size_t offset );
+        item_components split( int batch_size, size_t offset, bool is_cooked = false );
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonValue &jv );

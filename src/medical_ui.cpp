@@ -515,7 +515,7 @@ static medical_column draw_effects_summary( const int column_count, avatar *play
         effects_column.add_column_line( selection_line( name, eff.disp_desc(), max_width ) );
     }
 
-    const float bmi = player->get_bmi();
+    const float bmi = player->get_bmi_fat();
 
     if( bmi < character_weight_category::underweight ) {
         std::string starvation_name;

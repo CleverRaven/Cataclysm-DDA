@@ -337,6 +337,7 @@ bootup
 boozeberry
 borderless
 boreas
+bos
 bovid
 bowfin
 bowyery
@@ -770,6 +771,9 @@ dragonscale
 draugr
 drawknife
 dreamdross
+dreamdrossed
+dreamforged
+dreamsmith
 dreamstuff
 driers
 drivetrain
@@ -1119,6 +1123,7 @@ gibbous
 github
 gladius
 glaive
+glaives
 glasknife
 glassblower
 glassblowing
@@ -1437,6 +1442,7 @@ keypress
 keyring
 kg
 khopesh
+khopeshes
 khru
 kickboard
 kickin
@@ -1475,6 +1481,7 @@ kreck
 krick
 kriegsmesser
 kriegsmessers
+krises
 kshhhsk
 kshhssk
 kshssssssk
@@ -1484,6 +1491,7 @@ ksssh
 kufi
 kuji
 kukri
+kukris
 kunoichi
 kunst
 kzzz
@@ -1736,6 +1744,7 @@ mordant
 morels
 moriatur
 morningstar
+morningstars
 moroi
 mortems
 mosaicus
@@ -2078,7 +2087,6 @@ pokeball
 polearm
 polearms
 poleaxe
-poleaxe
 poleaxes
 poleyns
 pollinator
@@ -2199,6 +2207,7 @@ quadrupedal
 quams
 quantification
 quarterpanel
+quarterstaves
 queenright
 quells
 quern
@@ -2829,6 +2838,7 @@ trudges
 tryphillum
 tsumi
 tsundere
+tsurugi
 tuber
 tucunare
 tumescences
@@ -2840,6 +2850,7 @@ turreted
 tusked
 twere
 twintailed
+twohand
 txt
 typologies
 tyrannosaurid
@@ -3010,6 +3021,7 @@ wantin
 warframe
 wargame
 warhammer
+warhammers
 warmouth
 wasnt
 wastebread

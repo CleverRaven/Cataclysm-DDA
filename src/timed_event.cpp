@@ -308,8 +308,8 @@ void timed_event::actualize()
             break;
         }
         case timed_event_type::UPDATE_MAPGEN:
-            run_mapgen_update_func( update_mapgen_id( string_id ), project_to<coords::omt>( map_point ),
-                                    nullptr );
+            run_mapgen_update_func(
+                update_mapgen_id( string_id ), project_to<coords::omt>( map_point ), {}, nullptr );
             get_map().invalidate_map_cache( map_point.z() );
             break;
 
