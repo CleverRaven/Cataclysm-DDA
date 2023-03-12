@@ -2847,6 +2847,7 @@ tuno
 turipache
 turreted
 tusked
+tusslin
 twere
 twintailed
 twohand
@@ -3091,6 +3092,7 @@ workcycle
 workshifts
 worldgen
 wraitheon
+wrasslin
 wretchmother
 wrightii
 wristed
