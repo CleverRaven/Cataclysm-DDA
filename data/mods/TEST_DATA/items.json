@@ -1640,6 +1640,8 @@
     "volume": "250 ml",
     "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "charges": 4,
+    "//": "stackable to keep the test using this item working",
+    "stackable": true,
     "vitamins": [ [ "iron", 9 ] ],
     "fun": 2
   },
