@@ -543,8 +543,8 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         smash( placed_on, 0.5 );
     }
 
-    for( size_t i = 0; i < engines.size(); i++ ) {
-        auto_select_fuel( parts[engines[i]] );
+    for( const int p : engines ) {
+        auto_select_fuel( parts[p] );
     }
 
     invalidate_mass();
@@ -910,8 +910,8 @@ bool vehicle::is_engine_type_on( const vehicle_part &vp, const itype_id &ft ) co
 
 bool vehicle::has_engine_type( const itype_id &ft, const bool enabled ) const
 {
-    for( size_t e = 0; e < engines.size(); ++e ) {
-        const vehicle_part &vp = parts[engines[e]];
+    for( const int p : engines ) {
+        const vehicle_part &vp = parts[p];
         if( is_engine_type( vp, ft ) && ( !enabled || is_engine_on( vp ) ) ) {
             return true;
         }
@@ -920,8 +920,8 @@ bool vehicle::has_engine_type( const itype_id &ft, const bool enabled ) const
 }
 bool vehicle::has_engine_type_not( const itype_id &ft, const bool enabled ) const
 {
-    for( size_t e = 0; e < engines.size(); ++e ) {
-        const vehicle_part &vp = parts[engines[e]];
+    for( const int p : engines ) {
+        const vehicle_part &vp = parts[p];
         if( !is_engine_type( vp, ft ) && ( !enabled || is_engine_on( vp ) ) ) {
             return true;
         }
@@ -940,8 +940,9 @@ bool vehicle::has_engine_conflict( const vpart_info *possible_conflict,
 
     bool has_conflict = false;
 
-    for( int engine : engines ) {
-        std::vector<std::string> install_excludes = part_info( engine ).engine_excludes();
+    for( const int p : engines ) {
+        const vehicle_part &vp = parts[p];
+        std::vector<std::string> install_excludes = vp.info().engine_excludes();
         std::vector<std::string> conflicts;
         std::set_intersection( new_excludes.begin(), new_excludes.end(), install_excludes.begin(),
                                install_excludes.end(), back_inserter( conflicts ) );
@@ -2117,10 +2118,9 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
         here.dirty_vehicle_list.insert( this );
         part_removal_cleanup();
         new_vehicle->enable_refresh();
-        for( int idx : new_vehicle->engines ) {
-            if( !new_vehicle->parts[idx].is_broken() ) {
-                new_vehicle->parts[idx].enabled = true;
-            }
+        for( const int p : new_vehicle->engines ) {
+            vehicle_part &vp = new_vehicle->parts[p];
+            vp.enabled = !vp.is_broken();
         }
         here.invalidate_map_cache( here.get_abs_sub().z() );
         here.rebuild_vehicle_level_caches();
@@ -3475,8 +3475,7 @@ units::power vehicle::total_power( const bool fueled, const bool safe ) const
     units::power pwr = 0_W;
     int count = 0;
 
-    for( size_t e = 0; e < engines.size(); e++ ) {
-        const int p = engines[e];
+    for( const int p : engines ) {
         const vehicle_part &vp = parts[p];
         if( is_engine_on( vp ) && ( !fueled || engine_fuel_left( vp ) ) ) {
             int m2c = safe ? vp.info().engine_m2c() : 100;
@@ -4571,8 +4570,8 @@ units::power vehicle::engine_fuel_usage( const vehicle_part &vp ) const
 std::map<itype_id, units::power> vehicle::fuel_usage() const
 {
     std::map<itype_id, units::power> ret;
-    for( size_t i = 0; i < engines.size(); i++ ) {
-        const vehicle_part &vp = parts[engines[i]];
+    for( const int p : engines ) {
+        const vehicle_part &vp = parts[p];
         ret[vp.fuel_current()] += engine_fuel_usage( vp );
     }
     return ret;
