@@ -19,6 +19,10 @@
       { "id": "CONTAIN", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ], [ [ "cured_glimmer_pelt", 6 ] ] ]
+    "components": [
+      [ [ "water_clean", 2 ], [ "water", 2 ] ],
+      [ [ "lye_powder", 10 ], [ "aspirin", 10 ] ],
+      [ [ "cured_glimmer_pelt", 6 ] ]
+    ]
   }
 ]
