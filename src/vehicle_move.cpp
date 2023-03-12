@@ -143,9 +143,10 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     std::vector<int> c_engines;
     bool has_electric_engine = false;
     for( int i = 0; i < static_cast<int>( engines.size() ); ++i ) {
+        const vehicle_part &vp = parts[engines[i]];
         const bool is_electric = is_engine_type( i, fuel_type_battery );
         if( ( is_electric || is_combustion_engine_type( i ) ) &&
-            ( ( parts[ engines[ i ] ].is_available() && engine_fuel_left( i ) > 0 ) ||
+            ( ( vp.is_available() && engine_fuel_left( vp ) ) ||
               is_part_on( engines[ i ] ) ) ) {
             c_engines.push_back( i );
             if( is_electric ) {

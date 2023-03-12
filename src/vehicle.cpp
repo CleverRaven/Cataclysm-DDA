@@ -104,7 +104,6 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_mana( "mana" );
 static const itype_id fuel_type_muscle( "muscle" );
-static const itype_id fuel_type_null( "null" );
 static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_battery( "battery" );
@@ -545,7 +544,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
     }
 
     for( size_t i = 0; i < engines.size(); i++ ) {
-        auto_select_fuel( i );
+        auto_select_fuel( parts[engines[i]] );
     }
 
     invalidate_mass();
@@ -3375,12 +3374,9 @@ int64_t vehicle::fuel_left( const itype_id &ftype, bool recurse,
     return fl;
 }
 
-int vehicle::engine_fuel_left( const int e, bool recurse ) const
+int vehicle::engine_fuel_left( const vehicle_part &vp, bool recurse ) const
 {
-    if( static_cast<size_t>( e ) < engines.size() ) {
-        return fuel_left( parts[ engines[ e ] ].fuel_current(), recurse );
-    }
-    return 0;
+    return fuel_left( vp.fuel_current(), recurse );
 }
 
 int vehicle::fuel_capacity( const itype_id &ftype ) const
@@ -3490,10 +3486,11 @@ units::power vehicle::total_power( const bool fueled, const bool safe ) const
     int count = 0;
 
     for( size_t e = 0; e < engines.size(); e++ ) {
-        int p = engines[e];
-        if( is_engine_on( e ) && ( !fueled || engine_fuel_left( e ) ) ) {
-            int m2c = safe ? part_info( engines[e] ).engine_m2c() : 100;
-            if( parts[ engines[e] ].has_fault_flag( "REDUCE_ENG_POWER" ) ) {
+        const int p = engines[e];
+        const vehicle_part &vp = parts[p];
+        if( is_engine_on( e ) && ( !fueled || engine_fuel_left( vp ) ) ) {
+            int m2c = safe ? vp.info().engine_m2c() : 100;
+            if( vp.has_fault_flag( "REDUCE_ENG_POWER" ) ) {
                 m2c *= 0.6;
             }
             pwr += part_vpower_w( p ) * m2c / 100;
@@ -3827,7 +3824,8 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     this->vehicle_noise = 0; // reset noise, in case all combustion engines are dead
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
-        if( engine_on && is_engine_on( e ) && engine_fuel_left( e ) ) {
+        vehicle_part &vp = parts[p];
+        if( engine_on && is_engine_on( e ) && engine_fuel_left( vp ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
             int part_watts = units::to_watt( part_vpower_w( p, true ) );
@@ -5288,10 +5286,11 @@ int vehicle::discharge_battery( int amount, bool recurse )
 
 void vehicle::do_engine_damage( size_t e, int strain )
 {
+    vehicle_part &vp = parts[engines[e]];
     strain = std::min( 25, strain );
     if( is_engine_on( e ) && !is_perpetual_type( e ) &&
-        engine_fuel_left( e ) && rng( 1, 100 ) < strain ) {
-        int dmg = rng( 0, strain * 4 );
+        engine_fuel_left( vp ) && rng( 1, 100 ) < strain ) {
+        const int dmg = rng( 0, strain * 4 );
         damage_direct( get_map(), engines[e], dmg );
         if( one_in( 2 ) ) {
             add_msg( _( "Your engine emits a high pitched whine." ) );

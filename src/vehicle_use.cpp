@@ -574,12 +574,12 @@ double vehicle::engine_cold_factor( const int e ) const
 
 int vehicle::engine_start_time( const int e ) const
 {
-    if( !is_engine_on( e ) || part_info( engines[e] ).has_flag( "E_STARTS_INSTANTLY" ) ||
-        !engine_fuel_left( e ) ) {
+    const vehicle_part &vp = parts[engines[e]];
+    if( !is_engine_on( e ) || vp.info().has_flag( "E_STARTS_INSTANTLY" ) || !engine_fuel_left( vp ) ) {
         return 0;
     }
 
-    const double dmg = parts[engines[e]].damage_percent();
+    const double dmg = vp.damage_percent();
 
     // non-linear range [100-1000]; f(0.0) = 100, f(0.6) = 250, f(0.8) = 500, f(0.9) = 1000
     // diesel engines with working glow plugs always start with f = 0.6 (or better)
@@ -590,21 +590,19 @@ int vehicle::engine_start_time( const int e ) const
     return units::to_watt( part_vpower_w( engines[ e ], true ) ) / watts_per_time + 100 * dmg + cold;
 }
 
-bool vehicle::auto_select_fuel( int e )
+// NOLINTNEXTLINE(readability-make-member-function-const)
+bool vehicle::auto_select_fuel( vehicle_part &vp )
 {
-    vehicle_part &vp_engine = parts[ engines[ e ] ];
-    const vpart_info &vp_engine_info = part_info( engines[e] );
-    if( !vp_engine.is_available() ) {
+    const vpart_info &vp_engine_info = vp.info();
+    if( !vp.is_available() ) {
         return false;
     }
-    if( vp_engine_info.fuel_type == fuel_type_none ||
-        vp_engine_info.has_flag( "PERPETUAL" ) ||
-        engine_fuel_left( e ) > 0 ) {
+    if( vp_engine_info.fuel_type == fuel_type_none || engine_fuel_left( vp ) > 0 ) {
         return true;
     }
     for( const itype_id &fuel_id : vp_engine_info.engine_fuel_opts() ) {
         if( fuel_left( fuel_id ) > 0 ) {
-            vp_engine.fuel_set( fuel_id );
+            vp.fuel_set( fuel_id );
             return true;
         }
     }
@@ -620,7 +618,7 @@ bool vehicle::start_engine( const int e )
     const vpart_info &einfo = part_info( engines[e] );
     vehicle_part &eng = parts[ engines[ e ] ];
 
-    bool out_of_fuel = !auto_select_fuel( e );
+    const bool out_of_fuel = !auto_select_fuel( eng );
 
     Character &player_character = get_player_character();
     if( out_of_fuel ) {

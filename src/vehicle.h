@@ -944,7 +944,7 @@ class vehicle
         void connect( const tripoint &source_pos, const tripoint &target_pos );
 
         // Try select any fuel for engine, returns true if some fuel is available
-        bool auto_select_fuel( int e );
+        bool auto_select_fuel( vehicle_part &vp );
         // Attempt to start an engine
         bool start_engine( int e );
         // stop all engines
@@ -1271,7 +1271,7 @@ class vehicle
                            const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
         const;
         // Checks how much of an engine's current fuel is left in the tanks.
-        int engine_fuel_left( int e, bool recurse = false ) const;
+        int engine_fuel_left( const vehicle_part &vp, bool recurse = false ) const;
         // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
 
