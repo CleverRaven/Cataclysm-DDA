@@ -1019,13 +1019,14 @@ bool vehicle::has_security_working() const
 
 void vehicle::backfire( const int e ) const
 {
-    const int power = units::to_watt( part_vpower_w( engines[e], true ) );
-    const tripoint pos = global_part_pos3( engines[e] );
+    const vehicle_part &vp = parts[engines[e]];
+    const int power = units::to_watt( part_vpower_w( vp, true ) );
+    const tripoint pos = global_part_pos3( vp );
     sounds::sound( pos, 40 + power / 10000, sounds::sound_t::movement,
                    // single space after the exclamation mark because it does not end the sentence
                    //~ backfire sound
                    string_format( _( "a loud BANG! from the %s" ), // NOLINT(cata-text-style)
-                                  parts[ engines[ e ] ].name() ), true, "vehicle", "engine_backfire" );
+                                  vp.name() ), true, "vehicle", "engine_backfire" );
 }
 
 const vpart_info &vehicle::part_info( int index, bool include_removed ) const
@@ -1040,16 +1041,16 @@ const vpart_info &vehicle::part_info( int index, bool include_removed ) const
 
 // engines & alternators all have power.
 // engines provide, whilst alternators consume.
-units::power vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
+units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_hp ) const
 {
-    const vehicle_part &vp = parts[ index ];
-    units::power pwr = vp.info().power;
-    if( part_flag( index, VPFLAG_ENGINE ) ) {
+    const vpart_info &vpi = vp.info();
+    units::power pwr = vpi.power;
+    if( vpi.has_flag( VPFLAG_ENGINE ) ) {
         if( pwr == 0_W ) {
             pwr = vp.base.engine_displacement() * 373_W;
         }
-        if( vp.info().fuel_type == fuel_type_animal ) {
-            monster *mon = get_monster( index );
+        if( vpi.fuel_type == fuel_type_animal ) {
+            monster *mon = get_monster( index_of_part( &vp ) );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 // An animal that can carry twice as much weight, can pull a cart twice as hard.
                 pwr = units::from_watt( mon->get_speed() * ( mon->get_size() - 1 ) * 3
@@ -1061,11 +1062,10 @@ units::power vehicle::part_vpower_w( const int index, const bool at_full_hp ) co
         // Weary multiplier
         const float weary_mult = get_player_character().exertion_adjusted_move_multiplier();
         ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-        pwr += units::from_watt( get_player_character().str_cur - 8 ) * part_info(
-                   index ).engine_muscle_power_factor() *
+        pwr += units::from_watt( get_player_character().str_cur - 8 ) * vpi.engine_muscle_power_factor() *
                weary_mult;
         /// wind-powered vehicles have differing power depending on wind direction
-        if( vp.info().fuel_type == fuel_type_wind ) {
+        if( vpi.fuel_type == fuel_type_wind ) {
             weather_manager &weather = get_weather();
             int windpower = weather.windspeed;
             rl_vec2d windvec;
@@ -1092,11 +1092,10 @@ units::power vehicle::part_vpower_w( const int index, const bool at_full_hp ) co
         return pwr; // Assume full hp
     }
     // Damaged engines give less power, but some engines handle it better
-    double health = parts[index].health_percent();
     // dpf is 0 for engines that scale power linearly with damage and
     // provides a floor otherwise
-    float dpf = part_info( index ).engine_damaged_power_factor();
-    double effective_percent = dpf + ( ( 1 - dpf ) * health );
+    const float dpf = vpi.engine_damaged_power_factor();
+    const double effective_percent = dpf + ( ( 1 - dpf ) * vp.health_percent() );
     return pwr * effective_percent;
 }
 
@@ -3458,7 +3457,7 @@ units::power vehicle::basic_consumption( const itype_id &ftype ) const
                 fcon -= part_epower( engines[e] );
 
             } else if( !is_perpetual_type( vp ) ) {
-                fcon += part_vpower_w( engines[e] );
+                fcon += part_vpower_w( vp );
                 if( parts[ e ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
                     fcon *= 2;
                 }
@@ -3494,15 +3493,15 @@ units::power vehicle::total_power( const bool fueled, const bool safe ) const
             if( vp.has_fault_flag( "REDUCE_ENG_POWER" ) ) {
                 m2c *= 0.6;
             }
-            pwr += part_vpower_w( p ) * m2c / 100;
+            pwr += part_vpower_w( vp ) * m2c / 100;
             count++;
         }
     }
 
     for( size_t a = 0; a < alternators.size(); a++ ) {
-        int p = alternators[a];
+        const vehicle_part &vp = parts[alternators[a]];
         if( is_alternator_on( a ) ) {
-            pwr += part_vpower_w( p ); // alternators have negative power
+            pwr += part_vpower_w( vp ); // alternators have negative power
         }
     }
     pwr = std::max( 0_W, pwr );
@@ -3824,31 +3823,31 @@ void vehicle::noise_and_smoke( int load, time_duration time )
 
     this->vehicle_noise = 0; // reset noise, in case all combustion engines are dead
     for( size_t e = 0; e < engines.size(); e++ ) {
-        int p = engines[e];
-        vehicle_part &vp = parts[p];
+        const int p = engines[e];
+        const vehicle_part &vp = parts[p];
         if( engine_on && is_engine_on( vp ) && engine_fuel_left( vp ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
-            int part_watts = units::to_watt( part_vpower_w( p, true ) );
+            int part_watts = units::to_watt( part_vpower_w( vp, true ) );
             double max_stress = static_cast<double>( part_watts / 40000.0 );
             double cur_stress = load / 1000.0 * max_stress;
             // idle stress = 1.0 resulting in nominal working engine noise = engine_noise_factor()
             // and preventing noise = 0
             cur_stress = std::max( cur_stress, 1.0 );
-            double part_noise = cur_stress * part_info( p ).engine_noise_factor();
+            double part_noise = cur_stress * vp.info().engine_noise_factor();
 
             if( is_engine_type_combustion( vp ) ) {
                 combustion = true;
-                double health = parts[p].health_percent();
-                if( parts[ p ].has_fault_flag( "ENG_BACKFIRE" ) ) {
+                double health = vp.health_percent();
+                if( vp.has_fault_flag( "ENG_BACKFIRE" ) ) {
                     health = 0.0;
                 }
-                if( health < part_info( p ).engine_backfire_threshold() && one_in( 50 + 150 * health ) ) {
+                if( health < vp.info().engine_backfire_threshold() && one_in( 50 + 150 * health ) ) {
                     backfire( e );
                 }
                 double j = cur_stress * to_turns<int>( time ) * muffle * 1000;
 
-                if( parts[ p ].has_fault_flag( "EXTRA_EXHAUST" ) ) {
+                if( vp.has_fault_flag( "EXTRA_EXHAUST" ) ) {
                     bad_filter = true;
                     j *= j;
                 }
@@ -4955,7 +4954,7 @@ void vehicle::update_alternator_load()
         for( size_t e = 0; e < engines.size(); ++e ) {
             const vehicle_part &vp = parts[engines[e]];
             if( is_engine_on( vp ) && vp.info().has_flag( "E_ALTERNATOR" ) ) {
-                engine_vpower += units::to_watt( part_vpower_w( engines[e] ) );
+                engine_vpower += units::to_watt( part_vpower_w( vp ) );
             }
         }
 
@@ -4966,8 +4965,9 @@ void vehicle::update_alternator_load()
 
         int alternators_power = 0;
         for( size_t p = 0; p < alternators.size(); ++p ) {
+            const vehicle_part &vp = parts[alternators[p]];
             if( is_alternator_on( p ) ) {
-                alternators_power += units::to_watt( part_vpower_w( alternators[p] ) );
+                alternators_power += units::to_watt( part_vpower_w( vp ) );
             }
         }
         alternator_load = 1000 * ( std::abs( alternators_power ) + std::abs( units::to_watt(

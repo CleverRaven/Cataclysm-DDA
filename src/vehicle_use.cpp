@@ -586,7 +586,7 @@ int vehicle::engine_start_time( const vehicle_part &vp ) const
 
     // divided by magic 16 = watts / 6000
     const double watts_per_time = 6000;
-    const double engine_watts = units::to_watt( part_vpower_w( index_of_part( &vp ), true ) );
+    const double engine_watts = units::to_watt( part_vpower_w( vp, true ) );
     return engine_watts / watts_per_time + 100 * dmg + cold;
 }
 

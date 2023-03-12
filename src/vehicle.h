@@ -766,7 +766,7 @@ class vehicle
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
-        units::power part_vpower_w( int index, bool at_full_hp = false ) const;
+        units::power part_vpower_w( const vehicle_part &vp, bool at_full_hp = false ) const;
 
         // Get part power consumption/production for part number.
         units::power part_epower( int index ) const;
