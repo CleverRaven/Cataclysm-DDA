@@ -15,7 +15,7 @@
     "rains": false,
     "acidic": false,
     "sound_category": "clear",
-    "load_order": 0
+    "priority": 0
   },
   {
     "id": "null",
@@ -32,6 +32,6 @@
     "precip": "none",
     "rains": false,
     "acidic": false,
-    "load_order": -1
+    "priority": -1
   }
 ]
