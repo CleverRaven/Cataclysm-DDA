@@ -8261,6 +8261,7 @@
     "encumbrance_always": [ [ "hand_l", 5 ], [ "hand_r", 5 ] ],
     "craft_skill_bonus": [ [ "electronics", -1 ], [ "tailor", -1 ], [ "mechanics", -1 ] ],
     "types": [ "HANDS" ],
+    "prereqs": [ "NAILS" ],
     "cancels": [ "TALONS" ],
     "changes_to": [ "PAWS" ],
     "category": [ "RABBIT", "LUPINE", "RAT", "FELINE", "BEAST", "URSINE" ]
