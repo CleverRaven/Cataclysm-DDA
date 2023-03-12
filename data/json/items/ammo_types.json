@@ -769,6 +769,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "notch",
+    "name": "notch",
+    "default": "notch"
+  },
+  {
+    "type": "ammunition_type",
     "id": "turpentine",
     "name": "turpentine",
     "default": "chem_turpentine"
