@@ -111,8 +111,8 @@ enum class radio_type : int {
 
 extern std::map<radio_type, std::string> radio_type_names;
 
-static constexpr int RADIO_MIN_STRENGTH = 120;
-static constexpr int RADIO_MAX_STRENGTH = 360;
+constexpr int RADIO_MIN_STRENGTH = 120;
+constexpr int RADIO_MAX_STRENGTH = 360;
 
 struct radio_tower {
     // local (to the containing overmap) submap coordinates

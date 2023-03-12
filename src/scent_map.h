@@ -16,7 +16,7 @@
 
 class JsonObject;
 
-static constexpr int SCENT_MAP_Z_REACH = 1;
+constexpr int SCENT_MAP_Z_REACH = 1;
 
 class game;
 class map;
