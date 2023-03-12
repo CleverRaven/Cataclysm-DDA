@@ -911,17 +911,16 @@ void vehicle::toggle_specific_part( int p, bool on )
 {
     parts[p].enabled = on;
 }
-bool vehicle::is_engine_type_on( int e, const itype_id &ft ) const
+bool vehicle::is_engine_type_on( const vehicle_part &vp, const itype_id &ft ) const
 {
-    const vehicle_part &vp = parts[engines[e]];
-    return is_engine_on( vp ) && is_engine_type( e, ft );
+    return is_engine_on( vp ) && is_engine_type( vp, ft );
 }
 
 bool vehicle::has_engine_type( const itype_id &ft, const bool enabled ) const
 {
     for( size_t e = 0; e < engines.size(); ++e ) {
         const vehicle_part &vp = parts[engines[e]];
-        if( is_engine_type( e, ft ) && ( !enabled || is_engine_on( vp ) ) ) {
+        if( is_engine_type( vp, ft ) && ( !enabled || is_engine_on( vp ) ) ) {
             return true;
         }
     }
@@ -931,7 +930,7 @@ bool vehicle::has_engine_type_not( const itype_id &ft, const bool enabled ) cons
 {
     for( size_t e = 0; e < engines.size(); ++e ) {
         const vehicle_part &vp = parts[engines[e]];
-        if( !is_engine_type( e, ft ) && ( !enabled || is_engine_on( vp ) ) ) {
+        if( !is_engine_type( vp, ft ) && ( !enabled || is_engine_on( vp ) ) ) {
             return true;
         }
     }
@@ -963,10 +962,9 @@ bool vehicle::has_engine_conflict( const vpart_info *possible_conflict,
     return has_conflict;
 }
 
-bool vehicle::is_engine_type( const int e, const itype_id  &ft ) const
+bool vehicle::is_engine_type( const vehicle_part &vp, const itype_id  &ft ) const
 {
-    return parts[engines[e]].ammo_current().is_null() ? parts[engines[e]].fuel_current() == ft :
-           parts[engines[e]].ammo_current() == ft;
+    return vp.ammo_current().is_null() ? vp.fuel_current() == ft : vp.ammo_current() == ft;
 }
 
 bool vehicle::is_combustion_engine_type( const int e ) const
@@ -3453,8 +3451,9 @@ units::power vehicle::basic_consumption( const itype_id &ftype ) const
 {
     units::power fcon = 0_W;
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if( is_engine_type_on( e, ftype ) ) {
-            if( parts[ engines[e] ].ammo_current() == fuel_type_battery &&
+        const vehicle_part &vp = parts[engines[e]];
+        if( is_engine_type_on( vp, ftype ) ) {
+            if( vp.ammo_current() == fuel_type_battery &&
                 part_epower( engines[e] ) >= 0_W ) {
                 // Electric engine - use epower instead
                 fcon -= part_epower( engines[e] );
@@ -5425,9 +5424,9 @@ void vehicle::slow_leak()
 
 bool vehicle::has_available_electric_engine()
 {
-    for( int i = 0; i < static_cast<int>( engines.size() ); ++i ) {
-        if( is_engine_type( i, fuel_type_battery ) && ( parts[engines[i]].is_available() ||
-                is_part_on( engines[i] ) ) ) {
+    for( const int p : engines ) {
+        const vehicle_part &vp = parts[p];
+        if( is_engine_type( vp, fuel_type_battery ) && ( vp.is_available() || vp.enabled ) ) {
             return true;
         }
     }

@@ -885,11 +885,11 @@ void sfx::do_vehicle_engine_sfx()
         }
         if( sfx::has_variant_sound( "engine_working_internal", vp_id_str, seas_str, indoors, night ) ) {
             id_and_variant = std::make_pair( "engine_working_internal", vp_id_str );
-        } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
+        } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
             id_and_variant = std::make_pair( "engine_working_internal", "muscle" );
-        } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
+        } else if( veh->is_engine_type( vp, fuel_type_wind ) ) {
             id_and_variant = std::make_pair( "engine_working_internal", "wind" );
-        } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
+        } else if( veh->is_engine_type( vp, fuel_type_battery ) ) {
             id_and_variant = std::make_pair( "engine_working_internal", "electric" );
         } else {
             id_and_variant = std::make_pair( "engine_working_internal", "combustion" );
@@ -1028,11 +1028,11 @@ void sfx::do_vehicle_exterior_engine_sfx()
         }
         if( sfx::has_variant_sound( "engine_working_external", vp_id_str, seas_str, indoors, night ) ) {
             id_and_variant = std::make_pair( "engine_working_external", vp_id_str );
-        } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
+        } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
             id_and_variant = std::make_pair( "engine_working_external", "muscle" );
-        } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
+        } else if( veh->is_engine_type( vp, fuel_type_wind ) ) {
             id_and_variant = std::make_pair( "engine_working_external", "wind" );
-        } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
+        } else if( veh->is_engine_type( vp, fuel_type_battery ) ) {
             id_and_variant = std::make_pair( "engine_working_external", "electric" );
         } else {
             id_and_variant = std::make_pair( "engine_working_external", "combustion" );

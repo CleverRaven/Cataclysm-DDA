@@ -1823,13 +1823,13 @@ class vehicle
         //main method for the control of individual engines
         void control_engines();
         //returns whether the engine is enabled or not, and has fueltype
-        bool is_engine_type_on( int e, const itype_id &ft ) const;
+        bool is_engine_type_on( const vehicle_part &vp, const itype_id &ft ) const;
         //returns whether the engine is enabled or not
         bool is_engine_on( const vehicle_part &vp ) const;
         //returns whether the part is enabled or not
         bool is_part_on( int p ) const;
         //returns whether the engine uses specified fuel type
-        bool is_engine_type( int e, const itype_id &ft ) const;
+        bool is_engine_type( const vehicle_part &vp, const itype_id &ft ) const;
         //returns whether the engine uses one of specific "combustion" fuel types (gas, diesel and diesel substitutes)
         bool is_combustion_engine_type( int e ) const;
         //returns whether the alternator is operational

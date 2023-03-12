@@ -373,7 +373,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
             const vehicle_part &vp = parts[engines[e]];
             // if only one display, print the first engine that's on and consumes power
             if( is_engine_on( vp ) &&
-                !( is_perpetual_type( e ) || is_engine_type( e, fuel_type_muscle ) ) ) {
+                !( is_perpetual_type( e ) || is_engine_type( vp, fuel_type_muscle ) ) ) {
                 print_fuel_indicator( win, p, vp.fuel_current(), verbose, desc );
                 return;
             }

@@ -690,7 +690,7 @@ bool vehicle::start_engine( const int e )
     }
 
     // Damaged non-electric engines have a chance of failing to start
-    if( !is_engine_type( e, fuel_type_battery ) && einfo.fuel_type != fuel_type_muscle &&
+    if( !is_engine_type( eng, fuel_type_battery ) && einfo.fuel_type != fuel_type_muscle &&
         x_in_y( dmg * 100, 120 ) ) {
         sounds::sound( pos, einfo.engine_noise_factor(), sounds::sound_t::movement,
                        string_format( _( "the %s clanking and grinding." ), eng.name() ), true, "vehicle",
@@ -704,9 +704,9 @@ bool vehicle::start_engine( const int e )
         sfx::play_variant_sound( "engine_start", einfo.get_id().str(), einfo.engine_noise_factor() );
     } else if( einfo.fuel_type == fuel_type_muscle ) {
         sfx::play_variant_sound( "engine_start", "muscle", einfo.engine_noise_factor() );
-    } else if( is_engine_type( e, fuel_type_wind ) ) {
+    } else if( is_engine_type( eng, fuel_type_wind ) ) {
         sfx::play_variant_sound( "engine_start", "wind", einfo.engine_noise_factor() );
-    } else if( is_engine_type( e, fuel_type_battery ) ) {
+    } else if( is_engine_type( eng, fuel_type_battery ) ) {
         sfx::play_variant_sound( "engine_start", "electric", einfo.engine_noise_factor() );
     } else {
         sfx::play_variant_sound( "engine_start", "combustion", einfo.engine_noise_factor() );
@@ -732,11 +732,11 @@ void vehicle::stop_engines()
 
         if( sfx::has_variant_sound( "engine_stop", variant ) ) {
             // has special sound variant for this vpart id
-        } else if( is_engine_type( e, fuel_type_battery ) ) {
+        } else if( is_engine_type( epart, fuel_type_battery ) ) {
             variant = "electric";
-        } else if( is_engine_type( e, fuel_type_muscle ) ) {
+        } else if( is_engine_type( epart, fuel_type_muscle ) ) {
             variant = "muscle";
-        } else if( is_engine_type( e, fuel_type_wind ) ) {
+        } else if( is_engine_type( epart, fuel_type_wind ) ) {
             variant = "wind";
         } else {
             variant = "combustion";
