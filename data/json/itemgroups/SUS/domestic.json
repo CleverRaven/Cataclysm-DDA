@@ -727,7 +727,7 @@
         "distribution": [
           { "group": "adhesive_bandages_box_used", "prob": 30 },
           { "item": "bandages", "prob": 30, "count": [ 1, 6 ] },
-          { "item": "liq_bandage", "prob": 5, "charges-min": 1 },
+          { "item": "liq_bandage_spray", "prob": 5, "charges-min": 1 },
           { "item": "medical_gauze", "prob": 20 },
           { "group": "full_1st_aid", "prob": 10 }
         ],

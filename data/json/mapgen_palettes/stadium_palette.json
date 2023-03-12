@@ -245,7 +245,7 @@
       [ "heatpack", 40 ],
       [ "heatpack_used", 60 ],
       { "item": "bandages", "prob": 20, "count": [ 1, 3 ] },
-      { "item": "liq_bandage", "prob": 10, "charges-min": 1 },
+      { "item": "liq_bandage_spray", "prob": 10, "charges-min": 1 },
       { "group": "adhesive_bandages_box_used", "prob": 20 },
       [ "mouthpiece", 40 ],
       [ "football", 60 ],
