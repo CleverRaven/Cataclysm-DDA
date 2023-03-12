@@ -572,22 +572,24 @@ double vehicle::engine_cold_factor( const vehicle_part &vp ) const
     return 1.0 - ( std::max( 0.0, std::min( 30.0, eff_temp ) ) / 30.0 );
 }
 
-int vehicle::engine_start_time( const vehicle_part &vp ) const
+time_duration vehicle::engine_start_time( const vehicle_part &vp ) const
 {
+    time_duration result = 0_seconds;
     if( !is_engine_on( vp ) || vp.info().has_flag( "E_STARTS_INSTANTLY" ) || !engine_fuel_left( vp ) ) {
-        return 0;
+        return result;
     }
 
-    const double dmg = vp.damage_percent();
+    result += 1_seconds * vp.damage_percent();
 
     // non-linear range [100-1000]; f(0.0) = 100, f(0.6) = 250, f(0.8) = 500, f(0.9) = 1000
     // diesel engines with working glow plugs always start with f = 0.6 (or better)
-    const double cold = 100 / tanh( 1 - std::min( engine_cold_factor( vp ), 0.9 ) );
+    result += 1_seconds / tanh( 1.0 - std::min( engine_cold_factor( vp ), 0.9 ) );
 
     // divided by magic 16 = watts / 6000
     const double watts_per_time = 6000;
     const double engine_watts = units::to_watt( part_vpower_w( vp, true ) );
-    return engine_watts / watts_per_time + 100 * dmg + cold;
+    result += time_duration::from_moves( engine_watts / watts_per_time );
+    return result;
 }
 
 // NOLINTNEXTLINE(readability-make-member-function-const)
@@ -636,14 +638,14 @@ bool vehicle::start_engine( vehicle_part &vp )
     }
 
     const double dmg = vp.damage_percent();
-    const int start_moves = engine_start_time( vp );
+    const time_duration start_time = engine_start_time( vp );
     const tripoint pos = global_part_pos3( vp );
 
     if( vpi.engine_backfire_threshold() ) {
         if( ( 1 - dmg ) < vpi.engine_backfire_threshold() && one_in( vpi.engine_backfire_freq() ) ) {
             backfire( vp );
         } else {
-            sounds::sound( pos, start_moves / 10, sounds::sound_t::movement,
+            sounds::sound( pos, to_seconds<int>( start_time ) * 10, sounds::sound_t::movement,
                            string_format( _( "the %s bang as it starts!" ), vp.name() ), true, "vehicle",
                            "engine_bangs_start" );
         }
@@ -668,7 +670,7 @@ bool vehicle::start_engine( vehicle_part &vp )
 
         const double cold_factor = engine_cold_factor( vp );
         const units::power start_power = -part_epower( vp ) * ( dmg * 5 + cold_factor * 2 + 10 );
-        const int start_bat = power_to_energy_bat( start_power, time_duration::from_moves( start_moves ) );
+        const int start_bat = power_to_energy_bat( start_power, start_time );
         if( discharge_battery( start_bat, true ) != 0 ) {
             sounds::sound( pos, vpi.engine_noise_factor(), sounds::sound_t::alarm,
                            string_format( _( "the %s rapidly clicking." ), vp.name() ), true, "vehicle",
@@ -759,7 +761,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         }
     }
 
-    int start_time = 0;
+    time_duration start_time = 0_seconds;
     // record the first usable engine as the referenced position checked at the end of the engine starting activity
     bool has_starting_engine_position = false;
     tripoint_bub_ms starting_engine_position;
@@ -789,7 +791,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         add_msg( _( "You take control of the %s." ), name );
     }
     if( !autodrive ) {
-        player_character.assign_activity( ACT_START_ENGINES, start_time );
+        player_character.assign_activity( ACT_START_ENGINES, to_moves<int>( start_time ) );
         player_character.activity.relative_placement =
             starting_engine_position - player_character.pos_bub();
         player_character.activity.values.push_back( take_control );
