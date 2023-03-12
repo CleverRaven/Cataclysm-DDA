@@ -24,32 +24,32 @@
   {
     "type": "palette",
     "id": "fbmh_2_fireplace_palette",
-    "terrain": { },
+    "terrain": {  },
     "furniture": { "f": "f_fireplace" }
   },
   {
     "type": "palette",
     "id": "fbmh_2_stove_palette",
-    "terrain": { },
+    "terrain": {  },
     "furniture": { "f": "f_woodstove" }
   },
   {
     "type": "palette",
     "id": "fbmh_2_straw_bed_palette",
-    "terrain": { },
+    "terrain": {  },
     "furniture": { "b": "f_straw_bed" }
   },
   {
     "type": "palette",
     "id": "fbmh_2_makeshift_bed_palette",
-    "terrain": { },
+    "terrain": {  },
     "furniture": { "b": "f_makeshift_bed" }
   },
   {
     "type": "palette",
     "id": "fbmh_2_bed_palette",
-    "terrain": { },
-    "furniture": { "b": "f_bed", "B" : "f_bookcase" }
+    "terrain": {  },
+    "furniture": { "b": "f_bed", "B": "f_bookcase" }
   },
   {
     "type": "palette",

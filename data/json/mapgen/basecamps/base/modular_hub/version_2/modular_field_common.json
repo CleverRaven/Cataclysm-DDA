@@ -53,9 +53,7 @@
         }
       },
       "mapgensize": [ 1, 1 ],
-      "rows": [
-        "f"
-      ],
+      "rows": [ "f" ],
       "palettes": [ { "param": "fbmh_2_cooking_palette" } ]
     }
   },

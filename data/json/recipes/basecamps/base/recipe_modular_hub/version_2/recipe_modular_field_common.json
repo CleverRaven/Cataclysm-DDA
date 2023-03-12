@@ -54,12 +54,7 @@
     "never_learn": true,
     "construction_blueprint": "fbmh_2_cooking_NE",
     "blueprint_name": "northeast cooking",
-    "blueprint_parameter_names": {
-      "fbmh_2_cooking_palette": { 
-        "fbmh_2_fireplace_palette": "Fireplace", 
-        "fbmh_2_stove_palette": "Woodstove"
-      }
-    },
+    "blueprint_parameter_names": { "fbmh_2_cooking_palette": { "fbmh_2_fireplace_palette": "Fireplace", "fbmh_2_stove_palette": "Woodstove" } },
     "blueprint_requires": [ { "id": "fbmh_2_room_NE" } ],
     "blueprint_provides": [ { "id": "fbmh_2_cooking_NE" } ],
     "blueprint_excludes": [ { "id": "fbmh_2_cooking_NE" } ]
@@ -76,8 +71,8 @@
     "construction_blueprint": "fbmh_2_bed_NE_1",
     "blueprint_name": "northeast bed",
     "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": { 
-        "fbmh_2_straw_bed_palette": "Straw bed", 
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
         "fbmh_2_makeshift_bed_palette": "Makeshift bed",
         "fbmh_2_bed_palette": "Bed"
       }
@@ -98,8 +93,8 @@
     "construction_blueprint": "fbmh_2_bed_NE_2",
     "blueprint_name": "northeast bed",
     "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": { 
-        "fbmh_2_straw_bed_palette": "Straw bed", 
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
         "fbmh_2_makeshift_bed_palette": "Makeshift bed",
         "fbmh_2_bed_palette": "Bed"
       }
@@ -120,8 +115,8 @@
     "construction_blueprint": "fbmh_2_bed_ENE",
     "blueprint_name": "east north east beds",
     "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": { 
-        "fbmh_2_straw_bed_palette": "Straw bed", 
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
         "fbmh_2_makeshift_bed_palette": "Makeshift bed",
         "fbmh_2_bed_palette": "Bed"
       }
@@ -142,8 +137,8 @@
     "construction_blueprint": "fbmh_2_bed_ESE",
     "blueprint_name": "east south east beds",
     "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": { 
-        "fbmh_2_straw_bed_palette": "Straw bed", 
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
         "fbmh_2_makeshift_bed_palette": "Makeshift bed",
         "fbmh_2_bed_palette": "Bed"
       }
@@ -164,8 +159,8 @@
     "construction_blueprint": "fbmh_2_bed_SE",
     "blueprint_name": "southeast beds",
     "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": { 
-        "fbmh_2_straw_bed_palette": "Straw bed", 
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
         "fbmh_2_makeshift_bed_palette": "Makeshift bed",
         "fbmh_2_bed_palette": "Bed"
       }
@@ -186,8 +181,8 @@
     "construction_blueprint": "fbmh_2_bed_SW",
     "blueprint_name": "southwest beds",
     "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": { 
-        "fbmh_2_straw_bed_palette": "Straw bed", 
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
         "fbmh_2_makeshift_bed_palette": "Makeshift bed",
         "fbmh_2_bed_palette": "Bed"
       }
@@ -208,8 +203,8 @@
     "construction_blueprint": "fbmh_2_bed_WSW",
     "blueprint_name": "west south west beds",
     "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": { 
-        "fbmh_2_straw_bed_palette": "Straw bed", 
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
         "fbmh_2_makeshift_bed_palette": "Makeshift bed",
         "fbmh_2_bed_palette": "Bed"
       }
@@ -230,8 +225,8 @@
     "construction_blueprint": "fbmh_2_bed_WNW",
     "blueprint_name": "west north west beds",
     "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": { 
-        "fbmh_2_straw_bed_palette": "Straw bed", 
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
         "fbmh_2_makeshift_bed_palette": "Makeshift bed",
         "fbmh_2_bed_palette": "Bed"
       }
@@ -252,8 +247,8 @@
     "construction_blueprint": "fbmh_2_bed_NW",
     "blueprint_name": "northwest beds",
     "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": { 
-        "fbmh_2_straw_bed_palette": "Straw bed", 
+      "fbmh_2_bed_palette": {
+        "fbmh_2_straw_bed_palette": "Straw bed",
         "fbmh_2_makeshift_bed_palette": "Makeshift bed",
         "fbmh_2_bed_palette": "Bed"
       }
