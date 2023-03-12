@@ -7594,18 +7594,19 @@ void item::set_rot( time_duration val )
 
 void item::randomize_rot()
 {
-    visit_items( []( item * visit_itm, item * ) {
-        if( visit_itm->is_container() && visit_itm->all_pockets_sealed() ) {
-            return VisitResponse::SKIP;
-        } else if( visit_itm->is_comestible() && visit_itm->get_comestible()->spoils > 0_turns ) {
-            const double x_input = rng_float( 0.0, 1.0 );
-            const double k_rot = ( 1.0 - x_input ) / ( 1.0 + 2 * x_input );
-            visit_itm->set_rot( visit_itm->get_shelf_life() * k_rot );
-            return VisitResponse::SKIP;
-        }
+    if( is_comestible() && get_comestible()->spoils > 0_turns ) {
+        const double x_input = rng_float( 0.0, 1.0 );
+        const double k_rot = ( 1.0 - x_input ) / ( 1.0 + 2.0 * x_input );
+        set_rot( get_shelf_life() * k_rot );
+    }
 
-        return VisitResponse::NEXT;
-    } );
+    for( item_pocket *pocket : contents.get_all_contained_pockets() ) {
+        if( pocket->spoil_multiplier() > 0.0f ) {
+            for( item *subitem : pocket->all_items_top() ) {
+                subitem->randomize_rot();
+            }
+        }
+    }
 }
 
 int item::spoilage_sort_order() const
