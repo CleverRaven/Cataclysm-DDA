@@ -7114,7 +7114,7 @@
     "id": "constr_clear_rubble",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [
@@ -7133,7 +7133,7 @@
     "id": "constr_clear_rubble_rock",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [
@@ -7153,7 +7153,7 @@
     "id": "constr_clear_rubble_landfill",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [
@@ -7173,7 +7173,7 @@
     "id": "constr_clear_rubble_wreckage",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [
@@ -7193,7 +7193,7 @@
     "id": "constr_clear_rubble_woodchips",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] } ],
@@ -7207,7 +7207,7 @@
     "id": "constr_clear_rubble_ash",
     "group": "clear_rubble",
     "category": "OTHER",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 0 ] ],
     "time": "1 m",
     "byproducts": [ { "item": "ash", "charges": [ 0, 50 ] } ],
