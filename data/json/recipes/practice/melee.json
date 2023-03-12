@@ -91,7 +91,7 @@
       [ "water", "water_clean" ]
     ],
     "//1": "A bunch of duct tape and scrap to repair the dummy with each training session.",
-    "components": [ [ [ "duct_tape", 10 ] ], [ [ "scrap", 20 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
+    "components": [ [ [ "duct_tape", 10 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "paper", 10 ] ] ]
   },
   {
     "id": "prac_bashing_beg",
