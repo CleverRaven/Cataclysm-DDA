@@ -974,20 +974,22 @@ bool vehicle::is_engine_on( const vehicle_part &vp ) const
     return vp.is_available() && vp.enabled;
 }
 
-bool vehicle::is_alternator_on( const int a ) const
+bool vehicle::is_alternator_on( const vehicle_part &vp ) const
 {
-    vehicle_part alt = parts[ alternators [ a ] ];
-    if( alt.is_unavailable() ) {
+    if( vp.is_unavailable() ) {
         return false;
     }
-
-    return std::any_of( engines.begin(), engines.end(), [this, &alt]( int idx ) {
-        const vehicle_part &eng = parts [ idx ];
-        //fuel_left checks that the engine can produce power to be absorbed
-        return eng.mount == alt.mount && eng.is_available() && eng.enabled &&
-               fuel_left( eng.fuel_current() ) &&
-               !eng.has_fault_flag( "NO_ALTERNATOR_CHARGE" );
-    } );
+    for( const int p : engines ) {
+        const vehicle_part &vp_engine = parts[p];
+        if( vp_engine.mount == vp.mount
+            && vp_engine.is_available()
+            && vp_engine.enabled
+            && fuel_left( vp_engine.fuel_current() )
+            && !vp_engine.has_fault_flag( "NO_ALTERNATOR_CHARGE" ) ) {
+            return true; // the engine can drive it's alternator
+        }
+    }
+    return false;
 }
 
 bool vehicle::has_security_working() const
@@ -3486,9 +3488,9 @@ units::power vehicle::total_power( const bool fueled, const bool safe ) const
         }
     }
 
-    for( size_t a = 0; a < alternators.size(); a++ ) {
-        const vehicle_part &vp = parts[alternators[a]];
-        if( is_alternator_on( a ) ) {
+    for( const int p : alternators ) {
+        const vehicle_part &vp = parts[p];
+        if( is_alternator_on( vp ) ) {
             pwr += part_vpower_w( vp ); // alternators have negative power
         }
     }
@@ -4759,9 +4761,9 @@ units::power vehicle::total_alternator_epower() const
         return 0_W;
     }
     units::power epower = 0_W;
-    for( size_t p = 0; p < alternators.size(); ++p ) {
-        const vehicle_part &vp = parts[alternators[p]];
-        if( is_alternator_on( p ) ) {
+    for( const int p : alternators ) {
+        const vehicle_part &vp = parts[p];
+        if( is_alternator_on( vp ) ) {
             epower += part_epower( vp );
         }
     }
@@ -4930,33 +4932,33 @@ units::power vehicle::max_reactor_epower() const
 
 void vehicle::update_alternator_load()
 {
-    // Update alternator load
-    if( engine_on ) {
-        int engine_vpower = 0;
-        for( size_t e = 0; e < engines.size(); ++e ) {
-            const vehicle_part &vp = parts[engines[e]];
-            if( is_engine_on( vp ) && vp.info().has_flag( "E_ALTERNATOR" ) ) {
-                engine_vpower += units::to_watt( part_vpower_w( vp ) );
-            }
-        }
-
-        if( !engine_vpower ) {
-            alternator_load = 0;
-            return;
-        }
-
-        int alternators_power = 0;
-        for( size_t p = 0; p < alternators.size(); ++p ) {
-            const vehicle_part &vp = parts[alternators[p]];
-            if( is_alternator_on( p ) ) {
-                alternators_power += units::to_watt( part_vpower_w( vp ) );
-            }
-        }
-        alternator_load = 1000 * ( std::abs( alternators_power ) + std::abs( units::to_watt(
-                                       extra_drag ) ) ) / engine_vpower;
-    } else {
+    if( !engine_on ) {
         alternator_load = 0;
+        return;
     }
+    units::power engine_vpower = 0_W;
+    for( const int p : engines ) {
+        const vehicle_part &vp = parts[p];
+        if( is_engine_on( vp ) && vp.info().has_flag( "E_ALTERNATOR" ) ) {
+            engine_vpower += part_vpower_w( vp );
+        }
+    }
+
+    if( engine_vpower == 0_W ) {
+        alternator_load = 0;
+        return;
+    }
+
+    units::power alternators_power = 0_W;
+    for( const int p : alternators ) {
+        const vehicle_part &vp = parts[p];
+        if( is_alternator_on( vp ) ) {
+            alternators_power += part_vpower_w( vp );
+        }
+    }
+    alternators_power += extra_drag;
+
+    alternator_load = std::abs( 1000 * alternators_power / engine_vpower );
 }
 
 void vehicle::power_parts()

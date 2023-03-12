@@ -1831,7 +1831,7 @@ class vehicle
         //returns whether the engine uses one of specific "combustion" fuel types (gas, diesel and diesel substitutes)
         bool is_engine_type_combustion( const vehicle_part &vp ) const;
         //returns whether the alternator is operational
-        bool is_alternator_on( int a ) const;
+        bool is_alternator_on( const vehicle_part &vp ) const;
         // try to turn engine on or off
         // (tries to start it and toggles it on if successful, shutdown is always a success)
         // returns true if engine status was changed
