@@ -137,6 +137,13 @@
   },
   {
     "type": "character_mod",
+    "id": "bleed_staunch_mod",
+    "description": "Maximum bleed intensity staunchable by hand <color_dark_gray>(Manipulation, Grip)</color>",
+    "mod_type": "x",
+    "value": { "limb_score": [ "grip", "manip" ], "limb_score_op": "x" }
+  },
+  {
+    "type": "character_mod",
     "id": "limb_str_mod",
     "description": "Strength modifier <color_dark_gray>(Lift)</color>",
     "mod_type": "x",
@@ -162,5 +169,17 @@
     "description": "Melee attack rolls <color_dark_gray>(Balance)</color>",
     "mod_type": "x",
     "value": { "limb_score": "balance", "min": 0.2 }
+  },
+  {
+    "type": "character_mod",
+    "id": "limb_dodge_mod",
+    "description": "Dodge chance modifier <color_dark_gray>(Balance, Move Speed, Footing)</color>",
+    "mod_type": "x",
+    "value": {
+      "limb_score": [ [ "balance", 1.5 ], "move_speed", "footing" ],
+      "override_encumb": true,
+      "limb_score_op": "x",
+      "min": 0.0
+    }
   }
 ]

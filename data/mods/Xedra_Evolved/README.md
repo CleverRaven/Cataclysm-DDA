@@ -1,3 +1,6 @@
+### Agents of Change
+I want to take this space to thank GuardianDll for all the time we've talked about what to do in this mod and the work they have put into creating content for this mod.  I'd also like to thank TheShadowFerret for patiently reviewing my PRs no matter how hare brained my sentence structure is at any given time.  Ramza13 for creating the EOC system that I've used so heavily in this mod and all of the dev team for their assistance in correcting my attempts and sometimes even building c++ functions related to all the mods and systems I work on.
+
 # Lore
 The logic behind the Xedra Evolved Δ.  Imagine if the time from blob contamination to portal storm was basically several decades and portal intrusions built up over that timeframe with contamination zones resulting in parts of our world following other laws of physics.  So you have humanity starting to adapt to the dead rising but it takes twelve hours for them to reanimate and sometimes portals to other dimensions open and usually monsters/disease spill out but sometimes riches spill out and the government has projects exploring other dimensions and hunting Exodii nodes for cybernetic parts.
 Then eventually the Cataclysm occurs and Kaiju appear with natural disasters and the dead rise instantly and everything still collapses. But now the Exodii and interdimensional scavengers are here so if you start with CBMs they may recognize that you were part of an organization that hunted them.
@@ -15,6 +18,7 @@ The third chapter has brought with it Vampires both as monsters and as a disease
 
 ### Shipping manifest
 Over 25 new monsters
+The ability to become a vampire as a side path to standard mutations.  Should not interfere with any other mutation paths.
 5 professions
 4 Map Specials
 5 Map Extra
@@ -26,3 +30,27 @@ Dozens of new spells
 1 Vehicle
 1 new skill
 And a plethora of other effects, furniture/terrain, missions, lore and other things necessary to support the above.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+####SPOILERS
+After becoming infected with the vampire virus by being grabbed and bitten by one of the vampire mobs that currently haunt some cathedrals and often roam with feral humans, the PC can either let the disease run it's course or create the sketchy antidote found on vampire corpses.  Over the course of roughly 3.3 days per stage you will go through three stages of becoming a vampire.  A fourth and fifth stage are currently unobtainable in game and lack any content.  Once you become a vampire you will gain a spell that allows you to consume blood.  Only human blood will work and it must be consumed via the spell.  This is due to limitations in the vitamin system that would otherwise cause normal humans that ate blood to slowly gain vampire effects that they wouldn't be able to reduce ever.  If you do not consume *HUMAN* blood regularly *via the spell*  you will slowly acquire effects of blood starvation and eventually die.

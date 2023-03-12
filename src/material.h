@@ -79,14 +79,7 @@ class material_type
         translation _name;
         cata::optional<itype_id> _salvaged_into; // this material turns into this item when salvaged
         itype_id _repaired_with = itype_id( "null" ); // this material can be repaired with this item
-        float _bash_resist = 0.0f;                         // negative integers means susceptibility
-        float _cut_resist = 0.0f;
-        float _acid_resist = 0.0f;
-        float _elec_resist = 0.0f;
-        float _fire_resist = 0.0f;
-        float _bullet_resist = 0.0f;
-        float _biologic_resist = 0.0f;
-        float _cold_resist = 0.0f;
+        std::map<damage_type, float> _resistances;   // negative integers means susceptibility
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         float _density = 1;                             // relative to "powder", which is 1
         // ability of a fabric to allow moisture vapor to be transmitted through the material
@@ -137,17 +130,10 @@ class material_type
          */
         cata::optional<itype_id> salvaged_into() const;
         itype_id repaired_with() const;
-        float bash_resist() const;
-        float cut_resist() const;
-        float bullet_resist() const;
+        float resist( damage_type dmg_type ) const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
         std::string dmg_adj( int damage ) const;
-        float acid_resist() const;
-        float elec_resist() const;
-        float biological_resist() const;
-        float cold_resist() const;
-        float fire_resist() const;
         int chip_resist() const;
         float specific_heat_liquid() const;
         float specific_heat_solid() const;

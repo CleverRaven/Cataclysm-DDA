@@ -711,8 +711,8 @@
       [ "sheet", 40 ],
       [ "towel", 30 ],
       [ "cotton_patchwork", 20 ],
-      [ "bandages", 5 ],
-      { "item": "adhesive_bandages", "prob": 5, "count": [ 1, 20 ] }
+      { "item": "bandages", "prob": 5, "count": [ 1, 3 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 5 }
     ]
   },
   {
@@ -1134,8 +1134,9 @@
       [ "towel", 20 ],
       [ "protein_shake", 8 ],
       { "item": "coke", "prob": 3, "charges": [ 1, 8 ] },
-      { "item": "bandages", "prob": 5, "charges": [ 1, 3 ] },
-      { "item": "adhesive_bandages", "prob": 5, "count": [ 1, 20 ] },
+      { "item": "bandages", "prob": 5, "count": [ 1, 3 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 5 },
+      { "item": "liq_bandage", "prob": 1, "charges-min": 1 },
       [ "heatpack", 10 ],
       [ "gum", 12 ],
       [ "yoghurt", 12 ],
@@ -1217,8 +1218,9 @@
       [ "hoodie", 50 ],
       [ "shorts", 60 ],
       [ "longshirt", 60 ],
-      { "item": "bandages", "prob": 5, "charges": [ 1, 3 ] },
-      { "item": "adhesive_bandages", "prob": 5, "count": [ 1, 20 ] },
+      { "item": "bandages", "prob": 5, "count": [ 1, 3 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 5 },
+      { "item": "liq_bandage", "prob": 1, "charges-min": 1 },
       [ "heatpack", 10 ],
       { "item": "gum", "prob": 12, "charges": [ 1, 10 ] },
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },

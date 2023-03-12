@@ -63,7 +63,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "Mosin battle rifle" },
-    "description": "Developed by the Russian Empire prior to the onset of the First World War, the Mosin is a bolt-action military battle rifle chambered for 7.62x54mm rounds.  Powerful, unwieldly, and prolific across the world as military surplus, this sizable rifle is a Soviet updated version of the venerable Mosin.",
+    "description": "Developed by the Russian Empire prior to the onset of the First World War, the Mosin is a bolt-action military battle rifle chambered for 7.62x54mm rounds.  Powerful, unwieldy, and prolific across the world as military surplus, this sizable rifle is a Soviet updated version of the venerable Mosin.",
     "weight": "4000 g",
     "volume": "3120 ml",
     "longest_side": "1241 mm",

@@ -135,9 +135,11 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     for( const item &i : items ) {
         character.i_add( i );
     }
-    character.set_skill_level( recipe.skill_used, recipe.difficulty );
+    // Shift skill levels by one to ensure successful crafting
+    // after the change in https://github.com/CleverRaven/Cataclysm-DDA/pull/61985
+    character.set_skill_level( recipe.skill_used, recipe.difficulty + 1 );
     for( const std::pair<skill_id, int> req : recipe.required_skills ) {
-        character.set_skill_level( req.first, req.second );
+        character.set_skill_level( req.first, req.second + 1 );
     }
     for( const recipe_proficiency &prof : recipe.proficiencies ) {
         character.add_proficiency( prof.id );
@@ -269,7 +271,7 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
     SECTION( "cook oatmeal without oatmeal" ) {
         std::vector<item> items;
 
-        test_craft_via_rig( items, 2, 2, 1, 1, recipe_oatmeal_cooked.obj(), false );
+        test_craft_via_rig( items, 105, 105, 1, 1, recipe_oatmeal_cooked.obj(), false );
     }
     SECTION( "cook oatmeal without battery" ) {
         std::vector<item> items;
@@ -281,13 +283,13 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
         std::vector<item> items;
         items.emplace_back( itype_oatmeal );
 
-        test_craft_via_rig( items, 2, 2, 0, 0, recipe_oatmeal_cooked.obj(), false );
+        test_craft_via_rig( items, 105, 105, 0, 0, recipe_oatmeal_cooked.obj(), false );
     }
     SECTION( "cook oatmeal successfully" ) {
         std::vector<item> items;
         items.emplace_back( itype_oatmeal );
 
-        test_craft_via_rig( items, 2, 0, 1, 0, recipe_oatmeal_cooked.obj(), true );
+        test_craft_via_rig( items, 105, 0, 1, 0, recipe_oatmeal_cooked.obj(), true );
     }
 }
 

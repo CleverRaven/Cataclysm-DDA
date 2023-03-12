@@ -117,12 +117,12 @@ void clear_zones()
     zm.clear();
 }
 
-void clear_map()
+void clear_map( int zmin, int zmax )
 {
     map &here = get_map();
     // Clearing all z-levels is rather slow, so just clear the ones I know the
     // tests use for now.
-    for( int z = -2; z <= 0; ++z ) {
+    for( int z = zmin; z <= zmax; ++z ) {
         clear_fields( z );
     }
     clear_zones();
@@ -130,9 +130,10 @@ void clear_map()
     clear_npcs();
     clear_creatures();
     here.clear_traps();
-    for( int z = -2; z <= 0; ++z ) {
+    for( int z = zmin; z <= zmax; ++z ) {
         clear_items( z );
     }
+    here.process_items();
 }
 
 void clear_map_and_put_player_underground()
@@ -142,9 +143,11 @@ void clear_map_and_put_player_underground()
     get_player_character().setpos( { 0, 0, -2 } );
 }
 
-monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
+monster &spawn_test_monster( const std::string &monster_type, const tripoint &start,
+                             const bool death_drops )
 {
     monster *const added = g->place_critter_at( mtype_id( monster_type ), start );
+    added->death_drops = death_drops;
     cata_assert( added );
     return *added;
 }

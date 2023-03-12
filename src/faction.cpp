@@ -529,8 +529,6 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     std::string bldg = next_upgrade( base_camps::base_dir, 1 );
     std::string bldg_full = _( "Next Upgrade: " ) + bldg;
     mvwprintz( fac_w, point( width, ++y ), col, bldg_full );
-    std::string requirements = om_upgrade_description( bldg, true );
-    fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, requirements );
 }
 
 void faction::faction_display( const catacurses::window &fac_w, const int width ) const
