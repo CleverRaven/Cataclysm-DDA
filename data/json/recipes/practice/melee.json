@@ -283,7 +283,7 @@
     "category": "CC_PRACTICE",
     "subcategory": "CSC_PRACTICE_COMBAT",
     "name": "dodge (beginner)",
-    "description": "Practice your dodging with some side hops, backsteps, and maybe a sumersault or two to learn why you shouldn't sumersault in a fight.  Without someone attacking you to actually dodge all you can practice is footwork, but hopefully it'll help prevent you tripping over your shoelaces in a panic.",
+    "description": "Practice your dodging with some side hops, backsteps, and maybe a somersault or two to learn why you shouldn't somersault in a fight.  Without someone attacking you to actually dodge all you can practice is footwork, but hopefully it'll help prevent you tripping over your shoelaces in a panic.",
     "skill_used": "dodge",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 0, "skill_limit": 1 },
