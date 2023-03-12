@@ -3404,7 +3404,7 @@
         "watertight": false,
         "open_container": false,
         "max_contains_volume": "1100 ml",
-        "max_contains_weight": "2 kg"
+        "max_contains_weight": "2 kg",
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "3785 ml",
@@ -3413,7 +3413,7 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ]
-},
+  },
   {
     "id": "lunchbox",
     "type": "GENERIC",
