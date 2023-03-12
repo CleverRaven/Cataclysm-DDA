@@ -193,7 +193,7 @@
     "name": "Wrestling",
     "description": "While not the type of wrestler to use folding chairs as weapons, you have experience wrasslin' and tusslin' with others out on the mat.  There's no referees around to see, but hopefully your skills will help you avoid getting pinned by the undead.",
     "points": 4,
-	"//": "If Grab Break ever becomes a proficiency instead of tied to martial arts, it should absolutely be added here and replace Fast Reflexes.",
+    "//": "If Grab Break ever becomes a proficiency instead of tied to martial arts, it should absolutely be added here and replace Fast Reflexes.",
     "skills": [ { "level": 1, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 3, "name": "dodge" } ],
     "traits": [ "FAST_REFLEXES" ]
   },
