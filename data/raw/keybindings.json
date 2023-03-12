@@ -1211,13 +1211,13 @@
     "type": "keybinding",
     "id": "GO_TO_DESTINATION",
     "name": "Go to destination",
-    "bindings": [ { "input_method": "keyboard_char", "key": "g" }, { "input_method": "keyboard_code", "key": "g" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
   },
   {
     "type": "keybinding",
     "id": "CENTER_ON_DESTINATION",
     "name": "Center on destination",
-    "bindings": [ { "input_method": "keyboard_char", "key": "c" }, { "input_method": "keyboard_code", "key": "c" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
