@@ -256,7 +256,7 @@ void match( Parent &&parent, Container &&contents,
                     match( content_loc, content_result );
                     item_location container = container_from_parent( parent );
                     if( container ) {
-                        item_pocket *pocket = container->contained_where( *content );
+                        item_pocket *pocket = content_loc.parent_pocket();
                         REQUIRE( pocket );
                         CHECK( content_result.parent_pocket_sealed == pocket->sealed() );
                     }
