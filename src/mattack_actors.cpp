@@ -85,10 +85,10 @@ bool mattack_actor::check_self_conditions( monster &z ) const
                 add_msg_debug( debugmode::DF_MATTACK, "Forbidden(all) effect %s not found", effect.c_str() );
                 failed = false;
             }
-            if( failed ) {
-                add_msg_debug( debugmode::DF_MATTACK, "All forbidden(all) effects found" );
-                return false;
-            }
+        }
+        if( failed ) {
+            add_msg_debug( debugmode::DF_MATTACK, "All forbidden(all) effects found" );
+            return false;
         }
     }
     if( !required_effects_any.empty() ) {
@@ -98,10 +98,10 @@ bool mattack_actor::check_self_conditions( monster &z ) const
                 add_msg_debug( debugmode::DF_MATTACK, "Required(any) effect %s found", effect.c_str() );
                 failed = false;
             }
-            if( failed ) {
-                add_msg_debug( debugmode::DF_MATTACK, "Lack of all required(any) effects" );
-                return false;
-            }
+        }
+        if( failed ) {
+            add_msg_debug( debugmode::DF_MATTACK, "Lack of all required(any) effects" );
+            return false;
         }
     }
     return true;
