@@ -2212,7 +2212,6 @@ void npc::load( const JsonObject &data )
     int classtmp = 0;
     int atttmp = 0;
     std::string facID;
-    std::string comp_miss_id;
     std::string comp_miss_role;
     tripoint_abs_omt comp_miss_pt;
     std::string classid;
@@ -2316,9 +2315,7 @@ void npc::load( const JsonObject &data )
         }
     }
 
-    if( data.read( "comp_mission_id", comp_miss_id ) ) {
-        comp_mission.miss_id = mission_id_of( comp_miss_id );
-    }
+    data.read( "comp_mission_id", comp_mission.miss_id );
 
     if( data.read( "comp_mission_pt", comp_miss_pt ) ) {
         comp_mission.position = comp_miss_pt;
@@ -2432,7 +2429,7 @@ void npc::store( JsonOut &json ) const
         json.member( "real_weapon", real_weapon ); // also saves contents
     }
 
-    json.member( "comp_mission_id", string_of( comp_mission.miss_id ) );
+    json.member( "comp_mission_id", comp_mission.miss_id );
     json.member( "comp_mission_pt", comp_mission.position );
     json.member( "comp_mission_role", comp_mission.role_id );
     json.member( "companion_mission_role_id", companion_mission_role_id );
@@ -4366,13 +4363,13 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "dumping_spot", dumping_spot );
         json.member( "hidden_missions" );
         json.start_array();
-        for( const auto &list : hidden_missions ) {
+        for( const std::vector<ui_mission_id> &list : hidden_missions ) {
             json.start_object();
             json.member( "dir" );
             json.start_array();
             for( const ui_mission_id &miss_id : list ) {
                 json.start_object();
-                json.member( "mission_id", string_of( miss_id.id ) );
+                json.member( "mission_id", miss_id.id );
                 json.end_object();
             }
             json.end_array();
@@ -4457,10 +4454,8 @@ void basecamp::deserialize( const JsonObject &data )
         list.allow_omitted_members();
         for( JsonObject miss_id_json : list.get_array( "dir" ) ) {
             miss_id_json.allow_omitted_members();
-            std::string miss_id_string;
-            miss_id_json.read( "mission_id", miss_id_string );
             ui_mission_id miss_id;
-            miss_id.id = mission_id_of( miss_id_string );
+            miss_id_json.read( "mission_id", miss_id.id );
             miss_id.ret = false;
             hidden_missions[tab_num].push_back( miss_id );
         }
