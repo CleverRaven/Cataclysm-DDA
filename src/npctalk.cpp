@@ -3288,8 +3288,17 @@ void talk_effect_fun_t<T>::set_give_achievment( const JsonObject &jo, const std:
     str_or_var<T> achieve = get_str_or_var<T>( jo.get_member( member ), member, true );
     function = [achieve]( const T & d ) {
         const achievement_id achievement_to_give( achieve.evaluate( d ) );
-        get_achievements().report_achievement( &achievement_to_give.obj(),
-                                               achievement_completion::completed );
+        // make sure the achievement is being tracked and that it is currently pending
+        std::vector<const achievement *> all_achievements = get_achievements().valid_achievements();
+        if( std::find_if( all_achievements.begin(),
+        all_achievements.end(), [&achievement_to_give]( const achievement * ach ) {
+        return ach->id == achievement_to_give;
+    } ) != all_achievements.end() ) {
+            if( get_achievements().is_completed( achievement_to_give ) == achievement_completion::pending ) {
+                get_achievements().report_achievement( &achievement_to_give.obj(),
+                                                       achievement_completion::completed );
+            }
+        }
     };
 }
 

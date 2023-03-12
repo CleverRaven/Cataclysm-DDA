@@ -60,30 +60,6 @@
     "max_range": 5
   },
   {
-    "id": "mtf_death",
-    "type": "SPELL",
-    "name": { "str": "MTF dying" },
-    "description": "Spawns a tear in reality and marks the achievement.",
-    "max_level": 1,
-    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
-    "valid_targets": [ "self", "ground" ],
-    "shape": "blast",
-    "effect": "effect_on_condition",
-    "effect_str": "EOC_mtf_death"
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_mtf_death",
-    "effect": [
-      {
-        "u_cast_spell": {"id": "death_portal" }
-      }, 
-      {
-        "give_achievement": "achievement_mtf_kill"
-      }
-    ]
-  },
-  {
     "id": "death_portal",
     "type": "SPELL",
     "name": { "str": "Death Portal" },
