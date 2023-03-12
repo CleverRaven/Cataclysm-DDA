@@ -340,6 +340,7 @@ bootup
 boozeberry
 borderless
 boreas
+bos
 bovid
 bowfin
 bowyery
@@ -774,6 +775,9 @@ dragonscale
 draugr
 drawknife
 dreamdross
+dreamdrossed
+dreamforged
+dreamsmith
 dreamstuff
 driers
 drivetrain
@@ -1123,6 +1127,7 @@ gibbous
 github
 gladius
 glaive
+glaives
 glasknife
 glassblower
 glassblowing
@@ -1235,6 +1240,8 @@ heatsink
 heatsinks
 heear
 heelys
+helipad
+helipads
 hellmouth
 helpdesk
 hematite
@@ -1276,6 +1283,7 @@ honeygold
 honker
 hoose
 hooved
+horchata
 hosomaki
 hotcut
 hotkey
@@ -1441,6 +1449,7 @@ keypress
 keyring
 kg
 khopesh
+khopeshes
 khru
 kickboard
 kickin
@@ -1480,6 +1489,7 @@ kreck
 krick
 kriegsmesser
 kriegsmessers
+krises
 kshhhsk
 kshhssk
 kshssssssk
@@ -1489,6 +1499,7 @@ ksssh
 kufi
 kuji
 kukri
+kukris
 kunoichi
 kunst
 kzzz
@@ -1743,6 +1754,7 @@ mordant
 morels
 moriatur
 morningstar
+morningstars
 moroi
 mortems
 mosaicus
@@ -2086,7 +2098,6 @@ pokeball
 polearm
 polearms
 poleaxe
-poleaxe
 poleaxes
 poleyns
 pollinator
@@ -2207,6 +2218,7 @@ quadrupedal
 quams
 quantification
 quarterpanel
+quarterstaves
 queenright
 quells
 quern
@@ -2424,6 +2436,8 @@ scruffs
 scutcher
 scutellosaurus
 scuttles
+sealab
+sealabs
 sealable
 seater
 secretively
@@ -2719,6 +2733,7 @@ tarket
 tassed
 tassin
 tastemakers
+tawa
 taxa
 tazed
 tazer
@@ -2770,6 +2785,7 @@ tifeligalehi
 tileset
 tillable
 tillage
+timelapse
 tinamou
 tinning
 tiredly
@@ -2835,6 +2851,7 @@ trudges
 tryphillum
 tsumi
 tsundere
+tsurugi
 tuber
 tucunare
 tumescences
@@ -2846,6 +2863,7 @@ turreted
 tusked
 twere
 twintailed
+twohand
 txt
 typologies
 tyrannosaurid
@@ -2918,6 +2936,7 @@ unpadded
 unpowered
 unpressurised
 unreinforced
+unrifled
 unrushed
 unsaved
 unseasoned
@@ -3014,6 +3033,7 @@ wantin
 warframe
 wargame
 warhammer
+warhammers
 warmouth
 wasnt
 wastebread

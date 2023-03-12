@@ -13,8 +13,9 @@
     "batch_time_factors": [ 80, 4 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "mycus_fruit", 1 ] ], [ [ "yeast", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "//1": "1u for fruit, then 6u to heat the water & activate the yeast",
+    "components": [ [ [ "water_clean", 3 ] ], [ [ "mycus_fruit", 1 ] ], [ [ "yeast", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -30,8 +31,9 @@
     "batch_time_factors": [ 80, 4 ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "marloss_berry", 1 ] ], [ [ "yeast", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "//1": "1u for fruit, then 6u to heat the water & activate the yeast",
+    "components": [ [ [ "water_clean", 3 ] ], [ [ "marloss_berry", 1 ] ], [ [ "yeast", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -64,8 +66,9 @@
     "book_learn": [ [ "distilling_cookbook", 5 ], [ "scots_cookbook", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "malted_grain", 2 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 57, "LIST" ] ] ],
+    "//": "assuming grains are roasted, that's 52u flour by weight, plus 6u to heat water and activate yeast",
+    "components": [ [ [ "water_clean", 3 ] ], [ [ "malted_grain", 2 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -81,10 +84,11 @@
     "book_learn": [ [ "distilling_cookbook", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
+    "//": "assuming grains are roasted, slightly variable weight roughly close to 20u flour, +10u for the junipers",
     "components": [
-      [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "corn", 3 ], [ "cornmeal", 3 ], [ "barley", 3 ], [ "buckwheat", 3 ], [ "oats", 3 ] ],
+      [ [ "water_clean", 2 ] ],
+      [ [ "corn", 3 ], [ "cornmeal", 5 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 3 ] ],
       [ [ "juniper", 10 ] ]
     ]
   },
@@ -167,8 +171,9 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "//": "unsure if wheat needs roasted here but sugar doesn't. 6u to heat the water & activate the yeast",
     "components": [
-      [ [ "water", 3 ], [ "water_clean", 3 ] ],
+      [ [ "water_clean", 3 ] ],
       [
         [ "molasses", 5 ],
         [ "wheat", 1 ],
@@ -195,8 +200,8 @@
     "book_learn": [ [ "distilling_cookbook", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "molasses", 2 ], [ "sugar_beet", 5 ] ], [ [ "yeast", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "components": [ [ [ "water_clean", 3 ] ], [ [ "molasses", 2 ], [ "sugar_beet", 5 ] ], [ [ "yeast", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -212,13 +217,9 @@
     "book_learn": [ [ "brewing_cookbook", 1 ], [ "family_cookbook", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [
-      [ [ "water", 15 ], [ "water_clean", 15 ] ],
-      [ [ "cornmeal", 12 ], [ "corn", 2 ] ],
-      [ [ "sugar", 100 ] ],
-      [ [ "yeast", 2 ] ]
-    ]
+    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
+    "//": "30u for corn and 30u to heat water & activate the yeast",
+    "components": [ [ [ "water_clean", 15 ] ], [ [ "cornmeal", 12 ], [ "corn", 2 ] ], [ [ "sugar", 100 ] ], [ [ "yeast", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -234,9 +235,10 @@
     "book_learn": [ [ "brewing_cookbook", 4 ], [ "winemaking_beginner", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
+    "//": "2u for fruit and 20u to heat the water & activate the yeast",
     "components": [
-      [ [ "water", 10 ], [ "water_clean", 10 ] ],
+      [ [ "water_clean", 10 ] ],
       [ [ "sugar", 2 ] ],
       [ [ "yeast", 1 ] ],
       [ [ "juice", 2 ], [ "apple_cider", 4 ], [ "sweet_fruit", 1, "LIST" ] ]
@@ -257,8 +259,9 @@
     "book_learn": [ [ "distilling_cookbook", 1 ], [ "family_cookbook", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [ [ [ "water", 15 ], [ "water_clean", 15 ] ], [ [ "pumpkin", 12 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 2 ] ] ]
+    "tools": [ [ [ "surface_heat", 54, "LIST" ] ] ],
+    "//": "24u for pumpkin and 30u to heat water & activate the yeast",
+    "components": [ [ [ "water_clean", 15 ] ], [ [ "pumpkin", 12 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -274,7 +277,7 @@
     "book_learn": [ [ "brewing_cookbook", 2 ], [ "winemaking_beginner", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "juice", 2 ] ], [ [ "yeast", 1 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "juice", 2 ] ], [ [ "yeast", 1 ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -290,8 +293,9 @@
     "book_learn": [ [ "brewing_cookbook", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 10 ], [ "water_clean", 10 ] ], [ [ "malted_grain", 2 ] ], [ [ "hops", 1 ] ], [ [ "yeast", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 74, "LIST" ] ] ],
+    "//": "assuming grains are roasted, that's 52u flour by weight, 2u for hops, plus 20u to heat water and activate yeast",
+    "components": [ [ [ "water_clean", 10 ] ], [ [ "malted_grain", 2 ] ], [ [ "hops", 1 ] ], [ [ "yeast", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -328,8 +332,9 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "//": "6u to heat water and activate yeast",
     "components": [
-      [ [ "water_clean", 3 ], [ "water", 3 ] ],
+      [ [ "water_clean", 3 ] ],
       [ [ "honey_bottled", 12 ], [ "honeycomb", 2 ], [ "honey_glassed", 4 ] ],
       [ [ "hops", 1 ] ],
       [ [ "yeast", 1 ] ]
@@ -350,6 +355,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "//": "6u to heat water and activate yeast",
     "components": [
       [ [ "water_clean", 3 ] ],
       [ [ "honey_bottled", 12 ], [ "honeycomb", 2 ], [ "honey_glassed", 4 ] ],
@@ -377,6 +383,7 @@
     ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "//": "6u to heat water and activate yeast, dandelions don't appear to be roasted here",
     "components": [
       [ [ "water_clean", 3 ] ],
       [ [ "soaked_dandelion", 10 ] ],
@@ -410,8 +417,9 @@
     ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "//": "20u to roast the burdocks and 6u to heat water & activate the yeast",
     "components": [
-      [ [ "water", 3 ], [ "water_clean", 3 ] ],
+      [ [ "water_clean", 3 ] ],
       [ [ "raw_burdock", 10 ] ],
       [ [ "sugar_standard", 2, "LIST" ], [ "honeycomb", 1 ] ],
       [ [ "yeast", 1 ] ]
@@ -432,6 +440,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "//": "6u to heat water & activate the yeast, pineboughs don't appear to be roasted",
     "components": [
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "pine_bough", 5 ] ],
@@ -453,10 +462,7 @@
     "book_learn": [ [ "brewing_cookbook", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [
-      [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "corn", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ]
-    ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "corn", 1 ], [ "barley", 1 ], [ "buckwheat", 1 ], [ "oats", 1 ], [ "wheat", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -479,7 +485,7 @@
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "raw_dandelion", 1 ] ] ]
+    "components": [ [ [ "water_clean", 1 ] ], [ [ "raw_dandelion", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -495,7 +501,7 @@
     "book_learn": [ [ "vinegar_maker", 1 ], [ "winemaking_beginner", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_lactofermenting" } ],
     "components": [
-      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "water_clean", 2 ] ],
       [
         [ "juice", 2 ],
         [ "apple_cider", 4 ],
@@ -520,7 +526,8 @@
     "book_learn": [ [ "dairy_book", 3 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_lactofermenting" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
+    "//": "14u for dairy and 1u for the additive",
     "components": [ [ [ "milk_standard_raw", 9, "LIST" ] ], [ [ "cabbage", 1 ], [ "chili_pepper", 1 ], [ "yoghurt", 1 ] ] ]
   },
   {

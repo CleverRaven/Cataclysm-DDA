@@ -178,7 +178,7 @@ player_activity veh_interact::serialize_activity()
     res.values.push_back( veh->index_of_part( vpt ) ); // values[6]
     res.str_values.push_back( vp->get_id().str() );
     res.str_values.push_back( sel_vpart_variant );
-    res.targets.emplace_back( std::move( target ) );
+    res.targets.emplace_back( std::move( refill_target ) );
 
     return res;
 }
@@ -1396,8 +1396,8 @@ void veh_interact::do_refill()
             return false;
         };
 
-        target = g->inv_map_splice( validate, string_format( _( "Refill %s" ), pt.name() ), 1 );
-        if( target ) {
+        refill_target = g->inv_map_splice( validate, string_format( _( "Refill %s" ), pt.name() ), 1 );
+        if( refill_target ) {
             sel_vehicle_part = &pt;
             sel_vpart_info = &pt.info();
             sel_cmd = 'f';

@@ -186,7 +186,7 @@
       [ "syringe", 8 ],
       [ "adrenaline_injector", 4 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
-      { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "hotplate_induction", "prob": 10, "charges": [ 0, 500 ] },
       {
         "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],
         "prob": 5

@@ -1023,14 +1023,14 @@
       {
         "distribution": [
           { "item": "spell_scroll_smite", "prob": 50 },
-          { "item": "spell_scroll_summon_zombie", "prob": 50 },
+          { "item": "spell_scroll_summon_undead", "prob": 50 },
           { "item": "spell_scroll_necrotic_gaze", "prob": 50 },
           { "item": "spell_scroll_summon_wisps", "prob": 50 }
         ],
         "prob": 45
       },
       {
-        "distribution": [ { "item": "priest_advanced", "prob": 10 }, { "item": "spell_scroll_summon_skeleton", "prob": 50 } ],
+        "distribution": [ { "item": "priest_advanced", "prob": 10 }, { "item": "spell_scroll_summon_undead", "prob": 50 } ],
         "prob": 35
       },
       {
@@ -1038,7 +1038,7 @@
           { "item": "recovery_spellbook", "prob": 5 },
           { "item": "winter_grasp", "prob": 10 },
           { "item": "spell_scroll_recover_mana", "prob": 50 },
-          { "item": "spell_scroll_summon_decayed_pouncer", "prob": 50 },
+          { "item": "spell_scroll_summon_undead_swarm", "prob": 50 },
           { "item": "spell_scroll_recover_pain", "prob": 50 }
         ],
         "prob": 10

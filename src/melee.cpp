@@ -234,16 +234,19 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
         // Items that should have no bearing on durability
         const std::set<itype_id> blacklist = { itype_rag, itype_leather, itype_fur };
 
-        for( item &comp : shield->components ) {
-            if( blacklist.count( comp.typeId() ) <= 0 ) {
+        for( item_components::type_vector_pair &tvp : shield->components ) {
+            if( blacklist.count( tvp.first ) > 0 ) {
+                continue;
+            }
+            for( item &comp : tvp.second ) {
                 if( weak_chip > comp.chip_resistance() ) {
                     weak_chip = comp.chip_resistance();
                     weak_comp = comp.typeId();
                 }
-            }
-            if( comp.volume() > big_vol ) {
-                big_vol = comp.volume();
-                big_comp = comp.typeId();
+                if( comp.volume() > big_vol ) {
+                    big_vol = comp.volume();
+                    big_comp = comp.typeId();
+                }
             }
         }
         material_factor = ( weak_chip < INT_MAX ? weak_chip : shield->chip_resistance() ) / fragile_factor;
@@ -292,18 +295,20 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
                                _( "<npcname>'s %s breaks apart!" ),
                                str );
 
-        for( item &comp : temp.components ) {
-            int break_chance = comp.typeId() == weak_comp ? 2 : 8;
+        for( item_components::type_vector_pair &tvp : temp.components ) {
+            for( item &comp : tvp.second ) {
+                int break_chance = comp.typeId() == weak_comp ? 2 : 8;
 
-            if( one_in( break_chance ) ) {
-                add_msg_if_player( m_bad, _( "The %s is destroyed!" ), comp.tname() );
-                continue;
-            }
+                if( one_in( break_chance ) ) {
+                    add_msg_if_player( m_bad, _( "The %s is destroyed!" ), comp.tname() );
+                    continue;
+                }
 
-            if( comp.typeId() == big_comp && !has_wield_conflicts( comp ) ) {
-                wield( comp );
-            } else {
-                get_map().add_item_or_charges( pos(), comp );
+                if( comp.typeId() == big_comp && !has_wield_conflicts( comp ) ) {
+                    wield( comp );
+                } else {
+                    get_map().add_item_or_charges( pos(), comp );
+                }
             }
         }
     } else {
