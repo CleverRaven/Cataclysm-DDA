@@ -80,8 +80,8 @@ jobs:
       max-parallel: ${{ fromJSON(needs.matrix-variables.outputs.max_parallel) }}
       matrix:
         include:
-          - compiler: clang++-6.0
-            os: ubuntu-18.04
+          - compiler: clang++-10
+            os: ubuntu-20.04
             tiles: 0
             sound: 0
             release: 1
@@ -91,7 +91,7 @@ jobs:
             native: linux64
             archive-success: basic-build
             dont_skip_data_only_changes: 1
-            title: Basic Build and Test (Clang 6, Ubuntu, Curses)
+            title: Basic Build and Test (Clang 10, Ubuntu, Curses)
             # ~190MB in a clean build
             # ~30MB compressed
             # observed usage: 3.0GB -> 300MB
@@ -180,15 +180,15 @@ jobs:
             # observed usage: 3.0GB -> 350MB
             ccache_limit: 2G
 
-          - compiler: g++-7
-            os: ubuntu-18.04
+          - compiler: g++-9
+            os: ubuntu-20.04
             release: 1
             cmake: 1
             tiles: 1
             sound: 1
             localize: 0
             native: linux64
-            title: GCC 7, Ubuntu, Tiles, Sound, CMake
+            title: GCC 9, Ubuntu, Tiles, Sound, CMake
             # ~180MB in a clean build
             # ~25MB compressed
             # observed usage: 3.0GB -> 300MB
@@ -228,7 +228,7 @@ jobs:
         CCACHE_FILECLONE: true
         CCACHE_HARDLINK: true
         CCACHE_NOCOMPRESS: true
-        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 6, Ubuntu, Curses)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
+        SKIP: ${{ ( github.event.pull_request.draft == true && matrix.title != 'Basic Build and Test (Clang 10, Ubuntu, Curses)' ) || ( matrix.dont_skip_data_only_changes == 0 && needs.skip-duplicates.outputs.should_skip_code == 'true' ) || ( matrix.dont_skip_data_only_changes != 0 && needs.skip-duplicates-mods.outputs.should_skip_data == 'true' ) }}
         SKIP_TESTS: ${{ needs.matrix-variables.outputs.skip_tests }}
     steps:
     - name: checkout repository
@@ -245,20 +245,12 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
       run: |
           sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
-    - name: install old GCC (Ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-7' || matrix.compiler == 'g++-8') }}
-      run: |
-          sudo apt-get install g++-7 g++-8
     - name: install new GCC (Ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-11') }}
       run: |
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt-get update
           sudo apt-get install g++-11
-    - name: install old Clang (Ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-6.0') }}
-      run: |
-          sudo apt-get install clang-6.0
     - name: set up a mock GCC toolchain root for Clang (Ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}
       run: |

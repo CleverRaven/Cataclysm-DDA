@@ -1250,7 +1250,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
-    "charges_per_use": 5,
+    "charges_per_use": 10,
     "charged_qualities": [ [ "WELD", 2 ] ],
     "use_action": [
       {
@@ -1307,7 +1307,7 @@
     "symbol": ";",
     "color": "light_red",
     "ammo": [ "battery" ],
-    "charges_per_use": 10,
+    "charges_per_use": 25,
     "charged_qualities": [ [ "WELD", 1 ] ],
     "use_action": [
       {
@@ -1364,7 +1364,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
-    "charges_per_use": 5,
+    "charges_per_use": 10,
     "charged_qualities": [ [ "WELD", 2 ] ],
     "use_action": [
       {
@@ -1578,6 +1578,7 @@
     "type": "TOOL",
     "name": { "str": "propane torch", "str_pl": "propane torches" },
     "description": "A compact tool kit intended for cutting metal, this portable propane torch includes a torch handle and cutting attachment in an easy-to-carry tote.  It needs to be connected to a pressurized propane cylinder before use.  While not appropriate for welding, you can activate it in order to destroy metal barriers.",
+    "//": "Propane has roughly half the energy per unit as acetylene, so this uses 112 charges to cut a door. this is likely wrong and will be addressed in the welding audit",
     "weight": "1600 g",
     "volume": "1 L",
     "price": 20000,

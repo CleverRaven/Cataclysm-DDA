@@ -215,14 +215,18 @@ class recipe
         std::vector<proficiency_id> used_proficiencies() const;
         // The time malus due to proficiencies lacking
         float proficiency_time_maluses( const Character &crafter ) const;
+        // The time malus if all the proficiencies were lacking
+        float max_proficiency_time_maluses( const Character &crafter ) const;
         // The skill malus due to proficiencies lacking
         float proficiency_skill_maluses( const Character &crafter ) const;
+        // The max skill malus due to proficiencies lacking
+        float max_proficiency_skill_maluses( const Character &crafter ) const;
 
         // How active of exercise this recipe is
         float exertion_level() const;
 
         // This is used by the basecamp bulletin board.
-        std::string required_all_skills_string() const;
+        std::string required_all_skills_string( const std::map<skill_id, int> & ) const;
 
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"
@@ -230,8 +234,11 @@ class recipe
 
         // Create an item instance as if the recipe was just finished,
         // Contain charges multiplier
-        item create_result() const;
-        std::vector<item> create_results( int batch = 1 ) const;
+    private:
+        std::vector<item> create_result( bool set_components, bool is_food,
+                                         item_components *used = nullptr ) const;
+    public:
+        std::vector<item> create_results( int batch = 1, item_components *used = nullptr ) const;
 
         // Create byproduct instances as if the recipe was just finished
         std::vector<item> create_byproducts( int batch = 1 ) const;
@@ -265,10 +272,13 @@ class recipe
         bool is_blueprint() const;
         const update_mapgen_id &get_blueprint() const;
         const translation &blueprint_name() const;
+        const translation &blueprint_parameter_ui_string(
+            const std::string &param_name, const cata_variant &arg_value ) const;
         const std::vector<itype_id> &blueprint_resources() const;
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
         const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
         const std::vector<std::pair<std::string, int>> &blueprint_excludes() const;
+        const parameterized_build_reqs &blueprint_build_reqs() const;
         /**
          * Calculate blueprint requirements according to changed terrain and furniture
          * tiles, then check the calculated requirements against blueprint requirements
@@ -341,8 +351,13 @@ class recipe
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
         update_mapgen_id blueprint;
         translation bp_name;
+        using TranslationMap = std::map<std::string, translation>;
+        std::map<std::string, TranslationMap> bp_parameter_names;
         std::vector<itype_id> bp_resources;
         std::vector<std::pair<std::string, int>> bp_provides;
+        /** bp_requires specifies which other basecamp components need to exist
+         * before this one.  Whereas bp_build_reqs below contains the material
+         * and skills requirements */
         std::vector<std::pair<std::string, int>> bp_requires;
         std::vector<std::pair<std::string, int>> bp_excludes;
 
@@ -351,7 +366,7 @@ class recipe
          * requirements into the standard recipe requirements. */
         bool bp_autocalc = false;
         bool check_blueprint_needs = false;
-        cata::value_ptr<build_reqs> blueprint_reqs;
+        cata::value_ptr<parameterized_build_reqs> bp_build_reqs;
 };
 
 #endif // CATA_SRC_RECIPE_H

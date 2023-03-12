@@ -140,38 +140,42 @@
   {
     "id": "welding_standard",
     "type": "requirement",
-    "//": "Crafting of steel/iron items or installation of vehicle parts",
+    "//": "Crafting of steel/iron items or installation of vehicle parts, measured in 1 cm segments - assume roughly 360 cm per hour, 10 seconds per # of this quality",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 10 ], [ "welding_kit", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "welding_rod_steel", 3 ], [ "welding_wire_steel", 3 ], [ "brazing_rod_bronze", 3 ] ] ]
+    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 40 ], [ "toolset", 30 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "welding_rod_steel", 1 ], [ "welding_wire_steel", 1 ], [ "brazing_rod_bronze", 1 ] ] ]
   },
   {
     "id": "welding_alloys",
     "type": "requirement",
-    "//": "Crafting items made of aluminium alloy or installation of vehicle parts",
+    "//": "Crafting items made of aluminium alloy or installation of vehicle parts, currently making the same assumption for time/coverage as steel",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 } ],
-    "tools": [ [ [ "welder", 10 ], [ "welding_kit", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "welding_rod_alloy", 3 ], [ "welding_wire_alloy", 3 ], [ "brazing_rod_alloy", 3 ] ] ]
+    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 40 ], [ "toolset", 30 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "welding_rod_alloy", 1 ], [ "welding_wire_alloy", 1 ], [ "brazing_rod_alloy", 1 ] ] ]
   },
   {
     "id": "repair_welding_standard",
     "type": "requirement",
-    "//": "Repair of steel/iron items",
+    "//": "Repair of steel/iron items - costs double over that of standard welding",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "oxy_torch", 4 ] ] ],
+    "tools": [ [ [ "welder", 40 ], [ "welding_kit", 40 ], [ "welder_crude", 80 ], [ "toolset", 60 ], [ "oxy_torch", 2 ] ] ],
     "components": [
-      [ [ "welding_rod_steel", 6 ], [ "welding_wire_steel", 6 ], [ "brazing_rod_bronze", 6 ] ],
+      [ [ "welding_rod_steel", 2 ], [ "welding_wire_steel", 2 ], [ "brazing_rod_bronze", 2 ] ],
       [ [ "steel_tiny", 1, "LIST" ] ]
     ]
   },
   {
     "id": "repair_welding_alloys",
     "type": "requirement",
-    "//": "Repair items made of aluminium alloy",
+    "//": "Repair items made of aluminium alloy - costs double over that of standard welding",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "welder", 20 ], [ "welding_kit", 20 ], [ "welder_crude", 30 ], [ "toolset", 30 ], [ "oxy_torch", 4 ] ] ],
+    "tools": [ [ [ "welder", 40 ], [ "welding_kit", 40 ], [ "welder_crude", 80 ], [ "toolset", 60 ], [ "oxy_torch", 2 ] ] ],
     "components": [
-      [ [ "welding_rod_alloy", 6 ], [ "welding_wire_alloy", 6 ], [ "brazing_rod_alloy", 6 ] ],
+      [ [ "welding_rod_alloy", 2 ], [ "welding_wire_alloy", 2 ], [ "brazing_rod_alloy", 2 ] ],
       [ [ "material_aluminium_ingot", 1 ] ]
     ]
   },

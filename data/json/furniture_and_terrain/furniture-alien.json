@@ -706,11 +706,11 @@
     "deconstruct": { "items": [ { "item": "glass", "count": 1000 } ] },
     "required_str": -1,
     "bash": {
-      "str_min": 100,
-      "str_max": 100,
+      "str_min": 200,
+      "str_max": 400,
       "sound": "smash!",
       "sound_fail": "an absence of sound.",
-      "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 10, 20 ] } ]
     },
     "examine_action": {
       "type": "effect_on_condition",
@@ -733,7 +733,7 @@
       "str_max": 100,
       "sound": "smash!",
       "sound_fail": "an absence of sound.",
-      "items": [ { "item": "glass", "count": [ 1, 2 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 10, 20 ] } ]
     },
     "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "ORGANIC" ]
   },

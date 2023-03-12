@@ -2317,10 +2317,7 @@ build_reqs get_build_reqs_for_furn_ter_ids(
         const construction &build = build_data.first.obj();
         const int count = build_data.second;
         total_reqs.time += build.time * count;
-        if( total_reqs.reqs.find( build.requirements ) == total_reqs.reqs.end() ) {
-            total_reqs.reqs[build.requirements] = 0;
-        }
-        total_reqs.reqs[build.requirements] += count;
+        total_reqs.raw_reqs[build.requirements] += count;
         for( const auto &req_skill : build.required_skills ) {
             auto it = total_reqs.skills.find( req_skill.first );
             if( it == total_reqs.skills.end() || it->second < req_skill.second ) {

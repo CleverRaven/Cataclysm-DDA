@@ -1,5 +1,6 @@
 #include "item_components.h"
 
+#include "flag.h"
 #include "item.h"
 #include "itype.h"
 #include "type_id.h"
@@ -107,7 +108,21 @@ item item_components::get_and_remove_random_entry()
     return ret;
 }
 
-item_components item_components::split( const int batch_size, const size_t offset )
+static void adjust_new_comp( item &new_comp, bool is_cooked )
+{
+    if( new_comp.is_comestible() && !new_comp.get_comestible()->cooks_like.is_empty() ) {
+        const double relative_rot = new_comp.get_relative_rot();
+        new_comp = item( new_comp.get_comestible()->cooks_like, new_comp.birthday(), new_comp.charges );
+        new_comp.set_relative_rot( relative_rot );
+    }
+
+    if( is_cooked ) {
+        new_comp.set_flag_recursive( flag_COOKED );
+    }
+}
+
+item_components item_components::split( const int batch_size, const size_t offset,
+                                        const bool is_cooked )
 {
     item_components ret;
 
@@ -118,22 +133,28 @@ item_components item_components::split( const int batch_size, const size_t offse
                           tvp.first.str() );
                 return item_components();
             }
+
             item new_comp( tvp.second.front() );
+
             if( new_comp.charges % batch_size != 0 ) {
                 debugmsg( "component %s can't be evenly distributed to resulting items", tvp.first.str() );
                 return item_components();
             }
+
+            adjust_new_comp( new_comp, is_cooked );
+
             new_comp.charges /= batch_size;
             ret.add( new_comp );
         } else {
-
             if( tvp.second.size() % batch_size != 0 ) {
                 debugmsg( "component %s can't be evenly distributed to resulting items", tvp.first.str() );
                 return item_components();
             }
 
             for( size_t i = offset; i < tvp.second.size(); i += batch_size ) {
-                ret.add( tvp.second[i] );
+                item new_comp( tvp.second[i] );
+                adjust_new_comp( new_comp, is_cooked );
+                ret.add( new_comp );
             }
         }
     }

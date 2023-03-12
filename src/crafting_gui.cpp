@@ -209,7 +209,9 @@ struct availability {
     private:
         const recipe *rec;
         mutable float proficiency_time_maluses = -1.0f;
+        mutable float max_proficiency_time_maluses = -1.0f;
         mutable float proficiency_skill_maluses = -1.0f;
+        mutable float max_proficiency_skill_maluses = -1.0f;
     public:
         float get_proficiency_time_maluses() const {
             if( proficiency_time_maluses < 0 ) {
@@ -219,6 +221,14 @@ struct availability {
 
             return proficiency_time_maluses;
         }
+        float get_max_proficiency_time_maluses() const {
+            if( max_proficiency_time_maluses < 0 ) {
+                Character &player = get_player_character();
+                max_proficiency_time_maluses = rec->max_proficiency_time_maluses( player );
+            }
+
+            return max_proficiency_time_maluses;
+        }
         float get_proficiency_skill_maluses() const {
             if( proficiency_skill_maluses < 0 ) {
                 Character &player = get_player_character();
@@ -226,6 +236,14 @@ struct availability {
             }
 
             return proficiency_skill_maluses;
+        }
+        float get_max_proficiency_skill_maluses() const {
+            if( max_proficiency_skill_maluses < 0 ) {
+                Character &player = get_player_character();
+                max_proficiency_skill_maluses = rec->max_proficiency_skill_maluses( player );
+            }
+
+            return max_proficiency_skill_maluses;
         }
 
         nc_color selected_color() const {
@@ -405,19 +423,24 @@ static std::vector<std::string> recipe_info(
         oss << _( "<color_red>Cannot be crafted because the same item is needed "
                   "for multiple components</color>\n" );
     }
+
+    const bool disp_prof_msg = avail.has_proficiencies && !recp.is_nested();
     const float time_maluses = avail.get_proficiency_time_maluses();
+    const float max_time_malus = avail.get_max_proficiency_time_maluses();
     const float skill_maluses = avail.get_proficiency_skill_maluses();
-    if( time_maluses != 1.0 && skill_maluses != 0.0 ) {
-        oss << string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
-                                 "and your effective skill will be %.2f levels lower than normal, because you "
-                                 "lack some of the proficiencies used.</color>\n" ), time_maluses, skill_maluses );
-    } else if( time_maluses != 1.0 ) {
-        oss << string_format( _( "<color_yellow>This recipe will take %.1fx as long as normal, "
-                                 "because you lack some of the proficiencies used.</color>\n" ), time_maluses );
-    } else if( skill_maluses != 0.0 ) {
+    const float max_skill_malus = avail.get_max_proficiency_skill_maluses();
+    if( disp_prof_msg && time_maluses < max_time_malus && skill_maluses < max_skill_malus ) {
+        oss << string_format( _( "<color_green>This recipe will be %.2fx faster than normal, "
+                                 "and your effective skill will be %.2f levels higher than normal, because of "
+                                 "the proficiencies you have.</color>\n" ),
+                              max_time_malus / time_maluses, max_skill_malus - skill_maluses );
+    } else if( disp_prof_msg && time_maluses < max_time_malus ) {
+        oss << string_format( _( "<color_green>This recipe will be %.2fx faster than normal, "
+                                 "because of the proficiencies you have.</color>\n" ), max_time_malus / time_maluses );
+    } else if( disp_prof_msg && skill_maluses < max_skill_malus ) {
         oss << string_format(
-                _( "<color_yellow>Your effective skill will be %.2f levels lower than normal, "
-                   "because you lack some of the proficiencies used.</color>\n" ), skill_maluses );
+                _( "<color_green>Your effective skill will be %.2f levels higher than normal, "
+                   "because of the proficiencies you have.</color>\n" ), max_skill_malus - skill_maluses );
     }
     if( !can_craft_this && !avail.has_proficiencies ) {
         oss << _( "<color_red>Cannot be crafted because you lack"
@@ -1935,7 +1958,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     std::sort( related_components.begin(), related_components.end(), compare_second );
     // current recipe result
     std::vector<std::pair<itype_id, std::string>> related_results;
-    item tmp = current->create_result();
+    item tmp( current->result() );
     // use this item
     const itype_id tid = tmp.typeId();
     const std::set<const recipe *> &known_recipes =

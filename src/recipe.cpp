@@ -10,6 +10,7 @@
 #include "assign.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "cartesian_product.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
@@ -29,6 +30,7 @@
 #include "optional.h"
 #include "output.h"
 #include "proficiency.h"
+#include "recipe_dictionary.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id_utils.h"
@@ -40,6 +42,8 @@
 
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_hotplate( "hotplate" );
+
+static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -328,7 +332,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     // These cannot be inherited
     bp_autocalc = false;
     check_blueprint_needs = false;
-    blueprint_reqs.reset();
+    bp_build_reqs.reset();
 
     if( type == "recipe" ) {
 
@@ -365,6 +369,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
         assign( jo, "construction_blueprint", blueprint );
         if( !blueprint.is_empty() ) {
             assign( jo, "blueprint_name", bp_name );
+            assign( jo, "blueprint_parameter_names", bp_parameter_names );
             bp_resources.clear();
             for( const std::string resource : jo.get_array( "blueprint_resources" ) ) {
                 bp_resources.emplace_back( resource );
@@ -386,25 +391,34 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                                           exclude.get_int( "amount", 1 ) ) );
             }
             check_blueprint_needs = jo.get_bool( "check_blueprint_needs", true );
-            if( jo.has_member( "blueprint_needs" ) ) {
-                blueprint_reqs = cata::make_value<build_reqs>();
+            bool has_needs = jo.has_member( "blueprint_needs" );
+            if( has_needs && !bp_parameter_names.empty() ) {
+                debugmsg( "blueprint %s has parameters but also provides explicit needs; "
+                          "these are incompatible", result_.str() );
+            }
+            if( bp_parameter_names.empty() ) {
+                bp_build_reqs = cata::make_value<parameterized_build_reqs>();
+                build_reqs &default_reqs =
+                    bp_build_reqs->reqs_by_parameters.emplace().first->second;
                 const JsonObject jneeds = jo.get_object( "blueprint_needs" );
                 if( jneeds.has_member( "time" ) ) {
-                    blueprint_reqs->time =
+                    default_reqs.time =
                         to_moves<int>( read_from_json_string<time_duration>(
                                            jneeds.get_member( "time" ), time_duration::units ) );
                 }
                 if( jneeds.has_member( "skills" ) ) {
                     std::vector<std::pair<skill_id, int>> blueprint_skills;
                     jneeds.read( "skills", blueprint_skills );
-                    blueprint_reqs->skills = { blueprint_skills.begin(), blueprint_skills.end() };
+                    default_reqs.skills = { blueprint_skills.begin(), blueprint_skills.end() };
                 }
                 if( jneeds.has_member( "inline" ) ) {
                     const requirement_id req_id( "inline_blueprint_" + type + "_" + ident_.str() );
                     requirement_data::load_requirement( jneeds.get_object( "inline" ), req_id );
-                    blueprint_reqs->reqs.emplace( req_id, 1 );
+                    default_reqs.raw_reqs.emplace( req_id, 1 );
                 }
-            } else if( check_blueprint_needs ) {
+            }
+
+            if( check_blueprint_needs && !has_needs ) {
                 bp_autocalc = true;
             }
         }
@@ -447,27 +461,132 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     reqs_internal.emplace_back( req_id, 1 );
 }
 
+static cata::value_ptr<parameterized_build_reqs> calculate_all_blueprint_reqs(
+    const update_mapgen_id &id,
+    const std::map<std::string, std::map<std::string, translation>> &bp_params )
+{
+    cata::value_ptr<parameterized_build_reqs> result = cata::make_value<parameterized_build_reqs>();
+    const std::vector<std::unique_ptr<update_mapgen_function_json>> &funcs = id->funcs();
+    if( funcs.size() != 1 ) {
+        debugmsg( "update_mapgen %s used for blueprint, but has %zu versions, where it should have exactly one",
+                  funcs.size() );
+        return result;
+    }
+
+    // We gather the mapgen params from the mapgen function
+    const update_mapgen_function_json &json_func = *funcs.front();
+    const mapgen_parameters &mapgen_params = json_func.get_parameters();
+
+    std::map<std::string, std::vector<std::string>> mapgen_param_names_and_possible_values;
+    for( const std::pair<const std::string, mapgen_parameter> &mapgen_param : mapgen_params.map ) {
+        mapgen_param_names_and_possible_values.emplace(
+            mapgen_param.first, mapgen_param.second.all_possible_values( mapgen_params ) );
+    }
+
+    std::vector<std::string> mapgen_param_names;
+    mapgen_param_names.reserve( mapgen_param_names_and_possible_values.size() );
+    for( const std::pair<const std::string, std::vector<std::string>> &name_and_values :
+         mapgen_param_names_and_possible_values ) {
+        mapgen_param_names.push_back( name_and_values.first );
+    }
+    cata_assert( std::is_sorted( mapgen_param_names.begin(), mapgen_param_names.end() ) );
+
+    // Then we gather the blueprint params from the recipe
+    std::vector<std::string> bp_param_names;
+    bp_param_names.reserve( bp_params.size() );
+    for( const auto &bp_param : bp_params ) {
+        bp_param_names.push_back( bp_param.first );
+    }
+    // NOLINTNEXTLINE(cata-use-localized-sorting)
+    cata_assert( std::is_sorted( bp_param_names.begin(), bp_param_names.end() ) );
+
+    // And check they match
+    if( mapgen_param_names != bp_param_names ) {
+        debugmsg( "parameter names listed in blueprint do not match those from corresponding "
+                  "update_mapgen id %s.\nBlueprint had %s.\nupdate_mapgen had %s.",
+                  id.str(),
+                  enumerate_as_string( bp_param_names ),
+                  enumerate_as_string( mapgen_param_names ) );
+        return result;
+    }
+
+    // Furthermore, we check that, for each parameter, the set of possible
+    // values in the mapgen matches the set of translated ids in the blueprint
+    for( const auto &bp_param : bp_params ) {
+        const std::string &name = bp_param.first;
+
+        std::vector<std::string> &mapgen_values = mapgen_param_names_and_possible_values[name];
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        std::sort( mapgen_values.begin(), mapgen_values.end() );
+
+        std::vector<std::string> bp_values;
+        for( const std::pair<const std::string, translation> &p : bp_param.second ) {
+            bp_values.push_back( p.first );
+        }
+        cata_assert( std::is_sorted( bp_values.begin(), bp_values.end() ) );
+
+        if( mapgen_values != bp_values ) {
+            debugmsg( "parameter values for parameter %s listed in blueprint do not match those "
+                      "from corresponding update_mapgen id %s.\nBlueprint had %s.\n"
+                      "update_mapgen had %s.",
+                      name,
+                      id.str(),
+                      enumerate_as_string( bp_values ),
+                      enumerate_as_string( mapgen_values ) );
+            return result;
+        }
+    }
+
+    // Each inner vector is a list of (param_name, param_value) pairs where
+    // every param_name is the same, and each param_value is the set of
+    // possible values for that param_name.  Once these lists are assembled we
+    // will need to iterate over their cartesian product to get all the
+    // possible options for parameter choices.
+    std::vector<std::vector<std::pair<std::string, cata_variant>>> option_lists;
+
+    for( const std::string &param_name : bp_param_names ) {
+        option_lists.emplace_back();
+        const mapgen_parameter &mapgen_param = mapgen_params.map.at( param_name );
+        cata_variant_type param_type = mapgen_param.type();
+
+        for( const std::pair<const std::string, translation> &p : bp_params.at( param_name ) ) {
+            cata_variant param_value =
+                cata_variant::from_string( param_type, std::string( p.first ) );
+            option_lists.back().emplace_back( param_name, param_value );
+        }
+    }
+
+    for( const std::vector<std::pair<std::string, cata_variant>> &chosen_params :
+         cata::cartesian_product( option_lists ) ) {
+        result->reqs_by_parameters.emplace(
+            chosen_params,
+            get_build_reqs_for_furn_ter_ids(
+                get_changed_ids_from_update( id, mapgen_arguments{ chosen_params } ) ) );
+    }
+
+    return result;
+}
+
 void recipe::finalize()
 {
     if( bp_autocalc ) {
-        blueprint_reqs =
-            cata::make_value<build_reqs>( get_build_reqs_for_furn_ter_ids(
-                                              get_changed_ids_from_update( blueprint ) ) );
+        bp_build_reqs = calculate_all_blueprint_reqs( blueprint, bp_parameter_names );
     } else if( test_mode && check_blueprint_needs ) {
         check_blueprint_requirements();
     }
 
-    incorporate_build_reqs();
-    blueprint_reqs.reset();
+    if( !blueprint.is_empty() ) {
+        incorporate_build_reqs();
+    } else {
+        // concatenate both external and inline requirements
+        add_requirements( reqs_external );
+        add_requirements( reqs_internal );
 
-    // concatenate both external and inline requirements
-    add_requirements( reqs_external );
-    add_requirements( reqs_internal );
+        reqs_external.clear();
+        reqs_internal.clear();
 
-    reqs_external.clear();
-    reqs_internal.clear();
-
-    deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
+        deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
+    }
 
     if( contained && container.is_null() ) {
         container = item::find_type( result_ )->default_container.value_or( "null" );
@@ -581,7 +700,8 @@ std::string recipe::get_consistency_error() const
     return std::string();
 }
 
-item recipe::create_result() const
+std::vector<item> recipe::create_result( bool set_components, bool is_food,
+        item_components *used ) const
 {
     item newit( result_, calendar::turn, item::default_charges_tag{} );
 
@@ -589,44 +709,81 @@ item recipe::create_result() const
         newit.set_flag( flag_FIT );
     }
 
-    if( charges ) {
-        newit.charges = *charges;
+    // Newly-crafted items are perfect by default. Inspect their materials to see if they shouldn't be
+    if( used ) {
+        newit.inherit_flags( *used, *this );
     }
 
-    if( !newit.craft_has_charges() ) {
-        newit.charges = 0;
-    } else if( result_mult != 1 ) {
-        // TODO: Make it work for charge-less items (update makes amount)
-        newit.charges *= result_mult;
+    for( const flag_id &flag : flags_to_delete ) {
+        newit.unset_flag( flag );
+    }
+
+    // If the recipe has a `FULL_MAGAZINE` flag, fill it with ammo
+    if( newit.is_magazine() && has_flag( flag_FULL_MAGAZINE ) ) {
+        newit.ammo_set( newit.ammo_default(),
+                        newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
+    }
+
+    int amount = charges ? *charges : newit.count();
+
+    bool is_cooked = hot_result() || removes_raw();
+    if( set_components ) {
+        if( is_food ) {
+            newit.components = *used;
+            newit.recipe_charges = amount;
+        } else {
+            newit.components = used->split( amount, 0, is_cooked );
+        }
     }
 
     if( contained ) {
-        if( newit.count_by_charges() ) {
-            newit = newit.in_container( container, newit.charges, sealed );
-        } else {
-            newit = newit.in_container( container, item::INFINITE_CHARGES, sealed );
+        newit = newit.in_container( container, amount, sealed );
+        return { newit };
+    } else if( newit.count_by_charges() ) {
+        newit.charges = amount;
+        return { newit };
+    } else {
+        std::vector<item> items;
+        for( int i = 0; i < amount; i++ ) {
+            if( set_components ) {
+                newit.components = used->split( amount, i, is_cooked );
+            }
+            items.push_back( newit );
         }
+        return items;
     }
-
-    return newit;
 }
 
-std::vector<item> recipe::create_results( int batch ) const
+std::vector<item> recipe::create_results( int batch, item_components *used ) const
 {
     std::vector<item> items;
 
-    const bool by_charges = item::count_by_charges( result_ );
-    if( contained || !by_charges ) {
-        // by_charges items get their charges multiplied in create_result
-        const int num_results = by_charges ? batch : batch * result_mult;
-        for( int i = 0; i < num_results; i++ ) {
-            item newit = create_result();
-            items.push_back( newit );
+    for( int i = 0; i < batch; i++ ) {
+        item_components batch_comps;
+        item temp( result_ );
+        bool is_uncraftable = recipe_dictionary::get_uncraft( result_ ) && !result_->count_by_charges() &&
+                              is_reversible();
+        bool is_food_no_override = temp.is_food() && !temp.has_flag( flag_NUTRIENT_OVERRIDE );
+        bool set_components = used && ( is_uncraftable || is_food_no_override );
+        if( set_components ) {
+            batch_comps = used->split( batch, i );
         }
-    } else {
-        item newit = create_result();
-        newit.charges *= batch;
-        items.push_back( newit );
+        for( int j = 0; j < result_mult; j++ ) {
+            item_components mult_comps = batch_comps.split( result_mult, j );
+            std::vector<item> newits = create_result( set_components, temp.is_food(), &mult_comps );
+
+            for( const item &it : newits ) {
+                // try to combine batch results for liquid handling
+                auto found = std::find_if( items.begin(), items.end(), [it]( const item & rhs ) {
+                    return it.can_combine( rhs );
+                } );
+                if( found != items.end() ) {
+                    found->combine( it );
+                } else {
+                    items.emplace_back( it );
+                }
+            }
+        }
     }
 
     return items;
@@ -760,15 +917,15 @@ static std::string profstring( const prof_penalty &prof,
     }
 
     if( prof.time_mult == 1.0f ) {
-        return string_format( _( "<color_%s>%s</color> (<color_%s>%.2f\u00a0skill penalty</color>%s)" ),
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%.2f\u00a0skill bonus</color>%s)" ),
                               name_color, prof.id->name(), color, prof.skill_penalty, mitigated_str );
     } else if( prof.skill_penalty == 0.0f ) {
-        return string_format( _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0time</color>%s)" ),
+        return string_format( _( "<color_%s>%s</color> (<color_%s>%.2fx\u00a0time</color>%s)" ),
                               name_color, prof.id->name(), color, prof.time_mult, mitigated_str );
     }
 
     return string_format(
-               _( "<color_%s>%s</color> (<color_%s>%.1fx\u00a0time, %.2f\u00a0skill penalty</color>%s)" ),
+               _( "<color_%s>%s</color> (<color_%s>%.2fx\u00a0time, %.2f\u00a0skill bonus</color>%s)" ),
                name_color, prof.id->name(), color, prof.time_mult, prof.skill_penalty, mitigated_str );
 }
 
@@ -787,7 +944,7 @@ std::string recipe::used_proficiencies_string( const Character *c ) const
         }
     }
 
-    std::string color = "light_gray";
+    std::string color = "light_green";
     std::string used = enumerate_as_string( used_profs.begin(),
     used_profs.end(), [&]( const prof_penalty & prof ) {
         return profstring( prof, color );
@@ -876,6 +1033,15 @@ float recipe::proficiency_time_maluses( const Character &crafter ) const
     return total_malus;
 }
 
+float recipe::max_proficiency_time_maluses( const Character & ) const
+{
+    float total_malus = 1.0f;
+    for( const recipe_proficiency &prof : proficiencies ) {
+        total_malus *= prof.time_multiplier;
+    }
+    return total_malus;
+}
+
 static float proficiency_skill_malus( const Character &crafter, const recipe_proficiency &prof )
 {
     if( !crafter.has_proficiency( prof.id ) &&
@@ -896,6 +1062,15 @@ float recipe::proficiency_skill_maluses( const Character &crafter ) const
     float total_malus = 0.f;
     for( const recipe_proficiency &prof : proficiencies ) {
         total_malus += proficiency_skill_malus( crafter, prof );
+    }
+    return total_malus;
+}
+
+float recipe::max_proficiency_skill_maluses( const Character & ) const
+{
+    float total_malus = 0.f;
+    for( const recipe_proficiency &prof : proficiencies ) {
+        total_malus += prof.skill_penalty;
     }
     return total_malus;
 }
@@ -923,7 +1098,7 @@ std::string recipe::missing_proficiencies_string( const Character *crafter ) con
         }
     }
 
-    std::string color = "yellow";
+    std::string color = "dark_gray";
     std::string missing = enumerate_as_string( missing_profs.begin(),
     missing_profs.end(), [&]( const prof_penalty & prof ) {
         return profstring( prof, color, crafter->has_prof_prereqs( prof.id ) ? "cyan" : "red" );
@@ -984,9 +1159,9 @@ std::string recipe::required_skills_string( const Character &c ) const
     return required_skills_as_string( sorted_lex( required_skills ), c );
 }
 
-std::string recipe::required_all_skills_string() const
+std::string recipe::required_all_skills_string( const std::map<skill_id, int> &skills ) const
 {
-    std::vector<std::pair<skill_id, int>> skillList = sorted_lex( required_skills );
+    std::vector<std::pair<skill_id, int>> skillList = sorted_lex( skills );
     // There is primary skill used, add it to the front
     if( skill_used ) {
         skillList.insert( skillList.begin(), std::pair<skill_id, int>( skill_used, difficulty ) );
@@ -1036,7 +1211,7 @@ bool recipe::will_be_blacklisted() const
 std::function<bool( const item & )> recipe::get_component_filter(
     const recipe_filter_flags flags ) const
 {
-    const item result = create_result();
+    const item result( result_ );
 
     // Disallow crafting of non-perishables with rotten components
     // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
@@ -1119,6 +1294,29 @@ const translation &recipe::blueprint_name() const
     return bp_name;
 }
 
+const translation &recipe::blueprint_parameter_ui_string(
+    const std::string &param_name, const cata_variant &arg_value ) const
+{
+    auto param = bp_parameter_names.find( param_name );
+    if( param == bp_parameter_names.end() ) {
+        debugmsg( "Parameter name %s missing from bp_parameter_names in %s",
+                  param_name, ident().str() );
+        static const translation error = to_translation( "[bad param name]" );
+        return error;
+    }
+
+    const TranslationMap &translations = param->second;
+    auto arg = translations.find( arg_value.get_string() );
+    if( arg == translations.end() ) {
+        debugmsg( "Argument value %s missing from bp_parameter_names[\"%s\"] in %s",
+                  arg_value.get_string(), param_name, ident().str() );
+        static const translation error = to_translation( "[bad argument value]" );
+        return error;
+    }
+
+    return arg->second;
+}
+
 const std::vector<itype_id> &recipe::blueprint_resources() const
 {
     return bp_resources;
@@ -1139,16 +1337,35 @@ const std::vector<std::pair<std::string, int>>  &recipe::blueprint_excludes() co
     return bp_excludes;
 }
 
+const parameterized_build_reqs &recipe::blueprint_build_reqs() const
+{
+    if( !bp_build_reqs ) {
+        cata_fatal( "Accessing absent blueprint_build_reqs in recipe %s", ident().str() );
+    }
+    return *bp_build_reqs;
+}
+
 void recipe::check_blueprint_requirements()
 {
     build_reqs total_reqs =
-        get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint ) );
-    requirement_data req_data_blueprint( blueprint_reqs->reqs );
-    requirement_data req_data_calc( total_reqs.reqs );
+        get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint, {} ) );
+    if( bp_build_reqs->reqs_by_parameters.size() != 1 ) {
+        debugmsg( "Cannot check blueprint reqs for blueprints with parameters" );
+        return;
+    }
+    const std::pair<const mapgen_arguments, build_reqs> &no_param_reqs =
+        *bp_build_reqs->reqs_by_parameters.begin();
+    if( !no_param_reqs.first.map.empty() ) {
+        debugmsg( "Cannot check blueprint reqs for blueprints with parameters" );
+        return;
+    }
+    const build_reqs &reqs = no_param_reqs.second;
+    requirement_data req_data_blueprint( reqs.raw_reqs );
+    requirement_data req_data_calc( total_reqs.raw_reqs );
     // do not consolidate req_data_blueprint: it actually changes the meaning of the requirement.
     // instead we enforce specifying the exact consolidated requirement.
     req_data_calc.consolidate();
-    if( blueprint_reqs->time != total_reqs.time || blueprint_reqs->skills != total_reqs.skills
+    if( reqs.time != total_reqs.time || reqs.skills != total_reqs.skills
         || !req_data_blueprint.has_same_requirements_as( req_data_calc ) ) {
         std::ostringstream os;
         JsonOut jsout( os, /*pretty_print=*/true );
@@ -1195,7 +1412,8 @@ void recipe::check_blueprint_requirements()
 
 bool recipe::removes_raw() const
 {
-    return create_result().is_comestible() && !create_result().has_flag( flag_RAW );
+    item result( result_ );
+    return result.is_comestible() && !result.has_flag( flag_RAW );
 }
 
 bool recipe::hot_result() const
@@ -1216,7 +1434,7 @@ bool recipe::hot_result() const
     // the check includes this tool in addition to the hotplate.
     //
     // TODO: Make this less of a hack
-    if( create_result().has_temperature() ) {
+    if( item( result_ ).has_temperature() ) {
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
@@ -1231,33 +1449,32 @@ bool recipe::hot_result() const
 
 int recipe::makes_amount() const
 {
-    int makes_charges = 1;  // stays 1 if item isn't counted in charges
+    int makes = 1;
     if( charges.has_value() ) {
-        makes_charges = charges.value();
+        makes = charges.value();
     } else if( item::count_by_charges( result_ ) ) {
-        makes_charges = item::find_type( result_ )->charges_default();
+        makes = item::find_type( result_ )->charges_default();
     }
-    return makes_charges * result_mult;
+    return makes * result_mult;
 }
 
 void recipe::incorporate_build_reqs()
 {
-    if( !blueprint_reqs ) {
-        return;
+    if( !bp_build_reqs ) {
+        bp_build_reqs = cata::make_value<parameterized_build_reqs>();
     }
 
-    time += blueprint_reqs->time;
+    for( std::pair<const mapgen_arguments, build_reqs> &p : bp_build_reqs->reqs_by_parameters ) {
+        build_reqs &reqs = p.second;
+        reqs.time += time;
 
-    for( const std::pair<const skill_id, int> &p : blueprint_reqs->skills ) {
-        int &val = required_skills[p.first];
-        val = std::max( val, p.second );
+        for( const std::pair<const skill_id, int> &p : required_skills ) {
+            int &val = reqs.skills[p.first];
+            val = std::max( val, p.second );
+        }
+
+        reqs.consolidate( reqs_internal, reqs_external );
     }
-
-    requirement_data req_data( blueprint_reqs->reqs );
-    req_data.consolidate();
-    const requirement_id req_id( "autocalc_blueprint_" + ident_.str() );
-    requirement_data::save_requirement( req_data, req_id );
-    reqs_internal.emplace_back( req_id, 1 );
 }
 
 void recipe_proficiency::deserialize( const JsonObject &jo )

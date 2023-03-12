@@ -152,7 +152,7 @@
       [ "dry_beans", 20 ],
       [ "dry_lentils", 50 ],
       [ "cookies", 25 ],
-      [ "bread", 40 ]
+      { "item": "bread", "charges": 14, "prob": 40 }
     ]
   },
   {
@@ -1276,7 +1276,7 @@
       [ "irradiated_strawberries", 5 ],
       [ "chocolate", 20 ],
       [ "waffleiron", 60 ],
-      [ "bread", 30 ],
+      { "item": "bread", "charges": 14, "prob": 30 },
       [ "peanutbutter", 20 ],
       [ "pot", 80 ]
     ]
@@ -2024,7 +2024,13 @@
   {
     "id": "daycare_kitchen",
     "type": "item_group",
-    "items": [ [ "oj", 35 ], [ "cooked_pumpkin", 25 ], [ "bread", 10 ], [ "fruit_waffles", 5 ], [ "grahmcrackers", 5 ] ]
+    "items": [
+      [ "oj", 35 ],
+      [ "cooked_pumpkin", 25 ],
+      { "item": "bread", "charges": 14, "prob": 10 },
+      [ "fruit_waffles", 5 ],
+      [ "grahmcrackers", 5 ]
+    ]
   },
   {
     "id": "gym",
