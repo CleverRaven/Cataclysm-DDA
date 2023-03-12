@@ -376,10 +376,10 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         bool failed_to_start = false;
         bool turned_on_gas_engine = false;
         for( size_t i = 0; i < c_engines.size(); ++i ) {
-            const vehicle_part &vp = parts[engines[c_engines[i]]];
+            vehicle_part &vp = parts[engines[c_engines[i]]];
             // ..0.. < ..1..  was off, new state on
             if( ( prev_mask & ( 1 << i ) ) < ( opt_mask & ( 1 << i ) ) ) {
-                if( !start_engine( c_engines[i], true ) ) {
+                if( !start_engine( vp, true ) ) {
                     failed_to_start = true;
                 }
                 turned_on_gas_engine |= !is_engine_type( vp, fuel_type_battery );
@@ -402,9 +402,10 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
         } else {  //successfully changed engines state
             for( size_t i = 0; i < c_engines.size(); ++i ) {
+                vehicle_part &vp = parts[engines[c_engines[i]]];
                 // was on, needs to be off
                 if( ( prev_mask & ( 1 << i ) ) > ( opt_mask & ( 1 << i ) ) ) {
-                    start_engine( c_engines[i], false );
+                    start_engine( vp, false );
                 }
             }
             if( turned_on_gas_engine ) {

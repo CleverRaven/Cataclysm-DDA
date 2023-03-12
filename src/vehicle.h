@@ -946,7 +946,7 @@ class vehicle
         // Try select any fuel for engine, returns true if some fuel is available
         bool auto_select_fuel( vehicle_part &vp );
         // Attempt to start an engine
-        bool start_engine( int e );
+        bool start_engine( vehicle_part &vp );
         // stop all engines
         void stop_engines();
         // Attempt to start the vehicle's active engines
@@ -1839,7 +1839,7 @@ class vehicle
         // try to turn engine on or off
         // (tries to start it and toggles it on if successful, shutdown is always a success)
         // returns true if engine status was changed
-        bool start_engine( int e, bool turn_on );
+        bool start_engine( vehicle_part &vp, bool turn_on );
         void toggle_specific_part( int p, bool on );
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true

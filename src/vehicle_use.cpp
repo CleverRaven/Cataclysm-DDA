@@ -609,9 +609,8 @@ bool vehicle::auto_select_fuel( vehicle_part &vp )
     return false; // not a single fuel type left for this engine
 }
 
-bool vehicle::start_engine( const int e )
+bool vehicle::start_engine( vehicle_part &eng )
 {
-    vehicle_part &eng = parts[engines[e]];
     const vpart_info &einfo = eng.info();
     if( !is_engine_on( eng ) ) {
         return false;

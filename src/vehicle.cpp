@@ -4741,22 +4741,22 @@ std::pair<int, int> vehicle::connected_battery_power_level() const
     return std::make_pair( remaining_epower, total_epower_capacity );
 }
 
-bool vehicle::start_engine( int e, bool turn_on )
+bool vehicle::start_engine( vehicle_part &vp, bool turn_on )
 {
-    if( parts[engines[e]].enabled == turn_on ) {
+    if( vp.enabled == turn_on ) {
         return false;
     }
     bool res = false;
     if( turn_on ) {
-        toggle_specific_engine( e, true );
+        vp.enabled = true;
         // prevent starting of the faulty engines
-        if( ! start_engine( e ) ) {
-            toggle_specific_engine( e, false );
+        if( !start_engine( vp ) ) {
+            vp.enabled = false;
         } else {
             res = true;
         }
     } else {
-        toggle_specific_engine( e, false );
+        vp.enabled = false;
         res = true;
     }
     return res;
