@@ -109,7 +109,7 @@
     "aggression": 100,
     "morale": 100,
     "weakpoint_sets": [ "wps_amalgamation_base" ],
-    "families": [ "prof_wp_amalgamation" ],
+    "families": [ "prof_intro_biology", "prof_wp_amalgamation" ],
     "harvest": "zombie_amalgamation",
     "//": "TODO: When effects/spells can mess with path settings + flags move smartness to the effect of dedicated coordinatiors",
     "path_settings": { "avoid_sharp": true, "avoid_traps": true, "max_dist": 400 },
@@ -208,7 +208,7 @@
       { "id": "acid_charge" }
     ],
     "harvest": "zombie_amalgamation_acid",
-    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ], "weakpoint_sets": [ "wps_amalgamation_acid" ] }
+    "extend": { "flags": [ "ACIDPROOF", "ACID_BLOOD" ], "families": [ "prof_biochemistry" ], "weakpoint_sets": [ "wps_amalgamation_acid" ] }
   },
   {
     "type": "MONSTER",
@@ -282,7 +282,7 @@
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": { "effect": { "id": "death_shock_blast", "hit_self": true } },
     "harvest": "zombie_amalgamation_electric",
-    "extend": { "flags": [ "ELECTRIC" ], "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_electric" ] }
+    "extend": { "flags": [ "ELECTRIC" ], "families": [ "prof_electromagnetics" ], "weakpoint_sets": [ "wps_amalgamation_armor", "wps_amalgamation_electric" ] }
   },
   {
     "type": "MONSTER",

@@ -22,6 +22,7 @@
     "dodge": 1,
     "armor_bash": 8,
     "armor_elec": 2,
+    "families": [ "prof_intro_biology" ],
     "harvest": "zombie_leather",
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN" ]
@@ -53,6 +54,7 @@
     "armor_cut": 5,
     "armor_bullet": 4,
     "armor_elec": 3,
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 20 ], [ "ZOMBIE_FUSE", 80 ] ],

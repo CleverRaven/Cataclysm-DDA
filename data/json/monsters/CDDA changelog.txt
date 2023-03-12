@@ -1,0 +1,45 @@
+--- GENERAL TWEAKS
+- Renamed Large Humanoids proficiency to Giant Humanoids, to clarify that it does not apply to somewhat large humanoids, like brutes, and only works on hulks and similar.
+- Changed description of Natural Armors proficiency, as many enemies that used this proficiency had something more like a thick hide than any kind of shell. I justify this decision because the corresponding natural armor weakpoint set only contains descriptions for thick hides, not carapace and plates.
+- Renamed Natural Armor weakpoint set (wps_natural_armor) to wps_armored_hide, to better reflect its purpose and to avoid confusion with the unrelated Natural Armor proficiency, as well as to prevent its misapplication to monsters which have more of a carapace or plate armor thing going on. Natural Armors proficiency should be reserved for uniquely resilient armored foes, like kevlar zombies, whereas armored hide applies to anything with a particularly thick hide, even if not outrageously so.
+--- ZOMBIES
+-- ACID ZOMBIES
+- Edited description of Corrosive Zombie to hint at its thick hide. Corrosive zombie now also trains Natural Armor proficiency.
+- Spitter now has big head weakpoint set, based on description.
+-- AMALGAMATIONS (Their file is named like the zombie files so I put them here)
+- All amalgamations now have intro_biology in their families. This should really be on any living creature of flesh and blood, with exceptions only for stuff like robots, physics-defying nether creatures, extra-dimensional anomalies, and the cafeteria meatloaf. I didn't add this to the cocoons because I wasn't sure if that made sense to do.
+- Caustic amalgamation now trains biochemistry, like acid zombies do.
+- Charged amalgamation now trains electromagnetics, like zapper zombies do.
+-- BURNED ZOMBIES
+- Fixed a typo in the description for Zombie Kinderlings.
+- Zombie Fiend now trains Ossified Exoskeletons. Thought I added that one earlier.
+- Scorched Zombie now gets Armored Hide weakpoints due to its "leathery shell".
+-- FERROUS ZOMBIES
+- Removed Armored Hides weakpoint set from rust shell zombie and plated zombie. Could possibly apply Ossified Exoskeletons to them, but I'm not sure.
+-- COMMAND ZOMBIES
+- Slight description tweaks, typo fix.
+-- FUSED ZOMBIES
+- Added proficiencies to Aberration and Dissoluted Devourer. Aberration doesn't give zombie bio because it isn't an actual zombie.
+-- LAB ZOMBIES
+- Removed zombie bio from phase skulker, phase shrike, etc, as they aren't actually zombies.
+- Gave phase shrike Ossified Exoskeletons proficiency.
+-- MISC ZOMBIES
+- Added basic proficiencies to zombullfrog, frogmother, zombie nemesis, smoker
+- Added basic weakpoints to smoker.
+- Headless Horror trains giant humanoids proficiency, based on description.
+- Removed Malicious Mane's natural armor training and body armor weakpoints, as it had no natural armor (or armor at all, for that matter).
+-- RADIATION ZOMBIES
+- Added standard proficiencies and weakpoints to all of them.
+-- SOLDIER ZOMBIES
+- Replaced body armor weakpoint set with armored hide.
+- Removed military pilot's synthetic armor proficiency
+-- ANIMAL ZOMBIES
+- Gave gastro bufo standard proficiencies and biochemistry.
+-- CLASSIC ZOMBIES
+- Replaced beekeper's body armor weakpoints with armored hide weakpoints
+-- PUPATING ZOMBIES
+- Added expected proficiencies and weakpoints to pupating hulks, as they were the only pupa zombies that didn't have a copy-from pointing to the base type, and did not include this information.
+I noticed that most things that disappear on death - boomers, certain cocoons, etc. - tend not to have weakpoints or train proficiencies. Is this an oversight, or is this intentional? For now I left that as is.
+-- FLYING ZOMBIES
+- Gave raptors standard and flying proficiencies.
+- Electric raptor also teaches electromagnetics, like electric zombies.
