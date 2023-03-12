@@ -3003,7 +3003,7 @@ cata::optional<int> iuse::clear_rubble( Character *p, item */* it */, bool t, co
         return it.str_id == construction_constr_clear_rubble;
     } );
 
-    place_construction( build->group );
+    place_construction( { build->group } );
     return 0;
 }
 
