@@ -407,6 +407,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "health_limit", health_limit, 1 );
     optional( jo, was_loaded, "techniques", techniques );
     optional( jo, was_loaded, "technique_encumbrance_limit", technique_enc_limit, 50 );
+    optional( jo, was_loaded, "bmi_encumbrance_threshold", bmi_encumbrance_threshold, 999 );
+    optional( jo, was_loaded, "bmi_encumbrance_scalar", bmi_encumbrance_scalar, 0 );
 
     if( jo.has_member( "limb_scores" ) ) {
         limb_scores.clear();
@@ -1051,6 +1053,16 @@ int bodypart::get_temp_cur() const
 int bodypart::get_temp_conv() const
 {
     return temp_conv;
+}
+
+int bodypart::get_bmi_encumbrance_threshold() const
+{
+    return id->bmi_encumbrance_threshold;
+}
+
+float bodypart::get_bmi_encumbrance_scalar() const
+{
+    return id->bmi_encumbrance_scalar;
 }
 
 std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
