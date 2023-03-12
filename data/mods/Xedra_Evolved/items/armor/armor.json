@@ -86,7 +86,7 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_coat_fur",
+    "id": "xs_coat_glimmer_fur",
     "type": "ARMOR",
     "copy-from": "coat_glimmer_fur",
     "looks_like": "coat_glimmer_fur",
