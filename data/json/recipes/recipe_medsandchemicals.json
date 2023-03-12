@@ -1990,7 +1990,7 @@
       { "proficiency": "prof_biochemistry" },
       { "proficiency": "prof_intro_chem_synth" }
     ],
-    "//": "Should likely come from an entomology text, or something similar, in the future; but still relatively basic.",
+    "//1": "Should likely come from an entomology text, or something similar, in the future; but still relatively basic.",
     "tools": [ [ [ "funnel", -1 ] ] ],
     "components": [ [ [ "wasp_sting", 1 ], [ "bee_sting", 1 ] ] ]
   },
