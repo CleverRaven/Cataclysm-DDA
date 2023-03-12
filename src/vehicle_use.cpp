@@ -351,7 +351,7 @@ void vehicle::control_engines()
                     vehicle_part &vp = parts[engine_idx];
                     if( vp.fuel_current() == fuel_type )
                     {
-                        toggle_specific_part( engine_idx, !is_part_on( engine_idx ) );
+                        vp.enabled = !vp.enabled;
                     } else
                     {
                         vp.fuel_set( fuel_type );
@@ -367,8 +367,9 @@ void vehicle::control_engines()
     }
 
     bool engines_were_on = engine_on;
-    for( int e : engines ) {
-        engine_on |= is_part_on( e );
+    for( const int p : engines ) {
+        const vehicle_part &vp = parts[p];
+        engine_on |= vp.enabled;
     }
 
     // if current velocity greater than new configuration safe speed

@@ -1826,21 +1826,16 @@ class vehicle
         bool is_engine_type_on( const vehicle_part &vp, const itype_id &ft ) const;
         //returns whether the engine is enabled or not
         bool is_engine_on( const vehicle_part &vp ) const;
-        //returns whether the part is enabled or not
-        bool is_part_on( int p ) const;
         //returns whether the engine uses specified fuel type
         bool is_engine_type( const vehicle_part &vp, const itype_id &ft ) const;
         //returns whether the engine uses one of specific "combustion" fuel types (gas, diesel and diesel substitutes)
         bool is_engine_type_combustion( const vehicle_part &vp ) const;
         //returns whether the alternator is operational
         bool is_alternator_on( int a ) const;
-        //turn engine as on or off (note: doesn't perform checks if engine can start)
-        void toggle_specific_engine( int e, bool on );
         // try to turn engine on or off
         // (tries to start it and toggles it on if successful, shutdown is always a success)
         // returns true if engine status was changed
         bool start_engine( vehicle_part &vp, bool turn_on );
-        void toggle_specific_part( int p, bool on );
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type( const itype_id &ft, bool enabled ) const;

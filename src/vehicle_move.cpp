@@ -303,11 +303,11 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
         bool gas_engine_to_shut_down = false;
         for( size_t i = 0; i < c_engines.size(); ++i ) {
-            const vehicle_part &vp = parts[engines[c_engines[i]]];
+            vehicle_part &vp = parts[engines[c_engines[i]]];
             bool old_state = ( prev_mask & ( 1 << i ) ) != 0;
             bool new_state = ( mask & ( 1 << i ) ) != 0;
             // switching enabled flag temporarily to perform calculations below
-            toggle_specific_engine( c_engines[i], new_state );
+            vp.enabled = new_state;
 
             if( old_state && !new_state && !is_engine_type( vp, fuel_type_battery ) ) {
                 gas_engine_to_shut_down = true;
@@ -369,7 +369,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     }
 
     for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
-        toggle_specific_engine( c_engines[i], static_cast<bool>( prev_mask & ( 1 << i ) ) );
+        vehicle_part &vp = parts[engines[c_engines[i]]];
+        vp.enabled = static_cast<bool>( prev_mask & ( 1 << i ) );
     }
 
     if( opt_mask != prev_mask ) { // we found new configuration
@@ -389,7 +390,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             this->smart_controller_state = cata::nullopt;
 
             for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
-                toggle_specific_engine( c_engines[i], static_cast<bool>( prev_mask & ( 1 << i ) ) );
+                vehicle_part &vp = parts[engines[c_engines[i]]];
+                vp.enabled = static_cast<bool>( prev_mask & ( 1 << i ) );
             }
             for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
                 vp.part().enabled = false;

@@ -903,14 +903,6 @@ int vehicle::lift_strength() const
     return std::max<std::int64_t>( mass / 10000_gram, 1 );
 }
 
-void vehicle::toggle_specific_engine( int e, bool on )
-{
-    toggle_specific_part( engines[e], on );
-}
-void vehicle::toggle_specific_part( int p, bool on )
-{
-    parts[p].enabled = on;
-}
 bool vehicle::is_engine_type_on( const vehicle_part &vp, const itype_id &ft ) const
 {
     return is_engine_on( vp ) && is_engine_type( vp, ft );
@@ -980,11 +972,6 @@ bool vehicle::is_perpetual_type( const vehicle_part &vp ) const
 bool vehicle::is_engine_on( const vehicle_part &vp ) const
 {
     return vp.is_available() && vp.enabled;
-}
-
-bool vehicle::is_part_on( const int p ) const
-{
-    return parts[p].enabled;
 }
 
 bool vehicle::is_alternator_on( const int a ) const
@@ -1918,8 +1905,9 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     if( part_flag( p, "ENGINE" ) && engines.size() > 1 ) {
         bool any_engine_on = false;
 
-        for( const int &e : engines ) {
-            if( e != p && is_part_on( e ) ) {
+        for( const int e : engines ) {
+            const vehicle_part &vp = parts[e];
+            if( e != p && vp.enabled ) {
                 any_engine_on = true;
                 break;
             }
@@ -1927,8 +1915,9 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
         if( !any_engine_on ) {
             engine_on = false;
-            for( const int &e : engines ) {
-                toggle_specific_part( e, true );
+            for( const int p : engines ) {
+                vehicle_part &vp = parts[p];
+                vp.enabled = true;
             }
         }
     }
@@ -3354,13 +3343,15 @@ int64_t vehicle::fuel_left( const itype_id &ftype, bool recurse,
         //if the engine in the player tile is a muscle engine, and player is controlling vehicle
         if( vp && &vp->vehicle() == this && player_controlling ) {
             const int p = avail_part_with_feature( vp->part_index(), VPFLAG_ENGINE );
-            if( p >= 0 && is_part_on( p ) && part_info( p ).fuel_type == fuel_type_muscle ) {
-                //Broken limbs prevent muscle engines from working
-                if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) &&
-                      ( player_character.get_working_leg_count() >= 2 ) ) ||
-                    ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
-                      player_character.has_two_arms_lifting() ) ) {
-                    fl += 10;
+            if( p >= 0 ) {
+                const vehicle_part &vp = parts[p];
+                const vpart_info &vpi = vp.info();
+                if( vp.enabled && vpi.fuel_type == fuel_type_muscle ) {
+                    // intact limbs allow using muscle engines from working
+                    if( ( vpi.has_flag( "MUSCLE_LEGS" ) && player_character.get_working_leg_count() >= 2 ) ||
+                        ( vpi.has_flag( "MUSCLE_ARMS" ) && player_character.has_two_arms_lifting() ) ) {
+                        fl += 10;
+                    }
                 }
             }
         }
