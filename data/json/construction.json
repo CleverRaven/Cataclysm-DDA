@@ -7221,6 +7221,7 @@
     "id": "constr_clear_rubble_radioactive_slag",
     "group": "clear_rubble",
     "category": "OTHER",
+    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 100 ], [ "elec_jackhammer", 1320 ] ] ],
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
