@@ -953,7 +953,7 @@ class vehicle
         void start_engines( bool take_control = false, bool autodrive = false );
 
         // Engine backfire, making a loud noise
-        void backfire( int e ) const;
+        void backfire( const vehicle_part &vp ) const;
 
         // get vpart type info for part number (part at given vector index)
         const vpart_info &part_info( int index, bool include_removed = false ) const;

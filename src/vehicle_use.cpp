@@ -646,7 +646,7 @@ bool vehicle::start_engine( const int e )
     if( einfo.engine_backfire_threshold() ) {
         if( ( 1 - dmg ) < einfo.engine_backfire_threshold() &&
             one_in( einfo.engine_backfire_freq() ) ) {
-            backfire( e );
+            backfire( eng );
         } else {
             sounds::sound( pos, start_moves / 10, sounds::sound_t::movement,
                            string_format( _( "the %s bang as it starts!" ), eng.name() ), true, "vehicle",
