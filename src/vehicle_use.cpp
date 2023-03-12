@@ -557,24 +557,23 @@ void vehicle::connect( const tripoint &source_pos, const tripoint &target_pos )
     target_veh->install_part( vcoords, target_part );
 }
 
-double vehicle::engine_cold_factor( const int e ) const
+double vehicle::engine_cold_factor( const vehicle_part &vp ) const
 {
-    if( !part_info( engines[e] ).has_flag( "E_COLD_START" ) ) {
+    if( !vp.info().has_flag( "E_COLD_START" ) ) {
         return 0.0;
     }
 
-    double eff_temp = units::to_fahrenheit( get_weather().get_temperature(
-            get_player_character().pos() ) );
-    if( !parts[ engines[ e ] ].has_fault_flag( "BAD_COLD_START" ) ) {
+    const tripoint pos = global_part_pos3( vp );
+    double eff_temp = units::to_fahrenheit( get_weather().get_temperature( pos ) );
+    if( !vp.has_fault_flag( "BAD_COLD_START" ) ) {
         eff_temp = std::min( eff_temp, 20.0 );
     }
 
     return 1.0 - ( std::max( 0.0, std::min( 30.0, eff_temp ) ) / 30.0 );
 }
 
-int vehicle::engine_start_time( const int e ) const
+int vehicle::engine_start_time( const vehicle_part &vp ) const
 {
-    const vehicle_part &vp = parts[engines[e]];
     if( !is_engine_on( vp ) || vp.info().has_flag( "E_STARTS_INSTANTLY" ) || !engine_fuel_left( vp ) ) {
         return 0;
     }
@@ -583,11 +582,12 @@ int vehicle::engine_start_time( const int e ) const
 
     // non-linear range [100-1000]; f(0.0) = 100, f(0.6) = 250, f(0.8) = 500, f(0.9) = 1000
     // diesel engines with working glow plugs always start with f = 0.6 (or better)
-    const double cold = 100 / tanh( 1 - std::min( engine_cold_factor( e ), 0.9 ) );
+    const double cold = 100 / tanh( 1 - std::min( engine_cold_factor( vp ), 0.9 ) );
 
     // divided by magic 16 = watts / 6000
     const double watts_per_time = 6000;
-    return units::to_watt( part_vpower_w( engines[ e ], true ) ) / watts_per_time + 100 * dmg + cold;
+    const double engine_watts = units::to_watt( part_vpower_w( index_of_part( &vp ), true ) );
+    return engine_watts / watts_per_time + 100 * dmg + cold;
 }
 
 // NOLINTNEXTLINE(readability-make-member-function-const)
@@ -639,8 +639,8 @@ bool vehicle::start_engine( const int e )
 
     const double dmg = eng.damage_percent();
     const units::power engine_power = -part_epower( engines[e] );
-    const double cold_factor = engine_cold_factor( e );
-    const int start_moves = engine_start_time( e );
+    const double cold_factor = engine_cold_factor( eng );
+    const int start_moves = engine_start_time( eng );
     const tripoint pos = global_part_pos3( eng );
 
     if( einfo.engine_backfire_threshold() ) {
@@ -774,7 +774,7 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
             has_starting_engine_position = true;
         }
         has_engine = has_engine || is_engine_on( vp );
-        start_time = std::max( start_time, engine_start_time( e ) );
+        start_time = std::max( start_time, engine_start_time( vp ) );
     }
 
     if( !has_starting_engine_position ) {

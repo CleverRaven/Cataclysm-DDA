@@ -787,10 +787,10 @@ class vehicle
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
-        int engine_start_time( int e ) const;
+        int engine_start_time( const vehicle_part &vp ) const;
 
         // How much does the temperature effect the engine starting (0.0 - 1.0)
-        double engine_cold_factor( int e ) const;
+        double engine_cold_factor( const vehicle_part &vp ) const;
 
         // refresh pivot_cache, clear pivot_dirty
         void refresh_pivot() const;
