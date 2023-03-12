@@ -2837,6 +2837,33 @@
   },
   {
     "type": "vehicle_part",
+    "id": "omnicamera_reinforced",
+    "copy-from": "omnicam",
+    "looks_like": "omnicam",
+    "name": { "str": "reinforced security camera" },
+    "symbol": "o",
+    "categories": [ "operations" ],
+    "color": "light_red",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "durability": 300,
+    "description": "A small camera encased in a protective metal cage.  Will relay what it can see to a camera control station.",
+    "folded_volume": "2 L",
+    "bonus": 24,
+    "item": "omnicamera_reinforced",
+    "epower": -10,
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
+    },
+    "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ],
+    "breaks_into": [ { "item": "e_scrap", "count": [ 6, 20 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "robot_controls",
     "name": { "str": "robot controls" },
     "symbol": "&",
