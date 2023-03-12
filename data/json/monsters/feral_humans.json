@@ -1093,7 +1093,7 @@
     "description": "They just stand there, staring into the void, with a vacant expression on their face.  Barely moving, they will probably fall to the undead horde soon.",
     "speed": 20,
     "diff": 0,
-    "copy-from": "mon_panicked_person",
+    "copy-from": "mon_feral_panic",
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ]
   },
   {
@@ -1101,7 +1101,7 @@
     "type": "MONSTER",
     "name": { "str": "futile fighter" },
     "description": "Obviously, this aggravated yet rallied human has lost their wits and tries to fight the undead with just a stick in their hands.",
-    "copy-from": "mon_panicked_person",
+    "copy-from": "mon_feral_panic",
     "aggression": 100,
     "morale": 100,
     "melee_skill": 3,
