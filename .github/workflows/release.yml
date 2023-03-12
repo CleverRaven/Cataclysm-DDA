@@ -116,7 +116,7 @@ jobs:
             content: application/zip
             sound: 1
           - name: Linux Tiles x64
-            os: ubuntu-18.04
+            os: ubuntu-latest
             mxe: none
             android: none
             tiles: 1
@@ -125,7 +125,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Tiles Sounds x64
-            os: ubuntu-18.04
+            os: ubuntu-latest
             mxe: none
             android: none
             tiles: 1
@@ -134,7 +134,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Curses x64
-            os: ubuntu-18.04
+            os: ubuntu-latest
             mxe: none
             android: none
             tiles: 0

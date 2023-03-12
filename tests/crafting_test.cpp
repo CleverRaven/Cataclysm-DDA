@@ -57,7 +57,7 @@ static const itype_id itype_sheet_cotton( "sheet_cotton" );
 static const itype_id itype_test_cracklins( "test_cracklins" );
 static const itype_id itype_test_gum( "test_gum" );
 static const itype_id itype_thread( "thread" );
-static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
 
 static const morale_type morale_food_good( "morale_food_good" );
 
@@ -130,8 +130,8 @@ TEST_CASE( "recipe_subset" )
                 CHECK( cat_recipes.size() == 1 );
                 CHECK( std::find( cat_recipes.begin(), cat_recipes.end(), r ) != cat_recipes.end() );
             }
-            THEN( "it uses water" ) {
-                const auto &comp_recipes( subset.of_component( itype_water ) );
+            THEN( "it uses clean water" ) {
+                const auto &comp_recipes( subset.of_component( itype_water_clean ) );
 
                 CHECK( comp_recipes.size() == 1 );
                 CHECK( comp_recipes.find( r ) != comp_recipes.end() );
@@ -824,11 +824,11 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
 
         // Charges needed to craft:
         // - 10 charges of soldering iron
-        // - 10 charges of surface heat
+        // - 20 charges of surface heat
 
         WHEN( "each tool has enough charges" ) {
-            item hotplate = tool_with_ammo( "hotplate", 30 );
-            REQUIRE( hotplate.ammo_remaining() == 30 );
+            item hotplate = tool_with_ammo( "hotplate_induction", 500 );
+            REQUIRE( hotplate.ammo_remaining() == 500 );
             tools.push_back( hotplate );
             item soldering = tool_with_ammo( "soldering_iron", 20 );
             REQUIRE( soldering.ammo_remaining() == 20 );
@@ -841,20 +841,20 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
                 prep_craft( recipe_carver_off, tools, true );
                 int turns = actually_test_craft( recipe_carver_off, INT_MAX );
                 CAPTURE( turns );
-                CHECK( get_remaining_charges( "hotplate" ) == 10 );
+                CHECK( get_remaining_charges( "hotplate_induction" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 10 );
             }
         }
 
         WHEN( "multiple tools have enough combined charges" ) {
-            tools.insert( tools.end(), 2, tool_with_ammo( "hotplate", 5 ) );
+            tools.insert( tools.end(), 2, tool_with_ammo( "hotplate_induction", 250 ) );
             tools.insert( tools.end(), 2, tool_with_ammo( "soldering_iron", 5 ) );
             tools.insert( tools.end(), 1, tool_with_ammo( "vac_mold", 4 ) );
 
             THEN( "crafting succeeds, and uses charges from multiple tools" ) {
                 prep_craft( recipe_carver_off, tools, true );
                 actually_test_craft( recipe_carver_off, INT_MAX );
-                CHECK( get_remaining_charges( "hotplate" ) == 0 );
+                CHECK( get_remaining_charges( "hotplate_induction" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
             }
         }
@@ -868,7 +868,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
             tools.push_back( soldering_iron );
             item UPS( "UPS_off" );
             item UPS_mag( UPS.magazine_default() );
-            UPS_mag.ammo_set( UPS_mag.ammo_default(), 510 );
+            UPS_mag.ammo_set( UPS_mag.ammo_default(), 1000 );
             UPS.put_in( UPS_mag, item_pocket::pocket_type::MAGAZINE_WELL );
             tools.emplace_back( UPS );
             tools.push_back( tool_with_ammo( "vac_mold", 4 ) );
@@ -878,7 +878,7 @@ TEST_CASE( "tools use charge to craft", "[crafting][charge]" )
                 actually_test_craft( recipe_carver_off, INT_MAX );
                 CHECK( get_remaining_charges( "hotplate" ) == 0 );
                 CHECK( get_remaining_charges( "soldering_iron" ) == 0 );
-                CHECK( get_remaining_charges( "UPS_off" ) == 480 );
+                CHECK( get_remaining_charges( "UPS_off" ) == 290 );
             }
         }
 
@@ -908,7 +908,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
 {
     SECTION( "clean_water" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
@@ -920,31 +920,31 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
     }
     SECTION( "clean_water_in_loaded_mess_kit" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
-        tools.push_back( tool_with_ammo( "mess_kit", 20 ) );
+        tools.push_back( tool_with_ammo( "mess_kit", 500 ) );
 
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
     }
     SECTION( "clean_water_in_loaded_survivor_mess_kit" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
-        tools.push_back( tool_with_ammo( "survivor_mess_kit", 20 ) );
+        tools.push_back( tool_with_ammo( "survivor_mess_kit", 500 ) );
 
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
     }
     SECTION( "clean_water_in_occupied_cooking_vessel" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
@@ -959,7 +959,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
     }
     SECTION( "clean_water with broken tool" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 20 ) );
+        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in(
             item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
@@ -2124,12 +2124,14 @@ TEST_CASE( "tools with charges as components", "[crafting]" )
 
 // This test makes sure that rot is inherited properly when crafting. See the comments on
 // inherit_rot_from_components for a description of what "inheritied properly" means
+// using a default hotplate the macaroni uses 35x7 = 245 charges of hotplate, meat uses 35x20 = 700 charges of hotplate and 80x30 = 2400 charges of dehydrator
+// looks like tool_with_ammo cannot spawn a hotplate/dehydrator with more than 500 charges, so until the default battery is changed I'm giving player 10 of each
 TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
 {
     Character &player_character = get_player_character();
     std::vector<item> tools;
-    tools.emplace_back( tool_with_ammo( "hotplate", 30 ) );
-    tools.emplace_back( tool_with_ammo( "dehydrator", 500 ) );
+    tools.insert( tools.end(), 10, tool_with_ammo( "hotplate", 500 ) );
+    tools.insert( tools.end(), 10, tool_with_ammo( "dehydrator", 500 ) );
     tools.emplace_back( item( "pot_canning" ) );
     tools.emplace_back( item( "knife_butcher" ) );
 
@@ -2137,14 +2139,14 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
 
         item macaroni( "macaroni_raw" );
         item cheese( "cheese" );
-        item water( "water" );
+        item water_clean( "water_clean" );
 
         macaroni.set_rot( macaroni.get_shelf_life() - 1_hours );
         REQUIRE( cheese.get_shelf_life() - cheese.get_rot() > 1_hours );
 
         tools.insert( tools.end(), 1, macaroni );
         tools.insert( tools.end(), 1, cheese );
-        tools.insert( tools.end(), 1, water );
+        tools.insert( tools.end(), 1, water_clean );
 
         WHEN( "crafting the mac and cheese" ) {
             prep_craft( recipe_macaroni_cooked, tools, true );
@@ -2163,14 +2165,14 @@ TEST_CASE( "recipes inherit rot of components properly", "[crafting][rot]" )
     GIVEN( "fresh macaroni and fresh cheese" ) {
         item macaroni( "macaroni_raw" );
         item cheese( "cheese" );
-        item water( "water" );
+        item water_clean( "water_clean" );
 
         REQUIRE( macaroni.get_rot() == 0_turns );
         REQUIRE( cheese.get_rot() == 0_turns );
 
         tools.insert( tools.end(), 1, macaroni );
         tools.insert( tools.end(), 1, cheese );
-        tools.insert( tools.end(), 1, water );
+        tools.insert( tools.end(), 1, water_clean );
 
         WHEN( "crafting the mac and cheese" ) {
             prep_craft( recipe_macaroni_cooked, tools, true );

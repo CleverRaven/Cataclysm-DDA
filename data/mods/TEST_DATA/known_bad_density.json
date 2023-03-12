@@ -2,7 +2,6 @@
   {
     "type": "test_data",
     "known_bad": [
-      "bread",
       "8mm_inc",
       "meal_chitin_piece",
       "blood",
@@ -65,7 +64,6 @@
       "folding_solar_panel_v2",
       "broken_mech_combat",
       "beer",
-      "chem_hexamine",
       "sandwich_sauce_wheat_free",
       "mutant_human_flesh",
       "adobe_pallet_full",
@@ -279,7 +277,6 @@
       "dried_salad",
       "AID_bio_geiger",
       "8mm_caseless",
-      "sandwich_sauce",
       "lung_provence",
       "portal",
       "dandelion_tea",
@@ -725,7 +722,6 @@
       "mutant_human_cracklins",
       "ammonia_liquid",
       "tainted_marrow",
-      "atomic_coffeepot",
       "human_cooked",
       "AID_bio_armor_legs",
       "5liron",
@@ -849,7 +845,6 @@
       "firehelmet",
       "wild_herbs",
       "fake_burrowing",
-      "bread_wheat_free",
       "base_plastic_silverware",
       "chopsticks",
       "mannequin_decoy",
@@ -946,7 +941,8 @@
       "impure_meat",
       "lizardfolk_club",
       "adrenal_gland_large",
-      "rocuronium"
+      "rocuronium",
+      "alumentum"
     ]
   }
 ]

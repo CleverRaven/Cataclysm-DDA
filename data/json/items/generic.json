@@ -1255,19 +1255,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "microwave",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "microwave" },
-    "description": "A home microwave, has probably seen its share of baked beans.  Good for scrap parts.",
-    "price": 1000,
-    "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "11339 g",
-    "volume": "9 L"
-  },
-  {
-    "type": "GENERIC",
     "id": "broken_eyebot",
     "symbol": ",",
     "color": "green",
