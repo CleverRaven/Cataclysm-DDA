@@ -163,7 +163,6 @@
     ],
     "warmth": 50,
     "material_thickness": 3,
-    "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
     "armor": [
