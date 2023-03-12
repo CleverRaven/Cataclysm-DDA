@@ -649,7 +649,6 @@ void MonsterGenerator::load_monster( const JsonObject &jo, const std::string &sr
     mon_templates->load( jo, src );
 }
 
-
 mon_effect_data::mon_effect_data() :
     chance( 100.0f ),
     permanent( false ),
@@ -683,10 +682,11 @@ void mon_effect_data::load( const JsonObject &jo )
     }
 
     if( chance > 100.f || chance < 0.f ) {
+        float chance_wrong = chance;
+        chance = clamp<float>( chance, 0.f, 100.f );
         jo.throw_error_at( "chance",
                            string_format( "\"chance\" is defined as %f, "
-                                          "but must be a decimal number between 0.0 and 100.0", chance ) );
-        chance = clamp<float>( chance, 0.f, 100.f );
+                                          "but must be a decimal number between 0.0 and 100.0", chance_wrong ) );
     }
 }
 
@@ -1003,7 +1003,6 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "speed_description", speed_desc, speed_description_DEFAULT );
     optional( jo, was_loaded, "death_function", mdeath_effect );
-    optional( jo, was_loaded, "melee_training_cap", melee_training_cap, MAX_SKILL );
 
     if( jo.has_array( "emit_fields" ) ) {
         JsonArray jar = jo.get_array( "emit_fields" );
@@ -1051,6 +1050,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             remove_special_attacks( tmp, "special_attacks", src );
         }
     }
+    optional( jo, was_loaded, "melee_training_cap", melee_training_cap, std::min( melee_skill + 2,
+              MAX_SKILL ) );
     optional( jo, was_loaded, "chat_topics", chat_topics );
     // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
     // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
@@ -1058,6 +1059,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         upgrade_group = mongroup_id::NULL_ID();
         upgrade_into = mtype_id::NULL_ID();
         upgrades = false;
+        upgrade_null_despawn = false;
     } else if( jo.has_member( "upgrades" ) ) {
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
@@ -1074,6 +1076,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         } else {
             jo.get_int( "spawn_range", 0 ); // ignore if defined
         }
+        optional( up, was_loaded, "despawn_when_null", upgrade_null_despawn, false );
         upgrades = true;
     }
 
@@ -1146,6 +1149,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
                  ( difficulty_base + special_attacks.size() + 8 * emit_fields.size() );
     difficulty *= ( hp + speed - attack_cost + ( morale + agro ) * 0.1 ) * 0.01 +
                   ( vision_day + 2 * vision_night ) * 0.01;
+
 }
 
 void MonsterGenerator::load_species( const JsonObject &jo, const std::string &src )

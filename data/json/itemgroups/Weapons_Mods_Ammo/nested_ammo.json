@@ -307,6 +307,33 @@
     ]
   },
   {
+    "id": "on_hand_357_38mixed",
+    "type": "item_group",
+    "//": "a mixed collection of 357mag and 38 ammo that would be found with a gun that is compatible with both calibers. favors spawning 357mag ammo but will rarely spawn more 38",
+    "subtype": "collection",
+    "entries": [
+      { "distribution": [ { "item": "357mag_fmj", "charges": [ 1, 40 ] }, { "item": "357mag_jhp", "charges": [ 1, 40 ] } ] },
+      {
+        "distribution": [
+          { "item": "357mag_fmj", "charges": [ 4, 40 ], "prob": 30 },
+          { "item": "357mag_jhp", "charges": [ 4, 40 ], "prob": 30 },
+          { "item": "38_fmj", "charges": [ 1, 40 ], "prob": 15 },
+          { "item": "38_special", "charges": [ 1, 40 ], "prob": 25 }
+        ],
+        "prob": 70
+      },
+      {
+        "distribution": [
+          { "item": "357mag_fmj", "charges": [ 8, 80 ], "prob": 30 },
+          { "item": "357mag_jhp", "charges": [ 8, 80 ], "prob": 30 },
+          { "item": "38_fmj", "charges": [ 1, 80 ], "prob": 15 },
+          { "item": "38_special", "charges": [ 1, 80 ], "prob": 25 }
+        ],
+        "prob": 30
+      }
+    ]
+  },
+  {
     "id": "on_hand_22",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",

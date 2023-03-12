@@ -125,6 +125,7 @@ class layer_variant
         std::string id;
         std::map<std::string, int> sprite;
         int layer;
+        point offset;
         int total_weight;
 };
 
@@ -142,8 +143,8 @@ class tileset
         int tile_width = 0;
         int tile_height = 0;
 
-        float retract_dist_min = 0.0;
-        float retract_dist_max = 0.0;
+        float prevent_occlusion_min_dist = 0.0;
+        float prevent_occlusion_max_dist = 0.0;
 
         // multiplier for pixel-doubling tilesets
         float tile_pixelscale = 1.0f;
@@ -161,7 +162,6 @@ class tileset
         // either variant can be either a `nullptr` or a pointer/reference to the real value (stored inside `tile_ids`)
         std::array<std::unordered_map<std::string, season_tile_value>, season_type::NUM_SEASONS>
         tile_ids_by_season;
-
 
         static const texture *get_if_available( const size_t index,
                                                 const decltype( shadow_tile_values ) &tiles ) {
@@ -189,11 +189,11 @@ class tileset
         float get_tile_pixelscale() const {
             return tile_pixelscale;
         }
-        float get_retract_dist_min() const {
-            return retract_dist_min;
+        float get_prevent_occlusion_min_dist() const {
+            return prevent_occlusion_min_dist;
         }
-        float get_retract_dist_max() const {
-            return retract_dist_max;
+        float get_prevent_occlusion_max_dist() const {
+            return prevent_occlusion_max_dist;
         }
         const std::string &get_tileset_id() const {
             return tileset_id;
@@ -438,17 +438,28 @@ class cata_tiles
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level );
-        // Add variant argument at end
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
                                   const std::string &variant );
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
+                                  const std::string &variant, const point &offset );
+        bool draw_from_id_string_internal( const std::string &id, const tripoint &pos, int subtile,
+                                           int rota,
+                                           lit_level ll, int retract, bool apply_night_vision_goggles );
+        bool draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
+                                           const std::string &subcategory, const tripoint &pos, int subtile, int rota,
+                                           lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
+                                           const std::string &variant, const point &offset );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
-            bool apply_night_vision_goggles, int retract, int &height_3d );
+            bool apply_night_vision_goggles, int retract, int &height_3d, const point &offset );
         bool draw_tile_at( const tile_type &tile, const point &, unsigned int loc_rand, int rota,
-                           lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d );
+                           lit_level ll, bool apply_night_vision_goggles, int retract, int &height_3d,
+                           const point &offset );
 
         /* Tile Picking */
         void get_tile_values( int t, const std::array<int, 4> &tn, int &subtile, int &rotation,
@@ -499,6 +510,8 @@ class cata_tiles
                             const std::array<bool, 5> &invisible );
         bool draw_trap( const tripoint &p, lit_level ll, int &height_3d,
                         const std::array<bool, 5> &invisible );
+        bool draw_part_con( const tripoint &p, lit_level ll, int &height_3d,
+                            const std::array<bool, 5> &invisible );
         bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d,
                                  const std::array<bool, 5> &invisible );
         bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d,

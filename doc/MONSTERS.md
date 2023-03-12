@@ -40,8 +40,8 @@ Monsters may also have any of these optional properties:
 | `copy-from`              | (string) Inherit monster attributes from another. See [JSON_INHERITANCE.md](JSON_INHERITANCE.md)
 | `categories`             | (array of strings) Monster categories (NULL, CLASSIC, or WILDLIFE)
 | `species`                | (array of strings) Species IDs, ex. HUMAN, ROBOT, ZOMBIE, BIRD, MUTANT, etc.
-| `scent_tracked`          | (array of strings) Monster tracks these scents
-| `scent_ignored`          | (array of strings) Monster ignores these scents
+| `scents_tracked`          | (array of strings) Monster tracks these scents
+| `scents_ignored`          | (array of strings) Monster ignores these scents
 | `material`               | (array of strings) Materials the monster is made of
 | `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
 | `attack_cost`            | (integer) Number of moves per regular attack (??)
@@ -56,6 +56,7 @@ Monsters may also have any of these optional properties:
 | `melee_dice`             | (integer) Number of dice rolled on monster melee attack to determine bash damage
 | `melee_dice_sides`       | (integer) Number of sides on each die rolled by `melee_dice`
 | `grab_strength`          | (integer) Intensity of grab effect, from `1` to `n`, simulating `n` regular zombie grabs
+| `melee_training_cap`     | (integer) The maximum melee skill levels learnable by fighting this monster. If not defined defaults to `melee_skill + 2`.
 | `armor_bash`             | (integer) Monster's protection from bash damage
 | `armor_bullet`           | (integer) Monster's protection from bullet damage
 | `armor_cut`              | (integer) Monster's protection from cut damage
@@ -165,12 +166,12 @@ The numeric part of the string must be an integer. Accepts L, and ml as units. N
 ```
 The numeric part of the string must be an integer. Use the largest unit you can keep full precision with. For example: 3 kg, not 3000 g. Accepts g and kg as units.
 
-## "scent_tracked"
+## "scents_tracked"
 (array of strings, optional)
 
 List of scenttype_id tracked by this monster. scent_types are defined in scent_types.json
 
-## "scent_ignored"
+## "scents_ignored"
 (array of strings, optional)
 
 List of scenttype_id ignored by this monster. scent_types are defined in scent_types.json
@@ -481,6 +482,15 @@ Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list.
 
 What makes the monster afraid / angry / what calms it. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list
 
+## "chat_topics"
+(string, optional)
+
+Lists possible chat topics that will be used as dialogue display when talking to a monster, done by `e`xamining it and `c`hatting with it. The creature in question must be friendly to the player in order to talk to it. Monsters can be assigned variables, but cannot trade with the exchange interface. Listing multiple chat topics will cause the game to crash. This must be defined as an array.
+
+```JSON
+"chat_topics": [ "TALK_FREE_MERCHANTS_MERCHANT" ]
+```
+
 ## "revert_to_itype"
 (string, optional)
 
@@ -519,6 +529,7 @@ The upgrades object may have the following members:
 | `age_grow`   | (int, optional) Number of days needed for monster to change into another monster. Does not scale with the evolution factor.
 | `multiple_spawns` | (bool, optional) If using `into_group`, the selected entry spawns a number of monsters based on the entry's `pack_size`.
 | `spawn_range` | (int, optional) Mandatory when `multiple_spawns` is true. Determines how far away from the original monster the upgraded monsters can spawn.
+| `despawn_when_null` | (bool, optional) For `into_group`, when `mon_null` is selected as the group entry upgrade, the monster will despawn leaving no trace when this is true. Otherwise the monster "dies" naturally. Defaults to false.
 
 ## "reproduction"
 (dictionary, optional)
@@ -531,6 +542,12 @@ The monster's reproduction cycle, if any. Supports:
 | `baby_egg`     | (string, optional) The id of the egg type to spawn for egg-laying monsters. You must declare either this or "baby_monster" for reproduction to work.
 | `baby_count`   | (int) Number of new creatures or eggs to spawn on reproduction.
 | `baby_timer`   | (int) Number of days between reproduction events.
+
+## "zombify_into"
+(monster string id, optional)
+
+When defined the monster's unpulped corpse will rise, zombifying into the defined (different) monster. For mutated animals (including giant arthropods) the `mon_meat_cocoon` line of monsters should be defined, depending on the monster's weight:
+No cocoon below 10 kg; 10 - 35 kg monsters zombify into the tiny cocoon; 36 - 100 kg monsters turn into the small cocoon; 101 - 300 kg monsters turn into the medium cocoon; 301+ kg monsters turn into a large cocoon.
 
 ## "baby_flags"
 (Array, optional)
@@ -672,3 +689,12 @@ This monster can attempt a grab every ten turns, a leap with a maximum range of 
 
 # Monster special attack types
 The listed attack types can be as monster special attacks (see [MONSTER_SPECIAL_ATTACKS.md](MONSTER_SPECIAL_ATTACKS.md)).
+
+# Testing Monsters
+
+To help facilitate playtesting monsters use the loadouts from the Standard Combat Testing mod (included under Misc), and document your results in the PR's Testing section.
+
+Important test tips:
+ - A spawned and saved monster will **not** change for any reason, even if you change the underlying monster definition.  Always use freshly spawned monsters!
+ - Evolution, growth, and reproduction happen on monster load, so the sequence of testing is Spawn monster -> Teleport away to unload it -> Teleport back to load it and start the timers -> Teleport away -> Set time forward via the debug menu -> Teleport back
+ - Activating Debug Mode's monster filter allows you to examine monsters using x->e and get additional information

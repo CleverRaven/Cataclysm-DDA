@@ -249,7 +249,6 @@ void profession::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "requirement", _requirement );
 
-
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so
@@ -481,7 +480,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
-        const auto sub = item_substitutions.get_substitution( *iter, traits );
+        const std::vector<item> sub = item_substitutions.get_substitution( *iter, traits );
         if( !sub.empty() ) {
             result.insert( result.begin(), sub.begin(), sub.end() );
             iter = result.erase( iter );
@@ -629,7 +628,7 @@ void profession::learn_spells( avatar &you ) const
         you.magic->learn_spell( spell_pair.first, you, true );
         spell &sp = you.magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
-            sp.gain_level();
+            sp.gain_level( you );
         }
     }
 }
@@ -794,7 +793,7 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
 
         if( !result.count_by_charges() ) {
             for( int i = 0; i < new_amount; i++ ) {
-                ret.push_back( result.in_its_container() );
+                ret.push_back( result.in_its_container( 1 ) );
             }
         } else {
             while( new_amount > 0 ) {

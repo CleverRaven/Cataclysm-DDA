@@ -47,6 +47,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
+#include "options.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
@@ -71,7 +72,6 @@ static const flag_id json_flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
 static const furn_str_id furn_f_machinery_electronic( "f_machinery_electronic" );
 
 static const itype_id fuel_type_none( "null" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_e_handcuffs( "e_handcuffs" );
 static const itype_id itype_mininuke_act( "mininuke_act" );
 static const itype_id itype_rm13_armor_on( "rm13_armor_on" );
@@ -619,8 +619,7 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
     Character &player_character = get_player_character();
     if( rl_dist( player_character.pos(), p ) <= radius && !ignore_player &&
         ( !player_character.has_trait( trait_LEG_TENT_BRACE ) ||
-          player_character.footwear_factor() == 1 ||
-          ( player_character.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
+          !player_character.is_barefoot() ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
         g->knockback( p, player_character.pos(), force, stun, dam_mult );
     }
@@ -758,12 +757,9 @@ void emp_blast( const tripoint &p )
         }
 
         for( item_location &it : player_character.all_items_loc() ) {
-            // Drain any batteries and battery-operated items in player's possession of their battery charge
-            if( ( it->is_tool() && it->ammo_current() == itype_battery ) || it->is_battery() ) {
-                it->ammo_unset();
-            }
             // Render any electronic stuff in player's possession non-functional
-            if( ( it->has_flag( flag_ELECTRONIC ) || it->is_battery() ) && !it->is_broken() ) {
+            if( it->has_flag( flag_ELECTRONIC ) && !it->is_broken() &&
+                get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) ) {
                 add_msg( m_bad, _( "The EMP blast fries your %s!" ), it->tname() );
                 it->deactivate();
                 it->set_flag( flag_ITEM_BROKEN );
@@ -772,12 +768,9 @@ void emp_blast( const tripoint &p )
     }
 
     for( item &it : here.i_at( p ) ) {
-        // Drain any batteries and battery-operated items on the ground of their battery charge
-        if( ( it.is_tool() && it.ammo_current() == itype_battery ) || it.is_battery() ) {
-            it.ammo_unset();
-        }
         // Render any electronic stuff on the ground non-functional
-        if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() ) {
+        if( it.has_flag( flag_ELECTRONIC ) && !it.is_broken() &&
+            get_option<bool>( "EMP_DISABLE_ELECTRONICS" ) ) {
             if( sight ) {
                 add_msg( _( "The EMP blast fries the %s!" ), it.tname() );
             }

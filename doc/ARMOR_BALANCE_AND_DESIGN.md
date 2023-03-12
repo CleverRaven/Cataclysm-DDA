@@ -202,8 +202,17 @@ Sided armor is armor that even though it describes covering, both legs, both arm
     }
   ],
   "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-  "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
-  "armor": [ { "encumbrance": [ 2, 3 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+  "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
+  "armor": [
+    {
+      "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1 } ],
+      "covers": [ "foot_l", "foot_r" ],
+      "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
+      "coverage": 25,
+      "encumbrance": [ 2, 3 ],
+      "layers": [ "BELTED" ]
+    }
+  ]
 }
 ```
 #### Further Reading
@@ -485,7 +494,7 @@ Items with actions can be worn as armor. Usually you need to swap the type to ``
   "name": { "str": "survivor headlamp (on)", "str_pl": "survivor headlamps (on)" },
   "description": "This is a custom-made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
   "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
-  "power_draw": "10 J",
+  "power_draw": "10 W",
   "revert_to": "survivor_light",
   "use_action": {
     "ammo_scale": 0,

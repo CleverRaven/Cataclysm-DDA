@@ -55,13 +55,11 @@ static const quality_id qual_SEW( "SEW" );
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
-
 static std::map<requirement_id, requirement_data> requirements_all;
 
 static bool a_satisfies_b( const quality_requirement &a, const quality_requirement &b );
 static bool a_satisfies_b( const std::vector<quality_requirement> &a,
                            const std::vector<quality_requirement> &b );
-
 
 /** @relates string_id */
 template<>
@@ -531,7 +529,7 @@ std::string requirement_data::print_all_objs( const std::string &header,
             return t.to_string();
         } );
         std::sort( alternatives.begin(), alternatives.end(), localized_compare );
-        buffer += join( alternatives, _( " or " ) );
+        buffer += string_join( alternatives, _( " or " ) );
     }
     if( buffer.empty() ) {
         return std::string();
@@ -806,7 +804,7 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
                                list_as_string_unavailable.end() );
 
         const std::string separator = colorize( _( " OR " ), c_white );
-        const std::string unfolded = join( list_as_string, separator );
+        const std::string unfolded = string_join( list_as_string, separator );
         std::vector<std::string> folded = foldstring( unfolded, width - 2 );
 
         for( size_t i = 0; i < folded.size(); i++ ) {
@@ -1289,7 +1287,7 @@ requirement_data requirement_data::disassembly_requirements() const
 }
 
 requirement_data requirement_data::continue_requirements( const std::vector<item_comp>
-        &required_comps, const std::list<item> &remaining_comps )
+        &required_comps, const item_components &remaining_comps )
 {
     // Create an empty requirement_data
     requirement_data ret;
@@ -1649,13 +1647,14 @@ deduped_requirement_data::deduped_requirement_data( const requirement_data &in,
 
         // Because this algorithm is super-exponential in the worst case, add a
         // sanity check to prevent things getting too far out of control.
-        // The worst case in the core game currently is chainmail_suit_faraday
-        // with 63 alternatives.
-        static constexpr size_t max_alternatives = 100;
+        // The worst case in the core game currently is boots_fur
+        // with 104 alternatives.
+        static constexpr size_t max_alternatives = 105;
         if( alternatives_.size() + pending.size() > max_alternatives ) {
             debugmsg( "Construction of deduped_requirement_data generated too many alternatives.  "
-                      "The recipe %s should be simplified.  See the Recipe section in "
-                      "doc/JSON_INFO.md for more details.", context.str() );
+                      "The recipe %1s should be simplified.  See the Recipe section in "
+                      "doc/JSON_INFO.md for more details.  It has %2s alternatives.", context.str(),
+                      alternatives_.size() + pending.size() );
             is_too_complex_ = true;
             alternatives_ = { in };
             return;

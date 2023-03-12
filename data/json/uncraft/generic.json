@@ -170,7 +170,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "scrap_copper", 103 ] ] ]
+    "components": [ [ [ "scrap_copper", 175 ] ] ]
   },
   {
     "result": "exodii_ingot_aluminum",
@@ -428,6 +428,15 @@
     "skill_used": "fabrication",
     "time": "10 s",
     "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "gravelbag",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_gravel", 2700 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

@@ -11,6 +11,7 @@
     "material": [ "copper" ],
     "symbol": "[",
     "color": "light_red",
+    "looks_like": "copper_ring",
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
@@ -36,6 +37,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "color": "light_gray",
+    "looks_like": "silver_ring",
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
@@ -61,6 +63,7 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
+    "looks_like": "gold_ring",
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
@@ -86,6 +89,7 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "light_gray",
+    "looks_like": "platinum_ring",
     "sided": true,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONE_PER_LAYER", "SKINTIGHT" ],
@@ -452,7 +456,8 @@
         "moves": 1,
         "holster": true,
         "weight_multiplier": 0.0,
-        "volume_multiplier": 0.0
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0.0
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
@@ -475,7 +480,8 @@
         "moves": 1,
         "holster": true,
         "weight_multiplier": 0.0,
-        "volume_multiplier": 0.0
+        "volume_multiplier": 0.0,
+        "volume_encumber_modifier": 0.0
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }

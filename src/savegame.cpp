@@ -394,7 +394,7 @@ void overmap::convert_terrain(
             old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
             old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
             old == "s_lot" || old == "mine_entrance" || old == "mine_finale" ||
-            old == "triffid_finale" ) {
+            old == "triffid_finale" || old == "hive" ) {
             ter_set( pos, oter_id( old + "_north" ) );
         } else if( old.compare( 0, 6, "bridge" ) == 0 ) {
             ter_set( pos, oter_id( old ) );
@@ -431,6 +431,18 @@ void overmap::convert_terrain(
                 ter_set( pos + point_north_west, oter_id( "triffid_rootssw_north" ) );
                 ter_set( pos + point_west, oter_id( "triffid_rootsw_north" ) );
                 ter_set( pos + point_south_west, oter_id( "triffid_rootsnw_north" ) );
+            }
+        } else if( old == "temple_stairs" ) {
+            {
+                ter_set( pos, oter_id( "temple_stairs_north" ) );
+            }
+        } else if( old == "temple_finale" ) {
+            {
+                ter_set( pos, oter_id( "temple_finale_north" ) );
+                ter_set( pos + tripoint_above, oter_id( "temple_underground_4_north" ) );
+                ter_set( pos + tripoint( 0, 0, 2 ), oter_id( "temple_underground_3_north" ) );
+                ter_set( pos + tripoint( 0, 0, 3 ), oter_id( "temple_underground_2_north" ) );
+                ter_set( pos + tripoint( 0, 0, 4 ), oter_id( "temple_underground_1_north" ) );
             }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
@@ -1535,7 +1547,7 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         tripoint_abs_sm map_point;
         std::string string_id;
         std::string key;
-        submap_revert revert;
+        submap revert;
         jo.read( "faction", faction_id );
         jo.read( "map_point", map_point );
         jo.read( "map_square", map_square, false );
@@ -1545,18 +1557,33 @@ void timed_event_manager::unserialize_all( const JsonArray &ja )
         jo.read( "when", when );
         jo.read( "key", key );
         point pt;
-        for( JsonObject jp : jo.get_array( "revert" ) ) {
-            revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
-            revert.set_ter( pt, ter_id( jp.get_string( "ter" ) ) );
-            revert.set_trap( pt, trap_id( jp.get_string( "trap" ) ) );
-            if( pt.x++ < SEEX ) {
-                pt.x = 0;
-                pt.y++;
+        if( jo.has_string( "revert" ) ) {
+            revert.set_all_ter( ter_id( jo.get_string( "revert" ) ), true );
+        } else {
+            for( JsonObject jp : jo.get_array( "revert" ) ) {
+                if( jp.has_member( "point" ) ) {
+                    jp.get_member( "point" ).read( pt, false );
+                }
+                revert.set_furn( pt, furn_id( jp.get_string( "furn" ) ) );
+                revert.set_ter( pt, ter_id( jp.get_string( "ter" ) ) );
+                revert.set_trap( pt, trap_id( jp.get_string( "trap" ) ) );
+                if( jp.has_member( "items" ) ) {
+                    cata::colony<item> itm;
+                    jp.get_member( "items" ).read( itm, false );
+                    revert.get_items( pt ) = std::move( itm );
+                }
+                // We didn't always save the point, this is the original logic, it doesn't work right but for older saves at least they won't crash
+                if( !jp.has_member( "point" ) ) {
+                    if( pt.x++ < SEEX ) {
+                        pt.x = 0;
+                        pt.y++;
+                    }
+                }
             }
         }
         get_timed_events().add( static_cast<timed_event_type>( type ), when, faction_id, map_square,
                                 strength,
-                                string_id, revert, key );
+                                string_id, std::move( revert ), key );
     }
 }
 
@@ -1617,19 +1644,25 @@ void timed_event_manager::serialize_all( JsonOut &jsout )
         jsout.member( "type", elem.type );
         jsout.member( "when", elem.when );
         jsout.member( "key", elem.key );
-        jsout.member( "revert" );
-        jsout.start_array();
-        for( int y = 0; y < SEEY; y++ ) {
-            for( int x = 0; x < SEEX; x++ ) {
-                jsout.start_object();
-                point pt( x, y );
-                jsout.member( "furn", elem.revert.get_furn( pt ) );
-                jsout.member( "ter", elem.revert.get_ter( pt ) );
-                jsout.member( "trap", elem.revert.get_trap( pt ) );
-                jsout.end_object();
+        if( elem.revert.is_uniform() ) {
+            jsout.member( "revert", elem.revert.get_ter( point_zero ) );
+        } else {
+            jsout.member( "revert" );
+            jsout.start_array();
+            for( int y = 0; y < SEEY; y++ ) {
+                for( int x = 0; x < SEEX; x++ ) {
+                    jsout.start_object();
+                    point pt( x, y );
+                    jsout.member( "point", pt );
+                    jsout.member( "furn", elem.revert.get_furn( pt ) );
+                    jsout.member( "ter", elem.revert.get_ter( pt ) );
+                    jsout.member( "trap", elem.revert.get_trap( pt ) );
+                    jsout.member( "items", elem.revert.get_items( pt ) );
+                    jsout.end_object();
+                }
             }
+            jsout.end_array();
         }
-        jsout.end_array();
         jsout.end_object();
     }
     jsout.end_array();

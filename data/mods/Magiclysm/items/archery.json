@@ -17,14 +17,16 @@
       "BELTED",
       "WATER_FRIENDLY",
       "WATERPROOF_GUN",
-      "NEVER_JAMS"
+      "NEVER_JAMS",
+      "SHEATH_BOW"
     ],
     "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 10,
     "ammo": [ "arrow_orichalcum", "arrow" ],
     "weight": "740 g",
-    "volume": "5 L",
+    "volume": "2 L",
+    "longest_side": "150 cm",
     "bashing": 14,
     "armor_data": {
       "armor": [
@@ -36,7 +38,8 @@
           ],
           "encumbrance": 14,
           "coverage": 5,
-          "covers": [ "torso" ]
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_back" ]
         }
       ]
     },

@@ -131,7 +131,7 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
     map &here = get_map();
     if( map_regen ) {
         tripoint_abs_omt omt_pos( ms_to_omt_copy( here.getabs( examp ) ) );
-        if( !run_mapgen_update_func( mapgen_id, omt_pos, nullptr, false ) ) {
+        if( !run_mapgen_update_func( mapgen_id, omt_pos, {}, nullptr, false ) ) {
             debugmsg( "Failed to apply magen function %s", mapgen_id.str() );
         }
         here.set_seen_cache_dirty( examp );
@@ -186,7 +186,8 @@ void cardreader_examine_actor::call( Character &you, const tripoint &examp ) con
         } else {
             add_msg( _( redundant_msg ) );
         }
-    } else if( allow_hacking && query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
+    } else if( allow_hacking && iexamine::can_hack( you ) &&
+               query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
         iexamine::try_start_hacking( you, examp );
     }
 }

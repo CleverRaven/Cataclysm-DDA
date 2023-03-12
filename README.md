@@ -18,7 +18,6 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 
 [![General build matrix](https://github.com/CleverRaven/Cataclysm-DDA/actions/workflows/matrix.yml/badge.svg)](https://github.com/CleverRaven/Cataclysm-DDA/actions/workflows/matrix.yml)
 [![Coverage Status](https://coveralls.io/repos/github/CleverRaven/Cataclysm-DDA/badge.svg?branch=master)](https://coveralls.io/github/CleverRaven/Cataclysm-DDA?branch=master)
-[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/CleverRaven/Cataclysm-DDA.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/CleverRaven/Cataclysm-DDA/context:cpp)
 [![Open Source Helpers](https://www.codetriage.com/cleverraven/cataclysm-dda/badges/users.svg)](https://www.codetriage.com/cleverraven/cataclysm-dda)
 [![Commit Activity](https://img.shields.io/github/commit-activity/m/CleverRaven/Cataclysm-DDA)](https://github.com/CleverRaven/Cataclysm-DDA/graphs/contributors)
 [![Lines of Code](https://tokei.rs/b1/github/CleverRaven/Cataclysm-DDA?category=code)](https://github.com/XAMPPRocky/tokei)
@@ -55,12 +54,12 @@ We also have the following build guides:
 
 ## Contribute
 
-Cataclysm: Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
+Cataclysm: Dark Days Ahead is the result of contributions from over 1000 volunteers under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See https://creativecommons.org/licenses/by-sa/3.0/ for details.
 Some code distributed with the project is not part of the project and is released under different software licenses; the files covered by different software licenses have their own license notices.
 
 [<img src="https://www.bountysource.com/badge/tracker?tracker_id=146201" alt="Bountysource" align="right">](https://www.bountysource.com/trackers/146201-clever-raven-cataclysm-dda?utm_source=146201&utm_medium=shield&utm_campaign=TRACKER_BADGE)
 
-Please see [CONTRIBUTING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/.github/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING.md](doc/CONTRIBUTING.md) for details.
 
 Special thanks to the contributors, including but not limited to, people below:
 <a href="https://github.com/cleverraven/cataclysm-dda/graphs/contributors">
@@ -75,7 +74,7 @@ Forums:
 https://discourse.cataclysmdda.org
 
 Wiki:
-http://cddawiki.chezzo.com/cdda_wiki/index.php
+https://cddawiki.chezzo.com/cdda_wiki/index.php
 
 GitHub repo:
 https://github.com/CleverRaven/Cataclysm-DDA

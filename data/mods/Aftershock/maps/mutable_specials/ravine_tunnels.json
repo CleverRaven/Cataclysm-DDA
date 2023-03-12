@@ -6,7 +6,7 @@
     "locations": [ "subterranean_empty", "ravine_edge", "land" ],
     "city_distance": [ 10, -1 ],
     "occurrences": [ 10, 10 ],
-    "flags": [ "WILDERNESS" ],
+    "flags": [ "WILDERNESS", "EXOPLANET" ],
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "ravine_edge" ] ],
       [ [ -1, 0, 0 ], [ "ravine_edge" ] ],

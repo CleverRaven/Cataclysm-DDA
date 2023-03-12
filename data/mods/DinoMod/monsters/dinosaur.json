@@ -9,6 +9,32 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_tawa",
+    "name": { "str_sp": "tawa" },
+    "copy-from": "mon_eoraptor",
+    "default_faction": "tawa",
+    "volume": "15 L",
+    "weight": "15 kg",
+    "material": [ "flesh" ],
+    "aggression": 0,
+    "morale": 40,
+    "speed": 120,
+    "melee_skill": 6,
+    "melee_dice": 1,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "dodge": 5,
+    "hp": 15,
+    "description": "Smaller, thin predatory bipedal dinosaur with feathers, a long neck and head and sharp teeth and claws.",
+    "reproduction": { "baby_egg": "egg_tawa", "baby_count": 3, "baby_timer": 24 },
+    "extend": { "flags": [ "SWARMS", "GROUP_MORALE" ] },
+    "death_drops": {  },
+    "harvest": "dino_pred_feather_leather",
+    "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FRIEND_DIED" ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_coelophysis",
     "name": { "str_sp": "coelophysis" },
     "copy-from": "mon_eoraptor",
@@ -25,9 +51,8 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
     "dodge": 4,
     "hp": 20,
-    "description": "Small, thin predatory bipedal dinosaur with a long head and sharp teeth and long grasping claws.",
+    "description": "Smaller, thin predatory bipedal dinosaur with a long head and sharp teeth and long grasping claws.",
     "reproduction": { "baby_egg": "egg_coelophysis", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
     "extend": { "flags": [ "SWARMS", "GROUP_MORALE" ] },
     "death_drops": {  },
     "harvest": "dino_pred_feather_leather",
@@ -62,7 +87,8 @@
     "reproduction": { "baby_egg": "egg_dilophosaurus", "baby_count": 3, "baby_timer": 18 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
+    "grab_strength": 15,
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "KEENNOSE", "WARM", "SWIMS" ],
     "harvest": "dino_med_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
@@ -100,7 +126,8 @@
     "reproduction": { "baby_egg": "egg_ceratosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
+    "grab_strength": 15,
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "SWIMS" ],
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
@@ -139,7 +166,8 @@
     "reproduction": { "baby_egg": "egg_spinosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 3 }, [ "LUNGE", 5 ] ],
+    "grab_strength": 15,
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 5 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "PUSH_MON" ],
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
@@ -179,7 +207,8 @@
     "reproduction": { "baby_egg": "egg_torvosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 5 ] ],
+    "grab_strength": 15,
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 5 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "dino_large_pred",
     "dissect": "dissect_dino_large_pred",
@@ -216,9 +245,10 @@
     "reproduction": { "baby_egg": "egg_allosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 } ],
+    "grab_strength": 15,
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 } ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
-    "harvest": "dino_large_pred",
+    "harvest": "allosaurus",
     "dissect": "dissect_dino_large_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -237,9 +267,10 @@
     "armor_bash": 10,
     "hp": 300,
     "zombify_into": "mon_zacrocanthosaurus",
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 20 ] ],
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 20 ] ],
     "description": "Huge predatory bipedal dinosaur with a tall ridge running the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
-    "reproduction": { "baby_egg": "egg_acrocanthosaurus", "baby_count": 3, "baby_timer": 24 }
+    "reproduction": { "baby_egg": "egg_acrocanthosaurus", "baby_count": 3, "baby_timer": 24 },
+    "harvest": "acrocanthosaurus"
   },
   {
     "type": "MONSTER",
@@ -251,9 +282,15 @@
     "speed": 75,
     "hp": 300,
     "zombify_into": "mon_ziats",
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB_DRAG", 10 ], { "type": "bite", "cooldown": 10 } ],
+    "special_attacks": [
+      { "id": "bio_op_takedown", "cooldown": 20 },
+      [ "RANGED_PULL", 20 ],
+      [ "GRAB_DRAG", 10 ],
+      { "id": "teeth_rip", "cooldown": 10 }
+    ],
     "description": "Huge predatory bipedal dinosaur with long claws and strong arms for grappling.",
-    "reproduction": { "baby_egg": "egg_siats", "baby_count": 3, "baby_timer": 24 }
+    "reproduction": { "baby_egg": "egg_siats", "baby_count": 3, "baby_timer": 24 },
+    "harvest": "dino_large_pred"
   },
   {
     "type": "MONSTER",
@@ -269,9 +306,10 @@
     "zombify_into": "mon_zryptosaurus",
     "description": "Large sharp teeth and a lean frame, with long wicked claws and a feathered mullet and tail.",
     "reproduction": { "baby_egg": "egg_dryptosaurus", "baby_count": 3, "baby_timer": 24 },
+    "grab_strength": 15,
     "special_attacks": [
-      [ "GRAB", 15 ],
-      { "type": "bite", "cooldown": 15 },
+      { "id": "teeth_grab", "cooldown": 15 },
+      { "id": "teeth_pull", "cooldown": 15 },
       { "type": "leap", "cooldown": 20, "max_range": 5, "allow_no_target": true }
     ]
   },
@@ -289,7 +327,7 @@
     "zombify_into": "mon_zappalachiosaurus",
     "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with two small arms and a feathered mullet and tail.  The snout is long with six ridges.",
     "reproduction": { "baby_egg": "egg_appalachiosaurus", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ [ "GRAB", 15 ], { "type": "bite", "cooldown": 15 }, [ "LUNGE", 20 ] ]
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 15 }, { "id": "teeth_pull", "cooldown": 15 }, [ "LUNGE", 20 ] ]
   },
   {
     "type": "MONSTER",
@@ -307,7 +345,7 @@
     "zombify_into": "mon_zorgosaurus",
     "description": "Enormous teeth, fierce eyes, and a powerful frame to drive it forward, with two small arms and a feathered mullet and tail.",
     "reproduction": { "baby_egg": "egg_gorgosaurus", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 15 ] ]
+    "special_attacks": [ { "id": "teeth_grab", "cooldown": 10 }, { "id": "teeth_rip", "cooldown": 10 }, [ "LUNGE", 15 ] ]
   },
   {
     "type": "MONSTER",
@@ -344,7 +382,8 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
-    "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "LONGSWIPE", 25 ] ],
+    "grab_strength": 15,
+    "special_attacks": [ { "id": "teeth_puncture", "cooldown": 7 }, { "id": "teeth_pull", "cooldown": 5 }, [ "LUNGE", 10 ] ],
     "harvest": "dino_large_feather_pred",
     "dissect": "dissect_tyrant_sample_large",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
@@ -384,7 +423,13 @@
     "reproduction": { "baby_egg": "egg_qianzhousaurus", "baby_count": 5, "baby_timer": 23 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 2 },
-    "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 30 ] ],
+    "grab_strength": 15,
+    "special_attacks": [
+      { "id": "teeth_puncture", "cooldown": 7 },
+      { "id": "teeth_pull", "cooldown": 5 },
+      [ "LUNGE", 10 ],
+      { "id": "bio_op_takedown", "cooldown": 30 }
+    ],
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "dino_large_feather_pred",
     "dissect": "dissect_tyrant_sample_large",
@@ -405,7 +450,12 @@
     "zombify_into": "mon_zanuqsaurus",
     "description": "Bipedal dinosaur with long sharp teeth in a massive jaw, fierce eyes, and a powerful frame to drive it forward, short arms, with a feathered white mullet and tail.",
     "reproduction": { "baby_egg": "egg_nanuqsaurus", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ [ "GRAB", 20 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 20 ] ]
+    "special_attacks": [
+      { "id": "teeth_puncture", "cooldown": 20 },
+      { "id": "teeth_pull", "cooldown": 10 },
+      [ "LUNGE", 10 ],
+      { "id": "bio_op_takedown", "cooldown": 20 }
+    ]
   },
   {
     "type": "MONSTER",
@@ -421,7 +471,13 @@
     "zombify_into": "mon_zaspletosaurus",
     "description": "Bipedal dinosaur with long sharp teeth in a massive jaw, fierce eyes, and a powerful frame to drive it forward, short arms, with a feathered mullet and tail.",
     "reproduction": { "baby_egg": "egg_daspletosaurus", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 15 ] ]
+    "special_attacks": [
+      { "id": "teeth_puncture", "cooldown": 10 },
+      { "id": "teeth_pull", "cooldown": 10 },
+      [ "LUNGE", 10 ],
+      { "id": "bio_op_takedown", "cooldown": 15 }
+    ],
+    "harvest": "dino_large_feather_pred"
   },
   {
     "type": "MONSTER",
@@ -456,7 +512,13 @@
     "reproduction": { "baby_egg": "egg_tyrannosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 1 },
-    "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 15 ] ],
+    "grab_strength": 20,
+    "special_attacks": [
+      { "id": "teeth_puncture", "cooldown": 7 },
+      { "id": "teeth_pull", "cooldown": 5 },
+      [ "LUNGE", 10 ],
+      { "id": "bio_op_takedown", "cooldown": 15 }
+    ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -469,7 +531,7 @@
       "PUSH_MON",
       "PRIORITIZE_TARGETS"
     ],
-    "harvest": "dino_large_feather_pred",
+    "harvest": "tyrannosaurus",
     "dissect": "dissect_tyrant_sample_large",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "SOUND" ],
     "categories": [ "DINOSAUR", "WILDLIFE" ]
@@ -624,7 +686,6 @@
     "reproduction": { "baby_egg": "egg_albertonykus", "baby_count": 3, "baby_timer": 9 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 200 },
-    "special_attacks": [ { "type": "bite", "cooldown": 10 } ],
     "petfood": { "food": [ "DINOFOOD_B" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS", "CANPLAY" ],
     "vision_night": 5,
@@ -728,10 +789,10 @@
     "hp": 25,
     "description": "A small bipedal dinosaur covered with feathers.  Small, hooked claws emerge from its feet and hands.",
     "special_attacks": [
+      { "id": "teeth_grab", "cooldown": 30 },
+      { "id": "teeth_rip", "cooldown": 20 },
       [ "EAT_FOOD", 20 ],
-      { "type": "leap", "cooldown": 15, "max_range": 5, "allow_no_target": true },
-      [ "GRAB", 30 ],
-      { "type": "bite", "cooldown": 20 }
+      { "type": "leap", "cooldown": 15, "max_range": 5, "allow_no_target": true }
     ],
     "reproduction": { "baby_egg": "egg_saurornitholestes", "baby_count": 3, "baby_timer": 18 }
   },
@@ -760,10 +821,11 @@
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 30,
     "vision_night": 5,
+    "grab_strength": 10,
     "special_attacks": [
-      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
-      [ "GRAB", 20 ],
-      { "type": "bite", "cooldown": 10 }
+      { "id": "teeth_grab", "cooldown": 20 },
+      { "id": "teeth_rip", "cooldown": 10 },
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
     ],
     "description": "A small bipedal dinosaur covered with feathers.  Small, hooked claws emerge from its feet and hands.",
     "reproduction": { "baby_egg": "egg_velociraptor", "baby_count": 3, "baby_timer": 18 },
@@ -803,10 +865,11 @@
     "zombify_into": "mon_zeinonychus",
     "vision_night": 5,
     "path_settings": { "max_dist": 10, "avoid_traps": true, "avoid_sharp": true },
+    "grab_strength": 15,
     "special_attacks": [
-      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
-      [ "GRAB", 20 ],
-      { "type": "bite", "cooldown": 5 }
+      { "id": "teeth_grab", "cooldown": 20 },
+      { "id": "teeth_rip", "cooldown": 5 },
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
     ],
     "description": "A medium-sized bipedal dinosaur covered with feathers.  At the end of each foot is a large sickle-like claw.",
     "reproduction": { "baby_egg": "egg_deinonychus", "baby_count": 3, "baby_timer": 18 },
@@ -857,10 +920,11 @@
     "hp": 125,
     "zombify_into": "mon_zutahraptor",
     "vision_night": 5,
+    "grab_strength": 15,
     "special_attacks": [
-      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
-      [ "GRAB", 20 ],
-      { "type": "bite", "cooldown": 5 }
+      { "id": "teeth_grab", "cooldown": 20 },
+      { "id": "teeth_rip", "cooldown": 5 },
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
     ],
     "description": "A large bipedal dinosaur with feathered arms, a long tail, and scythe-like claws.",
     "reproduction": { "baby_egg": "egg_utahraptor", "baby_count": 3, "baby_timer": 18 },
@@ -914,10 +978,11 @@
     "weakpoint_sets": [ "wps_dinosaur_body" ],
     "hp": 35,
     "vision_night": 5,
+    "grab_strength": 10,
     "special_attacks": [
-      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
-      [ "GRAB", 20 ],
-      { "type": "bite", "cooldown": 10 }
+      { "id": "teeth_grab", "cooldown": 20 },
+      { "id": "teeth_rip", "cooldown": 10 },
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }
     ],
     "description": "A small bipedal dinosaur covered with feathers.  At the end of each foot is a large sickle-like claw.  Its eyes suggest intelligence.",
     "reproduction": { "baby_egg": "egg_stenonychosaurus", "baby_count": 3, "baby_timer": 18 },
@@ -968,7 +1033,7 @@
     "reproduction": { "baby_egg": "egg_eoraptor", "baby_count": 3, "baby_timer": 6 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_dino", "biosig_timer": 100 },
-    "special_attacks": [ [ "EAT_FOOD", 20 ], { "type": "bite", "cooldown": 10 } ],
+    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS" ],
     "harvest": "mammal_tiny",
     "vision_night": 5,
@@ -1668,6 +1733,7 @@
     "aggression": -40,
     "morale": 25,
     "speed": 75,
+    "attack_cost": 75,
     "melee_skill": 4,
     "melee_dice": 1,
     "melee_dice_sides": 4,
@@ -1711,9 +1777,11 @@
     "copy-from": "mon_camptosaurus",
     "volume": "1000 L",
     "weight": "1000 kg",
+    "default_faction": "hadrosaur",
     "//": "When large weights and volumes are fixed this should be 3000 L and 3000 kg",
     "bodytype": "bear",
     "speed": 80,
+    "attack_cost": 80,
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "bash", "amount": 2 } ],
@@ -1722,6 +1790,7 @@
     "armor_bullet": 3,
     "hp": 250,
     "zombify_into": "mon_zadrosaurus",
+    "fungalize_into": "mon_hadrosaurus_mutant1",
     "description": "A bulky, beaked dinosaur with hooved front legs and strong clawed back legs.",
     "special_attacks": [
       { "type": "leap", "cooldown": 10, "max_range": 2, "allow_no_target": true },
@@ -1859,6 +1928,7 @@
     "melee_skill": 4,
     "morale": 20,
     "speed": 150,
+    "attack_cost": 150,
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
@@ -1983,7 +2053,8 @@
     "zombify_into": "mon_ztyracosaurus",
     "description": "A large stocky four-legged dinosaur with a bony crest with several long spikes and one large horn above the beak and a short tail.",
     "reproduction": { "baby_egg": "egg_styracosaurus", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "SMASH", 60 ], [ "LUNGE", 10 ], [ "EAT_CROP", 30 ], [ "stretch_horn_DinoMod", 40 ] ]
+    "special_attacks": [ [ "SMASH", 60 ], [ "LUNGE", 10 ], [ "EAT_CROP", 30 ], [ "stretch_horn_DinoMod", 40 ] ],
+    "harvest": "styracosaurus"
   },
   {
     "type": "MONSTER",
@@ -2005,7 +2076,8 @@
       [ "LUNGE", 10 ],
       [ "EAT_CROP", 30 ],
       [ "stretch_horn_DinoMod", 40 ]
-    ]
+    ],
+    "harvest": "centrosaurus"
   },
   {
     "type": "MONSTER",
@@ -2062,7 +2134,8 @@
       [ "SMASH", 30 ],
       [ "LUNGE", 10 ],
       [ "EAT_CROP", 20 ]
-    ]
+    ],
+    "harvest": "dino_large_leather"
   },
   {
     "type": "MONSTER",
@@ -2090,7 +2163,8 @@
     "zombify_into": "mon_zentaceratops",
     "description": "A massive rhino-like dinosaur with a tall bony crest from which four long horns and a short nose horn emerge.",
     "reproduction": { "baby_egg": "egg_pentaceratops", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" } ]
+    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" } ],
+    "harvest": "dino_large_leather"
   },
   {
     "type": "MONSTER",
@@ -2106,7 +2180,8 @@
     "zombify_into": "mon_zosmoceratops",
     "description": "A massive rhino-like dinosaur with an ornate spiked neck crest and two long horns curving up and to the sides from above its eyes.",
     "reproduction": { "baby_egg": "egg_kosmoceratops", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 20 ] ]
+    "special_attacks": [ [ "EAT_CROP", 24 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 20 ] ],
+    "harvest": "dino_large_leather"
   },
   {
     "type": "MONSTER",
@@ -2119,7 +2194,8 @@
     "zombify_into": "mon_zorosaurus",
     "description": "A massive rhino-like dinosaur with a tall bony crest from which two long wicked horns emerge.",
     "reproduction": { "baby_egg": "egg_torosaurus", "baby_count": 20, "baby_timer": 40 },
-    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 10 ] ]
+    "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" }, [ "stretch_horns_DinoMod", 10 ] ],
+    "harvest": "torosaurus"
   },
   {
     "type": "MONSTER",
@@ -2159,7 +2235,7 @@
     "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" } ],
     "petfood": { "food": [ "DINOFOOD_C" ] },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "BASHES" ],
-    "harvest": "mammal_large_leather",
+    "harvest": "triceratops",
     "dissect": "dissect_horns_sample_large",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FRIEND_DIED" ],

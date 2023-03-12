@@ -23,10 +23,8 @@ class JsonValue;
 struct sub_body_part_type;
 struct body_part_type;
 
-
 using sub_bodypart_str_id = string_id<sub_body_part_type>;
 using sub_bodypart_id = int_id<sub_body_part_type>;
-
 
 enum class side : int {
     BOTH,
@@ -45,8 +43,6 @@ struct sub_body_part_type {
     sub_bodypart_str_id id;
     std::vector<std::pair<sub_bodypart_str_id, mod_id>> src;
     sub_bodypart_str_id opposite;
-
-
 
     bool was_loaded = false;
 
@@ -70,6 +66,11 @@ struct sub_body_part_type {
     // if something entirely covered this part it
     // would have this value
     int max_coverage = 0;
+
+    // the locations that are under this location
+    // used with secondary locations to define what sublocations
+    // exist bellow them for things like discomfort
+    std::vector<sub_bodypart_str_id> locations_under;
 
     static void load_bp( const JsonObject &jo, const std::string &src );
 

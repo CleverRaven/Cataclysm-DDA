@@ -97,6 +97,10 @@ Are defined by adding `_female` or `_male` part to the `overlay_` part of a pref
 
 Are defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
 
+#### Optional transparent variant
+
+Defined by adding `_transparent` suffix to any tile entry `id`. For example `"id": "t_wall_transparent"`. The transparent version is used to prevent occlusion by high tiles, especially in ISO tilesets.
+
 #### Item/Mutation variant sprite variants
 
 Are defined by adding `_var_variant_id`, where `variant_id` is replaced by the id of the variant you want to sprite.
@@ -148,24 +152,7 @@ For details, see JSON_INFO.md, sections [`connect_groups`](./JSON_INFO.md#connec
 
 Wall work out of the box without modifying terrain definitions, as the required group `WALL` is implied by the flags `WALL` and `CONNECT_WITH_WALL` for `connect_groups` as well as `connects_to` (i.e. symmetric relation).
 
-Available groups are:
-
-##### Connect groups
-
-```
-NONE                 PIT_DEEP
-WALL                 LINOLEUM
-CHAINFENCE           CARPET
-WOODFENCE            CONCRETE
-RAILING              CLAY
-POOLWATER            DIRT
-WATER                ROCKFLOOR
-PAVEMENT             MULCHFLOOR
-RAIL                 METALFLOOR
-COUNTER              WOODFLOOR
-CANVAS_WALL          INDOORFLOOR
-SAND
-```
+For available connect groups, see [JSON_INFO.md, section Connection groups](./JSON_INFO.md#connection-groups).
 
 For the full multitile, the 16 sprite variants of this template are required:
 
@@ -225,11 +212,11 @@ Usage examples for terrain are doors and windows that look differently, seen fro
 An example for furniture are street lights that orient towards the pavement.
 
 The mechanism works like to `connects_to`, and can be combined with it.
-It also makes use of the same [Connect groups](#connect-groups), given by property `connect_groups`.
+It also makes use of the same [Connection group](./JSON_INFO.md#connection-groups), given by property `connect_groups`.
 Currently, however, auto-rotation is implemented only for `edge` and `end_piece` tiles (doors, windows, furniture) and `unconnected` tiles (e.g. street lights).
 
-For the active/rotating type, `rotates_to` specifies a [Connect group](#connect-groups) the terrain should rotate towards (or rather, depend on).
-For the passive/target type, `connect_groups` is used to add it to a [Connect group](#connect-groups).
+For the active/rotating type, `rotates_to` specifies a [Connection group](./JSON_INFO.md#connection-groups) the terrain should rotate towards (or rather, depend on).
+For the passive/target type, `connect_groups` is used to add it to a connection group.
 
 Terrain can only use terrain to rotate towards, while furniture can use both, terrain and furniture.
 
@@ -466,7 +453,9 @@ An optional file called layering.json can be provided. this file defines layerin
       {
         "item": "laptop",
         "sprite": [{"id": "desk_laptop", "weight": 1}],
-        "layer": 90
+        "layer": 90,
+        "offset_x": 16,
+        "offset_y": -48
       },
       {
         "item": "pen",
@@ -477,7 +466,9 @@ An optional file called layering.json can be provided. this file defines layerin
     "field_variants": [
       {
         "field": "fd_fire",
-        "sprite": [{"id": "desk_fd_fire", "weight": 1}]
+        "sprite": [{"id": "desk_fd_fire", "weight": 1}],
+        "offset_x": 16,
+        "offset_y": -48
       }
     ]
   }
@@ -499,6 +490,8 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"sprite": [{"id": "desk_pen_1", "weight": 2}, {"id": "desk_pen_2", "weight": 2}]` an array of the possible sprites that can display. For items multiple sprites can be provided with specific weights and will be selected at random.
 
+`"offset_x": 16`, `"offset_y": -48` optional sprite offset.
+
 ##### Fields
 
 `"field_variants":` the definitions for what fields will have a variant sprite.
@@ -507,7 +500,7 @@ This entry sets it so that the f_desk furniture if it contains either a pen or a
 
 `"sprite": [{"id": "desk_fd_fire", "weight": 1}]` A field can have at most one sprite.
 
-
+`"offset_x": 16`, `"offset_y": -48` optional sprite offset.
 
 ## `compose.py`
 

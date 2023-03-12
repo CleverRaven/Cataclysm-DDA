@@ -21,7 +21,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "M1911 .38 Super 9-round magazine" },
-    "description": "A compact single stack box magazine for the M1911.",
+    "description": "A compact, single stack box magazine for an M1911 chambered in .38 Super.",
     "weight": "80 g",
     "volume": "250 ml",
     "price": 3400,
