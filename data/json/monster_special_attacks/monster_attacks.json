@@ -53,11 +53,6 @@
   {
     "type": "monster_attack",
     "attack_type": "melee",
-    "id": "grab"
-  },
-  {
-    "type": "monster_attack",
-    "attack_type": "melee",
     "id": "tail_club",
     "cooldown": 10,
     "move_cost": 180,
