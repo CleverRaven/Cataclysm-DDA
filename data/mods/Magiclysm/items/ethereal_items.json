@@ -1253,7 +1253,6 @@
     "material": [ "wood" ],
     "symbol": "!",
     "color": "green",
-    "charges": 3,
     "stack_size": 10,
     "flags": [ "TRADER_AVOID", "SINGLE_USE" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 12, "move_cost": 300 }
