@@ -3364,9 +3364,9 @@ void debug()
             if( !popup.canceled() ) {
                 vehicle &veh = v_part_pos->vehicle();
                 if( amount >= 0 ) {
-                    veh.charge_battery( amount );
+                    veh.charge_battery( amount, false );
                 } else {
-                    veh.discharge_battery( -amount );
+                    veh.discharge_battery( -amount, false );
                 }
             }
             break;

@@ -817,6 +817,7 @@ class vehicle
         /// Keys are vehicles connected by POWER_TRANSFER parts, includes self
         /// Values are line loss, 0.01 corresponds to 1% charge loss to wire resistance
         /// May load the connected vehicles' submaps
+        /// Templated to support const and non-const vehicle*
         template<typename Vehicle>
         static std::map<Vehicle *, float> search_connected_vehicles( Vehicle *start );
     public:
@@ -1341,18 +1342,26 @@ class vehicle
         std::pair<int, int> connected_battery_power_level() const;
 
         /**
+        * @param apply_loss if true apply wire loss when charge crosses vehicle power cables
+        * @return battery charge in kJ from all connected batteries
+        */
+        int64_t battery_left( bool apply_loss = true ) const;
+
+        /**
          * Charges batteries in connected vehicles/appliances
          * @param amount to charge in kJ
-         * @return left over charge in kJ - no battery capacity left to charge up
+         * @param apply_loss if true apply wire loss when charge crosses vehicle power cables
+         * @return 0 or left over charge in kJ which does not fit in any connected batteries
          */
-        int charge_battery( int amount );
+        int charge_battery( int amount, bool apply_loss = true );
 
         /**
          * Discharges batteries in connected vehicles/appliances
          * @param amount to discharge in kJ
-         * @return unfulfilled charge in kJ or 0 if fully fulfilled
+         * @param apply_loss if true apply wire loss when charge crosses vehicle power cables
+         * @return 0 or unfulfilled part of \p amount in kJ
          */
-        int discharge_battery( int amount );
+        int discharge_battery( int amount, bool apply_loss = true );
 
         /**
          * Mark mass caches and pivot cache as dirty

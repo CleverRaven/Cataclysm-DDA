@@ -5063,7 +5063,7 @@ vehicle *vehicle::find_vehicle( const tripoint &where )
     return nullptr;
 }
 
-template<typename Vehicle>
+template<typename Vehicle> // Templated to support const and non-const vehicle*
 std::map<Vehicle *, float> vehicle::search_connected_vehicles( Vehicle *start )
 {
     std::map<Vehicle *, float> distances; // distance represents sum of cable losses
@@ -5128,106 +5128,143 @@ std::map<vpart_reference, float> vehicle::search_connected_batteries()
                 continue;
             }
             result.emplace( vpr, efficiency );
-            add_msg_debug( debugmode::DF_VEHICLE, "%s at %s loss factor %.2f",
-                           vpr.info().name(), vpr.pos().to_string_writable(), efficiency * 100.0f );
         }
     }
 
     return result;
 }
 
-int vehicle::charge_battery( int amount )
+// helper method to calculate power loss weighted by capacity
+static double weighted_power_loss( const std::map<vpart_reference, float> &batteries )
 {
-    // pair of battery reference and line loss factor (0.01 = 1% charge lost)
-    using batref_t = std::pair<const vpart_reference, float>;
-    // batteries keyed by percentage of charge
-    std::multimap<int, const batref_t> batteries;
-    const auto requeue_battery = [&batteries]( const batref_t &cb ) {
-        const vehicle_part &vp = cb.first.part();
+    double res = 0.0; // sum of power losses
+    int64_t total_capacity = 0; // sum of capacity of all batteries
+    for( const std::pair<const vpart_reference, float> &pair : batteries ) {
+        vehicle_part &vp = pair.first.part();
         const int capacity = vp.ammo_capacity( ammo_battery );
-        const int remaining = vp.ammo_remaining();
-        if( capacity > remaining ) { // can still charge
-            batteries.emplace( 100 * remaining / capacity, cb );
-        }
-    };
-
-    for( const batref_t &br : search_connected_batteries() ) {
-        requeue_battery( br );
+        total_capacity += capacity;
+        res += pair.second * capacity;
     }
-
-    int total_lost = 0;
-    int total_gained = 0;
-    // Grab first part, charge until it reaches the next %, then re-insert with new % key.
-    while( amount > 0 && !batteries.empty() ) {
-        const auto iter = batteries.begin();
-        const int next_percent = iter->first + 1;
-        const batref_t br = iter->second;
-        batteries.erase( iter );
-        vehicle_part &vp = br.first.part();
-        const int capacity = vp.ammo_capacity( ammo_battery );
-        const int remaining = vp.ammo_remaining();
-        const int next_percent_charge = std::max( next_percent * capacity / 100, remaining + 1 );
-        const int qty = std::min( amount, next_percent_charge - remaining );
-        amount -= qty;
-        const int lost = roll_remainder( qty * br.second );
-        const int gained = qty - lost;
-        vp.ammo_set( fuel_type_battery, remaining + gained );
-        total_lost += lost;
-        total_gained += gained;
-        requeue_battery( br );
-    }
-    add_msg_debug( debugmode::DF_VEHICLE, "charged %d ( usable %d lost %d )",
-                   total_gained + total_lost, total_gained, total_lost );
-
-    return amount; // non-zero if all batteries are full before expending amount
+    return res / total_capacity;
 }
 
-int vehicle::discharge_battery( int amount )
+// helper method to take a map of batteries, amount of charge, total capacity of batteries
+// and distribute given charge_kj over the batteries as evenly as possible
+static void distribute_charge_evenly( const std::map<vpart_reference, float> &batteries,
+                                      int64_t charge_kj, int64_t total_capacity_kj )
 {
-    // pair of battery reference and line loss factor (0.01 = 1% charge lost)
-    using batref_t = std::pair<const vpart_reference, float>;
-    // batteries keyed by percentage of charge
-    std::multimap<int, const batref_t> batteries;
-    const auto requeue_battery = [&batteries]( const batref_t &cb ) {
-        const vehicle_part &vp = cb.first.part();
-        const int capacity = vp.ammo_capacity( ammo_battery );
-        const int remaining = vp.ammo_remaining();
-        if( remaining > 0 ) { // can still discharge
-            batteries.emplace( 100 * remaining / capacity, cb );
+    int64_t distributed = 0;
+    for( const std::pair<const vpart_reference, float> &pair : batteries ) {
+        vehicle_part &vp = pair.first.part();
+        const int bat_capacity = vp.ammo_capacity( ammo_battery );
+        const float fraction = static_cast<float>( bat_capacity ) / total_capacity_kj;
+        const int portion = charge_kj * fraction;
+        vp.ammo_set( fuel_type_battery, portion );
+        distributed += portion;
+    }
+    if( distributed < charge_kj ) { // dump indivisible remainder sequentially
+        for( const std::pair<const vpart_reference, float> &pair : batteries ) {
+            vehicle_part &vp = pair.first.part();
+            const int64_t bat_charge = vp.ammo_remaining();
+            const int64_t bat_capacity = vp.ammo_capacity( ammo_battery );
+            const int chargeable = std::min( charge_kj - distributed, bat_capacity - bat_charge );
+            vp.ammo_set( fuel_type_battery, bat_charge + chargeable );
+            distributed += chargeable;
+            if( distributed >= charge_kj ) {
+                break;
+            }
         }
-    };
+    }
+    if( distributed < charge_kj ) { // safeguard, this shouldn't happen
+        debugmsg( "no capacity to distribute distribute %d kJ", charge_kj - distributed );
+    }
+}
 
-    for( const batref_t &br : search_connected_batteries() ) {
-        requeue_battery( br );
+int64_t vehicle::battery_left( bool apply_loss ) const
+{
+    int64_t ret = 0;
+    for( const std::pair<const vehicle *const, float> &pair : search_connected_vehicles() ) {
+        const vehicle &veh = *pair.first;
+        const float efficiency = 1.0f - ( apply_loss ? pair.second : 0.0f );
+        for( const int part_idx : veh.batteries ) {
+            const vehicle_part &vp = veh.parts[part_idx];
+            ret += vp.ammo_remaining() * efficiency;
+        }
+    }
+    return ret;
+}
+
+int vehicle::charge_battery( int amount, bool apply_loss )
+{
+    const std::map<vpart_reference, float> batteries = search_connected_batteries();
+    if( amount == 0 || batteries.empty() ) {
+        return amount; // nothing to do
+    }
+    const double loss = apply_loss ? weighted_power_loss( batteries ) : 0.0;
+    int64_t total_charge = 0; // sum of current charge of all batteries
+    int64_t total_capacity = 0; // sum of capacity of all batteries
+    for( const std::pair<const vpart_reference, float> &pair : batteries ) {
+        vehicle_part &vp = pair.first.part();
+        total_charge += vp.ammo_remaining();
+        total_capacity += vp.ammo_capacity( ammo_battery );
+    }
+    const int64_t chargeable = total_capacity - total_charge;
+    int64_t lost_amount = roll_remainder( amount * loss );
+    int64_t lossy_amount = amount;
+    int64_t charged = amount - lost_amount;
+    if( charged > chargeable ) { // no battery capacity to absorb all charge, recalculate loss
+        charged = chargeable; // cap at the maximum possible charge
+        lost_amount = roll_remainder( charged * loss );
+        lossy_amount = charged + lost_amount;
+    }
+    total_charge += charged;
+    const int tried_charging = amount;
+    amount -= charged + lost_amount;
+
+    distribute_charge_evenly( batteries, total_charge, total_capacity );
+
+    add_msg_debug( debugmode::DF_VEHICLE,
+                   "batteries: %d, loss: %.3f, tried charging: %d kJ, actual charged: %d kJ, usable: %d kJ, lost: %d kJ, excess: %d kJ",
+                   batteries.size(), loss, tried_charging, lossy_amount, charged, lost_amount, amount );
+
+    return amount; // non zero if batteries couldn't absorb the entire amount
+}
+
+int vehicle::discharge_battery( int amount, bool apply_loss )
+{
+    const std::map<vpart_reference, float> batteries = search_connected_batteries();
+    if( amount == 0 || batteries.empty() ) {
+        return amount; // nothing to do
+    }
+    const double loss = apply_loss ? weighted_power_loss( batteries ) : 0.0;
+    int64_t total_charge = 0; // sum of current charge of all batteries
+    int64_t total_capacity = 0; // sum of capacity of all batteries
+    for( const std::pair<const vpart_reference, float> &pair : batteries ) {
+        vehicle_part &vp = pair.first.part();
+        total_charge += vp.ammo_remaining();
+        total_capacity += vp.ammo_capacity( ammo_battery );
     }
 
-    int total_lost = 0;
-    int total_gained = 0;
-    // Grab first part, discharge until it reaches the next %, then re-insert with new % key.
-    while( amount > 0 && !batteries.empty() ) {
-        const auto iter = batteries.begin();
-        const int prev_percent = iter->first - 1;
-        const batref_t br = iter->second;
-        batteries.erase( iter );
-        vehicle_part &vp = br.first.part();
-        const int capacity = vp.ammo_capacity( ammo_battery );
-        const int remaining = vp.ammo_remaining();
-        const int prev_percent_charge = std::max( prev_percent * capacity / 100, 0 );
-        const int prev_charge_amount = std::max( 0, prev_percent_charge );
-        const int qty = std::min( remaining - prev_charge_amount, amount );
-        cata_assert( qty >= 0 );
-        vp.ammo_consume( qty, br.first.pos() );
-        const int lost = roll_remainder( qty * br.second );
-        const int gained = qty - lost;
-        total_lost += lost;
-        total_gained += gained;
-        requeue_battery( br );
-        amount -= gained;
+    int64_t discharged = amount;
+    int64_t lost_amount = roll_remainder( amount * loss );
+    int64_t lossy_amount = amount + lost_amount;
+    if( lossy_amount > total_charge ) { // not enough available, recalculate loss
+        lossy_amount = total_charge; // cap at the maximum possible discharge
+        lost_amount = roll_remainder( lossy_amount * loss );
+        discharged = lossy_amount - lost_amount;
     }
-    add_msg_debug( debugmode::DF_VEHICLE, "discharged %d ( usable %d lost %d )",
-                   total_gained + total_lost, total_gained, total_lost );
+    total_charge -= lossy_amount;
+    const int tried_discharging = amount;
+    amount -= discharged;
 
-    return amount; // non-zero if we weren't able to fulfill demand.
+    distribute_charge_evenly( batteries, total_charge, total_capacity );
+
+    add_msg_debug( debugmode::DF_VEHICLE,
+                   "batteries: %d, loss: %.3f, tried discharging: %d kJ, actual discharged: %d kJ, usable: %d kJ, lost: %d kJ, missing: %d kJ",
+                   batteries.size(), loss, tried_discharging, lossy_amount, discharged, lost_amount,
+                   amount );
+
+    return amount; // non zero if batteries couldn't provide the entire amount
 }
 
 void vehicle::do_engine_damage( vehicle_part &vp, int strain )
