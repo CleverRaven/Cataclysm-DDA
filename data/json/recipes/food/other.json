@@ -120,6 +120,7 @@
     "time": "8 m",
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "textbook_chemistry", 3 ], [ "adv_chemistry", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "components": [
       [ [ "formic_acid", 10 ] ],
       [ [ "water", 10 ], [ "water_clean", 10 ] ],
