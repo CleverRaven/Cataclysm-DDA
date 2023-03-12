@@ -428,6 +428,19 @@
   },
   {
     "type": "scenario",
+    "id": "faction_camp_start",
+    "name": "Brave New World",
+    "points": 8,
+    "description": "It's been a year since the apocalypse, and winter is fast approaching.  You and your company have managed to gather up enough supplies to finally settle down somewhere, away from the death and destruction.  Life has been hard for you, but a bright new future lies ahead in your vision.",
+    "start_name": "Old Evac Shelter",
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "custom_initial_date": { "season": "autumn", "year": 2 },
+    "requirement": "achievement_survive_91_days",
+    "eoc": [ "faction_camp_start" ],
+    "flags": [ "CITY_START", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "alone",
     "name": "Sheltered",
     "points": -3,
