@@ -1124,10 +1124,10 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     if( veh && veh->cruise_on ) {
         itype_id fuel_type = itype_id::NULL_ID();
         // FIXME: Move this to a vehicle helper function like get_active_engine
-        for( size_t e = 0; e < veh->engines.size(); e++ ) {
-            const vehicle_part &vp = veh->part( veh->engines[e] );
+        for( const int p : veh->engines ) {
+            const vehicle_part &vp = veh->part( p );
             if( veh->is_engine_on( vp )
-                && !veh->is_perpetual_type( e )
+                && !veh->is_perpetual_type( vp )
                 && !veh->is_engine_type( vp, fuel_type_muscle ) ) {
                 // Get the fuel type of the first engine that is turned on
                 fuel_type = vp.fuel_current();

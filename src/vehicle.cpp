@@ -972,10 +972,9 @@ bool vehicle::is_combustion_engine_type( const int e ) const
     return parts[engines[e]].info().has_flag( flag_E_COMBUSTION );
 }
 
-bool vehicle::is_perpetual_type( const int e ) const
+bool vehicle::is_perpetual_type( const vehicle_part &vp ) const
 {
-    const itype_id  &ft = part_info( engines[e] ).fuel_type;
-    return item( ft ).has_flag( flag_PERPETUAL );
+    return item( vp.info().fuel_type ).has_flag( flag_PERPETUAL );
 }
 
 bool vehicle::is_engine_on( const vehicle_part &vp ) const
@@ -3458,7 +3457,7 @@ units::power vehicle::basic_consumption( const itype_id &ftype ) const
                 // Electric engine - use epower instead
                 fcon -= part_epower( engines[e] );
 
-            } else if( !is_perpetual_type( e ) ) {
+            } else if( !is_perpetual_type( vp ) ) {
                 fcon += part_vpower_w( engines[e] );
                 if( parts[ e ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
                     fcon *= 2;
@@ -4569,23 +4568,15 @@ float vehicle::handling_difficulty() const
     return velocity * diff_mod / vehicles::vmiph_per_tile;
 }
 
-units::power vehicle::engine_fuel_usage( int e ) const
+units::power vehicle::engine_fuel_usage( const vehicle_part &vp ) const
 {
-    const vehicle_part &vp = parts[engines[e]];
-    if( !is_engine_on( vp ) ) {
-        return 0_W;
-    }
-    if( vp.fuel_current().is_null() ) {
-        return 0_W;
-    }
-    if( is_perpetual_type( e ) ) {
+    if( !is_engine_on( vp ) || vp.fuel_current().is_null() || is_perpetual_type( vp ) ) {
         return 0_W;
     }
     const units::power usage = vp.info().energy_consumption;
     if( vp.has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
         return usage * 2;
     }
-
     return usage;
 }
 
@@ -4593,13 +4584,9 @@ std::map<itype_id, units::power> vehicle::fuel_usage() const
 {
     std::map<itype_id, units::power> ret;
     for( size_t i = 0; i < engines.size(); i++ ) {
-        // Note: functions with "engine" in name do NOT take part indices
-        // TODO: Use part indices and not engine vector indices
-        const size_t e = engines[i];
-        const itype_id &cur_fuel = parts[e].fuel_current();
-        ret[cur_fuel] += engine_fuel_usage( i );
+        const vehicle_part &vp = parts[engines[i]];
+        ret[vp.fuel_current()] += engine_fuel_usage( vp );
     }
-
     return ret;
 }
 
@@ -5288,7 +5275,7 @@ void vehicle::do_engine_damage( size_t e, int strain )
 {
     vehicle_part &vp = parts[engines[e]];
     strain = std::min( 25, strain );
-    if( is_engine_on( vp ) && !is_perpetual_type( e ) && engine_fuel_left( vp ) &&
+    if( is_engine_on( vp ) && !is_perpetual_type( vp ) && engine_fuel_left( vp ) &&
         rng( 1, 100 ) < strain ) {
         const int dmg = rng( 0, strain * 4 );
         damage_direct( get_map(), engines[e], dmg );

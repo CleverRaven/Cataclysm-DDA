@@ -1304,7 +1304,7 @@ class vehicle
         * Fuel usage for specific engine
         * @param e is the index of the engine in the engines array
         */
-        units::power engine_fuel_usage( int e ) const;
+        units::power engine_fuel_usage( const vehicle_part &vp ) const;
         /**
          * Get all vehicle lights (excluding any that are destroyed)
          * @param active if true return only lights which are enabled
@@ -1852,7 +1852,7 @@ class vehicle
         //the exclusion
         bool has_engine_conflict( const vpart_info *possible_conflict, std::string &conflict_type ) const;
         //returns true if the engine doesn't consume fuel
-        bool is_perpetual_type( int e ) const;
+        bool is_perpetual_type( const vehicle_part &vp ) const;
         //if necessary, damage this engine
         void do_engine_damage( size_t e, int strain );
         //remotely open/close doors

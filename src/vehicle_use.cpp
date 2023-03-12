@@ -342,8 +342,8 @@ void vehicle::control_engines()
             const int engine_idx = engines[e];
             const vehicle_part &vp = parts[engine_idx];
             for( const itype_id &fuel_type : vp.info().engine_fuel_opts() ) {
-                bool is_active = vp.enabled && vp.fuel_current() == fuel_type;
-                bool has_fuel = is_perpetual_type( e ) || fuel_left( fuel_type );
+                const bool is_active = vp.enabled && vp.fuel_current() == fuel_type;
+                const bool has_fuel = is_perpetual_type( vp ) || fuel_left( fuel_type );
                 menu.add( string_format( "[%s] %s %s", is_active ? "x" : " ", vp.name(), fuel_type->nname( 1 ) ) )
                 .enable( vp.is_available() && has_fuel )
                 .keep_menu_open()

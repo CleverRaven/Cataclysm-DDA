@@ -249,7 +249,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         if( is_engine_on( vp ) ) {
             const bool is_electric = is_engine_type( vp, fuel_type_battery );
             prev_mask |= 1 << i;
-            units::power fu = engine_fuel_usage( c_engines[i] ) * ( cur_load_approx + ( is_electric ? 0 :
+            units::power fu = engine_fuel_usage( vp ) * ( cur_load_approx + ( is_electric ? 0 :
                               cur_load_alternator ) );
             opt_fuel_usage += fu;
             if( is_electric ) {
@@ -330,7 +330,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         for( int e : c_engines ) {
             const vehicle_part &vp = parts[engines[e]];
             const bool is_electric = is_engine_type( vp, fuel_type_battery );
-            units::power fu = engine_fuel_usage( e ) * ( load_approx + ( is_electric ? 0 :
+            units::power fu = engine_fuel_usage( vp ) * ( load_approx + ( is_electric ? 0 :
                               load_approx_alternator ) );
             fuel_usage += fu;
             if( is_electric ) {
