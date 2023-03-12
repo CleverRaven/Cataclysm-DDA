@@ -708,7 +708,7 @@ static void spell_description(
         description << string_format( _( "Only affects the monsters: %1$s" ), target_ids ) << '\n';
     }
 
-    const int damage = spl.damage();
+    const int damage = spl.damage( chrc );
     const std::string spl_eff = spl.effect();
     std::string damage_string;
     std::string range_string;
@@ -721,11 +721,11 @@ static void spell_description(
                 //~ amount of damage per second, abbreviated
                 dot_string = string_format( _( ", %1$d/sec" ), spl.damage_dot() );
             }
-            damage_string = string_format( _( "Damage: %1$s %2$s%3$s" ), spl.damage_string(),
+            damage_string = string_format( _( "Damage: %1$s %2$s%3$s" ), spl.damage_string( chrc ),
                                            spl.damage_type_string(), dot_string );
             damage_string = colorize( damage_string, spl.damage_type_color() );
         } else if( damage < 0 ) {
-            damage_string = string_format( _( "Healing: %1$s" ), colorize( spl.damage_string(),
+            damage_string = string_format( _( "Healing: %1$s" ), colorize( spl.damage_string( chrc ),
                                            light_green ) );
         }
 
@@ -747,8 +747,8 @@ static void spell_description(
         }
 
     } else if( spl_eff == "spawn_item" ) {
-        damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage(),
-                                       item::nname( itype_id( spl.effect_data() ), spl.damage() ) );
+        damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage( chrc ),
+                                       item::nname( itype_id( spl.effect_data() ), spl.damage( chrc ) ) );
 
     } else if( spl_eff == "summon" ) {
         std::string monster_name = "FIXME";
@@ -762,7 +762,7 @@ static void spell_description(
         } else {
             monster_name = monster( mtype_id( spl.effect_data() ) ).get_name();
         }
-        damage_string = string_format( _( "Summon: %1$d %2$s" ), spl.damage(), monster_name );
+        damage_string = string_format( _( "Summon: %1$d %2$s" ), spl.damage( chrc ), monster_name );
         aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe() );
 
     } else if( spl_eff == "targeted_polymorph" ) {
@@ -779,14 +779,14 @@ static void spell_description(
         } else {
             monster_name = mtype_id( spl.effect_data() )->nname();
         }
-        damage_string = string_format( _( "Targets under: %1$dhp become a %2$s" ), spl.damage(),
+        damage_string = string_format( _( "Targets under: %1$dhp become a %2$s" ), spl.damage( chrc ),
                                        monster_name );
 
     } else if( spl_eff == "ter_transform" ) {
         aoe_string = string_format( "Spell Radius: %1$s", spl.aoe_string() );
 
     } else if( spl_eff == "banishment" ) {
-        damage_string = string_format( _( "Damage: %1$s %2$s" ), spl.damage_string(),
+        damage_string = string_format( _( "Damage: %1$s %2$s" ), spl.damage_string( chrc ),
                                        spl.damage_type_string() );
         if( spl.aoe() > 0 ) {
             aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe() );

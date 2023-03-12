@@ -240,7 +240,7 @@ static int spell_damage( const spell_id &sp_id, const int spell_level )
     npc guy;
     spell test_spell( sp_id );
     test_spell.set_level( guy, spell_level );
-    return test_spell.damage();
+    return test_spell.damage( guy );
 }
 
 TEST_CASE( "spell damage", "[magic][spell][damage]" )
@@ -249,11 +249,11 @@ TEST_CASE( "spell damage", "[magic][spell][damage]" )
     const spell_type &pew_type = pew_id.obj();
 
     // Level 0 damage for this spell is 1
-    REQUIRE( pew_type.min_damage == 1 );
+    REQUIRE( pew_type.min_damage.min.dbl_val.value() == 1);
     // and 1 damage is added at each level
-    REQUIRE( pew_type.damage_increment == 1 );
+    REQUIRE( pew_type.damage_increment.min.dbl_val.value() == 1 );
     // however, maximum damage is 5
-    REQUIRE( pew_type.max_damage == 5 );
+    REQUIRE( pew_type.max_damage.min.dbl_val.value() == 5 );
     // so maximum damage will be reached at level 4, when
     //
     // Lv4 damage = 1 + 4 * 1 = 5
@@ -556,13 +556,13 @@ TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack
     // Ensure the spell has the needed attributes
     const spell_type &pew_type = pew_id.obj();
     REQUIRE( pew_type.effect_name == "attack" );
-    REQUIRE( pew_type.min_damage > 0 );
+    REQUIRE( pew_type.min_damage.min.dbl_val.value() > 0 );
     REQUIRE( pew_type.min_range >= 2 );
 
     // The spell itself
     spell pew_spell( pew_id );
     pew_spell.set_level( dummy, 5 );
-    REQUIRE( pew_spell.damage() > 0 );
+    REQUIRE( pew_spell.damage( dummy ) > 0 );
     REQUIRE( pew_spell.range() >= 2 );
 
     // Ensure avatar has enough mana to cast
@@ -574,7 +574,7 @@ TEST_CASE( "spell effect - target_attack", "[magic][spell][effect][target_attack
     after_hp = mummy.get_hp();
 
     // Should do approximately the expected damage
-    CHECK( before_hp - pew_spell.damage() == Approx( after_hp ).margin( 1 ) );
+    CHECK( before_hp - pew_spell.damage( dummy ) == Approx( after_hp ).margin( 1 ) );
 }
 
 // spell_effect::spawn_summoned_monster
@@ -642,9 +642,9 @@ TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_ener
         REQUIRE( montage_type.energy_source == magic_energy_type::mana );
 
         // At level 0, recovers 1000 stamina (10% of maximum)
-        REQUIRE( montage_type.min_damage == 1000 );
+        REQUIRE( montage_type.min_damage.min.dbl_val.value() == 1000 );
         // and at level 10, recovers 10000 stamina (all of it)
-        REQUIRE( montage_type.max_damage == 10000 );
+        REQUIRE( montage_type.max_damage.min.dbl_val.value() == 10000 );
 
         // Ensure avatar needs some stamina
         int start_stamina = dummy.get_stamina_max() / 2;
@@ -656,7 +656,7 @@ TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_ener
         montage_spell.cast_spell_effect( dummy, dummy.pos() );
 
         // Get stamina back equal to min_damage (at level 0)
-        CHECK( dummy.get_stamina() == start_stamina + montage_type.min_damage );
+        CHECK( dummy.get_stamina() == start_stamina + montage_type.min_damage.min.dbl_val.value() );
     }
 
     SECTION( "reduce pain" ) {
@@ -666,9 +666,9 @@ TEST_CASE( "spell effect - recover_energy", "[magic][spell][effect][recover_ener
         REQUIRE( kiss_type.effect_name == "recover_energy" );
         REQUIRE( kiss_type.effect_str == "PAIN" );
         // Positive "damage" for pain gives relief from pain
-        REQUIRE( kiss_type.min_damage == 1 );
-        REQUIRE( kiss_type.max_damage == 10 );
-        REQUIRE( kiss_type.damage_increment == 1 );
+        REQUIRE( kiss_type.min_damage.min.dbl_val.value() == 1 );
+        REQUIRE( kiss_type.max_damage.min.dbl_val.value() == 10 );
+        REQUIRE( kiss_type.damage_increment.min.dbl_val.value() == 1 );
 
         spell kiss_spell( kiss_id );
 

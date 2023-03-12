@@ -13,6 +13,7 @@
 
 #include "bodypart.h"
 #include "damage.h"
+#include "dialogue_helpers.h"
 #include "enum_bitset.h"
 #include "event_subscriber.h"
 #include "optional.h"
@@ -231,30 +232,30 @@ class spell_type
         // if the spell has a field name defined, this is where it is
         cata::optional<field_type_id> field = cata::nullopt;
         // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
-        int field_chance = 0;
+        dbl_or_var<dialogue> field_chance;
         // field intensity at spell level 0
-        int min_field_intensity = 0;
+        dbl_or_var<dialogue> min_field_intensity;
         // increment of field intensity per level
-        float field_intensity_increment = 0.0f;
+        dbl_or_var<dialogue> field_intensity_increment;
         // maximum field intensity allowed
-        int max_field_intensity = 0;
+        dbl_or_var<dialogue> max_field_intensity;
         // field intensity added to the map is +- ( 1 + field_intensity_variance ) * field_intensity
-        float field_intensity_variance = 0.0f;
+        dbl_or_var<dialogue> field_intensity_variance;
 
         // accuracy is a bonus against dodge, block, and spellcraft
         // which allows the target to mitigate up to 33% damage for each type of resistance
         // this could theoretically add up to 100%
 
-        int min_accuracy = 20;
-        float accuracy_increment = 0.0f;
-        int max_accuracy = 20;
+        dbl_or_var<dialogue> min_accuracy;
+        dbl_or_var<dialogue> accuracy_increment;
+        dbl_or_var<dialogue> max_accuracy;
 
         // minimum damage this spell can cause
-        int min_damage = 0;
+        dbl_or_var<dialogue> min_damage;
         // amount of damage increase per spell level
-        float damage_increment = 0.0f;
+        dbl_or_var<dialogue> damage_increment;
         // maximum damage this spell can cause
-        int max_damage = 0;
+        dbl_or_var<dialogue> max_damage;
 
         // minimum range of a spell
         int min_range = 0;
@@ -346,7 +347,7 @@ class spell_type
 
         static void load_spell( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & );
-        void serialize( JsonOut &json ) const;
+
         /**
          * All spells in the game.
          */
@@ -428,13 +429,13 @@ class spell
         translation alt_message;
 
         // minimum damage including levels
-        int min_leveled_damage() const;
+        int min_leveled_damage( const Creature &caster ) const;
         int min_leveled_dot() const;
         // minimum aoe including levels
         int min_leveled_aoe() const;
         // minimum duration including levels (moves)
         int min_leveled_duration() const;
-        int min_leveled_accuracy() const;
+        int min_leveled_accuracy( const Creature &caster ) const;
 
     public:
         spell() = default;
@@ -469,16 +470,16 @@ class spell
 
         spell_shape shape() const;
         // what is the intensity of the field the spell generates ( 0 if no field )
-        int field_intensity() const;
+        int field_intensity( const Creature &caster ) const;
         // how much damage does the spell do
-        int damage() const;
-        int accuracy() const;
+        int damage( const Creature &caster ) const;
+        int accuracy( Creature &caster ) const;
         int damage_dot() const;
         damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps ) const;
-        dealt_damage_instance get_dealt_damage_instance() const;
+        dealt_damage_instance get_dealt_damage_instance( Creature &caster ) const;
         dealt_projectile_attack get_projectile_attack( const tripoint &target,
-                Creature &hit_critter ) const;
-        damage_instance get_damage_instance() const;
+                Creature &hit_critter, Creature &caster ) const;
+        damage_instance get_damage_instance( Creature &caster ) const;
         // calculate damage per second against a target
         float dps( const Character &caster, const Creature &target ) const;
         // select a target for the spell
@@ -557,7 +558,7 @@ class spell
         //if targeted_species_ids is empty, it returns an empty string
         std::string list_targeted_species_names() const;
 
-        std::string damage_string() const;
+        std::string damage_string( const Character &caster ) const;
         std::string aoe_string() const;
         std::string duration_string() const;
 
@@ -572,14 +573,14 @@ class spell
         int get_difficulty() const;
 
         // tries to create a field at the location specified
-        void create_field( const tripoint &at ) const;
+        void create_field( const tripoint &at, Creature &caster ) const;
 
-        int sound_volume() const;
+        int sound_volume( const Creature &caster ) const;
         // makes a spell sound at the location
-        void make_sound( const tripoint &target ) const;
+        void make_sound( const tripoint &target, Creature &caster ) const;
         void make_sound( const tripoint &target, int loudness ) const;
         // heals the critter at the location, returns amount healed (Character heals each body part)
-        int heal( const tripoint &target ) const;
+        int heal( const tripoint &target, Creature &caster ) const;
 
         // casts the spell effect. returns true if successful
         void cast_spell_effect( Creature &source, const tripoint &target ) const;

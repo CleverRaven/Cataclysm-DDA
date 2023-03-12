@@ -1528,7 +1528,7 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
     }
     // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
     trap_spell.cast_all_effects( dummy, critter->pos() );
-    trap_spell.make_sound( p );
+    trap_spell.make_sound( p, get_player_character() );
 
     return true;
 }

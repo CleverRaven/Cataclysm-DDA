@@ -3,6 +3,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "creature_tracker.h"
+#include "dialogue.h"
 #include "flag.h"
 #include "item.h"
 #include "line.h"
@@ -150,7 +151,7 @@ bool npc_attack_spell::can_use( const npc &source ) const
     // missing components or energy or something
     return attack_spell.can_cast( source ) &&
            // use the same rules as silent guns
-           !( source.rules.has_flag( ally_rule::use_silent ) && attack_spell.sound_volume() >= 5 );
+           !( source.rules.has_flag( ally_rule::use_silent ) && attack_spell.sound_volume( source ) >= 5 );
 }
 
 int npc_attack_spell::base_time_penalty( const npc &source ) const
@@ -181,8 +182,9 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
         if( !critter ) {
             // no critter? no damage! however, we assume fields are worth something
             if( attack_spell_id->field ) {
-                total_potential += static_cast<double>( attack_spell.field_intensity() ) /
-                                   static_cast<double>( attack_spell_id->field_chance ) / 2.0;
+                dialogue d( get_talker_for( source ), nullptr );
+                total_potential += static_cast<double>( attack_spell.field_intensity( source ) ) /
+                                   static_cast<double>( attack_spell_id->field_chance.evaluate( d ) ) / 2.0;
             }
             continue;
         }
