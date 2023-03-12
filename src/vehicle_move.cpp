@@ -145,9 +145,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     for( int i = 0; i < static_cast<int>( engines.size() ); ++i ) {
         const vehicle_part &vp = parts[engines[i]];
         const bool is_electric = is_engine_type( vp, fuel_type_battery );
-        if( ( is_electric || is_combustion_engine_type( i ) ) &&
-            ( ( vp.is_available() && engine_fuel_left( vp ) ) ||
-              is_part_on( engines[ i ] ) ) ) {
+        if( ( is_electric || is_engine_type_combustion( vp ) ) &&
+            ( ( vp.is_available() && engine_fuel_left( vp ) ) || vp.enabled ) ) {
             c_engines.push_back( i );
             if( is_electric ) {
                 has_electric_engine = true;
@@ -563,9 +562,9 @@ void vehicle::thrust( int thd, int z )
             requested_z_change = z;
         }
         //break the engines a bit, if going too fast.
-        int strn = static_cast<int>( strain() * strain() * 100 );
-        for( size_t e = 0; e < engines.size(); e++ ) {
-            do_engine_damage( e, strn );
+        const int strn = static_cast<int>( strain() * strain() * 100 );
+        for( const int p : engines ) {
+            do_engine_damage( parts[p], strn );
         }
     }
 

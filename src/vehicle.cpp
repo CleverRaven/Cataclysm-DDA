@@ -967,9 +967,9 @@ bool vehicle::is_engine_type( const vehicle_part &vp, const itype_id  &ft ) cons
     return vp.ammo_current().is_null() ? vp.fuel_current() == ft : vp.ammo_current() == ft;
 }
 
-bool vehicle::is_combustion_engine_type( const int e ) const
+bool vehicle::is_engine_type_combustion( const vehicle_part &vp ) const
 {
-    return parts[engines[e]].info().has_flag( flag_E_COMBUSTION );
+    return vp.info().has_flag( flag_E_COMBUSTION );
 }
 
 bool vehicle::is_perpetual_type( const vehicle_part &vp ) const
@@ -3837,7 +3837,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
             cur_stress = std::max( cur_stress, 1.0 );
             double part_noise = cur_stress * part_info( p ).engine_noise_factor();
 
-            if( part_info( p ).has_flag( "E_COMBUSTION" ) ) {
+            if( is_engine_type_combustion( vp ) ) {
                 combustion = true;
                 double health = parts[p].health_percent();
                 if( parts[ p ].has_fault_flag( "ENG_BACKFIRE" ) ) {
@@ -5271,14 +5271,13 @@ int vehicle::discharge_battery( int amount, bool recurse )
     return amount; // non-zero if we weren't able to fulfill demand.
 }
 
-void vehicle::do_engine_damage( size_t e, int strain )
+void vehicle::do_engine_damage( vehicle_part &vp, int strain )
 {
-    vehicle_part &vp = parts[engines[e]];
     strain = std::min( 25, strain );
     if( is_engine_on( vp ) && !is_perpetual_type( vp ) && engine_fuel_left( vp ) &&
         rng( 1, 100 ) < strain ) {
         const int dmg = rng( 0, strain * 4 );
-        damage_direct( get_map(), engines[e], dmg );
+        damage_direct( get_map(), index_of_part( &vp ), dmg );
         if( one_in( 2 ) ) {
             add_msg( _( "Your engine emits a high pitched whine." ) );
         } else {
