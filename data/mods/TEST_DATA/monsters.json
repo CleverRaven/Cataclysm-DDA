@@ -57,9 +57,7 @@
     "melee_dice": 0,
     "morale": 100,
     "aggression": 100,
-    "special_attacks": [
-      { "id": "test_conditions_1" }
-    ]
+    "special_attacks": [ { "id": "test_conditions_1" } ]
   },
   {
     "type": "MONSTER",
