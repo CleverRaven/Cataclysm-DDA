@@ -3400,11 +3400,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-        "rigid": true,
-        "watertight": false,
-        "open_container": false,
-        "max_contains_volume": "1100 ml",
-        "max_contains_weight": "2 kg",
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "3785 ml",
