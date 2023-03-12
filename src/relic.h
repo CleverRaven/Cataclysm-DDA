@@ -214,7 +214,7 @@ class relic
         int moves = 0;
 
         // passive enchantments to add by id in finalize once we can guarantee that they have loaded
-        std::vector<enchantment_id> passive_enchant_ids;
+        std::vector<enchantment_id> passive_enchant_ids; // NOLINT(cata-serialize)
     public:
         std::string name() const;
         // returns number of charges that should be consumed
