@@ -1825,7 +1825,7 @@ class vehicle
         //returns whether the engine is enabled or not, and has fueltype
         bool is_engine_type_on( int e, const itype_id &ft ) const;
         //returns whether the engine is enabled or not
-        bool is_engine_on( int e ) const;
+        bool is_engine_on( const vehicle_part &vp ) const;
         //returns whether the part is enabled or not
         bool is_part_on( int p ) const;
         //returns whether the engine uses specified fuel type

@@ -878,21 +878,21 @@ void sfx::do_vehicle_engine_sfx()
     const bool night = is_night( calendar::turn );
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
-        if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_internal",
-                                        veh->part_info( veh->engines[ e ] ).get_id().str(),
-                                        seas_str, indoors, night ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal",
-                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
-            } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "muscle" );
-            } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "wind" );
-            } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "electric" );
-            } else {
-                id_and_variant = std::make_pair( "engine_working_internal", "combustion" );
-            }
+        const vehicle_part &vp = veh->part( veh->engines[e] );
+        const std::string vp_id_str = vp.info().get_id().str();
+        if( !veh->is_engine_on( vp ) ) {
+            continue;
+        }
+        if( sfx::has_variant_sound( "engine_working_internal", vp_id_str, seas_str, indoors, night ) ) {
+            id_and_variant = std::make_pair( "engine_working_internal", vp_id_str );
+        } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
+            id_and_variant = std::make_pair( "engine_working_internal", "muscle" );
+        } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
+            id_and_variant = std::make_pair( "engine_working_internal", "wind" );
+        } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
+            id_and_variant = std::make_pair( "engine_working_internal", "electric" );
+        } else {
+            id_and_variant = std::make_pair( "engine_working_internal", "combustion" );
         }
     }
 
@@ -1021,21 +1021,21 @@ void sfx::do_vehicle_exterior_engine_sfx()
     const bool night = is_night( calendar::turn );
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
-        if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_external",
-                                        veh->part_info( veh->engines[ e ] ).get_id().str(),
-                                        seas_str, indoors, night ) ) {
-                id_and_variant = std::make_pair( "engine_working_external",
-                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
-            } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "muscle" );
-            } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "wind" );
-            } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "electric" );
-            } else {
-                id_and_variant = std::make_pair( "engine_working_external", "combustion" );
-            }
+        const vehicle_part &vp = veh->part( veh->engines[e] );
+        const std::string vp_id_str = vp.info().get_id().str();
+        if( !veh->is_engine_on( vp ) ) {
+            continue;
+        }
+        if( sfx::has_variant_sound( "engine_working_external", vp_id_str, seas_str, indoors, night ) ) {
+            id_and_variant = std::make_pair( "engine_working_external", vp_id_str );
+        } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
+            id_and_variant = std::make_pair( "engine_working_external", "muscle" );
+        } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
+            id_and_variant = std::make_pair( "engine_working_external", "wind" );
+        } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
+            id_and_variant = std::make_pair( "engine_working_external", "electric" );
+        } else {
+            id_and_variant = std::make_pair( "engine_working_external", "combustion" );
         }
     }
 

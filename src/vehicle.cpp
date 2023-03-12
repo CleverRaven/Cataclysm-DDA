@@ -913,13 +913,15 @@ void vehicle::toggle_specific_part( int p, bool on )
 }
 bool vehicle::is_engine_type_on( int e, const itype_id &ft ) const
 {
-    return is_engine_on( e ) && is_engine_type( e, ft );
+    const vehicle_part &vp = parts[engines[e]];
+    return is_engine_on( vp ) && is_engine_type( e, ft );
 }
 
 bool vehicle::has_engine_type( const itype_id &ft, const bool enabled ) const
 {
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if( is_engine_type( e, ft ) && ( !enabled || is_engine_on( e ) ) ) {
+        const vehicle_part &vp = parts[engines[e]];
+        if( is_engine_type( e, ft ) && ( !enabled || is_engine_on( vp ) ) ) {
             return true;
         }
     }
@@ -928,7 +930,8 @@ bool vehicle::has_engine_type( const itype_id &ft, const bool enabled ) const
 bool vehicle::has_engine_type_not( const itype_id &ft, const bool enabled ) const
 {
     for( size_t e = 0; e < engines.size(); ++e ) {
-        if( !is_engine_type( e, ft ) && ( !enabled || is_engine_on( e ) ) ) {
+        const vehicle_part &vp = parts[engines[e]];
+        if( !is_engine_type( e, ft ) && ( !enabled || is_engine_on( vp ) ) ) {
             return true;
         }
     }
@@ -977,9 +980,9 @@ bool vehicle::is_perpetual_type( const int e ) const
     return item( ft ).has_flag( flag_PERPETUAL );
 }
 
-bool vehicle::is_engine_on( const int e ) const
+bool vehicle::is_engine_on( const vehicle_part &vp ) const
 {
-    return parts[ engines[ e ] ].is_available() && is_part_on( engines[ e ] );
+    return vp.is_available() && vp.enabled;
 }
 
 bool vehicle::is_part_on( const int p ) const
@@ -3488,7 +3491,7 @@ units::power vehicle::total_power( const bool fueled, const bool safe ) const
     for( size_t e = 0; e < engines.size(); e++ ) {
         const int p = engines[e];
         const vehicle_part &vp = parts[p];
-        if( is_engine_on( e ) && ( !fueled || engine_fuel_left( vp ) ) ) {
+        if( is_engine_on( vp ) && ( !fueled || engine_fuel_left( vp ) ) ) {
             int m2c = safe ? vp.info().engine_m2c() : 100;
             if( vp.has_fault_flag( "REDUCE_ENG_POWER" ) ) {
                 m2c *= 0.6;
@@ -3825,7 +3828,7 @@ void vehicle::noise_and_smoke( int load, time_duration time )
     for( size_t e = 0; e < engines.size(); e++ ) {
         int p = engines[e];
         vehicle_part &vp = parts[p];
-        if( engine_on && is_engine_on( e ) && engine_fuel_left( vp ) ) {
+        if( engine_on && is_engine_on( vp ) && engine_fuel_left( vp ) ) {
             // convert current engine load to units of watts/40K
             // then spew more smoke and make more noise as the engine load increases
             int part_watts = units::to_watt( part_vpower_w( p, true ) );
@@ -4569,23 +4572,19 @@ float vehicle::handling_difficulty() const
 
 units::power vehicle::engine_fuel_usage( int e ) const
 {
-    if( !is_engine_on( e ) ) {
+    const vehicle_part &vp = parts[engines[e]];
+    if( !is_engine_on( vp ) ) {
         return 0_W;
     }
-
-    const itype_id &cur_fuel = parts[engines[e]].fuel_current();
-    if( cur_fuel  == fuel_type_null ) {
+    if( vp.fuel_current().is_null() ) {
         return 0_W;
     }
-
     if( is_perpetual_type( e ) ) {
         return 0_W;
     }
-    const vpart_info &info = part_info( engines[ e ] );
-
-    units::power usage = info.energy_consumption;
-    if( parts[ engines[ e ] ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
-        usage *= 2;
+    const units::power usage = vp.info().energy_consumption;
+    if( vp.has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
+        return usage * 2;
     }
 
     return usage;
@@ -4805,7 +4804,8 @@ units::power vehicle::total_engine_epower() const
     // Electric motor consumption not included, see @ref vpart_info::energy_consumption
     if( engine_on ) {
         for( size_t e = 0; e < engines.size(); ++e ) {
-            if( is_engine_on( e ) ) {
+            const vehicle_part &vp = parts[engines[e]];
+            if( is_engine_on( vp ) ) {
                 epower += part_epower( engines[e] );
             }
         }
@@ -4967,7 +4967,8 @@ void vehicle::update_alternator_load()
     if( engine_on ) {
         int engine_vpower = 0;
         for( size_t e = 0; e < engines.size(); ++e ) {
-            if( is_engine_on( e ) && parts[engines[e]].info().has_flag( "E_ALTERNATOR" ) ) {
+            const vehicle_part &vp = parts[engines[e]];
+            if( is_engine_on( vp ) && vp.info().has_flag( "E_ALTERNATOR" ) ) {
                 engine_vpower += units::to_watt( part_vpower_w( engines[e] ) );
             }
         }
@@ -5288,8 +5289,8 @@ void vehicle::do_engine_damage( size_t e, int strain )
 {
     vehicle_part &vp = parts[engines[e]];
     strain = std::min( 25, strain );
-    if( is_engine_on( e ) && !is_perpetual_type( e ) &&
-        engine_fuel_left( vp ) && rng( 1, 100 ) < strain ) {
+    if( is_engine_on( vp ) && !is_perpetual_type( e ) && engine_fuel_left( vp ) &&
+        rng( 1, 100 ) < strain ) {
         const int dmg = rng( 0, strain * 4 );
         damage_direct( get_map(), engines[e], dmg );
         if( one_in( 2 ) ) {

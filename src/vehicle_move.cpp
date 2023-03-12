@@ -245,7 +245,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     float cur_load_alternator = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
 
     for( size_t i = 0; i < c_engines.size(); ++i ) {
-        if( is_engine_on( c_engines[i] ) ) {
+        const vehicle_part &vp = parts[c_engines[i]];
+        if( is_engine_on( vp ) ) {
             bool is_electric = is_engine_type( c_engines[i], fuel_type_battery );
             prev_mask |= 1 << i;
             units::power fu = engine_fuel_usage( c_engines[i] ) * ( cur_load_approx + ( is_electric ? 0 :

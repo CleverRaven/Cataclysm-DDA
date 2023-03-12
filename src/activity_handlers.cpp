@@ -2005,7 +2005,8 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
     const bool take_control = act->values[0];
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
-        if( veh->is_engine_on( e ) ) {
+        const vehicle_part &vp = veh->part( veh->engines[e] );
+        if( veh->is_engine_on( vp ) ) {
             attempted++;
             if( !veh->is_engine_type( e, itype_muscle ) &&
                 !veh->is_engine_type( e, itype_animal ) ) {
