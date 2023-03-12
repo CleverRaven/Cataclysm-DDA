@@ -2174,10 +2174,10 @@
     "//2": "some loss/waste, e.g. imperfect smelting; powder escaping",
     "charges": 95,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
-    "//": "At least some knowledge on chemicals handling is required.",
+    "//3": "At least some knowledge on chemicals handling is required.",
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "//3": "460kJ per mole @ 70% energy efficiency",
+    "//4": "460kJ per mole @ 70% energy efficiency",
     "tools": [ [ [ "fake_arc_furnace", 650 ] ] ],
     "components": [ [ [ "cac2powder", 100 ] ] ]
   }
