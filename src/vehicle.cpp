@@ -1101,13 +1101,13 @@ units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_
 // alternators, solar panels, reactors, and accessories all have epower.
 // alternators, solar panels, and reactors provide, whilst accessories consume.
 // for motor consumption see @ref vpart_info::energy_consumption instead
-units::power vehicle::part_epower( const int index ) const
+units::power vehicle::part_epower( const vehicle_part &vp ) const
 {
-    units::power e = part_info( index ).epower;
+    units::power e = vp.info().epower;
     if( e < 0_W ) {
         return e; // Consumers always draw full power, even if broken
     }
-    return e * parts[ index ].health_percent();
+    return e * vp.health_percent();
 }
 
 int vehicle::power_to_energy_bat( const units::power power, const time_duration &d ) const
@@ -3447,19 +3447,17 @@ int vehicle::drain( const int index, int amount )
 units::power vehicle::basic_consumption( const itype_id &ftype ) const
 {
     units::power fcon = 0_W;
-    for( size_t e = 0; e < engines.size(); ++e ) {
-        const vehicle_part &vp = parts[engines[e]];
-        if( is_engine_type_on( vp, ftype ) ) {
-            if( vp.ammo_current() == fuel_type_battery &&
-                part_epower( engines[e] ) >= 0_W ) {
-                // Electric engine - use epower instead
-                fcon -= part_epower( engines[e] );
-
-            } else if( !is_perpetual_type( vp ) ) {
-                fcon += part_vpower_w( vp );
-                if( parts[ e ].has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
-                    fcon *= 2;
-                }
+    for( const int p : engines ) {
+        const vehicle_part &vp = parts[p];
+        if( !is_engine_type_on( vp, ftype ) ) {
+            continue;
+        }
+        if( vp.ammo_current() == fuel_type_battery && part_epower( vp ) >= 0_W ) {
+            fcon -= part_epower( vp ); // Electric engine - use epower instead
+        } else if( !is_perpetual_type( vp ) ) {
+            fcon += part_vpower_w( vp );
+            if( vp.has_fault_flag( "DOUBLE_FUEL_CONSUMPTION" ) ) {
+                fcon *= 2;
             }
         }
     }
@@ -4766,13 +4764,14 @@ bool vehicle::start_engine( int e, bool turn_on )
 
 units::power vehicle::total_alternator_epower() const
 {
+    if( !engine_on ) {
+        return 0_W;
+    }
     units::power epower = 0_W;
-    if( engine_on ) {
-        // If the engine is on, the alternators are working.
-        for( size_t p = 0; p < alternators.size(); ++p ) {
-            if( is_alternator_on( p ) ) {
-                epower += part_epower( alternators[p] );
-            }
+    for( size_t p = 0; p < alternators.size(); ++p ) {
+        const vehicle_part &vp = parts[alternators[p]];
+        if( is_alternator_on( p ) ) {
+            epower += part_epower( vp );
         }
     }
     return epower;
@@ -4780,20 +4779,19 @@ units::power vehicle::total_alternator_epower() const
 
 units::power vehicle::total_engine_epower() const
 {
-    units::power epower = 0_W;
-
+    if( !engine_on ) {
+        return 0_W;
+    }
     // Engines: can both produce (plasma) or consume (gas, diesel) epower.
     // Gas engines require epower to run for ignition system, ECU, etc.
     // Electric motor consumption not included, see @ref vpart_info::energy_consumption
-    if( engine_on ) {
-        for( size_t e = 0; e < engines.size(); ++e ) {
-            const vehicle_part &vp = parts[engines[e]];
-            if( is_engine_on( vp ) ) {
-                epower += part_epower( engines[e] );
-            }
+    units::power epower = 0_W;
+    for( const int p : engines ) {
+        const vehicle_part &vp = parts[p];
+        if( is_engine_on( vp ) ) {
+            epower += part_epower( vp );
         }
     }
-
     return epower;
 }
 
@@ -4801,16 +4799,14 @@ units::power vehicle::total_solar_epower() const
 {
     units::power epower = 0_W;
     map &here = get_map();
-    for( int part : solar_panels ) {
-        if( parts[ part ].is_unavailable() ) {
+    for( const int p : solar_panels ) {
+        const vehicle_part &vp = parts[p];
+        const tripoint pos = global_part_pos3( vp );
+        if( vp.is_unavailable() || !is_sm_tile_outside( here.getabs( pos ) ) ) {
             continue;
         }
 
-        if( !is_sm_tile_outside( here.getabs( global_part_pos3( part ) ) ) ) {
-            continue;
-        }
-
-        epower += part_epower( part );
+        epower += part_epower( vp );
     }
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
@@ -4826,21 +4822,19 @@ units::power vehicle::total_wind_epower() const
     weather_manager &weather = get_weather();
     const w_point weatherPoint = *weather.weather_precise;
     units::power epower = 0_W;
-    for( int part : wind_turbines ) {
-        if( parts[ part ].is_unavailable() ) {
+    for( const int p : wind_turbines ) {
+        const vehicle_part &vp = parts[p];
+        const tripoint pos = global_part_pos3( vp );
+        if( vp.is_unavailable() || !is_sm_tile_outside( here.getabs( pos ) ) ) {
             continue;
         }
 
-        if( !is_sm_tile_outside( here.getabs( global_part_pos3( part ) ) ) ) {
-            continue;
-        }
-
-        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, global_part_pos3( part ),
+        int windpower = get_local_windpower( weather.windspeed, cur_om_ter, pos,
                                              weather.winddirection, false );
         if( windpower <= ( weather.windspeed / 10.0 ) ) {
             continue;
         }
-        epower += part_epower( part ) * windpower;
+        epower += part_epower( vp ) * windpower;
     }
     return epower;
 }
@@ -4849,16 +4843,14 @@ units::power vehicle::total_water_wheel_epower() const
 {
     units::power epower = 0_W;
     map &here = get_map();
-    for( int part : water_wheels ) {
-        if( parts[ part ].is_unavailable() ) {
+    for( const int p : water_wheels ) {
+        const vehicle_part &vp = parts[p];
+        const tripoint pos = global_part_pos3( vp );
+        if( vp.is_unavailable() || !is_sm_tile_over_water( here.getabs( pos ) ) ) {
             continue;
         }
 
-        if( !is_sm_tile_over_water( here.getabs( global_part_pos3( part ) ) ) ) {
-            continue;
-        }
-
-        epower += part_epower( part );
+        epower += part_epower( vp );
     }
     // TODO: river current intensity changes power - flat for now.
     return epower;
@@ -4890,11 +4882,11 @@ units::power vehicle::active_reactor_epower( bool connected_vehicles ) const
 {
     units::power reactor_w = 0_W;
 
-    for( int elem : reactors ) {
-        if( is_part_on( elem ) && !parts[elem].is_unavailable() &&
-            ( parts[ elem ].info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ||
-              parts[elem].ammo_remaining() > 0 ) ) {
-            reactor_w += part_epower( elem );
+    for( const int p : reactors ) {
+        const vehicle_part &vp = parts[p];
+        if( vp.enabled && !vp.is_unavailable() &&
+            ( vp.info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) || vp.ammo_remaining() ) ) {
+            reactor_w += part_epower( vp );
         }
     }
 
@@ -4938,8 +4930,9 @@ units::power vehicle::active_reactor_epower( bool connected_vehicles ) const
 units::power vehicle::max_reactor_epower() const
 {
     units::power epower = 0_W;
-    for( int elem : reactors ) {
-        epower += is_part_on( elem ) ? part_epower( elem ) : 0_W;
+    for( const int p : reactors ) {
+        const vehicle_part &vp = parts[p];
+        epower += vp.enabled ? part_epower( vp ) : 0_W;
     }
     return epower;
 }
@@ -4997,25 +4990,26 @@ void vehicle::power_parts()
             // Produce additional epower from any reactors
             bool reactor_working = false;
             bool reactor_online = false;
-            for( int elem : reactors ) {
+            for( const int p : reactors ) {
+                vehicle_part &vp = parts[p];
                 // Check whether the reactor is on. If not, move on.
-                if( !is_part_on( elem ) ) {
+                if( !vp.enabled ) {
                     continue;
                 }
                 // Keep track whether or not the vehicle has any reactors activated
                 reactor_online = true;
                 // the amount of energy the reactor generates each turn
-                const int gen_energy_bat = power_to_energy_bat( part_epower( elem ), 1_turns );
-                if( parts[ elem ].is_unavailable() ) {
+                const int gen_energy_bat = power_to_energy_bat( part_epower( vp ), 1_turns );
+                if( vp.is_unavailable() ) {
                     continue;
-                } else if( parts[ elem ].info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
+                } else if( vp.info().has_flag( STATIC( std::string( "PERPETUAL" ) ) ) ) {
                     reactor_working = true;
                     delta_energy_bat += std::min( storage_deficit_bat, gen_energy_bat );
-                } else if( parts[elem].ammo_remaining() > 0 ) {
+                } else if( vp.ammo_remaining() > 0 ) {
                     // Efficiency: one unit of fuel is this many units of battery
                     // Note: One battery is 1 kJ
-                    const int efficiency = units::to_watt( part_info( elem ).power );
-                    const int avail_fuel = parts[elem].ammo_remaining() * efficiency;
+                    const int efficiency = units::to_watt( vp.info().power );
+                    const int avail_fuel = vp.ammo_remaining() * efficiency;
                     const int elem_energy_bat = std::min( gen_energy_bat, avail_fuel );
                     // Cap output at what we can achieve and utilize
                     const int reactors_output_bat = std::min( elem_energy_bat, storage_deficit_bat );
@@ -5023,7 +5017,7 @@ void vehicle::power_parts()
                     int fuel_consumed = reactors_output_bat / efficiency;
                     // Remainder has a chance of resulting in more fuel consumption
                     fuel_consumed += x_in_y( reactors_output_bat % efficiency, efficiency ) ? 1 : 0;
-                    parts[ elem ].ammo_consume( fuel_consumed, global_part_pos3( elem ) );
+                    vp.ammo_consume( fuel_consumed, global_part_pos3( vp ) );
                     reactor_working = true;
                     delta_energy_bat += reactors_output_bat;
                 }
@@ -7500,16 +7494,13 @@ void vehicle::update_time( const time_point &update_to )
 
     if( !solar_panels.empty() ) {
         units::power epower = 0_W;
-        for( int part : solar_panels ) {
-            if( parts[ part ].is_unavailable() ) {
+        for( const int p : solar_panels ) {
+            const vehicle_part &vp = parts[p];
+            const tripoint pos = global_part_pos3( vp );
+            if( vp.is_unavailable() || !is_sm_tile_outside( here.getabs( pos ) ) ) {
                 continue;
             }
-
-            if( !is_sm_tile_outside( here.getabs( global_part_pos3( part ) ) ) ) {
-                continue;
-            }
-
-            epower += part_epower( part );
+            epower += part_epower( vp );
         }
         double intensity = accum_weather.radiant_exposure / max_sun_irradiance() / to_seconds<float>
                            ( elapsed );

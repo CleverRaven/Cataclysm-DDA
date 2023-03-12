@@ -769,7 +769,7 @@ class vehicle
         units::power part_vpower_w( const vehicle_part &vp, bool at_full_hp = false ) const;
 
         // Get part power consumption/production for part number.
-        units::power part_epower( int index ) const;
+        units::power part_epower( const vehicle_part &vp ) const;
 
         // convert watts over time to battery energy (kJ)
         int power_to_energy_bat( units::power power, const time_duration &d ) const;

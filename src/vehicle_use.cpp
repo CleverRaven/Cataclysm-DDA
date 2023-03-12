@@ -638,7 +638,7 @@ bool vehicle::start_engine( const int e )
     }
 
     const double dmg = eng.damage_percent();
-    const units::power engine_power = -part_epower( engines[e] );
+    const units::power engine_power = -part_epower( eng );
     const double cold_factor = engine_cold_factor( eng );
     const int start_moves = engine_start_time( eng );
     const tripoint pos = global_part_pos3( eng );
