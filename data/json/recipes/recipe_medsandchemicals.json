@@ -718,7 +718,7 @@
     "autolearn": true,
     "batch_time_factors": [ 90, 4 ],
     "//": "reversal of the recipe above",
-    "//": [
+    "//1": [
       "Nope, not gonna add proficiencies to _reverse_ recipes. ",
       "We shall avoid grinding; besides, pouring some powder into water is too simple."
     ],
