@@ -259,7 +259,7 @@
     "comfort": 2,
     "floor_bedding_warmth": 200,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 7, 8 ] } ] },
+    "deconstruct": { "items": [ { "item": "stick", "count": 4 }, { "item": "straw_pile", "count": [ 120, 140 ] } ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 6,
