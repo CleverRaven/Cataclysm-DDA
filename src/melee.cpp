@@ -1176,7 +1176,7 @@ float Character::get_dodge() const
     }
 
     //Dodge decreases linearly to 0 when below 50% stamina.
-    //const float stamina_ratio = static_cast<float>( get_stamina() ) / get_stamina_max();
+    const float stamina_ratio = static_cast<float>( get_stamina() ) / get_stamina_max();
     const double stamina = get_stamina();
     const double stamina_min = get_stamina_max() * 0.1;
     const double stamina_max = get_stamina_max() * 0.9;
@@ -1186,9 +1186,9 @@ float Character::get_dodge() const
         return 0.0f;
     }
     ret *= stamina_logistic;
-    /*
+
     if( stamina_ratio < 0.1 ) {
-    return 0.0f;
+        return 0.0f;
     }
     if( stamina_ratio <= .5 ) {
         ret *= 2 * stamina_ratio;
