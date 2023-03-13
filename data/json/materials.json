@@ -2123,11 +2123,11 @@
     "burn_products": [ [ "scrap", 1 ] ]
   },
   {
-	  "type": "material",
-	  "id": "pseudo_soft_qt_steel_chain",
-	  "//": "Pseudo chain material for not rasping on faces",
-	  "copy-from": "qt_steel_chain",
-	  "uncomfortable": false
+    "type": "material",
+    "id": "pseudo_soft_qt_steel_chain",
+    "//": "Pseudo chain material for not rasping on faces",
+    "copy-from": "qt_steel_chain",
+    "uncomfortable": false
   },
   {
     "type": "material",
