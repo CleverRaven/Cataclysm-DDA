@@ -16,11 +16,11 @@
     "symbol": ":",
     "color": "green",
     "location": "bore",
-    "mod_targets": [ "ar15", "m4_carbine", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
+    "mod_targets": [ "ar15", "m4_cqbr", "m4_carbine", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
     "install_time": "5 m",
     "ammo_modifier": [ "223" ],
     "min_skills": [ [ "weapon", 3 ] ],
-    "add_mod": [ [ "barrel", 1 ], [ "brass catcher", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
+    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_ar15_223rem_medium",
@@ -62,12 +62,12 @@
     "symbol": ":",
     "color": "green",
     "location": "bore",
-    "mod_targets": [ "ar15", "m4_carbine", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
+    "mod_targets": [ "ar15", "m4_cqbr", "m4_carbine", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
     "install_time": "5 m",
     "ammo_modifier": [ "300blk" ],
     "magazine_adaptor": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
     "min_skills": [ [ "weapon", 3 ] ],
-    "add_mod": [ [ "barrel", 1 ], [ "brass catcher", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
+    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_ar15_300blk_medium",
@@ -110,13 +110,13 @@
     "symbol": ":",
     "color": "green",
     "location": "bore",
-    "mod_targets": [ "ar15", "m4_carbine", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
+    "mod_targets": [ "ar15", "m4_cqbr", "m4_carbine", "m16a4", "m16_auto_rifle", "m27_assault_rifle" ],
     "install_time": "5 m",
     "dispersion_modifier": 15,
     "ammo_modifier": [ "50beowulf" ],
     "ranged_damage": { "damage_type": "bullet", "amount": 2 },
     "min_skills": [ [ "weapon", 3 ] ],
-    "add_mod": [ [ "barrel", 1 ], [ "brass catcher", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
+    "add_mod": [ [ "brass catcher", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {
     "id": "retool_ar15_50beowulf_medium",
@@ -243,6 +243,7 @@
     "mod_targets": [ "mdrx" ],
     "install_time": "5 m",
     "ammo_modifier": [ "308" ],
+    "magazine_adaptor": [ [ "308", [ "ar10mag_20rd", "ar10_makeshiftmag" ] ] ],
     "//": "Stats taken from the ported barrel to provide a compensated effect.",
     "dispersion_modifier": 15,
     "handling_modifier": 4,

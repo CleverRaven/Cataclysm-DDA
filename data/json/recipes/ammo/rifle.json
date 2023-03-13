@@ -1473,6 +1473,32 @@
     ]
   },
   {
+    "result": "reloaded_338lapua_api",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "gun", 6 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 6 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 3 ] ],
+    "//": "2938 mg gunpowder rounded to 29 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "components": [
+      [ [ "338lapua_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "gunpowder", 26 ], [ "gunpowder_large_rifle", 26 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "copper", 3 ] ],
+      [ [ "incendiary", 6 ] ]
+    ]
+  },
+  {
     "result": "bp_338lapua_hpbt",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -1520,6 +1546,32 @@
       [ [ "scrap", 1 ] ],
       [ [ "copper", 6 ] ],
       [ [ "chem_black_powder", 29 ] ]
+    ]
+  },
+  {
+    "result": "bp_338lapua_api",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_RIFLE",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "gun", 6 ],
+    "time": "2 m",
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "recipe_bullets", 6 ] ],
+    "charges": 1,
+    "reversible": true,
+    "using": [ [ "bullet_forming", 15 ], [ "ammo_bullet", 3 ] ],
+    "//": "2938 mg gunpowder rounded to 29 100 mg 'pieces'",
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
+    "components": [
+      [ [ "338lapua_casing", 1 ] ],
+      [ [ "lgrifle_primer", 1 ] ],
+      [ [ "chem_black_powder", 29 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "copper", 3 ] ],
+      [ [ "incendiary", 6 ] ]
     ]
   }
 ]

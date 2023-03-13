@@ -2486,5 +2486,18 @@
       { "item": "stanag30", "prob": 50 },
       { "group": "on_hand_223" }
     ]
+  },
+  {
+    "id": "nested_tac338",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "tac338", "charges-min": 0, "charges-max": 5 },
+      { "item": "ai_338mag" },
+      { "item": "ai_338mag", "prob": 50 },
+      { "group": "on_hand_military_338lapua" }
+    ]
   }
 ]

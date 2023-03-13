@@ -588,7 +588,8 @@
       { "item": "savage_111f", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "1895sbl", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "browning_blr", "prob": 10, "charges-min": 0, "charges-max": 0 },
-      { "item": "ar10", "prob": 10, "charges-min": 0, "charges-max": 0 }
+      { "item": "ar10", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "ar15_50", "prob": 10, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -603,6 +604,7 @@
       { "group": "nested_m134", "prob": 10 },
       { "group": "nested_m14ebr", "prob": 10 },
       { "group": "nested_tac50", "prob": 5 },
+      { "group": "nested_tac338", "prob": 5 },
       { "group": "nested_m2010", "prob": 20 },
       { "group": "nested_m240", "prob": 15 },
       { "group": "nested_m249", "prob": 25 },

@@ -1,0 +1,34 @@
+[
+  {
+    "id": "tac338",
+    "copy-from": "rifle_manual",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": ".338 bolt-action sniper rifle" },
+    "description": "a high-precision bolt-action sniper rifle, in service with special operations members of the US Navy prior to the cataclysm.  Firing the powerful.338 Lapua cartridge, the weapon feeds from detachable 5-round Accuracy International magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "tac338",
+        "name": { "str_sp": "McMillan Tac-338" },
+        "description": "Chambering the .338 Lapua cartridge, the Tac-338 is a high-precision, bolt-action sniper rifle that, before the cataclysm, complemented the arsenal of the US Navy Special Warfare group.  Providing Navy SEAL marksmen with the capability to land effective shots on targets at a typical range of 1600 meters, a valuable capability for the long-distance engagements prevalent during the US army’s war on terror, the rifle comes kitted with an adjustable cheek pad, butt hook, and muzzle break.",
+        "weight": 1
+      }
+    ],
+    "weight": "5897 g",
+    "volume": "4000 ml",
+    "longest_side": "1295 mm",
+    "price": 642800,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "color": "black",
+    "ammo": [ "338lapua" ],
+    "dispersion": 50,
+    "durability": 8,
+    "blackpowder_tolerance": 24,
+    "default_mods": [ "cheek_pad", "butt_hook", "bipod", "rifle_scope", "muzzle_brake" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag" ] } ]
+  }
+]

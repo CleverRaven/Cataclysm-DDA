@@ -1,0 +1,19 @@
+[
+  {
+    "id": "ai_338mag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "AI .338 Lapua 5-round magazine" },
+    "description": "A single-stack, 5-round steel box magazine, produced by the British precision rifle company, Accuracy International.  Magazines such as this one have been regarded as the gold standard for marksman rifle magazines, with this particular one being compatible with the 338 Lapua cartridge.",
+    "weight": "78 g",
+    "volume": "250 ml",
+    "price": 10614,
+    "price_postapoc": 150,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "338lapua" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 5 } } ]
+  }
+]
