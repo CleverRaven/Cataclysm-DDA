@@ -9100,11 +9100,11 @@ const pathfinding_settings &Character::get_pathfinding_settings() const
     return *path_settings;
 }
 
-ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location loc ) const
+ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location const &loc ) const
 {
     crush_tool_type tool_type = CRUSH_NO_TOOL;
     bool success = false;
-    if( !loc.has_parent() || !loc.parent_item()->contained_where( *loc )->get_pocket_data()->rigid ) {
+    if( !loc.has_parent() || !loc.parent_pocket()->get_pocket_data()->rigid ) {
         tool_type = CRUSH_HAMMER;
         success = has_quality( qual_HAMMER );
     } else {
