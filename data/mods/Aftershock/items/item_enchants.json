@@ -12,6 +12,7 @@
     "type": "enchantment",
     "id": "afs_motion_sensor_wield",
     "has": "WIELD",
+    "name": { "str": "Active Motion Detector" },
     "description": "Actively detects nearby movement.",
     "condition": { "u_compare_var": "afs_motion_sensor_ping", "type": "flag", "context": "motion_sensor", "op": ">=", "value": 1 },
     "values": [ { "value": "MOTION_VISION_RANGE", "add": 24 } ]
@@ -30,7 +31,7 @@
     "id": "afs_ench_exo_big_carry",
     "has": "WORN",
     "condition": "ACTIVE",
-    "name": { "str": "load support module" },
+    "name": { "str": "Load Support Module" },
     "values": [ { "value": "CARRY_WEIGHT", "add": 20000 } ],
     "description": "Provides 20kg of additional storage."
   },
@@ -39,7 +40,7 @@
     "id": "afs_ench_exo_small_carry",
     "has": "WORN",
     "condition": "ACTIVE",
-    "name": { "str": "small load support module" },
+    "name": { "str": "Small Load Support Module" },
     "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ],
     "description": "Provides 10kg of additional storage."
   },
@@ -48,7 +49,7 @@
     "id": "afs_ench_exo_recoil",
     "has": "WORN",
     "condition": "ACTIVE",
-    "name": { "str": "recoil mitigation system" },
+    "name": { "str": "Recoil Mitigation System" },
     "values": [ { "value": "WEAPON_DISPERSION", "add": -50 } ],
     "description": "Reduces weapon dispersion."
   },
@@ -57,7 +58,7 @@
     "id": "afs_ench_exo_forcefield_bash_cut",
     "has": "WORN",
     "condition": "ACTIVE",
-    "name": { "str": "low energy forcefield" },
+    "name": { "str": "Low Energy Forcefield" },
     "values": [ { "value": "ARMOR_BASH", "add": -25 }, { "value": "ARMOR_CUT", "add": -25 } ],
     "description": "Reduces incoming bash and cut damage by 25."
   },
@@ -66,7 +67,7 @@
     "id": "afs_ench_exo_forcefield_ballistic_pierce",
     "has": "WORN",
     "condition": "ACTIVE",
-    "name": { "str": "high energy forcefield" },
+    "name": { "str": "High Energy Forcefield" },
     "values": [ { "value": "ARMOR_BULLET", "add": -40 }, { "value": "ARMOR_STAB", "add": -40 } ],
     "description": "Reduces incoming pierce and bullet damage by 40."
   },
@@ -75,13 +76,13 @@
     "id": "afs_ench_exo_AR_module",
     "has": "WORN",
     "condition": "ACTIVE",
-    "name": { "str": "education assist" },
+    "name": { "str": "Education Assist" },
     "values": [ { "value": "LEARNING_FOCUS", "add": 15 } ],
     "description": "Assists with learning and study."
   },
   {
     "id": "ench_climate_control_all_permanent_improved",
-    "name": { "str": "improved complete climate control" },
+    "name": { "str": "Improved Complete Climate Control" },
     "description": "You are wearing equipment that helps handle harsh climates.",
     "type": "enchantment",
     "has": "WORN",
@@ -90,7 +91,7 @@
   },
   {
     "id": "ench_climate_control_all_permanent_greater",
-    "name": { "str": "extreme complete climate control" },
+    "name": { "str": "Extreme Complete Climate Control" },
     "description": "You are wearing equipment that helps handle harsh climates.",
     "type": "enchantment",
     "has": "WORN",
@@ -99,7 +100,7 @@
   },
   {
     "id": "ench_climate_control_all_permanent_space",
-    "name": { "str": "space climate control" },
+    "name": { "str": "Space Climate Control" },
     "description": "You are wearing equipment that helps handle harsh climates.",
     "type": "enchantment",
     "has": "WORN",
@@ -108,7 +109,7 @@
   },
   {
     "id": "ench_smart_gun",
-    "name": { "str": "smart gun" },
+    "name": { "str": "Smart Gun" },
     "description": "Your gun aims itself, reducing your dispersion by 90%.",
     "type": "enchantment",
     "has": "WIELD",

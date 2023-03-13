@@ -449,7 +449,7 @@
     "relic_data": {
       "passive_effects": [
         {
-          "name": { "str": "climbing assist" },
+          "name": { "str": "Climbing Assist" },
           "description": "Additional climbing gear allows you to scale walls.",
           "has": "WORN",
           "condition": "ALWAYS",
