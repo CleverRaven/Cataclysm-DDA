@@ -231,6 +231,7 @@ std::string filter_name( debug_filter value )
         case DF_CHARACTER: return "DF_CHARACTER";
         case DF_CHAR_CALORIES: return "DF_CHAR_CALORIES";
         case DF_CHAR_HEALTH: return "DF_CHAR_HEALTH";
+        case DF_CRAFTING: return "DF_CRAFTING";
         case DF_CREATURE: return "DF_CREATURE";
         case DF_EFFECT: return "DF_EFFECT";
         case DF_EXPLOSION: return "DF_EXPLOSION";
@@ -242,6 +243,7 @@ std::string filter_name( debug_filter value )
         case DF_MATTACK: return "DF_MATTACK";
         case DF_MELEE: return "DF_MELEE";
         case DF_MONSTER: return "DF_MONSTER";
+        case DF_MUTATION: return "DF_MUTATION";
         case DF_NPC: return "DF_NPC";
         case DF_OVERMAP: return "DF_OVERMAP";
         case DF_RADIO: return "DF_RADIO";
@@ -1803,7 +1805,7 @@ std::string game_info::mods_loaded()
         return string_format( "%s [%s]", mod->name(), mod->ident.str() );
     } );
 
-    return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
+    return string_join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
 }
 
 std::string game_info::game_report()

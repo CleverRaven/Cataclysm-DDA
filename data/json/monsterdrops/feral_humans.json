@@ -912,5 +912,21 @@
       { "item": "dentures", "prob": 75 },
       { "item": "folded_wheelchair_generic", "damage": [ 1, 4 ], "prob": 100 }
     ]
+  },
+  {
+    "id": "feral_archaelogist_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "clothing_outdoor_set", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "socks_unisex", "prob": 100, "damage": [ 1, 4 ] },
+      { "group": "archeology_tools", "prob": 30, "damage": [ 0, 2 ] },
+      { "group": "scarfs_unisex", "prob": 10, "damage": [ 1, 4 ] },
+      { "group": "clothing_work_gloves", "prob": 10, "damage": [ 1, 4 ] },
+      { "group": "clothing_work_hat", "prob": 10, "damage": [ 1, 4 ] },
+      { "group": "accesories_personal_unisex", "prob": 5, "damage": [ 1, 4 ] },
+      { "item": "shovel", "prob": 100, "damage": [ 0, 2 ] },
+      { "item": "bullwhip", "prob": 3, "damage": [ 0, 2 ] }
+    ]
   }
 ]

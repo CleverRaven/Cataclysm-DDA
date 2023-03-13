@@ -64,7 +64,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "tripwire",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -133,7 +133,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "crossbow_trap",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -150,7 +150,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "shotgun_trap",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -167,7 +167,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "blade_trap",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
@@ -200,7 +200,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "landmine",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TRAPS",
