@@ -3358,13 +3358,24 @@ int vehicle::engine_fuel_left( const vehicle_part &vp ) const
 
 int vehicle::fuel_capacity( const itype_id &ftype ) const
 {
-    vehicle_part_range vpr = get_all_parts();
-    return std::accumulate( vpr.begin(), vpr.end(), 0, [&ftype]( const int &lhs,
-    const vpart_reference & rhs ) {
-        cata::value_ptr<islot_ammo> a_val = item::find_type( ftype )->ammo;
-        return lhs + ( rhs.part().ammo_current() == ftype ?
-                       rhs.part().ammo_capacity( !!a_val ? a_val->type : ammotype::NULL_ID() ) :
-                       0 );
+    if( ftype == fuel_type_battery ) { // batteries get special treatment due to power cables
+        int64_t capacity = 0;
+        for( const std::pair<const vehicle *const, float> &pair : search_connected_vehicles() ) {
+            const vehicle &veh = *pair.first;
+            for( const int part_idx : veh.batteries ) {
+                const vehicle_part &vp = veh.parts[part_idx];
+                capacity += vp.ammo_capacity( fuel_type_battery->ammo->type );
+            }
+        }
+        return capacity;
+    }
+    const vehicle_part_range vpr = get_all_parts();
+    return std::accumulate( vpr.begin(), vpr.end(), int64_t { 0 },
+    [&ftype]( const int64_t &lhs, const vpart_reference & rhs ) {
+        if( rhs.part().ammo_current() == ftype && ftype->ammo ) {
+            return lhs + rhs.part().ammo_capacity( ftype->ammo->type );
+        }
+        return lhs;
     } );
 }
 
