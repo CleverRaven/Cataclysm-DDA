@@ -126,10 +126,10 @@
       { "point": [ 1, 2, 10 ], "overmap": "crashing_ship_8_north" },
       { "point": [ 2, 2, 10 ], "overmap": "crashing_ship_7_north" }
     ],
-    "locations": [ "land" ],
-    "city_distance": [ 5, -1 ],
-    "city_sizes": [ 0, -1 ],
-    "occurrences": [ 0, 1 ],
-    "flags": [ "MAN_MADE" ]
+    "locations": [ "open_air" ],
+    "city_distance": [ -1, -1 ],
+    "city_sizes": [ -1, -1 ],
+    "occurrences": [ 1, 1 ],
+    "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN", "GLOBALLY_UNIQUE", "MAN_MADE", "EXOPLANET" ]
   }
 ]
