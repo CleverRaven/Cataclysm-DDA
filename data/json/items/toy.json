@@ -54,7 +54,7 @@
       {
         "id": "toy_plush_remora",
         "name": { "str": "remora plushie" },
-        "description": "A large plush remora, a fish commonly seen alongside sharks.  Wait, wasn't there a shark plushie somewhere there…",
+        "description": "A large plush remora, a fish commonly seen alongside sharks.  Wait, wasn't there a shark plushie somewhere here…",
         "weight": 1
       }
     ]
@@ -85,7 +85,7 @@
     "weight": "500 g",
     "volume": "1 L",
     "price": 2000,
-    "price_postapoc": 100,
+    "price_postapoc": 20,
     "symbol": "f",
     "color": "cyan",
     "variant_type": "generic",
@@ -94,6 +94,29 @@
         "id": "toy_figure_trex",
         "name": { "str": "T-rex figurine" },
         "description": "A relatively large plastic figurine of a T-rex.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "toy_figurine",
+    "name": { "str": "figurine" },
+    "description": "A normal-sized manufactured figurine.  This is the default variant, if you see it something went wrong.",
+    "category": "other",
+    "material": [ "plastic" ],
+    "weight": "125 g",
+    "volume": "200 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "symbol": "f",
+    "color": "cyan",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "toy_figure_swordsman",
+        "name": { "str": "Swordsman figurine" },
+        "description": "A figurine of some unnamed swordsman, covered with scars and equipped with sturdy leather armor.  Seems to be ready to fight.",
         "weight": 1
       }
     ]
