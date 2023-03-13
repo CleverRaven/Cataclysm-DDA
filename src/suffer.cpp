@@ -1312,15 +1312,15 @@ void suffer::from_radiation( Character &you )
     // Used to control vomiting from radiation to make it not-annoying
     bool radiation_increasing = you.irradiate( rads );
 
-    if (radiation_increasing && calendar::once_every(3_minutes) ) {
+    if( radiation_increasing && calendar::once_every( 3_minutes ) ) {
         if( you.has_bionic( bio_geiger ) ) {
-        you.add_msg_if_player( m_warning,
-                               _( "You feel an anomalous sensation coming from "
-                                  "your radiation sensors." ) );
-    } else if( you.has_active_mutation( trait_RADSENSE ) ) {
-        you.add_msg_if_player( m_warning,
-                               _( "Your flesh tingles.  You sense danger, "
-                                  "but it feels good." ) );
+            you.add_msg_if_player( m_warning,
+                                   _( "You feel an anomalous sensation coming from "
+                                      "your radiation sensors." ) );
+        } else if( you.has_active_mutation( trait_RADSENSE ) ) {
+            you.add_msg_if_player( m_warning,
+                                   _( "Your flesh tingles.  You sense danger, "
+                                      "but it feels good." ) );
         }
     }
 
