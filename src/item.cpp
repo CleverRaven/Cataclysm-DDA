@@ -11519,6 +11519,14 @@ units::volume item::get_used_holster_volume() const
 {
     return contents.get_used_holster_volume();
 }
+units::mass item::get_total_holster_weight() const
+{
+    return contents.get_total_holster_weight();
+}
+units::mass item::get_used_holster_weight() const
+{
+    return contents.get_used_holster_weight();
+}
 
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
         std::string *err ) const
