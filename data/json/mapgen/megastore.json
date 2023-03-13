@@ -76,10 +76,7 @@
       "D": { "item": "SUS_office_desk", "chance": 30 },
       "Q": { "item": "SUS_office_filing_cabinet", "chance": 30 }
     },
-    "vehicles": {
-      "v": { "vehicle": "shopping_cart", "chance": 30 },
-      "V": { "vehicle": "food_cart", "chance": 50 }
-    }
+    "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30 }, "V": { "vehicle": "food_cart", "chance": 50 } }
   },
   {
     "type": "palette",
