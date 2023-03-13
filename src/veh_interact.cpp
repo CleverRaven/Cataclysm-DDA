@@ -46,6 +46,7 @@
 #include "localized_comparator.h"
 #include "map.h"
 #include "map_selector.h"
+#include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -2216,6 +2217,16 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
     avatar &player_character = get_avatar();
 
     if( sel_vpart_info.has_flag( "NEEDS_JACKING" ) ) {
+        if( terrain_here.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+            const auto wrap_badter = foldstring(
+                                         _( "<color_red>Unsuitable terrain</color> for working on part that requires jacking." ),
+                                         getmaxx( w_msg ) - 4 );
+            nmsg += "> " + wrap_badter[0] + "\n";
+            for( size_t i = 1; i < wrap_badter.size(); i++ ) {
+                nmsg += "  " + wrap_badter[i] + "\n";
+            }
+            return std::pair<bool, std::string> ( false, nmsg );
+        }
         qual = qual_JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
@@ -2333,6 +2344,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
     const tripoint vehp = veh->global_pos3() + q;
     const bool has_critter = get_creature_tracker().creature_at( vehp );
     map &here = get_map();
+    terrain_here = here.ter( vehp ).obj();
     bool obstruct = here.impassable_ter_furn( vehp );
     const optional_vpart_position ovp = here.veh_at( vehp );
     if( ovp && &ovp->vehicle() != veh ) {

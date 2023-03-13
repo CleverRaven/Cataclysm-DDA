@@ -16,6 +16,7 @@
 #include "input.h"
 #include "inventory.h"
 #include "item_location.h"
+#include "mapdata.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "player_activity.h"
@@ -283,6 +284,10 @@ class veh_interact
          * Can be converted to a vector<vehicle_part>.
          * Updated whenever the cursor moves. */
         std::vector<int> parts_here;
+
+        /* Terrain at current square.
+         * Updated whenever the cursor moves. */
+        ter_t terrain_here;
 
         /* called by exec() */
         void cache_tool_availability();
