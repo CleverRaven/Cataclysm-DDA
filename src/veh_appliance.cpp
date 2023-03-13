@@ -639,8 +639,6 @@ void veh_app_interact::merge()
         return;
     }
     veh->merge_appliance_into_grid( target_veh );
-
-    return;
 }
 
 shared_ptr_fast<ui_adaptor> veh_app_interact::create_or_get_ui_adaptor()

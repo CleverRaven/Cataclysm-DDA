@@ -1899,8 +1899,7 @@ class vehicle
         bool assign_seat( vehicle_part &pt, const npc &who );
 
         // Update the set of occupied points and return a reference to it
-        const std::set<tripoint> &get_points( const bool force_refresh = false,
-                                              const bool no_fake = false ) const;
+        const std::set<tripoint> &get_points( bool force_refresh = false, bool no_fake = false ) const;
 
         /**
         * Consumes specified charges (or fewer) from the vehicle part
