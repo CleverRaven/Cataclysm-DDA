@@ -666,7 +666,7 @@
       { "item": "multimeter", "prob": 5, "charges": [ 0, 100 ] },
       [ "melting_point", 5 ],
       [ "vortex", 5 ],
-      { "item": "hotplate", "prob": 5, "charges": [ 0, 500 ] },
+      { "item": "hotplate_induction", "prob": 5, "charges": [ 0, 500 ] },
       [ "jar_glass_sealed", 5 ],
       [ "jar_3l_glass_sealed", 5 ],
       [ "magnifying_glass", 5 ],

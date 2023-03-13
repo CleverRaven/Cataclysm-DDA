@@ -21,6 +21,7 @@
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"
+#include "item_components.h"
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -205,7 +206,7 @@ class item : public visitable
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
+        item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections );
 
         /** For constructing in-progress disassemblies */
         item( const recipe *rec, int qty, item &component );
@@ -1045,6 +1046,12 @@ class item : public visitable
         void set_relative_rot( double val );
 
         void set_rot( time_duration val );
+
+        /**
+         * Set item @ref rot to a random value. If the item is a container
+         * (such as MRE) - processes its contents recursively.
+         */
+        void randomize_rot();
 
         /**
          * Get minimum time for this item or any of its contents to rot, ignoring
@@ -2274,6 +2281,7 @@ class item : public visitable
         /** Quantity of energy currently loaded in tool or battery */
         units::energy energy_remaining() const;
 
+
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
          * If UPS/bionic power does not matter then the carrier can be nullptr
@@ -2362,6 +2370,8 @@ class item : public visitable
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return itype_id::NULL_ID() if item does have a magazine for a specific ammo type */
         itype_id ammo_default( bool conversion = true ) const;
+        // format a string with all the ammo that this mag can use
+        std::string print_ammo( ammotype at ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
          * @param conversion whether to include the effect of any flags or mods which convert the type
@@ -2692,7 +2702,7 @@ class item : public visitable
          *
          * @param parents Items to inherit from
          */
-        void inherit_flags( const std::list<item> &parents, const recipe &making );
+        void inherit_flags( const item_components &parents, const recipe &making );
 
         void set_tools_to_continue( bool value );
         bool has_tools_to_continue() const;
@@ -2865,7 +2875,7 @@ class item : public visitable
         static const int INFINITE_CHARGES;
 
         const itype *type;
-        std::list<item> components;
+        item_components components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
 

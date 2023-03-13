@@ -400,8 +400,12 @@ safe_reference<item> item::get_safe_reference()
 static const item *get_most_rotten_component( const item &craft )
 {
     const item *most_rotten = nullptr;
-    for( const item &it : craft.components ) {
-        if( it.goes_bad() ) {
+    for( const item_components::type_vector_pair &tvp : craft.components ) {
+        if( !tvp.second.front().goes_bad() ) {
+            // they're all the same type, so this should be the same for all
+            continue;
+        }
+        for( const item &it : tvp.second ) {
             if( !most_rotten || it.get_relative_rot() > most_rotten->get_relative_rot() ) {
                 most_rotten = &it;
             }
@@ -414,8 +418,12 @@ static time_duration get_shortest_lifespan_from_components( const item &craft )
 {
     const item *shortest_lifespan_component = nullptr;
     time_duration shortest_lifespan = 0_turns;
-    for( const item &it : craft.components ) {
-        if( it.goes_bad() ) {
+    for( const item_components::type_vector_pair &tvp : craft.components ) {
+        if( !tvp.second.front().goes_bad() ) {
+            // they're all the same type, so this should be the same for all
+            continue;
+        }
+        for( const item &it : tvp.second ) {
             time_duration lifespan = it.get_shelf_life() - it.get_rot();
             if( !shortest_lifespan_component || ( lifespan < shortest_lifespan ) ) {
                 shortest_lifespan_component = &it;
@@ -429,9 +437,15 @@ static time_duration get_shortest_lifespan_from_components( const item &craft )
 
 static bool shelf_life_less_than_each_component( const item &craft )
 {
-    for( const item &it : craft.components ) {
-        if( it.goes_bad() && it.is_comestible() && it.get_shelf_life() < craft.get_shelf_life() ) {
-            return false;
+    for( const item_components::type_vector_pair &tvp : craft.components ) {
+        if( !tvp.second.front().goes_bad() || !tvp.second.front().is_comestible() ) {
+            // they're all the same type, so this should be the same for all
+            continue;
+        }
+        for( const item &it : tvp.second ) {
+            if( it.get_shelf_life() < craft.get_shelf_life() ) {
+                return false;
+            }
         }
     }
     return true;
@@ -463,7 +477,7 @@ static void inherit_rot_from_components( item &it )
     }
 }
 
-item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections )
+item::item( const recipe *rec, int qty, item_components items, std::vector<item_comp> selections )
     : item( "craft", calendar::turn )
 {
     craft_data_ = cata::make_value<craft_data>();
@@ -481,15 +495,17 @@ item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_
         }
     }
 
-    for( item &component : components ) {
-        for( const flag_id &f : component.get_flags() ) {
-            if( f->craft_inherit() ) {
-                set_flag( f );
+    for( item_components::type_vector_pair &tvp : components ) {
+        for( item &component : tvp.second ) {
+            for( const flag_id &f : component.get_flags() ) {
+                if( f->craft_inherit() ) {
+                    set_flag( f );
+                }
             }
-        }
-        for( const flag_id &f : component.type->get_flags() ) {
-            if( f->craft_inherit() ) {
-                set_flag( f );
+            for( const flag_id &f : component.type->get_flags() ) {
+                if( f->craft_inherit() ) {
+                    set_flag( f );
+                }
             }
         }
     }
@@ -502,7 +518,8 @@ item::item( const recipe *rec, int qty, item &component )
     craft_data_->making = rec;
     craft_data_->disassembly = true;
     craft_data_->batch_size = qty;
-    std::list<item>items( { component } );
+    item_components items;
+    items.add( component );
     components = items;
 
     if( has_temperature() ) {
@@ -513,15 +530,17 @@ item::item( const recipe *rec, int qty, item &component )
         }
     }
 
-    for( item &comp : components ) {
-        for( const flag_id &f : comp.get_flags() ) {
-            if( f->craft_inherit() ) {
-                set_flag( f );
+    for( item_components::type_vector_pair &tvp : components ) {
+        for( item &comp : tvp.second ) {
+            for( const flag_id &f : comp.get_flags() ) {
+                if( f->craft_inherit() ) {
+                    set_flag( f );
+                }
             }
-        }
-        for( const flag_id &f : comp.type->get_flags() ) {
-            if( f->craft_inherit() ) {
-                set_flag( f );
+            for( const flag_id &f : comp.type->get_flags() ) {
+                if( f->craft_inherit() ) {
+                    set_flag( f );
+                }
             }
         }
     }
@@ -1148,11 +1167,7 @@ item item::in_container( const itype_id &cont, const int qty, const bool sealed 
     }
     item container( cont, birthday() );
     if( container.is_container() ) {
-        if( count_by_charges() ) {
-            container.fill_with( *this, qty );
-        } else {
-            container.put_in( *this, item_pocket::pocket_type::CONTAINER );
-        }
+        container.fill_with( *this, qty );
         container.invlet = invlet;
         if( sealed ) {
             container.seal();
@@ -2602,6 +2617,15 @@ void item::magazine_info( std::vector<iteminfo> &info, const iteminfo_query *par
                                ammo_capacity( at ) );
         }
     }
+    if( parts->test( iteminfo_parts::MAGAZINE_COMPATABILITY ) ) {
+        for( const ammotype &at : ammo_types() ) {
+            std::string ammo_details = print_ammo( at );
+            if( !ammo_details.empty() ) {
+                info.emplace_back( "MAGAZINE", _( "Variants: " ), ammo_details, iteminfo::no_flags );
+            }
+
+        }
+    }
     if( parts->test( iteminfo_parts::MAGAZINE_RELOAD ) && type->magazine ) {
         info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> moves per round" ),
                            iteminfo::lower_is_better, type->magazine->reload_time );
@@ -2963,6 +2987,10 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                                                        mod->ammo_capacity( at ) ), at->name() );
                 info.emplace_back( "GUN", _( "Capacity: " ), fmt, iteminfo::no_flags,
                                    mod->ammo_capacity( at ) );
+                std::string ammo_details = print_ammo( at );
+                if( !ammo_details.empty() && !magazine_integral() ) {
+                    info.emplace_back( "GUN", _( "Variants: " ), ammo_details, iteminfo::no_flags );
+                }
             }
         }
     } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
@@ -6319,7 +6347,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     // item damage and/or fouling level
     std::string damtext;
 
-    if( get_option<std::string>( "ASTERISK_POSITION" ) == "prefix" ) {
+    if( get_option<std::string>( "ASTERISK_POSITION" ) == "prefix" && with_prefix ) {
         if( is_favorite ) {
             damtext = _( "* " ); // Display asterisk for favorite items, before item's name
         }
@@ -6847,8 +6875,10 @@ units::mass item::weight( bool include_contents, bool integral ) const
     if( is_craft() ) {
         if( !craft_data_->cached_weight ) {
             units::mass ret = 0_gram;
-            for( const item &it : components ) {
-                ret += it.weight();
+            for( const item_components::type_vector_pair &tvp : components ) {
+                for( const item &it : tvp.second ) {
+                    ret += it.weight();
+                }
             }
             craft_data_->cached_weight = ret;
         }
@@ -7061,8 +7091,10 @@ units::volume item::base_volume() const
 
     if( is_craft() ) {
         units::volume ret = 0_ml;
-        for( const item &it : components ) {
-            ret += it.base_volume();
+        for( const item_components::type_vector_pair &tvp : components ) {
+            for( const item &it : tvp.second ) {
+                ret += it.base_volume();
+            }
         }
         return ret;
     }
@@ -7092,8 +7124,10 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
     if( is_craft() ) {
         if( !craft_data_->cached_volume ) {
             units::volume ret = 0_ml;
-            for( const item &it : components ) {
-                ret += it.volume();
+            for( const item_components::type_vector_pair &tvp : components ) {
+                for( const item &it : tvp.second ) {
+                    ret += it.volume();
+                }
             }
             // 1 mL minimum craft volume to avoid 0 volume errors from practices or hammerspace
             craft_data_->cached_volume = std::max( ret, 1_ml );
@@ -7345,8 +7379,10 @@ item &item::unset_flag( const flag_id &flag )
 item &item::set_flag_recursive( const flag_id &flag )
 {
     set_flag( flag );
-    for( item &comp : components ) {
-        comp.set_flag_recursive( flag );
+    for( item_components::type_vector_pair &tvp : components ) {
+        for( item &it : tvp.second ) {
+            it.set_flag_recursive( flag );
+        }
     }
     return *this;
 }
@@ -7550,6 +7586,23 @@ void item::set_relative_rot( double val )
 void item::set_rot( time_duration val )
 {
     rot = val;
+}
+
+void item::randomize_rot()
+{
+    if( is_comestible() && get_comestible()->spoils > 0_turns ) {
+        const double x_input = rng_float( 0.0, 1.0 );
+        const double k_rot = ( 1.0 - x_input ) / ( 1.0 + 2.0 * x_input );
+        set_rot( get_shelf_life() * k_rot );
+    }
+
+    for( item_pocket *pocket : contents.get_all_contained_pockets() ) {
+        if( pocket->spoil_multiplier() > 0.0f ) {
+            for( item *subitem : pocket->all_items_top() ) {
+                subitem->randomize_rot();
+            }
+        }
+    }
 }
 
 int item::spoilage_sort_order() const
@@ -9150,7 +9203,7 @@ bool item::is_food_container() const
         return food.is_food();
     } ) ) ||
     ( is_craft() && !craft_data_->disassembly &&
-      craft_data_->making->create_result().is_food_container() );
+      craft_data_->making->create_results().front().is_food_container() );
 }
 
 bool item::has_temperature() const
@@ -10520,6 +10573,36 @@ itype_id item::ammo_default( bool conversion ) const
     }
 
     return itype_id::NULL_ID();
+}
+
+std::string item::print_ammo( ammotype at ) const
+{
+    const item *mag = magazine_current();
+    if( mag ) {
+        return mag->print_ammo( at );
+    } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
+        return _( "energy" );
+    }
+
+    if( type->magazine ) {
+        return enumerate_as_string( type->magazine->cached_ammos[at].begin(),
+        type->magazine->cached_ammos[at].end(), []( const itype_id & id ) {
+
+            return string_format( "<info>%s</info>", id->nname( 1 ) );
+        } );
+    }
+
+    if( type->gun ) {
+        return enumerate_as_string( type->gun->cached_ammos[at].begin(),
+        type->gun->cached_ammos[at].end(), []( const itype_id & id ) {
+
+            return string_format( "<info>%s</info>", id->nname( 1 ) );
+        } );
+    }
+
+    return "";
+
+
 }
 
 itype_id item::common_ammo_default( bool conversion ) const
@@ -11903,10 +11986,12 @@ std::string item::components_to_string() const
 {
     using t_count_map = std::map<std::string, int>;
     t_count_map counts;
-    for( const item &elem : components ) {
-        if( !elem.has_flag( flag_BYPRODUCT ) ) {
-            const std::string name = elem.display_name();
-            counts[name]++;
+    for( const item_components::type_vector_pair &tvp : components ) {
+        for( const item &it : tvp.second ) {
+            if( !it.has_flag( flag_BYPRODUCT ) ) {
+                const std::string name = it.display_name();
+                counts[name]++;
+            }
         }
     }
     return enumerate_as_string( counts.begin(), counts.end(),
@@ -11923,15 +12008,11 @@ std::string item::components_to_string() const
 
 uint64_t item::make_component_hash() const
 {
-    // First we need to sort the IDs so that identical ingredients give identical hashes.
-    std::multiset<std::string> id_set;
-    for( const item &it : components ) {
-        id_set.insert( it.typeId().str() );
-    }
-
     std::string concatenated_ids;
-    for( const std::string &id : id_set ) {
-        concatenated_ids += id;
+    for( const item_components::type_vector_pair &tvp : components ) {
+        for( size_t i = 0; i < tvp.second.size(); ++i ) {
+            concatenated_ids += tvp.first.str();
+        }
     }
 
     std::hash<std::string> hasher;
@@ -13218,22 +13299,26 @@ std::string item::type_name( unsigned int quantity ) const
     // Apply conditional names, in order.
     for( const conditional_name &cname : type->conditional_names ) {
         // Lambda for searching for a item ID among all components.
-        std::function<bool( std::list<item> )> component_id_equals =
-        [&]( const std::list<item> &components ) {
-            for( const item &component : components ) {
-                if( component.typeId().str() == cname.condition ) {
-                    return true;
+        std::function<bool( item_components )> component_id_equals =
+        [&]( const item_components & components ) {
+            for( const item_components::type_vector_pair &tvp : components ) {
+                for( const item &component : tvp.second ) {
+                    if( component.typeId().str() == cname.condition ) {
+                        return true;
+                    }
                 }
             }
             return false;
         };
         // Lambda for recursively searching for a item ID substring among all components.
-        std::function<bool ( std::list<item> )> component_id_contains =
-        [&]( const std::list<item> &components ) {
-            for( const item &component : components ) {
-                if( component.typeId().str().find( cname.condition ) != std::string::npos ||
-                    component_id_contains( component.components ) ) {
-                    return true;
+        std::function<bool ( item_components )> component_id_contains =
+        [&]( const item_components & components ) {
+            for( const item_components::type_vector_pair &tvp : components ) {
+                for( const item &component : tvp.second ) {
+                    if( component.typeId().str().find( cname.condition ) != std::string::npos ||
+                        component_id_contains( component.components ) ) {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -13443,15 +13528,20 @@ std::vector<item_comp> item::get_uncraft_components() const
         }
     } else {
         //Make a new vector of components from the registered components
-        for( const item &component : components ) {
-            auto iter = std::find_if( ret.begin(), ret.end(), [component]( item_comp & obj ) {
-                return obj.type == component.typeId();
-            } );
+        for( const item_components::type_vector_pair &tvp : components ) {
+            for( const item &component : tvp.second ) {
+                if( component.has_flag( flag_UNRECOVERABLE ) ) {
+                    continue;
+                }
+                auto iter = std::find_if( ret.begin(), ret.end(), [component]( item_comp & obj ) {
+                    return obj.type == component.typeId();
+                } );
 
-            if( iter != ret.end() ) {
-                iter->count += component.count();
-            } else {
-                ret.emplace_back( component.typeId(), component.count() );
+                if( iter != ret.end() ) {
+                    iter->count += component.count();
+                } else {
+                    ret.emplace_back( component.typeId(), component.count() );
+                }
             }
         }
     }

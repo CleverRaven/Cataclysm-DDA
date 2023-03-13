@@ -115,9 +115,9 @@
         [ "egg_stag_beetle", 1 ],
         [ "egg_water_beetle", 4 ],
         [ "egg_water_bug", 4 ],
-        [ "egg_butterfly", 1 ],
-        [ "egg_moth", 1 ],
-        [ "egg_cicada", 1 ]
+        [ "egg_butterfly", 4 ],
+        [ "egg_moth", 4 ],
+        [ "egg_cicada", 4 ]
       ]
     ]
   },

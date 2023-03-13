@@ -397,6 +397,19 @@
     "name": "hotplate abstract"
   },
   {
+    "abstract": "pseudo_microwave_abstract",
+    "copy-from": "microwave",
+    "sub": "microwave",
+    "type": "TOOL",
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "@",
+    "color": "red",
+    "name": "microwave abstract"
+  },
+  {
     "copy-from": "pseudo_hotplate_abstract",
     "id": "pseudo_veh_chemlab_hotplate",
     "type": "TOOL",

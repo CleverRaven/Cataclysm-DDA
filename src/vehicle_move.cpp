@@ -1310,7 +1310,7 @@ void vehicle::selfdrive( const point &p )
     }
     if( p.y != 0 ) {
         int thr_amount = 100 * ( std::abs( velocity ) < 2000 ? 4 : 5 );
-        if( cruise_on ) {
+        if( cruise_on && !is_towed() ) {
             cruise_thrust( -p.y * thr_amount );
         } else {
             thrust( -p.y );

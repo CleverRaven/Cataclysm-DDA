@@ -211,6 +211,11 @@ static bool is_physical( const itype &type )
 
 void Item_factory::finalize_pre( itype &obj )
 {
+    // Add relic data by ID we defered
+    if( obj.relic_data ) {
+        obj.relic_data->finalize();
+    }
+
     // TODO: separate repairing from reinforcing/enhancement
     if( obj.damage_max() == obj.damage_min() ) {
         obj.item_tags.insert( flag_NO_REPAIR );
@@ -414,6 +419,22 @@ void Item_factory::finalize_pre( itype &obj )
             }
             migrate_ammo_map( magazine.ammo_restriction );
         }
+
+        // list all the ammo types that work
+        for( const ammotype &am : obj.magazine->type ) {
+            auto temp_vec = Item_factory::find( [obj, am]( const itype & e ) {
+                if( !e.ammo || item_is_blacklisted( e.get_id() ) ) {
+                    return false;
+                }
+
+                return e.ammo->type == am;
+            } );
+
+            for( const itype *val : temp_vec ) {
+                obj.magazine->cached_ammos[am].insert( val->get_id() );
+            }
+        }
+
     }
 
     // Migrate compatible magazines
@@ -538,6 +559,22 @@ void Item_factory::finalize_pre( itype &obj )
                 obj.gun->handling = 10;
             }
         }
+
+        // list all the ammo types that work
+        for( const ammotype &am : obj.gun->ammo ) {
+            auto temp_vec = Item_factory::find( [obj, am]( const itype & e ) {
+                if( !e.ammo || item_is_blacklisted( e.get_id() ) ) {
+                    return false;
+                }
+
+                return e.ammo->type == am;
+            } );
+
+            for( const itype *val : temp_vec ) {
+                obj.gun->cached_ammos[am].insert( val->get_id() );
+            }
+        }
+
     }
 
     set_allergy_flags( obj );

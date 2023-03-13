@@ -2335,37 +2335,8 @@
   },
   {
     "type": "construction",
-    "id": "constr_bed",
-    "group": "build_bed_from_scratch",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "60 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_bed"
-  },
-  {
-    "type": "construction",
-    "id": "constr_bunkbed",
-    "group": "build_bunk_bed",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": "130 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [
-      [ [ "2x4", 16 ], [ "wood_panel", 4 ] ],
-      [ [ "2x4", 14 ] ],
-      [ [ "nail", 30 ] ],
-      [ [ "mattress", 2 ], [ "down_mattress", 2 ] ]
-    ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_bunkbed"
-  },
-  {
-    "type": "construction",
     "id": "constr_bed_frame",
-    "group": "build_bed_frame",
+    "group": "build_bed",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "55 m",
@@ -2377,13 +2348,30 @@
   {
     "type": "construction",
     "id": "constr_finish_bed",
-    "group": "add_mattress_to_bed_frame",
+    "group": "build_bed",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "5 m",
     "components": [ [ [ "mattress", 1 ], [ "down_mattress", 1 ] ] ],
     "pre_terrain": "f_bed_frame",
     "post_terrain": "f_bed"
+  },
+  {
+    "type": "construction",
+    "id": "constr_bunkbed",
+    "group": "build_bed",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "70 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [
+      [ [ "2x4", 16 ], [ "wood_panel", 4 ] ],
+      [ [ "2x4", 2 ] ],
+      [ [ "nail", 20 ] ],
+      [ [ "mattress", 1 ], [ "down_mattress", 1 ] ]
+    ],
+    "pre_terrain": "f_bed",
+    "post_terrain": "f_bunkbed"
   },
   {
     "type": "construction",
@@ -4850,6 +4838,18 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_microwave",
+    "group": "place_microwave",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "microwave", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
   },
   {
     "type": "construction",

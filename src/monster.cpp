@@ -2798,6 +2798,10 @@ void monster::drop_items_on_death( item *corpse )
                                   calendar::start_of_cataclysm,
                                   spawn_flags::use_spawn_rate );
 
+    for( item &e : new_items ) {
+        e.randomize_rot();
+    }
+
     // for non corpses this is much simpler
     if( !corpse ) {
         for( item &it : new_items ) {

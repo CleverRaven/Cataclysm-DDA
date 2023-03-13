@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_mastodon",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -16,7 +16,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_mastodon",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -36,7 +36,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "mutagen_migo",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",
@@ -51,7 +51,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "iv_mutagen_migo",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_MUTAGEN",

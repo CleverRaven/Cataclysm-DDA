@@ -108,6 +108,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     reset_time();
     clear_stomach( dummy );
     dummy.reset_activity_level();
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     calendar::turn += 1_seconds;
     dummy.update_body( calendar::turn, calendar::turn );
     dummy.set_activity_level( 1.0 );
@@ -126,7 +127,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     // is, but it helps to debug the test faster if this value is wrong.
     REQUIRE( dummy.get_bmr() == 1738 );
 
-    constexpr int expected_day = 36;
+    constexpr int expected_day = 75;
     int day = 0;
     std::vector<std::string> results;
 
@@ -287,11 +288,12 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     Character &dummy = get_player_character();
     reset_time();
     clear_stomach( dummy );
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     while( !dummy.has_trait( trait_HUNGER3 ) ) {
         dummy.mutate_towards( trait_HUNGER3 );
     }
     clear_stomach( dummy );
-
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
     CAPTURE( dummy.metabolic_rate_base() );
     CAPTURE( dummy.activity_level_str() );
     CAPTURE( dummy.base_height() );
@@ -313,9 +315,13 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
         day++;
     } while( dummy.get_stored_kcal() > 0 );
 
+    //you are burning through 5000 kcal a day out of a healthy base reserve of ~120000 kcal (15kg which is ~20% of your expected total weight of ~72kg)
+    //as your metabolism slows as you starve this puts your expected lifespan at about 25 days, which is likely too high for a super hungry mutant.
+    //however, you also start breaking down muscle below 3.5 fat BMIs (~50,000 kcal), which is hard to recover from, and 15kg is a fairly solid buffer.
+    //the system should probably account for the fact that fat ketones cannot power your whole body (brain can't think without food, stored kcal or not)
     CAPTURE( results );
-    CHECK( day <= 12 );
-    CHECK( day >= 10 );
+    CHECK( day <= 27 );
+    CHECK( day >= 23 );
 }
 
 // does eating enough food per day keep you alive

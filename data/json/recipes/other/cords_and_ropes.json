@@ -69,7 +69,7 @@
     "time": "2 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 1.5 }, { "proficiency": "prof_fibers_rope" } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "skill_penalty": 0.5 }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "filament", 1800, "LIST" ] ] ]
   },
   {
@@ -85,7 +85,7 @@
     "reversible": true,
     "autolearn": true,
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 1.5 }, { "proficiency": "prof_fibers_rope" } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "skill_penalty": 0.5 }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "filament", 1800, "LIST" ] ] ]
   },
   {
@@ -251,7 +251,7 @@
     "time": "10 h",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 1.5 }, { "proficiency": "prof_fibers_rope" } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "skill_penalty": 0.5 }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "filament", 10800, "LIST" ] ] ]
   },
   {
@@ -267,7 +267,7 @@
     "reversible": true,
     "autolearn": true,
     "tools": [ [ [ "spinwheelitem", -1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 1.5 }, { "proficiency": "prof_fibers_rope" } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "skill_penalty": 0.5 }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "filament", 10800, "LIST" ] ] ]
   },
   {
@@ -532,7 +532,7 @@
     "reversible": true,
     "autolearn": true,
     "tools": [ [ [ "electric_spinwheel", 13 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 1.5 }, { "proficiency": "prof_fibers_rope" } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "skill_penalty": 0.5 }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "filament", 1800, "LIST" ] ] ]
   },
   {
@@ -630,7 +630,7 @@
     "reversible": true,
     "autolearn": true,
     "tools": [ [ [ "electric_spinwheel", 63 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_fibers", "fail_multiplier": 1.5 }, { "proficiency": "prof_fibers_rope" } ],
+    "proficiencies": [ { "proficiency": "prof_fibers", "skill_penalty": 0.5 }, { "proficiency": "prof_fibers_rope" } ],
     "components": [ [ [ "filament", 10800, "LIST" ] ] ]
   },
   {

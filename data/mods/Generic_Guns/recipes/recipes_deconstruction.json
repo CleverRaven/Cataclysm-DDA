@@ -2,7 +2,7 @@
   {
     "result": "broken_secubot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
@@ -26,7 +26,7 @@
   {
     "result": "broken_talon_m202a1",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
@@ -50,7 +50,7 @@
   {
     "result": "broken_skitterbot",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "1 h",
@@ -72,7 +72,7 @@
   {
     "result": "broken_turret",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "1 h",
@@ -94,7 +94,7 @@
   {
     "result": "broken_turret_rifle",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "1 h",
@@ -116,7 +116,7 @@
   {
     "result": "broken_turret_artisans",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "1 h",
@@ -138,7 +138,7 @@
   {
     "result": "broken_crows_m240",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "1 h",
@@ -160,7 +160,7 @@
   {
     "result": "broken_turret_bmg",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "skill_used": "electronics",
     "difficulty": 3,
     "time": "1 h",

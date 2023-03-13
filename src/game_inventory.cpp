@@ -707,7 +707,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 item_location temp = loc;
                 // check if at least one parent container is sealed
                 while( temp.has_parent() ) {
-                    item_pocket *pocket = temp.parent_item()->contained_where( *temp.get_item() );
+                    item_pocket *pocket = temp.parent_pocket();
                     if( pocket->sealed() ) {
                         sealed = _( "sealed" );
                         break;
@@ -795,7 +795,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             } else if( time == 0_turns ) {
                 return 4;
             } else if( loc.has_parent() &&
-                       loc.parent_item()->contained_where( *loc )->spoil_multiplier() == 0.0f ) {
+                       loc.parent_pocket()->spoil_multiplier() == 0.0f ) {
                 return 3;
             } else {
                 return 2;
