@@ -75,6 +75,10 @@
       "U": { "item": "kitchen", "chance": 40 },
       "D": { "item": "SUS_office_desk", "chance": 30 },
       "Q": { "item": "SUS_office_filing_cabinet", "chance": 30 }
+    },
+    "vehicles": {
+      "v": { "vehicle": "shopping_cart", "chance": 30 },
+      "V": { "vehicle": "food_cart", "chance": 50 }
     }
   },
   {
@@ -305,8 +309,7 @@
         "u": { "item": "coffee_display", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
         "=": { "item": "office", "chance": 20 }
-      },
-      "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
+      }
     }
   },
   {
@@ -401,8 +404,7 @@
         "=": { "item": "office", "chance": 20 },
         "ü": { "item": "consumer_electronics", "chance": 60 },
         "M": { "item": "jewelry_front", "chance": 60 }
-      },
-      "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
+      }
     }
   },
   {
@@ -495,9 +497,8 @@
         "u": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
         "=": { "item": "office", "chance": 20 },
-        "C": { "item": "produce", "chance": 30, "repeat": 3 }
-      },
-      "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
+        "ü": { "item": "produce", "chance": 30, "repeat": 3 }
+      }
     }
   },
   {
@@ -591,8 +592,7 @@
         "l": { "item": "everyday_gear", "chance": 75 },
         "=": { "item": "office", "chance": 20 },
         "ü": { "item": "consumer_electronics", "chance": 60 }
-      },
-      "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
+      }
     }
   },
   {
@@ -686,10 +686,6 @@
         "u": { "item": "coffee_table", "chance": 30 },
         "l": { "item": "everyday_gear", "chance": 75 },
         "=": { "item": "office", "chance": 20 }
-      },
-      "vehicles": {
-        "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 },
-        "V": { "vehicle": "food_cart", "chance": 50, "status": 0 }
       }
     }
   },
@@ -918,8 +914,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
       "palettes": [ "megastore", "mega_goods_f" ],
-      "items": { "e": { "item": "softdrugs", "chance": 40 }, "E": { "item": "harddrugs", "chance": 10 } },
-      "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 30, "status": 0 } }
+      "items": { "e": { "item": "softdrugs", "chance": 40 }, "E": { "item": "harddrugs", "chance": 10 } }
     }
   },
   {
@@ -956,8 +951,7 @@
         ",,,,,,,,,,,,,,,,,,,,,,,,",
         ",,,,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [ "megastore", "mega_goods_f" ],
-      "vehicles": { "v": { "vehicle": "shopping_cart", "chance": 25, "status": 0 } }
+      "palettes": [ "megastore", "mega_goods_f" ]
     }
   },
   {
@@ -988,7 +982,7 @@
         "    |.[[[.[[[.[[[.Ag,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,|,,,,,,,,,,,,|    ",
         "    |.............Ag,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,|,,,,,,,,,,,,|    ",
         "    |..............|,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,|,,,,,,,,,,,,|    ",
-        "    |QQQQ..j...QQQQ|,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,|,,,,,,,,,,,,|    ",
+        "    |QQQQ..j:..QQQQ|,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,|,,,,,,,,,,,,|    ",
         "  ||||||||gggg||||||||||||||||||||||||||||||||||||||||||||||||||||||||  ",
         "  |,,I,,,,,,,,,,,,I,,,,,,,,,,I,,,,,,,,,,,,I,,,,,,,,,,I,,,|.%YYY.....>|  ",
         "  |,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,|...........|  ",
