@@ -40,7 +40,7 @@
     "path_settings": { "max_dist": 30, "allow_open_doors": false, "avoid_traps": false, "avoid_sharp": false },
     "speed": 20,
     "diff": 0,
-    "copy-from": "mon_feral_panic",
+    "copy-from": "mon_civilian_panic",
     "melee_damage": [ { "damage_type": "bash", "amount": 5 } ]
   },
   {
@@ -48,7 +48,7 @@
     "type": "MONSTER",
     "name": { "str": "futile fighter" },
     "description": "Obviously, this aggravated yet rallied human has lost their wits and tries to fight the undead with just a stick in their hands.",
-    "copy-from": "mon_feral_panic",
+    "copy-from": "mon_civilian_panic",
     "diff": 3,
     "aggression": 0,
     "morale": 100,

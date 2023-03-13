@@ -2751,73 +2751,73 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_panic" ],
+    "speaker": [ "mon_civilian_panic" ],
     "sound": "wailing in fear.",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_panic" ],
+    "speaker": [ "mon_civilian_panic" ],
     "sound": "howling in terror.",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_panic" ],
+    "speaker": [ "mon_civilian_panic" ],
     "sound": "an anguished shriek.",
     "volume": 32
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_panic" ],
+    "speaker": [ "mon_civilian_panic" ],
     "sound": "faint, almost inhuman, whimpering.",
     "volume": 8
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_panic" ],
+    "speaker": [ "mon_civilian_panic" ],
     "sound": "agonized crying.",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_zombiefigher" ],
+    "speaker": [ "mon_civilian_zombiefighter" ],
     "sound": "\"Die!\"",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_zombiefigher" ],
+    "speaker": [ "mon_civilian_zombiefighter" ],
     "sound": "\"Die, zombie scum!\"",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_zombiefigher" ],
+    "speaker": [ "mon_civilian_zombiefighter" ],
     "sound": "\"You'll get what's coming to you!\"",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_zombiefigher" ],
+    "speaker": [ "mon_civilian_zombiefighter" ],
     "sound": "\"Kick the bucket, filthy dead!\"",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_zombiefigher" ],
+    "speaker": [ "mon_civilian_zombiefighter" ],
     "sound": "\"Come get some!\"",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_zombiefigher" ],
+    "speaker": [ "mon_civilian_zombiefighter" ],
     "sound": "\"Will you die already?!\"",
     "volume": 30
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_zombiefigher" ],
+    "speaker": [ "mon_civilian_zombiefighter" ],
     "sound": "an unrestrained warcry.",
     "volume": 35
   }
