@@ -2806,6 +2806,18 @@
   {
     "type": "speech",
     "speaker": [ "mon_feral_zombiefigher" ],
+    "sound": "\"Come get some!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_zombiefigher" ],
+    "sound": "\"Will you die already?!\"",
+    "volume": 30
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_zombiefigher" ],
     "sound": "an unrestrained warcry.",
     "volume": 35
   }
