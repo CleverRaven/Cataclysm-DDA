@@ -2003,6 +2003,9 @@ void outfit::on_takeoff( Character &guy )
 void outfit::on_item_wear( Character &guy )
 {
     for( item &clothing : worn ) {
+        if( clothing.relic_data && clothing.type->relic_data ) {
+            clothing.relic_data = clothing.type->relic_data;
+        }
         guy.on_item_wear( clothing );
     }
 }

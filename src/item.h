@@ -2928,10 +2928,9 @@ class item : public visitable
         };
 
         cata::value_ptr<craft_data> craft_data_;
-
+    public:
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
-    public:
         int charges = 0;
         units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
 
