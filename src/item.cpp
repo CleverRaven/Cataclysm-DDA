@@ -6555,15 +6555,12 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( has_flag( flag_WET ) || wetness ) {
         tagtext += _( " (wet)" );
     }
-    if( plugged_in ) {
-        tagtext += _( " (plugged in)" );
-    }
     if( already_used_by_player( player_character ) ) {
         tagtext += _( " (used)" );
     }
     if( active && ( has_flag( flag_WATER_EXTINGUISH ) || has_flag( flag_LITCIG ) ) ) {
         tagtext += _( " (lit)" );
-    } else if( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) {
+    } else if( plugged_in || ( has_flag( flag_IS_UPS ) && get_var( "cable" ) == "plugged_in" ) ) {
         tagtext += _( " (plugged in)" );
     } else if( active && !has_temperature() && !string_ends_with( typeId().str(), "_on" ) ) {
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
