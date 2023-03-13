@@ -76,7 +76,7 @@ class proficiency
         translation _description;
 
         float _default_time_multiplier = 2.0f;
-        float _default_fail_multiplier = 2.0f;
+        float _default_skill_penalty = 1.0f;
 
         float _default_weakpoint_bonus = 0.0f;
         float _default_weakpoint_penalty = 0.0f;
@@ -101,7 +101,7 @@ class proficiency
         std::string description() const;
 
         float default_time_multiplier() const;
-        float default_fail_multiplier() const;
+        float default_skill_penalty() const;
 
         float default_weakpoint_bonus() const;
         float default_weakpoint_penalty() const;

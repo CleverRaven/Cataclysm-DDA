@@ -1742,8 +1742,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     ictxt.register_action( "CONFIRM" );
     ictxt.register_action( "LEVEL_UP" );
     ictxt.register_action( "LEVEL_DOWN" );
-    ictxt.register_action( "ZOOM_OUT" );
-    ictxt.register_action( "ZOOM_IN" );
+    ictxt.register_action( "zoom_in" );
+    ictxt.register_action( "zoom_out" );
     ictxt.register_action( "HELP_KEYBINDINGS" );
     ictxt.register_action( "MOUSE_MOVE" );
     ictxt.register_action( "SELECT" );
@@ -1818,10 +1818,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             curs.z() -= 1;
         } else if( action == "LEVEL_UP" && curs.z() < OVERMAP_HEIGHT ) {
             curs.z() += 1;
-        } else if( action == "ZOOM_OUT" ) {
+        } else if( action == "zoom_out" ) {
             g->zoom_out_overmap();
             ui.mark_resize();
-        } else  if( action == "ZOOM_IN" ) {
+        } else  if( action == "zoom_in" ) {
             g->zoom_in_overmap();
             ui.mark_resize();
         } else if( action == "CONFIRM" ) {

@@ -1057,7 +1057,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
     // Cameras are also handled here, so that we only need to get through all vehicle parts once
     int cam_control = -1;
     for( const vpart_reference &vp : veh->get_all_parts_with_fakes() ) {
-        if( vp.part().is_broken() || !vp.info().has_flag( VPFLAG_EXTENDS_VISION ) ) {
+        if( vp.part().removed || vp.part().is_broken() || !vp.info().has_flag( VPFLAG_EXTENDS_VISION ) ) {
             continue;
         }
         const tripoint mirror_pos = vp.pos();

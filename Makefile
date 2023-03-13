@@ -68,7 +68,7 @@
 #  make DYNAMIC_LINKING=1
 # Use MSYS2 as the build environment on Windows
 #  make MSYS2=1
-# Turn off all optimizations, even debug-friendly optimizations
+# Turn off all optimizations, even debug-friendly optimizations. Overridden by RELEASE=1
 #  make NOOPT=1
 # Astyle all source files.
 #  make astyle

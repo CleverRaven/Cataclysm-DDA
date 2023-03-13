@@ -212,6 +212,8 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         epsilon_threshold threshold{ expected_damage, 2.5 };
         do {
             you.set_all_parts_hp_to_max();
+            // Remove stagger/winded effects
+            you.clear_effects();
             you.dodges_left = 1;
             int prev_hp = you.get_hp();
             // monster shoots the player

@@ -22,6 +22,7 @@
 #include "debug.h"
 #include "display.h"
 #include "effect.h"
+#include "flag.h"
 #include "enum_conversions.h"
 #include "game.h"
 #include "input.h"
@@ -248,6 +249,20 @@ static std::vector<std::string> get_encumbrance_description( const Character &yo
         }
         float cur_score = part->get_limb_score( sc.getId() );
         float bp_score = bp->get_limb_score( sc.getId() );
+        // Check for any global limb score modifiers
+        for( const effect &eff : you.get_effects_with_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
+            cur_score *= eff.get_limb_score_mod( sc.getId(), you.resists_effect( eff ) );
+        }
+        // Check for local score-modifying effects only if we have any
+        if( you.has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+            for( const effect &local : you.get_effects_from_bp( part->get_id() ) ) {
+                float local_mul = 1.0f;
+                if( local.has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+                    local_mul = local.get_limb_score_mod( sc.getId(), you.resists_effect( local ) );
+                    cur_score *= local_mul;
+                }
+            }
+        }
         s.emplace_back( get_score_text( sc.name().translated(), cur_score, bp_score ) );
     }
     for( const character_modifier &mod : character_modifier::get_all() ) {
@@ -948,7 +963,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     }
     if( you.kcal_speed_penalty() < 0 ) {
         pen = std::abs( you.kcal_speed_penalty() );
-        const std::string inanition = you.get_bmi() < character_weight_category::underweight ?
+        const std::string inanition = you.get_bmi_fat() < character_weight_category::underweight ?
                                       _( "Starving" ) : _( "Underfed" );
         //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
         mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
@@ -964,18 +979,22 @@ static void draw_speed_tab( const catacurses::window &w_speed,
 
     const float temperature_speed_modifier = you.mutation_value( "temperature_speed_modifier" );
     if( temperature_speed_modifier != 0 ) {
+        const int climate_control = you.enchantment_cache->get_value_add(
+                                        enchant_vals::mod::CLIMATE_CONTROL_HEAT );
         nc_color pen_color;
         std::string pen_sign;
         const units::temperature player_local_temp = get_weather().get_temperature( you.pos() );
-        if( you.has_flag( json_flag_ECTOTHERM ) && player_local_temp > units::from_fahrenheit( 65 ) ) {
+        if( you.has_flag( json_flag_ECTOTHERM ) &&
+            player_local_temp > units::from_fahrenheit( 65 - climate_control ) ) {
             pen_color = c_green;
             pen_sign = "+";
-        } else if( player_local_temp < units::from_fahrenheit( 65 ) ) {
+        } else if( player_local_temp < units::from_fahrenheit( 65 - climate_control ) ) {
             pen_color = c_red;
             pen_sign = "-";
         }
         if( !pen_sign.empty() ) {
-            pen = ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier;
+            pen = ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) *
+                  temperature_speed_modifier;
             mvwprintz( w_speed, point( 1, line ), pen_color,
                        //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
                        pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );
@@ -1341,7 +1360,7 @@ void Character::disp_info( bool customize_character )
         effect_name_and_text.emplace_back( _( "Pain" ), pain_text );
     }
 
-    const float bmi = get_bmi();
+    const float bmi = get_bmi_fat();
 
     if( bmi < character_weight_category::underweight ) {
         std::string starvation_name;
@@ -1357,14 +1376,16 @@ void Character::disp_info( bool customize_character )
                 _( "Your body is weakened by starvation.  Only time and regular meals will help you recover.\n\n" );
         }
 
-        if( bmi < character_weight_category::underweight ) {
-            const float str_penalty = 1.0f - ( ( bmi - 13.0f ) / 3.0f );
-            starvation_text += std::string( _( "Strength" ) ) + " -" + string_format( "%2.0f%%\n",
-                               str_penalty * 100.0f );
-            starvation_text += std::string( _( "Dexterity" ) ) + " -" + string_format( "%2.0f%%\n",
-                               str_penalty * 50.0f );
-            starvation_text += std::string( _( "Intelligence" ) ) + " -" + string_format( "%2.0f%%",
-                               str_penalty * 50.0f );
+        if( bmi < character_weight_category::normal ) {
+            const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
+                                                  character_weight_category::normal ) ) * str_max );
+            const int dexint_penalty = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
+            starvation_text += std::string( _( "Strength" ) ) + " -" + string_format( "%d\n",
+                               str_penalty );
+            starvation_text += std::string( _( "Dexterity" ) ) + " -" + string_format( "%d\n",
+                               dexint_penalty );
+            starvation_text += std::string( _( "Intelligence" ) ) + " -" + string_format( "%d",
+                               dexint_penalty );
         }
 
         effect_name_and_text.emplace_back( starvation_name, starvation_text );
