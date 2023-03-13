@@ -2295,6 +2295,10 @@ an `event_statistic`.  For example:
   // Description is optional and can provide extra details if you wish.
   "name": "One down, billions to go\u2026",
   "description": "Kill a zombie",
+  // if you don't specify requirements because the achievement is given by an EOC
+  // you should set manually_given to true, this will avoid errors.
+  // this value defaults to false
+  "manually_given": false,
   "requirements": [
     // Each requirement must specify the statistic being constrained, and the
     // constraint in terms of a comparison against some target value.

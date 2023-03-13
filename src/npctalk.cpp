@@ -14,6 +14,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "achievement.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -3280,6 +3281,27 @@ void talk_effect_fun_t<T>::set_sound_effect( const JsonObject &jo, const std::st
     };
 }
 
+
+template<class T>
+void talk_effect_fun_t<T>::set_give_achievment( const JsonObject &jo, const std::string &member )
+{
+    str_or_var<T> achieve = get_str_or_var<T>( jo.get_member( member ), member, true );
+    function = [achieve]( const T & d ) {
+        const achievement_id achievement_to_give( achieve.evaluate( d ) );
+        // make sure the achievement is being tracked and that it is currently pending
+        std::vector<const achievement *> all_achievements = get_achievements().valid_achievements();
+        if( std::find_if( all_achievements.begin(),
+        all_achievements.end(), [&achievement_to_give]( const achievement * ach ) {
+        return ach->id == achievement_to_give;
+    } ) != all_achievements.end() ) {
+            if( get_achievements().is_completed( achievement_to_give ) == achievement_completion::pending ) {
+                get_achievements().report_achievement( &achievement_to_give.obj(),
+                                                       achievement_completion::completed );
+            }
+        }
+    };
+}
+
 template<class T>
 void talk_effect_fun_t<T>::set_mod_healthy( const JsonObject &jo, const std::string &member,
         bool is_npc )
@@ -4279,6 +4301,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_first_topic( jo, "npc_first_topic" );
     } else if( jo.has_string( "sound_effect" ) ) {
         subeffect_fun.set_sound_effect( jo, "sound_effect" );
+    } else if( jo.has_string( "give_achievement" ) ) {
+        subeffect_fun.set_give_achievment( jo, "give_achievement" );
     } else if( jo.has_member( "u_message" ) ) {
         subeffect_fun.set_message( jo, "u_message" );
     } else if( jo.has_member( "npc_message" ) ) {
