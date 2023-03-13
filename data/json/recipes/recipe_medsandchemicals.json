@@ -2055,7 +2055,6 @@
     "autolearn": false,
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
-      { "proficiency": "prof_organic_chemistry" },
       { "proficiency": "prof_intro_chem_synth" },
       { "proficiency": "prof_chem_synth" }
     ],
@@ -2078,7 +2077,6 @@
     "autolearn": false,
     "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
-      { "proficiency": "prof_organic_chemistry" },
       { "proficiency": "prof_intro_chem_synth" },
       { "proficiency": "prof_chem_synth" }
     ],
