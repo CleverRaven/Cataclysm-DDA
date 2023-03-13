@@ -2852,7 +2852,7 @@
     "folded_volume": "2 L",
     "bonus": 24,
     "item": "omnicamera_reinforced",
-    "epower": -10,
+    "epower": "-10 W",
     "location": "on_roof",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
