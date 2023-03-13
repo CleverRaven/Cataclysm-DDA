@@ -1656,13 +1656,13 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
     if( veh.fuel_left( itype_battery ) < pseudo.ammo_required() ) {
         return false;
     }
-    // TODO: Figure out this comment: Pseudo items don't have a magazine in it, and they don't need it anymore.
     item pseudo_magazine( pseudo.magazine_default() );
     pseudo_magazine.clear_items(); // no initial ammo
     pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
-    const int capacity = pseudo.ammo_capacity( ammo_battery );
-    const int qty = capacity - veh.discharge_battery( capacity );
-    pseudo.ammo_set( itype_battery, qty );
+    const int64_t tool_capacity = pseudo.ammo_capacity( ammo_battery );
+    const int64_t veh_battery = veh.battery_left();
+    const int tool_battery = std::min( tool_capacity, veh_battery );
+    pseudo.ammo_set( itype_battery, tool_battery );
     get_player_character().invoke_item( &pseudo );
     player_activity &act = get_player_character().activity;
 
@@ -1673,8 +1673,8 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
         act.coords.push_back( vp_pos ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
     }
-
-    veh.charge_battery( pseudo.ammo_remaining() );
+    const int used_charges = tool_battery - pseudo.ammo_remaining();
+    veh.discharge_battery( used_charges );
     return true;
 }
 
