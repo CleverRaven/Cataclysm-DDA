@@ -1981,13 +1981,13 @@
         "encumbrance": 30
       },
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "pseudo_soft_qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "eyes" ],
         "coverage": 95,
         "encumbrance": 7
       },
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "pseudo_soft_qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "mouth" ],
         "coverage": 95,
         "encumbrance": 1
