@@ -71,7 +71,11 @@
     "book_learn": [ [ "textbook_survival", 1 ], [ "survival_book", 1 ] ],
     "using": [ [ "tailoring_glimmer_fur", 7 ] ],
     "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic" }, { "proficiency": "prof_furriery" }, { "proficiency": "prof_aelfen_tailoring" } ]
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_furriery" },
+      { "proficiency": "prof_aelfen_tailoring" }
+    ]
   },
   {
     "result": "coat_glimmer_fur",

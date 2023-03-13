@@ -59,7 +59,7 @@
           "kevlar_rigid",
           "fae_fur"
         ],
-        "skill": "tailor",
+        "skill": "tailor"
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
