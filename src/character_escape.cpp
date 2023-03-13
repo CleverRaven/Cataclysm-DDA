@@ -42,7 +42,7 @@ void Character::try_remove_downed()
     /** @EFFECT_DEX increases chance to stand up when knocked down */
     /** @EFFECT_ARM_STR increases chance to stand up when knocked down, slightly */
     // Downed reduces balance score to 10% unless resisted, multiply to compensate
-    int chance = ( get_dex() + get_arm_str() / 2.0 ) * get_limb_score( limb_score_balance ) * 10. 0;
+    int chance = ( get_dex() + get_arm_str() / 2.0 ) * get_limb_score( limb_score_balance ) * 10.0;
     // Always 2,5% chance to stand up
     chance += has_flag( json_flag_DOWNED_RECOVERY ) ? 20 : 1;
     if( !x_in_y( chance, 40 ) ) {
