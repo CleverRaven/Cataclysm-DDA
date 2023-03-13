@@ -628,8 +628,11 @@ void avatar::add_profession_items()
                 inv->push_back( it );
             }
         } else if( it.is_armor() ) {
-            // TODO: debugmsg if wearing fails
-            wear_item( it, false, false );
+            if( can_wear( it ).success() ) {
+                wear_item( it, false, false );
+            } else {
+                inv->push_back( it );
+            }
         } else {
             inv->push_back( it );
         }
