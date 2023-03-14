@@ -26,7 +26,7 @@
     "color": "black",
     "ammo": [ "338lapua" ],
     "dispersion": 50,
-    "durability": 8,
+    "durability": 10,
     "blackpowder_tolerance": 24,
     "default_mods": [ "cheek_pad", "butt_hook", "bipod", "rifle_scope", "muzzle_brake" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag" ] } ]
@@ -81,5 +81,51 @@
     ],
     "flags": [ "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 1 } } ]
+  },
+  {
+    "id": "mrad",
+    "copy-from": "rifle_manual",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "Barret precision rifle" },
+    "description": "A box magazine-fed bolt-action precision rifle developed by the Barrett Arms Company, firing the .338 Lapua cartridge.  A civilian copy of more versatile military weapons, this rifle is a remarkably well-crafted piece of anti-personnel engineering despite lacking the sheer modularity of its Marshal sister, and is still capable of engaging targets at extreme distances.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "mrad",
+        "name": { "str_sp": "Barrett MRAD SMR" },
+        "description": "Chambered for the .338 Lapua cartridge, the Barrett MRAD SMR is a civilian variant of the MK22 MRAD sniper rifle, which was in service with elements of the US army and is often regarded as one of the finest bolt-action sniper rifles ever developed.  The primary differences that set this weapon apart from its Marshal sibling are the removal of the MRAD’s caliber conversion capabilities and the installation of a fixed buttstock.  These changes have resulted in a lighter and slimmer rifle that, most importantly for the discerning pre-cataclysmic precision shooter, didn’t require a second mortgage to purchase.",
+        "weight": 1
+      }
+    ],
+    "weight": "6305 g",
+    "volume": "5500 ml",
+    "longest_side": "1204 mm",
+    "price": 406098,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "aluminum", "steel", "plastic" ],
+    "color": "black",
+    "ammo": [ "338lapua" ],
+    "dispersion": 50,
+    "durability": 10,
+    "blackpowder_tolerance": 24,
+    "built_in_mods": [ "cheek_pad" ],
+    "//": "Cheek pad required for holding the buttstock in place and keep it from folding.",
+    "default_mods": [ "match_trigger", "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "stock accessory", 2 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "barrett_338lapua_mag" ] } ]
   }
 ]

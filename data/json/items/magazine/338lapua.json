@@ -15,5 +15,22 @@
     "ammo_type": [ "338lapua" ],
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 5 } } ]
+  },
+  {
+    "id": "mrad_338lapua_mag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "Barrett .338 Lapua 10-round magazine" },
+    "description": "A standard 10-round box magazine which can hold up to 10 .338 Lapua rounds, and is compatible with appropriately chambered Barrett rifles.",
+    "weight": "200 g",
+    "volume": "400 ml",
+    "price": 8000,
+    "price_postapoc": 250,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "338lapua" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 10 } } ]
   }
 ]

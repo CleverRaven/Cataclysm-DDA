@@ -535,7 +535,8 @@
       { "group": "nested_ar15_retool_300blk", "prob": 15 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
       { "group": "nested_hk_usc45", "prob": 20 },
-      { "group": "nested_savage112", "prob": 15 }
+      { "group": "nested_savage112", "prob": 15 },
+      { "group": "nested_mrad_smr", "prob": 6 }
     ]
   },
   {
@@ -557,7 +558,6 @@
         "charges": [ 0, 0 ]
       },
       { "item": "iwi_tavor_x95_300blk", "prob": 15 },
-      { "item": "ar15_retool_300blk", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "1895sbl", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "marlin_9a", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin44", "variant": "mosin44", "prob": 10, "charges-min": 0, "charges-max": 0 },
@@ -570,6 +570,7 @@
       { "item": "win70", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mdrx", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "m1carbine", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "mrad_smr", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "group": "nested_ar15_with_kits", "prob": 15 },
       { "group": "nested_mdrx_with_kits", "prob": 10 }
     ]
