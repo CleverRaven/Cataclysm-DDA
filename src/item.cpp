@@ -12769,9 +12769,12 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         }
     }
 
-    if( link.state == cable_link::needs_reeling && carrying_item ) {
+    if( link.state == cable_link::needs_reeling ) {
+        if( carrying_item ) {
         reset_cable( carrier, parent_item );
         return has_flag( flag_AUTO_CABLE ) ? true : false;
+    }
+        return false;
     }
 
     tripoint connection_pos = here.getlocal( link.pos );
