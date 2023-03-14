@@ -544,6 +544,9 @@ struct vehicle_part {
         bool has_fake = false; // NOLINT(cata-serialize)
         int fake_part_at = -1; // NOLINT(cata-serialize)
 
+        bool is_real_or_active_fake() const {
+            return !is_fake || is_active_fake;
+        }
 };
 
 class turret_data
@@ -1950,8 +1953,6 @@ class vehicle
         // Updates active state on all fake_mounts based on whether they can fill a gap
         // map.cpp calls this in displace_vehicle
         void update_active_fakes();
-        // Determines if the given part_num is real or active fake part
-        bool real_or_active_fake_part( int part_num ) const;
 
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()

@@ -1986,7 +1986,7 @@ bool vehicle::do_remove_part_actual()
                     items.erase( items.begin() );
                 }
             }
-            if( !it->is_fake || it->is_active_fake ) {
+            if( it->is_real_or_active_fake() ) {
                 const tripoint pt = global_part_pos3( *it );
                 here.clear_vehicle_point_from_cache( this, pt );
             }
@@ -3065,10 +3065,11 @@ int vehicle::part_displayed_at( const point &dp, bool include_fake, bool below_r
     int top_z_order = ( below_roof ? 0 : ON_ROOF_Z ) - 1;
     for( size_t index = 0; index < parts_in_square.size(); index++ ) {
         int test_index = parts_in_square[index];
-        if( parts.at( test_index ).is_fake && !parts.at( test_index ).is_active_fake ) {
+        const vehicle_part &vp = parts.at( test_index );
+        if( !vp.is_real_or_active_fake() ) {
             continue;
         }
-        int test_z_order = part_info( test_index ).z_order;
+        int test_z_order = vp.info().z_order;
         if( ( top_z_order < test_z_order ) && ( test_z_order < hide_z_at_or_above ) ) {
             top_part = index;
             top_z_order = test_z_order;
@@ -6153,14 +6154,6 @@ void vehicle::remove_fake_parts( const bool cleanup )
     }
 }
 
-bool vehicle::real_or_active_fake_part( const int part_num ) const
-{
-    if( part_num < part_count() ) {
-        return !parts.at( part_num ).is_fake || parts.at( part_num ).is_active_fake;
-    }
-    return false;
-}
-
 const point &vehicle::pivot_point() const
 {
     if( pivot_dirty ) {
@@ -7710,7 +7703,7 @@ std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripo
     int index = -1;
     for( vehicle_part &prt : parts ) {
         index += 1;
-        if( !prt.is_fake || prt.is_active_fake ) {
+        if( prt.is_real_or_active_fake() ) {
             here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
         }
         // no parts means this is a normal horizontal or vertical move
@@ -7843,7 +7836,9 @@ bool vehicle_part_range::matches( const size_t part ) const
 
 bool vehicle_part_with_fakes_range::matches( const size_t part ) const
 {
-    return this->with_inactive_fakes_ || this->vehicle().real_or_active_fake_part( part );
+    return this->with_inactive_fakes_ ||
+           ( static_cast<int>( part ) < this->vehicle().part_count() &&
+             this->vehicle().part( part ).is_real_or_active_fake() );
 }
 
 void MapgenRemovePartHandler::add_item_or_charges(

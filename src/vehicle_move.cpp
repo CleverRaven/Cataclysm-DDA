@@ -723,19 +723,19 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     bool empty = true;
     map &here = get_map();
     for( int p = 0; p < part_count(); p++ ) {
-        if( parts.at( p ).removed || ( parts.at( p ).is_fake && !parts.at( p ).is_active_fake ) ) {
+        const vehicle_part &vp = parts.at( p );
+        if( vp.removed || !vp.is_real_or_active_fake() ) {
             continue;
         }
 
-        const vpart_info &info = part_info( p );
-        if( !parts.at( p ).is_fake &&
-            info.location != part_location_structure && info.rotor_diameter() == 0 ) {
+        const vpart_info &info = vp.info();
+        if( !vp.is_fake && info.location != part_location_structure && info.rotor_diameter() == 0 ) {
             continue;
         }
         empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
-        const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
+        const tripoint dsp = global_pos3() + dp + vp.precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_diameter() / 2.0f ) );
