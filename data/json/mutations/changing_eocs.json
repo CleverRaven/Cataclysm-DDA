@@ -6,7 +6,7 @@
     "recurrence": [ "30 m", "45 m" ],
     "condition": {
       "and": [
-        { "compare_int": [ { "u_val": "vitamin", "name": "mutagen" }, ">=", { "const": 450 } ] },
+        { "compare_num": [ { "u_val": "vitamin", "name": "mutagen" }, ">=", { "const": 450 } ] },
         { "not": { "u_has_flag": "CHANGING" } }
       ]
     },
@@ -51,7 +51,7 @@
           {
             "id": "changing_mutate2",
             "//": "Mutate!",
-            "condition": { "compare_int": [ { "u_val": "vitamin", "name": "mutagen" }, ">=", { "const": 300 } ] },
+            "condition": { "compare_num": [ { "u_val": "vitamin", "name": "mutagen" }, ">=", { "const": 300 } ] },
             "effect": [
               { "u_message": "You feel a deep, churning sensation fill your body.", "type": "mixed" },
               { "u_mutate": 0 },

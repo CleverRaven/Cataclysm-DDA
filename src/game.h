@@ -280,6 +280,10 @@ class game
         */
         cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking, const tripoint &pos );
+        /*
+        * Prompt player on direction they want to climb up or down.
+        */
+        cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts, bool up = true );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc.
          *  Returns true if the z-level changed.
          */
@@ -1110,7 +1114,10 @@ class game
         weather_manager weather; // NOLINT(cata-serialize)
 
     public:
-        int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
+        // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
+        // Please note that this does not count ignored monsters, so this value might
+        // be 0 even if the player currently sees some monsters.
+        int mostseen = 0;
     private:
         shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)
 
@@ -1195,6 +1202,11 @@ class game
         @return whether player has slipped down
         */
         bool slip_down( bool check_for_traps = false );
+
+        /**
+        * Climb down from a ledge using grappling hooks or spider webs if appropriate.
+        */
+        void climb_down( const tripoint &examp );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

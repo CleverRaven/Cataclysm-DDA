@@ -164,7 +164,7 @@
       [ "string_6", 2 ],
       [ "chain", 20 ],
       [ "glass_sheet", 5 ],
-      { "item": "glass_shard", "prob": 20, "count": [ 1, 8 ] },
+      { "item": "glass_shard", "prob": 20, "count": [ 5, 60 ] },
       [ "ceramic_shard", 15 ],
       [ "stick", 95 ],
       [ "seed_wheat", 5 ],

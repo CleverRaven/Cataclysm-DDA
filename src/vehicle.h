@@ -114,7 +114,7 @@ struct smart_controller_cache {
     bool gas_engine_shutdown_forbidden = false;
     int velocity = 0;
     int battery_percent = 0;
-    units::energy battery_net_charge_rate = 0_J;
+    units::power battery_net_charge_rate = 0_W;
     float load = 0.0f;
 };
 
@@ -766,16 +766,13 @@ class vehicle
         //damages vehicle controls and security system
         void smash_security_system();
         // get vpart powerinfo for part number, accounting for variable-sized parts and hps.
-        int part_vpower_w( int index, bool at_full_hp = false ) const;
+        units::power part_vpower_w( const vehicle_part &vp, bool at_full_hp = false ) const;
 
-        // get vpart epowerinfo for part number.
-        int part_epower_w( int index ) const;
+        // Get part power consumption/production for part number.
+        units::power part_epower( const vehicle_part &vp ) const;
 
         // convert watts over time to battery energy (kJ)
-        int power_to_energy_bat( int power_w, const time_duration &d ) const;
-
-        // convert vhp to watts.
-        static int vhp_to_watts( int power );
+        int power_to_energy_bat( units::power power, const time_duration &d ) const;
 
         // Do stuff like clean up blood and produce smoke from broken parts. Returns false if nothing needs doing.
         bool do_environmental_effects() const;
@@ -790,10 +787,10 @@ class vehicle
                                    bool verbose = false, bool desc = false );
 
         // Calculate how long it takes to attempt to start an engine
-        int engine_start_time( int e ) const;
+        time_duration engine_start_time( const vehicle_part &vp ) const;
 
         // How much does the temperature effect the engine starting (0.0 - 1.0)
-        double engine_cold_factor( int e ) const;
+        double engine_cold_factor( const vehicle_part &vp ) const;
 
         // refresh pivot_cache, clear pivot_dirty
         void refresh_pivot() const;
@@ -947,16 +944,16 @@ class vehicle
         void connect( const tripoint &source_pos, const tripoint &target_pos );
 
         // Try select any fuel for engine, returns true if some fuel is available
-        bool auto_select_fuel( int e );
+        bool auto_select_fuel( vehicle_part &vp );
         // Attempt to start an engine
-        bool start_engine( int e );
+        bool start_engine( vehicle_part &vp );
         // stop all engines
         void stop_engines();
         // Attempt to start the vehicle's active engines
         void start_engines( bool take_control = false, bool autodrive = false );
 
         // Engine backfire, making a loud noise
-        void backfire( int e ) const;
+        void backfire( const vehicle_part &vp ) const;
 
         // get vpart type info for part number (part at given vector index)
         const vpart_info &part_info( int index, bool include_removed = false ) const;
@@ -1042,9 +1039,6 @@ class vehicle
 
         /** Get handle for base item of part */
         item_location part_base( int p );
-
-        /** Get index of part with matching base item or INT_MIN if not found */
-        int find_part( const item &it ) const;
 
         /**
          * Remove a part from a targeted remote vehicle. Useful for, e.g. power cables that have
@@ -1234,6 +1228,8 @@ class vehicle
         // get a list of part indices and Creature pointers with a rider
         std::vector<rider_data> get_riders() const;
 
+        // is given character a passenger of this vehicle
+        bool is_passenger( Character &c ) const;
         // get passenger at part p
         Character *get_passenger( int you ) const;
         // get monster on a boardable part at p
@@ -1275,9 +1271,7 @@ class vehicle
                            const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
         const;
         // Checks how much of an engine's current fuel is left in the tanks.
-        int engine_fuel_left( int e, bool recurse = false ) const;
-        // Returns what type of fuel an engine uses
-        itype_id engine_fuel_current( int e ) const;
+        int engine_fuel_left( const vehicle_part &vp, bool recurse = false ) const;
         // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
 
@@ -1295,7 +1289,7 @@ class vehicle
         units::energy drain_energy( const itype_id &ftype, units::energy wanted_energy );
 
         // fuel consumption of vehicle engines of given type
-        int basic_consumption( const itype_id &ftype ) const;
+        units::power basic_consumption( const itype_id &ftype ) const;
         // Fuel consumption mL/hour
         int consumption_per_hour( const itype_id &ftype, units::energy fuel_per_s ) const;
 
@@ -1304,13 +1298,13 @@ class vehicle
         /**
          * Maps used fuel to its basic (unscaled by load/strain) consumption.
          */
-        std::map<itype_id, units::energy> fuel_usage() const;
+        std::map<itype_id, units::power> fuel_usage() const;
 
         /**
         * Fuel usage for specific engine
         * @param e is the index of the engine in the engines array
         */
-        units::energy engine_fuel_usage( int e ) const;
+        units::power engine_fuel_usage( const vehicle_part &vp ) const;
         /**
          * Get all vehicle lights (excluding any that are destroyed)
          * @param active if true return only lights which are enabled
@@ -1320,43 +1314,47 @@ class vehicle
         void update_alternator_load();
 
         // Total drain or production of electrical power from engines.
-        int total_engine_epower_w() const;
+        units::power total_engine_epower() const;
         // Total production of electrical power from alternators.
-        int total_alternator_epower_w() const;
+        units::power total_alternator_epower() const;
         // Total power (W) currently being produced by all solar panels.
-        int total_solar_epower_w() const;
+        units::power total_solar_epower() const;
         // Total power currently being produced by all wind turbines.
-        int total_wind_epower_w() const;
+        units::power total_wind_epower() const;
         // Total power currently being produced by all water wheels.
-        int total_water_wheel_epower_w() const;
+        units::power total_water_wheel_epower() const;
         // Total power drain across all vehicle accessories.
-        int total_accessory_epower_w() const;
+        units::power total_accessory_epower() const;
         // Net power draw or drain on batteries.
-        int net_battery_charge_rate_w( bool include_reactors = true,
-                                       bool connected_vehicles = false ) const;
+        units::power net_battery_charge_rate( bool include_reactors = true,
+                                              bool connected_vehicles = false ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
-        int max_reactor_epower_w() const;
+        units::power max_reactor_epower() const;
         // Active power from reactors that is actually being drained by batteries.
-        int active_reactor_epower_w( bool connected_vehicles ) const;
+        units::power active_reactor_epower( bool connected_vehicles ) const;
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();
 
-        // Current and total battery power level as a pair
+        // Current and total battery power (kJ) level as a pair
         std::pair<int, int> battery_power_level() const;
 
-        // Current and total battery power level of all connected vehicles as a pair
+        // Current and total battery power (kJ) level of all connected vehicles as a pair
         std::pair<int, int> connected_battery_power_level() const;
 
         /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
+         * @param amount to discharge in kJ
+         * @param include_other_vehicles if true charge also to cable connected vehicles.
          * @return amount of charge left over.
          */
         int charge_battery( int amount, bool include_other_vehicles = true );
 
         /**
          * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
+         * @param amount to discharge in kJ
+         * @param recurse if true draws also from cable connected vehicles.
          * @return amount of request unfulfilled (0 if totally successful).
          */
         int discharge_battery( int amount, bool recurse = true );
@@ -1386,7 +1384,7 @@ class vehicle
         // Get combined power of all engines. If fueled == true, then only engines which
         // vehicle have fuel for are accounted.  If safe == true, then limit engine power to
         // their safe power.
-        int total_power_w( bool fueled = true, bool safe = false ) const;
+        units::power total_power( bool fueled = true, bool safe = false ) const;
 
         // Get ground acceleration gained by combined power of all engines. If fueled == true,
         // then only engines which the vehicle has fuel for are included
@@ -1527,7 +1525,7 @@ class vehicle
 
         // Extra drag on the vehicle from components other than wheels.
         // @param actual is current drag if true or nominal drag otherwise
-        int static_drag( bool actual = true ) const;
+        units::power static_drag( bool actual = true ) const;
 
         // strain of engine(s) if it works higher that safe speed (0-1.0)
         float strain() const;
@@ -1570,6 +1568,9 @@ class vehicle
          */
         void smart_controller_handle_turn( bool thrusting = false,
                                            const cata::optional<float> &k_traction_cache = cata::nullopt );
+
+        bool has_available_electric_engine();
+        void disable_smart_controller_if_needed();
 
         //deceleration due to ground friction and air resistance
         int slowdown( int velocity ) const;
@@ -1822,24 +1823,19 @@ class vehicle
         //main method for the control of individual engines
         void control_engines();
         //returns whether the engine is enabled or not, and has fueltype
-        bool is_engine_type_on( int e, const itype_id &ft ) const;
+        bool is_engine_type_on( const vehicle_part &vp, const itype_id &ft ) const;
         //returns whether the engine is enabled or not
-        bool is_engine_on( int e ) const;
-        //returns whether the part is enabled or not
-        bool is_part_on( int p ) const;
+        bool is_engine_on( const vehicle_part &vp ) const;
         //returns whether the engine uses specified fuel type
-        bool is_engine_type( int e, const itype_id &ft ) const;
+        bool is_engine_type( const vehicle_part &vp, const itype_id &ft ) const;
         //returns whether the engine uses one of specific "combustion" fuel types (gas, diesel and diesel substitutes)
-        bool is_combustion_engine_type( int e ) const;
+        bool is_engine_type_combustion( const vehicle_part &vp ) const;
         //returns whether the alternator is operational
-        bool is_alternator_on( int a ) const;
-        //turn engine as on or off (note: doesn't perform checks if engine can start)
-        void toggle_specific_engine( int e, bool on );
+        bool is_alternator_on( const vehicle_part &vp ) const;
         // try to turn engine on or off
         // (tries to start it and toggles it on if successful, shutdown is always a success)
         // returns true if engine status was changed
-        bool start_engine( int e, bool turn_on );
-        void toggle_specific_part( int p, bool on );
+        bool start_engine( vehicle_part &vp, bool turn_on );
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
         bool has_engine_type( const itype_id &ft, bool enabled ) const;
@@ -1851,9 +1847,9 @@ class vehicle
         //the exclusion
         bool has_engine_conflict( const vpart_info *possible_conflict, std::string &conflict_type ) const;
         //returns true if the engine doesn't consume fuel
-        bool is_perpetual_type( int e ) const;
+        bool is_perpetual_type( const vehicle_part &vp ) const;
         //if necessary, damage this engine
-        void do_engine_damage( size_t e, int strain );
+        void do_engine_damage( vehicle_part &vp, int strain );
         //remotely open/close doors
         void control_doors();
         // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
@@ -2113,7 +2109,7 @@ class vehicle
         float of_turn = 0.0f; // NOLINT(cata-serialize)
         // leftover from previous turn
         float of_turn_carry = 0.0f;
-        int extra_drag = 0; // NOLINT(cata-serialize)
+        units::power extra_drag = 0_W; // NOLINT(cata-serialize)
         // the time point when it was successfully stolen
         cata::optional<time_point> theft_time;
         // rotation used for mount precalc values

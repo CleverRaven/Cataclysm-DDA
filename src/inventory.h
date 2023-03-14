@@ -124,11 +124,13 @@ class inventory : public visitable
         inventory &operator+= ( const inventory &rhs );
         inventory &operator+= ( const item &rhs );
         inventory &operator+= ( const std::list<item> &rhs );
+        inventory &operator+= ( const item_components &rhs );
         inventory &operator+= ( const std::vector<item> &rhs );
         inventory &operator+= ( const item_stack &rhs );
         inventory  operator+ ( const inventory &rhs );
         inventory  operator+ ( const item &rhs );
         inventory  operator+ ( const std::list<item> &rhs );
+        inventory  operator+ ( const item_components &rhs );
 
         void unsort(); // flags the inventory as unsorted
         void clear();
@@ -209,10 +211,6 @@ class inventory : public visitable
         // dumps contents into dest (does not delete contents)
         void dump( std::vector<item *> &dest );
         void dump( std::vector<const item *> &dest ) const;
-
-        // vector rather than list because it's NOT an item stack
-        // returns all items that need processing
-        std::vector<item *> active_items();
 
         void json_load_invcache( const JsonValue &jsin );
         void json_load_items( const JsonArray &ja );

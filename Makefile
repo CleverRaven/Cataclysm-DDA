@@ -68,7 +68,7 @@
 #  make DYNAMIC_LINKING=1
 # Use MSYS2 as the build environment on Windows
 #  make MSYS2=1
-# Turn off all optimizations, even debug-friendly optimizations
+# Turn off all optimizations, even debug-friendly optimizations. Overridden by RELEASE=1
 #  make NOOPT=1
 # Astyle all source files.
 #  make astyle
@@ -543,6 +543,10 @@ ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
   LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation -Wl,-headerpad_max_install_names
+  ifeq ($(ARCH),arm64)
+    CXXFLAGS += -arch arm64
+    LDFLAGS += -arch arm64
+  endif
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \

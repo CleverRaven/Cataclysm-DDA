@@ -137,6 +137,8 @@ struct omt_find_params {
     bool must_see = false;
     bool cant_see = false;
     bool existing_only = false;
+    int min_z = -OVERMAP_DEPTH;
+    int max_z = OVERMAP_HEIGHT;
     cata::optional<overmap_special_id> om_special = cata::nullopt;
 };
 
@@ -285,6 +287,7 @@ class overmapbuffer
          * Searches all loaded overmaps.
          */
         shared_ptr_fast<npc> find_npc( character_id id );
+        void foreach_npc( const std::function<void( npc & )> &callback );
         shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &unique_id );
         /**
          * Get all NPCs active on the overmap

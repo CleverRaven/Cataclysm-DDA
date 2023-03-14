@@ -96,6 +96,7 @@
     "cooks_like": "jerky",
     "color": "white",
     "spoils_in": "45 days",
+    "material": [ "flesh" ],
     "calories": 360,
     "healthy": 3,
     "charges": 5,

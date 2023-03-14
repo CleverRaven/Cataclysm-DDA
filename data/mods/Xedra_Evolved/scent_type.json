@@ -1,0 +1,27 @@
+[
+  {
+    "type": "scent_type",
+    "id": "sc_fae",
+    "receptive_species": [
+      "MAMMAL",
+      "BIRD",
+      "AMPHIBIAN",
+      "REPTILE",
+      "FISH",
+      "MUTANT",
+      "NETHER",
+      "SLIME",
+      "FUNGUS",
+      "INSECT",
+      "CENTIPEDE",
+      "SPIDER",
+      "MOLLUSK",
+      "WORM",
+      "HORROR",
+      "ABERRATION",
+      "HALLUCINATION",
+      "UNKNOWN",
+      "ZOMBIE"
+    ]
+  }
+]
