@@ -6227,10 +6227,8 @@ int Character::get_rad() const
 
 void Character::set_rad( int new_rad )
 {
-    if( radiation != new_rad ) {
-        radiation = new_rad;
-        on_stat_change( "radiation", radiation );
-    }
+    radiation = new_rad;
+    on_stat_change( "radiation", radiation );
 }
 
 void Character::mod_rad( int mod )
