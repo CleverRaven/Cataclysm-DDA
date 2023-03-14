@@ -1926,6 +1926,17 @@ bool vehicle::do_remove_part_actual()
                 const tripoint pt = global_part_pos3( *it );
                 here.clear_vehicle_point_from_cache( this, pt );
             }
+            int index = it - parts.begin();
+            for( item::cable_link *cable : cables_to_update ) {
+                if( cable->vp_index == index ) {
+                    add_msg_if_player_sees( here.getlocal( cable->pos ), m_bad, _( "The cable has come loose!" ) );
+                    cable->state = item::cable_link::link_state::needs_reeling;
+                    cable->pos = tripoint_min;
+                    cable->vp_index = -1;
+                } else if( cable->vp_index > index ) {
+                    cable->vp_index--;
+                }
+            }
             it = parts.erase( it );
             changed = true;
         }

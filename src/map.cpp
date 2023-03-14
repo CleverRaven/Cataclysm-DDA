@@ -5399,6 +5399,15 @@ void map::process_items_in_vehicles( submap &current_submap )
 
 void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
 {
+    // Update all connected cables' target points. 
+    for( item::cable_link *cable : cur_veh.cables_to_update ) {
+        if( cable->vp_index > -1 ) {
+            cable->pos = getabs( cur_veh.global_part_pos3( cable->vp_index ) );
+        }
+    }
+    // Empty the connected cables list in preparation for item processing to refill it.
+    cur_veh.cables_to_update.clear();
+
     const bool engine_heater_is_on = cur_veh.has_part( "E_HEATER", true ) && cur_veh.engine_on;
     for( const vpart_reference &vp : cur_veh.get_any_parts( VPFLAG_FLUIDTANK ) ) {
         vp.part().process_contents( *this, vp.pos(), engine_heater_is_on );
