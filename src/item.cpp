@@ -10376,9 +10376,7 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
         int ammo_required_total = ammo_required() * qty;
         if( plugged_in ) {
             const item *cable = contents.cables( true ).front();//TODOkama don't just use front here
-            const cata::optional<tripoint> source = cable->get_cable_target( carrier, pos );
-            if( source ) {
-                const optional_vpart_position vp = get_map().veh_at( *source );
+            const optional_vpart_position vp = get_map().veh_at( cable->link.pos );
                 if( vp ) {
                     ammo_required_total -= vp->vehicle().connected_battery_power_level().first;
                     if( ammo_required_total <= 0 ) {
@@ -10386,7 +10384,6 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
                     }
                 }
             }
-        }
         return ammo_remaining( carrier ) >= ammo_required_total;
 
     } else if( get_gun_ups_drain() > 0_kJ ) {
@@ -10407,14 +10404,11 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     if( plugged_in ) {
         //qty -= contents.ammo_consume_via_cable( qty, pos );
         item *cable = contents.cables( true ).front();//TODOkama don't just use front here
-        const cata::optional<tripoint> source = cable->get_cable_target( carrier, pos );
-        if( source ) {
-            const optional_vpart_position vp = get_map().veh_at( *source );
+        const optional_vpart_position vp = get_map().veh_at( cable->link.pos );
             if( vp ) {
                 qty = vp->vehicle().discharge_battery( qty, true );
             }
         }
-    }
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
@@ -12745,35 +12739,13 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
     return false;
 }
 
-std::optional<tripoint> item::get_cable_target( const Character *p, const tripoint &pos ) const
-{
-    const std::string &state = get_var( "state" );
-    if( state != "hanging_from_vehicle" && state != "vehicle_bionic_link" ) {
-        return std::nullopt;
-    }
-    map &here = get_map();
-    const optional_vpart_position vp_pos = here.veh_at( pos );//TODOkama this needs to be changed, #26385, commit 7bed7fa
-    if( vp_pos ) {
-        const std::optional<vpart_reference> seat = vp_pos.part_with_feature( "BOARDABLE", true );
-        if( seat && p == seat->vehicle().get_passenger( seat->part_index() ) ) {
-            return pos;
-        }
-    }
-
-    tripoint source( get_var( "source_x", 0 ), get_var( "source_y", 0 ), get_var( "source_z", 0 ) );
-
-    return here.getlocal( source );
-}
-
 bool item::process_cable( map &here, Character *carrier, const tripoint &pos, item *parent_item )
 {
     bool carrying_item = false;
-    std::string state = get_var( "state" );
-
     if( carrier != nullptr ) {
         carrying_item = carrier->has_item( parent_item != nullptr ? *parent_item : *this );
 
-        if( state == "solarpack_bionic_link" || state == "hanging_from_solarpack" ) {
+        if( link.state == cable_link::solarpack_bionic_link || link.state == cable_link::hanging_from_solarpack ) {
             if( !carrying_item || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
                 carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                 reset_cable( carrier, parent_item );
@@ -12785,7 +12757,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
             return itm.get_var( "cable" ) == "plugged_in";
         };
 
-        if( state == "hanging_from_UPS" ) {
+        if( link.state == cable_link::hanging_from_UPS ) {
             if( !carrying_item || !carrier->has_item_with( used_ups ) ) {
                 carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                 for( item *used : carrier->items_with( used_ups ) ) {
@@ -12797,19 +12769,13 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         }
     }
 
-    if( state == "needs_reeling" && carrying_item ) {
-        carrier->add_msg_if_player( m_info, _( "You reel in the cable." ) );
-        carrier->moves -= charges * 10;
-        active = false;
+    if( link.state == cable_link::needs_reeling && carrying_item ) {
+        reset_cable( carrier, parent_item );
         return has_flag( flag_AUTO_CABLE ) ? true : false;
     }
 
-    const cata::optional<tripoint> source = get_cable_target( carrier, pos );
-    if( !source ) {
-        return false;
-    }
-
-    const optional_vpart_position vp = here.veh_at( *source );
+    tripoint connection_pos = here.getlocal( link.pos );
+    const optional_vpart_position vp = here.veh_at( here.getlocal( link.pos ) );
     if( !vp ) {
         if( carrying_item ) {
             carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
@@ -12824,7 +12790,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         return has_flag( flag_AUTO_CABLE ) ? true : false;
     }
 
-    int distance = rl_dist( pos, *source );
+    int distance = rl_dist( pos, connection_pos );
     int max_charges = get_var( "cable_length", type->maximum_charges() );
     charges = max_charges - distance;
 
@@ -12844,6 +12810,10 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         }
         reset_cable( carrier, parent_item );
         return has_flag( flag_AUTO_CABLE ) ? true : false;
+    }
+
+    if( link.vp_index > -1 && link.vp_index < vp->vehicle().num_true_parts() ) {
+        vp->vehicle().cables_to_update.emplace_back( &link );
     }
 
     if( parent_item != nullptr ) {
@@ -12870,10 +12840,9 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
 void item::reset_cable( Character *p, item *parent_item )
 {
-    set_var( "state", "no_attachments" );
-    erase_var( "source_x" );
-    erase_var( "source_y" );
-    erase_var( "source_z" );
+    link.pos = tripoint_min;
+    link.vp_index = -1;
+    link.state = item::cable_link::no_attachments;
     charges = get_var( "cable_length", type->maximum_charges() );
 
     if( p != nullptr ) {
@@ -12881,7 +12850,7 @@ void item::reset_cable( Character *p, item *parent_item )
         p->moves -= charges * 10;
         active = false;
     } else {
-        set_var( "state", "needs_reeling" );
+        link.state = item::cable_link::needs_reeling;
     }
     if( parent_item != nullptr ) {
         parent_item->plugged_in = false;
@@ -12912,8 +12881,8 @@ bool item::process_UPS( Character *carrier, const tripoint & /*pos*/ )
         return false;
     }
     bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL ) && ( it.get_var( "state" ) == "UPS_bionic_link" ||
-                it.get_var( "state" ) == "hanging_from_UPS" );
+        return it.active && it.has_flag( flag_CABLE_SPOOL ) && ( it.link.state == cable_link::UPS_bionic_link ||
+                it.link.state == cable_link::hanging_from_UPS );
     } );
     if( !has_connected_cable ) {
         erase_var( "cable" );

@@ -4403,10 +4403,14 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         p.add_msg_if_player( _( "There's no appliance here." ) );
         return cata::nullopt;
     } else {
-        const tripoint abspos = here.getabs( posp );
-        cable.set_var( "source_x", abspos.x );
-        cable.set_var( "source_y", abspos.y );
-        cable.set_var( "source_z", here.get_abs_sub().z() );
+
+    cata::optional<vpart_reference> vp_port = vp.avail_part_with_feature( "CABLE_PORTS" );
+    if( !vp_port ) {
+        vp_port = vp.avail_part_with_feature( "APPLIANCE" );
+    }
+    
+    cable.link.pos = here.getabs( pnt );
+    cable.link.vp_index = vp_port.value().part_index();
 
         // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
         cable.set_var( "cable_length", cable_length + 1);
@@ -4415,7 +4419,7 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         cable.set_var( "charge_interval",
                        std::max( 1, static_cast<int>( std::floor( 1000.0 / wattage + 0.5 ) ) ) );
 
-        cable.set_var( "state", "hanging_from_vehicle" );
+    cable.link.state = item::cable_link::hanging_from_vehicle;
         cable.active = true;
         if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
             it.process( get_map(), &p, p.pos() );

@@ -1409,11 +1409,27 @@ class item : public visitable
 
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
-        /**
-         * Gets the point (vehicle tile) the cable is connected to.
-         * Returns nothing if not connected to anything.
-         */
-        std::optional<tripoint> get_cable_target( const Character *p, const tripoint &pos ) const;
+        struct cable_link {
+            /** TODOkama */
+            tripoint pos = tripoint_min;
+            /**TODOkama */
+            int vp_index = -1;
+            /**TODOkama */
+            //std::string state = "no_attachments";
+            enum link_state : int {
+                no_attachments = 0,
+                needs_reeling,
+                hanging_from_vehicle,
+                hanging_from_bionic,
+                hanging_from_UPS,
+                hanging_from_solarpack,
+                vehicle_bionic_link,
+                UPS_bionic_link,
+                solarpack_bionic_link
+            };
+            link_state state = no_attachments;
+        };
+        cable_link link;
         /**
          * Helper to bring a cable back to its initial state.
          */
