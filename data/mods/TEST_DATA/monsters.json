@@ -248,6 +248,14 @@
     ]
   },
   {
+    "id": "mon_debug_grab",
+    "type": "MONSTER",
+    "copy-from": "debug_mon",
+    "name": { "str": "debug grabber" },
+    "melee_skill": 200,
+    "special_attacks": [ [ "GRAB", 0 ] ]
+  },
+  {
     "id": "mon_debug_memory",
     "type": "MONSTER",
     "name": { "str": "memory", "str_pl": "memories" },

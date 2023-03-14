@@ -9,6 +9,7 @@
     "difficulty": 1,
     "time": "30 s",
     "autolearn": true,
+    "result_mult": 3,
     "components": [
       [ [ "cotton_patchwork", 3 ], [ "medical_gauze", 1 ], [ "fibercloth_patchwork", 3 ] ],
       [ [ "duct_tape", 20 ], [ "medical_tape", 5 ] ],
@@ -23,7 +24,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arm_xlsplint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -40,7 +41,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arm_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -57,7 +58,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arm_xs_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -74,7 +75,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "leg_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -91,7 +92,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "leg_xlsplint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -108,7 +109,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "leg_xs_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",

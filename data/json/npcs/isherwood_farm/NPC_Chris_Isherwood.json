@@ -17,7 +17,7 @@
     "id": "NC_ISHERWOOD_CHRIS",
     "name": { "str": "Chris Isherwood" },
     "job_description": "I'm Jesse and Carlos' son, part of the Isherwood family",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" } ],
     "common": false,
     "bonus_per": { "one_in": 4 },
     "worn_override": "NC_Isherwood_worn",

@@ -370,6 +370,9 @@ void game::item_action_menu( item_location loc )
         num++;
     }
 
+    kmenu.footer_text = string_format( _( "[<color_yellow>%s</color>] keybindings" ),
+                                       ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+
     kmenu.query();
     if( kmenu.ret < 0 || kmenu.ret >= static_cast<int>( iactions.size() ) ) {
         return;
@@ -430,4 +433,3 @@ std::string use_function::get_description() const
         return errstring;
     }
 }
-

@@ -628,8 +628,11 @@ void avatar::add_profession_items()
                 inv->push_back( it );
             }
         } else if( it.is_armor() ) {
-            // TODO: debugmsg if wearing fails
-            wear_item( it, false, false );
+            if( can_wear( it ).success() ) {
+                wear_item( it, false, false );
+            } else {
+                inv->push_back( it );
+            }
         } else {
             inv->push_back( it );
         }
@@ -809,12 +812,14 @@ bool avatar::create( character_type type, const std::string &tempname )
     cash = rng( -200000, 200000 );
     randomize_heartrate();
 
+    //set stored kcal to a normal amount for your height
+    set_stored_kcal( get_healthy_kcal() );
     if( has_trait( trait_XS ) ) {
-        set_stored_kcal( 10000 );
+        set_stored_kcal( std::floor( get_stored_kcal() / 5 ) );
         toggle_trait( trait_XS );
     }
     if( has_trait( trait_XXXL ) ) {
-        set_stored_kcal( 125000 );
+        set_stored_kcal( std::floor( get_stored_kcal() * 5 ) );
         toggle_trait( trait_XXXL );
     }
 
@@ -3835,7 +3840,13 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         werase( w_addictions );
         // Profession addictions description tab
-        const auto prof_addictions = you.prof->addictions();
+        std::vector<addiction> prof_addictions = you.prof->addictions();
+        for( const profession *profession : you.hobbies ) {
+            const std::vector<addiction> &hobby_addictions = profession->addictions();
+            for( const addiction &iter : hobby_addictions ) {
+                prof_addictions.push_back( iter );
+            }
+        }
         if( isWide ) {
             if( prof_addictions.empty() ) {
                 mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );

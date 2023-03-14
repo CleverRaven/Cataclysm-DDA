@@ -217,6 +217,7 @@ void avatar::control_npc_menu()
         }
     }
     if( followers.empty() ) {
+        popup( _( "There's no one to take control of!" ) );
         return;
     }
     charmenu.w_y_setup = 0;
@@ -928,28 +929,6 @@ void avatar::disp_morale()
     morale->display( equilibrium, pain_penalty, fatigue_penalty );
 }
 
-int avatar::limb_dodge_encumbrance() const
-{
-    std::map<body_part_type::type, std::vector<bodypart_id>> bps;
-    for( const auto &bp : body ) {
-        if( bp.first->encumb_impacts_dodge ) {
-            bps[bp.first->primary_limb_type()].emplace_back( bp.first );
-        }
-    }
-
-    float total = 0.0f;
-    for( auto &bp : bps ) {
-        float sub_total = 0.0f;
-        for( auto &b : bp.second ) {
-            sub_total += encumb( b );
-        }
-        sub_total /= bp.second.size() * 10.0f;
-        total += sub_total;
-    }
-
-    return std::floor( total );
-}
-
 void avatar::reset_stats()
 {
     const int current_stim = get_stim();
@@ -1032,14 +1011,16 @@ void avatar::reset_stats()
         set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 30 ) );
     }
     // Starvation
-    const float bmi = get_bmi();
-    if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = std::floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
+    const float bmi = get_bmi_fat();
+    if( bmi < character_weight_category::normal ) {
+        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
+                                              character_weight_category::normal ) ) * str_max );
+        const int dexint_penalty = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
-        mod_str_bonus( -str_penalty );
-        mod_dex_bonus( -( str_penalty / 2 ) );
-        mod_int_bonus( -( str_penalty / 2 ) );
+        mod_str_bonus( -1 * str_penalty );
+        mod_dex_bonus( -1 * dexint_penalty );
+        mod_int_bonus( -1 * dexint_penalty );
     }
     // Thirst
     if( get_thirst() >= 200 ) {
@@ -1058,7 +1039,7 @@ void avatar::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - limb_dodge_encumbrance() );
+    mod_dodge_bonus( mabuff_dodge_bonus() );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );

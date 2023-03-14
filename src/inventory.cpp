@@ -181,6 +181,16 @@ inventory &inventory::operator+= ( const std::list<item> &rhs )
     return *this;
 }
 
+inventory &inventory::operator+= ( const item_components &rhs )
+{
+    for( const item_components::type_vector_pair &tvp : rhs ) {
+        for( const item &rh : tvp.second ) {
+            add_item( rh, false, false );
+        }
+    }
+    return *this;
+}
+
 inventory &inventory::operator+= ( const std::vector<item> &rhs )
 {
     for( const item &rh : rhs ) {
@@ -211,6 +221,11 @@ inventory inventory::operator+ ( const inventory &rhs )
 }
 
 inventory inventory::operator+ ( const std::list<item> &rhs )
+{
+    return inventory( *this ) += rhs;
+}
+
+inventory inventory::operator+ ( const item_components &rhs )
 {
     return inventory( *this ) += rhs;
 }
@@ -936,19 +951,6 @@ units::volume inventory::volume_without( const std::map<const item *, int> &with
         ret = 0_ml;
     }
 
-    return ret;
-}
-
-std::vector<item *> inventory::active_items()
-{
-    std::vector<item *> ret;
-    for( std::list<item> &elem : items ) {
-        for( item &elem_stack_iter : elem ) {
-            if( elem_stack_iter.needs_processing() ) {
-                ret.push_back( &elem_stack_iter );
-            }
-        }
-    }
     return ret;
 }
 

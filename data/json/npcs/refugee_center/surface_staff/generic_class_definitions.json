@@ -59,6 +59,7 @@
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
     ],
+    "common": false,
     "skills": [
       { "skill": "bashing", "bonus": { "rng": [ 1, 2 ] } },
       { "skill": "cutting", "bonus": { "rng": [ 1, 3 ] } },

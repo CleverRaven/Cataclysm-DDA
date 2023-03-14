@@ -48,7 +48,8 @@ const std::unordered_set<std::string> complex_conds = { {
         "is_temperature", "is_windpower", "is_humidity", "is_pressure", "u_is_height", "npc_is_height",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
-        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int", "compare_string"
+        "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int",
+        "compare_string", "roll_contested", "compare_num"
     }
 };
 } // namespace dialogue_data
@@ -72,12 +73,12 @@ template<class T>
 str_or_var<T> get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
                               const std::string &default_val = "" );
 template<class T>
-int_or_var<T> get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
-                              int default_val = 0 );
+dbl_or_var<T> get_dbl_or_var( const JsonObject &jo, std::string member, bool required = true,
+                              double default_val = 0.0 );
 template<class T>
-int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, const std::string &member,
+dbl_or_var_part<T> get_dbl_or_var_part( const JsonValue &jv, const std::string &member,
                                         bool required = true,
-                                        int default_val = 0 );
+                                        double default_val = 0.0 );
 template<class T>
 duration_or_var<T> get_duration_or_var( const JsonObject &jo, std::string member,
                                         bool required = true,
@@ -93,7 +94,7 @@ void write_var_value( var_type type, const std::string &name, talker *talk,
                       const std::string &value );
 template<class T>
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
-                              bool check_value, int_or_var<T> &default_val );
+                              bool check_value, dbl_or_var<T> &default_val );
 std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
                                    bool check_value );
 // the truly awful declaration for the conditional_t loading helper_function
@@ -205,13 +206,14 @@ struct conditional_t {
         void set_has_reason();
         void set_is_gender( bool is_male, bool is_npc = false );
         void set_has_skill( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_roll_contested( const JsonObject &jo, const std::string &member );
         void set_u_know_recipe( const JsonObject &jo, const std::string &member );
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
         void set_compare_string( const JsonObject &jo, const std::string &member );
-        void set_compare_int( const JsonObject &jo, const std::string &member );
-        static std::function<int( const T & )> get_get_int( const JsonObject &jo );
-        static std::function<int( const T & )> get_get_int( const std::string &value,
+        void set_compare_num( const JsonObject &jo, const std::string &member );
+        static std::function<double( const T & )> get_get_dbl( const JsonObject &jo );
+        static std::function<double( const T & )> get_get_dbl( const std::string &value,
                 const JsonObject &jo );
         bool operator()( const T &d ) const {
             if( !condition ) {
@@ -231,7 +233,7 @@ extern template duration_or_var<dialogue> get_duration_or_var( const JsonObject 
         bool required, time_duration default_val );
 extern template std::string get_talk_varname<dialogue>( const JsonObject &jo,
         const std::string &member,
-        bool check_value, int_or_var<dialogue> &default_val );
+        bool check_value, dbl_or_var<dialogue> &default_val );
 extern template struct conditional_t<mission_goal_condition_context>;
 extern template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
         const std::string &member_name,
