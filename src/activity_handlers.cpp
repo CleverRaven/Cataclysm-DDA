@@ -2859,7 +2859,8 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
     Character &player_character = get_player_character();
     const bool u_see = player_character.sees( you->pos() ) &&
                        ( !player_character.has_effect( effect_narcosis ) ||
-                         player_character.has_bionic( bio_painkiller ) || player_character.has_flag( json_flag_PAIN_IMMUNE ) );
+                         player_character.has_bionic( bio_painkiller ) ||
+                         player_character.has_flag( json_flag_PAIN_IMMUNE ) );
 
     const int difficulty = act->values.front();
 
