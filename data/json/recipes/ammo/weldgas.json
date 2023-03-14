@@ -28,7 +28,7 @@
     "batch_time_factors": [ 80, 1 ],
     "charges": 12,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
-    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [ [ [ "acetylene_machine", -1 ] ] ],
     "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "chem_carbide", 326 ] ] ]
   },
