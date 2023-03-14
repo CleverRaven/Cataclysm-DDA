@@ -10377,13 +10377,13 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
         if( plugged_in ) {
             const item *cable = contents.cables( true ).front();//TODOkama don't just use front here
             const optional_vpart_position vp = get_map().veh_at( cable->link.pos );
-                if( vp ) {
-                    ammo_required_total -= vp->vehicle().connected_battery_power_level().first;
-                    if( ammo_required_total <= 0 ) {
-                        return true;
-                    }
+            if( vp ) {
+                ammo_required_total -= vp->vehicle().connected_battery_power_level().first;
+                if( ammo_required_total <= 0 ) {
+                    return true;
                 }
             }
+        }
         return ammo_remaining( carrier ) >= ammo_required_total;
 
     } else if( get_gun_ups_drain() > 0_kJ ) {
@@ -10405,10 +10405,10 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         //qty -= contents.ammo_consume_via_cable( qty, pos );
         item *cable = contents.cables( true ).front();//TODOkama don't just use front here
         const optional_vpart_position vp = get_map().veh_at( cable->link.pos );
-            if( vp ) {
-                qty = vp->vehicle().discharge_battery( qty, true );
-            }
+        if( vp ) {
+            qty = vp->vehicle().discharge_battery( qty, true );
         }
+    }
 
     // Consume charges loaded in the item or its magazines
     if( is_magazine() || uses_magazine() ) {
@@ -13029,7 +13029,9 @@ bool item::process_internal( map &here, Character *carrier, const tripoint &pos,
         std::vector<item *> cables = contents.cables( true );
         if( !cables.empty() ) {
             for( item *cable : cables ) {
-                cable->process_cable( here, carrier, pos, this );
+                if( cable->process_cable( here, carrier, pos, this ) ) {
+                    remove_item( *cable );
+                }
             }
         } else {
             debugmsg( "%s was labeled as plugged in but had no active cables inside.", tname() );
