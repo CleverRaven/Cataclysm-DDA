@@ -12842,7 +12842,7 @@ void item::reset_cable( Character *p, item *parent_item )
 {
     link.pos = tripoint_min;
     link.vp_index = -1;
-    link.state = item::cable_link::no_attachments;
+    link.state = cable_link::no_attachments;
     charges = get_var( "cable_length", type->maximum_charges() );
 
     if( p != nullptr ) {
@@ -12850,7 +12850,7 @@ void item::reset_cable( Character *p, item *parent_item )
         p->moves -= charges * 10;
         active = false;
     } else {
-        link.state = item::cable_link::needs_reeling;
+        link.state = cable_link::needs_reeling;
     }
     if( parent_item != nullptr ) {
         parent_item->plugged_in = false;
