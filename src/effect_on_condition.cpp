@@ -24,6 +24,7 @@ namespace io
         case eoc_type::NPC_DEATH: return "NPC_DEATH";
         case eoc_type::OM_MOVE: return "OM_MOVE";
         case eoc_type::PREVENT_DEATH: return "PREVENT_DEATH";
+        case eoc_type::EVENT: return "EVENT";
         case eoc_type::NUM_EOC_TYPES: break;
         }
         cata_fatal( "Invalid eoc_type" );
@@ -88,6 +89,10 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "global", global, false );
     if( !global && run_for_npcs ) {
         jo.throw_error( "run_for_npcs should only be true for global effect_on_conditions." );
+    }
+
+    if( type == eoc_type::EVENT ) {
+        mandatory( jo, was_loaded, "required_event", required_event );
     }
 }
 
@@ -455,4 +460,18 @@ void effect_on_conditions::reset()
 void effect_on_conditions::load( const JsonObject &jo, const std::string &src )
 {
     effect_on_condition_factory.load( jo, src );
+}
+
+void eoc_events::notify( const cata::event &e )
+{
+    avatar &player_character = get_avatar();
+    dialogue d( get_talker_for( player_character ), nullptr );
+
+    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+        if( eoc.type == eoc_type::EVENT ) {
+            if( e.type() == eoc.required_event ) {
+                eoc.activate( d );
+            }
+        }
+    }
 }

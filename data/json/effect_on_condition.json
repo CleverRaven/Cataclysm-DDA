@@ -493,6 +493,24 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_TEST_Killing",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_character",
+    "effect": [
+      { "u_message": "yeah that happened" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_TEST_Killing_two",
+    "eoc_type": "EVENT",
+    "required_event": "character_kills_monster",
+    "effect": [
+      { "u_message": "yeah that happened" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_RANDOM_HALLUCINATIONS",
     "recurrence": [ "1 hours", "3 hours" ],
     "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 1, "y": 6 } } ] },
