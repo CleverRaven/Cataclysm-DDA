@@ -359,51 +359,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_water_beetle",
-    "name": "water beetle egg",
-    "description": "The egg of a water beetle, usually found near aquatic grass.",
-    "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_WATER_BEETLE",
-    "rot_spawn_chance": 50
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_water_bug",
-    "name": "water scorpion egg",
-    "copy-from": "egg_insect",
-    "description": "The egg of a water scorpion, usually found near aquatic grass.",
-    "rot_spawn": "GROUP_EGG_WATER_BUG",
-    "rot_spawn_chance": 50
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_butterfly",
-    "name": "butterfly egg",
-    "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
-    "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_BUTTERFLY",
-    "rot_spawn_chance": 50
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_moth",
-    "name": "moth egg",
-    "description": "The egg of a moth.  They are usually found clustered on leaves.",
-    "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_MOTH",
-    "rot_spawn_chance": 50
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_cicada",
-    "name": "cicada egg",
-    "description": "The egg of a cicada.  They are usually found near trees.",
-    "copy-from": "egg_insect",
-    "rot_spawn": "GROUP_EGG_CICADA",
-    "rot_spawn_chance": 50
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_fly",
     "name": "fly egg",
     "description": "The egg of a fly.",
@@ -1097,5 +1052,50 @@
     "copy-from": "egg_frog",
     "description": "A large clump of the eggs of a toad.  The eggs themselves are gelatinous and transparent.",
     "rot_spawn": "GROUP_EGG_TOAD"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_water_beetle",
+    "name": "water beetle egg",
+    "description": "The egg of a water beetle, usually found near aquatic grass.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_WATER_BEETLE",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_water_bug",
+    "name": "water scorpion egg",
+    "copy-from": "egg_insect",
+    "description": "The egg of a water scorpion, usually found near aquatic grass.",
+    "rot_spawn": "GROUP_EGG_WATER_BUG",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_butterfly",
+    "name": "butterfly egg",
+    "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_BUTTERFLY",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_moth",
+    "name": "moth egg",
+    "description": "The egg of a moth.  They are usually found clustered on leaves.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_MOTH",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cicada",
+    "name": "cicada egg",
+    "description": "The egg of a cicada.  They are usually found near trees.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_CICADA",
+    "rot_spawn_chance": 50
   }
 ]

@@ -180,6 +180,9 @@ field_type_id mtype::bloodType() const
     if( has_flag( MF_BILE_BLOOD ) ) {
         return fd_bile;
     }
+	if( has_flag( MF_ARTHROPOD_BLOOD ) ) {
+        return fd_blood_invertebrate;
+    }
     if( made_of( material_veggy ) ) {
         return fd_blood_veggy;
     }
@@ -194,6 +197,9 @@ field_type_id mtype::bloodType() const
 
 field_type_id mtype::gibType() const
 {
+	if( in_species( species_MOLLUSK ) ) {
+		return fd_gibs_invertebrate;
+    }
     if( made_of( material_veggy ) ) {
         return fd_gibs_veggy;
     }
