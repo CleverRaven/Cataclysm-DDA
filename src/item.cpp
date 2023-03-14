@@ -12831,6 +12831,10 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
                 }
             }
         }
+        // Tool power draw
+        if( parent_item->active && parent_item->type->tool && parent_item->type->tool->power_draw > 0_W ) {
+            link.power_draw -= parent_item->type->tool->power_draw.value();
+        }
     } else if( has_flag( flag_AUTO_CABLE ) ) {
         debugmsg( "Auto cable %s can't find parent item.", tname() );
         return true;
