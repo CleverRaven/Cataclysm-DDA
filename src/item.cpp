@@ -12816,11 +12816,13 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     }
 
     if( parent_item != nullptr ) {
+        link.power_draw = 0;
         // Recharge batteries
         item *parent_mag = parent_item->magazine_current();
         if( parent_mag && parent_mag->has_flag( flag_RECHARGE ) &&
             parent_item->ammo_capacity( ammo_battery ) > parent_item->ammo_remaining() ) {
 
+            link.power_draw -= get_var( "charge_rate", 1 );
             if( calendar::once_every( time_duration::from_seconds( get_var( "charge_interval", 10 ) ) ) ) {
                 const int battery_deficit = vp->vehicle().discharge_battery( 1, true );
                 // Around 85% efficient; a few of the discharges don't actually recharge

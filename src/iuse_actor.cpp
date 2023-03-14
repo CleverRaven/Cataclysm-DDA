@@ -4433,7 +4433,8 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
         cable.set_var( "cable_length", cable_length + 1);
         cable.set_var( "efficiency", efficiency );
-        // Convert wattage to how long it takes to charge 1 kW, the unit batteries use.
+        cable.set_var( "charge_rate", std::max( 1, static_cast<int>( charge_rate.value() ) ) );
+        // Convert wattage to how long it takes to charge 1 kW, the unit batteries use. Minimum 1 mW.
         cable.set_var( "charge_interval",
                         std::max( 1, static_cast<int>( std::floor( 1000000.0 / charge_rate.value() + 0.5 ) ) ) );
 

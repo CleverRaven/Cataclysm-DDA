@@ -4629,6 +4629,15 @@ units::power vehicle::total_accessory_epower() const
     return epower;
 }
 
+units::power vehicle::total_cable_link_epower() const
+{
+    units::power epower = 0_W;
+    for( item::cable_link *link : cables_to_update ) {
+        epower += units::from_milliwatt( link->power_draw );
+    }
+    return epower;
+}
+
 std::pair<int, int> vehicle::battery_power_level() const
 {
     int total_epower_capacity = 0;
@@ -4776,11 +4785,12 @@ units::power vehicle::total_water_wheel_epower() const
     return epower;
 }
 
-units::power vehicle::net_battery_charge_rate( bool include_reactors ) const
+units::power vehicle::net_battery_charge_rate( bool include_reactors, bool include_cable_links ) const
 {
     return total_engine_epower() + total_alternator_epower() + total_accessory_epower() +
            total_solar_epower() + total_wind_epower() + total_water_wheel_epower() +
-           ( include_reactors ? active_reactor_epower() : 0_W );
+           ( include_reactors ? active_reactor_epower( false ) : 0_W ) +
+           ( include_cable_links ? total_cable_link_epower() : 0_W );
 }
 
 units::power vehicle::active_reactor_epower() const

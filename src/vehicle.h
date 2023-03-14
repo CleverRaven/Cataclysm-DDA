@@ -1358,8 +1358,10 @@ class vehicle
         units::power total_water_wheel_epower() const;
         // Total power drain across all vehicle accessories.
         units::power total_accessory_epower() const;
+        // Total power draw from all cable-connected devices.
+        units::power total_cable_link_epower() const;
         // Net power draw or drain on batteries.
-        units::power net_battery_charge_rate( bool include_reactors ) const;
+        units::power net_battery_charge_rate( bool include_reactors, bool connected_cable_links = false ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
         units::power max_reactor_epower() const;

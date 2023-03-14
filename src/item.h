@@ -1415,6 +1415,8 @@ class item : public visitable
             /**TODOkama */
             int vp_index = -1;
             /**TODOkama */
+            int power_draw = 0;
+            /**TODOkama */
             //std::string state = "no_attachments";
             enum link_state : int {
                 no_attachments = 0,

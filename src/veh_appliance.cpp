@@ -227,7 +227,7 @@ void veh_app_interact::draw_info()
     // Battery power output
     units::power grid_flow = 0_W;
     for( const std::pair<vehicle *const, float> &pair : veh->search_connected_vehicles() ) {
-        grid_flow += pair.first->net_battery_charge_rate( /* include_reactors = */ true );
+        grid_flow += pair.first->net_battery_charge_rate( /* include_reactors = */ true, /*TODOkama*/true );
     }
     print_charge( _( "Grid battery power flow: " ), grid_flow, row );
     row++;
