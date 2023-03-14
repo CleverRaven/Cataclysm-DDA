@@ -4430,22 +4430,22 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
     cable.link.pos = here.getabs( pnt );
     cable.link.vp_index = vp_port.value().part_index();
 
-        // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
-        cable.set_var( "cable_length", cable_length + 1);
-        cable.set_var( "efficiency", efficiency );
-        // Convert wattage to how long it takes to charge 1 kW, the unit batteries use.
-        cable.set_var( "charge_interval",
-                       std::max( 1, static_cast<int>( std::floor( 1000.0 / wattage + 0.5 ) ) ) );
+    // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
+    cable.set_var( "cable_length", cable_length + 1);
+    cable.set_var( "efficiency", efficiency );
+    // Convert wattage to how long it takes to charge 1 kW, the unit batteries use.
+    cable.set_var( "charge_interval",
+                    std::max( 1, static_cast<int>( std::floor( 1000.0 / wattage + 0.5 ) ) ) );
 
     cable.link.state = item::cable_link::hanging_from_vehicle;
-        cable.active = true;
-        if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
-            it.process( get_map(), &p, p.pos() );
-            p.moves -= 5;
+    cable.active = true;
+    if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
+        it.plugged_in = true;
+        it.process( get_map(), &p, p.pos() );
+        p.moves -= 5;
 
-            p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ),
-                                 it.tname( 1, false ), vp->vehicle().name );
-            it.plugged_in = true;
+        p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ),
+                                it.tname( 1, false ), vp->vehicle().name );
     }
 
     return 0;
