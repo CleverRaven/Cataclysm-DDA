@@ -8,29 +8,6 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "fbmh_2_log_room_1_1",
-    "object": {
-      "mapgensize": [ 6, 6 ],
-      "rows": [
-        "  wwww",
-        "  ...w",
-        "    .w",
-        "      ",
-        "      ",
-        "      "
-      ],
-      "palettes": [ "fbmh_2_log_palette" ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "fbmh_2_log_room_NE_1",
-    "method": "json",
-    "object": { "place_nested": [ { "chunks": [ "fbmh_2_log_room_1_1" ], "x": 18, "y": 0 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
     "nested_mapgen_id": "fbmh_2_log_room_1_2",
     "object": {
       "mapgensize": [ 6, 6 ],

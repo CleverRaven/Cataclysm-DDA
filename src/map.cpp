@@ -51,6 +51,7 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -4910,6 +4911,14 @@ item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overf
     return add_item_or_charges( pos.raw(), std::move( obj ), overflow );
 }
 
+float map::item_category_spawn_rate( const item &itm )
+{
+    const item_category_id &cat = itm.get_category_of_contents().id;
+    const float spawn_rate = cat.obj().get_spawn_rate();
+
+    return spawn_rate > 1.0f ? roll_remainder( spawn_rate ) : spawn_rate;
+}
+
 item &map::add_item( const tripoint &p, item new_item )
 {
     if( item_is_blacklisted( new_item.typeId() ) ) {
@@ -4919,6 +4928,7 @@ item &map::add_item( const tripoint &p, item new_item )
     if( !inbounds( p ) ) {
         return null_item_reference();
     }
+
     point l;
     submap *const current_submap = unsafe_get_submap_at( p, l );
     if( current_submap == nullptr ) {
@@ -5132,7 +5142,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 {
     bool washing_machine_finished = false;
 
-    const bool washer_here = cur_veh.is_part_on( part ) &&
+    const bool washer_here = cur_veh.part( part ).enabled &&
                              ( cur_veh.part_flag( part, VPFLAG_WASHING_MACHINE ) ||
                                cur_veh.part_flag( part, VPFLAG_DISHWASHER ) );
 
@@ -5161,7 +5171,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     }
 
     const bool autoclave_here = cur_veh.part_flag( part, VPFLAG_AUTOCLAVE ) &&
-                                cur_veh.is_part_on( part );
+                                cur_veh.part( part ).enabled;
     bool autoclave_finished = false;
     if( autoclave_here ) {
         for( item &n : cur_veh.get_items( part ) ) {

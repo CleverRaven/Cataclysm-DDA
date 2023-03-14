@@ -1214,9 +1214,9 @@
         "condition": { "compare_num": [ { "u_val": "thirst" }, "=", { "const": 27 } ] }
       },
       {
-        "text": "Stored kcal is 55'000.",
+        "text": "Stored kcal is 118'169.",
         "topic": "TALK_DONE",
-        "condition": { "compare_num": [ { "u_val": "stored_kcal" }, "=", { "const": 55000 } ] }
+        "condition": { "compare_num": [ { "u_val": "stored_kcal" }, "=", { "const": 118169 } ] }
       },
       {
         "text": "Stored kcal is at 100% of healthy.",
@@ -1331,32 +1331,7 @@
         "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 15 }, "%", { "const": 10 } ] }
       },
       {
-        "text": "Sets time since cataclysm to 3 & 6 turns.  (2)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 3 }, "&", { "const": 6 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 2 | 4 turns.  (6)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "|", { "const": 6 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 3 << 2 turns.  (12)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 3 }, "<<", { "const": 2 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 12 >> 2 turns.  (3)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 12 }, ">>", { "const": 2 } ] }
-      },
-      {
-        "text": "Sets time since cataclysm to  ~5 turns.  (?)",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 5 }, "~" ] }
-      },
-      {
-        "text": "Sets time since cataclysm to 2 ^ 5 turns.  (7)",
+        "text": "Sets time since cataclysm to 2 ^ 5 turns.  (32)",
         "topic": "TALK_DONE",
         "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "const": 2 }, "^", { "const": 5 } ] }
       },

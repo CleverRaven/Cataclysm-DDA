@@ -1189,7 +1189,8 @@
       "PADDED",
       "USE_UPS",
       "NO_UNLOAD",
-      "COMBAT_TOGGLEABLE"
+      "COMBAT_TOGGLEABLE",
+      "UNBREAKABLE_MELEE"
     ],
     "price": 50000000,
     "price_postapoc": 10000,
@@ -1296,10 +1297,11 @@
       "PADDED",
       "USE_UPS",
       "NO_UNLOAD",
-      "COMBAT_TOGGLEABLE"
+      "COMBAT_TOGGLEABLE",
+      "UNBREAKABLE_MELEE"
     ],
     "material": [ "hyperweave_on", "carbide" ],
-    "turns_per_charge": 6,
+    "power_draw": "250 W",
     "revert_to": "rm13_armor",
     "use_action": [ "RM13ARMOR_ON" ],
     "environmental_protection": 40,
@@ -1321,7 +1323,7 @@
           { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "hyperweave_on", "covered_by_mat": 100, "thickness": 2.0 }
         ],
-        "encumbrance": 3,
+        "encumbrance": 10,
         "coverage": 100,
         "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "hand_l", "hand_r" ],
         "volume_encumber_modifier": 0
@@ -1331,7 +1333,7 @@
           { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "hyperweave_on", "covered_by_mat": 100, "thickness": 2.0 }
         ],
-        "encumbrance": 3,
+        "encumbrance": 10,
         "coverage": 100,
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [
@@ -2672,6 +2674,7 @@
     "color": "white",
     "warmth": 30,
     "material_thickness": 0.5,
+    "environmental_protection": 2,
     "use_action": {
       "target": "turtleneck",
       "menu_text": "Unroll neck",
@@ -2729,6 +2732,7 @@
     "color": "white",
     "warmth": 20,
     "material_thickness": 0.5,
+    "environmental_protection": 1,
     "use_action": {
       "target": "turtleneck_shirt",
       "menu_text": "Unroll neck",

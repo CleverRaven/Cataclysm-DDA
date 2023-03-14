@@ -1179,5 +1179,64 @@
       "TRADER_AVOID",
       "REBREATHER"
     ]
+  },
+  {
+    "id": "thought_shield_item",
+    "name": { "str_sp": "thought shields" },
+    "description": "These two tiny shields on your temples should protect your mind from outside influences",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "weight": "0 g",
+    "material": [ "concentrated_mana" ],
+    "environmental_protection": 1,
+    "volume": "1 ml",
+    "symbol": "0",
+    "color": "white",
+    "armor": [ { "encumbrance": 0, "coverage": 75, "covers": [ "head", "mouth", "eyes" ] } ],
+    "flags": [
+      "WATER_FRIENDLY",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "OVERSIZE",
+      "AURA",
+      "ZERO_WEIGHT",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "TRADER_AVOID",
+      "PSYSHIELD_PARTIAL"
+    ]
+  },
+  {
+    "id": "thought_shield_plus_item",
+    "name": { "str_sp": "thought suit" },
+    "description": "The tiny shields all over your body should protect your mind from outside influences and your body from being moved by outside magic",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "weight": "0 g",
+    "material": [ "concentrated_mana" ],
+    "environmental_protection": 1,
+    "volume": "1 ml",
+    "symbol": "0",
+    "color": "white",
+    "armor": [
+      {
+        "encumbrance": 0,
+        "coverage": 75,
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ],
+    "flags": [
+      "WATER_FRIENDLY",
+      "SEMITANGIBLE",
+      "ONLY_ONE",
+      "OVERSIZE",
+      "AURA",
+      "ZERO_WEIGHT",
+      "NO_TAKEOFF",
+      "NONCONDUCTIVE",
+      "TRADER_AVOID",
+      "PSYSHIELD_PARTIAL",
+      "PORTAL_PROOF"
+    ]
   }
 ]

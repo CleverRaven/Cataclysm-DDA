@@ -27,16 +27,16 @@
           "str": "Bash Weapons for Self-Defense: A Practical Guide",
           "str_pl": "copies of Bash Weapons for Self-Defense: A Practical Guide"
         },
-        "description": "Small brochure of unknown self-defense shop, focused on using bash weapons for self-defense in real-world situations.  It cover topics like assessing threats, using verbal commands and body language to de-escalate situations, and legal considerations for using force in self-defense.  It also include techniques for using bash weapons to defend against attackers armed with knives, guns, and other weapons.",
+        "description": "A small brochure from an unknown self-defense shop, focused on using bash weapons for self-defense in real-world situations.  It covers topics like assessing threats, using verbal commands and body language to de-escalate situations, and legal considerations for using force in self-defense.  It also includes techniques for using bash weapons to defend against attackers armed with knives, guns, and other weapons.",
         "weight": 1
       },
       {
         "id": "mag_bashing_3",
         "name": {
-          "str": "Ultra Tactics: The ways of the modern warrior",
+          "str": "Ultra Tactics: The Ways of the Modern Warrior",
           "str_pl": "copies of Ultra Tactics: the Ways of the Modern Warrior"
         },
-        "description": "The book research the long, international story of ultras - fanatics football fans, that ready and want to defend the prestige of their football team in any possible way, including brutal violence and heavy bats.",
+        "description": "This book researches the long, international story of ultras - fanatical football fans ready to defend the prestige of their football team in any possible way, including with brutal violence and heavy bats.",
         "weight": 1
       }
     ],
@@ -70,20 +70,20 @@
       {
         "id": "manual_bashing_1",
         "name": { "str": "The Art and Science of Stick Fighting", "str_pl": "copies of The Art and Science of Stick Fighting" },
-        "description": "Non-style specific guide of fighting with the short stick, with few levels of instructions from easy to master, and a lot of photos of movements with motion arrows.",
+        "description": "A non-style specific guide to fighting with the short stick, with a few levels of instructions from easy to master, and a lot of photos showing movements with motion arrows.",
         "//": "978-1594397332",
         "weight": 1
       },
       {
         "id": "manual_bashing_2",
         "name": { "str": "Demolition Man", "str_pl": "copies of Demolition Man" },
-        "description": "Comprohensive guide of how to do demolition works on your own piece of land - from replacing the pavement to total house deconstruction - using only common instruments.  Surprisingly not so hard, as you just need to know how and when hit the thing.",
+        "description": "A comprehensive guide on how to do demolition on your own piece of land - from replacing the pavement to total house deconstruction - using only common instruments.  Surprisingly not so hard, as you just need to know how and when hit the thing.",
         "weight": 1
       },
       {
         "id": "manual_bashing_3",
         "name": { "str": "Cane Fighting", "str_pl": "copies of Cane Fighting" },
-        "description": "\"The Authoritative Guide to Using the Cane or Walking Stick for Self-Defense\", the book provide plenty of ways to use essential tool as a sturdy weapon.",
+        "description": "\"The Authoritative Guide to Using the Cane or Walking Stick for Self-Defense\", this book provides plenty of ways to use an everyday tool as a sturdy weapon.",
         "//": "978-1941845738",
         "weight": 1
       }

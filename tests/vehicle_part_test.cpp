@@ -45,6 +45,8 @@ static const itype_id itype_water_faucet( "water_faucet" );
 
 static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
 
+static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
+
 static const vpart_id vpart_ap_fridge_test( "ap_fridge_test" );
 static const vpart_id vpart_halfboard_horizontal( "halfboard_horizontal" );
 static const vpart_id vpart_tank_test( "tank_test" );
@@ -130,6 +132,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
 
     const tripoint test_origin( 60, 60, 0 );
     Character &character = get_player_character();
+    character.toggle_trait( trait_DEBUG_CNF );
     const item backpack( "backpack" );
     character.wear_item( backpack );
     for( const item &i : items ) {
@@ -271,7 +274,7 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
     SECTION( "cook oatmeal without oatmeal" ) {
         std::vector<item> items;
 
-        test_craft_via_rig( items, 2, 2, 1, 1, recipe_oatmeal_cooked.obj(), false );
+        test_craft_via_rig( items, 105, 105, 1, 1, recipe_oatmeal_cooked.obj(), false );
     }
     SECTION( "cook oatmeal without battery" ) {
         std::vector<item> items;
@@ -283,13 +286,13 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
         std::vector<item> items;
         items.emplace_back( itype_oatmeal );
 
-        test_craft_via_rig( items, 2, 2, 0, 0, recipe_oatmeal_cooked.obj(), false );
+        test_craft_via_rig( items, 105, 105, 0, 0, recipe_oatmeal_cooked.obj(), false );
     }
     SECTION( "cook oatmeal successfully" ) {
         std::vector<item> items;
         items.emplace_back( itype_oatmeal );
 
-        test_craft_via_rig( items, 2, 0, 1, 0, recipe_oatmeal_cooked.obj(), true );
+        test_craft_via_rig( items, 105, 0, 1, 0, recipe_oatmeal_cooked.obj(), true );
     }
 }
 

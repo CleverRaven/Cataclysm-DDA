@@ -12,6 +12,7 @@
 #include "effect_source.h"
 #include "enums.h"
 #include "event.h"
+#include "flag.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "messages.h"
@@ -64,6 +65,22 @@ void vitamin_rate_effect::load( const JsonObject &jo )
 }
 
 void vitamin_rate_effect::deserialize( const JsonObject &jo )
+{
+    load( jo );
+}
+
+void limb_score_effect::load( const JsonObject &jo )
+{
+    mandatory( jo, false, "limb_score", score_id );
+
+    optional( jo, false, "modifier", mod, 1.0f );
+    optional( jo, false, "resist_modifier", red_mod, mod );
+    optional( jo, false, "scaling", scaling, 0.0f );
+    optional( jo, false, "resist_scaling", red_scaling, scaling );
+
+}
+
+void limb_score_effect::deserialize( const JsonObject &jo )
 {
     load( jo );
 }
@@ -756,6 +773,18 @@ std::string effect::disp_desc( bool reduced ) const
         ret += "\n";
     }
 
+    // Handle limb score modifiers if we have any
+    if( has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) || has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
+        std::string global = has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ? "Global" : "Local";
+        for( limb_score_effect &effect : get_limb_score_data() ) {
+            // Only print modifiers if they are global or if the limb has the score in the first place
+            if( bp->has_limb_score( effect.score_id ) || has_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
+                ret += string_format( _( "%s %s modifier: x%.1f\n" ), global, effect.score_id->name().translated(),
+                                      get_limb_score_mod( effect.score_id, reduced ) );
+            }
+        }
+    }
+
     // Then print pain/damage/coughing/vomiting, we don't display pkill, health, or radiation
     std::vector<std::string> constant;
     std::vector<std::string> frequent;
@@ -1328,6 +1357,29 @@ bool effect::impairs_movement() const
     return eff_type->impairs_movement;
 }
 
+float effect::get_limb_score_mod( const limb_score_id &score, bool reduced ) const
+{
+    float ret = 1.0f;
+    for( const limb_score_effect &effect : eff_type->limb_score_data ) {
+        float temp = 1.0f;
+        if( score == effect.score_id ) {
+            if( !reduced ) {
+                temp = effect.mod + effect.scaling * ( intensity - 1 );
+            } else {
+                temp = effect.red_mod + effect.red_scaling * ( intensity - 1 );
+            }
+            ret *= std::max( 0.0f, temp );
+        }
+    }
+    if( ret != 1.0f ) {
+        add_msg_debug( debugmode::DF_CHARACTER,
+                       "Limb score modifier %s for limb score %s found\nIntensity %d\nResistance %s\nFinal effect multiplier %.1f",
+                       disp_name(),
+                       score.c_str(), intensity, reduced ? "true" : "false", ret );
+    }
+    return ret;
+}
+
 const effect_type *effect::get_effect_type() const
 {
     return eff_type;
@@ -1415,6 +1467,7 @@ void load_effect_type( const JsonObject &jo )
         new_etype.resist_effects.emplace_back( f );
     }
     optional( jo, false, "immune_flags", new_etype.immune_flags );
+    optional( jo, false, "immune_bp_flags", new_etype.immune_bp_flags );
     for( auto &&f : jo.get_string_array( "removes_effects" ) ) { // *NOPAD*
         new_etype.removes_effects.emplace_back( f );
     }
@@ -1431,6 +1484,7 @@ void load_effect_type( const JsonObject &jo )
     }
 
     optional( jo, false, "vitamins", new_etype.vitamin_data );
+    optional( jo, false, "limb_score_mods", new_etype.limb_score_data );
     optional( jo, false, "chance_kill", new_etype.kill_chance );
     optional( jo, false, "chance_kill_resist", new_etype.red_kill_chance );
     optional( jo, false, "death_msg", new_etype.death_msg, to_translation( "You died." ) );
@@ -1476,6 +1530,12 @@ bool effect::has_flag( const flag_id &flag ) const
 {
     return eff_type->has_flag( flag );
 }
+
+std::vector<limb_score_effect> effect::get_limb_score_data() const
+{
+    return eff_type->limb_score_data;
+}
+
 
 bool effect::kill_roll( bool reduced ) const
 {

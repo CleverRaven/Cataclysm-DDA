@@ -155,7 +155,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": { "str": "ukulele" },
-    "description": "A small factory made ukulele.  Looks to be in working condition.",
+    "description": "A small factory-made ukulele.  Makes you wish you were on a tropical island, or somewhere over the rainbow.",
     "weight": "600 g",
     "volume": "2500 ml",
     "longest_side": "58 cm",
@@ -268,7 +268,7 @@
     "longest_side": "18 cm",
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "material_thickness": 1,
-    "armor": [ { "covers": [ "head" ] } ]
+    "armor": [ { "covers": [ "torso" ], "specifically_covers": [ "torso_neck" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -363,7 +363,7 @@
       "player_descriptions": [
         "Your pipes drone loudly as you strikes a battle hymn from the chanter.",
         "Your pipes drone a slow and piercing dirge.",
-        "You strike a lively quick step march on their pipes."
+        "You strike a lively quick step march on your pipes."
       ],
       "npc_descriptions": [
         "pipes drone loudly as it strikes a battle hymn from the chanter.",
@@ -372,7 +372,7 @@
       ]
     },
     "symbol": "-",
-    "description": "A traditional musical instrument using enclosed reeds fed from a reservoir of air contained within a leather bag.  It has a strap so you can wear it around, even when not playing.",
+    "description": "A traditional musical instrument, using enclosed reeds fed from a reservoir of air contained within a leather bag.  It has a strap so you can wear it around, even when not playing.",
     "price": 10000,
     "price_postapoc": 500,
     "material": [ "leather", "wood" ],
@@ -405,7 +405,7 @@
     "symbol": "&",
     "description": {
       "//~": "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
-      "str": "A big ol' tuba.  Much easier to play when wearing.  Thankfully, this one has a harness attached."
+      "str": "A big ol' tuba.  Much easier to play when you're wearing it.  Thankfully, this one has a harness attached."
     },
     "price": 5500,
     "price_postapoc": 250,
