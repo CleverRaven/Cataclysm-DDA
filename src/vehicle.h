@@ -1950,8 +1950,6 @@ class vehicle
         // Number of parts in this vehicle
         int num_parts() const;
         int num_true_parts() const;
-        int num_fake_parts() const;
-        int num_active_fake_parts() const;
 
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()

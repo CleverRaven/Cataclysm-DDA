@@ -7628,20 +7628,6 @@ int vehicle::num_true_parts() const
     return static_cast<int>( parts.size() - fake_parts.size() );
 }
 
-int vehicle::num_fake_parts() const
-{
-    return static_cast<int>( fake_parts.size() );
-}
-
-int vehicle::num_active_fake_parts() const
-{
-    int ret = 0;
-    for( const int fake_index : fake_parts ) {
-        ret += parts.at( fake_index ).is_active_fake ? 1 : 0;
-    }
-    return ret;
-}
-
 vehicle_part &vehicle::part( int part_num )
 {
     return parts[part_num];
