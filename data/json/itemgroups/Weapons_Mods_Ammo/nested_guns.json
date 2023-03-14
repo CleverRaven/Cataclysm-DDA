@@ -2499,5 +2499,13 @@
       { "item": "ai_338mag", "prob": 50 },
       { "group": "on_hand_military_338lapua" }
     ]
+  },
+  {
+    "id": "nested_savage112",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "savage112", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_338lapua" } ]
   }
 ]

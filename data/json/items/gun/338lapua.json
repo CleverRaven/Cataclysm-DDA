@@ -30,5 +30,56 @@
     "blackpowder_tolerance": 24,
     "default_mods": [ "cheek_pad", "butt_hook", "bipod", "rifle_scope", "muzzle_brake" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag" ] } ]
+  },
+  {
+    "id": "savage112",
+    "copy-from": "rifle_manual",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "single-shot target rifle" },
+    "description": "A bolt-action precision rifle with the potential for impressive accuracy, this particular weapon makes use of the powerful .338 Lapua cartridge and is decked in a handsome set of wooden furniture, providing the rifle with a classical mystique.  Unfortunately, the weapon's single-round magazine and a lack of factory iron sights, which makes target acquisition an exercise in futility unless a gunsight is installed, make the rifle limited in its post-Cataclysm utility.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "savage112",
+        "name": { "str_sp": "Savage 112 Magnum Target" },
+        "description": "A highly-accurate precision rifle chambered for the powerful .338 Lapua cartridge, the Savage 112 Magnum Target is a classically designed bolt-action rifle in both its fit and finish, with a heavy barrel, a hardwood stock, and an attached muzzle brake.  Unfortunately for the weapon and its users, a traditional veneer, no matter how admittedly swanky, isn’t conducive to tactical effectiveness, as demonstrated by the 112 Magnum Target’s mighty magazine size of one entire cartridge and lack of any factory-attached sights.",
+        "weight": 1
+      }
+    ],
+    "weight": "5470 g",
+    "volume": "3000 ml",
+    "longest_side": "1264 mm",
+    "price": 110900,
+    "price_postapoc": 800,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "color": "black",
+    "ammo": [ "338lapua" ],
+    "dispersion": 50,
+    "sight_dispersion": 1000,
+    "//": "Giant amount of sight-dispersion in order to simulate that the rifle doesn’t come with factory installed sights.",
+    "durability": 8,
+    "blackpowder_tolerance": 24,
+    "clip_size": 1,
+    "flags": [ "RELOAD_ONE" ],
+    "default_mods": [ "match_trigger", "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 1 } } ]
   }
 ]

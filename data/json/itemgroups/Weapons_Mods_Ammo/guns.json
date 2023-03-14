@@ -499,6 +499,7 @@
       { "item": "ak556", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "bren2_762", "prob": 6, "charges-min": 0, "charges-max": 0 },
       { "item": "ak556", "variant": "zpapm90", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "savage112", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "group": "nested_ar15_with_kits", "prob": 15 },
       { "group": "nested_mdrx_with_kits", "prob": 10 }
     ]
@@ -533,7 +534,8 @@
       { "group": "nested_hk417_13", "prob": 40 },
       { "group": "nested_ar15_retool_300blk", "prob": 15 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
-      { "group": "nested_hk_usc45", "prob": 20 }
+      { "group": "nested_hk_usc45", "prob": 20 },
+      { "group": "nested_savage112", "prob": 15 }
     ]
   },
   {
@@ -586,6 +588,7 @@
       { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "weatherby_5", "prob": 8, "charges-min": 0, "charges-max": 0 },
       { "item": "savage_111f", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "savage112", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "1895sbl", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "browning_blr", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "ar10", "prob": 10, "charges-min": 0, "charges-max": 0 },
