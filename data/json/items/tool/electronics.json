@@ -362,7 +362,7 @@
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform"
       },
-      { "type": "plug_in", "ammo_scale": 0, "cable_length": 5, "wattage": 140 }
+      { "type": "plug_in", "ammo_scale": 0, "cable_length": 5, "charge_rate": "140 W" }
     ],
     "flags": [ "WATCH", "WATER_BREAK", "ELECTRONIC" ],
     "pocket_data": [
@@ -416,7 +416,7 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      { "type": "plug_in", "ammo_scale": 0, "cable_length": 5, "wattage": 140 }
+      { "type": "plug_in", "ammo_scale": 0, "cable_length": 5, "charge_rate": "140 W" }
     ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },

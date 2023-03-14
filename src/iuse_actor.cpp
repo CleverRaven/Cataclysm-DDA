@@ -4354,13 +4354,13 @@ std::unique_ptr<iuse_actor> plug_in_actor::clone() const
     return std::make_unique<plug_in_actor>( *this );
 }
 
-void plug_in_actor::load( const JsonObject &obj )
+void plug_in_actor::load( const JsonObject &jo )
 {
-    type = itype_id( obj.get_string( "cable_type", "generic_device_cable" ) );
-    cable_length = obj.get_int( "cable_length", 4 );
-    wattage = obj.get_int( "wattage", 60 );
-    efficiency = obj.get_int( "efficiency", 7 );
-    obj.read( "menu_text", menu_text );
+    jo.read( "cable_type", type );
+    jo.read( "cable_length", cable_length );
+    jo.read( "efficiency", efficiency );
+    jo.read( "charge_rate", charge_rate );
+    jo.read( "menu_text", menu_text );
 }
 
 void plug_in_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -4435,7 +4435,7 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         cable.set_var( "efficiency", efficiency );
         // Convert wattage to how long it takes to charge 1 kW, the unit batteries use.
         cable.set_var( "charge_interval",
-                        std::max( 1, static_cast<int>( std::floor( 1000.0 / wattage + 0.5 ) ) ) );
+                        std::max( 1, static_cast<int>( std::floor( 1000000.0 / charge_rate.value() + 0.5 ) ) ) );
 
         cable.link.state = item::cable_link::hanging_from_vehicle;
         cable.active = true;
