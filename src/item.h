@@ -1410,14 +1410,7 @@ class item : public visitable
         bool leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
         struct cable_link {
-            /** TODOkama */
-            tripoint pos = tripoint_min;
             /**TODOkama */
-            int vp_index = -1;
-            /**TODOkama */
-            int power_draw = 0;
-            /**TODOkama */
-            //std::string state = "no_attachments";
             enum link_state : int {
                 no_attachments = 0,
                 needs_reeling,
@@ -1430,6 +1423,12 @@ class item : public visitable
                 solarpack_bionic_link
             };
             link_state state = no_attachments;
+            /** TODOkama */
+            tripoint pos = tripoint_min;
+            /**TODOkama */
+            int vp_index = -1;
+            /**TODOkama */
+            int power_draw = 0;
         };
         cable_link link;
         /**
