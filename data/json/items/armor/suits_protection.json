@@ -1966,7 +1966,7 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_suit",
     "name": { "str": "faraday chainmail suit" },
-    "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
+    "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected with a cage covering the face, protecting against electricity.",
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1984,13 +1984,15 @@
         "material": [ { "type": "pseudo_soft_qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "eyes" ],
         "coverage": 95,
-        "encumbrance": 7
+        "cover_ranged": 10,
+        "encumbrance": 2
       },
       {
         "material": [ { "type": "pseudo_soft_qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "covers": [ "mouth" ],
         "coverage": 95,
-        "encumbrance": 1
+        "cover_ranged": 10,
+        "encumbrance": 0
       },
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -2004,7 +2006,7 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "encumbrance": 10,
         "coverage": 100
       }
