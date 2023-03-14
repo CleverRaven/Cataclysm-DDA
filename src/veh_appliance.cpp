@@ -221,8 +221,11 @@ void veh_app_interact::draw_info()
     }
 
     // Battery power output
-    units::power charge_rate = veh->net_battery_charge_rate( true, true );
-    print_charge( _( "Grid battery power flow: " ), charge_rate, row );
+    units::power grid_flow = 0_W;
+    for( const std::pair<vehicle *const, float> &pair : veh->search_connected_vehicles() ) {
+        grid_flow += pair.first->net_battery_charge_rate( /* include_reactors = */ true );
+    }
+    print_charge( _( "Grid battery power flow: " ), grid_flow, row );
     row++;
 
     // Reactor power output

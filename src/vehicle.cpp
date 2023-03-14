@@ -4823,26 +4823,11 @@ units::power vehicle::total_water_wheel_epower() const
     return epower;
 }
 
-units::power vehicle::net_battery_charge_rate( bool include_reactors,
-        bool connected_vehicles ) const
+units::power vehicle::net_battery_charge_rate( bool include_reactors ) const
 {
-    if( connected_vehicles ) {
-        units::power battery_w = net_battery_charge_rate( include_reactors, false );
-
-        auto net_battery_visitor = [&]( vehicle const * veh, int, int ) {
-            battery_w += veh->net_battery_charge_rate( include_reactors, false );
-            return 1;
-        };
-
-        traverse_vehicle_graph( this, 1, net_battery_visitor );
-
-        return battery_w;
-
-    } else {
-        return total_engine_epower() + total_alternator_epower() + total_accessory_epower() +
-               total_solar_epower() + total_wind_epower() + total_water_wheel_epower() +
-               ( include_reactors ? active_reactor_epower( false ) : 0_W );
-    }
+    return total_engine_epower() + total_alternator_epower() + total_accessory_epower() +
+           total_solar_epower() + total_wind_epower() + total_water_wheel_epower() +
+           ( include_reactors ? active_reactor_epower( false ) : 0_W );
 }
 
 units::power vehicle::active_reactor_epower( bool connected_vehicles ) const
@@ -4869,7 +4854,7 @@ units::power vehicle::active_reactor_epower( bool connected_vehicles ) const
         int batteries_need = std::max( 0, total_battery_capacity - total_battery_left );
 
         // How much battery are others adding/draining?
-        units::power others_w = net_battery_charge_rate( false );
+        units::power others_w = net_battery_charge_rate( /* include_reactors = */ false );
         int others_bat = power_to_energy_bat( others_w, 1_turns );
 
         // How much battery will the reactors add?
