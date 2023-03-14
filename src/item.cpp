@@ -12778,7 +12778,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     }
 
     tripoint connection_pos = here.getlocal( link.pos );
-    const optional_vpart_position vp = here.veh_at( here.getlocal( link.pos ) );
+    const optional_vpart_position vp = here.veh_at( connection_pos );
     if( !vp ) {
         if( carrying_item ) {
             carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
