@@ -4393,16 +4393,34 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
 
     map &here = get_map();
     item cable( type );
-    const cata::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to appliance where?" ) );
-    if( !posp_ ) {
+    bool vehicle_nearby = false;
+
+    const std::function<bool( const tripoint & )> has_port = [&here, &vehicle_nearby]( const tripoint & point ) {
+        const optional_vpart_position vp = here.veh_at( point );
+        if( !vp ) {
+            return false;
+        }
+        if( !vehicle_nearby && vp->vehicle().has_part( "CABLE_PORTS" ) ) {
+            vehicle_nearby = true;
+        }
+        return vp.avail_part_with_feature( "CABLE_PORTS" ) || vp.avail_part_with_feature( "APPLIANCE" );
+    };
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Connect your device where?" ), "", has_port, false );
+    if( !pnt_ ) {
+        add_msg( vehicle_nearby ? _( "There's nowhere to plug it in nearby; try the vehicle's dashboard or electronics controls." ) :
+                                  _( "There's nowhere to plug it in nearby." ) );
         return cata::nullopt;
     }
-    const tripoint posp = *posp_;
-    const optional_vpart_position vp = here.veh_at( posp );
-    if( !vp ) {
-        p.add_msg_if_player( _( "There's no appliance here." ) );
+    const tripoint &pnt = *pnt_;
+    const optional_vpart_position vp = here.veh_at( pnt );
+    if( !has_port( pnt ) ) {
+        if( vp && vp->vehicle().has_part( "CABLE_PORTS" ) ) {
+            p.add_msg_if_player( m_info, _( "You can't plug it in there; try the dashboard or electronics controls." ) );
+        } else {
+            p.add_msg_if_player( m_info, _( "You can't plug it in there." ) );
+        }
         return cata::nullopt;
-    } else {
+    }
 
     cata::optional<vpart_reference> vp_port = vp.avail_part_with_feature( "CABLE_PORTS" );
     if( !vp_port ) {
