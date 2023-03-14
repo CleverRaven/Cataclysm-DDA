@@ -53,9 +53,9 @@
     "aggro_character": false,
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 3,
+    "melee_skill": 2,
     "melee_dice": 2,
     "melee_dice_sides": 3,
-    "melee_damage": [ { "damage_type": "bash", "amount": 5 } ]
+    "melee_damage": [ { "damage_type": "bash", "amount": 4 } ]
   }
 ]
