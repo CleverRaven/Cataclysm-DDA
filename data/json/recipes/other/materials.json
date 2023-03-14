@@ -231,7 +231,8 @@
     "time": "10 m",
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.5 } ],
-    "tools": [ [ [ "surface_heat", 4, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [
       [
         [ "stopcock", 11 ],
