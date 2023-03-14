@@ -34,6 +34,17 @@
   },
   {
     "type": "npc",
+    "id": "hells_raiders_assassin",
+    "//": "EOC-specific, should not spawn outside of trigger events.",
+    "name_suffix": "assassin",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 10,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
     "id": "hells_raiders_boss",
     "//": "The boss of a local raider clan.",
     "name_suffix": "Bandit",
