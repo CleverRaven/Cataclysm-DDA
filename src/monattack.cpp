@@ -142,7 +142,6 @@ static const itype_id itype_120mm_HEAT( "120mm_HEAT" );
 static const itype_id itype_40x46mm_m433( "40x46mm_m433" );
 static const itype_id itype_556( "556" );
 static const itype_id itype_anesthetic( "anesthetic" );
-static const itype_id itype_ant_egg( "ant_egg" );
 static const itype_id itype_badge_cybercop( "badge_cybercop" );
 static const itype_id itype_badge_deputy( "badge_deputy" );
 static const itype_id itype_badge_detective( "badge_detective" );
@@ -180,9 +179,6 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 
-static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
-static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
-static const mtype_id mon_ant_larva( "mon_ant_larva" );
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
