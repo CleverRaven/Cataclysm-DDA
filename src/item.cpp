@@ -12815,10 +12815,6 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         return has_flag( flag_AUTO_CABLE ) ? true : false;
     }
 
-    if( link.vp_index > -1 && link.vp_index < vp->vehicle().num_true_parts() ) {
-        vp->vehicle().cables_to_update.emplace_back( &link );
-    }
-
     if( parent_item != nullptr ) {
         // Recharge batteries
         item *parent_mag = parent_item->magazine_current();
@@ -12836,6 +12832,10 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     } else if( has_flag( flag_AUTO_CABLE ) ) {
         debugmsg( "Auto cable %s can't find parent item.", tname() );
         return true;
+    }
+
+    if( link.vp_index > -1 && link.vp_index < vp->vehicle().num_true_parts() ) {
+        vp->vehicle().cables_to_update.emplace_back( &link );
     }
 
     return false;
