@@ -5,7 +5,7 @@
     "name": "No NPC Needs",
     "authors": [ "DPavonis" ],
     "maintainers": [ "DPavonis" ],
-    "description": "Makes NPCs not require food, water or rest.",
+    "description": "Resets NPC's food, water and sleep needs every 24 hours.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
   }

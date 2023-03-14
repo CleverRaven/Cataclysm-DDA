@@ -1,0 +1,14 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "reset_needs",
+    "recurrence": "4 hours",
+	"global": true,
+	"run_for_npcs": true,
+	"effect": [       
+	  { "arithmetic": [ { "u_val": "stored_kcal" }, "=", { "const": 55000 } ] },
+      { "arithmetic": [ { "u_val": "thirst" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "fatigue" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "=", { "const": 0 } ] } ]
+  }
+]
