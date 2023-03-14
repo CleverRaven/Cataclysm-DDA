@@ -8,6 +8,7 @@
     "description": "An untouched land that mankind has yet to reach.  Disables most traces of civilization for that 'innawood' experience.  Recommend size of cities be set to 0.",
     "category": "total_conversion",
     "dependencies": [ "dda" ],
+    "load_after": [ "backrooms", "no_hope", "tropicata", "aftershock_exoplanet", "classic_zombies", "desertpack", "ruralbiome" ],
     "obsolete": false
   }
 ]

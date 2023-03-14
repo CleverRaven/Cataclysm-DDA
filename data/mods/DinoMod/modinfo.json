@@ -6,6 +6,7 @@
     "maintainers": [ "ephemeralstoryteller", "damien", "LyleSy" ],
     "description": "Adds dinosaurs.  Some rideable, others less friendly.  Life will find a way.",
     "category": "creatures",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "load_after": [ "backrooms", "no_hope", "tropicata", "aftershock_exoplanet", "classic_zombies", "desertpack", "ruralbiome" ]
   }
 ]

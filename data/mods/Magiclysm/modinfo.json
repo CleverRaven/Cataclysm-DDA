@@ -7,7 +7,8 @@
     "maintainers": [ "KorGgenT" ],
     "description": "Cataclysm but with magic spells!",
     "category": "content",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "load_after": [ "backrooms", "no_hope", "tropicata", "aftershock_exoplanet", "classic_zombies", "desertpack", "ruralbiome" ]
   },
   {
     "type": "skill",

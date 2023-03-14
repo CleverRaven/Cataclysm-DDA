@@ -6,6 +6,7 @@
     "authors": [ "Inglonias" ],
     "description": "Removes above-ground rail stations from the game.",
     "category": "buildings",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "load_after": [ "backrooms", "no_hope", "tropicata", "aftershock_exoplanet", "classic_zombies", "desertpack", "ruralbiome" ]
   }
 ]

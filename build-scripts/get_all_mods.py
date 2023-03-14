@@ -31,22 +31,60 @@ def add_mods(mods):
     return True
 
 
+def order_modlist(modlist):
+    deps_by_mod = {}
+    final_modlist = []
+    mods_left = set()
+    # As a base, find all mods with no dependencies
+    for mod in modlist:
+        deps = all_mod_dependencies[mod]
+        for dep in all_mod_load_afters[mod]:
+            if dep in modlist:
+                deps.append(dep)
+        deps_by_mod[mod] = deps
+        if len(deps) == 0:
+            final_modlist.append(mod)
+        else:
+            mods_left.add(mod)
+
+    last_len = 0
+    while (len(mods_left) != 0 and last_len != len(mods_left)):
+        last_len = len(mods_left)
+        to_remove = []
+        for mod in mods_left:
+            if set(deps_by_mod[mod]).issubset(set(final_modlist)):
+                to_remove.append(mod)
+                final_modlist.append(mod)
+
+        for mod in to_remove:
+            mods_left.remove(mod)
+
+    if (len(mods_left) != 0):
+        for mod in mods_left:
+            raise RuntimeError("Mod " + mod + " could not be added!" +
+                               " Dependencies: " + ",".join(deps_by_mod[mod]))
+
+    return final_modlist
+
+
 def print_modlist(modlist, master_list):
-    print(','.join(modlist))
+    print(','.join(order_modlist(modlist)))
     master_list -= set(modlist)
     modlist.clear()
 
 
 all_mod_dependencies = {}
+all_mod_load_afters = {}
 total_conversions = set()
 
 for info in glob.glob('data/mods/*/modinfo.json'):
     mod_info = json.load(open(info, encoding='utf-8'))
     for e in mod_info:
-        if(e["type"] == "MOD_INFO" and
+        if (e["type"] == "MOD_INFO" and
                 ("obsolete" not in e or not e["obsolete"])):
             ident = e["id"]
             all_mod_dependencies[ident] = e.get("dependencies", [])
+            all_mod_load_afters[ident] = e.get("load_after", [])
             if e["category"] == "total_conversion":
                 total_conversions.add(ident)
 
