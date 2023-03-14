@@ -4392,9 +4392,8 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
     }
 
     map &here = get_map();
-    item cable( type );
-    bool vehicle_nearby = false;
 
+    bool vehicle_nearby = false;
     const std::function<bool( const tripoint & )> has_port = [&here, &vehicle_nearby]( const tripoint & point ) {
         const optional_vpart_position vp = here.veh_at( point );
         if( !vp ) {
@@ -4426,26 +4425,38 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
     if( !vp_port ) {
         vp_port = vp.avail_part_with_feature( "APPLIANCE" );
     }
-    
-    cable.link.pos = here.getabs( pnt );
-    cable.link.vp_index = vp_port.value().part_index();
 
-    // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
-    cable.set_var( "cable_length", cable_length + 1);
-    cable.set_var( "efficiency", efficiency );
-    // Convert wattage to how long it takes to charge 1 kW, the unit batteries use.
-    cable.set_var( "charge_interval",
-                    std::max( 1, static_cast<int>( std::floor( 1000.0 / wattage + 0.5 ) ) ) );
+    if( it.get_contents().cables().empty() ) {
+        item cable( type );
+        cable.link.pos = here.getabs( pnt );
+        cable.link.vp_index = vp_port.value().part_index();
+        // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
+        cable.set_var( "cable_length", cable_length + 1);
+        cable.set_var( "efficiency", efficiency );
+        // Convert wattage to how long it takes to charge 1 kW, the unit batteries use.
+        cable.set_var( "charge_interval",
+                        std::max( 1, static_cast<int>( std::floor( 1000.0 / wattage + 0.5 ) ) ) );
 
-    cable.link.state = item::cable_link::hanging_from_vehicle;
-    cable.active = true;
-    if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
+        cable.link.state = item::cable_link::hanging_from_vehicle;
+        cable.active = true;
+        if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
+            it.plugged_in = true;
+            it.process( get_map(), &p, p.pos() );
+            p.moves -= 5;
+            p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ),
+                                    it.tname( 1, false ), vp->vehicle().name );
+        }
+    } else {
+        item *existing_cable = it.get_contents().cables().front();
+        existing_cable->link.pos = here.getabs( pnt );
+        existing_cable->link.vp_index = vp_port.value().part_index();
+        existing_cable->link.state = item::cable_link::hanging_from_vehicle;
+        existing_cable->active = true;
         it.plugged_in = true;
         it.process( get_map(), &p, p.pos() );
         p.moves -= 5;
-
         p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ),
-                                it.tname( 1, false ), vp->vehicle().name );
+            it.tname( 1, false ), vp->vehicle().name );
     }
 
     return 0;
