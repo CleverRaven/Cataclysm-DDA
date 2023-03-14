@@ -722,7 +722,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     const int sign_before = sgn( velocity_before );
     bool empty = true;
     map &here = get_map();
-    for( int p = 0; p < num_parts(); p++ ) {
+    for( int p = 0; p < part_count(); p++ ) {
         if( parts.at( p ).removed || ( parts.at( p ).is_fake && !parts.at( p ).is_active_fake ) ) {
             continue;
         }

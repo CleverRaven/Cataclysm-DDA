@@ -57,7 +57,7 @@ static void validate_part_count( const vehicle &veh, const int target_velocity,
         REQUIRE( veh.velocity > 200 );
     }
     REQUIRE( to_degrees( veh.face.dir() ) == Approx( to_degrees( face_dir ) ).epsilon( 0.1f ) );
-    CHECK( veh.num_true_parts() == real_parts );
+    CHECK( veh.part_count_real() == real_parts );
     CHECK( num_fake_parts( veh ) == fake_parts );
     CHECK( num_active_fake_parts( veh ) == active_fakes );
 }
@@ -310,7 +310,7 @@ TEST_CASE( "ensure_vehicle_with_no_obstacles_has_no_fake_parts", "[vehicle] [veh
         REQUIRE( veh != nullptr );
         WHEN( "The vehicle is placed in the world" ) {
             THEN( "There are no fake parts added" ) {
-                validate_part_count( *veh, 0, 45_degrees, veh->num_parts(), 0, 0 );
+                validate_part_count( *veh, 0, 45_degrees, veh->part_count(), 0, 0 );
             }
         }
     }

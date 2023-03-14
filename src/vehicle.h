@@ -1936,7 +1936,12 @@ class vehicle
                                  const tripoint &neighbor_precalc ) const;
     public:
         // Number of parts contained in this vehicle
-        int part_count( bool no_fake = false ) const;
+        int part_count() const;
+        // Number of real parts in this vehicle, iterates parts to count
+        int part_count_real() const;
+        // Number of real parts in this vehicle, returns parts.size() - fake_parts.size()
+        int part_count_real_cached() const;
+
         // Returns the vehicle_part with the given part number
         vehicle_part &part( int part_num );
         const vehicle_part &part( int part_num ) const;
@@ -1947,9 +1952,6 @@ class vehicle
         void update_active_fakes();
         // Determines if the given part_num is real or active fake part
         bool real_or_active_fake_part( int part_num ) const;
-        // Number of parts in this vehicle
-        int num_parts() const;
-        int num_true_parts() const;
 
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()

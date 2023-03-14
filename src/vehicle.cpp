@@ -5995,7 +5995,7 @@ void vehicle::refresh( const bool remove_fakes )
 
     const auto need_fake_part = [&]( const point & real_mount, const std::string & flag ) {
         int real = part_with_feature( real_mount, flag, true );
-        if( real >= 0 && real < num_parts() ) {
+        if( real >= 0 && real < part_count() ) {
             return real;
         }
         return -1;
@@ -6129,14 +6129,14 @@ void vehicle::remove_fake_parts( const bool cleanup )
         return;
     }
     for( const int fake_index : fake_parts ) {
-        if( fake_index >= num_parts() ) {
+        if( fake_index >= part_count() ) {
             debugmsg( "tried to remove fake part at %d but only %zu parts!", fake_index,
                       parts.size() );
             continue;
         }
         vehicle_part &part_fake = parts.at( fake_index );
         int real_index = part_fake.fake_part_to;
-        if( real_index >= num_parts() ) {
+        if( real_index >= part_count() ) {
             debugmsg( "tried to remove fake part at %d with real at %d but only %zu parts!",
                       fake_index, real_index, parts.size() );
         } else {
@@ -6155,7 +6155,7 @@ void vehicle::remove_fake_parts( const bool cleanup )
 
 bool vehicle::real_or_active_fake_part( const int part_num ) const
 {
-    if( part_num < num_parts() ) {
+    if( part_num < part_count() ) {
         return !parts.at( part_num ).is_fake || parts.at( part_num ).is_active_fake;
     }
     return false;
@@ -7618,16 +7618,6 @@ bounding_box vehicle::get_bounding_box( bool use_precalc )
     return b;
 }
 
-int vehicle::num_parts() const
-{
-    return static_cast<int>( parts.size() );
-}
-
-int vehicle::num_true_parts() const
-{
-    return static_cast<int>( parts.size() - fake_parts.size() );
-}
-
 vehicle_part &vehicle::part( int part_num )
 {
     return parts[part_num];
@@ -7640,9 +7630,10 @@ const vehicle_part &vehicle::part( int part_num ) const
 
 int vehicle::get_non_fake_part( const int part_num )
 {
-    if( part_num != -1 && part_num < num_parts() ) {
-        if( parts.at( part_num ).is_fake ) {
-            return parts.at( part_num ).fake_part_to;
+    if( part_num != -1 && part_num < part_count() ) {
+        const vehicle_part &vp = parts.at( part_num );
+        if( vp.is_fake ) {
+            return vp.fake_part_to;
         } else {
             return part_num;
         }
@@ -7657,11 +7648,22 @@ vehicle_part_range vehicle::get_all_parts() const
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
 }
 
-int vehicle::part_count( bool no_fake ) const
+int vehicle::part_count() const
 {
-    return no_fake ? std::count_if( parts.begin(), parts.end(), []( const vehicle_part & vp ) {
+    return static_cast<int>( parts.size() );
+}
+
+int vehicle::part_count_real() const
+{
+    return std::count_if( parts.begin(), parts.end(),
+    []( const vehicle_part & vp ) {
         return !vp.is_fake;
-    } ) : static_cast<int>( parts.size() );
+    } );
+}
+
+int vehicle::part_count_real_cached() const
+{
+    return static_cast<int>( parts.size() - fake_parts.size() );
 }
 
 std::vector<vehicle_part> vehicle::real_parts() const
