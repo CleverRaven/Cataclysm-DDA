@@ -2405,61 +2405,6 @@ void iexamine::flower_marloss( Character &you, const tripoint &examp )
 }
 
 /**
- * Spawn spiders from a spider egg sack in radius 1 around the egg sack.
- * Transforms the egg sack furniture into a ruptured egg sack (f_egg_sacke).
- * Also spawns eggs.
- * @param you The player
- * @param examp Location of egg sack
- * @param montype The monster type of the created spiders.
- */
-void iexamine::egg_sack_generic( Character &you, const tripoint &examp,
-                                 const mtype_id &montype )
-{
-    map &here = get_map();
-    const std::string old_furn_name = here.furnname( examp );
-    if( !query_yn( _( "Harvest the %s?" ), old_furn_name ) ) {
-        none( you, examp );
-        return;
-    }
-    here.furn_set( examp, f_egg_sacke );
-    int monster_count = 0;
-    if( one_in( 2 ) ) {
-        for( const tripoint &nearby_pos : closest_points_first( examp, 1 ) ) {
-            if( !one_in( 3 ) ) {
-                continue;
-            } else if( g->place_critter_at( montype, nearby_pos ) ) {
-                monster_count++;
-            }
-        }
-    }
-    int roll = rng( 1, 5 );
-    bool drop_eggs = monster_count >= 1;
-    for( int i = 0; i < roll; i++ ) {
-        iexamine_helper::handle_harvest( you, "spider_egg", drop_eggs );
-    }
-    if( monster_count == 1 ) {
-        add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name );
-    } else if( monster_count >= 1 ) {
-        add_msg( m_warning, _( "Spiderlings burst from the %s!" ), old_furn_name );
-    }
-}
-
-void iexamine::egg_sackbw( Character &you, const tripoint &examp )
-{
-    egg_sack_generic( you, examp, mon_spider_widow_giant_s );
-}
-
-void iexamine::egg_sackcs( Character &you, const tripoint &examp )
-{
-    egg_sack_generic( you, examp, mon_spider_cellar_giant_s );
-}
-
-void iexamine::egg_sackws( Character &you, const tripoint &examp )
-{
-    egg_sack_generic( you, examp, mon_spider_web_s );
-}
-
-/**
  * Remove furniture. Add spore effect.
  */
 void iexamine::fungus( Character &you, const tripoint &examp )
