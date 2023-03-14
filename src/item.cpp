@@ -1167,7 +1167,11 @@ item item::in_container( const itype_id &cont, const int qty, const bool sealed 
     }
     item container( cont, birthday() );
     if( container.is_container() ) {
-        container.fill_with( *this, qty );
+        if( count_by_charges() ) {
+            container.fill_with( *this, qty );
+        } else {
+            container.put_in( *this, item_pocket::pocket_type::CONTAINER );
+        }
         container.invlet = invlet;
         if( sealed ) {
             container.seal();
