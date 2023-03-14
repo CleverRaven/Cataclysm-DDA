@@ -381,11 +381,10 @@
       },
       { 
         "pocket_type": "CABLE",
-        //TODOkama Placeholders
-        //"holster": true,
-        "max_contains_volume": "2000 ml",
-        "max_contains_weight": "2721000 kg",
-        //"weight_multiplier": 0.0,
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0,
         "flag_restriction": [ "AUTO_CABLE" ]
       }
     ],
