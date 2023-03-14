@@ -1124,6 +1124,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 
         werase( w_description );
         u.reset_stats();
+        u.set_stored_kcal( get_healthy_kcal() );
         switch( sel ) {
             case 1:
                 mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
@@ -1133,6 +1134,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                                _( "Increasing Str further costs 2 points" ) );
                 }
                 u.recalc_hp();
+                u.set_stored_kcal( get_healthy_kcal() );
                 mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
                            u.get_part_hp_max( bodypart_id( "head" ) ) );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
