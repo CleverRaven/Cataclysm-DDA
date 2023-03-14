@@ -60,7 +60,6 @@ namespace io
             case enchant_vals::mod::PERCEPTION: return "PERCEPTION";
             case enchant_vals::mod::INTELLIGENCE: return "INTELLIGENCE";
             case enchant_vals::mod::SPEED: return "SPEED";
-            case enchant_vals::mod::ATTACK_COST: return "ATTACK_COST";
             case enchant_vals::mod::ATTACK_SPEED: return "ATTACK_SPEED";
             case enchant_vals::mod::MOVE_COST: return "MOVE_COST";
             case enchant_vals::mod::METABOLISM: return "METABOLISM";
@@ -75,7 +74,7 @@ namespace io
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
             case enchant_vals::mod::PAIN: return "PAIN";
-            case enchant_vals::mod::BONUS_DAMAGE: return "BONUS_DAMAGE";
+            case enchant_vals::mod::PAIN_REMOVE: return "PAIN_REMOVE";
             case enchant_vals::mod::MELEE_DAMAGE: return "MELEE_DAMAGE";
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
@@ -83,6 +82,7 @@ namespace io
             case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
             case enchant_vals::mod::SIGHT_RANGE_ELECTRIC: return "SIGHT_RANGE_ELECTRIC";
+            case enchant_vals::mod::MOTION_VISION_RANGE: return "MOTION_VISION_RANGE";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
             case enchant_vals::mod::WEAPON_DISPERSION: return "WEAPON_DISPERSION";
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
@@ -126,7 +126,6 @@ namespace io
             case enchant_vals::mod::ITEM_DAMAGE_ELEC: return "ITEM_DAMAGE_ELEC";
             case enchant_vals::mod::ITEM_DAMAGE_ACID: return "ITEM_DAMAGE_ACID";
             case enchant_vals::mod::ITEM_DAMAGE_BIO: return "ITEM_DAMAGE_BIO";
-            case enchant_vals::mod::ITEM_DAMAGE_AP: return "ITEM_DAMAGE_AP";
             case enchant_vals::mod::ITEM_ARMOR_BASH: return "ITEM_ARMOR_BASH";
             case enchant_vals::mod::ITEM_ARMOR_CUT: return "ITEM_ARMOR_CUT";
             case enchant_vals::mod::ITEM_ARMOR_STAB: return "ITEM_ARMOR_STAB";
@@ -136,12 +135,7 @@ namespace io
             case enchant_vals::mod::ITEM_ARMOR_ELEC: return "ITEM_ARMOR_ELEC";
             case enchant_vals::mod::ITEM_ARMOR_ACID: return "ITEM_ARMOR_ACID";
             case enchant_vals::mod::ITEM_ARMOR_BIO: return "ITEM_ARMOR_BIO";
-            case enchant_vals::mod::ITEM_WEIGHT: return "ITEM_WEIGHT";
-            case enchant_vals::mod::ITEM_ENCUMBRANCE: return "ITEM_ENCUMBRANCE";
-            case enchant_vals::mod::ITEM_VOLUME: return "ITEM_VOLUME";
-            case enchant_vals::mod::ITEM_COVERAGE: return "ITEM_COVERAGE";
             case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
-            case enchant_vals::mod::ITEM_WET_PROTECTION: return "ITEM_WET_PROTECTION";
             case enchant_vals::mod::CLIMATE_CONTROL_HEAT: return "CLIMATE_CONTROL_HEAT";
             case enchant_vals::mod::CLIMATE_CONTROL_CHILL: return "CLIMATE_CONTROL_CHILL";
             case enchant_vals::mod::NUM_MOD: break;
@@ -309,14 +303,16 @@ void enchantment::load( const JsonObject &jo, const std::string &,
             active_conditions.second = con.value();
         } else {
             active_conditions.second = condition::DIALOG_CONDITION;
-            read_condition<dialogue>( jo, "condition", dialog_condition, false );
         }
     } else if( jo.has_member( "condition" ) ) {
         active_conditions.second = condition::DIALOG_CONDITION;
-        read_condition<dialogue>( jo, "condition", dialog_condition, false );
     } else {
         active_conditions.second = condition::ALWAYS;
     }
+    if( active_conditions.second == condition::DIALOG_CONDITION ) {
+        read_condition<dialogue>( jo, "condition", dialog_condition, false );
+    }
+
     for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
@@ -768,6 +764,9 @@ void enchant_cache::activate_passive( Character &guy ) const
 
     guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
     guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
+
+    guy.mod_num_blocks_bonus( get_value_add( enchant_vals::mod::BONUS_BLOCK ) );
+    guy.mod_num_blocks_bonus( mult_bonus( enchant_vals::mod::BONUS_BLOCK, guy.get_num_blocks_base() ) );
 
     if( emitter ) {
         get_map().emit_field( guy.pos(), *emitter );

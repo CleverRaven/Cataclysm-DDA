@@ -37,7 +37,6 @@ enum class mod : int {
     PERCEPTION,
     INTELLIGENCE,
     SPEED,
-    ATTACK_COST,
     ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
     MOVE_COST,
     METABOLISM,
@@ -51,15 +50,16 @@ enum class mod : int {
     HUNGER,        // hunger rate
     THIRST,        // thirst rate
     FATIGUE,       // fatigue rate
-    PAIN,          // cost or regen over time
+    PAIN,
+    PAIN_REMOVE,
     BONUS_DODGE,
     BONUS_BLOCK,
-    BONUS_DAMAGE,
     MELEE_DAMAGE,
     ATTACK_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
     SIGHT_RANGE_ELECTRIC,
+    MOTION_VISION_RANGE,
     CARRY_WEIGHT,
     WEAPON_DISPERSION,
     SOCIAL_LIE,
@@ -104,7 +104,6 @@ enum class mod : int {
     ITEM_DAMAGE_ELEC,
     ITEM_DAMAGE_ACID,
     ITEM_DAMAGE_BIO,
-    ITEM_DAMAGE_AP,      // armor piercing
     ITEM_ARMOR_BASH,
     ITEM_ARMOR_CUT,
     ITEM_ARMOR_STAB,
@@ -114,12 +113,7 @@ enum class mod : int {
     ITEM_ARMOR_ELEC,
     ITEM_ARMOR_ACID,
     ITEM_ARMOR_BIO,
-    ITEM_WEIGHT,
-    ITEM_ENCUMBRANCE,
-    ITEM_VOLUME,
-    ITEM_COVERAGE,
     ITEM_ATTACK_SPEED,
-    ITEM_WET_PROTECTION,
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
     NUM_MOD

@@ -34,6 +34,7 @@
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
+#include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
@@ -115,6 +116,8 @@ using drop_locations = std::list<drop_location>;
 using bionic_uid = unsigned int;
 
 constexpr int MAX_CLAIRVOYANCE = 40;
+// kcal in a kilogram of fat, used to convert stored kcal into body weight. 3500kcal/lb * 2.20462lb/kg = 7716.17
+constexpr float KCAL_PER_KG = 3500 * 2.20462;
 
 /// @brief type of conditions that effect vision
 /// @note vision modes do not necessarily match json ids or flags
@@ -723,9 +726,6 @@ class Character : public Creature, public visitable
 
         /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
         std::pair<int, int> gunmod_installation_odds( const item_location &gun, const item &mod ) const;
-        /// called once per 24 hours to enforce the minimum of 1 hp healed per day
-        /// @todo Move to Character once heal() is moved
-        void enforce_minimum_healing();
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
         void set_underwater( bool );
@@ -880,9 +880,8 @@ class Character : public Creature, public visitable
          */
         void process_turn() override;
 
-        /** Recalculates HP after a change to max strength */
+        /** Recalculates HP after a change to max strength or enchantment */
         void recalc_hp();
-        int get_part_hp_max( const bodypart_id &id ) const;
 
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
@@ -1236,6 +1235,8 @@ class Character : public Creature, public visitable
         float get_limb_score( const limb_score_id &score,
                               const body_part_type::type &bp = body_part_type::type::num_types,
                               int override_encumb = -1, int override_wounds = -1 ) const;
+        float manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
+                                 body_part_type::type type, int override_encumb, int override_wounds ) const;
 
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
@@ -1307,6 +1308,10 @@ class Character : public Creature, public visitable
 
         void apply_mut_encumbrance( std::map<bodypart_id, encumbrance_data> &vals ) const;
 
+        /** Applies encumbrance from BMI */
+        void calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const;
+        void calc_bmi_encumb() const;
+
     public:
         /** Recalculate encumbrance for all body parts. */
         void calc_encumbrance();
@@ -1377,10 +1382,11 @@ class Character : public Creature, public visitable
         void mutate_category( const mutation_category_id &mut_cat );
         /** Mutates toward one of the given mutations, upgrading or removing conflicts if necessary */
         bool mutate_towards( std::vector<trait_id> muts, const mutation_category_id &mut_cat,
-                             int num_tries = INT_MAX, bool use_vitamins = true );
+                             int num_tries = INT_MAX, bool use_vitamins = true, bool removed_base_trait = false );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
         bool mutate_towards( const trait_id &mut, const mutation_category_id &mut_cat,
-                             const mutation_variant *chosen_var = nullptr, bool use_vitamins = true );
+                             const mutation_variant *chosen_var = nullptr, bool use_vitamins = true,
+                             bool removed_base_trait = false );
         bool mutate_towards( const trait_id &mut, const mutation_variant *chosen_var = nullptr );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const trait_id &mut, bool silent = false );
@@ -1533,7 +1539,7 @@ class Character : public Creature, public visitable
         /** Uses a tool */
         void use( int inventory_position );
         /** Uses a tool at location */
-        void use( item_location loc, int pre_obtain_moves = -1 );
+        void use( item_location loc, int pre_obtain_moves = -1, std::string const &method = {} );
         /** Uses the current wielded weapon */
         void use_wielded();
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
@@ -2211,9 +2217,6 @@ class Character : public Creature, public visitable
         std::vector<spell> spells_known_of_class( const trait_id &spell_class ) const;
         bool cast_spell( spell &sp, bool fake_spell, const cata::optional<tripoint> &target );
 
-        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
-
         /** Called when a player triggers a trap, returns true if they don't set it off */
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
@@ -2588,8 +2591,10 @@ class Character : public Creature, public visitable
         float metabolic_rate() const;
         // gets the max value healthy you can be, related to your weight
         int get_max_healthy() const;
-        // calculates the BMI
+        // calculates the BMI, either as the entire BMI or the BMI with only fat or lean mass accounted
         float get_bmi() const;
+        float get_bmi_fat() const;
+        float get_bmi_lean() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
         // add spent calories to calorie diary (if avatar)
@@ -2618,6 +2623,12 @@ class Character : public Creature, public visitable
         void randomize_height();
         // returns bodyweight of the Character
         units::mass bodyweight() const;
+        // returns the weight of the player that is not fat (muscle, etc) based on height and strength
+        units::mass bodyweight_lean() const;
+        // returns the weight of the character that is fatty tissue based on stored kcal
+        units::mass bodyweight_fat() const;
+        // returns ratio of fat mass to lean total mass (unused currently)
+        float fat_ratio() const;
         // returns total weight of installed bionics
         units::mass bionics_weight() const;
         // increases the activity level to the specified level
@@ -2721,7 +2732,8 @@ class Character : public Creature, public visitable
                                             const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
     protected:
-        void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
+        void on_damage_of_type( const effect_source &source, int adjusted_damage, damage_type type,
+                                const bodypart_id &bp ) override;
     public:
         /** Called when an item is worn */
         void on_item_wear( const item &it );
@@ -2802,7 +2814,7 @@ class Character : public Creature, public visitable
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling() const;
 
-        ret_val<crush_tool_type> can_crush_frozen_liquid( item_location loc ) const;
+        ret_val<crush_tool_type> can_crush_frozen_liquid( item_location const &loc ) const;
         /** Prompts user about crushing item at item_location loc, for harvesting of frozen liquids
         * @param loc Location for item to crush */
         bool crush_frozen_liquid( item_location loc );
@@ -2978,8 +2990,6 @@ class Character : public Creature, public visitable
         bool wearing_something_on( const bodypart_id &bp ) const;
         /** Returns true if the character is wearing something on the entered body part. Ignores INTEGRATED and OVERSIZE */
         bool wearing_fitting_on( const bodypart_id &bp ) const;
-        /** Returns true if the character is wearing something occupying the helmet slot */
-        bool is_wearing_helmet() const;
         /** Same as footwear factor, but for arms */
         double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both,
@@ -3127,13 +3137,25 @@ class Character : public Creature, public visitable
                              const cata::optional<tripoint> &loc );
         /** consume components and create an active, in progress craft containing them */
         void start_craft( craft_command &command, const cata::optional<tripoint> &loc );
+
+        struct craft_roll_data {
+            float center;
+            float stddev;
+            float final_difficulty;
+        };
         /**
          * Calculate a value representing the success of the player at crafting the given recipe,
          * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
          * @param making the recipe for which to calculate
          * @return a value >= 0.0 with >= 1.0 representing unequivocal success
          */
-        double crafting_success_roll( const recipe &making ) const;
+        float crafting_success_roll( const recipe &making ) const;
+        float crafting_failure_roll( const recipe &making ) const;
+        float get_recipe_weighted_skill_average( const recipe &making ) const;
+        float recipe_success_chance( const recipe &making ) const;
+        float item_destruction_chance( const recipe &making ) const;
+        craft_roll_data recipe_success_roll_data( const recipe &making ) const;
+        craft_roll_data recipe_failure_roll_data( const recipe &making ) const;
         void complete_craft( item &craft, const cata::optional<tripoint> &loc );
         /**
          * Check if the player meets the requirements to continue the in progress craft and if

@@ -74,7 +74,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "5x50_50_mag", "5x50_100_mag" ] } ]
   }

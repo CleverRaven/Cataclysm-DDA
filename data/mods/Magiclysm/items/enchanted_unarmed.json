@@ -30,6 +30,7 @@
     "weight": "970 g",
     "to_hit": 2,
     "bashing": 2,
+    "price_postapoc": 124000,
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
     "relic_data": {
@@ -73,6 +74,7 @@
     "weight": "981 g",
     "bashing": 16,
     "to_hit": 1,
+    "price_postapoc": 145000,
     "qualities": [ [ "HAMMER", 2 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "OVERSIZE", "MESSY" ],
@@ -92,7 +94,7 @@
     "to_hit": 1,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS", "NONCONDUCTIVE" ],
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
   }
 ]

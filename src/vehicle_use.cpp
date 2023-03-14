@@ -1472,7 +1472,7 @@ void vehicle::use_dishwasher( int p )
         player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
-                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled from the water tanks" ) );
+                 _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled from the water tanks." ) );
     }
 }
 
@@ -1780,6 +1780,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                     {
                         add_msg( _( "You let go of the controls." ) );
                     }
+                    disable_smart_controller_if_needed();
                     stop_engines();
                     get_player_character().controlling_vehicle = false;
                     g->setremoteveh( nullptr );
@@ -1791,6 +1792,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 .on_submit( [this] {
                     if( engine_on )
                     {
+                        disable_smart_controller_if_needed();
                         add_msg( _( "You turn the engine off." ) );
                         stop_engines();
                     } else

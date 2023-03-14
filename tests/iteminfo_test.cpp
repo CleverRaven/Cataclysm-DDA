@@ -1218,12 +1218,12 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
                                    float acid = 0.0f, float fire = 0.0f, float env = 0.0f )
 {
     CAPTURE( armor.typeId().str() );
-    REQUIRE( armor.bash_resist() == Approx( bash ) );
-    REQUIRE( armor.cut_resist() == Approx( cut ) );
-    REQUIRE( armor.stab_resist() == Approx( stab ) );
-    REQUIRE( armor.bullet_resist() == Approx( bullet ) );
-    REQUIRE( armor.acid_resist() == Approx( acid ) );
-    REQUIRE( armor.fire_resist() == Approx( fire ) );
+    REQUIRE( armor.resist( damage_type::BASH ) == Approx( bash ) );
+    REQUIRE( armor.resist( damage_type::CUT ) == Approx( cut ) );
+    REQUIRE( armor.resist( damage_type::STAB ) == Approx( stab ) );
+    REQUIRE( armor.resist( damage_type::BULLET ) == Approx( bullet ) );
+    REQUIRE( armor.resist( damage_type::ACID ) == Approx( acid ) );
+    REQUIRE( armor.resist( damage_type::HEAT ) == Approx( fire ) );
     REQUIRE( armor.get_env_resist() == Approx( env ) );
 }
 
@@ -1889,7 +1889,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>56</color>-<color_c_yellow>532</color>"
+               " <color_c_yellow>52</color>-<color_c_yellow>532</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
@@ -2783,6 +2783,7 @@ TEST_CASE( "ammo restriction info", "[iteminfo][ammo_restriction]" )
         CHECK( item_info_str( compbow, mag_cap ) ==
                "--\n"
                "Capacity: <color_c_yellow>1</color> round of arrows\n" );
+
 
     }
 }
