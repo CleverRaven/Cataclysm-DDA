@@ -1352,7 +1352,7 @@
       { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
       [ "pickaxe", 1 ],
       { "item": "jackhammer", "prob": 2, "charges": [ 0, 1200 ] },
-      { "item": "elec_jackhammer", "prob": 1, "charges": [ 0, 7000 ] },
+      { "item": "elec_jackhammer", "prob": 1, "charges": [ 0, 7920 ] },
       [ "dynamite", 5 ],
       { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
       [ "jerrycan", 10 ],
