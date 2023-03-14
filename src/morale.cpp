@@ -43,7 +43,7 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
-static const trait_id trait_RADSENSE( "RADSENSE" );
+static const trait_id trait_RADIOPHILE( "RADIOPHILE" );
 static const trait_id trait_ROOTS1( "ROOTS1" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
@@ -63,7 +63,7 @@ bool is_permanent_morale( const morale_type &id )
             MORALE_PERM_CONSTRAINED,
             MORALE_PERM_FILTHY,
             MORALE_PERM_DEBUG,
-            MORALE_PERM_RADSENSE
+            MORALE_PERM_RADIOPHILE
         }
     };
 
@@ -315,7 +315,7 @@ player_morale::player_morale() :
     mutations[trait_MASOCHIST]     = mutation_data( update_masochist );
     mutations[trait_MASOCHIST_MED] = mutation_data( update_masochist );
     mutations[trait_CENOBITE]      = mutation_data( update_masochist );
-    mutations[trait_RADSENSE]      = mutation_data( update_radiophile );
+    mutations[trait_RADIOPHILE]      = mutation_data( update_radiophile );
 }
 
 void player_morale::add( const morale_type &type, int bonus, int max_bonus,
@@ -1097,14 +1097,14 @@ void player_morale::update_masochist_bonus()
 
 void player_morale::update_radiophile_bonus()
 {
-    const bool is_radiophile = has_mutation( trait_RADSENSE );
+    const bool is_radiophile = has_mutation( trait_RADIOPHILE );
 
     int bonus = 0;
 
     if( is_radiophile ) {
         bonus = radiation / 8;
     }
-    set_permanent( MORALE_PERM_RADSENSE, bonus );
+    set_permanent( MORALE_PERM_RADIOPHILE, bonus );
 }
 
 void player_morale::update_bodytemp_penalty( const time_duration &ticks )
