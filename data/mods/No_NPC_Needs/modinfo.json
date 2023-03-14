@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "no_npc_needs",
+    "name": "No NPC Needs",
+    "authors": [ "DPavonis" ],
+    "maintainers": [ "DPavonis" ],
+    "description": "Makes NPCs not require food, water or rest.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
