@@ -2241,8 +2241,8 @@ bool vehicle::should_enable_fake( const tripoint &fake_precalc, const tripoint &
                                   const tripoint &neighbor_precalc ) const
 {
     // if parent's pos is diagonal to neighbor, but fake isn't, fake can fill a gap opened
-    tripoint abs_parent_neighbor_diff = get_abs_diff( parent_precalc, neighbor_precalc );
-    tripoint abs_fake_neighbor_diff = get_abs_diff( fake_precalc, neighbor_precalc );
+    tripoint abs_parent_neighbor_diff = ( parent_precalc - neighbor_precalc ).abs();
+    tripoint abs_fake_neighbor_diff = ( fake_precalc - neighbor_precalc ).abs();
     return ( abs_parent_neighbor_diff.x == 1 && abs_parent_neighbor_diff.y == 1 ) &&
            ( ( abs_fake_neighbor_diff.x == 1 && abs_fake_neighbor_diff.y == 0 ) ||
              ( abs_fake_neighbor_diff.x == 0 && abs_fake_neighbor_diff.y == 1 ) );

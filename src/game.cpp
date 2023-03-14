@@ -1188,7 +1188,7 @@ static int veh_lumi( vehicle &veh )
 {
     float veh_luminance = 0.0f;
     float iteration = 1.0f;
-    auto lights = veh.lights( true );
+    auto lights = veh.lights();
 
     for( const vehicle_part *pt : lights ) {
         const vpart_info &vp = pt->info();
