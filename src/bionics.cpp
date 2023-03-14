@@ -3408,7 +3408,7 @@ std::vector<vehicle *> Character::get_cable_vehicle()
     map &here = get_map();
 
     for( const item *cable : cables ) {
-        const optional_vpart_position vp = here.veh_at( cable->link.pos );
+        const optional_vpart_position vp = here.veh_at( here.getlocal( cable->link.pos ) );
         if( vp ) {
             remote_vehicles.emplace_back( &vp->vehicle() );
         }

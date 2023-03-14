@@ -10205,6 +10205,18 @@ int item::ammo_remaining( const Character *carrier ) const
         ret += mag->ammo_remaining();
     }
 
+    // Cable connections
+    if( plugged_in ) {
+        map &here = get_map();
+        for( const item *cable : contents.cables( true ) ) {
+            const optional_vpart_position vp = here.veh_at( here.getlocal( cable->link.pos ) );
+            if( vp ) {
+                ret += vp->vehicle().connected_battery_power_level().first;
+                break;
+            }
+        }
+    }
+
     std::set<ammotype> ammo = ammo_types();
     // Non ammo using item that uses charges
     if( ammo.empty() ) {
@@ -10373,18 +10385,7 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
         qty *= iter->second;
     }
     if( ammo_required() ) {
-        int ammo_required_total = ammo_required() * qty;
-        if( plugged_in ) {
-            const item *cable = contents.cables( true ).front();//TODOkama don't just use front here
-            const optional_vpart_position vp = get_map().veh_at( cable->link.pos );
-            if( vp ) {
-                ammo_required_total -= vp->vehicle().connected_battery_power_level().first;
-                if( ammo_required_total <= 0 ) {
-                    return true;
-                }
-            }
-        }
-        return ammo_remaining( carrier ) >= ammo_required_total;
+        return ammo_remaining( carrier ) >= ammo_required() * qty;
 
     } else if( get_gun_ups_drain() > 0_kJ ) {
         return carrier->available_ups() >= get_gun_ups_drain() * qty;
@@ -10404,7 +10405,7 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
     if( plugged_in ) {
         //qty -= contents.ammo_consume_via_cable( qty, pos );
         item *cable = contents.cables( true ).front();//TODOkama don't just use front here
-        const optional_vpart_position vp = get_map().veh_at( cable->link.pos );
+        const optional_vpart_position vp = get_map().veh_at( get_map().getlocal( cable->link.pos ) );
         if( vp ) {
             qty = vp->vehicle().discharge_battery( qty, true );
         }
