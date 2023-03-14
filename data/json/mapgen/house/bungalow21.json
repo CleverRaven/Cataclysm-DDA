@@ -40,13 +40,13 @@
         "`": "t_railing_v",
         "]": "t_door_metal_locked",
         "/": "t_gates_mech_control",
-        ",": "t_concrete",
+        ",": "t_thconc_floor",
         "K": "t_floor_noroof",
         "G": "t_floor_noroof",
-        "z": "t_concrete",
-        "N": "t_concrete",
-        "q": "t_concrete",
-        "U": "t_concrete"
+        "z": "t_thconc_floor",
+        "N": "t_thconc_floor",
+        "q": "t_thconc_floor",
+        "U": "t_thconc_floor"
       },
       "furniture": { "$": "f_table" },
       "items": { "$": { "item": "table_foyer", "chance": 50, "repeat": [ 2, 3 ] } },
