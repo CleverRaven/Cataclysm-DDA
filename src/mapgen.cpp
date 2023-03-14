@@ -510,6 +510,24 @@ const nested_mapgen &string_id<nested_mapgen>::obj() const
     return it->second;
 }
 
+template<>
+bool string_id<update_mapgen>::is_valid() const
+{
+    return str() == "null" || update_mapgens.find( *this ) != update_mapgens.end();
+}
+
+template<>
+const update_mapgen &string_id<update_mapgen>::obj() const
+{
+    auto it = update_mapgens.find( *this );
+    if( it == update_mapgens.end() ) {
+        debugmsg( "Using invalid nested_mapgen_id %s", str() );
+        static const update_mapgen null_mapgen;
+        return null_mapgen;
+    }
+    return it->second;
+}
+
 /*
  * setup mapgen_basic_container::weights_ which mapgen uses to diceroll. Also setup mapgen_function_json
  */
@@ -1129,6 +1147,9 @@ class mapgen_value
                 const value_source &, const std::string &context ) const = 0;
             virtual std::vector<StringId> all_possible_results(
                 const mapgen_parameters & ) const = 0;
+            virtual const std::string *get_name_if_parameter() const {
+                return nullptr;
+            }
         };
 
         struct null_source : value_source {
@@ -1256,6 +1277,10 @@ class mapgen_value
                     }
                     return result;
                 }
+            }
+
+            const std::string *get_name_if_parameter() const override {
+                return &param_name;
             }
         };
 
@@ -1446,6 +1471,10 @@ class mapgen_value
             return source_->all_possible_results( params );
         }
 
+        const std::string *get_name_if_parameter() const {
+            return source_->get_name_if_parameter();
+        }
+
         void deserialize( const JsonValue &jsin ) {
             if( jsin.test_object() ) {
                 *this = mapgen_value( jsin.get_object() );
@@ -1603,12 +1632,14 @@ mapgen_arguments mapgen_parameters::get_args(
 {
     std::unordered_map<std::string, cata_variant> result;
     for( const std::pair<const std::string, mapgen_parameter> &p : map ) {
+        const std::string &param_name = p.first;
         const mapgen_parameter &param = p.second;
         if( param.scope() == scope ) {
-            result.emplace( p.first, param.get( md ) );
+            cata_variant value = md.get_arg_or( param_name, param.get( md ) );
+            result.emplace( param_name, value );
         }
     }
-    return { std::move( result ) };
+    return mapgen_arguments{ result };
 }
 
 void mapgen_parameters::check_and_merge( const mapgen_parameters &other,
@@ -3954,16 +3985,29 @@ void mapgen_palette::reset()
 
 void mapgen_palette::add( const mapgen_value<std::string> &rh, const add_palette_context &context )
 {
-    std::vector<std::string> possible_values = rh.all_possible_results( *context.parameters );
-    cata_assert( !possible_values.empty() );
-    if( possible_values.size() == 1 ) {
+    std::vector<std::string> possible_values =
+        rh.all_possible_results( *context.current_parameters );
+    if( possible_values.empty() ) {
+        if( const std::string *param_name = rh.get_name_if_parameter() ) {
+            debugmsg( "Parameter %s used for palette id in %s but has no possible values",
+                      *param_name, context.context );
+        } else {
+            debugmsg( "Mapgen value for used for palette id in %s has no possible values",
+                      context.context );
+        }
+    } else if( possible_values.size() == 1 ) {
         add( palette_id( possible_values.front() ), context );
     } else {
-        const auto param_it =
-            context.parameters->add_unique_parameter(
-                "palette_choice_", rh, cata_variant_type::palette_id,
-                mapgen_parameter_scope::overmap_special );
-        const std::string &param_name = param_it->first;
+        std::string param_name;
+        if( const std::string *name = rh.get_name_if_parameter() ) {
+            param_name = *name;
+        } else {
+            const auto param_it =
+                context.top_level_parameters->add_unique_parameter(
+                    "palette_choice_", rh, cata_variant_type::palette_id,
+                    mapgen_parameter_scope::overmap_special );
+            param_name = param_it->first;
+        }
         add_palette_context context_with_extra_constraint( context );
         for( const std::string &value : possible_values ) {
             palette_id val_id( value );
@@ -3997,6 +4041,7 @@ void mapgen_palette::add( const mapgen_palette &rh, const add_palette_context &c
     }
     add_palette_context new_context = context;
     new_context.ancestors.push_back( rh.id );
+    new_context.current_parameters = &rh.parameters;
 
     for( const mapgen_value<std::string> &recursive_palette : rh.palettes_used ) {
         add( recursive_palette, new_context );
@@ -4103,7 +4148,8 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
 mapgen_palette::add_palette_context::add_palette_context(
     const std::string &ctx, mapgen_parameters *params )
     : context( ctx )
-    , parameters( params )
+    , top_level_parameters( params )
+    , current_parameters( params )
 {}
 
 bool mapgen_function_json::setup_internal( const JsonObject &jo )
@@ -6438,37 +6484,39 @@ std::vector<item *> map::place_items(
             tries++;
         } while( is_valid_terrain( p ) && tries < 20 );
         if( tries < 20 ) {
+            auto add_res_itm = [this, &p, &res]( const item & itm ) {
+                item &it = add_item_or_charges( p, itm );
+                if( !it.is_null() ) {
+                    res.push_back( &it );
+                }
+            };
+
             for( const item &itm : item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate ) ) {
                 const float item_cat_spawn_rate = std::max( 0.0f, item_category_spawn_rate( itm ) );
-                // for items with category spawn rate less than or equal to 1, roll a dice to see if they should spawn
-                if( item_cat_spawn_rate <= 1 ) {
-                    if( rng_float( 0.1f, 1 ) <= item_cat_spawn_rate ) {
-                        item &it = add_item_or_charges( p, itm );
-                        if( !it.is_null() ) {
-                            res.push_back( &it );
-                        }
+                if( item_cat_spawn_rate == 0.0f ) {
+                    continue;
+                } else if( item_cat_spawn_rate < 1.0f ) {
+                    // for items with category spawn rate less than 1, roll a dice to see if they should spawn
+                    if( rng_float( 0.0f, 1.0f ) <= item_cat_spawn_rate ) {
+                        add_res_itm( itm );
                     }
-                    // for items with category spawn rate more than 1, spawn item at least one time...
                 } else {
-                    item &it = add_item_or_charges( p, itm );
-                    if( !it.is_null() ) {
-                        res.push_back( &it );
-                    }
+                    // for items with category spawn rate more or equal to 1, spawn item at least one time...
+                    add_res_itm( itm );
 
-                    // ...then create a list with items from the same item group and remove all items with differing category from that list
-                    // so if the original item was e.g. from 'guns' category, the list will contain only items from the 'guns' category...
-                    Item_list extra_spawn = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
-                    extra_spawn.erase( std::remove_if( extra_spawn.begin(), extra_spawn.end(), [&itm]( item & it ) {
-                        return it.get_category_of_contents() != itm.get_category_of_contents();
-                    } ), extra_spawn.end() );
+                    if( item_cat_spawn_rate > 1.0f ) {
+                        // ...then create a list with items from the same item group and remove all items with differing category from that list
+                        // so if the original item was e.g. from 'guns' category, the list will contain only items from the 'guns' category...
+                        Item_list extra_spawn = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
+                        extra_spawn.erase( std::remove_if( extra_spawn.begin(), extra_spawn.end(), [&itm]( item & it ) {
+                            return it.get_category_of_contents() != itm.get_category_of_contents();
+                        } ), extra_spawn.end() );
 
-                    // ...then add a chance to spawn additional items from the list, amount is based on the item category spawn rate
-                    for( int i = 0; i < item_cat_spawn_rate; i++ ) {
-                        for( const item &it : extra_spawn ) {
-                            if( rng( 1, 100 ) <= chance ) {
-                                item &new_item = add_item_or_charges( p, it );
-                                if( !new_item.is_null() ) {
-                                    res.push_back( &new_item );
+                        // ...then add a chance to spawn additional items from the list, amount is based on the item category spawn rate
+                        for( int i = 0; i < item_cat_spawn_rate; i++ ) {
+                            for( const item &it : extra_spawn ) {
+                                if( rng( 1, 100 ) <= chance ) {
+                                    add_res_itm( it );
                                 }
                             }
                         }
@@ -6488,6 +6536,7 @@ std::vector<item *> map::place_items(
             }
         }
 
+        e->randomize_rot();
         e->set_owner( faction_id( faction ) );
     }
     return res;
@@ -7628,8 +7677,9 @@ bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
     return true;
 }
 
-bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, const point &offset,
-        mission *miss, bool verify, bool mirror_horizontal, bool mirror_vertical, int rotation ) const
+bool update_mapgen_function_json::update_map(
+    const tripoint_abs_omt &omt_pos, const mapgen_arguments &args, const point &offset,
+    mission *miss, bool verify, bool mirror_horizontal, bool mirror_vertical, int rotation ) const
 {
     if( omt_pos == overmap::invalid_tripoint ) {
         debugmsg( "Mapgen update function called with overmap::invalid_tripoint" );
@@ -7644,7 +7694,8 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
     update_tmap.rotate( 4 - rotation );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
 
-    mapgendata md( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
+    mapgendata md_base( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
+    mapgendata md( md_base, args );
 
     bool const u = update_map( md, offset, verify );
     update_tmap.mirror( mirror_horizontal, mirror_vertical );
@@ -7700,7 +7751,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
         const update_mapgen_id mapgen_update_id{ jo.get_string( "mapgen_update_id" ) };
         const auto update_function = [mapgen_update_id]( const tripoint_abs_omt & omt_pos,
         mission * miss ) {
-            run_mapgen_update_func( mapgen_update_id, omt_pos, miss, false );
+            run_mapgen_update_func( mapgen_update_id, omt_pos, {}, miss, false );
         };
         return update_function;
     }
@@ -7714,7 +7765,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
         return null_function;
     }
     const auto update_function = [json_data]( const tripoint_abs_omt & omt_pos, mission * miss ) {
-        json_data.update_map( omt_pos, point_zero, miss );
+        json_data.update_map( omt_pos, {}, point_zero, miss );
     };
     defer = mapgen_defer::defer;
     mapgen_defer::jsi = JsonObject();
@@ -7722,8 +7773,9 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
 }
 
 bool run_mapgen_update_func(
-    const update_mapgen_id &update_mapgen_id, const tripoint_abs_omt &omt_pos, mission *miss,
-    bool cancel_on_collision, bool mirror_horizontal, bool mirror_vertical, int rotation )
+    const update_mapgen_id &update_mapgen_id, const tripoint_abs_omt &omt_pos,
+    const mapgen_arguments &args, mission *miss, bool cancel_on_collision, bool mirror_horizontal,
+    bool mirror_vertical, int rotation )
 {
     const auto update_function = update_mapgens.find( update_mapgen_id );
 
@@ -7731,8 +7783,8 @@ bool run_mapgen_update_func(
         return false;
     }
     return update_function->second.funcs()[0]->update_map(
-               omt_pos, point_zero, miss, cancel_on_collision, mirror_horizontal, mirror_vertical,
-               rotation );
+               omt_pos, args, point_zero, miss, cancel_on_collision, mirror_horizontal,
+               mirror_vertical, rotation );
 }
 
 bool run_mapgen_update_func( const update_mapgen_id &update_mapgen_id, mapgendata &dat,
@@ -7746,7 +7798,8 @@ bool run_mapgen_update_func( const update_mapgen_id &update_mapgen_id, mapgendat
 }
 
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
-            const update_mapgen_id &update_mapgen_id, ter_id const &base_ter )
+            const update_mapgen_id &update_mapgen_id,
+            const mapgen_arguments &mapgen_args, ter_id const &base_ter )
 {
     std::map<ter_id, int> terrains;
     std::map<furn_id, int> furnitures;
@@ -7759,7 +7812,8 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
 
     fake_map tmp_map( base_ter );
 
-    mapgendata fake_md( tmp_map, mapgendata::dummy_settings );
+    mapgendata base_fake_md( tmp_map, mapgendata::dummy_settings );
+    mapgendata fake_md( base_fake_md, mapgen_args );
     fake_md.skip = { mapgen_phase::zones };
 
     if( update_function->second.funcs()[0]->update_map( fake_md ) ) {

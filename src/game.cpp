@@ -2135,7 +2135,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     oThisItem.is_favorite = !oThisItem.is_favorite;
                     if( locThisItem.has_parent() ) {
                         item_location parent = locThisItem.parent_item();
-                        item_pocket *const pocket = parent->contained_where( oThisItem );
+                        item_pocket *const pocket = locThisItem.parent_pocket();
                         if( pocket ) {
                             pocket->restack();
                         } else {

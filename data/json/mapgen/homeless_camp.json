@@ -122,7 +122,7 @@
         "     !   cmdmc  ! wWWWw ",
         "     !   cdddc  ! wWWww ",
         "     !   cdddc  ! wwwww ",
-        "     ! @ cc+cc  !   wi  ",
+        "     !   cc+cc  !   wi  ",
         "     !     _    !       ",
         "     !!!!!!_!!!!!       ",
         "        C ___ S         ",
@@ -136,7 +136,7 @@
         "             7          ",
         "                        "
       ],
-      "npcs": { "@": { "class": "NPC_homeless_survivor" } },
+      "place_npcs": [ { "class": "NPC_homeless_survivor", "x": 9, "y": 12 } ],
       "terrain": {
         " ": "t_region_groundcover",
         "_": "t_region_soil",
@@ -158,23 +158,7 @@
         "c": "f_canvas_wall",
         "i": "f_cattails",
         "m": "f_makeshift_bed"
-      },
-      "place_items": [
-        { "chance": 10, "item": "harddrugs", "x": 5, "y": 17 },
-        { "chance": 20, "item": "male_underwear_bottom", "x": 17, "y": 10 },
-        { "chance": 20, "item": "male_underwear_bottom", "x": 16, "y": 8 },
-        { "chance": 25, "item": "trash", "x": 19, "y": 21 },
-        { "chance": 25, "item": "trash", "x": 7, "y": 21 },
-        { "chance": 25, "item": "trash", "x": 2, "y": 17 },
-        { "chance": 25, "item": "trash", "x": 15, "y": 15 },
-        { "chance": 25, "item": "trash", "x": 6, "y": 14 },
-        { "chance": 25, "item": "trash", "x": 7, "y": 10 },
-        { "chance": 10, "item": "shoes", "x": 10, "y": 10 },
-        { "chance": 5, "item": "female_underwear_bottom", "x": 16, "y": 9 },
-        { "chance": 30, "item": "alcohol", "x": 11, "y": 8 },
-        { "chance": 10, "item": "forest", "x": 21, "y": 12 },
-        { "chance": 10, "item": "forest", "x": 3, "y": 2 }
-      ]
+      }
     }
   },
   {
@@ -193,14 +177,14 @@
         "                 iwwww  ",
         " !!!!!!!!!!!!!!!!wwwwww ",
         " !       ccccc  ! wWwww ",
-        " !       c~~~c  !wwWWWw ",
-        " !       c~@~c  !wwWWww ",
+        " !       cdddc  !wwWWWw ",
+        " !       cdddc  !wwWWww ",
         " !       cmddc  ! wwwww ",
         " !       cc+cc  !   wi  ",
         " !         _    !       ",
-        " !`        _    !       ",
-        "_____________ S`!   7   ",
-        " !` cccc C_a_   !       ",
+        " !         _    !       ",
+        "_____________ S !   7   ",
+        " !  cccc C_a_   !       ",
         " !  cmmc  ___ S !       ",
         " !  cmdb___     !       ",
         " !  cmmc  C C   !       ",
@@ -210,11 +194,23 @@
         " 7                      ",
         "             7          "
       ],
-      "npcs": { "@": { "class": "NPC_homeless_broker" }, "`": { "class": "NPC_homeless_group_survivor" } },
+      "place_npcs": [
+        { "class": "NPC_homeless_broker", "x": 11, "y": 9 },
+        { "class": "NPC_homeless_group_survivor", "x": 2, "y": 13 },
+        { "class": "NPC_homeless_group_survivor", "x": 15, "y": 14 },
+        { "class": "NPC_homeless_group_survivor", "x": 2, "y": 15 }
+      ],
       "faction_owner": [ { "id": "wasteland_scavengers", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "place_zones": [
-        { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": [ 11, 11 ], "y": [ 9, 9 ] },
-        { "type": "LOOT_CURRENCY", "faction": "wasteland_scavengers", "x": [ 11, 11 ], "y": [ 10, 10 ] }
+        { "type": "LOOT_UNSORTED", "faction": "wasteland_scavengers", "x": [ 11, 11 ], "y": [ 10, 10 ] },
+        { "type": "LOOT_CURRENCY", "faction": "wasteland_scavengers", "x": [ 12, 12 ], "y": [ 10, 10 ] },
+        {
+          "type": "LOOT_ITEM_GROUP",
+          "filter": "homeless_broker_sell",
+          "faction": "wasteland_scavengers",
+          "x": [ 10, 12 ],
+          "y": [ 8, 9 ]
+        }
       ],
       "terrain": {
         " ": "t_region_groundcover",
@@ -225,7 +221,6 @@
         "b": "t_dirtfloor",
         "d": "t_dirtfloor",
         "m": "t_dirtfloor",
-        "@": "t_dirtfloor",
         "~": "t_dirtfloor",
         "w": "t_water_sh",
         "!": "t_trunk"
@@ -239,24 +234,7 @@
         "c": "f_canvas_wall",
         "i": "f_cattails",
         "m": "f_makeshift_bed"
-      },
-      "place_items": [
-        { "chance": 10, "item": "harddrugs", "x": 5, "y": 17 },
-        { "chance": 20, "item": "male_underwear_bottom", "x": 17, "y": 10 },
-        { "chance": 20, "item": "male_underwear_bottom", "x": 16, "y": 8 },
-        { "chance": 25, "item": "trash", "x": 19, "y": 21 },
-        { "chance": 25, "item": "trash", "x": 7, "y": 21 },
-        { "chance": 25, "item": "trash", "x": 2, "y": 17 },
-        { "chance": 25, "item": "trash", "x": 15, "y": 15 },
-        { "chance": 25, "item": "trash", "x": 6, "y": 14 },
-        { "chance": 25, "item": "trash", "x": 7, "y": 10 },
-        { "chance": 10, "item": "shoes", "x": 10, "y": 10 },
-        { "chance": 5, "item": "female_underwear_bottom", "x": 16, "y": 9 },
-        { "chance": 30, "item": "alcohol", "x": 11, "y": 8 },
-        { "chance": 10, "item": "forest", "x": 21, "y": 12 },
-        { "chance": 10, "item": "forest", "x": 3, "y": 2 }
-      ],
-      "items": { "~": [ { "item": "homeless_broker_sell", "chance": 100, "repeat": [ 30, 45 ] } ] }
+      }
     }
   }
 ]

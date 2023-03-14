@@ -84,6 +84,7 @@
         { "item": "roof_trash", "x": [ 8, 23 ], "y": [ 20, 22 ], "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "roof_trash", "x": [ 24, 34 ], "y": [ 20, 22 ], "chance": 50, "repeat": [ 1, 3 ] }
       ],
+      "place_monsters": [ { "monster": "GROUP_VAMPIRES_MIXED", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.5 } ],
       "place_nested": [
         {
           "chunks": [
