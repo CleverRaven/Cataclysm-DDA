@@ -3998,6 +3998,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 case char_creation::HEIGHT:
                     if( you.base_height() < max_allowed_height ) {
                         you.mod_base_height( 1 );
+                        you.set_stored_kcal( get_healthy_kcal() );
                     }
                     break;
                 case char_creation::AGE:
@@ -4029,6 +4030,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 case char_creation::HEIGHT:
                     if( you.base_height() > min_allowed_height ) {
                         you.mod_base_height( -1 );
+                        you.set_stored_kcal( get_healthy_kcal() );
                     }
                     break;
                 case char_creation::AGE:
