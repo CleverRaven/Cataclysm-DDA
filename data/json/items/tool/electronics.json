@@ -417,7 +417,7 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      { "type": "plug_in", "ammo_scale": 0, "cable_length": 5, "charge_rate": 6 }
+      { "type": "plug_in", "ammo_scale": 0, "cable_length": 5, "wattage": 140 }
     ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK", "ELECTRONIC" ]
   },
