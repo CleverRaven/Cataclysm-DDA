@@ -315,7 +315,7 @@ player_morale::player_morale() :
     mutations[trait_MASOCHIST]     = mutation_data( update_masochist );
     mutations[trait_MASOCHIST_MED] = mutation_data( update_masochist );
     mutations[trait_CENOBITE]      = mutation_data( update_masochist );
-    mutations[trait_RADIOPHILE]      = mutation_data( update_radiophile );
+    mutations[trait_RADIOPHILE]    = mutation_data( update_radiophile );
 }
 
 void player_morale::add( const morale_type &type, int bonus, int max_bonus,
