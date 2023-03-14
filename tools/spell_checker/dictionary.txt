@@ -195,7 +195,6 @@ avians
 aving
 avium
 avy
-awared
 axeman
 axolotl
 azide
@@ -2951,7 +2950,6 @@ unstylish
 untampered
 untargeted
 untilled
-untired
 untrodden
 untyped
 unwield
