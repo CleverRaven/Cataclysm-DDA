@@ -2380,7 +2380,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 } else {
                     drop_in_direction( *pnt );
                 }
-                drop_in_direction( *pnt );
             }
             break;
         case ACTION_BIONICS:

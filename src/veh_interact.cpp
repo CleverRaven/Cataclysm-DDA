@@ -1988,7 +1988,7 @@ void veh_interact::do_siphon()
         } );
         hide_ui( true );
         const item &base = pt.get_base();
-        const int idx = veh->find_part( base );
+        const int idx = veh->index_of_part( &pt );
         item liquid( base.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
@@ -3133,7 +3133,7 @@ void act_vehicle_siphon( vehicle *veh )
     vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
     if( tank ) {
         const item &base = tank.get_base();
-        const int idx = veh->find_part( base );
+        const int idx = veh->index_of_part( &tank );
         item liquid( base.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {

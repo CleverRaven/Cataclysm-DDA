@@ -13775,7 +13775,9 @@ item const *item::this_or_single_content() const
 
 bool item::contents_only_one_type() const
 {
-    std::list<const item *> const items = all_items_top();
+    std::list<const item *> const items = contents.all_items_top( []( item_pocket const & pkt ) {
+        return pkt.is_standard_type() || pkt.is_type( item_pocket::pocket_type::SOFTWARE );
+    } );
     return items.size() == 1 ||
            ( items.size() > 1 &&
     std::all_of( ++items.begin(), items.end(), [&items]( item const * e ) {
