@@ -4446,7 +4446,6 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
             p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ),
                                  it.tname( 1, false ), vp->vehicle().name );
             it.plugged_in = true;
-        }
     }
 
     return 0;
