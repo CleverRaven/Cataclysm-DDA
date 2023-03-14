@@ -27,7 +27,13 @@
         [ "knife_paring", 1 ],
         [ "knife_steak", 1 ],
         [ "throwing_knife", 1 ],
-        [ "knife_baselard", 1 ]
+        [ "knife_baselard", 1 ],
+        [ "magical_throwing_knife", 1 ],
+        [ "magical_throwing_knife_fire", 1 ],
+        [ "magical_throwing_knife_cold", 1 ],
+        [ "magical_throwing_knife_cut", 1 ],
+        [ "magical_throwing_knife_biological", 1 ],
+        [ "magical_throwing_knife_pure_special", 1 ]
       ]
     ]
   },
@@ -107,10 +113,5 @@
     "id": "spell_components_manatrap",
     "type": "requirement",
     "components": [ [ [ "potion_starter", 6 ], [ "alchemist_bomb", 2 ] ] ]
-  },
-  {
-    "id": "spell_components_samsara",
-    "type": "requirement",
-    "components": [ [ [ "rune_druid", 1 ] ] ]
   }
 ]
