@@ -303,14 +303,16 @@ void enchantment::load( const JsonObject &jo, const std::string &,
             active_conditions.second = con.value();
         } else {
             active_conditions.second = condition::DIALOG_CONDITION;
-            read_condition<dialogue>( jo, "condition", dialog_condition, false );
         }
     } else if( jo.has_member( "condition" ) ) {
         active_conditions.second = condition::DIALOG_CONDITION;
-        read_condition<dialogue>( jo, "condition", dialog_condition, false );
     } else {
         active_conditions.second = condition::ALWAYS;
     }
+    if( active_conditions.second == condition::DIALOG_CONDITION ) {
+        read_condition<dialogue>( jo, "condition", dialog_condition, false );
+    }
+
     for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }

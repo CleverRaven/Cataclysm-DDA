@@ -6484,37 +6484,39 @@ std::vector<item *> map::place_items(
             tries++;
         } while( is_valid_terrain( p ) && tries < 20 );
         if( tries < 20 ) {
+            auto add_res_itm = [this, &p, &res]( const item & itm ) {
+                item &it = add_item_or_charges( p, itm );
+                if( !it.is_null() ) {
+                    res.push_back( &it );
+                }
+            };
+
             for( const item &itm : item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate ) ) {
                 const float item_cat_spawn_rate = std::max( 0.0f, item_category_spawn_rate( itm ) );
-                // for items with category spawn rate less than or equal to 1, roll a dice to see if they should spawn
-                if( item_cat_spawn_rate <= 1 ) {
-                    if( rng_float( 0.1f, 1 ) <= item_cat_spawn_rate ) {
-                        item &it = add_item_or_charges( p, itm );
-                        if( !it.is_null() ) {
-                            res.push_back( &it );
-                        }
+                if( item_cat_spawn_rate == 0.0f ) {
+                    continue;
+                } else if( item_cat_spawn_rate < 1.0f ) {
+                    // for items with category spawn rate less than 1, roll a dice to see if they should spawn
+                    if( rng_float( 0.0f, 1.0f ) <= item_cat_spawn_rate ) {
+                        add_res_itm( itm );
                     }
-                    // for items with category spawn rate more than 1, spawn item at least one time...
                 } else {
-                    item &it = add_item_or_charges( p, itm );
-                    if( !it.is_null() ) {
-                        res.push_back( &it );
-                    }
+                    // for items with category spawn rate more or equal to 1, spawn item at least one time...
+                    add_res_itm( itm );
 
-                    // ...then create a list with items from the same item group and remove all items with differing category from that list
-                    // so if the original item was e.g. from 'guns' category, the list will contain only items from the 'guns' category...
-                    Item_list extra_spawn = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
-                    extra_spawn.erase( std::remove_if( extra_spawn.begin(), extra_spawn.end(), [&itm]( item & it ) {
-                        return it.get_category_of_contents() != itm.get_category_of_contents();
-                    } ), extra_spawn.end() );
+                    if( item_cat_spawn_rate > 1.0f ) {
+                        // ...then create a list with items from the same item group and remove all items with differing category from that list
+                        // so if the original item was e.g. from 'guns' category, the list will contain only items from the 'guns' category...
+                        Item_list extra_spawn = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
+                        extra_spawn.erase( std::remove_if( extra_spawn.begin(), extra_spawn.end(), [&itm]( item & it ) {
+                            return it.get_category_of_contents() != itm.get_category_of_contents();
+                        } ), extra_spawn.end() );
 
-                    // ...then add a chance to spawn additional items from the list, amount is based on the item category spawn rate
-                    for( int i = 0; i < item_cat_spawn_rate; i++ ) {
-                        for( const item &it : extra_spawn ) {
-                            if( rng( 1, 100 ) <= chance ) {
-                                item &new_item = add_item_or_charges( p, it );
-                                if( !new_item.is_null() ) {
-                                    res.push_back( &new_item );
+                        // ...then add a chance to spawn additional items from the list, amount is based on the item category spawn rate
+                        for( int i = 0; i < item_cat_spawn_rate; i++ ) {
+                            for( const item &it : extra_spawn ) {
+                                if( rng( 1, 100 ) <= chance ) {
+                                    add_res_itm( it );
                                 }
                             }
                         }
