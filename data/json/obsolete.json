@@ -1074,5 +1074,141 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "flags": [ "NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE" ],
     "weapon_category": [ "HOOKING_WEAPONRY" ]
+  },
+  {
+    "result": "gambeson_vest",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "gambeson_vest_xs",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_xs",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_pants",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_vest",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_vest",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_vest_xs",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_vest_xs",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "xl_gambeson_vest",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson_vest",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson_vest",
+    "type": "recipe",
+    "id_suffix": "cutting",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson_pants",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xs_gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xs_k_gambeson_sleeve",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "id": "nested_gambeson_sleeves",
+    "type": "nested_category",
+    "obsolete": true
+  },
+  {
+    "id": "nested_kevlar_gambeson_full",
+    "type": "nested_category",
+    "obsolete": true
+  },
+  {
+    "id": "nested_kevlar_gambeson_vest",
+    "type": "nested_category",
+    "obsolete": true
+  },
+  {
+    "result": "k_gambeson_hood",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xl_k_gambeson_hood",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "xs_k_gambeson_hood",
+    "type": "recipe",
+    "obsolete": true
   }
 ]
