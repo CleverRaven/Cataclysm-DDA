@@ -286,7 +286,7 @@
     "type": "terrain",
     "id": "t_embrasure_strconcrete",
     "name": "reinforced concrete wall with embrasure",
-    "description": "This nice hole lets you shoot your machine gun from the safety of your reinforced bunker.",
+    "description": "A section of wall with a nice small hole, letting you shoot your machine gun from the safety of your reinforced bunker.",
     "symbol": "o",
     "color": "light_gray",
     "move_cost": 0,
