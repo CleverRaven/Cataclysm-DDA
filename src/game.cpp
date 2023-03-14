@@ -8499,16 +8499,15 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     wprintw( w_monster_info_border, " >" );
                 }
 
-                if (!get_safemode().empty()) {
-                    if (get_safemode().has_rule(monNameSelected, Creature::Attitude::ANY)) {
-                        sSafemode = _("<R>emove from safe mode blacklist");
-                    }
-                    else {
-                        sSafemode = _("<A>dd to safe mode blacklist");
+                if( !get_safemode().empty() ) {
+                    if( get_safemode().has_rule( monNameSelected, Creature::Attitude::ANY ) ) {
+                        sSafemode = _( "<R>emove from safe mode blacklist" );
+                    } else {
+                        sSafemode = _( "<A>dd to safe mode blacklist" );
                     }
 
-                    shortcut_print(w_monsters, point(2, getmaxy(w_monsters) - 1),
-                        c_white, c_light_green, sSafemode);
+                    shortcut_print( w_monsters, point( 2, getmaxy( w_monsters ) - 1 ),
+                                    c_white, c_light_green, sSafemode );
                 }
 
                 draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ),
