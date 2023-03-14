@@ -3,10 +3,14 @@
     "id": "afs_any_energy_gun",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "afs_any_laser_gun", "prob": 10 }, { "group": "afs_any_plasma_gun", "prob": 5 } ]
+    "items": [
+      { "group": "afs_any_laser_s_gun", "prob": 10 },
+      { "group": "afs_any_laser_h_gun", "prob": 2 },
+      { "group": "afs_any_plasma_gun", "prob": 5 }
+    ]
   },
   {
-    "id": "afs_any_laser_gun",
+    "id": "afs_any_laser_s_gun",
     "type": "item_group",
     "subtype": "distribution",
     "ammo": 100,
@@ -16,6 +20,20 @@
       [ "afs_av22", 60 ],
       { "item": "afs_archeotech_laspistol", "charges": 15000, "ammo-item": "afs_battery_plus", "prob": 1 }
     ]
+  },
+  {
+    "id": "afs_any_laser_h_gun",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "magazine": 100,
+    "items": [ [ "afs_heavy_tactical_laser", 40 ], { "group": "afs_explosive_pumped_laser_s", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_explosive_pumped_laser_s",
+    "subtype": "collection",
+    "entries": [ { "item": "afs_explosive_pumped_laser" }, { "item": "afs_82mm_flashbulb", "prob": 90, "count": [ 2, 9 ] } ]
   },
   {
     "id": "afs_any_plasma_gun",

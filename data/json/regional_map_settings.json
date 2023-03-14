@@ -879,6 +879,10 @@
         "bungalow14": 50,
         "bungalow15": 50,
         "bungalow16": 50,
+        "bungalow17": 50,
+        "bungalow18": 50,
+        "bungalow19": 50,
+        "bungalow20": 50,
         "house_w_1": 50,
         "house_two_story_basement": 50,
         "multi_unit_two_story_basement": 40,
@@ -1006,6 +1010,10 @@
         "house_vacant3": 7,
         "apartments_con_new": 10,
         "apartments_mod_new": 10,
+        "apartment_complex_3x3": 10,
+        "apartment_complex_3x3_alt": 10,
+        "apartment_complex_line": 10,
+        "apartment_complex_U": 10,
         "s_apt": 30,
         "s_apt_2": 30,
         "school": 15,
@@ -1290,23 +1298,7 @@
       "base_pressure": 1015.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
-      "base_wind_season_variation": 50,
-      "weather_types": [
-        "clear",
-        "sunny",
-        "cloudy",
-        "light_drizzle",
-        "drizzle",
-        "rain",
-        "rainstorm",
-        "thunder",
-        "lightning",
-        "flurries",
-        "snowing",
-        "snowstorm",
-        "early_portal_storm",
-        "portal_storm"
-      ]
+      "base_wind_season_variation": 50
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   }

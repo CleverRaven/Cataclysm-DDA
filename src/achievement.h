@@ -117,10 +117,17 @@ class achievement
         const std::vector<achievement_requirement> &requirements() const {
             return requirements_;
         }
+
+        bool is_manually_given() const {
+            return manually_given_;
+        }
+
     private:
         translation name_;
         translation description_;
         bool is_conduct_ = false;
+        // if the achievement is given by an EOC
+        bool manually_given_ = false;
         std::vector<achievement_id> hidden_by_;
         cata::optional<time_bound> time_constraint_;
         std::vector<achievement_requirement> requirements_;

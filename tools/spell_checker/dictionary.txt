@@ -206,6 +206,9 @@ babiues
 babylonica
 backblast
 backrest
+backstep
+backstepping
+backsteps
 backtracing
 bagh
 bakelite
@@ -339,6 +342,7 @@ bootup
 boozeberry
 borderless
 boreas
+bos
 bovid
 bowfin
 bowyery
@@ -772,6 +776,9 @@ dragonscale
 draugr
 drawknife
 dreamdross
+dreamdrossed
+dreamforged
+dreamsmith
 dreamstuff
 driers
 drivetrain
@@ -1122,6 +1129,7 @@ gibbous
 github
 gladius
 glaive
+glaives
 glasknife
 glassblower
 glassblowing
@@ -1440,6 +1448,7 @@ keypress
 keyring
 kg
 khopesh
+khopeshes
 khru
 kickboard
 kickin
@@ -1478,6 +1487,7 @@ kreck
 krick
 kriegsmesser
 kriegsmessers
+krises
 kshhhsk
 kshhssk
 kshssssssk
@@ -1487,6 +1497,7 @@ ksssh
 kufi
 kuji
 kukri
+kukris
 kunoichi
 kunst
 kzzz
@@ -1692,6 +1703,7 @@ migo
 mildewy
 militar
 milkfat
+millenia
 milspec
 mineable
 minesweeper
@@ -1739,6 +1751,7 @@ mordant
 morels
 moriatur
 morningstar
+morningstars
 moroi
 mortems
 mosaicus
@@ -1944,6 +1957,8 @@ overpenetration
 overpressure
 overqueen
 overshoes
+overswing
+overswinging
 overtaxing
 overtop
 ovipositor
@@ -2080,7 +2095,6 @@ pokeball
 polearm
 polearms
 poleaxe
-poleaxe
 poleaxes
 poleyns
 pollinator
@@ -2201,6 +2215,7 @@ quadrupedal
 quams
 quantification
 quarterpanel
+quarterstaves
 queenright
 quells
 quern
@@ -2442,6 +2457,8 @@ seweranha
 sexten
 sexualities
 sh
+shadowbox
+shadowboxing
 shadowcat
 shambler
 shantak
@@ -2530,6 +2547,7 @@ solarpunk
 solderers
 solderless
 soled
+somersault
 sommat
 somniferum
 soother
@@ -2716,6 +2734,7 @@ tarket
 tassed
 tassin
 tastemakers
+tawa
 taxa
 tazed
 tazer
@@ -2765,6 +2784,7 @@ thyreophoran
 tileset
 tillable
 tillage
+timelapse
 tinamou
 tinning
 tiredly
@@ -2830,6 +2850,7 @@ trudges
 tryphillum
 tsumi
 tsundere
+tsurugi
 tuber
 tucunare
 tumescences
@@ -2839,8 +2860,10 @@ tuno
 turipache
 turreted
 tusked
+tusslin
 twere
 twintailed
+twohand
 txt
 typologies
 tyrannosaurid
@@ -3010,6 +3033,7 @@ wantin
 warframe
 wargame
 warhammer
+warhammers
 warmouth
 wasnt
 wastebread
@@ -3081,6 +3105,7 @@ workcycle
 workshifts
 worldgen
 wraitheon
+wrasslin
 wretchmother
 wrightii
 wristed

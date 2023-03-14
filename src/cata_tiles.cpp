@@ -3238,8 +3238,8 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
                     }
                 } else {
                     // check if the terrain has data
-                    auto itt = tileset_ptr->item_layer_data.find( tile.get_ter_t().id.str() );
-                    if( itt != tileset_ptr->item_layer_data.end() ) {
+                    auto itt = tileset_ptr->field_layer_data.find( tile.get_ter_t().id.str() );
+                    if( itt != tileset_ptr->field_layer_data.end() ) {
                         // the furniture has layer info
                         // go through all the layer variants
                         for( const layer_variant &layer_var : itt->second ) {

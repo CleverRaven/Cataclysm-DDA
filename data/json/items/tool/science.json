@@ -37,6 +37,7 @@
   },
   {
     "id": "chemistry_set",
+    "//": "To Do: Create a bunsen burner that uses a mix of electricity and LPG, then convert this to use that.  Will need multimag",
     "type": "TOOL",
     "name": { "str": "chemistry set" },
     "description": "A chemistry set stored in a box.  It includes glass containers, hoses, metal wire, a hotplate, and a pair of safety glasses.  It might be used to craft some chemistry projects if you're so inclined.",
@@ -561,10 +562,12 @@
   {
     "id": "butane_tank",
     "type": "TOOL",
+    "//": "based on a 24lb N-butane tank such as https://www.usalab.com/24lb-n-butane-tank/.  That much butane occupies about 19 liters.  Roughly analogous to 5 gal propane tanks.",
     "name": { "str": "butane tank", "str_pl": "tanks of butane" },
-    "description": "A tank of compressed butane.  It can be used to extract essential oils from organic material.",
-    "weight": "22700 g",
-    "volume": "18950 ml",
+    "description": "A tank of compressed butane.  Aside from its practicality as fuel, it can also be used to extract essential oils from organic material.",
+    "weight": "7500 g",
+    "volume": "24000 ml",
+    "longest_side": "50 cm",
     "price": 25000,
     "price_postapoc": 1000,
     "to_hit": -4,
@@ -578,7 +581,7 @@
         "pocket_type": "MAGAZINE",
         "rigid": true,
         "airtight": true,
-        "ammo_restriction": { "butane": 2000 },
+        "ammo_restriction": { "butane": 19000 },
         "watertight": true
       }
     ],
@@ -689,9 +692,18 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "blue",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "oxygen": 300 }
+      }
+    ],
     "initial_charges": 300,
     "max_charges": 300,
-    "charges_per_use": 10,
+    "charges_per_use": 1,
     "use_action": [ "OXYGEN_BOTTLE" ]
   },
   {

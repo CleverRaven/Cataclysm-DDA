@@ -51,7 +51,7 @@
   {
     "id": "holy_blade",
     "type": "SPELL",
-    "name": "Holy Blade",
+    "name": "Mage Blade",
     "description": "This blade of light will cut through any evil it makes contact with!",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE" ],
@@ -76,7 +76,7 @@
   {
     "id": "holy_blade_plus",
     "type": "SPELL",
-    "name": "Enhanced Holy Blade",
+    "name": "Enhanced Mage Blade",
     "description": "This blade of light will cut through any evil it makes contact with!  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS" ],
@@ -100,7 +100,7 @@
   {
     "id": "spirit_armor",
     "type": "SPELL",
-    "name": "Spiritual Armor",
+    "name": "Mage Armor",
     "description": "Evil will not make it through your defenses if your faith is strong enough!",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE", "SOMATIC" ],
@@ -125,7 +125,7 @@
   {
     "id": "spirit_armor_plus",
     "type": "SPELL",
-    "name": "Enhanced Spiritual Armor",
+    "name": "Enhanced Mage Armor",
     "description": "Evil will not make it through your defenses if your faith is strong enough!  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS", "SOMATIC" ],
@@ -586,7 +586,7 @@
     "name": "Knifeshot",
     "description": "This spell generates a magnetic field around a knife, before launching it at high speed.",
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "CONCENTRATE", "SILENT", "SOMATIC" ],
+    "flags": [ "CONCENTRATE", "SILENT", "SOMATIC", "NO_HANDS" ],
     "components": "spell_components_knifeshot",
     "effect": "attack",
     "shape": "blast",

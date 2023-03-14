@@ -2,7 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_XEDRA_MERC_MAIN",
-    "dynamic_line": "As you approach you feel compelled to touch the creature encased in glass the corpse inside is screaming, it needs your help.",
+    "dynamic_line": "As you approach you feel compelled to touch the creature encased in glass.  The corpse inside is screaming, it needs your help.",
     "responses": [
       { "text": "Say: \"Is someone there?\"", "topic": "TALK_XEDRA_MERC_SCREEM" },
       { "text": "Touch it.", "topic": "TALK_XEDRA_MERC_HAUNTING" },
@@ -12,7 +12,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_XEDRA_MERC_SCREEM",
-    "dynamic_line": "A almost human voice erupts in your mind:\n\"FREE ME!\"",
+    "dynamic_line": "An almost human voice erupts in your mind:\n\"FREE ME!\"",
     "responses": [ { "text": "Touch it.", "topic": "TALK_XEDRA_MERC_HAUNTING" }, { "text": "Back away.", "topic": "TALK_DONE" } ]
   },
   {

@@ -40,14 +40,14 @@
     "id": "butane_lighter_and_fuel",
     "//": "Used for shop spawns where unused cans of butane are stocked",
     "type": "item_group",
-    "items": [ { "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ] } ]
+    "items": [ { "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "count": [ 1, 2 ], "charges": 400 } ] } ]
   },
   {
     "id": "butane_can_full",
     "//": "Used for shop spawns where unused cans of butane are stocked",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "butane_can", "count": [ 1, 2 ], "charges": 30 } ]
+    "entries": [ { "item": "butane_can", "count": [ 1, 2 ], "charges": 400 } ]
   },
   {
     "id": "cannabis_extraction_equipment",
@@ -149,7 +149,7 @@
     "items": [
       { "item": "rock", "count": [ 17, 37 ] },
       { "item": "rock_large", "count": [ 1, 3 ] },
-      { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
+      { "item": "coal_lump", "charges": [ 2500, 5000 ], "prob": 10 },
       { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
       { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 },
       { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 3 },
