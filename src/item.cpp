@@ -12888,6 +12888,22 @@ void item::reset_cable( Character *p, item *parent_item )
     }
 }
 
+void item::reset_cables( Character *p )
+{
+    if( !plugged_in ) {
+        debugmsg( "Tried to reset %s's cables but it wasn't plugged in.", tname() );
+        return;
+    }
+    std::vector<item *> cables = contents.cables( true );
+    for( item *cable : cables ) {
+        cable->reset_cable( p );
+		if( cable->has_flag( flag_AUTO_CABLE ) ) {
+			remove_item( *cable );
+		}
+    }
+    plugged_in = false;
+}
+
 bool item::process_UPS( Character *carrier, const tripoint & /*pos*/ )
 {
     if( carrier == nullptr ) {

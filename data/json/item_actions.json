@@ -328,7 +328,7 @@
   {
     "type": "item_action",
     "id": "plug_in",
-    "name": { "str": "Plug in" }
+    "name": { "str": "Plug in / Unplug" }
   },
   {
     "type": "item_action",

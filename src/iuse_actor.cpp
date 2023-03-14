@@ -4382,6 +4382,15 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
     if( t ) {
         return cata::nullopt; // invoked from active item processing, do nothing.
     }
+
+    if( it.plugged_in ) {
+        if( query_yn( string_format( _( "Unplug the %s?" ), it.tname( 1, false ) ) ) ) {
+            it.reset_cables( &p );
+            return 0;
+        }
+        return cata::nullopt;
+    }
+
     map &here = get_map();
     item cable( type );
     const cata::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to appliance where?" ) );

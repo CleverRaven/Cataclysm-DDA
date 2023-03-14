@@ -1418,6 +1418,7 @@ class item : public visitable
          * Helper to bring a cable back to its initial state.
          */
         void reset_cable( Character *p, item *parent_item = nullptr );
+        void reset_cables( Character *p );
 
         /**
          * Whether the item should be processed (by calling @ref process).
