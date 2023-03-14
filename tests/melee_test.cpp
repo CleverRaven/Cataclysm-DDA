@@ -9,15 +9,20 @@
 #include "item.h"
 #include "monattack.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "point.h"
+#include "skill.h"
 #include "type_id.h"
 
 static const efftype_id effect_sleep( "sleep" );
 
+static const mtype_id debug_mon( "debug_mon" );
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+
+static const skill_id skill_melee( "melee" );
 
 static float brute_probability( Creature &attacker, Creature &target, const size_t iters )
 {
@@ -274,5 +279,38 @@ TEST_CASE( "Incapacited character can't dodge" )
     for( int i = 0; i < 10000; ++i ) {
         dude.deal_melee_attack( &zed, 1 );
         CHECK( dodges_left == dude.dodges_left );
+    }
+}
+
+TEST_CASE( "Melee skill training caps", "[melee], [melee_training_cap], [skill]" )
+{
+    standard_npc dude( "TestCharacter", dude_pos, {} );
+    monster dummy_1( debug_mon );
+    monster zed( mon_zombie );
+    SkillLevel &level = dude.get_skill_level_object( skill_melee );
+    REQUIRE( level.knowledgeLevel() == 4 );
+    REQUIRE( level.knowledgeExperience( true ) == 0 );
+
+    SECTION( "Monster's melee training cap is calculated correctly" ) {
+        CHECK( dummy_1.get_melee() == 0 );
+        CHECK( dummy_1.type->melee_training_cap == 2 );
+        CHECK( zed.get_melee() == 4 );
+        CHECK( zed.type->melee_training_cap == 6 );
+    }
+
+    SECTION( "Attacking a monster when above its traing cap will not cause further skill gain" ) {
+        dude.melee_attack_abstract( dummy_1, false, matec_id( "" ) );
+        CHECK( level.knowledgeLevel() == 4 );
+        CHECK( level.knowledgeExperience( true ) == 0 );
+    }
+    SECTION( "Attacking a monster when below the traing cap will train the skill up to the cap" ) {
+        dude.melee_attack_abstract( zed, false, matec_id( "" ) );
+        CHECK( level.knowledgeLevel() == 4 );
+        CHECK( level.knowledgeExperience( true ) > 0 );
+        // Training stops if we get above the cap
+        dude.set_skill_level( skill_melee, 7 );
+        int prev_xp = level.knowledgeExperience( true );
+        dude.melee_attack_abstract( zed, false, matec_id( "" ) );
+        CHECK( level.knowledgeExperience( true ) == prev_xp );
     }
 }

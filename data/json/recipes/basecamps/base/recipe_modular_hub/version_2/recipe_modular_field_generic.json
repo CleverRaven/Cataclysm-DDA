@@ -1,0 +1,20 @@
+[
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_generic_room_1_1",
+    "description": "We need some shelter, so build half of a shack with a roof on the northeast side of the camp",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_generic_room_NE_1",
+    "blueprint_name": "northeast shack",
+    "blueprint_parameter_names": {
+      "fbmh_2_generic_palette": { "fbmh_2_log_palette": "Log walls and wooden roof", "fbmh_2_migo_resin_palette": "Mi-go resin walls and roof" }
+    },
+    "blueprint_requires": [ { "id": "fbmh_2" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_room_NE" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_room_NE" } ]
+  }
+]

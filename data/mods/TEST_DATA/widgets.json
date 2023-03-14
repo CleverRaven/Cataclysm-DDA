@@ -10,37 +10,37 @@
         "id": "none",
         "text": "None",
         "color": "light_gray",
-        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 0 } ] }
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 0 } ] }
       },
       {
         "id": "light",
         "text": "Light",
         "color": "yellow",
-        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 1 } ] }
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 1 } ] }
       },
       {
         "id": "moderate",
         "text": "Moderate",
         "color": "yellow",
-        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 2 } ] }
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 2 } ] }
       },
       {
         "id": "brisk",
         "text": "Brisk",
         "color": "light_red",
-        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 3 } ] }
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 3 } ] }
       },
       {
         "id": "active",
         "text": "Active",
         "color": "light_red",
-        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 4 } ] }
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 4 } ] }
       },
       {
         "id": "extreme",
         "text": "Extreme",
         "color": "red",
-        "condition": { "compare_int": [ { "u_val": "activity_level" }, ">=", { "const": 5 } ] }
+        "condition": { "compare_num": [ { "u_val": "activity_level" }, ">=", { "const": 5 } ] }
       }
     ]
   },
@@ -56,8 +56,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 191 } ] },
-            { "compare_int": [ { "u_val": "fatigue" }, "<=", { "const": 383 } ] }
+            { "compare_num": [ { "u_val": "fatigue" }, ">", { "const": 191 } ] },
+            { "compare_num": [ { "u_val": "fatigue" }, "<=", { "const": 383 } ] }
           ]
         }
       },
@@ -67,8 +67,8 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 383 } ] },
-            { "compare_int": [ { "u_val": "fatigue" }, "<=", { "const": 575 } ] }
+            { "compare_num": [ { "u_val": "fatigue" }, ">", { "const": 383 } ] },
+            { "compare_num": [ { "u_val": "fatigue" }, "<=", { "const": 575 } ] }
           ]
         }
       },
@@ -76,7 +76,7 @@
         "id": "exhausted",
         "text": "Exhausted",
         "color": "red",
-        "condition": { "compare_int": [ { "u_val": "fatigue" }, ">", { "const": 575 } ] }
+        "condition": { "compare_num": [ { "u_val": "fatigue" }, ">", { "const": 575 } ] }
       }
     ]
   },
@@ -99,7 +99,7 @@
         "text": "broken",
         "sym": "%",
         "color": "magenta",
-        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
       },
       {
         "id": "splinted",
@@ -130,7 +130,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
           ]
         }
       },
@@ -142,7 +142,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
           ]
         }
       },
@@ -167,7 +167,7 @@
         "color": "white_green",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 0 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 0 } ] },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -178,8 +178,10 @@
         "color": "h_white",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 30 } ] },
-            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 0 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 30 } ] },
+            {
+              "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 0 } ]
+            },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -190,8 +192,10 @@
         "color": "i_yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 60 } ] },
-            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 30 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 60 } ] },
+            {
+              "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 30 } ]
+            },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -202,8 +206,10 @@
         "color": "red_yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 120 } ] },
-            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 60 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 120 } ] },
+            {
+              "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 60 } ]
+            },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -214,8 +220,10 @@
         "color": "red_red",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 240 } ] },
-            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 120 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, "<=", { "const": 240 } ] },
+            {
+              "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 120 } ]
+            },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -226,8 +234,7 @@
         "color": "pink",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "rad" }, "<=", { "const": 500 } ] },
-            { "compare_int": [ { "u_val": "rad" }, ">", { "const": 240 } ] },
+            { "compare_num": [ { "u_val": "item_rad", "flag": "RAD_DETECT", "aggregate": "min" }, ">", { "const": 240 } ] },
             { "or": [ { "u_has_worn_with_flag": "RAD_DETECT" }, { "u_has_wielded_with_flag": "RAD_DETECT" } ] }
           ]
         }
@@ -244,7 +251,7 @@
         "id": "parched",
         "text": "Parched",
         "color": "light_red",
-        "condition": { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
+        "condition": { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
       },
       {
         "id": "dehydrated",
@@ -252,8 +259,8 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
-            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
+            { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
+            { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
           ]
         }
       },
@@ -263,8 +270,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
-            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
+            { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
+            { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
           ]
         }
       },
@@ -274,8 +281,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
-            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
+            { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
+            { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
           ]
         }
       },
@@ -285,8 +292,8 @@
         "color": "white",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
-            { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
+            { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
+            { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
           ]
         }
       },
@@ -296,8 +303,8 @@
         "color": "green",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
-            { "compare_int": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
+            { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
+            { "compare_num": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
           ]
         }
       },
@@ -307,8 +314,8 @@
         "color": "green",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
-            { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
+            { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
+            { "compare_num": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
           ]
         }
       },
@@ -316,7 +323,7 @@
         "id": "turgid",
         "text": "Turgid",
         "color": "green",
-        "condition": { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
+        "condition": { "compare_num": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
       }
     ]
   },
@@ -386,31 +393,31 @@
         "id": "bright",
         "text": "bright",
         "color": "yellow",
-        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "<=", { "const": 1 } ] }
+        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "<=", { "const": 1 } ] }
       },
       {
         "id": "cloudy",
         "text": "cloudy",
         "color": "white",
-        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 2 } ] }
+        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 2 } ] }
       },
       {
         "id": "shady",
         "text": "shady",
         "color": "light_gray",
-        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 3 } ] }
+        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 3 } ] }
       },
       {
         "id": "dark",
         "text": "dark",
         "color": "dark_gray",
-        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 4 } ] }
+        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 4 } ] }
       },
       {
         "id": "very dark",
         "text": "very dark",
         "color": "black_white",
-        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, ">=", { "const": 5 } ] }
+        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, ">=", { "const": 5 } ] }
       }
     ]
   },
@@ -424,55 +431,55 @@
         "id": "new_moon",
         "text": "New moon",
         "color": "white",
-        "condition": { "compare_int": [ "moon", "==", { "const": 0 } ] }
+        "condition": { "compare_num": [ "moon", "==", { "const": 0 } ] }
       },
       {
         "id": "waxing_crescent",
         "text": "Waxing crescent",
         "color": "white",
-        "condition": { "compare_int": [ "moon", "==", { "const": 1 } ] }
+        "condition": { "compare_num": [ "moon", "==", { "const": 1 } ] }
       },
       {
         "id": "half_moon",
         "text": "Half moon",
         "color": "white",
-        "condition": { "compare_int": [ "moon", "==", { "const": 2 } ] }
+        "condition": { "compare_num": [ "moon", "==", { "const": 2 } ] }
       },
       {
         "id": "waxing_gibbous",
         "text": "Waxing gibbous",
         "color": "white",
-        "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
+        "condition": { "compare_num": [ "moon", "==", { "const": 3 } ] }
       },
       {
         "id": "full_moon",
         "text": "Full moon",
         "color": "white",
-        "condition": { "compare_int": [ "moon", "==", { "const": 4 } ] }
+        "condition": { "compare_num": [ "moon", "==", { "const": 4 } ] }
       },
       {
         "id": "waning_gibbous",
         "text": "Waning gibbous",
         "color": "white",
-        "condition": { "compare_int": [ "moon", "==", { "const": 5 } ] }
+        "condition": { "compare_num": [ "moon", "==", { "const": 5 } ] }
       },
       {
         "id": "half_moon",
         "text": "Half moon",
         "color": "white",
-        "condition": { "compare_int": [ "moon", "==", { "const": 6 } ] }
+        "condition": { "compare_num": [ "moon", "==", { "const": 6 } ] }
       },
       {
         "id": "waning_crescent",
         "text": "Waning crescent",
         "color": "white",
-        "condition": { "compare_int": [ "moon", "==", { "const": 7 } ] }
+        "condition": { "compare_num": [ "moon", "==", { "const": 7 } ] }
       },
       {
         "id": "dark_moon",
         "text": "Dark moon",
         "color": "white",
-        "condition": { "compare_int": [ "moon", "==", { "const": 8 } ] }
+        "condition": { "compare_num": [ "moon", "==", { "const": 8 } ] }
       }
     ]
   },
@@ -486,7 +493,7 @@
         "id": "horrible",
         "text": "Horrible",
         "color": "red",
-        "condition": { "compare_int": [ { "u_val": "health" }, "<", { "const": -100 } ] }
+        "condition": { "compare_num": [ { "u_val": "health" }, "<", { "const": -100 } ] }
       },
       {
         "id": "very_bad",
@@ -494,8 +501,8 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -100 } ] },
-            { "compare_int": [ { "u_val": "health" }, "<", { "const": -50 } ] }
+            { "compare_num": [ { "u_val": "health" }, ">=", { "const": -100 } ] },
+            { "compare_num": [ { "u_val": "health" }, "<", { "const": -50 } ] }
           ]
         }
       },
@@ -505,8 +512,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -50 } ] },
-            { "compare_int": [ { "u_val": "health" }, "<", { "const": -10 } ] }
+            { "compare_num": [ { "u_val": "health" }, ">=", { "const": -50 } ] },
+            { "compare_num": [ { "u_val": "health" }, "<", { "const": -10 } ] }
           ]
         }
       },
@@ -516,8 +523,8 @@
         "color": "light_gray",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -10 } ] },
-            { "compare_int": [ { "u_val": "health" }, "<", { "const": 10 } ] }
+            { "compare_num": [ { "u_val": "health" }, ">=", { "const": -10 } ] },
+            { "compare_num": [ { "u_val": "health" }, "<", { "const": 10 } ] }
           ]
         }
       },
@@ -527,8 +534,8 @@
         "color": "white",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "health" }, ">=", { "const": 10 } ] },
-            { "compare_int": [ { "u_val": "health" }, "<", { "const": 50 } ] }
+            { "compare_num": [ { "u_val": "health" }, ">=", { "const": 10 } ] },
+            { "compare_num": [ { "u_val": "health" }, "<", { "const": 50 } ] }
           ]
         }
       },
@@ -538,8 +545,8 @@
         "color": "green",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "health" }, ">=", { "const": 50 } ] },
-            { "compare_int": [ { "u_val": "health" }, "<", { "const": 100 } ] }
+            { "compare_num": [ { "u_val": "health" }, ">=", { "const": 50 } ] },
+            { "compare_num": [ { "u_val": "health" }, "<", { "const": 100 } ] }
           ]
         }
       },
@@ -547,7 +554,7 @@
         "id": "excellent",
         "text": "Excellent",
         "color": "light_green",
-        "condition": { "compare_int": [ { "u_val": "health" }, ">=", { "const": 100 } ] }
+        "condition": { "compare_num": [ { "u_val": "health" }, ">=", { "const": 100 } ] }
       }
     ]
   },
@@ -561,7 +568,7 @@
         "id": "scorching",
         "text": "Scorching!",
         "color": "red",
-        "condition": { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 9500 } ] }
+        "condition": { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 9500 } ] }
       },
       {
         "id": "very_hot",
@@ -569,8 +576,8 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 9500 } ] },
-            { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 8000 } ] }
+            { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 9500 } ] },
+            { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 8000 } ] }
           ]
         }
       },
@@ -580,8 +587,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 8000 } ] },
-            { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 6500 } ] }
+            { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 8000 } ] },
+            { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 6500 } ] }
           ]
         }
       },
@@ -591,8 +598,8 @@
         "color": "green",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 6500 } ] },
-            { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 3500 } ] }
+            { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 6500 } ] },
+            { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 3500 } ] }
           ]
         }
       },
@@ -602,8 +609,8 @@
         "color": "light_blue",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 3500 } ] },
-            { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 2000 } ] }
+            { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 3500 } ] },
+            { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 2000 } ] }
           ]
         }
       },
@@ -613,8 +620,8 @@
         "color": "cyan",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 2000 } ] },
-            { "compare_int": [ { "u_val": "body_temp" }, ">", { "const": 500 } ] }
+            { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 2000 } ] },
+            { "compare_num": [ { "u_val": "body_temp" }, ">", { "const": 500 } ] }
           ]
         }
       },
@@ -622,7 +629,7 @@
         "id": "freezing",
         "text": "Freezing!",
         "color": "blue",
-        "condition": { "compare_int": [ { "u_val": "body_temp" }, "<=", { "const": 500 } ] }
+        "condition": { "compare_num": [ { "u_val": "body_temp" }, "<=", { "const": 500 } ] }
       }
     ]
   },
@@ -638,7 +645,7 @@
         "text": "(Rising!!)",
         "sym": "↑↑↑",
         "color": "red",
-        "condition": { "compare_int": [ { "u_val": "body_temp_delta" }, ">", { "const": 4500 } ] }
+        "condition": { "compare_num": [ { "u_val": "body_temp_delta" }, ">", { "const": 4500 } ] }
       },
       {
         "id": "rising2",
@@ -647,8 +654,8 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "body_temp_delta" }, "<=", { "const": 4500 } ] },
-            { "compare_int": [ { "u_val": "body_temp_delta" }, ">", { "const": 3000 } ] }
+            { "compare_num": [ { "u_val": "body_temp_delta" }, "<=", { "const": 4500 } ] },
+            { "compare_num": [ { "u_val": "body_temp_delta" }, ">", { "const": 3000 } ] }
           ]
         }
       },
@@ -659,8 +666,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "body_temp_delta" }, "<=", { "const": 3000 } ] },
-            { "compare_int": [ { "u_val": "body_temp_delta" }, ">", { "const": 1500 } ] }
+            { "compare_num": [ { "u_val": "body_temp_delta" }, "<=", { "const": 3000 } ] },
+            { "compare_num": [ { "u_val": "body_temp_delta" }, ">", { "const": 1500 } ] }
           ]
         }
       },
@@ -671,8 +678,8 @@
         "color": "light_blue",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "body_temp_delta" }, "<", { "const": -1500 } ] },
-            { "compare_int": [ { "u_val": "body_temp_delta" }, ">=", { "const": -3000 } ] }
+            { "compare_num": [ { "u_val": "body_temp_delta" }, "<", { "const": -1500 } ] },
+            { "compare_num": [ { "u_val": "body_temp_delta" }, ">=", { "const": -3000 } ] }
           ]
         }
       },
@@ -683,8 +690,8 @@
         "color": "cyan",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "body_temp_delta" }, "<", { "const": -3000 } ] },
-            { "compare_int": [ { "u_val": "body_temp_delta" }, ">=", { "const": -4500 } ] }
+            { "compare_num": [ { "u_val": "body_temp_delta" }, "<", { "const": -3000 } ] },
+            { "compare_num": [ { "u_val": "body_temp_delta" }, ">=", { "const": -4500 } ] }
           ]
         }
       },
@@ -693,7 +700,7 @@
         "text": "(Falling!!)",
         "sym": "↓↓↓",
         "color": "blue",
-        "condition": { "compare_int": [ { "u_val": "body_temp_delta" }, "<", { "const": -4500 } ] }
+        "condition": { "compare_num": [ { "u_val": "body_temp_delta" }, "<", { "const": -4500 } ] }
       }
     ]
   },
@@ -1307,7 +1314,7 @@
         "id": "skeletal",
         "text": "Skeletal",
         "color": "red",
-        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
       },
       {
         "id": "emaciated",
@@ -1315,8 +1322,8 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
           ]
         }
       },
@@ -1326,8 +1333,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
           ]
         }
       },
@@ -1335,11 +1342,10 @@
         "id": "normal",
         "text": "Normal",
         "color": "light_gray",
-        "//": "Actually 18.5 - 25",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
           ]
         }
       },
@@ -1349,8 +1355,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
           ]
         }
       },
@@ -1360,8 +1366,8 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
           ]
         }
       },
@@ -1371,8 +1377,8 @@
         "color": "red",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
           ]
         }
       },
@@ -1380,7 +1386,7 @@
         "id": "morbidly_obese",
         "text": "Morbidly Obese",
         "color": "red",
-        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
       }
     ]
   },
@@ -1394,22 +1400,22 @@
       {
         "text": "Skin and Bones",
         "color": "yellow",
-        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
       },
       {
         "text": "Boring",
         "color": "white",
         "condition": {
           "and": [
-            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18000 } ] },
-            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
           ]
         }
       },
       {
         "text": "C H O N K",
         "color": "pink",
-        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] }
       }
     ]
   },
@@ -1515,7 +1521,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
           ]
         }
       },
@@ -1527,7 +1533,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
           ]
         }
       },
@@ -1552,14 +1558,14 @@
         "text": "broken",
         "sym": "ℵ",
         "color": "c_red_white",
-        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
       },
       {
         "id": "intact",
         "text": "intact",
         "sym": "‖",
         "color": "c_dark_gray_white",
-        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
       }
     ]
   },

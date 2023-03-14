@@ -777,20 +777,18 @@ The following is a list of possible enchantment `values`:
 | `ARMOR_ELEC` | 
 | `ARMOR_HEAT` | 
 | `ARMOR_STAB` | 
-| `ATTACK_COST` | 
-| `ATTACK_NOISE` | 
+| `ATTACK_NOISE` | Affects the amount of noise you make while melee attacking.
 | `ATTACK_SPEED` | Affects attack speed of item even if it's not the one you're wielding.
 | `BIONIC_POWER` |
-| `BONUS_BLOCK` | 
-| `BONUS_DODGE` | 
-| `BONUS_DAMAGE` | 
+| `BONUS_BLOCK` | Affects the number of blocks you can perform.
+| `BONUS_DODGE` | Affects the number of dodges you can perform.
 | `CARRY_WEIGHT` |
 | `CLIMATE_CONTROL_HEAT` | Moves body temperature up towards comfortable by number of warmth units up to value.
 | `CLIMATE_CONTROL_CHILL` | Moves body temperature down towards comfortable by number of warmth units up to value.
-| `DEXTERITY` | 
-| `INTELLIGENCE` | 
-| `PERCEPTION` | 
-| `STRENGTH` | 
+| `DEXTERITY` | Affects the dexterity stat.
+| `INTELLIGENCE` | Affects the intelligence stat.
+| `PERCEPTION` | Affects the perception stat.
+| `STRENGTH` | Affects the strength stat.
 | `SPEED` | 
 | `EFFECTIVE_HEALTH_MOD` | If this is anything other than zero (which it defaults to) you will use it instead of your actual health mod.
 | `EXTRA_ACID` | EXTRA_TYPE increases received damage of the selected type.
@@ -813,22 +811,22 @@ The following is a list of possible enchantment `values`:
 | `MAX_STAMINA` | 
 | `MELEE_DAMAGE` | 
 | `METABOLISM` | 
-| `MAP_MEMORY` | How many map tiles you can remember.
 | `MOD_HEALTH` | If this is anything other than zero (which it defaults to) you will to mod your health to a max/min of `MOD_HEALTH_CAP` every half hour.
 | `MOD_HEALTH_CAP` | If this is anything other than zero (which it defaults to) you will cap your `MOD_HEALTH` gain/loss at this every half hour.
 | `MOVE_COST` | 
-| `PAIN` | 
+| `PAIN` | When gaining pain the amount gained will be modified by this much.  You will still always gain at least 1 pain.
+| `PAIN_REMOVE` | When pain naturally decreases every five minutes the chance of pain removal will be modified by this much.  You will still always have at least a chance to reduce pain.
 | `SHOUT_NOISE` | 
-| `SIGHT_RANGE` | 
 | `SIGHT_RANGE_ELECTRIC` | How many tiles away is_electric() creatures are visible from.
-| `SKILL_RUST_RESIST` | Chance / 100 to resist skill rust.
+| `MOTION_VISION_RANGE ` | Reveals all monsters as a red `?` within the specified radius.
 | `SLEEPY` | The higher this the easier you fall asleep.
-| `SOCIAL_INTIMIDATE` | 
-| `SOCIAL_LIE` | 
-| `SOCIAL_PERSUADE` | 
+| `SKILL_RUST_RESIST` | Chance / 100 to resist skill rust.
+| `SOCIAL_INTIMIDATE` | Affects your ability to intimidate.
+| `SOCIAL_LIE` | Affects your ability to lie.
+| `SOCIAL_PERSUADE` | Affects your ability to persuade.
 | `READING_EXP` | Changes the minimum you learn from each reading increment.
 | `RECOIL_MODIFIER` | Affects recoil when shooting a gun.
-| `REGEN_HP` | 
+| `REGEN_HP` | Affects the rate you recover hp.
 | `REGEN_MANA` | 
 | `REGEN_STAMINA` | 
 | `THIRST` | 
@@ -838,7 +836,6 @@ The following is a list of possible enchantment `values`:
 | Melee-only enchantment values | Description
 |---                          |---
 | `ITEM_DAMAGE_ACID` | 
-| `ITEM_DAMAGE_AP` | Armor piercing.
 | `ITEM_DAMAGE_BASH` | 
 | `ITEM_DAMAGE_BIO` | 
 | `ITEM_DAMAGE_BULLET` | 
@@ -862,12 +859,6 @@ The following is a list of possible enchantment `values`:
 | `ITEM_ARMOR_HEAT` | 
 | `ITEM_ARMOR_STAB` | 
 | `ITEM_ATTACK_SPEED` | 
-| `ITEM_COVERAGE` | 
-| `ITEM_DAMAGE_AP` | Armor Piercing.  Currently doesn't work.
-| `ITEM_ENCUMBRANCE` | 
-| `ITEM_VOLUME` | 
-| `ITEM_WEIGHT` | 
-| `ITEM_WET_PROTECTION` | 
 
 
 ### Enchantment value examples

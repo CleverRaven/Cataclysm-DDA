@@ -15,7 +15,7 @@
         "run_eocs": [
           {
             "id": "EOC_REDUCE_VAMPVIRUS",
-            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] },
+            "condition": { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] },
             "effect": [
               { "u_lose_effect": "vampire_virus" },
               { "u_lose_trait": "VAMPIRE" },
@@ -26,7 +26,7 @@
           },
           {
             "id": "EOC_REDUCE_VAMPVIRUS1",
-            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] },
+            "condition": { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] },
             "effect": [
               { "u_add_effect": "vampire_virus", "intensity": 1, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE2" },
@@ -40,7 +40,7 @@
           },
           {
             "id": "EOC_REDUCE_VAMPVIRUS2",
-            "condition": { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] },
+            "condition": { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] },
             "effect": [
               { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" },
               { "u_lose_trait": "VAMPIRE3" },
@@ -58,7 +58,7 @@
               "and": [
                 { "u_has_effect": "vampire_virus_ascendant", "intensity": 1 },
                 {
-                  "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_ascendant" }, "=", { "const": 1 } ]
+                  "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus_ascendant" }, "=", { "const": 1 } ]
                 }
               ]
             },
@@ -76,7 +76,7 @@
               "and": [
                 { "u_has_effect": "vampire_virus_post_mortal", "intensity": 1 },
                 {
-                  "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus_post_mortal" }, "=", { "const": 1 } ]
+                  "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus_post_mortal" }, "=", { "const": 1 } ]
                 }
               ]
             },
@@ -113,7 +113,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
+              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 1 } ] }
             ]
           },
           "effect": {
@@ -138,7 +138,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 2 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] }
+              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 2 } ] }
             ]
           },
           "effect": {
@@ -163,7 +163,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 3 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] }
+              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, "=", { "const": 3 } ] }
             ]
           },
           "effect": {
@@ -195,7 +195,7 @@
     "recurrence": [ "8 hours", "14 hours 15 minutes" ],
     "condition": {
       "and": [
-        { "compare_int": [ { "u_val": "vitamin", "name": "blood" }, "<=", { "const": 450 } ] },
+        { "compare_num": [ { "u_val": "vitamin", "name": "blood" }, "<=", { "const": 450 } ] },
         { "u_has_effect": "vampire_virus" }
       ]
     },
@@ -207,7 +207,7 @@
           "condition": {
             "and": [
               { "u_has_effect": "vampire_virus", "intensity": 1 },
-              { "compare_int": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, ">=", { "const": 1 } ] }
+              { "compare_num": [ { "u_val": "effect_intensity", "effect": "vampire_virus" }, ">=", { "const": 1 } ] }
             ]
           },
           "effect": {

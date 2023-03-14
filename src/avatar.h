@@ -69,6 +69,10 @@ struct monster_visible_info {
     // If the monster visible in this direction is dangerous
     std::array<bool, 8> dangerous = {};
 
+    // Whether or not there is at last one creature within safemode proximity that
+    // is dangerous
+    bool has_dangerous_creature_in_proximity = false;
+
     void remove_npc( npc *n );
 };
 
@@ -220,8 +224,6 @@ class avatar : public Character
         bool has_seen_snippet( const snippet_id &snippet ) const;
         const std::set<snippet_id> &get_snippets();
 
-        // the encumbrance on your limbs reducing your dodging ability
-        int limb_dodge_encumbrance() const;
 
         /**
          * Opens the targeting menu to pull a nearby creature towards the character.

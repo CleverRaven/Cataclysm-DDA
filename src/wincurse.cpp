@@ -656,6 +656,11 @@ void catacurses::init_interface()
     initialized = true;
 }
 
+bool catacurses::supports_256_colors()
+{
+    return COLORS >= 256;
+}
+
 // A very accurate and responsive timer (NEVER use GetTickCount)
 static uint64_t GetPerfCount()
 {

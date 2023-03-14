@@ -793,7 +793,7 @@ std::pair<std::string, nc_color> display::hunger_text_color( const Character &u 
 
 std::pair<std::string, nc_color> display::weight_text_color( const Character &u )
 {
-    const float bmi = u.get_bmi();
+    const float bmi = u.get_bmi_fat();
     std::string weight_string;
     nc_color weight_color = c_light_gray;
     if( get_option<bool>( "CRAZY" ) ) {
@@ -891,7 +891,7 @@ std::pair<std::string, nc_color> display::health_text_color( const Character &u 
 
 std::string display::weight_long_description( const Character &u )
 {
-    const float bmi = u.get_bmi();
+    const float bmi = u.get_bmi_fat();
     if( bmi > character_weight_category::morbidly_obese ) {
         return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
     } else if( bmi > character_weight_category::very_obese ) {

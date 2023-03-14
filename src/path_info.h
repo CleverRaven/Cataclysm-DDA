@@ -84,6 +84,7 @@ cata_path names();
 cata_path options();
 cata_path panel_options();
 cata_path player_base_save_path_path();
+cata_path pocket_presets();
 cata_path safemode();
 cata_path savedir_path();
 cata_path templatedir_path();

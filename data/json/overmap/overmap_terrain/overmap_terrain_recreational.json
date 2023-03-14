@@ -152,7 +152,7 @@
   {
     "type": "overmap_terrain",
     "id": [ "NatureTrail_1a", "NatureTrail_1b" ],
-    "copy-from": "generic_city_building_no_sidewalk",
+    "copy-from": "generic_city_building",
     "name": "nature trail",
     "sym": "S",
     "color": "i_green"

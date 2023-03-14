@@ -1231,7 +1231,6 @@ class map
         map_stack::iterator i_rem( const point &location, const map_stack::const_iterator &it ) {
             return i_rem( tripoint( location, abs_sub.z() ), it );
         }
-        void remove_active_item( tripoint const &p, item *it );
         // TODO: fix point types (remove the first overload)
         void i_rem( const tripoint &p, item *it );
         void i_rem( const tripoint_bub_ms &p, item *it );
@@ -1292,6 +1291,12 @@ class map
         item &add_item_or_charges( const point &p, const item &obj, bool overflow = true ) {
             return add_item_or_charges( tripoint( p, abs_sub.z() ), obj, overflow );
         }
+
+        /**
+         * Gets spawn_rate value for item category of 'itm'.
+         * If spawn_rate is more than or equal to 1.0, it will use roll_remainder on it.
+        */
+        float item_category_spawn_rate( const item &itm );
 
         /**
          * Place an item on the map, despite the parameter name, this is not necessarily a new item.
@@ -2156,6 +2161,7 @@ class map
          * Set of submaps that contain active items in absolute coordinates.
          */
         std::set<tripoint_abs_sm> submaps_with_active_items;
+        std::set<tripoint_abs_sm> submaps_with_active_items_dirty;
 
         /**
          * Cache of coordinate pairs recently checked for visibility.
@@ -2202,7 +2208,7 @@ class map
         void update_visibility_cache( int zlev );
         const visibility_variables &get_visibility_variables_cache() const;
 
-        void update_submap_active_item_status( const tripoint &p );
+        void update_submaps_with_active_items();
 
         // Just exposed for unit test introspection.
         const std::set<tripoint_abs_sm> &get_submaps_with_active_items() const {
@@ -2256,6 +2262,8 @@ template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_furn_flag flag );
+bool generate_uniform( const tripoint_abs_sm &p, const oter_id &oter );
+bool generate_uniform_omt( const tripoint_abs_sm &p, const oter_id &terrain_type );
 class tinymap : public map
 {
         friend class editmap;
