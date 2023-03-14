@@ -152,7 +152,7 @@
       [ "dry_beans", 20 ],
       [ "dry_lentils", 50 ],
       [ "cookies", 25 ],
-      [ "bread", 40 ]
+      { "item": "bread", "charges": 14, "prob": 40 }
     ]
   },
   {
@@ -1276,7 +1276,7 @@
       [ "irradiated_strawberries", 5 ],
       [ "chocolate", 20 ],
       [ "waffleiron", 60 ],
-      [ "bread", 30 ],
+      { "item": "bread", "charges": 14, "prob": 30 },
       [ "peanutbutter", 20 ],
       [ "pot", 80 ]
     ]
@@ -1934,7 +1934,7 @@
     "items": [
       { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
       { "group": "adhesive_bandages_box_used", "prob": 30 },
-      { "item": "liq_bandage", "prob": 5, "charges-min": 1 },
+      { "item": "liq_bandage_spray", "prob": 5, "charges-min": 1 },
       { "group": "full_1st_aid", "prob": 10 },
       { "item": "saline", "prob": 20, "charges": [ 1, 5 ] },
       { "item": "vitamins", "prob": 15, "charges": [ 1, 20 ] },
@@ -2024,7 +2024,13 @@
   {
     "id": "daycare_kitchen",
     "type": "item_group",
-    "items": [ [ "oj", 35 ], [ "cooked_pumpkin", 25 ], [ "bread", 10 ], [ "fruit_waffles", 5 ], [ "grahmcrackers", 5 ] ]
+    "items": [
+      [ "oj", 35 ],
+      [ "cooked_pumpkin", 25 ],
+      { "item": "bread", "charges": 14, "prob": 10 },
+      [ "fruit_waffles", 5 ],
+      [ "grahmcrackers", 5 ]
+    ]
   },
   {
     "id": "gym",
@@ -2048,7 +2054,7 @@
       { "item": "coke", "prob": 3, "charges": [ 1, 8 ] },
       [ "longshirt", 30 ],
       { "group": "adhesive_bandages_box_used", "prob": 10 },
-      { "item": "liq_bandage", "prob": 2, "charges-min": 1 },
+      { "item": "liq_bandage_spray", "prob": 2, "charges-min": 1 },
       [ "heatpack", 10 ],
       { "item": "gum", "prob": 12, "charges": [ 1, 10 ] },
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },

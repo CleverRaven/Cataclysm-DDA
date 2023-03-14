@@ -39,10 +39,10 @@
       {
         "id": "book_archery_2",
         "name": {
-          "str": "Way of Archery: A 1637 Chinese Military Training",
-          "str_pl": "copies of Way of Archery: A 1637 Chinese Military Training"
+          "str": "Way of Archery: A 1637 Chinese Military Training Manual",
+          "str_pl": "copies of Way of Archery: A 1637 Chinese Military Training Manual"
         },
-        "description": "The Way of Archery provides a detailed introduction to practicing archery in the traditional Chinese military style.  It explains the basics of how to shoot using the Asian thumb ring proper posture, training regimen, equipment, and avoiding pitfalls in shooting.",
+        "description": "The Way of Archery provides a detailed introduction to practicing archery in the traditional Chinese military style.  It explains the basics of how to shoot using the Asian thumb ring, proper posture, training regimen, equipment, and avoiding pitfalls in shooting.",
         "//": "978-0764347917",
         "weight": 1
       }
@@ -65,15 +65,15 @@
       },
       {
         "id": "manual_archery_1",
-        "name": { "str": "Beginner's Guide to Traditional Archery", "str_pl": "copies of Beginner s Guide to Traditional Archery" },
-        "description": "Easy-to-understand instruction for traditional archery.  Covers both target shooting and bow hunting.",
+        "name": { "str": "Beginner's Guide to Traditional Archery", "str_pl": "copies of Beginner's Guide to Traditional Archery" },
+        "description": "An easy-to-understand instruction manual for traditional archery.  Covers both target shooting and bow hunting.",
         "//": "978-0811731331",
         "weight": 1
       },
       {
         "id": "manual_archery_2",
         "name": { "str": "The Theory And Practice Of Archery", "str_pl": "copies of The Theory And Practice Of Archery" },
-        "description": "Authored by Horace Ford, the champion archer of England for the years 1850 to 1859 and 1867, and known as one of the greatest archers of all time, this book holds all his experience in archery, which is still high for modern standards.",
+        "description": "Authored by Horace Ford, the champion archer of England for the years 1850 to 1859 and 1867, and known as one of the greatest archers of all time, this book holds all of his experience in archery, which is still relevant by modern standards.",
         "//": "978-1332070824",
         "weight": 1
       }
@@ -97,7 +97,7 @@
       {
         "id": "mag_archery_1",
         "name": { "str": "Archery Drill Book", "str_pl": "copies of Archery Drill Book" },
-        "description": "Become a more consistent and accurate archer, The Archery Drill Book covers all aspects of the sport, with 130 of the best drills for developing superior technique, skill, physical stamina, and the focused mindset needed to shoot under pressure.",
+        "description": "\"Become a more consistent and accurate archer!\", The Archery Drill Book covers all aspects of the sport, with 130 of the best drills for developing superior technique, skill, physical stamina, and the focused mindset needed to shoot under pressure.",
         "//": "978-1492588344",
         "weight": 1
       },
@@ -111,7 +111,7 @@
       {
         "id": "mag_archery_2",
         "name": { "str": "Anecdotes of Archery", "str_pl": "copies of Anecdotes of Archery" },
-        "description": "\"Anecdotes of Archery - From the Earliest Ages to the Year 1791 - Including an Account of the Principle Existing Societies of Archers, Life of the Reno\" - This vintage book contains a comprehensive guide to archery, with historical details, information on archery in different cultures throughout the ages, anecdotes of notable events and battles, a glossary of archery terms, and much more.",
+        "description": "\"Anecdotes of Archery - From the Earliest Ages to the Year 1791\" - This vintage book contains a comprehensive guide to archery, with historical details, information on archery in different cultures throughout the ages, anecdotes of notable events and battles, a glossary of archery terms, and much more.",
         "//": "978-1440091070",
         "weight": 1
       }

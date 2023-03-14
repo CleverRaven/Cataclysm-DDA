@@ -123,6 +123,7 @@ static const achievement_id achievement_achievement_arcade_mode( "achievement_ar
 static const bodypart_str_id body_part_no_a_real_part( "no_a_real_part" );
 
 static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bleed( "bleed" );
 
 static const faction_id faction_no_faction( "no_faction" );
 
@@ -2826,19 +2827,20 @@ void debug()
         case debug_menu_index::CHANGE_WEATHER: {
             uilist weather_menu;
             weather_manager &weather = get_weather();
+            weather_generator wgen = weather.get_cur_weather_gen();
             weather_menu.text = _( "Select new weather pattern:" );
             weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
-            for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
+            for( size_t i = 0; i < wgen.sorted_weather.size(); i++ ) {
                 weather_menu.addentry( i, true, MENU_AUTOASSIGN,
-                                       weather_types::get_all()[i].name.translated() );
+                                       wgen.sorted_weather[i]->name.translated() );
             }
 
             weather_menu.query();
 
             if( weather_menu.ret >= 0 &&
-                static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
-                const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
+                static_cast<size_t>( weather_menu.ret ) < wgen.sorted_weather.size() ) {
+                const weather_type_id selected_weather = wgen.sorted_weather[weather_menu.ret]->id;
                 if( weather.weather_id->debug_leave_eoc.has_value() ) {
                     dialogue d( get_talker_for( get_avatar() ), nullptr );
                     effect_on_condition_id( weather.weather_id->debug_leave_eoc.value() )->activate( d );
@@ -2999,7 +3001,7 @@ void debug()
                     break;
             }
             if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
-                player_character.make_bleed( effect_source::empty(), part, 1_minutes * intensity );
+                player_character.add_effect( effect_bleed,  1_minutes * intensity, part );
             }
         }
         break;

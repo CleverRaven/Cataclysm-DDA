@@ -148,6 +148,7 @@ enum m_flag : int {
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_CANPLAY,             // This monster can be played with if it's a pet.
+    MF_CAN_BE_CULLED,       // This monster can be culled if it's a pet.
     MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
     MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
     MF_DOGFOOD,             // This monster will respond to the dog whistle.

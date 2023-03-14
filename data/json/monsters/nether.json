@@ -1300,6 +1300,38 @@
     "copy-from": "mon_pale_reflection"
   },
   {
+    "id": "mon_XEDRA_officer",
+    "type": "MONSTER",
+    "name": { "str": "mercenary officer" },
+    "copy-from": "mon_zombie_bio_op",
+    "hp": 150,
+    "armor_bash": 30,
+    "armor_cut": 30,
+    "armor_bullet": 40,
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "NO_BREATHE" ],
+    "death_drops": "xedra_officer_set",
+    "bleed_rate": 0,
+    "vision_day": 40,
+    "vision_night": 40,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "spell_conjure_memories" },
+        "max_range": 3,
+        "cooldown": 30,
+        "monster_message": "The creature screams \"SOMEONE HELP ME, ANYONE!\"."
+      }
+    ],
+    "death_function": { "effect": { "id": "mon_XEDRA_officer_banish", "hit_self": true } }
+  },
+  {
+    "id": "mon_XEDRA_soldier",
+    "type": "MONSTER",
+    "name": { "str": "mercenary ghost" },
+    "copy-from": "mon_zombie_soldier_blackops_1",
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The soldier fades away to nothing." }
+  },
+  {
     "id": "mon_tainted_shadow",
     "type": "MONSTER",
     "name": { "str": "tainted shadow" },

@@ -411,7 +411,7 @@ void veh_app_interact::siphon()
 
     // Setup liquid handling activity
     const item &base = pt->get_base();
-    const int idx = veh->find_part( base );
+    const int idx = veh->index_of_part( pt );
     item liquid( base.legacy_front() );
     const int liq_charges = liquid.charges;
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {

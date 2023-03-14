@@ -76,7 +76,8 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
+    "//": "typical veggy is 2u per 100g but these are starchier, so guessing 4u or so",
     "components": [ [ [ "plantain", 1 ], [ "irradiated_plantain", 1 ] ] ]
   },
   {
@@ -91,8 +92,9 @@
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "wheat", 1 ], [ "barley", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
+    "//": "16u flour by weight",
+    "components": [ [ [ "wheat", 1 ], [ "barley", 1 ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -106,7 +108,8 @@
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "//": "2u for roasting a veggy and 1u for the oil",
     "components": [ [ [ "garlic", 1 ], [ "garlic_clove", 6 ] ], [ [ "any_butter_or_oil", 1, "LIST" ] ] ]
   },
   {
@@ -121,7 +124,8 @@
     "batch_time_factors": [ 50, 3 ],
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "//": "2u for roasting a veggy and 1u for the oil",
     "components": [ [ [ "any_butter_or_oil", 1, "LIST" ] ], [ [ "jerusalem_artichoke", 1 ] ] ]
   },
   {
@@ -176,7 +180,8 @@
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
+    "//": "2u for roasting a veggy",
     "components": [ [ [ "chili_pepper", 1 ] ] ]
   },
   {

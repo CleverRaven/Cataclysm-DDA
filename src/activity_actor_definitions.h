@@ -251,6 +251,10 @@ class bookbinder_copy_activity_actor: public activity_actor
             return rec_id == act.rec_id && book_binder == act.book_binder;
         }
 
+        static int pages_for_recipe( const recipe &r ) {
+            return 1 + r.difficulty / 2;
+        }
+
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character &p ) override;
         void finish( player_activity &act, Character &p ) override;

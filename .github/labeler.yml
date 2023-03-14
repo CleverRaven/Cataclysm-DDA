@@ -64,6 +64,7 @@
   - "**/effect_on_condition**"
   - "**/**eocs**"
   - "**/eocs**"
+  - "**/condition**"
 
 "Fields / Furniture / Terrain / Traps":
   - "**/**furniture**"
@@ -269,3 +270,4 @@
 "Vehicles":
   - "**/**vehicle**"
   - "**/vehicle**"
+  - "src/veh_**"

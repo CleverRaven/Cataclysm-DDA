@@ -19,6 +19,9 @@
 
 static const bionic_id bio_sleep_shutdown( "bio_sleep_shutdown" );
 
+static const character_modifier_id
+character_modifier_stamina_recovery_breathing_mod( "stamina_recovery_breathing_mod" );
+
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
@@ -199,7 +202,8 @@ void Character::update_body( const time_point &from, const time_point &to )
         update_stamina( to_turns<int>( to - from ) );
     }
     if( can_recover_oxygen() && oxygen < get_oxygen_max() ) {
-        oxygen += std::max( ( to_turns<int>( to - from ) * get_stamina() * 5 ) / get_stamina_max(), 1 );
+        oxygen += std::max( static_cast<int>( to_turns<int>( to - from ) * get_stamina() * 5 * get_modifier(
+                character_modifier_stamina_recovery_breathing_mod )  / get_stamina_max() ), 1 );
         oxygen = std::min( oxygen, get_oxygen_max() );
     }
     update_stomach( from, to );
@@ -478,7 +482,10 @@ void Character::update_bodytemp()
     for( const bodypart_id &bp : get_all_body_parts() ) {
         clothing_map.emplace( bp, std::vector<const item *>() );
     }
-
+    // fat insulates and increases total heat production of body, but it should have a diminishing effect.
+    // at 5 over healthy bmi (obese), it is ~5 warmth, at 20 over healthy bmi (morbid obesity) it is ~12 warmth
+    // effects start to kick in halfway through overweightness
+    int bmi_heat_bonus = std::floor( 50 * std::sqrt( std::max( 0.0f, ( get_bmi_fat() - 8.0f ) ) ) );
     std::map<bodypart_id, int> warmth_per_bp = worn.warmth( *this );
     std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
     std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
@@ -540,6 +547,8 @@ void Character::update_bodytemp()
         mod_part_temp_conv( bp, fatigue_warmth );
         // Mutations
         mod_part_temp_conv( bp, mutation_heat_low );
+        // BMI
+        mod_part_temp_conv( bp, bmi_heat_bonus );
         // DIRECT HEAT SOURCES (generates body heat, helps fight frostbite)
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = has_bark ? -5 : 0; // If the counter is high, your skin starts to burn
@@ -985,7 +994,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         set_thirst( 0 );
     }
 
-    const bool calorie_deficit = get_bmi() < character_weight_category::normal;
+    const bool calorie_deficit = get_bmi_fat() < character_weight_category::normal;
     const units::volume contains = stomach.contains();
     const units::volume cap = stomach.capacity( *this );
 
@@ -1012,9 +1021,9 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             hunger_effect = effect_hunger_hungry;
         } else if( recently_ate ) {
             hunger_effect = effect_hunger_very_hungry;
-        } else if( get_bmi() < character_weight_category::underweight ) {
+        } else if( get_bmi_fat() < character_weight_category::underweight ) {
             hunger_effect = effect_hunger_near_starving;
-        } else if( get_bmi() < character_weight_category::emaciated ) {
+        } else if( get_bmi_fat() < character_weight_category::emaciated ) {
             hunger_effect = effect_hunger_starving;
         } else {
             hunger_effect = effect_hunger_famished;
@@ -1035,7 +1044,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             hunger_effect = effect_hunger_satisfied;
         } else if( recently_ate || contains > 0_ml ) {
             hunger_effect = effect_hunger_blank;
-        } else if( get_bmi() > character_weight_category::overweight ) {
+        } else if( get_bmi_fat() > character_weight_category::overweight ) {
             hunger_effect = effect_hunger_hungry;
         } else {
             hunger_effect = effect_hunger_very_hungry;

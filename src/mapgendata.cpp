@@ -2,6 +2,7 @@
 
 #include "all_enum_values.h"
 #include "debug.h"
+#include "hash_utils.h"
 #include "json.h"
 #include "map.h"
 #include "mapdata.h"
@@ -26,6 +27,18 @@ void mapgen_arguments::deserialize( const JsonValue &ji )
 {
     ji.read( map, true );
 }
+
+// NOLINTNEXTLINE(cert-dcl58-cpp)
+namespace std
+{
+
+size_t hash<mapgen_arguments>::operator()( const mapgen_arguments &args ) const noexcept
+{
+    cata::range_hash h;
+    return h( args.map );
+}
+
+} // namespace std
 
 static const regional_settings dummy_regional_settings;
 

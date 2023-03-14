@@ -1805,12 +1805,13 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     }
 }
 
-float outfit::damage_resist( damage_type dt, bodypart_id bp, bool to_self ) const
+float outfit::damage_resist( const damage_type dmg_type, const bodypart_id &bp,
+                             const bool to_self ) const
 {
     float ret = 0.0f;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.damage_resist( dt, to_self );
+            ret += i.resist( dmg_type, to_self, bp );
         }
     }
     return ret;
@@ -1874,7 +1875,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
                 for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
                     if( covered_sbps.count( under_sbp ) != 1 ) {
                         guy.add_msg_if_player(
-                            string_format( _( "<color_c_red> the %s rubs uncomfortably against your unpadded %s </color>" ),
+                            string_format( _( "<color_c_red>The %s rubs uncomfortably against your unpadded %s.</color>" ),
                                            i.display_name(), under_sbp->name ) );
                         uncomfortable_bps.insert( sbp->parent );
                     }
@@ -2002,6 +2003,9 @@ void outfit::on_takeoff( Character &guy )
 void outfit::on_item_wear( Character &guy )
 {
     for( item &clothing : worn ) {
+        if( clothing.relic_data && clothing.type->relic_data ) {
+            clothing.relic_data = clothing.type->relic_data;
+        }
         guy.on_item_wear( clothing );
     }
 }
@@ -2113,7 +2117,7 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
         }
     }
 
-    // go through every item and see how it handles every part of the character
+    // go through every item and see how it handles these part(s) of the character
     for( const item &armor : worn ) {
         // check if it covers the part
         // FIXME: item::covers( const sub_bodypart_id & ) always
@@ -2130,6 +2134,24 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
             }
         }
         if( !covered ) {
+            // some clothing flags provide warmth without providing coverage or encumberance
+            // these are included in the worn list so that players aren't confused about why body parts are warm
+            // but not included in the later coverage and encumberance calculations
+            if( ( bp == body_part_hand_l || bp == body_part_hand_r ) && armor.has_flag( flag_POCKETS ) &&
+                person.can_use_pockets() ) {
+                //~ name of a clothing/armor item, indicating it has pockets providing hand warmth
+                info.worn_names.push_back( string_format( _( "%s (pockets)" ), armor.tname() ) );
+            }
+            if( bp == body_part_head && armor.has_flag( flag_HOOD ) && person.can_use_hood() ) {
+                //~ name of a clothing/armor item, indicating it has a hood providing head warmth
+                info.worn_names.push_back( string_format( _( "%s (hood)" ), armor.tname() ) );
+            }
+            if( bp == body_part_mouth && armor.has_flag( flag_COLLAR ) && person.can_use_collar() ) {
+                // collars don't cover or encumber, but do conditionally provide warmth
+                //~ name of a clothing/armor item, indicating it has a collar providing mouth warmth
+                info.worn_names.push_back( string_format( _( "%s (collar)" ), armor.tname() ) );
+            }
+
             continue;
         }
 

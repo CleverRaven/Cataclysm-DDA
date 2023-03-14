@@ -232,6 +232,8 @@ struct oter_type_t {
         unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
         std::string extras = "none";
         int mondensity = 0;
+        effect_on_condition_id entry_EOC;
+        effect_on_condition_id exit_EOC;
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
@@ -342,6 +344,14 @@ struct oter_t {
 
         int get_mondensity() const {
             return type->mondensity;
+        }
+
+        effect_on_condition_id get_entry_EOC() const {
+            return type->entry_EOC;
+        }
+
+        effect_on_condition_id get_exit_EOC() const {
+            return type->exit_EOC;
         }
 
         const overmap_static_spawns &get_static_spawns() const {

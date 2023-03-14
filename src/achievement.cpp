@@ -431,6 +431,7 @@ void achievement::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "description", description_ );
     optional( jo, was_loaded, "hidden_by", hidden_by_ );
     optional( jo, was_loaded, "time_constraint", time_constraint_ );
+    optional( jo, was_loaded, "manually_given", manually_given_ );
     mandatory( jo, was_loaded, "requirements", requirements_ );
 }
 
@@ -461,8 +462,8 @@ void achievement::check() const
         }
     }
 
-    // handled with debug mode
-    if( id == achievement_achievement_arcade_mode ) {
+    // handled with debug mode or given by EOC
+    if( is_manually_given() ) {
         all_requirements_become_false = false;
     }
 

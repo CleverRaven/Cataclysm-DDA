@@ -5142,7 +5142,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
 {
     bool washing_machine_finished = false;
 
-    const bool washer_here = cur_veh.is_part_on( part ) &&
+    const bool washer_here = cur_veh.part( part ).enabled &&
                              ( cur_veh.part_flag( part, VPFLAG_WASHING_MACHINE ) ||
                                cur_veh.part_flag( part, VPFLAG_DISHWASHER ) );
 
@@ -5171,7 +5171,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     }
 
     const bool autoclave_here = cur_veh.part_flag( part, VPFLAG_AUTOCLAVE ) &&
-                                cur_veh.is_part_on( part );
+                                cur_veh.part( part ).enabled;
     bool autoclave_finished = false;
     if( autoclave_here ) {
         for( item &n : cur_veh.get_items( part ) ) {

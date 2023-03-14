@@ -1076,7 +1076,7 @@
     "bashing": 38,
     "cutting": 8,
     "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
-    "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "SPEAR", "NONCONDUCTIVE", "BELT_CLIP" ],
     "weapon_category": [ "MACES" ],
     "price": 120000,
     "price_postapoc": 8000,

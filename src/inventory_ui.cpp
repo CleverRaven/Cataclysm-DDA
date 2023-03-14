@@ -177,7 +177,7 @@ bool is_worn_ablative( item_location const &container, item_location const &chil
     // if the item is in an ablative pocket then put it with the item it is in
     // first do a short circuit test if the parent has ablative pockets at all
     return container->is_ablative() && container->is_worn_by_player() &&
-           container->contained_where( *child )->get_pocket_data()->ablative;
+           child.parent_pocket()->get_pocket_data()->ablative;
 }
 
 /** The maximum distance from the screen edge, to snap a window to it */
@@ -508,11 +508,10 @@ bool inventory_entry::is_hidden( cata::optional<bool> const &hide_entries_overri
         return *hide_entries_override;
     }
     while( item.has_parent() && item != topmost_parent ) {
-        item_location parent = item.parent_item();
-        if( parent.get_item()->contained_where( *item )->settings.is_collapsed() ) {
+        if( item.parent_pocket()->settings.is_collapsed() ) {
             return true;
         }
-        item = parent;
+        item = item.parent_item();
     }
     return false;
 }
