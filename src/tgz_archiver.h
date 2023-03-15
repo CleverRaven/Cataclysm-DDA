@@ -2,9 +2,10 @@
 #define CATA_SRC_MAP_TGZ_ARCHIVER_H
 #include <array>
 #include <chrono>
-#include <filesystem>
 #include <string>
 #include <utility>
+
+#include <ghc/fs_std_fwd.hpp>
 
 #include "filesystem.h"
 #include "zlib.h"
