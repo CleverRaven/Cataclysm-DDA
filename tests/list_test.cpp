@@ -137,7 +137,7 @@ TEST_CASE( "list basics", "[list]" )
             CHECK( sum == 2000 );
         }
 
-        SECTION( "reverse iterator count/access" ) {
+        SECTION( "const iterator count/access" ) {
             int count = 0;
             int sum = 0;
             // NOLINTNEXTLINE(modernize-loop-convert)
