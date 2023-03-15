@@ -489,7 +489,7 @@
     "id": "mon_melian_mantis_mount",
     "type": "MONSTER",
     "name": { "str": "Melian mantis stallion" },
-    "description": "An enormous green insect grown to about half the size of a giraffe.  It moves in a weird, dance-like pattern but goes incredibly still as it positions itself to be mounted.  These gargantuan mantis-like monsters are one of the mounts that Seelie aligned knights will ride into combat.  It won't use it's attacks while it is ridden but if it's rider dismounts or is knocked off, it will stay nearby and protect them.",
+    "description": "An enormous green insect grown to about half the size of a giraffe.  It moves in a weird, dance-like pattern but goes incredibly still as it positions itself to be mounted.  These gargantuan mantis-like monsters are one of the mounts that Seelie aligned knights will ride into combat.  It won't use its attacks while it is ridden but if its rider dismounts or is knocked off, it will stay nearby and protect them.",
     "default_faction": "mantis",
     "bodytype": "insect",
     "species": [ "INSECT" ],
