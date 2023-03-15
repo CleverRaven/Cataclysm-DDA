@@ -8382,6 +8382,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     --iCurMon;
                 }
 
+                std::string monNameSelected;
+                std::string sSafemode;
                 const int endY = std::min<int>( iMaxRows - 1, iMenuSize );
                 for( int y = 0; y < endY; ++y ) {
 
@@ -8421,17 +8423,13 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     }
 
                     if( selected && !get_safemode().empty() ) {
-                        const std::string monName = is_npc ? get_safemode().npc_type_name() : m->name();
+                        monNameSelected = is_npc ? get_safemode().npc_type_name() : m->name();
 
-                        std::string sSafemode;
-                        if( get_safemode().has_rule( monName, Creature::Attitude::ANY ) ) {
+                        if( get_safemode().has_rule( monNameSelected, Creature::Attitude::ANY ) ) {
                             sSafemode = _( "<R>emove from safe mode blacklist" );
                         } else {
                             sSafemode = _( "<A>dd to safe mode blacklist" );
                         }
-
-                        shortcut_print( w_monsters, point( 2, getmaxy( w_monsters ) - 1 ),
-                                        c_white, c_light_green, sSafemode );
                     }
 
                     nc_color color = c_white;
@@ -8499,6 +8497,17 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         right_print( w_monster_info_border, 0, 3, c_light_green, press_to_fire_text );
                     }
                     wprintw( w_monster_info_border, " >" );
+                }
+
+                if( !get_safemode().empty() ) {
+                    if( get_safemode().has_rule( monNameSelected, Creature::Attitude::ANY ) ) {
+                        sSafemode = _( "<R>emove from safe mode blacklist" );
+                    } else {
+                        sSafemode = _( "<A>dd to safe mode blacklist" );
+                    }
+
+                    shortcut_print( w_monsters, point( 2, getmaxy( w_monsters ) - 1 ),
+                                    c_white, c_light_green, sSafemode );
                 }
 
                 draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ),
