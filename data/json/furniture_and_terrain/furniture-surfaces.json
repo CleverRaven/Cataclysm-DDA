@@ -110,7 +110,7 @@
     "id": "f_desk",
     "name": "desk",
     "symbol": "#",
-    "description": "A wooden desk with drawers.  You could decorate it with trinkets, eat a meal off it, use it as a workbench, read a book, write in a journal, put a laptop on it, put your feet up, rest your head for a nap if you're sitting down... who knew desks were so useful?",
+    "description": "A wooden desk with drawers.  You could decorate it with trinkets, eat a meal off it, use it as a workbench, read a book, write in a journal, put a laptop on it, put your feet up, rest your head for a nap if you're sitting down… who knew desks were so useful?",
     "color": "light_red",
     "move_cost_mod": 1,
     "coverage": 45,
