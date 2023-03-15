@@ -320,6 +320,9 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     optional( jo, was_loaded, "modified_bodyparts", modified_bodyparts );
     optional( jo, was_loaded, "mutations", mutations );
 
+    optional( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "description", description );
+
     if( !is_child && jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
             const enchant_vals::mod value = io::string_to_enum<enchant_vals::mod>
@@ -606,6 +609,8 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
             intermittent_activation[act_pair.first].emplace_back( fake );
         }
     }
+
+    details.emplace_back( rhs.name.translated(), rhs.description.translated() );
 }
 
 void enchant_cache::set_has( enchantment::has value )

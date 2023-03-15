@@ -1422,6 +1422,10 @@ void Character::disp_info( bool customize_character )
         }
     }
 
+    for( const std::pair<std::string, std::string> &detail : enchantment_cache->details ) {
+        effect_name_and_text.emplace_back( detail );
+    }
+
     const unsigned int effect_win_size_y_max = 1 + static_cast<unsigned>( effect_name_and_text.size() );
     const unsigned int proficiency_win_size_y_max = 1 + static_cast<unsigned>
             ( display_proficiencies().size() );
