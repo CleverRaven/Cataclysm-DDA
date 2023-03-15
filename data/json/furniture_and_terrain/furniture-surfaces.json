@@ -215,7 +215,7 @@
     "type": "furniture",
     "id": "f_fiber_mat",
     "name": "fiber mat",
-    "description": "A large mat woven from fibrous material. You could use it as a picnic blanket, but it's more valuable as a surface for butchering.  Too thin to be used as a comfortable sleeping mat.",
+    "description": "A large mat woven from fibrous material.  You could use it as a picnic blanket, but it's more valuable as a surface for butchering.  Too thin to be used as a comfortable sleeping mat.",
     "symbol": "Q",
     "bgcolor": "yellow",
     "move_cost_mod": 0,
