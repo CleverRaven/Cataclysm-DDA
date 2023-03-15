@@ -2957,6 +2957,9 @@ void item::io( Archive &archive )
     archive.io( "specific_energy", specific_energy, units::from_joule_per_gram( -10.f ) );
     archive.io( "temperature", temperature, units::from_kelvin( 0.f ) );
     archive.io( "recipe_charges", recipe_charges, 1 );
+    archive.io( "link_state", link.state, cable_state::no_attachments );
+    archive.io( "link_pos", link.pos, tripoint_min );
+    archive.io( "link_vp_index", link.vp_index, -1 );
     // Legacy: remove flag check/unset after 0.F
     archive.io( "ethereal", ethereal, has_flag( flag_ETHEREAL_ITEM ) );
     unset_flag( flag_ETHEREAL_ITEM );
