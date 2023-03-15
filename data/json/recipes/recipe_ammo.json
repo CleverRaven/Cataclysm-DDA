@@ -908,13 +908,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [
-        [ "splinter", 2 ],
-        [ "withered", 2 ],
-        [ "cattail_stalk", 1 ]
-      ]
-    ]
+    "components": [ [ [ "splinter", 2 ], [ "withered", 2 ], [ "cattail_stalk", 1 ] ] ]
   },
   {
     "type": "recipe",
