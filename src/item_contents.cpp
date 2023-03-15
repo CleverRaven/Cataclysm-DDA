@@ -2441,7 +2441,7 @@ void item_contents::favorite_settings_menu( item *i )
     pocket_management_menu( remove_color_tags( i->display_name() ), to_organize );
 }
 
-void pocket_management_menu( const std::string title, const std::vector<item *> &to_organize )
+void pocket_management_menu( const std::string &title, const std::vector<item *> &to_organize )
 {
     static const std::string input_category = "INVENTORY";
     input_context ctxt( input_category );

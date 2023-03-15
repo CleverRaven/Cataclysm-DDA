@@ -374,6 +374,6 @@ class item_contents
         friend struct item_contents_helper;
 };
 
-void pocket_management_menu( const std::string title, const std::vector<item *> &to_organize );
+void pocket_management_menu( const std::string &title, const std::vector<item *> &to_organize );
 
 #endif // CATA_SRC_ITEM_CONTENTS_H
