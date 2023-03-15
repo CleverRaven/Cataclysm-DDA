@@ -201,7 +201,7 @@ struct value_constraint {
 
     void deserialize( const JsonObject &jo ) {
         cata_variant single_val;
-        const auto check_comp_int = [&]( const std::string &comp ) -> bool {
+        const auto check_comp_int = [&]( const std::string & comp ) -> bool {
             bool ret = single_val.type() == cata_variant_type::int_;
             if( !ret ) {
                 jo.throw_error( string_format( "The value constraint \"%s\" may only be used with int type!",
@@ -258,7 +258,7 @@ struct value_constraint {
             }
         }
 
-        const auto check_one = [&]( const cata_variant &e ) -> void {
+        const auto check_one = [&]( const cata_variant & e ) -> void {
             if( input_type != e.type() ) {
                 debugmsg( "constraint for event_transformation %s matches constant of type %s "
                           "but value compared with it has type %s",
