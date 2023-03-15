@@ -39,7 +39,7 @@
         "?": "t_shrub_lilac",
         "`": "t_railing_v",
         "]": "t_door_metal_locked",
-        "/": "t_gates_mech_control_lab",
+        "/": "t_gates_mech_control",
         ",": "t_thconc_floor",
         "K": "t_floor_noroof",
         "G": "t_floor_noroof",
