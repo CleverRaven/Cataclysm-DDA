@@ -506,7 +506,7 @@ item vehicle::init_cord( const tripoint &pos )
 {
     item powercord( "power_cord" );
     powercord.link.pos = pos;
-    powercord.link.state = item::cable_link::hanging_from_vehicle;
+    powercord.link.state = cable_state::hanging_from_vehicle;
     powercord.active = true;
 
     return powercord;

@@ -1930,7 +1930,7 @@ bool vehicle::do_remove_part_actual()
             for( item::cable_link *cable : cables_to_update ) {
                 if( cable->vp_index == index ) {
                     add_msg_if_player_sees( here.getlocal( cable->pos ), m_bad, _( "The cable has come loose!" ) );
-                    cable->state = item::cable_link::link_state::needs_reeling;
+                    cable->state = cable_state::needs_reeling;
                     cable->pos = tripoint_min;
                     cable->vp_index = -1;
                 } else if( cable->vp_index > index ) {

@@ -81,7 +81,7 @@ item vehicle_part::properties_to_item() const
         }
 
         tmp.link.pos = target.first;
-        tmp.link.state = item::cable_link::hanging_from_vehicle;
+        tmp.link.state = cable_state::hanging_from_vehicle;
         tmp.active = true;
     }
 

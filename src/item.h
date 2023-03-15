@@ -84,6 +84,7 @@ class map;
 struct damage_instance;
 struct damage_unit;
 struct fire_data;
+enum class cable_state : int;
 
 enum clothing_mod_type : int;
 
@@ -1411,18 +1412,7 @@ class item : public visitable
 
         struct cable_link {
             /**TODOkama */
-            enum link_state : int {
-                no_attachments = 0,
-                needs_reeling,
-                hanging_from_vehicle,
-                hanging_from_bionic,
-                hanging_from_UPS,
-                hanging_from_solarpack,
-                vehicle_bionic_link,
-                UPS_bionic_link,
-                solarpack_bionic_link
-            };
-            link_state state = no_attachments;
+            cable_state state = cable_state::no_attachments;
             /** TODOkama */
             tripoint pos = tripoint_min;
             /**TODOkama */

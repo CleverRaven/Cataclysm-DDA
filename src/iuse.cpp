@@ -7995,14 +7995,14 @@ std::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoin
     if( !p ) {
         return std::nullopt;
     }
-    const auto set_cable_active = []( Character * p, item * it, item::cable_link::link_state state ) {
+    const auto set_cable_active = []( Character * p, item * it, cable_state state ) {
         it->link.state = state;
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
     };
     map &here = get_map();
-    if( it->link.state == item::cable_link::no_attachments ) {
+    if( it->link.state == cable_state::no_attachments ) {
         const std::optional<tripoint> posp_ = choose_adjacent(
                 _( "Attach cable to the vehicle that will do the towing." ) );
         if( !posp_ ) {
@@ -8032,7 +8032,7 @@ std::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoin
             }
             it->link.pos = here.getabs( posp );
             it->link.vp_index = vp.value().part_index();
-            set_cable_active( p, it, item::cable_link::hanging_from_vehicle );
+            set_cable_active( p, it, cable_state::hanging_from_vehicle );
         }
     } else {
         const auto confirm_source_vehicle = [&here]( Character * p, item * it,
@@ -8049,7 +8049,7 @@ std::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoin
             return source_vp;
         };
 
-        const bool paying_out = it->link.state == item::cable_link::hanging_from_vehicle;
+        const bool paying_out = it->link.state == cable_state::hanging_from_vehicle;
         uilist kmenu;
         kmenu.text = _( "Using cable:" );
         kmenu.addentry( 0, true, -1, _( "Detach and re-spool the cable" ) );
@@ -8141,15 +8141,15 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
     const std::string choose_solar = _( "Choose solar panel:" );
     const std::string dont_have_solar = _( "You don't have any solar panels." );
 
-    const auto set_cable_active = []( Character * p, item * it, const item::cable_link::link_state state ) {
-        const item::cable_link::link_state prev_state = it->link.state;
+    const auto set_cable_active = []( Character * p, item * it, const cable_state state ) {
+        const cable_state prev_state = it->link.state;
         it->link.state = state;
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
     };
     map &here = get_map();
-    if( it->link.state == item::cable_link::no_attachments ) {
+    if( it->link.state == cable_state::no_attachments ) {
         if( has_bio_cable ) {
             uilist kmenu;
             kmenu.text = _( "Using cable:" );
@@ -8167,7 +8167,7 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             if( choice < 0 ) {
                 return std::nullopt; // we did nothing.
             } else if( choice == 1 ) {
-                set_cable_active( p, it,  item::cable_link::hanging_from_bionic );
+                set_cable_active( p, it, cable_state::hanging_from_bionic );
                 p->add_msg_if_player( m_info, _( "You attach the cable to your Cable Charger System." ) );
                 return 0;
             } else if( choice == 2 ) {
@@ -8183,7 +8183,7 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
                 }
                 item &chosen = *loc;
                 chosen.set_var( "cable", "plugged_in" );
-                set_cable_active( p, it,  item::cable_link::hanging_from_solarpack );
+                set_cable_active( p, it, cable_state::hanging_from_solarpack );
                 p->add_msg_if_player( m_info, _( "You attach the cable to the solar pack." ) );
                 return 0;
             } else if( choice == 3 ) {
@@ -8197,7 +8197,7 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
                 item &chosen = *loc;
                 chosen.set_var( "cable", "plugged_in" );
                 chosen.activate();
-                set_cable_active( p, it,  item::cable_link::hanging_from_UPS );
+                set_cable_active( p, it, cable_state::hanging_from_UPS );
                 p->add_msg_if_player( m_info, _( "You attach the cable to the UPS." ) );
                 return 0;
             }
@@ -8216,7 +8216,7 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
         } else {
             it->link.pos = here.getabs( posp );
             it->link.vp_index = vp.value().part_index();
-            set_cable_active( p, it,  item::cable_link::hanging_from_vehicle );
+            set_cable_active( p, it, cable_state::hanging_from_vehicle );
         }
     } else {
         const auto confirm_source_vehicle = [&here]( Character * p, item * it,
@@ -8233,10 +8233,10 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             return source_vp;
         };
 
-        const bool paying_out = it->link.state == item::cable_link::hanging_from_vehicle;
-        const bool cable_cbm = it->link.state == item::cable_link::hanging_from_bionic;
-        const bool solar_pack = it->link.state == item::cable_link::hanging_from_solarpack;
-        const bool UPS = it->link.state == item::cable_link::hanging_from_UPS;
+        const bool paying_out = it->link.state == cable_state::hanging_from_vehicle;
+        const bool cable_cbm = it->link.state == cable_state::hanging_from_bionic;
+        const bool solar_pack = it->link.state == cable_state::hanging_from_solarpack;
+        const bool UPS = it->link.state == cable_state::hanging_from_UPS;
         bool loose_ends = paying_out || cable_cbm || solar_pack || UPS;
         bool is_auto_cable = it->has_flag( flag_AUTO_CABLE );
         uilist kmenu;
@@ -8268,20 +8268,20 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             p->add_msg_if_player( m_info, _( "You attach the cable to the Cable Charger System." ) );
             // connecting self, solar backpack connected
             if( solar_pack ) {
-                set_cable_active( p, it, item::cable_link::solarpack_bionic_link );
+                set_cable_active( p, it, cable_state::solarpack_bionic_link );
                 p->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
                 return 0;
             }
             // connecting self, UPS connected
             if( UPS ) {
-                set_cable_active( p, it, item::cable_link::UPS_bionic_link );
+                set_cable_active( p, it, cable_state::UPS_bionic_link );
                 p->add_msg_if_player( m_good, _( "You are now plugged to the UPS." ) );
                 return 0;
             }
             // connecting self, vehicle connected
             const optional_vpart_position source_vp = confirm_source_vehicle( p, it, true );
             if( veh_pointer_or_null( source_vp ) != nullptr ) {
-                set_cable_active( p, it, item::cable_link::vehicle_bionic_link );
+                set_cable_active( p, it, cable_state::vehicle_bionic_link );
                 p->add_msg_if_player( m_good, _( "You are now plugged to the vehicle." ) );
             }
             return 0;
@@ -8299,7 +8299,7 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             }
             item &chosen = *loc;
             chosen.set_var( "cable", "plugged_in" );
-            set_cable_active( p, it, item::cable_link::solarpack_bionic_link );
+            set_cable_active( p, it, cable_state::solarpack_bionic_link );
             p->add_msg_if_player( m_good, _( "You are now plugged to the solar backpack." ) );
             return 0;
         } else if( choice == 4 ) {
@@ -8312,7 +8312,7 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
             item &chosen = *loc;
             chosen.set_var( "cable", "plugged_in" );
             chosen.activate();
-            set_cable_active( p, it, item::cable_link::UPS_bionic_link );
+            set_cable_active( p, it, cable_state::UPS_bionic_link );
             p->add_msg_if_player( m_good, _( "You are now plugged to the UPS." ) );
             return 0;
         }
@@ -8336,7 +8336,7 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
         } else if( cable_cbm ) {
             it->link.pos = here.getabs( vpos );
             it->link.vp_index = target_vp.value().part_index();
-            set_cable_active( p, it, item::cable_link::vehicle_bionic_link );
+            set_cable_active( p, it, cable_state::vehicle_bionic_link );
             p->add_msg_if_player( m_good, _( "You are now plugged into the vehicle." ) );
             return 0;
         } else {
@@ -8382,15 +8382,15 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
 {
     item_location loc;
 
-    const auto set_cable_active = []( Character * p, item * it, item::cable_link::link_state state ) {
-        const item::cable_link::link_state prev_state = it->link.state;
+    const auto set_cable_active = []( Character * p, item * it, cable_state state ) {
+        const cable_state prev_state = it->link.state;
         it->link.state = state;
         it->active = true;
         it->process( get_map(), p, p->pos() );
         p->moves -= 15;
     };
     map &here = get_map();
-    if( it->link.state == item::cable_link::no_attachments ) {
+    if( it->link.state == cable_state::no_attachments ) {
         const std::optional<tripoint> posp_ = choose_adjacent( _( "Attach cable to appliance where?" ) );
         if( !posp_ ) {
             return std::nullopt;
@@ -8404,7 +8404,7 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
             it->link.pos = here.getabs( posp );
             it->link.vp_index = vp.value().part_index();
             p->add_msg_if_player( _( "You attach the %1$s to the %2$s." ), it->tname(), vp->vehicle().name );
-            set_cable_active( p, it, item::cable_link::hanging_from_vehicle );
+            set_cable_active( p, it, cable_state::hanging_from_vehicle );
         }
     } else {
         const auto confirm_source_vehicle = [&here]( Character * p, item * it,
@@ -8421,7 +8421,7 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
             return source_vp;
         };
 
-        const bool paying_out = it->link.state == item::cable_link::hanging_from_vehicle;
+        const bool paying_out = it->link.state == cable_state::hanging_from_vehicle;
         bool is_auto_cable = it->has_flag( flag_AUTO_CABLE );
         uilist kmenu;
         kmenu.text = _( "Using cable:" );

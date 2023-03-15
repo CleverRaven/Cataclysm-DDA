@@ -424,7 +424,7 @@ static void connect_power_line( const tripoint &src_pos, const tripoint &dst_pos
     map &here = get_map();
     item cord( itm );
     cord.link.pos = src_pos;
-    cord.link.state = item::cable_link::hanging_from_vehicle;
+    cord.link.state = cable_state::hanging_from_vehicle;
     cord.active = true;
 
     const optional_vpart_position target_vp = here.veh_at( dst_pos );

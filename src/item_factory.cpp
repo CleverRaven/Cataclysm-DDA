@@ -3751,6 +3751,39 @@ namespace io
 {
 // *INDENT-OFF*
 template<>
+std::string enum_to_string<cable_state>( cable_state data )
+{
+    switch( data ) {
+        case cable_state::no_attachments:
+            return "no_attachments";
+        case cable_state::needs_reeling:
+            return "needs_reeling";
+        case cable_state::hanging_from_vehicle:
+            return "hanging_from_vehicle";
+        case cable_state::hanging_from_bionic:
+            return "hanging_from_bionic";
+        case cable_state::hanging_from_UPS:
+            return "hanging_from_UPS";
+        case cable_state::hanging_from_solarpack:
+            return "hanging_from_solarpack";
+        case cable_state::vehicle_bionic_link:
+            return "vehicle_bionic_link";
+        case cable_state::UPS_bionic_link:
+            return "UPS_bionic_link";
+        case cable_state::solarpack_bionic_link:
+            return "solarpack_bionic_link";
+        case cable_state::num_cable_states:
+            break;
+    }
+    cata_fatal( "Invalid cable_state" );
+}
+// *INDENT-ON*
+} // namespace io
+
+namespace io
+{
+// *INDENT-OFF*
+template<>
 std::string enum_to_string<grip_val>( grip_val val )
 {
     switch( val ) {

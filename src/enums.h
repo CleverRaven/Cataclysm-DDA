@@ -471,4 +471,21 @@ struct enum_traits<aggregate_type> {
     static constexpr aggregate_type last = aggregate_type::num_aggregate_types;
 };
 
+enum class cable_state : int {
+    no_attachments = 0,
+    needs_reeling,
+    hanging_from_vehicle,
+    hanging_from_bionic,
+    hanging_from_UPS,
+    hanging_from_solarpack,
+    vehicle_bionic_link,
+    UPS_bionic_link,
+    solarpack_bionic_link,
+    num_cable_states
+};
+template<>
+struct enum_traits<cable_state> {
+    static constexpr cable_state last = cable_state::num_cable_states;
+};
+
 #endif // CATA_SRC_ENUMS_H

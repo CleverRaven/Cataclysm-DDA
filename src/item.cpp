@@ -12746,7 +12746,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     if( carrier != nullptr ) {
         carrying_item = carrier->has_item( parent_item != nullptr ? *parent_item : *this );
 
-        if( link.state == cable_link::solarpack_bionic_link || link.state == cable_link::hanging_from_solarpack ) {
+        if( link.state == cable_state::solarpack_bionic_link || link.state == cable_state::hanging_from_solarpack ) {
             if( !carrying_item || !carrier->worn_with_flag( flag_SOLARPACK_ON ) ) {
                 carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                 reset_cable( carrier, parent_item );
@@ -12758,7 +12758,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
             return itm.get_var( "cable" ) == "plugged_in";
         };
 
-        if( link.state == cable_link::hanging_from_UPS ) {
+        if( link.state == cable_state::hanging_from_UPS ) {
             if( !carrying_item || !carrier->has_item_with( used_ups ) ) {
                 carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
                 for( item *used : carrier->items_with( used_ups ) ) {
@@ -12770,7 +12770,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         }
     }
 
-    if( link.state == cable_link::needs_reeling ) {
+    if( link.state == cable_state::needs_reeling ) {
         if( carrying_item ) {
         reset_cable( carrier, parent_item );
         return has_flag( flag_AUTO_CABLE ) ? true : false;
@@ -12856,7 +12856,7 @@ void item::reset_cable( Character *p, item *parent_item )
 {
     link.pos = tripoint_min;
     link.vp_index = -1;
-    link.state = cable_link::no_attachments;
+    link.state = cable_state::no_attachments;
     charges = get_var( "cable_length", type->maximum_charges() );
 
     if( p != nullptr ) {
@@ -12864,7 +12864,7 @@ void item::reset_cable( Character *p, item *parent_item )
         p->moves -= charges * 10;
         active = false;
     } else {
-        link.state = cable_link::needs_reeling;
+        link.state = cable_state::needs_reeling;
     }
     if( parent_item != nullptr ) {
         parent_item->plugged_in = false;
@@ -12895,8 +12895,8 @@ bool item::process_UPS( Character *carrier, const tripoint & /*pos*/ )
         return false;
     }
     bool has_connected_cable = carrier->has_item_with( []( const item & it ) {
-        return it.active && it.has_flag( flag_CABLE_SPOOL ) && ( it.link.state == cable_link::UPS_bionic_link ||
-                it.link.state == cable_link::hanging_from_UPS );
+        return it.active && it.has_flag( flag_CABLE_SPOOL ) && ( it.link.state == cable_state::UPS_bionic_link ||
+                it.link.state == cable_state::hanging_from_UPS );
     } );
     if( !has_connected_cable ) {
         erase_var( "cable" );

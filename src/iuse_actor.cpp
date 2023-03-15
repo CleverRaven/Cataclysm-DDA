@@ -4438,7 +4438,7 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         cable.set_var( "charge_interval",
                         std::max( 1, static_cast<int>( std::floor( 1000000.0 / charge_rate.value() + 0.5 ) ) ) );
 
-        cable.link.state = item::cable_link::hanging_from_vehicle;
+        cable.link.state = cable_state::hanging_from_vehicle;
         cable.active = true;
         if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
             it.plugged_in = true;
@@ -4451,7 +4451,7 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         item *existing_cable = it.get_contents().cables().front();
         existing_cable->link.pos = here.getabs( pnt );
         existing_cable->link.vp_index = vp_port.value().part_index();
-        existing_cable->link.state = item::cable_link::hanging_from_vehicle;
+        existing_cable->link.state = cable_state::hanging_from_vehicle;
         existing_cable->active = true;
         it.plugged_in = true;
         it.process( get_map(), &p, p.pos() );
