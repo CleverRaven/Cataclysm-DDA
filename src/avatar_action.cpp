@@ -1150,7 +1150,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
 
         // Get the parent pocket before the item is obtained.
         if( loc.has_parent() ) {
-            parent_pocket = loc.parent_item().get_item()->contained_where( *loc );
+            parent_pocket = loc.parent_pocket();
         }
 
         loc = loc.obtain( you, 1 );

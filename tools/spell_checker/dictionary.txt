@@ -197,7 +197,6 @@ avians
 aving
 avium
 avy
-awared
 axeman
 axolotl
 azide
@@ -206,6 +205,9 @@ babiues
 babylonica
 backblast
 backrest
+backstep
+backstepping
+backsteps
 backtracing
 bagh
 bakelite
@@ -1706,6 +1708,7 @@ migo
 mildewy
 militar
 milkfat
+millenia
 milspec
 mineable
 minesweeper
@@ -1962,6 +1965,8 @@ overpenetration
 overpressure
 overqueen
 overshoes
+overswing
+overswinging
 overtaxing
 overtop
 ovipositor
@@ -2460,6 +2465,8 @@ seweranha
 sexten
 sexualities
 sh
+shadowbox
+shadowboxing
 shadowcat
 shambler
 shantak
@@ -2548,6 +2555,7 @@ solarpunk
 solderers
 solderless
 soled
+somersault
 sommat
 somniferum
 soother
@@ -2861,6 +2869,7 @@ tuno
 turipache
 turreted
 tusked
+tusslin
 twere
 twintailed
 twohand
@@ -2955,7 +2964,6 @@ unstylish
 untampered
 untargeted
 untilled
-untired
 untrodden
 untyped
 unwield
@@ -3105,6 +3113,7 @@ workcycle
 workshifts
 worldgen
 wraitheon
+wrasslin
 wretchmother
 wrightii
 wristed

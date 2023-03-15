@@ -7588,6 +7588,23 @@ void item::set_rot( time_duration val )
     rot = val;
 }
 
+void item::randomize_rot()
+{
+    if( is_comestible() && get_comestible()->spoils > 0_turns ) {
+        const double x_input = rng_float( 0.0, 1.0 );
+        const double k_rot = ( 1.0 - x_input ) / ( 1.0 + 2.0 * x_input );
+        set_rot( get_shelf_life() * k_rot );
+    }
+
+    for( item_pocket *pocket : contents.get_all_contained_pockets() ) {
+        if( pocket->spoil_multiplier() > 0.0f ) {
+            for( item *subitem : pocket->all_items_top() ) {
+                subitem->randomize_rot();
+            }
+        }
+    }
+}
+
 int item::spoilage_sort_order() const
 {
     int bottom = std::numeric_limits<int>::max();
@@ -13758,7 +13775,9 @@ item const *item::this_or_single_content() const
 
 bool item::contents_only_one_type() const
 {
-    std::list<const item *> const items = all_items_top();
+    std::list<const item *> const items = contents.all_items_top( []( item_pocket const & pkt ) {
+        return pkt.is_standard_type() || pkt.is_type( item_pocket::pocket_type::SOFTWARE );
+    } );
     return items.size() == 1 ||
            ( items.size() > 1 &&
     std::all_of( ++items.begin(), items.end(), [&items]( item const * e ) {
