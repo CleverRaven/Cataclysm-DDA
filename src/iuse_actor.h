@@ -1038,10 +1038,15 @@ class modify_gunmods_actor : public iuse_actor
 class plug_in_actor : public iuse_actor
 {
     public:
-        itype_id type = itype_id( "generic_device_cable" ); /** The type of cable created with this action */
-        int cable_length = -1; /** Maximum length of the cable */
-        units::power charge_rate = 1_W; /** Charge rate in watts */
-        int efficiency = 7; /** one_in(this) chance to fail adding 1 charge */
+        /** The type of cable created with this action */
+        itype_id type = itype_id( "generic_device_cable" );
+        /** Maximum length of the cable */
+        int cable_length = -1;
+        /** Charge rate in watts */
+        units::power charge_rate = 0_W;
+        /** one_in(this) chance to fail adding 1 charge */
+        int charge_efficiency = 7;
+        /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Unplug". */
         translation menu_text;
 
         plug_in_actor() : iuse_actor( "plug_in" ) {}

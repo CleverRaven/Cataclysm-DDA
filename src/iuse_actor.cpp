@@ -4359,7 +4359,7 @@ void plug_in_actor::load( const JsonObject &jo )
     jo.read( "cable_type", type );
     jo.read( "cable_length", cable_length );
     jo.read( "charge_rate", charge_rate );
-    jo.read( "efficiency", efficiency );
+    jo.read( "efficiency", charge_efficiency );
     jo.read( "menu_text", menu_text );
 }
 
@@ -4430,10 +4430,10 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         item cable( type );
         cable.link.pos = here.getabs( pnt );
         cable.link.vp_index = vp_port.value().part_index();
-        cable.set_var( "efficiency", efficiency );
-        cable.set_var( "charge_rate", std::max( 1, static_cast<int>( charge_rate.value() ) ) );
+        cable.link.charge_efficiency = charge_efficiency;
+        cable.link.charge_rate = charge_rate.value();
         // Convert wattage to how long it takes to charge 1 kW, the unit batteries use. Minimum 1 mW.
-        cable.set_var( "charge_interval",
+        cable.link.charge_interval = charge_rate == 0_W ? -1 :
                    std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( charge_rate.value() ) + 0.5 ) ) );
 
         cable.link.state = cable_state::hanging_from_vehicle;

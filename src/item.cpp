@@ -12781,66 +12781,68 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     tripoint connection_pos = here.getlocal( link.pos );
 
     if( here.inbounds( connection_pos ) ) {
-    const optional_vpart_position vp = here.veh_at( connection_pos );
-    if( !vp ) {
-        if( carrying_item ) {
+        const optional_vpart_position vp = here.veh_at( connection_pos );
+        if( !vp ) {
+            if( carrying_item ) {
             carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
-                                        string_format( _( "You notice your %s has come loose!" ), tname( 1, false ) ) :
-                                        string_format( _( "You notice your %s's cable has come loose!" ), parent_item->tname( 1 ) ) );
-        } else {
+                                            string_format( _( "You notice your %s has come loose!" ), tname( 1, false ) ) :
+                                            string_format( _( "You notice your %s's cable has come loose!" ), parent_item->tname( 1 ) ) );
+            } else {
             add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
-                                    string_format( _( "You notice the %s has come loose!" ), tname( 1, false ) ) :
-                                    string_format( _( "You notice the %s's cable has come loose!" ), parent_item->tname( 1 ) ) );
+                                        string_format( _( "You notice the %s has come loose!" ), tname( 1, false ) ) :
+                                        string_format( _( "You notice the %s's cable has come loose!" ), parent_item->tname( 1 ) ) );
+            }
+            reset_cable( carrier, parent_item );
+            return has_flag( flag_AUTO_CABLE ) ? true : false;
         }
-        reset_cable( carrier, parent_item );
-        return has_flag( flag_AUTO_CABLE ) ? true : false;
-    }
 
-    int distance = rl_dist( pos, connection_pos );
-    charges = link.max_length - distance;
-
+        int distance = rl_dist( pos, connection_pos );
+        charges = link.max_length - distance;
+        // TODOkama Move cable stretch breaking outside of inbounds check to protect against infinite cable stretching.
         if( charges == 0 && carrying_item ) {
-        carrier->add_msg_if_player( m_warning, parent_item == nullptr ?
-                                    string_format( _( "Your %s is stretched to its limit!" ), label( 1 ) ) :
-                                    string_format( _( "Your %s's cable is stretched to its limit!" ), parent_item->label( 1 ) ) );
+            carrier->add_msg_if_player( m_warning, parent_item == nullptr ?
+                string_format( _( "Your %s is stretched to its limit!" ), label( 1 ) ) :
+                string_format( _( "Your %s's cable is stretched to its limit!" ), parent_item->label( 1 ) ) );
         } else if( charges < 0 ) {
-        if( carrying_item ) {
-            carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
-                                        string_format( _( "Your over-extended %s breaks loose!" ), tname( 1, false ) ) :
-                                        string_format( _( "Your %s's over-extended cable breaks loose!" ), parent_item->tname( 1 ) ) );
-        } else {
-            add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
-                                    string_format( _( "The over-extended %s breaks loose!" ), tname( 1, false ) ) :
-                                    string_format( _( "The %s's over-extended cable breaks loose!" ), parent_item->tname( 1 ) ) );
+            if( carrying_item ) {
+                carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
+                    string_format( _( "Your over-extended %s breaks loose!" ), tname( 1, false ) ) :
+                    string_format( _( "Your %s's over-extended cable breaks loose!" ), parent_item->tname( 1 ) ) );
+            } else {
+                add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
+                    string_format( _( "The over-extended %s breaks loose!" ), tname( 1, false ) ) :
+                    string_format( _( "The %s's over-extended cable breaks loose!" ), parent_item->tname( 1 ) ) );
+            }
+            reset_cable( carrier, parent_item );
+            return has_flag( flag_AUTO_CABLE ) ? true : false;
         }
-        reset_cable( carrier, parent_item );
-        return has_flag( flag_AUTO_CABLE ) ? true : false;
-    }
 
         if( parent_item != nullptr && charges >= 0 ) {
-        link.power_draw = 0;
-        // Recharge batteries
-        item *parent_mag = parent_item->magazine_current();
-        if( parent_mag && parent_mag->has_flag( flag_RECHARGE ) &&
-            parent_item->ammo_capacity( ammo_battery ) > parent_item->ammo_remaining() ) {
+            link.power_draw = 0;
+            // Recharge batteries
+            item *parent_mag = parent_item->magazine_current();
+            if( parent_mag && parent_mag->has_flag( flag_RECHARGE ) &&
+                parent_item->ammo_capacity( ammo_battery ) > parent_item->ammo_remaining() ) {
 
-            link.power_draw -= get_var( "charge_rate", 1 );
-            if( calendar::once_every( time_duration::from_seconds( get_var( "charge_interval", 10 ) ) ) ) {
-                const int battery_deficit = vp->vehicle().discharge_battery( 1, true );
-                // Around 85% efficient; a few of the discharges don't actually recharge
-                if( battery_deficit == 0 && !one_in( get_var( "efficiency", 7 ) ) ) {
-                    parent_item->ammo_set( itype_battery, parent_item->ammo_remaining() + 1 );
+                link.power_draw -= link.charge_rate;
+                if( link.charge_interval > 0 ) {
+                    if( calendar::once_every( time_duration::from_turns( link.charge_interval ) ) ) {
+                        const int battery_deficit = vp->vehicle().discharge_battery( 1, true );
+                        // Around 85% efficient by default; a few of the discharges don't actually recharge
+                        if( battery_deficit == 0 && !one_in( link.charge_efficiency ) ) {
+                            parent_item->ammo_set( itype_battery, parent_item->ammo_remaining() + 1 );
+                        }
+                    }
                 }
             }
+            // Tool power draw
+            if( parent_item->active && parent_item->type->tool && parent_item->type->tool->power_draw > 0_W ) {
+                link.power_draw -= parent_item->type->tool->power_draw.value();
+            }
+        } else if( has_flag( flag_AUTO_CABLE ) ) {
+            debugmsg( "Auto cable %s can't find parent item.", tname() );
+            return true;
         }
-        // Tool power draw
-        if( parent_item->active && parent_item->type->tool && parent_item->type->tool->power_draw > 0_W ) {
-            link.power_draw -= parent_item->type->tool->power_draw.value();
-        }
-    } else if( has_flag( flag_AUTO_CABLE ) ) {
-        debugmsg( "Auto cable %s can't find parent item.", tname() );
-        return true;
-    }
 
         if( link.vp_index > -1 && link.vp_index < vp->vehicle().num_parts() ) {
             here.setup_link_processing( &link, &vp->vehicle() );
