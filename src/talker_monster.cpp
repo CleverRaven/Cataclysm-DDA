@@ -134,6 +134,11 @@ std::vector<std::string> talker_monster::get_topics( bool )
     return me_mon->type->chat_topics;
 }
 
+int talker_monster::get_cur_hp( const bodypart_id & ) const
+{
+    return me_mon->get_hp();
+}
+
 bool talker_monster::will_talk_to_u( const Character &you, bool )
 {
     return !you.is_dead_state();

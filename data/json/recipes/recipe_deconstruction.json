@@ -7706,6 +7706,46 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "steel_lump", 7 ] ], [ [ "steel_chunk", 2 ] ] ]
+    "components": [ [ [ "steel_lump", 7 ], [ "steel_chunk", 2 ] ] ]
+  },
+  {
+    "result": "fish",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "20 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "fish_scrap", 10 ] ] ]
+  },
+  {
+    "result": "meat",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "20 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "meat_scrap", 10 ] ] ]
+  },
+  {
+    "result": "human_flesh",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "20 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "human_meat_scrap", 10 ] ] ]
+  },
+  {
+    "result": "demihuman_flesh",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "20 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "demihuman_meat_scrap", 10 ] ] ]
+  },
+  {
+    "result": "mutant_meat",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "20 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "mutant_meat_scrap", 10 ] ] ]
   }
 ]

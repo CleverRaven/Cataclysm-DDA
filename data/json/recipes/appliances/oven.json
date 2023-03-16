@@ -30,7 +30,7 @@
     "time": "45 m",
     "skill_used": "fabrication",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "skill_penalty": 0 } ],
     "components": [
       [ [ "oven_stovetop", 1 ] ],
       [ [ "oven_cabinet", 1 ] ],
@@ -48,7 +48,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "skill_used": "fabrication",
-    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "skill_penalty": 0 } ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
@@ -63,7 +63,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "skill_used": "fabrication",
-    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "skill_penalty": 0 } ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
@@ -92,7 +92,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "skill_used": "fabrication",
-    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "skill_penalty": 0 } ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
@@ -116,7 +116,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "30 m",
     "skill_used": "fabrication",
-    "proficiencies": [ { "proficiency": "prof_appliance_repair", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_appliance_repair", "skill_penalty": 0 } ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 },
@@ -132,8 +132,8 @@
     "time": "1 h",
     "skill_used": "fabrication",
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "fail_multiplier": 1 },
-      { "proficiency": "prof_elec_circuits", "fail_multiplier": 1 }
+      { "proficiency": "prof_elec_soldering", "skill_penalty": 0 },
+      { "proficiency": "prof_elec_circuits", "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "soldering_iron", -1 ], [ "toolset", -1 ] ] ],

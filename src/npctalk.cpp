@@ -14,6 +14,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "achievement.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -2262,7 +2263,7 @@ void talk_effect_fun_t<T>::set_adjust_var( const JsonObject &jo, const std::stri
 }
 
 static void receive_item( itype_id &item_name, int count, const std::string &container_name,
-                          const dialogue &d, bool use_item_group )
+                          const dialogue &d, bool use_item_group, bool suppress_message )
 {
     item new_item;
     if( use_item_group ) {
@@ -2282,7 +2283,7 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
                 d.actor( false )->i_add_or_drop( new_item );
             }
         }
-        if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
+        if( !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
             if( count == 1 ) {
                 //~ %1%s is the NPC name, %2$s is an item
                 popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), new_item.tname() );
@@ -2298,7 +2299,7 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
         container.put_in( new_item,
                           item_pocket::pocket_type::CONTAINER );
         d.actor( false )->i_add_or_drop( container );
-        if( d.has_beta && !d.actor( true )->disp_name().empty() ) {
+        if( !suppress_message && d.has_beta && !d.actor( true )->disp_name().empty() ) {
             //~ %1%s is the NPC name, %2$s is an item
             popup( _( "%1$s gives you a %2$s." ), d.actor( true )->disp_name(), container.tname() );
         }
@@ -2316,16 +2317,17 @@ void talk_effect_fun_t<T>::set_u_spawn_item( const JsonObject &jo, const std::st
         container_name.str_val = "";
     }
     bool use_item_group = jo.get_bool( "use_item_group", false );
+    bool suppress_message = jo.get_bool( "suppress_message", false );
     dbl_or_var<T> count;
     if( !jo.has_int( "charges" ) ) {
         count = get_dbl_or_var<T>( jo, "count", false, 1 );
     } else {
         count = get_dbl_or_var<T>( jo, "count", false, 0 );
     }
-    function = [item_name, count, container_name, use_item_group]( const T & d ) {
+    function = [item_name, count, container_name, use_item_group, suppress_message]( const T & d ) {
         itype_id iname = itype_id( item_name.evaluate( d ) );
         receive_item( iname, count.evaluate( d ),
-                      container_name.evaluate( d ), d, use_item_group );
+                      container_name.evaluate( d ), d, use_item_group, suppress_message );
     };
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     likely_rewards.emplace_back( static_cast<int>( count.evaluate( d ) ),
@@ -2345,15 +2347,17 @@ void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::stri
         count = get_dbl_or_var<T>( jo, "count", false, 0 );
     }
     bool use_item_group = jo.get_bool( "use_item_group", false );
+    bool suppress_message = jo.get_bool( "suppress_message", false );
     str_or_var<T> container_name;
     if( jo.has_member( "container" ) ) {
         container_name = get_str_or_var<T>( jo.get_member( "container" ), "container", true );
     } else {
         container_name.str_val = "";
     }
+
     str_or_var<T> item_name = get_str_or_var<T>( jo.get_member( member ), member, true );
     function = [item_name, cost, count, container_name, true_eocs, false_eocs,
-               use_item_group]( const T & d ) {
+               use_item_group, suppress_message]( const T & d ) {
         if( !d.actor( true )->buy_from( cost.evaluate( d ) ) ) {
             popup( _( "You can't afford it!" ) );
             run_eoc_vector( false_eocs, d );
@@ -2361,7 +2365,7 @@ void talk_effect_fun_t<T>::set_u_buy_item( const JsonObject &jo, const std::stri
         }
         itype_id iname = itype_id( item_name.evaluate( d ) );
         receive_item( iname, count.evaluate( d ),
-                      container_name.evaluate( d ), d, use_item_group );
+                      container_name.evaluate( d ), d, use_item_group, suppress_message );
         run_eoc_vector( true_eocs, d );
     };
 }
@@ -2796,7 +2800,7 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
 
         } else {
             for( const str_or_var<T> &mapgen_update_id : update_ids ) {
-                run_mapgen_update_func( update_mapgen_id( mapgen_update_id.evaluate( d ) ), omt_pos,
+                run_mapgen_update_func( update_mapgen_id( mapgen_update_id.evaluate( d ) ), omt_pos, {},
                                         d.actor( d.has_beta )->selected_mission() );
             }
             get_map().invalidate_map_cache( omt_pos.z() );
@@ -3272,6 +3276,27 @@ void talk_effect_fun_t<T>::set_sound_effect( const JsonObject &jo, const std::st
                 }
                 sfx::play_variant_sound( id.evaluate( d ), variant.evaluate( d ), local_volume,
                                          random_direction() );
+            }
+        }
+    };
+}
+
+
+template<class T>
+void talk_effect_fun_t<T>::set_give_achievment( const JsonObject &jo, const std::string &member )
+{
+    str_or_var<T> achieve = get_str_or_var<T>( jo.get_member( member ), member, true );
+    function = [achieve]( const T & d ) {
+        const achievement_id achievement_to_give( achieve.evaluate( d ) );
+        // make sure the achievement is being tracked and that it is currently pending
+        std::vector<const achievement *> all_achievements = get_achievements().valid_achievements();
+        if( std::find_if( all_achievements.begin(),
+        all_achievements.end(), [&achievement_to_give]( const achievement * ach ) {
+        return ach->id == achievement_to_give;
+    } ) != all_achievements.end() ) {
+            if( get_achievements().is_completed( achievement_to_give ) == achievement_completion::pending ) {
+                get_achievements().report_achievement( &achievement_to_give.obj(),
+                                                       achievement_completion::completed );
             }
         }
     };
@@ -4276,6 +4301,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_first_topic( jo, "npc_first_topic" );
     } else if( jo.has_string( "sound_effect" ) ) {
         subeffect_fun.set_sound_effect( jo, "sound_effect" );
+    } else if( jo.has_string( "give_achievement" ) ) {
+        subeffect_fun.set_give_achievment( jo, "give_achievement" );
     } else if( jo.has_member( "u_message" ) ) {
         subeffect_fun.set_message( jo, "u_message" );
     } else if( jo.has_member( "npc_message" ) ) {

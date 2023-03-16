@@ -89,7 +89,7 @@
     "reversible": true,
     "book_learn": [ [ "textbook_electronics", 3 ], [ "advanced_electronics", 3 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
-    "proficiencies": [ { "proficiency": "prof_elec_soldering", "fail_multiplier": 1.5 }, { "proficiency": "prof_shock_weapons" } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering", "skill_penalty": 0.5 }, { "proficiency": "prof_shock_weapons" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "i_staff", 1 ] ], [ [ "tazer", 1 ] ], [ [ "cable", 10 ] ] ]
   },
@@ -105,7 +105,7 @@
     "time": "3 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving" }, { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick_long", 1 ] ], [ [ "leather", 5 ] ] ]
   },
   {
@@ -124,8 +124,8 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" },
-      { "proficiency": "prof_carving", "fail_multiplier": 1 },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 }
+      { "proficiency": "prof_carving", "skill_penalty": 0 },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 }
     ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
@@ -162,7 +162,7 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "skill_penalty": 0 } ],
     "components": [ [ [ "2x4", 1 ], [ "pool_cue", 1 ] ] ]
   },
   {
@@ -199,7 +199,7 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "nail", 6 ] ] ]
   },
   {
@@ -225,7 +225,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
     "components": [ [ [ "bat", 1 ] ], [ [ "nail", 6 ] ] ]
   },
   {
@@ -250,10 +250,7 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 },
-      { "proficiency": "prof_carving", "fail_multiplier": 1 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 }, { "proficiency": "prof_carving", "skill_penalty": 0 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
   },
   {
@@ -266,10 +263,7 @@
     "time": "25 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 },
-      { "proficiency": "prof_carving", "fail_multiplier": 1 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 }, { "proficiency": "prof_carving", "skill_penalty": 0 } ],
     "components": [ [ [ "2x4", 1 ] ] ]
   },
   {
@@ -283,7 +277,7 @@
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 } ],
     "components": [ [ [ "sword_wood", 1 ] ], [ [ "nail", 12 ] ] ]
   },
   {
@@ -409,10 +403,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage", 4 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1 },
-      { "proficiency": "prof_carving", "fail_multiplier": 1 }
-    ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "skill_penalty": 0 }, { "proficiency": "prof_carving", "skill_penalty": 0 } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "nail", 16 ] ], [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
@@ -446,7 +437,7 @@
     "time": "30 m",
     "book_learn": [ [ "recipe_melee", 1 ], [ "textbook_weapeast", 7 ] ],
     "using": [ [ "sewing_standard", 5 ] ],
-    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 } ],
+    "proficiencies": [ { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0.15 } ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "leather", 4 ] ], [ [ "scrap", 8 ] ] ]
   },
@@ -492,7 +483,7 @@
     "difficulty": 6,
     "time": "1 h",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_plasticworking", "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking", "skill_penalty": 4 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "using": [ [ "plastic_molding", 1 ] ],
     "components": [ [ [ "plastic_chunk", 10 ] ] ]
@@ -526,9 +517,9 @@
     "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [
-      { "proficiency": "prof_elec_soldering", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_elec_soldering", "skill_penalty": 0.5 },
       { "proficiency": "prof_shock_weapons" },
-      { "proficiency": "prof_plasticworking", "fail_multiplier": 1.5 }
+      { "proficiency": "prof_plasticworking", "skill_penalty": 0.5 }
     ],
     "components": [
       [ [ "plastic_chunk", 10 ] ],
@@ -552,7 +543,7 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" },
-      { "proficiency": "prof_carving", "fail_multiplier": 1 }
+      { "proficiency": "prof_carving", "skill_penalty": 0 }
     ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
@@ -571,7 +562,7 @@
     "time": "5 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 2 ] ],
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.5 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "skill_penalty": 0.5 } ],
     "//": "Bokken is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
       [ [ "stick_long", 1 ] ],
@@ -601,8 +592,8 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" },
-      { "proficiency": "prof_carving", "fail_multiplier": 1 },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 }
+      { "proficiency": "prof_carving", "skill_penalty": 0 },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
@@ -617,7 +608,7 @@
     "time": "15 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "components": [
       [ [ "stick", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ], [ "pipe_fittings", 1 ] ],
@@ -637,7 +628,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "components": [
       [ [ "stick", 1 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 1 ], [ "pipe_fittings", 1 ] ],
@@ -696,7 +687,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "fail_multiplier": 1.15 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5, "skill_penalty": 0.15 } ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "HAMMER", "level": 1 }, { "id": "DRILL", "level": 1 } ],
     "components": [ [ [ "mace_simple", 1 ] ], [ [ "nail", 2 ] ], [ [ "cordage", 1, "LIST" ], [ "duct_tape", 50 ] ] ]
   },
@@ -713,7 +704,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
-      { "proficiency": "prof_carving", "fail_multiplier": 1 }
+      { "proficiency": "prof_carving", "skill_penalty": 0 }
     ],
     "using": [ [ "forging_standard", 1 ], [ "bronzesmithing_tools", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
@@ -735,8 +726,8 @@
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" },
-      { "proficiency": "prof_carving", "fail_multiplier": 1 },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1 }
+      { "proficiency": "prof_carving", "skill_penalty": 0 },
+      { "proficiency": "prof_leatherworking_basic", "skill_penalty": 0 }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -770,7 +761,7 @@
     "//1": "TODO: adjust crafting time down by 4 hours when it's possible to separate the oiling time from the crafting time easily.",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 }, { "id": "FILE", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.5, "max_experience": "60 m" } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "max_experience": "60 m", "skill_penalty": 0.5 } ],
     "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
     "components": [
       [ [ "stick_long", 1 ] ],
@@ -797,7 +788,7 @@
     "//1": "TODO: adjust crafting time down by 4 hours (240 minutes) when it's possible to separate the oiling time from the crafting time easily.",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "CUT_FINE", "level": 1 }, { "id": "FILE", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1.2, "max_experience": "30 m" } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "max_experience": "30 m", "skill_penalty": 0.2 } ],
     "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
     "components": [
       [ [ "q_staff", 1 ] ],

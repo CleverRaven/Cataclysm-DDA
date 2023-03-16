@@ -250,6 +250,7 @@ enum debug_filter : int {
     DF_CHARACTER, // character generic
     DF_CHAR_CALORIES, // character stomach and calories
     DF_CHAR_HEALTH, // character health related
+    DF_CRAFTING, // Crafting everything
     DF_CREATURE, // creature generic
     DF_EFFECT, // effects generic
     DF_EXPLOSION, // explosion generic
@@ -261,6 +262,7 @@ enum debug_filter : int {
     DF_MATTACK, // monster attack generic
     DF_MELEE, // melee generic
     DF_MONSTER, // monster generic
+    DF_MUTATION, // mutation/purification logic
     DF_NPC, // npc generic
     DF_OVERMAP, // overmap generic
     DF_RADIO, // radio stuff

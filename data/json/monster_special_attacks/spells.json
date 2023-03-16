@@ -93,6 +93,19 @@
   },
   {
     "type": "SPELL",
+    "id": "wretch_hurt_self",
+    "name": { "str": "Wretch Hurt Self" },
+    "description": "Hurts yourself.",
+    "flags": [ "RANDOM_DAMAGE", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 5,
+    "max_damage": 15,
+    "damage_type": "cut",
+    "valid_targets": [ "hostile", "ally", "self", "ground" ],
+    "shape": "blast",
+    "effect": "attack"
+  },
+  {
+    "type": "SPELL",
     "id": "frog_mother_hurt_self",
     "name": { "str": "Frog Mother Hurt Self" },
     "description": "Hurts yourself.",
@@ -145,11 +158,12 @@
     "description": "Summons a flesh raptor while dealing some damage to the zombie.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
-    "min_damage": 5,
-    "max_damage": 10,
-    "min_aoe": 3,
-    "max_aoe": 3,
-    "base_casting_time": 100,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "extra_effects": [ { "id": "wretch_hurt_self", "hit_self": true } ],
+    "base_casting_time": 200,
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_spawn_raptor"
@@ -194,11 +208,12 @@
     "description": "Summons a fungal flesh raptor while dealing some damage to the zombie.",
     "flags": [ "HOSTILE_SUMMON", "RANDOM_DAMAGE", "PERMANENT", "NO_EXPLOSION_SFX" ],
     "valid_targets": [ "ground", "self" ],
-    "min_damage": 5,
-    "max_damage": 10,
+    "min_damage": 1,
+    "max_damage": 1,
     "min_aoe": 2,
     "max_aoe": 2,
-    "base_casting_time": 500,
+    "extra_effects": [ { "id": "wretch_hurt_self", "hit_self": true } ],
+    "base_casting_time": 250,
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_fungal_raptor"
@@ -875,6 +890,21 @@
     "effect_str": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN"
   },
   {
+    "type": "SPELL",
+    "id": "mon_XEDRA_officer_banish",
+    "name": { "str": "Officer banish" },
+    "description": "Stops the haunting.",
+    "valid_targets": [ "self", "ground" ],
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_HANDS", "NO_LEGS" ],
+    "base_casting_time": 75,
+    "min_range": 15,
+    "max_range": 15,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_HAUNTING_QUEUE_STOP"
+  },
+  {
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_RESPAWN",
     "effect": [ { "queue_eocs": "EOC_PORTAL_STORM_DUNGEON_REFLECTION_SPAWN", "time_in_future": [ "30 seconds", "1 minutes" ] } ]
@@ -947,6 +977,14 @@
       { "arithmetic": [ { "global_val": "var", "var_name": "portal_dungeon_slow_strength" }, "--" ], "min": -75 },
       { "u_add_effect": "slowed_time", "duration": [ "4 hours", "6 hours" ] }
     ]
+  },
+  {
+    "type": "SPELL",
+    "id": "spell_conjure_memories",
+    "name": { "str": "Life Flashing" },
+    "description": "Brings back memories.",
+    "copy-from": "base_portal",
+    "effect_str": "EOC_conjure_memories"
   },
   {
     "type": "SPELL",

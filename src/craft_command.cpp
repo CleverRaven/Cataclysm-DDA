@@ -414,7 +414,7 @@ bool craft_command::safe_to_unload_comp( const item &it )
 item craft_command::create_in_progress_craft()
 {
     // Use up the components and tools
-    std::list<item> used;
+    item_components used;
     std::vector<item_comp> comps_used;
     if( crafter->has_trait( trait_DEBUG_HS ) ) {
         return item( rec, batch_size, used, comps_used );
@@ -449,7 +449,9 @@ item craft_command::create_in_progress_craft()
                 unload_activity_actor::unload( *crafter, tmp_loc );
             }
         }
-        used.splice( used.end(), tmp );
+        for( item &it : tmp ) {
+            used.add( it );
+        }
     }
 
     for( const comp_selection<item_comp> &selection : item_selections ) {

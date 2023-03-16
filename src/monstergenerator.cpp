@@ -176,6 +176,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_PRIORITIZE_TARGETS: return "PRIORITIZE_TARGETS";
         case MF_NOT_HALLU: return "NOT_HALLUCINATION";
         case MF_CANPLAY: return "CANPLAY";
+        case MF_CAN_BE_CULLED: return "CAN_BE_CULLED";
         case MF_PET_MOUNTABLE: return "PET_MOUNTABLE";
         case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
         case MF_DOGFOOD: return "DOGFOOD";

@@ -10,20 +10,22 @@ A basecamp upgrade path is a series of basecamp upgrade missions that upgrade th
 
 Basecamp upgrade paths are defined by several related files:
 * The recipe JSONs that define what the material, tool, and skill requirements to perform an upgrade mission and the blueprint mapgen, blueprint requirements, blueprint provides, and blueprint resources associated with each upgrade mission.
-* The mapgen_update JSONs that define how the map will change when the upgrade mission is complete.  These may include shared instances of nested mapgen, such a standard room or tent.
-* The recipe_group JSONs that define what recipes can be crafted after completing the upgrade mission and what camps and expansions are available.
+* The mapgen update JSONs that define how the map will change when the upgrade mission is complete.  These may include shared instances of nested mapgen, such a standard room or tent.
+* The `recipe_group` JSONs that define what recipes can be crafted after completing the upgrade mission and what camps and expansions are available.
 
 ## recipe JSONs
 The recipe JSONs are standard recipe JSONs, with the addition of a few fields.
 
 New field | Description
 -- | --
-`"construction_blueprint"` | string, the `"update_mapgen_id"` of the mapgen_update JSON that will be performed when the upgrade mission is complete.
+`"construction_blueprint"` | string, the `"update_mapgen_id"` of the mapgen update JSON that will be performed when the upgrade mission is complete.
 `"construction_name"` | string, a short description/name of the upgrade mission that is displayed in the base camp mission selector.  The recipe's `"description"` field has the extended description that explains why a player might want to have an NPC perform this upgrade mission.
 `"blueprint_provides"` | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that are available when the upgrade mission is complete.  Every upgrade mission provides its recipe `"result"` with an amount of 1 automatically and that string does not need to be listed in `"blueprint_provides"`.
 `"blueprint_requires"` | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that are required before the upgrade mission can be attempted.
 `"blueprint_excludes"` | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that prevent the upgrade mission from being attempted if they exist.
 `"blueprint_resources"` | array of `"itype_id"`s.  Items with those ids will be added to the camp inventory after the upgrade mission is completed and can be used for crafting or additional upgrade missions.
+`"blueprint_parameter_names"` | defines human-readable names for any parameter values for this recipe, when used with [parametric mapgen](#parametric-mapgen).
+`"blueprint_needs"` | object which defines the requirements to build this blueprint.  If not given, the game will attempt to autocalculate the needs based on the associated mapgen definition, so usually you need not specify `"blueprint_needs"`.
 
 ### blueprint requires, provides, and excludes
 blueprint requires, blueprint provides, and blueprint excludes are abstract concepts or flags that an upgrade mission requires to start, or that are provided by a previous upgrade mission to satisfy the blueprint requirements of a current upgrade mission, or that prevent an upgrade mission from being available.  Each one has an `"id"` and an `"amount"`.  Multiple requires, provides, or excludes with the same `"id"` sum their `"amount"` if they're on the same basecamp expansion.
@@ -89,11 +91,16 @@ The `"faction_base_camp_8"` upgrade mission can be performed after `"faction_bas
 
 `"blueprint_autocalc": true` could be used instead of `components` to let the cost be calculated automatically from the mapgen\_update data.
 
-## mapgen_update JSON
+## mapgen update JSON
 
-These are standard mapgen_update JSON; see doc/MAPGEN.md for more details.  Each one should change a localized portion of the camp map and should, as much as possible, be independent of any other pieces of mapgen_update for the basecamp upgrade path.  Obviously, some bits are going to expand other bits, in which case their `"blueprint_requires"` should include the `"blueprint_provides"` of the previous upgrade missions.
+These are standard mapgen update JSON; see [the MAPGEN docs](doc/MAPGEN.md) for
+more details.  Each one should change a localized portion of the camp map and
+should, as much as possible, be independent of any other pieces of
+mapgen update for the basecamp upgrade path.  Obviously, some bits are going to
+expand other bits, in which case their `"blueprint_requires"` should include
+the `"blueprint_provides"` of the previous upgrade missions.
 
-### Sample mapgen_update JSON
+### Sample mapgen update JSON
 
 ```json
   {
@@ -120,7 +127,91 @@ These are standard mapgen_update JSON; see doc/MAPGEN.md for more details.  Each
   },
 ```
 
-This mapgen_update places a large tent in the west central portion of the camp.  The `"place_nested"` references a standard map used in the primitive field camp.
+This mapgen update places a large tent in the west central portion of the camp.  The `"place_nested"` references a standard map used in the primitive field camp.
+
+### Parametric mapgen
+
+It is common to have many similar versions of upgrades which differ only in
+some details.  For example, building the same structure with different
+materials.
+
+In this situation, you can define multiple upgrade options with a single recipe
+and a single mapgen update.  This works as follows.
+
+Put one or more mapgen parameters in the mapgen update.  Mapgen parameters are
+documented in [the MAPGEN docs](doc/MAPGEN.md).  Each parameter should be at
+OMT scope and have a set of options defined e.g. via `"distribution"`, but the
+weights of the different options do not matter; the player will choose between
+them rather than a random choice.
+
+For the player to make this choice we also need human-readable (and
+translatable) descriptions of the parameter options.  Those go in the recipe.
+
+For example, suppose this was your mapgen definition:
+
+```json
+{
+  "type": "mapgen",
+  "method": "json",
+  "nested_mapgen_id": "fbmh_2_generic_room_1_1",
+  "object": {
+    "parameters": {
+      "fbmh_2_generic_palette": {
+        "type": "palette_id",
+        "scope": "omt",
+        "default": { "distribution": [ "fbmh_2_log_palette", "fbmh_2_migo_resin_palette" ] }
+      }
+    },
+    "mapgensize": [ 6, 6 ],
+    "rows": [
+      "  wwww",
+      "  ...w",
+      "    .w",
+      "      ",
+      "      ",
+      "      "
+    ],
+    "palettes": [ { "param": "fbmh_2_generic_palette" } ]
+  }
+}
+```
+
+That defines one parameter with two options.
+
+Then in the recipe definition provide human-readable names for the parameters
+via `"blueprint_parameter_names"`.  This is a JSON object whose keys are the
+parameter names.  Each value is itself a JSON object whose keys are the options
+for that parameter, and values are the human-readable descriptions of what that
+parameter means.  These descriptions will appear in the basecamp upgrade menu.
+For example:
+
+```json
+{
+  "type": "recipe",
+  "activity_level": "MODERATE_EXERCISE",
+  "result": "fbmh_2_generic_room_1_1",
+  "description": "We need some shelter, so build half of a shack with a roof on the northeast side of the camp",
+  "category": "CC_BUILDING",
+  "subcategory": "CSC_BUILDING_BASES",
+  "autolearn": false,
+  "never_learn": true,
+  "construction_blueprint": "fbmh_2_generic_room_NE_1",
+  "blueprint_name": "northeast shack",
+  "blueprint_parameter_names": {
+    "fbmh_2_generic_palette": {
+      "fbmh_2_log_palette": "Log walls and wooden roof",
+      "fbmh_2_migo_resin_palette": "Mi-go resin walls and roof"
+    }
+  },
+  "blueprint_requires": [ { "id": "fbmh_2" } ],
+  "blueprint_provides": [ { "id": "fbmh_2_room_NE" } ],
+  "blueprint_excludes": [ { "id": "fbmh_2_room_NE" } ]
+}
+```
+
+Since each different choice of parameters would naturally lead to different
+requirements, you cannot provide `"blueprint_needs"` to a parametric recipe;
+the needs must be autocalculated.
 
 ## Recipe groups
 Recipe groups serve two purposes: they indicate what recipes can produced by the camp after an upgrade mission is completed, and they indicate what upgrade paths are available and where camps can be placed.
@@ -143,7 +234,7 @@ There are two special recipe groups, `"all_faction_base_types"` and `"all_factio
 
 Each entry in the `"recipes"` array must be a dictionary with the `"id"`, `"description"`, and `"om_terrains"` fields.  `"id"` is the recipe `"id"` of the recipe that starts that basecamp or basecamp expansion upgrade path, and has to conform to the pattern `"faction_base_X_0"`, where X distinguishes the entry from the others, with the prefix and suffix required by the code.  `"description"` is a short name of the basecamp or basecamp expansion.  `"om_terrains"` is a list of overmap terrain ids which can be used as the basis for the basecamp or basecamp expansion.
 
-All recipes that start an upgrade path or expansion should have a blueprint requirement that can never be met, such as "not_an_upgrade", to prevent them from showing up as available upgrades. Additionally, if you want to add an expansion, you must create an OMT with the same `id` as the expansion's `id`.
+All recipes that start an upgrade path or expansion should have a blueprint requirement that can never be met, such as `"not_an_upgrade"`, to prevent them from showing up as available upgrades. Additionally, if you want to add an expansion, you must create an OMT with the same `id` as the expansion's `id`.
 
 If the player attempts to start a basecamp on an overmap terrain that has two or more valid basecamp expansion paths, she will allowed to choose which path to start.
 
@@ -195,13 +286,13 @@ Modular bases use the following naming scheme for recipes.  Each element is sepa
 * MATERIAL <-- the type of material used in construction, such as metal, wood, brick, or wad (short for wattle-and-daub), _and_
 * AREA <-- the area in the 3x3 grid of the modular camp layout.
 
-blueprint keywords follow a similar scheme, but `"faction_base_modular"` is collapsed into `"fbm"` and the overmap terrain id is collapsed into a short identifier.  ie, `"fbmf"` is the keyword identifier for elements of the modular field base.
+blueprint keywords follow a similar scheme, but `"faction_base_modular"` is collapsed into `"fbm"` and the overmap terrain id is collapsed into a short identifier.  I.e., `"fbmf"` is the keyword identifier for elements of the modular field base.
 
 # Adding basecamp expansions
 
 Basecamp expansion upgrade paths are defined by the corresponding set of files to the basecamps themselves, with two additions (at the end of the list):
 * The recipe JSONs that define what the material, tool, and skill requirements to perform an upgrade mission and the blueprint mapgen, blueprint requirements, blueprint provides, and blueprint resources associated with each upgrade mission.
-* The mapgen_update JSONs that define how the map will change when the upgrade mission is complete.  These may include shared instances of nested mapgen, such a standard room or tent.
-* The recipe_group JSONs that define what recipes can be crafted after completing the upgrade mission and what camps and expansions are available.
-* ../json/overmap/overmap_terrain/overmap_terrain_faction_base.json has to be updated to provide an overmap identifier for each new expansion.
-* ../json/mapgen/faction_buildings.json also has to be updated to introduce an entry for the new expansion.
+* The mapgen update JSONs that define how the map will change when the upgrade mission is complete.  These may include shared instances of nested mapgen, such a standard room or tent.
+* The `recipe_group` JSONs that define what recipes can be crafted after completing the upgrade mission and what camps and expansions are available.
+* `data/json/overmap/overmap_terrain/overmap_terrain_faction_base.json` has to be updated to provide an overmap identifier for each new expansion.
+* `data/json/mapgen/faction_buildings.json` also has to be updated to introduce an entry for the new expansion.

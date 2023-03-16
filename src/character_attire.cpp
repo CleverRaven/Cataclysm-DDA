@@ -2003,6 +2003,9 @@ void outfit::on_takeoff( Character &guy )
 void outfit::on_item_wear( Character &guy )
 {
     for( item &clothing : worn ) {
+        if( clothing.relic_data && clothing.type->relic_data ) {
+            clothing.relic_data = clothing.type->relic_data;
+        }
         guy.on_item_wear( clothing );
     }
 }
@@ -2114,7 +2117,7 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
         }
     }
 
-    // go through every item and see how it handles every part of the character
+    // go through every item and see how it handles these part(s) of the character
     for( const item &armor : worn ) {
         // check if it covers the part
         // FIXME: item::covers( const sub_bodypart_id & ) always
@@ -2131,6 +2134,24 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
             }
         }
         if( !covered ) {
+            // some clothing flags provide warmth without providing coverage or encumberance
+            // these are included in the worn list so that players aren't confused about why body parts are warm
+            // but not included in the later coverage and encumberance calculations
+            if( ( bp == body_part_hand_l || bp == body_part_hand_r ) && armor.has_flag( flag_POCKETS ) &&
+                person.can_use_pockets() ) {
+                //~ name of a clothing/armor item, indicating it has pockets providing hand warmth
+                info.worn_names.push_back( string_format( _( "%s (pockets)" ), armor.tname() ) );
+            }
+            if( bp == body_part_head && armor.has_flag( flag_HOOD ) && person.can_use_hood() ) {
+                //~ name of a clothing/armor item, indicating it has a hood providing head warmth
+                info.worn_names.push_back( string_format( _( "%s (hood)" ), armor.tname() ) );
+            }
+            if( bp == body_part_mouth && armor.has_flag( flag_COLLAR ) && person.can_use_collar() ) {
+                // collars don't cover or encumber, but do conditionally provide warmth
+                //~ name of a clothing/armor item, indicating it has a collar providing mouth warmth
+                info.worn_names.push_back( string_format( _( "%s (collar)" ), armor.tname() ) );
+            }
+
             continue;
         }
 
@@ -2493,44 +2514,8 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
 void outfit::organize_items_menu()
 {
     std::vector<item *> to_organize;
-    uilist pocket_selector;
     for( item &i : worn ) {
         to_organize.push_back( &i );
     }
-    pocket_favorite_callback cb( to_organize, pocket_selector );
-
-    pocket_selector.title = _( "Inventory Organization" );
-    pocket_selector.text = cb.title;
-    pocket_selector.callback = &cb;
-    pocket_selector.w_x_setup = 0;
-    pocket_selector.w_width_setup = []() {
-        return TERMX;
-    };
-    pocket_selector.pad_right_setup = []() {
-        return std::max( TERMX / 2, TERMX - 50 );
-    };
-    pocket_selector.w_y_setup = 0;
-    pocket_selector.w_height_setup = []() {
-        return TERMY;
-    };
-    pocket_selector.input_category = "INVENTORY";
-    pocket_selector.additional_actions = { { "FAV_PRIORITY", translation() },
-        { "FAV_AUTO_PICKUP", translation() },
-        { "FAV_AUTO_UNLOAD", translation() },
-        { "FAV_ITEM", translation() },
-        { "FAV_CATEGORY", translation() },
-        { "FAV_WHITELIST", translation() },
-        { "FAV_BLACKLIST", translation() },
-        { "FAV_CLEAR", translation() },
-        { "FAV_MOVE_ITEM", translation() },
-        { "FAV_CONTEXT_MENU", translation() },
-        { "FAV_SAVE_PRESET", translation() },
-        { "FAV_APPLY_PRESET", translation() },
-        { "FAV_DEL_PRESET", translation() }
-    };
-    // we override confirm
-    pocket_selector.allow_confirm = false;
-    pocket_selector.allow_additional = true;
-
-    pocket_selector.query();
+    pocket_management_menu( _( "Inventory Organization" ), to_organize );
 }

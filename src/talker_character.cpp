@@ -548,6 +548,11 @@ int talker_character_const::get_stored_kcal() const
     return me_chr_const->get_stored_kcal();
 }
 
+int talker_character_const::get_healthy_kcal() const
+{
+    return me_chr_const->get_healthy_kcal();
+}
+
 void talker_character::set_stored_kcal( int value )
 {
     me_chr->set_stored_kcal( value );
@@ -768,7 +773,7 @@ int talker_character_const::get_age() const
 
 int talker_character_const::get_bmi_permil() const
 {
-    return std::round( me_chr_const->get_bmi() * 1000.0f );
+    return std::round( me_chr_const->get_bmi_fat() * 1000.0f );
 }
 
 void talker_character::set_height( int amount )

@@ -33,6 +33,16 @@
         "weight": 1
       },
       {
+        "id": "mag_cutting_3",
+        "name": { "str": "Basics Of Stage Combat", "str_pl": "copies of Basics Of Stage Combat" },
+        "description": "Foundation of using single handed sword on stage and on screen, with different tricks how to make a good show of it.",
+        "//": "978-1612331720",
+        "max_level": 2,
+        "intelligence": 6,
+        "fun": 1,
+        "weight": 1
+      },
+      {
         "id": "mag_cutting_4",
         "name": { "str": "Medieval Combat in Colour", "str_pl": "copies of Medieval Combat in Colour" },
         "description": "An ancient fencing manual with updated illustrations of techniques.  Sometimes it just looks silly, describing how to fight if you have sword in one hand and a spear in another.",
@@ -172,7 +182,6 @@
         "weight": 1
       }
     ],
-    "//": "TODO: check the required_level, max_level and intelligence of this list, because it seems USMC do not provide any useful information about swords really",
     "weight": "454 g",
     "volume": "250 ml",
     "price": 5200,

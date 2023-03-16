@@ -490,7 +490,17 @@
       { "item": "pastaextruder", "prob": 10 },
       { "item": "dehydrator", "prob": 10 },
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "hotplate_induction", "prob": 1, "charges": [ 0, 500 ] },
       { "collection": [ { "item": "charcoal", "prob": 70 }, { "item": "char_smoker", "prob": 100 } ], "prob": 5 },
+      {
+        "collection": [
+          { "item": "small_propane_tank", "prob": 70, "count": [ 1, 3 ], "charges": [ 1000, 3000 ] },
+          { "item": "medium_propane_tank", "prob": 85, "count": [ 1, 2 ], "charges": [ 2000, 15000 ] },
+          { "item": "large_propane_tank", "prob": 25, "charges": [ 2000, 60000 ] },
+          { "item": "propane_cooker", "prob": 80 }
+        ],
+        "prob": 12
+      },
       { "item": "can_sealer", "prob": 2 },
       { "item": "oil_press_manual", "prob": 2 },
       { "group": "dishes_utility", "prob": 50, "count": [ 1, 3 ] }
@@ -550,7 +560,7 @@
           { "item": "toaster" },
           {
             "distribution": [
-              { "item": "bread", "charges": [ 2, 12 ], "prob": 70 },
+              { "item": "bread", "charges": [ 2, 14 ], "prob": 70 },
               { "item": "sourdough_bread", "charges": [ 2, 12 ], "prob": 30 }
             ],
             "prob": 80
@@ -602,6 +612,7 @@
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "//2": "This group is for an oven that might have some pots and pans in the warming drawer.",
+    "//3": "added propane spawns here, even if it's not technically a gas oven, it *does* have a pilot light in it.",
     "subtype": "collection",
     "entries": [
       {
@@ -628,6 +639,13 @@
           { "item": "dutch_oven", "prob": 5 }
         ],
         "prob": 50
+      },
+      {
+        "distribution": [
+          { "item": "medium_propane_tank", "prob": 40, "count": [ 1, 2 ], "charges": [ 2000, 15000 ] },
+          { "item": "large_propane_tank", "prob": 60, "charges": [ 2000, 60000 ] }
+        ],
+        "prob": 15
       }
     ]
   },
@@ -709,7 +727,7 @@
         "distribution": [
           { "group": "adhesive_bandages_box_used", "prob": 30 },
           { "item": "bandages", "prob": 30, "count": [ 1, 6 ] },
-          { "item": "liq_bandage", "prob": 5, "charges-min": 1 },
+          { "item": "liq_bandage_spray", "prob": 5, "charges-min": 1 },
           { "item": "medical_gauze", "prob": 20 },
           { "group": "full_1st_aid", "prob": 10 }
         ],
