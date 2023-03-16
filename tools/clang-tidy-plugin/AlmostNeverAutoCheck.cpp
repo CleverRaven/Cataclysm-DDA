@@ -25,17 +25,15 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void AlmostNeverAutoCheck::registerMatchers( MatchFinder *Finder )
 {
     Finder->addMatcher(
         varDecl(
+            // Exclude lambda captures with initializers
+            unless( hasParent( lambdaExpr() ) ),
             anyOf(
                 varDecl( hasType( autoType() ) ),
                 varDecl( hasType( references( autoType() ) ) )
@@ -167,6 +165,4 @@ void AlmostNeverAutoCheck::check( const MatchFinder::MatchResult &Result )
     CheckDecl( *this, Result );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

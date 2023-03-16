@@ -19,11 +19,7 @@ class MacroDefinition;
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 class TestFilenameCallbacks : public PPCallbacks
@@ -60,6 +56,4 @@ void TestFilenameCheck::registerPPCallbacks( const SourceManager &SM, Preprocess
     PP->addPPCallbacks( std::make_unique<TestFilenameCallbacks>( this, &SM ) );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

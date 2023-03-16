@@ -21,6 +21,15 @@
 
 bool assure_dir_exist( const std::string &path )
 {
+    // TEMPORARY until we drop VS2019 support
+    // VS2019 std::filesystem doesn't handle trailing slashes well in this
+    // situation.  We think this is a bug.  Work around it by removing the
+    // trailing slash if present.
+    if( string_ends_with( path, "/" ) ) {
+        std::string p = path;
+        p.pop_back();
+        return assure_dir_exist( fs::u8path( p ) );
+    }
     return assure_dir_exist( fs::u8path( path ) );
 }
 
@@ -153,7 +162,7 @@ void for_each_dir_entry( const fs::path &path, Function &&function )
                                       e_str << "\".";
         return;
     }
-    for( const ghc::filesystem::directory_entry &dir_entry : dir_iter ) {
+    for( const fs::directory_entry &dir_entry : dir_iter ) {
         function( dir_entry );
     }
 }

@@ -27,11 +27,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void CombineLocalsIntoPointCheck::registerMatchers( MatchFinder *Finder )
@@ -290,6 +286,4 @@ void CombineLocalsIntoPointCheck::onEndOfTranslationUnit()
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata
