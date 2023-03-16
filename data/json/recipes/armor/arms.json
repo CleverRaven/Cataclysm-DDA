@@ -1527,10 +1527,10 @@
       [ "blacksmithing_standard", 16 ],
       [ "lc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ],
+      [ "strap_small", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
-    ]
   },
   {
     "result": "armguard_mc_brigandine",
@@ -1570,10 +1570,10 @@
       [ "blacksmithing_standard", 16 ],
       [ "mc_steel_standard", 3 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ],
+      [ "strap_small", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
-    ]
   },
   {
     "result": "armguard_mc_brigandine_xs",
@@ -1587,10 +1587,10 @@
       [ "blacksmithing_standard", 16 ],
       [ "mc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ],
+      [ "strap_small", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
-    ]
   },
   {
     "result": "armguard_hc_brigandine",
@@ -1607,9 +1607,7 @@
       [ "blacksmithing_standard", 16 ],
       [ "hc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ],
-    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
+      [ "strap_small", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ],
@@ -1632,10 +1630,10 @@
       [ "blacksmithing_standard", 16 ],
       [ "hc_steel_standard", 3 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ],
+      [ "strap_small", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
-    ]
   },
   {
     "result": "armguard_hc_brigandine_xs",
@@ -1649,10 +1647,10 @@
       [ "blacksmithing_standard", 16 ],
       [ "hc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ],
+      [ "strap_small", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
-    ]
   },
   {
     "result": "armguard_ch_brigandine",
@@ -1670,9 +1668,7 @@
       [ "lc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
       [ "strap_small", 2 ],
-      [ "carbon", 2 ],
-    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
+      [ "carbon", 2 ]
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ],
@@ -1697,10 +1693,10 @@
       [ "lc_steel_standard", 3 ],
       [ "fastener_small", 2 ],
       [ "strap_small", 2 ],
-      [ "carbon", 3 ],
+      [ "carbon", 3 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
-    ]
   },
   {
     "result": "armguard_ch_brigandine_xs",
@@ -1715,10 +1711,10 @@
       [ "lc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
       [ "strap_small", 2 ],
-      [ "carbon", 2 ],
+      [ "carbon", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
-    ]
   },
   {
     "result": "armguard_qt_brigandine",
@@ -1759,10 +1755,10 @@
       [ "blacksmithing_standard", 16 ],
       [ "mc_steel_standard", 3 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ],
+      [ "strap_small", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
-    ]
   },
   {
     "result": "armguard_qt_brigandine_xs",
@@ -1776,10 +1772,10 @@
       [ "blacksmithing_standard", 16 ],
       [ "mc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ],
+      [ "strap_small", 2 ]
+    ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
-    ]
   },
   {
     "result": "lc_elbow_guards",
@@ -1995,7 +1991,7 @@
     "subcategory": "CSC_*_NESTED",
     "time": "20 h",
     "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
-	"qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ], [ "water_clean", -120 ] ] ]
   }
 ]
