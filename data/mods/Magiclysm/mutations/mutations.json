@@ -799,6 +799,10 @@
     "type": "mutation",
     "id": "SAPIOVORE",
     "copy-from": "SAPIOVORE",
-    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ], "prereqs2": [ "PRED3_DRAGON", "PRED4_DRAGON" ] }
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK" ],
+      "prereqs2": [ "PRED3_DRAGON", "PRED4_DRAGON" ]
+    }
   }
 ]
