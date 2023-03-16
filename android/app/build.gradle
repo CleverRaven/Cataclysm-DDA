@@ -233,6 +233,7 @@ createWindowsJunctionLinks.dependsOn makeLocalization
 
 android {
     compileSdkVersion override_compileSdkVersion
+    ndkVersion "25.2.9519653"
 
     defaultConfig {
         minSdkVersion override_minSdkVersion
