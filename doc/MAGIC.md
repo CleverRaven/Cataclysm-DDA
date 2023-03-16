@@ -803,6 +803,7 @@ The following is a list of possible enchantment `values`:
 | `EXTRA_HEAT` | 
 | `EXTRA_STAB` | 
 | `EXTRA_ELEC_PAIN` | Multiplier on electric damage received, the result is applied as extra pain.
+| `FALL_DAMAGE` | Affects the ammount of fall damage you take.
 | `FATIGUE` | 
 | `FOOTSTEP_NOISE` | 
 | `HUNGER` | 

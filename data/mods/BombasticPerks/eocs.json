@@ -1,0 +1,25 @@
+[
+    {
+        "type": "effect_on_condition",
+        "id": "EOC_open_perk_menu",
+        "effect": [
+            { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } }
+        ]
+      },
+      {
+        "type": "effect_on_condition",
+        "id": "EOC_give_perk_point",
+        "effect": [
+            {
+                "arithmetic": [
+                  { "global_val": "var", "var_name": "num_perks" },
+                  "=",
+                  { "global_val": "var", "var_name": "num_perks" },
+                  "+",
+                  { "const": 1 }
+                ]
+            }
+        ]
+      }
+    
+]
