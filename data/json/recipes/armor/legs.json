@@ -1904,7 +1904,9 @@
       [ "blacksmithing_standard", 16 ],
       [ "lc_steel_standard", 4 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ]
+      [ "strap_small", 2 ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
     ]
   },
   {
@@ -1919,7 +1921,9 @@
       [ "blacksmithing_standard", 16 ],
       [ "lc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ]
+      [ "strap_small", 2 ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
     ]
   },
   {
@@ -1960,7 +1964,9 @@
       [ "blacksmithing_standard", 16 ],
       [ "mc_steel_standard", 4 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ]
+      [ "strap_small", 2 ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
     ]
   },
   {
@@ -1975,7 +1981,9 @@
       [ "blacksmithing_standard", 16 ],
       [ "mc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ]
+      [ "strap_small", 2 ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
     ]
   },
   {
@@ -2016,7 +2024,9 @@
       [ "blacksmithing_standard", 16 ],
       [ "hc_steel_standard", 4 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ]
+      [ "strap_small", 2 ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
     ]
   },
   {
@@ -2031,7 +2041,9 @@
       [ "blacksmithing_standard", 16 ],
       [ "hc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ]
+      [ "strap_small", 2 ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
     ]
   },
   {
@@ -2075,7 +2087,9 @@
       [ "lc_steel_standard", 4 ],
       [ "fastener_small", 2 ],
       [ "strap_small", 2 ],
-      [ "carbon", 2 ]
+      [ "carbon", 2 ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
     ]
   },
   {
@@ -2091,7 +2105,9 @@
       [ "lc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
       [ "strap_small", 2 ],
-      [ "carbon", 2 ]
+      [ "carbon", 2 ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
     ]
   },
   {
@@ -2133,7 +2149,9 @@
       [ "blacksmithing_standard", 16 ],
       [ "mc_steel_standard", 4 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ]
+      [ "strap_small", 2 ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
     ]
   },
   {
@@ -2148,7 +2166,9 @@
       [ "blacksmithing_standard", 16 ],
       [ "mc_steel_standard", 2 ],
       [ "fastener_small", 2 ],
-      [ "strap_small", 2 ]
+      [ "strap_small", 2 ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
     ]
   },
   {
@@ -2179,7 +2199,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "4 h",
-    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "lc_knee_guards_xs",
@@ -2188,7 +2210,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "4 h",
-    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "mc_knee_guards",
@@ -2218,7 +2242,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "4 h",
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "mc_knee_guards_xs",
@@ -2227,7 +2253,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "4 h",
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "hc_knee_guards",
@@ -2257,7 +2285,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "4 h",
-    "using": [ [ "blacksmithing_standard", 8 ], [ "hc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "hc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "hc_knee_guards_xs",
@@ -2266,7 +2296,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "4 h",
-    "using": [ [ "blacksmithing_standard", 8 ], [ "hc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "hc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "ch_knee_guards",
@@ -2297,7 +2329,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "8 h",
-    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ], [ "carbon", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ], [ "carbon", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "ch_knee_guards_xs",
@@ -2306,7 +2340,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "8 h",
-    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ], [ "carbon", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "lc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ], [ "carbon", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "qt_knee_guards",
@@ -2337,7 +2373,9 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "20 h",
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   },
   {
     "result": "qt_knee_guards_xs",
@@ -2346,6 +2384,8 @@
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "time": "20 h",
-    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ]
+    "using": [ [ "blacksmithing_standard", 8 ], [ "mc_steel_standard", 1 ], [ "clasps", 2 ], [ "strap_small", 1 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "DRILL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "metal_tank", -1 ] ], [ [ "water", -120 ] ] ]
   }
 ]
