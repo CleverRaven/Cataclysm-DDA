@@ -12799,11 +12799,11 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     int distance = rl_dist( pos, connection_pos );
     charges = link.max_length - distance;
 
-    if( charges == 1 && carrying_item ) {
+        if( charges == 0 && carrying_item ) {
         carrier->add_msg_if_player( m_warning, parent_item == nullptr ?
                                     string_format( _( "Your %s is stretched to its limit!" ), label( 1 ) ) :
                                     string_format( _( "Your %s's cable is stretched to its limit!" ), parent_item->label( 1 ) ) );
-    } else if( charges < 1 ) {
+        } else if( charges < 0 ) {
         if( carrying_item ) {
             carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
                                         string_format( _( "Your over-extended %s breaks loose!" ), tname( 1, false ) ) :
@@ -12817,7 +12817,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         return has_flag( flag_AUTO_CABLE ) ? true : false;
     }
 
-        if( parent_item != nullptr && charges > 0 ) {
+        if( parent_item != nullptr && charges >= 0 ) {
         link.power_draw = 0;
         // Recharge batteries
         item *parent_mag = parent_item->magazine_current();
@@ -12851,7 +12851,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         add_msg_debug( debugmode::DF_IUSE, "%s linked to %s%s, length %d/%d",
                    parent_item == nullptr ? tname( 1, false ) : parent_item->tname( 1 ),
                    link.pos.to_string(), here.inbounds( connection_pos ) ? "" : " (OoB)",
-                   link.max_length - charges, link.max_length - 1 );
+                   link.max_length - charges, link.max_length );
     }
 
     return false;

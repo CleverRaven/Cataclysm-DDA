@@ -4358,8 +4358,8 @@ void plug_in_actor::load( const JsonObject &jo )
 {
     jo.read( "cable_type", type );
     jo.read( "cable_length", cable_length );
-    jo.read( "efficiency", efficiency );
     jo.read( "charge_rate", charge_rate );
+    jo.read( "efficiency", efficiency );
     jo.read( "menu_text", menu_text );
 }
 
@@ -4438,7 +4438,7 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
 
         cable.link.state = cable_state::hanging_from_vehicle;
         // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
-        cable.link.max_length = cable_length != -1 ? cable_length + 1 : type->maximum_charges();
+        cable.link.max_length = cable_length != -1 ? cable_length : type->maximum_charges();
         cable.active = true;
         if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
             it.plugged_in = true;
@@ -4452,8 +4452,7 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         existing_cable->link.pos = here.getabs( pnt );
         existing_cable->link.vp_index = vp_port.value().part_index();
         existing_cable->link.state = cable_state::hanging_from_vehicle;
-        // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
-        existing_cable->link.max_length = cable_length != -1 ? cable_length + 1 : type->maximum_charges();
+        existing_cable->link.max_length = cable_length != -1 ? cable_length : type->maximum_charges();
         existing_cable->active = true;
         it.plugged_in = true;
         it.process( get_map(), &p, p.pos() );
