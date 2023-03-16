@@ -1,0 +1,12 @@
+[
+    {
+      "type": "MOD_INFO",
+      "id": "kkpp",
+      "name": "Killer Kat's Profession Pack",
+      "authors": [ "Killer Kat" ],
+      "description": "Adds a bunch of fun professions.",
+      "category": "misc_additions",
+      "dependencies": [ "dda" ]
+    }
+  ]
+  
