@@ -4430,8 +4430,6 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         item cable( type );
         cable.link.pos = here.getabs( pnt );
         cable.link.vp_index = vp_port.value().part_index();
-        // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
-        cable.set_var( "cable_length", cable_length + 1);
         cable.set_var( "efficiency", efficiency );
         cable.set_var( "charge_rate", std::max( 1, static_cast<int>( charge_rate.value() ) ) );
         // Convert wattage to how long it takes to charge 1 kW, the unit batteries use. Minimum 1 mW.
@@ -4452,6 +4450,8 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         existing_cable->link.pos = here.getabs( pnt );
         existing_cable->link.vp_index = vp_port.value().part_index();
         existing_cable->link.state = cable_state::hanging_from_vehicle;
+        // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
+        existing_cable->link.max_length = cable_length != -1 ? cable_length + 1 : type->maximum_charges();
         existing_cable->active = true;
         it.plugged_in = true;
         it.process( get_map(), &p, p.pos() );

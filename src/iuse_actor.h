@@ -1039,7 +1039,7 @@ class plug_in_actor : public iuse_actor
 {
     public:
         itype_id type = itype_id( "generic_device_cable" ); /** The type of cable created with this action */
-        int cable_length = 11; /** Maximum length of the cable */
+        int cable_length = -1; /** Maximum length of the cable */
         units::power charge_rate = 1_W; /** Charge rate in watts */
         int efficiency = 7; /** one_in(this) chance to fail adding 1 charge */
         translation menu_text;

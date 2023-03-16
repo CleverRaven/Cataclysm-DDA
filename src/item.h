@@ -1419,6 +1419,8 @@ class item : public visitable
             int vp_index = -1;
             /**TODOkama */
             int power_draw = 0;
+            /**TODOkama */
+            int max_length = 2;
         };
         cable_link link;
         /**

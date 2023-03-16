@@ -12795,8 +12795,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     }
 
     int distance = rl_dist( pos, connection_pos );
-    int max_charges = get_var( "cable_length", type->maximum_charges() );
-    charges = max_charges - distance;
+    charges = link.max_length - distance;
 
     if( charges == 1 && carrying_item ) {
         carrier->add_msg_if_player( m_warning, parent_item == nullptr ?
@@ -12844,7 +12843,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     if( debug_mode ) {
     add_msg_debug( debugmode::DF_IUSE, "%s linked to %s, length %d/%d",
                    parent_item == nullptr ? tname( 1, false ) : parent_item->tname( 1 ),
-                   link.pos.to_string(), max_charges - charges, max_charges - 1 );
+                       link.pos.to_string(), link.max_length - charges, link.max_length - 1 );
     }
 
     if( link.vp_index > -1 && link.vp_index < vp->vehicle().num_parts() ) {
