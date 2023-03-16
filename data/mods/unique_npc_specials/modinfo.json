@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "unique_npc_specials",
+    "name": "Unique NPC Specials",
+    "authors": [ "anoobindisguise" ],
+    "maintainers": [ "anoobindisguise" ],
+    "description": "Makes most NPC factions spawn only once per world.  Use with caution; there is no provision that stops them from spawning in suboptimal or dangerous places, and no recourse if bugs kill your NPCs.",
+    "category": "balance",
+    "dependencies": [ "dda" ],
+    "version": "1.0"
+  }
+]
