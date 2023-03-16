@@ -1375,8 +1375,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_jumpsuit", 1 ] ] ]
   },
@@ -1393,8 +1393,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "xl_lc_chainmail_hood", 1 ] ], [ [ "xl_lc_chainmail_jumpsuit", 1 ] ] ]
   },
@@ -1411,8 +1411,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "xs_lc_chainmail_hood", 1 ] ], [ [ "lc_chainmail_jumpsuit_xs", 1 ] ] ]
   },
@@ -1429,8 +1429,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_jumpsuit", 1 ] ] ]
   },
@@ -1447,8 +1447,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "xl_mc_chainmail_hood", 1 ] ], [ [ "xl_mc_chainmail_jumpsuit", 1 ] ] ]
   },
@@ -1465,8 +1465,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "xs_mc_chainmail_hood", 1 ] ], [ [ "mc_chainmail_jumpsuit_xs", 1 ] ] ]
   },
@@ -1483,8 +1483,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_jumpsuit", 1 ] ] ]
   },
@@ -1501,8 +1501,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "xl_hc_chainmail_hood", 1 ] ], [ [ "xl_hc_chainmail_jumpsuit", 1 ] ] ]
   },
@@ -1519,8 +1519,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "xs_hc_chainmail_hood", 1 ] ], [ [ "hc_chainmail_jumpsuit_xs", 1 ] ] ]
   },
@@ -1537,8 +1537,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_jumpsuit", 1 ] ] ]
   },
@@ -1555,8 +1555,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "xl_ch_chainmail_hood", 1 ] ], [ [ "xl_ch_chainmail_jumpsuit", 1 ] ] ]
   },
@@ -1573,8 +1573,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "xs_ch_chainmail_hood", 1 ] ], [ [ "ch_chainmail_jumpsuit_xs", 1 ] ] ]
   },
@@ -1591,8 +1591,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_jumpsuit", 1 ] ] ]
   },
@@ -1609,8 +1609,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "xl_qt_chainmail_hood", 1 ] ], [ [ "xl_qt_chainmail_jumpsuit", 1 ] ] ]
   },
@@ -1627,8 +1627,8 @@
     "autolearn": true,
     "flags": [ "NO_RESIZE" ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "fail_multiplier": 1 },
-      { "proficiency": "prof_chain_armour", "fail_multiplier": 1 }
+      { "proficiency": "prof_closures", "skill_penalty": 0 },
+      { "proficiency": "prof_chain_armour", "skill_penalty": 0 }
     ],
     "components": [ [ [ "xs_qt_chainmail_hood", 1 ] ], [ [ "qt_chainmail_jumpsuit_xs", 1 ] ] ]
   },
