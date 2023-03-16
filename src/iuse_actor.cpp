@@ -4434,7 +4434,7 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         cable.set_var( "charge_rate", std::max( 1, static_cast<int>( charge_rate.value() ) ) );
         // Convert wattage to how long it takes to charge 1 kW, the unit batteries use. Minimum 1 mW.
         cable.set_var( "charge_interval",
-                        std::max( 1, static_cast<int>( std::floor( 1000000.0 / charge_rate.value() + 0.5 ) ) ) );
+                   std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( charge_rate.value() ) + 0.5 ) ) );
 
         cable.link.state = cable_state::hanging_from_vehicle;
         // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
