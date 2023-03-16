@@ -30,7 +30,7 @@ struct lexicographic;
  * if( critter.type->id == mtype_id("mon_cat") ) { ...
  * \endcode
  * This allows to find all ids that are initialized from static literals (and not
- * through the json loading). The can than easily be checked against the json
+ * through the json loading). That can then easily be checked against the json
  * definition to see whether they are actually defined there (or whether they are
  * defined only in a mod).
  *
