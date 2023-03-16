@@ -9349,7 +9349,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
 
     // Now vehicles
 
-    auto vehs = get_vehicles();
+    VehicleList vehs = get_vehicles();
     for( wrapped_vehicle &wrapped_veh : vehs ) {
         vehicle &veh = *( wrapped_veh.v );
         for( const vpart_reference &vp : veh.get_all_parts_with_fakes() ) {

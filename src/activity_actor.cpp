@@ -2479,8 +2479,6 @@ std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonValue
     return actor.clone();
 }
 
-constexpr time_duration ebooksave_activity_actor::time_per_page;
-
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Stop the activity

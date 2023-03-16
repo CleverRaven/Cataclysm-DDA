@@ -425,7 +425,8 @@ void enchant_cache::serialize( JsonOut &jsout ) const
         jsout.start_object();
         jsout.member( "effects" );
         jsout.start_array();
-        for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
+        for( const std::pair<const time_duration, std::vector<fake_spell>> &pair :
+             intermittent_activation ) {
             jsout.start_object();
             jsout.member( "frequency", to_string_writable( pair.first ) );
             jsout.member( "spell_effects", pair.second );

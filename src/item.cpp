@@ -217,8 +217,6 @@ static const std::string flag_SILENT( "SILENT" );
 // item pricing
 static const int PRICE_FILTHY_MALUS = 100;  // cents
 
-constexpr units::volume armor_portion_data::volume_per_encumbrance;
-
 class npc_class;
 
 using npc_class_id = string_id<npc_class>;
@@ -10057,12 +10055,14 @@ int item::get_chapters() const
 
 int item::get_remaining_chapters( const Character &u ) const
 {
+    // NOLINTNEXTLINE(cata-translate-string-literal)
     const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
     return get_var( var, get_chapters() );
 }
 
 void item::mark_chapter_as_read( const Character &u )
 {
+    // NOLINTNEXTLINE(cata-translate-string-literal)
     const std::string var = string_format( "remaining-chapters-%d", u.getID().get_value() );
     if( type->book && type->book->chapters == 0 ) {
         // books without chapters will always have remaining chapters == 0, so we don't need to store them

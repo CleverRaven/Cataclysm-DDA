@@ -806,7 +806,7 @@ void item_location::serialize( JsonOut &js ) const
 
 void item_location::deserialize( const JsonObject &obj )
 {
-    auto type = obj.get_string( "type" );
+    std::string type = obj.get_string( "type" );
 
     int idx = -1;
     tripoint pos = tripoint_min;

@@ -56,9 +56,6 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
 // *INDENT-ON*
 } // namespace io
 
-constexpr units::volume pocket_data::max_volume_for_container;
-constexpr units::mass pocket_data::max_weight_for_container;
-
 std::vector<item_pocket::favorite_settings> item_pocket::pocket_presets;
 
 std::string pocket_data::check_definition() const
