@@ -2708,7 +2708,7 @@ TEST_CASE( "pocket_leak" )
     WHEN( "nested container" ) {
         bool const top_watertight = GENERATE( true, false );
         CAPTURE( top_watertight );
-        item top( top_watertight ? "jerrycan_big" : "test_backpack" );
+        item top( top_watertight ? "55gal_drum" : "test_backpack" );
         REQUIRE( top.is_watertight_container() == top_watertight );
         REQUIRE( top.put_in( backpack, item_pocket::pocket_type::CONTAINER ).success() );
         u.wield( top );

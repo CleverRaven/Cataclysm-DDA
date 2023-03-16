@@ -1,11 +1,6 @@
 [
   {
     "type": "construction_group",
-    "id": "add_mattress_to_bed_frame",
-    "name": "Add Mattress to Bed Frame"
-  },
-  {
-    "type": "construction_group",
     "id": "armor_reinforced_window",
     "name": "Armor Reinforced Window"
   },
@@ -66,13 +61,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_bed_frame",
-    "name": "Build Bed Frame"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_bed_from_scratch",
-    "name": "Build Bed from Scratch"
+    "id": "build_bed",
+    "name": "Build Bed/Bunk bed"
   },
   {
     "type": "construction_group",
@@ -93,11 +83,6 @@
     "type": "construction_group",
     "id": "build_bulletin_board",
     "name": "Build Bulletin Board"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_bunk_bed",
-    "name": "Build Bunk Bed"
   },
   {
     "type": "construction_group",
@@ -1188,6 +1173,11 @@
     "type": "construction_group",
     "id": "place_foodco",
     "name": "Place FOODCO"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_microwave",
+    "name": "Place Microwave"
   },
   {
     "type": "construction_group",

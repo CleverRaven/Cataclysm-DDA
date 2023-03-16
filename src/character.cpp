@@ -38,7 +38,6 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "cursesdef.h"
-#include "debug.h"
 #include "disease.h"
 #include "display.h"
 #include "effect.h"
@@ -323,6 +322,7 @@ static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
 static const json_character_flag json_flag_SUPER_CLAIRVOYANCE( "SUPER_CLAIRVOYANCE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
 static const json_character_flag json_flag_UNCANNY_DODGE( "UNCANNY_DODGE" );
 static const json_character_flag json_flag_WATCH( "WATCH" );
 static const json_character_flag json_flag_WEBBED_FEET( "WEBBED_FEET" );
@@ -419,18 +419,13 @@ static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
-static const trait_id trait_HOOVES( "HOOVES" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
-static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
-static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
-static const trait_id trait_MORE_PAIN2( "MORE_PAIN2" );
-static const trait_id trait_MORE_PAIN3( "MORE_PAIN3" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
@@ -443,8 +438,6 @@ static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
-static const trait_id trait_PAINRESIST( "PAINRESIST" );
-static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
@@ -474,7 +467,6 @@ static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
 static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_VISCOUS( "VISCOUS" );
@@ -768,7 +760,7 @@ int Character::get_fat_to_hp() const
         mut_fat_hp += mut.obj().fat_to_max_hp;
     }
 
-    return mut_fat_hp * ( get_bmi() - character_weight_category::normal );
+    return mut_fat_hp * ( get_bmi_fat() - character_weight_category::normal );
 }
 
 creature_size Character::get_size() const
@@ -2212,16 +2204,12 @@ void Character::recalc_hp()
         str_boost_val = str_boost->calc_bonus( skill_total );
     }
     // Mutated toughness stacks with starting, by design.
-    float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
-    float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
+    float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" ) +
+                   enchantment_cache->get_value_multiply( enchant_vals::mod::MAX_HP );
+    float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 ) +
+                          enchantment_cache->get_value_add( enchant_vals::mod::MAX_HP );
     calc_all_parts_hp( hp_mod, hp_adjustment, get_str_base(), get_dex_base(), get_per_base(),
                        get_int_base(), get_lifestyle(), get_fat_to_hp() );
-}
-
-int Character::get_part_hp_max( const bodypart_id &id ) const
-{
-    return enchantment_cache->modify_value( enchant_vals::mod::MAX_HP,
-                                            Creature::get_part_hp_max( id ) );
 }
 
 // This must be called when any of the following change:
@@ -3159,11 +3147,6 @@ bool Character::meets_requirements( const item &it, const item &context ) const
     return meets_stat_requirements( it ) && meets_skill_requirements( it.type->min_skills, ctx );
 }
 
-void Character::make_bleed( const effect_source &source, const bodypart_id &bp,
-                            time_duration duration, int intensity, bool permanent, bool force, bool defferred )
-{
-    add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
-}
 
 void Character::normalize()
 {
@@ -3255,7 +3238,7 @@ void Character::do_skill_rust()
             continue;
         }
 
-        const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, 0 );
+        const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_RESIST, 0 );
         const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
             add_msg_if_player( m_warning,
@@ -3474,6 +3457,7 @@ void Character::calc_encumbrance( const item &new_item )
     std::map<bodypart_id, encumbrance_data> enc;
     worn.item_encumb( enc, new_item, *this );
     mut_cbm_encumb( enc );
+    calc_bmi_encumb( enc );
 
     for( const std::pair<const bodypart_id, encumbrance_data> &elem : enc ) {
         set_part_encumbrance_data( elem.first, elem.second );
@@ -3697,6 +3681,15 @@ void Character::mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) 
     apply_mut_encumbrance( vals );
 }
 
+void Character::calc_bmi_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const
+{
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        int penalty = std::floor( elem.second.get_bmi_encumbrance_scalar() * std::max( 0.0f,
+                                  get_bmi_fat() - static_cast<float>( elem.second.get_bmi_encumbrance_threshold() ) ) );
+        vals[elem.first.id()].encumbrance += penalty;
+    }
+}
+
 body_part_set Character::exclusive_flag_coverage( const flag_id &flag ) const
 {
     body_part_set ret;
@@ -3790,9 +3783,9 @@ int Character::get_arm_str() const
 
 int Character::get_eff_per() const
 {
-    return Character::get_per() * get_limb_score( limb_score_vision ) + int( Character::has_proficiency(
-                proficiency_prof_spotting ) ) *
-           Character::get_per_base();
+    return ( Character::get_per() + int( Character::has_proficiency(
+            proficiency_prof_spotting ) ) *
+             Character::get_per_base() ) * get_limb_score( limb_score_vision ) ;
 }
 
 int Character::ranged_dex_mod() const
@@ -3993,7 +3986,7 @@ int Character::kcal_speed_penalty() const
     if( get_kcal_percent() > 0.95f ) {
         return 0;
     } else {
-        return std::round( multi_lerp( starv_thresholds, get_bmi() ) );
+        return std::round( multi_lerp( starv_thresholds, get_bmi_fat() ) );
     }
 }
 
@@ -4046,7 +4039,9 @@ void Character::mod_stored_calories( int ncal, const bool ignore_weariness )
     if( !ignore_weariness ) {
         activity_history.calorie_adjust( ncal );
     }
-    set_stored_calories( stored_calories + ncal );
+    if( ncal < 0 || std::numeric_limits<int>::max() - ncal > stored_calories ) {
+        set_stored_calories( stored_calories + ncal );
+    }
 }
 
 void Character::set_stored_kcal( int kcal )
@@ -4057,16 +4052,22 @@ void Character::set_stored_kcal( int kcal )
 void Character::set_stored_calories( int cal )
 {
     if( stored_calories != cal ) {
+        int cached_bmi = std::floor( get_bmi_fat() );
         stored_calories = cal;
 
         //some mutant change their max_hp according to their bmi
         recalc_hp();
+        //need to check obesity penalties when this happens if BMI changed
+        if( std::floor( get_bmi_fat() ) != cached_bmi ) {
+            calc_encumbrance();
+        }
     }
 }
 
 int Character::get_healthy_kcal() const
 {
-    return healthy_calories / 1000;
+    float healthy_weight = 5.0f * std::pow( height() / 100.0f, 2 );
+    return std::floor( KCAL_PER_KG * healthy_weight );
 }
 
 float Character::get_kcal_percent() const
@@ -4222,8 +4223,65 @@ bool Character::is_mute() const
                    is_wearing( itype_foodperson_mask_on ) ) ) ||
            has_trait( trait_MUTE );
 }
-void Character::on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp )
+void Character::on_damage_of_type( const effect_source &source, int adjusted_damage,
+                                   damage_type type,
+                                   const bodypart_id &bp )
 {
+    // Handle bp onhit effects
+    bodypart *body_part = get_part( bp );
+    const bool is_minor = bp->main_part != bp->id;
+    add_msg_debug( debugmode::DF_CHARACTER, "Targeting limb %s with %d %s type damage", bp->name,
+                   adjusted_damage, name_by_dt( type ) );
+    // Damage as a percent of the limb's max hp or raw dmg for minor parts
+    float dmg_ratio = is_minor ? adjusted_damage : 100 * adjusted_damage / body_part->get_hp_max();
+    add_msg_debug( debugmode::DF_CHARACTER, "Main BP max hp %d, damage ratio %.1f",
+                   body_part->get_hp_max(), dmg_ratio );
+    for( const bp_onhit_effect &eff : body_part->get_onhit_effects( type ) ) {
+        if( dmg_ratio >= eff.dmg_threshold ) {
+            float scaling = ( dmg_ratio - eff.dmg_threshold ) / eff.scale_increment;
+            int scaled_chance = roll_remainder( std::max( static_cast<float>( eff.chance ),
+                                                eff.chance + eff.chance_dmg_scaling * scaling ) );
+            add_msg_debug( debugmode::DF_CHARACTER, "Scaling factor %.1f, base chance %d%%, scaled chance %d%%",
+                           scaling, eff.chance, scaled_chance );
+            if( x_in_y( scaled_chance, 100 ) ) {
+
+                // Scale based on damage done
+                int scaled_dur = roll_remainder( std::max( static_cast<float>( eff.duration ),
+                                                 eff.duration + eff.duration_dmg_scaling * scaling ) );
+                int scaled_int = roll_remainder( std::max( static_cast<float>( eff.intensity ),
+                                                 eff.intensity + eff.intensity_dmg_scaling * scaling ) );
+                add_msg_debug( debugmode::DF_CHARACTER,
+                               "Atempting to add effect %s, scaled duration %d turns, scaled intensity %d", eff.id.c_str(),
+                               scaled_dur,
+                               scaled_int );
+
+                // Handle intensity/duration clamping
+                if( eff.max_intensity != INT_MAX ) {
+                    int prev_int = get_effect( eff.id, bp ).get_intensity();
+                    add_msg_debug( debugmode::DF_CHARACTER,
+                                   "Max intensity %d, current intensity %d", eff.max_intensity, prev_int );
+                    if( ( prev_int + scaled_int ) > eff.max_intensity ) {
+                        scaled_int = eff.max_intensity - prev_int;
+                        add_msg_debug( debugmode::DF_CHARACTER,
+                                       "Limiting added intensity to %d", scaled_int );
+                    }
+                }
+                if( eff.max_duration != INT_MAX ) {
+                    int prev_dur = to_turns<int>( get_effect( eff.id, bp ).get_duration() );
+                    add_msg_debug( debugmode::DF_CHARACTER,
+                                   "Max duration %d, current duration %d", eff.max_duration, prev_dur );
+                    if( ( prev_dur + scaled_dur ) > eff.max_duration ) {
+                        scaled_dur = eff.max_duration - prev_dur;
+                        add_msg_debug( debugmode::DF_CHARACTER,
+                                       "Limiting added duration to %d seconds", scaled_dur );
+                    }
+                }
+                // Add the effect globally if defined
+                add_effect( source, eff.id, 1_turns * scaled_dur, eff.global ? bodypart_str_id::NULL_ID() : bp,
+                            false, scaled_int );
+            }
+        }
+    }
     // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
     if( type == damage_type::ELECTRIC ) {
         const time_duration min_disable_time = 10_turns * adjusted_damage;
@@ -4265,14 +4323,18 @@ void Character::reset_bonuses()
 
 int Character::get_max_healthy() const
 {
-    const float bmi = get_bmi();
-    return clamp( static_cast<int>( std::round( -3 * ( bmi - character_weight_category::normal ) *
-                                    ( bmi - character_weight_category::overweight ) + 200 ) ), -200, 200 );
+    const float bmi = get_bmi_fat();
+    int over_factor = std::round( std::max( 0.0f,
+                                            25 * ( bmi - character_weight_category::overweight ) ) );
+    int under_factor = std::round( std::max( 0.0f,
+                                   200 * ( character_weight_category::normal - bmi ) ) );
+    return std::max( 200 - over_factor - under_factor, -200 );
 }
 
 void Character::regen( int rate_multiplier )
 {
-    int pain_ticks = rate_multiplier;
+    int pain_ticks = std::max( 1, roll_remainder( enchantment_cache->modify_value(
+                                   enchant_vals::mod::PAIN_REMOVE, rate_multiplier ) ) );
     while( get_pain() > 0 && pain_ticks-- > 0 ) {
         mod_pain( -roll_remainder( 0.2f + get_pain() / 50.0f ) );
     }
@@ -5813,7 +5875,7 @@ float Character::healing_rate( float at_rest_quality ) const
     float const awake_rate = ( 1.0f - rest ) * heal_rate * mutation_value( "healing_awake" );
     float const asleep_rate = rest * heal_rate * ( 1.0f + get_lifestyle() / 200.0f );
     float final_rate = awake_rate + asleep_rate;
-
+    final_rate = enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, final_rate );
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
     static constexpr float eps = 0.000007f;
@@ -5822,8 +5884,7 @@ float Character::healing_rate( float at_rest_quality ) const
         return 0.0f;
     }
 
-    return enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP,
-                                            _hp_modified_rate( *this, final_rate ) );
+    return final_rate;
 }
 
 float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
@@ -5867,12 +5928,46 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
 
 float Character::get_bmi() const
 {
-    return 12 * get_kcal_percent() + 13;
+    return get_bmi_lean() + get_bmi_fat();
+}
+
+
+float Character::get_bmi_lean() const
+{
+    //strength BMIs decrease to zero as you starve (muscle atrophy)
+    if( get_bmi_fat() < character_weight_category::normal ) {
+        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
+                                              character_weight_category::normal ) ) * str_max );
+        return 12.0f + get_str_base() - str_penalty;
+    }
+    return 12.0f + get_str_base();
+}
+
+
+float Character::get_bmi_fat() const
+{
+    return ( get_stored_kcal() / KCAL_PER_KG ) / std::pow( height() / 100.0f, 2 );
 }
 
 units::mass Character::bodyweight() const
 {
-    return units::from_kilogram( get_bmi() * std::pow( height() / 100.0f, 2 ) );
+    return bodyweight_fat() + bodyweight_lean();
+}
+
+units::mass Character::bodyweight_fat() const
+{
+    return units::from_kilogram( get_stored_kcal() / KCAL_PER_KG );
+}
+
+units::mass Character::bodyweight_lean() const
+{
+    //12 plus base strength gives non fat bmi, adjusted by starvation in get_bmi_lean()
+    return units::from_kilogram( get_bmi_lean() * std::pow( height() / 100.0f, 2 ) );
+}
+
+float Character::fat_ratio() const
+{
+    return bodyweight_fat() / bodyweight();
 }
 
 units::mass Character::bionics_weight() const
@@ -6310,7 +6405,10 @@ void Character::mod_stamina( int mod )
 void Character::burn_move_stamina( int moves )
 {
     int overburden_percentage = 0;
-    units::mass current_weight = weight_carried();
+    //add half the difference between current stored kcal weight and healthy stored kcal weight to weight of carried gear
+    units::mass fat_penalty = units::from_kilogram( 0.5f * std::max( 0.0f,
+                              ( get_healthy_kcal() - get_stored_kcal() ) / KCAL_PER_KG ) );
+    units::mass current_weight = weight_carried() + fat_penalty;
     // Make it at least 1 gram to avoid divide-by-zero warning
     units::mass max_weight = std::max( weight_capacity(), 1_gram );
     if( current_weight > max_weight ) {
@@ -7024,6 +7122,8 @@ weighted_int_list<mutation_category_id> Character::get_vitamin_weighted_categori
     const std::map<mutation_category_id, mutation_category_trait> &mutation_categories =
         mutation_category_trait::get_all();
     for( const auto &elem : mutation_categories ) {
+        add_msg_debug( debugmode::DF_MUTATION, "get_vitamin_weighted_categories: category %s weight %d",
+                       elem.second.id.c_str(), vitamin_get( elem.second.vitamin ) );
         weighted_output.add( elem.first, vitamin_get( elem.second.vitamin ) );
     }
     return weighted_output;
@@ -7114,6 +7214,7 @@ void Character::recalculate_enchantment_cache()
     if( enchantment_cache->modifies_bodyparts() ) {
         recalculate_bodyparts();
     }
+    recalc_hp();
 }
 
 double Character::calculate_by_enchantment( double modify, enchant_vals::mod value,
@@ -7557,14 +7658,8 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
 
     int recoil_mul = 100;
 
-    if( bp == body_part_eyes ) {
-        if( dam > 5 || cut_dam > 0 ) {
-            const time_duration minblind = std::max( 1_turns, 1_turns * ( dam + cut_dam ) / 10 );
-            const time_duration maxblind = std::min( 5_turns, 1_turns * ( dam + cut_dam ) / 4 );
-            add_effect( effect_blind, rng( minblind, maxblind ) );
-        }
-    } else if( bp == body_part_hand_l || bp == body_part_arm_l ||
-               bp == body_part_hand_r || bp == body_part_arm_r ) {
+    if( bp == body_part_hand_l || bp == body_part_arm_l ||
+        bp == body_part_hand_r || bp == body_part_arm_r ) {
         recoil_mul = 200;
     } else if( bp == bodypart_str_id::NULL_ID() ) {
         debugmsg( "Wacky body part hit!" );
@@ -9005,11 +9100,11 @@ const pathfinding_settings &Character::get_pathfinding_settings() const
     return *path_settings;
 }
 
-ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location loc ) const
+ret_val<crush_tool_type> Character::can_crush_frozen_liquid( item_location const &loc ) const
 {
     crush_tool_type tool_type = CRUSH_NO_TOOL;
     bool success = false;
-    if( !loc.has_parent() || !loc.parent_item()->contained_where( *loc )->get_pocket_data()->rigid ) {
+    if( !loc.has_parent() || !loc.parent_pocket()->get_pocket_data()->rigid ) {
         tool_type = CRUSH_HAMMER;
         success = has_quality( qual_HAMMER );
     } else {
@@ -9240,8 +9335,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         // ROOTS3 does slow you down as your roots are probing around for nutrients,
         // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
         // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-        const bool mutfeet = has_trait( trait_LEG_TENTACLES ) || has_trait( trait_PADDED_FEET ) ||
-                             has_trait( trait_HOOVES ) || has_trait( trait_TOUGH_FEET ) || has_trait( trait_ROOTS2 );
+        const bool mutfeet = has_flag( json_flag_TOUGH_FEET ) || worn_with_flag( flag_TOUGH_FEET );
         if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
             movecost += 8;
         }
@@ -9486,7 +9580,7 @@ std::vector<std::string> Character::short_description_parts() const
 
 std::string Character::short_description() const
 {
-    return join( short_description_parts(), ";   " );
+    return string_join( short_description_parts(), ";   " );
 }
 
 void Character::process_one_effect( effect &it, bool is_new )
@@ -10776,9 +10870,12 @@ void Character::recalc_speed_bonus()
         }
         const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
         if( temperature_speed_modifier != 0 ) {
+            const int climate_control = climate_control_strength().first;
             const units::temperature player_local_temp = get_weather().get_temperature( pos() );
-            if( has_flag( json_flag_ECTOTHERM ) || player_local_temp < units::from_fahrenheit( 65 ) ) {
-                mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 ) * temperature_speed_modifier );
+            if( has_flag( json_flag_ECTOTHERM ) ||
+                player_local_temp < units::from_fahrenheit( 65 - climate_control ) ) {
+                mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) *
+                                 temperature_speed_modifier );
             }
         }
     }
@@ -10921,26 +11018,21 @@ bool Character::immune_to( const bodypart_id &bp, damage_unit dam ) const
 void Character::mod_pain( int npain )
 {
     if( npain > 0 ) {
+        double mult = enchantment_cache->get_value_multiply( enchant_vals::mod::PAIN );
         if( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) {
             return;
         }
-        // always increase pain gained by one from these bad mutations
-        if( has_trait( trait_MORE_PAIN ) ) {
-            npain += std::max( 1, roll_remainder( npain * 0.25 ) );
-        } else if( has_trait( trait_MORE_PAIN2 ) ) {
-            npain += std::max( 1, roll_remainder( npain * 0.5 ) );
-        } else if( has_trait( trait_MORE_PAIN3 ) ) {
-            npain += std::max( 1, roll_remainder( npain * 1.0 ) );
+        // if there is a positive multiplier we always want to add at least 1 pain
+        if( mult > 0 ) {
+            npain += std::max( 1, roll_remainder( npain * mult ) );
         }
+        if( mult < 0 ) {
+            npain = roll_remainder( npain * ( 1 + mult ) );
+        }
+        npain += enchantment_cache->get_value_add( enchant_vals::mod::PAIN );
 
-        if( npain > 1 ) {
-            // if it's 1 it'll just become 0, which is bad
-            if( has_trait( trait_PAINRESIST_TROGLO ) ) {
-                npain = roll_remainder( npain * 0.5 );
-            } else if( has_trait( trait_PAINRESIST ) ) {
-                npain = roll_remainder( npain * 0.67 );
-            }
-        }
+        // no matter how powerful the enchantment if we are gaining pain we always gain at least a little/don't lose any
+        npain = std::max( 1, npain );
     }
     Creature::mod_pain( npain );
 }

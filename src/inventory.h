@@ -124,11 +124,13 @@ class inventory : public visitable
         inventory &operator+= ( const inventory &rhs );
         inventory &operator+= ( const item &rhs );
         inventory &operator+= ( const std::list<item> &rhs );
+        inventory &operator+= ( const item_components &rhs );
         inventory &operator+= ( const std::vector<item> &rhs );
         inventory &operator+= ( const item_stack &rhs );
         inventory  operator+ ( const inventory &rhs );
         inventory  operator+ ( const item &rhs );
         inventory  operator+ ( const std::list<item> &rhs );
+        inventory  operator+ ( const item_components &rhs );
 
         void unsort(); // flags the inventory as unsorted
         void clear();
