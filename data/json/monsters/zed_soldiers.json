@@ -353,7 +353,7 @@
   {
     "id": "mon_zombie_marine",
     "type": "MONSTER",
-    "name": { "str": "zombie soldier" },
+    "name": { "str": "zombie Marine" },
     "description": "Dressed head to toe in naval combat equipment and with Marine insignia embroidered on its gear, this lurching corpse still retains its physical fitness in death.  From underneath its helmet, its inky black eyes scan the area around it.",
     "default_faction": "zombie",
     "bodytype": "human",
