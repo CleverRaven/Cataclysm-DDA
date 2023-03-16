@@ -12866,7 +12866,7 @@ void item::reset_cable( Character *p, item *parent_item )
 
     if( p != nullptr ) {
         p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
-        p->moves -= charges * 10;
+        //p->moves -= charges * 10; TODOkama Make this only happen when safe, and interruptible?
         active = false;
     } else {
         link.state = cable_state::needs_reeling;
