@@ -4437,6 +4437,8 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
                         std::max( 1, static_cast<int>( std::floor( 1000000.0 / charge_rate.value() + 0.5 ) ) ) );
 
         cable.link.state = cable_state::hanging_from_vehicle;
+        // Add 1 to length so it's the max length it can stretch to, not the length that it breaks.
+        cable.link.max_length = cable_length != -1 ? cable_length + 1 : type->maximum_charges();
         cable.active = true;
         if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
             it.plugged_in = true;
