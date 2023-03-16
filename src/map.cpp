@@ -8162,6 +8162,7 @@ void map::actualize( const tripoint &grid )
     const bool do_funnels = grid.z >= 0;
 
     // check spoiled stuff, and fill up funnels while we're at it
+    process_items_in_vehicles( *tmpsub );
     process_items_in_submap( *tmpsub, grid );
     explosion_handler::process_explosions();
     for( int x = 0; x < SEEX; x++ ) {
