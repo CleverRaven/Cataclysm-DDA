@@ -1045,20 +1045,6 @@
   },
   {
     "type": "keybinding",
-    "id": "ZOOM_OUT",
-    "category": "OVERMAP",
-    "name": "Zoom out",
-    "bindings": [ { "input_method": "keyboard_char", "key": "Z" }, { "input_method": "keyboard_code", "key": "z", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "ZOOM_IN",
-    "category": "OVERMAP",
-    "name": "Zoom in",
-    "bindings": [ { "input_method": "keyboard_any", "key": "z" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "DELETE_NOTE",
     "category": "OVERMAP_NOTES",
     "name": "Delete note",
@@ -2961,6 +2947,12 @@
     "name": "Toggle crouch",
     "category": "DEFAULTMODE",
     "id": "toggle_crouch"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle prone",
+    "category": "DEFAULTMODE",
+    "id": "toggle_prone"
   },
   {
     "type": "keybinding",

@@ -96,12 +96,6 @@
   },
   {
     "type": "effect_type",
-    "id": "manic_fugue",
-    "name": [ "Manic Fugue" ],
-    "desc": [ "Your creative state is happening." ]
-  },
-  {
-    "type": "effect_type",
     "id": "creativity",
     "//": "Tracks inventors creative sparks",
     "name": [ "One Amazing Idea", "Several Inspired Tangents", "Brimming with Creativity" ],
@@ -109,6 +103,19 @@
       "You have one incredibly amazing idea.",
       "You've got a few theories you'd like to explore.",
       "Your brain can't hold any more brilliance."
+    ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "dreamer_eff",
+    "name": [ "Matter Twist", "Matter Deformation", "Dimensional Shift", "Dimensional Chasm", "Reality Gateway" ],
+    "desc": [
+      "Sometimes the world nearby twists.  Was it you?",
+      "Sometimes there is an odd noise you hear.  Sounds like a whisper.",
+      "You feel someone's presences.  They are wondering.",
+      "Random voices jump into your head time to time.  Most of them are friendly.",
+      "You clearly feel the otherworldly presence.  They are ready to help you."
     ],
     "rating": "good"
   },

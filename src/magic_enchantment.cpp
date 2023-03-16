@@ -303,20 +303,25 @@ void enchantment::load( const JsonObject &jo, const std::string &,
             active_conditions.second = con.value();
         } else {
             active_conditions.second = condition::DIALOG_CONDITION;
-            read_condition<dialogue>( jo, "condition", dialog_condition, false );
         }
     } else if( jo.has_member( "condition" ) ) {
         active_conditions.second = condition::DIALOG_CONDITION;
-        read_condition<dialogue>( jo, "condition", dialog_condition, false );
     } else {
         active_conditions.second = condition::ALWAYS;
     }
+    if( active_conditions.second == condition::DIALOG_CONDITION ) {
+        read_condition<dialogue>( jo, "condition", dialog_condition, false );
+    }
+
     for( JsonObject jsobj : jo.get_array( "ench_effects" ) ) {
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
 
     optional( jo, was_loaded, "modified_bodyparts", modified_bodyparts );
     optional( jo, was_loaded, "mutations", mutations );
+
+    optional( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "description", description );
 
     if( !is_child && jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
@@ -420,7 +425,8 @@ void enchant_cache::serialize( JsonOut &jsout ) const
         jsout.start_object();
         jsout.member( "effects" );
         jsout.start_array();
-        for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
+        for( const std::pair<const time_duration, std::vector<fake_spell>> &pair :
+             intermittent_activation ) {
             jsout.start_object();
             jsout.member( "frequency", to_string_writable( pair.first ) );
             jsout.member( "spell_effects", pair.second );
@@ -604,6 +610,8 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
             intermittent_activation[act_pair.first].emplace_back( fake );
         }
     }
+
+    details.emplace_back( rhs.name.translated(), rhs.description.translated() );
 }
 
 void enchant_cache::set_has( enchantment::has value )

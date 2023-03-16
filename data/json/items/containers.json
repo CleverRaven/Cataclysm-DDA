@@ -1390,7 +1390,7 @@
         "watertight": true,
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
-        "sealed_data": { "spoil_multiplier": 0.0 }
+        "sealed_data": { "spoil_multiplier": 0.5 }
       }
     ],
     "flags": [ "COLLAPSE_CONTENTS" ]
@@ -3107,11 +3107,12 @@
     "id": "small_propane_tank",
     "type": "TOOL",
     "name": { "str": "small propane tank" },
-    "//": "1 gallon tank.",
+    "//": "1 gallon tank, filled to 80% for safety.  1.3lbs while empty",
+    "//1": "https://learnmetrics.com/propane-tank-sizes",
     "description": "This is a small tank of propane, commonly used for camping stoves and torches.",
-    "weight": "907 g",
+    "weight": "591 g",
     "volume": "5030 ml",
-    "longest_side": "21 cm",
+    "longest_side": "30 cm",
     "price": 2000,
     "price_postapoc": 500,
     "to_hit": -4,
@@ -3125,7 +3126,7 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "propane": 30 }
+        "ammo_restriction": { "propane": 3000 }
       }
     ],
     "charges_per_use": 1,
@@ -3135,11 +3136,12 @@
     "id": "medium_propane_tank",
     "type": "TOOL",
     "name": { "str": "medium propane tank" },
-    "//": "5 gallon tank.",
+    "//": "5 gallon tank, filled to 80% for safety..  About 15lbs while empty.",
+    "//1": "https://learnmetrics.com/propane-tank-sizes",
     "description": "This is a medium tank of propane, commonly used for barbeques.",
-    "weight": "4082 g",
-    "volume": "13600 ml",
-    "longest_side": "381 mm",
+    "weight": "6720 g",
+    "volume": "23250 ml",
+    "longest_side": "50 cm",
     "price": 2000,
     "price_postapoc": 500,
     "to_hit": -4,
@@ -3153,7 +3155,7 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "propane": 75 }
+        "ammo_restriction": { "propane": 15000 }
       }
     ],
     "charges_per_use": 1,
@@ -3163,11 +3165,12 @@
     "id": "large_propane_tank",
     "type": "TOOL",
     "name": { "str": "large propane tank" },
-    "//": "20 gallon tank.",
+    "//": "20 gallon tank, filled to 80% for safety.  About 50 lbs while empty.",
+    "//1": "https://learnmetrics.com/propane-tank-sizes",
     "description": "This is a large tank of propane, commonly used for heating.",
-    "weight": "8164 g",
-    "volume": "44 L",
-    "longest_side": "46 cm",
+    "weight": "22727 g",
+    "volume": "80 L",
+    "longest_side": "117 cm",
     "price": 6000,
     "price_postapoc": 500,
     "to_hit": -4,
@@ -3181,7 +3184,7 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "propane": 302 }
+        "ammo_restriction": { "propane": 60000 }
       }
     ],
     "charges_per_use": 1,
@@ -3191,11 +3194,12 @@
     "id": "xl_propane_tank",
     "type": "TOOL",
     "name": { "str": "extra large propane tank" },
-    "//": "100 gallon tank.",
+    "//": "100 gallon tank, filled to 80% for safety.  212 lbs while empty",
+    "//1": "https://learnmetrics.com/propane-tank-sizes",
     "description": "This is a massive tank of propane, commonly used for a home or vehicle.",
-    "weight": "132 kg",
-    "volume": "44 L",
-    "longest_side": "46 cm",
+    "weight": "96 kg",
+    "volume": "390 L",
+    "longest_side": "122 cm",
     "price": 6000,
     "price_postapoc": 500,
     "to_hit": -4,
@@ -3209,7 +3213,7 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "propane": 1510 }
+        "ammo_restriction": { "propane": 300000 }
       }
     ],
     "charges_per_use": 1,

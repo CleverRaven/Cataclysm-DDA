@@ -12,7 +12,7 @@
     "hp": 90,
     "speed": 80,
     "material": [ "flesh" ],
-    "symbol": "V",
+    "symbol": "M",
     "color": "brown",
     "aggression": 100,
     "morale": 100,

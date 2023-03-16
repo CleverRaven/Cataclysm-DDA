@@ -305,19 +305,7 @@
     ],
     "ammo": "battery",
     "flags": [ "USE_UPS", "STURDY", "WATERPROOF", "ELECTRIC_IMMUNE", "COMBAT_TOGGLEABLE", "OUTER", "MUNDANE", "DEAF" ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [
-            { "value": "STRENGTH", "add": 10 },
-            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
-            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 }
-          ]
-        }
-      ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" }, { "id": "ench_climate_control_all" } ] },
     "use_action": [
       {
         "target": "modular_exosuit_on",
@@ -350,7 +338,7 @@
       "FLASH_PROTECTION"
     ],
     "weight_capacity_bonus": "20 kg",
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
+    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" }, { "id": "ench_climate_control_all" } ] },
     "power_draw": "6173 mW",
     "revert_to": "modular_exosuit",
     "use_action": [ { "type": "transform", "menu_text": "Turn off", "msg": "The %s disengages.", "target": "modular_exosuit" } ],
