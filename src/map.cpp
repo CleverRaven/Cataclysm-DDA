@@ -5486,21 +5486,21 @@ void map::process_linked_movement()
 {
     // TODOkama handle cabled vehicles moving out of the reality bubble.
     const auto process_link = [this]( std::pair<const vehicle *, item::cable_link *> l ) {
-        if( l.second->vp_index > -1 ) {
+        if( l.second->vp_index > -1 && inbounds( getlocal( l.second->pos ) ) ) {
             tripoint new_pos;
             if( l.first == nullptr ) {
                 // No vehicle pointer, try finding it via the saved link position:
                 const optional_vpart_position vp = get_map().veh_at( getlocal( l.second->pos ) );
                 if( vp && l.second->vp_index < vp->vehicle().num_parts() ) {
-                    new_pos = getabs( vp->vehicle().global_part_pos3( l.second->vp_index ) );
+                    new_pos = vp->vehicle().global_part_pos3( l.second->vp_index );
                     if( inbounds( new_pos ) ) {
-                        l.second->pos = new_pos;
+                        l.second->pos = getabs( new_pos );
                     }
                 }
             } else if( l.second->vp_index < l.first->num_parts() ) {
-                new_pos = getabs( l.first->global_part_pos3( l.second->vp_index ) );
+                new_pos = l.first->global_part_pos3( l.second->vp_index );
                 if( inbounds( new_pos ) ) {
-                    l.second->pos = new_pos;
+                    l.second->pos = getabs( new_pos );
                 }
             }
         }

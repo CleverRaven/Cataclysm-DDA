@@ -12779,6 +12779,8 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     }
 
     tripoint connection_pos = here.getlocal( link.pos );
+
+    if( here.inbounds( connection_pos ) ) {
     const optional_vpart_position vp = here.veh_at( connection_pos );
     if( !vp ) {
         if( carrying_item ) {
@@ -12815,7 +12817,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         return has_flag( flag_AUTO_CABLE ) ? true : false;
     }
 
-    if( parent_item != nullptr ) {
+        if( parent_item != nullptr && charges > 0 ) {
         link.power_draw = 0;
         // Recharge batteries
         item *parent_mag = parent_item->magazine_current();
@@ -12840,14 +12842,16 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         return true;
     }
 
-    if( debug_mode ) {
-    add_msg_debug( debugmode::DF_IUSE, "%s linked to %s, length %d/%d",
-                   parent_item == nullptr ? tname( 1, false ) : parent_item->tname( 1 ),
-                       link.pos.to_string(), link.max_length - charges, link.max_length - 1 );
+        if( link.vp_index > -1 && link.vp_index < vp->vehicle().num_parts() ) {
+            here.setup_link_processing( &link, &vp->vehicle() );
+        }
     }
 
-    if( link.vp_index > -1 && link.vp_index < vp->vehicle().num_parts() ) {
-        here.setup_link_processing( &link, &vp->vehicle() );
+    if( debug_mode ) {
+        add_msg_debug( debugmode::DF_IUSE, "%s linked to %s%s, length %d/%d",
+                   parent_item == nullptr ? tname( 1, false ) : parent_item->tname( 1 ),
+                   link.pos.to_string(), here.inbounds( connection_pos ) ? "" : " (OoB)",
+                   link.max_length - charges, link.max_length - 1 );
     }
 
     return false;
