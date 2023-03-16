@@ -243,7 +243,7 @@ TEST_CASE( "mattack_effect_conditions", "[mattack]" )
 {
     clear_map();
     clear_creatures();
-    const tripoint target_location = attacker_location + tripoint{ 1, 0, 0 };
+    const tripoint target_location = attacker_location + tripoint_east;
     Character &you = get_player_character();
     clear_avatar();
     you.setpos( target_location );
