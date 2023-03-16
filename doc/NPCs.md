@@ -337,6 +337,10 @@ Field | Used for...
 `<u_val:VAR>` | The user variable VAR
 `<npc_val:VAR>` | The npc variable VAR
 `<global_val:VAR>` | The global variable VAR
+`<item_name:ID>` | The name of the item with ID
+`<item_description:ID>` | The description of the item with ID
+`<trait_name:ID>` | The name of the trait with ID
+`<trait_description:ID>` | The description of the trait with ID
 
 ---
 
