@@ -1728,7 +1728,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     optional_vpart_position vp_orig = here.veh_at( pos() );
-    if( vp_orig && vp_orig->vehicle().is_moving() ) {
+    if( vp_orig ) {
         vp_orig->vehicle().invalidate_mass();
     }
 
@@ -1736,7 +1736,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     footsteps( destination );
     underwater = will_be_water;
     optional_vpart_position vp_dest = here.veh_at( destination );
-    if( vp_dest && vp_dest->vehicle().is_moving() ) {
+    if( vp_dest ) {
         vp_dest->vehicle().invalidate_mass();
     }
     if( is_hallucination() ) {
