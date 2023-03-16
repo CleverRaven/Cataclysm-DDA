@@ -8,7 +8,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -39,7 +50,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -70,7 +92,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -101,7 +134,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -132,7 +176,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -157,7 +212,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 1, 1 ],
@@ -195,7 +261,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -226,7 +303,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -239,7 +327,7 @@
         "wwww+w"
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-       "palettes": [ { "param": "fbmh_0_construction_palette" } ]
+      "palettes": [ { "param": "fbmh_0_construction_palette" } ]
     }
   },
   {
@@ -257,7 +345,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -278,7 +377,7 @@
     "update_mapgen_id": "fbmh_0_room_west",
     "method": "json",
     "object": {
-      "place_nested": [ { "chunks": [ "fbmh_0_joining_wall" ], "x": 8, "y": 8 },  { "chunks": [ "fbmh_0_room_west" ], "x": 3, "y": 9 } ]
+      "place_nested": [ { "chunks": [ "fbmh_0_joining_wall" ], "x": 8, "y": 8 }, { "chunks": [ "fbmh_0_room_west" ], "x": 3, "y": 9 } ]
     }
   },
   {
@@ -302,7 +401,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -333,7 +443,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -364,7 +485,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -395,7 +527,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -422,10 +565,7 @@
     "update_mapgen_id": "fbmh_0_core_center_north",
     "method": "json",
     "object": {
-      "place_nested": [
-        { "chunks": [ "fbmh_0_core_room_nw" ], "x": 9, "y": 9 },
-        { "chunks": [ "fbmh_0_core_room_ne" ], "x": 9, "y": 9 }
-      ]
+      "place_nested": [ { "chunks": [ "fbmh_0_core_room_nw" ], "x": 9, "y": 9 }, { "chunks": [ "fbmh_0_core_room_ne" ], "x": 9, "y": 9 } ]
     }
   },
   {
@@ -437,7 +577,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -468,7 +619,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -499,7 +661,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -530,7 +703,18 @@
         "fbmh_0_construction_palette": {
           "type": "palette_id",
           "scope": "omt",
-          "default": { "distribution": [ "fbmh_0_concrete_palette", "fbmh_0_log_palette", "fbmh_0_metal_palette", "fbmh_0_migo_resin_palette", "fbmh_0_rammed_earth_palette", "fbmh_0_rock_palette", "fbmh_0_wad_palette", "fbmh_0_wood_palette" ] }
+          "default": {
+            "distribution": [
+              "fbmh_0_concrete_palette",
+              "fbmh_0_log_palette",
+              "fbmh_0_metal_palette",
+              "fbmh_0_migo_resin_palette",
+              "fbmh_0_rammed_earth_palette",
+              "fbmh_0_rock_palette",
+              "fbmh_0_wad_palette",
+              "fbmh_0_wood_palette"
+            ]
+          }
         }
       },
       "mapgensize": [ 6, 6 ],
@@ -557,10 +741,7 @@
     "update_mapgen_id": "fbmh_0_core_center_south",
     "method": "json",
     "object": {
-      "place_nested": [
-        { "chunks": [ "fbmh_0_core_room_sw" ], "x": 9, "y": 15 },
-        { "chunks": [ "fbmh_0_core_room_se" ], "x": 9, "y": 15 }
-      ]
+      "place_nested": [ { "chunks": [ "fbmh_0_core_room_sw" ], "x": 9, "y": 15 }, { "chunks": [ "fbmh_0_core_room_se" ], "x": 9, "y": 15 } ]
     }
   }
 ]

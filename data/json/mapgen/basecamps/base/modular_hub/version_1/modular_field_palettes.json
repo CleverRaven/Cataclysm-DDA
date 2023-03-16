@@ -2,37 +2,37 @@
   {
     "type": "palette",
     "id": "fbmh_0_fireplace_palette",
-    "terrain": { },
+    "terrain": {  },
     "furniture": { "f": "f_fireplace" }
   },
   {
     "type": "palette",
     "id": "fbmh_0_stove_palette",
-    "terrain": { },
+    "terrain": {  },
     "furniture": { "f": "f_woodstove" }
   },
   {
     "type": "palette",
     "id": "fbmh_0_straw_bed_palette",
-    "terrain": { },
+    "terrain": {  },
     "furniture": { "b": "f_straw_bed" }
   },
   {
     "type": "palette",
     "id": "fbmh_0_makeshift_bed_palette",
-    "terrain": { },
+    "terrain": {  },
     "furniture": { "b": "f_makeshift_bed" }
   },
   {
     "type": "palette",
     "id": "fbmh_0_bed_palette",
-    "terrain": { },
-    "furniture": { "b": "f_bed", "B" : "f_bookcase" }
+    "terrain": {  },
+    "furniture": { "b": "f_bed", "B": "f_bookcase" }
   },
   {
     "type": "palette",
     "id": "fbmh_0_concrete_palette",
-    "terrain": { ";": "t_dirt",  ".": "t_thconc_floor", "+": "t_door_metal_c", "v": "t_window_no_curtains", "w": "t_sconc_wall" },
+    "terrain": { ";": "t_dirt", ".": "t_thconc_floor", "+": "t_door_metal_c", "v": "t_window_no_curtains", "w": "t_sconc_wall" },
     "furniture": {  }
   },
   {
@@ -80,13 +80,7 @@
   {
     "type": "palette",
     "id": "fbmh_0_wad_palette",
-    "terrain": {
-      ";": "t_dirt",
-      ".": "t_floor_primitive",
-      "+": "t_door_makeshift_c",
-      "v": "t_wall_wattle_half",
-      "w": "t_wall_wattle"
-    },
+    "terrain": { ";": "t_dirt", ".": "t_floor_primitive", "+": "t_door_makeshift_c", "v": "t_wall_wattle_half", "w": "t_wall_wattle" },
     "furniture": {  }
   },
   {

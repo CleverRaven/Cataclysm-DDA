@@ -11,14 +11,14 @@
     "construction_blueprint": "fbmh_0_room_NE_1",
     "blueprint_name": "northeast shack",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -38,14 +38,14 @@
     "construction_blueprint": "fbmh_0_room_NE_2",
     "blueprint_name": "expand northeast shack",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -65,14 +65,14 @@
     "construction_blueprint": "fbmh_0_room_NE_3",
     "blueprint_name": "finish northeast shack",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -92,14 +92,14 @@
     "construction_blueprint": "fbmh_0_shack_east",
     "blueprint_name": "east shack",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -119,14 +119,14 @@
     "construction_blueprint": "fbmh_0_room_east",
     "blueprint_name": "east room",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -146,14 +146,14 @@
     "construction_blueprint": "fbmh_0_shack_southeast",
     "blueprint_name": "southeast shack",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -173,14 +173,14 @@
     "construction_blueprint": "fbmh_0_room_southeast",
     "blueprint_name": "southeast room",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -200,14 +200,14 @@
     "construction_blueprint": "fbmh_0_shack_northwest",
     "blueprint_name": "northwest shack",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -227,14 +227,14 @@
     "construction_blueprint": "fbmh_0_shack_west",
     "blueprint_name": "west shack",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -254,14 +254,14 @@
     "construction_blueprint": "fbmh_0_room_west",
     "blueprint_name": "west room",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -281,14 +281,14 @@
     "construction_blueprint": "fbmh_0_shack_southwest",
     "blueprint_name": "southwest shack",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -308,14 +308,14 @@
     "construction_blueprint": "fbmh_0_room_southwest",
     "blueprint_name": "southwest room",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -335,14 +335,14 @@
     "construction_blueprint": "fbmh_0_core_shack_ne",
     "blueprint_name": "central building NE corner",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -362,14 +362,14 @@
     "construction_blueprint": "fbmh_0_core_room_ne",
     "blueprint_name": "central building NE corner",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -389,14 +389,14 @@
     "construction_blueprint": "fbmh_0_core_shack_nw",
     "blueprint_name": "central building NW corner",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -416,14 +416,14 @@
     "construction_blueprint": "fbmh_0_core_room_nw",
     "blueprint_name": "central building NW corner",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -443,14 +443,14 @@
     "construction_blueprint": "fbmh_0_core_center_north",
     "blueprint_name": "central building north half",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -470,14 +470,14 @@
     "construction_blueprint": "fbmh_0_core_shack_se",
     "blueprint_name": "central building SE corner",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -497,14 +497,14 @@
     "construction_blueprint": "fbmh_0_core_room_se",
     "blueprint_name": "central building SE corner",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -524,14 +524,14 @@
     "construction_blueprint": "fbmh_0_core_shack_sw",
     "blueprint_name": "central building SW corner",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -551,14 +551,14 @@
     "construction_blueprint": "fbmh_0_core_room_sw",
     "blueprint_name": "central building SW corner",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
@@ -578,14 +578,14 @@
     "construction_blueprint": "fbmh_0_core_center_south",
     "blueprint_name": "central building south half",
     "blueprint_parameter_names": {
-      "fbmh_0_construction_palette": { 
-        "fbmh_0_concrete_palette": "Concrete walls and roof", 
-        "fbmh_0_log_palette": "Log walls and wooden roof", 
-        "fbmh_0_metal_palette": "Metal walls and roof", 
+      "fbmh_0_construction_palette": {
+        "fbmh_0_concrete_palette": "Concrete walls and roof",
+        "fbmh_0_log_palette": "Log walls and wooden roof",
+        "fbmh_0_metal_palette": "Metal walls and roof",
         "fbmh_0_migo_resin_palette": "Mi-go resin walls and roof",
-        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof", 
-        "fbmh_0_rock_palette": "Rock walls and wooden roof", 
-        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof", 
+        "fbmh_0_rammed_earth_palette": "Rammed earth walls and sod roof",
+        "fbmh_0_rock_palette": "Rock walls and wooden roof",
+        "fbmh_0_wad_palette": "Wattle-and-daub walls and sod roof",
         "fbmh_0_wood_palette": "Wooden walls and wooden roof"
       }
     },
