@@ -442,7 +442,7 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ]
   },
   {
-    "id": "mon_bat",
+    "id": "xe_mon_bat",
     "type": "MONSTER",
     "name": { "str": "bat" },
     "description": "One of the vesper bats, a family of winged insect-eating mammals.  It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",
