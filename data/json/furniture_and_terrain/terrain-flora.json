@@ -2589,6 +2589,7 @@
       "sound_fail": "whish.",
       "ter_set": "t_dirt",
       "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 1, 2 ] } ]
+      }
   },
   {
     "type": "terrain",
