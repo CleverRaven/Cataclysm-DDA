@@ -1596,18 +1596,27 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
             return cata::nullopt;
         }
 
+        bool halluc = mon->is_hallucination();
+
         if( mon->type->id == mon_dog_thing ) {
-            p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, rng( 1, 10 ) ) );
+            if( !halluc ) {
+                p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, rng( 1, 10 ) ) );
+            }
             p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
             if( one_in( 5 ) ) {
                 p->add_msg_if_player(
                     _( "Apparently, it's more interested in your flesh than the dog food in your hand!" ) );
-                p->consume_charges( *it, 1 );
+                if( halluc ) {
+                    item drop_me = p->reduce_charges( it, 1 );
+                    p->i_drop_at( drop_me );
+                } else {
+                    p->consume_charges( *it, 1 );
+                }
             }
             return cata::nullopt;
         }
 
-        if( mon->is_hallucination() ) {
+        if( halluc && one_in( 4 ) ) {
             p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
                                   mon->type->nname(), it->tname() );
             mon->die( nullptr );
@@ -1624,7 +1633,12 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
 
         mon->friendly = -1;
         mon->add_effect( effect_pet, 1_turns, true );
-        p->consume_charges( *it, 1 );
+        if( halluc ) {
+            item drop_me = p->reduce_charges( it, 1 );
+            p->i_drop_at( drop_me );
+        } else {
+            p->consume_charges( *it, 1 );
+        }
         return cata::nullopt;
     }
     p->add_msg_if_player( _( "There is nothing to be fed here." ) );
@@ -4727,7 +4741,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
             drew_blood = true;
             blood_temp = map_it.temperature;
 
-            auto bloodtype( map_it.get_mtype()->bloodType() );
+            field_type_id bloodtype( map_it.get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
             } else {
@@ -5968,7 +5982,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
         something_downloaded = true;
         p.add_msg_if_player( m_good, _( "You have updated your monster collection." ) );
 
-        auto photos = eink.get_var( "EINK_MONSTER_PHOTOS" );
+        std::string photos = eink.get_var( "EINK_MONSTER_PHOTOS" );
         if( photos.empty() ) {
             eink.set_var( "EINK_MONSTER_PHOTOS", monster_photos );
         } else {
@@ -8630,7 +8644,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         }
         const tripoint posp = *posp_;
         const optional_vpart_position vp = here.veh_at( posp );
-        auto ter = here.ter( posp );
+        ter_id ter = here.ter( posp );
         if( !vp && ter != t_chainfence ) {
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return cata::nullopt;

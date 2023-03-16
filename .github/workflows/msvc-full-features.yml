@@ -70,18 +70,20 @@ jobs:
       shell: cmd
 
     - name: Restore artifacts, or run vcpkg, build and cache artifacts
-      uses: lukka/run-vcpkg@v10.4
+      uses: lukka/run-vcpkg@v10
       id: runvcpkg
       with:
         # run-vcpkg tries to hash vcpkg.json but complans if it finds more than one.
         # That said, we also have our custom vcpkg_triplets to hash, so we keep everything the same.
-        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-x64
+        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**', '.github/vckg_ports/**' ) }}
+        # Rev this value to drop cache without changing vcpkg commit
+        prependedCacheKey: v1-x64
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
         # We have to use at least this version of vcpkg to include fixes for yasm-tool's
         # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
         # field in vcpkg.json. Caching happens as a post-action which runs at the end of
         # the whole workflow, after vcpkg install happens during msbuild run.
-        vcpkgGitCommitId: 'a7b6122f6b6504d16d96117336a0562693579933'
+        vcpkgGitCommitId: 'd08e708c2111893da3cc7e49b597ee4654c8076e'
 
     - name: Integrate vcpkg
       run: |

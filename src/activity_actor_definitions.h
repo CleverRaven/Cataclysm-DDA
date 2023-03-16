@@ -716,10 +716,10 @@ class consume_activity_actor : public activity_actor
             type( type ) {}
 
         explicit consume_activity_actor( const item_location &consume_location ) :
-            consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
+            consume_location( consume_location ) {}
 
         explicit consume_activity_actor( const item &consume_item ) :
-            consume_item( consume_item ), consume_menu_selections( std::vector<int>() ) {}
+            consume_item( consume_item ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_CONSUME" );

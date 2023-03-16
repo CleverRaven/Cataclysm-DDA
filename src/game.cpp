@@ -2135,7 +2135,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     oThisItem.is_favorite = !oThisItem.is_favorite;
                     if( locThisItem.has_parent() ) {
                         item_location parent = locThisItem.parent_item();
-                        item_pocket *const pocket = parent->contained_where( oThisItem );
+                        item_pocket *const pocket = locThisItem.parent_pocket();
                         if( pocket ) {
                             pocket->restack();
                         } else {
@@ -2257,7 +2257,7 @@ std::pair<tripoint, tripoint> game::mouse_edge_scrolling( input_context &ctxt, c
     ( void ) speed;
     ( void ) iso;
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
-    auto now = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
     if( now < last_mouse_edge_scroll + std::chrono::milliseconds( rate ) ) {
         return ret;
     } else {
@@ -5920,7 +5920,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
     }
     const int max_width = getmaxx( w_look ) - column - 1;
 
-    auto this_sound = sounds::sound_at( lp );
+    std::string this_sound = sounds::sound_at( lp );
     if( !this_sound.empty() ) {
         const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
                                           _( "From here you heard %s" ),
@@ -5934,7 +5934,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                 continue;
             }
 
-            auto zlev_sound = sounds::sound_at( tmp );
+            std::string zlev_sound = sounds::sound_at( tmp );
             if( !zlev_sound.empty() ) {
                 const int lines = fold_and_print( w_look, point( 1, ++line ), max_width, c_light_gray,
                                                   tmp.z > lp.z ?
@@ -6632,7 +6632,7 @@ void game::zones_manager()
                     break;
                 }
 
-                auto default_name = options->get_zone_name_suggestion();
+                std::string default_name = options->get_zone_name_suggestion();
                 if( default_name.empty() ) {
                     default_name = mgr.get_name_from_type( id );
                 }
@@ -6672,7 +6672,7 @@ void game::zones_manager()
                     break;
                 }
 
-                auto default_name = options->get_zone_name_suggestion();
+                std::string default_name = options->get_zone_name_suggestion();
                 if( default_name.empty() ) {
                     default_name = mgr.get_name_from_type( id );
                 }
@@ -7622,6 +7622,7 @@ bool game::take_screenshot() const
     assure_dir_exist( map_directory.str() );
 
     // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
+    // NOLINTNEXTLINE(cata-translate-string-literal)
     const auto tmp_file_name = string_format( "[%s]_%s.png", get_player_character().get_name(),
                                timestamp_now() );
 
@@ -8382,6 +8383,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     --iCurMon;
                 }
 
+                std::string monNameSelected;
+                std::string sSafemode;
                 const int endY = std::min<int>( iMaxRows - 1, iMenuSize );
                 for( int y = 0; y < endY; ++y ) {
 
@@ -8421,17 +8424,13 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                     }
 
                     if( selected && !get_safemode().empty() ) {
-                        const std::string monName = is_npc ? get_safemode().npc_type_name() : m->name();
+                        monNameSelected = is_npc ? get_safemode().npc_type_name() : m->name();
 
-                        std::string sSafemode;
-                        if( get_safemode().has_rule( monName, Creature::Attitude::ANY ) ) {
+                        if( get_safemode().has_rule( monNameSelected, Creature::Attitude::ANY ) ) {
                             sSafemode = _( "<R>emove from safe mode blacklist" );
                         } else {
                             sSafemode = _( "<A>dd to safe mode blacklist" );
                         }
-
-                        shortcut_print( w_monsters, point( 2, getmaxy( w_monsters ) - 1 ),
-                                        c_white, c_light_green, sSafemode );
                     }
 
                     nc_color color = c_white;
@@ -8499,6 +8498,17 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         right_print( w_monster_info_border, 0, 3, c_light_green, press_to_fire_text );
                     }
                     wprintw( w_monster_info_border, " >" );
+                }
+
+                if( !get_safemode().empty() ) {
+                    if( get_safemode().has_rule( monNameSelected, Creature::Attitude::ANY ) ) {
+                        sSafemode = _( "<R>emove from safe mode blacklist" );
+                    } else {
+                        sSafemode = _( "<A>dd to safe mode blacklist" );
+                    }
+
+                    shortcut_print( w_monsters, point( 2, getmaxy( w_monsters ) - 1 ),
+                                    c_white, c_light_green, sSafemode );
                 }
 
                 draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ),
