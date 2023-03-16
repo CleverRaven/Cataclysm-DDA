@@ -1723,6 +1723,7 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
 void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, const tripoint &target )
 {
     sp.make_sound( target, caster );
+    /** @EFFECT_SPEED_BASE determines mass of new slimes spawned when a slime dies */
     int mass = caster.get_speed_base();
     monster *caster_monster = dynamic_cast<monster *>( &caster );
     if( caster_monster && caster_monster->type->id == mon_blob_brain ) {

@@ -409,7 +409,7 @@ void vehicle::smash_security_system()
     }
     const vehicle_part &vp_controls = part( idx_controls );
     const vehicle_part &vp_security = part( idx_security );
-    ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
+    /** @EFFECT_MECHANICS reduces chance of damaging controls when smashing security system (70% / (1+skill) )*/
     const int skill = player_character.get_skill_level( skill_mechanics );
     const int percent_controls = 70 / ( 1 + skill );
     const int percent_alarm = ( skill + 3 ) * 10;
@@ -1753,7 +1753,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         .skip_locked_check()
         .hotkey( "HOTWIRE" )
         .on_submit( [this] {
-            ///\EFFECT_MECHANICS speeds up vehicle hotwiring
+            /** @EFFECT_MECHANICS speeds up vehicle hotwiring */
             const int skill = std::max( 1, get_player_character().get_skill_level( skill_mechanics ) );
             const int moves = to_moves<int>( 6000_seconds / skill );
             const tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );

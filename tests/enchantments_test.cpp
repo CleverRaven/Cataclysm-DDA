@@ -58,7 +58,7 @@ static void test_generic_ench( avatar &p, enchant_test enc_test )
 static enchant_test set_enc_test( avatar &p )
 {
     enchant_test enc_test;
-    enc_test.dex_before = p.get_str();
+    enc_test.dex_before = p.get_dex();
     enc_test.lie_before = get_talker_for( p )->trial_chance_mod( "lie" );
     enc_test.persuade_before = get_talker_for( p )->trial_chance_mod( "persuade" );
     enc_test.intimidate_before = get_talker_for( p )->trial_chance_mod( "intimidate" );

@@ -189,11 +189,13 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
             add_topics.emplace_back( "TALK_MUTE" );
         }
     }
+    /* @EFFECT_TRAIT_PROF_CHURL required for churlish conversation topics */
     if( player_character.has_trait( trait_PROF_CHURL ) ) {
         if( add_topics.back() == me_npc->chatbin.talk_mug ||
             add_topics.back() == me_npc->chatbin.talk_stranger_aggressive ) {
             me_npc->make_angry();
             add_topics.emplace_back( "TALK_CHURL_ANGRY" );
+            /* @EFFECT_INT_NPC >=9 required for churlish trade */
         } else if( ( me_npc->op_of_u.trust >= 0 ) && ( me_npc->op_of_u.anger <= 0 ) &&
                    ( me_npc->int_cur >= 9 ) ) {
             add_topics.emplace_back( "TALK_CHURL_TRADE" );
@@ -827,9 +829,8 @@ std::string talker_npc::evaluation_by( const talker &alpha ) const
         return _( "&You're blind and can't make anything out." );
     }
 
-    ///\EFFECT_PER affects whether player can size up NPCs
-
-    ///\EFFECT_INT slightly affects whether player can size up NPCs
+    /* @EFFECT_PER affects whether player can size up NPCs (int+per*3>10) */
+    /* @EFFECT_INT slightly affects whether player can size up NPCs (int+per*3>10) */
     int ability = alpha.per_cur() * 3 + alpha.int_cur();
     if( ability <= 10 ) {
         return _( "&You can't make anything out." );

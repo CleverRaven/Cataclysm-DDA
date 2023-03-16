@@ -1414,6 +1414,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         add_response_done( _( "Bye." ) );
     }
 
+    /** @EFFECT_INT_NPC >=9 may allow friendly churlish conversation */
+    /** @EFFECT_TRAIT_PROF_CHURL may allow friendly churlish conversation */
     if( player_character.has_trait( trait_PROF_CHURL ) && ( actor( true )->get_npc_trust() >= 0 ) &&
         ( actor( true )->get_npc_anger() <= 0 ) && ( actor( true )->int_cur() >= 9 ) &&
         !( the_topic.id == "TALK_CHURL_FRIENDLY" ) ) {

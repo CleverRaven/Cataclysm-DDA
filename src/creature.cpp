@@ -359,8 +359,10 @@ bool Creature::sees( const Creature &critter ) const
         return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() &&
                  here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter.pos() ) ) ||
+               /** @EFFECT_PER increases distance at which camouflaged monsters are visible */
                ( critter.has_flag( MF_CAMOUFLAGE ) && wanted_range > this->get_eff_per() ) ||
                ( critter.has_flag( MF_WATER_CAMOUFLAGE ) &&
+                 /** @EFFECT_PER increases distance at which small underwater monsters are visible */
                  wanted_range > this->get_eff_per() &&
                  ( critter.is_likely_underwater() ||
                    here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ) ||
@@ -1288,6 +1290,7 @@ void Creature::longpull( const std::string &name, const tripoint &p )
     // Pull creature
     const Character *ch = as_character();
     const monster *mon = as_monster();
+    /** @EFFECT_STR increases chance of pulling other creatures at long range */
     const int str = ch != nullptr ? ch->get_str() : mon != nullptr ? mon->get_grab_strength() : 10;
     const int odds = units::to_kilogram( c->get_weight() ) / ( str * 3 );
     if( one_in( clamp<int>( odds * odds, 1, 1000 ) ) ) {

@@ -285,7 +285,6 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
 static const skill_id skill_dodge( "dodge" );
-static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_survival( "survival" );
 
@@ -5598,12 +5597,7 @@ bool game::npc_menu( npc &who )
             add_msg( m_warning, _( "%s has nowhere to go!" ), who.get_name() );
         }
     } else if( choice == examine_wounds ) {
-        ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
-        ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
-        int prof_bonus = u.get_skill_level( skill_firstaid );
-        prof_bonus = u.has_proficiency( proficiency_prof_wound_care ) ? prof_bonus + 1 : prof_bonus;
-        prof_bonus = u.has_proficiency( proficiency_prof_wound_care_expert ) ? prof_bonus + 2 : prof_bonus;
-        const bool precise = prof_bonus * 4 + u.per_cur >= 20;
+        const bool precise = u.can_see_first_aid_precise_hp();
         who.body_window( _( "Limbs of: " ) + who.disp_name(), true, precise, 0, 0, 0, 0.0f, 0.0f, 0.0f,
                          0.0f, 0.0f );
     } else if( choice == examine_status ) {
@@ -9989,7 +9983,6 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     } else if( m.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) &&
                !m.has_flag( ter_furn_flag::TFLAG_SHARP, u.pos() ) &&
                !( u.in_vehicle || m.veh_at( dest_loc ) ) &&
-               u.dex_cur < 78 &&
                !( u.is_mounted() && u.mounted_creature->get_armor_cut( bodypart_id( "torso" ) ) >= 10 ) &&
                !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
         harmful_stuff.emplace_back( m.name( dest_loc ) );
@@ -10166,6 +10159,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
             add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
             return false;
         }
+        /** @EFFECT_SPEED determines base move cost */
         const double base_moves = u.run_cost( mcost, diag ) * 100.0 / crit->get_speed();
         const double encumb_moves = u.get_weight() / 4800.0_gram;
         u.moves -= static_cast<int>( std::ceil( base_moves + encumb_moves ) );
@@ -10235,9 +10229,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         // so this shouldn't cause too much hardship
         // Presumed that if it's swimmable, they're
         // swimming and won't stick
-        ///\EFFECT_DEX decreases chance of tentacles getting stuck to the ground
-
-        ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
+        /** @EFFECT_DEX slightly decreases chance of tentacles getting stuck to the ground */
+        /** @EFFECT_INT slightly decreases chance of tentacles getting stuck to the ground */
         if( !m.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, dest_loc ) &&
             one_in( 80 + u.dex_cur + u.int_cur ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
@@ -10337,7 +10330,7 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 1 ) );
         }
     }
-    ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
+    /** @EFFECT_DEX decreases chance of being cut on sharp terrain (0 => 32.5%, 6 => 30%, 12 => 27.5) */
     if( m.has_flag( ter_furn_flag::TFLAG_SHARP, dest_loc ) && !one_in( 3 ) &&
         !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
         ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
@@ -10835,7 +10828,7 @@ int game::grabbed_furn_move_time( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
-    //ARM_STR affects dragging furniture
+    /** @EFFECT_STR decreases furniture move time */
     int str = u.get_arm_str();
 
     const float weary_mult = 1.0f / u.exertion_adjusted_move_multiplier();
@@ -10928,6 +10921,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         furniture_contents_weight += contained_item.weight();
     }
     str_req += furniture_contents_weight / 4_kilogram;
+    /** @EFFECT_STR increases weight of furniture you can move comfortably or at all */
     int str = u.get_arm_str();
 
     if( !canmove ) {
@@ -10948,7 +10942,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                  furntype.name() );
         return true;
 
-        ///\EFFECT_STR determines ability to drag furniture
+        /** @EFFECT_STR determines ability to drag furniture */
     } else if( str_req > str &&
                one_in( std::max( 20 - str_req - str, 2 ) ) ) {
         add_msg( m_bad, _( "You strain yourself trying to move the heavy %s!" ),
@@ -12580,16 +12574,18 @@ void game::shift_destination_preview( const point &delta )
 
 bool game::slip_down( bool check_for_traps )
 {
-    ///\EFFECT_DEX decreases chances of slipping while climbing
-    ///\EFFECT_STR decreases chances of slipping while climbing
+    /** @EFFECT_DEX decreases base chance of slipping while climbing (100/(dex+str)) */
+    /** @EFFECT_STR decreases base chance of slipping while climbing (100/(dex+str)) */
     /// Not using arm strength since lifting score comes into play later
     int slip = 100 / std::max( 1, u.dex_cur + u.str_cur );
     add_msg_debug( debugmode::DF_GAME, "Base slip chance %d%%", slip );
 
+    /** @EFFECT_PROF_PARKOUR halves chance of slipping while climbing */
     if( u.has_proficiency( proficiency_prof_parkour ) ) {
         slip /= 2;
         add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
     }
+    /** @EFFECT_TRAIT_BADKNEES double chance of slipping while climbing */
     if( u.has_trait( trait_BADKNEES ) ) {
         slip *= 2;
         add_msg( m_info, _( "Your bad knees make it difficult to climb." ) );

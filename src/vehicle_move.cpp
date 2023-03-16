@@ -598,6 +598,7 @@ void vehicle::thrust( int thd, int z )
         if( vp.info().fuel_type == fuel_type_animal && engines.size() != 1 ) {
             monster *mon = get_monster( e );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
+                ///EFFECT_SPEED for animals limits how fast a vehicle can be moving before it damages the harness and possibly detaches
                 if( velocity > mon->get_speed() * 12 ) {
                     add_msg( m_bad, _( "Your %s is not fast enough to keep up with the %s" ), mon->get_name(), name );
                     int dmg = rng( 0, 10 );
@@ -1325,9 +1326,9 @@ void vehicle::selfdrive( const point &p )
     }
     // TODO: Actually check if we're on land on water (or disable water-skidding)
     if( skidding && valid_wheel_config() ) {
-        ///\EFFECT_DEX increases chance of regaining control of a vehicle
+        /** @EFFECT_DEX increases chance of regaining control of a vehicle */
 
-        ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
+        /** @EFFECT_DRIVING increases chance of regaining control of a vehicle */
         if( handling_diff * rng( 1, 10 ) < 15 ) {
             velocity = static_cast<int>( forward_velocity() );
             skidding = false;
@@ -1444,11 +1445,9 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
         // Let's get rid of that
         driver.moves = std::min( driver.moves, driver.get_speed() );
 
-        ///\EFFECT_DEX reduces chance of losing control of vehicle when turning
-
-        ///\EFFECT_PER reduces chance of losing control of vehicle when turning
-
-        ///\EFFECT_DRIVING reduces chance of losing control of vehicle when turning
+        /** @EFFECT_DEX reduces chance of losing control of vehicle when turning (0.1 driving skill per point) */
+        /** @EFFECT_PER reduces chance of losing control of vehicle when turning (0.1 driving skill per point) */
+        /** @EFFECT_DRIVING reduces chance of losing control of vehicle when turning */
         float skill = std::min( 10.0f, driver.get_skill_level( skill_driving ) +
                                 ( driver.get_dex() + driver.get_per() ) / 10.0f );
         float penalty = rng_float( 0.0f, handling_diff ) - skill;
@@ -1458,6 +1457,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
             cost = 100 * ( 1.0f + penalty / 2.5f );
         } else {
             // At 10 skill, with a perfect vehicle, we could turn up to 3 times per turn
+            /** @EFFECT_SPEED determines moves used to steer a vehicle */
             cost = std::max( driver.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
 
@@ -1494,9 +1494,8 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
     // TODO: Actually check if we're on land on water (or disable water-skidding)
     // Only check for recovering from a skid if we did active steering (not cruise control).
     if( skidding && ( p.x != 0 || ( p.y != 0 && !cruise_on ) ) && valid_wheel_config() ) {
-        ///\EFFECT_DEX increases chance of regaining control of a vehicle
-
-        ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
+        /** @EFFECT_DEX increases chance of regaining control of a vehicle (50% as effective as driving skill) */
+        /** @EFFECT_DRIVING increases chance of regaining control of a vehicle */
         if( handling_diff * rng( 1, 10 ) <
             driver.dex_cur + driver.get_skill_level( skill_driving ) * 2 ) {
             driver.add_msg_if_player( _( "You regain control of the %s." ), name );
@@ -2167,7 +2166,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
         int dmg = d_vel * rng_float( 1.0f, 2.0f );
         int move_resist = 1;
         if( psg ) {
-            ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
+            /** @EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt */
             move_resist = psg->str_cur * 150 + 500;
         } else {
             int pet_resist = 0;
@@ -2177,7 +2176,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             move_resist = std::max( 100, pet_resist );
         }
         if( veh.part_with_feature( ps, VPFLAG_SEATBELT, true ) == -1 ) {
-            ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
+            /** @EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt */
             throw_from_seat = d_vel * rng( 80, 120 ) > move_resist;
         } else {
             // Reduce potential damage based on quality of seatbelt
@@ -2199,9 +2198,8 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
 
         if( psg && veh.player_in_control( *psg ) ) {
             const int lose_ctrl_roll = rng( 0, d_vel );
-            ///\EFFECT_DEX reduces chance of losing control of vehicle when shaken
-
-            ///\EFFECT_DRIVING reduces chance of losing control of vehicle when shaken
+            /** @EFFECT_DEX reduces chance of losing control of vehicle when shaken (67% as effective as driving skill) */
+            /** @EFFECT_DRIVING reduces chance of losing control of vehicle when shaken */
             if( lose_ctrl_roll > psg->dex_cur * 2 + psg->get_skill_level( skill_driving ) * 3 ) {
                 psg->add_msg_player_or_npc( m_warning,
                                             _( "You lose control of the %s." ),
@@ -2228,7 +2226,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                                         _( "The %s is hurled from %s's by the power of the impact!" ),
                                         pet->disp_name(), veh.name );
             }
-            ///\EFFECT_STR reduces distance thrown from seat in a vehicle impact
+            /** @EFFECT_STR reduces distance thrown from seat in a vehicle impact */
             g->fling_creature( rider, direction + rng_float( -30_degrees, 30_degrees ),
                                std::max( 10, d_vel - move_resist / 100 ) );
         }

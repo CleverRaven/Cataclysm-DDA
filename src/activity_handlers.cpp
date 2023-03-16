@@ -681,6 +681,7 @@ static int butchery_dissect_skill_level( Character &you, int tool_quality,
     if( htype.is_valid() ) {
         int sk_total = 0;
         int sk_count = 0;
+        /** @EFFECT_SKILLS help with dissection outcomes for tools using that skill */
         for( const skill_id &sk : htype->get_harvest_skills() ) {
             sk_total += you.get_skill_level( sk );
             sk_count++;
@@ -693,9 +694,8 @@ static int butchery_dissect_skill_level( Character &you, int tool_quality,
 static int roll_butchery_dissect( int skill_level, int dex, int tool_quality )
 {
     double skill_shift = 0.0;
-    ///\EFFECT_SURVIVAL randomly increases butcher rolls
     skill_shift += rng_float( 0, skill_level - 3 );
-    ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
+    /** @EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases */
     skill_shift += rng_float( 0, dex - 8 ) / 4.0;
 
     if( tool_quality < 0 ) {
@@ -756,6 +756,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                              qual_BUTCHER, PICKUP_RANGE );
 
     //all BUTCHERY types - FATAL FAILURE
+    /** @EFFECT_SURVIVAL helps avoid fatal failure during non-dissection butchery */
     if( action != butcher_type::DISSECT &&
         roll_butchery_dissect( you.get_skill_level( skill_survival ), you.dex_cur,
                                tool_quality ) <= ( -15 ) && one_in( 2 ) ) {
@@ -1061,6 +1062,7 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
     if( action != butcher_type::FIELD_DRESS && action != butcher_type::SKIN &&
         action != butcher_type::BLEED ) {
         for( item *content : corpse_item->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            /** @EFFECT_SURVIVAL increases chance to find hidden items after harvesting */
             if( ( roll_butchery_dissect( you.get_skill_level( skill_survival ), you.dex_cur,
                                          tool_quality ) + 10 ) * 5 > rng( 0, 100 ) ) {
                 //~ %1$s - item name, %2$s - monster name
@@ -1203,6 +1205,7 @@ void activity_handlers::butcher_finish( player_activity *act, Character *you )
             }
             break;
         case butcher_type::FIELD_DRESS: {
+            /** @EFFECT_SURVIVAL increases chance to succeed when field dressing */
             bool success = roll_butchery_dissect( you->get_skill_level( skill_survival ), you->dex_cur,
                                                   you->max_quality( qual_BUTCHER, PICKUP_RANGE ) ) > 0;
             add_msg( success ? m_good : m_warning,
@@ -1583,10 +1586,12 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     // Stabbing weapons are a lot less effective at pulping
     const int cut_power = std::max( weap_cut, weap_stab / 2 );
 
-    ///\EFFECT_STR increases pulping power, with diminishing returns
+    /** @EFFECT_STR increases pulping power, with diminishing returns */
     float pulp_power = std::sqrt( ( you->get_arm_str() + weap_bash ) * ( cut_power + 1.0f ) );
+    /** @EFFECT_STR increases pulping stamina usage (NEGATIVE) */
     float pulp_effort = you->str_cur + weap_bash;
     // Multiplier to get the chance right + some bonus for survival skill
+    /** @EFFECT_SURVIVAL increases pulping power (+12.5% per skill level) */
     pulp_power *= 40 + you->get_skill_level( skill_survival ) * 5;
 
     int moves = 0;
@@ -3397,7 +3402,7 @@ void activity_handlers::robot_control_finish( player_activity *act, Character *y
 
     you->add_msg_if_player( _( "You unleash your override attack on the %s." ), z->name() );
 
-    /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
+    /** @EFFECT_INT randomly increases chance of successful robot reprogramming, vs difficulty */
     /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
     const int computer_skill = you->get_skill_level( skill_computer );
     const float randomized_skill = rng( 2, you->int_cur ) + computer_skill;

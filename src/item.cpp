@@ -1971,7 +1971,7 @@ static constexpr std::array<double, 41> hits_by_accuracy = {
 double item::effective_dps( const Character &guy, Creature &mon ) const
 {
     const float mon_dodge = mon.get_dodge();
-    float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
+    float base_hit = guy.get_hit_base() + guy.get_hit_weapon( *this );
     base_hit *= std::max( 0.25f, 1.0f - guy.avg_encumb_of_limb_type( body_part_type::type::torso ) /
                           100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0f;
@@ -2519,7 +2519,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                            _( "* This food is <bad>tainted</bad> and will poison you." ) );
     }
 
-    ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
+    /** @EFFECT_SURVIVAL >=3 allows detection of poisonous food */
     if( food_item->has_flag( flag_HIDDEN_POISON ) &&
         player_character.get_skill_level( skill_survival ) >= 3 &&
         parts->test( iteminfo_parts::FOOD_POISON ) ) {
@@ -2528,7 +2528,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
                               "<bad>poisonous</bad>." ) );
     }
 
-    ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
+    /** @EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food */
     if( food_item->has_flag( flag_HIDDEN_HALLU ) &&
         player_character.get_skill_level( skill_survival ) >= 5 &&
         parts->test( iteminfo_parts::FOOD_HALLUCINOGENIC ) ) {
@@ -5304,7 +5304,7 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
         }
     }
 
-    ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
+    /** @EFFECT_MELEE >2 allows seeing melee damage stats on weapons */
     if( ( player_character.get_skill_level( skill_melee ) > 2 &&
           ( dmg_bash || dmg_cut || dmg_stab || type->m_to_hit > 0 ) ) || debug_mode ) {
         bodypart_id bp = bodypart_id( "torso" );
@@ -8897,7 +8897,7 @@ bool item::is_two_handed( const Character &guy ) const
     if( has_flag( flag_ALWAYS_TWOHAND ) ) {
         return true;
     }
-    ///\EFFECT_STR determines which weapons can be wielded with one hand
+    /** @EFFECT_STR determines which weapons can be wielded with one hand (452 grams per point) */
     return ( ( weight() / 113_gram ) > guy.get_arm_str() * 4 );
 }
 
@@ -10249,7 +10249,7 @@ int item::gun_recoil( const Character &p, bool bipod ) const
         return 0;
     }
 
-    ///\ARM_STR improves the handling of heavier weapons
+    /** @EFFECT_STR decreases recoil with light weapons */
     // we consider only base weight to avoid exploits
     double wt = std::min( type->weight, p.get_arm_str() * 333_gram ) / 333.0_gram;
 
@@ -10320,8 +10320,9 @@ int item::gun_range( const Character *p ) const
         return 0;
     }
 
-    // Reduce bow range until player has twice minimm required strength
+    // Reduce bow range until player has twice minimum required strength
     if( has_flag( flag_STR_DRAW ) ) {
+        /** @EFFECT_STR increases range with STR_DRAW weapons */
         ret += std::max( 0.0, ( p->get_str() - get_min_str() ) * 0.5 );
     }
 

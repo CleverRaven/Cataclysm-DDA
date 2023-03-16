@@ -718,10 +718,8 @@ enum class hack_type : int {
 
 static int hack_level( const Character &who )
 {
-    ///\EFFECT_COMPUTER increases success chance of hacking card readers
-    // odds go up with int>8, down with int<8
-    // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking card readers
+    /** @EFFECT_COMPUTER increases success chance of hacking card readers */
+    /** @EFFECT_INT increases success chance of hacking card readers (50% as effective as computer skill) */
     return who.get_skill_level( skill_computer ) + who.int_cur / 2 - 8;
 }
 
@@ -1409,8 +1407,8 @@ void read_activity_actor::read_book( Character &learner,
     const int originalSkillLevel = skill_level.knowledgeLevel();
 
     // Calculate experience gained
-    /** @EFFECT_INT increases reading comprehension */
     // Enhanced Memory Banks modestly boosts experience
+    /** @EFFECT_INT increases experience gained from reading books */
     int min_ex = std::max( 1, to_minutes<int>( islotbook->time ) / 10 + learner.get_int() / 4 );
     int max_ex = to_minutes<int>( islotbook->time ) / 5 + learner.get_int() / 2 - originalSkillLevel;
 
@@ -2254,10 +2252,15 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     bool destroy = false;
 
     // Your devices skill is the primary skill that applies to your roll. Your mechanics skill has a little input.
+    /** @EFFECT_TRAPS contributes to lockpicking success */
+    /** @EFFECT_MECHANICS contributes to lockpicking success (1/3 as much as devices skill) */
     const float weighted_skill_average = ( 3.0f * who.get_skill_level(
             skill_traps ) + who.get_skill_level( skill_mechanics ) ) / 4.0f;
 
     // Your dexterity determines most of your stat contribution, but your intelligence and perception combined are about half as much.
+    /** @EFFECT_DEX contributes to lockpicking success (1/6 as much as devices skill) */
+    /** @EFFECT_PER contributes to lockpicking success (1/18 as much as devices skill) */
+    /** @EFFECT_INT contributes to lockpicking success (1/36 as much as devices skill) */
     const float weighted_stat_average = ( 6.0f * who.dex_cur + 2.0f * who.per_cur +
                                           who.int_cur ) / 9.0f;
 
@@ -2267,11 +2270,15 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     // Without at least a basic lockpick proficiency, your skill level is effectively 6 levels lower.
     int proficiency_effect = -3;
     int duration_proficiency_factor = 10;
+    /** @EFFECT_PROF_LOCKPICKING contributes to lockpicking success (effectively +3 devices skill) */
+    /** @EFFECT_PROF_LOCKPICKING doubles lockpicking proficiency gain speed */
     if( who.has_proficiency( proficiency_prof_lockpicking ) ) {
         // If you have the basic lockpick prof, negate the above penalty
         proficiency_effect = 0;
         duration_proficiency_factor = 5;
     }
+    /** @EFFECT_PROF_LOCKPICKING_EXPERT contributes to lockpicking success (effectively +6 devices skill) */
+    /** @EFFECT_PROF_LOCKPICKING_EXPERT provides 10x lockpicking proficiency gain speed */
     if( who.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
         // If you have the locksmith proficiency, your skill level is effectively 4 levels higher.
         proficiency_effect = 3;
@@ -2765,12 +2772,13 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonValue
 time_duration safecracking_activity_actor::safecracking_time( const Character &who )
 {
     time_duration cracking_time = 150_minutes;
-    /** @EFFECT_DEVICES decreases time needed for safe cracking */
+    /** @EFFECT_TRAPS decreases base time needed for safe cracking (20 minutes per level) */
     cracking_time -= 20_minutes * ( who.get_skill_level( skill_traps ) - 3 ) ;
-    /** @EFFECT_PER decreases time needed for safe cracking */
+    /** @EFFECT_PER decreases base time needed for safe cracking (10 minutes per level) */
     cracking_time -= 10_minutes * ( who.get_per() - 8 );
     cracking_time = std::max( 30_minutes, cracking_time );
 
+    /** @EFFECT_PROF_SAFECRACKING reduces time needed for safe cracking by 2/3 */
     if( !who.has_proficiency( proficiency_prof_safecracking ) ) {
         cracking_time *= 3;
     }
@@ -4854,7 +4862,7 @@ time_duration prying_activity_actor::prying_time( const activity_data_common &da
     int difficulty = pdata.difficulty;
     difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
     return time_duration::from_seconds(
-               /** @ARM_STR speeds up crowbar prying attempts */
+               /** @EFFECT_STR speeds up crowbar prying attempts */
                std::max( 5, 2 * ( 4 * difficulty - who.get_arm_str() ) ) );
 }
 
@@ -4943,7 +4951,7 @@ void prying_activity_actor::handle_prying( Character &who )
         int difficulty = pdata.difficulty;
         difficulty -= tool->get_quality( qual_PRY ) - pdata.prying_level;
 
-        /** @ARM_STR increases chance of prying success */
+        /** @EFFECT_STR increases chance of prying success */
         const int dice_str = dice( 4, who.get_arm_str() );
 
         return dice( 4, difficulty ) < dice_str;
@@ -4960,7 +4968,7 @@ void prying_activity_actor::handle_prying( Character &who )
 
         /** @EFFECT_MECHANICS reduces chance of breaking when prying */
         const int dice_mech = dice( 2, who.get_skill_level( skill_mechanics ) );
-        /** @ARM_STR reduces chance of breaking when prying */
+        /** @EFFECT_STR reduces chance of breaking when prying */
         const int dice_str = dice( 2, who.get_arm_str() );
 
         if( dice( 4, difficulty ) > dice_mech + dice_str )
@@ -5881,8 +5889,8 @@ void forage_activity_actor::finish( player_activity &act, Character &who )
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
 
-    ///\EFFECT_PER slightly increases forage success chance
-    ///\EFFECT_SURVIVAL increases forage success chance
+    /** @EFFECT_PER slightly increases forage success chance */
+    /** @EFFECT_SURVIVAL increases forage success chance */
     if( veggy_chance < who.get_skill_level( skill_survival ) * 3 + who.per_cur - 2 ) {
         const std::vector<item *> dropped =
             here.put_items_from_loc( group_id, who.pos(), calendar::turn );

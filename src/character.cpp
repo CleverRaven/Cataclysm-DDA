@@ -374,6 +374,7 @@ static const scenttype_id scent_sc_human( "sc_human" );
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
+static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_melee( "melee" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_speech( "speech" );
@@ -643,6 +644,7 @@ void Character::set_wielded_item( const item &to_wield )
 
 int Character::get_oxygen_max() const
 {
+    /** @EFFECT_STR determines max oxygen (30+2*str) */
     return 30 + 2 * str_cur;
 }
 
@@ -922,6 +924,7 @@ double Character::fastest_aiming_method_speed( const item &gun, double recoil,
     // to check whether laser sights are available
     const int base_distance = 10;
     const float light_limit = 120.0f;
+    /** @EFFECT_PER increases max range for laser sights, up to 1 tile per point */
     bool laser_light_available = target_attributes.range <= ( base_distance + per_cur ) * std::max(
                                      1.0f - target_attributes.light / light_limit, 0.0f ) && target_attributes.visible;
     for( const item *e : gun.gunmods() ) {
@@ -1045,8 +1048,6 @@ double Character::aim_per_move( const item &gun, double recoil,
     // Ranges [-1.5 - 3.5] for archery Ranges [0 - 2.5] for others
     aim_speed += get_modifier( character_modifier_aim_speed_skill_mod, gun_skill );
 
-    /** @EFFECT_DEX increases aiming speed */
-    // every DEX increases 0.5 aim_speed
     aim_speed += get_modifier( character_modifier_aim_speed_dex_mod );
 
     aim_speed += sight_speed_modifier;
@@ -1140,6 +1141,7 @@ int Character::overmap_sight_range( float light_level ) const
 
     sight = 6;
     // The higher your perception, the farther you can see.
+    /** @EFFECT_PER increases overmap sight range (1 map per 2 points) */
     sight += static_cast<int>( get_per() / 2 );
     // The higher up you are, the farther you can see.
     sight += std::max( 0, posz() ) * 2;
@@ -1264,15 +1266,18 @@ int Character::swim_speed() const
     // base swim speed.
     ret = ( 440 * mutation_value( "movecost_swim_modifier" ) ) + weight_carried() /
           ( 60_gram / mutation_value( "movecost_swim_modifier" ) ) - 50 * get_skill_level( skill_swimming );
-    /** @EFFECT_STR increases swim speed bonus from PAWS */
+    /** @EFFECT_TRAIT_PAWS provides swim speed bonus based on strength (4.5% + 0.7% per point) */
+    /** @EFFECT_STR increases swim speed bonus usable from paws (4.5% + 0.7% per point) */
     if( has_trait( trait_PAWS ) ) {
         ret -= hand_bonus_mult * ( 20 + str_cur * 3 );
     }
-    /** @EFFECT_STR increases swim speed bonus from PAWS_LARGE */
+    /** @EFFECT_TRAIT_PAWS_LARGE provides swim speed bonus based on strength (4.5% + 0.9% per point) */
+    /** @EFFECT_STR increases swim speed bonus from usable large paws (4.5% + 0.9% per point) */
     if( has_trait( trait_PAWS_LARGE ) ) {
         ret -= hand_bonus_mult * ( 20 + str_cur * 4 );
     }
-    /** @EFFECT_STR increases swim speed bonus from swim_fins */
+    /** @EFFECT_FLAG_FIN provides swim speed bonus based on strength (3.4% per point per foot) */
+    /** @EFFECT_STR increases swim speed bonus from FIN items (3.4% per point per foot) */
     if( worn_with_flag( flag_FIN, body_part_foot_l ) ||
         worn_with_flag( flag_FIN, body_part_foot_r ) ) {
         if( worn_with_flag( flag_FIN, body_part_foot_l ) &&
@@ -1282,7 +1287,9 @@ int Character::swim_speed() const
             ret -= ( 15 * str_cur ) / 2;
         }
     }
-    /** @EFFECT_STR increases swim speed bonus from WEBBED and WEBBED_FEET */
+    /** @EFFECT_FLAG_WEBBED_HANDS provides swim speed bonus based on strength (6.8% + 0.6% per point) */
+    /** @EFFECT_FLAG_WEBBED_FEET provides swim speed bonus based on strength (6.8% + 0.6% per point) */
+    /** @EFFECT_STR increases swim speed bonus from usable WEBBED_HANDS and naked WEBBED_FEET (6.8% + 0.6% per point, each) */
     float webbing_factor = 60 + str_cur * 5;
     if( has_flag( json_flag_WEBBED_HANDS ) ) {
         ret -= hand_bonus_mult * webbing_factor * 0.5f;
@@ -1290,13 +1297,13 @@ int Character::swim_speed() const
     if( has_flag( json_flag_WEBBED_FEET ) && is_barefoot() ) {
         ret -= webbing_factor * 0.5f;
     }
-    /** @EFFECT_SWIMMING increases swim speed */
     ret *= get_modifier( character_modifier_swim_mod );
+    // EFFECT documented in function definition
     ret += worn.swim_modifier( get_skill_level( skill_swimming ) );
-    /** @EFFECT_STR increases swim speed */
-
-    /** @EFFECT_DEX increases swim speed */
+    /** @EFFECT_STR increases swim speed (1.3% per point) */
+    /** @EFFECT_DEX increases swim speed (0.9% per point) */
     ret -= str_cur * 6 + dex_cur * 4;
+    /** @EFFECT_FLAG_FLOATATION clamps swim speed between 45% and 91% of base swim speed */
     if( worn_with_flag( flag_FLOTATION ) ) {
         ret = std::min( ret, 400 );
         ret = std::max( ret, 200 );
@@ -1502,7 +1509,9 @@ bool Character::check_mount_is_spooked()
                 if( critter.get_size() >= mount_size ) {
                     chance *= 2;
                 }
+                /** @EFFECT_DEX reduces chance of mount being spooked, base 1%+penalties minus 0.25% per point */
                 chance -= 0.25 * get_dex();
+                /** @EFFECT_STR reduces chance of mount being spooked, base 1%+penalties minus 0.1% per point */
                 chance -= 0.1 * get_str();
                 chance *= get_limb_score( limb_score_grip );
                 if( saddled ) {
@@ -1662,11 +1671,9 @@ void Character::dismount()
 
 float Character::stability_roll() const
 {
-    /** @EFFECT_STR improves player stability roll */
-
+    /** @EFFECT_STR improves player stability roll (vs push, drag, etc) */
+    /** @EFFECT_MELEE improves player stability roll (vs push, drag, etc) */
     /** Balance and reaction scores influence stability rolls */
-
-    /** @EFFECT_MELEE improves player stability roll */
     return ( get_melee() + get_str() ) * ( ( get_limb_score( limb_score_balance ) * 3 + get_limb_score(
             limb_score_reaction ) ) / 4.0f );
 }
@@ -2324,6 +2331,7 @@ float Character::get_vision_threshold( float light_level ) const
     const float dimming_from_light = 1.0f + ( ( light_level - LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
+    /** @EFFECT_PER determines base low light vision range (N/3) */
     float range = get_per() / 3.0f;
     if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
         vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
@@ -2385,6 +2393,22 @@ std::vector<const item *> Character::get_pseudo_items() const
     return pseudo_items;
 }
 
+// Your ability to "catch up" skill experience to knowledge is mostly a function of intelligence,
+// but perception also plays a role, representing both memory/attentiveness and catching on to how
+// the two apply to each other.
+float Character::get_catchup_modifier() const
+{
+    /** @EFFECT_INT increases ability to catch up skill experience to knowledge (+8.3% per point) */
+    /** @EFFECT_PER increases ability to catch up skill experience to knowledge (+4.1% per point) */
+    return 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f; // 2 for an average person
+}
+
+float Character::get_knowledge_modifier() const
+{
+    /** @EFFECT_INT increases knowledge gained from practice/training (+2.5% per point) */
+    return 1.0f + get_int() / 40.0f; // 1.2 for an average person, always a bit higher than base amount
+}
+
 bool Character::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
     SkillLevel &level = get_skill_level_object( id );
@@ -2394,14 +2418,8 @@ bool Character::practice( const skill_id &id, int amount, int cap, bool suppress
         // Leaving as a skill method rather than global for possible future skill cap setting
         return false;
     }
-
-    // Your ability to "catch up" skill experience to knowledge is mostly a function of intelligence,
-    // but perception also plays a role, representing both memory/attentiveness and catching on to how
-    // the two apply to each other.
-    float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f; // 2 for an average person
-    float knowledge_modifier = 1.0f + get_int() /
-                               40.0f; // 1.2 for an average person, always a bit higher than base amount
-
+    float catchup_modifier = get_catchup_modifier();
+    float knowledge_modifier = get_knowledge_modifier();
     const auto highest_skill = [&]() {
         std::pair<skill_id, int> result( skill_id::NULL_ID(), -1 );
         for( const auto &pair : *_skills ) {
@@ -2831,7 +2849,7 @@ units::mass Character::weight_capacity() const
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
     units::mass ret = Creature::weight_capacity();
-    /** @EFFECT_STR increases carrying capacity */
+    /** @EFFECT_STR determines base carrying capacity (4kg per point) */
     ret += get_str() * 4_kilogram;
     ret *= mutation_value( "weight_capacity_modifier" );
 
@@ -3103,8 +3121,8 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 int Character::read_speed() const
 {
     // Stat window shows stat effects on based on current stat
+    /** @EFFECT_INT modifies reading speed, +/- 5% per point above/below 8 */
     const int intel = get_int();
-    /** @EFFECT_INT increases reading speed by 3s per level above 8*/
     time_duration ret = 1_minutes - 3_seconds * ( intel - 8 );
 
     if( has_bionic( afs_bio_linguistic_coprocessor ) ) { // Aftershock
@@ -3790,13 +3808,13 @@ int Character::get_eff_per() const
 
 int Character::ranged_dex_mod() const
 {
-    ///\EFFECT_DEX <20 increases ranged penalty
+    /** @EFFECT_DEX decreases ranged aiming penalty (42% as effective as perception) */
     return std::max( ( 20.0 - get_dex() ) * 0.5, 0.0 );
 }
 
 int Character::ranged_per_mod() const
 {
-    ///\EFFECT_PER <20 increases ranged aiming penalty.
+    /** @EFFECT_PER decreases ranged aiming penalty (240% as effective as dexterity) */
     return std::max( ( 20.0 - get_per() ) * 1.2, 0.0 );
 }
 
@@ -5248,13 +5266,13 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
 
 float Character::get_dodge_base() const
 {
-    /** @EFFECT_DEX increases dodge base */
-    /** @EFFECT_DODGE increases dodge_base */
+    /** @EFFECT_DEX increases dodge effectiveness (50% as effective as dodge skill) */
+    /** @EFFECT_DODGE increases dodge effectiveness */
     return get_dex() / 2.0f + get_skill_level( skill_dodge );
 }
 float Character::get_hit_base() const
 {
-    /** @EFFECT_DEX increases hit base, slightly */
+    /** @EFFECT_DEX increases melee hit effectiveness (25% as effective as melee skill) */
     return get_dex() / 4.0f;
 }
 
@@ -5480,12 +5498,12 @@ int Character::throw_range( const item &it ) const
 
     int str = get_arm_str();
 
-    /** @ARM_STR determines maximum weight that can be thrown */
+    /** @EFFECT_STR determines maximum weight that can be thrown */
     if( ( tmp.weight() / 113_gram ) > str * 15 )  {
         return 0;
     }
     // Increases as weight decreases until 150 g, then decreases again
-    /** @ARM_STR increases throwing range, vs item weight (high or low) */
+    /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
     if( is_mounted() ) {
         auto *mons = mounted_creature.get();
         str = mons->mech_str_addition() != 0 ? mons->mech_str_addition() : str;
@@ -5500,10 +5518,8 @@ int Character::throw_range( const item &it ) const
     if( ret < 1 ) {
         return 1;
     }
-    // Cap at double our strength + skill
-    /** @EFFECT_STR caps throwing range */
-
-    /** @EFFECT_THROW caps throwing range */
+    /** @EFFECT_STR caps throwing range (3*str+throwing) */
+    /** @EFFECT_THROW caps throwing range (3*str+throwing) */
     if( ret > str * 3 + get_skill_level( skill_throw ) ) {
         return str * 3 + get_skill_level( skill_throw );
     }
@@ -6426,7 +6442,7 @@ void Character::burn_move_stamina( int moves )
     }
     burn_ratio += overburden_percentage;
 
-    ///\EFFECT_SWIMMING decreases stamina burn when swimming
+    /** @EFFECT_SWIMMING decreases stamina burn when swimming */
     if( get_map().has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) &&
         !get_map().has_flag_furn( "BRIDGE", pos() ) &&
         !( in_vehicle && get_map().veh_at( pos() )->vehicle().can_float() ) ) {
@@ -7677,7 +7693,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         // TODO: is this code used anymore? It seems like it is now covered in the monattack file
         if( source->has_flag( MF_GRABS ) && !source->is_hallucination() &&
             !source->has_effect( effect_grabbing ) ) {
-            /** @EFFECT_DEX increases chance to avoid being grabbed */
+            /** @EFFECT_DEX increases chance to avoid being grabbed (0 => 0%, 1 9%, 2 14%, 3 18%, 6 32%, 10 50%, 20 75%) */
             const bool dodged_grab = rng( 0, get_dex() ) > rng( 0, 10 );
 
             if( has_grab_break_tec() && dodged_grab ) {
@@ -9078,6 +9094,7 @@ float Character::adjust_for_focus( float amount ) const
     int effective_focus = get_focus();
     effective_focus = enchantment_cache->modify_value( enchant_vals::mod::LEARNING_FOCUS,
                       effective_focus );
+    /** @EFFECT_INT optionally increases effective focus for learning calculations */
     effective_focus += ( get_int() - get_option<int>( "INT_BASED_LEARNING_BASE_VALUE" ) ) *
                        get_option<int>( "INT_BASED_LEARNING_FOCUS_ADJUSTMENT" );
     effective_focus = std::max( effective_focus, 1 );
@@ -9164,9 +9181,11 @@ bool Character::crush_frozen_liquid( item_location loc )
                           loc.get_item()->display_name(), hammering_item.tname() ) ) {
 
                 //Risk smashing tile with hammering tool, risk is lower with higher dex, damage lower with lower strength
+                /** @EFFECT_DEX reduces risk of smashing the tile when trying to crush frozen liquid (0-3 => 100%, 4-7 => 50%, 8-11 => 33%, ...) */
                 if( one_in( 1 + dex_cur / 4 ) ) {
                     add_msg_if_player( colorize( _( "You swing your %s wildly!" ), c_red ),
                                        hammering_item.tname() );
+                    /** @EFFECT_STR adds to item damage when you miss while crushing frozen liquid */
                     const int smashskill = get_arm_str() + hammering_item.damage_melee( damage_type::BASH );
                     get_map().bash( loc.position(), smashskill );
                 }
@@ -10208,9 +10227,9 @@ action_id Character::get_next_auto_move_direction()
 
 int Character::persuade_skill() const
 {
-    /** @EFFECT_INT slightly increases talking skill */
-    /** @EFFECT_PER slightly increases talking skill */
-    /** @EFFECT_SPEECH increases talking skill */
+    /** @EFFECT_INT slightly increases persuade skill */
+    /** @EFFECT_PER slightly increases persuade skill */
+    /** @EFFECT_SPEECH primarily determines persuade skill */
     int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
     ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_PERSUADE, ret );
     return ret;
@@ -10218,9 +10237,9 @@ int Character::persuade_skill() const
 
 int Character::lie_skill() const
 {
-    /** @EFFECT_INT slightly increases talking skill */
-    /** @EFFECT_PER slightly increases talking skill */
-    /** @EFFECT_SPEECH increases talking skill */
+    /** @EFFECT_INT slightly increases lie skill */
+    /** @EFFECT_PER slightly increases lie skill */
+    /** @EFFECT_SPEECH primarily determines lie skill */
     int ret = get_int() + get_per() + get_skill_level( skill_speech ) * 3;
     ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_LIE, ret );
     return ret;
@@ -10228,7 +10247,7 @@ int Character::lie_skill() const
 
 int Character::intimidation() const
 {
-    /** @EFFECT_STR increases intimidation factor */
+    /** @EFFECT_STR determines base intimidation factor (+5 str ~= a gun, +2.5 str ~= strong melee weapon) */
     int ret = get_str() * 2;
     if( weapon.is_gun() ) {
         ret += 10;
@@ -10606,9 +10625,8 @@ void Character::invalidate_pseudo_items()
 
 bool Character::avoid_trap( const tripoint &pos, const trap &tr ) const
 {
-    /** @EFFECT_DEX increases chance to avoid traps */
-
-    /** @EFFECT_DODGE increases chance to avoid traps */
+    /** @EFFECT_DEX increases chance to avoid traps (2/3 as effective as dodge skill) */
+    /** @EFFECT_DODGE is the primary factor in avoiding traps */
     int myroll = dice( 3, dex_cur + get_skill_level( skill_dodge ) * 1.5 );
     int traproll;
     if( tr.can_see( pos, *this ) ) {
@@ -10617,10 +10635,12 @@ bool Character::avoid_trap( const tripoint &pos, const trap &tr ) const
         traproll = dice( 6, tr.get_avoidance() );
     }
 
+    /** @EFFECT_TRAIT_LIGHTSTEP increases chance to avoid traps (roughly equivalent to 3 dodge or 4 dexterity) */
     if( has_trait( trait_LIGHTSTEP ) ) {
         myroll += dice( 2, 6 );
     }
 
+    /** @EFFECT_TRAIT_CLUMSY decreases chance to avoid traps (roughly equivalent to -3 dodge or -4 dexterity) */
     if( has_trait( trait_CLUMSY ) ) {
         myroll -= dice( 2, 6 );
     }
@@ -10806,6 +10826,10 @@ time_duration Character::time_to_read( const item &book, const Character &reader
     time_duration retval = type->time * reading_speed / 100;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
+    /** @EFFECT_INT determines complexity of books that can be read without a speed penalty */
+    /** @EFFECT_INT_NPC determines complexity of books that can be read without a speed penalty */
+    /** @EFFECT_INT determines which NPC or player reads complex books when together */
+    /** @EFFECT_INT_NPC determines which NPC or player reads complex books when together */
     const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
     if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( time_duration::from_seconds( type->intel - effective_int ) / 1_minutes );
@@ -10985,6 +11009,7 @@ std::list<item *> Character::get_radio_items()
 
 int Character::get_lift_str() const
 {
+    /** @EFFECT_STR determines how heavy of items you can lift */
     int str = get_arm_str();
     if( has_trait( trait_STRONGBACK ) ) {
         str *= 1.35;
@@ -10999,6 +11024,7 @@ int Character::get_lift_assist() const
     int result = 0;
     const std::vector<npc *> helpers = get_crafting_helpers();
     for( const npc *np : helpers ) {
+        /** @EFFECT_STR_NPC determines how heavy of items they can help you lift */
         result += np->get_lift_str();
     }
     return result;
@@ -11068,10 +11094,8 @@ float Character::fall_damage_mod() const
     }
     float ret = 1.0f;
 
-    // Ability to land properly is 2x as important as dexterity itself
-    /** @EFFECT_DEX decreases damage from falling */
-
-    /** @EFFECT_DODGE decreases damage from falling */
+    /** @EFFECT_DEX decreases damage from falling (1/2 as effective as dodge skill) */
+    /** @EFFECT_DODGE is the primary factor in avoiding damage when falling */
     float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
     // Reactions, legwork and footing determine your landing
     dex_dodge *= get_modifier( character_modifier_limb_fall_mod );
@@ -11080,6 +11104,7 @@ float Character::fall_damage_mod() const
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
     ret *= ( 100.0f - ( dex_dodge * 4.0f ) ) / 100.0f;
 
+    /** @EFFECT_PROF_PARKOUR decreases damage from falling by 1/3 */
     if( has_proficiency( proficiency_prof_parkour ) ) {
         ret *= 2.0f / 3.0f;
     }
@@ -11836,3 +11861,15 @@ bool Character::can_lift( const T &obj ) const
 }
 template bool Character::can_lift<item>( const item &obj ) const;
 template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
+
+bool Character::can_see_first_aid_precise_hp() const
+{
+    /** @EFFECT_FIRSTAID is the primary factor in seeing precise HP when using first aid on someone else */
+    /** @EFFECT_PROF_WOUND_CARE contributes to seeing precise HP when using first aid on someone else (+1 first aid skill) */
+    /** @EFFECT_PROF_WOUND_CARE_EXPERT contributes to seeing precise HP when using first aid on someone else (+2 first aid skill) */
+    /** @EFFECT_PER contributes to seeing precise HP when using first aid on someone else (25% as effective as first aid skill) */
+    return ( get_skill_level( skill_firstaid ) +
+             ( has_proficiency( proficiency_prof_wound_care ) ? 1 : 0 ) +
+             ( has_proficiency( proficiency_prof_wound_care_expert ) ? 2 : 0 ) ) * 4 +
+           per_cur >= 20;
+}

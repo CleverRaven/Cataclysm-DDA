@@ -430,9 +430,9 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
             }
         }
 
-        ///\EFFECT_INT speeds up aiming of vehicle turrets
+        /** @EFFECT_INT speeds up aiming of vehicle turrets, 5% per point, capped at 80% */
         player_character.moves = std::min( 0,
-                                           player_character.moves - 100 + ( 5 * player_character.int_cur ) );
+                                           player_character.moves - 100 + std::min( 5 * player_character.int_cur, 80 ) );
     }
     return got_target;
 }

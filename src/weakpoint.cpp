@@ -77,6 +77,8 @@ float Character::generic_weakpoint_skill( skill_id skill_1, skill_id skill_2,
         limb_score_id limb_score_1, limb_score_id limb_score_2 ) const
 {
     float skill = ( get_skill_level( skill_1 ) + get_skill_level( skill_2 ) ) / 2.0;
+    /** @EFFECT_DEX increases chance of hitting weak points */
+    /** @EFFECT_PER increases chance of hitting weak points */
     float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
     float mul = ( get_limb_score( limb_score_1 ) + get_limb_score( limb_score_2 ) ) / 2.0;
     return ( skill + stat ) * mul;
@@ -85,18 +87,24 @@ float Character::generic_weakpoint_skill( skill_id skill_1, skill_id skill_2,
 
 float Character::melee_weakpoint_skill( const item &weapon ) const
 {
+    /** @EFFECT_SKILLS increase chance of hitting weak points with the relevant melee weapons */
+    /** @EFFECT_UNARMED increase chance of hitting weak points when unarmed */
+    /** @EFFECT_MELEE increase chance of hitting weak points in melee */
     return generic_weakpoint_skill( weapon.is_null() ? skill_unarmed : weapon.melee_skill(),
                                     skill_melee, limb_score_vision, limb_score_reaction );
 }
 
 float Character::ranged_weakpoint_skill( const item &weapon ) const
 {
+    /** @EFFECT_SKILLS increase chance of hitting weak points with the relevant ranged weapons */
+    /** @EFFECT_GUN increases chance of hitting weak points with ranged weapons */
     return generic_weakpoint_skill( weapon.gun_skill(), skill_gun, limb_score_vision,
                                     limb_score_vision );
 }
 
 float Character::throw_weakpoint_skill() const
 {
+    /** @EFFECT_THROW increases chance of hitting weak points with thrown weapons */
     return generic_weakpoint_skill( skill_throw, skill_throw, limb_score_vision, limb_score_vision );
 }
 

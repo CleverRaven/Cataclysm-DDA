@@ -213,10 +213,8 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
     }
 
     /** @EFFECT_DEX reduces chance of damaging your melee weapon */
-
-    /** @ARM_STR increases chance of damaging your melee weapon (NEGATIVE) */
-
     /** @EFFECT_MELEE reduces chance of damaging your melee weapon */
+    /** @EFFECT_STR >4 increases chance of damaging your melee weapon (NEGATIVE) */
     const float stat_factor = dex_cur / 2.0f
                               + get_skill_level( skill_melee )
                               + ( 64.0f / std::max( get_arm_str(), 4 ) );
@@ -979,7 +977,7 @@ void Character::reach_attack( const tripoint &p )
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( flag_SPEAR ) &&
                       here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) ) ) {
-            /** @ARM_STR increases bash effects when reach attacking past something */
+            /** @EFFECT_STR increases bash effects when reach attacking past something */
             here.bash( path_point, get_arm_str() + weapon.damage_melee( damage_type::BASH ) );
             handle_melee_wear( get_wielded_item() );
             mod_moves( -move_cost );
@@ -1012,6 +1010,7 @@ int stumble( Character &u, const item_location &weap )
         return 0;
     }
 
+    /** @EFFECT_STR reduces chance of stumbling with heavier weapons */
     int str_mod = u.get_arm_str();
     if( u.is_on_ground() ) {
         str_mod /= 4;
@@ -1024,7 +1023,6 @@ int stumble( Character &u, const item_location &weap )
     // 5 str with a battle axe: 26 + 49 = 75
     // Fist: 0
 
-    /** @EFFECT_STR reduces chance of stumbling with heavier weapons */
     return ( weap->volume() / 125_ml ) +
            ( weap->weight() / ( str_mod * 10_gram + 13.0_gram ) );
 }
@@ -1062,17 +1060,13 @@ double Character::crit_chance( float roll_hit, float target_dodge, const item &w
     }
     weapon_crit_chance = limit_probability( weapon_crit_chance );
 
-    // Dexterity and perception
-    /** @EFFECT_DEX increases chance for critical hits */
+    /** @EFFECT_DEX increases chance for critical hits (+1% per point) */
+    /** @EFFECT_PER increases chance for critical hits (+2% per point) */
+    const double stat_crit_chance = limit_probability( 0.25 + 0.01 * dex_cur + 0.02 * per_cur );
 
-    /** @EFFECT_PER increases chance for critical hits */
-    const double stat_crit_chance = limit_probability( 0.25 + 0.01 * dex_cur + ( 0.02 * per_cur ) );
-
-    /** @EFFECT_BASHING increases critical chance with bashing weapons */
-    /** @EFFECT_CUTTING increases critical chance with cutting weapons */
-    /** @EFFECT_STABBING increases critical chance with piercing weapons */
-    /** @EFFECT_UNARMED increases critical chance with unarmed weapons */
+    /** @EFFECT_SKILLS increase chance for critical hits with specific weapon types */
     int sk = get_skill_level( weap.melee_skill() );
+
     if( has_active_bionic( bio_cqb ) ) {
         sk = std::max( sk, BIO_CQB_LEVEL );
     }
@@ -1189,7 +1183,7 @@ float Character::dodge_roll() const
 
 float Character::bonus_damage( bool random ) const
 {
-    /** @ARM_STR increases bashing damage */
+    /** @EFFECT_STR increases bashing damage */
     if( random ) {
         return rng_float( get_arm_str() / 2.0f, get_arm_str() );
     }
@@ -1204,6 +1198,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     bool unarmed = attack_vector != "WEAPON";
     int arpen = 0;
 
+    /** @EFFECTs documented below */
     int skill = get_skill_level( unarmed ? skill_unarmed : skill_bashing );
     int melee_bonus = get_skill_level( skill_melee );
     if( has_active_bionic( bio_cqb ) ) {
@@ -1215,8 +1210,8 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         skill *= 2;
     }
 
+    /** @EFFECTs documented below */
     const int stat = get_arm_str();
-    /** @ARM_STR increases bashing damage */
     float stat_bonus = bonus_damage( !average );
     stat_bonus += mabuff_damage_bonus( damage_type::BASH );
 
@@ -1283,6 +1278,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
                 float unarmed_bonus = 0.0f;
                 const int bash_bonus = mut->bash_dmg_bonus;
                 if( mut->flags.count( json_flag_UNARMED_BONUS ) > 0 && bash_bonus > 0 ) {
+                    /** @EFFECT_UNARMED increases bash damage with mutations */
                     unarmed_bonus += std::min( get_skill_level( skill_unarmed ) / 2, 4 );
                 }
                 extra_damage += bash_bonus + unarmed_bonus;
@@ -1307,9 +1303,10 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
 
     /** @EFFECT_STR increases bashing damage */
     float weap_dam = weap.damage_melee( damage_type::BASH ) + stat_bonus;
-    /** @EFFECT_UNARMED caps bash damage with unarmed weapons */
 
-    /** @EFFECT_BASHING caps bash damage with bashing weapons */
+    /** @EFFECT_STR increases bashing damage (2*str+(unarmed or bashing)) */
+    /** @EFFECT_UNARMED caps bash damage when unarmed (2*str+unarmed) */
+    /** @EFFECT_BASHING caps bash damage when armed (2*str+bashing) */
     float bash_cap = 2 * stat + 2 * skill;
     float bash_mul = 1.0f;
 
@@ -1322,6 +1319,8 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         weap_dam += skill;
     }
 
+    /** @EFFECT_UNARMED increases bash damage when unarmed (+8% per point to 4, +4% per point above 4) */
+    /** @EFFECT_BASHING increases bash damage when armed (+8% per point to 4, +4% per point above 4) */
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
     if( skill < 5 ) {
         bash_mul = 0.8 + 0.08 * skill;
@@ -1335,7 +1334,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         bash_mul *= ( 1.0f + ( bash_cap / weap_dam ) ) / 2.0f;
     }
 
-    /** @ARM_STR boosts low cap on bashing damage */
+    /** @EFFECT_STR boosts minimum bashing damage */
     const float low_cap = std::min( 1.0f, stat / 20.0f );
     const float bash_min = low_cap * weap_dam;
     weap_dam = average ? ( bash_min + weap_dam ) * 0.5f : rng_float( bash_min, weap_dam );
@@ -2199,14 +2198,14 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         conductive_shield = shield->conductive();
     }
 
-    /** @ARM_STR increases attack blocking effectiveness with a limb or worn/wielded item */
-    /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn item */
     if( unarmed || force_unarmed || worn_shield || armed_body_block || ( has_shield &&
             !allow_weapon_blocking ) ) {
         arm_block = martial_arts_data->can_arm_block( *this );
         leg_block = martial_arts_data->can_leg_block( *this );
         nonstandard_block = martial_arts_data->can_nonstandard_block( *this );
         if( arm_block || leg_block || nonstandard_block ) {
+            /** @EFFECT_STR increases attack blocking effectiveness with a limb or worn/wielded item */
+            /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn item */
             // block_bonus for limb blocks will be added when the limb is decided
             block_score = get_arm_str() + unarmed_skill;
         } else {
@@ -2216,6 +2215,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
         // Do we block with a weapon? Worn shields are already filtered out
         // And weapon blocks are preferred by best_shield
     } else if( has_shield ) {
+        /** @EFFECT_STR increases attack blocking effectiveness with a shield */
+        /** @EFFECT_MELEE increases attack blocking effectiveness with a shield */
         block_score = get_arm_str() + block_bonus + melee_skill;
     } else {
         // Can't block with limbs or items (do not block)
@@ -2456,7 +2457,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
     // only consider portion of weapon made of glass
     const int vol = weap.volume() * glass_fraction / 250_ml;
     if( glass_portion &&
-        /** @ARM_STR increases chance of breaking glass weapons (NEGATIVE) */
+        /** @EFFECT_STR increases chance of breaking glass weapons (NEGATIVE) */
         rng_float( 0.0f, vol + 8 ) < vol + get_arm_str() ) {
         if( is_avatar() ) {
             dump += string_format( _( "Your %s shatters!" ), weap.tname() ) + "\n";
@@ -2491,17 +2492,20 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
 
 static damage_instance hardcoded_mutation_attack( const Character &u, const trait_id &id )
 {
+    /** @EFFECT_TRAIT_BEAK_PECK allows dexterity+unarmed based melee attack */
     if( id == trait_BEAK_PECK ) {
         // method open to improvement, please feel free to suggest
         // a better way to simulate target's anti-peck efforts
-        /** @EFFECT_DEX increases number of hits with BEAK_PECK */
-
-        /** @EFFECT_UNARMED increases number of hits with BEAK_PECK */
+        /** @EFFECT_DEX increases number of hits with BEAK_PECK (dex+unarmed <=5 always 1 hit, 10 avg 3 hits, >=16 always 6 hits) */
+        /** @EFFECT_UNARMED increases number of hits with BEAK_PECK (dex+unarmed <=5 always 1 hit, 10 avg 3 hits, >=16 always 6 hits) */
         int num_hits = std::max( 1, std::min<int>( 6,
                                  u.get_dex() + u.get_skill_level( skill_unarmed ) - rng( 4, 10 ) ) );
         return damage_instance::physical( 0, 0, num_hits * 10 );
     }
 
+    /** @EFFECT_TRAIT_ARM_TENTACLES allow one extra strength based melee attack */
+    /** @EFFECT_TRAIT_ARM_TENTACLES_4 allow three extra strength based melee attacks */
+    /** @EFFECT_TRAIT_ARM_TENTACLES_8 allow seven extra strength based melee attacks */
     if( id == trait_ARM_TENTACLES || id == trait_ARM_TENTACLES_4 || id == trait_ARM_TENTACLES_8 ) {
         int num_attacks = 1;
         if( id == trait_ARM_TENTACLES_4 ) {
@@ -2519,9 +2523,10 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
             return damage_instance();
         }
 
+        /** @EFFECT_TRAIT_CLAWS_TENTACLE increases damage of ARM_TENTACLE* melee attacks (+50%) and changes damage from BASH to CUT */
         const bool rake = u.has_trait( trait_CLAWS_TENTACLE );
 
-        /** @EFFECT_STR increases damage with ARM_TENTACLES* */
+        /** @EFFECT_STR increases melee damage of extra attacks with ARM_TENTACLE* (linear) */
         damage_instance ret;
         if( rake ) {
             ret.add_damage( damage_type::CUT, u.get_str() / 2.0f + 1.0f, 0, 1.0f, num_attacks );
@@ -2532,9 +2537,11 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
         return ret;
     }
 
+    /** @EFFECT_TRAIT_VINES2 allows one extra strength based melee attack */
+    /** @EFFECT_TRAIT_VINES3 allows two extra strength based melee attacks */
     if( id == trait_VINES2 || id == trait_VINES3 ) {
         const int num_attacks = id == trait_VINES2 ? 2 : 3;
-        /** @EFFECT_STR increases damage with VINES* */
+        /** @EFFECT_STR increases damage with TRAIT_VINES* */
         damage_instance ret;
         ret.add_damage( damage_type::BASH, u.get_str() / 2.0f, 0, 1.0f, num_attacks );
         return ret;
@@ -2563,7 +2570,6 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
 
             /** @EFFECT_UNARMED increases chance of attacking with mutated body parts */
             /** @EFFECT_DEX increases chance of attacking with mutated body parts */
-
             // Calculate actor ability value to be compared against mutation attack difficulty and add debug message
             const int proc_value = get_dex() + unarmed;
             add_msg_debug( debugmode::DF_MELEE, "%s proc chance: %d in %d", pr.c_str(), proc_value,
@@ -2607,6 +2613,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             } else {
                 damage_instance dam = mut_atk.base_damage;
                 damage_instance scaled = mut_atk.strength_damage;
+                /** @EFFECT_STR increases melee damage with mutated body parts */
                 scaled.mult_damage( std::min<float>( 15.0f, get_str() ), true );
                 dam.add( scaled );
 
@@ -2826,7 +2833,7 @@ int Character::attack_speed( const item &weap ) const
                                 skill_melee );
     /** @EFFECT_MELEE increases melee attack speed */
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
-    /** @EFFECT_DEX increases attack speed */
+    /** @EFFECT_DEX increases melee attack speed */
     const int dexbonus = dex_cur / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
@@ -2927,17 +2934,20 @@ void avatar::disarm( npc &target )
         return;
     }
 
-    /** @ARM_STR increases chance to disarm, primary stat */
-    /** @EFFECT_DEX increases chance to disarm, secondary stat */
+    /** @EFFECT_STR increases chance to disarm (str, dex, melee vs str, dex, melee) */
+    /** @EFFECT_DEX increases chance to disarm (str, dex, melee vs str, dex, melee) */
     /** Grip strength modifies all disarm rolls */
     int my_roll = dice( 3, get_limb_score( limb_score_grip ) * get_arm_str() + get_dex() );
 
-    /** @EFFECT_MELEE increases chance to disarm */
+    /** @EFFECT_MELEE increases chance to disarm (str, dex, melee vs str, dex, melee) */
     my_roll += dice( 3, get_skill_level( skill_melee ) );
 
+    /** @EFFECT_STR increases chance to avoid being disarmed (str, dex, melee vs str, dex, melee) */
+    /** @EFFECT_DEX increases chance to avoid being disarmed (str, dex, melee vs str, dex, melee) */
     int their_roll = dice( 3, target.get_limb_score( limb_score_grip ) * target.get_arm_str() +
                            target.get_dex() );
     their_roll *= target.get_limb_score( limb_score_reaction );
+    /** @EFFECT_MELEE increases chance to avoid being disarmed (str, dex, melee vs str, dex, melee) */
     their_roll += dice( 3, target.get_skill_level( skill_melee ) );
 
     item_location it = target.get_wielded_item();
@@ -3007,20 +3017,22 @@ void avatar::steal( npc &target )
         return;
     }
 
-    /** @EFFECT_DEX defines the chance to steal */
+    /** @EFFECT_DEX determines base chances of successful stealing (vs their dex) */
     int my_roll = dice( 3, get_dex() );
 
-    /** @EFFECT_UNARMED adds bonus to stealing when wielding nothing */
     if( !is_armed() ) {
         my_roll += dice( 4, 3 );
     }
+    /** @EFFECT_TRAIT_DEFT increases chances of successful stealing (roughly equivalent to +4 dexterity) */
     if( has_trait( trait_DEFT ) ) {
         my_roll += dice( 2, 6 );
     }
+    /** @EFFECT_TRAIT_CLUMSY decreases chances of successful stealing (roughly equivalent to -8 dexterity) */
     if( has_trait( trait_CLUMSY ) ) {
         my_roll -= dice( 4, 6 );
     }
 
+    /** @EFFECT_PER decreases chances of being stolen from (vs their dex and traits) */
     int their_roll = dice( 5, target.get_per() );
 
     const item *it = loc.get_item();

@@ -126,6 +126,7 @@ static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
 static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
 
 static const skill_id skill_archery( "archery" );
+static const skill_id skill_athletics( "athletics" );
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
@@ -811,10 +812,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     }
 
     // Up to 50% of recoil can be delayed until end of burst dependent upon relevant skill
-    /** @EFFECT_PISTOL delays effects of recoil during automatic fire */
-    /** @EFFECT_SMG delays effects of recoil during automatic fire */
-    /** @EFFECT_RIFLE delays effects of recoil during automatic fire */
-    /** @EFFECT_SHOTGUN delays effects of recoil during automatic fire */
+    /** @EFFECT_SKILLS delay effects of recoil during automatic fire of relevant weapon type */
     double absorb = std::min( get_skill_level( gun.gun_skill() ),
                               MAX_SKILL ) / static_cast<double>( MAX_SKILL * 2 );
 
@@ -998,10 +996,11 @@ int throw_cost( const Character &c, const item &to_throw )
     // At 10 skill, the cost is down to 0.75%, not 0.66%
     const int base_move_cost = to_throw.attack_time( c ) / 2;
     const int throw_skill = std::min( MAX_SKILL, c.get_skill_level( skill_throw ) );
-    ///\EFFECT_THROW increases throwing speed
+    /** @EFFECT_THROW increases throwing speed */
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
-    ///\EFFECT_DEX increases throwing speed
+    /** @EFFECT_DEX increases throwing speed */
     const int dexbonus = c.get_dex();
+    /** @EFFECT_STAMINA increases throwing speed */
     const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
@@ -1053,7 +1052,7 @@ int Character::throw_dispersion_per_dodge( bool /* add_encumbrance */ ) const
     // +200 per dodge point at 0 dexterity
     // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
     // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
-    ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
+    /** @EFFECT_DEX increases throwing accuracy (vs dodge) */
     float effective_dex = 2 + get_dex() / 4.0f;
     effective_dex *= get_modifier( character_modifier_thrown_dex_mod );
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
@@ -1076,12 +1075,12 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     // TODO: Except javelin type items
     throw_difficulty += std::max<int>( 0, units::to_milliliter( volume - 1_liter ) );
     // 1 penalty for gram above str*100 grams (at 0 skill)
-    ///\ARM_STR decreases throwing dispersion when throwing heavy objects
+    /** @EFFECT_STR decreases throwing dispersion when throwing heavy objects */
     const int weight_in_gram = units::to_gram( weight );
     throw_difficulty += std::max( 0, weight_in_gram - get_arm_str() * 100 );
 
     // Dispersion from difficult throws goes from 100% at lvl 0 to 25% at lvl 10
-    ///\EFFECT_THROW increases throwing accuracy
+    /** @EFFECT_THROW increases throwing accuracy */
     const int throw_skill = std::min( MAX_SKILL, get_skill_level( skill_throw ) );
     int dispersion = 10 * throw_difficulty / ( 8 * throw_skill + 4 );
     // If the target is a creature, it moves around and ruins aim
@@ -1093,8 +1092,7 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
                                 critter->pos() ) );
         dispersion += throw_dispersion_per_dodge( true ) * effective_dodge;
     }
-    // 1 perception per 1 eye encumbrance
-    ///\EFFECT_PER decreases throwing accuracy penalty from eye encumbrance
+    /** @EFFECT_PER decreases throwing accuracy penalty from eye encumbrance (-1 encumb per point) */
     dispersion += std::max( 0, ( encumb( bodypart_id( "eyes" ) ) - get_per() ) * 10 );
 
     // If throwing blind, we're assuming they mechanically can't achieve the
@@ -1138,7 +1136,7 @@ int Character::thrown_item_adjusted_damage( const item &thrown ) const
     // The damage dealt due to item's weight, player's strength, and skill level
     // Up to str/2 or weight/100g (lower), so 10 str is 5 damage before multipliers
     // Railgun doubles the effective strength
-    ///\ARM_STR increases throwing damage
+    /** @EFFECT_STR increases throwing damage */
     double stats_mod = do_railgun ? get_str() : ( get_arm_str() / 2.0 );
     stats_mod = throw_assist ? *throw_assist / 2.0 : stats_mod;
     // modify strength impact based on skill level, clamped to [0.15 - 1]
@@ -1167,6 +1165,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
     const units::volume volume = thrown.volume() * glass_fraction;
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
+    /** @EFFECT_STR determines how large of glass items will shatter when thrown */
     if( !thrown.active && glass_portion &&
         rng( 0, units::to_milliliter( 2_liter - volume ) ) < get_arm_str() * 100 ) {
         proj.impact.add_damage( damage_type::CUT, units::to_milliliter( volume ) / 500.0f );
@@ -1225,7 +1224,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const int glass_portion = thrown.made_of( material_glass );
     const float glass_fraction = glass_portion / static_cast<float>( thrown.type->mat_portion_total );
     const units::volume glass_vol = volume * glass_fraction;
-    /** @ARM_STR increases chance of shattering thrown glass items (NEGATIVE) */
+    /** @EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE) */
     const bool shatter = !thrown.active && glass_portion &&
                          rng( 0, units::to_milliliter( 2_liter - glass_vol ) ) < get_arm_str() * 100;
 
@@ -1375,12 +1374,15 @@ static void mod_stamina_archery( Character &you, const item &relevant )
 {
     // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
     // This ratio should never be below 0 and above 1
+    /** @EFFECT_STR reduces activity level when firing a bow */
     const int scaled_str_ratio = ( 10 * relevant.get_min_str() ) / you.str_cur;
     you.set_activity_level( scaled_str_ratio );
 
     // Calculate stamina drain based on archery and athletics skill
+    /** @EFFECT_ARCHERY decreases stamina cost when firing a bow */
     const int archery_skill = you.get_skill_level( skill_archery );
-    const int athletics_skill = you.get_skill_level( skill_archery );
+    /** @EFFECT_ATHLETICS decreases stamina cost when firing a bow (half as effective as archery skill) */
+    const int athletics_skill = you.get_skill_level( skill_athletics );
     const int skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3;
 
     const int stamina_cost = pow( 20 - skill_modifier, 2 );

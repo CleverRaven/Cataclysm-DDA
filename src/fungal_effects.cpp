@@ -54,8 +54,8 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
         }
     } else if( player_character.pos() == p ) {
         // TODO: Make this accept NPCs when they understand fungals
-        ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
-        ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
+        /** @EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE (one_in(20-dex-melee)) */
+        /** @EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE (one_in(20-dex-melee)) */
         if( player_character.has_trait( trait_TAIL_CATTLE ) &&
             one_in( 20 - player_character.dex_cur - player_character.get_skill_level( skill_melee ) ) ) {
             add_msg( _( "The spores land on you, but you quickly swat them off with your tail!" ) );

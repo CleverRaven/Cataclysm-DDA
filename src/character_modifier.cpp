@@ -267,6 +267,7 @@ static float aim_speed_skill_modifier( const Character &c, const skill_id &gun_s
 
 static float aim_speed_dex_modifier( const Character &c, const skill_id & )
 {
+    /** @EFFECT_DEX affects aim speed, +/- 5% per point away from 8 */
     return ( c.get_dex() - 8 ) * 0.5f;
 }
 

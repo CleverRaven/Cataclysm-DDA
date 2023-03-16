@@ -712,7 +712,7 @@ static void smash()
                           0.8;
     bool mech_smash = false;
     int smashskill;
-    ///\EFFECT_STR increases smashing capability
+    /** @EFFECT_STR increases smashing capability */
     if( player_character.is_mounted() ) {
         auto *mon = player_character.mounted_creature.get();
         smashskill = player_character.get_arm_str() + mon->mech_str_addition() + mon->type->melee_dice *

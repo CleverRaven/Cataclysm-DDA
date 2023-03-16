@@ -226,6 +226,7 @@ bool computer_session::hack_attempt( Character &you, int Security ) const
     if( Security == -1 ) {
         Security = comp.security;    // Set to main system security if no value passed
     }
+    /** @EFFECT_COMPUTER increases chance of successful hack attempt, compared to security level */
     const int hack_skill = you.get_skill_level( skill_computer );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
@@ -237,15 +238,13 @@ bool computer_session::hack_attempt( Character &you, int Security ) const
 
     you.moves -= 10 * ( 5 + Security * 2 ) / std::max( 1, hack_skill + 1 );
     int player_roll = hack_skill;
-    ///\EFFECT_INT <8 randomly penalizes hack attempts, 50% of the time
+    /** @EFFECT_INT modifies hack attempts. <8 penalizes 50% of the time, >8 benefits 33% of the time */
     if( you.int_cur < 8 && one_in( 2 ) ) {
         player_roll -= rng( 0, 8 - you.int_cur );
-        ///\EFFECT_INT >8 randomly benefits hack attempts, 33% of the time
     } else if( you.int_cur > 8 && one_in( 3 ) ) {
         player_roll += rng( 0, you.int_cur - 8 );
     }
 
-    ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
     bool successful_attempt = dice( player_roll, 6 ) >= dice( Security, 6 );
     you.practice( skill_computer, successful_attempt ? ( 15 + Security * 3 ) : 7 );
     return successful_attempt;

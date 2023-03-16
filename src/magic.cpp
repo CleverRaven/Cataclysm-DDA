@@ -1107,6 +1107,8 @@ float spell::spell_fail( const Character &guy ) const
     // effective skill of 0 or less is 100% failure
     // effective skill of 8 (8 int, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
+    /** @EFFECT_INT reduces chance of spell failure (equivalent to 1 skill level per point) */
+    /** @EFFECT_SKILLS reduce chances of spell failure using the skill */
     const float effective_skill = 2 * ( get_level() - get_difficulty( guy ) ) + guy.get_int() +
                                   guy.get_skill_level( skill() );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
@@ -1460,8 +1462,10 @@ std::string spell::exp_progress() const
 
 float spell::exp_modifier( const Character &guy ) const
 {
+    /** @EFFECT_INT affects spell experience, +/- 2.5% per point away from 8 */
     const float int_modifier = ( guy.get_int() - 8.0f ) / 8.0f;
     const float difficulty_modifier = get_difficulty( guy ) / 20.0f;
+    /** @EFFECT_SKILLS affects spell experience, +2% per level of the relevant skill */
     const float spellcraft_modifier = guy.get_skill_level( skill() ) / 10.0f;
 
     return ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f + 1.0f;
@@ -1911,6 +1915,7 @@ void known_magic::mod_mana( const Character &guy, int add_mana )
 
 int known_magic::max_mana( const Character &guy ) const
 {
+    /** @EFFECT_INT increases max mana */
     const float int_bonus = ( ( 0.2f + guy.get_int() * 0.1f ) - 1.0f ) * mana_base;
     const int bionic_penalty = std::round( std::max( 0.0f,
                                            units::to_kilojoule( guy.get_power_level() ) *
@@ -1974,6 +1979,8 @@ int known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp )
 {
     dialogue d( get_talker_for( guy ), nullptr );
     const int base_time = to_moves<int>( 30_minutes );
+    /** @EFFECT_INT affects time to learn spells */
+    /** @EFFECT_SKILLS affect time to learn spells using the relevant skill */
     const double int_modifier = ( guy.get_int() - 8.0 ) / 8.0;
     const double skill_modifier = guy.get_skill_level( sp->skill ) / 10.0;
     return base_time * ( 1.0 + sp->difficulty.evaluate( d ) / ( 1.0 + int_modifier + skill_modifier ) );

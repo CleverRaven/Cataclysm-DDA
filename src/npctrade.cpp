@@ -135,13 +135,10 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
 {
     // Adjust the prices based on your social skill.
     // cap adjustment so nothing is ever sold below value
-    ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
-
-    ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
-
-    ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
-
-    ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
+    /** @EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT */
+    /** @EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER */
+    /** @EFFECT_INT slightly increases bartering price changes, relative to NPC INT */
+    /** @EFFECT_BARTER increases bartering price changes, relative to NPC BARTER */
     int const int_diff = seller.int_cur - buyer.int_cur;
     double const int_adj = 1 + 0.05 * std::min( 19, std::abs( int_diff ) );
     double const soc_adj = price_adjustment( seller.get_skill_level( skill_speech ) -

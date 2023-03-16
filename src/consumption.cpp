@@ -680,6 +680,7 @@ float Character::metabolic_rate() const
 
     // Penalize fast survivors
     // TODO: Have cold temperature increase, not decrease, metabolism
+    /** @EFFECT_SPEED increases metabolic rate (NEGATIVE) */
     const float effective_hunger = ( get_hunger() + get_starvation() ) * 100.0f / std::max( 50,
                                    get_speed() );
     const float modifier = multi_lerp( thresholds, effective_hunger );

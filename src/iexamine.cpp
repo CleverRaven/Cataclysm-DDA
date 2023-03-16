@@ -479,12 +479,12 @@ void iexamine::gaspump( Character &you, const tripoint &examp )
     map_stack items = here.i_at( examp );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( phase_id::LIQUID ) ) {
-            /// @note \EFFECT_DEX decreases chance of spilling gas from a pump
+            /** @EFFECT_DEX decreases chance of spilling gas from a pump (0 10%, 3 7.6%, 6 6.25%, 12 4.5%, 20 3.3%) */
             if( one_in( 10 + you.get_dex() ) ) {
                 add_msg( m_bad, _( "You accidentally spill the %s." ), item_it->type_name() );
                 static const auto max_spill_volume = units::from_liter( 1 );
                 const int max_spill_charges = std::max( 1, item_it->charges_per_volume( max_spill_volume ) );
-                /// @note \EFFECT_DEX decreases amount of gas spilled, if gas is spilled from pump
+                /** @EFFECT_DEX decreases amount of gas spilled, if gas is spilled from pump (1/Nth) */
                 const int qty = rng( 1, max_spill_charges * 8.0 / std::max( 1, you.get_dex() ) );
 
                 item spill = item_it->split( qty );
@@ -2640,7 +2640,7 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
         here.i_clear( examp );
 
         int skillLevel = you.get_skill_level( skill_survival );
-        ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
+        /** @EFFECT_SURVIVAL increases number of plants harvested from a seed */
         int plant_count = rng( skillLevel / 2, skillLevel );
         plant_count *= here.furn( examp )->plant->harvest_multiplier;
         plant_count = std::min( std::max( plant_count, 1 ), 12 );
@@ -2831,7 +2831,7 @@ void iexamine::kiln_empty( Character &you, const tripoint &examp )
     // fabrication should help here as kiln design and how you stack the wood matter to a degree, though the impact is low overall
     // For a cruddy kiln (a pit with a rock chimney) assume 10-15% efficiency, depending on fabrication (40-60% wastage)
     // For a well made kiln (industrial-style metal kiln) assume 20-25% efficiency, depending on fabrication (0-20% wastage)
-    ///\EFFECT_FABRICATION decreases loss when firing a kiln
+    /** @EFFECT_FABRICATION decreases loss when firing a kiln */
     const int skill = you.get_skill_level( skill_fabrication );
     int loss = 0;
     // if the current kiln is a metal one, use a more efficient conversion rate otherwise default to assuming it is a rock pit kiln
@@ -2976,7 +2976,7 @@ void iexamine::arcfurnace_empty( Character &you, const tripoint &examp )
         return;
     }
 
-    ///\EFFECT_FABRICATION decreases loss when firing a furnace
+    /** @EFFECT_FABRICATION decreases loss when firing a furnace */
     const int skill = you.get_skill_level( skill_fabrication );
     int loss = 60 - 2 *
                skill; // Inefficiency is still fine, coal and limestone is abundant
@@ -3773,7 +3773,7 @@ static void pick_plant( Character &you, const tripoint &examp,
     you.practice( skill_survival, 6 );
 
     int plantBase = rng( 2, 5 );
-    ///\EFFECT_SURVIVAL increases number of plants harvested
+    /** @EFFECT_SURVIVAL increases number of plants harvested */
     int plantCount = rng( plantBase, plantBase + survival / 2 );
     plantCount = std::min( plantCount, 12 );
 
@@ -4016,9 +4016,9 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
     }
 
     add_msg( _( "You forage through the %s." ), here.tername( examp ) );
-    ///\EFFECT_SURVIVAL speeds up foraging
+    /** @EFFECT_SURVIVAL speeds up foraging (0 -> 25 turns, 1 -> 21, ..., 10 -> 8) */
     int move_cost = 100000 / ( 2 * you.get_skill_level( skill_survival ) + 5 );
-    ///\EFFECT_PER randomly speeds up foraging
+    /** @EFFECT_PER randomly speeds up foraging (0% to 50% per point) */
     move_cost /= rng( std::max( 4, you.per_cur ), 4 + you.per_cur * 2 );
     you.assign_activity( player_activity( forage_activity_actor( move_cost ) ) );
     you.activity.placement = here.getglobal( examp );
@@ -4056,24 +4056,31 @@ void trap::examine( const tripoint &examp ) const
     }
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
+        /** @EFFECT_TRAPS is the primary factor in disarming traps */
         const int traps_skill_level = player_character.get_skill_level( skill_traps );
+        /** @EFFECT_PER increases chance of disarming traps (1/3 as much as devices skill) */
+        /** @EFFECT_DEX increases chance of disarming traps (1/2 as much as devices skill) */
+        /** @EFFECT_INT increases chance of disarming traps (1/6 as much as devices skill) */
         const float weighted_stat_average = ( 2.0f * player_character.per_cur + 3.0f *
                                               player_character.dex_cur +
                                               player_character.int_cur ) / 6.0f;
         int proficiency_effect = -2;
         // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
+        /** @EFFECT_PROF_TRAPS provides +2 effective devices skill for disarming traps */
         if( player_character.has_proficiency( proficiency_prof_traps ) ) {
             proficiency_effect = 0;
             // If you have the basic traps prof, negate the above penalty
         }
+        /** @EFFECT_PROF_DISARMING provides +4 effective devices skill for disarming traps (overrides Traps proficiency) */
         if( player_character.has_proficiency( proficiency_prof_disarming ) ) {
             proficiency_effect = 4;
             // If you have the disarming proficiency, your skill level is effectively 4 levels higher.
         }
+        /** @EFFECT_PROF_TRAPSETTING provides +1 effective devices skill for disarming traps */
         if( player_character.has_proficiency( proficiency_prof_trapsetting ) ) {
             proficiency_effect += 1;
-            // Knowing how to set traps does give you a small bonus to disarming them as well, regardless of your other bonuses.
         }
+
         const float mean_roll = traps_skill_level + ( weighted_stat_average / 4.0f ) + proficiency_effect;
 
         int roll = std::round( normal_roll( mean_roll, 3 ) );
@@ -4878,6 +4885,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
             tripoint dest( you.posx() + 2 * sgn( examp.x - you.posx() ),
                            you.posy() + 2 * sgn( examp.y - you.posy() ),
                            you.posz() );
+            /** @EFFECT_STR >=4 allows jumping over obstacles */
             if( you.get_str() < 4 ) {
                 add_msg( m_warning, _( "You are too weak to jump over an obstacle." ) );
             } else if( 100 * you.weight_carried() / you.weight_capacity() > 25 ) {
@@ -6636,9 +6644,9 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
 
 void iexamine::practice_survival_while_foraging( Character &who )
 {
-    ///\EFFECT_INT Intelligence caps survival skill gains from foraging
+    /** @EFFECT_INT caps survival skill gains from foraging */
     const int max_forage_skill = who.int_cur / 3 + 1;
-    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
+    /** @EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE) */
     const int max_exp = 2 * ( max_forage_skill - who.get_skill_level( skill_survival ) );
     // Award experience for foraging attempt regardless of success
     who.practice( skill_survival, rng( 1, max_exp ), max_forage_skill );

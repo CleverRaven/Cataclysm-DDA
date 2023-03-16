@@ -1043,6 +1043,7 @@ units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_
             monster *mon = get_monster( index_of_part( &vp ) );
             if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
                 // An animal that can carry twice as much weight, can pull a cart twice as hard.
+                /** @EFFECT_SPEED for animals determines base power output when pulling a vehicle */
                 pwr = units::from_watt( mon->get_speed() * ( mon->get_size() - 1 ) * 3
                                         * ( mon->get_mountable_weight_ratio() * 5 ) );
             } else {
@@ -1051,7 +1052,7 @@ units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_
         }
         // Weary multiplier
         const float weary_mult = get_player_character().exertion_adjusted_move_multiplier();
-        ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
+        /** @EFFECT_STR increases power produced for MUSCLE_* vehicles */
         pwr += units::from_watt( get_player_character().str_cur - 8 ) * vpi.engine_muscle_power_factor() *
                weary_mult;
         /// wind-powered vehicles have differing power depending on wind direction

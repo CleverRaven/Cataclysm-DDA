@@ -964,6 +964,7 @@ bool outfit::is_barefoot() const
     return true;
 }
 
+/** @EFFECT_SWIMMING reduces swim speed penalty for worn item volume from 1.8% per liter at 0 skill to 0% at 10 skill */
 int outfit::swim_modifier( const int swim_skill ) const
 {
     int ret = 0;

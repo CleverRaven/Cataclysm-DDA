@@ -199,19 +199,19 @@ TAB_SIZE               = 4
 
 ALIASES                =
 
-ALIASES += "EFFECT_STR=\xrefitem Effects_Stat_Strength \"\" \"\" Strength" 
-ALIASES += "EFFECT_DEX=\xrefitem Effects_Stat_Dexterity \"\" \"\" Dexterity" 
-ALIASES += "EFFECT_INT=\xrefitem Effects_Stat_Intelligence \"\" \"\" Intelligence" 
+ALIASES += "EFFECT_STR=\xrefitem Effects_Stat_Strength \"\" \"\" Strength"
+ALIASES += "EFFECT_DEX=\xrefitem Effects_Stat_Dexterity \"\" \"\" Dexterity"
+ALIASES += "EFFECT_INT=\xrefitem Effects_Stat_Intelligence \"\" \"\" Intelligence"
 ALIASES += "EFFECT_PER=\xrefitem Effects_Stat_Perception \"\" \"\" Perception"
 
-ALIASES += "EFFECT_STR_MAX=\xrefitem Effects_Stat_Strength \"\" \"\" Maximum Strength" 
-ALIASES += "EFFECT_DEX_MAX=\xrefitem Effects_Stat_Dexterity \"\" \"\" Maximum Dexterity" 
-ALIASES += "EFFECT_INT_MAX=\xrefitem Effects_Stat_Intelligence \"\" \"\" Maximum Intelligence" 
+ALIASES += "EFFECT_STR_MAX=\xrefitem Effects_Stat_Strength \"\" \"\" Maximum Strength"
+ALIASES += "EFFECT_DEX_MAX=\xrefitem Effects_Stat_Dexterity \"\" \"\" Maximum Dexterity"
+ALIASES += "EFFECT_INT_MAX=\xrefitem Effects_Stat_Intelligence \"\" \"\" Maximum Intelligence"
 ALIASES += "EFFECT_PER_MAX=\xrefitem Effects_Stat_Perception \"\" \"\" Maximum Perception"
 
-ALIASES += "EFFECT_STR_NPC=\xrefitem Effects_Stat_Strength \"\" \"\" NPC Strength" 
-ALIASES += "EFFECT_DEX_NPC=\xrefitem Effects_Stat_Dexterity \"\" \"\" NPC Dexterity" 
-ALIASES += "EFFECT_INT_NPC=\xrefitem Effects_Stat_Intelligence \"\" \"\" NPC Intelligence" 
+ALIASES += "EFFECT_STR_NPC=\xrefitem Effects_Stat_Strength \"\" \"\" NPC Strength"
+ALIASES += "EFFECT_DEX_NPC=\xrefitem Effects_Stat_Dexterity \"\" \"\" NPC Dexterity"
+ALIASES += "EFFECT_INT_NPC=\xrefitem Effects_Stat_Intelligence \"\" \"\" NPC Intelligence"
 ALIASES += "EFFECT_PER_NPC=\xrefitem Effects_Stat_Perception \"\" \"\" NPC Perception"
 
 ALIASES += "EFFECT_BARTER=\xrefitem Effects_Skill_Barter \"\" \"\" Barter"
@@ -245,6 +245,8 @@ ALIASES += "EFFECT_SMG=\xrefitem Effects_Skill_Smg \"\" \"\" Smg"
 ALIASES += "EFFECT_LOCKPICK=\xrefitem Effects_Skill_Lockpick \"\" \"\" Lock Picking"
 ALIASES += "EFFECT_CHEMISTRY=\xrefitem Effects_Skill_Chemistry \"\" \"\" Chemistry"
 
+ALIASES += "EFFECT_SKILLS=\xrefitem Effects_Skill_Multiple \"\" \"\" Multiple skills"
+
 ALIASES += "EFFECT_BARTER_NPC=\xrefitem Effects_Skill_Barter \"\" \"\" NPC Barter"
 ALIASES += "EFFECT_COMPUTER_NPC=\xrefitem Effects_Skill_Computer \"\" \"\" NPC Computer"
 ALIASES += "EFFECT_CARPENTRY_NPC=\xrefitem Effects_Skill_Carpentry \"\" \"\" NPC Carpentry"
@@ -275,6 +277,49 @@ ALIASES += "EFFECT_SHOTGUN_NPC=\xrefitem Effects_Skill_Shotgun \"\" \"\" NPC Sho
 ALIASES += "EFFECT_SMG_NPC=\xrefitem Effects_Skill_Smg \"\" \"\" NPC Smg"
 ALIASES += "EFFECT_LOCKPICK_NPC=\xrefitem Effects_Skill_Lockpick \"\" \"\" NPC Lock Picking"
 ALIASES += "EFFECT_CHEMISTRY_NPC=\xrefitem Effects_Skill_Chemistry \"\" \"\" NPC Chemistry"
+
+ALIASES += "EFFECT_PROF_DISARMING=\xrefitem Effects_Proficiency_Disarming \"\" \"\" Disarming"
+ALIASES += "EFFECT_PROF_LOCKPICKING_EXPERT=\xrefitem Effects_Proficiency_Lockpicking \"\" \"\" Expert Lockpicking"
+ALIASES += "EFFECT_PROF_LOCKPICKING=\xrefitem Effects_Proficiency_Lockpicking \"\" \"\" Lockpicking"
+ALIASES += "EFFECT_PROF_PARKOUR=\xrefitem Effects_Proficiency_Parkour \"\" \"\" Parkour"
+ALIASES += "EFFECT_PROF_SAFECRACKING=\xrefitem Effects_Proficiency_Safecracking \"\" \"\" Safecracking"
+ALIASES += "EFFECT_PROF_SPOTTING=\xrefitem Effects_Proficiency_Spotting \"\" \"\" Trap Spotting"
+ALIASES += "EFFECT_PROF_TRAPS=\xrefitem Effects_Proficiency_Traps \"\" \"\" Traps"
+ALIASES += "EFFECT_PROF_TRAPSETTING=\xrefitem Effects_Proficiency_TrapSetting \"\" \"\" Trap Setting"
+ALIASES += "EFFECT_PROF_WOUND_CARE_EXPERT=\xrefitem Effects_Proficiency_Wound_Care \"\" \"\" Expert Wound Care"
+ALIASES += "EFFECT_PROF_WOUND_CARE=\xrefitem Effects_Proficiency_Wound_Care \"\" \"\" Wound Care"
+
+ALIASES += "EFFECT_TRAIT_BADKNEES=\xrefitem Effects_Trait_Bad_Knees \"\" \"\" Bad Knees"
+ALIASES += "EFFECT_TRAIT_CLUMSY=\xrefitem Effects_Trait_Clumsy \"\" \"\" Clumsy"
+ALIASES += "EFFECT_TRAIT_LIGHTSTEP=\xrefitem Effects_Trait_Light_Step \"\" \"\" Light Step"
+
+ALIASES += "EFFECT_TRAIT_PROF_AUTODOC=\xrefitem Effects_Trait_Profession_Autodoc \"\" \"\" Autodoc Specialist Profession"
+ALIASES += "EFFECT_TRAIT_PROF_CHURL=\xrefitem Effects_Trait_Profession_Churl \"\" \"\" Churl Profession"
+ALIASES += "EFFECT_TRAIT_PROF_MED=\xrefitem Effects_Trait_Profession_Doctor \"\" \"\" Doctor Profession"
+
+ALIASES += "EFFECT_TRAIT_PAWS=\xrefitem Effects_Trait_Paws \"\" \"\" Paws"
+ALIASES += "EFFECT_TRAIT_PAWS_LARGE=\xrefitem Effects_Trait_Paws \"\" \"\" Large Paws"
+ALIASES += "EFFECT_TRAIT_TAIL_CATTLE=\xrefitem Effects_Trait_Tail \"\" \"\" Cattle Tail"
+ALIASES += "EFFECT_TRAIT_BEAK_PECK=\xrefitem Effects_Trait_Beak \"\" \"\" Woodpecker Beak"
+ALIASES += "EFFECT_TRAIT_ARM_TENTACLES=\xrefitem Effects_Trait_Arm \"\" \"\" Tentacle Arms"
+ALIASES += "EFFECT_TRAIT_ARM_TENTACLES_4=\xrefitem Effects_Trait_Arm \"\" \"\" Four Tentacles"
+ALIASES += "EFFECT_TRAIT_ARM_TENTACLES_8=\xrefitem Effects_Trait_Arm \"\" \"\" Eight Tentacles"
+ALIASES += "EFFECT_TRAIT_CLAWS_TENTACLE=\xrefitem Effects_Trait_Claws \"\" \"\" Tentacle Claws"
+ALIASES += "EFFECT_TRAIT_VINES2=\xrefitem Effects_Trait_Vines \"\" \"\" 2 Vines"
+ALIASES += "EFFECT_TRAIT_VINES3=\xrefitem Effects_Trait_Vines \"\" \"\" 3 Vines"
+
+ALIASES += "EFFECT_FATIGUE=\xrefitem Effects_Fatigue \"\" \"\" Fatigue"
+ALIASES += "EFFECT_FOCUS=\xrefitem Effects_Focus \"\" \"\" Focus"
+ALIASES += "EFFECT_SLEEP_DEPRIVATION=\xrefitem Effects_Sleep_Deprivation \"\" \"\" Sleep Deprivation"
+ALIASES += "EFFECT_SPEED_BASE=\xrefitem Effects_Speed \"\" \"\" Base Speed"
+ALIASES += "EFFECT_SPEED=\xrefitem Effects_Speed \"\" \"\" Speed"
+
+ALIASES += "EFFECT_FLAG_FIN=\xrefitem Effects_Flag_Fin \"\" \"\" Fin item"
+ALIASES += "EFFECT_FLAG_FLOATATION=\xrefitem Effects_Flag_Floatation \"\" \"\" Floatation item"
+ALIASES += "EFFECT_FLAG_POWERED=\xrefitem Effects_Flag_Powered \"\" \"\" Powered item"
+
+ALIASES += "EFFECT_FLAG_WEBBED_FEET=\xrefitem Effects_Flag_Webbed_Feet \"\" \"\" Webbed Feet"
+ALIASES += "EFFECT_FLAG_WEBBED_HANDS=\xrefitem Effects_Flag_Webbed_Hands \"\" \"\" Webbed Hands"
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding

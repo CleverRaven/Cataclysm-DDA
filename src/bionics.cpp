@@ -2034,6 +2034,10 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
     skill_id important_skill;
     skill_id least_important_skill;
 
+    /** @EFFECT_FIRSTAID increases effective skill for bionics actions, slightly more with autodoc than without */
+    /** @EFFECT_COMPUTER increases effective skill for bionics actions with autodoc */
+    /** @EFFECT_ELECTRONICS increases effective skill for bionics actions, much more with autodoc than without */
+    /** @EFFECT_MECHANICS slightly increases effective skill for bionics actions without autodoc */
     if( autodoc ) {
         most_important_skill = skill_firstaid;
         important_skill = skill_computer;
@@ -2044,6 +2048,7 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
         least_important_skill = skill_mechanics;
     }
 
+    /** @EFFECT_STR increases effective skill for bionics actions */
     int pl_skill;
     if( skill_level == -1 ) {
         pl_skill = int_cur                                  * 4 +
@@ -2055,11 +2060,13 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
         pl_skill = 12 * skill_level;
     }
 
+    /** @EFFECT_TRAIT_PROF_MED increases effective skill for bionics actions */
     // Medical residents have some idea what they're doing
     if( has_trait( trait_PROF_MED ) ) {
         pl_skill += 3;
     }
 
+    /** @EFFECT_TRAIT_PROF_AUTODOC strongly increases effective skill for bionics actions */
     // People trained in bionics gain an additional advantage towards using it
     if( has_trait( trait_PROF_AUTODOC ) ) {
         pl_skill += 7;

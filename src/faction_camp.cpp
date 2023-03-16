@@ -3095,7 +3095,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                         plots_cnt += 1;
                         if( comp ) {
                             int skillLevel = comp->get_skill_level( skill_survival );
-                            ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
+                            /** @EFFECT_SURVIVAL increases number of plants harvested from a seed */
                             int plant_count = rng( skillLevel / 2, skillLevel );
                             plant_count *= farm_map.furn( pos )->plant->harvest_multiplier;
                             plant_count = std::min( std::max( plant_count, 1 ), 12 );
@@ -3422,6 +3422,7 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
     int favor = 2;
     int threat = 10;
     std::string skill_group = "gathering";
+    /** @EFFECT_PER_NPC helps when foraging for plants (1/2 as effective as survival skill) */
     int skill = 2 * comp->get_skill_level( skill_survival ) + comp->per_cur;
     int checks_per_cycle = 6;
     if( miss_id.id == Camp_Foraging ) {
@@ -3433,6 +3434,7 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
         favor = 1;
         danger = 15;
         skill_group = "trapping";
+        /** @EFFECT_PER_NPC helps when trapping small animals (1/2 as effective as devices skill) */
         skill = 2 * comp->get_skill_level( skill_traps ) + comp->per_cur;
         checks_per_cycle = 4;
     } else if( miss_id.id == Camp_Hunting ) {
@@ -3440,6 +3442,7 @@ bool basecamp::gathering_return( const mission_id &miss_id, time_duration min_ti
         danger = 10;
         favor = 0;
         skill_group = "hunting";
+        /** @EFFECT_PER_NPC helps when hunting for meat (1/3 as effective as gun skill) */
         skill = 1.5 * comp->get_skill_level( skill_gun ) + comp->per_cur / 2.0;
         threat = 12;
         checks_per_cycle = 2;

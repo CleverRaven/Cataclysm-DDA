@@ -205,7 +205,7 @@ static void eff_fun_fungus( Character &u, effect &it )
                 u.moves = -200;
                 u.mod_hunger( awfulness );
                 u.mod_thirst( awfulness );
-                ///\EFFECT_STR decreases damage taken by fungus effect
+                /** @EFFECT_STR decreases damage taken by fungus effect (1/str) */
                 u.apply_damage( nullptr, bodypart_id( "torso" ), awfulness / std::max( u.str_cur,
                                 1 ) ); // can't be healthy
             }
@@ -366,9 +366,8 @@ static void eff_fun_hallu( Character &u, effect &it )
                 }
             };
 
-            ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
-
-            ///\EFFECT_INT_NPC decreases volume of hallucination sounds
+            /** @EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE) */
+            /** @EFFECT_INT_NPC decreases volume of hallucination sounds */
             int loudness = 20 + u.str_cur - u.int_cur;
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
@@ -1241,7 +1240,7 @@ void Character::hardcoded_effects( effect &it )
         if( dur > 1_days ) {
             // Spawn some larvae!
             // Choose how many insects; more for large characters
-            ///\EFFECT_STR_MAX increases number of insects hatched from dermatik infection
+            /** @EFFECT_STR_MAX increases number of insects hatched from dermatik infection */
             int num_insects = rng( 1, std::min( 3, str_max / 3 ) );
             apply_damage( nullptr,  bp, rng( 2, 4 ) * num_insects );
             // Figure out where they may be placed
@@ -1269,7 +1268,7 @@ void Character::hardcoded_effects( effect &it )
             it.mod_duration( 1_turns );
         }
     } else if( id == effect_formication ) {
-        ///\EFFECT_INT decreases occurrence of itching from formication effect
+        /** @EFFECT_INT significantly decreases occurrence of itching from formication effect (proportional to one_in(2+int)) */
         if( x_in_y( intense, 600 + 300 * get_int() ) && !has_effect( effect_narcosis ) ) {
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
@@ -1682,6 +1681,7 @@ void Character::hardcoded_effects( effect &it )
                         recoil = MAX_RECOIL;
                     } else if( limb == "hand" ) {
                         if( is_armed() && can_drop( *get_wielded_item() ).success() ) {
+                            /** @EFFECT_DEX increases chances of holding on to weapon during toxic arm muscle spasms (4d4<=dex) */
                             if( dice( 4, 4 ) > get_dex() ) {
                                 cancel_activity();  //Prevent segfaults from activities trying to access missing item
                                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { remove_weapon() } );
@@ -1690,6 +1690,7 @@ void Character::hardcoded_effects( effect &it )
                             }
                         }
                     } else if( limb == "leg" ) {
+                        /** @EFFECT_DEX increases chances of avoiding falling down during toxic leg muscle spasms (4d4<=dex) */
                         if( dice( 4, 4 ) > get_dex() && !is_on_ground() ) {
                             schedule_effect( effect_downed, rng( 5_seconds, 10_seconds ) );
                         } else {

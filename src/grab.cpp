@@ -80,7 +80,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     //vehicle movement: strength check
     int mc = 0;
     int str_req = grabbed_vehicle->total_mass() / 25_kilogram; //strength required to move vehicle.
-    // ARM_STR governs dragging heavy things
+    /** @EFFECT_STR increases weight of vehicle you can drag comfortably or at all */
     int str = u.get_arm_str();
 
     //if vehicle is rollable we modify str_req based on a function of movecost per wheel.
@@ -119,10 +119,9 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
 
     //final strength check and outcomes
-    ///\ARM_STR determines ability to drag vehicles
     if( str_req <= str ) {
         //calculate exertion factor and movement penalty
-        ///\EFFECT_STR increases speed of dragging vehicles
+        /** @EFFECT_STR increases speed of dragging vehicles */
         u.moves -= 100 * str_req / std::max( 1, str );
         const int ex = dice( 1, 3 ) - 1 + str_req;
         if( ex > str + 1 ) {

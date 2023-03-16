@@ -31,6 +31,7 @@ static const limb_score_id limb_score_manip( "manip" );
 
 bool Character::can_escape_trap( int difficulty, bool manip = false ) const
 {
+    /** @EFFECT_STR determines base chance to escape trap */
     int chance = get_arm_str();
     chance *= manip ? get_limb_score( limb_score_manip ) : get_limb_score( limb_score_grip );
     return x_in_y( chance, difficulty );
@@ -40,7 +41,7 @@ void Character::try_remove_downed()
 {
 
     /** @EFFECT_DEX increases chance to stand up when knocked down */
-    /** @EFFECT_ARM_STR increases chance to stand up when knocked down, slightly */
+    /** @EFFECT_STR increases chance to stand up when knocked down (half as much as dex) */
     // Downed reduces balance score to 10% unless resisted, multiply to compensate
     int chance = ( get_dex() + get_arm_str() / 2.0 ) * get_limb_score( limb_score_balance ) * 10.0;
     // Always 2,5% chance to stand up
@@ -131,6 +132,7 @@ void Character::try_remove_heavysnare()
             }
         }
     } else {
+        /** @EFFECT_DEX improves chances of escaping a heavy snare (3% per point) */
         if( can_escape_trap( 32 - dex_cur, true ) ) {
             remove_effect( effect_heavysnare );
             add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
@@ -190,8 +192,8 @@ bool Character::try_remove_grab()
             }
         }
 
-        /** @EFFECT_STR increases chance to escape grab */
-        /** @EFFECT_DEX increases chance to escape grab */
+        /** @EFFECT_STR or dexterity, whichever is higher, increases chance to escape grab */
+        /** @EFFECT_DEX or strength, whichever is higher, increases chance to escape grab */
         int defender_check = rng( 0, std::max( get_arm_str(), get_dex() ) );
         int attacker_check = rng( get_effect_int( effect_grabbed, body_part_torso ), 8 );
 
@@ -216,8 +218,6 @@ bool Character::try_remove_grab()
             add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
                                    _( "<npcname> finds themselves no longer grabbed." ) );
             remove_effect( effect_grabbed );
-
-            /** @EFFECT_STR increases chance to escape grab */
         } else if( defender_check < attacker_check ) {
             add_msg_player_or_npc( m_bad, _( "You try to break out of the grab, but fail!" ),
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
@@ -336,7 +336,7 @@ bool Character::move_effects( bool attacking )
     // Currently we only have one thing that forces movement if you succeed, should we get more
     // than this will need to be reworked to only have success effects if /all/ checks succeed
     if( has_effect( effect_in_pit ) ) {
-        /** @EFFECT_DEX increases chance to escape pit, slightly */
+        /** @EFFECT_DEX increases chance to escape a pit (1.25% per point) */
         if( !can_escape_trap( 40 - dex_cur / 2 ) ) {
             add_msg_if_player( m_bad, _( "You try to escape the pit, but slip back in." ) );
             return false;

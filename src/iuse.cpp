@@ -811,7 +811,7 @@ std::optional<int> iuse::antiparasitic( Character *p, item *, bool, const tripoi
 std::optional<int> iuse::anticonvulsant( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You take some anticonvulsant medication." ) );
-    /** @EFFECT_STR reduces duration of anticonvulsant medication */
+    /** @EFFECT_STR reduces duration of anticonvulsant medication (0% to 2% per point) (NEGATIVE) */
     time_duration duration = 8_hours - p->str_cur * rng( 0_turns, 10_minutes );
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration -= 1_hours;
@@ -856,8 +856,8 @@ std::optional<int> iuse::weed_cake( Character *p, item *, bool, const tripoint &
 std::optional<int> iuse::coke( Character *p, item *, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You snort a bump of coke." ) );
-    /** @EFFECT_STR reduces duration of coke */
-    time_duration duration = 20_minutes - 1_seconds * p->str_cur + rng( 0_minutes, 1_minutes );
+    /** @EFFECT_STR reduces duration of coke high (0 to 5% per point) */
+    time_duration duration = 20_minutes - p->str_cur * rng( 0_minutes, 1_minutes );
     if( p->has_trait( trait_TOLERANCE ) ) {
         duration -= 1_minutes; // Symmetry would cause problems :-/
     }
@@ -871,7 +871,7 @@ std::optional<int> iuse::coke( Character *p, item *, bool, const tripoint & )
 
 std::optional<int> iuse::meth( Character *p, item *, bool, const tripoint & )
 {
-    /** @EFFECT_STR reduces duration of meth */
+    /** @EFFECT_STR reduces duration of meth high (1.7% per point) */
     time_duration duration = 1_minutes * ( 60 - p->str_cur );
     if( p->has_amount( itype_apparatus, 1 ) && p->use_charges_if_avail( itype_fire, 1 ) ) {
         p->add_msg_if_player( m_neutral, _( "You smoke your meth." ) );
@@ -897,7 +897,7 @@ std::optional<int> iuse::meth( Character *p, item *, bool, const tripoint & )
     }
     if( duration > 0_turns ) {
         // meth actually inhibits hunger, weaker characters benefit more
-        /** @EFFECT_STR_MAX >4 experiences less hunger benefit from meth */
+        /** @EFFECT_STR_MAX >4 decreases hunger benefit from meth */
         int hungerpen = p->str_max < 5 ? 35 : 40 - ( 2 * p->str_max );
         if( hungerpen > 0 ) {
             p->mod_hunger( -hungerpen );
@@ -939,7 +939,7 @@ std::optional<int> iuse::poison( Character *p, item *it, bool, const tripoint & 
           !p->query_yn( _( "Are you sure you want to eat this?  It looks poisonous…" ) ) ) ) {
         return std::nullopt;
     }
-    /** @EFFECT_STR increases EATPOISON trait effectiveness (50-90%) */
+    /** @EFFECT_STR determines EATPOISON trait effectiveness chance (0-3 0%, 4 50%, 10 80%, 20 90%) */
     if( p->has_trait( trait_EATPOISON ) && ( !one_in( p->str_cur / 2 ) ) ) {
         return 1;
     }
@@ -3322,18 +3322,20 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, bool, const tripoint
         qual = 1;
     }
 
-    /** @EFFECT_DEX speeds up door lock picking */
-    /** @EFFECT_LOCKPICK speeds up door lock picking */
     int duration_proficiency_factor = 10;
 
+    /** @EFFECT_PROF_LOCKPICKING reduces lockpicking time by 50% */
     if( you.has_proficiency( proficiency_prof_lockpicking ) ) {
         duration_proficiency_factor = 5;
     }
+    /** @EFFECT_PROF_LOCKPICKING_EXPERT reduces lockpicking time by 90% */
     if( you.has_proficiency( proficiency_prof_lockpicking_expert ) ) {
         duration_proficiency_factor = 1;
     }
     time_duration duration = 5_seconds;
     if( !it->has_flag( flag_PERFECT_LOCKPICK ) ) {
+        /** @EFFECT_DEX reduces lockpicking time (2.5% per point) */
+        /** @EFFECT_TRAPS reduces lockpicking time (10% per skill level) */
         duration = std::max( 30_seconds,
                              ( 10_minutes - time_duration::from_minutes( qual + you.dex_cur / 4 +
                                      you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
@@ -3388,6 +3390,7 @@ std::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint &
     }
 
     int moves = to_moves<int>( 20_minutes );
+    /** @EFFECT_STR increases pickaxe action speed */
     moves += ( ( MAX_STAT + 4 ) - std::min( p->get_arm_str(), MAX_STAT ) ) * to_moves<int>( 5_minutes );
     if( here.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
@@ -3963,12 +3966,12 @@ std::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &po
         return std::nullopt;
     }
 
-    /** @EFFECT_DEX slightly increases chance of successfully using tazer */
-    /** @EFFECT_MELEE increases chance of successfully using a tazer */
+    /** @EFFECT_DEX slightly increases chance of successfully using tazer (3+dex/2.5+melee*2 vs dodge) */
+    /** @EFFECT_MELEE increases chance of successfully using a tazer (3+dex/2.5+melee*2 vs dodge) */
     int numdice = 3 + ( p->dex_cur / 2.5 ) + p->get_skill_level( skill_melee ) * 2;
     p->moves -= to_moves<int>( 1_seconds );
 
-    /** @EFFECT_DODGE increases chance of dodging a tazer attack */
+    /** @EFFECT_DODGE increases chance of dodging a tazer attack (3+dex/2.5+melee*2 vs dodge) */
     const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
     const int tazer_resistance = target->get_armor_bash( bodypart_id( "torso" ) );
     const bool tazer_was_armored = dice( numdice, 10 ) < dice( tazer_resistance, 10 );
@@ -4850,12 +4853,14 @@ std::optional<int> iuse::lumber( Character *p, item *, bool t, const tripoint & 
     return 1;
 }
 
-static int chop_moves( Character *p, item *it )
+int iuse::chop_moves( Character *p, item *it )
 {
     // quality of tool
     const int quality = it->get_quality( qual_AXE );
 
-    // attribute; regular tools - based on STR, powered tools - based on DEX
+    /** @EFFECT_STR speeds up chopping trees with unPOWERED tools (1.67% per point) */
+    /** @EFFECT_DEX speeds up chopping trees with POWERED tools (1.67% per point) */
+    /** @EFFECT_FLAG_POWERED used for tree cutting is sped up by dexterity instead of strength */
     const int attr = it->has_flag( flag_POWERED ) ? p->dex_cur : p->get_arm_str();
 
     int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
@@ -6316,8 +6321,7 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
             p->practice( skill_computer, rng( 2, 5 ) );
 
             /** @EFFECT_INT increases chance of safely decrypting memory card */
-
-            /** @EFFECT_COMPUTER increases chance of safely decrypting memory card */
+            /** @EFFECT_COMPUTER significantly increases chance of safely decrypting memory card */
             const int success = p->get_skill_level( skill_computer ) * rng( 1,
                                 p->get_skill_level( skill_computer ) ) *
                                 rng( 1, p->int_cur ) - rng( 30, 80 );
@@ -7856,7 +7860,6 @@ static bool hackveh( Character &p, item &it, vehicle &veh )
     }
 
     /** @EFFECT_INT increases chance of bypassing vehicle security system */
-
     /** @EFFECT_COMPUTER increases chance of bypassing vehicle security system */
     int roll = dice( p.get_skill_level( skill_computer ) + 2, p.int_cur ) - ( advanced ? 50 : 25 );
     int effort = 0;
@@ -8096,9 +8099,9 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
 
         if( cooktime >= 300 && cooktime < 400 ) {
             //Smart or good cook or careful
-            /** @EFFECT_INT increases chance of checking multi-cooker on time */
-
-            /** @EFFECT_SURVIVAL increases chance of checking multi-cooker on time */
+            /** @EFFECT_INT increases chance of checking multi-cooker on time (int+cooking+survival>16) */
+            /** @EFFECT_COOKING increases chance of checking multi-cooker on time (int+cooking+survival>16) */
+            /** @EFFECT_SURVIVAL increases chance of checking multi-cooker on time (int+cooking+survival>16) */
             if( p->int_cur + p->get_skill_level( skill_cooking ) + p->get_skill_level( skill_survival ) > 16 ) {
                 add_msg( m_info, _( "The multi-cooker should be finishing shortly…" ) );
             }
@@ -8379,9 +8382,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
             p->moves -= to_moves<int>( 7_seconds );
 
             /** @EFFECT_INT increases chance to successfully upgrade multi-cooker */
-
             /** @EFFECT_ELECTRONICS increases chance to successfully upgrade multi-cooker */
-
             /** @EFFECT_FABRICATION increases chance to successfully upgrade multi-cooker */
             if( p->get_skill_level( skill_electronics ) + p->get_skill_level( skill_fabrication ) + p->int_cur >
                 rng( 20, 35 ) ) {
@@ -9445,6 +9446,7 @@ std::optional<int> iuse::break_stick( Character *p, item *it, bool, const tripoi
     p->moves -= to_moves<int>( 2_seconds );
     p->mod_stamina( static_cast<int>( 0.05f * p->get_stamina_max() ) );
 
+    /** @EFFECT_STR allows and increases chance of breaking a stick, 0% at 0-4, 100% at 12+ */
     if( p->get_str() < 5 ) {
         p->add_msg_if_player( _( "You are too weak to even try." ) );
         return 0;

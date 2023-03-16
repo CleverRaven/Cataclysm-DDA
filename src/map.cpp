@@ -1706,7 +1706,7 @@ bool map::can_move_furniture( const tripoint &pos, Character *you ) const
         return false;
     }
 
-    ///\EFFECT_STR determines what furniture the player can move
+    /** @EFFECT_STR determines what furniture the player can move */
     int adjusted_str = you->str_cur;
     if( you->is_mounted() ) {
         auto *mons = you->mounted_creature.get();
@@ -2881,10 +2881,8 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
 {
     bool furn_smash = false;
     bool ter_smash = false;
-    ///\EFFECT_STR determines what furniture can be smashed
     if( furniture.id && furniture.bash.str_max != -1 ) {
         furn_smash = true;
-        ///\EFFECT_STR determines what terrain can be smashed
     } else if( terrain.bash.str_max != -1 && ( !terrain.bash.bash_below || allow_floor ) ) {
         ter_smash = true;
     }
@@ -2906,7 +2904,7 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
         return -1;
     }
 
-    ///\EFFECT_STR increases smashing damage
+    /** @EFFECT_STR increases smashing damage */
     if( str < bash_min ) {
         return 0;
     } else if( str >= bash_max ) {

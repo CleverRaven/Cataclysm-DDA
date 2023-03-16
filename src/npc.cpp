@@ -1349,6 +1349,7 @@ time_duration npc::time_to_read( const item &book, const Character &reader ) con
     time_duration retval = type->time * reading_speed / 100;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
+    /** @EFFECT_INT_NPC reduces time to read difficult books */
     if( type->intel > reader.get_int() && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( time_duration::from_seconds( type->intel - reader.get_int() ) /
                                  1_minutes );
@@ -1576,7 +1577,7 @@ void npc::form_opinion( const Character &you )
         op_of_u.fear += 2;
     }
 
-    ///\EFFECT_STR increases NPC fear of the player
+    /** @EFFECT_STR increases NPC fear of the player */
     if( you.str_max >= 16 ) {
         op_of_u.fear += 2;
     } else if( you.str_max >= 12 ) {
@@ -2648,7 +2649,7 @@ void npc::npc_dismount()
 int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
-        ///\EFFECT_STR_NPC increases smash ability
+        /** @EFFECT_STR_NPC increases smash ability */
         int dmg = get_wielded_item() ? get_wielded_item()->damage_melee( damage_type::BASH ) : 0;
         return str_cur + dmg;
     }
@@ -2797,6 +2798,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     // 3 perception and 3 distance would see all mutations - cap 0
     // 3 perception and 15 distance - cap 5, some mutations visible
     // 3 perception and 20 distance would be barely able to discern huge antlers on a person - cap 10
+    /** @EFFECT_PER determines distance at which NPC mutations can be seen */
     const int per = player_character.get_per();
     const int dist = rl_dist( player_character.pos(), pos() );
     int visibility_cap;
@@ -3422,6 +3424,7 @@ const pathfinding_settings &npc::get_pathfinding_settings( bool no_bashing ) con
         path_settings->bash_strength = 0;
     }
     // TODO: Extract climb skill
+    /** @EFFECT_DEX_NPC determines pathfinding cost for climbing */
     const int climb = std::min( 20, get_dex() );
     if( climb > 1 ) {
         // Success is !one_in(dex), so 0%, 50%, 66%, 75%...

@@ -1039,6 +1039,13 @@ class Character : public Creature, public visitable
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
         bool valid_aoe_technique( Creature &t, const ma_technique &technique,
                                   std::vector<Creature *> &targets );
+
+    protected:
+        /** Used by practice() and new character creation for experience gain calculation*/
+        float get_catchup_modifier() const;
+        /** Used by practice() and new character creation for knowledge gain calculation*/
+        float get_knowledge_modifier() const;
+
     public:
 
         /** This handles giving xp for a skill. Returns true on level-up. */
@@ -2435,7 +2442,7 @@ class Character : public Creature, public visitable
         stomach_contents guts;
         std::list<consumption_event> consumption_history;
 
-        ///\EFFECT_STR increases breath-holding capacity while sinking or suffocating
+        /** @EFFECT_STR increases breath-holding capacity while sinking or suffocating */
         int get_oxygen_max() const;
         // Whether the character can recover their oxygen level
         bool can_recover_oxygen() const;
@@ -2779,12 +2786,13 @@ class Character : public Creature, public visitable
 
         std::map<mutation_category_id, int> mutation_category_level;
 
+        /** Adjusts values related to skill gain based on focus */
         float adjust_for_focus( float amount ) const;
         void update_type_of_scent( bool init = false );
         void update_type_of_scent( const trait_id &mut, bool gain = true );
         void set_type_of_scent( const scenttype_id &id );
         scenttype_id get_type_of_scent() const;
-        /**restore scent after masked_scent effect run out or is removed by water*/
+        /** restore scent after masked_scent effect run out or is removed by water */
         void restore_scent();
         /** Modifies intensity of painkillers  */
         void mod_painkiller( int npkill );
@@ -3643,6 +3651,8 @@ class Character : public Creature, public visitable
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
         pimpl<enchant_cache> enchantment_cache;
+
+        bool can_see_first_aid_precise_hp() const;
 };
 
 Character &get_player_character();

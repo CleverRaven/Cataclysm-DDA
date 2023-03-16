@@ -363,6 +363,7 @@ std::vector<sphere> npc::find_dangerous_explosives() const
             continue;   // Far enough.
         }
 
+        /** @EFFECT_SPEED determines how close NPCs consider explosives an imminent danger */
         const int turns_to_evacuate = 2 * safe_range / speed_rating();
 
         if( elem->charges > turns_to_evacuate ) {
@@ -552,6 +553,7 @@ void npc::assess_danger()
             continue;
         }
 
+        /** @EFFECT_SPEED for monsters determines how far they are considered a danger */
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
         float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
@@ -601,6 +603,7 @@ void npc::assess_danger()
             warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
         }
 
+        /** @EFFECT_SPEED for monsters affects how far away they are considered a danger */
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
         if( must_retreat || no_fighting ) {
@@ -713,6 +716,7 @@ float npc::character_danger( const Character &uc ) const
 
     ret += my_gun ? uc.get_dodge() / 2 : uc.get_dodge();
 
+    /** @EFFECT_SPEED affects how dangerous NPCs seem */
     ret *= std::max( 0.5, uc.get_speed() / 100.0 );
 
     add_msg_debug( debugmode::DF_NPC, "%s danger: %1f", uc.disp_name(), ret );
@@ -2418,8 +2422,8 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             moves -= 100;
             moved = true;
         }
+        /** @EFFECT_DEX_NPC >1 allows and increases chance to climb CLIMBABLE furniture or terrain (1/N failure) */
     } else if( get_dex() > 1 && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_CLIMBABLE, p ) ) {
-        ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = get_dex();
         if( one_in( climb ) ) {
             add_msg_if_npc( m_neutral, _( "%1$s tries to climb the %2$s but slips." ), get_name(),

@@ -659,6 +659,10 @@ bool avatar::read( item_location &book, item_location ereader )
                  reader->disp_name() );
     }
 
+    /** @EFFECT_INT determines complexity of books that can be read without a speed penalty */
+    /** @EFFECT_INT_NPC determines complexity of books that can be read without a speed penalty */
+    /** @EFFECT_INT determines which NPC or player reads complex books when together */
+    /** @EFFECT_INT_NPC determines which NPC or player reads complex books when together */
     const int intelligence = get_int();
     const bool complex_penalty = type->intel > std::min( intelligence, reader->get_int() ) &&
                                  !reader->has_trait( trait_PROF_DICEMASTER );

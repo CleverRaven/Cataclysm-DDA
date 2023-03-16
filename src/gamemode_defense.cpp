@@ -1292,7 +1292,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
 
 int caravan_price( Character &u, int price )
 {
-    ///\EFFECT_BARTER reduces caravan prices, 5% per point, up to 50%
+    /** @EFFECT_BARTER reduces caravan prices, 5% per point, up to 50% */
     if( u.get_skill_level( skill_speech ) > 10 ) {
         return static_cast<int>( static_cast<double>( price ) * .5 );
     }

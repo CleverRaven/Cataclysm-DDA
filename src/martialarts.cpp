@@ -1384,7 +1384,7 @@ bool character_martial_arts::can_use_attack_vector( const Character &user,
 bool character_martial_arts::can_leg_block( const Character &owner ) const
 {
     const martialart &ma = style_selected.obj();
-    ///\EFFECT_UNARMED increases ability to perform leg block
+    /** @EFFECT_UNARMED increases ability to perform leg block */
     const int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
                                   skill_unarmed );
 
@@ -1419,7 +1419,7 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
 bool character_martial_arts::can_arm_block( const Character &owner ) const
 {
     const martialart &ma = style_selected.obj();
-    ///\EFFECT_UNARMED increases ability to perform arm block
+    /** @EFFECT_UNARMED increases ability to perform arm block */
     const int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
                                   skill_unarmed );
 

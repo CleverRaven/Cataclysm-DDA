@@ -108,7 +108,7 @@ bool string_id<effect_type>::is_valid() const
 void weed_msg( Character &p )
 {
     const time_duration howhigh = p.get_effect_dur( effect_weed_high );
-    ///\EFFECT_INT changes messages when smoking weed
+    /** @EFFECT_INT changes messages when smoking weed (INCONSEQUENTIAL) */
     int smarts = p.get_int();
     if( howhigh > 12_minutes && one_in( 7 ) ) {
         int msg = rng( 0, 5 );

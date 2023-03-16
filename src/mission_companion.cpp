@@ -1443,7 +1443,7 @@ void talk_function::attack_random( const std::vector<npc_ptr> &attacker,
     if( best ) {
         best_score = att->get_skill_level( best );
     }
-    ///\EFFECT_DODGE_NPC increases avoidance of random attacks
+    /** @EFFECT_DODGE_NPC increases avoidance of random attacks */
     if( rng( -1, best_score ) >= rng( 0, def->get_skill_level( skill_dodge ) ) ) {
         def->set_part_hp_cur( bodypart_id( "torso" ), 0 );
         popup( _( "%s is wasted by %s!" ), def->get_name(), att->get_name() );
@@ -1726,14 +1726,14 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 static int scavenging_combat_skill( npc &p, int bonus, bool guns )
 {
     // the following doxygen aliases do not yet exist. this is marked for future reference
-    ///\EFFECT_MELEE_NPC affects scavenging_patrol results
-    ///\EFFECT_SURVIVAL_NPC affects scavenging_patrol results
-    ///\EFFECT_BASHING_NPC affects scavenging_patrol results
-    ///\EFFECT_CUTTING_NPC affects scavenging_patrol results
-    ///\EFFECT_GUN_NPC affects scavenging_patrol results
-    ///\EFFECT_STABBING_NPC affects scavenging_patrol results
-    ///\EFFECT_UNARMED_NPC affects scavenging_patrol results
-    ///\EFFECT_DODGE_NPC affects scavenging_patrol results
+    /** @EFFECT_MELEE_NPC affects scavenging_patrol results */
+    /** @EFFECT_SURVIVAL_NPC affects scavenging_patrol results */
+    /** @EFFECT_BASHING_NPC affects scavenging_patrol results */
+    /** @EFFECT_CUTTING_NPC affects scavenging_patrol results */
+    /** @EFFECT_GUN_NPC affects scavenging_patrol results */
+    /** @EFFECT_STABBING_NPC affects scavenging_patrol results */
+    /** @EFFECT_UNARMED_NPC affects scavenging_patrol results */
+    /** @EFFECT_DODGE_NPC affects scavenging_patrol results */
     return bonus + p.get_skill_level( skill_melee ) + .5 * p.get_skill_level( skill_survival ) +
            p.get_skill_level( skill_bashing ) + p.get_skill_level( skill_cutting ) +
            ( guns ? p.get_skill_level( skill_gun ) : 0 ) + p.get_skill_level( skill_stabbing ) +
@@ -2036,11 +2036,11 @@ bool talk_function::carpenter_return( npc &p )
     if( one_in( 20 ) ) {
         // the following doxygen aliases do not yet exist. this is marked for future reference
 
-        ///\EFFECT_FABRICATION_NPC affects carpenter mission results
+        /** @EFFECT_FABRICATION_NPC affects carpenter mission results */
 
-        ///\EFFECT_DODGE_NPC affects carpenter mission results
+        /** @EFFECT_DODGE_NPC affects carpenter mission results */
 
-        ///\EFFECT_SURVIVAL_NPC affects carpenter mission results
+        /** @EFFECT_SURVIVAL_NPC affects carpenter mission results */
         int skill_1 = comp->get_skill_level( skill_fabrication );
         int skill_2 = comp->get_skill_level( skill_dodge );
         int skill_3 = comp->get_skill_level( skill_survival );
@@ -2092,9 +2092,9 @@ bool talk_function::forage_return( npc &p )
         popup( _( "While foraging, a beast began to stalk %s…" ), comp->get_name() );
         // the following doxygen aliases do not yet exist. this is marked for future reference
 
-        ///\EFFECT_SURVIVAL_NPC affects forage mission results
+        /** @EFFECT_SURVIVAL_NPC affects forage mission results */
 
-        ///\EFFECT_DODGE_NPC affects forage mission results
+        /** @EFFECT_DODGE_NPC affects forage mission results */
         int skill_1 = comp->get_skill_level( skill_survival );
         int skill_2 = comp->get_skill_level( skill_dodge );
         if( skill_1 > rng( -2, 8 ) ) {
@@ -2144,7 +2144,7 @@ bool talk_function::forage_return( npc &p )
     player_character.i_add_or_drop( merch, merch_amount );
     // the following doxygen aliases do not yet exist. this is marked for future reference
 
-    ///\EFFECT_SURVIVAL_NPC affects forage mission results
+    /** @EFFECT_SURVIVAL_NPC affects forage mission results */
     int skill = comp->get_skill_level( skill_survival );
     if( skill > rng_float( -.5, 8 ) ) {
         item_group_id itemlist = Item_spawn_data_farming_seeds;
@@ -2456,28 +2456,48 @@ std::vector<npc_ptr> talk_function::companion_list( const npc &p, const mission_
 
 static int companion_combat_rank( const npc &p )
 {
+    /** @EFFECT_DEX_NPC contributes to base npc combat rank (3*str + 2*dex + 2*per + int) */
+    /** @EFFECT_STR_NPC contributes strongly to base npc combat rank (3*str + 2*dex + 2*per + int) */
+    /** @EFFECT_PER_NPC contributes to base npc combat rank (3*str + 2*dex + 2*per + int) */
+    /** @EFFECT_INT_NPC contributes slightly to base npc combat rank (3*str + 2*dex + 2*per + int) */
     int combat = 2 * p.get_dex() + 3 * p.get_str() + 2 * p.get_per() + p.get_int();
+    /** @EFFECT_SKILLS contribute to base npc combat rank */
     for( const Skill &sk : Skill::skills ) {
         combat += p.get_skill_level( sk.ident() ) * sk.companion_combat_rank_factor();
     }
+    /** @EFFECT_DEX_NPC scales npc combat rank (*N) */
+    /** @EFFECT_STR_NPC scales npc combat rank (*N) */
     return combat * std::min( p.get_dex(), 32 ) * std::min( p.get_str(), 32 ) / 64;
 }
 
 static int companion_survival_rank( const npc &p )
 {
+    /** @EFFECT_DEX_NPC contributes to base npc survival rank (2*dex + 2*per + 1.5*int + str) */
+    /** @EFFECT_STR_NPC contributes slightly to base npc survival rank (2*dex + 2*per + 1.5*int + str) */
+    /** @EFFECT_PER_NPC contributes to base npc survival rank (2*dex + 2*per + 1.5*int + str) */
+    /** @EFFECT_INT_NPC contributes to base npc survival rank (2*dex + 2*per + 1.5*int + str) */
     int survival = 2 * p.get_dex() + p.get_str() + 2 * p.get_per() + 1.5 * p.get_int();
+    /** @EFFECT_SKILLS contribute to base npc survival rank */
     for( const Skill &sk : Skill::skills ) {
         survival += p.get_skill_level( sk.ident() ) * sk.companion_survival_rank_factor();
     }
+    /** @EFFECT_DEX_NPC scales npc survival rank (*N) */
+    /** @EFFECT_PER_NPC scales npc survival rank (*N) */
     return survival * std::min( p.get_dex(), 32 ) * std::min( p.get_per(), 32 ) / 64;
 }
 
 static int companion_industry_rank( const npc &p )
 {
+    /** @EFFECT_DEX_NPC contributes slightly to base npc industry rank (3*int + dex + str + per) */
+    /** @EFFECT_STR_NPC contributes slightly to base npc industry rank (3*int + dex + str + per) */
+    /** @EFFECT_PER_NPC contributes slightly to base npc industry rank (3*int + dex + str + per) */
+    /** @EFFECT_INT_NPC contributes strongly to base npc industry rank (3*int + dex + str + per) */
     int industry = p.get_dex() + p.get_str() + p.get_per() + 3 * p.get_int();
+    /** @EFFECT_SKILLS contribute to base npc industry rank */
     for( const Skill &sk : Skill::skills ) {
         industry += p.get_skill_level( sk.ident() ) * sk.companion_industry_rank_factor();
     }
+    /** @EFFECT_DEX_NPC scales npc industry rank (*N) */
     return industry * std::min( p.get_int(), 32 ) / 8;
 }
 

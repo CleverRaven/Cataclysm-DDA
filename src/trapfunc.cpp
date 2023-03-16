@@ -372,7 +372,7 @@ bool trapfunc::tripwire( const tripoint &p, Creature *c, item * )
             g->update_map( player_character );
         }
         if( !you->is_mounted() ) {
-            ///\EFFECT_DEX decreases chance of taking damage from a tripwire trap
+            /** @EFFECT_DEX >4 increases chance of avoiding all tripwire trap damage (6.7% per point above 4) */
             if( rng( 5, 20 ) > you->dex_cur ) {
                 you->hurtall( rng( 1, 4 ), nullptr );
             }
@@ -394,7 +394,7 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
         monster *z = dynamic_cast<monster *>( c );
         Character *you = dynamic_cast<Character *>( c );
         if( you != nullptr ) {
-            ///\EFFECT_DODGE reduces chance of being hit by crossbow trap
+            /** @EFFECT_DODGE reduces chance of being hit by crossbow trap */
             if( !one_in( 4 ) && rng( 8, 20 ) > you->get_dodge() ) {
                 bodypart_id hit( "bp_null" );
                 switch( rng( 1, 10 ) ) {
@@ -495,12 +495,12 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
         monster *z = dynamic_cast<monster *>( c );
         Character *you = dynamic_cast<Character *>( c );
         if( you != nullptr ) {
-            ///\EFFECT_STR_MAX increases chance of two shots from shotgun trap
+            /** @EFFECT_STR_MAX increases chance of being hit by two shots from double barrel shotgun trap */
             shots = ( one_in( 8 ) || one_in( 20 - you->str_max ) ? 2 : 1 );
             if( here.tr_at( p ) != tr_shotgun_2 ) {
                 shots = 1;
             }
-            ///\EFFECT_DODGE reduces chance of being hit by shotgun trap
+            /** @EFFECT_DODGE reduces chance of being hit by shotgun trap */
             if( rng( 5, 50 ) > you->get_dodge() ) {
                 bodypart_id hit = bodypart_id( "bp_null" );
                 switch( rng( 1, 10 ) ) {
@@ -745,6 +745,7 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
             //All monsters that aren't blobs or robots transform into a blob
             if( !z->type->in_species( species_ROBOT ) ) {
                 z->poly( mon_blob );
+                /** @EFFECT_SPEED for monsters determines hp when transformed into a blob by a goo trap */
                 z->set_hp( z->get_speed() );
             }
         } else {
@@ -837,7 +838,7 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
         } else {
             int dodge = you->get_dodge();
-            ///\EFFECT_DODGE reduces damage taken falling into a pit
+            /** @EFFECT_DODGE reduces damage taken falling into a pit */
             int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
             if( damage > 0 ) {
                 you->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
@@ -887,7 +888,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
-            ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
+            /** @EFFECT_DODGE reduces chance of landing on spikes in spiked pit */
         } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
             you->add_msg_if_player( _( "You avoid the spikes within." ) );
         } else {
@@ -973,7 +974,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
         } else if( you->has_active_bionic( bio_shock_absorber ) ) {
             you->add_msg_if_player( m_info,
                                     _( "You hit the ground hard, but your grav chute handles the impact admirably!" ) );
-            ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
+            /** @EFFECT_DODGE reduces chance of landing on glass in glass pit */
         } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
             you->add_msg_if_player( _( "You avoid the glass shards within." ) );
         } else {
@@ -1102,11 +1103,9 @@ static tripoint random_neighbor( tripoint center )
 
 static bool sinkhole_safety_roll( Character &you, const itype_id &itemname, const int diff )
 {
-    ///\EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
-
-    ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
-
-    ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+    /** @EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole (str + dex + throwing >= difficulty) */
+    /** @EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole (str + dex + throwing >= difficulty) */
+    /** @EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole (str + dex + throwing >= difficulty) */
     const int throwing_skill_level = you.get_skill_level( skill_throw );
     const int roll = rng( throwing_skill_level, throwing_skill_level + you.str_cur + you.dex_cur );
     map &here = get_map();

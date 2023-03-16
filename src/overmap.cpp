@@ -4038,9 +4038,10 @@ void overmap::move_hordes()
             const mtype &type = *this_monster.type;
             if(
                 !type.species.count( species_ZOMBIE ) || // Only add zombies to hordes.
-                this_monster.get_speed() <= 30 || // So are very slow zombies, like crawling zombies.
-                !this_monster.will_join_horde( INT_MAX ) || // So are zombies who won't join a horde of any size.
-                !this_monster.mission_ids.empty() // We mustn't delete monsters that are related to missions.
+                /** @EFFECT_SPEED <=30 for monsters prevents joining hordes */
+                this_monster.get_speed() <= 30 || // Don't add very slow zombies, like crawling zombies.
+                !this_monster.will_join_horde( INT_MAX ) || // Don't add zombies who won't join a horde of any size.
+                !this_monster.mission_ids.empty() // Don't delete monsters that are related to missions.
             ) {
                 // Don't delete the monster, just increment the iterator.
                 monster_map_it++;

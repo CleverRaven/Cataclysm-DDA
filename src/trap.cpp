@@ -249,41 +249,38 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     // This gets worse if you are fatigued, or can't see as well.
     // Obviously it rapidly gets better as your skills improve.
 
-    // Devices skill is helpful for spotting traps
-    const int traps_skill_level = p.get_skill_level( skill_traps );
-
-    // Perception is the main stat for spotting traps, int helps a bit.
-    // In this case, stats are more important than skills.
-    const float weighted_stat_average = ( 4.0f * p.per_cur + p.int_cur ) / 5.0f;
-
     // Eye encumbrance will penalize spotting
     const float encumbrance_penalty = p.encumb( bodypart_id( "eyes" ) ) / 10.0f;
 
-    // Your current focus strongly affects your ability to spot things.
+    /** @EFFECT_FOCUS helps spot traps (effectively +1 perception per 20 focus) */
     const float focus_effect = ( p.get_focus() / 25.0f ) - 2.0f;
 
-    // The further away the trap is, the harder it is to spot.
-    // Subtract 1 so that we don't get an unfair penalty when not quite on top of the trap.
+    // For every tile more than 1 the trap is away from you, reduce effective perception by 1.25
     const int distance_penalty = rl_dist( p.pos(), pos ) - 1;
 
+    /** @EFFECT_FATIGUE interferes with spotting traps (effectively -1.25 perception per 100 fatigue over 200 (approximately 0 at Tired, -2.5 at Dead Tired, etc)) */
+    const float fatigue_penalty = std::min( 0, p.get_fatigue() - 200 ) / 100.0f;
+
     int proficiency_effect = -2;
-    // Without at least a basic traps proficiency, your skill level is effectively 2 levels lower.
+    /** @EFFECT_PROF_TRAPS helps spot traps (effectively +2.5 perception) */
     if( p.has_proficiency( proficiency_prof_traps ) ) {
         proficiency_effect += 2;
-        // If you have the basic traps prof, negate the above penalty
     }
+    /** @EFFECT_PROF_SPOTTING helps spot traps (effectively +5 perception) */
     if( p.has_proficiency( proficiency_prof_spotting ) ) {
         proficiency_effect += 4;
-        // If you have the spotting proficiency, add 4 levels.
     }
+    /** @EFFECT_PROF_TRAPSETTING helps spot traps (effectively +1.25 perception) */
     if( p.has_proficiency( proficiency_prof_trapsetting ) ) {
         proficiency_effect += 1;
-        // Knowing how to set traps gives you a small bonus to spotting them as well.
     }
 
-    // For every 100 points of sleep deprivation after 200, reduce your roll by 1.
-    // That represents a -2 at dead tired, -4 at exhausted, and so on.
-    const float fatigue_penalty = std::min( 0, p.get_fatigue() - 200 ) / 100.0f;
+    /** @EFFECT_TRAPS helps spot traps (4/15 as much as perception) */
+    const int traps_skill_level = p.get_skill_level( skill_traps );
+
+    /** @EFFECT_PER is the primary factor in spotting traps */
+    /** @EFFECT_INT helps spot traps (1/4 as much as perception) */
+    const float weighted_stat_average = ( 4.0f * p.per_cur + p.int_cur ) / 5.0f;
 
     const float mean_roll = weighted_stat_average + ( traps_skill_level / 3.0f ) +
                             proficiency_effect +

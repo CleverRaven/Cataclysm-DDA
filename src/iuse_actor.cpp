@@ -1559,7 +1559,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     }
 
     // Fail dex roll, potentially lose more parts.
-    /** @EFFECT_DEX randomly reduces component loss when cutting items up */
+    /** @EFFECT_DEX reduces cut item part loss by 5% (0-2 => never, 3 => 2% of the time, 6 => 37%, 12 => 100%) */
     if( dice( 3, 4 ) > p.dex_cur ) {
         efficiency *= 0.95;
     }
@@ -2083,6 +2083,7 @@ std::optional<int> musical_instrument_actor::use( Character &p, item &it, bool t
     }
 
     // At speed this low you can't coordinate your actions well enough to play the instrument
+    /** @EFFECT_SPEED prevents playing instruments when too low */
     if( p.get_speed() <= 25 + speed_penalty ) {
         p.add_msg_player_or_npc( m_bad,
                                  _( "You feel too weak to play your %s." ),
@@ -2111,7 +2112,7 @@ std::optional<int> musical_instrument_actor::use( Character &p, item &it, bool t
     }
 
     std::string desc = "music";
-    /** @EFFECT_PER increases morale bonus when playing an instrument */
+    /** @EFFECT_PER multiplies morale fun bonus when playing an instrument */
     const int morale_effect = fun + fun_bonus * p.per_cur;
     if( morale_effect >= 0 && calendar::once_every( description_frequency ) ) {
         if( !player_descriptions.empty() && p.is_avatar() ) {
@@ -2951,8 +2952,6 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix, bool 
 std::pair<float, float> repair_item_actor::repair_chance(
     const Character &pl, const item &fix, repair_item_actor::repair_type action_type ) const
 {
-    /** @EFFECT_TAILOR randomly improves clothing repair efforts */
-    /** @EFFECT_MECHANICS randomly improves metal repair efforts */
     const int skill = pl.get_skill_level( used_skill );
     const int recipe_difficulty = repair_recipe_difficulty( pl, fix );
     int action_difficulty = 0;
@@ -2985,8 +2984,10 @@ std::pair<float, float> repair_item_actor::repair_chance(
     // Duster |    2   |   5   |  5  |   10%   |   0%
     // Duster |    2   |   2   |  10 |   4%    |   1%
     // Duster | Refit  |   2   |  10 |   0%    |   N/A
+    /** @EFFECT_SKILLS improve success chance when repairing items (2% per skill level) */
     float success_chance = ( 10 + 2 * skill - 2 * difficulty + tool_quality / 5.0f ) / 100.0f;
-    /** @EFFECT_DEX reduces the chances of damaging an item when repairing */
+    /** @EFFECT_SKILLS reduce the chances of damaging an item when repairing (1% per skill level) */
+    /** @EFFECT_DEX reduces the chances of damaging an item when repairing (0.2% per point) */
     float damage_chance = ( difficulty - skill - ( tool_quality + pl.dex_cur ) / 5.0f ) / 100.0f;
 
     damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
@@ -3568,13 +3569,7 @@ static bodypart_id pick_part_to_heal(
     const bool bleed = bleed_stop > 0;
     const bool bite = bite_chance > 0.0f;
     const bool infect = infect_chance > 0.0f;
-    const bool precise = &healer == &patient ? false :
-                         /** @EFFECT_PER slightly increases precision when using first aid on someone else */
-                         /** @EFFECT_FIRSTAID increases precision when using first aid on someone else */
-                         ( ( healer.get_skill_level( skill_firstaid ) +
-                             ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 1 ) +
-                             ( healer.has_proficiency( proficiency_prof_wound_care ) ? 0 : 2 ) ) * 4 +
-                           healer.per_cur >= 20 );
+    const bool precise = &healer == &patient ? false : healer.can_see_first_aid_precise_hp();
     while( true ) {
         bodypart_id healed_part = patient.body_window( menu_header, force, precise,
                                   limb_power, head_bonus, torso_bonus,
@@ -4703,13 +4698,13 @@ std::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const 
     comps.emplace_back( repair_item, items_needed );
     p.moves -= to_moves<int>( 30_seconds * p.fine_detail_vision_mod() );
     p.practice( used_skill, items_needed * 3 + 3 );
-    /** @EFFECT_TAILOR randomly improves clothing modification efforts */
+    /** @EFFECT_SKILLS are the primary factor in the outcome of clothing modification efforts */
     int rn = dice( 3, 2 + p.get_skill_level( used_skill ) ); // Skill
-    /** @EFFECT_DEX randomly improves clothing modification efforts */
-    rn += rng( 0, p.dex_cur / 2 );                    // Dexterity
-    /** @EFFECT_PER randomly improves clothing modification efforts */
-    rn += rng( 0, p.per_cur / 2 );                    // Perception
-    rn -= mod_count * 10;                              // Other mods
+    /** @EFFECT_DEX randomly slightly improves clothing modification efforts */
+    rn += rng( 0, p.dex_cur / 2 );                           // Dexterity
+    /** @EFFECT_PER randomly slightly improves clothing modification efforts */
+    rn += rng( 0, p.per_cur / 2 );                           // Perception
+    rn -= mod_count * 10;                                    // Other mods
 
     if( rn <= 8 ) {
         const std::string startdurability = mod.durability_indicator( true );
