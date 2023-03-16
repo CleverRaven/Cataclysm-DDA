@@ -169,6 +169,8 @@ std::string action_ident( action_id act )
             return "toggle_run";
         case ACTION_TOGGLE_CROUCH:
             return "toggle_crouch";
+        case ACTION_TOGGLE_PRONE:
+            return "toggle_prone";
         case ACTION_OPEN_MOVEMENT:
             return "open_movement";
         case ACTION_OPEN:
@@ -371,8 +373,8 @@ std::string action_ident( action_id act )
             return "toggle_auto_foraging";
         case ACTION_TOGGLE_AUTO_PICKUP:
             return "toggle_auto_pickup";
-        case ACTION_DISPLAY_ISO_WALLS:
-            return "toggle_iso_walls";
+        case ACTION_TOGGLE_PREVENT_OCCLUSION:
+            return "toggle_prevent_occlusion";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:
@@ -677,6 +679,9 @@ bool can_examine_at( const tripoint &p, bool with_pickup )
     if( here.has_furn( p ) && xfurn_t.can_examine( p ) ) {
         return true;
     }
+    if( here.partial_con_at( tripoint_bub_ms( p ) ) != nullptr ) {
+        return true;
+    }
     if( xter_t.can_examine( p ) ) {
         return true;
     }
@@ -773,6 +778,10 @@ action_id handle_action_menu()
     // If we're already crouching, make it simple to toggle crouching to off.
     if( player_character.is_crouching() ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
+    }
+    // If we're already prone, make it simple to toggle prone to off.
+    if( player_character.is_prone() ) {
+        action_weightings[ACTION_TOGGLE_PRONE] = 300;
     }
 
     map &here = get_map();
@@ -902,7 +911,7 @@ action_id handle_action_menu()
 #if defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_PIXEL_MINIMAP );
             REGISTER_ACTION( ACTION_RELOAD_TILESET );
-            REGISTER_ACTION( ACTION_DISPLAY_ISO_WALLS );
+            REGISTER_ACTION( ACTION_TOGGLE_PREVENT_OCCLUSION );
 #endif // TILES
             REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
@@ -936,6 +945,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_RESET_MOVE );
             REGISTER_ACTION( ACTION_TOGGLE_RUN );
             REGISTER_ACTION( ACTION_TOGGLE_CROUCH );
+            REGISTER_ACTION( ACTION_TOGGLE_PRONE );
             REGISTER_ACTION( ACTION_OPEN_MOVEMENT );
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD_ITEM );

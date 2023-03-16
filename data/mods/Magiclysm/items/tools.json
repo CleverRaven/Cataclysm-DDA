@@ -91,6 +91,8 @@
         "kevlar",
         "kevlar_layered",
         "gutskin",
+        "denim",
+        "canvas",
         "demon_chitin",
         "black_dragon_hide"
       ],
@@ -122,6 +124,8 @@
           "kevlar_layered",
           "neoprene",
           "gutskin",
+          "denim",
+          "canvas",
           "black_dragon_hide",
           "demon_chitin"
         ],

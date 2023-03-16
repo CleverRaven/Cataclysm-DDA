@@ -27,6 +27,9 @@ static const itype_id itype_shoulder_strap( "shoulder_strap" );
 
 static const material_id material_wool( "wool" );
 
+static const sub_bodypart_str_id sub_body_part_foot_sole_l( "foot_sole_l" );
+static const sub_bodypart_str_id sub_body_part_foot_sole_r( "foot_sole_r" );
+
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_HORNS_POINTED( "HORNS_POINTED" );
@@ -65,8 +68,7 @@ ret_val<void> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.has_flag( flag_INTEGRATED ) ) {
         return ret_val<void>::make_success();
     }
-    // need to ignore inherited flags for this because items in pockets likely have CANT_WEAR
-    if( it.has_flag( flag_CANT_WEAR, true ) ) {
+    if( it.has_flag( flag_CANT_WEAR ) ) {
         return ret_val<void>::make_failure( _( "Can't be worn directly." ) );
     }
     if( has_effect( effect_incorporeal ) ) {
@@ -275,7 +277,6 @@ cata::optional<std::list<item>::iterator> outfit::wear_item( Character &guy, con
         worn.push_back( to_wear );
     }
 
-
     get_event_bus().send<event_type::character_wears_item>( guy.getID(), guy.last_item );
 
     if( interactive ) {
@@ -418,7 +419,6 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
                                _( "<npcname> takes off their %s." ),
                                name );
 
-
         recalc_sight_limits();
         calc_encumbrance();
         calc_discomfort();
@@ -468,6 +468,16 @@ item Character::item_worn_with_flag( const flag_id &f ) const
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     return worn.wearing_something_on( bp );
+}
+
+bool Character::wearing_fitting_on( const bodypart_id &bp ) const
+{
+    return worn.wearing_fitting_on( bp );
+}
+
+bool Character::is_barefoot() const
+{
+    return worn.is_barefoot();
 }
 
 cata::optional<const item *> outfit::item_worn_with_inv_let( const char invlet ) const
@@ -575,22 +585,6 @@ std::list<item> Character::get_visible_worn_items() const
     return worn.get_visible_worn_items( *this );
 }
 
-bool outfit::is_wearing_helmet() const
-{
-    for( const item &i : worn ) {
-        if( i.covers( body_part_head ) && !i.has_flag( flag_SKINTIGHT ) && !i.has_flag( flag_PERSONAL ) &&
-            !i.has_flag( flag_AURA ) && !i.has_flag( flag_SEMITANGIBLE ) && !i.has_flag( flag_OVERSIZE ) ) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool Character::is_wearing_helmet() const
-{
-    return worn.is_wearing_helmet();
-}
-
 double Character::armwear_factor() const
 {
     double ret = 0;
@@ -601,11 +595,6 @@ double Character::armwear_factor() const
         ret += .5;
     }
     return ret;
-}
-
-double Character::footwear_factor() const
-{
-    return worn.footwear_factor();
 }
 
 int Character::shoe_type_count( const itype_id &it ) const
@@ -947,11 +936,32 @@ std::list<item> outfit::get_visible_worn_items( const Character &guy ) const
 bool outfit::wearing_something_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
-        if( i.covers( bp ) ) {
+        if( i.covers( bp ) && !i.has_flag( flag_INTEGRATED ) ) {
             return true;
         }
     }
     return false;
+}
+
+bool outfit::wearing_fitting_on( const bodypart_id &bp ) const
+{
+    for( const item &i : worn ) {
+        if( i.covers( bp ) && !i.has_flag( flag_INTEGRATED ) && !i.has_flag( flag_OVERSIZE ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool outfit::is_barefoot() const
+{
+    for( const item &i : worn ) {
+        if( ( i.covers( sub_body_part_foot_sole_l ) && !i.has_flag( flag_INTEGRATED ) ) ||
+            ( i.covers( sub_body_part_foot_sole_r ) && !i.has_flag( flag_INTEGRATED ) ) ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 int outfit::swim_modifier( const int swim_skill ) const
@@ -1225,8 +1235,6 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing, side s ) cons
         }
     }
 
-
-
     // go through all worn and see if already wearing something rigid
     for( const item &i : worn ) {
         // check each sublimb individually
@@ -1265,15 +1273,12 @@ ret_val<void> outfit::check_rigid_conflicts( const item &clothing ) const
     ret_val<void> ls = check_rigid_conflicts( clothing, side::LEFT );
     ret_val<void> rs = check_rigid_conflicts( clothing, side::RIGHT );
 
-
     if( !ls.success() && !rs.success() ) {
         return ls;
     }
 
     return ret_val<void>::make_success();
 }
-
-
 
 void outfit::one_per_layer_sidedness( item &clothing ) const
 {
@@ -1344,24 +1349,6 @@ bool outfit::takeoff( item_location loc, std::list<item> *res, Character &guy )
         res->push_back( takeoff_copy );
     }
     return true;
-}
-
-double outfit::footwear_factor() const
-{
-    double ret = 0;
-    for( const item &i : worn ) {
-        if( i.covers( body_part_foot_l ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
-            ret += 0.5f;
-            break;
-        }
-    }
-    for( const item &i : worn ) {
-        if( i.covers( body_part_foot_r ) && !i.has_flag( flag_NOT_FOOTWEAR ) ) {
-            ret += 0.5f;
-            break;
-        }
-    }
-    return ret;
 }
 
 void outfit::damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const
@@ -1818,12 +1805,13 @@ void outfit::absorb_damage( Character &guy, damage_unit &elem, bodypart_id bp,
     }
 }
 
-float outfit::damage_resist( damage_type dt, bodypart_id bp, bool to_self ) const
+float outfit::damage_resist( const damage_type dmg_type, const bodypart_id &bp,
+                             const bool to_self ) const
 {
     float ret = 0.0f;
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
-            ret += i.damage_resist( dt, to_self );
+            ret += i.resist( dmg_type, to_self, bp );
         }
     }
     return ret;
@@ -1887,7 +1875,7 @@ std::unordered_set<bodypart_id> outfit::where_discomfort( const Character &guy )
                 for( const sub_bodypart_str_id &under_sbp : sbp->locations_under ) {
                     if( covered_sbps.count( under_sbp ) != 1 ) {
                         guy.add_msg_if_player(
-                            string_format( _( "<color_c_red> the %s rubs uncomfortably against your unpadded %s </color>" ),
+                            string_format( _( "<color_c_red>The %s rubs uncomfortably against your unpadded %s.</color>" ),
                                            i.display_name(), under_sbp->name ) );
                         uncomfortable_bps.insert( sbp->parent );
                     }
@@ -2015,6 +2003,9 @@ void outfit::on_takeoff( Character &guy )
 void outfit::on_item_wear( Character &guy )
 {
     for( item &clothing : worn ) {
+        if( clothing.relic_data && clothing.type->relic_data ) {
+            clothing.relic_data = clothing.type->relic_data;
+        }
         guy.on_item_wear( clothing );
     }
 }
@@ -2126,7 +2117,7 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
         }
     }
 
-    // go through every item and see how it handles every part of the character
+    // go through every item and see how it handles these part(s) of the character
     for( const item &armor : worn ) {
         // check if it covers the part
         // FIXME: item::covers( const sub_bodypart_id & ) always
@@ -2143,6 +2134,24 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
             }
         }
         if( !covered ) {
+            // some clothing flags provide warmth without providing coverage or encumberance
+            // these are included in the worn list so that players aren't confused about why body parts are warm
+            // but not included in the later coverage and encumberance calculations
+            if( ( bp == body_part_hand_l || bp == body_part_hand_r ) && armor.has_flag( flag_POCKETS ) &&
+                person.can_use_pockets() ) {
+                //~ name of a clothing/armor item, indicating it has pockets providing hand warmth
+                info.worn_names.push_back( string_format( _( "%s (pockets)" ), armor.tname() ) );
+            }
+            if( bp == body_part_head && armor.has_flag( flag_HOOD ) && person.can_use_hood() ) {
+                //~ name of a clothing/armor item, indicating it has a hood providing head warmth
+                info.worn_names.push_back( string_format( _( "%s (hood)" ), armor.tname() ) );
+            }
+            if( bp == body_part_mouth && armor.has_flag( flag_COLLAR ) && person.can_use_collar() ) {
+                // collars don't cover or encumber, but do conditionally provide warmth
+                //~ name of a clothing/armor item, indicating it has a collar providing mouth warmth
+                info.worn_names.push_back( string_format( _( "%s (collar)" ), armor.tname() ) );
+            }
+
             continue;
         }
 
@@ -2159,7 +2168,6 @@ void outfit::prepare_bodymap_info( bodygraph_info &info, const bodypart_id &bp,
             temp_coverage = armor.get_coverage( bp );
         }
         info.avg_coverage += temp_coverage;
-
 
         // need to do each sub part seperately and then average them if need be
         for( const sub_bodypart_id &sbp : sub_parts ) {
@@ -2506,41 +2514,8 @@ std::vector<item_pocket *> outfit::grab_drop_pockets()
 void outfit::organize_items_menu()
 {
     std::vector<item *> to_organize;
-    uilist pocket_selector;
     for( item &i : worn ) {
         to_organize.push_back( &i );
     }
-    pocket_favorite_callback cb( to_organize, pocket_selector );
-
-    pocket_selector.title = _( "Inventory Organization" );
-    pocket_selector.text = cb.title;
-    pocket_selector.callback = &cb;
-    pocket_selector.w_x_setup = 0;
-    pocket_selector.w_width_setup = []() {
-        return TERMX;
-    };
-    pocket_selector.pad_right_setup = []() {
-        return std::max( TERMX / 2, TERMX - 50 );
-    };
-    pocket_selector.w_y_setup = 0;
-    pocket_selector.w_height_setup = []() {
-        return TERMY;
-    };
-    pocket_selector.input_category = "INVENTORY";
-    pocket_selector.additional_actions = { { "FAV_PRIORITY", translation() },
-        { "FAV_AUTO_PICKUP", translation() },
-        { "FAV_AUTO_UNLOAD", translation() },
-        { "FAV_ITEM", translation() },
-        { "FAV_CATEGORY", translation() },
-        { "FAV_WHITELIST", translation() },
-        { "FAV_BLACKLIST", translation() },
-        { "FAV_CLEAR", translation() },
-        { "FAV_MOVE_ITEM", translation() },
-        { "FAV_CONTEXT_MENU", translation() }
-    };
-    // we override confirm
-    pocket_selector.allow_confirm = false;
-    pocket_selector.allow_additional = true;
-
-    pocket_selector.query();
+    pocket_management_menu( _( "Inventory Organization" ), to_organize );
 }

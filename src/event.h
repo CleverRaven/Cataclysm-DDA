@@ -111,6 +111,7 @@ enum class event_type : int {
     triggers_alarm,
     uses_debug_menu,
     u_var_changed,
+    vehicle_moves,
     num_event_types // last
 };
 
@@ -171,7 +172,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 86,
+static_assert( static_cast<int>( event_type::num_event_types ) == 87,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -735,6 +736,24 @@ struct event_spec<event_type::u_var_changed> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
             { "var", cata_variant_type::string },
             { "value", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::vehicle_moves> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 11> fields = {{
+            { "avatar_on_board", cata_variant_type::bool_ },
+            { "avatar_is_driving", cata_variant_type::bool_ }, // non-remote-control
+            { "avatar_remote_control", cata_variant_type::bool_ },
+            { "is_flying_aircraft", cata_variant_type::bool_ }, // actual viable aircraft
+            { "is_floating_watercraft", cata_variant_type::bool_ }, // actual viable boat
+            { "is_on_rails", cata_variant_type::bool_ }, // railway vehicle on rails
+            { "is_falling", cata_variant_type::bool_ }, // not an aircraft, just getting air time
+            { "is_sinking", cata_variant_type::bool_ }, // sinking in water
+            { "is_skidding", cata_variant_type::bool_ },
+            { "velocity", cata_variant_type::int_ }, // vehicle current velocity, mph * 100
+            { "z", cata_variant_type::int_ },
         }
     };
 };

@@ -136,8 +136,6 @@ static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_under_operation( "under_operation" );
 
-static const furn_str_id furn_f_compact_ASRG_containment( "f_compact_ASRG_containment" );
-
 static const gun_mode_id gun_mode_AUTO( "AUTO" );
 
 static const itype_id itype_120mm_HEAT( "120mm_HEAT" );
@@ -2803,7 +2801,6 @@ bool mattack::ranged_pull( monster *z )
         return true;
     }
 
-
     if( target->has_grab_break_tec() ) {
         Character *pl = dynamic_cast<Character *>( target );
         ///\EFFECT_STR increases chance to avoid being grabbed
@@ -2894,7 +2891,7 @@ bool mattack::ranged_pull( monster *z )
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
     //Duration needs to be at least 2, or grab will immediately be removed
     target->add_effect( effect_grabbed, 2_turns, body_part_torso, false, prev_effect + 4 );
-    z->add_effect( effect_grabbing, 2_turns );
+    z->add_effect( effect_grabbing, 2_turns, true );
     return true;
 }
 
@@ -2908,8 +2905,8 @@ bool mattack::grab( monster *z )
         return false;
     }
 
-    // Do not attempt to grab while z is already grabbing target. Do something else
-    if( z->has_effect( effect_grabbing ) && target->has_effect( effect_grabbed ) ) {
+    // Do not attempt to grab while z is already grabbing. Do something else
+    if( z->has_effect( effect_grabbing ) ) {
         return false;
     }
 
@@ -2963,7 +2960,7 @@ bool mattack::grab( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
-    z->add_effect( effect_grabbing, 2_turns );
+    z->add_effect( effect_grabbing, 2_turns, true );
     target->add_effect( effect_grabbed, 2_turns, body_part_torso, false,
                         prev_effect + z->get_grab_strength() );
 
@@ -3047,7 +3044,7 @@ bool mattack::grab_drag( monster *z )
     }
 
     const int prev_effect = target->get_effect_int( effect_grabbed, body_part_torso );
-    z->add_effect( effect_grabbing, 2_turns );
+    z->add_effect( effect_grabbing, 2_turns, true );
     target->add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, prev_effect + 3 );
 
     // cooldown was not reset prior to refactor here
@@ -3369,6 +3366,9 @@ bool mattack::check_money_left( monster *z )
 
             if( !z->inv.empty() ) {
                 for( const item &it : z->inv ) {
+                    if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
+                        continue;
+                    }
                     get_map().add_item_or_charges( z->pos(), it );
                 }
                 z->inv.clear();
@@ -3812,6 +3812,7 @@ bool mattack::searchlight( monster *z )
 
             settings.set_var( "SL_SPOT_X", 0 );
             settings.set_var( "SL_SPOT_Y", 0 );
+            settings.set_var( "DESTROY_ITEM_ON_MON_DEATH", "TRUE" );
 
             z->add_item( settings );
         }
@@ -3825,7 +3826,7 @@ bool mattack::searchlight( monster *z )
         for( int x = zpos.x - 24; x < zpos.x + 24; x++ ) {
             for( int y = zpos.y - 24; y < zpos.y + 24; y++ ) {
                 tripoint dest( x, y, z->posz() );
-                if( here.furn( dest ) == furn_f_compact_ASRG_containment ) {
+                if( here.has_flag( ter_furn_flag::TFLAG_ACTIVE_GENERATOR, dest ) ) {
                     generator_ok = true;
                 }
             }
@@ -4783,7 +4784,8 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at your neck, cutting your throat for %2$d damage!" ),
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
-        target->make_bleed( effect_source( z ), bodypart_id( "head" ), 15_minutes );
+        target->add_effect( effect_source( z ), effect_bleed, 15_minutes,
+                            target->get_random_body_part_of_type( body_part_type::type::head ) );
     } else {
         target->add_msg_player_or_npc( _( "The %1$s slashes at your %2$s, but glances off your armor!" ),
                                        _( "The %1$s slashes at <npcname>'s %2$s, but glances off armor!" ),
@@ -5332,7 +5334,8 @@ bool mattack::tindalos_teleport( monster *z )
                     if( z->sees( *target ) ) {
                         here.add_field( oldpos, fd_tindalos_rift, 2 );
                         here.add_field( dest, fd_tindalos_rift, 2 );
-                        add_msg_if_player_sees( *z, m_bad, _( "The %s dissipates and reforms close by." ), z->name() );
+                        add_msg_if_player_sees( *z, m_bad,
+                                                _( "The %s dissipates and reforms itself from the angles in the corner." ), z->name() );
                         return true;
                     }
                 }
@@ -5544,8 +5547,8 @@ bool mattack::bio_op_takedown( monster *z )
             }
             foe->add_effect( effect_downed, 3_turns );
         }
-    } else if( ( !foe->is_armed() ||
-                 foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item()->typeId() ) ) ) {
+    } else if( !foe->is_armed() ||
+               foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item()->typeId() ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bodypart_id( "torso" );
         dam = rng( 3, 9 );
@@ -5601,7 +5604,8 @@ bool mattack::bio_op_impale( monster *z )
         // Handle mons earlier - less to check for
         target->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::STAB, dam ) );
         if( do_bleed ) {
-            target->make_bleed( effect_source( z ), bodypart_id( "torso" ), rng( 3_minutes, 10_minutes ) );
+            target->add_effect( effect_source( z ), effect_bleed, rng( 3_minutes, 10_minutes ),
+                                target->get_random_body_part_of_type( body_part_type::type::torso ) );
         }
         if( seen ) {
             add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );
@@ -5610,7 +5614,7 @@ bool mattack::bio_op_impale( monster *z )
         return true;
     }
 
-    const bodypart_id hit = target->get_random_body_part();
+    const bodypart_id hit = target->get_random_body_part( true );
 
     t_dam = foe->deal_damage( z, hit, damage_instance( damage_type::STAB, dam ) ).total_damage();
 
@@ -5622,7 +5626,7 @@ bool mattack::bio_op_impale( monster *z )
         target->add_msg_if_player( m_bad, _( "and deals %d damage!" ), t_dam );
 
         if( do_bleed ) {
-            target->make_bleed( effect_source( z ), hit, rng( 75_turns, 125_turns ) );
+            target->add_effect( effect_source( z ), effect_bleed, rng( 75_turns, 125_turns ), hit );
         }
     } else {
         target->add_msg_player_or_npc( _( "but fails to penetrate your armor!" ),
@@ -6168,8 +6172,7 @@ bool mattack::dsa_drone_scan( monster *z )
         return true;
     }
     if( !available.empty() ) {
-        if( !avatar_in_range ||
-            ( avatar_in_range && x_in_y( available.size(), available.size() + 1 ) ) ) {
+        if( !avatar_in_range || x_in_y( available.size(), available.size() + 1 ) ) {
             target = random_entry( available );
         }
     }

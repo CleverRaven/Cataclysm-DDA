@@ -537,15 +537,15 @@
     "category": "armor",
     "name": { "str": "pair of improvised tire arm guards", "str_pl": "pairs of improvised tire arm guards" },
     "description": "Arm guards made of thick chunks of tire held together with duct tape.",
-    "weight": "4800 g",
-    "volume": "4 L",
-    "price": 230,
+    "weight": "2400 g",
+    "volume": "2 L",
+    "price": 2300,
     "price_postapoc": 250,
     "to_hit": 1,
     "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "armguard_larmor",
-    "color": "blue",
+    "color": "light_gray",
     "warmth": 5,
     "material_thickness": 4,
     "flags": [ "OUTER", "BLOCK_WHILE_WORN", "NONCONDUCTIVE" ],
@@ -1704,8 +1704,8 @@
         "encumbrance": 3,
         "coverage": 90,
         "material": [
-          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
-          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 2 }
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 5 },
+          { "type": "thermo_resin", "covered_by_mat": 90, "thickness": 1.75 }
         ],
         "specifically_covers": [ "arm_lower_l", "arm_lower_r", "arm_elbow_l", "arm_elbow_r" ]
       }

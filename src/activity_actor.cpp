@@ -140,6 +140,7 @@ static const activity_id ACT_UNLOAD( "ACT_UNLOAD" );
 static const activity_id ACT_UNLOAD_LOOT( "ACT_UNLOAD_LOOT" );
 static const activity_id ACT_VEHICLE_FOLD( "ACT_VEHICLE_FOLD" );
 static const activity_id ACT_VEHICLE_UNFOLD( "ACT_VEHICLE_UNFOLD" );
+static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 static const activity_id ACT_WIELD( "ACT_WIELD" );
 static const activity_id ACT_WORKOUT_ACTIVE( "ACT_WORKOUT_ACTIVE" );
@@ -173,13 +174,18 @@ static const item_group_id Item_spawn_data_forage_winter( "forage_winter" );
 static const item_group_id Item_spawn_data_trash_forest( "trash_forest" );
 
 static const itype_id itype_2x4( "2x4" );
+static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_liquid_soap( "liquid_soap" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
+static const itype_id itype_soap( "soap" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
+static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
@@ -837,7 +843,7 @@ std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue &
 
 void bookbinder_copy_activity_actor::start( player_activity &act, Character & )
 {
-    pages = 1 + rec_id->difficulty / 2;
+    pages = bookbinder_copy_activity_actor::pages_for_recipe( *rec_id );
     act.moves_total = to_moves<int>( pages * 10_minutes );
     act.moves_left = to_moves<int>( pages * 10_minutes );
 }
@@ -859,8 +865,10 @@ void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p 
         return;
     }
 
-    const bool rec_added = book_binder->eipc_recipe_add( rec_id );
-    if( rec_added ) {
+    std::set<recipe_id> recipes = book_binder->get_saved_recipes();
+
+    if( recipes.emplace( rec_id ).second ) { // if .second is true then recipe was inserted
+        book_binder->set_saved_recipes( recipes );
         p.add_msg_if_player( m_good, _( "You copy the recipe for %1$s into your recipe book." ),
                              rec_id->result_name() );
 
@@ -1510,14 +1518,13 @@ bool read_activity_actor::player_read( avatar &you )
             read_book( *learner, islotbook, skill_level, penalty );
             const int newSkillLevel = skill_level.knowledgeLevel();
 
-
             // levels up the skill
             if( newSkillLevel != originalSkillLevel ) {
                 get_event_bus().send<event_type::gains_skill_level>(
                     learner->getID(), skill, skill_level.knowledgeLevel() );
 
                 if( learner->is_avatar() ) {
-                    add_msg( m_good, _( "You theoretical knowledge of %s increases to level %d." ), skill.obj().name(),
+                    add_msg( m_good, _( "Your theoretical knowledge of %s increases to level %d." ), skill.obj().name(),
                              originalSkillLevel + 1 );
                 } else {
                     add_msg( m_good, _( "%s increases their %s knowledge." ), learner->disp_name(),
@@ -1963,7 +1970,7 @@ void pickup_activity_actor::do_turn( player_activity &, Character &who )
     // Otherwise, we are done.
     if( !keep_going || target_items.empty() ) {
         if( !stash_successful && !autopickup ) {
-            add_msg( m_bad, _( "Some items were not picked up" ) );
+            add_msg( m_bad, _( "Some items were not picked up!" ) );
         }
 
         cancel_pickup( who );
@@ -2124,7 +2131,6 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
                        true, "tool", "boltcutters" );
     }
 
-
     for( const activity_byproduct &byproduct : data->byproducts() ) {
         const int amount = byproduct.roll();
         if( byproduct.item->count_by_charges() ) {
@@ -2161,7 +2167,6 @@ std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonVal
     data.read( "tool", actor.tool );
     return actor.clone();
 }
-
 
 lockpick_activity_actor lockpick_activity_actor::use_item(
     int moves_total,
@@ -2445,6 +2450,9 @@ void ebooksave_activity_actor::finish( player_activity &act, Character &who )
     item book_copy = *book;
     ereader->put_in( book_copy, item_pocket::pocket_type::EBOOK );
     if( who.is_avatar() ) {
+        if( !who.has_identified( book->typeId() ) ) {
+            who.identify( *book );
+        }
         add_msg( m_info, _( "You scan the book into your device." ) );
     } else { // who.is_npc()
         add_msg_if_player_sees( who, _( "%s scans the book into their device." ),
@@ -2470,8 +2478,6 @@ std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonValue
     data.read( "ereader", actor.ereader );
     return actor.clone();
 }
-
-constexpr time_duration ebooksave_activity_actor::time_per_page;
 
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
 {
@@ -2698,7 +2704,6 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     }
     who.set_movement_mode( move_mode_walk );
 }
-
 
 void try_sleep_activity_actor::canceled( player_activity &, Character &who )
 {
@@ -3109,7 +3114,7 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10'000'000 ) {
         if( rec.is_practice() && !is_long && craft.get_making_batch_size() == 1 ) {
-            if( query_yn( _( "Keep practicing until proficiency increase?" ) ) ) {
+            if( query_yn( _( "Keep practicing until proficiency increases?" ) ) ) {
                 is_long = true;
                 *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
             }
@@ -3588,7 +3593,7 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
     if( harvest.is_null() || harvest->empty() ) {
         if( !auto_forage ) {
             who.add_msg_if_player( m_info,
-                                   _( "Nothing can be harvested from this plant in current season." ) );
+                                   _( "Nothing can be harvested from this plant in the current season." ) );
         }
 
         if( who.manual_examine ) {
@@ -3908,7 +3913,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     if( holstered_item.first ) {
         item &it = *holstered_item.first;
         if( !it.count_by_charges() ) {
-            if( holster->can_contain( it ).success() && ( all_pockets_rigid ||
+            if( holster->can_contain_directly( it ).success() && ( all_pockets_rigid ||
                     holster.parents_can_contain_recursive( &it ) ) ) {
 
                 success = holster->put_in( it, item_pocket::pocket_type::CONTAINER,
@@ -3927,7 +3932,7 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
             int charges = all_pockets_rigid ? holstered_item.second : std::min( holstered_item.second,
                           holster.max_charges_by_parent_recursive( it ) );
 
-            if( charges > 0 && holster->can_contain_partial( it ) ) {
+            if( charges > 0 && holster->can_contain_partial_directly( it ) ) {
                 int result = holster->fill_with( it, charges,
                                                  /*unseal_pockets=*/true,
                                                  /*allow_sealed=*/true,
@@ -3962,7 +3967,8 @@ void insert_item_activity_actor::finish( player_activity &act, Character &who )
     }
 
     items.pop_front();
-    if( items.empty() || !success ) {
+    if( items.empty() || !success || items.front().first == item_location::nowhere ) {
+        holster.make_active();
         handler.handle_by( who );
         act.set_to_null();
         return;
@@ -5760,8 +5766,16 @@ void firstaid_activity_actor::finish( player_activity &act, Character &who )
     int charges_consumed = actor->finish_using( who, *patient,
                            *used_tool, healed );
     std::list<item>used;
-    if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+    if( used_tool->has_flag( flag_SINGLE_USE ) ) {
         it.remove_item();
+    } else if( used_tool->is_medication() ) {
+        if( it->use_charges( it->typeId(), charges_consumed, used, it.position() ) ) {
+            it.remove_item();
+        }
+    } else if( used_tool->is_tool() ) {
+        if( used_tool->type->charges_to_use() ) {
+            it->activation_consume( charges_consumed, it.position(), &who );
+        }
     }
 
     // Erase activity and values.
@@ -6125,7 +6139,6 @@ std::unique_ptr<activity_actor> mop_activity_actor::deserialize( JsonValue &jsin
     return actor.clone();
 }
 
-
 void unload_loot_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
@@ -6430,8 +6443,26 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                     for( item *contained : it->first->all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
                         // no liquids don't want to spill stuff
                         if( !contained->made_of( phase_id::LIQUID ) && !contained->made_of( phase_id::GAS ) ) {
+                            if( it->first->is_ammo_belt() ) {
+                                if( it->first->type->magazine->linkage ) {
+                                    item link( *it->first->type->magazine->linkage, calendar::turn, contained->count() );
+                                    if( this_veh != nullptr ) {
+                                        this_veh->add_item( this_part, link );
+                                    } else {
+                                        here.add_item_or_charges( src_loc, link );
+                                    }
+                                }
+                            }
                             move_item( you, *contained, contained->count(), src_loc, src_loc, this_veh, this_part );
                             it->first->remove_item( *contained );
+
+                            if( it->first->has_flag( flag_MAG_DESTROY ) && it->first->ammo_remaining() == 0 ) {
+                                if( this_veh != nullptr ) {
+                                    this_veh->remove_item( this_part, it->first );
+                                } else {
+                                    here.i_rem( src_loc, it->first );
+                                }
+                            }
                         }
                         if( you.moves <= 0 ) {
                             return;
@@ -6733,6 +6764,91 @@ std::unique_ptr<activity_actor> vehicle_unfolding_activity_actor::deserialize( J
     return actor.clone();
 }
 
+void wash_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = requirements.time;
+    act.moves_left = requirements.time;
+}
+
+void wash_activity_actor::finish( player_activity &act, Character &p )
+{
+    const auto is_liquid_crafting_component = []( const item & it ) {
+        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( phase_id::LIQUID ) );
+    };
+    const inventory &crafting_inv = p.crafting_inventory();
+    if( !crafting_inv.has_charges( itype_water, requirements.water, is_liquid_crafting_component ) &&
+        !crafting_inv.has_charges( itype_water_clean, requirements.water, is_liquid_crafting_component ) ) {
+        p.add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
+                             requirements.water );
+        act.set_to_null();
+        return;
+    } else if( !crafting_inv.has_charges( itype_soap, requirements.cleanser ) &&
+               !crafting_inv.has_charges( itype_detergent, requirements.cleanser ) &&
+               !crafting_inv.has_charges( itype_liquid_soap, requirements.cleanser,
+                                          is_liquid_crafting_component ) ) {
+        p.add_msg_if_player( _( "You need %1$i charges of cleansing agent to wash these items." ),
+                             requirements.cleanser );
+        act.set_to_null();
+        return;
+    }
+
+    for( drop_location &ait : to_wash ) {
+        item_location filthy_item = ait.first;
+        if( filthy_item->count_by_charges() ) {
+            item copy( *filthy_item );
+            copy.charges = ait.second;
+            copy.unset_flag( flag_FILTHY );
+            filthy_item->charges -= ait.second;
+            if( filthy_item->charges <= 0 ) {
+                filthy_item.remove_item();
+            }
+            p.i_add_or_drop( copy );
+        } else {
+            filthy_item->unset_flag( flag_FILTHY );
+            p.on_worn_item_washed( *filthy_item );
+        }
+    }
+
+    std::vector<item_comp> comps;
+    comps.emplace_back( itype_water, requirements.water );
+    comps.emplace_back( itype_water_clean, requirements.water );
+    p.consume_items( comps, 1, is_liquid_crafting_component );
+
+    std::vector<item_comp> comps1;
+    comps1.emplace_back( itype_soap, requirements.cleanser );
+    comps1.emplace_back( itype_detergent, requirements.cleanser );
+    comps1.emplace_back( itype_liquid_soap, requirements.cleanser );
+    p.consume_items( comps1 );
+
+    p.add_msg_if_player( m_good, _( "You washed your items." ) );
+
+    // Make sure newly washed components show up as available if player attempts to craft immediately
+    p.invalidate_crafting_inventory();
+
+    act.set_to_null();
+}
+
+void wash_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "to_wash", to_wash );
+    jsout.member( "time", requirements.time );
+    jsout.member( "water", requirements.water );
+    jsout.member( "cleanser", requirements.cleanser );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> wash_activity_actor::deserialize( JsonValue &jsin )
+{
+    wash_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "to_wash", actor.to_wash );
+    data.read( "time", actor.requirements.time );
+    data.read( "water", actor.requirements.water );
+    data.read( "cleanser", actor.requirements.cleanser );
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -6793,6 +6909,7 @@ deserialize_functions = {
     { ACT_UNLOAD_LOOT, &unload_loot_activity_actor::deserialize },
     { ACT_VEHICLE_FOLD, &vehicle_folding_activity_actor::deserialize },
     { ACT_VEHICLE_UNFOLD, &vehicle_unfolding_activity_actor::deserialize },
+    { ACT_WASH, &wash_activity_actor::deserialize },
     { ACT_WEAR, &wear_activity_actor::deserialize },
     { ACT_WIELD, &wield_activity_actor::deserialize},
     { ACT_WORKOUT_ACTIVE, &workout_activity_actor::deserialize },

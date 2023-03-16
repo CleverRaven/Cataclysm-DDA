@@ -280,6 +280,10 @@ class game
         */
         cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking, const tripoint &pos );
+        /*
+        * Prompt player on direction they want to climb up or down.
+        */
+        cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts, bool up = true );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc.
          *  Returns true if the z-level changed.
          */
@@ -873,6 +877,8 @@ class game
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest, bool quick = false );
         void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
+        void perhaps_add_random_npc( bool ignore_spawn_timers_and_rates );
+        static void display_om_pathfinding_progress( size_t open_set, size_t known_size );
 
         unsigned int get_seed() const;
 
@@ -903,6 +909,8 @@ class game
                                    int &line );
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, int column,
                               int &line );
+        void print_part_con_info( const tripoint &lp, const catacurses::window &w_look, int column,
+                                  int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
         void print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
@@ -931,10 +939,7 @@ class game
          * point to a different monster after calling this (or to no monster at all).
          */
         void despawn_monster( monster &critter );
-
     private:
-        void perhaps_add_random_npc();
-
         // Routine loop functions, approximately in order of execution
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool do_regular_action( action_id &act, avatar &player_character,
@@ -1109,7 +1114,10 @@ class game
         weather_manager weather; // NOLINT(cata-serialize)
 
     public:
-        int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
+        // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
+        // Please note that this does not count ignored monsters, so this value might
+        // be 0 even if the player currently sees some monsters.
+        int mostseen = 0;
     private:
         shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)
 
@@ -1194,6 +1202,11 @@ class game
         @return whether player has slipped down
         */
         bool slip_down( bool check_for_traps = false );
+
+        /**
+        * Climb down from a ledge using grappling hooks or spider webs if appropriate.
+        */
+        void climb_down( const tripoint &examp );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

@@ -4,7 +4,14 @@
 
 std::set<itype_id> test_data::known_bad;
 std::map<vproto_id, std::vector<double>> test_data::drag_data;
+std::map<vproto_id, efficiency_data> test_data::eff_data;
 std::map<itype_id, double> test_data::expected_dps;
+
+void efficiency_data::deserialize( const JsonObject &jo )
+{
+    jo.read( "forward", forward );
+    jo.read( "reverse", reverse );
+}
 
 void test_data::load( const JsonObject &jo )
 {
@@ -20,6 +27,12 @@ void test_data::load( const JsonObject &jo )
         std::map<vproto_id, std::vector<double>> new_drag_data;
         jo.read( "drag_data", new_drag_data );
         drag_data.insert( new_drag_data.begin(), new_drag_data.end() );
+    }
+
+    if( jo.has_object( "efficiency_data" ) ) {
+        std::map<vproto_id, efficiency_data> new_efficiency_data;
+        jo.read( "efficiency_data", new_efficiency_data );
+        eff_data.insert( new_efficiency_data.begin(), new_efficiency_data.end() );
     }
 
     if( jo.has_object( "expected_dps" ) ) {

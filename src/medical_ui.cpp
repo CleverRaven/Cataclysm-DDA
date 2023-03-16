@@ -106,8 +106,8 @@ class medical_column
 {
     public:
         medical_column() = default;
-        medical_column( const int column_id, const point COLUMN_START,
-                        const std::pair<int, int> COLUMN_BOUNDS )
+        medical_column( const int column_id, const point &COLUMN_START,
+                        const std::pair<int, int> &COLUMN_BOUNDS )
             : column_id( column_id ), COLUMN_BOUNDS( COLUMN_BOUNDS ), COLUMN_START( COLUMN_START ) {}
 
         void draw_column( const catacurses::window &window, const int BORDER_START,
@@ -337,8 +337,8 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
 
 // Displays a summary of each bodypart's health, including a display for a few 'statuses'
 static medical_column draw_health_summary( const int column_count, avatar *player,
-        const point COLUMN_START,
-        const std::pair<int, int> COLUMN_BOUNDS )
+        const point &COLUMN_START,
+        const std::pair<int, int> &COLUMN_BOUNDS )
 {
     medical_column health_column = medical_column( column_count, COLUMN_START, COLUMN_BOUNDS );
     const int max_width = health_column.max_width();
@@ -501,8 +501,8 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
 
 // Displays a summary list of all visible effects.
 static medical_column draw_effects_summary( const int column_count, avatar *player,
-        const point COLUMN_START,
-        const std::pair<int, int> COLUMN_BOUNDS )
+        const point &COLUMN_START,
+        const std::pair<int, int> &COLUMN_BOUNDS )
 {
     medical_column effects_column = medical_column( column_count, COLUMN_START, COLUMN_BOUNDS );
     const int max_width = effects_column.max_width();
@@ -515,7 +515,7 @@ static medical_column draw_effects_summary( const int column_count, avatar *play
         effects_column.add_column_line( selection_line( name, eff.disp_desc(), max_width ) );
     }
 
-    const float bmi = player->get_bmi();
+    const float bmi = player->get_bmi_fat();
 
     if( bmi < character_weight_category::underweight ) {
         std::string starvation_name;
@@ -574,8 +574,8 @@ static medical_column draw_effects_summary( const int column_count, avatar *play
 
 // Displays a summary list of the player's statistics.
 static medical_column draw_stats_summary( const int column_count, avatar *player,
-        const point COLUMN_START,
-        const std::pair<int, int> COLUMN_BOUNDS )
+        const point &COLUMN_START,
+        const std::pair<int, int> &COLUMN_BOUNDS )
 {
     medical_column stats_column = medical_column( column_count, COLUMN_START, COLUMN_BOUNDS );
     const int max_width = stats_column.max_width();
@@ -670,7 +670,7 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
     }
 
     for( const std::pair<const std::string, int> &speed_effect : speed_effects ) {
-        nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
+        nc_color col = speed_effect.second > 0 ? c_green : c_red;
         speed_detail_str += colorize( string_format( _( "%s    %s%d%%\n" ), speed_effect.first,
                                       ( speed_effect.second > 0 ? "+" : "-" ),
                                       std::abs( speed_effect.second ) ), col );

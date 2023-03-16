@@ -249,7 +249,7 @@
     "category": "manuals",
     "//": "5 Stormshaper electric spells",
     "name": { "str": "How Electromancy Changed the Vietnam War", "str_pl": "copies of How Electromancy Changed the Vietnam War" },
-    "description": "Deep work, that tells about the electromancy boom in the 60's, and how mass military draft of fresh, inexperienced scholars changed the war, with examples of using tactics and spells.  Summary says \"it changed nothing\".",
+    "description": "Deep work, that tells about the electromancy boom in the 60's, and how the mass military draft of fresh, inexperienced scholars changed the war, with examples of using tactics and spells.  Summary says \"it changed nothing\".",
     "weight": "378 g",
     "volume": "660 ml",
     "price": 11700,
@@ -376,7 +376,15 @@
     "color": "light_blue",
     "use_action": {
       "type": "learn_spell",
-      "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina", "druid_healing" ]
+      "spells": [
+        "recover_mana",
+        "recover_bionic_power",
+        "recover_pain",
+        "recover_fatigue",
+        "recover_stamina",
+        "druid_healing",
+        "convert"
+      ]
     }
   },
   {
@@ -498,7 +506,10 @@
     "looks_like": "cookbook",
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_zombie", "summon_skeleton", "summon_decayed_pouncer" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "summon_undead", "summon_undead_swarm", "convert", "dominate", "life_detonation" ]
+    }
   },
   {
     "id": "techno_fundamentals",

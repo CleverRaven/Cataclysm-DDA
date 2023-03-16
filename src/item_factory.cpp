@@ -211,6 +211,11 @@ static bool is_physical( const itype &type )
 
 void Item_factory::finalize_pre( itype &obj )
 {
+    // Add relic data by ID we defered
+    if( obj.relic_data ) {
+        obj.relic_data->finalize();
+    }
+
     // TODO: separate repairing from reinforcing/enhancement
     if( obj.damage_max() == obj.damage_min() ) {
         obj.item_tags.insert( flag_NO_REPAIR );
@@ -414,6 +419,22 @@ void Item_factory::finalize_pre( itype &obj )
             }
             migrate_ammo_map( magazine.ammo_restriction );
         }
+
+        // list all the ammo types that work
+        for( const ammotype &am : obj.magazine->type ) {
+            auto temp_vec = Item_factory::find( [obj, am]( const itype & e ) {
+                if( !e.ammo || item_is_blacklisted( e.get_id() ) ) {
+                    return false;
+                }
+
+                return e.ammo->type == am;
+            } );
+
+            for( const itype *val : temp_vec ) {
+                obj.magazine->cached_ammos[am].insert( val->get_id() );
+            }
+        }
+
     }
 
     // Migrate compatible magazines
@@ -538,6 +559,22 @@ void Item_factory::finalize_pre( itype &obj )
                 obj.gun->handling = 10;
             }
         }
+
+        // list all the ammo types that work
+        for( const ammotype &am : obj.gun->ammo ) {
+            auto temp_vec = Item_factory::find( [obj, am]( const itype & e ) {
+                if( !e.ammo || item_is_blacklisted( e.get_id() ) ) {
+                    return false;
+                }
+
+                return e.ammo->type == am;
+            } );
+
+            for( const itype *val : temp_vec ) {
+                obj.gun->cached_ammos[am].insert( val->get_id() );
+            }
+        }
+
     }
 
     set_allergy_flags( obj );
@@ -792,7 +829,6 @@ void Item_factory::finalize_post_armor( itype &obj )
                         found = true;
                         // modify the values with additional info
 
-
                         it.encumber += sub_armor.encumber;
                         it.max_encumber += sub_armor.max_encumber;
 
@@ -823,7 +859,6 @@ void Item_factory::finalize_post_armor( itype &obj )
                         for( const layer_level &ll : sub_armor.layers ) {
                             it.layers.insert( ll );
                         }
-
 
                         // if you are trying to add a new data entry and either the original data
                         // or the new data has an empty sublocations list then say that you are
@@ -948,7 +983,6 @@ void Item_factory::finalize_post_armor( itype &obj )
             }
         }
     }
-
 
     // store a shorthand var for if the item has notable sub coverage data
     for( const armor_portion_data &armor_data : obj.armor->data ) {
@@ -1086,7 +1120,6 @@ void Item_factory::finalize_post_armor( itype &obj )
 
     // generate the vector of flags that the item will default to if not override
     std::vector<layer_level> default_layers = obj.armor->all_layers;
-
 
     for( armor_portion_data &armor_data : obj.armor->data ) {
         // if an item or location has no layer data then default to the flags for the item
@@ -1369,7 +1402,8 @@ void Item_factory::finalize_item_blacklist()
         const migration *parent = nullptr;
         for( const migration &migrant : migrate.second ) {
             if( m_templates.count( migrant.replace ) == 0 ) {
-                debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
+                debugmsg( "Replacement item (%s) for migration %s does not exist", migrant.replace.str(),
+                          migrate.first.c_str() );
                 continue;
             }
             // The rest of this only applies to blanket migrations
@@ -1647,7 +1681,6 @@ void Item_factory::init()
     add_iuse( "INHALER", &iuse::inhaler );
     add_iuse( "JACKHAMMER", &iuse::jackhammer );
     add_iuse( "JET_INJECTOR", &iuse::jet_injector );
-    add_iuse( "LADDER", &iuse::ladder );
     add_iuse( "LUMBER", &iuse::lumber );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "PLAY_GAME", &iuse::play_game );
@@ -1738,7 +1771,6 @@ void Item_factory::init()
     add_iuse( "VOLTMETER", &iuse::voltmeter );
 
     add_actor( std::make_unique<ammobelt_actor>() );
-    add_actor( std::make_unique<cauterize_actor>() );
     add_actor( std::make_unique<consume_drug_iuse>() );
     add_actor( std::make_unique<delayed_transform_iuse>() );
     add_actor( std::make_unique<explosion_iuse>() );
@@ -2725,7 +2757,6 @@ void armor_portion_data::deserialize( const JsonObject &jo )
     }
     optional( jo, false, "specifically_covers", sub_coverage );
 
-
     // if no sub locations are specified assume it covers everything
     if( covers.has_value() && sub_coverage.empty() ) {
         for( const bodypart_str_id &bp : covers.value() ) {
@@ -2889,7 +2920,7 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
     assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
     assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
-    assign( jo, "power_draw", slot.power_draw, strict, 0_J );
+    assign( jo, "power_draw", slot.power_draw, strict, 0_W );
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
@@ -3010,6 +3041,7 @@ void islot_book::load( const JsonObject &jo )
     optional( jo, was_loaded, "martial_art", martial_art, matype_id::NULL_ID() );
     optional( jo, was_loaded, "chapters", chapters, 0 );
     optional( jo, was_loaded, "proficiencies", proficiencies );
+    optional( jo, was_loaded, "scannable", is_scannable, true );
 }
 
 void islot_book::deserialize( const JsonObject &jo )
@@ -3201,7 +3233,6 @@ void islot_seed::deserialize( const JsonObject &jo )
 {
     load( jo );
 }
-
 
 void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::string &src )
 {
@@ -3965,6 +3996,9 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     assign( jo, "variables", def.item_variables );
     assign( jo, "flags", def.item_tags );
+    if( jo.has_member( "source_monster" ) ) {
+        assign( jo, "source_monster", def.source_monster );
+    }
     assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {
@@ -4769,7 +4803,7 @@ void Item_factory::emplace_usage( std::map<std::string, use_function> &container
 
 std::pair<std::string, use_function> Item_factory::usage_from_object( const JsonObject &obj )
 {
-    auto type = obj.get_string( "type" );
+    std::string type = obj.get_string( "type" );
 
     if( type == "repair_item" ) {
         type = obj.get_string( "item_action_type" );

@@ -31,6 +31,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "2x4",
+    "id_suffix": "from logs",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 10 ], [ "2x4", 7 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "//": "Hopefully a balanced method of crafting planks without going through interface hoops",
+    "components": [ [ [ "log", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "wood_beam",
     "id_suffix": "with_planer",
@@ -330,12 +346,18 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
-    "difficulty": 5,
+    "difficulty": 2,
     "time": "5 h 40 m",
-    "book_learn": [ [ "textbook_weapeast", 3 ], [ "textbook_weapwest", 3 ] ],
+    "//1": "TODO: adjust crafting time down by 4 hours when it's possible to separate the oiling time from the crafting time easily.",
     "autolearn": true,
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25 } ],
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "max_experience": "100 m" } ],
+    "//2": "Max experience set because waiting for oil to soak in isn't really teaching you anything.  Remove this when crafting time reduced to only carving time.",
+    "qualities": [
+      { "id": "CUT", "level": 2 },
+      { "id": "SAW_W", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
     "components": [
       [ [ "stick_long", 1 ] ],
       [
@@ -428,7 +450,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "glass_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -442,7 +464,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "tempered_glass_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -456,7 +478,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rigid_plastic_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -482,8 +504,8 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
-      { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.15 },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 }
+      { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 1.5, "skill_penalty": 0.15 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "reinforced_glass_pane", 4 ] ] ]
@@ -501,7 +523,7 @@
     "using": [ [ "welding_standard", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -538,11 +560,11 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 8, "LIST" ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "brick",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -556,7 +578,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "fire_brick",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -595,7 +617,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "adobe_pallet_full",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -608,7 +630,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "mortar_adobe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -623,7 +645,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "mortar_build",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -637,7 +659,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "mortar_lime",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -652,5 +674,21 @@
       [ [ "material_quicklime", 50 ] ],
       [ [ "material_sand", 150 ], [ "ash", 300 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "id_suffix": "from logs with powertools",
+    "result": "2x4",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 m",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 10 ] ],
+    "using": [ [ "power_saw_long", 5 ] ],
+    "result_mult": 8,
+    "components": [ [ [ "log", 1 ] ] ]
   }
 ]

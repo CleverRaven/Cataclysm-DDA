@@ -107,7 +107,7 @@ struct islot_tool {
     int charge_factor = 1;
     int charges_per_use = 0;
     int turns_per_charge = 0;
-    units::energy power_draw = 0_J;
+    units::power power_draw = 0_W;
 
     std::vector<int> rand_charges;
 };
@@ -305,7 +305,6 @@ struct armor_portion_data {
     cata::optional<body_part_set> covers;
 
     std::set<sub_bodypart_str_id> sub_coverage;
-
 
     // What layer does it cover if any
     std::set<layer_level> layers;
@@ -559,6 +558,7 @@ struct islot_book {
     std::vector<book_proficiency_bonus> proficiencies;
 
     bool was_loaded = false;
+    bool is_scannable = false;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
@@ -751,6 +751,8 @@ struct islot_gun : common_ranged_data {
     int recoil = 0;
 
     int ammo_to_fire = 1;
+
+    std::map<ammotype, std::set<itype_id>> cached_ammos;
 };
 
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
@@ -886,6 +888,7 @@ struct islot_magazine {
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
     cata::optional<itype_id> linkage;
 
+    std::map<ammotype, std::set<itype_id>> cached_ammos;
     /** Map of [magazine type id] -> [set of gun itype_ids that accept the mag type ] */
     static std::map<itype_id, std::set<itype_id>> compatible_guns;
 };
@@ -1222,6 +1225,8 @@ struct itype {
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
 
+        // used for corpses placed by mapgen
+        mtype_id source_monster = mtype_id::NULL_ID();
     private:
         FlagsSetType item_tags;
 

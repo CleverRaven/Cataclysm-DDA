@@ -32,7 +32,6 @@ static const vproto_id vehicle_prototype_none( "none" );
 static const std::string flag_APPLIANCE( "APPLIANCE" );
 static const std::string flag_WIRING( "WIRING" );
 
-
 // Width of the entire set of windows. 60 is sufficient for
 // all tested cases while remaining within the 80x24 limit.
 // TODO: make this dynamic in the future.
@@ -82,7 +81,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const cata::opti
             continue;
         }
         const vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+        if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
                 veh->connect( p, trip );
                 connected_vehicles.insert( &veh_target );
@@ -205,17 +204,17 @@ void veh_app_interact::draw_info()
         row++;
     }
 
-    auto print_charge = [this]( const std::string & lbl, int rate, int row ) {
+    auto print_charge = [this]( const std::string & lbl, units::power rate, int row ) {
         std::string rstr;
-        if( std::abs( rate ) > 10000 ) {
+        if( rate > 10_kW || rate < -10_kW ) {
             //~ Power in killoWatts. %+4.1f is a 4 digit number with 1 decimal point (ex: 2198.3 kW)
-            rstr = string_format( _( "%+4.1f kW" ), rate / 1000.f );
+            rstr = string_format( _( "%+4.1f kW" ), units::to_watt( rate ) / 1000.f );
         } else {
-            //~ Power in Watts. %+4d is a 4 digit whole number (ex: 4737 W)
-            rstr = string_format( _( "%+4d W" ), rate );
+            //~ Power in Watts. %+4.1f is a 4 digit number with 1 decimal point (ex: 4737.3 W)
+            rstr = string_format( _( "%+4.1f W" ), units::to_milliwatt( rate ) / 1000.f );
         }
-        nc_color rcol = rate < 0 ? c_light_red :
-                        rate > 0 ? c_light_green : c_yellow;
+        nc_color rcol = rate < 0_W ? c_light_red :
+                        rate > 0_W ? c_light_green : c_yellow;
         mvwprintz( w_info, point( 0, row ), c_white, lbl );
         wprintz( w_info, rcol, rstr );
     };
@@ -226,48 +225,48 @@ void veh_app_interact::draw_info()
     }
 
     // Battery power output
-    int charge_rate = veh->net_battery_charge_rate_w( true, true );
+    units::power charge_rate = veh->net_battery_charge_rate( true, true );
     print_charge( _( "Grid battery power flow: " ), charge_rate, row );
     row++;
 
     // Reactor power output
     if( !veh->reactors.empty() ) {
-        int rate = veh->active_reactor_epower_w( true );
+        units::power rate = veh->active_reactor_epower( true );
         print_charge( _( "Reactor power output: " ), rate, row );
         row++;
     }
 
     // Wind power output
     if( !veh->wind_turbines.empty() ) {
-        int rate = veh->total_wind_epower_w();
+        units::power rate = veh->total_wind_epower();
         print_charge( _( "Wind power output: " ), rate, row );
         row++;
     }
 
     // Solar power output
     if( !veh->solar_panels.empty() ) {
-        int rate = veh->total_solar_epower_w();
+        units::power rate = veh->total_solar_epower();
         print_charge( _( "Solar power output: " ), rate, row );
         row++;
     }
 
     // Water power output
     if( !veh->water_wheels.empty() ) {
-        int rate = veh->total_water_wheel_epower_w();
+        units::power rate = veh->total_water_wheel_epower();
         print_charge( _( "Water power output: " ), rate, row );
         row++;
     }
 
     // Alternator power output
     if( !veh->alternators.empty() ) {
-        int rate = veh->total_alternator_epower_w();
+        units::power rate = veh->total_alternator_epower();
         print_charge( _( "Alternator power output: " ), rate, row );
         row++;
     }
 
     // Other power output
     if( !veh->accessories.empty() ) {
-        int rate = veh->total_accessory_epower_w();
+        units::power rate = veh->total_accessory_epower();
         print_charge( _( "Appliance power consumption: " ), rate, row );
         row++;
     }
@@ -412,7 +411,7 @@ void veh_app_interact::siphon()
 
     // Setup liquid handling activity
     const item &base = pt->get_base();
-    const int idx = veh->find_part( base );
+    const int idx = veh->index_of_part( pt );
     item liquid( base.legacy_front() );
     const int liq_charges = liquid.charges;
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {

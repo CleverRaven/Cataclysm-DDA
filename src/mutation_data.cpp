@@ -110,6 +110,9 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     optional( jsobj, false, "memorial_message", new_category.raw_memorial_message,
               text_style_check_reader(), "Crossed a threshold" );
     new_category.vitamin = vitamin_id( jsobj.get_string( "vitamin", "null" ) );
+    optional( jsobj, false, "threshold_min", new_category.threshold_min, 2200 );
+    optional( jsobj, false, "base_removal_chance", new_category.base_removal_chance, 100 );
+    optional( jsobj, false, "base_removal_cost_mul", new_category.base_removal_cost_mul, 3.0f );
 
     mutation_category_traits[new_category.id] = new_category;
 }
@@ -384,7 +387,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "healing_awake", healing_awake, cata::nullopt );
-    optional( jo, was_loaded, "healing_resting", healing_resting, cata::nullopt );
+    optional( jo, was_loaded, "healing_multiplier", healing_multiplier, cata::nullopt );
     optional( jo, was_loaded, "mending_modifier", mending_modifier, cata::nullopt );
     optional( jo, was_loaded, "hp_modifier", hp_modifier, cata::nullopt );
     optional( jo, was_loaded, "hp_modifier_secondary", hp_modifier_secondary, cata::nullopt );
@@ -554,6 +557,15 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
             restricts_gear.insert( bp );
         } else {
             restricts_gear_subparts.insert( sub_bodypart_str_id( line ) );
+        }
+    }
+
+    for( const std::string line : jo.get_array( "remove_rigid" ) ) {
+        bodypart_str_id bp( line );
+        if( bp.is_valid() ) {
+            remove_rigid.insert( bp );
+        } else {
+            remove_rigid_subparts.insert( sub_bodypart_str_id( line ) );
         }
     }
 

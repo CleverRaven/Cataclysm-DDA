@@ -182,7 +182,6 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
             break;
         }
 
-
         std::string partname = vp.name();
 
         if( vp.is_fuel_store() && !vp.ammo_current().is_null() ) {
@@ -370,12 +369,11 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
         return;
     }
     if( !fullsize ) {
-        for( size_t e = 0; e < engines.size(); e++ ) {
+        for( const int part_idx : engines ) {
+            const vehicle_part &vp = parts[part_idx];
             // if only one display, print the first engine that's on and consumes power
-            if( is_engine_on( e ) &&
-                !( is_perpetual_type( e ) || is_engine_type( e, fuel_type_muscle ) ) ) {
-                print_fuel_indicator( win, p, parts[ engines [ e ] ].fuel_current(), verbose,
-                                      desc );
+            if( is_engine_on( vp ) && !is_perpetual_type( vp ) && !is_engine_type( vp, fuel_type_muscle ) ) {
+                print_fuel_indicator( win, p, vp.fuel_current(), verbose, desc );
                 return;
             }
         }
@@ -452,7 +450,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             units = _( "mL" );
         }
         if( fuel_type == itype_battery ) {
-            rate += power_to_energy_bat( net_battery_charge_rate_w(), 1_hours );
+            rate += power_to_energy_bat( net_battery_charge_rate(), 1_hours );
             units = _( "kJ" );
         }
         if( rate != 0 ) {

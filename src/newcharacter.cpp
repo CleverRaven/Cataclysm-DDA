@@ -441,7 +441,12 @@ void avatar::randomize( const bool random_scenario, bool play_now )
                 scenarios.emplace_back( &scen );
             }
         }
-        set_scenario( random_entry( scenarios ) );
+        const scenario *selected_scenario = random_entry( scenarios );
+        if( selected_scenario ) {
+            set_scenario( selected_scenario );
+        } else {
+            debugmsg( "Failed randomizing sceario - no entries matching requirements." );
+        }
     }
 
     prof = get_scenario()->weighted_random_profession();
@@ -623,8 +628,11 @@ void avatar::add_profession_items()
                 inv->push_back( it );
             }
         } else if( it.is_armor() ) {
-            // TODO: debugmsg if wearing fails
-            wear_item( it, false, false );
+            if( can_wear( it ).success() ) {
+                wear_item( it, false, false );
+            } else {
+                inv->push_back( it );
+            }
         } else {
             inv->push_back( it );
         }
@@ -804,12 +812,14 @@ bool avatar::create( character_type type, const std::string &tempname )
     cash = rng( -200000, 200000 );
     randomize_heartrate();
 
+    //set stored kcal to a normal amount for your height
+    set_stored_kcal( get_healthy_kcal() );
     if( has_trait( trait_XS ) ) {
-        set_stored_kcal( 10000 );
+        set_stored_kcal( std::floor( get_stored_kcal() / 5 ) );
         toggle_trait( trait_XS );
     }
     if( has_trait( trait_XXXL ) ) {
-        set_stored_kcal( 125000 );
+        set_stored_kcal( std::floor( get_stored_kcal() * 5 ) );
         toggle_trait( trait_XXXL );
     }
 
@@ -1114,6 +1124,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 
         werase( w_description );
         u.reset_stats();
+        u.set_stored_kcal( u.get_healthy_kcal() );
         switch( sel ) {
             case 1:
                 mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
@@ -1123,6 +1134,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                                _( "Increasing Str further costs 2 points" ) );
                 }
                 u.recalc_hp();
+                u.set_stored_kcal( u.get_healthy_kcal() );
                 mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
                            u.get_part_hp_max( bodypart_id( "head" ) ) );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -2180,6 +2192,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             if( !profession_sorter.sort_by_points ) {
                 std::sort( sorted_profs.begin(), sorted_profs.end(), profession_sorter );
             }
+            recalc_profs = true;
         } else if( action == "SORT" ) {
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
             recalc_profs = true;
@@ -3170,7 +3183,6 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         }
 
-
         list_sb.offset_x( 0 )
         .offset_y( 5 )
         .content_size( scens_length )
@@ -3623,7 +3635,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     profession::StartingSkillList::iterator i = hobby_skills.begin();
                     while( i != hobby_skills.end() ) {
                         if( i->first == elem->ident() ) {
-                            int skill_exp_bonus = calculate_cumulative_experience( i->second );
+                            int skill_exp_bonus = leftover_exp + calculate_cumulative_experience( i->second );
+                            leftover_exp = 0;
 
                             // Calculate Level up to find final level and remaining exp
                             while( skill_exp_bonus >= exp_to_level ) {
@@ -3829,7 +3842,13 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         werase( w_addictions );
         // Profession addictions description tab
-        const auto prof_addictions = you.prof->addictions();
+        std::vector<addiction> prof_addictions = you.prof->addictions();
+        for( const profession *profession : you.hobbies ) {
+            const std::vector<addiction> &hobby_addictions = profession->addictions();
+            for( const addiction &iter : hobby_addictions ) {
+                prof_addictions.push_back( iter );
+            }
+        }
         if( isWide ) {
             if( prof_addictions.empty() ) {
                 mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
@@ -3979,6 +3998,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 case char_creation::HEIGHT:
                     if( you.base_height() < max_allowed_height ) {
                         you.mod_base_height( 1 );
+                        you.set_stored_kcal( you.get_healthy_kcal() );
                     }
                     break;
                 case char_creation::AGE:
@@ -4010,6 +4030,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 case char_creation::HEIGHT:
                     if( you.base_height() > min_allowed_height ) {
                         you.mod_base_height( -1 );
+                        you.set_stored_kcal( you.get_healthy_kcal() );
                     }
                     break;
                 case char_creation::AGE:
