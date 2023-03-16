@@ -1245,7 +1245,7 @@
     "category": "drugs",
     "name": { "str": "Vegetative Poultice" },
     "looks_like": "leaves",
-    "description": "A mixture of bark, moss, and leaves, glowing faintly with verdant energy.",
+    "description": "A mixture of bark, moss, and leaves, glowing softly with verdant energy.",
     "weight": "70 g",
     "volume": "250 ml",
     "price": 1,
