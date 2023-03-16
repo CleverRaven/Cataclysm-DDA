@@ -1740,7 +1740,6 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( vp_dest && vp_dest->vehicle().is_moving() ) {
         vp_dest->vehicle().invalidate_mass();
     }
-    
     if( is_hallucination() ) {
         //Hallucinations don't do any of the stuff after this point
         return true;
