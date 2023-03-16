@@ -232,6 +232,7 @@ preBuild.dependsOn createWindowsJunctionLinks
 createWindowsJunctionLinks.dependsOn makeLocalization
 
 android {
+    namespace "com.cleverraven.cataclysmdda"
     compileSdkVersion override_compileSdkVersion
 
     defaultConfig {
