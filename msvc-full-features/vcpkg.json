@@ -1,21 +1,13 @@
 {
-    "name": "cdda-vcpkg-dependencies",
-    "version-string": "0.F",
-    "dependencies": [
-        "sdl2",
-        {
-          "name": "sdl2-image",
-          "features": [ "libjpeg-turbo" ]
-        },
-        {
-          "name": "sdl2-mixer",
-          "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ]
-        },
-        "sdl2-ttf"
-    ],
-    "vcpkg-configuration": {
-        "overlay-ports": [
-            "../.github/vcpkg_ports"
-        ]
-    }
+  "name": "cdda-vcpkg-dependencies",
+  "version-string": "0.F",
+  "dependencies": [
+    "sdl2",
+    { "name": "sdl2-image", "features": [ "libjpeg-turbo" ] },
+    { "name": "sdl2-mixer", "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ] },
+    "sdl2-ttf"
+  ],
+  "vcpkg-configuration": {
+    "overlay-ports": [ "../.github/vcpkg_ports" ]
+  }
 }
