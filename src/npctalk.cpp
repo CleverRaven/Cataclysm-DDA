@@ -54,6 +54,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "npctrade.h"
@@ -1672,6 +1673,34 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             var.pop_back();
             global_variables &globvars = get_globals();
             phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
+        } else if( tag.find( "<item_name:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, itype_id( var )->nname( 1 ) );
+        } else if( tag.find( "<item_description:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, itype_id( var )->description.translated() );
+        } else if( tag.find( "<trait_name:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, trait_id( var )->name() );
+        } else if( tag.find( "<trait_description:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, trait_id( var )->desc() );
         } else if( tag.find( "<city>" ) != std::string::npos ) {
             std::string cityname = "nowhere";
             tripoint_abs_sm abs_sub = get_map().get_abs_sub();
