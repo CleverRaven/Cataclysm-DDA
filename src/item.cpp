@@ -12844,9 +12844,8 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     add_msg_debug( debugmode::DF_IUSE, "%s linked to %s, length %d/%d",
                    parent_item == nullptr ? tname( 1, false ) : parent_item->tname( 1 ),
                    link.pos.to_string(), max_charges - charges, max_charges - 1 );
-
-    if( link.vp_index > -1 && link.vp_index < vp->vehicle().num_true_parts() ) {
-        vp->vehicle().cables_to_update.emplace_back( &link );
+    if( link.vp_index > -1 && link.vp_index < vp->vehicle().num_parts() ) {
+        here.setup_link_processing( &link, &vp->vehicle() );
     }
 
     return false;

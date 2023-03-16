@@ -1926,17 +1926,7 @@ bool vehicle::do_remove_part_actual()
                 const tripoint pt = global_part_pos3( *it );
                 here.clear_vehicle_point_from_cache( this, pt );
             }
-            int index = it - parts.begin();
-            for( item::cable_link *cable : cables_to_update ) {
-                if( cable->vp_index == index ) {
-                    add_msg_if_player_sees( here.getlocal( cable->pos ), m_bad, _( "The cable has come loose!" ) );
-                    cable->state = cable_state::needs_reeling;
-                    cable->pos = tripoint_min;
-                    cable->vp_index = -1;
-                } else if( cable->vp_index > index ) {
-                    cable->vp_index--;
-                }
-            }
+            here.process_linked_removal( this, it - parts.begin() );
             it = parts.erase( it );
             changed = true;
         }
@@ -4631,11 +4621,7 @@ units::power vehicle::total_accessory_epower() const
 
 units::power vehicle::total_cable_link_epower() const
 {
-    units::power epower = 0_W;
-    for( item::cable_link *link : cables_to_update ) {
-        epower += units::from_milliwatt( link->power_draw );
-    }
-    return epower;
+    return get_map().get_linked_power_draw( this );
 }
 
 std::pair<int, int> vehicle::battery_power_level() const

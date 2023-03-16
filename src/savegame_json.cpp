@@ -849,6 +849,25 @@ void Character::load( const JsonObject &data )
     }
     worn.on_item_wear( *this );
 
+    map &here = get_map();
+    // Send cable data to the map immediately.
+    visit_items( [this,&here]( item * e, item * ) {
+        if( e->plugged_in ) {
+            std::list<item *> links = e->all_items_top( item_pocket::pocket_type::CABLE );
+            for( item *link : links ) {
+                if( link->link.vp_index > -1 && link->active ) {
+                    const optional_vpart_position vp = here.veh_at( here.getlocal( link->link.pos ) );
+                    here.setup_link_processing( &link->link, &vp->vehicle() );
+                }
+            }
+        }
+    if( e->link.vp_index > -1 && e->active ) {
+        const optional_vpart_position vp = here.veh_at( here.getlocal( e->link.pos ) );
+        here.setup_link_processing( &e->link, &vp->vehicle() );
+        }
+        return VisitResponse::NEXT;
+    } );
+
     // TEMPORARY until 0.F
     if( data.has_array( "hp_cur" ) ) {
         set_anatomy( anatomy_human_anatomy );
@@ -3169,7 +3188,7 @@ void item::deserialize( const JsonObject &data )
 
         contents.read_mods( read_contents );
         update_modified_pockets();
-        contents.combine( read_contents, false, true, false );
+        contents.combine( read_contents, false, true, false );//TODOkama what's the last one here
 
         if( data.has_object( "contents" ) ) {
             JsonObject tested = data.get_object( "contents" );
