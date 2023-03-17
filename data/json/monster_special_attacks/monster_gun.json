@@ -232,7 +232,7 @@
     ],
     "melee_damage": { "bash": 8 }
   },
-   {
+  {
     "id": "civilian_cop_glock22",
     "copy-from": "glock_22",
     "looks_like": "glock_22",
