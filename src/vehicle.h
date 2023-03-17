@@ -1495,6 +1495,11 @@ class vehicle
          * is the vehicle mostly in water or mostly on fairly dry land?
          */
         bool is_in_water( bool deep_water = false ) const;
+        /**
+         * should vehicle be handled using watercraft logic
+         * as determined by amount of water it is in (and whether it is amphibious)
+         * result being true does not guarantee it is viable boat -- check @ref can_float()
+         */
         bool is_watercraft() const;
         /**
          * is the vehicle flying? is it a rotorcraft?

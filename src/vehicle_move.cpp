@@ -116,7 +116,7 @@ int vehicle::slowdown( int at_velocity ) const
                    "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
                    name, at_velocity, f_total_drag, slowdown, units::to_watt( static_drag() ) );
     // plows slow rolling vehicles, but not falling or floating vehicles
-    if( !( is_falling || in_deep_water || is_flying ) ) {
+    if( !( is_falling || ( is_watercraft() && can_float() ) || is_flying ) ) {
         slowdown -= units::to_watt( static_drag() );
     }
 
@@ -437,7 +437,7 @@ void vehicle::thrust( int thd, int z )
     bool pl_ctrl = player_in_control( get_player_character() );
 
     // No need to change velocity if there are no wheels
-    if( ( in_water && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
+    if( ( is_watercraft() && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
         // we're good
     } else if( in_deep_water && !can_float() ) {
         stop();
@@ -1884,8 +1884,8 @@ vehicle *vehicle::act_on_map()
 
         // Eventually send it skidding if no control
         // But not if it's remotely controlled, is in water or can use rails
-        if( !controlled && !pl_ctrl && !in_deep_water && !can_use_rails && !is_flying &&
-            requested_z_change == 0 ) {
+        if( !controlled && !pl_ctrl && !( is_watercraft() && can_float() ) && !can_use_rails &&
+            !is_flying && requested_z_change == 0 ) {
             skidding = true;
         }
     }
