@@ -1178,6 +1178,9 @@ struct itype {
         // Tool qualities that work only when the tool has charges_to_use charges remaining
         std::map<quality_id, int> charged_qualities;
 
+        // True if this has given quality or charged_quality (regardless of current charge).
+        bool has_any_quality( const std::string &quality ) const;
+
         // Properties are assigned to the type (belong to the item definition)
         std::map<std::string, std::string> properties;
 
