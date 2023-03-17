@@ -67,7 +67,8 @@
       "Q": "f_safe_l",
       "x": "f_console_broken",
       "y": "f_locker",
-      "B": "f_bulletin"
+      "B": "f_bulletin",
+      "A": "f_bookcase"
     },
     "items": {
       "d": { "item": "SUS_office_desk", "chance": 40 },
@@ -79,6 +80,7 @@
       "a": { "item": "trash", "chance": 70, "repeat": [ 1, 3 ] },
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
+      "A": { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] },
       ".": { "item": "office_mess", "chance": 1 }
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
