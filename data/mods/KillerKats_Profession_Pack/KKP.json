@@ -3,7 +3,15 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "clown_candy_pouch",
-    "entries": [ { "item": "candy3" }, { "item": "candy4" }, { "item": "razor_blade" }, { "item": "candy3" },{ "item": "razor_blade" },{ "item": "razor_blade" },{"item": "skull_rodent"} ]
+    "entries": [
+      { "item": "candy3" },
+      { "item": "candy4" },
+      { "item": "razor_blade" },
+      { "item": "candy3" },
+      { "item": "razor_blade" },
+      { "item": "razor_blade" },
+      { "item": "skull_rodent" }
+    ]
   },
   {
     "type": "item_group",
@@ -11,206 +19,218 @@
     "id": "clown_grenade_pouch",
     "entries": [ { "item": "grenade" }, { "item": "grenade" }, { "item": "grenade_inc" }, { "item": "gasbomb" } ]
   },
-    {
-        "type": "profession",
-        "id": "pirate",
-        "name": "Pirate Captian",
-        "description": "Last thing you remember is getting to port and spending your coin on round after round of rum, that was before you blacked out and woke up in this strange place. You may not know where you are but your life on the sea has taught you how to survive.",
-        "points": 6,
-        "proficiencies": [ "prof_gunsmithing_basic", "prof_handloading", "prof_gunsmithing_antique" ],
-        "skills": [
-          { "level": 3, "name": "cutting" },
-          { "level": 2, "name": "gun" },
-          { "level": 3, "name": "pistol" },
-          { "level": 2, "name": "melee" },
-          { "level": 1, "name": "swimming" }
+  {
+    "type": "profession",
+    "id": "pirate",
+    "name": "Pirate Captian",
+    "description": "Last thing you remember is getting to port and spending your coin on round after round of rum, that was before you blacked out and woke up in this strange place. You may not know where you are but your life on the sea has taught you how to survive.",
+    "points": 6,
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_handloading", "prof_gunsmithing_antique" ],
+    "skills": [
+      { "level": 3, "name": "cutting" },
+      { "level": 2, "name": "gun" },
+      { "level": 3, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "traits": [ "OUTDOORSMAN", "STRONGSTOMACH", "TERRIFYING" ],
+    "addictions": [ { "intensity": 20, "type": "alcohol" } ],
+    "items": {
+      "both": {
+        "items": [
+          "stockings",
+          "pipe_tobacco",
+          "tobacco",
+          "gold_ear",
+          "gold_ring",
+          "gold_ring",
+          "bandana",
+          "eyepatch_leather",
+          "knee_high_boots",
+          "breeches",
+          "waistcoat",
+          "peacoat",
+          "leather_belt",
+          "leather_pouch",
+          "tricorne",
+          "hardtack",
+          "survivor_scope",
+          "pipe_cleaner"
         ],
-        "traits": [ "OUTDOORSMAN", "STRONGSTOMACH", "TERRIFYING" ],
-        "addictions": [ { "intensity": 20, "type": "alcohol" } ],
-        "items": {
-          "both": {
-            "items": [
-              "stockings",
-              "pipe_tobacco",
-              "tobacco",
-              "gold_ear",
-              "gold_ring",
-              "gold_ring",
-              "bandana",
-              "eyepatch_leather",
-              "knee_high_boots",
-              "breeches",
-              "waistcoat",
-              "peacoat",
-              "leather_belt",
-              "leather_pouch",
-              "tricorne",
-              "hardtack",
-              "survivor_scope",
-              "pipe_cleaner"
-            ],
-            "entries": [
-              { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "container-item": "baldric_holster" },
-              { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 },
-              { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 },
-              { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 },
-              { "item": "cutlass", "container-item": "scabbard" },
-              { "item": "bronze_knife", "container-item": "bootsheath" },
-              { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
-              { "item": "flintlock_ammo", "charges": 40 },
-              { "item": "rum", "container-item": "bottle_glass" },
-              { "item": "rum", "container-item": "bottle_glass" },
-              { "group": "charged_matches" }
-            ]
-          }
-        }
-      },
-      {
-        "type": "profession",
-        "id": "fake_pirate",
-        "name": "Pirate Captian?",
-        "description": "You are the most fearsome pirate on the seven seas, at least you think you are. Your hat does say made in China so you must have sailed there at least. Why else would you be dressed like this?",
-        "points": 3,
-        "proficiencies": [  ],
-        "skills": [
-          { "level": 1, "name": "cutting" },
-          { "level": 1, "name": "gun" },
-          { "level": 1, "name": "pistol" },
-          { "level": 2, "name": "melee" },
-          { "level": 1, "name": "swimming" }
-        ],
-        "traits": [ "OUTDOORSMAN", "STRONGSTOMACH","FORGETFUL" ],
-        "addictions": [ { "intensity": 25, "type": "alcohol" } ],
-        "items": {
-          "both": {
-            "items": [
-              "stockings",
-              "pipe_tobacco",
-              "tobacco",
-              "gold_ear",
-              "gold_ring",
-              "bandana",
-              "eyepatch_leather",
-              "knee_high_boots",
-              "breeches",
-              "briefs",
-              "waistcoat",
-              "peacoat",
-              "leather_belt",
-              "tricorne",
-              "hardtack",
-              "survivor_scope",
-              "bottle_glass"
-            ],
-            "entries": [
-              { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "container-item": "baldric_holster" },
-              { "item": "cutlass_fake", "container-item": "scabbard" },
-              { "item": "coin_quarter", "container-item": "leather_pouch"},
-              { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
-              { "item": "flintlock_ammo", "charges": 3 },
-              {
-                "item": "waterproof_smart_phone_case",
-                "variant": "black_smart_phone_case",
-                "contents-group": "charged_smart_phone"
-              },
-              { "item": "rum", "container-item": "bottle_glass" },
-              { "item": "rum", "container-item": "bottle_glass" },
-              { "group": "charged_matches" }
-            ]
-          }
-        }
-      },
-      {"type": "profession",
-      "id": "json_voorhees",
-      "name": "Slasher",
-      "description": "You were always different, and they made your life hell because of it. You thought you had died but something seems to have brought you back and you only have one thought on your mind, revenge.",
-      "points": 5,
-      "skills": [
-        { "level": 6, "name": "cutting" },
-        { "level": 6, "name": "melee" }
-      ],
-      "traits": [ "MUTE", "TERRIFYING","KILLER","PSYCHOPATH","DEFORMED","REGEN","HAIR_BALD" ],
-      "items": {
-        "both": {
-          "items": [
-            "leather_belt",
-            "mask_hockey",
-            "jacket_light",
-            "tshirt",
-            "sweatshirt",
-            "technician_pants_gray",
-            "boots",
-            "gloves_leather"
-          ],
-          "entries": [
-            { "item": "machete", "container-item": "scabbard" }
-          ]
-        }
-      }
-    },
-    {
-      "type": "profession",
-      "id": "reporter",
-      "name": "News Reporter",
-      "description":"You used to report on the news, but now you are the news. As a survivor in the post-apocalyptic wasteland, your skills in journalism and speaking are still valuable, but you'll need to use them wisely if you want to stay alive.",
-      "points": 2,
-      "skills": [ { "level": 2, "name": "computer" }, { "level": 4, "name": "speech" } ],
-      "traits": [ "PRETTY","PER_UP" ],
-      "items": {
-        "both": {
-          "items": [  "socks", "microphone_xlr_generic", "leather_journal","file", "wristwatch","roadmap" ],
-          "entries": [
-            { "group": "charged_smart_phone" },
-            { "item": "microphone_xlr_generic", "custom-flags": [ "auto_wield" ] },
-            { "item": "black_pen", "charges": 100 }
-          ]
-        },
-        
-        "male": [ "boxer_shorts","dress_shoes","suit", "dress_shirt","tie_necktie","leather_belt","briefcase" ],
-        "female": [ "bra", "panties","dress", "heels","gold_hairpin","purse" ]
-      }
-    },
-    {
-      "type": "profession",
-      "id": "killer_clown",
-      "name": "Killer Clown",
-      "description": "All you ever wanted was to make people scream...and now you do. You once entertained children with your silly antics and colorful costumes, but now you've traded in your balloon animals for a more deadly arsenal.",
-      "points": 5,
-      "skills": [
-        { "level": 2, "name": "throw" },
-        { "level": 2, "name": "stabbing" }
-      ],
-      "traits": [ "TERRIFYING","KILLER","PSYCHOPATH","CANNIBAL","FANGS"],
-      "items": {
-        "both": {
-          "items": [ "clown_wig", "clown_suit", "clown_nose", "socks", "clownshoes","tie_bow", "airhorn" ],
-          "entries": [ { "item": "knife_chef", "custom-flags": [ "auto_wield" ] }, { "item": "grenadebandolier", "contents-group": "clown_grenade_pouch" }, { "item": "leg_sheath6", "contents-group": "leg_sheath6_throwing_knives" }, { "item": "fanny", "contents-group": "clown_candy_pouch"}] 
-        },
-        "male": [ "briefs" ],
-        "female": [ "bra", "panties" ]
-      },
-      "missions": [ "MISSION_KILLER_CLOWN" ]
-    },
-    {
-      "type": "profession",
-      "id": "hippie",
-      "name": "Hippie",
-      "description": "You were a free spirit before the apocalypse, living a life of peace, love, and harmony. You believe in living off the land and using natural remedies to heal yourself and others. The end of the world hasn't changed your values, and you continue to spread love and kindness wherever you go.",
-      "points": 3,
-      "skills": [
-        { "name": "survival", "level": 2 },
-        { "name": "firstaid", "level": 1 },
-        { "name": "cooking", "level": 1 },
-        { "name": "fabrication", "level": 1 }
-      ],
-      "traits": [ "PACIFIST","ANIMALEMPATH2","ANTIJUNK","SPIRITUAL"],
-      "items": {
-        "both": {
-          "items": [ "fancy_sunglasses", "leathersandals","backpack_hiking","bandana_head","bead_necklace","wintergreen_oil","cattail_jelly","isherwood_herbal_remedies","pipe_glass","brownie_weed", "weed", "joint","rolling_paper", "tobacco","acoustic_guitar" ],
-          "entries": [ { "item": "lighter", "charges": 100 }] 
-        },
-        "male": [ "briefs","jeans","tshirt_tour" ],
-        "female": [ "bra", "panties","sundress" ]
+        "entries": [
+          { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "container-item": "baldric_holster" },
+          { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 },
+          { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 },
+          { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1 },
+          { "item": "cutlass", "container-item": "scabbard" },
+          { "item": "bronze_knife", "container-item": "bootsheath" },
+          { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
+          { "item": "flintlock_ammo", "charges": 40 },
+          { "item": "rum", "container-item": "bottle_glass" },
+          { "item": "rum", "container-item": "bottle_glass" },
+          { "group": "charged_matches" }
+        ]
       }
     }
+  },
+  {
+    "type": "profession",
+    "id": "fake_pirate",
+    "name": "Pirate Captian?",
+    "description": "You are the most fearsome pirate on the seven seas, at least you think you are. Your hat does say made in China so you must have sailed there at least. Why else would you be dressed like this?",
+    "points": 3,
+    "proficiencies": [  ],
+    "skills": [
+      { "level": 1, "name": "cutting" },
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 2, "name": "melee" },
+      { "level": 1, "name": "swimming" }
+    ],
+    "traits": [ "OUTDOORSMAN", "STRONGSTOMACH", "FORGETFUL" ],
+    "addictions": [ { "intensity": 25, "type": "alcohol" } ],
+    "items": {
+      "both": {
+        "items": [
+          "stockings",
+          "pipe_tobacco",
+          "tobacco",
+          "gold_ear",
+          "gold_ring",
+          "bandana",
+          "eyepatch_leather",
+          "knee_high_boots",
+          "breeches",
+          "briefs",
+          "waistcoat",
+          "peacoat",
+          "leather_belt",
+          "tricorne",
+          "hardtack",
+          "survivor_scope",
+          "bottle_glass"
+        ],
+        "entries": [
+          { "item": "pistol_flintlock", "ammo-item": "flintlock_ammo", "charges": 1, "container-item": "baldric_holster" },
+          { "item": "cutlass_fake", "container-item": "scabbard" },
+          { "item": "coin_quarter", "container-item": "leather_pouch" },
+          { "item": "flintlock_pouch", "contents-group": "flintlock_pouch_reenactor" },
+          { "item": "flintlock_ammo", "charges": 3 },
+          {
+            "item": "waterproof_smart_phone_case",
+            "variant": "black_smart_phone_case",
+            "contents-group": "charged_smart_phone"
+          },
+          { "item": "rum", "container-item": "bottle_glass" },
+          { "item": "rum", "container-item": "bottle_glass" },
+          { "group": "charged_matches" }
+        ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "json_voorhees",
+    "name": "Slasher",
+    "description": "You were always different, and they made your life hell because of it. You thought you had died but something seems to have brought you back and you only have one thought on your mind, revenge.",
+    "points": 5,
+    "skills": [ { "level": 6, "name": "cutting" }, { "level": 6, "name": "melee" } ],
+    "traits": [ "MUTE", "TERRIFYING", "KILLER", "PSYCHOPATH", "DEFORMED", "REGEN", "HAIR_BALD" ],
+    "items": {
+      "both": {
+        "items": [
+          "leather_belt",
+          "mask_hockey",
+          "jacket_light",
+          "tshirt",
+          "sweatshirt",
+          "technician_pants_gray",
+          "boots",
+          "gloves_leather"
+        ],
+        "entries": [ { "item": "machete", "container-item": "scabbard" } ]
+      }
+    }
+  },
+  {
+    "type": "profession",
+    "id": "reporter",
+    "name": "News Reporter",
+    "description": "You used to report on the news, but now you are the news. As a survivor in the post-apocalyptic wasteland, your skills in journalism and speaking are still valuable, but you'll need to use them wisely if you want to stay alive.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "computer" }, { "level": 4, "name": "speech" } ],
+    "traits": [ "PRETTY", "PER_UP" ],
+    "items": {
+      "both": {
+        "items": [ "socks", "microphone_xlr_generic", "leather_journal", "file", "wristwatch", "roadmap" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "microphone_xlr_generic", "custom-flags": [ "auto_wield" ] },
+          { "item": "black_pen", "charges": 100 }
+        ]
+      },
+      "male": [ "boxer_shorts", "dress_shoes", "suit", "dress_shirt", "tie_necktie", "leather_belt", "briefcase" ],
+      "female": [ "bra", "panties", "dress", "heels", "gold_hairpin", "purse" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "killer_clown",
+    "name": "Killer Clown",
+    "description": "All you ever wanted was to make people scream...and now you do. You once entertained children with your silly antics and colorful costumes, but now you've traded in your balloon animals for a more deadly arsenal.",
+    "points": 5,
+    "skills": [ { "level": 2, "name": "throw" }, { "level": 2, "name": "stabbing" } ],
+    "traits": [ "TERRIFYING", "KILLER", "PSYCHOPATH", "CANNIBAL", "FANGS" ],
+    "items": {
+      "both": {
+        "items": [ "clown_wig", "clown_suit", "clown_nose", "socks", "clownshoes", "tie_bow", "airhorn" ],
+        "entries": [
+          { "item": "knife_chef", "custom-flags": [ "auto_wield" ] },
+          { "item": "grenadebandolier", "contents-group": "clown_grenade_pouch" },
+          { "item": "leg_sheath6", "contents-group": "leg_sheath6_throwing_knives" },
+          { "item": "fanny", "contents-group": "clown_candy_pouch" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    },
+    "missions": [ "MISSION_KILLER_CLOWN" ]
+  },
+  {
+    "type": "profession",
+    "id": "hippie",
+    "name": "Hippie",
+    "description": "You were a free spirit before the apocalypse, living a life of peace, love, and harmony. You believe in living off the land and using natural remedies to heal yourself and others. The end of the world hasn't changed your values, and you continue to spread love and kindness wherever you go.",
+    "points": 3,
+    "skills": [
+      { "name": "survival", "level": 2 },
+      { "name": "firstaid", "level": 1 },
+      { "name": "cooking", "level": 1 },
+      { "name": "fabrication", "level": 1 }
+    ],
+    "traits": [ "PACIFIST", "ANIMALEMPATH2", "ANTIJUNK", "SPIRITUAL" ],
+    "items": {
+      "both": {
+        "items": [
+          "fancy_sunglasses",
+          "leathersandals",
+          "backpack_hiking",
+          "bandana_head",
+          "bead_necklace",
+          "cattail_jelly",
+          "isherwood_herbal_remedies",
+          "pipe_glass",
+          "brownie_weed",
+          "weed",
+          "joint",
+          "rolling_paper",
+          "tobacco",
+          "acoustic_guitar"
+        ],
+        "entries": [ { "item": "lighter", "charges": 100 } ]
+      },
+      "male": [ "briefs", "jeans", "tshirt_tour" ],
+      "female": [ "bra", "panties", "sundress" ]
+    }
+  }
 ]
