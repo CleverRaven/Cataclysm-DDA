@@ -6,9 +6,12 @@
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
+#include "creature.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "mattack_actors.h"
+#include "mattack_common.h"
 #include "monattack.h"
 #include "monster.h"
 #include "mtype.h"
@@ -212,6 +215,8 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         epsilon_threshold threshold{ expected_damage, 2.5 };
         do {
             you.set_all_parts_hp_to_max();
+            // Remove stagger/winded effects
+            you.clear_effects();
             you.dodges_left = 1;
             int prev_hp = you.get_hp();
             // monster shoots the player
@@ -232,4 +237,105 @@ TEST_CASE( "monster_throwing_sanity_test", "[throwing],[balance]" )
         INFO( "Dmg Lower: " << damage_dealt.lower() << " Dmg Upper: " << damage_dealt.upper() );
         CHECK( damage_dealt.test_threshold( threshold ) );
     }
+}
+
+TEST_CASE( "mattack_effect_conditions", "[mattack]" )
+{
+    clear_map();
+    clear_creatures();
+    const tripoint target_location = attacker_location + tripoint_east;
+    Character &you = get_player_character();
+    clear_avatar();
+    you.setpos( target_location );
+    const std::string monster_type = "mon_test_mattack";
+    monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+    test_monster.set_dest( you.get_location() );
+    const mtype_special_attack &attack = test_monster.type->special_attacks.at( "test_conditions_1" );
+
+    // Effect conditions are read
+    REQUIRE( attack->required_effects_any.size() == 2 );
+    REQUIRE( attack->required_effects_all.size() == 2 );
+    REQUIRE( attack->forbidden_effects_any.size() == 2 );
+    REQUIRE( attack->forbidden_effects_all.size() == 2 );
+    REQUIRE( attack->target_required_effects_any.size() == 2 );
+    REQUIRE( attack->target_required_effects_all.size() == 2 );
+    REQUIRE( attack->target_forbidden_effects_any.size() == 2 );
+    REQUIRE( attack->target_forbidden_effects_all.size() == 2 );
+
+    REQUIRE( test_monster.attack_target() == &you );
+
+    // Attack fails until all requirements are met
+    REQUIRE( !attack->call( test_monster ) );
+    // Add required effects
+    for( const efftype_id &effect : attack->required_effects_all ) {
+        test_monster.add_effect( effect, 1_days, true, 1, true );
+    }
+    for( const efftype_id &effect : attack->required_effects_any ) {
+        test_monster.add_effect( effect, 1_days, true, 1, true );
+    }
+    // Self requirements met, attack still fails
+    REQUIRE( attack->check_self_conditions( test_monster ) );
+    REQUIRE( !attack->call( test_monster ) );
+    for( const efftype_id &effect : attack->target_required_effects_all ) {
+        you.add_effect( effect, 1_days, true, 1, true );
+    }
+    for( const efftype_id &effect : attack->target_required_effects_any ) {
+        you.add_effect( effect, 1_days, true, 1, true );
+    }
+    REQUIRE( attack->check_target_conditions( &you ) );
+    //All requirements met, we can attack!
+    REQUIRE( attack->call( test_monster ) );
+    // Remove a single req_any from monster, attack still happens
+    test_monster.remove_effect( attack->required_effects_any[0] );
+    REQUIRE( attack->call( test_monster ) );
+    //Remove a single req_all from monster, attack fails
+    test_monster.remove_effect( attack->required_effects_all[0] );
+    REQUIRE( !attack->check_self_conditions( test_monster ) );
+    REQUIRE( !attack->call( test_monster ) );
+    // Re-add the effect, attack succeeds
+    test_monster.add_effect( attack->required_effects_all[0], 1_days, true, 1, true );
+    REQUIRE( attack->check_self_conditions( test_monster ) );
+    REQUIRE( attack->call( test_monster ) );
+    // Remove a single req_any from target, attack still succeeds
+    you.remove_effect( attack->target_required_effects_any[0] );
+    REQUIRE( attack->call( test_monster ) );
+    //Remove a single req_all from target, attack fails
+    you.remove_effect( attack->target_required_effects_all[0] );
+    REQUIRE( !attack->check_target_conditions( &you ) );
+    REQUIRE( !attack->call( test_monster ) );
+    // Re-add the effect, attack succeeds
+    you.add_effect( attack->target_required_effects_all[0], 1_days, true, 1, true );
+    REQUIRE( attack->check_target_conditions( &you ) );
+    REQUIRE( attack->call( test_monster ) );
+
+    // Add a single fobidden_all effect, attack still triggers
+    test_monster.add_effect( attack->forbidden_effects_all[0], 1_days, true, 1, true );
+    REQUIRE( attack->check_self_conditions( test_monster ) );
+    REQUIRE( attack->call( test_monster ) );
+    // Do the same for target forbidden_all effects
+    you.add_effect( attack->target_forbidden_effects_all[0], 1_days, true, 1, true );
+    REQUIRE( attack->check_target_conditions( &you ) );
+    REQUIRE( attack->call( test_monster ) );
+    // Add the second forbidden_all effect, attack fails
+    test_monster.add_effect( attack->forbidden_effects_all[1], 1_days, true, 1, true );
+    REQUIRE( !attack->check_self_conditions( test_monster ) );
+    REQUIRE( !attack->call( test_monster ) );
+    test_monster.remove_effect( attack->forbidden_effects_all[1] );
+    REQUIRE( attack->check_self_conditions( test_monster ) );
+    // Add the second target forbidden_all effect, attack fails
+    you.add_effect( attack->target_forbidden_effects_all[1], 1_days, true, 1, true );
+    REQUIRE( !attack->check_target_conditions( &you ) );
+    REQUIRE( !attack->call( test_monster ) );
+    you.remove_effect( attack->target_forbidden_effects_all[1] );
+    REQUIRE( attack->check_target_conditions( &you ) );
+    // Add a single forbidden_any effect, attack fails
+    test_monster.add_effect( attack->forbidden_effects_any[0], 1_days, true, 1, true );
+    REQUIRE( !attack->check_self_conditions( test_monster ) );
+    REQUIRE( !attack->call( test_monster ) );
+    test_monster.remove_effect( attack->forbidden_effects_any[0] );
+    REQUIRE( attack->check_self_conditions( test_monster ) );
+    // Add a single target forbidden_any effect, attack fails
+    you.add_effect( attack->target_forbidden_effects_any[0], 1_days, true, 1, true );
+    REQUIRE( !attack->check_target_conditions( &you ) );
+    REQUIRE( !attack->call( test_monster ) );
 }

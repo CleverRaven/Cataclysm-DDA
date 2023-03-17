@@ -111,6 +111,7 @@ struct basecamp_fuel {
 
 struct basecamp_upgrade {
     std::string bldg;
+    mapgen_arguments args;
     translation name;
     bool avail = false;
     bool in_progress = false;
@@ -231,7 +232,6 @@ class basecamp
         void form_crafting_inventory();
         void form_crafting_inventory( map &target_map );
         std::list<item> use_charges( const itype_id &fake_id, int &quantity );
-        item_group_id get_gatherlist() const;
         /**
          * spawn items or corpses based on search attempts
          * @param skill skill level of the search
@@ -267,7 +267,7 @@ class basecamp
         std::string recruit_description( int npc_count ) const;
         /// Provides a "guess" for some of the things your gatherers will return with
         /// to upgrade the camp
-        std::string gathering_description( const std::string &bldg );
+        std::string gathering_description();
         /// Returns a string for the number of plants that are harvestable, plots ready to plant,
         /// and ground that needs tilling
         std::string farm_description( const tripoint_abs_omt &farm_pos, size_t &plots_count,
@@ -304,7 +304,8 @@ class basecamp
                                        //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
-        std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
+        std::string om_upgrade_description( const std::string &bldg, const mapgen_arguments &,
+                                            bool trunc = false ) const;
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
@@ -416,13 +417,15 @@ class basecamp
 class basecamp_action_components
 {
     public:
-        basecamp_action_components( const recipe &making, int batch_size, basecamp & );
+        basecamp_action_components( const recipe &making, const mapgen_arguments &, int batch_size,
+                                    basecamp & );
 
         // Returns true iff all necessary components were successfully chosen
         bool choose_components();
         void consume_components();
     private:
         const recipe &making_;
+        const mapgen_arguments &args_;
         int batch_size_;
         basecamp &base_;
         std::vector<comp_selection<item_comp>> item_selections_;

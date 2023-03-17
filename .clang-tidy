@@ -52,6 +52,7 @@ readability-*,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
+-modernize-use-nodiscard,\
 -readability-convert-member-functions-to-static,\
 -readability-else-after-return,\
 -readability-function-cognitive-complexity,\

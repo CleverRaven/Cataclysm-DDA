@@ -215,7 +215,7 @@ std::vector<const recipe *> recipe_subset::search(
                 if( r->is_practice() ) {
                     return lcmatch( r->description.translated(), txt );
                 } else {
-                    const item result = r->create_result();
+                    const item result( r->result() );
                     return lcmatch( remove_color_tags( result.info( true ) ), txt );
                 }
             }
@@ -428,7 +428,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
 
     // defer entries dependent upon as-yet unparsed definitions
     if( jo.has_string( "copy-from" ) ) {
-        auto base = recipe_id( jo.get_string( "copy-from" ) );
+        recipe_id base = recipe_id( jo.get_string( "copy-from" ) );
         if( !out.count( base ) ) {
             deferred.emplace_back( jo, src );
             jo.allow_omitted_members();

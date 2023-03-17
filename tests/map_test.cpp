@@ -147,7 +147,7 @@ void map::check_submap_active_item_consistency()
                 tripoint p( x, y, z );
                 submap *s = get_submap_at_grid( p );
                 REQUIRE( s != nullptr );
-                bool submap_has_active_items = !s->active_items.get().empty();
+                bool submap_has_active_items = !s->active_items.empty();
                 bool cache_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() ) != 0;
                 CAPTURE( abs_sub.xy(), p, p + abs_sub.xy() );
                 CHECK( submap_has_active_items == cache_has_active_items );

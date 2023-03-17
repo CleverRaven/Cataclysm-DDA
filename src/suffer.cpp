@@ -85,7 +85,6 @@ static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
-static const efftype_id effect_fearparalyze( "fearparalyze" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_hallu( "hallu" );
@@ -245,7 +244,7 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
             you.set_cost_timer( mut_id, mut_id->cooldown - 1_turns );
         }
         if( mut_id->hunger ) {
-            if( you.get_bmi() < character_weight_category::underweight ) {
+            if( you.get_bmi_fat() < character_weight_category::underweight ) {
                 you.add_msg_if_player( m_warning,
                                        _( "You're too malnourished to keep your %s going." ),
                                        you.mutation_name( mut_id ) );
@@ -1675,56 +1674,30 @@ void suffer::from_tourniquet( Character &you )
 
 void suffer::from_nyctophobia( Character &you )
 {
-    std::vector<tripoint> dark_places;
     const float nyctophobia_threshold = LIGHT_AMBIENT_LIT - 3.0f;
 
-    for( const tripoint &dark_place : points_in_radius( you.pos(), 5 ) ) {
-        if( !you.sees( dark_place ) || get_map().ambient_light_at( dark_place ) >= nyctophobia_threshold ) {
-            continue;
-        }
-        dark_places.push_back( dark_place );
-    }
-
     const bool in_darkness = get_map().ambient_light_at( you.pos() ) < nyctophobia_threshold;
-    const int chance = in_darkness ? 10 : 50;
-
-    if( you.is_avatar() && !dark_places.empty() && one_in( chance ) ) {
-        g->spawn_hallucination( random_entry( dark_places ) );
-    }
-
     if( in_darkness ) {
+        if( one_in( 80 ) && !you.has_effect( effect_shakes ) ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that your hands start shaking uncontrollably." ) );
+            you.add_effect( effect_shakes, rng( 1_minutes, 3_minutes ) );
+
+            return;
+        }
+
+        if( one_in( 80 ) ) {
+            you.add_msg_if_player( m_bad,
+                                   _( "Your fear of the dark is so intense that you start breathing rapidly, and you feel like your heart is ready to jump out of your chest." ) );
+            you.mod_stamina( -500 * rng( 1, 3 ) );
+
+            return;
+        }
+
         if( one_turn_in( 5_minutes ) ) {
             you.add_msg_if_player( m_bad, _( "You feel a twinge of panic as darkness engulfs you." ) );
         }
 
-        if( one_in( 2 ) && one_turn_in( 30_seconds ) ) {
-            you.sound_hallu();
-        }
-
-        if( one_in( 50 ) && !you.is_on_ground() ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "Your fear of the dark is so intense that your trembling legs fail you, and you fall to the ground." ) );
-            you.add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
-        }
-
-        if( one_in( 50 ) && !you.has_effect( effect_shakes ) ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "Your fear of the dark is so intense that your hands start shaking uncontrollably." ) );
-            you.add_effect( effect_shakes, rng( 1_minutes, 2_minutes ) );
-        }
-
-        if( one_in( 50 ) ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "Your fear of the dark is so intense that you start breathing rapidly, and you feel like your heart is ready to jump out of your chest." ) );
-            you.mod_stamina( -500 * rng( 1, 3 ) );
-        }
-
-        if( one_in( 50 ) && !you.has_effect( effect_fearparalyze ) ) {
-            you.add_msg_if_player( m_bad,
-                                   _( "Your fear of the dark is so intense that you stand paralyzed." ) );
-            you.add_effect( effect_fearparalyze, 5_turns );
-            you.mod_moves( -4 * you.get_speed() );
-        }
     }
 }
 

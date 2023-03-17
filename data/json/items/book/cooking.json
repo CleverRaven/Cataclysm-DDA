@@ -148,7 +148,7 @@
     "price": 1950,
     "price_postapoc": 500,
     "bashing": 5,
-    "material": [ { "type": "leather", "portion": 10 }, { "type": "paper" } ],
+    "material": [ { "type": "leather", "portion": 10 }, { "type": "paper", "portion": 90 } ],
     "symbol": "?",
     "color": "light_gray",
     "looks_like": "cookbook",

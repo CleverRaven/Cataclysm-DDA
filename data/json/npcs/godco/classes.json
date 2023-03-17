@@ -1021,7 +1021,7 @@
         "prob": 66
       },
       [ "hatchet", 15 ],
-      [ "inflatable_boat", 25 ],
+      [ "folded_inflatable_boat", 25 ],
       [ "hand_pump", 5 ],
       [ "binoculars", 33 ],
       [ "firecracker_pack", 5 ],

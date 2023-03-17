@@ -45,6 +45,7 @@ static const ter_str_id ter_t_window_frame( "t_window_frame" );
 
 static const trait_id trait_MYOPIC( "MYOPIC" );
 
+static const vpart_id vpart_inboard_mirror( "inboard_mirror" );
 static const vproto_id vehicle_prototype_meth_lab( "meth_lab" );
 static const vproto_id vehicle_prototype_vehicle_camera_test( "vehicle_camera_test" );
 
@@ -154,7 +155,7 @@ struct vision_test_case {
         player_character.clear_bionics();
         player_character.clear_mutations(); // remove mutations that potentially affect vision
         player_character.clear_moncams();
-        clear_map();
+        clear_map( -2, OVERMAP_HEIGHT );
         g->reset_light_level();
 
         REQUIRE( !player_character.is_blind() );
@@ -216,7 +217,10 @@ struct vision_test_case {
             // they might, for example, have poor nightvision due to having just been
             // in daylight)
             here.update_visibility_cache( zlev );
-            here.invalidate_map_cache( zlev );
+            // make sure floor caches are valid on all zlevels above
+            for( int z = -2; z <= OVERMAP_HEIGHT; z++ ) {
+                here.invalidate_map_cache( z );
+            }
             here.build_map_cache( zlev );
             here.update_visibility_cache( zlev );
             here.invalidate_map_cache( zlev );
@@ -843,6 +847,75 @@ TEST_CASE( "vision_vehicle_camera", "[shadowcasting][vision][vehicle]" )
         ifchar( 'M', spawn_veh_cam ) ||
         t.set_up_tiles;
 
+    t.test_all();
+    clear_vehicles();
+}
+
+TEST_CASE( "vision_vehicle_camera_skew", "[shadowcasting][vision][vehicle][vehicle_fake]" )
+{
+    clear_vehicles();
+    bool const camera_on = GENERATE( true, false );
+    int const fiddle = GENERATE( 0, 1, 2 );
+    vision_test_case t {
+        {
+            "    M",
+            "     ",
+            "     ",
+            "     ",
+            "     ",
+        },
+        camera_on ?
+        std::vector<std::string>{
+            "44611",
+            "44444",
+            "44446",
+            "44446",
+            "44444",
+        }
+:
+        std::vector<std::string>{
+            "66611",
+            "66611",
+            "66666",
+            "66666",
+            "66666",
+        },     day_time
+    };
+
+    vehicle *v = nullptr;
+    tile_predicate spawn_veh_cam = [&]( map_test_case::tile tile ) {
+        cata::optional<units::angle> const dir = testcase_veh_dir( { 4, 0 }, t, tile );
+        if( dir ) {
+            units::angle const skew = *dir + 45_degrees;
+            v = get_map().add_vehicle( vehicle_prototype_vehicle_camera_test, tile.p, skew, 0,
+                                       0 );
+            v->camera_on = camera_on;
+        }
+        return true;
+    };
+
+    auto const fiddle_parts = [&]() {
+        if( fiddle > 0 ) {
+            std::vector<vehicle_part *> const horns = v->get_parts_at( v->global_pos3(), "HORN", {} );
+            v->remove_part( v->index_of_part( horns.front(), true ) );
+        }
+        if( fiddle > 1 ) {
+            REQUIRE( v->install_part( point_zero, vpart_inboard_mirror ) != -1 );
+        }
+        if( fiddle > 0 ) {
+            get_map().add_vehicle_to_cache( v );
+            get_map().invalidate_map_cache( get_avatar().posz() );
+            get_map().build_map_cache( get_avatar().posz() );
+        }
+    };
+
+    t.anchor_char = 'M';
+    t.intermission = fiddle_parts;
+    t.set_up_tiles =
+        ifchar( 'M', spawn_veh_cam ) ||
+        t.set_up_tiles;
+
+    CAPTURE( camera_on, fiddle );
     t.test_all();
     clear_vehicles();
 }
