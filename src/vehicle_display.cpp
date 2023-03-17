@@ -299,11 +299,11 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         const nc_color desc_color = vp.is_broken() ? c_dark_gray : c_light_gray;
         // -4 = -2 for left & right padding + -2 for "> "
         int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 4 );
-        if( vp.has_flag( vehicle_part::carrying_flag ) ) {
+        if( vp.has_flag( vp_flag::carrying_flag ) ) {
             possible_msg += _( "  Carrying a vehicle on a rack.\n" );
             new_lines += 1;
         }
-        if( vp.has_flag( vehicle_part::carried_flag ) ) {
+        if( vp.has_flag( vp_flag::carried_flag ) ) {
             possible_msg += string_format( _( "  Part of a %s carried on a rack.\n" ),
                                            vp.carried_name() );
             new_lines += 1;
@@ -336,7 +336,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
     std::set<itype_id> opts;
     for( const vpart_reference &vpr : get_all_parts() ) {
         const vehicle_part &pt = vpr.part();
-        if( !pt.has_flag( vehicle_part::carried_flag ) && pt.is_fuel_store() &&
+        if( !pt.has_flag( vp_flag::carried_flag ) && pt.is_fuel_store() &&
             !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
         }
