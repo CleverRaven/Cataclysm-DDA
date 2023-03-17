@@ -12773,7 +12773,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     if( link.state == cable_state::needs_reeling ) {
         if( carrying_item ) {
         reset_cable( carrier, parent_item );
-        return has_flag( flag_AUTO_CABLE ) ? true : false;
+        return has_flag( flag_AUTO_DELETE_CABLE ) ? true : false;
     }
         return false;
     }
@@ -12793,7 +12793,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
                                     string_format( _( "You notice the %s's cable has come loose!" ), parent_item->tname( 1 ) ) );
             }
             reset_cable( carrier, parent_item );
-            return has_flag( flag_AUTO_CABLE ) ? true : false;
+            return has_flag( flag_AUTO_DELETE_CABLE ) ? true : false;
         }
 
         int distance = rl_dist( pos, connection_pos );
@@ -12814,7 +12814,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
                     string_format( _( "The %s's over-extended cable breaks loose!" ), parent_item->tname( 1 ) ) );
             }
             reset_cable( carrier, parent_item );
-            return has_flag( flag_AUTO_CABLE ) ? true : false;
+            return has_flag( flag_AUTO_DELETE_CABLE ) ? true : false;
         }
 
         if( parent_item != nullptr && charges >= 0 ) {
@@ -12827,7 +12827,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
             if( parent_item->active && parent_item->type->tool && parent_item->type->tool->power_draw > 0_W ) {
                 link.power_draw -= parent_item->type->tool->power_draw.value();
             }
-        } else if( has_flag( flag_AUTO_CABLE ) ) {
+        } else if( has_flag( flag_AUTO_DELETE_CABLE ) ) {
             debugmsg( "Auto cable %s can't find parent item.", tname() );
             return true;
         }
@@ -12922,7 +12922,7 @@ void item::reset_cables( Character *p )
     std::vector<item *> cables = contents.cables( true );
     for( item *cable : cables ) {
         cable->reset_cable( p );
-		if( cable->has_flag( flag_AUTO_CABLE ) ) {
+		if( cable->has_flag( flag_AUTO_DELETE_CABLE ) ) {
 			remove_item( *cable );
 		}
     }

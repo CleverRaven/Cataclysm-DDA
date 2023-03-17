@@ -6573,7 +6573,7 @@ void vehicle::shed_loose_parts( const tripoint_bub_ms *src, const tripoint_bub_m
             tow_data.clear_towing();
         }
         const vehicle_part *part = &parts[elem];
-        if( !magic && !part->properties_to_item().has_flag( flag_AUTO_CABLE ) ) {
+        if( !magic && !part->properties_to_item().has_flag( flag_AUTO_DELETE_CABLE ) ) {
             item drop = part->properties_to_item();
             here.add_item_or_charges( global_part_pos3( *part ), drop );
         }

@@ -18,7 +18,7 @@
     "max_charges": 3,
     "initial_charges": 3,
     "use_action": [ "CABLE_ATTACH" ],
-    "flags": [ "CABLE_SPOOL", "AUTO_CABLE", "SINGLE_USE" ]
+    "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE", "SINGLE_USE" ]
   },
   {
     "type": "TOOL",
@@ -38,7 +38,7 @@
     "price_postapoc": 70,
     "max_charges": 4,
     "initial_charges": 4,
-    "flags": [ "CABLE_SPOOL", "AUTO_CABLE" ]
+    "flags": [ "CABLE_SPOOL", "AUTO_DELETE_CABLE" ]
   },
   {
     "type": "TOOL",

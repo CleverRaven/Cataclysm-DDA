@@ -1305,7 +1305,7 @@ ret_val<item_pocket::contain_code> item_pocket::is_compatible( const item &it ) 
     }
 
     if( data->type == item_pocket::pocket_type::CABLE ) {
-        if( it.has_flag( flag_AUTO_CABLE ) ) {
+        if( it.has_flag( flag_CABLE_SPOOL ) ) {
             return ret_val<item_pocket::contain_code>::make_success();
         } else {
             return ret_val<item_pocket::contain_code>::make_failure(

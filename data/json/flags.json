@@ -1156,7 +1156,7 @@
     "type": "json_flag"
   },
   {
-    "id": "AUTO_CABLE",
+    "id": "AUTO_DELETE_CABLE",
     "type": "json_flag"
   },
   {
