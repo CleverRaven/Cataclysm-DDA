@@ -5,6 +5,7 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -24,7 +25,7 @@ class hotkey_queue;
 namespace cata
 {
 template<typename T>
-class optional;
+using optional = std::optional<T>;
 } // namespace cata
 namespace catacurses
 {

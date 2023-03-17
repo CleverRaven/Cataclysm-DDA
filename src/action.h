@@ -5,6 +5,7 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -12,7 +13,7 @@
 namespace cata
 {
 template<typename T>
-class optional;
+using optional = std::optional<T>;
 } // namespace cata
 struct input_event;
 struct point;

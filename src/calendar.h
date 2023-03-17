@@ -3,6 +3,7 @@
 #define CATA_SRC_CALENDAR_H
 
 #include <iosfwd>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -20,7 +21,7 @@ template<typename T> struct enum_traits;
 namespace cata
 {
 template<typename T>
-class optional;
+using optional = std::optional<T>;
 } // namespace cata
 
 /** Real world seasons */

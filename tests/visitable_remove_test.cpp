@@ -29,6 +29,7 @@
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_flask_hip( "flask_hip" );
+static const itype_id itype_null( "null" );
 static const itype_id itype_water( "water" );
 
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
@@ -85,7 +86,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     REQUIRE( suitable( p.pos(), 1 ) );
 
     item temp_liquid( liquid_id );
-    item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( "null" ) );
+    item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( itype_null ) );
     REQUIRE( obj.num_item_stacks() == 1 );
     const auto has_liquid_filter = [&liquid_id]( const item & it ) {
         return it.typeId() == liquid_id;

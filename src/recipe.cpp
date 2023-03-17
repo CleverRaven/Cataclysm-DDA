@@ -42,6 +42,7 @@
 
 static const itype_id itype_atomic_coffeepot( "atomic_coffeepot" );
 static const itype_id itype_hotplate( "hotplate" );
+static const itype_id itype_null( "null" );
 
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 
@@ -589,7 +590,7 @@ void recipe::finalize()
     }
 
     if( contained && container.is_null() ) {
-        container = item::find_type( result_ )->default_container.value_or( "null" );
+        container = item::find_type( result_ )->default_container.value_or( itype_null );
     }
 
     std::set<proficiency_id> required;

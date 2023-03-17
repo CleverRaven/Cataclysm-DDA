@@ -55,6 +55,28 @@ struct enum_traits<achievement_completion> {
     static constexpr achievement_completion last = achievement_completion::last;
 };
 
+class achievement_time_bound
+{
+    public:
+        enum class epoch : int {
+            cataclysm,
+            game_start,
+            last
+        };
+
+        void deserialize( const JsonObject &jo );
+        void check( const achievement_id & ) const;
+
+        time_point target() const;
+        achievement_completion completed() const;
+        bool becomes_false() const;
+        std::string ui_text( bool is_conduct ) const;
+    private:
+        achievement_comparison comparison_ = achievement_comparison::anything;
+        epoch epoch_ = epoch::cataclysm;
+        time_duration period_;
+};
+
 class achievement
 {
     public:
@@ -88,27 +110,11 @@ class achievement
             return hidden_by_;
         }
 
-        class time_bound
-        {
-            public:
-                enum class epoch : int {
-                    cataclysm,
-                    game_start,
-                    last
-                };
-
-                void deserialize( const JsonObject &jo );
-                void check( const achievement_id & ) const;
-
-                time_point target() const;
-                achievement_completion completed() const;
-                bool becomes_false() const;
-                std::string ui_text( bool is_conduct ) const;
-            private:
-                achievement_comparison comparison_ = achievement_comparison::anything;
-                epoch epoch_ = epoch::cataclysm;
-                time_duration period_;
-        };
+        // time_bound used to be defined here as an inner class, but an
+        // apparent compiler bug in gcc 12 means that when so defined, it fails
+        // std::is_constructible<time_bound>.  So, moved it out as a new
+        // top-level class.
+        using time_bound = achievement_time_bound;
 
         const cata::optional<time_bound> &time_constraint() const {
             return time_constraint_;

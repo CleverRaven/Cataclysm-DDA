@@ -5,6 +5,7 @@
 #include <functional>
 #include <iosfwd>
 #include <list>
+#include <optional>
 #include <utility>
 
 #include "inventory_ui.h"
@@ -17,7 +18,7 @@ struct tripoint;
 namespace cata
 {
 template<typename T>
-class optional;
+using optional = std::optional<T>;
 } // namespace cata
 class avatar;
 class item;

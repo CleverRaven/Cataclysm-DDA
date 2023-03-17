@@ -9,6 +9,7 @@
 #include <iostream>
 #include <iterator>
 #include <map>
+#include <optional>
 #include <set>
 #include <stdexcept>
 #include <string>
@@ -46,7 +47,7 @@ class item;
 namespace cata
 {
 template<typename T>
-class optional;
+using optional = std::optional<T>;
 } // namespace cata
 
 template<typename T, typename Enable = void>

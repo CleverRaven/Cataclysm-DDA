@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <map>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -20,7 +21,7 @@
 namespace cata
 {
 template<typename T>
-class optional;
+using optional = std::optional<T>;
 } // namespace cata
 namespace detail
 {

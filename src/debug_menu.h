@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <functional>
 #include <iosfwd>
+#include <optional>
 #include <string> // IWYU pragma: keep
 
 struct tripoint;
@@ -13,7 +14,7 @@ template <typename E> struct enum_traits;
 namespace cata
 {
 template<typename T>
-class optional;
+using optional = std::optional<T>;
 } // namespace cata
 
 class Character;

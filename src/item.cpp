@@ -162,6 +162,7 @@ static const itype_id itype_cigar_lit( "cigar_lit" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
+static const itype_id itype_null( "null" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_rm13_armor( "rm13_armor" );
 static const itype_id itype_stock_none( "stock_none" );
@@ -1155,7 +1156,7 @@ bool item::is_worn_by_player() const
 
 item item::in_its_container( int qty ) const
 {
-    return in_container( type->default_container.value_or( "null" ), qty,
+    return in_container( type->default_container.value_or( itype_null ), qty,
                          type->default_container_sealed );
 }
 
