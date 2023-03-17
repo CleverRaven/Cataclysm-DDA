@@ -4333,10 +4333,10 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "//": "rice = 2u (precooked), tofu = 2u, oil = 1u",
-    "components": [ 
-      [ [ "rice_cooked", 1 ], [ "dry_rice", 1 ], [ "wild_rice_cooked", 1 ], [ "dry_wild_rice", 1 ]  ], 
-      [ [ "tofu", 1 ], [ "dry_tofu", 1 ] ], 
-      [ [ "cooking_oil", 1 ] ] 
+    "components": [
+      [ [ "rice_cooked", 1 ], [ "dry_rice", 1 ], [ "wild_rice_cooked", 1 ], [ "dry_wild_rice", 1 ] ],
+      [ [ "tofu", 1 ], [ "dry_tofu", 1 ] ],
+      [ [ "cooking_oil", 1 ] ]
     ]
   },
   {
