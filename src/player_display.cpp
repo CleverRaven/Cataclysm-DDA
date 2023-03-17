@@ -1011,7 +1011,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     }
 
     for( const std::pair<const std::string, int> &speed_effect : speed_effects ) {
-        nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
+        nc_color col = speed_effect.second > 0 ? c_green : c_red;
         mvwprintz( w_speed, point( 1, line ), col, "%s", speed_effect.first );
         mvwprintz( w_speed, point( 21, line ), col, ( speed_effect.second > 0 ? "+" : "-" ) );
         mvwprintz( w_speed, point( std::abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
@@ -1020,7 +1020,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     }
 
     int runcost = you.run_cost( 100 );
-    nc_color col = ( runcost <= 100 ? c_green : c_red );
+    nc_color col = runcost <= 100 ? c_green : c_red;
     mvwprintz( w_speed, point( 21 + ( runcost >= 100 ? 0 : ( runcost < 10 ? 2 : 1 ) ), 1 ), col,
                "%d", runcost );
     col = ( newmoves >= 100 ? c_green : c_red );
@@ -1420,6 +1420,10 @@ void Character::disp_info( bool customize_character )
             effect_name_and_text.emplace_back( elem.type->get_name().translated(),
                                                elem.type->get_description().translated() );
         }
+    }
+
+    for( const std::pair<std::string, std::string> &detail : enchantment_cache->details ) {
+        effect_name_and_text.emplace_back( detail );
     }
 
     const unsigned int effect_win_size_y_max = 1 + static_cast<unsigned>( effect_name_and_text.size() );

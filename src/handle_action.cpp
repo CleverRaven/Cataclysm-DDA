@@ -195,7 +195,7 @@ class user_turn
             if( turn_duration <= 0.005 ) {
                 return 0;
             }
-            auto now = std::chrono::steady_clock::now();
+            std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
             std::chrono::milliseconds elapsed_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
             return elapsed_ms.count() / ( 10.0 * turn_duration );
@@ -303,7 +303,6 @@ input_context game::get_player_input( std::string &action )
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
                 Get tile information from above's weather information:
-                WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
                 WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_RAINSTORM | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
@@ -2380,7 +2379,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
                 } else {
                     drop_in_direction( *pnt );
                 }
-                drop_in_direction( *pnt );
             }
             break;
         case ACTION_BIONICS:

@@ -85,7 +85,10 @@
     "type": "effect_on_condition",
     "id": "EOC_HAUNTING_QUEUE_STOP",
     "global": true,
-    "effect": [ { "queue_eocs": "EOC_HAUNTING_STOP", "time_in_future": "1 seconds" } ]
+    "effect": [
+      { "give_achievement": "achievement_officer_kill" },
+      { "queue_eocs": "EOC_HAUNTING_STOP", "time_in_future": "1 seconds" }
+    ]
   },
   {
     "type": "effect_on_condition",

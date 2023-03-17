@@ -1817,11 +1817,11 @@
     "autolearn": true,
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "//0": "Ultimately, cac2powder premix feeds into CaO + 3 C -> CaC2 + CO",
-    "//1": "105g quicklime = 1.8724 moles of CaO (1.8724×3 = 5.6172)",
-    "//2": "75g anthracite coal @ ~90% carbon = 5.620 moles C",
-    "//3": "If no losses, this mix is equivalent to 1.8724 moles of CaC2; but make this grinding process a bit lossy",
+    "//1": "7×15g quicklime = 1.8724 moles of CaO",
+    "//2": "80×931mg anthracite coal @ ~90% carbon = 5.5809 moles C (5.5809/3 = 1.8603)",
+    "//3": "If no losses, this mix is equivalent to 1.86 moles of CaC2; but make this grinding process a bit lossy",
     "charges": 175,
-    "components": [ [ [ "coal_lump", 2 ] ], [ [ "material_quicklime", 7 ] ] ]
+    "components": [ [ [ "coal_lump", 80 ], [ "charcoal", 80 ] ], [ [ "material_quicklime", 7 ] ] ]
   },
   {
     "result": "chem_carbide",

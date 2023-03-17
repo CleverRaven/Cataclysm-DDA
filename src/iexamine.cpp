@@ -2330,7 +2330,7 @@ static bool query_pick( Character &who, const tripoint &target )
 void iexamine::harvest_furn_nectar( Character &you, const tripoint &examp )
 {
     bool auto_forage = get_option<bool>( "AUTO_FEATURES" ) &&
-                       get_option<std::string>( "AUTO_FORAGING" ) == "both";
+                       get_option<std::string>( "AUTO_FORAGING" ) == "all";
     if( !auto_forage && !query_pick( you, examp ) ) {
         return;
     }
@@ -4520,7 +4520,7 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( center, SEEX * 2 ) ) {
 
-        auto check_for_fuel_tank = here.furn( tmp );
+        furn_id check_for_fuel_tank = here.furn( tmp );
 
         if( ( fuel_type == FUEL_TYPE_GASOLINE && check_for_fuel_tank != furn_f_gas_tank ) ||
             ( fuel_type == FUEL_TYPE_DIESEL && check_for_fuel_tank != furn_f_diesel_tank ) ) {

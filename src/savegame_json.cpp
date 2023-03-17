@@ -1005,7 +1005,9 @@ void Character::load( const JsonObject &data )
 
     set_wielded_item( item() );
     data.read( "weapon", weapon );
-
+    if( !weapon.is_null() && weapon.relic_data && weapon.type->relic_data ) {
+        weapon.relic_data = weapon.type->relic_data;
+    }
     data.read( "move_mode", move_mode );
 
     if( has_effect( effect_riding ) ) {

@@ -3750,7 +3750,7 @@
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your feet have fused into hooves.  This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you cannot wear shoes of any kind.  Reduces wet effects.",
+    "description": "Your feet have fused into hooves.  This allows you to perform a powerful kicking attack, provides natural armor, and removes the need to wear shoes; however, you cannot wear normal shoes.  Reduces wet effects.",
     "types": [ "FEET", "SOLES" ],
     "category": [ "CATTLE", "CHIMERA" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],

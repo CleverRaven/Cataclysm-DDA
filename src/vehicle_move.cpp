@@ -143,10 +143,10 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     std::vector<int> c_engines;
     bool has_electric_engine = false;
     for( int i = 0; i < static_cast<int>( engines.size() ); ++i ) {
-        const bool is_electric = is_engine_type( i, fuel_type_battery );
-        if( ( is_electric || is_combustion_engine_type( i ) ) &&
-            ( ( parts[ engines[ i ] ].is_available() && engine_fuel_left( i ) > 0 ) ||
-              is_part_on( engines[ i ] ) ) ) {
+        const vehicle_part &vp = parts[engines[i]];
+        const bool is_electric = is_engine_type( vp, fuel_type_battery );
+        if( ( is_electric || is_engine_type_combustion( vp ) ) &&
+            ( ( vp.is_available() && engine_fuel_left( vp ) ) || vp.enabled ) ) {
             c_engines.push_back( i );
             if( is_electric ) {
                 has_electric_engine = true;
@@ -244,10 +244,11 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     float cur_load_alternator = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
 
     for( size_t i = 0; i < c_engines.size(); ++i ) {
-        if( is_engine_on( c_engines[i] ) ) {
-            bool is_electric = is_engine_type( c_engines[i], fuel_type_battery );
+        const vehicle_part &vp = parts[engines[c_engines[i]]];
+        if( is_engine_on( vp ) ) {
+            const bool is_electric = is_engine_type( vp, fuel_type_battery );
             prev_mask |= 1 << i;
-            units::power fu = engine_fuel_usage( c_engines[i] ) * ( cur_load_approx + ( is_electric ? 0 :
+            units::power fu = engine_fuel_usage( vp ) * ( cur_load_approx + ( is_electric ? 0 :
                               cur_load_alternator ) );
             opt_fuel_usage += fu;
             if( is_electric ) {
@@ -302,12 +303,13 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
         bool gas_engine_to_shut_down = false;
         for( size_t i = 0; i < c_engines.size(); ++i ) {
+            vehicle_part &vp = parts[engines[c_engines[i]]];
             bool old_state = ( prev_mask & ( 1 << i ) ) != 0;
             bool new_state = ( mask & ( 1 << i ) ) != 0;
             // switching enabled flag temporarily to perform calculations below
-            toggle_specific_engine( c_engines[i], new_state );
+            vp.enabled = new_state;
 
-            if( old_state && !new_state && !is_engine_type( c_engines[i], fuel_type_battery ) ) {
+            if( old_state && !new_state && !is_engine_type( vp, fuel_type_battery ) ) {
                 gas_engine_to_shut_down = true;
             }
         }
@@ -325,8 +327,9 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         float load_approx_alternator  = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
 
         for( int e : c_engines ) {
-            bool is_electric = is_engine_type( e, fuel_type_battery );
-            units::power fu = engine_fuel_usage( e ) * ( load_approx + ( is_electric ? 0 :
+            const vehicle_part &vp = parts[engines[e]];
+            const bool is_electric = is_engine_type( vp, fuel_type_battery );
+            units::power fu = engine_fuel_usage( vp ) * ( load_approx + ( is_electric ? 0 :
                               load_approx_alternator ) );
             fuel_usage += fu;
             if( is_electric ) {
@@ -366,26 +369,29 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     }
 
     for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
-        toggle_specific_engine( c_engines[i], static_cast<bool>( prev_mask & ( 1 << i ) ) );
+        vehicle_part &vp = parts[engines[c_engines[i]]];
+        vp.enabled = static_cast<bool>( prev_mask & ( 1 << i ) );
     }
 
     if( opt_mask != prev_mask ) { // we found new configuration
         bool failed_to_start = false;
         bool turned_on_gas_engine = false;
         for( size_t i = 0; i < c_engines.size(); ++i ) {
+            vehicle_part &vp = parts[engines[c_engines[i]]];
             // ..0.. < ..1..  was off, new state on
             if( ( prev_mask & ( 1 << i ) ) < ( opt_mask & ( 1 << i ) ) ) {
-                if( !start_engine( c_engines[i], true ) ) {
+                if( !start_engine( vp, true ) ) {
                     failed_to_start = true;
                 }
-                turned_on_gas_engine |= !is_engine_type( c_engines[i], fuel_type_battery );
+                turned_on_gas_engine |= !is_engine_type( vp, fuel_type_battery );
             }
         }
         if( failed_to_start ) {
             this->smart_controller_state = cata::nullopt;
 
             for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
-                toggle_specific_engine( c_engines[i], static_cast<bool>( prev_mask & ( 1 << i ) ) );
+                vehicle_part &vp = parts[engines[c_engines[i]]];
+                vp.enabled = static_cast<bool>( prev_mask & ( 1 << i ) );
             }
             for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
                 vp.part().enabled = false;
@@ -398,9 +404,10 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
         } else {  //successfully changed engines state
             for( size_t i = 0; i < c_engines.size(); ++i ) {
+                vehicle_part &vp = parts[engines[c_engines[i]]];
                 // was on, needs to be off
                 if( ( prev_mask & ( 1 << i ) ) > ( opt_mask & ( 1 << i ) ) ) {
-                    start_engine( c_engines[i], false );
+                    start_engine( vp, false );
                 }
             }
             if( turned_on_gas_engine ) {
@@ -558,9 +565,9 @@ void vehicle::thrust( int thd, int z )
             requested_z_change = z;
         }
         //break the engines a bit, if going too fast.
-        int strn = static_cast<int>( strain() * strain() * 100 );
-        for( size_t e = 0; e < engines.size(); e++ ) {
-            do_engine_damage( e, strn );
+        const int strn = static_cast<int>( strain() * strain() * 100 );
+        for( const int p : engines ) {
+            do_engine_damage( parts[p], strn );
         }
     }
 
@@ -1310,7 +1317,7 @@ void vehicle::selfdrive( const point &p )
     }
     if( p.y != 0 ) {
         int thr_amount = 100 * ( std::abs( velocity ) < 2000 ? 4 : 5 );
-        if( cruise_on ) {
+        if( cruise_on && !is_towed() ) {
             cruise_thrust( -p.y * thr_amount );
         } else {
             thrust( -p.y );

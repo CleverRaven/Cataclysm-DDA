@@ -17,6 +17,28 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "military_standard_assault_rifles_sighted",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "m4_carbine", "variant": "m4a1", "prob": 88, "charges": [ 0, 30 ], "contents-item": "acog_scope" },
+      {
+        "item": "m27_assault_rifle",
+        "variant": "m27iar",
+        "prob": 10,
+        "charges": [ 0, 30 ],
+        "contents-item": "acog_scope"
+      },
+      { "item": "m16a4", "prob": 2, "charges": [ 0, 30 ], "contents-item": "acog_scope" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "military_grenadier_assault_rifles",
+    "subtype": "distribution",
+    "entries": [ { "item": "m4_carbine", "contents-group": "military_grenadier_mods", "prob": 100, "charges": [ 0, 30 ] } ]
+  },
+  {
     "id": "armor_plates",
     "type": "item_group",
     "//": "a list of all plates that could be sold in stores",
@@ -431,7 +453,7 @@
     "type": "item_group",
     "id": "military_standard_grenades",
     "subtype": "distribution",
-    "entries": [ { "item": "grenade", "prob": 100 } ]
+    "entries": [ { "item": "grenade", "prob": 80 }, { "item": "smokebomb", "prob": 20 } ]
   },
   {
     "type": "item_group",
