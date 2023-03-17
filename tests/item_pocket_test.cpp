@@ -2695,7 +2695,9 @@ TEST_CASE( "pocket_leak" )
     REQUIRE( backpack.put_in( water, item_pocket::pocket_type::CONTAINER ).success() );
 
     WHEN( "single container" ) {
-        item &bkit = **u.wear_item( backpack );
+        auto worn = u.wear_item( backpack );
+        REQUIRE( worn );
+        item &bkit = **worn;
         item &waterit = bkit.only_item();
         waterit.set_item_temperature( water.get_freeze_point() + units::from_kelvin( 10 ) );
         REQUIRE( !waterit.is_frozen_liquid() );

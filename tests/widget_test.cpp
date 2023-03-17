@@ -1604,7 +1604,9 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 
     // Acquire and wear a radiation badge
     item rad_badge( itype_rad_badge );
-    item *rad_badge_worn = & **ava.worn.wear_item( ava, rad_badge, false, false );
+    auto worn = ava.worn.wear_item( ava, rad_badge, false, false );
+    REQUIRE( worn );
+    item *rad_badge_worn = & **worn;
 
     // Color indicator is shown when character has radiation badge
     rad_badge_worn->irradiation = 0;
