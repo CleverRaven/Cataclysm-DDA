@@ -7653,7 +7653,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
 
     if( t ) {
         //stop action before power runs out and iuse deletes the cooker
-        if( it->ammo_remaining( p ) < charge_buffer ) {
+        if( it->ammo_remaining( p, true ) < charge_buffer ) {
             it->active = false;
             it->erase_var( "RECIPE" );
             it->convert( itype_multi_cooker );
@@ -7738,15 +7738,15 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
         menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
 
         item *dish_it = it->get_item_with(
-        []( const item & it ) {
-            return !( it.is_toolmod() || it.is_magazine() );
+        [it]( const item & dish ) {
+            return it->contained_where( dish )->is_standard_type() && !dish.is_magazine();
         } );
 
         if( it->active ) {
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {
-                if( it->ammo_remaining( p ) < charges_to_start ) {
+                if( it->ammo_remaining( p, true ) < charges_to_start ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -7882,7 +7882,7 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
                 const int all_charges = charges_to_start + mealtime / 1000 * units::to_watt(
                                             it->type->tool->power_draw ) / 1000;
 
-                if( it->ammo_remaining( p ) < all_charges ) {
+                if( it->ammo_remaining( p, true ) < all_charges ) {
 
                     p->add_msg_if_player( m_warning,
                                           _( "The multi-cooker needs %d charges to cook this dish." ),

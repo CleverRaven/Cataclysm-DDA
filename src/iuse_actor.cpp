@@ -4391,6 +4391,11 @@ cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tr
         return cata::nullopt;
     }
 
+    if( !it.has_pocket_type( item_pocket::pocket_type::CABLE ) ) {
+        debugmsg( "Called a link_up action on an item (%s) without a CABLE pocket!", it.tname() );
+        return cata::nullopt;
+    }
+
     map &here = get_map();
 
     bool vehicle_nearby = false;
@@ -4445,14 +4450,19 @@ cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tr
             debugmsg( "%s is longer than the reality bubble - it could potentially stretch forever!",
                       cable.tname() );
         }
+
         cable.link.max_length = cable_length != -1 ? cable_length : type->maximum_charges();
         cable.active = true;
+
         if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
             it.plugged_in = true;
             it.process( get_map(), &p, p.pos() );
             p.moves -= 5;
             p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ),
                                  it.tname( 1, false ), vp->vehicle().name );
+        } else {
+            debugmsg( "Failed to add the %s inside the %s!", cable.tname(), it.tname() );
+            return cata::nullopt;
         }
     } else {
         item *existing_cable = it.get_contents().cables().front();
