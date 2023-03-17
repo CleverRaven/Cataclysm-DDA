@@ -9,7 +9,7 @@
         "id": "slumber",
         "text": "Eternal Slumber",
         "color": "dark_gray_red",
-        "condition": { "compare_num": [ { "u_val": "human_blood_vitamin" }, "<=", { "const": -11999 } ] }
+        "condition": { "compare_num": [ { "vitamin": "human_blood_vitamin" }, "<=", { "const": -11999 } ] }
       },
       {
         "id": "near_death",
