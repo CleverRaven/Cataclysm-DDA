@@ -12785,12 +12785,12 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         if( !vp ) {
             if( carrying_item ) {
             carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
-                                            string_format( _( "You notice your %s has come loose!" ), tname( 1, false ) ) :
-                                            string_format( _( "You notice your %s's cable has come loose!" ), parent_item->tname( 1 ) ) );
+                                        string_format( _( "You notice your %s has come loose!" ), tname( 1, false ) ) :
+                                        string_format( _( "You notice your %s's cable has come loose!" ), parent_item->tname( 1 ) ) );
             } else {
             add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
-                                        string_format( _( "You notice the %s has come loose!" ), tname( 1, false ) ) :
-                                        string_format( _( "You notice the %s's cable has come loose!" ), parent_item->tname( 1 ) ) );
+                                    string_format( _( "You notice the %s has come loose!" ), tname( 1, false ) ) :
+                                    string_format( _( "You notice the %s's cable has come loose!" ), parent_item->tname( 1 ) ) );
             }
             reset_cable( carrier, parent_item );
             return has_flag( flag_AUTO_CABLE ) ? true : false;
@@ -12798,7 +12798,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
         int distance = rl_dist( pos, connection_pos );
         charges = link.max_length - distance;
-        // TODOkama Move cable stretch breaking outside of inbounds check to protect against infinite cable stretching.
+        
         if( charges == 0 && carrying_item ) {
             carrier->add_msg_if_player( m_warning, parent_item == nullptr ?
                 string_format( _( "Your %s is stretched to its limit!" ), label( 1 ) ) :
