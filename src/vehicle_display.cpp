@@ -173,7 +173,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
         const vehicle_part &vp = parts[ pl [ i ] ];
-        if( vp.is_fake && !vp.is_active_fake ) {
+        if( !vp.is_real_or_active_fake() ) {
             continue;
         }
         if( y >= max_y ) {

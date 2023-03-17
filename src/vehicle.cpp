@@ -1939,7 +1939,6 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     if( parts[p].has_fake && parts[p].fake_part_at < static_cast<int>( parts.size() ) ) {
         parts[parts[p].fake_part_at].removed = true;
     }
-    removed_part_count++;
 
     handler.removed( *this, p );
 
@@ -1987,7 +1986,7 @@ bool vehicle::do_remove_part_actual()
                     items.erase( items.begin() );
                 }
             }
-            if( !it->is_fake || it->is_active_fake ) {
+            if( it->is_real_or_active_fake() ) {
                 const tripoint pt = global_part_pos3( *it );
                 here.clear_vehicle_point_from_cache( this, pt );
             }
@@ -2002,7 +2001,6 @@ void vehicle::part_removal_cleanup()
     map &here = get_map();
     remove_fake_parts( false );
     const bool changed =  do_remove_part_actual();
-    removed_part_count = 0;
     if( changed || parts.empty() ) {
         refresh();
         if( parts.empty() ) {
@@ -2356,7 +2354,6 @@ bool vehicle::split_vehicles( map &here,
             }
             // indicate the part needs to be removed from the old vehicle
             parts[ mov_part].removed = true;
-            removed_part_count++;
         }
 
         // We want to create the vehicle zones after we've setup the parts
@@ -3068,10 +3065,11 @@ int vehicle::part_displayed_at( const point &dp, bool include_fake, bool below_r
     int top_z_order = ( below_roof ? 0 : ON_ROOF_Z ) - 1;
     for( size_t index = 0; index < parts_in_square.size(); index++ ) {
         int test_index = parts_in_square[index];
-        if( parts.at( test_index ).is_fake && !parts.at( test_index ).is_active_fake ) {
+        const vehicle_part &vp = parts.at( test_index );
+        if( !vp.is_real_or_active_fake() ) {
             continue;
         }
-        int test_z_order = part_info( test_index ).z_order;
+        int test_z_order = vp.info().z_order;
         if( ( top_z_order < test_z_order ) && ( test_z_order < hide_z_at_or_above ) ) {
             top_part = index;
             top_z_order = test_z_order;
@@ -3270,7 +3268,7 @@ void vehicle::set_submap_moved( const tripoint &p )
 units::mass vehicle::total_mass() const
 {
     if( mass_dirty ) {
-        refresh_mass();
+        calc_mass_center( true );
     }
 
     return mass_cache;
@@ -4670,11 +4668,11 @@ void vehicle::consume_fuel( int load, bool idling )
     }
 }
 
-std::vector<vehicle_part *> vehicle::lights( bool active )
+std::vector<vehicle_part *> vehicle::lights()
 {
     std::vector<vehicle_part *> res;
     for( vehicle_part &e : parts ) {
-        if( ( !active || e.enabled ) && e.is_available() && e.is_light() ) {
+        if( e.enabled && e.is_available() && e.is_light() ) {
             res.push_back( &e );
         }
     }
@@ -5998,7 +5996,7 @@ void vehicle::refresh( const bool remove_fakes )
 
     const auto need_fake_part = [&]( const point & real_mount, const std::string & flag ) {
         int real = part_with_feature( real_mount, flag, true );
-        if( real >= 0 && real < num_parts() ) {
+        if( real >= 0 && real < part_count() ) {
             return real;
         }
         return -1;
@@ -6132,14 +6130,14 @@ void vehicle::remove_fake_parts( const bool cleanup )
         return;
     }
     for( const int fake_index : fake_parts ) {
-        if( fake_index >= num_parts() ) {
+        if( fake_index >= part_count() ) {
             debugmsg( "tried to remove fake part at %d but only %zu parts!", fake_index,
                       parts.size() );
             continue;
         }
         vehicle_part &part_fake = parts.at( fake_index );
         int real_index = part_fake.fake_part_to;
-        if( real_index >= num_parts() ) {
+        if( real_index >= part_count() ) {
             debugmsg( "tried to remove fake part at %d with real at %d but only %zu parts!",
                       fake_index, real_index, parts.size() );
         } else {
@@ -6154,19 +6152,6 @@ void vehicle::remove_fake_parts( const bool cleanup )
     if( cleanup ) {
         do_remove_part_actual();
     }
-}
-
-bool vehicle::real_or_active_fake_part( const int part_num ) const
-{
-    if( part_num < num_parts() ) {
-        return !parts.at( part_num ).is_fake || parts.at( part_num ).is_active_fake;
-    }
-    return false;
-}
-
-tripoint vehicle::get_abs_diff( const tripoint &one, const tripoint &two ) const
-{
-    return ( one - two ).abs();
 }
 
 const point &vehicle::pivot_point() const
@@ -6890,11 +6875,6 @@ bool vehicle::shift_if_needed( map &here )
     return false;
 }
 
-int vehicle::break_off( int p, int dmg )
-{
-    return break_off( get_map(), p, dmg );
-}
-
 int vehicle::break_off( map &here, int p, int dmg )
 {
     /* Already-destroyed part - chance it could be torn off into pieces.
@@ -7533,11 +7513,6 @@ void vehicle::invalidate_mass()
     coeff_water_dirty = true;
 }
 
-void vehicle::refresh_mass() const
-{
-    calc_mass_center( true );
-}
-
 void vehicle::calc_mass_center( bool use_precalc ) const
 {
     units::quantity<float, units::mass::unit_type> xf;
@@ -7636,35 +7611,6 @@ bounding_box vehicle::get_bounding_box( bool use_precalc )
     return b;
 }
 
-bool vehicle::has_any_parts() const
-{
-    return !parts.empty();
-}
-
-int vehicle::num_parts() const
-{
-    return static_cast<int>( parts.size() );
-}
-
-int vehicle::num_true_parts() const
-{
-    return static_cast<int>( parts.size() - fake_parts.size() );
-}
-
-int vehicle::num_fake_parts() const
-{
-    return static_cast<int>( fake_parts.size() );
-}
-
-int vehicle::num_active_fake_parts() const
-{
-    int ret = 0;
-    for( const int fake_index : fake_parts ) {
-        ret += parts.at( fake_index ).is_active_fake ? 1 : 0;
-    }
-    return ret;
-}
-
 vehicle_part &vehicle::part( int part_num )
 {
     return parts[part_num];
@@ -7677,9 +7623,10 @@ const vehicle_part &vehicle::part( int part_num ) const
 
 int vehicle::get_non_fake_part( const int part_num )
 {
-    if( part_num != -1 && part_num < num_parts() ) {
-        if( parts.at( part_num ).is_fake ) {
-            return parts.at( part_num ).fake_part_to;
+    if( part_num != -1 && part_num < part_count() ) {
+        const vehicle_part &vp = parts.at( part_num );
+        if( vp.is_fake ) {
+            return vp.fake_part_to;
         } else {
             return part_num;
         }
@@ -7689,21 +7636,27 @@ int vehicle::get_non_fake_part( const int part_num )
     return -1;
 }
 
-void vehicle::force_erase_part( int part_num )
-{
-    parts.erase( parts.begin() + part_num );
-}
-
 vehicle_part_range vehicle::get_all_parts() const
 {
     return vehicle_part_range( const_cast<vehicle &>( *this ) );
 }
 
-int vehicle::part_count( bool no_fake ) const
+int vehicle::part_count() const
 {
-    return no_fake ? std::count_if( parts.begin(), parts.end(), []( const vehicle_part & vp ) {
+    return static_cast<int>( parts.size() );
+}
+
+int vehicle::part_count_real() const
+{
+    return std::count_if( parts.begin(), parts.end(),
+    []( const vehicle_part & vp ) {
         return !vp.is_fake;
-    } ) : static_cast<int>( parts.size() );
+    } );
+}
+
+int vehicle::part_count_real_cached() const
+{
+    return static_cast<int>( parts.size() - fake_parts.size() );
 }
 
 std::vector<vehicle_part> vehicle::real_parts() const
@@ -7750,7 +7703,7 @@ std::set<int> vehicle::advance_precalc_mounts( const point &new_pos, const tripo
     int index = -1;
     for( vehicle_part &prt : parts ) {
         index += 1;
-        if( !prt.is_fake || prt.is_active_fake ) {
+        if( prt.is_real_or_active_fake() ) {
             here.clear_vehicle_point_from_cache( this, src + prt.precalc[0] );
         }
         // no parts means this is a normal horizontal or vertical move
@@ -7883,7 +7836,9 @@ bool vehicle_part_range::matches( const size_t part ) const
 
 bool vehicle_part_with_fakes_range::matches( const size_t part ) const
 {
-    return this->with_inactive_fakes_ || this->vehicle().real_or_active_fake_part( part );
+    return this->with_inactive_fakes_ ||
+           ( static_cast<int>( part ) < this->vehicle().part_count() &&
+             this->vehicle().part( part ).is_real_or_active_fake() );
 }
 
 void MapgenRemovePartHandler::add_item_or_charges(

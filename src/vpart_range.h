@@ -113,9 +113,9 @@ class generic_vehicle_part_range
         template<typename T = ::vehicle>
         size_t part_count() const {
             if( with_fake_ ) {
-                return static_cast<const T &>( vehicle_.get() ).num_parts();
+                return static_cast<const T &>( vehicle_.get() ).part_count();
             } else {
-                return static_cast<const T &>( vehicle_.get() ).num_true_parts();
+                return static_cast<const T &>( vehicle_.get() ).part_count_real_cached();
             }
 
         }

@@ -684,7 +684,7 @@ static void rack_check( const rack_preset &preset )
 }
 
 // Testing vehicle racking and unracking
-TEST_CASE( "Racking and unracking tests", "[vehicle]" )
+TEST_CASE( "Racking and unracking tests", "[vehicle][bikerack]" )
 {
     std::vector<rack_preset> racking_presets {
         // basic test; rack bike on car, unrack it, everything should succeed
