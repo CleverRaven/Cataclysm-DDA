@@ -4367,6 +4367,14 @@ void link_up_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     dump.emplace_back( "TOOL", _( "<bold>Can be plugged into a power grid</bold>" ) );
     dump.emplace_back( "TOOL", _( "Cable length: " ), cable_length );
+    if( charge_rate != 0_W ) {
+        std::string wattage = string_format( _( "%+4.1f W" ), units::to_milliwatt( charge_rate ) / 1000.f );
+        if( charge_rate > 0_W ) {
+            dump.emplace_back( "TOOL", _( "Charge power: " ), wattage );
+        } else {
+            dump.emplace_back( "TOOL", _( "Discharge power: " ), wattage );
+        }
+    }
 }
 
 std::string link_up_actor::get_name() const
