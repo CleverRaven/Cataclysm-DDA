@@ -3409,7 +3409,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "velocity", velocity );
     data.read( "avg_velocity", avg_velocity );
     data.read( "falling", is_falling );
-    data.read( "floating", is_floating );
+    data.read( "floating", in_deep_water );
     data.read( "in_water", in_water );
     data.read( "flying", is_flying );
     data.read( "cruise_velocity", cruise_velocity );
@@ -3585,7 +3585,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "avg_velocity", avg_velocity );
     json.member( "falling", is_falling );
     json.member( "in_water", in_water );
-    json.member( "floating", is_floating );
+    json.member( "floating", in_deep_water );
     json.member( "flying", is_flying );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "vertical_velocity", vertical_velocity );

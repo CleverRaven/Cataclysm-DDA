@@ -2144,9 +2144,11 @@ class vehicle
         // and that's the bit that controls recalculation.  The intent is to only recalculate
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true; // NOLINT(cata-serialize)
-        // is the vehicle currently mostly in deep water
-        mutable bool is_floating = false;
-        // is the vehicle currently mostly in water
+        // is at least 2/3 of the vehicle on deep water tiles
+        // -- this is the "sink or swim" threshold
+        mutable bool in_deep_water = false;
+        // is at least 1/2 of the vehicle on water tiles
+        // -- fordable for ground vehicles; non-amphibious boats float
         mutable bool in_water = false;
         // is the vehicle currently flying
         mutable bool is_flying = false;
