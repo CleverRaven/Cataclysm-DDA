@@ -265,7 +265,6 @@ struct vehicle_part {
             tripoint mount;        // if value is tripoint_zero this is the pivot
             units::angle face_dir; // direction relative to the carrier vehicle
             std::string veh_name;  // carried vehicle name this part belongs to
-            bool migrate_x_axis;   // migrate carried vehicles to x-axis ( for legacy saves only )
 
             void deserialize( const JsonObject &data );
             void serialize( JsonOut &json ) const;
@@ -929,9 +928,6 @@ class vehicle
         void autopilot_patrol();
         units::angle get_angle_from_targ( const tripoint &targ ) const;
         void drive_to_local_target( const tripoint &target, bool follow_protocol );
-        tripoint get_autodrive_target() {
-            return autodrive_local_target;
-        }
         // Drive automatically towards some destination for one turn.
         autodrive_result do_autodrive( Character &driver );
         // Stop any kind of automatic vehicle control and apply the brakes.

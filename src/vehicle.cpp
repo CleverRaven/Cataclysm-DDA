@@ -1563,21 +1563,6 @@ std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int r
                 return; // not valid unrackable
             }
 
-            const bool migrate_x_axis = std::any_of( unrackable.parts.begin(), unrackable.parts.end(),
-            [this]( const int p ) {
-                return part( p ).carried_stack.top().migrate_x_axis;
-            } );
-
-            if( migrate_x_axis ) {
-                for( const int p : unrackable.parts ) {
-                    std::stack<vehicle_part::carried_part_data> cs = part( p ).carried_stack;
-                    vehicle_part::carried_part_data cpd = cs.top();
-                    cs.pop();
-                    cpd.mount = tripoint( cpd.mount.y, cpd.mount.x, cpd.mount.z );
-                    cs.push( cpd );
-                }
-            }
-
             // 2 results with same name is either a bug or this rack is a "corner" that scanned
             // the vehicle twice: once on correct axis and once on wrong axis resulting in a 1 tile
             // slice see #47374 for more details. Keep the longest of the two "slices".
@@ -1755,8 +1740,7 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                 carried_part.carried_stack.push( {
                     tripoint( carry_map.old_mount, 0 ),
                     relative_dir,
-                    carry_veh->name,
-                    false,
+                    carry_veh->name
                 } );
                 carried_part.enabled = false;
                 carried_part.set_flag( vehicle_part::carried_flag );
