@@ -1,4 +1,16 @@
 [
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "clown_candy_pouch",
+    "entries": [ { "item": "candy3" }, { "item": "candy4" }, { "item": "razor_blade" }, { "item": "candy3" },{ "item": "razor_blade" },{ "item": "razor_blade" },{"item": "skull_rodent"} ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "clown_grenade_pouch",
+    "entries": [ { "item": "grenade" }, { "item": "grenade" }, { "item": "grenade_inc" }, { "item": "gasbomb" } ]
+  },
     {
         "type": "profession",
         "id": "pirate",
@@ -149,6 +161,8 @@
           "items": [  "socks", "microphone_xlr_generic", "leather_journal","file", "wristwatch","roadmap" ],
           "entries": [
             { "group": "charged_smart_phone" },
+            { "group": "charged_laptop"},
+            { "item": "microphone_xlr_generic", "custom-flags": [ "auto_wield" ] },
             { "item": "black_pen", "charges": 100 }
           ]
         },
@@ -156,5 +170,26 @@
         "male": [ "boxer_shorts","dress_shoes","suit", "dress_shirt","tie_necktie","leather_belt","briefcase" ],
         "female": [ "bra", "panties","dress", "heels","gold_hairpin","purse" ]
       }
+    },
+    {
+      "type": "profession",
+      "id": "killer_clown",
+      "name": "Killer Clown",
+      "description": "All you ever wanted was to make people scream...and now you do. You once entertained children with your silly antics and colorful costumes, but now you've traded in your balloon animals for a more deadly arsenal.",
+      "points": 5,
+      "skills": [
+        { "level": 2, "name": "throw" },
+        { "level": 2, "name": "stabbing" }
+      ],
+      "traits": [ "TERRIFYING","KILLER","PSYCHOPATH","CANNIBAL","FANGS"],
+      "items": {
+        "both": {
+          "items": [ "clown_wig", "clown_suit", "clown_nose", "socks", "clownshoes","tie_bow", "airhorn" ],
+          "entries": [ { "item": "knife_chef", "custom-flags": [ "auto_wield" ] }, { "item": "grenadebandolier", "contents-group": "clown_grenade_pouch" }, { "item": "leg_sheath6", "contents-group": "leg_sheath6_throwing_knives" }, { "item": "fanny", "contents-group": "clown_candy_pouch"}] 
+        },
+        "male": [ "briefs" ],
+        "female": [ "bra", "panties" ]
+      },
+      "missions": [ "MISSION_KILLER_CLOWN" ]
     }
 ]

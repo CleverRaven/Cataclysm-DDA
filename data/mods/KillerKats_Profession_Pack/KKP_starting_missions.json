@@ -1,0 +1,31 @@
+[
+  {
+    "id": "MISSION_KILLER_CLOWN",
+    "type": "mission_definition",
+    "name": { "str": "Prepare for your next show" },
+    "description": "As a Killer Clown, your performances are less about making people laugh and more about instilling terror. Sharpen your combat skills to ensure your next show strikes fear into the hearts of your victims.",
+    "goal": "MGOAL_CONDITION",
+    "goal_condition": {
+      "and": [
+        { "u_has_skill": { "skill": "melee", "level": 5 } },
+        { "u_has_skill": { "skill": "throw", "level": 4 } },
+        { "u_has_item": "skull_human" }
+      ]
+    },
+
+    "difficulty": 3,
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 20,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "120 minutes"
+        }
+      ]
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  }
+]
