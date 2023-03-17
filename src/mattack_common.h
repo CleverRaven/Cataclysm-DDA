@@ -7,6 +7,8 @@
 #include <type_traits>
 
 #include "clone_ptr.h"
+#include "creature.h"
+#include "type_id.h"
 
 class JsonObject;
 class monster;
@@ -25,10 +27,24 @@ class mattack_actor
         bool was_loaded = false;
 
         int cooldown = 0;
+        // Percent chance for the attack to happen if the mob tries it
+        int attack_chance = 100;
+        // Effects preventing the attack from to triggering
+        std::vector<efftype_id> forbidden_effects_any;
+        std::vector<efftype_id> forbidden_effects_all;
+        std::vector<efftype_id> target_forbidden_effects_any;
+        std::vector<efftype_id> target_forbidden_effects_all;
+        // Effects required for the attack to trigger
+        std::vector<efftype_id> required_effects_any;
+        std::vector<efftype_id> required_effects_all;
+        std::vector<efftype_id> target_required_effects_any;
+        std::vector<efftype_id> target_required_effects_all;
 
         void load( const JsonObject &jo, const std::string &src );
 
         virtual ~mattack_actor() = default;
+        virtual bool check_self_conditions( monster &z ) const;
+        virtual bool check_target_conditions( Creature *target ) const;
         virtual bool call( monster & ) const = 0;
         virtual std::unique_ptr<mattack_actor> clone() const = 0;
         virtual void load_internal( const JsonObject &jo, const std::string &src ) = 0;
