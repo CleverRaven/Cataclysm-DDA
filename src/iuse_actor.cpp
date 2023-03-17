@@ -4349,12 +4349,12 @@ void modify_gunmods_actor::finalize( const itype_id &my_item_type )
     }
 }
 
-std::unique_ptr<iuse_actor> plug_in_actor::clone() const
+std::unique_ptr<iuse_actor> link_up_actor::clone() const
 {
-    return std::make_unique<plug_in_actor>( *this );
+    return std::make_unique<link_up_actor>( *this );
 }
 
-void plug_in_actor::load( const JsonObject &jo )
+void link_up_actor::load( const JsonObject &jo )
 {
     jo.read( "cable_type", type );
     jo.read( "cable_length", cable_length );
@@ -4363,13 +4363,13 @@ void plug_in_actor::load( const JsonObject &jo )
     jo.read( "menu_text", menu_text );
 }
 
-void plug_in_actor::info( const item &, std::vector<iteminfo> &dump ) const
+void link_up_actor::info( const item &, std::vector<iteminfo> &dump ) const
 {
     dump.emplace_back( "TOOL", _( "<bold>Can be plugged into a power grid</bold>" ) );
     dump.emplace_back( "TOOL", _( "Cable length: " ), cable_length );
 }
 
-std::string plug_in_actor::get_name() const
+std::string link_up_actor::get_name() const
 {
     if( !menu_text.empty() ) {
         return menu_text.translated();
@@ -4377,7 +4377,7 @@ std::string plug_in_actor::get_name() const
     return iuse_actor::get_name();
 }
 
-cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tripoint & ) const
+cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
         return cata::nullopt; // invoked from active item processing, do nothing.

@@ -327,8 +327,8 @@
   },
   {
     "type": "item_action",
-    "id": "plug_in",
-    "name": { "str": "Plug in / Unplug" }
+    "id": "link_up",
+    "name": { "str": "Connect / Disconnect" }
   },
   {
     "type": "item_action",

@@ -1035,7 +1035,7 @@ class modify_gunmods_actor : public iuse_actor
         void finalize( const itype_id &my_item_type ) override;
 };
 
-class plug_in_actor : public iuse_actor
+class link_up_actor : public iuse_actor
 {
     public:
         /** The type of cable created with this action */
@@ -1049,9 +1049,9 @@ class plug_in_actor : public iuse_actor
         /** (Optional) Text displayed in the activation screen, defaults to "Plug in / Unplug". */
         translation menu_text;
 
-        plug_in_actor() : iuse_actor( "plug_in" ) {}
+        link_up_actor() : iuse_actor( "link_up" ) {}
 
-        ~plug_in_actor() override = default;
+        ~link_up_actor() override = default;
         void load( const JsonObject &jo ) override;
         cata::optional<int> use( Character &p, item &it, bool t, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;

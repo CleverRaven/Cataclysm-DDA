@@ -5485,7 +5485,7 @@ void map::setup_link_processing( item::cable_link *link, const vehicle *veh )
 void map::process_linked_movement()
 {
     // TODOkama handle cabled vehicles moving out of the reality bubble.
-    const auto process_link = [this]( std::pair<const vehicle *, item::cable_link *> l ) {
+    const auto process_link_move = [this]( std::pair<const vehicle *, item::cable_link *> l ) {
         if( l.second->vp_index > -1 && inbounds( getlocal( l.second->pos ) ) ) {
             tripoint new_pos;
             if( l.first == nullptr ) {
@@ -5506,7 +5506,7 @@ void map::process_linked_movement()
         }
     };
 
-    std::for_each( links_to_process.begin(), links_to_process.end(), process_link );
+    std::for_each( links_to_process.begin(), links_to_process.end(), process_link_move );
     links_to_process.clear();
 }
 
