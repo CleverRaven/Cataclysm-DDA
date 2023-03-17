@@ -46,6 +46,7 @@
 #include "localized_comparator.h"
 #include "map.h"
 #include "map_selector.h"
+#include "mapdata.h"
 #include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
@@ -455,8 +456,7 @@ void veh_interact::do_main_loop()
 {
     bool finish = false;
     Character &player_character = get_player_character();
-    const bool owned_by_player = veh->handle_potential_theft( dynamic_cast<Character &>
-                                 ( player_character ), true );
+    const bool owned_by_player = veh->handle_potential_theft( player_character, true );
     faction *owner_fac;
     if( veh->has_owner() ) {
         owner_fac = g->faction_manager_ptr->get( veh->get_owner() );
@@ -477,23 +477,23 @@ void veh_interact::do_main_loop()
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_install();
             }
         } else if( action == "REPAIR" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_repair();
             }
         } else if( action == "MEND" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_mend();
             }
         } else if( action == "REFILL" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_refill();
             }
         } else if( action == "REMOVE" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_remove();
             }
         } else if( action == "RENAME" ) {
@@ -505,7 +505,7 @@ void veh_interact::do_main_loop()
                 }
             }
         } else if( action == "SIPHON" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_siphon();
                 // Siphoning may have started a player activity. If so, we should close the
                 // vehicle dialog and continue with the activity.
@@ -516,7 +516,7 @@ void veh_interact::do_main_loop()
                 }
             }
         } else if( action == "UNLOAD" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 finish = do_unload();
             }
         } else if( action == "CHANGE_SHAPE" ) {
@@ -766,7 +766,7 @@ bool veh_interact::update_part_requirements()
     }
 
     if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
-    return veh->part( e ).has_flag( vehicle_part::carried_flag );
+    return veh->part( e ).has_flag( vp_flag::carried_flag );
     } ) ) {
         msg = _( "Unracking is required before installing any parts here." );
         return false;
@@ -1988,7 +1988,7 @@ void veh_interact::do_siphon()
         } );
         hide_ui( true );
         const item &base = pt.get_base();
-        const int idx = veh->find_part( base );
+        const int idx = veh->index_of_part( &pt );
         item liquid( base.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
@@ -2216,6 +2216,16 @@ std::pair<bool, std::string> veh_interact::calc_lift_requirements( const vpart_i
     avatar &player_character = get_avatar();
 
     if( sel_vpart_info.has_flag( "NEEDS_JACKING" ) ) {
+        if( terrain_here.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
+            const auto wrap_badter = foldstring(
+                                         _( "<color_red>Unsuitable terrain</color> for working on part that requires jacking." ),
+                                         getmaxx( w_msg ) - 4 );
+            nmsg += "> " + wrap_badter[0] + "\n";
+            for( size_t i = 1; i < wrap_badter.size(); i++ ) {
+                nmsg += "  " + wrap_badter[i] + "\n";
+            }
+            return std::pair<bool, std::string> ( false, nmsg );
+        }
         qual = qual_JACK;
         lvl = jack_quality( *veh );
         str = veh->lift_strength();
@@ -2333,6 +2343,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
     const tripoint vehp = veh->global_pos3() + q;
     const bool has_critter = get_creature_tracker().creature_at( vehp );
     map &here = get_map();
+    terrain_here = here.ter( vehp ).obj();
     bool obstruct = here.impassable_ter_furn( vehp );
     const optional_vpart_position ovp = here.veh_at( vehp );
     if( ovp && &ovp->vehicle() != veh ) {
@@ -3133,7 +3144,7 @@ void act_vehicle_siphon( vehicle *veh )
     vehicle_part &tank = veh_interact::select_part( *veh, sel, title );
     if( tank ) {
         const item &base = tank.get_base();
-        const int idx = veh->find_part( base );
+        const int idx = veh->index_of_part( &tank );
         item liquid( base.legacy_front() );
         const int liq_charges = liquid.charges;
         if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
@@ -3493,7 +3504,7 @@ void veh_interact::complete_vehicle( Character &you )
                 you.activity.set_to_null();
             }
 
-            if( veh->part_count( true ) < 2 ) {
+            if( veh->part_count_real() <= 1 ) {
                 you.add_msg_if_player( _( "You completely dismantle the %s." ), veh->name );
                 you.activity.set_to_null();
                 // destroy vehicle clears the cache

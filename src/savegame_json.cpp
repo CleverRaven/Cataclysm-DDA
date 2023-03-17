@@ -1005,7 +1005,9 @@ void Character::load( const JsonObject &data )
 
     set_wielded_item( item() );
     data.read( "weapon", weapon );
-
+    if( !weapon.is_null() && weapon.relic_data && weapon.type->relic_data ) {
+        weapon.relic_data = weapon.type->relic_data;
+    }
     data.read( "move_mode", move_mode );
 
     if( has_effect( effect_riding ) ) {
@@ -2212,7 +2214,6 @@ void npc::load( const JsonObject &data )
     int classtmp = 0;
     int atttmp = 0;
     std::string facID;
-    std::string comp_miss_id;
     std::string comp_miss_role;
     tripoint_abs_omt comp_miss_pt;
     std::string classid;
@@ -2316,9 +2317,7 @@ void npc::load( const JsonObject &data )
         }
     }
 
-    if( data.read( "comp_mission_id", comp_miss_id ) ) {
-        comp_mission.miss_id = mission_id_of( comp_miss_id );
-    }
+    data.read( "comp_mission_id", comp_mission.miss_id );
 
     if( data.read( "comp_mission_pt", comp_miss_pt ) ) {
         comp_mission.position = comp_miss_pt;
@@ -2432,7 +2431,7 @@ void npc::store( JsonOut &json ) const
         json.member( "real_weapon", real_weapon ); // also saves contents
     }
 
-    json.member( "comp_mission_id", string_of( comp_mission.miss_id ) );
+    json.member( "comp_mission_id", comp_mission.miss_id );
     json.member( "comp_mission_pt", comp_mission.position );
     json.member( "comp_mission_role", comp_mission.role_id );
     json.member( "companion_mission_role_id", companion_mission_role_id );
@@ -2845,7 +2844,13 @@ void item::craft_data::deserialize( const JsonObject &obj )
     if( disassembly ) {
         making = &recipe_dictionary::get_uncraft( itype_id( recipe_string ) );
     } else {
-        making = &recipe_id( recipe_string ).obj();
+        recipe_id rid( recipe_string );
+        if( !rid.is_valid() ) {
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_MAIN )
+                    << "item::craft_data deserialized invalid recipe_id '" << recipe_string << "'";
+            rid = recipe_id::NULL_ID();
+        }
+        making = &rid.obj();
     }
     obj.read( "comps_used", comps_used );
     next_failure_point = obj.get_int( "next_failure_point", -1 );
@@ -3232,7 +3237,11 @@ void vehicle_part::deserialize( const JsonObject &data )
     direction = units::from_degrees( direction_int );
     data.read( "blood", blood );
     data.read( "enabled", enabled );
-    data.read( "flags", flags );
+
+    uint32_t flags_int;
+    data.read( "flags", flags_int );
+    flags = static_cast<vp_flag>( flags_int );
+
     data.read( "passenger_id", passenger_id );
     if( data.has_int( "z_offset" ) ) {
         int z_offset = data.get_int( "z_offset" );
@@ -3243,7 +3252,6 @@ void vehicle_part::deserialize( const JsonObject &data )
         precalc[1].z = z_offset;
     }
 
-    // load new bike rack data
     JsonArray ja_carried = data.get_array( "carried_stack" );
     // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
     for( size_t index = ja_carried.size() - 1; index < ja_carried.size(); index-- ) {
@@ -3292,7 +3300,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "direction", std::lround( to_degrees( direction ) ) );
     json.member( "blood", blood );
     json.member( "enabled", enabled );
-    json.member( "flags", flags );
+    json.member( "flags", static_cast<uint32_t>( flags ) );
     if( !carried_stack.empty() ) {
         std::stack<vehicle_part::carried_part_data> carried_copy = carried_stack;
         json.member( "carried_stack" );
@@ -3330,7 +3338,6 @@ void vehicle_part::carried_part_data::deserialize( const JsonObject &data )
     data.read( "mount_x", mount.x );
     data.read( "mount_y", mount.y );
     data.read( "mount_z", mount.z );
-    data.read( "migrate_x_axis", migrate_x_axis );
 }
 
 void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
@@ -3341,7 +3348,6 @@ void vehicle_part::carried_part_data::serialize( JsonOut &json ) const
     json.member( "mount_x", mount.x );
     json.member( "mount_y", mount.y );
     json.member( "mount_z", mount.z );
-    json.member( "migrate_x_axis", migrate_x_axis, false );
     json.end_object();
 }
 
@@ -4282,7 +4288,13 @@ void deserialize( recipe_subset &value, const JsonArray &ja )
 {
     value.clear();
     for( std::string && recipe_id_string : ja ) {
-        value.include( &recipe_id( std::move( recipe_id_string ) ).obj() );
+        recipe_id rid( std::move( recipe_id_string ) );
+        if( !rid.is_valid() ) {
+            DebugLog( DebugLevel::D_WARNING, DebugClass::D_MAIN )
+                    << "recipe_subset deserialized invalid recipe_id '" << rid.str() << "'";
+            rid = recipe_id::NULL_ID();
+        }
+        value.include( &rid.obj() );
     }
 }
 
@@ -4354,13 +4366,13 @@ void basecamp::serialize( JsonOut &json ) const
         json.member( "dumping_spot", dumping_spot );
         json.member( "hidden_missions" );
         json.start_array();
-        for( const auto &list : hidden_missions ) {
+        for( const std::vector<ui_mission_id> &list : hidden_missions ) {
             json.start_object();
             json.member( "dir" );
             json.start_array();
             for( const ui_mission_id &miss_id : list ) {
                 json.start_object();
-                json.member( "mission_id", string_of( miss_id.id ) );
+                json.member( "mission_id", miss_id.id );
                 json.end_object();
             }
             json.end_array();
@@ -4445,10 +4457,8 @@ void basecamp::deserialize( const JsonObject &data )
         list.allow_omitted_members();
         for( JsonObject miss_id_json : list.get_array( "dir" ) ) {
             miss_id_json.allow_omitted_members();
-            std::string miss_id_string;
-            miss_id_json.read( "mission_id", miss_id_string );
             ui_mission_id miss_id;
-            miss_id.id = mission_id_of( miss_id_string );
+            miss_id_json.read( "mission_id", miss_id.id );
             miss_id.ret = false;
             hidden_missions[tab_num].push_back( miss_id );
         }

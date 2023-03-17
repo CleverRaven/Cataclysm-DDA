@@ -115,9 +115,9 @@
         [ "egg_stag_beetle", 1 ],
         [ "egg_water_beetle", 4 ],
         [ "egg_water_bug", 4 ],
-        [ "egg_butterfly", 1 ],
-        [ "egg_moth", 1 ],
-        [ "egg_cicada", 1 ]
+        [ "egg_butterfly", 4 ],
+        [ "egg_moth", 4 ],
+        [ "egg_cicada", 4 ]
       ]
     ]
   },
@@ -1250,5 +1250,10 @@
     "type": "requirement",
     "//": "Flour, irrespective of whether it's wheat-free or wheat-full.",
     "components": [ [ [ "flour", 1 ], [ "flour_wheat_free", 1 ], [ "bread_flour", 1 ] ] ]
+  },
+  {
+    "id": "tortilla_any",
+    "type": "requirement",
+    "components": [ [ [ "tortilla_corn", 1 ], [ "tortilla_flour", 1 ] ] ]
   }
 ]

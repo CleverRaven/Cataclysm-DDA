@@ -119,14 +119,14 @@ TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
         veh_ptr->set_hp( pedel, pedel.hp() * 0.25, true );
         // Try starting the engine 100 time because it is random that a combustion engine does fails
         for( int i = 0; i < 100 ; i++ ) {
-            CHECK( veh_ptr->start_engine( 0 ) );
+            CHECK( veh_ptr->start_engine( pedel ) );
         }
     }
 
     SECTION( "when the pedal has 0 hp" ) {
         veh_ptr->set_hp( pedel, 0, true );
 
-        CHECK_FALSE( veh_ptr->start_engine( 0 ) );
+        CHECK_FALSE( veh_ptr->start_engine( pedel ) );
     }
 
     here.detach_vehicle( veh_ptr );
@@ -684,7 +684,7 @@ static void rack_check( const rack_preset &preset )
 }
 
 // Testing vehicle racking and unracking
-TEST_CASE( "Racking and unracking tests", "[vehicle]" )
+TEST_CASE( "Racking and unracking tests", "[vehicle][bikerack]" )
 {
     std::vector<rack_preset> racking_presets {
         // basic test; rack bike on car, unrack it, everything should succeed

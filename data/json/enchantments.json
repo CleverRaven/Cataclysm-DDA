@@ -36,5 +36,59 @@
     "id": "SQUEAKY_ANKLES",
     "condition": "ALWAYS",
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": 3 } ]
+  },
+  {
+    "id": "ench_climate_control_cold",
+    "type": "enchantment",
+    "name": { "str": "Warm Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+  },
+  {
+    "id": "ench_climate_control_warm",
+    "type": "enchantment",
+    "name": { "str": "Cold Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 } ]
+  },
+  {
+    "id": "ench_climate_control_all",
+    "name": { "str": "Complete Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+  },
+  {
+    "id": "ench_climate_control_all_permanent",
+    "name": { "str": "Complete Climate Control" },
+    "description": "You are wearing equipment that helps handle harsh climates.",
+    "type": "enchantment",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
+  },
+  {
+    "id": "ench_exo_strength",
+    "type": "enchantment",
+    "name": { "str": "EXO Frame Strength" },
+    "description": "You are wearing equipment that gives 10 strength.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "STRENGTH", "add": 10 } ]
+  },
+  {
+    "id": "ench_dampened_steps",
+    "type": "enchantment",
+    "name": { "str": "Dampened Steps" },
+    "description": "You are wearing equipment that muffles your footsteps.",
+    "has": "WORN",
+    "condition": "ACTIVE",
+    "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
   }
 ]

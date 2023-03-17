@@ -187,7 +187,7 @@
     "max_aoe": 50,
     "damage_type": "pure",
     "sound_description": "a loud whisper",
-    "extra_effects": [ { "id": "sapient_light_bash" } ]
+    "extra_effects": [ { "id": "sapient_light_bash" }, { "id": "sapient_light_damage_player" } ]
   },
   {
     "id": "sapient_light_bash",
@@ -204,6 +204,24 @@
     "max_range": 9,
     "min_aoe": 25,
     "max_aoe": 50
+  },
+  {
+    "id": "sapient_light_damage_player",
+    "type": "SPELL",
+    "name": "Sapient Player Damage",
+    "description": "Deal 34% of player's hp damage to player.  You can't see it except in debug mode.",
+    "effect": "attack",
+    "shape": "cone",
+    "valid_targets": [ "ally" ],
+    "flags": [ "SILENT", "IGNORE_WALLS", "PERCENTAGE_DAMAGE", "NO_EXPLOSION_SFX" ],
+    "min_damage": 34,
+    "max_damage": 34,
+    "min_range": 9,
+    "max_range": 9,
+    "min_aoe": 50,
+    "max_aoe": 50,
+    "damage_type": "pure",
+    "extra_effects": [ { "id": "sapient_light_bash" } ]
   },
   {
     "type": "SPELL",

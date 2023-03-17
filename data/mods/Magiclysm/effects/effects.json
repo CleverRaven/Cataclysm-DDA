@@ -572,7 +572,7 @@
     "id": "flask_stamina_eff",
     "name": [ "Constantia" ],
     "desc": [ "You can't get tired." ],
-    "apply_message": "You feel an energy in your muscles, untired and jazzed.",
+    "apply_message": "You feel an energy in your muscles, jazzed up and full of vitality.",
     "remove_message": "The energy in your body fades away.",
     "base_mods": { "stamina_min": [ 50 ] }
   },
