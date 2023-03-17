@@ -640,8 +640,6 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                 }
             }
             // if camp that player is at, has a radio tower
-            cata::optional<basecamp *> player_camp =
-                overmap_buffer.find_camp( player_character.global_omt_location().xy() );
             if( const cata::optional<basecamp *> player_camp = overmap_buffer.find_camp(
                         player_character.global_omt_location().xy() ) ) {
                 if( ( *player_camp )->has_provides( "radio_tower" ) ) {

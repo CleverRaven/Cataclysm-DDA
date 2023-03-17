@@ -9472,7 +9472,7 @@ void game::wield( item_location loc )
             case item_location::type::vehicle: {
                 const cata::optional<vpart_reference> vp = m.veh_at( pos ).part_with_feature( "CARGO", false );
                 // If we fail to return the item to the vehicle for some reason, add it to the map instead.
-                if( !vp || !( vp->vehicle().add_item( vp->part_index(), to_wield ) ) ) {
+                if( !vp || !vp->vehicle().add_item( vp->part_index(), to_wield ) ) {
                     m.add_item( pos, to_wield );
                 }
                 break;

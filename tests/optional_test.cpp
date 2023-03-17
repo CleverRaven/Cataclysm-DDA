@@ -17,10 +17,10 @@ TEST_CASE( "optional_assignment_works", "[optional]" )
     CHECK( *a == 2 );
     a = unset;
     CHECK( !a );
-    a = std::move( b );
+    a = b ;
     REQUIRE( a );
     CHECK( *a == 2 );
-    a = std::move( unset );
+    a = unset ;
     CHECK( !a );
 
     const cata::optional<int> c( 3 );

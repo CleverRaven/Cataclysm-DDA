@@ -1261,7 +1261,7 @@ class tent_placement_activity_actor : public activity_actor
         tent_placement_activity_actor( int moves_total, tripoint target, int radius, const item &it,
                                        string_id<furn_t> wall, string_id<furn_t> floor, cata::optional<string_id<furn_t>> floor_center,
                                        string_id<furn_t> door_closed ) : moves_total( moves_total ), target( target ), radius( radius ),
-            it( it ), wall( wall ), floor( floor ), floor_center( std::move( floor_center ) ),
+            it( it ), wall( wall ), floor( floor ), floor_center( floor_center ),
             door_closed( door_closed ) {}
 
         activity_id get_type() const override {
@@ -1630,7 +1630,7 @@ class pickup_menu_activity_actor : public activity_actor
 {
     public:
         pickup_menu_activity_actor( cata::optional<tripoint> where,
-                                    std::vector<drop_location> selection ) : where( std::move( where ) ),
+                                    std::vector<drop_location> selection ) : where( where ),
             selection( std::move( selection ) ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_PICKUP_MENU" );
