@@ -32,9 +32,9 @@
     "bashing": 2,
     "price_postapoc": 124000,
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
+    "flags": [ "ONLY_ONE", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 7 } ] } ]
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 7 } ] } ]
     },
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
   },
