@@ -38,7 +38,7 @@
     "symbol": ";",
     "color": "light_gray",
     "use_action": [ "C4" ],
-	"flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "c4armed",
