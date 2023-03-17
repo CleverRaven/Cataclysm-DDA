@@ -10786,6 +10786,18 @@ const Character *Character::get_book_reader( const item &book,
     return reader;
 }
 
+bool Character::read_effective_int( const Character &reader, const Character *learner ) const
+{
+    return std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
+}
+
+bool Character::complex_read_penalty( int book_intel, const Character &reader,
+                                      const Character *learner ) const
+{
+    return book_intel > read_effective_int( reader, learner ) &&
+           !reader.has_trait( trait_PROF_DICEMASTER );
+}
+
 time_duration Character::time_to_read( const item &book, const Character &reader,
                                        const Character *learner ) const
 {
@@ -10803,9 +10815,9 @@ time_duration Character::time_to_read( const item &book, const Character &reader
     time_duration retval = type->time * reading_speed / 100;
     retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
 
-    const int effective_int = std::min( { get_int(), reader.get_int(), learner ? learner->get_int() : INT_MAX } );
-    if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
-        retval += type->time * ( time_duration::from_seconds( type->intel - effective_int ) / 1_minutes );
+    if( complex_read_penalty( type->intel, reader, learner ) ) {
+        retval += type->time * ( time_duration::from_seconds( type->intel - read_effective_int( reader,
+                                 learner ) ) / 1_minutes );
     }
     if( !has_identified( book.typeId() ) ) {
         //skimming

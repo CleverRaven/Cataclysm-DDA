@@ -2240,6 +2240,24 @@ class Character : public Creature, public visitable
         const Character *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
 
         /**
+         * Helper function for complex_read_penalty and time_to_read
+         *
+         * @param reader the player/NPC who's reading to the caller
+         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
+         */
+        bool read_effective_int( const Character &reader, const Character *learner = nullptr ) const;
+
+        /**
+         * Helper function for time_to_read and avatar::read
+         *
+         * @param book_intel Intelligence needed to read the book without penalty
+         * @param reader the player/NPC who's reading to the caller
+         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
+         */
+        bool complex_read_penalty( int book_intel, const Character &reader,
+                                   const Character *learner = nullptr ) const;
+
+        /**
          * Helper function for get_book_reader
          * @warning This function assumes that the everyone is able to read
          *

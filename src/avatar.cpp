@@ -130,7 +130,6 @@ static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL3( "SHELL3" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
@@ -655,11 +654,8 @@ bool avatar::read( item_location &book, item_location ereader )
                  reader->disp_name() );
     }
 
-    const int intelligence = get_int();
-    const bool complex_penalty = type->intel > std::min( intelligence, reader->get_int() ) &&
-                                 !reader->has_trait( trait_PROF_DICEMASTER );
-    const Character *complex_player = reader->get_int() < intelligence ? reader : this;
-    if( complex_penalty ) {
+    if( complex_read_penalty( type->intel, *reader, nullptr ) ) {
+        const Character *complex_player = reader->get_int() < get_int() ? reader : this;
         add_msg( m_warning,
                  _( "This book is too complex for %s to easily understand.  It will take longer to read." ),
                  complex_player->disp_name() );

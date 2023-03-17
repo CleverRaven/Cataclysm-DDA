@@ -151,7 +151,6 @@ static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_MUTE( "MUTE" );
 static const trait_id trait_NO_BASH( "NO_BASH" );
-static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
@@ -1338,22 +1337,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
 
 time_duration npc::time_to_read( const item &book, const Character &reader ) const
 {
-    const auto &type = book.type->book;
-    const skill_id &skill = type->skill;
-    // The reader's reading speed has an effect only if they're trying to understand the book as they read it
-    // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
-    const bool try_understand = reader.fun_to_read( book ) ||
-                                reader.get_knowledge_level( skill ) < type->level;
-    int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
-
-    time_duration retval = type->time * reading_speed / 100;
-    retval *= std::min( fine_detail_vision_mod(), reader.fine_detail_vision_mod() );
-
-    if( type->intel > reader.get_int() && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
-        retval += type->time * ( time_duration::from_seconds( type->intel - reader.get_int() ) /
-                                 1_minutes );
-    }
-    return retval;
+    return Character::time_to_read( book, reader, nullptr );
 }
 
 void npc::do_npc_read()
