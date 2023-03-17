@@ -161,7 +161,6 @@
           "items": [  "socks", "microphone_xlr_generic", "leather_journal","file", "wristwatch","roadmap" ],
           "entries": [
             { "group": "charged_smart_phone" },
-            { "group": "charged_laptop"},
             { "item": "microphone_xlr_generic", "custom-flags": [ "auto_wield" ] },
             { "item": "black_pen", "charges": 100 }
           ]
@@ -191,5 +190,27 @@
         "female": [ "bra", "panties" ]
       },
       "missions": [ "MISSION_KILLER_CLOWN" ]
+    },
+    {
+      "type": "profession",
+      "id": "hippie",
+      "name": "Hippie",
+      "description": "You were a free spirit before the apocalypse, living a life of peace, love, and harmony. You believe in living off the land and using natural remedies to heal yourself and others. The end of the world hasn't changed your values, and you continue to spread love and kindness wherever you go.",
+      "points": 3,
+      "skills": [
+        { "name": "survival", "level": 2 },
+        { "name": "firstaid", "level": 1 },
+        { "name": "cooking", "level": 1 },
+        { "name": "fabrication", "level": 1 }
+      ],
+      "traits": [ "PACIFIST","ANIMALEMPATH2","ANTIJUNK","SPIRITUAL"],
+      "items": {
+        "both": {
+          "items": [ "fancy_sunglasses", "leathersandals","backpack_hiking","bandana_head","bead_necklace","wintergreen_oil","cattail_jelly","isherwood_herbal_remedies","pipe_glass","brownie_weed", "weed", "joint","rolling_paper", "tobacco","acoustic_guitar" ],
+          "entries": [ { "item": "lighter", "charges": 100 }] 
+        },
+        "male": [ "briefs","jeans","tshirt_tour" ],
+        "female": [ "bra", "panties","sundress" ]
+      }
     }
 ]
