@@ -10,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <string>
@@ -65,7 +66,6 @@
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "pathfinding.h"
 #include "pimpl.h"
@@ -330,7 +330,7 @@ bool mattack::none( monster * )
 
 bool mattack::eat_crop( monster *z )
 {
-    cata::optional<tripoint> target;
+    std::optional<tripoint> target;
     int num_targets = 1;
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
@@ -2772,10 +2772,10 @@ bool mattack::ranged_pull( monster *z )
 
     const optional_vpart_position veh_part = here.veh_at( target->pos() );
     if( foe && foe->in_vehicle && veh_part ) {
-        const cata::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
+        const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
         if( vp_seatbelt ) {
             z->moves -= 200;
-            const cata::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
+            const std::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
             target->add_msg_player_or_npc( m_warning, _( "%1s tries to drag you, but is stopped by your %2s!" ),
                                            _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
                                            z->disp_name( false, true ), vp_seatbelt->part().name( false ) );
@@ -2989,9 +2989,9 @@ bool mattack::grab_drag( monster *z )
 
     const optional_vpart_position veh_part = get_map().veh_at( target->pos() );
     if( foe && foe->in_vehicle && veh_part ) {
-        const cata::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
+        const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
         if( vp_seatbelt ) {
-            const cata::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
+            const std::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
             target->add_msg_player_or_npc( m_warning, _( "%1s tries to drag you, but is stopped by your %2s!" ),
                                            _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
                                            z->disp_name( false, true ), vp_seatbelt->part().name( false ) );

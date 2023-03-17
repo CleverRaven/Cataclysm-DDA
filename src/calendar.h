@@ -3,6 +3,7 @@
 #define CATA_SRC_CALENDAR_H
 
 #include <iosfwd>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -632,7 +633,7 @@ std::pair<units::angle, units::angle> sun_azimuth_altitude( time_point );
 /** Returns the offset by which a ray of sunlight would move when shifting down
  * one z-level, or nullopt if the sun is below the horizon.
  */
-cata::optional<rl_vec2d> sunlight_angle( const time_point & );
+std::optional<rl_vec2d> sunlight_angle( const time_point & );
 
 enum class weekdays : int {
     SUNDAY = 0,

@@ -8,6 +8,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -15,7 +16,6 @@
 
 #include "build_reqs.h"
 #include "calendar.h"
-#include "optional.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
@@ -54,7 +54,7 @@ struct recipe_proficiency {
     float time_multiplier = 0.0f;
     float skill_penalty = 0.0f;
     float learning_time_mult = 1.0f;
-    cata::optional<time_duration> max_experience = cata::nullopt;
+    std::optional<time_duration> max_experience = std::nullopt;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
@@ -62,7 +62,7 @@ struct recipe_proficiency {
 
 struct book_recipe_data {
     int skill_req = -1;
-    cata::optional<translation> alt_name = cata::nullopt;
+    std::optional<translation> alt_name = std::nullopt;
     bool hidden = false;
 
     void load( const JsonObject &jo );
@@ -186,7 +186,7 @@ class recipe
         // Books containing this recipe, and the skill level required
         std::map<itype_id, book_recipe_data> booksets;
         // Parameters for practice recipes
-        cata::optional<practice_recipe_data> practice_data;
+        std::optional<practice_recipe_data> practice_data;
         // Parameters for nested categories
         std::set<recipe_id> nested_category_data;
 
@@ -336,13 +336,13 @@ class recipe
         std::set<std::string> flags;
 
         /** If set (zero or positive) set charges of output result for items counted by charges */
-        cata::optional<int> charges;
+        std::optional<int> charges;
 
         /** Legacy definitions for byproducts **/
         std::map<itype_id, int> byproducts;
 
         /** Item group representing byproducts **/
-        cata::optional<item_group_id> byproduct_group;
+        std::optional<item_group_id> byproduct_group;
 
         // maximum achievable time reduction, as percentage of the original time.
         // if zero then the recipe has no batch crafting time reduction.

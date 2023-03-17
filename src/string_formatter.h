@@ -5,13 +5,12 @@
 #include <cstddef>
 #include <iosfwd>
 #include <new>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <typeinfo>
 
 #include "demangle.h"
-// TODO: replace with std::optional
-#include "optional.h"
 
 class translation;
 
@@ -208,15 +207,15 @@ class string_formatter
         /// Read and forward to @ref current_format any width specifier from @ref format.
         /// Returns nothing if the width is not specified or if it is specified as fixed number,
         /// otherwise returns the index of the printf-argument to be used for the width.
-        cata::optional<int> read_width();
+        std::optional<int> read_width();
         /// See @ref read_width. This does the same, but for the precision specifier.
-        cata::optional<int> read_precision();
+        std::optional<int> read_precision();
         /// Read and return the index of the printf-argument that is to be formatted. Returns
         /// nothing if @ref format does not refer to a specific index (caller should use
         /// @ref current_argument_index).
-        cata::optional<int> read_argument_index();
+        std::optional<int> read_argument_index();
         // Helper for common logic in @ref read_width and @ref read_precision.
-        cata::optional<int> read_number_or_argument_index();
+        std::optional<int> read_number_or_argument_index();
         /// Throws an exception containing the given message and the @ref format.
         [[noreturn]]
         void throw_error( const std::string &msg ) const;
@@ -342,13 +341,13 @@ class string_formatter
                     continue;
                 }
                 current_format = "%";
-                const cata::optional<int> format_arg_index = read_argument_index();
+                const std::optional<int> format_arg_index = read_argument_index();
                 read_flags();
-                if( const cata::optional<int> width_argument_index = read_width() ) {
+                if( const std::optional<int> width_argument_index = read_width() ) {
                     const int w = get_nth_arg_as<int, 0>( *width_argument_index, std::forward<Args>( args )... );
                     current_format += std::to_string( w );
                 }
-                if( const cata::optional<int> precision_argument_index = read_precision() ) {
+                if( const std::optional<int> precision_argument_index = read_precision() ) {
                     const int p = get_nth_arg_as<int, 0>( *precision_argument_index, std::forward<Args>( args )... );
                     current_format += std::to_string( p );
                 }

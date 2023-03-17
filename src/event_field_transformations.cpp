@@ -58,7 +58,7 @@ static std::vector<cata_variant> oter_type_of_oter( const cata_variant &v )
 static std::vector<cata_variant> overmap_special_at( const cata_variant &v )
 {
     const tripoint_abs_omt p( v.get<tripoint>() );
-    cata::optional<overmap_special_id> special = overmap_buffer.overmap_special_at( p );
+    std::optional<overmap_special_id> special = overmap_buffer.overmap_special_at( p );
     if( special ) {
         return { cata_variant( *special ) };
     } else {

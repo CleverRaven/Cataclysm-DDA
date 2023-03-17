@@ -779,12 +779,12 @@ class input_context
          * the delta vector associated with it. Otherwise returns an empty value.
          * The returned vector will always have a z component of 0.
          */
-        cata::optional<tripoint> get_direction( const std::string &action ) const;
+        std::optional<tripoint> get_direction( const std::string &action ) const;
 
         /**
          * Get the coordinates associated with the last mouse click (if any).
          */
-        cata::optional<tripoint> get_coordinates( const catacurses::window &capture_win_,
+        std::optional<tripoint> get_coordinates( const catacurses::window &capture_win_,
                 const point &offset = point_zero, bool center_cursor = false ) const;
 
         // Below here are shortcuts for registering common key combinations.
@@ -811,7 +811,7 @@ class input_context
         /**
          * Get coordinate of text level from mouse input, difference between this and get_coordinates is that one is getting pixel level coordinate.
          */
-        cata::optional<point> get_coordinates_text( const catacurses::window &capture_win ) const;
+        std::optional<point> get_coordinates_text( const catacurses::window &capture_win ) const;
 
         /**
          * Get the human-readable name for an action.

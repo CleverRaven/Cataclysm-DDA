@@ -266,7 +266,7 @@ void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
 }
 
 void enchantment::load( const JsonObject &jo, const std::string &,
-                        const cata::optional<std::string> &inline_id, bool is_child )
+                        const std::optional<std::string> &inline_id, bool is_child )
 {
     optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
 
@@ -298,7 +298,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     if( jo.has_string( "condition" ) ) {
         std::string condit;
         optional( jo, was_loaded, "condition", condit );
-        cata::optional<condition> con = io::string_to_enum_optional<condition>( condit );
+        std::optional<condition> con = io::string_to_enum_optional<condition>( condit );
         if( con.has_value() ) {
             active_conditions.second = con.value();
         } else {
@@ -363,7 +363,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
 }
 
 void enchant_cache::load( const JsonObject &jo, const std::string &,
-                          const cata::optional<std::string> &inline_id )
+                          const std::optional<std::string> &inline_id )
 {
     enchantment::load( jo, "", inline_id, true );
     if( jo.has_array( "values" ) ) {

@@ -1,3 +1,4 @@
+#include <optional>
 #include <vector>
 
 #include "avatar.h"
@@ -9,7 +10,6 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "activity_actor_definitions.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -449,8 +449,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     clear_avatar();
     map &m = get_map();
     const int max_displacement = 50;
-    const cata::optional<item> stand_lamp1( "test_standing_lamp" );
-    const cata::optional<item> stand_lamp2( "test_standing_lamp" );
+    const std::optional<item> stand_lamp1( "test_standing_lamp" );
+    const std::optional<item> stand_lamp2( "test_standing_lamp" );
 
     const tripoint app1_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
     const tripoint app2_pos( app1_pos + tripoint( 2, 2, 0 ) );

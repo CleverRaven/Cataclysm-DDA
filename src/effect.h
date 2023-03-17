@@ -56,9 +56,9 @@ struct vitamin_rate_effect {
 };
 
 struct vitamin_applied_effect {
-    cata::optional<std::pair<int, int>> rate = cata::nullopt;
-    cata::optional<time_duration> tick = cata::nullopt;
-    cata::optional<float> absorb_mult = cata::nullopt;
+    std::optional<std::pair<int, int>> rate = std::nullopt;
+    std::optional<time_duration> tick = std::nullopt;
+    std::optional<float> absorb_mult = std::nullopt;
     vitamin_id vitamin;
 };
 
@@ -236,7 +236,7 @@ class effect_type
         translation blood_analysis_description;
 
         translation death_msg;
-        cata::optional<event_type> death_event;
+        std::optional<event_type> death_event;
 
         std::unordered_map<std::string, std::unordered_map<uint32_t, modifier_value_arr>> mod_data;
         std::vector<vitamin_rate_effect> vitamin_data;

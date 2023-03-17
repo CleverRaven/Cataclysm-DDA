@@ -7,6 +7,7 @@
 #include <list>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -42,7 +43,6 @@
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -1048,7 +1048,7 @@ bool advanced_inventory::move_all_items()
         player_character.assign_activity( player_activity( pickup_activity_actor(
                                               target_items,
                                               quantities,
-                                              cata::optional<tripoint>( player_character.pos() ),
+                                              std::optional<tripoint>( player_character.pos() ),
                                               false
                                           ) ) );
     } else {
@@ -1269,7 +1269,7 @@ void advanced_inventory::start_activity(
             player_character.assign_activity( player_activity( pickup_activity_actor(
                                                   target_items,
                                                   quantities,
-                                                  from_vehicle ? cata::nullopt : cata::optional<tripoint>( player_character.pos() ),
+                                                  from_vehicle ? std::nullopt : std::optional<tripoint>( player_character.pos() ),
                                                   false
                                               ) ) );
         } else {

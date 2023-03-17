@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <functional>
 #include <map>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -21,7 +22,6 @@
 #include "game_constants.h"
 #include "json.h"
 #include "json_loader.h"
-#include "optional.h"
 #include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"

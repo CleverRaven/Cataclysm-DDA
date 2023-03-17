@@ -1,5 +1,6 @@
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -21,7 +22,6 @@
 #include "memory_fast.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player_helpers.h"
