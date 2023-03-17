@@ -57,7 +57,7 @@
         "type": "profession",
         "id": "fake_pirate",
         "name": "Pirate Captian?",
-        "description": "You are the most fearsome pirate on the seven seas, at least you think you are. Your hat does say made in China but you're just well traveled. Why else would you be dressed like this?",
+        "description": "You are the most fearsome pirate on the seven seas, at least you think you are. Your hat does say made in China so you must have sailed there at least. Why else would you be dressed like this?",
         "points": 3,
         "proficiencies": [  ],
         "skills": [
@@ -67,8 +67,8 @@
           { "level": 2, "name": "melee" },
           { "level": 1, "name": "swimming" }
         ],
-        "traits": [ "OUTDOORSMAN", "STRONGSTOMACH" ],
-        "addictions": [ { "intensity": 20, "type": "alcohol" } ],
+        "traits": [ "OUTDOORSMAN", "STRONGSTOMACH","FORGETFUL" ],
+        "addictions": [ { "intensity": 25, "type": "alcohol" } ],
         "items": {
           "both": {
             "items": [
@@ -88,7 +88,6 @@
               "tricorne",
               "hardtack",
               "survivor_scope",
-              "permanent_marker",
               "bottle_glass"
             ],
             "entries": [
@@ -135,6 +134,27 @@
             { "item": "machete", "container-item": "scabbard" }
           ]
         }
+      }
+    },
+    {
+      "type": "profession",
+      "id": "reporter",
+      "name": "News Reporter",
+      "description":"You used to report on the news, but now you are the news. As a survivor in the post-apocalyptic wasteland, your skills in journalism and speaking are still valuable, but you'll need to use them wisely if you want to stay alive.",
+      "points": 2,
+      "skills": [ { "level": 2, "name": "computer" }, { "level": 4, "name": "speech" } ],
+      "traits": [ "PRETTY","PER_UP" ],
+      "items": {
+        "both": {
+          "items": [  "socks", "microphone_xlr_generic", "leather_journal","file", "wristwatch","roadmap" ],
+          "entries": [
+            { "group": "charged_smart_phone" },
+            { "item": "black_pen", "charges": 100 }
+          ]
+        },
+        
+        "male": [ "boxer_shorts","dress_shoes","suit", "dress_shirt","tie_necktie","leather_belt","briefcase" ],
+        "female": [ "bra", "panties","dress", "heels","gold_hairpin","purse" ]
       }
     }
 ]
