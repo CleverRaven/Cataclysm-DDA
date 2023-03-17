@@ -362,7 +362,7 @@
         "need_charges_msg": "The laptop's batteries need more charge.",
         "type": "transform"
       },
-      { 
+      {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",
         "ammo_scale": 0,
@@ -385,7 +385,7 @@
         "max_contains_weight": "1 g",
         "weight_multiplier": 0.0
       },
-      { 
+      {
         "pocket_type": "CABLE",
         "rigid": true,
         "max_contains_volume": "1 ml",
@@ -422,7 +422,7 @@
         "menu_text": "Turn off",
         "type": "transform"
       },
-      { 
+      {
         "type": "link_up",
         "menu_text": "Plug in / Unplug",
         "ammo_scale": 0,
