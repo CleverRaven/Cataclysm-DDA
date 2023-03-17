@@ -6351,7 +6351,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_corpse() || typeId() == itype_blood || item_vars.find( "name" ) != item_vars.end() ) {
         maintext = type_name( quantity );
     } else if( ( ( is_gun() || is_tool() || is_magazine() ) && !is_power_armor() ) ||
-               contents.has_additional_pockets() ) {
+               contents.has_additional_pockets() ) { 
         int amt = 0;
         maintext = label( quantity );
         for( const item *mod : is_gun() ? gunmods() : toolmods() ) {
