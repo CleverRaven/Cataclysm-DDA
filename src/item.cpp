@@ -12786,12 +12786,12 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         if( !vp ) {
             if( carrying_item ) {
                 carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
-                                            string_format( _( "You notice your %s has come loose!" ), tname( 1, false ) ) :
-                                            string_format( _( "You notice your %s's cable has come loose!" ), parent_item->tname( 1 ) ) );
+                                            string_format( _( "You notice your %s has come loose!" ), label( 1 ) ) :
+                                            string_format( _( "You notice your %s's cable has come loose!" ), parent_item->label( 1 ) ) );
             } else {
                 add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
-                                        string_format( _( "You notice the %s has come loose!" ), tname( 1, false ) ) :
-                                        string_format( _( "You notice the %s's cable has come loose!" ), parent_item->tname( 1 ) ) );
+                                        string_format( _( "You notice the %s has come loose!" ), label( 1 ) ) :
+                                        string_format( _( "You notice the %s's cable has come loose!" ), parent_item->label( 1 ) ) );
             }
             reset_cable( carrier, parent_item );
             return has_flag( flag_AUTO_DELETE_CABLE ) ? true : false;
@@ -12807,12 +12807,12 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         } else if( charges < 0 ) {
             if( carrying_item ) {
                 carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
-                                            string_format( _( "Your over-extended %s breaks loose!" ), tname( 1, false ) ) :
-                                            string_format( _( "Your %s's over-extended cable breaks loose!" ), parent_item->tname( 1 ) ) );
+                                            string_format( _( "Your over-extended %s breaks loose!" ), label( 1 ) ) :
+                                            string_format( _( "Your %s's over-extended cable breaks loose!" ), parent_item->label( 1 ) ) );
             } else {
                 add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
-                                        string_format( _( "The over-extended %s breaks loose!" ), tname( 1, false ) ) :
-                                        string_format( _( "The %s's over-extended cable breaks loose!" ), parent_item->tname( 1 ) ) );
+                                        string_format( _( "The over-extended %s breaks loose!" ), label( 1 ) ) :
+                                        string_format( _( "The %s's over-extended cable breaks loose!" ), parent_item->label( 1 ) ) );
             }
             reset_cable( carrier, parent_item );
             return has_flag( flag_AUTO_DELETE_CABLE ) ? true : false;
