@@ -4394,7 +4394,8 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
     map &here = get_map();
 
     bool vehicle_nearby = false;
-    const std::function<bool( const tripoint & )> has_port = [&here, &vehicle_nearby]( const tripoint & point ) {
+    const std::function<bool( const tripoint & )> has_port = [&here, &vehicle_nearby]
+    ( const tripoint & point ) {
         const optional_vpart_position vp = here.veh_at( point );
         if( !vp ) {
             return false;
@@ -4404,17 +4405,20 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         }
         return vp.avail_part_with_feature( "CABLE_PORTS" ) || vp.avail_part_with_feature( "APPLIANCE" );
     };
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Connect your device where?" ), "", has_port, false );
+    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Connect your device where?" ),
+                                          "", has_port, false );
     if( !pnt_ ) {
-        add_msg( vehicle_nearby ? _( "There's nowhere to plug it in nearby; try the vehicle's dashboard or electronics controls." ) :
-                                  _( "There's nowhere to plug it in nearby." ) );
+        add_msg( vehicle_nearby ?
+                 _( "There's nowhere to plug it in nearby; try the vehicle's dashboard or electronics controls." ) :
+                 _( "There's nowhere to plug it in nearby." ) );
         return cata::nullopt;
     }
     const tripoint &pnt = *pnt_;
     const optional_vpart_position vp = here.veh_at( pnt );
     if( !has_port( pnt ) ) {
         if( vp && vp->vehicle().has_part( "CABLE_PORTS" ) ) {
-            p.add_msg_if_player( m_info, _( "You can't plug it in there; try the dashboard or electronics controls." ) );
+            p.add_msg_if_player( m_info,
+                                 _( "You can't plug it in there; try the dashboard or electronics controls." ) );
         } else {
             p.add_msg_if_player( m_info, _( "You can't plug it in there." ) );
         }
@@ -4434,11 +4438,12 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         cable.link.charge_rate = charge_rate.value();
         // Convert wattage to how long it takes to charge 1 kW, the unit batteries use. Minimum 1 mW.
         cable.link.charge_interval = charge_rate == 0_W ? -1 :
-                   std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( charge_rate.value() ) + 0.5 ) ) );
+                                     std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( charge_rate.value() ) + 0.5 ) ) );
 
         cable.link.state = cable_state::hanging_from_vehicle;
         if( cable.link.max_length > HALF_MAPSIZE_X || cable.link.max_length > HALF_MAPSIZE_Y ) {
-            debugmsg( "%s is longer than the reality bubble - it could potentially stretch forever!", cable.tname() );
+            debugmsg( "%s is longer than the reality bubble - it could potentially stretch forever!",
+                      cable.tname() );
         }
         cable.link.max_length = cable_length != -1 ? cable_length : type->maximum_charges();
         cable.active = true;
@@ -4447,7 +4452,7 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
             it.process( get_map(), &p, p.pos() );
             p.moves -= 5;
             p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ),
-                                    it.tname( 1, false ), vp->vehicle().name );
+                                 it.tname( 1, false ), vp->vehicle().name );
         }
     } else {
         item *existing_cable = it.get_contents().cables().front();
@@ -4460,7 +4465,7 @@ cata::optional<int> plug_in_actor::use( Character &p, item &it, bool t, const tr
         it.process( get_map(), &p, p.pos() );
         p.moves -= 5;
         p.add_msg_if_player( _( "You connect the %1$s to the %2$s." ),
-            it.tname( 1, false ), vp->vehicle().name );
+                             it.tname( 1, false ), vp->vehicle().name );
     }
 
     return 0;

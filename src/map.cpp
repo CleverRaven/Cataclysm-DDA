@@ -5513,7 +5513,8 @@ void map::process_linked_movement()
 void map::process_linked_removal( const vehicle *veh, const int removed_index )
 {
     auto bounds = links_to_process.equal_range( veh );
-    std::for_each( bounds.first, bounds.second, [this,removed_index]( std::pair<const vehicle *, item::cable_link *> l ) {
+    std::for_each( bounds.first, bounds.second, [this, removed_index]
+    ( std::pair<const vehicle *, item::cable_link *> l ) {
         if( l.second->vp_index == removed_index ) {
             add_msg_if_player_sees( getlocal( l.second->pos ), m_bad, _( "The cable has come loose!" ) );
             l.second->state = cable_state::needs_reeling;
@@ -5522,16 +5523,17 @@ void map::process_linked_removal( const vehicle *veh, const int removed_index )
         } else if( l.second->vp_index > removed_index ) {
             l.second->vp_index--;
         }
-        } );
+    } );
 }
 
 units::power map::get_linked_power_draw( const vehicle *veh ) const
 {
     int milliwatts = 0;
     auto bounds = links_to_process.equal_range( veh );
-    std::for_each( bounds.first, bounds.second, [this,&milliwatts]( std::pair<const vehicle *, item::cable_link *> l ) {
+    std::for_each( bounds.first, bounds.second, [this, &milliwatts]
+    ( std::pair<const vehicle *, item::cable_link *> l ) {
         milliwatts += l.second->power_draw;
-        } );
+    } );
     /*units::power epower = 0_W;
     for( item::cable_link *link : cables_to_update ) {
     epower += units::from_milliwatt( milliwatts );

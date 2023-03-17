@@ -1436,17 +1436,17 @@ class item : public visitable
         void reset_cable( Character *p, item *parent_item = nullptr );
         void reset_cables( Character *p );
 
-        /** 
+        /**
         * @brief Exchange power between an item's batteries and the vehicle/appliance it's linked to.
         * @brief A positive link.charge_rate will charge the item at the expense of the vehicle,
         * while a negative link.charge_rate will charge the vehicle at the expense of the item.
-        * 
+        *
         * @param linked_item The item that contains the linking cable.
         * @param linked_veh The vehicle the item is connected to.
         * @return The amount of power given or taken from the item.
         */
         int charge_linked_batteries( item &linked_item, vehicle &linked_veh );
-        
+
         /**
          * Whether the item should be processed (by calling @ref process).
          */
