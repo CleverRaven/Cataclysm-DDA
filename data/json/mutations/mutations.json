@@ -3296,7 +3296,7 @@
     "visibility": 4,
     "ugliness": 3,
     "description": "You develop a reservoir of fluids that bulges out of your abdomen.  Your body has adapted to containing extra liquids in event of shortfalls.",
-    "thirst_modifier": 0.75,
+    "thirst_modifier": -0.25,
     "types": [ "THIRST" ],
     "leads_to": [ "BOMBADIER_BLAST" ],
     "category": [ "INSECT" ]
