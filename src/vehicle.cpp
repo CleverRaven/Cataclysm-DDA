@@ -340,21 +340,22 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         bool light_hoverh = one_in( 4 ); // half circle overhead light
         bool light_overh = one_in( 4 );
         bool light_atom  = one_in( 2 );
-        for( vehicle_part &pt : parts ) {
-            if( pt.has_flag( VPFLAG_CONE_LIGHT ) ) {
-                pt.enabled = light_head;
-            } else if( pt.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
-                pt.enabled = light_whead;
-            } else if( pt.has_flag( VPFLAG_DOME_LIGHT ) ) {
-                pt.enabled = light_dome;
-            } else if( pt.has_flag( VPFLAG_AISLE_LIGHT ) ) {
-                pt.enabled = light_aisle;
-            } else if( pt.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
-                pt.enabled = light_hoverh;
-            } else if( pt.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
-                pt.enabled = light_overh;
-            } else if( pt.has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
-                pt.enabled = light_atom;
+        for( vehicle_part &vp : parts ) {
+            const vpart_info vpi = vp.info();
+            if( vpi.has_flag( VPFLAG_CONE_LIGHT ) ) {
+                vp.enabled = light_head;
+            } else if( vpi.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
+                vp.enabled = light_whead;
+            } else if( vpi.has_flag( VPFLAG_DOME_LIGHT ) ) {
+                vp.enabled = light_dome;
+            } else if( vpi.has_flag( VPFLAG_AISLE_LIGHT ) ) {
+                vp.enabled = light_aisle;
+            } else if( vpi.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ) {
+                vp.enabled = light_hoverh;
+            } else if( vpi.has_flag( VPFLAG_CIRCLE_LIGHT ) ) {
+                vp.enabled = light_overh;
+            } else if( vpi.has_flag( VPFLAG_ATOMIC_LIGHT ) ) {
+                vp.enabled = light_atom;
             }
         }
 
@@ -437,7 +438,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
             }
         }
         if( vp.has_feature( "BOARDABLE" ) ) {   // no passengers
-            pt.remove_flag( vehicle_part::passenger_flag );
+            pt.remove_flag( vp_flag::passenger_flag );
         }
 
         // initial vehicle damage
@@ -1113,7 +1114,7 @@ bool vehicle::has_structural_part( const point &dp ) const
         const vehicle_part &vp = part( elem );
         const vpart_info &vpi = vp.info();
         if( vpi.location == part_location_structure &&
-            !vp.has_flag( vehicle_part::carried_flag ) &&
+            !vp.has_flag( vp_flag::carried_flag ) &&
             !vpi.has_flag( "PROTRUSION" ) ) {
             return true;
         }
@@ -1279,13 +1280,13 @@ bool vehicle::can_unmount( const int p, std::string &reason ) const
         }
     }
 
-    if( vp_to_remove.has_flag( vehicle_part::animal_flag ) ) {
+    if( vp_to_remove.has_flag( vp_flag::animal_flag ) ) {
         reason = _( "Remove carried animal first." );
         return false;
     }
 
-    if( vp_to_remove.has_flag( vehicle_part::carrying_flag ) ||
-        vp_to_remove.has_flag( vehicle_part::carried_flag ) ) {
+    if( vp_to_remove.has_flag( vp_flag::carrying_flag ) ||
+        vp_to_remove.has_flag( vp_flag::carried_flag ) ) {
         reason = _( "Unracking is required before removing this part." );
         return false;
     }
@@ -1396,7 +1397,7 @@ bool vehicle::is_connected( const vehicle_part &to, const vehicle_part &from,
 
             if( vp_next.info().location != part_location_structure || // not a structure part
                 vp_next.info().has_flag( "PROTRUSION" ) ||            // protrusions are not really structure
-                vp_next.has_flag( vehicle_part::carried_flag ) ) {    // carried frames are not structure
+                vp_next.has_flag( vp_flag::carried_flag ) ) {    // carried frames are not structure
                 continue; // can't connect if it's not structure
             }
 
@@ -1505,7 +1506,7 @@ std::vector<vehicle::rackable_vehicle> vehicle::find_vehicles_to_rack( int rack 
         std::vector<int> filtered_rack; // only empty racks
         std::copy_if( maybe_rack.begin(), maybe_rack.end(), std::back_inserter( filtered_rack ),
         [&]( const int &p ) {
-            return !parts[p].has_flag( vehicle_part::carrying_flag );
+            return !parts[p].has_flag( vp_flag::carrying_flag );
         } );
 
         for( const point &offset : four_cardinal_directions ) {
@@ -1585,7 +1586,7 @@ std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int r
 
         for( const int &rack_part : rack_parts ) {
             const vehicle_part &vp_rack = this->part( rack_part );
-            if( !vp_rack.has_flag( vehicle_part::carrying_flag ) ) {
+            if( !vp_rack.has_flag( vp_flag::carrying_flag ) ) {
                 commit_vehicle();
                 continue;
             }
@@ -1595,7 +1596,7 @@ std::vector<vehicle::unrackable_vehicle> vehicle::find_vehicles_to_unrack( int r
                     continue;
                 }
                 const vehicle_part &vp_near = parts[ near_parts[ 0 ] ];
-                if( !vp_near.has_flag( vehicle_part::carried_flag ) ) {
+                if( !vp_near.has_flag( vp_flag::carried_flag ) ) {
                     continue;
                 }
                 // if carried_name is different we have 2 separate vehicles racked on same
@@ -1743,18 +1744,18 @@ bool vehicle::merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int>
                     carry_veh->name
                 } );
                 carried_part.enabled = false;
-                carried_part.set_flag( vehicle_part::carried_flag );
+                carried_part.set_flag( vp_flag::carried_flag );
                 //give each carried part a tracked_flag so that we can re-enable overmap tracking on unloading if necessary
                 if( carry_veh->tracking_on ) {
-                    carried_part.set_flag( vehicle_part::tracked_flag );
+                    carried_part.set_flag( vp_flag::tracked_flag );
                 }
 
-                if( carried_part.has_flag( vehicle_part::passenger_flag ) ) {
-                    carried_part.remove_flag( vehicle_part::passenger_flag );
+                if( carried_part.has_flag( vp_flag::passenger_flag ) ) {
+                    carried_part.remove_flag( vp_flag::passenger_flag );
                     carried_part.passenger_id = character_id();
                 }
 
-                parts[ carry_map.rack_part ].set_flag( vehicle_part::carrying_flag );
+                parts[ carry_map.rack_part ].set_flag( vp_flag::carrying_flag );
             }
 
             const std::pair<std::unordered_multimap<point, zone_data>::iterator, std::unordered_multimap<point, zone_data>::iterator>
@@ -1847,7 +1848,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     }
 
     // Unboard any entities standing on removed boardable parts
-    if( part_flag( p, "BOARDABLE" ) && parts[p].has_flag( vehicle_part::passenger_flag ) ) {
+    if( part_flag( p, "BOARDABLE" ) && parts[p].has_flag( vp_flag::passenger_flag ) ) {
         handler.unboard( part_loc );
     }
 
@@ -1881,11 +1882,11 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
     remove_dependent_part( "HANDHELD_BATTERY_MOUNT", "NEEDS_HANDHELD_BATTERY_MOUNT" );
 
     // Release any animal held by the part
-    if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
+    if( parts[p].has_flag( vp_flag::animal_flag ) ) {
         item base = parts[p].get_base();
         handler.spawn_animal_from_part( base, part_loc );
         parts[p].set_base( base );
-        parts[p].remove_flag( vehicle_part::animal_flag );
+        parts[p].remove_flag( vp_flag::animal_flag );
     }
 
     // Update current engine configuration if needed
@@ -2070,27 +2071,27 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
     }
 
     for( const int &rack_part : racks ) {
-        parts[rack_part].remove_flag( vehicle_part::carrying_flag );
-        parts[rack_part].remove_flag( vehicle_part::tracked_flag );
+        parts[rack_part].remove_flag( vp_flag::carrying_flag );
+        parts[rack_part].remove_flag( vp_flag::tracked_flag );
     }
     if( split_vehicles( here, { carried_parts }, { new_vehicle }, { new_mounts } ) ) {
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( _( "You unload the %s from the bike rack." ), new_vehicle->name );
         bool tracked_parts = false; // if any of the unracked vehicle parts carry a tracked_flag
         for( vehicle_part &part : new_vehicle->parts ) {
-            tracked_parts |= part.has_flag( vehicle_part::tracked_flag );
+            tracked_parts |= part.has_flag( vp_flag::tracked_flag );
 
             if( part.carried_stack.empty() ) {
                 // note: we get here if the part was added while the vehicle was carried / mounted.
                 // This is not expected, still try to remove the carried flag, if any.
                 debugmsg( "unracked vehicle part had no carried flag, this is an invalid state" );
-                part.remove_flag( vehicle_part::carried_flag );
-                part.remove_flag( vehicle_part::tracked_flag );
+                part.remove_flag( vp_flag::carried_flag );
+                part.remove_flag( vp_flag::tracked_flag );
             } else {
                 part.carried_stack.pop();
                 if( part.carried_stack.empty() ) {
-                    part.remove_flag( vehicle_part::carried_flag );
-                    part.remove_flag( vehicle_part::tracked_flag );
+                    part.remove_flag( vp_flag::carried_flag );
+                    part.remove_flag( vp_flag::tracked_flag );
                 }
             }
         }
@@ -2109,8 +2110,8 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
         return true;
     } else {
         for( const int &rack_part : racks ) {
-            parts[rack_part].set_flag( vehicle_part::carrying_flag );
-            parts[rack_part].set_flag( vehicle_part::tracked_flag );
+            parts[rack_part].set_flag( vp_flag::carrying_flag );
+            parts[rack_part].set_flag( vp_flag::tracked_flag );
         }
         //~ %s is the vehicle being loaded onto the bicycle rack
         add_msg( m_bad, _( "You can't unload the %s from the bike rack." ), new_vehicle->name );
@@ -2333,7 +2334,7 @@ bool vehicle::split_vehicles( map &here,
 
             // remove the passenger from the old vehicle
             if( passenger ) {
-                parts[ mov_part ].remove_flag( vehicle_part::passenger_flag );
+                parts[ mov_part ].remove_flag( vp_flag::passenger_flag );
                 parts[ mov_part ].passenger_id = character_id();
             }
             // indicate the part needs to be removed from the old vehicle
@@ -3143,7 +3144,7 @@ std::vector<int> vehicle::boarded_parts() const
 {
     std::vector<int> res;
     for( const vpart_reference &vp : get_avail_parts( VPFLAG_BOARDABLE ) ) {
-        if( vp.part().has_flag( vehicle_part::passenger_flag ) ) {
+        if( vp.part().has_flag( vp_flag::passenger_flag ) ) {
             res.push_back( static_cast<int>( vp.part_index() ) );
         }
     }
@@ -3183,7 +3184,7 @@ bool vehicle::is_passenger( Character &c ) const
 Character *vehicle::get_passenger( int you ) const
 {
     you = part_with_feature( you, VPFLAG_BOARDABLE, false );
-    if( you >= 0 && parts[you].has_flag( vehicle_part::passenger_flag ) ) {
+    if( you >= 0 && parts[you].has_flag( vp_flag::passenger_flag ) ) {
         return g->critter_by_id<Character>( parts[you].passenger_id );
     }
     return nullptr;
@@ -7009,7 +7010,7 @@ int vehicle::damage_direct( map &here, int p, int dmg, damage_type type )
     dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ static_cast<int>( type ) ] );
     int dres = dmg - parts[p].hp();
     if( mod_hp( parts[ p ], 0 - dmg, type ) ) {
-        if( is_flyable() && !rotors.empty() && !parts[p].has_flag( VPFLAG_SIMPLE_PART ) ) {
+        if( is_flyable() && !rotors.empty() && !parts[p].info().has_flag( VPFLAG_SIMPLE_PART ) ) {
             // If we break a part, we can no longer fly the vehicle.
             set_flyable( false );
         }

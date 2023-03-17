@@ -766,7 +766,7 @@ bool veh_interact::update_part_requirements()
     }
 
     if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
-    return veh->part( e ).has_flag( vehicle_part::carried_flag );
+    return veh->part( e ).has_flag( vp_flag::carried_flag );
     } ) ) {
         msg = _( "Unracking is required before installing any parts here." );
         return false;

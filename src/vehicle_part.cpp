@@ -204,7 +204,7 @@ bool vehicle_part::is_cleaner_on() const
 
 bool vehicle_part::is_unavailable( const bool carried ) const
 {
-    return is_broken() || ( has_flag( carried_flag ) && carried );
+    return is_broken() || ( has_flag( vp_flag::carried_flag ) && carried );
 }
 
 bool vehicle_part::is_available( const bool carried ) const
