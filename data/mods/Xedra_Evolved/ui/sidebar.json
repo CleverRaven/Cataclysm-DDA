@@ -172,13 +172,17 @@
     "copy-from": "my_labels_sidebar",
     "type": "widget",
     "id": "my_labels_sidebar",
-    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ] }
+    "extend": {
+      "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ]
+    }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",
     "copy-from": "legacy_classic_sidebar_one_padding",
     "type": "widget",
     "id": "legacy_classic_sidebar_one_padding",
-    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ] }
+    "extend": {
+      "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ]
+    }
   }
 ]
