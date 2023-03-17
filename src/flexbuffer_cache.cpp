@@ -162,7 +162,7 @@ struct file_flexbuffer : parsed_flexbuffer {
 
         bool is_stale() const override {
             std::error_code ec;
-            std::filesystem::file_time_type mtime = fs::last_write_time( source_file_path_ );
+            fs::file_time_type mtime = fs::last_write_time( source_file_path_ );
             if( ec ) {
                 // Assume yes out of date.
                 return true;
@@ -396,7 +396,7 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse( fs::path json_source
 
     std::error_code ec;
     // If we got this far we can get the mtime.
-    std::filesystem::file_time_type mtime = fs::last_write_time( json_source_path, ec );
+    fs::file_time_type mtime = fs::last_write_time( json_source_path, ec );
 
     return std::make_shared<file_flexbuffer>(
                std::move( storage ),
