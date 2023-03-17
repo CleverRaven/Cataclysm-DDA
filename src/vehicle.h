@@ -265,7 +265,6 @@ struct vehicle_part {
             tripoint mount;        // if value is tripoint_zero this is the pivot
             units::angle face_dir; // direction relative to the carrier vehicle
             std::string veh_name;  // carried vehicle name this part belongs to
-            bool migrate_x_axis;   // migrate carried vehicles to x-axis ( for legacy saves only )
 
             void deserialize( const JsonObject &data );
             void serialize( JsonOut &json ) const;
