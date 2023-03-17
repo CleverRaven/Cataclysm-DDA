@@ -12819,22 +12819,10 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
         if( parent_item != nullptr && charges >= 0 ) {
             link.power_draw = 0;
-            // Recharge batteries
-            item *parent_mag = parent_item->magazine_current();
-            if( parent_mag && parent_mag->has_flag( flag_RECHARGE ) &&
-                parent_item->ammo_capacity( ammo_battery ) > parent_item->ammo_remaining() ) {
 
-                link.power_draw -= link.charge_rate;
-                if( link.charge_interval > 0 ) {
-                    if( calendar::once_every( time_duration::from_turns( link.charge_interval ) ) ) {
-                        const int battery_deficit = vp->vehicle().discharge_battery( 1, true );
-                        // Around 85% efficient by default; a few of the discharges don't actually recharge
-                        if( battery_deficit == 0 && !one_in( link.charge_efficiency ) ) {
-                            parent_item->ammo_set( itype_battery, parent_item->ammo_remaining() + 1 );
-                        }
-                    }
-                }
-            }
+            // Recharge or charge linked batteries
+            link.power_draw -= charge_linked_batteries( *parent_item, vp.value().vehicle() );
+
             // Tool power draw
             if( parent_item->active && parent_item->type->tool && parent_item->type->tool->power_draw > 0_W ) {
                 link.power_draw -= parent_item->type->tool->power_draw.value();
@@ -12857,6 +12845,53 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     }
 
     return false;
+}
+
+int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh )
+{
+    int power_draw = 0;
+
+    if( link.charge_rate == 0 || link.charge_interval < 1 ||
+        !calendar::once_every( time_duration::from_turns( link.charge_interval ) ) ) {
+
+        return 0;
+    }
+    
+    const item *parent_mag = linked_item.magazine_current();
+    if( !parent_mag ) {
+        return 0;
+    }
+
+    const bool power_in = link.charge_rate > 0;
+
+    if( ( power_in && parent_mag->has_flag( flag_RECHARGE ) &&
+          linked_item.ammo_remaining() < linked_item.ammo_capacity( ammo_battery ) ) ||
+        ( !power_in && linked_item.ammo_remaining() > 0 ) ) {
+
+        if( power_in ) {
+            power_draw -= link.charge_rate;
+            const int battery_deficit = linked_veh.discharge_battery( 1, true );
+            // Around 85% efficient by default; a few of the discharges don't actually recharge
+            if( battery_deficit == 0 && !one_in( link.charge_efficiency ) ) {
+                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() + 1 );
+            }
+        } else {
+            power_draw += link.charge_rate;
+            // Around 85% efficient by default; a few of the discharges don't actually charge
+            if( !one_in( link.charge_efficiency ) ) {
+                const int battery_surplus = linked_veh.charge_battery( 1, true );
+                if( battery_surplus == 0 ) {
+                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - 1 );
+                }
+            } else {
+                const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level();
+                if( linked_levels.first < linked_levels.second ) {
+                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - 1 );
+                }
+            }
+        }
+    }
+    return power_draw;
 }
 
 void item::reset_cable( Character *p, item *parent_item )
