@@ -261,7 +261,6 @@ void item::add_rain_to_container( int charges )
         }
         // The container already has a liquid.
         item &liq = *found_liq;
-        int orig = liq.charges;
         int added = std::min( charges, capa );
         if( capa > 0 ) {
             liq.charges += added;
