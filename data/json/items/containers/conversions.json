@@ -1,0 +1,115 @@
+[
+  {
+    "id": "box_retool_large",
+    "type": "GENERIC",
+    "category": "container",
+    "copy-from": "box_retool",
+    "name": { "str": "large conversion kit" },
+    "description": "a sturdy and sizable cardboard box, neatly stamped with branded manufacturer’s markings, lines of printed information, and contact details for a service that likely stopped existing along with its customers.  The stylized image of a long-barrelled rifle adorns the container’s front, with large text promising the inclusion of all the parts required to convert a specific weapon to fire one of a number of possible cartridges; a compatible magazine is also included.",
+    "volume": "8960 ml",
+    "longest_side": "56 cm",
+    "//": "External dimensions, (10x16x56)",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "6272 ml",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "54 cm"
+      }
+    ]
+  },
+  {
+    "id": "box_retool",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "box_small",
+    "name": { "str": "conversion kit" },
+    "description": "a sturdy cardboard box, neatly stamped with branded manufacturer’s markings, lines of printed information, and contact details for a service that likely stopped existing along with its customers.  The stylized image of an assembled rifle adorns the container’s front, with large text promising the inclusion of all the parts required to convert a specific weapon to fire one of a number of possible cartridges; a compatible magazine is also included.",
+    "weight": "400 g",
+    "volume": "6880 ml",
+    "longest_side": "56 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "//": "External dimensions, (10x16x42)",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "4592 ml",
+        "max_contains_weight": "25 kg",
+        "max_item_length": "41 cm"
+      }
+    ]
+  },
+  {
+    "id": "box_retool_short",
+    "type": "GENERIC",
+    "category": "container",
+    "copy-from": "box_retool",
+    "name": { "str": "compact conversion kit" },
+    "description": "a modestly sized cardboard box, neatly stamped with branded manufacturer’s markings, lines of printed information, and contact details for a service that likely stopped existing along with its customers.  The stylized image of an assembled carbine adorns the container’s front, with large text promising the inclusion of all the parts required to convert a specific weapon to fire one of a number of possible cartridges; a compatible magazine is also included.",
+    "volume": "5920 ml",
+    "longest_side": "37 cm",
+    "//": "External dimensions, (10x16x37)",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "3920 ml",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "35 cm"
+      }
+    ]
+  },
+  {
+    "id": "box_retool_micro",
+    "type": "GENERIC",
+    "category": "container",
+    "copy-from": "box_retool",
+    "name": { "str": "micro conversion kit" },
+    "description": "a relatively small cardboard box, neatly stamped with branded manufacturer’s markings, lines of printed information, and contact details for a service that likely stopped existing along with its customers.  The stylized image of an extremely shortened carbine adorns the container’s front, with large text promising the inclusion of all the parts required to convert a specific weapon to fire one of a number of possible cartridges; a compatible magazine is also included.",
+    "volume": "4320 ml",
+    "longest_side": "27 cm",
+    "//": "External dimensions, (10x16x27)",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2800 ml",
+        "max_contains_weight": "15 kg",
+        "max_item_length": "25 cm"
+      }
+    ]
+  },
+  {
+    "id": "weapon_transit_case",
+    "type": "GENERIC",
+    "category": "container",
+    "looks_like": "box_small",
+    "name": { "str": "rifle transit case" },
+    "//": "https://www.sportingservices.co.uk/collections/carrying-and-protection/products/accuracy-international-explorer-ax-hard-transit-case-6980",
+    "description": "a sturdy cardboard box, neatly stamped with branded manufacturer’s markings, lines of printed information, and contact details for a service that likely stopped existing along with its customers.  The stylized image of an assembled rifle adorns the container’s front, with large text promising the inclusion of all the parts required to convert a specific weapon to fire one of a number of possible cartridges; a compatible magazine is also included.",
+    "weight": "400 g",
+    "volume": "93624 ml",
+    "longest_side": "141 cm",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cardboard" ],
+    "symbol": ")",
+    "color": "brown",
+    "//": "External dimensions, (16x41.5x141)",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "4592 ml",
+        "max_contains_weight": "25 kg",
+        "max_item_length": "41 cm"
+      }
+    ]
+  }
+]

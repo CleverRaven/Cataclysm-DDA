@@ -290,7 +290,7 @@
     "mod_targets": [ "xedra_gun" ],
     "name": { "str_sp": "unrifled barrel" },
     "flags": [ "IRREMOVABLE" ],
-    "description": "This weapon is fitted with long barrel with \"00 CQC\" stamped into the metal."
+    "description": "This weapon is fitted with a long barrel with \"00 CQC\" stamped into the metal."
   },
   {
     "id": "robofac_gun_exodii",

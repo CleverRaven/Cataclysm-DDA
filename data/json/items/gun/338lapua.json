@@ -83,7 +83,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 1 } } ]
   },
   {
-    "id": "mrad",
+    "id": "mrad_smr",
     "copy-from": "rifle_manual",
     "looks_like": "ar15",
     "type": "GUN",
@@ -92,7 +92,7 @@
     "variant_type": "gun",
     "variants": [
       {
-        "id": "mrad",
+        "id": "mrad_smr",
         "name": { "str_sp": "Barrett MRAD SMR" },
         "description": "Chambered for the .338 Lapua cartridge, the Barrett MRAD SMR is a civilian variant of the MK22 MRAD sniper rifle, which was in service with elements of the US army and is often regarded as one of the finest bolt-action sniper rifles ever developed.  The primary differences that set this weapon apart from its Marshal sibling are the removal of the MRAD’s caliber conversion capabilities and the installation of a fixed buttstock.  These changes have resulted in a lighter and slimmer rifle that, most importantly for the discerning pre-cataclysmic precision shooter, didn’t require a second mortgage to purchase.",
         "weight": 1
@@ -125,6 +125,51 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ],
       [ "stock accessory", 2 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "barrett_338lapua_mag" ] } ]
+  },
+  {
+    "id": "axmc",
+    "copy-from": "rifle_manual",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "modular sniper rifle" },
+    "description": "A weapon platform that prides itself on modularity and customizability, this highly accurate precision rifle may be configured with various caliber conversion kits that can allow it to fire either the .338 Lapua, .300 Win Mag, or .308 Winchester cartridges.  The rifle's size prevents it from being a particularly mobile piece of equipment, but the weapon's folding buttstock aids in portability.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "axmc",
+        "name": { "str_sp": "Accuracy International AXMC" },
+        "description": "Produced by the British precision rifle company Accuracy International, the AX Modular Caliber Weapon System is a highly-accurate combat sniper rifle offered to military, law enforcement, and civilian precision marksmen.  The rifle is compatible with a wide range of aftermarket components, including caliber conversion kits, and is built upon a base aluminum chassis, into which the weapon's parts may be installed or removed at the user's discretion.",
+        "weight": 1
+      }
+    ],
+    "weight": "5420 g",
+    "//": "Weight of gun plus muzzle break and empty 10-round magazine is 6.8 kg. Weights of these latter two have been deducted, as has the weight of a standard barrel.",
+    "volume": "6050 ml",
+    "longest_side": "564 mm",
+    "//2": "Length and volume calculations have been adjusted to represent just the base chassis, without an installed barrel.",
+    "price": 675000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "aluminum", "steel", "plastic" ],
+    "color": "black",
+    "ammo": [ "NULL" ],
+    "dispersion": 50,
+    "durability": 10,
+    "blackpowder_tolerance": 24,
+    "default_mods": [ "match_trigger", "high_end_folding_stock", "retool_axmc_338lapua", "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "stock accessory", 2 ],
+      [ "stock", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "barrett_338lapua_mag" ] } ]
   }
