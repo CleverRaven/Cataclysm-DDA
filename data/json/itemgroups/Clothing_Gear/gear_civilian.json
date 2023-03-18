@@ -202,7 +202,7 @@
     "subtype": "collection",
     "//": "A list of items that would have had a decent chance to appear in a pre-apocalypse child schoolbag.",
     "items": [
-      { "group": "pencil_case__with_contents", "prob": 70 },
+      { "group": "pencil_case_with_contents", "prob": 70 },
       { "group": "book_school", "prob": 65 },
       { "group": "book_school", "prob": 55 },
       { "group": "kids_books", "prob": 15 },

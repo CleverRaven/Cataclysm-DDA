@@ -2072,7 +2072,7 @@
       [ "balloon", 5 ],
       { "item": "scissors_wavy", "prob": 7 },
       { "group": "pencil_case_contents", "prob": 50 },
-      { "group": "pencil_case_contents", "prob": 30, "container-item": "pencil_case" }
+      { "group": "pencil_case_with_contents", "prob": 30 }
     ]
   },
   {
