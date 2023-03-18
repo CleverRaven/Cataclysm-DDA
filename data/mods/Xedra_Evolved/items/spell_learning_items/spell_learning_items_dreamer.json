@@ -137,7 +137,7 @@
     "symbol": "0",
     "color": "black",
     "scannable": false,
-    "use_action": { "type": "learn_spell", "spells": [ "make_hammer" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "make_constructed_hammer" ] }
   },
   {
     "id": "artifact_bubble",
