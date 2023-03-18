@@ -198,18 +198,39 @@
   {
     "id": "child_schoolbag_contents",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "//": "A list of items that would have had a decent chance to appear in a pre-apocalypse child schoolbag.",
     "items": [
       { "group": "pencil_case_contents", "prob": 30, "container-item": "pencil_case" },
       { "group": "book_school", "prob": 20 },
       { "group": "book_school", "prob": 20 },
       { "group": "kids_books", "prob": 12 },
-      { "group": "lunchbox_contents", "prob": 30, "container-item": "lunchbox" },
+      { "group": "lunchbox_with_contents", "prob": 30 },
       { "group": "candy_chocolate", "prob": 12 },
       { "group": "softdrinks_canned", "prob": 5 },
       { "group": "softdrinks_bottled", "prob": 7 },
       { "group": "bugout_toys", "prob": 2 }
+    ]
+  },
+  {
+    "id": "lunchbox_with_contents",
+    "type": "item_group",
+    "container-item": "lunchbox",
+    "on_overflow": "spill",
+    "items": [ { "group": "lunchbox_contents", "prob": 7 } ]
+  },
+  {
+    "id": "lunchbox_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "A list of items that would have had a decent chance to appear in a pre-apocalypse lunchbox, be it child or adult (but I did a pretty poor job at variety, I am not sure what could actually go there).",
+    "items": [
+      { "group": "lunchbox_food", "prob": 90 },
+      { "group": "lunchbox_fruit", "prob": 35 },
+      { "item": "plastic_fork", "prob": 30 },
+      { "item": "plastic_knife", "prob": 30 },
+      { "item": "plastic_spoon", "prob": 15 },
+      { "item": "napkin", "prob": 15, "count": [ 1, 5 ] }
     ]
   },
   {
