@@ -790,6 +790,7 @@
       { "item": "sugar", "prob": 60 },
       { "item": "artificial_sweetener", "prob": 15 },
       { "item": "dry_rice", "prob": 65 },
+      { "item": "dry_wild_rice", "prob": 5 },
       { "item": "chem_citric_acid", "prob": 5 }
     ]
   },

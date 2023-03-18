@@ -722,20 +722,20 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     const int sign_before = sgn( velocity_before );
     bool empty = true;
     map &here = get_map();
-    for( int p = 0; p < num_parts(); p++ ) {
-        if( parts.at( p ).removed || ( parts.at( p ).is_fake && !parts.at( p ).is_active_fake ) ) {
+    for( int p = 0; p < part_count(); p++ ) {
+        const vehicle_part &vp = parts.at( p );
+        if( vp.removed || !vp.is_real_or_active_fake() ) {
             continue;
         }
 
-        const vpart_info &info = part_info( p );
-        if( !parts.at( p ).is_fake &&
-            info.location != part_location_structure && info.rotor_diameter() == 0 ) {
+        const vpart_info &info = vp.info();
+        if( !vp.is_fake && info.location != part_location_structure && info.rotor_diameter() == 0 ) {
             continue;
         }
         empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
-        const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
+        const tripoint dsp = global_pos3() + dp + vp.precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_diameter() / 2.0f ) );
@@ -2156,7 +2156,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                       rider->posx(), rider->posy(), rider->posz(),
                       part_pos.x, part_pos.y, part_pos.z );
-            veh.part( ps ).remove_flag( vehicle_part::passenger_flag );
+            veh.part( ps ).remove_flag( vp_flag::passenger_flag );
             continue;
         }
 
@@ -2241,8 +2241,8 @@ bool vehicle::should_enable_fake( const tripoint &fake_precalc, const tripoint &
                                   const tripoint &neighbor_precalc ) const
 {
     // if parent's pos is diagonal to neighbor, but fake isn't, fake can fill a gap opened
-    tripoint abs_parent_neighbor_diff = get_abs_diff( parent_precalc, neighbor_precalc );
-    tripoint abs_fake_neighbor_diff = get_abs_diff( fake_precalc, neighbor_precalc );
+    tripoint abs_parent_neighbor_diff = ( parent_precalc - neighbor_precalc ).abs();
+    tripoint abs_fake_neighbor_diff = ( fake_precalc - neighbor_precalc ).abs();
     return ( abs_parent_neighbor_diff.x == 1 && abs_parent_neighbor_diff.y == 1 ) &&
            ( ( abs_fake_neighbor_diff.x == 1 && abs_fake_neighbor_diff.y == 0 ) ||
              ( abs_fake_neighbor_diff.x == 0 && abs_fake_neighbor_diff.y == 1 ) );

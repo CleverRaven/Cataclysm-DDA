@@ -53,7 +53,6 @@ static const move_mode_id move_mode_walk( "walk" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 
-static const weather_type_id weather_acid_rain( "acid_rain" );
 static const weather_type_id weather_cloudy( "cloudy" );
 static const weather_type_id weather_drizzle( "drizzle" );
 static const weather_type_id weather_portal_storm( "portal_storm" );
@@ -1930,11 +1929,6 @@ TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
         SECTION( "snowing" ) {
             scoped_weather_override forecast( weather_snowing );
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_white>Snowing</color>" );
-        }
-
-        SECTION( "acid rain" ) {
-            scoped_weather_override forecast( weather_acid_rain );
-            CHECK( weather_w.layout( ava ) == "Weather: <color_c_green>Acid Rain</color>" );
         }
 
         SECTION( "portal storm" ) {

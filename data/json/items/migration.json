@@ -1977,5 +1977,10 @@
     "type": "MIGRATION",
     "replace": "paint_can_steel",
     "contents": [ { "id": "paint_black", "count": 15 } ]
+  },
+  {
+    "id": "chem_zinc",
+    "type": "MIGRATION",
+    "replace": "chem_zinc_oxide"
   }
 ]

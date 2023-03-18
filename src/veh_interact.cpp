@@ -456,8 +456,7 @@ void veh_interact::do_main_loop()
 {
     bool finish = false;
     Character &player_character = get_player_character();
-    const bool owned_by_player = veh->handle_potential_theft( dynamic_cast<Character &>
-                                 ( player_character ), true );
+    const bool owned_by_player = veh->handle_potential_theft( player_character, true );
     faction *owner_fac;
     if( veh->has_owner() ) {
         owner_fac = g->faction_manager_ptr->get( veh->get_owner() );
@@ -478,23 +477,23 @@ void veh_interact::do_main_loop()
         } else if( action == "QUIT" ) {
             finish = true;
         } else if( action == "INSTALL" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_install();
             }
         } else if( action == "REPAIR" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_repair();
             }
         } else if( action == "MEND" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_mend();
             }
         } else if( action == "REFILL" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_refill();
             }
         } else if( action == "REMOVE" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_remove();
             }
         } else if( action == "RENAME" ) {
@@ -506,7 +505,7 @@ void veh_interact::do_main_loop()
                 }
             }
         } else if( action == "SIPHON" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 do_siphon();
                 // Siphoning may have started a player activity. If so, we should close the
                 // vehicle dialog and continue with the activity.
@@ -517,7 +516,7 @@ void veh_interact::do_main_loop()
                 }
             }
         } else if( action == "UNLOAD" ) {
-            if( veh->handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
+            if( veh->handle_potential_theft( player_character ) ) {
                 finish = do_unload();
             }
         } else if( action == "CHANGE_SHAPE" ) {
@@ -767,7 +766,7 @@ bool veh_interact::update_part_requirements()
     }
 
     if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
-    return veh->part( e ).has_flag( vehicle_part::carried_flag );
+    return veh->part( e ).has_flag( vp_flag::carried_flag );
     } ) ) {
         msg = _( "Unracking is required before installing any parts here." );
         return false;
@@ -3505,7 +3504,7 @@ void veh_interact::complete_vehicle( Character &you )
                 you.activity.set_to_null();
             }
 
-            if( veh->part_count( true ) < 2 ) {
+            if( veh->part_count_real() <= 1 ) {
                 you.add_msg_if_player( _( "You completely dismantle the %s." ), veh->name );
                 you.activity.set_to_null();
                 // destroy vehicle clears the cache
