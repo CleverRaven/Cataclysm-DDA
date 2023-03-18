@@ -5491,13 +5491,13 @@ void map::process_linked_movement()
             if( l.first == nullptr ) {
                 // No vehicle pointer, try finding it via the saved link position:
                 const optional_vpart_position vp = get_map().veh_at( getlocal( l.second->pos ) );
-                if( vp && l.second->vp_index < vp->vehicle().num_parts() ) {
+                if( vp && l.second->vp_index < vp->vehicle().part_count() ) {
                     new_pos = vp->vehicle().global_part_pos3( l.second->vp_index );
                     if( inbounds( new_pos ) ) {
                         l.second->pos = getabs( new_pos );
                     }
                 }
-            } else if( l.second->vp_index < l.first->num_parts() ) {
+            } else if( l.second->vp_index < l.first->part_count() ) {
                 new_pos = l.first->global_part_pos3( l.second->vp_index );
                 if( inbounds( new_pos ) ) {
                     l.second->pos = getabs( new_pos );

@@ -12833,7 +12833,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
             return true;
         }
 
-        if( link.vp_index > -1 && link.vp_index < vp->vehicle().num_parts() ) {
+        if( link.vp_index > -1 && link.vp_index < vp->vehicle().part_count() ) {
             here.setup_link_processing( &link, &vp->vehicle() );
         }
     }
