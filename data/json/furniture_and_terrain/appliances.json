@@ -549,7 +549,7 @@
     "type": "vehicle_part",
     "name": { "str": "makeshift ammonia machine pipework" },
     "item": "ammonia_machine_pipework",
-    "description": "A rather complicated system of thick-walled pipes, powerful compressors, and wiring, meant to interface with a reactor producing ammonia from nitrogen and hydrogen via the Haber-Bosch process, with a power cord to connect it to an electric grid.",
+    "description": "A rather complicated system of thick-walled pipes, powerful compressors, and wiring, meant to interface with a reactor producing ammonia from nitrogen and hydrogen via the Haber-Bosch process, with a power cord to connect it to anelectric grid.",
     "categories": [ "utility" ],
     "symbol": "&",
     "broken_symbol": "x",
