@@ -38,8 +38,6 @@ static const itype_id itype_software_useless( "software_useless" );
 static const mission_type_id
 mission_MISSION_GET_ZOMBIE_BLOOD_ANAL( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
 
-static const mtype_id mon_zombie( "mon_zombie" );
-
 static const overmap_special_id overmap_special_evac_center( "evac_center" );
 
 /* These functions are responsible for making changes to the game at the moment
