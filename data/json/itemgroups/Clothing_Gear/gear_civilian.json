@@ -63,7 +63,8 @@
       [ "thermos", 5 ],
       [ "hairbrush", 25 ],
       [ "comb_pocket", 50 ],
-      [ "ankle_wallet_pouch", 1 ]
+      [ "ankle_wallet_pouch", 1 ],
+      { "group": "lunchbox_with_contents", "prob": 50 }
     ]
   },
   {
