@@ -101,7 +101,7 @@
     "copy-from": "structured_sidebar",
     "type": "widget",
     "id": "structured_sidebar",
-    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout" ] }
+    "extend": { "widgets": [ "xe_current_max_mana_nums_layout", "xe_mana_graph_layout", "xe_mana_pool_layout", "vampire_blood_levels" ] }
   },
   {
     "//": "spacebar Wide bar-graph of current mana level, using the default 'bucket' fill.",
@@ -142,7 +142,7 @@
     "style": "layout",
     "arrange": "minimum_columns",
     "width": 56,
-    "widgets": [ "xe_spacebar_mana_num", "xe_spacebar_max_mana_num" ]
+    "widgets": [ "xe_spacebar_mana_num", "xe_spacebar_max_mana_num", "vampire_blood_levels" ]
   },
   {
     "id": "xe_spacebar_mana_bar_block",
@@ -150,7 +150,7 @@
     "style": "layout",
     "label": "xe_mana_bar",
     "arrange": "minimum_columns",
-    "widgets": [ "spacebar_separator_2", "xe_spacebar_mana_graph" ]
+    "widgets": [ "spacebar_separator_2", "xe_spacebar_mana_graph", "vampire_blood_levels" ]
   },
   {
     "id": "xe_spacebar_mana_numbers_block",
@@ -158,14 +158,14 @@
     "style": "layout",
     "label": "xe_mana_number",
     "arrange": "minimum_columns",
-    "widgets": [ "spacebar_separator_2", "xe_spacebar_current_max_mana_nums_layout" ]
+    "widgets": [ "spacebar_separator_2", "xe_spacebar_current_max_mana_nums_layout", "vampire_blood_levels" ]
   },
   {
     "//": "spacebar Extend the custom sidebar with Xedra-specific sections",
     "copy-from": "spacebar",
     "type": "widget",
     "id": "spacebar",
-    "extend": { "widgets": [ "xe_spacebar_mana_numbers_block", "xe_spacebar_mana_bar_block" ] }
+    "extend": { "widgets": [ "xe_spacebar_mana_numbers_block", "xe_spacebar_mana_bar_block", "vampire_blood_levels" ] }
   },
   {
     "//": "Extend the custom sidebar with Xedra-specific sections",
