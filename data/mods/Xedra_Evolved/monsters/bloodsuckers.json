@@ -390,7 +390,7 @@
     "id": "mon_renfield_abomination",
     "type": "MONSTER",
     "name": { "str": "abominable renfield" },
-    "description": "A brobdignagian Renfield, twisted through unnatural alchemies.  Their stump sized legs and feet pound the earth as they move, while their clawlike hands to tear you apart.",
+    "description": "A brobdignagian Renfield, twisted through unnatural alchemies.  Their stump sized legs and feet pound the earth as they move, while their claw like hands to tear you apart.",
     "symbol": "A",
     "color": "brown_red",
     "default_faction": "vampire",
