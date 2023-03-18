@@ -129,6 +129,11 @@
     "entries": [ { "drop": "walnut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ]
   },
   {
+    "id": "butternut_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "butternut", "base_num": [ 5, 12 ], "scale_num": [ 0, 0.5 ] } ]
+  },
+  {
     "id": "fern_harv",
     "type": "harvest",
     "entries": [ { "drop": "fiddlehead_raw", "base_num": [ 1, 4 ] } ]
@@ -319,6 +324,11 @@
     "id": "japanese_knotweed_harv",
     "type": "harvest",
     "entries": [ { "drop": "japanese_knotweed_stem", "base_num": [ 1, 2 ] } ]
+  },
+  {
+    "id": "wild_rice_harv",
+    "type": "harvest",
+    "entries": [ { "drop": "wild_rice", "base_num": [ 2, 4 ] } ]
   },
   {
     "id": "wintergreen_harv",
