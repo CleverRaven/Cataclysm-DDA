@@ -1102,7 +1102,7 @@ void player_morale::update_radiophile_bonus()
     int bonus = 0;
 
     if( is_radiophile ) {
-        bonus = radiation / 8;
+        bonus = radiation / 20;
     }
     set_permanent( MORALE_PERM_RADIOPHILE, bonus );
 }
