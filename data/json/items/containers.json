@@ -3495,7 +3495,8 @@
         "watertight": false,
         "open_container": false,
         "max_contains_volume": "1000 ml",
-        "max_contains_weight": "2 kg"
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm"
       }
     ],
     "flags": [ "COLLAPSE_CONTENTS" ]
