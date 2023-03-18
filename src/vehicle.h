@@ -2072,8 +2072,6 @@ class vehicle
         std::map<itype_id, units::energy> fuel_used_last_turn;
         std::unordered_multimap<point, zone_data> loot_zones;
         active_item_cache active_items; // NOLINT(cata-serialize)
-        // Cables connected to this vehicle; update their target points if the vehicle moves. Cleared every turn.
-        std::vector<item::cable_link *> cables_to_update;
         // a magic vehicle, powered by magic.gif
         bool magic = false;
         // when does the magic vehicle disappear?

@@ -12742,6 +12742,9 @@ bool item::process_extinguish( map &here, Character *carrier, const tripoint &po
 
 bool item::process_cable( map &here, Character *carrier, const tripoint &pos, item *parent_item )
 {
+    int turns_elapsed = to_turns<int>( calendar::turn - link.last_processed );
+    link.last_processed = calendar::turn;
+
     bool carrying_item = false;
     if( carrier != nullptr ) {
         carrying_item = carrier->has_item( parent_item != nullptr ? *parent_item : *this );
@@ -12822,9 +12825,9 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
             link.power_draw = 0;
 
             // Recharge or charge linked batteries
-            link.power_draw -= charge_linked_batteries( *parent_item, vp.value().vehicle() );
+            link.power_draw -= charge_linked_batteries( *parent_item, vp.value().vehicle(), turns_elapsed );
 
-            // Tool power draw
+            // Tool power draw display
             if( parent_item->active && parent_item->type->tool && parent_item->type->tool->power_draw > 0_W ) {
                 link.power_draw -= parent_item->type->tool->power_draw.value();
             }
@@ -12848,12 +12851,17 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     return false;
 }
 
-int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh )
+int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh, int turns_elapsed )
 {
-    int power_draw = 0;
+    int ret = 0;
+    // Normally efficiency is a random chance to skip a charge, but if we're catching up from time
+    // spent ouside the reality bubble it should be applied as a percentage of the total instead.
+    // This is used for determining which to do.
+    bool short_time_passed = turns_elapsed <= link.charge_interval;
 
-    if( link.charge_rate == 0 || link.charge_interval < 1 ||
-        !calendar::once_every( time_duration::from_turns( link.charge_interval ) ) ) {
+    if( link.charge_rate == 0 || turns_elapsed < 1 || link.charge_interval < 1 ||
+        ( !calendar::once_every( time_duration::from_turns( link.charge_interval ) ) &&
+          short_time_passed ) ) {
         return 0;
     }
 
@@ -12868,30 +12876,34 @@ int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh )
           linked_item.ammo_remaining() < linked_item.ammo_capacity( ammo_battery ) ) ||
         ( !power_in && linked_item.ammo_remaining() > 0 ) ) {
 
+        // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
+        int transfer_total = short_time_passed ? 1 :
+            ( turns_elapsed / link.charge_interval ) * ( 1.0 - 1.0 / link.charge_efficiency );
+
         if( power_in ) {
-            power_draw -= link.charge_rate;
-            const int battery_deficit = linked_veh.discharge_battery( 1, true );
+            ret -= link.charge_rate;
+            const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
             // Around 85% efficient by default; a few of the discharges don't actually recharge
-            if( battery_deficit == 0 && !one_in( link.charge_efficiency ) ) {
-                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() + 1 );
+            if( battery_deficit == 0 && !( short_time_passed && one_in( link.charge_efficiency ) ) ) {
+                linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() + transfer_total );
             }
         } else {
-            power_draw += link.charge_rate;
+            ret += link.charge_rate;
             // Around 85% efficient by default; a few of the discharges don't actually charge
-            if( !one_in( link.charge_efficiency ) ) {
-                const int battery_surplus = linked_veh.charge_battery( 1, true );
+            if( !( short_time_passed && one_in( link.charge_efficiency ) ) ) {
+                const int battery_surplus = linked_veh.charge_battery( transfer_total, true );
                 if( battery_surplus == 0 ) {
-                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - 1 );
+                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
                 }
             } else {
                 const std::pair<int, int> linked_levels = linked_veh.connected_battery_power_level();
                 if( linked_levels.first < linked_levels.second ) {
-                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - 1 );
+                    linked_item.ammo_set( itype_battery, linked_item.ammo_remaining() - transfer_total );
                 }
             }
         }
     }
-    return power_draw;
+    return ret;
 }
 
 void item::reset_cable( Character *p, item *parent_item )

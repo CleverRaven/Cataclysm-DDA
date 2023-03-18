@@ -4460,6 +4460,7 @@ cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tr
         }
 
         cable.link.max_length = cable_length != -1 ? cable_length : type->maximum_charges();
+        cable.link.last_processed = calendar::turn;
         cable.active = true;
 
         if( it.put_in( cable, item_pocket::pocket_type::CABLE ).success() ) {
@@ -4478,6 +4479,7 @@ cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tr
         existing_cable->link.vp_index = vp_port.value().part_index();
         existing_cable->link.state = cable_state::hanging_from_vehicle;
         existing_cable->link.max_length = cable_length != -1 ? cable_length : type->maximum_charges();
+        existing_cable->link.last_processed = calendar::turn;
         existing_cable->active = true;
         it.plugged_in = true;
         it.process( get_map(), &p, p.pos() );

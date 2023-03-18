@@ -1428,6 +1428,8 @@ class item : public visitable
             int charge_interval = -1;
             /**TODOkama */
             int charge_efficiency = 7;
+            /**TODOkama */
+            time_point last_processed = calendar::turn;
         };
         cable_link link;
         /**
@@ -1443,9 +1445,10 @@ class item : public visitable
         *
         * @param linked_item The item that contains the linking cable.
         * @param linked_veh The vehicle the item is connected to.
-        * @return The amount of power given or taken from the item.
+        * @param turns_elapsed The number of turns the link has spent outside the reality bubble. Default 1.
+        * @return The amount of power given or taken to be displayed; ignores turns_elapsed and inefficiency.
         */
-        int charge_linked_batteries( item &linked_item, vehicle &linked_veh );
+        int charge_linked_batteries( item &linked_item, vehicle &linked_veh, int turns_elapsed = 1 );
 
         /**
          * Whether the item should be processed (by calling @ref process).
