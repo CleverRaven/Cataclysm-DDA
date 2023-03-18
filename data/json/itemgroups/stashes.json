@@ -270,8 +270,8 @@
       { "group": "SUS_book", "prob": 50 },
       { "group": "games", "prob": 20 },
       { "group": "bugout_memento", "prob": 50 },
-      { "group": "tampon_box_used", "prob": 20 },
-      { "group": "menstrual_pad_box_used", "prob": 20 }
+      { "group": "tampon_box_full", "prob": 20 },
+      { "group": "menstrual_pad_box_full", "prob": 20 }
     ]
   },
   {
