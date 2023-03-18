@@ -1,0 +1,40 @@
+[{
+    "id": "peace_necklace",
+    "type": "ARMOR",
+    "name": { "str": "peace necklace" },
+    "description": "A handmade wooden necklace carved into the shape of a peace sign ☮ You are tempted to contempate the meaning of peace in a world such as this.",
+    "looks_like": "silver_necklace",
+    "weight": "15 g",
+    "volume": "25 ml",
+    "price": 120,
+    "price_postapoc": 10,
+    "material": [ "wood" ],
+    "symbol": "☮",
+    "color": "brown",
+    "use_action": [ "MEDITATE" ],
+    "flags": [ "NO_WEAR_EFFECT" ]
+  },
+  {
+    "id": "tarot_cards",
+    "type": "GENERIC",
+    "category": "other",
+    "name": {
+      "str": "Tarot cards"
+    },
+    "description": "A deck of 78 tarot cards used for divination and fortune telling.",
+    "weight": "55 g",
+    "volume": "100 ml",
+    "price": 2500,
+    "price_postapoc": 40,
+    "material": [
+      "cardboard"
+    ],
+    "symbol": ",",
+    "color": "magenta",
+    "flags": [
+      "NO_REPAIR"
+    ],
+    "use_action": [
+      "PLAY_GAME"
+    ]
+  }]

@@ -216,7 +216,7 @@
           "leathersandals",
           "backpack_hiking",
           "bandana_head",
-          "bead_necklace",
+          "peace_necklace",
           "cattail_jelly",
           "isherwood_herbal_remedies",
           "pipe_glass",
@@ -231,6 +231,50 @@
       },
       "male": [ "briefs", "jeans", "tshirt_tour" ],
       "female": [ "bra", "panties", "sundress" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "conspiracy_theorist",
+    "name": "Conspiracy Theorist",
+    "description": "You were once dismissed as a kook and a quack, but now that the apocalypse has happened, you're convinced that your wildest theories have been proven true.  You used to spend hours pouring over books, websites, and chat rooms, gathering every shred of evidence you could find to support your claims. Now its time to put that knowledge to the test.",
+    "proficiencies": [ "prof_wp_zombie", "prof_wp_cyborg", "prof_wp_demihuman","prof_xenology" ],
+    "points": 4,
+    "skills": [ { "level": 2, "name": "computer" },{ "level": 1, "name": "electronics" }, { "level": 1, "name": "mechanics" },{ "name": "survival", "level": 1 } ],
+    "traits": [ "FASTREADER", "SCHIZOPHRENIC" ],
+    "items": {
+      "both": {
+        "items": [ "tinfoil_hat", "pants_cargo", "army_top", "socks", "jacket_jean","boots_combat", "book_anthology_htloop", "book_anthology_an","book_newage_aliens","book_newage_generic","radio_book","backpack_tactical_large","aluminum_foil","material_rocksalt","file","militarymap","lab_file_portal" ],
+        "entries": [
+          { "group": "charged_two_way_radio" },
+          { "item": "crowbar", "custom-flags": [ "auto_wield" ] }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "amateur_wiccan",
+    "name": "Amateur Wiccan",
+    "description": "You're a self-taught Wiccan, who has only recently begun dabbling in the art of magic. You have a few basic spells and a lot of enthusiasm, but your lack of experience often leaves you frustrated. However, after being exposed to high levels of radiation, you now believe that you possess incredible magical powers, and you're eager to put them to the test in the post-apocalyptic world.",
+    "proficiencies": [ "prof_distilling" ],
+    "points": 4,
+    "skills": [ { "level": 2, "name": "survival" },{ "level": 1, "name": "cooking" }, { "level": 2, "name": "fabrication" } ],
+    "traits": [ "LOVES_BOOKS", "SPIRITUAL","ELFAEYES","NAILS","POISRESIST","PLANTSKIN" ],
+    "items": {
+      "both": {
+        "items": [ "backpack","boots_combat", "book_newage_witchcraftadv", "book_newage_witchcraftbeg","book_newage_healcrystals","book_newage_generic","tarot_cards","incense","pipe_glass","weed" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "wizard_cane_cheap", "custom-flags": [ "auto_wield" ] },
+          { "item": "candle", "charges": 100},
+          { "item": "lighter", "charges": 100 } 
+        ]
+      },
+      "male": [ "briefs","robe","jeans","socks","wizard_hat_costume" ],
+      "female": [ "bra", "panties","witch_dress_short","stockings" ]
     }
   }
 ]
