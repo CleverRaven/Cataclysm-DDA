@@ -4741,7 +4741,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
             drew_blood = true;
             blood_temp = map_it.temperature;
 
-            auto bloodtype( map_it.get_mtype()->bloodType() );
+            field_type_id bloodtype( map_it.get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
             } else {
@@ -5982,7 +5982,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
         something_downloaded = true;
         p.add_msg_if_player( m_good, _( "You have updated your monster collection." ) );
 
-        auto photos = eink.get_var( "EINK_MONSTER_PHOTOS" );
+        std::string photos = eink.get_var( "EINK_MONSTER_PHOTOS" );
         if( photos.empty() ) {
             eink.set_var( "EINK_MONSTER_PHOTOS", monster_photos );
         } else {
@@ -8644,7 +8644,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         }
         const tripoint posp = *posp_;
         const optional_vpart_position vp = here.veh_at( posp );
-        auto ter = here.ter( posp );
+        ter_id ter = here.ter( posp );
         if( !vp && ter != t_chainfence ) {
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return cata::nullopt;

@@ -135,7 +135,7 @@ void teleporter_list::serialize( JsonOut &json ) const
 
     json.member( "known_teleporters" );
     json.start_array();
-    for( std::pair<tripoint_abs_omt, std::string> pair : known_teleporters ) {
+    for( const std::pair<const tripoint_abs_omt, std::string> &pair : known_teleporters ) {
         json.start_object();
         json.member( "position", pair.first );
         json.member( "name", pair.second );

@@ -14,6 +14,7 @@
 #include <unordered_set>
 #include <vector>
 
+#include "achievement.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -53,6 +54,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "npctrade.h"
@@ -1671,6 +1673,34 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             var.pop_back();
             global_variables &globvars = get_globals();
             phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
+        } else if( tag.find( "<item_name:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, itype_id( var )->nname( 1 ) );
+        } else if( tag.find( "<item_description:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, itype_id( var )->description.translated() );
+        } else if( tag.find( "<trait_name:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, trait_id( var )->name() );
+        } else if( tag.find( "<trait_description:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, trait_id( var )->desc() );
         } else if( tag.find( "<city>" ) != std::string::npos ) {
             std::string cityname = "nowhere";
             tripoint_abs_sm abs_sub = get_map().get_abs_sub();
@@ -3280,6 +3310,27 @@ void talk_effect_fun_t<T>::set_sound_effect( const JsonObject &jo, const std::st
     };
 }
 
+
+template<class T>
+void talk_effect_fun_t<T>::set_give_achievment( const JsonObject &jo, const std::string &member )
+{
+    str_or_var<T> achieve = get_str_or_var<T>( jo.get_member( member ), member, true );
+    function = [achieve]( const T & d ) {
+        const achievement_id achievement_to_give( achieve.evaluate( d ) );
+        // make sure the achievement is being tracked and that it is currently pending
+        std::vector<const achievement *> all_achievements = get_achievements().valid_achievements();
+        if( std::find_if( all_achievements.begin(),
+        all_achievements.end(), [&achievement_to_give]( const achievement * ach ) {
+        return ach->id == achievement_to_give;
+    } ) != all_achievements.end() ) {
+            if( get_achievements().is_completed( achievement_to_give ) == achievement_completion::pending ) {
+                get_achievements().report_achievement( &achievement_to_give.obj(),
+                                                       achievement_completion::completed );
+            }
+        }
+    };
+}
+
 template<class T>
 void talk_effect_fun_t<T>::set_mod_healthy( const JsonObject &jo, const std::string &member,
         bool is_npc )
@@ -4279,6 +4330,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_first_topic( jo, "npc_first_topic" );
     } else if( jo.has_string( "sound_effect" ) ) {
         subeffect_fun.set_sound_effect( jo, "sound_effect" );
+    } else if( jo.has_string( "give_achievement" ) ) {
+        subeffect_fun.set_give_achievment( jo, "give_achievement" );
     } else if( jo.has_member( "u_message" ) ) {
         subeffect_fun.set_message( jo, "u_message" );
     } else if( jo.has_member( "npc_message" ) ) {

@@ -169,24 +169,56 @@ class event_statistic::impl
 };
 
 struct value_constraint {
+    enum comparator { lt, lteq, gteq, gt };
     std::vector<cata_variant> equals_any_;
     cata::optional<string_id<event_statistic>> equals_statistic_;
+    cata::optional<std::pair<comparator, cata_variant>> val_comp_;
 
     bool permits( const cata_variant &v, stats_tracker &stats ) const {
         if( std::find( equals_any_.begin(), equals_any_.end(), v ) != equals_any_.end() ) {
             return true;
         }
         // NOLINTNEXTLINE(readability-simplify-boolean-expr)
-        if( equals_statistic_ && stats.value_of( *equals_statistic_ ) == v ) {
-            return true;
+        if( equals_statistic_ ) {
+            return stats.value_of( *equals_statistic_ ) == v;
+        }
+        if( val_comp_ ) {
+            int v_int = v.get<int>();
+            int c_int = ( *val_comp_ ).second.get<int>();
+            switch( ( *val_comp_ ).first ) {
+                case comparator::lt:
+                    return v_int < c_int;
+                case comparator::lteq:
+                    return v_int <= c_int;
+                case comparator::gteq:
+                    return v_int >= c_int;
+                case comparator::gt:
+                    return v_int > c_int;
+            }
         }
         return false;
     }
 
     void deserialize( const JsonObject &jo ) {
-        cata_variant equals_variant;
-        if( jo.read( "equals", equals_variant, false ) ) {
-            equals_any_ = { equals_variant };
+        cata_variant single_val;
+        const auto check_comp_int = [&]( const std::string & comp ) -> bool {
+            bool ret = single_val.type() == cata_variant_type::int_;
+            if( !ret ) {
+                jo.throw_error( string_format( "The value constraint \"%s\" may only be used with int type!",
+                                               comp ) );
+            }
+            return ret;
+        };
+        if( jo.read( "equals", single_val, false ) ) {
+            equals_any_ = { single_val };
+        } else if( jo.read( "lt", single_val, false ) && check_comp_int( "lt" ) ) {
+            val_comp_ = std::pair<comparator, cata_variant>( comparator::lt, single_val );
+        } else if( jo.read( "lteq", single_val, false ) && check_comp_int( "lteq" ) ) {
+            val_comp_ = std::pair<comparator, cata_variant>( comparator::lteq, single_val );
+        } else if( jo.read( "gteq", single_val, false ) && check_comp_int( "gteq" ) ) {
+            val_comp_ = std::pair<comparator, cata_variant>( comparator::gteq, single_val );
+        } else if( jo.read( "gt", single_val, false ) && check_comp_int( "gt" ) ) {
+            val_comp_ = std::pair<comparator, cata_variant>( comparator::gt, single_val );
         }
 
         std::pair<cata_variant_type, std::vector<std::string>> equals_any;
@@ -203,7 +235,7 @@ struct value_constraint {
             equals_statistic_ = stat;
         }
 
-        if( equals_any_.empty() && !equals_statistic_ ) {
+        if( equals_any_.empty() && !equals_statistic_ && !val_comp_ ) {
             jo.throw_error( "No valid value constraint found" );
         }
     }
@@ -226,7 +258,7 @@ struct value_constraint {
             }
         }
 
-        for( const cata_variant &e : equals_any_ ) {
+        const auto check_one = [&]( const cata_variant & e ) -> void {
             if( input_type != e.type() ) {
                 debugmsg( "constraint for event_transformation %s matches constant of type %s "
                           "but value compared with it has type %s",
@@ -238,6 +270,14 @@ struct value_constraint {
                           "but that is not a valid value of that type",
                           name, e.get_string(), io::enum_to_string( e.type() ) );
             }
+        };
+
+        for( const cata_variant &e : equals_any_ ) {
+            check_one( e );
+        }
+
+        if( val_comp_ ) {
+            check_one( ( *val_comp_ ).second );
         }
     }
 

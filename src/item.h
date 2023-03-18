@@ -488,6 +488,8 @@ class item : public visitable
                            bool debug ) const;
         void component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                              bool debug ) const;
+        void enchantment_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                               bool debug ) const;
         void repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
         void disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -932,7 +934,7 @@ class item : public visitable
          * Funnel related functions. See weather.cpp for their usage.
          */
         bool is_funnel_container( units::volume &bigger_than ) const;
-        void add_rain_to_container( bool acid, int charges = 1 );
+        void add_rain_to_container( int charges = 1 );
         /*@}*/
 
         /**
@@ -2928,10 +2930,9 @@ class item : public visitable
         };
 
         cata::value_ptr<craft_data> craft_data_;
-
+    public:
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
-    public:
         int charges = 0;
         units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
 

@@ -2048,13 +2048,13 @@
         "666666666666C|@666|S666|",
         "6666666666666|H+H|||H+H|",
         "666666666666666666666666",
-        "66C6C666666666666B666666",
-        "|H|+|H||66666666III66666",
-        "666B666|6666666666666666",
-        "6BIIIB6H666BI6I66BI6I666",
-        "6BIIIB6H6666I6IB66I6IB6B",
-        "6BIIIB6H6666666666666666",
-        "6BIIIB6|666666I666I6IB6B"
+        "66C6C6666666666]]]66]]]]",
+        "|H|+|H||S66666S]S6666S]S",
+        "666B666|S66666S]I6666I]I",
+        "6BIIIB6H6666C66]IB66BI]I",
+        "6BIIIB6H666666@]I6666I]I",
+        "6BIIIB6H666C66@]]]66]]]]",
+        "6BIIIB6|666666@]S6666S]S"
       ],
       "palettes": [ "mall_palette_2" ],
       "terrain": {
@@ -2065,11 +2065,12 @@
         ":": "t_linoleum_white",
         "&": "t_linoleum_white",
         "I": "t_carpet_concrete_red",
+        "]": "t_carpet_concrete_red",
         "S": "t_carpet_concrete_red",
         "C": "t_carpet_concrete_red",
         "@": "t_carpet_concrete_red"
       },
-      "furniture": { "&": "f_table", ":": "f_bench" },
+      "furniture": { "&": "f_table", ":": "f_bench", "]": "f_room_divider" },
       "items": {
         "u": { "item": "default_vending_machine", "chance": 50, "repeat": [ 2, 8 ] },
         "K": { "item": "pizza_table", "chance": 20 }
@@ -2100,14 +2101,14 @@
         "SSSS6|__|HHH666H|||Ŋ,.,.",
         "66666|__|>666666=_|H++H|",
         "||=|||__|>666666|<|ƧƧƧƧH",
-        "66B66|__|||||||||||ƧƧƧƧ|",
-        "6III6|____________||||||",
-        "66666=_________________θ",
-        "66666|||||||||=|||||||||",
-        "I6IB6|I66S|zz___zz|3333|",
-        "I6I66|IB66=_____zz|3,,33",
-        "66666||||||||=|||||3,,,,",
-        "I6IB6|..............,,,,"
+        "66666=__|||||||||||ƧƧƧƧ|",
+        "]66]]|____________||||||",
+        "6666S|_________________θ",
+        "6666I|||||||||=|||||||||",
+        "B66BI|I66S|zz___zz|3333|",
+        "6666I|IB66=_____zz|3,,33",
+        "]66]]||||||||=|||||3,,,,",
+        "6666S|..............,,,,"
       ],
       "palettes": [ "mall_palette_2" ],
       "place_loot": [ { "group": "cash_register_random", "x": [ 19, 21 ], "y": 1 } ],
@@ -2116,6 +2117,7 @@
         "S": "t_carpet_concrete_red",
         "B": "t_carpet_concrete_red",
         "I": "t_carpet_concrete_red",
+        "]": "t_carpet_concrete_red",
         "z": "t_thconc_floor",
         ":": "t_linoleum_white",
         "*": "t_linoleum_white",
@@ -2123,7 +2125,7 @@
         "A": "t_linoleum_white",
         "&": "t_linoleum_white"
       },
-      "furniture": { "3": "f_table", "&": "f_table", ":": "f_bench", "*": "f_counter" },
+      "furniture": { "3": "f_table", "&": "f_table", ":": "f_bench", "*": "f_counter", "]": "f_room_divider" },
       "items": {
         "Q": { "item": "pizza_kitchen", "chance": 50, "repeat": [ 2, 4 ] },
         "J": { "item": "pizza_display", "chance": 30 },
@@ -2133,8 +2135,8 @@
         "i": { "item": "oven", "chance": 30, "repeat": [ 1, 2 ] },
         "z": { "item": "farming_seeds", "chance": 30, "repeat": [ 1, 2 ] },
         "3": { "item": "farming_seeds", "chance": 30, "repeat": [ 1, 2 ] },
-        "I": { "item": "office", "chance": 30 },
-        "S": { "item": "office_paper", "chance": 30 }
+        "I": { "item": "SUS_office_desk", "chance": 30 },
+        "S": { "item": "SUS_office_filing_cabinet", "chance": 30 }
       },
       "place_monster": [ { "group": "GROUP_MALL", "x": [ 3, 23 ], "y": [ 8, 23 ], "repeat": [ 7, 9 ] } ]
     }
@@ -2470,9 +2472,9 @@
     "object": {
       "fill_ter": "t_carpet_green",
       "rows": [
-        "6BIIIB6H666666IB6BI6I666",
-        "6BIIIB6|6666666666666666",
-        "666B666||||==|||66666666",
+        "6BIIIB6H6666666]I6666I]I",
+        "6BIIIB6|6666666]IB66BI]I",
+        "666B666||||==|||I6666I]I",
         "|||||||||......|||||||||",
         "ƧƧƧƧ|||...,,,,...|||ƧƧƧƧ",
         "ƧƧƧƧ|...,,,,,,,,...|ƧƧƧƧ",
@@ -2499,13 +2501,14 @@
       "terrain": {
         "B": "t_carpet_concrete_red",
         "I": "t_carpet_concrete_red",
+        "]": "t_carpet_concrete_red",
         "S": "t_carpet_concrete_red",
         "4": "t_floor",
         "3": "t_floor",
         "6": "t_carpet_concrete_red",
         "7": "t_carpet_green"
       },
-      "furniture": { "4": "f_displaycase", "3": "f_table" },
+      "furniture": { "4": "f_displaycase", "3": "f_table", "]": "f_room_divider" },
       "items": {
         "V": { "item": "consumer_electronics", "chance": 30 },
         "M": { "item": "consumer_electronics", "chance": 30 },
@@ -2523,9 +2526,9 @@
     "object": {
       "fill_ter": "t_carpet_green",
       "rows": [
-        "I6I66|3,,,,A,,,,,,,,,,,,",
-        "66666|3,,,JJJJJJJJJJ,,,,",
-        "66666|.,,,,,,,,,,,,,,,Q,",
+        "6666I|3,,,,A,,,,,,,,,,,,",
+        "B66BI|3,,,JJJJJJJJJJ,,,,",
+        "6666I|.,,,,,,,,,,,,,,,Q,",
         "||||||.QQQ,,QQQ,,QQQ,,Q,",
         "|ƧƧƧƧ|.,,,,,,,,,,,,,,,Q,",
         "|ƧƧƧƧ|.333..333..333....",
@@ -2554,6 +2557,7 @@
         { "group": "cash_register_random", "x": [ 6, 10 ], "y": 20 }
       ],
       "terrain": {
+        "B": "t_carpet_concrete_red",
         "I": "t_carpet_concrete_red",
         "Q": "t_linoleum_white",
         "3": "t_linoleum_gray",

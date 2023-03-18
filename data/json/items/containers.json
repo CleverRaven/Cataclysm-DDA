@@ -3360,6 +3360,45 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_gourd",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "bottle gourd" },
+    "looks_like": "clay_canister",
+    "description": "A hard, watertight container made from a dried bottle gourd.  Can be used similar to a canteen or just for storing liquids.",
+    "weight": "300 g",
+    "volume": "2500 ml",
+    "price": 300,
+    "price_postapoc": 60,
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "symbol": "6",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "2250 ml",
+        "max_item_volume": "2501 ml",
+        "max_contains_weight": "2501 g",
+        "sealed_data": { "spoil_multiplier": 0.9 }
+      }
+    ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 3,
+          "coverage": 8,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "paint_can_steel",
     "type": "GENERIC",
     "category": "container",

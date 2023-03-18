@@ -8,8 +8,7 @@
       { "id": "pointy_stick", "description": " Craft: Pointy Sticks" },
       { "id": "wood_panel_from nailed planks", "description": " Craft: Wooden Panel, Nailed Planks" },
       { "id": "wood_panel_from wooden beams", "description": " Craft: Wooden Panel, Wooden Beams" },
-      { "id": "wood_beam_from logs", "description": " Craft: Wooden Beam" },
-      { "id": "2x4_from logs", "description": " Craft: Wooden Plank" }
+      { "id": "wood_beam_from logs", "description": " Craft: Wooden Beam" }
     ]
   },
   {

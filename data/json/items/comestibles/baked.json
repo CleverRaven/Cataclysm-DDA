@@ -18,5 +18,24 @@
     "stack_size": 24,
     "fun": 3,
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 2 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "hazelnut_cake",
+    "name": { "str_sp": "hazelnut cake" },
+    "weight": "30 g",
+    "color": "brown",
+    "spoils_in": "7 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "calories": 72,
+    "description": "This traditional hazelnut cake (or Bagȣnizabȣnak cake in Abenaki) is a nice, protein-rich treat for cold days.",
+    "price": 50,
+    "price_postapoc": 5,
+    "material": [ "nut" ],
+    "volume": "35 ml",
+    "stack_size": 24,
+    "fun": 3,
+    "vitamins": [ [ "vitC", 2 ], [ "calcium", 3 ] ]
   }
 ]

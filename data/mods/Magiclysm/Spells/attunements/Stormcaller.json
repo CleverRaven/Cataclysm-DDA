@@ -50,6 +50,7 @@
     "base_energy_cost": 400,
     "energy_increment": -17.5,
     "final_energy_cost": 225,
+    "//": "it is intended to have min_damage 0 - the attunement is given on lvl 5, which round the amount of monsters to 1 and make smooth progression afterwards",
     "min_damage": 0,
     "max_damage": 4,
     "damage_increment": 0.1,
