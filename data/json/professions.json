@@ -735,34 +735,31 @@
     }
   },
   {
-   "type": "profession",
-   "id": "electroengineer",
-   "name": "Electronics Engineer",
-   "description": "You used to design electrical circuits for all sorts of gadgets.",
-   "points": 3,
-   "skills": [
-            { "level": 3, "name": "computer" },
-            { "level": 5, "name": "electronics" }
-   ],
-   "proficiencies": [ "prof_elec_soldering", "prof_elec_semiconductors", "prof_elec_integrated_circuits" ],
-   "items": {
-     "both": {
-       "items": [ "dress_shirt", "pants", "socks", "boots", "coat_lab", "wristwatch" ],
-       "entries": [
-         { "group": "charged_smart_phone" },
-         { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500 },
-         { "item": "software_electronics_reference" },
-         { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "multimeter" },
-         { "item": "breadboard" },
-         { "item": "cable", "charges": 10 },
-         { "item": "amplifier" },
-         { "item": "circuit" },
-         { "item": "multitool" }
-       ]
-     },
-     "male": [ "briefs" ],
-     "female": [ "bra", "panties" ]
-   }
+    "type": "profession",
+    "id": "electroengineer",
+    "name": "Electronics Engineer",
+    "description": "You used to design electrical circuits for all sorts of gadgets.",
+    "points": 3,
+    "skills": [ { "level": 3, "name": "computer" }, { "level": 5, "name": "electronics" } ],
+    "proficiencies": [ "prof_elec_soldering", "prof_elec_semiconductors", "prof_elec_integrated_circuits" ],
+    "items": {
+      "both": {
+        "items": [ "dress_shirt", "pants", "socks", "boots", "coat_lab", "wristwatch" ],
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500 },
+          { "item": "software_electronics_reference" },
+          { "item": "light_battery_cell", "ammo-item": "battery", "charges": 100, "container-item": "multimeter" },
+          { "item": "breadboard" },
+          { "item": "cable", "charges": 10 },
+          { "item": "amplifier" },
+          { "item": "circuit" },
+          { "item": "multitool" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
   },
   {
     "type": "profession",
