@@ -1220,13 +1220,13 @@ void map::board_vehicle( const tripoint &pos, Character *p )
         }
         return;
     }
-    if( vp->part().has_flag( vehicle_part::passenger_flag ) ) {
+    if( vp->part().has_flag( vp_flag::passenger_flag ) ) {
         Character *psg = vp->vehicle().get_passenger( vp->part_index() );
         debugmsg( "map::board_vehicle: passenger (%s) is already there",
                   psg ? psg->get_name() : "<null>" );
         unboard_vehicle( pos );
     }
-    vp->part().set_flag( vehicle_part::passenger_flag );
+    vp->part().set_flag( vp_flag::passenger_flag );
     vp->part().passenger_id = p->getID();
     vp->vehicle().invalidate_mass();
 
@@ -1240,7 +1240,7 @@ void map::board_vehicle( const tripoint &pos, Character *p )
 void map::unboard_vehicle( const vpart_reference &vp, Character *passenger, bool dead_passenger )
 {
     // Mark the part as un-occupied regardless of whether there's a live passenger here.
-    vp.part().remove_flag( vehicle_part::passenger_flag );
+    vp.part().remove_flag( vp_flag::passenger_flag );
     vp.vehicle().invalidate_mass();
 
     if( !passenger ) {
@@ -1376,7 +1376,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
                 debugmsg( "Empty passenger for part #%d at %d,%d,%d player at %d,%d,%d?",
                           prt, part_pos.x, part_pos.y, part_pos.z,
                           player_character.posx(), player_character.posy(), player_character.posz() );
-                veh.part( prt ).remove_flag( vehicle_part::passenger_flag );
+                veh.part( prt ).remove_flag( vp_flag::passenger_flag );
                 r.moved = true;
                 continue;
             }
@@ -9349,7 +9349,7 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
 
     // Now vehicles
 
-    auto vehs = get_vehicles();
+    VehicleList vehs = get_vehicles();
     for( wrapped_vehicle &wrapped_veh : vehs ) {
         vehicle &veh = *( wrapped_veh.v );
         for( const vpart_reference &vp : veh.get_all_parts_with_fakes() ) {

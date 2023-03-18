@@ -9,11 +9,7 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 void JsonTranslationInputCheck::registerMatchers( MatchFinder *Finder )
@@ -74,6 +70,4 @@ void JsonTranslationInputCheck::check( const MatchFinder::MatchResult &Result )
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

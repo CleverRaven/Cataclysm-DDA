@@ -4451,14 +4451,7 @@
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
     "use_action": {
       "type": "transform",
@@ -4527,14 +4520,7 @@
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
     "use_action": {
       "type": "transform",
@@ -4603,14 +4589,7 @@
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
     "use_action": {
       "type": "transform",
@@ -4679,14 +4658,7 @@
     ],
     "extend": { "flags": [ "NORMAL", "MUNDANE", "USES_BIONIC_POWER" ] },
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
     "use_action": {
       "type": "transform",

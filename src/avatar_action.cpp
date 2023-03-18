@@ -476,7 +476,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !veh1->handle_potential_theft( you ) ) {
             return true;
         } else {
             door_name = veh1->part( dpart ).name();
@@ -634,7 +634,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         return;
     }
     if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
         }
     }

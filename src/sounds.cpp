@@ -68,8 +68,10 @@ static bool audio_muted = false;
 static weather_type_id previous_weather;
 static cata::optional<bool> previous_is_night;
 static float g_sfx_volume_multiplier = 1.0f;
-static auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-static auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
+static std::chrono::high_resolution_clock::time_point start_sfx_timestamp =
+    std::chrono::high_resolution_clock::now();
+static std::chrono::high_resolution_clock::time_point end_sfx_timestamp =
+    std::chrono::high_resolution_clock::now();
 static auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 static activity_id act;
 static std::pair<std::string, std::string> engine_external_id_and_variant;

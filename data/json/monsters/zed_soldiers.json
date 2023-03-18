@@ -353,8 +353,8 @@
   {
     "id": "mon_zombie_marine",
     "type": "MONSTER",
-    "name": { "str": "Devil Dog" },
-    "description": "This lurching corpse would have been an intimidating sight even when it was still a living human.  Dressed head to toe in naval combat equipment and with Marine insignia embroidered on its gear, this former Marine still retains its physical fitness in death.  From underneath its helmet, its inky black eyes predatorily scan the area around it, and its rotting hands still look perfectly capable of strangling the life out of you.",
+    "name": { "str": "zombie Marine" },
+    "description": "Dressed head to toe in naval combat equipment and with Marine insignia embroidered on its gear, this lurching corpse still retains its physical fitness in death.  From underneath its helmet, its inky black eyes scan the area around it.",
     "default_faction": "zombie",
     "bodytype": "human",
     "categories": [ "CLASSIC" ],
@@ -392,14 +392,29 @@
     "id": "mon_zombie_marine_upgrade",
     "type": "MONSTER",
     "copy-from": "mon_zombie_marine",
-    "name": { "str": "twisted leatherneck" },
-    "description": "Horrifically mutated and twisted beyond all recognition, you’d be hard pressed to tell that this swollen corpse had ever been human.  Lumbering about on all fours, the beast’s newly developed dagger-like claws clack against the ground as it predatorially moves: thick strands of exposed muscle tissue running across its rotting body.  The addition of its new bulk has caused the skin along its arms and back to split apart, and the beast’s teeth have extended into spikes of bone.  The US Marine insignias on the remains of the creature’s pulverized gear are the only testaments to the soldier that this hulking abomination used to be.",
+    "name": { "str": "bestial stalker" },
+    "description": "Lumbering about on all fours, this mutated beast’s dagger-like claws clack against the ground as it predatorially moves: thick strands of exposed muscle tissue running across its rotting body.  The addition of its new bulk has caused the skin along its arms and back to split, and the brute's teeth have extended into spikes of bone.  The Marine insignias on the remains of the creature’s pulverized gear are the only testaments to the soldier that this hulking abomination used to be.",
     "delete": { "categories": [ "CLASSIC" ] },
     "volume": "140 L",
     "weight": "120 kg",
     "hp": 150,
+    "speed": 110,
     "melee_dice_sides": 6,
-    "special_attacks": [ { "id": "smash", "throw_strength": 70, "cooldown": 30 }, [ "GRAB", 7 ] ]
+    "bleed_rate": 20,
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 75, "cooldown": 30 },
+      { "id": "scratch", "move_cost": 150, "cooldown": 4, "min_mul": 1.5, "max_mul": 3.5 },
+      { "type": "bite", "move_cost": 150, "cooldown": 2, "accuracy": 4, "infection_chance": 8 }
+    ]
+  },
+  {
+    "id": "mon_bestial_stalker",
+    "type": "MONSTER",
+    "copy-from": "mon_zombie_marine_upgrade",
+    "looks_like": "mon_zombie_marine_upgrade",
+    "//": "This is a variation which will drop default military equipment, rather than specific naval uniforms and gear.",
+    "description": "Lumbering about on all fours, this mutated beast’s dagger-like claws clack against the ground as it predatorially moves: thick strands of exposed muscle tissue running across its rotting body.  The addition of its new bulk has caused the skin along its arms and back to split, and the brute's teeth have extended into spikes of bone.  The military insignias on the remains of the creature’s pulverized gear are the only testaments to the soldier that this hulking abomination used to be.",
+    "death_drops": "mon_zombie_soldier_death_drops"
   },
   {
     "id": "mon_zombie_armored",

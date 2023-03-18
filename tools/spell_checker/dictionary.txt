@@ -197,7 +197,6 @@ avians
 aving
 avium
 avy
-awared
 axeman
 axolotl
 azide
@@ -387,8 +386,9 @@ burdocks
 burette
 burnback
 burnin
-burs
 butadiene
+butternut
+butternuts
 buttstock
 buzzcut
 buzzz
@@ -1065,6 +1065,7 @@ frostburnt
 frostnipped
 frostrimed
 froths
+frybread
 ft
 fuckn
 fuckwits
@@ -1625,6 +1626,7 @@ mancae
 manfriendwich
 manhack
 manhacks
+manoomin
 manuc
 manwich
 mapgen
@@ -2955,7 +2957,6 @@ unstylish
 untampered
 untargeted
 untilled
-untired
 untrodden
 untyped
 unwield

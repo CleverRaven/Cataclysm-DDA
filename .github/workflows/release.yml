@@ -116,7 +116,7 @@ jobs:
             content: application/zip
             sound: 1
           - name: Linux Tiles x64
-            os: ubuntu-latest
+            os: ubuntu-20.04
             mxe: none
             android: none
             tiles: 1
@@ -125,7 +125,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Tiles Sounds x64
-            os: ubuntu-latest
+            os: ubuntu-20.04
             mxe: none
             android: none
             tiles: 1
@@ -134,7 +134,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: Linux Curses x64
-            os: ubuntu-latest
+            os: ubuntu-20.04
             mxe: none
             android: none
             tiles: 0
@@ -282,7 +282,7 @@ jobs:
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
         uses: actions/setup-java@v2
         with:
-          java-version: '8'
+          java-version: '11'
           distribution: 'adopt'   
       - name: Setup Build and Dependencies (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'

@@ -220,6 +220,15 @@ int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
 static constexpr float accel_g = 9.81f;
 
+enum class vp_flag : uint32_t {
+    none = 0,
+    passenger_flag = 1,
+    animal_flag = 2,
+    carried_flag = 4,
+    carrying_flag = 8,
+    tracked_flag = 16 //carried vehicle part with tracking enabled
+};
+
 /**
  * Structure, describing vehicle part (i.e., wheel, seat)
  */
@@ -230,12 +239,6 @@ struct vehicle_part {
         friend item_location;
         friend class turret_data;
 
-        enum : int { passenger_flag = 1,
-                     animal_flag = 2,
-                     carried_flag = 4,
-                     carrying_flag = 8,
-                     tracked_flag = 16 //carried vehicle part with tracking enabled
-                   };
 
         vehicle_part(); /** DefaultConstructible */
 
@@ -245,14 +248,14 @@ struct vehicle_part {
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
 
-        bool has_flag( const int flag ) const noexcept {
-            return flag & flags;
+        bool has_flag( const vp_flag flag ) const noexcept {
+            return static_cast<uint32_t>( flag ) & static_cast<uint32_t>( flags );
         }
-        int  set_flag( const int flag )       noexcept {
-            return flags |= flag;
+        void set_flag( const vp_flag flag ) noexcept {
+            flags = static_cast<vp_flag>( static_cast<uint32_t>( flags ) | static_cast<uint32_t>( flag ) );
         }
-        int  remove_flag( const int flag )    noexcept {
-            return flags &= ~flag;
+        void remove_flag( const vp_flag flag ) noexcept {
+            flags = static_cast<vp_flag>( static_cast<uint32_t>( flags ) & ~static_cast<uint32_t>( flag ) );
         }
 
         /**
@@ -265,7 +268,6 @@ struct vehicle_part {
             tripoint mount;        // if value is tripoint_zero this is the pivot
             units::angle face_dir; // direction relative to the carrier vehicle
             std::string veh_name;  // carried vehicle name this part belongs to
-            bool migrate_x_axis;   // migrate carried vehicles to x-axis ( for legacy saves only )
 
             void deserialize( const JsonObject &data );
             void serialize( JsonOut &json ) const;
@@ -475,7 +477,7 @@ struct vehicle_part {
          */
         bool removed = false; // NOLINT(cata-serialize)
         bool enabled = true;
-        int flags = 0;
+        vp_flag flags = vp_flag::none;
 
         /** ID of player passenger */
         character_id passenger_id;
@@ -544,6 +546,9 @@ struct vehicle_part {
         bool has_fake = false; // NOLINT(cata-serialize)
         int fake_part_at = -1; // NOLINT(cata-serialize)
 
+        bool is_real_or_active_fake() const {
+            return !is_fake || is_active_fake;
+        }
 };
 
 class turret_data
@@ -759,7 +764,6 @@ class vehicle
         // returns damage bypassed
         int damage_direct( map &here, int p, int dmg, damage_type type = damage_type::PURE );
         // Removes the part, breaks it into pieces and possibly removes parts attached to it
-        int break_off( int p, int dmg );
         int break_off( map &here, int p, int dmg );
         // Returns if it did actually explode
         bool explode_fuel( int p, damage_type type );
@@ -795,7 +799,6 @@ class vehicle
         // refresh pivot_cache, clear pivot_dirty
         void refresh_pivot() const;
 
-        void refresh_mass() const;
         void calc_mass_center( bool precalc ) const;
 
         /** empty the contents of a tank, battery or turret spilling liquids randomly on the ground */
@@ -909,9 +912,6 @@ class vehicle
             owner = new_owner;
         }
         void set_owner( const Character &c );
-        void remove_owner() {
-            owner = faction_id::NULL_ID();
-        }
         faction_id get_owner() const {
             return owner;
         }
@@ -931,9 +931,6 @@ class vehicle
         void autopilot_patrol();
         units::angle get_angle_from_targ( const tripoint &targ ) const;
         void drive_to_local_target( const tripoint &target, bool follow_protocol );
-        tripoint get_autodrive_target() {
-            return autodrive_local_target;
-        }
         // Drive automatically towards some destination for one turn.
         autodrive_result do_autodrive( Character &driver );
         // Stop any kind of automatic vehicle control and apply the brakes.
@@ -1305,11 +1302,8 @@ class vehicle
         * @param e is the index of the engine in the engines array
         */
         units::power engine_fuel_usage( const vehicle_part &vp ) const;
-        /**
-         * Get all vehicle lights (excluding any that are destroyed)
-         * @param active if true return only lights which are enabled
-         */
-        std::vector<vehicle_part *> lights( bool active = false );
+        // Returns all active, available, non-destroyed vehicle lights
+        std::vector<vehicle_part *> lights();
 
         void update_alternator_load();
 
@@ -1697,10 +1691,7 @@ class vehicle
 
         /** Get firing data for a turret */
         turret_data turret_query( vehicle_part &pt );
-        turret_data turret_query( const vehicle_part &pt ) const;
-
         turret_data turret_query( const tripoint &pos );
-        turret_data turret_query( const tripoint &pos ) const;
 
         /** Set targeting mode for specific turrets */
         void turrets_set_targeting();
@@ -1943,35 +1934,24 @@ class vehicle
 
         // Removes fake parts from the parts vector
         void remove_fake_parts( bool cleanup = true );
-        tripoint get_abs_diff( const tripoint &one, const tripoint &two ) const;
         bool should_enable_fake( const tripoint &fake_precalc, const tripoint &parent_precalc,
                                  const tripoint &neighbor_precalc ) const;
     public:
         // Number of parts contained in this vehicle
-        int part_count( bool no_fake = false ) const;
+        int part_count() const;
+        // Number of real parts in this vehicle, iterates parts to count
+        int part_count_real() const;
+        // Number of real parts in this vehicle, returns parts.size() - fake_parts.size()
+        int part_count_real_cached() const;
+
         // Returns the vehicle_part with the given part number
         vehicle_part &part( int part_num );
         const vehicle_part &part( int part_num ) const;
-        // Determines whether the given part_num is valid for this vehicle
-        bool valid_part( int part_num ) const;
-        // Same as vehicle::part() except with const binding
-        const vehicle_part &cpart( int part_num ) const;
-        // Forcibly removes a part from this vehicle. Only exists to support faction_camp.cpp
-        void force_erase_part( int part_num );
         // get the parent part of a fake part or return part_num otherwise
         int get_non_fake_part( int part_num );
         // Updates active state on all fake_mounts based on whether they can fill a gap
         // map.cpp calls this in displace_vehicle
         void update_active_fakes();
-        // Determines if the given part_num is real or active fake part
-        bool real_or_active_fake_part( int part_num ) const;
-        // Determines if this vehicle has any parts
-        bool has_any_parts() const;
-        // Number of parts in this vehicle
-        int num_parts() const;
-        int num_true_parts() const;
-        int num_fake_parts() const;
-        int num_active_fake_parts() const;
 
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
@@ -2057,9 +2037,6 @@ class vehicle
         std::shared_ptr<autodrive_controller> active_autodrive_controller; // NOLINT(cata-serialize)
 
     public:
-        // Subtract from parts.size() to get the real part count.
-        int removed_part_count = 0; // NOLINT(cata-serialize)
-
         /**
          * Submap coordinates of the currently loaded submap (see game::m)
          * that contains this vehicle. These values are changed when the map

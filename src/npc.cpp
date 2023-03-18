@@ -3284,8 +3284,6 @@ void npc::on_load()
     shop_restock();
 }
 
-constexpr tripoint_abs_omt npc::no_goal_point;
-
 bool npc::query_yn( const std::string &/*msg*/ ) const
 {
     // NPCs don't like queries - most of them are in the form of "Do you want to get hurt?".
