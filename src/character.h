@@ -1982,8 +1982,8 @@ class Character : public Creature, public visitable
             explicit item_tweaks( const inventory &r ) :
                 replace_inv( std::cref( r ) )
             {}
-            const cata::optional<std::reference_wrapper<const std::map<const item *, int>>> without_items;
-            const cata::optional<std::reference_wrapper<const inventory>> replace_inv;
+            const cata::optional<std::reference_wrapper<const std::map<const item *, int>>> without_items = {};
+            const cata::optional<std::reference_wrapper<const inventory>> replace_inv = {};
         };
 
         units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;

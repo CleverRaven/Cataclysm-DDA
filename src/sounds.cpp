@@ -63,10 +63,10 @@ static int prev_hostiles = 0;
 static int previous_speed = 0;
 static int previous_gear = 0;
 static bool audio_muted = false;
+static cata::optional<bool> previous_is_night;
 #endif
 
 static weather_type_id previous_weather;
-static cata::optional<bool> previous_is_night;
 static float g_sfx_volume_multiplier = 1.0f;
 static std::chrono::high_resolution_clock::time_point start_sfx_timestamp =
     std::chrono::high_resolution_clock::now();
