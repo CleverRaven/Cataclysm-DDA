@@ -154,15 +154,15 @@
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF" ],
     "pseudo_tools": [
       { "id": "water_faucet" },
-      { "id": "vac_sealer" },
-      { "id": "dehydrator" },
-      { "id": "food_processor" },
+      { "id": "pseudo_veh_foodco_vac_sealer" },
+      { "id": "pseudo_veh_foodco_dehydrator" },
+      { "id": "pseudo_veh_foodco_food_processor" },
       { "id": "press" },
       { "id": "puller" },
       { "id": "pot" },
       { "id": "pan" },
-      { "id": "chemistry_set", "hotkey": "h" },
-      { "id": "electrolysis_kit" },
+      { "id": "pseudo_veh_chemlab_chemset", "hotkey": "h" },
+      { "id": "pseudo_veh_chemlab_electrolysis_kit" },
       { "id": "pseudo_water_purifier", "hotkey": "p" }
     ],
     "breaks_into": [
