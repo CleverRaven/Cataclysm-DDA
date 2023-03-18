@@ -15,7 +15,7 @@
     "flags": [ "NEVER_JAMS", "NON_FOULING" ],
     "skill": "rifle",
     "ammo": [ "BB" ],
-    "weight": "1723 g",
+    "weight": "1000 g",
     "volume": "1500 ml",
     "longest_side": "90 cm",
     "bashing": 9,
