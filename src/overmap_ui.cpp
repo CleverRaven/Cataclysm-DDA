@@ -1697,14 +1697,11 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
 
 static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
 
-static std::string try_travel_to_destination( avatar &player_character, const tripoint_abs_omt curs,
-        const bool driving )
+static bool try_travel_to_destination( avatar &player_character, const tripoint_abs_omt curs,
+                                       const bool driving )
 {
     std::vector<tripoint_abs_omt> path = get_overmap_path_to( curs, driving );
-    bool same_path_selected = false;
-    if( path == player_character.omt_path ) {
-        same_path_selected = true;
-    }
+    bool same_path_selected = path == player_character.omt_path;
     std::string confirm_msg;
     if( !driving && player_character.weight_carried() > player_character.weight_capacity() ) {
         confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
@@ -1730,9 +1727,9 @@ static std::string try_travel_to_destination( avatar &player_character, const tr
             player_character.reset_move_mode();
             player_character.assign_activity( ACT_TRAVELLING );
         }
-        return "QUIT";
+        return true;
     }
-    return nullptr;
+    return false;
 }
 
 static tripoint_abs_omt display( const tripoint_abs_omt &orig,
@@ -1887,7 +1884,9 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             avatar &player_character = get_avatar();
             if( !player_character.omt_path.empty() ) {
                 const bool driving = player_character.in_vehicle && player_character.controlling_vehicle;
-                action = try_travel_to_destination( player_character, curs, driving );
+                if( try_travel_to_destination( player_character, curs, driving ) ) {
+                    action = "QUIT";
+                }
             }
         } else if( action == "CENTER_ON_DESTINATION" ) {
             avatar &player_character = get_avatar();
@@ -1907,7 +1906,9 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 player_character.omt_path.swap( path );
             }
             if( same_path_selected && !player_character.omt_path.empty() ) {
-                action = try_travel_to_destination( player_character, curs, driving );
+                if( try_travel_to_destination( player_character, curs, driving ) ) {
+                    action = "QUIT";
+                }
             }
         } else if( action == "TOGGLE_BLINKING" ) {
             uistate.overmap_blinking = !uistate.overmap_blinking;
