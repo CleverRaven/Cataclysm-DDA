@@ -291,7 +291,7 @@
     ]
   },
   {
-    "id": "pencil_case__with_contents",
+    "id": "pencil_case_with_contents",
     "type": "item_group",
     "container-item": "pencil_case",
     "on_overflow": "spill",
