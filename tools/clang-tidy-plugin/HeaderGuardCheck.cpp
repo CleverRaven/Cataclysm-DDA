@@ -13,11 +13,7 @@
 
 #include "Utils.h"
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 CataHeaderGuardCheck::CataHeaderGuardCheck( StringRef Name,
@@ -387,6 +383,4 @@ void CataHeaderGuardCheck::registerPPCallbacks(
     PP->addPPCallbacks( std::make_unique<HeaderGuardPPCallbacks>( PP, this ) );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

@@ -173,7 +173,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     int y = y1;
     for( size_t i = 0; i < pl.size(); i++ ) {
         const vehicle_part &vp = parts[ pl [ i ] ];
-        if( vp.is_fake && !vp.is_active_fake ) {
+        if( !vp.is_real_or_active_fake() ) {
             continue;
         }
         if( y >= max_y ) {
@@ -299,11 +299,11 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
         const nc_color desc_color = vp.is_broken() ? c_dark_gray : c_light_gray;
         // -4 = -2 for left & right padding + -2 for "> "
         int new_lines = 2 + vp.info().format_description( possible_msg, desc_color, width - 4 );
-        if( vp.has_flag( vehicle_part::carrying_flag ) ) {
+        if( vp.has_flag( vp_flag::carrying_flag ) ) {
             possible_msg += _( "  Carrying a vehicle on a rack.\n" );
             new_lines += 1;
         }
-        if( vp.has_flag( vehicle_part::carried_flag ) ) {
+        if( vp.has_flag( vp_flag::carried_flag ) ) {
             possible_msg += string_format( _( "  Part of a %s carried on a rack.\n" ),
                                            vp.carried_name() );
             new_lines += 1;
@@ -336,7 +336,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
     std::set<itype_id> opts;
     for( const vpart_reference &vpr : get_all_parts() ) {
         const vehicle_part &pt = vpr.part();
-        if( !pt.has_flag( vehicle_part::carried_flag ) && pt.is_fuel_store() &&
+        if( !pt.has_flag( vp_flag::carried_flag ) && pt.is_fuel_store() &&
             !pt.ammo_current().is_null() ) {
             opts.emplace( pt.ammo_current() );
         }
@@ -369,12 +369,11 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
         return;
     }
     if( !fullsize ) {
-        for( size_t e = 0; e < engines.size(); e++ ) {
+        for( const int part_idx : engines ) {
+            const vehicle_part &vp = parts[part_idx];
             // if only one display, print the first engine that's on and consumes power
-            if( is_engine_on( e ) &&
-                !( is_perpetual_type( e ) || is_engine_type( e, fuel_type_muscle ) ) ) {
-                print_fuel_indicator( win, p, parts[ engines [ e ] ].fuel_current(), verbose,
-                                      desc );
+            if( is_engine_on( vp ) && !is_perpetual_type( vp ) && !is_engine_type( vp, fuel_type_muscle ) ) {
+                print_fuel_indicator( win, p, vp.fuel_current(), verbose, desc );
                 return;
             }
         }

@@ -188,6 +188,13 @@ class enchantment
         std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
+
+        // name to display for enchantments on items
+        translation name;
+
+        // description to display for enchantments on items
+        translation description;
+
         // values that add to the base value
         std::map<enchant_vals::mod, dbl_or_var<dialogue>> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
@@ -254,6 +261,11 @@ class enchant_cache : public enchantment
         void load( const JsonObject &jo, const std::string &src = "",
                    const cata::optional<std::string> &inline_id = cata::nullopt );
         bool operator==( const enchant_cache &rhs ) const;
+
+        // details of each enchantment that includes them (name and description)
+        std::vector<std::pair<std::string, std::string>> details; // NOLINT(cata-serialize)
+
+
     private:
         std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value

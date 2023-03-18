@@ -476,7 +476,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !veh1->handle_potential_theft( you ) ) {
             return true;
         } else {
             door_name = veh1->part( dpart ).name();
@@ -634,7 +634,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         return;
     }
     if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
         }
     }
@@ -1150,7 +1150,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
 
         // Get the parent pocket before the item is obtained.
         if( loc.has_parent() ) {
-            parent_pocket = loc.parent_item().get_item()->contained_where( *loc );
+            parent_pocket = loc.parent_pocket();
         }
 
         loc = loc.obtain( you, 1 );

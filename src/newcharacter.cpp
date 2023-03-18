@@ -628,8 +628,11 @@ void avatar::add_profession_items()
                 inv->push_back( it );
             }
         } else if( it.is_armor() ) {
-            // TODO: debugmsg if wearing fails
-            wear_item( it, false, false );
+            if( can_wear( it ).success() ) {
+                wear_item( it, false, false );
+            } else {
+                inv->push_back( it );
+            }
         } else {
             inv->push_back( it );
         }
@@ -1121,6 +1124,8 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 
         werase( w_description );
         u.reset_stats();
+        u.set_stored_kcal( u.get_healthy_kcal() );
+        u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
         switch( sel ) {
             case 1:
                 mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
@@ -1130,6 +1135,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                                _( "Increasing Str further costs 2 points" ) );
                 }
                 u.recalc_hp();
+                u.set_stored_kcal( u.get_healthy_kcal() );
                 mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
                            u.get_part_hp_max( bodypart_id( "head" ) ) );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -3993,6 +3999,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 case char_creation::HEIGHT:
                     if( you.base_height() < max_allowed_height ) {
                         you.mod_base_height( 1 );
+                        you.set_stored_kcal( you.get_healthy_kcal() );
                     }
                     break;
                 case char_creation::AGE:
@@ -4024,6 +4031,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 case char_creation::HEIGHT:
                     if( you.base_height() > min_allowed_height ) {
                         you.mod_base_height( -1 );
+                        you.set_stored_kcal( you.get_healthy_kcal() );
                     }
                     break;
                 case char_creation::AGE:

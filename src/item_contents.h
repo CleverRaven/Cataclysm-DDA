@@ -16,7 +16,6 @@
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "ui.h"
 #include "units_fwd.h"
 #include "visitable.h"
 
@@ -95,14 +94,11 @@ class item_contents
         // number of pockets
         size_t size() const;
 
-    private:
         /** returns a list of pointers to all top-level items from pockets that match the predicate */
         std::list<item *> all_items_top( const std::function<bool( item_pocket & )> &filter );
         /** returns a list of pointers to all top-level items from pockets that match the predicate */
         std::list<const item *> all_items_top( const std::function<bool( const item_pocket & )> &filter )
         const;
-
-    public:
         /** returns a list of pointers to all top-level items */
         /** if unloading is true it ignores items in pockets that are flagged to not unload */
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
@@ -375,32 +371,6 @@ class item_contents
         friend struct item_contents_helper;
 };
 
-class pocket_favorite_callback : public uilist_callback
-{
-    private:
-        std::vector<std::tuple<item_pocket *, int, uilist_entry *>> saved_pockets;
-        // whitelist or blacklist, for interactions
-        bool whitelist = true;
-        std::pair<item *, item_pocket *> item_to_move = { nullptr, nullptr };
-
-        bool needs_to_refresh = false;
-
-        // items to create pockets for
-        std::vector<item *> to_organize;
-
-        void move_item( uilist *menu, item_pocket *selected_pocket );
-
-        void refresh_columns( uilist *menu );
-
-        void add_pockets( item &i, uilist &pocket_selector, const std::string &depth );
-    public:
-        explicit pocket_favorite_callback( const std::vector<item *> &to_organize,
-                                           uilist &pocket_selector );
-        void refresh( uilist *menu ) override;
-        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
-
-        const std::string title =
-            _( "Modify pocket settings and move items between pockets.  [<color_yellow>RETURN</color>] Context menu\n" );
-};
+void pocket_management_menu( const std::string &title, const std::vector<item *> &to_organize );
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

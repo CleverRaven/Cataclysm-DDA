@@ -74,7 +74,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 29 ] ],
-      [ [ "zinc_metal", 2 ] ],
+      [ [ "zinc_metal", 8 ] ],
       [ [ "chem_potassium_hydroxide", 7 ] ],
       [ [ "duct_tape", 1 ] ],
       [ [ "water_clean", 1 ] ],
@@ -96,7 +96,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
-      [ [ "zinc_metal", 6 ] ],
+      [ [ "zinc_metal", 24 ] ],
       [ [ "chem_potassium_hydroxide", 20 ] ],
       [ [ "duct_tape", 5 ] ],
       [ [ "water_clean", 3 ] ],
@@ -118,7 +118,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
-      [ [ "zinc_metal", 24 ] ],
+      [ [ "zinc_metal", 96 ] ],
       [ [ "chem_potassium_hydroxide", 82 ] ],
       [ [ "duct_tape", 20 ] ],
       [ [ "water_clean", 12 ] ],
@@ -140,7 +140,7 @@
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
-      [ [ "zinc_metal", 50 ] ],
+      [ [ "zinc_metal", 200 ] ],
       [ [ "chem_potassium_hydroxide", 170 ] ],
       [ [ "duct_tape", 40 ] ],
       [ [ "water_clean", 25 ] ],
@@ -162,7 +162,7 @@
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 87 ] ],
-      [ [ "zinc_metal", 6 ] ],
+      [ [ "zinc_metal", 24 ] ],
       [ [ "chem_potassium_hydroxide", 20 ] ],
       [ [ "duct_tape", 5 ] ],
       [ [ "water_clean", 3 ] ],
@@ -184,7 +184,7 @@
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 348 ] ],
-      [ [ "zinc_metal", 24 ] ],
+      [ [ "zinc_metal", 96 ] ],
       [ [ "chem_potassium_hydroxide", 82 ] ],
       [ [ "duct_tape", 20 ] ],
       [ [ "water_clean", 12 ] ],
@@ -206,7 +206,7 @@
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "components": [
       [ [ "chem_manganese_dioxide", 725 ] ],
-      [ [ "zinc_metal", 50 ] ],
+      [ [ "zinc_metal", 200 ] ],
       [ [ "chem_potassium_hydroxide", 170 ] ],
       [ [ "duct_tape", 40 ] ],
       [ [ "water_clean", 25 ] ],
@@ -228,7 +228,7 @@
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "components": [
       [ [ "cathod_mix", 166 ] ],
-      [ [ "zinc_metal", 6 ] ],
+      [ [ "zinc_metal", 24 ] ],
       [ [ "carbon_electrode", 1 ] ],
       [ [ "duct_tape", 5 ] ],
       [ [ "light_battery_shell", 1 ] ]
@@ -249,7 +249,7 @@
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "components": [
       [ [ "cathod_mix", 664 ] ],
-      [ [ "zinc_metal", 24 ] ],
+      [ [ "zinc_metal", 96 ] ],
       [ [ "carbon_electrode", 4 ] ],
       [ [ "duct_tape", 20 ] ],
       [ [ "medium_battery_shell", 1 ] ]
@@ -270,7 +270,7 @@
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "components": [
       [ [ "cathod_mix", 1328 ] ],
-      [ [ "zinc_metal", 50 ] ],
+      [ [ "zinc_metal", 200 ] ],
       [ [ "carbon_electrode", 8 ] ],
       [ [ "duct_tape", 40 ] ],
       [ [ "heavy_battery_shell", 1 ] ]

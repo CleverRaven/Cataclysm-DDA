@@ -707,7 +707,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 item_location temp = loc;
                 // check if at least one parent container is sealed
                 while( temp.has_parent() ) {
-                    item_pocket *pocket = temp.parent_item()->contained_where( *temp.get_item() );
+                    item_pocket *pocket = temp.parent_pocket();
                     if( pocket->sealed() ) {
                         sealed = _( "sealed" );
                         break;
@@ -795,7 +795,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             } else if( time == 0_turns ) {
                 return 4;
             } else if( loc.has_parent() &&
-                       loc.parent_item()->contained_where( *loc )->spoil_multiplier() == 0.0f ) {
+                       loc.parent_pocket()->spoil_multiplier() == 0.0f ) {
                 return 3;
             } else {
                 return 2;
@@ -866,7 +866,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
 static std::string get_consume_needs_hint( Character &you )
 {
-    auto hint = std::string();
+    std::string hint = std::string();
     auto desc = display::hunger_text_color( you );
     hint.append( string_format( "%s %s", _( "Food:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
@@ -1850,7 +1850,7 @@ class repair_inventory_preset: public inventory_selector_preset
 static std::string get_repair_hint( const Character &you, const repair_item_actor *actor,
                                     const item *main_tool )
 {
-    auto hint = std::string();
+    std::string hint = std::string();
     hint.append( string_format( _( "Tool: <color_cyan>%s</color>" ), main_tool->display_name() ) );
     hint.append( string_format( " | " ) );
     hint.append( string_format( _( "Skill used: <color_cyan>%s (%d)</color>" ),

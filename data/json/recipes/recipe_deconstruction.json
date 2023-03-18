@@ -4461,6 +4461,17 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "butternut",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "butternut_shelled", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "whisk",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

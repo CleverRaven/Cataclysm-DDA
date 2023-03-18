@@ -371,8 +371,8 @@
     "name": { "str": "electric jackhammer" },
     "description": "A construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with a UPS.  Use it to blast a hole in adjacent solid terrain.",
     "weight": "40000 g",
-    "volume": "10 L",
-    "longest_side": "71 cm",
+    "volume": "12 L",
+    "longest_side": "81 cm",
     "price": 40000,
     "price_postapoc": 500,
     "to_hit": -8,
@@ -382,8 +382,8 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7000 } } ],
-    "charges_per_use": 3500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7920 } } ],
+    "charges_per_use": 3960,
     "use_action": [ "JACKHAMMER" ],
     "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "ELECTRONIC" ]
   },
@@ -720,23 +720,6 @@
       }
     ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
-  },
-  {
-    "id": "mold_plastic",
-    "type": "TOOL",
-    "name": { "str": "plastic mold" },
-    "description": "A mold that can be used to form plastic chunks.",
-    "weight": "320 g",
-    "volume": "2500 ml",
-    "longest_side": "36 cm",
-    "price": 1000,
-    "price_postapoc": 50,
-    "to_hit": 1,
-    "bashing": 3,
-    "material": [ "plastic" ],
-    "symbol": ";",
-    "color": "light_blue",
-    "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
     "id": "multitool",

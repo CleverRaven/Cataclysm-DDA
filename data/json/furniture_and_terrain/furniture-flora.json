@@ -411,6 +411,28 @@
   },
   {
     "type": "furniture",
+    "id": "f_wild_rice",
+    "name": "wild rice",
+    "description": "Also called Indian rice, Northern wild rice, or manoomin in Ojibwe, is a species of rice that has been harvested and used by Native American tribes of the northeast for hundreds of years.  It's similar to other types of wild rice, offering a fibre-rich and healthy basis of a meal.",
+    "symbol": "f",
+    "looks_like": "f_cattails",
+    "color": [ "brown_green", "green", "green", "brown" ],
+    "move_cost_mod": 3,
+    "coverage": 70,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE", "SHRUB" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "id": "wild_rice_harv" } ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [ { "item": "withered", "prob": 50, "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 2, 4 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_hedge_short",
     "name": "short hedge",
     "description": "A shrub with small green leaves, trimmed into a squared shape.",

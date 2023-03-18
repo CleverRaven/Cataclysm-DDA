@@ -36,6 +36,7 @@
       { "item": "huckleberries", "count": [ 1, 3 ], "prob": 30 },
       { "item": "raspberries", "count": [ 1, 3 ], "prob": 30 },
       { "item": "grapes", "count": [ 1, 3 ], "prob": 25 },
+      { "item": "wild_rice", "count": [ 2, 4 ], "prob": 10 },
       { "group": "forage_summer", "prob": 250 }
     ]
   },
@@ -48,6 +49,7 @@
       { "item": "raw_burdock", "count": [ 1, 4 ], "prob": 20 },
       { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
       { "item": "walnut", "count": [ 2, 6 ], "prob": 20 },
+      { "item": "butternut", "count": [ 2, 4 ], "prob": 20 },
       { "item": "chestnut", "count": [ 2, 6 ], "prob": 20 },
       { "item": "beech_nuts", "count": [ 2, 6 ], "prob": 20 },
       { "item": "hazelnut", "count": [ 2, 6 ], "prob": 20 },

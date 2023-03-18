@@ -342,6 +342,7 @@ class JsonValue : Json
 class JsonArray : JsonWithPath
 {
         static const auto &empty_array_() {
+            // NOLINTNEXTLINE(cata-almost-never-auto)
             static auto empty_array = flexbuffer_cache::parse_buffer( "[]" );
             return empty_array;
         }
@@ -526,6 +527,7 @@ class JsonObject : JsonWithPath
         mutable tiny_bitset visited_fields_bitset_;
 
         static const auto &empty_object_() {
+            // NOLINTNEXTLINE(cata-almost-never-auto)
             static auto empty_object = flexbuffer_cache::parse_buffer( "{}" );
             return empty_object;
         }
