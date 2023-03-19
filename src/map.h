@@ -1293,9 +1293,8 @@ class map
         }
 
         /**
-         * Checks for spawn_rate value for item category of 'itm'.
-         * If spawn_rate is less than 1.0, it will make a random roll (0.1-1.0) to check if the item will have a chance to spawn.
-         * If spawn_rate is more than or equal to 1.0, it will make item spawn that many times (using roll_remainder).
+         * Gets spawn_rate value for item category of 'itm'.
+         * If spawn_rate is more than or equal to 1.0, it will use roll_remainder on it.
         */
         float item_category_spawn_rate( const item &itm );
 

@@ -56,6 +56,7 @@ alay
 albertonykus
 albertosaurus
 alchemic
+alchemies
 aldosterone
 alembic
 alexandrite
@@ -195,7 +196,6 @@ avians
 aving
 avium
 avy
-awared
 axeman
 axolotl
 azide
@@ -204,6 +204,9 @@ babiues
 babylonica
 backblast
 backrest
+backstep
+backstepping
+backsteps
 backtracing
 bagh
 bakelite
@@ -361,6 +364,7 @@ brined
 bringin
 broadhead
 broadswords
+brobdignagian
 bronchodilator
 bronchospasm
 bubblicious
@@ -382,8 +386,9 @@ burdocks
 burette
 burnback
 burnin
-burs
 butadiene
+butternut
+butternuts
 buttstock
 buzzcut
 buzzz
@@ -1059,6 +1064,7 @@ frostburnt
 frostnipped
 frostrimed
 froths
+frybread
 ft
 fuckn
 fuckwits
@@ -1619,6 +1625,7 @@ mancae
 manfriendwich
 manhack
 manhacks
+manoomin
 manuc
 manwich
 mapgen
@@ -1697,6 +1704,7 @@ migo
 mildewy
 militar
 milkfat
+millenia
 milspec
 mineable
 minesweeper
@@ -1950,6 +1958,8 @@ overpenetration
 overpressure
 overqueen
 overshoes
+overswing
+overswinging
 overtaxing
 overtop
 ovipositor
@@ -2079,6 +2089,7 @@ plink
 plinker
 plinking
 plushie
+plushies
 pm
 podling
 podlings
@@ -2448,6 +2459,8 @@ seweranha
 sexten
 sexualities
 sh
+shadowbox
+shadowboxing
 shadowcat
 shambler
 shantak
@@ -2536,6 +2549,7 @@ solarpunk
 solderers
 solderless
 soled
+somersault
 sommat
 somniferum
 soother
@@ -2847,6 +2861,7 @@ tuno
 turipache
 turreted
 tusked
+tusslin
 twere
 twintailed
 twohand
@@ -2906,6 +2921,7 @@ unipolar
 universalism
 unjacketed
 unkept
+unlife
 unlivable
 unlively
 unlives
@@ -2941,7 +2957,6 @@ unstylish
 untampered
 untargeted
 untilled
-untired
 untrodden
 untyped
 unwield
@@ -3091,6 +3106,7 @@ workcycle
 workshifts
 worldgen
 wraitheon
+wrasslin
 wretchmother
 wrightii
 wristed
@@ -3122,6 +3138,7 @@ youre
 yourselves
 youthful 
 yowl
+yoyos
 yugg
 yukata
 yulecat

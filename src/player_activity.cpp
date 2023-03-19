@@ -73,8 +73,6 @@ static const std::vector<activity_id> consuming {
     ACT_CONSUME_DRINK_MENU,
     ACT_CONSUME_MEDS_MENU };
 
-constexpr tripoint_abs_ms player_activity::invalid_place;
-
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,

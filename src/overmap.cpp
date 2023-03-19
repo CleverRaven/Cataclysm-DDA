@@ -6674,7 +6674,6 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
 }
 } // namespace io
 
-constexpr tripoint_abs_omt overmap::invalid_tripoint;
 static const std::array<std::string, 4> suffixes = {{ "_north", "_west", "_south", "_east" }};
 
 std::string oter_no_dir( const oter_id &oter )

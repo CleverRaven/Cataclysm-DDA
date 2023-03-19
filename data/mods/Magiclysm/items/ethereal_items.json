@@ -19,7 +19,7 @@
       "environmental_protection": 10,
       "armor": [
         {
-          "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 4.0 } ],
+          "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 3 } ],
           "encumbrance": 0,
           "coverage": 100,
           "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ]
@@ -27,7 +27,7 @@
       ]
     },
     "qualities": [ [ "HAMMER", 1 ] ],
-    "flags": [ "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
+    "flags": [ "ONLY_ONE", "STURDY", "DURABLE_MELEE", "NONCONDUCTIVE", "MAGIC_FOCUS" ],
     "techniques": [ "WBLOCK_3" ]
   },
   {
@@ -131,10 +131,10 @@
     "color": "light_gray",
     "looks_like": "gauntlets_chitin",
     "sided": true,
-    "material_thickness": 3,
+    "material_thickness": 4,
     "techniques": [ "WBLOCK_3" ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "BLOCK_WHILE_WORN" ],
-    "armor": [ { "encumbrance": 15, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 70, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "ice_gliders",
@@ -152,7 +152,7 @@
     "color": "brown",
     "looks_like": "boots_plate",
     "warmth": 30,
-    "material_thickness": 3,
+    "material_thickness": 0.2,
     "environmental_protection": 2,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MOVE_COST", "add": -5 } ] } ] },
     "flags": [ "OVERSIZE", "WATERPROOF", "ROLLER_QUAD", "BELTED" ],
@@ -199,9 +199,20 @@
     "weight": "300 g",
     "longest_side": "25 cm",
     "bashing": 6,
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "LIGHT_5", "TRADER_AVOID", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ] },
-    "material_thickness": 1,
+    "flags": [
+      "ONLY_ONE",
+      "UNBREAKABLE_MELEE",
+      "NONCONDUCTIVE",
+      "LIGHT_5",
+      "TRADER_AVOID",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS"
+    ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_ELEC", "add": 20 } ] } ]
+    },
+    "material_thickness": 0.3,
     "armor": [
       {
         "material": [ { "type": "concentrated_mana", "covered_by_mat": 100, "thickness": 1.0 } ],
@@ -298,7 +309,7 @@
     "symbol": "[",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "25 L", "max_contains_weight": "75 kg", "moves": 60 } ],
-    "material_thickness": 3,
+    "material_thickness": 0.1,
     "flags": [
       "BELTED",
       "TRADER_AVOID",
@@ -501,14 +512,14 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "frost armor" },
-    "description": "A thin layer of magical ice, covering the entire body.",
+    "description": "A thin layer of magical ice, covering the entire body.  It doesn't provide much armor, but deal significant damage to enemies that try to attack you instead.",
     "weight": "5000 g",
     "volume": "5 L",
     "material": [ "concentrated_mana" ],
     "symbol": "[",
     "color": "light_gray",
     "warmth": 0,
-    "material_thickness": 2,
+    "material_thickness": 0.5,
     "environmental_protection": 2,
     "flags": [
       "SEMITANGIBLE",
@@ -523,11 +534,12 @@
     ],
     "armor": [
       {
-        "encumbrance": 10,
+        "encumbrance": 8,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
-    ]
+    ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "ice_spike" } ] } ] }
   },
   {
     "id": "aura_stoneskin",
@@ -541,12 +553,12 @@
     "symbol": "[",
     "color": "light_gray",
     "warmth": 5,
-    "material_thickness": 2,
+    "material_thickness": 2.6,
     "environmental_protection": 2,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ],
     "armor": [
       {
-        "encumbrance": 20,
+        "encumbrance": 16,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
@@ -817,7 +829,7 @@
     "symbol": "o",
     "color": "green",
     "warmth": 0,
-    "material_thickness": 2,
+    "material_thickness": 0.4,
     "environmental_protection": 2,
     "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE", "PADDED" ],
     "relic_data": {
@@ -872,15 +884,43 @@
     "type": "ARMOR",
     "category": "armor",
     "copy-from": "armor_lightplate",
-    "name": { "str_sp": "spiritual armor" },
-    "description": "A summoned medieval armor.  It glows softly and looks sturdy.",
+    "name": { "str_sp": "mage armor" },
+    "description": "A summoned magic armor.  It glows shiny and get sturdier with each spell and your intelligence level.",
     "material": [ "concentrated_mana" ],
     "warmth": 0,
-    "material_thickness": 4,
-    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "LIGHT_2", "TRADER_AVOID", "PADDED" ],
+    "material_thickness": 0,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
+    "passive_effects": [
+      {
+        "has": "WORN",
+        "condition": "ALWAYS",
+        "values": [
+          {
+            "value": "ARMOR_BASH",
+            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
+          },
+          {
+            "value": "ARMOR_CUT",
+            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
+          },
+          {
+            "value": "ARMOR_STAB",
+            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
+          },
+          {
+            "value": "ARMOR_BULLET",
+            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
+          },
+          {
+            "value": "LUMINATION",
+            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
+          }
+        ]
+      }
+    ],
     "armor": [
       {
-        "encumbrance": 5,
+        "encumbrance": 0,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
@@ -922,14 +962,29 @@
     "id": "longsword_holy",
     "type": "GENERIC",
     "copy-from": "longsword",
-    "name": { "str": "holy sword" },
-    "description": "This is a summoned medieval sword, between the lighter arming sword and later two-handed swords in size.  It glows slightly and its edge is exceedingly sharp.",
+    "name": { "str": "mage blade" },
+    "description": "This is a summoned mana sword, between the lighter arming sword and later two-handed swords in size.  It glows shiny, and its edge is sharper the more spell level and intelligence you have.",
     "material": [ "concentrated_mana" ],
-    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "LIGHT_2", "TRADER_AVOID" ],
+    "flags": [ "UNBREAKABLE_MELEE", "NONCONDUCTIVE", "NO_REPAIR", "NO_SALVAGE", "MAGIC_FOCUS", "TRADER_AVOID" ],
     "bashing": 11,
-    "cutting": 42,
+    "cutting": 1,
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "values": [
+            {
+              "value": "ITEM_DAMAGE_CUT",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "holy_blade" }, "+", { "u_val": "intelligence" } ] }
+            },
+            {
+              "value": "LUMINATION",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "holy_blade" }, "+", { "u_val": "intelligence" } ] }
+            }
+          ]
+        }
+      ]
     }
   },
   {
@@ -945,12 +1000,12 @@
     "color": "light_gray",
     "armor": [
       {
-        "encumbrance": 15,
+        "encumbrance": 5,
         "coverage": 100,
         "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
       }
     ],
-    "material_thickness": 1.7,
+    "material_thickness": 3.3,
     "environmental_protection": 8,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "PADDED" ]
   },
@@ -1000,6 +1055,30 @@
       { "type": "firestarter", "moves": 10, "moves_slow": 100 }
     ],
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "alchemist_pocket",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "ethereal pocket" },
+    "description": "Small ethereal pocket, that expanded under your left arm.  You can store your potions here, but it seems it has no real limitations.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "concentrated_mana" ],
+    "symbol": "x",
+    "color": "magenta",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "50 cm",
+        "moves": 60,
+        "weight_multiplier": 0
+      }
+    ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "BELTED", "WATERPROOF", "PADDED", "TARDIS" ],
+    "armor": [ { "covers": [ "arm_l" ], "coverage": 0, "encumbrance": 0 } ]
   },
   {
     "type": "GENERIC",

@@ -222,7 +222,7 @@
     "special_attacks": [ [ "scratch", 15 ], [ "FUNGUS", 200 ] ],
     "death_drops": {
       "subtype": "collection",
-      "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ],
+      "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ],
       "//": "cloth as any other zombie (always), additional items from child_items (sometimes)"
     },
     "burn_into": "mon_zombie_child_scorched",
