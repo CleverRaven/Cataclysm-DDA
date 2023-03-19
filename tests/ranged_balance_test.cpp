@@ -462,7 +462,7 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
             break;
         }
         mon.die( nullptr );
-    } while( damage.n() < 200 ); // In fact, stable results can only be obtained when n reaches 10000
+    } while( damage.n() < 10000 ); // In fact, stable results can only be obtained when n reaches 10000
     const double avg = damage.avg();
     CAPTURE( gun_type );
     CAPTURE( mods );
@@ -519,16 +519,16 @@ TEST_CASE( "shot_features", "[gun]" "[slow]" )
 
     // Lightly armored target (armor_bullet: 5)
     // Outcomes for lightly armored enemies are very similar.
-    shoot_monster( "shotgun_s", {}, "shot_00", 18, 41, "mon_boomer_glutton" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 12, 63, "mon_boomer_glutton" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 5, 103, "mon_boomer_glutton" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 1, 69, "mon_boomer_glutton" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 18, 41, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 12, 63, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 5, 116, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 1, 69, "mon_zombie_brute" );
 
     // Armored target (armor_bullet: 10)
-    shoot_monster( "shotgun_s", {}, "shot_00", 18, 26, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 12, 38, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 5, 53, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", {}, "shot_00", 1, 63, "mon_hulk_pupa_decoy" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 18, 8, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 12, 18, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 5, 53, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", {}, "shot_00", 1, 63, "mon_smoker_brute" );
 }
 
 TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
@@ -560,15 +560,15 @@ TEST_CASE( "shot_features_with_choke", "[gun]" "[slow]" )
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 108, "mon_zombie_tough" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 95, "mon_zombie_tough" );
     // Armored target (armor_bullet: 5)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 35, "mon_zombie_brute" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 58, "mon_zombie_brute" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 105, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 46, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 77, "mon_zombie_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 124, "mon_zombie_brute" );
     shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 69, "mon_zombie_brute" );
     // Armored target (armor_bullet: 10)
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 35, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 45, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 52, "mon_hulk_pupa_decoy" );
-    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 63, "mon_hulk_pupa_decoy" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 18, 11, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 12, 26, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 5, 81, "mon_smoker_brute" );
+    shoot_monster( "shotgun_s", { "choke" }, "shot_00", 1, 63, "mon_smoker_brute" );
 }
 
 // Targeting graph tests

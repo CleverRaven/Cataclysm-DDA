@@ -154,6 +154,7 @@
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],
     "dodge": 3,
+    "weakpoint_sets": [ "wps_arthropod_hymenoptera", "wps_arthropod_flying" ],
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_flying" ],
     "vision_night": 5,
     "harvest": "zombie",
