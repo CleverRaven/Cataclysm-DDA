@@ -337,6 +337,10 @@ Field | Used for...
 `<u_val:VAR>` | The user variable VAR
 `<npc_val:VAR>` | The npc variable VAR
 `<global_val:VAR>` | The global variable VAR
+`<item_name:ID>` | The name of the item with ID
+`<item_description:ID>` | The description of the item with ID
+`<trait_name:ID>` | The name of the trait with ID
+`<trait_description:ID>` | The description of the trait with ID
 
 ---
 
@@ -1275,6 +1279,7 @@ Example | Description
 `"u_val": "activity_level"` | Current activity level index, from 0-5
 `"u_val": "fatigue"` | Current fatigue level.
 `"u_val": "stamina"` | Current stamina level.
+`"u_val": "health"` | Current health level.
 `"u_val": "sleep_deprivation"` | Current sleep deprivation level.
 `"u_val": "anger"` | Current anger level, only works for monsters.
 `"u_val": "friendly"` | Current friendly level, only works for monsters.

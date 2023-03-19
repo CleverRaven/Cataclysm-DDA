@@ -13,7 +13,7 @@
     "book_learn": [ [ "family_cookbook", 1 ], [ "baking_book", 1 ], [ "cookbook", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_baking" }, { "proficiency": "prof_baking_bread" } ],
     "qualities": [ { "id": "OVEN", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 52, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 54, "LIST" ] ] ],
     "//": "Flour: 40u, milk: 2u, pumpkin: 4u, eggs: 6u, oil: 1u, other: 1u.",
     "components": [
       [ [ "flour_any", 40, "LIST" ] ],

@@ -1478,9 +1478,9 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
     base.type->invoke( get_avatar(), base, pos );
     parts[part].set_base( base );
     if( base.has_var( "contained_name" ) ) {
-        parts[part].set_flag( vehicle_part::animal_flag );
+        parts[part].set_flag( vp_flag::animal_flag );
     } else {
-        parts[part].remove_flag( vehicle_part::animal_flag );
+        parts[part].remove_flag( vp_flag::animal_flag );
     }
     invalidate_mass();
 }

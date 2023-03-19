@@ -299,6 +299,8 @@
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "//": "TODO: inputs not balanced to 176g output",
+    "//2": "TODO: water / sand amounts excessive; also can recover some of it as byproducts",
     "components": [
       [ [ "material_aluminium_ingot", 1 ], [ "can_drink", 6 ], [ "scrap_aluminum", 2 ], [ "aluminum_foil", 40 ] ],
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
@@ -314,10 +316,12 @@
     "skill_used": "fabrication",
     "difficulty": 3,
     "time": "4 m",
-    "charges": 2000,
+    "charges": 200,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "GRIND", "level": 1 } ],
-    "components": [ [ [ "zinc_metal", 200 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "material_sand", 15 ] ] ]
+    "//": "input 78×1785mg = 139.23g / output 200×653.9mg = 130.78g / 6.07% loss",
+    "//2": "TODO: water / sand amounts excessive; also can recover some of it as byproducts",
+    "components": [ [ [ "zinc_metal", 78 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "material_sand", 15 ] ] ]
   },
   {
     "type": "recipe",

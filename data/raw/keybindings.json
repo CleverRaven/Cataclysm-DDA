@@ -1209,6 +1209,18 @@
   },
   {
     "type": "keybinding",
+    "id": "GO_TO_DESTINATION",
+    "name": "Go to destination",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CENTER_ON_DESTINATION",
+    "name": "Center on destination",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "FIRE",
     "category": "TARGET",
     "name": "Fire weapon",

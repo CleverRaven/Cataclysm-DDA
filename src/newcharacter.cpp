@@ -1125,6 +1125,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         werase( w_description );
         u.reset_stats();
         u.set_stored_kcal( u.get_healthy_kcal() );
+        u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
         switch( sel ) {
             case 1:
                 mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
