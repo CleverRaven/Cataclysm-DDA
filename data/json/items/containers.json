@@ -3360,6 +3360,45 @@
     "flags": [ "COLLAPSE_CONTENTS" ]
   },
   {
+    "id": "bottle_gourd",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "bottle gourd" },
+    "looks_like": "clay_canister",
+    "description": "A hard, watertight container made from a dried bottle gourd.  Can be used similar to a canteen or just for storing liquids.",
+    "weight": "300 g",
+    "volume": "2500 ml",
+    "price": 300,
+    "price_postapoc": 60,
+    "to_hit": 1,
+    "material": [ "wood" ],
+    "symbol": "6",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "2250 ml",
+        "max_item_volume": "2501 ml",
+        "max_contains_weight": "2501 g",
+        "sealed_data": { "spoil_multiplier": 0.9 }
+      }
+    ],
+    "armor_data": {
+      "armor": [
+        {
+          "material": [ { "type": "wood", "covered_by_mat": 100, "thickness": 2.0 } ],
+          "encumbrance": 3,
+          "coverage": 8,
+          "covers": [ "torso" ],
+          "specifically_covers": [ "torso_hanging_front" ]
+        }
+      ]
+    },
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "paint_can_steel",
     "type": "GENERIC",
     "category": "container",
@@ -3407,6 +3446,59 @@
       }
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "lunchbox",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "lunchbox", "str_pl": "lunchboxes" },
+    "description": "A plastic box, commonly used to store lunch and utensils to eat it with.",
+    "weight": "282 g",
+    "volume": "2050 ml",
+    "longest_side": "21 cm",
+    "price": 1400,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "l",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": false,
+        "max_contains_volume": "1100 ml",
+        "max_contains_weight": "2 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "pencil_case",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "pencil case" },
+    "description": "A small fabric container with a zipper.  Commonly used by children to store school supplies.",
+    "weight": "200 g",
+    "volume": "1730 ml",
+    "price": 900,
+    "price_postapoc": 100,
+    "material": [ "cotton" ],
+    "symbol": "p",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "watertight": false,
+        "open_container": false,
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm"
+      }
+    ],
     "flags": [ "COLLAPSE_CONTENTS" ]
   }
 ]

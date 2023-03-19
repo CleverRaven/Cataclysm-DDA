@@ -42,7 +42,7 @@
       { "item": "brick_kiln", "prob": 80, "charges": [ 0, 1000 ] },
       { "item": "kiln", "prob": 40, "charges": [ 0, 1000 ] },
       { "item": "con_mix", "prob": 120, "charges": [ 0, 500 ] },
-      { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6000 ] },
+      { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6600 ] },
       { "item": "reciprocating_saw", "prob": 80, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
       [ "metal_smoother", 90 ],
@@ -363,9 +363,9 @@
       { "item": "polisher", "prob": 70, "charges": [ 0, 100 ] },
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
-      { "item": "small_propane_tank", "prob": 10, "count": [ 1, 5 ] },
-      { "item": "medium_propane_tank", "prob": 20, "count": [ 1, 3 ] },
-      { "item": "large_propane_tank", "prob": 15, "count": [ 1, 2 ] },
+      { "item": "small_propane_tank", "prob": 10, "count": [ 1, 5 ], "charges": [ 1000, 3000 ] },
+      { "item": "medium_propane_tank", "prob": 20, "count": [ 1, 3 ], "charges": [ 5000, 15000 ] },
+      { "item": "large_propane_tank", "prob": 15, "count": [ 1, 2 ], "charges": [ 20000, 60000 ] },
       { "item": "welding_blanket", "prob": 20, "count": [ 0, 1 ] },
       {
         "distribution": [
@@ -457,7 +457,7 @@
       { "item": "bandages", "count": 3 },
       { "item": "medical_gauze", "count": 6 },
       { "item": "booklet_firstaid" },
-      { "item": "scissors" }
+      { "item": "scissors_medical" }
     ]
   },
   {
@@ -486,7 +486,7 @@
       { "item": "bandages", "count": [ 0, 3 ] },
       { "item": "medical_gauze", "count": [ 0, 6 ] },
       { "item": "booklet_firstaid", "prob": 50 },
-      { "item": "scissors", "prob": 50 }
+      { "item": "scissors_medical", "prob": 50 }
     ]
   },
   {
@@ -495,7 +495,7 @@
     "//": "Portable medical equipment for doctors and paramedics (excludes consumables)",
     "items": [
       [ "scalpel", 50 ],
-      [ "scissors", 100 ],
+      [ "scissors_medical", 100 ],
       [ "stethoscope", 50 ],
       [ "syringe", 50 ],
       [ "thermometer", 50 ],
@@ -517,7 +517,7 @@
       { "item": "adhesive_bandages", "count": 3 },
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
       { "item": "gloves_medical" },
-      { "item": "scissors" }
+      { "item": "scissors_medical" }
     ]
   },
   {
@@ -534,7 +534,7 @@
       { "item": "adhesive_bandages", "count": [ 0, 3 ] },
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
       { "item": "gloves_medical", "prob": 50 },
-      { "item": "scissors", "prob": 30 }
+      { "item": "scissors_medical", "prob": 30 }
     ]
   },
   {
@@ -563,7 +563,7 @@
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "oil_lamp", "prob": 10, "charges": [ 0, 750 ] },
       { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] },
-      { "item": "propane_lantern", "prob": 15, "charges": [ 0, 30 ] }
+      { "item": "propane_lantern", "prob": 15, "charges": [ 2000, 3000 ] }
     ]
   },
   {
@@ -616,8 +616,8 @@
       [ "saddlebag", 5 ],
       [ "lifestraw", 3 ],
       [ "acetylene_machine", 2 ],
-      { "item": "propane_lantern", "prob": 15, "charges": [ 0, 30 ] },
-      { "item": "propane_cooker", "prob": 15, "charges": [ 0, 10 ] }
+      { "item": "propane_lantern", "prob": 15, "charges": [ 2000, 3000 ] },
+      { "item": "propane_cooker", "prob": 15, "charges": [ 2000, 3000 ] }
     ]
   },
   {
@@ -839,7 +839,7 @@
       { "item": "elec_chainsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "trimmer_off", "prob": 40, "charges": [ 0, 600 ] },
       { "item": "jackhammer", "prob": 50, "charges": [ 0, 1200 ] },
-      { "item": "elec_jackhammer", "prob": 50, "charges": [ 0, 1000 ] },
+      { "item": "elec_jackhammer", "prob": 50, "charges": [ 0, 1320 ] },
       { "item": "reciprocating_saw", "prob": 50, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },

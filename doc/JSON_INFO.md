@@ -1218,7 +1218,7 @@ When you sort your inventory by category, these are the categories that are disp
 | zone            | The corresponding loot_zone (see loot_zones.json)
 | sort_rank       | Used to sort categories when displaying.  Lower values are shown first
 | priority_zones  | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
-|spawn_rate       | Sets amount of items from item category that might spawn.  Checks for `spawn_rate` value for item category.  If `spawn_chance` is less than 1.0, it will make a random roll (0.1-1.0) to check if the item will have a chance to spawn.  If `spawn_chance` is more than or equal to 1.0, it will add a chance to spawn additional items from the same category.  Items will be taken from item group which original item was located in.  Therefore this parameter won't affect chance to spawn additional items for items set to spawn solitary in mapgen (e.g. through use of `item` or `place_item`).
+|spawn_rate       | Sets amount of items from item category that might spawn.  Checks for `spawn_rate` value for item category.  If `spawn_chance` is 0.0, the item will not spawn. If `spawn_chance` is greater than 0.0 and less than 1.0, it will make a random roll (0.0-1.0) to check if the item will have a chance to spawn.  If `spawn_chance` is more than or equal to 1.0, it will add a chance to spawn additional items from the same category.  Items will be taken from item group which original item was located in.  Therefore this parameter won't affect chance to spawn additional items for items set to spawn solitary in mapgen (e.g. through use of `item` or `place_item`).
 
 ```C++
 {
@@ -2172,6 +2172,7 @@ Here are examples of each modification:
     // Each key is the field to which the constraint applies
     // The value specifies the constraint.
     // "equals" can be used to specify a constant cata_variant value the field must take.
+    // "lt", "lteq", "gteq" and "gt" can be used with int type to compare against a constant cata_variant value.
     // "equals_any" can be used to check for a value in a set of values
     // "equals_statistic" specifies that the value must match the value of some statistic (see below)
     "mount" : { "equals": [ "mtype_id", "mon_horse" ] }
@@ -2181,10 +2182,10 @@ Here are examples of each modification:
 "drop_fields" : [ "mount" ]
 ```
 
-The parameter to `"equals"` is normally a length-two array specifying a
-`cata_variant_type` and a value.  As a short cut, you can simply specify an
-`int` or `bool` (e.g. `"equals": 7` or `"equals": true`) for fields which have
-those types.
+The parameter to `"equals"` (and other single-value comparators) is normally a
+length-two array specifying a `cata_variant_type` and a value.  As a short cut,
+you can simply specify an `int` or `bool` (e.g. `"equals": 7` or `"equals": true`)
+for fields which have those types.
 
 The parameter to `"equals_any"` will be a pair where the first element is a
 string `cata_variant_type` and the second is an array of values.  For example:
@@ -2295,6 +2296,10 @@ an `event_statistic`.  For example:
   // Description is optional and can provide extra details if you wish.
   "name": "One down, billions to go\u2026",
   "description": "Kill a zombie",
+  // if you don't specify requirements because the achievement is given by an EOC
+  // you should set manually_given to true, this will avoid errors.
+  // this value defaults to false
+  "manually_given": false,
   "requirements": [
     // Each requirement must specify the statistic being constrained, and the
     // constraint in terms of a comparison against some target value.

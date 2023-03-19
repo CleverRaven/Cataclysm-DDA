@@ -510,7 +510,7 @@ void map::generate_lightmap( const int zlev )
     for( wrapped_vehicle &vv : vehs ) {
         vehicle *v = vv.v;
 
-        auto lights = v->lights( true );
+        auto lights = v->lights();
 
         float veh_luminance = 0.0f;
         float iteration = 1.0f;

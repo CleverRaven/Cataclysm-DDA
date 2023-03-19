@@ -782,7 +782,7 @@ The following is a list of possible enchantment `values`:
 | `BIONIC_POWER` |
 | `BONUS_BLOCK` | Affects the number of blocks you can perform.
 | `BONUS_DODGE` | Affects the number of dodges you can perform.
-| `CARRY_WEIGHT` |
+| `CARRY_WEIGHT` | Affect the summary weight player can carry. `"add": 1000` adds 1 kg of weight to carry.
 | `CLIMATE_CONTROL_HEAT` | Moves body temperature up towards comfortable by number of warmth units up to value.
 | `CLIMATE_CONTROL_CHILL` | Moves body temperature down towards comfortable by number of warmth units up to value.
 | `DEXTERITY` | Affects the dexterity stat.
@@ -825,12 +825,12 @@ The following is a list of possible enchantment `values`:
 | `SOCIAL_LIE` | Affects your ability to lie.
 | `SOCIAL_PERSUADE` | Affects your ability to persuade.
 | `READING_EXP` | Changes the minimum you learn from each reading increment.
-| `RECOIL_MODIFIER` | Affects recoil when shooting a gun.
+| `RECOIL_MODIFIER` | Affects recoil when shooting a gun. Can be applied only to guns. Positive value increase the dispersion, negative decrease one.
 | `REGEN_HP` | Affects the rate you recover hp.
 | `REGEN_MANA` | 
 | `REGEN_STAMINA` | 
 | `THIRST` | 
-| `WEAPON_DISPERSION` | 
+| `WEAPON_DISPERSION` | Can be applied only to guns. Positive value increase the dispersion, negative decrease one.
 
 
 | Melee-only enchantment values | Description

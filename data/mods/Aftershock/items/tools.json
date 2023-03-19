@@ -67,13 +67,6 @@
     "flags": [ "BELT_CLIP" ]
   },
   {
-    "type": "enchantment",
-    "id": "afs_motion_sensor_wield",
-    "has": "WIELD",
-    "condition": { "u_compare_var": "afs_motion_sensor_ping", "type": "flag", "context": "motion_sensor", "op": ">=", "value": 1 },
-    "values": [ { "value": "MOTION_VISION_RANGE", "add": 24 } ]
-  },
-  {
     "id": "afs_motion_sensor",
     "type": "TOOL",
     "name": { "str": "motion scanner" },
@@ -103,6 +96,8 @@
         {
           "has": "HELD",
           "condition": "ALWAYS",
+          "name": { "str": "Passive Motion Detection" },
+          "description": "Passively detects movement at 10 second intervals.",
           "intermittent_activation": { "effects": [ { "frequency": "10 seconds", "spell_effects": [ { "id": "afs_motion_sensor_spell" } ] } ] }
         }
       ]
@@ -269,6 +264,27 @@
     "color": "light_green",
     "use_action": [ "HOTPLATE" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "atomic_coffeepot",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "atomic coffeemaker" },
+    "looks_like": "coffeemaker",
+    "description": "A Curie-G coffeemaker, made by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
+    "weight": "6000 g",
+    "volume": "1500 ml",
+    "longest_side": "20 cm",
+    "price": 100000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 5,
+    "material": [ "plastic", "aluminum" ],
+    "qualities": [ [ "BOIL", 1 ] ],
+    "symbol": ",",
+    "color": "light_green",
+    "use_action": [ "HOTPLATE_ATOMIC" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
     "id": "afs_power_cutter",
@@ -498,6 +514,8 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
+          "name": { "str": "Augmented Reality" },
+          "description": "You are wearing equipment that gives 1 additional perception but causes you to see strange things.",
           "mutations": [ "PSYCHOPATH", "SCHIZOPHRENIC" ],
           "values": [ { "value": "PERCEPTION", "add": 1 } ]
         }

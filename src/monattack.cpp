@@ -2905,8 +2905,8 @@ bool mattack::grab( monster *z )
         return false;
     }
 
-    // Do not attempt to grab while z is already grabbing target. Do something else
-    if( z->has_effect( effect_grabbing ) && target->has_effect( effect_grabbed ) ) {
+    // Do not attempt to grab while z is already grabbing. Do something else
+    if( z->has_effect( effect_grabbing ) ) {
         return false;
     }
 

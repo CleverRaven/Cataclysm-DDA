@@ -721,7 +721,7 @@ std::string effect::disp_desc( bool reduced ) const
     std::string ret;
 
     std::string timestr;
-    time_duration effect_dur_elapsed = ( calendar::turn - start_time );
+    time_duration effect_dur_elapsed = calendar::turn - start_time;
     if( to_turns<int>( effect_dur_elapsed ) == 0 ) {
         timestr = _( "just now" );
     } else {

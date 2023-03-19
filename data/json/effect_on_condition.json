@@ -145,40 +145,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "acid_drizzle",
-    "recurrence": 1,
-    "global": true,
-    "run_for_npcs": true,
-    "condition": {
-      "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside", { "compare_num": [ { "u_val": "pain" }, "<", { "const": 30 } ] } ]
-    },
-    "deactivate_condition": { "not": { "is_weather": "acid_drizzle" } },
-    "effect": [
-      { "u_message": "The acid rain stings, but is mostly harmless for now…" },
-      { "arithmetic": [ { "u_val": "pain" }, "++" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "acid_rain",
-    "recurrence": 1,
-    "global": true,
-    "run_for_npcs": true,
-    "condition": {
-      "and": [
-        { "is_weather": "acid_rain" },
-        "u_is_outside",
-        { "compare_num": [ { "u_val": "pain" }, "<", { "const": 100 } ] },
-        {
-          "not": { "or": [ { "u_has_wielded_with_flag": "RAIN_PROTECT" }, { "u_has_worn_with_flag": "RAINPROOF" } ] }
-        }
-      ]
-    },
-    "deactivate_condition": { "not": { "is_weather": "acid_rain" } },
-    "effect": [ { "u_message": "The acid rain burns!" }, { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "snow",
     "recurrence": 6,
     "global": true,

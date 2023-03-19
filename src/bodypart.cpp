@@ -272,7 +272,7 @@ sub_bodypart_id body_part_type::random_sub_part( bool secondary ) const
         }
     }
     // should never get here
-    return ( sub_bodypart_id() );
+    return sub_bodypart_id();
 }
 
 const std::vector<body_part_type> &body_part_type::get_all()

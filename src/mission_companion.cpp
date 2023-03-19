@@ -988,7 +988,7 @@ bool talk_function::display_and_choose_opts(
         size_t list_line = 2;
         for( size_t current = name_index; list_line < info_height + 2 &&
              current < cur_key_list.size(); current++ ) {
-            nc_color col = ( current == sel ? h_white : c_white );
+            nc_color col = current == sel ? h_white : c_white;
             //highlight important missions
             for( const mission_entry &k : mission_key.entries[0] ) {
                 if( is_equal( cur_key_list[current].id, k.id ) ) {

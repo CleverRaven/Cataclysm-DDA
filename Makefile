@@ -430,9 +430,9 @@ else
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++14
+  OTHERS += -std=gnu++17
 else
-  OTHERS += -std=c++14
+  OTHERS += -std=c++17
 endif
 
 ifeq ($(CYGWIN),1)
