@@ -731,8 +731,8 @@ void avatar::power_bionics()
         //track which list we are looking at
         ::sorted_bionics *current_bionic_list = tab_mode == TAB_ACTIVE ? &active : &passive;
         max_scroll_position = std::max( 0, static_cast<int>( current_bionic_list->size() ) - LIST_HEIGHT );
-        scroll_position = clamp( scroll_position, 0, max_scroll_position );
-        cursor = clamp<int>( cursor, 0, current_bionic_list->size() );
+        scroll_position = std::clamp( scroll_position, 0, max_scroll_position );
+        cursor = std::clamp<int>( cursor, 0, current_bionic_list->size() );
 
 #if defined(__ANDROID__)
         ctxt.get_registered_manual_keys().clear();
@@ -770,9 +770,8 @@ void avatar::power_bionics()
             }
             if( scroll_position < max_scroll_position &&
                 cursor - scroll_position > LIST_HEIGHT - half_list_view_location ) {
-                scroll_position =
-                    std::max( std::min<int>( current_bionic_list->size() - LIST_HEIGHT,
-                                             cursor - half_list_view_location ), 0 );
+                scroll_position = std::clamp<int>( cursor - half_list_view_location, 0,
+                                                   ( current_bionic_list->size() ) - LIST_HEIGHT );
             }
         } else if( menu_mode == REASSIGNING ) {
             menu_mode = ACTIVATING;

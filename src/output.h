@@ -653,7 +653,7 @@ inline std::string get_labeled_bar( const double val, const int width, const std
     if( bar_width > 0 ) {
         int used_width = 0;
         for( RatingIterator it( begin ); it != end; ++it ) {
-            const double factor = std::min( 1.0, std::max( 0.0, it->first * val ) );
+            const double factor = std::clamp( it->first * val, 0.0, 1.0 );
             const int seg_width = static_cast<int>( factor * bar_width ) - used_width;
 
             if( seg_width <= 0 ) {

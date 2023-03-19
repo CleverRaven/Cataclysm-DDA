@@ -410,8 +410,8 @@ bool mattack::absorb_items( monster *z )
         int absorb_move_cost = static_cast<int>( z->type->absorb_move_cost_per_ml * volume_in_ml );
         absorb_move_cost = std::max( absorb_move_cost, z->type->absorb_move_cost_min );
         if( z->type->absorb_move_cost_max != -1 ) {
-            absorb_move_cost = clamp( absorb_move_cost, z->type->absorb_move_cost_min,
-                                      z->type->absorb_move_cost_max );
+            absorb_move_cost = std::clamp( absorb_move_cost, z->type->absorb_move_cost_min,
+                                           z->type->absorb_move_cost_max );
         }
         z->mod_moves( -absorb_move_cost );
         consumed_items.push_back( &elem );

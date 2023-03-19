@@ -1958,7 +1958,7 @@ void Character::mend( int rate_multiplier )
     }
 
     if( get_rad() > 0 && !has_trait( trait_RADIOGENIC ) ) {
-        healing_factor *= clamp( ( 1000.0f - get_rad() ) / 1000.0f, 0.0f, 1.0f );
+        healing_factor *= std::clamp( ( 1000.0f - get_rad() ) / 1000.0f, 0.0f, 1.0f );
     }
 
     // Bed rest speeds up mending
@@ -1980,7 +1980,7 @@ void Character::mend( int rate_multiplier )
     healing_factor *= std::sqrt( static_cast<float>( get_stored_kcal() ) / static_cast<float>
                                  ( get_healthy_kcal() ) );
     // Similar for thirst - starts at very thirsty, drops to 0 ~halfway between two last statuses
-    healing_factor *= 1.0f - clamp( ( get_thirst() - 80.0f ) / 300.0f, 0.0f, 1.0f );
+    healing_factor *= 1.0f - std::clamp( ( get_thirst() - 80.0f ) / 300.0f, 0.0f, 1.0f );
 
     // Mutagenic healing factor!
     bool needs_splint = true;
@@ -2149,7 +2149,7 @@ void Character::apply_wetness_morale( units::temperature temperature )
 
     // Normalize temperature to [-1.0,1.0]
     float temperature_f = units::to_fahrenheit( temperature );
-    temperature_f = std::max( 0.f, std::min( 100.f, temperature_f ) );
+    temperature_f = std::clamp( temperature_f, 0.0f, 100.0f );
     const double global_temperature_mod = -1.0 + ( 2.0 * temperature_f / 100.0 );
 
     int total_morale = 0;
@@ -2187,8 +2187,7 @@ void Character::apply_wetness_morale( units::temperature temperature )
         }
 
         // Clamp to [COLD,HOT] and cast to double
-        const double part_temperature =
-            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, get_part_temp_cur( bp ) ) );
+        const double part_temperature = std::clamp( get_part_temp_cur( bp ), BODYTEMP_COLD, BODYTEMP_HOT );
         // 0.0 at COLD, 1.0 at HOT
         const double part_mod = ( part_temperature - BODYTEMP_COLD ) /
                                 ( BODYTEMP_HOT - BODYTEMP_COLD );

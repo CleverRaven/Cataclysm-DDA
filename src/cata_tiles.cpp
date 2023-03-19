@@ -2093,7 +2093,8 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
             const float d_range = d_max - d_min;
             const float d_slope = d_range <= 0.0f ? 100.0 : 1.0 / d_range;
 
-            retract = static_cast<int>( 100.0 * ( 1.0 - clamp( ( distance - d_min ) * d_slope, 0.0f, 1.0f ) ) );
+            retract = static_cast<int>( 100.0 * ( 1.0 - std::clamp( ( distance - d_min ) * d_slope, 0.0f,
+                                                  1.0f ) ) );
         }
 
         if( prevent_occlusion_transp && retract > 0 ) {

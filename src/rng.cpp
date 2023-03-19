@@ -142,7 +142,7 @@ double rng_normal( double lo, double hi )
         return hi;
     }
     double val = normal_roll( ( hi + lo ) / 2, range );
-    return clamp( val, lo, hi );
+    return std::clamp( val, lo, hi );
 }
 
 cata_default_random_engine &rng_get_engine()

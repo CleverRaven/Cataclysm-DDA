@@ -275,7 +275,7 @@ std::vector<const recipe *> recipe_subset::search(
 
                 if( use_range ) {
                     // check if number is between two numbers inclusive
-                    return r->difficulty == clamp( r->difficulty, start, end );
+                    return r->difficulty == std::clamp( r->difficulty, start, end );
                 } else {
                     return r->difficulty == start;
                 }

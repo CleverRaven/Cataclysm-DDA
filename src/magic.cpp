@@ -1104,7 +1104,7 @@ float spell::spell_fail( const Character &guy ) const
         }
         fail_chance /= guy.get_focus() / 100.0f;
     }
-    return clamp( fail_chance, 0.0f, 1.0f );
+    return std::clamp( fail_chance, 0.0f, 1.0f );
 }
 
 std::string spell::colorized_fail_percent( const Character &guy ) const
@@ -1418,7 +1418,8 @@ std::string spell::exp_progress() const
     const int denominator = next_level_xp - this_level_xp;
     const float progress = static_cast<float>( xp() - this_level_xp ) / std::max( 1.0f,
                            static_cast<float>( denominator ) );
-    return string_format( "%i%%", clamp( static_cast<int>( std::round( progress * 100 ) ), 0, 99 ) );
+    return string_format( "%i%%", std::clamp<int>( std::round( progress * 100 ), 0,
+                          99 ) );
 }
 
 float spell::exp_modifier( const Character &guy ) const
@@ -1869,7 +1870,7 @@ void known_magic::set_mana( int new_mana )
 
 void known_magic::mod_mana( const Character &guy, int add_mana )
 {
-    set_mana( clamp( mana + add_mana, 0, max_mana( guy ) ) );
+    set_mana( std::clamp( mana + add_mana, 0, max_mana( guy ) ) );
 }
 
 int known_magic::max_mana( const Character &guy ) const
@@ -2120,7 +2121,7 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
 
     auto columnize = [&width]( const std::string & col1, const std::string & col2 ) {
         std::string line = col1;
-        int pad = clamp<int>( width / 2 - utf8_width( line, true ), 1, width / 2 );
+        int pad = std::clamp( width / 2 - utf8_width( line, true ), 1, width / 2 );
         line.append( pad, ' ' );
         line.append( col2 );
         return line;
@@ -2354,7 +2355,7 @@ int known_magic::select_spell( Character &guy )
 
     uilist spell_menu;
     spell_menu.w_height_setup = [&]() -> int {
-        return clamp( static_cast<int>( known_spells.size() ), 24, TERMY * 9 / 10 );
+        return std::clamp<int>( known_spells.size(), 24, TERMY * 9 / 10 );
     };
     const auto calc_width = []() -> int {
         return std::max( 80, TERMX * 3 / 8 );
@@ -2615,7 +2616,7 @@ spell fake_spell::get_spell( int min_level_override ) const
     // make sure max level is not lower then min level
     spell_limiter = std::max( min_level_override, spell_limiter );
     // the "level" of the fake spell is the goal, but needs to be clamped to min and max
-    int level_of_spell = clamp( level, min_level_override, spell_limiter );
+    int level_of_spell = std::clamp( level, min_level_override, spell_limiter );
     if( level > spell_limiter ) {
         debugmsg( "ERROR: fake spell %s has higher min_level than max_level", id.c_str() );
         return sp;

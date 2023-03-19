@@ -215,16 +215,6 @@ double clamp_to_width( double value, int width, int &scale, bool *out_truncated 
 /**@}*/
 
 /**
- * Clamp first argument so that it is no lower than second and no higher than third.
- * Does not check if min is lower than max.
- */
-template<typename T>
-constexpr T clamp( const T &val, const T &min, const T &max )
-{
-    return std::max( min, std::min( max, val ) );
-}
-
-/**
  * Linear interpolation: returns first argument if t is 0, second if t is 1, otherwise proportional to t.
  * Does not clamp t, meaning it can return values lower than min (if t<0) or higher than max (if t>1).
  */
@@ -238,7 +228,7 @@ constexpr T lerp( const T &min, const T &max, float t )
 template<typename T>
 constexpr T lerp_clamped( const T &min, const T &max, float t )
 {
-    return lerp( min, max, clamp( t, 0.0f, 1.0f ) );
+    return lerp( min, max, std::clamp( t, 0.0f, 1.0f ) );
 }
 
 /**

@@ -365,7 +365,8 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
     double damage{ weapon.base_damage_melee().total_damage() };
     damage *= 100.0 / weapon.attack_time( source );
     const int reach_range{ weapon.reach_range( source ) };
-    const int distance_to_me = clamp( rl_dist( source.pos(), critter->pos() ) - reach_range, 0, 10 );
+    const int distance_to_me = std::clamp( rl_dist( source.pos(), critter->pos() ) - reach_range, 0,
+                                           10 );
     // Multiplier of 0.5f to 1.5f based on distance
     const float distance_multiplier = 1.5f - distance_to_me * 0.1f;
     double potential = damage * distance_multiplier;

@@ -312,7 +312,7 @@ void string_editor_window::cursor_leftright( const int diff )
         _position = 0;
     } else {
         // Move at most `diff` codepoints without warping
-        _position = clamp( _position + diff, 0, size );
+        _position = std::clamp( _position + diff, 0, size );
     }
 }
 
@@ -329,7 +329,7 @@ void string_editor_window::cursor_updown( const int diff )
             new_y = 0;
         } else {
             // Move at most `diff` lines without warping
-            new_y = clamp( _cursor_display.y + diff, 0, size - 1 );
+            new_y = std::clamp( _cursor_display.y + diff, 0, size - 1 );
         }
         const folded_line &new_line = _folded->get_lines()[new_y];
         utf8_wrapper ustr( new_line.str );

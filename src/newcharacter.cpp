@@ -1364,7 +1364,7 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
             traits_size[i] = sorted_traits[i].size();
             int total = static_cast<int>( traits_size[i] );
             int height = static_cast<int>( iContentHeight );
-            iStartPos[i] = std::min( iStartPos[i], std::max( 0, total - height ) );
+            iStartPos[i] = std::clamp( iStartPos[i], 0, total - height );
         }
     };
 
@@ -4133,7 +4133,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        you.set_base_age( clamp( result, 16, 55 ) );
+                        you.set_base_age( std::clamp( result, 16, 55 ) );
                     }
                     break;
                 }
@@ -4145,7 +4145,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        you.set_base_height( clamp( result, min_allowed_height, max_allowed_height ) );
+                        you.set_base_height( std::clamp( result, min_allowed_height, max_allowed_height ) );
                     }
                     break;
                 }

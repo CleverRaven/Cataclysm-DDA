@@ -865,8 +865,7 @@ scored_address vehicle::autodrive_controller::compute_node_score( const node_add
             ret.score += nearness_penalty;
         }
     }
-    const int omt_index = std::min( std::max( addr.x / OMT_SIZE, 0 ),
-                                    static_cast<int>( data.goal_points.size() ) - 1 );
+    const int omt_index = std::clamp<int>( addr.x / OMT_SIZE, 0, data.goal_points.size() - 1 );
     const point waypoint_delta = data.goal_points[omt_index] - addr.get_point();
     const point goal_delta = data.goal_points.back() - addr.get_point();
     const orientation waypoint_dir = approx_orientation( waypoint_delta.x, waypoint_delta.y );
@@ -891,7 +890,7 @@ const
     int next_speed = target_speed;
     int num_tiles_to_move = std::abs( target_speed_tps );
     if( target_speed_tps > 1 && node.speed < target_speed ) {
-        const int cur_tps = std::min( std::max( node.speed / VMIPH_PER_TPS, 0 ), data.max_speed_tps - 1 );
+        const int cur_tps = std::clamp( node.speed / VMIPH_PER_TPS, 0, data.max_speed_tps - 1 );
         next_speed = std::min( std::max<int>( node.speed, 0 ) + data.acceleration[cur_tps], target_speed );
         num_tiles_to_move = next_speed / VMIPH_PER_TPS;
     }

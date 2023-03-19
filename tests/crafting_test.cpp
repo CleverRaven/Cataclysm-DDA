@@ -392,7 +392,7 @@ static void give_tools( const std::vector<item> &tools )
 
 static int apply_offset( int skill, int offset )
 {
-    return clamp( skill + offset, 0, MAX_SKILL );
+    return std::clamp( skill + offset, 0, MAX_SKILL );
 }
 
 static void grant_skills_to_character( Character &you, const recipe &r, int offset )
@@ -666,7 +666,7 @@ static void test_fail_scenario( const std::string &scen, const recipe_id &rid, i
                              skill.second.knowledgeLevel() ) );
         // Only apply to skills that we expect to have a value
         if( expected_skills.count( skill.first ) != 0 ) {
-            expected_skills[skill.first] = clamp( expected_skills[skill.first] + offset, 0, MAX_SKILL );
+            expected_skills[skill.first] = std::clamp( expected_skills[skill.first] + offset, 0, MAX_SKILL );
         } else {
             expected_skills[skill.first] = 0;
         }

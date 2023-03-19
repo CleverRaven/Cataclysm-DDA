@@ -2055,10 +2055,10 @@ void mapgen_forest( mapgendata &dat )
             float v_unit_hash = static_cast<float>( v_hash ) / static_cast<float>( UINT32_MAX );
             // Apply the box-muller transform to produce a gaussian distribution with the desired mean and deviation.
             float mag = depth_deviation * std::sqrt( -2. * log( h_unit_hash ) );
-            int h_norm_transform = static_cast<int>( clamp( std::round( mag * std::cos(
+            int h_norm_transform = static_cast<int>( std::clamp( std::round( mag * std::cos(
                                        2 * M_PI * v_unit_hash ) + average_depth ), static_cast<double>( INT32_MIN ),
                                    static_cast<double>( INT32_MAX ) ) );
-            int v_norm_transform = static_cast<int>( clamp( std::round( mag * std::sin(
+            int v_norm_transform = static_cast<int>( std::clamp( std::round( mag * std::sin(
                                        2 * M_PI * v_unit_hash ) + average_depth ), static_cast<double>( INT32_MIN ),
                                    static_cast<double>( INT32_MAX ) ) );
 
@@ -2088,9 +2088,10 @@ void mapgen_forest( mapgendata &dat )
                 4]];
         // Generate critical points in-order displacement-wise.
         for( int ci = 1; ci < interediary_crit_point_count + 1; ci++ ) {
-            critical_point_displacements[ci] = clamp<int>( std::abs( static_cast<int>( std::round( normal_roll(
-                                                   static_cast<double>(
-                                                           edge_length * ( ci - 1 ) ) / ( interediary_crit_point_count + 2 ), border_deviation ) ) ) ), 1,
+            critical_point_displacements[ci] = std::clamp<int>( std::abs<int>( std::round(
+                                                   normal_roll(
+                                                           static_cast<double>(
+                                                                   edge_length * ( ci - 1 ) ) / ( interediary_crit_point_count + 2 ), border_deviation ) ) ), 1,
                                                edge_length - 2 );
             critical_point_depths[ci] = static_cast<int>( std::round( abs( normal_roll( average_depth,
                                         depth_deviation ) ) ) );

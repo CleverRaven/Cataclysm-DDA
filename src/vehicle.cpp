@@ -848,8 +848,8 @@ void vehicle::smash( map &m, float hp_percent_loss_min, float hp_percent_loss_ma
         int pct_af = ( percent_of_parts_to_affect * 1000.0f );
         if( roll < pct_af ) {
             double dist =  damage_size == 0.0f ? 1.0f :
-                           clamp( 1.0f - trig_dist( damage_origin, part.precalc[0].xy() ) /
-                                  damage_size, 0.0f, 1.0f );
+                           std::clamp( 1.0f - trig_dist( damage_origin, part.precalc[0].xy() ) /
+                                       damage_size, 0.0f, 1.0f );
             //Everywhere else, drop by 10-120% of max HP (anything over 100 = broken)
             if( mod_hp( part, 0 - ( rng_float( hp_percent_loss_min * dist,
                                                hp_percent_loss_max * dist ) *
@@ -6320,9 +6320,9 @@ void vehicle::do_towing_move()
         }
         const tripoint destination_delta( here.getlocal( tower_tow_point ).xy() - nearby_destination.xy() +
                                           tripoint( 0, 0, towed_veh->global_pos3().z ) );
-        const tripoint move_destination( clamp( destination_delta.x, -1, 1 ),
-                                         clamp( destination_delta.y, -1, 1 ),
-                                         clamp( destination_delta.z, -1, 1 ) );
+        const tripoint move_destination( std::clamp( destination_delta.x, -1, 1 ),
+                                         std::clamp( destination_delta.y, -1, 1 ),
+                                         std::clamp( destination_delta.z, -1, 1 ) );
         here.move_vehicle( *towed_veh, move_destination, towed_veh->face );
         towed_veh->move = tileray( destination_delta.xy() );
     }

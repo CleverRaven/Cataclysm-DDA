@@ -844,16 +844,16 @@ int item::damage_floor( bool allow_negative ) const
 
 item &item::set_damage( int qty )
 {
-    damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
-    degradation_ = std::max( std::min( damage_ - min_damage(), degradation_ ), 0 );
+    damage_ = std::clamp( qty, min_damage(), max_damage() );
+    degradation_ = std::clamp( degradation_, 0, damage_ - min_damage() );
     on_damage_changed();
     return *this;
 }
 
 item &item::set_degradation( int qty )
 {
-    degradation_ = std::max( std::min( qty, max_damage() ), 0 );
-    damage_ = std::min( std::max( damage_, damage_floor( false ) ), max_damage() );
+    degradation_ = std::clamp( qty, 0, max_damage() );
+    damage_ = std::clamp( damage_, damage_floor( false ), max_damage() );
     return *this;
 }
 
@@ -1958,8 +1958,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
                           100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0f;
     constexpr double hit_trials = 10000.0;
-    const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
-                                   -20 ) + 20;
+    const int rng_mean = std::clamp( static_cast<int>( base_hit - mon_defense ), -20, 20 ) + 20;
     double num_all_hits = hits_by_accuracy[ rng_mean ];
     /* critical hits have two chances to occur: triple critical hits happen much less frequently,
      * and double critical hits can only occur if a hit roll is more than 1.5 * monster dodge.
@@ -1968,8 +1967,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
      * critical hits, and the rest are eligible to be triple critical hits, but in each case,
      * only some small percent of them actually become critical hits.
      */
-    const int rng_high_mean = std::max( std::min( static_cast<int>( base_hit - 1.5 * mon_dodge ),
-                                        20 ), -20 ) + 20;
+    const int rng_high_mean = std::clamp( static_cast<int>( base_hit - 1.5 * mon_dodge ), -20,
+                                          20 ) + 20;
     double num_high_hits = hits_by_accuracy[ rng_high_mean ] * num_all_hits / hit_trials;
     double double_crit_chance = guy.crit_chance( 4, 0, *this );
     double crit_chance = guy.crit_chance( 0, 0, *this );
@@ -8744,7 +8743,7 @@ bool item::mod_damage( int qty, damage_type dt )
     if( !count_by_charges() ) {
         destroy |= damage_ + qty > max_damage();
 
-        damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() + degradation_ );
+        damage_ = std::clamp( damage_ + qty, min_damage() + degradation_, max_damage() );
     }
 
     if( qty > 0 && !destroy ) {
@@ -10392,7 +10391,7 @@ int item::gun_range( bool with_ammo ) const
         range_multiplier *= ammo_data()->ammo->range_multiplier;
     }
     ret *= range_multiplier;
-    return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
+    return std::clamp( ret, 0, RANGE_HARD_CAP );
 }
 
 int item::gun_range( const Character *p ) const

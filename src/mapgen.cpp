@@ -3719,7 +3719,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>(
 
         } else if( loot->chance != 100 ) {
             // otherwise except where chance is 100% scale probability
-            loot->chance = std::max( std::min( static_cast<int>( loot->chance * rate ), 100 ), 1 );
+            loot->chance = std::clamp( static_cast<int>( loot->chance * rate ), 1, 100 );
         }
 
         add( where, loot );

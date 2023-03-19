@@ -1113,7 +1113,7 @@ int effect::set_intensity( int val, bool alert )
         intensity = 1;
     }
 
-    val = std::max( std::min( val, eff_type->max_intensity ), 0 );
+    val = std::clamp( val, 0, eff_type->max_intensity );
     if( val == intensity ) {
         // Nothing to change
         return intensity;

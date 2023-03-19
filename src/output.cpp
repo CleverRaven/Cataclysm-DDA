@@ -1812,8 +1812,8 @@ bool scrollbar::handle_dragging( const std::string &action, const cata::optional
         return true;
     } else if( action == "MOUSE_MOVE" && coord.has_value() && dragging ) {
         // Currently dragging the scrollbar.  Clamp cursor position to scrollbar area, then interpolate
-        int clamped_cursor_pos = clamp( coord->y - scrollbar_area.p_min.y, 0,
-                                        scrollbar_area.p_max.y - scrollbar_area.p_min.y - 1 );
+        int clamped_cursor_pos = std::clamp( coord->y - scrollbar_area.p_min.y, 0,
+                                             scrollbar_area.p_max.y - scrollbar_area.p_min.y - 1 );
         viewport_pos_v = clamped_cursor_pos * ( content_size_v - viewport_size_v ) /
                          ( scrollbar_area.p_max.y - scrollbar_area.p_min.y - 1 );
         position = viewport_pos_v;
@@ -1928,7 +1928,7 @@ int multiline_list::get_offset_from_entry()
 
 int multiline_list::get_offset_from_entry( const int entry )
 {
-    int target_entry = clamp( entry, 0, static_cast<int>( entry_sizes.size() ) );
+    int target_entry = std::clamp<int>( entry, 0, entry_sizes.size() );
     int offset = 0;
     for( int i = 0; i < target_entry; ++i ) {
         offset += entry_sizes[i];
@@ -2062,7 +2062,7 @@ void multiline_list::set_entry_pos( const int entry_pos, const bool looping = fa
         }
         entry_position = new_position % static_cast<int>( entries.size() );
     } else {
-        entry_position = clamp( entry_pos, 0, static_cast<int>( entries.size() ) - 1 );
+        entry_position = std::clamp<int>( entry_pos, 0, entries.size() - 1 );
     }
     int available_space = getmaxy( w ) - entry_sizes[entry_position];
     set_offset_pos( get_offset_from_entry() - available_space / 2, false );
@@ -2085,11 +2085,11 @@ void multiline_list::set_offset_pos( const int offset_pos, const bool update_sel
         }
     } else {
         if( update_selection ) {
-            entry_position = get_entry_from_offset( clamp( offset_pos, 0, total_length ) );
+            entry_position = get_entry_from_offset( std::clamp( offset_pos, 0, total_length ) );
             // The offset position might be slightly offset from the actual offset from that entry, so adjust
             set_offset_pos( get_offset_from_entry(), false );
         } else {
-            offset_position = clamp( offset_pos, 0, max_offset );
+            offset_position = std::clamp( offset_pos, 0, total_length - getmaxy( w ) );
         }
     }
     mouseover_delay_end = std::chrono::steady_clock::now() + base_mouse_delay / mouseover_accel_counter;
@@ -2609,7 +2609,7 @@ get_bar( const float cur, const float max,
          const std::vector<nc_color> &colors )
 {
     std::string result;
-    const float status = clamp( cur / max, 0.0f, 1.0f );
+    const float status = std::clamp( cur / max, 0.0f, 1.0f );
     const float sw = status * width;
 
     nc_color col;
@@ -2617,7 +2617,7 @@ get_bar( const float cur, const float max,
         col = c_red_red;
     } else {
         int ind = std::floor( ( 1.0 - status ) * ( colors.size() - 1 ) + 0.5 );
-        ind = clamp<int>( ind, 0, colors.size() - 1 );
+        ind = std::clamp<int>( ind, 0, colors.size() - 1 );
         col = colors[ind];
     }
     if( !std::isfinite( sw ) || sw <= 0 ) {
@@ -2669,7 +2669,8 @@ std::pair<std::string, nc_color> get_light_level( const float light )
     };
     // Avoid magic number
     static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
-    const int light_level = clamp( static_cast< int >( std::ceil( light ) ), 0, maximum_light_level );
+    const int light_level = std::clamp<int>( std::ceil( light ), 0,
+                            maximum_light_level );
     const size_t array_index = static_cast< size_t >( light_level );
     return pair_t{ _( strings[array_index].first ), strings[array_index].second };
 }

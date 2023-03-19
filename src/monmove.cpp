@@ -2242,9 +2242,9 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                 shove_moves = std::max( shove_moves, shove_moves_minimal );
                 this->mod_moves( -shove_moves );
                 const tripoint destination_delta( -nearby_destination + remote_destination );
-                const tripoint shove_destination( clamp( destination_delta.x, -1, 1 ),
-                                                  clamp( destination_delta.y, -1, 1 ),
-                                                  clamp( destination_delta.z, -1, 1 ) );
+                const tripoint shove_destination( std::clamp( destination_delta.x, -1, 1 ),
+                                                  std::clamp( destination_delta.y, -1, 1 ),
+                                                  std::clamp( destination_delta.z, -1, 1 ) );
                 veh.skidding = true;
                 veh.velocity = shove_velocity;
                 if( shove_destination != tripoint_zero ) {

@@ -1672,7 +1672,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 
                     int plant_count = rng( skillLevel / 2, skillLevel );
                     plant_count *= bay.furn( plot )->plant->harvest_multiplier;
-                    plant_count = std::min( std::max( plant_count, 1 ), 12 );
+                    plant_count = std::clamp( plant_count, 1, 12 );
 
                     // Multiply by the plant's and seed's base charges to mimic creating
                     // items similar to iexamine::harvest_plant

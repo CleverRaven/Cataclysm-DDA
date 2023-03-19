@@ -192,8 +192,8 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
                                 max_battery_level;
 
     // ensure sane values
-    cfg.battery_hi = clamp( cfg.battery_hi, 0, 100 );
-    cfg.battery_lo = clamp( cfg.battery_lo, 0, cfg.battery_hi );
+    cfg.battery_hi = std::clamp( cfg.battery_hi, 0, 100 );
+    cfg.battery_lo = std::clamp( cfg.battery_lo, 0, cfg.battery_hi );
 
     // when battery > 90%, discharge is allowed
     // otherwise trying to charge battery to 90% within 30 minutes
@@ -556,7 +556,7 @@ void vehicle::thrust( int thd, int z )
                 value = 1864 * std::pow( velocity_kt, 2 ) - 272190 * velocity_kt + 19473000;
             }
             value *= 0.0001;
-            load = std::max( 200, std::min( 1000, ( ( value / 2 ) + 100 ) ) );
+            load = std::clamp( ( ( value / 2 ) + 100 ), 200, 1000 );
         }
         //make noise and consume fuel
         noise_and_smoke( load + alternator_load );
@@ -586,9 +586,9 @@ void vehicle::thrust( int thd, int z )
         const int min_vel = max_reverse_velocity();
         if( vel_inc > 0 ) {
             // Don't allow braking by accelerating (could happen with damaged engines)
-            velocity = std::max( velocity, std::min( velocity + vel_inc, max_vel ) );
+            velocity = std::min( velocity + vel_inc, max_vel );
         } else {
-            velocity = std::min( velocity, std::max( velocity + vel_inc, min_vel ) );
+            velocity = std::max( velocity + vel_inc, min_vel );
         }
     }
     // If you are going faster than the animal can handle, harness is damaged
@@ -966,7 +966,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     //k=100 -> 100% damage on part
     //k=0 -> 100% damage on obj
     float material_factor = ( part_dens - vpart_dens ) * 0.5f;
-    material_factor = std::max( -25.0f, std::min( 25.0f, material_factor ) );
+    material_factor = std::clamp( material_factor, -25.0f, 25.0f );
     // factor = -25 if mass is much greater than mass2
     // factor = +25 if mass2 is much greater than mass
     const float weight_factor = mass >= mass2 ?
@@ -974,7 +974,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                                 25 * ( std::log( mass2 ) - std::log( mass ) ) / std::log( mass2 );
 
     float k = 50 + material_factor + weight_factor;
-    k = std::max( 10.0f, std::min( 90.0f, k ) );
+    k = std::clamp( k, 10.0f, 90.0f );
 
     bool smashed = true;
     const std::string snd = _( "smash!" );

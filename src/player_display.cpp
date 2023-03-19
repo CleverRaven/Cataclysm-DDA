@@ -132,8 +132,7 @@ static std::pair<int, int> subindex_around_cursor(
     if( !focused || num_entries <= available_space ) {
         return std::make_pair( 0, std::min( available_space, num_entries ) );
     }
-    int slice_start = std::min( std::max( 0, cursor_pos - available_space / 2 ),
-                                num_entries - available_space );
+    int slice_start = std::clamp( cursor_pos - available_space / 2, 0, num_entries - available_space );
     return std::make_pair( slice_start, slice_start + available_space );
 }
 
@@ -149,8 +148,7 @@ void Character::print_encumbrance( ui_adaptor &ui, const catacurses::window &win
     const bool do_draw_scrollbar = height < static_cast<int>( bps.size() );
     const int width = getmaxx( win ) - ( do_draw_scrollbar ? 1 : 0 );
     // index of the first printed bodypart from `bps`
-    const int firstline = clamp( line - height / 2, 0, std::max( 0,
-                                 static_cast<int>( bps.size() ) - height ) );
+    const int firstline = std::clamp<int>( line - height / 2, 0, bps.size() - height );
 
     /*** I chose to instead only display X+Y instead of X+Y=Z. More room was needed ***
      *** for displaying triple digit encumbrance, due to new encumbrance system.    ***

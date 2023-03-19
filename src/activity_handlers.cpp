@@ -714,9 +714,9 @@ static double butchery_dissect_yield_mult( int skill_level, int dex, int tool_qu
     const double skill_score = skill_level / 10.0;
     const double tool_score = ( tool_quality + 50.0 ) / 100.0;
     const double dex_score = dex / 20.0;
-    return 0.5 * clamp( skill_score, 0.0, 1.0 ) +
-           0.3 * clamp( tool_score, 0.0, 1.0 ) +
-           0.2 * clamp( dex_score, 0.0, 1.0 );
+    return 0.5 * std::clamp( skill_score, 0.0, 1.0 ) +
+           0.3 * std::clamp( tool_score, 0.0, 1.0 ) +
+           0.2 * std::clamp( dex_score, 0.0, 1.0 );
 }
 
 static std::vector<item> create_charge_items( const itype *drop, int count,

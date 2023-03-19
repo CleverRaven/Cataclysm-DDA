@@ -80,7 +80,7 @@ void emit::check_consistency()
         if( e.second.chance_ > 100 || e.second.chance_ <= 0 ) {
             debugmsg( "emission chance of %s out of range (%d of min 1 max 100)", e.second.id_.c_str(),
                       e.second.chance_ );
-            e.second.chance_ = std::max( std::min( e.second.chance_, 100 ), 1 );
+            e.second.chance_ = std::clamp( e.second.chance_, 1, 100 );
         }
     }
 }

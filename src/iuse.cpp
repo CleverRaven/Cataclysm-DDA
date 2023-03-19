@@ -3597,7 +3597,7 @@ cata::optional<int> iuse::granade_act( Character *p, item *it, bool t, const tri
         int effect_roll = rng( 1, 5 );
         auto buff_stat = [&]( int &current_stat, int modify_by ) {
             int modified_stat = current_stat + modify_by;
-            current_stat = std::max( current_stat, std::min( 15, modified_stat ) );
+            current_stat = std::clamp( modified_stat, current_stat, 15 );
         };
         avatar &player_character = get_avatar();
         switch( effect_roll ) {

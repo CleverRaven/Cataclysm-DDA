@@ -2214,6 +2214,10 @@ class map
         const std::set<tripoint_abs_sm> &get_submaps_with_active_items() const {
             return submaps_with_active_items;
         }
+
+        // Rearrange coordinates in two tripoints so the first is strictly less than the second
+        std::pair<tripoint, tripoint> bounding_corners( const tripoint &start,
+                const tripoint &end ) const;
         // Clips the area to map bounds
         tripoint_range<tripoint> points_in_rectangle(
             const tripoint &from, const tripoint &to ) const;

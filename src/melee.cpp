@@ -1039,7 +1039,7 @@ bool Character::scored_crit( float target_dodge, const item &weap ) const
  */
 static double limit_probability( double unbounded_probability )
 {
-    return std::max( std::min( unbounded_probability, 1.0 ), 0.0 );
+    return std::clamp( unbounded_probability, 0.0, 1.0 );
 }
 
 double Character::crit_chance( float roll_hit, float target_dodge, const item &weap ) const
@@ -1764,8 +1764,8 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     std::array<int, 9> offset_b = {{-1, -1, 0, -1, 0, 1, 0, 1, 1 }};
 
     // filter the values to be between -1 and 1 to avoid indexing the array out of bounds
-    int dy = std::max( -1, std::min( 1, t.posy() - posy() ) );
-    int dx = std::max( -1, std::min( 1, t.posx() - posx() ) );
+    int dy = std::clamp( t.posy() - posy(), -1, 1 );
+    int dx = std::clamp( t.posx() - posx(), -1, 1 );
     int lookup = dy + 1 + 3 * ( dx + 1 );
 
     creature_tracker &creatures = get_creature_tracker();
@@ -2497,8 +2497,7 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
         /** @EFFECT_DEX increases number of hits with BEAK_PECK */
 
         /** @EFFECT_UNARMED increases number of hits with BEAK_PECK */
-        int num_hits = std::max( 1, std::min<int>( 6,
-                                 u.get_dex() + u.get_skill_level( skill_unarmed ) - rng( 4, 10 ) ) );
+        int num_hits = std::clamp( u.get_dex() + u.get_skill_level( skill_unarmed ) - rng( 4, 10 ), 1, 6 );
         return damage_instance::physical( 0, 0, num_hits * 10 );
     }
 

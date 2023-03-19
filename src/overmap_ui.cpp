@@ -1750,7 +1750,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         /**
          * Handle possibly different overmap font size
          */
-        OVERMAP_LEGEND_WIDTH = clamp( TERMX / 5, 28, 55 );
+        OVERMAP_LEGEND_WIDTH = std::clamp( TERMX / 5, 28, 55 );
         OVERMAP_WINDOW_HEIGHT = TERMY;
         OVERMAP_WINDOW_WIDTH = TERMX - OVERMAP_LEGEND_WIDTH;
         OVERMAP_WINDOW_TERM_WIDTH = OVERMAP_WINDOW_WIDTH;

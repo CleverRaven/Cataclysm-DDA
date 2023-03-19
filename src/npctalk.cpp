@@ -257,7 +257,7 @@ time_duration calc_spell_training_time( const Character &, const Character &stud
         return 1_hours;
     } else {
         const int time_int = student.magic->time_to_learn_spell( student, id ) / 50;
-        return time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
+        return time_duration::from_seconds( std::clamp( time_int, 7200, 21600 ) );
     }
 }
 
@@ -1468,7 +1468,7 @@ int talk_trial::calc_chance( const dialogue &d ) const
         chance += parse_mod( d, this_mod.first, this_mod.second );
     }
 
-    return std::max( 0, std::min( 100, chance ) );
+    return std::clamp( chance, 0, 100 );
 }
 
 bool talk_trial::roll( dialogue &d ) const

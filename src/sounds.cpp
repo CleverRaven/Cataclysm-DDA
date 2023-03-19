@@ -369,9 +369,8 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, mon
     if( input_sounds.empty() ) {
         return sound_clusters;
     }
-    const int num_seed_clusters =
-        std::max( std::min( input_sounds.size(), static_cast<size_t>( 10 ) ),
-                  static_cast<size_t>( std::log( input_sounds.size() ) ) );
+    const int num_seed_clusters = std::clamp<int>( input_sounds.size(),
+                                  std::log( input_sounds.size() ), 10 );
     const size_t stopping_point = input_sounds.size() - num_seed_clusters;
     const size_t max_map_distance = sound_distance( tripoint( point_zero, OVERMAP_DEPTH ),
                                     tripoint( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT ) );

@@ -179,11 +179,11 @@ void smart_controller_ui::control()
             const int dx = action == "RIGHT" ? 1 : -1;
 
             if( slider == 0 ) {
-                settings.battery_lo = clamp( ( settings.battery_lo / 5 + dx ) * 5, 5, 90 );
+                settings.battery_lo = std::clamp( ( settings.battery_lo / 5 + dx ) * 5, 5, 90 );
                 // keep the min space of 5 between this and other slider
                 settings.battery_hi = std::max( settings.battery_lo + 5, settings.battery_hi );
             } else {
-                settings.battery_hi = clamp( ( settings.battery_hi / 5 + dx ) * 5, 10, 95 );
+                settings.battery_hi = std::clamp( ( settings.battery_hi / 5 + dx ) * 5, 10, 95 );
                 // keep the min space of 5 between this and other slider
                 settings.battery_lo = std::min( settings.battery_hi - 5, settings.battery_lo );
             }

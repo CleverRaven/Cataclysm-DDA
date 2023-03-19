@@ -498,9 +498,7 @@ void avatar::power_mutations()
                 }
                 if( scroll_position < max_scroll_position &&
                     cursor - scroll_position > list_height - half_list_view_location ) {
-                    scroll_position =
-                        std::max( std::min<int>( lim + 1 - list_height,
-                                                 cursor - half_list_view_location ), 0 );
+                    scroll_position = std::clamp( cursor - half_list_view_location, 0, lim + 1 - list_height );
                 }
 
                 examine_id = GetTrait( active, passive, cursor, tab_mode );

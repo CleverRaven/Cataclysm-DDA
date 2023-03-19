@@ -2860,7 +2860,7 @@ int repair_item_actor::repair_recipe_difficulty( const Character &pl,
         if( ret.second ) {
             diff = ret.first;
         } else {
-            diff = std::min( std::max( 0, diff ), ret.first );
+            diff = std::clamp( diff, 0, ret.first );
         }
     }
 
@@ -2986,8 +2986,8 @@ std::pair<float, float> repair_item_actor::repair_chance(
     /** @EFFECT_DEX reduces the chances of damaging an item when repairing */
     float damage_chance = ( difficulty - skill - ( tool_quality + pl.dex_cur ) / 5.0f ) / 100.0f;
 
-    damage_chance = std::max( 0.0f, std::min( 1.0f, damage_chance ) );
-    success_chance = std::max( 0.0f, std::min( 1.0f - damage_chance, success_chance ) );
+    damage_chance = std::clamp( damage_chance, 0.0f, 1.0f );
+    success_chance = std::clamp( success_chance, 0.0f, 1.0f - damage_chance );
 
     return std::make_pair( success_chance, damage_chance );
 }

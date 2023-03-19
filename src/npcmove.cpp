@@ -2847,7 +2847,7 @@ void npc::find_item()
     // For some reason range limiting by vision doesn't work properly
     const int range = 6;
     //int range = sight_range( g->light_level( posz() ) );
-    //range = std::max( 1, std::min( 12, range ) );
+    //range = std::clamp( range, 1, 12 );
 
     const item *wanted = nullptr;
 
@@ -3781,7 +3781,7 @@ bool npc::consume_food_from_camp()
     if( get_hunger() > 0 && current_kcals < kcal_threshold ) {
         // Try to eat a bit more than the bare minimum so that we're not eating every 5 minutes
         // but also don't try to eat a week's worth of food in one sitting
-        int desired_kcals = std::min( 2500, std::max( 0, kcal_threshold + 100 - current_kcals ) );
+        int desired_kcals = std::clamp( kcal_threshold + 100 - current_kcals, 0, 2500 );
         int kcals_to_eat = std::min( desired_kcals, yours->food_supply );
 
         if( kcals_to_eat > 0 ) {
@@ -4568,8 +4568,8 @@ void npc::do_reload( const item_location &it )
     item &target = const_cast<item &>( *reload_opt.target );
     item_location &usable_ammo = reload_opt.ammo;
 
-    int qty = std::max( 1, std::min( usable_ammo->charges,
-                                     it->ammo_capacity( usable_ammo->ammo_data()->ammo->type ) - it->ammo_remaining() ) );
+    int qty = std::clamp( it->ammo_capacity( usable_ammo->ammo_data()->ammo->type ) -
+                          it->ammo_remaining(), 1, usable_ammo->charges );
     int reload_time = item_reload_cost( *it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();

@@ -590,7 +590,7 @@ construction_id construction_menu( const bool blueprint )
         const int w_x0 = ( TERMX > w_width ) ? ( TERMX - w_width ) / 2 : 0;
         w_con = catacurses::newwin( w_height, w_width, point( w_x0, w_y0 ) );
 
-        w_list_width = static_cast<int>( .375 * w_width );
+        w_list_width = w_width * 3 / 8;
         w_list_height = w_height - 4;
         w_list = catacurses::newwin( w_list_height, w_list_width,
                                      point( w_x0 + w_list_x0, w_y0 + 3 ) );
@@ -1087,7 +1087,7 @@ void complete_construction( Character *you )
         for( const auto &pr : built.required_skills ) {
             practicer.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) *
                                 ( 1 + built.time / 180000.0 ) ),
-                                static_cast<int>( pr.second * 1.25 ) );
+                                pr.second * 5 / 4 );
         }
     };
 

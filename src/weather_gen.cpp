@@ -143,11 +143,11 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         mod_h += autumn_humidity_manual_mod;
     }
     // Relative humidity, a percentage.
-    double H = std::min( 100., std::max( 0.,
-                                         base_humidity + mod_h + 100 * (
-                                                 .15 * seasonality +
-                                                 raw_noise_4d( x, y, z, modSEED + 101 ) *
-                                                 .2 * ( -seasonality + 2 ) ) ) );
+    double H = std::clamp( base_humidity + mod_h + 100 * (
+                               .15 * seasonality +
+                               raw_noise_4d( x, y, z, modSEED + 101 ) *
+                               .2 * ( -seasonality + 2 ) ),
+                           0., 100. );
 
     // Pressure
     double P =

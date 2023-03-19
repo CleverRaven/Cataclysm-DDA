@@ -417,7 +417,7 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
                 }
 
                 const int pages = static_cast<int>( buffer.size() / ( height - 2 ) );
-                w_msg_scroll_offset = clamp( w_msg_scroll_offset, 0, pages );
+                w_msg_scroll_offset = std::clamp( w_msg_scroll_offset, 0, pages );
                 for( int line = 0; line < height; ++line ) {
                     const int idx = w_msg_scroll_offset * ( height - 1 ) + line;
                     if( static_cast<size_t>( idx ) >= buffer.size() ) {
