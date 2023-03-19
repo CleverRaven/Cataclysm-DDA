@@ -110,7 +110,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
     GIVEN( "An item with default degradation rate" ) {
         item it( itype_test_baseball );
         it.mod_damage( -1000 );
-        REQUIRE( it.degrade_increments() == 50 );
+        REQUIRE( it.type->degrade_increments() == 50 );
         REQUIRE( it.degradation() == 0 );
         REQUIRE( it.damage() == -1000 );
         REQUIRE( it.damage_level() == -1 );
@@ -146,7 +146,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
     GIVEN( "An item with half degradation rate" ) {
         item it( itype_test_baseball_half_degradation );
         it.mod_damage( -1000 );
-        REQUIRE( it.degrade_increments() == 100 );
+        REQUIRE( it.type->degrade_increments() == 100 );
         REQUIRE( it.degradation() == 0 );
         REQUIRE( it.damage() == -1000 );
         REQUIRE( it.damage_level() == -1 );
@@ -182,7 +182,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
     GIVEN( "An item with double degradation rate" ) {
         item it( itype_test_baseball_x2_degradation );
         it.mod_damage( -1000 );
-        REQUIRE( it.degrade_increments() == 25 );
+        REQUIRE( it.type->degrade_increments() == 25 );
         REQUIRE( it.degradation() == 0 );
         REQUIRE( it.damage() == -1000 );
         REQUIRE( it.damage_level() == -1 );

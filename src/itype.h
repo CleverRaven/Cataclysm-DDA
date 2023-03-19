@@ -1352,6 +1352,7 @@ struct itype {
         int damage_max() const {
             return count_by_charges() ? 0 : damage_max_;
         }
+        /** Number of degradation increments before the item is destroyed */
         int degrade_increments() const {
             return count_by_charges() ? 0 : degrade_increments_;
         }
