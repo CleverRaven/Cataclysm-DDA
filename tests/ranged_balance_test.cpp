@@ -462,7 +462,7 @@ static void shoot_monster( const std::string &gun_type, const std::vector<std::s
             break;
         }
         mon.die( nullptr );
-    } while( damage.n() < 10000 ); // In fact, stable results can only be obtained when n reaches 10000
+    } while( damage.n() < 200 ); // In fact, stable results can only be obtained when n reaches 10000
     const double avg = damage.avg();
     CAPTURE( gun_type );
     CAPTURE( mods );
