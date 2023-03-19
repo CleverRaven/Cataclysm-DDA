@@ -390,7 +390,7 @@
     "id": "mon_renfield_abomination",
     "type": "MONSTER",
     "name": { "str": "abominable renfield" },
-    "description": "A towering mutated test subject, covered in thick fur and the torn bottom part of a jumpsuit.  Their legs end in large padded feet not unlike a dog's, but they still manage to stand upright, freeing up their clawed hands to tear you apart.",
+    "description": "A brobdignagian Renfield, twisted through unnatural alchemies.  Their stump sized legs and feet pound the earth as they move, while their claw like hands to tear you apart.",
     "symbol": "A",
     "color": "brown_red",
     "default_faction": "vampire",
@@ -418,11 +418,6 @@
       [ "PARROT", 800 ],
       { "id": "cut_throat", "move_cost": 130, "cooldown": 4, "min_mul": 1.5, "max_mul": 3.5 },
       { "id": "smash", "move_cost": 100, "cooldown": 8, "min_mul": 0.8, "throw_strength": 50 },
-      {
-        "type": "bite",
-        "cooldown": 10,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 18, "armor_multiplier": 0.7 } ]
-      },
       { "id": "longswipe", "move_cost": 120, "cooldown": 12, "min_mul": 1.5, "max_mul": 3 }
     ],
     "death_drops": "mon_renfield_abomination_death_drops",
