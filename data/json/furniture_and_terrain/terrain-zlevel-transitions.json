@@ -171,8 +171,7 @@
       "sound_fail": "clang!",
       "ter_set": "t_floor",
       "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
-    },
-    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ]
+    }
   },
   {
     "type": "terrain",
