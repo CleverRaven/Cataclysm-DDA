@@ -2503,7 +2503,7 @@ std::optional<vpart_reference> vpart_position::part_with_feature( const vpart_bi
 std::optional<vpart_reference> vpart_position::avail_part_with_feature(
     const std::string &f ) const
 {
-    const int i = vehicle().avail_part_with_feature( part_index(), f );
+    const int i = vehicle().avail_part_with_feature( mount(), f );
     return i >= 0 ? vpart_reference( vehicle(), i ) : std::optional<vpart_reference>();
 }
 
