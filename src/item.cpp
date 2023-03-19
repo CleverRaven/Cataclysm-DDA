@@ -2080,8 +2080,7 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
                           100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0f;
     constexpr double hit_trials = 10000.0;
-    const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
-                                   -20 ) + 20;
+    const int rng_mean = std::clamp( static_cast<int>( base_hit - mon_defense ), -20, 20 ) + 20;
     double num_all_hits = hits_by_accuracy[ rng_mean ];
     /* critical hits have two chances to occur: triple critical hits happen much less frequently,
      * and double critical hits can only occur if a hit roll is more than 1.5 * monster dodge.
@@ -2090,8 +2089,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
      * critical hits, and the rest are eligible to be triple critical hits, but in each case,
      * only some small percent of them actually become critical hits.
      */
-    const int rng_high_mean = std::max( std::min( static_cast<int>( base_hit - 1.5 * mon_dodge ),
-                                        20 ), -20 ) + 20;
+    const int rng_high_mean = std::clamp( static_cast<int>( base_hit - 1.5 * mon_dodge ), -20,
+                                          20 ) + 20;
     double num_high_hits = hits_by_accuracy[ rng_high_mean ] * num_all_hits / hit_trials;
     double double_crit_chance = guy.crit_chance( 4, 0, *this );
     double crit_chance = guy.crit_chance( 0, 0, *this );
@@ -8965,7 +8964,6 @@ bool item::mod_damage( int qty )
         const int dmg_before = damage_;
         const bool destroy = ( damage_ + qty ) > max_damage();
         set_damage( damage_ + qty );
-
         if( qty > 0 && !destroy ) { // apply automatic degradation
             set_degradation( degradation_ + get_degrade_amount( *this, damage_, dmg_before ) );
         }
@@ -10635,7 +10633,7 @@ int item::gun_range( bool with_ammo ) const
         range_multiplier *= ammo_data()->ammo->range_multiplier;
     }
     ret *= range_multiplier;
-    return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
+    return std::clamp( ret, 0, RANGE_HARD_CAP );
 }
 
 int item::gun_range( const Character *p ) const

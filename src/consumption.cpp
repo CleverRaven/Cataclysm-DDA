@@ -206,7 +206,7 @@ static int compute_default_effective_kcal( const item &comest, const Character &
     if( relative_rot > 1.0f && !you.has_trait( trait_SAPROPHAGE ) ) {
         // everyone else only gets a portion of the nutrition
         // Scaling linearly from 100% at just-rotten to 0 at halfway-rotten-away
-        const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
+        const float rottedness = std::clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         kcal *= ( 1.0f - rottedness );
     }
 
@@ -451,7 +451,7 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
     // Rotten food should be pretty disgusting
     const float relative_rot = comest.get_relative_rot();
     if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) && !has_trait( trait_SAPROVORE ) ) {
-        const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
+        const float rottedness = std::clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         // Three effects:
         // penalty for rot goes from -2 to -20
         // bonus for tasty food drops from 90% to 0%
@@ -1241,7 +1241,7 @@ void Character::modify_morale( item &food, const int nutr )
     time_duration morale_time = 2_hours;
     if( food.has_flag( flag_HOT ) && food.has_flag( flag_EATEN_HOT ) ) {
         morale_time = 3_hours;
-        int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
+        int clamped_nutr = std::clamp( nutr / 10, 5, 20 );
         add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
     }
 
@@ -1510,7 +1510,7 @@ bool Character::consume_effects( item &food )
     // Rotten food causes health loss
     const float relative_rot = food.get_relative_rot();
     if( relative_rot > 1.0f && !has_flag( json_flag_IMMUNE_SPOIL ) ) {
-        const float rottedness = clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
+        const float rottedness = std::clamp( 2 * relative_rot - 2.0f, 0.1f, 1.0f );
         // ~-1 health per 1 nutrition at halfway-rotten-away, ~0 at "just got rotten"
         // But always round down
         int h_loss = -rottedness * comest.get_default_nutr();

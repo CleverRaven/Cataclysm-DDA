@@ -961,7 +961,7 @@ void avatar::disp_medical()
             const int scroll_overflow = limit - SCROLL_POINT;
             if( scroll_overflow > 0 ) {
                 const int half_list = SCROLL_POINT / 2;
-                scroll_position = std::max( 0, std::min( scroll_overflow, cursor.y - half_list ) );
+                scroll_position = std::clamp( cursor.y - half_list, 0, scroll_overflow );
             }
             info_scroll_position = 0;
         } else if( action == "RIGHT" || action == "LEFT" ) {
@@ -982,7 +982,7 @@ void avatar::disp_medical()
             const int scroll_overflow = y_limit - SCROLL_POINT;
             if( scroll_overflow > 0 ) {
                 const int half_list = SCROLL_POINT / 2;
-                scroll_position = std::max( 0, std::min( scroll_overflow, cursor.y - half_list ) );
+                scroll_position = std::clamp( cursor.y - half_list, 0, scroll_overflow );
             } else {
                 scroll_position = 0;
             }

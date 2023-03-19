@@ -58,8 +58,7 @@ int field_entry::get_field_intensity() const
 int field_entry::set_field_intensity( int new_intensity )
 {
     is_alive = new_intensity > 0;
-    return intensity = std::max( std::min( new_intensity, get_max_field_intensity() ), 1 );
-
+    return intensity = std::clamp( new_intensity, 1, get_max_field_intensity() );
 }
 
 void field_entry::mod_field_intensity( int mod )

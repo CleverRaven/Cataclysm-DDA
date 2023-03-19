@@ -9745,16 +9745,12 @@ void map::maybe_trigger_trap( const tripoint_bub_ms &pos, Creature &c, const boo
     maybe_trigger_trap( pos.raw(), c, may_avoid );
 }
 
+
 template<typename Functor>
 void map::function_over( const tripoint &start, const tripoint &end, Functor fun ) const
 {
-    // start and end are just two points, end can be "before" start
-    // Also clip the area to map area
-    const tripoint min( std::max( std::min( start.x, end.x ), 0 ), std::max( std::min( start.y, end.y ),
-                        0 ), std::max( std::min( start.z, end.z ), -OVERMAP_DEPTH ) );
-    const tripoint max( std::min( std::max( start.x, end.x ), SEEX * my_MAPSIZE - 1 ),
-                        std::min( std::max( start.y, end.y ), SEEY * my_MAPSIZE - 1 ), std::min( std::max( start.z, end.z ),
-                                OVERMAP_HEIGHT ) );
+    std::pair<tripoint, tripoint> tripoints = bounding_corners( start, end );
+    const tripoint min = tripoints.first, max = tripoints.second;
 
     // Submaps that contain the bounding points
     const point min_sm( min.x / SEEX, min.y / SEEY );
@@ -9850,23 +9846,35 @@ void map::scent_blockers( std::array<std::array<bool, MAPSIZE_X>, MAPSIZE_Y> &bl
     }
 }
 
-tripoint_range<tripoint> map::points_in_rectangle( const tripoint &from, const tripoint &to ) const
+std::pair<tripoint, tripoint> map::bounding_corners( const tripoint &start,
+        const tripoint &end ) const
 {
-    const tripoint min( std::max( 0, std::min( from.x, to.x ) ), std::max( 0, std::min( from.y,
-                        to.y ) ), std::max( -OVERMAP_DEPTH, std::min( from.z, to.z ) ) );
-    const tripoint max( std::min( SEEX * my_MAPSIZE - 1, std::max( from.x, to.x ) ),
-                        std::min( SEEX * my_MAPSIZE - 1, std::max( from.y, to.y ) ), std::min( OVERMAP_HEIGHT,
-                                std::max( from.z, to.z ) ) );
-    return tripoint_range<tripoint>( min, max );
+    // start and end are just two points, end can be "before" start
+    // Also clip the area to map area
+    return std::make_pair( tripoint( std::clamp( start.x, 0, end.x ),
+                                     std::clamp( start.y, 0, end.y ),
+                                     std::clamp( start.z, -OVERMAP_DEPTH, end.z ) ),
+                           tripoint( std::clamp( end.x, start.x, SEEX * my_MAPSIZE - 1 ),
+                                     std::clamp( end.y, start.y, SEEY * my_MAPSIZE - 1 ),
+                                     std::clamp( end.z, start.z, OVERMAP_HEIGHT ) )
+                         );
+
+}
+
+tripoint_range<tripoint> map::points_in_rectangle( const tripoint &start,
+        const tripoint &end ) const
+{
+    std::pair<tripoint, tripoint> tripoints = bounding_corners( start, end );
+    return tripoint_range<tripoint>( tripoints.first, tripoints.second );
 }
 
 tripoint_range<tripoint> map::points_in_radius( const tripoint &center, size_t radius,
         size_t radiusz ) const
 {
     const tripoint min( std::max<int>( 0, center.x - radius ), std::max<int>( 0, center.y - radius ),
-                        clamp<int>( center.z - radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
+                        std::clamp<int>( center.z - radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
     const tripoint max( std::min<int>( SEEX * my_MAPSIZE - 1, center.x + radius ),
-                        std::min<int>( SEEX * my_MAPSIZE - 1, center.y + radius ), clamp<int>( center.z + radiusz,
+                        std::min<int>( SEEX * my_MAPSIZE - 1, center.y + radius ), std::clamp<int>( center.z + radiusz,
                                 -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
     return tripoint_range<tripoint>( min, max );
 }
@@ -9876,11 +9884,11 @@ tripoint_range<tripoint_bub_ms> map::points_in_radius(
 {
     const tripoint_bub_ms min(
         std::max<int>( 0, center.x() - radius ), std::max<int>( 0, center.y() - radius ),
-        clamp<int>( center.z() - radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
+        std::clamp<int>( center.z() - radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
     const tripoint_bub_ms max(
         std::min<int>( SEEX * my_MAPSIZE - 1, center.x() + radius ),
         std::min<int>( SEEX * my_MAPSIZE - 1, center.y() + radius ),
-        clamp<int>( center.z() + radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
+        std::clamp<int>( center.z() + radiusz, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) );
     return tripoint_range<tripoint_bub_ms>( min, max );
 }
 

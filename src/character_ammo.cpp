@@ -425,7 +425,7 @@ item::reload_option Character::select_ammo( const item_location &base, bool prom
 int Character::item_reload_cost( const item &it, const item &ammo, int qty ) const
 {
     if( ammo.is_ammo() || ammo.is_frozen_liquid() || ammo.made_of_from_type( phase_id::LIQUID ) ) {
-        qty = std::max( std::min( ammo.charges, qty ), 1 );
+        qty = std::clamp( qty, 1, ammo.charges );
     } else if( ammo.is_ammo_container() ) {
         int min_clamp = 0;
         // find the first ammo in the container to get its charges
@@ -437,7 +437,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
             return VisitResponse::NEXT;
         } );
 
-        qty = clamp( qty, min_clamp, 1 );
+        qty = std::clamp( qty, min_clamp, 1 );
     } else {
         // Handle everything else as magazines
         qty = 1;

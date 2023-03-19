@@ -3745,7 +3745,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 [&iCurrentPage, &new_val, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                     if( p.first != iCurrentPage ) {
                         new_val = true;
-                        iCurrentPage = clamp<int>( p.first, 0, psize - 1 );
+                        iCurrentPage = std::clamp<int>( p.first, 0, psize - 1 );
                     }
                 } ) > 0;
                 if( new_val ) {
@@ -3761,7 +3761,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
                 const int psize = page_items.size();
                 found_opt = run_for_point_in<int, point>( opt_line_map, *coord,
                 [&iCurrentLine, &psize]( const std::pair<int, inclusive_rectangle<point>> &p ) {
-                    iCurrentLine = clamp<int>( p.first, 0, psize - 1 );
+                    iCurrentLine = std::clamp( p.first, 0, psize - 1 );
                 } ) > 0;
                 if( found_opt && action == "SELECT" ) {
                     action = "CONFIRM";

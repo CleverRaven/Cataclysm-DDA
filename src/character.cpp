@@ -667,7 +667,7 @@ void Character::randomize_height()
     // Height distribution data is taken from CDC distributes statistics for the US population
     // https://github.com/CleverRaven/Cataclysm-DDA/pull/49270#issuecomment-861339732
     const int x = std::round( normal_roll( 168.35, 15.50 ) );
-    init_height = clamp( x, Character::min_height(), Character::max_height() );
+    init_height = std::clamp( x, Character::min_height(), Character::max_height() );
 }
 
 item_location Character::get_wielded_item() const
@@ -1252,7 +1252,7 @@ int Character::sight_range( float light_level ) const
                                       pos() ) ) / light_level ) / LIGHT_TRANSPARENCY_OPEN_AIR );
 
     // Clamp to [1, sight_max].
-    return clamp( range, 1, sight_max );
+    return std::clamp( range, 1, sight_max );
 }
 
 int Character::unimpaired_range() const
@@ -2843,23 +2843,23 @@ units::energy Character::get_max_power_level() const
 {
     units::energy val = enchantment_cache->modify_value( enchant_vals::mod::BIONIC_POWER,
                         max_power_level_cached + max_power_level_modifier );
-    return clamp( val, 0_kJ, units::energy_max );
+    return std::clamp( val, 0_kJ, units::energy_max );
 }
 
 void Character::set_power_level( const units::energy &npower )
 {
-    power_level = clamp( npower, 0_kJ, get_max_power_level() );
+    power_level = std::clamp( npower, 0_kJ, get_max_power_level() );
 }
 
 void Character::set_max_power_level_modifier( const units::energy &capacity )
 {
-    max_power_level_modifier = clamp( capacity, units::energy_min, units::energy_max );
+    max_power_level_modifier = std::clamp( capacity, units::energy_min, units::energy_max );
 }
 
 void Character::set_max_power_level( const units::energy &capacity )
 {
-    max_power_level_modifier = clamp( capacity - max_power_level_cached, units::energy_min,
-                                      units::energy_max );
+    max_power_level_modifier = std::clamp( capacity - max_power_level_cached, units::energy_min,
+                                           units::energy_max );
 }
 
 void Character::mod_power_level( const units::energy &npower )
@@ -2869,8 +2869,8 @@ void Character::mod_power_level( const units::energy &npower )
 
 void Character::mod_max_power_level_modifier( const units::energy &npower )
 {
-    max_power_level_modifier = clamp( max_power_level_modifier + npower, units::energy_min,
-                                      units::energy_max );
+    max_power_level_modifier = std::clamp( max_power_level_modifier + npower, units::energy_min,
+                                           units::energy_max );
 }
 
 bool Character::is_max_power() const
@@ -2951,8 +2951,7 @@ void Character::conduct_blood_analysis()
     catacurses::window w;
     ui_adaptor ui;
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-        win_h = std::min( static_cast<size_t>( TERMY ),
-                          std::max<size_t>( 1, effect_descriptions.size() ) + 2 );
+        win_h = std::clamp<size_t>( effect_descriptions.size() + 2, 3, TERMY );
         w = catacurses::newwin( win_h, win_w,
                                 point( ( TERMX - win_w ) / 2, ( TERMY - win_h ) / 2 ) );
         ui.position_from_window( w );
@@ -4373,8 +4372,7 @@ void Character::mod_daily_health( int nhealthy_mod, int cap )
 
     // Since we already bailed out if we were out-of-bounds, we can
     // just clamp to the boundaries here.
-    daily_health = std::min( daily_health, high_cap );
-    daily_health = std::max( daily_health, low_cap );
+    daily_health = std::clamp( daily_health, low_cap, high_cap );
 }
 
 void Character::mod_health_tally( int mod )
@@ -4577,8 +4575,8 @@ void Character::set_fatigue( fatigue_levels nfatigue )
 
 void Character::set_sleep_deprivation( int nsleep_deprivation )
 {
-    sleep_deprivation = std::min( static_cast< int >( SLEEP_DEPRIVATION_MASSIVE ), std::max( 0,
-                                  nsleep_deprivation ) );
+    sleep_deprivation = std::clamp( nsleep_deprivation, 0,
+                                    static_cast< int >( SLEEP_DEPRIVATION_MASSIVE ) );
 }
 
 time_duration Character::get_daily_sleep() const
@@ -5983,7 +5981,7 @@ int Character::visibility( bool, int ) const
     // TODO:
     // if ( dark_clothing() && light check ...
     int stealth_modifier = std::floor( mutation_value( "stealth_modifier" ) );
-    return clamp( 100 - stealth_modifier, 40, 160 );
+    return std::clamp( 100 - stealth_modifier, 40, 160 );
 }
 
 /*
@@ -6355,7 +6353,7 @@ float _hp_modified_rate( Character const &who, float rate )
 
 float Character::healing_rate( float at_rest_quality ) const
 {
-    float const rest = clamp( at_rest_quality, 0.0f, 1.0f );
+    float const rest = std::clamp( at_rest_quality, 0.0f, 1.0f );
     // TODO: Cache
     float const base_heal_rate = is_avatar() ? get_option<float>( "PLAYER_HEALING_RATE" )
                                  : get_option<float>( "NPC_HEALING_RATE" );
@@ -6400,7 +6398,7 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
     }
 
     rate_medicine *= mutation_value( "healing_multiplier" );
-    rate_medicine *= 1.0f + clamp( at_rest_quality, 0.0f, 1.0f );
+    rate_medicine *= 1.0f + std::clamp( at_rest_quality, 0.0f, 1.0f );
 
     // increase healing if character has both effects
     if( has_effect( effect_bandaged ) && has_effect( effect_disinfected ) ) {
@@ -6568,8 +6566,8 @@ int Character::height() const
     const double base_height_deviation = base_height() / static_cast< double >
                                          ( Character::default_height() );
     const HeightLimits &limits = size_category_height_limits.at( get_size() );
-    return clamp<int>( std::round( base_height_deviation * limits.base_height ),
-                       limits.min_height, limits.max_height );
+    return std::clamp<int>( std::round( base_height_deviation * limits.base_height ),
+                            limits.min_height, limits.max_height );
 }
 
 int Character::base_bmr() const
@@ -6587,8 +6585,8 @@ int Character::base_bmr() const
 int Character::get_bmr() const
 {
     int base_bmr_calc = base_bmr();
-    base_bmr_calc *= clamp( activity_history.average_activity(), NO_EXERCISE,
-                            maximum_exertion_level() );
+    base_bmr_calc *= std::clamp( activity_history.average_activity(), NO_EXERCISE,
+                                 maximum_exertion_level() );
     return std::ceil( enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
 }
 
@@ -6914,7 +6912,7 @@ void Character::mod_stamina( int mod )
     if( stamina < 0 ) {
         add_effect( effect_winded, 10_turns );
     }
-    stamina = clamp( stamina, 0, get_stamina_max() );
+    stamina = std::clamp( stamina, 0, get_stamina_max() );
 }
 
 void Character::burn_move_stamina( int moves )
@@ -7028,7 +7026,7 @@ void Character::update_stamina( int turns )
     add_msg_debug( debugmode::DF_CHARACTER, "Stamina recovery: %d", recover_amount );
 
     // Cap at max
-    set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
+    set_stamina( std::clamp( get_stamina(), 0, max_stam ) );
 }
 
 int Character::get_cardiofit() const

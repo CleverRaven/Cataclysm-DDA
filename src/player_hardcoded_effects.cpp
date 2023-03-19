@@ -529,8 +529,7 @@ static void eff_fun_hot( Character &u, effect &it )
     // Hothead effects are a special snowflake
 
     if( bp == bodypart_id( "head" ) && intense >= 2 ) {
-        if( one_in( std::max( 25, std::min( 89500,
-                                            90000 - units::to_legacy_bodypart_temp( u.get_part_temp_cur( bodypart_id( "head" ) ) ) ) ) ) ) {
+        if( one_in( std::clamp( 90000 - units::to_legacy_bodypart_temp( u.get_part_temp_cur( bodypart_id( "head" ) ) ), 25, 89500 ) ) ) {
             u.vomit();
         }
         if( !u.has_effect( effect_sleep ) && one_in( 2400 ) ) {

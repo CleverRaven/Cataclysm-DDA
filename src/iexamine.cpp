@@ -755,7 +755,7 @@ class atm_menu
                                .only_digits( true )
                                .query_int();
 
-            return clamp( amount, 0, max );
+            return std::clamp( amount, 0, max );
         }
 
         //!Get a new cash card. $10.00 fine.
@@ -2652,12 +2652,11 @@ void iexamine::harvest_plant( Character &you, const tripoint &examp, bool from_a
             player_activity act( ACT_HARVEST, to_moves<int>( 60_seconds ) );
             you.assign_activity( act );
             here.i_clear( examp );
-
             int skillLevel = round( you.get_skill_level( skill_survival ) );
             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
             int plant_count = rng( skillLevel / 2, skillLevel );
             plant_count *= here.furn( examp )->plant->harvest_multiplier;
-            plant_count = std::min( std::max( plant_count, 1 ), 12 );
+            plant_count = std::clamp( plant_count, 1, 12 );
             int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
             for( item &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
                 if( from_activity ) {
@@ -6058,7 +6057,7 @@ static void smoker_load_food( Character &you, const tripoint &examp,
         original.overflow();
         item copy( *original );
         if( copy.count_by_charges() ) {
-            copy.charges = clamp( copy.charges_per_volume( vol ), 1, dloc.second );
+            copy.charges = std::clamp( copy.charges_per_volume( vol ), 1, dloc.second );
         }
 
         if( vol < copy.volume() ) {

@@ -7743,8 +7743,8 @@ look_around_result game::look_around(
             }
         } else if( action == "LEVEL_UP" || action == "LEVEL_DOWN" ) {
             const int dz = action == "LEVEL_UP" ? 1 : -1;
-            lz = clamp( lz + dz, min_levz, max_levz - 1 );
-            center.z = clamp( center.z + dz, min_levz, max_levz - 1 );
+            lz = std::clamp( lz + dz, min_levz, max_levz - 1 );
+            center.z = std::clamp( center.z + dz, min_levz, max_levz - 1 );
 
             add_msg_debug( debugmode::DF_GAME, "levx: %d, levy: %d, levz: %d",
                            get_map().get_abs_sub().x(), get_map().get_abs_sub().y(), center.z );
@@ -8297,7 +8297,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         iInfoHeight = std::min( 25, TERMY / 2 );
         iMaxRows = TERMY - iInfoHeight - 2;
 
-        width = clamp( max_name_width, 55, TERMX / 3 );
+        width = std::clamp( max_name_width, 55, TERMX / 3 );
 
         const int offsetX = TERMX - width;
 

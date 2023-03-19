@@ -523,14 +523,16 @@ void main_menu::init_strings()
 void main_menu::display_text( const std::string &text, const std::string &title, int &selected )
 {
     const int w_open_height = getmaxy( w_open );
-    const int b_height = FULL_SCREEN_HEIGHT - clamp( ( FULL_SCREEN_HEIGHT - w_open_height ) + 4, 0, 4 );
-    const int vert_off = clamp( ( w_open_height - FULL_SCREEN_HEIGHT ) / 2, getbegy( w_open ), TERMY );
+    const int b_height = FULL_SCREEN_HEIGHT - std::clamp( ( FULL_SCREEN_HEIGHT - w_open_height ) + 4, 0,
+                         4 );
+    const int vert_off = std::clamp( ( w_open_height - FULL_SCREEN_HEIGHT ) / 2, getbegy( w_open ),
+                                     TERMY );
 
     catacurses::window w_border = catacurses::newwin( b_height, FULL_SCREEN_WIDTH,
-                                  point( clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), vert_off ) );
+                                  point( std::clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), vert_off ) );
 
     catacurses::window w_text = catacurses::newwin( b_height - 2, FULL_SCREEN_WIDTH - 2,
-                                point( 1 + clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), 1 + vert_off ) );
+                                point( 1 + std::clamp( ( TERMX - FULL_SCREEN_WIDTH ) / 2, 0, TERMX ), 1 + vert_off ) );
 
     draw_border( w_border, BORDER_COLOR, title );
 

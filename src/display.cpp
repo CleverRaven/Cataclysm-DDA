@@ -249,7 +249,7 @@ std::string display::sundial_text_color( const Character &u, int width )
 
     auto get_glyph = []( int x, int w, int num_glyphs ) {
         int hw = ( w / 2 ) > 0 ? w / 2 : 1;
-        return clamp<int>( ( std::abs( x - hw ) * num_glyphs ) / hw, 0, num_glyphs - 1 );
+        return std::clamp( ( std::abs( x - hw ) * num_glyphs ) / hw, 0, num_glyphs - 1 );
     };
 
     std::pair<units::angle, units::angle> sun_pos = sun_azimuth_altitude( calendar::turn );

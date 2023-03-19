@@ -1228,7 +1228,7 @@ static void change_spells( Character &character )
         } else if( action == "CONFIRM" ) {
             int &spell_level = std::get<1>( *spells_relative[spell_selected] );
             query_int( spell_level, _( "Set spell level to?  Currently: %1$d" ), spell_level );
-            spell_level = clamp( spell_level, -1,
+            spell_level = std::clamp( spell_level, -1,
                                  static_cast<int>( std::get<0>( *spells_relative[spell_selected] ).max_level.evaluate( d ) ) );
             set_spell( std::get<0>( *spells_relative[spell_selected] ), spell_level );
             force_update_description = true;
@@ -1806,7 +1806,7 @@ static void character_edit_desc_menu( Character &you )
             .only_digits( true );
             const int result = popup.query_int();
             if( result != 0 ) {
-                you.set_base_age( clamp( result, 16, 55 ) );
+                you.set_base_age( std::clamp( result, 16, 55 ) );
             }
         }
         break;
@@ -1819,7 +1819,7 @@ static void character_edit_desc_menu( Character &you )
             .only_digits( true );
             const int result = popup.query_int();
             if( result != 0 ) {
-                you.set_base_height( clamp( result, Character::min_height(), Character::max_height() ) );
+                you.set_base_height( std::clamp( result, Character::min_height(), Character::max_height() ) );
             }
         }
         break;

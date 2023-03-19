@@ -54,7 +54,7 @@ void live_view::show( const tripoint &p )
             // HACK: using dummy window to get the window height without refreshing.
             win = catacurses::newwin( 1, width, point_zero );
             g->pre_print_all_tile_info( mouse_position, win, line_out, line_limit, cache );
-            const int live_view_box_height = std::min( max_height, std::max( line_out + 2, MIN_BOX_HEIGHT ) );
+            const int live_view_box_height = std::clamp( line_out + 2, MIN_BOX_HEIGHT, max_height );
 
             win = catacurses::newwin( live_view_box_height, width,
                                       point( sidebar_right ? TERMX - width : 0, 0 ) );

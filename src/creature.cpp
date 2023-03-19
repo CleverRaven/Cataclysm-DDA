@@ -739,7 +739,8 @@ float Creature::get_crit_factor( const bodypart_id &bp ) const
     float crit_mod = 1.f;
     const Character *c = as_character();
     if( c != nullptr ) {
-        const int total_cover = clamp<int>( c->worn.get_coverage( bp, item::cover_type::COVER_VITALS ), 0,
+        const int total_cover = std::clamp( c->worn.get_coverage( bp, item::cover_type::COVER_VITALS ),
+                                            0,
                                             100 );
         crit_mod = 1.f - total_cover / 100.f;
     }
@@ -824,7 +825,7 @@ double Creature::accuracy_projectile_attack( dealt_projectile_attack &attack ) c
     // Partial dodge, capped at [0.0, 1.0], added to missed_by
     const double dodge_rescaled = avoid_roll / static_cast<double>( diff_roll );
 
-    return attack.missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) );
+    return attack.missed_by + std::clamp( dodge_rescaled, 0.0, 1.0 );
 }
 
 void projectile::apply_effects_nodamage( Creature &target, Creature *source ) const
@@ -1231,7 +1232,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
 
     if( total_base_damage < total_damage ) {
         // Only deal more HP than remains if damage not including crit multipliers is higher.
-        total_damage = clamp( get_hp( bp ), total_base_damage, total_damage );
+        total_damage = std::clamp( get_hp( bp ), total_base_damage, total_damage );
     }
     mod_pain( total_pain );
 
@@ -1343,7 +1344,7 @@ void Creature::longpull( const std::string &name, const tripoint &p )
     const monster *mon = as_monster();
     const int str = ch != nullptr ? ch->get_str() : mon != nullptr ? mon->get_grab_strength() : 10;
     const int odds = units::to_kilogram( c->get_weight() ) / ( str * 3 );
-    if( one_in( clamp<int>( odds * odds, 1, 1000 ) ) ) {
+    if( one_in( std::clamp( odds * odds, 1, 1000 ) ) ) {
         add_msg_if_player( m_good, _( "You pull %1$s towards you with your %2$s!" ), c->disp_name(),
                            name );
         if( c->is_avatar() ) {
@@ -2906,7 +2907,7 @@ void Creature::mod_cut_bonus( int ncut )
 }
 void Creature::mod_size_bonus( int nsize )
 {
-    nsize = clamp( nsize, creature_size::tiny - get_size(), creature_size::huge - get_size() );
+    nsize = std::clamp( nsize, creature_size::tiny - get_size(), creature_size::huge - get_size() );
     size_bonus += nsize;
 }
 

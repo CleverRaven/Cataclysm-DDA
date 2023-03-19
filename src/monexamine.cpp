@@ -888,7 +888,7 @@ static int prompt_for_amount( const char *const msg, const int max )
                        .only_digits( true )
                        .query_int();
 
-    return clamp( amount, 0, max );
+    return std::clamp( amount, 0, max );
 }
 
 bool monexamine::pay_bot( monster &z )

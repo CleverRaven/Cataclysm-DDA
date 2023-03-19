@@ -706,7 +706,7 @@ void Character::load( const JsonObject &data )
     for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
         if( vits.has_member( v.first.str() ) ) {
             int lvl = vits.get_int( v.first.str() );
-            vitamin_levels[v.first] = clamp( lvl, v.first->min(), v.first->max() );
+            vitamin_levels[v.first] = std::clamp( lvl, v.first->min(), v.first->max() );
         }
     }
     JsonObject vits_daily = data.get_object( "daily_vitamins" );
@@ -3259,7 +3259,7 @@ void item::deserialize( const JsonObject &data )
 
     // FIXME: batch_size migration from charges - remove after 0.G
     if( is_craft() && craft_data_->batch_size <= 0 ) {
-        craft_data_->batch_size = clamp( charges, 1, charges );
+        craft_data_->batch_size = std::clamp( charges, 1, charges );
         charges = 0;
     }
 

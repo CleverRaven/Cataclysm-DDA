@@ -1330,10 +1330,9 @@ void vehicle_prototype::load( const JsonObject &jo, std::string_view )
         }
 
         // constrain both with_magazine and with_ammo to [0-100]
-        next_spawn.with_magazine = std::max( std::min( spawn_info.get_int( "magazine",
-                                             next_spawn.with_magazine ), 100 ), 0 );
-        next_spawn.with_ammo = std::max( std::min( spawn_info.get_int( "ammo",
-                                         next_spawn.with_ammo ), 100 ), 0 );
+        next_spawn.with_magazine = std::clamp( spawn_info.get_int( "magazine", next_spawn.with_magazine ),
+                                               0, 100 );
+        next_spawn.with_ammo = std::clamp( spawn_info.get_int( "ammo", next_spawn.with_ammo ), 0, 100 );
 
         if( spawn_info.has_array( "items" ) ) {
             //Array of items that all spawn together (i.e. jack+tire)

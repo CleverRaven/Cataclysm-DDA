@@ -3369,7 +3369,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
                             ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
                             int plant_count = rng( skillLevel / 2, skillLevel );
                             plant_count *= farm_map.furn( pos )->plant->harvest_multiplier;
-                            plant_count = std::min( std::max( plant_count, 1 ), 12 );
+                            plant_count = std::clamp( plant_count, 1, 12 );
                             int seed_cnt = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
                             for( item &i : iexamine::get_harvest_items( *seed->type, plant_count,
                                     seed_cnt, true ) ) {
@@ -5098,7 +5098,7 @@ point talk_function::om_simple_dir( const tripoint_abs_omt &omt_pos,
                                     const tripoint_abs_omt &omt_tar )
 {
     point_rel_omt diff = omt_tar.xy() - omt_pos.xy();
-    return { clamp( diff.x(), -1, 1 ), clamp( diff.y(), -1, 1 ) };
+    return { std::clamp( diff.x(), -1, 1 ), std::clamp( diff.y(), -1, 1 ) };
 }
 
 // mission descriptions

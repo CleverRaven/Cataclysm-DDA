@@ -794,7 +794,7 @@ static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const ite
 
         const std::vector<layer_level> item_layers = it.get_layer( bp );
         int encumber_val = it.get_encumber( c, bp.id() );
-        int layering_encumbrance = clamp( encumber_val, 2, 10 );
+        int layering_encumbrance = std::clamp( encumber_val, 2, 10 );
 
         /*
          * Setting layering_encumbrance to 0 at this point makes the item cease to exist

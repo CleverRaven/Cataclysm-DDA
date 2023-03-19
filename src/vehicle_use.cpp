@@ -629,7 +629,7 @@ double vehicle::engine_cold_factor( const vehicle_part &vp ) const
         eff_temp = std::min( eff_temp, 20.0 );
     }
 
-    return 1.0 - ( std::max( 0.0, std::min( 30.0, eff_temp ) ) / 30.0 );
+    return std::clamp( 1.0 - eff_temp / 30.0, 0.0, 1.0 );
 }
 
 time_duration vehicle::engine_start_time( const vehicle_part &vp ) const

@@ -2521,10 +2521,10 @@ void update_finger_repeat_delay()
     float delta_y = finger_curr_y - finger_down_y;
     float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
     float longest_window_edge = std::max( WindowWidth, WindowHeight );
-    float t = clamp<float>( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) *
-                                       longest_window_edge ) ) /
-                            std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
-                            0.0f, 1.0f );
+    float t = std::clamp( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) *
+                                     longest_window_edge ) ) /
+                          std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
+                          0.0f, 1.0f );
     float repeat_delay_min = static_cast<float>( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ) );
     float repeat_delay_max = static_cast<float>( get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) );
     finger_repeat_delay = lerp<float>( std::max( repeat_delay_min, repeat_delay_max ),

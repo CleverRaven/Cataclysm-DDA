@@ -234,7 +234,7 @@ struct bodygraph_display {
     int all_height = 0;
     int all_width = 0;
     int partlist_width = 0;
-    int info_width = 0;
+    int info_width = 18; // https://github.com/CleverRaven/Cataclysm-DDA/issues/64381
     int sel_part = 0;
     int top_part = 0;
     int top_info = 0;
@@ -277,10 +277,10 @@ void bodygraph_display::init_ui_windows()
 {
     partlist_width = 18;
     info_width = 18;
-    all_height = clamp( BPGRAPH_MAXROWS + 24, 0, TERMY );
+    all_height = std::clamp( BPGRAPH_MAXROWS + 24, 0, TERMY );
 
     int base_width = BPGRAPH_MAXCOLS + partlist_width + info_width + 4;
-    all_width = clamp( base_width + 40, 0, TERMX );
+    all_width = std::clamp( base_width + 40, 0, TERMX );
     // distribute extra horizontal space to the parts/info columns
     for( int i = base_width; i < all_width; i++ ) {
         if( i % 4 == 0 ) {
@@ -295,7 +295,7 @@ void bodygraph_display::init_ui_windows()
     w_border = catacurses::newwin( all_height, all_width, top_left );
     //NOLINTNEXTLINE(cata-use-named-point-constants)
     w_partlist = catacurses::newwin( all_height - 2, partlist_width, top_left + point( 1, 1 ) );
-    int graph_vpad = clamp<int>( ( ( all_height - 3 ) - BPGRAPH_MAXROWS ) / 2, 0, all_height );
+    int graph_vpad = std::clamp( ( ( all_height - 3 ) - BPGRAPH_MAXROWS ) / 2, 0, all_height );
     w_graph = catacurses::newwin( BPGRAPH_MAXROWS, BPGRAPH_MAXCOLS,
                                   top_left + point( 2 + partlist_width, graph_vpad + 2 ) );
     w_info = catacurses::newwin( all_height - 2, info_width,
@@ -528,7 +528,7 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
                                           colorize( info.specific_sublimb ? _( "Protection" ) : _( "Protection (Avg.)" ), c_magenta ) ) );
     std::string prot_legend = string_format( "%s %s %s", colorize( _( "worst" ), c_red ),
                               colorize( _( "median" ), c_yellow ), colorize( _( "best" ), c_light_green ) );
-    int wavail = clamp( ( info_width - 2 ) - utf8_width( prot_legend, true ), 0, info_width - 2 );
+    int wavail = std::clamp( ( info_width - 2 ) - utf8_width( prot_legend, true ), 0, info_width - 2 );
     prot_legend.insert( prot_legend.begin(), wavail > 4 ? 4 : wavail, ' ' );
     info_txt.emplace_back( prot_legend );
     auto get_res_str = [&]( const damage_type_id & dt ) -> std::string {
@@ -536,7 +536,7 @@ void bodygraph_display::prepare_infotext( bool reset_pos )
         const std::string mval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.median_case.type_resist( dt ) );
         const std::string bval = string_format( info_width <= 18 ? "%4.1f" : "%5.2f", info.best_case.type_resist( dt ) );
         std::string txt = string_format( "%s %s %s", colorize( wval, c_red ), colorize( mval, c_yellow ), colorize( bval, c_light_green ) );
-        int res_avail = clamp( ( info_width - 2 ) - utf8_width( txt, true ), 0, info_width - 2 );
+        int res_avail = std::clamp( ( info_width - 2 ) - utf8_width( txt, true ), 0, info_width - 2 );
         txt.insert( txt.begin(), res_avail > 4 ? 4 : res_avail, ' ' );
         return txt;
     };
@@ -603,7 +603,7 @@ void bodygraph_display::display()
             prepare_infolist();
         }
         if( static_cast<int>( info_txt.size() ) >= all_height - 2 ) {
-            top_info = clamp( top_info, 0, static_cast<int>( info_txt.size() ) - ( all_height - 2 ) );
+            top_info = std::clamp( top_info, 0, static_cast<int>( info_txt.size() ) - ( all_height - 2 ) );
         } else {
             top_info = 0;
         }

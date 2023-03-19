@@ -1310,7 +1310,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
                 [&iCurrentTab, &new_val]( const std::pair<int, inclusive_rectangle<point>> &p ) {
                     if( static_cast<int>( iCurrentTab ) != p.first ) {
                         new_val = true;
-                        iCurrentTab = clamp<int>( p.first, 0, get_mod_list_tabs().size() - 1 );
+                        iCurrentTab = std::clamp<int>( p.first, 0, get_mod_list_tabs().size() - 1 );
                     }
                 } ) > 0;
                 if( new_val ) {
@@ -1462,8 +1462,8 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
 static std::string get_opt_slider( int width, int current, int max, bool no_color,
                                    bool no_selector = false )
 {
-    int new_cur = clamp<int>( std::round( ( width * current ) / static_cast<float>( max ) ),
-                              0, width - 1 );
+    int new_cur = std::clamp<int>( std::round( ( width * current ) / static_cast<float>( max ) ),
+                                   0, width - 1 );
     if( no_selector ) {
         new_cur = -2;
     }
@@ -1806,7 +1806,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                     continue;
                 }
                 int lvl = wg_slevels[sel_opt - 1] + ( action == "LEFT" ? -1 : 1 );
-                wg_slevels[sel_opt - 1] = clamp<int>( lvl, 0, wg_sliders[sel_opt - 1]->count() - 1 );
+                wg_slevels[sel_opt - 1] = std::clamp( lvl, 0, wg_sliders[sel_opt - 1]->count() - 1 );
                 wg_sliders[sel_opt - 1]->apply_opts( wg_slevels[sel_opt - 1], world->WORLD_OPTIONS );
             } else if( sel_opt > static_cast<int>( wg_sliders.size() ) ) {
                 if( action == "LEFT" && sel_opt > static_cast<int>( wg_sliders.size() + 1 ) ) {

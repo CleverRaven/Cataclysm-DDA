@@ -125,34 +125,34 @@ template<typename Point>
 Point clamp( const Point &p, const half_open_rectangle<Point> &r )
 {
     using Traits = point_traits<Point>;
-    return Point( clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) - 1 ),
-                  clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) - 1 ) );
+    return Point( std::clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) - 1 ),
+                  std::clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) - 1 ) );
 }
 
 template<typename Point>
 Point clamp( const Point &p, const inclusive_rectangle<Point> &r )
 {
     using Traits = point_traits<Point>;
-    return Point( clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) ),
-                  clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) ) );
+    return Point( std::clamp( Traits::x( p ), Traits::x( r.p_min ), Traits::x( r.p_max ) ),
+                  std::clamp( Traits::y( p ), Traits::y( r.p_min ), Traits::y( r.p_max ) ) );
 }
 
 template<typename Tripoint>
 Tripoint clamp( const Tripoint &p, const half_open_cuboid<Tripoint> &c )
 {
     using Traits = point_traits<Tripoint>;
-    return Tripoint( clamp( Traits::x( p ), Traits::x( c.p_min ), Traits::x( c.p_max ) - 1 ),
-                     clamp( Traits::y( p ), Traits::y( c.p_min ), Traits::y( c.p_max ) - 1 ),
-                     clamp( Traits::z( p ), Traits::z( c.p_min ), Traits::z( c.p_max ) - 1 ) );
+    return Tripoint( std::clamp( Traits::x( p ), Traits::x( c.p_min ), Traits::x( c.p_max ) - 1 ),
+                     std::clamp( Traits::y( p ), Traits::y( c.p_min ), Traits::y( c.p_max ) - 1 ),
+                     std::clamp( Traits::z( p ), Traits::z( c.p_min ), Traits::z( c.p_max ) - 1 ) );
 }
 
 template<typename Tripoint>
 Tripoint clamp( const Tripoint &p, const inclusive_cuboid<Tripoint> &c )
 {
     using Traits = point_traits<Tripoint>;
-    return Tripoint( clamp( Traits::x( p ), Traits::x( c.p_min ), Traits::x( c.p_max ) ),
-                     clamp( Traits::y( p ), Traits::y( c.p_min ), Traits::y( c.p_max ) ),
-                     clamp( Traits::z( p ), Traits::z( c.p_min ), Traits::z( c.p_max ) ) );
+    return Tripoint( std::clamp( Traits::x( p ), Traits::x( c.p_min ), Traits::x( c.p_max ) ),
+                     std::clamp( Traits::y( p ), Traits::y( c.p_min ), Traits::y( c.p_max ) ),
+                     std::clamp( Traits::z( p ), Traits::z( c.p_min ), Traits::z( c.p_max ) ) );
 }
 
 template<typename Index, typename Point>

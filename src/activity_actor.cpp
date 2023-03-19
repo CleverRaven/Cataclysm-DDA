@@ -1629,7 +1629,7 @@ void read_activity_actor::read_book( Character &learner,
     min_ex = std::lround( learner.adjust_for_focus( min_ex ) );
     max_ex = std::lround( learner.adjust_for_focus( max_ex ) );
 
-    max_ex = clamp( max_ex, 2, 10 );
+    max_ex = std::clamp( max_ex, 2, 10 );
     max_ex = std::max( min_ex, max_ex );
 
     min_ex *= ( originalSkillLevel + 1 ) * penalty;

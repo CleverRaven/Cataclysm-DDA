@@ -265,7 +265,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
      * important! the calling function needs to track p, start_at, and start_limit, and set
      *    start_limit to 0 if p changes.
      */
-    start_at = std::max( 0, std::min( start_at, start_limit ) );
+    start_at = std::clamp( start_at, 0, start_limit );
     if( start_at ) {
         msg += std::string( "<color_yellow>" ) + "<  " + _( "More parts here…" ) + "</color>\n";
         lines += 1;

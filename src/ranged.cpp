@@ -2863,9 +2863,9 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     map &here = get_map();
     if( new_pos != src ) {
         // On Z axis, make sure we do not exceed map boundaries
-        valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+        valid_pos.z = std::clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         // Or current view range
-        valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
+        valid_pos.z = std::clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
 
         new_traj = here.find_clear_path( src, valid_pos );
         if( range == 1 ) {
@@ -2895,9 +2895,9 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
         } else {
             tripoint delta = valid_pos - src;
             valid_pos = src + tripoint(
-                            clamp( delta.x, -range, range ),
-                            clamp( delta.y, -range, range ),
-                            clamp( delta.z, -range, range )
+                            std::clamp( delta.x, -range, range ),
+                            std::clamp( delta.y, -range, range ),
+                            std::clamp( delta.z, -range, range )
                         );
         }
     } else {
@@ -3221,8 +3221,8 @@ void target_ui::cycle_targets( int direction )
 
 void target_ui::set_view_offset( const tripoint &new_offset ) const
 {
-    tripoint new_( new_offset.xy(), clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
-    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
+    tripoint new_( new_offset.xy(), std::clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
+    new_.z = std::clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
 
     bool changed_z = you->view_offset.z != new_.z;
     you->view_offset = new_;
