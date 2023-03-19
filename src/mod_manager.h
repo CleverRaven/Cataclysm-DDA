@@ -53,6 +53,9 @@ struct MOD_INFORMATION {
         /** What other mods must be loaded prior to this one? */
         std::vector<mod_id> dependencies;
 
+        /** Mods that should be loaded before this mod if they are loaded */
+        std::set<mod_id> load_after;
+
         /** Core mods are loaded before any other mods */
         bool core = false;
 
@@ -172,8 +175,8 @@ class mod_ui
         mod_manager &active_manager;
         dependency_tree &mm_tree;
 
-        void try_add( const mod_id &mod_to_add,
-                      std::vector<mod_id> &active_list );
+        bool try_add( const mod_id &mod_to_add, std::vector<mod_id> &active_list,
+                      bool debugmsg_on_error = true );
         void try_rem( size_t selection, std::vector<mod_id> &active_list );
         void try_shift( char direction, size_t &selection, std::vector<mod_id> &active_list );
 

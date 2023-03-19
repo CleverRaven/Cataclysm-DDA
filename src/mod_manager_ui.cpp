@@ -68,23 +68,26 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     return info;
 }
 
-void mod_ui::try_add( const mod_id &mod_to_add,
-                      std::vector<mod_id> &active_list )
+bool mod_ui::try_add( const mod_id &mod_to_add, std::vector<mod_id> &active_list,
+                      bool debugmsg_on_error )
 {
     if( std::find( active_list.begin(), active_list.end(), mod_to_add ) != active_list.end() ) {
         // The same mod can not be added twice. That makes no sense.
-        return;
+        // But since it's already loaded, it's been added
+        return true;
     }
     if( !mod_to_add.is_valid() ) {
-        debugmsg( "Unable to load mod \"%s\".", mod_to_add.c_str() );
-        return;
+        if( debugmsg_on_error ) {
+            debugmsg( "Unable to load mod \"%s\".", mod_to_add.c_str() );
+        }
+        return false;
     }
     const MOD_INFORMATION &mod = *mod_to_add;
     bool errs;
     try {
         dependency_node *checknode = mm_tree.get_node( mod.ident );
         if( !checknode ) {
-            return;
+            return false;
         }
         errs = checknode->has_errors();
     } catch( std::exception & ) {
@@ -93,7 +96,7 @@ void mod_ui::try_add( const mod_id &mod_to_add,
 
     if( errs ) {
         // cannot add, something wrong!
-        return;
+        return false;
     }
     // get dependencies of selection in the order that they would appear from the top of the active list
     std::vector<mod_id> dependencies = mm_tree.get_dependencies_of_X_as_strings( mod.ident );
@@ -128,13 +131,70 @@ void mod_ui::try_add( const mod_id &mod_to_add,
             active_list.insert( active_list.begin(), mods_to_add[0] );
             mods_to_add.erase( mods_to_add.begin() );
         }
-        // now add the rest of the dependencies serially to the end
+
+        // Keep track of the mods we add, so we can roll it back
+        std::vector<mod_id> added_so_far;
+        added_so_far.reserve( mods_to_add.size() );
+        // Try to add the mods we depend on one at a time, then ourself
         for( auto &i : mods_to_add ) {
-            active_list.push_back( i );
+            bool added = try_add( i, active_list, false );
+            if( !added ) {
+                for( const mod_id &to_remove : added_so_far )  {
+                    auto spot = std::find( active_list.begin(), active_list.end(), to_remove );
+                    active_list.erase( spot );
+                }
+                return false;
+            } else {
+                added_so_far.push_back( i );
+            }
         }
-        // and finally add the one we are trying to add!
+
         active_list.push_back( mod.ident );
+        // Adjust for load_after
+        for( auto it = active_list.begin(); it != active_list.end(); ) {
+            const mod_id checking = *it;
+            if( checking == mod.ident || checking->load_after.count( mod.ident ) == 0 ) {
+                ++it;
+                continue;
+            }
+            assert( it != active_list.end() );
+            if( std::find( dependencies.begin(), dependencies.end(), checking ) != dependencies.end() ) {
+                if( debugmsg_on_error ) {
+                    debugmsg( "%s is a dependency of %s but wants to be loaded after it!", checking.c_str(),
+                              mod.ident.c_str() );
+                }
+                return false;
+            }
+            assert( it != active_list.end() );
+            std::vector<mod_id> mods_to_move;
+            for( auto lower = it; lower != active_list.end(); ++lower ) {
+                if( lower == it || *lower == mod.ident ) {
+                    continue;
+                }
+                const mod_id &after = *lower;
+
+                if( after->load_after.count( checking ) ||
+                    std::find( after->dependencies.begin(), after->dependencies.end(),
+                               checking ) != after->dependencies.end() ) {
+                    mods_to_move.push_back( after );
+                }
+            }
+            assert( it != active_list.end() );
+            if( mods_to_move.empty() ) {
+                it = active_list.erase( it );
+                bool at_end = it == active_list.end();
+                int index = std::distance( active_list.begin(), it );
+                active_list.push_back( checking );
+                it = active_list.begin();
+                std::advance( it, at_end ? index + 1 : index );
+            } else {
+                ++it;
+                debugmsg( "FIXME!" );
+            }
+        }
+
     }
+    return true;
 }
 
 void mod_ui::try_rem( size_t selection, std::vector<mod_id> &active_list )

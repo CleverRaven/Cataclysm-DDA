@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "dependency_tree.h"
 #include "filesystem.h"
+#include "generic_factory.h"
 #include "json.h"
 #include "localized_comparator.h"
 #include "path_info.h"
@@ -261,6 +262,7 @@ void mod_manager::load_modfile( const JsonObject &jo, const cata_path &path )
     assign( jo, "description", modfile.description );
     assign( jo, "version", modfile.version );
     assign( jo, "dependencies", modfile.dependencies );
+    optional( jo, false, "load_after", modfile.load_after );
     assign( jo, "core", modfile.core );
     assign( jo, "obsolete", modfile.obsolete );
 
