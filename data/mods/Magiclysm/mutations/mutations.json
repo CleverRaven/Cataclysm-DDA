@@ -766,7 +766,7 @@
     "id": "PRED3_DRAGON",
     "name": { "str": "Draconic Predator" },
     "points": 4,
-    "description": "You have become something more than human. Something better - and far, far worse. Combat skills are easy to learn and maintain, and unlike lesser predators, you mental faculties don'r suffer at all.",
+    "description": "You have become something more than human.  Something better - and far, far worse. Combat skills are easy to learn and maintain, and unlike lesser predators, your mental faculties don't suffer at all.",
     "social_modifiers": { "intimidate": 5 },
     "purifiable": false,
     "types": [ "PREDATION" ],
