@@ -421,7 +421,7 @@ int relic::activate( Creature &caster, const tripoint &target )
     }
     caster.moves -= moves;
     for( const fake_spell &sp : active_effects ) {
-        spell casting = sp.get_spell( sp.level );
+        spell casting = sp.get_spell( caster, sp.level );
         casting.cast_all_effects( caster, target );
         caster.add_msg_if_player( casting.message(), casting.name() );
     }

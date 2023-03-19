@@ -174,7 +174,7 @@ struct fake_spell {
     }
 
     // gets the spell with an additional override for minimum level (default 0)
-    spell get_spell( int min_level_override = 0 ) const;
+    spell get_spell( const Creature &caster, int min_level_override = 0 ) const;
 
     bool is_valid() const;
     void load( const JsonObject &jo );
@@ -258,72 +258,72 @@ class spell_type
         dbl_or_var<dialogue> max_damage;
 
         // minimum range of a spell
-        int min_range = 0;
+        dbl_or_var<dialogue> min_range;
         // amount of range increase per spell level
-        float range_increment = 0.0f;
+        dbl_or_var<dialogue> range_increment;
         // max range this spell can achieve
-        int max_range = 0;
+        dbl_or_var<dialogue> max_range;
 
         // minimum area of effect of a spell (radius)
         // 0 means the spell only affects the target
-        int min_aoe = 0;
+        dbl_or_var<dialogue> min_aoe;
         // amount of area of effect increase per spell level (radius)
-        float aoe_increment = 0.0f;
+        dbl_or_var<dialogue> aoe_increment;
         // max area of effect of a spell (radius)
-        int max_aoe = 0;
+        dbl_or_var<dialogue> max_aoe;
 
         // damage over time deals damage per turn
 
         // minimum damage over time
-        int min_dot = 0;
+        dbl_or_var<dialogue> min_dot;
         // increment per spell level
-        float dot_increment = 0.0f;
+        dbl_or_var<dialogue> dot_increment;
         // max damage over time
-        int max_dot = 0;
+        dbl_or_var<dialogue> max_dot;
 
         // amount of time effect lasts
 
         // minimum time for effect in moves
-        int min_duration = 0;
+        dbl_or_var<dialogue> min_duration;
         // increment per spell level in moves
         // DoT is per turn, but increments can be smaller
-        int duration_increment = 0;
+        dbl_or_var<dialogue> duration_increment;
         // max time for effect in moves
-        int max_duration = 0;
+        dbl_or_var<dialogue> max_duration;
 
         // amount of damage that is piercing damage
         // not added to damage stat
 
         // minimum pierce damage
-        int min_pierce = 0;
+        dbl_or_var<dialogue> min_pierce;
         // increment of pierce damage per spell level
-        float pierce_increment = 0.0f;
+        dbl_or_var<dialogue> pierce_increment;
         // max pierce damage
-        int max_pierce = 0;
+        dbl_or_var<dialogue> max_pierce;
 
         // base energy cost of spell
-        int base_energy_cost = 0;
+        dbl_or_var<dialogue> base_energy_cost;
         // increment of energy cost per spell level
-        float energy_increment = 0.0f;
+        dbl_or_var<dialogue> energy_increment;
         // max or min energy cost, based on sign of energy_increment
-        int final_energy_cost = 0;
+        dbl_or_var<dialogue> final_energy_cost;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
         trait_id spell_class;
 
         // the difficulty of casting a spell
-        int difficulty = 0;
+        dbl_or_var<dialogue> difficulty;
 
         // max level this spell can achieve
-        int max_level = 0;
+        dbl_or_var<dialogue> max_level;
 
         // base amount of time to cast the spell in moves
-        int base_casting_time = 0;
+        dbl_or_var<dialogue> base_casting_time;
         // increment of casting time per level
-        float casting_time_increment = 0.0f;
+        dbl_or_var<dialogue> casting_time_increment;
         // max or min casting time
-        int final_casting_time = 0;
+        dbl_or_var<dialogue> final_casting_time;
 
         // Does leveling this spell lead to learning another spell?
         std::map<std::string, int> learn_spells;
@@ -410,7 +410,7 @@ namespace spell_desc
 {
 bool casting_time_encumbered( const spell &sp, const Character &guy );
 bool energy_cost_encumbered( const spell &sp, const Character &guy );
-std::string enumerate_spell_data( const spell &sp );
+std::string enumerate_spell_data( const spell &sp, const Character &guy );
 } // namespace spell_desc
 
 class spell
@@ -430,11 +430,11 @@ class spell
 
         // minimum damage including levels
         int min_leveled_damage( const Creature &caster ) const;
-        int min_leveled_dot() const;
+        int min_leveled_dot( const Creature &caster ) const;
         // minimum aoe including levels
-        int min_leveled_aoe() const;
+        int min_leveled_aoe( const Creature &caster ) const;
         // minimum duration including levels (moves)
-        int min_leveled_duration() const;
+        int min_leveled_duration( const Creature &caster ) const;
         int min_leveled_accuracy( const Creature &caster ) const;
 
     public:
@@ -464,9 +464,9 @@ class spell
         void gain_levels( const Character &guy, int gains );
         void set_level( const Character &guy, int nlevel );
         // is the spell at max level?
-        bool is_max_level() const;
+        bool is_max_level( const Creature &caster ) const;
         // what is the max level of the spell
-        int get_max_level() const;
+        int get_max_level( const Creature &caster ) const;
 
         spell_shape shape() const;
         // what is the intensity of the field the spell generates ( 0 if no field )
@@ -474,8 +474,9 @@ class spell
         // how much damage does the spell do
         int damage( const Creature &caster ) const;
         int accuracy( Creature &caster ) const;
-        int damage_dot() const;
-        damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps ) const;
+        int damage_dot( const Creature &caster ) const;
+        damage_over_time_data damage_over_time( const std::vector<bodypart_str_id> &bps,
+                                                const Creature &caster ) const;
         dealt_damage_instance get_dealt_damage_instance( Creature &caster ) const;
         dealt_projectile_attack get_projectile_attack( const tripoint &target,
                 Creature &hit_critter, Creature &caster ) const;
@@ -485,12 +486,13 @@ class spell
         // select a target for the spell
         cata::optional<tripoint> select_target( Creature *source );
         // how big is the spell's radius
-        int aoe() const;
+        int aoe( const Creature &caster ) const;
         std::set<tripoint> effect_area( const spell_effect::override_parameters &params,
                                         const tripoint &source, const tripoint &target ) const;
-        std::set<tripoint> effect_area( const tripoint &source, const tripoint &target ) const;
+        std::set<tripoint> effect_area( const tripoint &source, const tripoint &target,
+                                        const Creature &caster ) const;
         // distance spell can be cast
-        int range() const;
+        int range( const Creature &caster ) const;
         /**
          *  all of the tripoints the spell can be cast at.
          *  if the spell can't be cast through walls, does not return anything behind walls
@@ -500,8 +502,8 @@ class spell
         // how much energy does the spell cost
         int energy_cost( const Character &guy ) const;
         // how long does this spell's effect last
-        int duration() const;
-        time_duration duration_turns() const;
+        int duration( const Creature &caster ) const;
+        time_duration duration_turns( const Creature &caster ) const;
         // how often does the spell fail
         // based on difficulty, level of spell, spellcraft skill, intelligence
         float spell_fail( const Character &guy ) const;
@@ -524,7 +526,7 @@ class spell
         // check if the spell's class is the same as input
         bool is_spell_class( const trait_id &mid ) const;
 
-        bool in_aoe( const tripoint &source, const tripoint &target ) const;
+        bool in_aoe( const tripoint &source, const tripoint &target, const Creature &caster ) const;
 
         // get spell id (from type)
         spell_id id() const;
@@ -559,8 +561,8 @@ class spell
         std::string list_targeted_species_names() const;
 
         std::string damage_string( const Character &caster ) const;
-        std::string aoe_string() const;
-        std::string duration_string() const;
+        std::string aoe_string( const Creature &caster ) const;
+        std::string duration_string( const Creature &caster ) const;
 
         // magic energy source enum
         magic_energy_type energy_source() const;
@@ -570,7 +572,7 @@ class spell
         // your level in this spell
         int get_level() const;
         // difficulty of the level
-        int get_difficulty() const;
+        int get_difficulty( const Creature &caster ) const;
 
         // tries to create a field at the location specified
         void create_field( const tripoint &at, Creature &caster ) const;
@@ -689,9 +691,9 @@ struct override_parameters {
     int range;
     bool ignore_walls;
 
-    explicit override_parameters( const spell &sp ) {
-        aoe_radius = sp.aoe();
-        range = sp.range();
+    explicit override_parameters( const spell &sp, const Creature &caster ) {
+        aoe_radius = sp.aoe( caster );
+        range = sp.range( caster );
         ignore_walls = sp.has_flag( spell_flag::IGNORE_WALLS );
     }
 };

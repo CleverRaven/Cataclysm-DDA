@@ -1521,7 +1521,7 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
     }
     map &here = get_map();
     trap tr = here.tr_at( p );
-    const spell trap_spell = tr.spell_data.get_spell( 0 );
+    const spell trap_spell = tr.spell_data.get_spell( *critter, 0 );
     npc dummy;
     if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
         here.remove_trap( p );

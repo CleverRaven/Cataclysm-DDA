@@ -358,11 +358,11 @@ bool mon_spellcasting_actor::call( monster &mon ) const
 
     const tripoint target = ( spell_data.self ||
                               allow_no_target ) ? mon.pos() : mon.attack_target()->pos();
-    spell spell_instance = spell_data.get_spell();
+    spell spell_instance = spell_data.get_spell( mon );
     spell_instance.set_message( spell_data.trigger_message );
 
     // Bail out if the target is out of range.
-    if( !spell_data.self && rl_dist( mon.pos(), target ) > spell_instance.range() ) {
+    if( !spell_data.self && rl_dist( mon.pos(), target ) > spell_instance.range( mon ) ) {
         return false;
     }
 

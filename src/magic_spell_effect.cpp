@@ -149,7 +149,7 @@ void spell_effect::short_range_teleport( const spell &sp, Creature &caster, cons
     const bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
     const bool target_teleport = sp.has_flag( spell_flag::TARGET_TELEPORT );
     if( target_teleport ) {
-        if( sp.aoe() == 0 ) {
+        if( sp.aoe( caster ) == 0 ) {
             teleport::teleport_to_point( caster, target, safe, false );
             return;
         }
@@ -159,8 +159,8 @@ void spell_effect::short_range_teleport( const spell &sp, Creature &caster, cons
         teleport::teleport_to_point( caster, where, safe, false );
         return;
     }
-    const int min_distance = sp.range();
-    const int max_distance = sp.range() + sp.aoe();
+    const int min_distance = sp.range( caster );
+    const int max_distance = sp.range( caster ) + sp.aoe( caster );
     if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
         debugmsg( "ERROR: Teleport argument(s) invalid" );
         return;
@@ -441,11 +441,11 @@ std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint 
     }
 
     std::set<tripoint> targets = { epicenter }; // initialize with epicenter
-    if( sp.aoe() < 1 && sp.shape() != spell_shape::line ) {
+    if( sp.aoe( caster ) < 1 && sp.shape() != spell_shape::line ) {
         return targets;
     }
 
-    targets = sp.effect_area( caster.pos(), target );
+    targets = sp.effect_area( caster.pos(), target, caster );
 
     for( std::set<tripoint>::iterator it = targets.begin(); it != targets.end(); ) {
         if( !sp.is_valid_target( caster, *it ) ) {
@@ -478,9 +478,9 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
     return targets;
 }
 
-static void add_effect_to_target( const tripoint &target, const spell &sp )
+static void add_effect_to_target( const tripoint &target, const spell &sp, Creature &caster )
 {
-    const int dur_moves = sp.duration();
+    const int dur_moves = sp.duration( caster );
     const time_duration dur_td = time_duration::from_moves( dur_moves );
 
     creature_tracker &creatures = get_creature_tracker();
@@ -553,7 +553,7 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
 
         if( !sp.effect_data().empty() ) {
-            add_effect_to_target( target, sp );
+            add_effect_to_target( target, sp, caster );
         }
         if( sp.damage( caster ) > 0 ) {
             for( damage_unit &val : atk.proj.impact.damage_units ) {
@@ -569,7 +569,7 @@ static void damage_targets( const spell &sp, Creature &caster,
                                     cr->disp_name( true ) );
         }
         // TODO: randomize hit location
-        cr->add_damage_over_time( sp.damage_over_time( { body_part_torso } ) );
+        cr->add_damage_over_time( sp.damage_over_time( { body_part_torso }, caster ) );
     }
 }
 
@@ -807,12 +807,13 @@ static void spell_move( const spell &sp, const Creature &caster,
 
 static std::pair<field, tripoint> spell_remove_field( const spell &sp,
         const field_type_id &target_field_type_id,
-        const tripoint &center )
+        const tripoint &center,
+        const Creature &caster )
 {
     ::map &here = get_map();
     area_expander expander;
 
-    expander.max_range = sp.aoe();
+    expander.max_range = sp.aoe( caster );
     expander.run( center );
     expander.sort_ascending();
 
@@ -897,7 +898,8 @@ static void handle_remove_fd_fatigue_field( const std::pair<field, tripoint> &fd
 void spell_effect::remove_field( const spell &sp, Creature &caster, const tripoint &center )
 {
     const field_type_id &target_field_type_id = field_type_id( sp.effect_data() );
-    std::pair<field, tripoint> field_removed = spell_remove_field( sp, target_field_type_id, center );
+    std::pair<field, tripoint> field_removed = spell_remove_field( sp, target_field_type_id, center,
+            caster );
 
     for( const std::pair<const field_type_id, field_entry> &fd : std::get<0>( field_removed ) ) {
         if( fd.first.is_valid() && !fd.first.id().is_null() ) {
@@ -917,7 +919,7 @@ void spell_effect::area_pull( const spell &sp, Creature &caster, const tripoint 
 {
     area_expander expander;
 
-    expander.max_range = sp.aoe();
+    expander.max_range = sp.aoe( caster );
     expander.run( center );
     expander.sort_ascending();
 
@@ -935,7 +937,7 @@ void spell_effect::area_push( const spell &sp, Creature &caster, const tripoint 
 {
     area_expander expander;
 
-    expander.max_range = sp.aoe();
+    expander.max_range = sp.aoe( caster );
     expander.run( center );
     expander.sort_descending();
 
@@ -1060,9 +1062,10 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
 {
     item granted( sp.effect_data(), calendar::turn );
     // Comestibles are never ethereal. Other spawned items are ethereal unless permanent and max level.
-    if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) && sp.is_max_level() ) &&
+    if( !granted.is_comestible() && !( sp.has_flag( spell_flag::PERMANENT ) &&
+                                       sp.is_max_level( caster ) ) &&
         !sp.has_flag( spell_flag::PERMANENT_ALL_LEVELS ) ) {
-        granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
+        granted.set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
         granted.ethereal = true;
     }
     if( granted.count_by_charges() && sp.damage( caster ) > 0 ) {
@@ -1152,7 +1155,7 @@ void spell_effect::timed_event( const spell &sp, Creature &caster, const tripoin
     }
 
     sp.make_sound( caster.pos(), caster );
-    get_timed_events().add( spell_event, calendar::turn + sp.duration_turns() );
+    get_timed_events().add( spell_event, calendar::turn + sp.duration_turns( caster ) );
 }
 
 static bool is_summon_friendly( const spell &sp )
@@ -1201,7 +1204,7 @@ void spell_effect::spawn_summoned_monster( const spell &sp, Creature &caster,
     std::set<tripoint> area = spell_effect_area( sp, target, caster );
     // this should never be negative, but this'll keep problems from happening
     size_t num_mons = std::abs( sp.damage( caster ) );
-    const time_duration summon_time = sp.duration_turns();
+    const time_duration summon_time = sp.duration_turns( caster );
     while( num_mons > 0 && !area.empty() ) {
         const size_t mon_spot = rng( 0, area.size() - 1 );
         auto iter = area.begin();
@@ -1229,7 +1232,7 @@ void spell_effect::spawn_summoned_vehicle( const spell &sp, Creature &caster,
                                          false ) ) {
         veh->magic = true;
         if( !sp.has_flag( spell_flag::PERMANENT ) ) {
-            veh->summon_time_limit = sp.duration_turns();
+            veh->summon_time_limit = sp.duration_turns( caster );
         }
         if( caster.as_character() ) {
             veh->set_owner( *caster.as_character() );
@@ -1292,7 +1295,7 @@ void spell_effect::pull_to_caster( const spell &sp, Creature &caster, const trip
 
 void spell_effect::explosion( const spell &sp, Creature &caster, const tripoint &target )
 {
-    explosion_handler::explosion( &caster, target, sp.damage( caster ), sp.aoe() / 10.0, true );
+    explosion_handler::explosion( &caster, target, sp.damage( caster ), sp.aoe( caster ) / 10.0, true );
 }
 
 void spell_effect::flashbang( const spell &sp, Creature &caster, const tripoint &target )
@@ -1326,7 +1329,7 @@ void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
         return;
     }
     const tripoint_abs_omt center = you->global_omt_location();
-    overmap_buffer.reveal( center.xy(), sp.aoe(), center.z() );
+    overmap_buffer.reveal( center.xy(), sp.aoe( caster ), center.z() );
 }
 
 void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &target )
@@ -1350,8 +1353,8 @@ void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &ta
             continue;
         }
         player_target->add_morale( morale_type( sp.effect_data() ), sp.damage( caster ), 0,
-                                   sp.duration_turns(),
-                                   sp.duration_turns() / 10, false );
+                                   sp.duration_turns( caster ),
+                                   sp.duration_turns( caster ) / 10, false );
         sp.make_sound( potential_target, caster );
     }
 }
@@ -1371,7 +1374,7 @@ void spell_effect::charm_monster( const spell &sp, Creature &caster, const tripo
         sp.make_sound( potential_target, caster );
         if( mon->friendly == 0 && mon->get_hp() <= sp.damage( caster ) ) {
             mon->unset_dest();
-            mon->friendly += sp.duration() / 100;
+            mon->friendly += sp.duration( caster ) / 100;
         }
     }
 }
@@ -1472,7 +1475,7 @@ void spell_effect::guilt( const spell &sp, Creature &caster, const tripoint &tar
         float killRatio = static_cast<float>( kill_count ) / max_kills;
         int moraleMalus = -5 * guilt_mult * ( 1.0 - killRatio );
         const int maxMalus = -250 * ( 1.0 - killRatio );
-        const time_duration duration = sp.duration_turns() * ( 1.0 - killRatio );
+        const time_duration duration = sp.duration_turns( caster ) * ( 1.0 - killRatio );
         const time_duration decayDelay = 3_minutes * ( 1.0 - killRatio );
 
         bool shared_species = false;
@@ -1614,11 +1617,11 @@ void spell_effect::dash( const spell &sp, Creature &caster, const tripoint &targ
     caster.moves = cur_moves;
 
     tripoint far_target;
-    calc_ray_end( coord_to_angle( source, target ), sp.aoe(), here.getlocal( *walk_point ),
+    calc_ray_end( coord_to_angle( source, target ), sp.aoe( caster ), here.getlocal( *walk_point ),
                   far_target );
 
-    spell_effect::override_parameters params( sp );
-    params.range = sp.aoe();
+    spell_effect::override_parameters params( sp, caster );
+    params.range = sp.aoe( caster );
     const std::set<tripoint> hit_area = spell_effect_cone_range_override( params, source, far_target );
     damage_targets( sp, caster, hit_area );
 }
@@ -1725,7 +1728,7 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, cons
     if( caster_monster && caster_monster->type->id == mon_blob_brain ) {
         mass += mass;
     }
-    const int radius = sp.aoe();
+    const int radius = sp.aoe( caster );
     std::vector<tripoint> pts = closest_points_first( caster.pos(), radius );
     std::vector<monster *> summoned_slimes;
     const bool permanent = sp.has_flag( spell_flag::PERMANENT );
@@ -1748,7 +1751,7 @@ void spell_effect::slime_split_on_death( const spell &sp, Creature &caster, cons
                 if( monster *const blob = g->place_critter_around( mon, dest, 0 ) ) {
                     sp.make_sound( dest, caster );
                     if( !permanent ) {
-                        blob->set_summon_time( sp.duration_turns() );
+                        blob->set_summon_time( sp.duration_turns( caster ) );
                     }
                     if( caster_monster ) {
                         blob->make_ally( *caster_monster );
