@@ -109,43 +109,6 @@ vehicle *display::vehicle_driven( const Character &u )
     return veh;
 }
 
-// Labels and assigns a color to stat values relative to the base stat
-std::pair<std::string, nc_color> display::stat_text_color( int stat, int stat_base,
-        const std::string &stat_label )
-{
-    nc_color clr;
-
-    if( stat == stat_base ) {
-        clr = c_white;
-    } else if( stat > stat_base ) {
-        clr = c_green;
-    } else if( stat < stat_base ) {
-        clr = c_red;
-    }
-    return std::make_pair( stat_label + ( stat < 100 ? std::to_string(
-            stat ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::str_text_color( const Character &p )
-{
-    return stat_text_color( p.get_str(), p.get_str_base(), _( "Str " ) );
-}
-
-std::pair<std::string, nc_color> display::dex_text_color( const Character &p )
-{
-    return stat_text_color( p.get_dex(), p.get_dex_base(), _( "Dex " ) );
-}
-
-std::pair<std::string, nc_color> display::int_text_color( const Character &p )
-{
-    return stat_text_color( p.get_int(), p.get_int_base(), _( "Int " ) );
-}
-
-std::pair<std::string, nc_color> display::per_text_color( const Character &p )
-{
-    return stat_text_color( p.get_per(), p.get_str_base(), _( "Str " ) );
-}
-
 std::string display::get_temp( const Character &u )
 {
     std::string temp;
