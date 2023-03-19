@@ -2770,7 +2770,6 @@
       [ "solarpack", 5 ],
       [ "chem_hexamine", 3 ],
       { "item": "esbit_stove", "prob": 6, "charges": [ 0, 50 ] },
-      [ "mess_tin", 4 ],
       { "group": "full_survival_kit", "prob": 4 }
     ]
   },

@@ -754,7 +754,6 @@
       { "item": "bot_grenade_hack", "prob": 1 },
       { "item": "chem_hexamine", "prob": 5 },
       { "item": "esbit_stove", "prob": 8 },
-      { "item": "mess_tin", "prob": 4 },
       { "item": "beam_scatterer", "prob": 1 },
       { "item": "focusing_lens", "prob": 1 },
       { "item": "electrolaser_conversion", "prob": 1 },

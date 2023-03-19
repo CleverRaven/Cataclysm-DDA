@@ -215,8 +215,7 @@
       { "item": "tinderbox", "prob": 10, "charges": [ 0, 100 ] },
       [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
-      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      [ "mess_tin", 10 ]
+      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] }
     ]
   },
   {
@@ -611,7 +610,6 @@
       [ "whistle_multitool", 1 ],
       [ "chem_hexamine", 10 ],
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      [ "mess_tin", 5 ],
       [ "horse_tack", 3 ],
       [ "saddlebag", 5 ],
       [ "lifestraw", 3 ],

@@ -587,25 +587,6 @@
     "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ]
   },
   {
-    "id": "mess_tin",
-    "type": "GENERIC",
-    "category": "tools",
-    "name": { "str": "mess tin" },
-    "description": "A compact military-style pan and tray, designed for heating food over a fire or portable stove.  It is shallower than a proper pot or pan, and lacks the integrated heating elements modern mess kits have.",
-    "weight": "450 g",
-    "volume": "750 ml",
-    "longest_side": "9 cm",
-    "price": 2000,
-    "price_postapoc": 50,
-    "to_hit": 2,
-    "bashing": 10,
-    "material": [ "steel" ],
-    "symbol": ")",
-    "color": "light_gray",
-    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "HEAT_FOOD" ]
-  },
-  {
     "id": "milk_cream_jar",
     "type": "GENERIC",
     "category": "food",

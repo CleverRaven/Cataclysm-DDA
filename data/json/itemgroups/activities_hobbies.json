@@ -431,7 +431,6 @@
       [ "whistle_multitool", 5 ],
       [ "esbit_stove", 10 ],
       [ "bottle_folding", 10 ],
-      { "item": "mess_tin", "prob": 10, "charges": [ 0, 500 ] },
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 30 },
       { "group": "premium_contents", "prob": 3 },
       { "item": "ar_glasses_basic", "prob": 1, "charges-min": 0 },
@@ -552,8 +551,7 @@
       [ "cloak_wool", 5 ],
       [ "whistle_multitool", 5 ],
       [ "esbit_stove", 10 ],
-      [ "bottle_folding", 10 ],
-      { "item": "mess_tin", "prob": 10, "charges": [ 0, 500 ] }
+      [ "bottle_folding", 10 ]
     ]
   },
   {

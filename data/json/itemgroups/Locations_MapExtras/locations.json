@@ -2554,7 +2554,6 @@
       [ "chem_hexamine", 4 ],
       { "item": "esbit_stove", "prob": 8, "charges": [ 0, 50 ] },
       [ "bottle_folding", 6 ],
-      [ "mess_tin", 8 ],
       [ "metal_file", 5 ],
       [ "pin_reamer", 3 ],
       { "group": "writing_utensils", "prob": 20 }
