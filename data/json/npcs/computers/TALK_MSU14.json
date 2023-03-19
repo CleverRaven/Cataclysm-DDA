@@ -50,7 +50,11 @@
     "id": "MSU14_MISSION_COMPLETE",
     "dynamic_line": "&Processing 1 of 1 - Installing Sys3_rnp_4b12\n[====================] 100%\nThe operation completed successfully.\n\nRestart to apply changes.\nDo you want to restart now? (Y/N)\n\n",
     "responses": [
-      { "text": "Restart the computer and leave.", "topic": "TALK_DONE", "effect": { "npc_first_topic": "MSU14_LOCKED_START" } }
+      {
+        "text": "Restart the computer and leave.",
+        "topic": "TALK_DONE",
+        "effect": { "npc_first_topic": "MSU14_LOCKED_START" }
+      }
     ]
   },
   {
