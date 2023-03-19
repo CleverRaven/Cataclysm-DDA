@@ -1,0 +1,14 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "map_extras": {
+      "forest": { "extras": { "mx_spider": 0 } },
+      "forest_thick": { "extras": { "mx_spider": 0 } },
+      "forest_water": { "extras": { "mx_spider": 0 } },
+      "field": { "extras": { "mx_Trapdoor_spider_den": 0 } },
+      "agricultural": { "extras": { "mx_Trapdoor_spider_den": 0 } },
+      "build": { "extras": { "mx_house_spider": 0 } }
+    }
+  }
+]

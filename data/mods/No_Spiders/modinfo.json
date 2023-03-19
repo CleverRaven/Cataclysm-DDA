@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "No_spiders",
+    "name": "No Arachnid Monsters",
+    "authors": [ "DoctorBoomstick" ],
+    "maintainers": [ "DoctorBoomstick" ],
+    "description": "makes the game arachnophobe-friendly by taking all arachnid monsters and related locations from the base game, and nuking them from orbit.",
+    "category": "monster_exclude",
+    "dependencies": [ "dda" ]
+  }
+]

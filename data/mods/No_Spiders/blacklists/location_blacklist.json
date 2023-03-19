@@ -1,0 +1,14 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "Spider Pit",
+    "overmaps": [  ],
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "demon_spider_lair",
+    "overmaps": [  ],
+    "occurrences": [ 0, 0 ]
+  }
+]
