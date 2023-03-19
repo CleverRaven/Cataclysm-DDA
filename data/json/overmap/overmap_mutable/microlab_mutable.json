@@ -208,7 +208,9 @@
       "microlab_portal_security5": { "overmap": "microlab_portal_security5_south" },
       "microlab_portal_security6": { "overmap": "microlab_portal_security6_south" },
       "microlab_portal_security7": { "overmap": "microlab_portal_security7_south" },
-      "microlab_portal_security8": { "overmap": "microlab_portal_security8_south" }
+      "microlab_portal_security8": { "overmap": "microlab_portal_security8_south" },
+      "msu14_elevator": { "overmap": "microlab_portal_MSU14_elevator_north" },
+      "msu14": { "overmap": "microlab_portal_MSU14_north" }
     },
     "root": "surface",
     "phases": [
@@ -254,7 +256,9 @@
             { "overmap": "microlab_portal_security7", "pos": [ -1, 0, -2 ] },
             { "overmap": "microlab_portal_security8", "pos": [ -2, 0, -2 ] },
             { "overmap": "nether_elevator_above", "pos": [ 0, -1, -2 ], "rot": "south" },
-            { "overmap": "portal_d_elevator", "pos": [ 0, -1, -3 ], "rot": "south" },
+            { "overmap": "msu14_elevator", "pos": [ 0, 2, -3 ] },
+            { "overmap": "msu14", "pos": [ 0, 1, -3 ] },
+            { "overmap": "portal_d_elevator", "pos": [ 0, -1, -4 ], "rot": "south" },
             { "overmap": "nether_elevator", "pos": [ 0, -1, -8 ], "rot": "south" },
             { "overmap": "nether", "pos": [ -1, -2, -8 ] },
             { "overmap": "nether", "pos": [ 0, -2, -8 ] },

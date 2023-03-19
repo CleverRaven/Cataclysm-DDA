@@ -1969,6 +1969,11 @@
     "info": "You could probably use this to access a secure zone of a facility."
   },
   {
+    "id": "SCIENCE_CARD_MU_UNIVERSAL",
+    "type": "json_flag",
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
     "id": "BATTERY_ULTRA_LIGHT",
     "type": "json_flag",
     "info": "This item fits in items that use ultra-light batteries.",

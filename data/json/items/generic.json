@@ -171,6 +171,27 @@
   },
   {
     "type": "GENERIC",
+    "id": "melchior_science_doc",
+    "copy-from": "log_immersion27",
+    "name": { "str": "MELCHIOR report" },
+    "snippet_category": "melchior_science_doc"
+  },
+  {
+    "type": "GENERIC",
+    "id": "msu14_password",
+    "name": { "str": "annotated paper scrap" },
+    "category": "books",
+    "description": "A small scrap of paper with two long character sequences scribbled on it.",
+    "weight": "1 g",
+    "to_hit": -3,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "4 ml",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "small_printout_portal_storm_data",
     "name": { "str": "short NRE printout" },
     "category": "books",
