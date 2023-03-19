@@ -1360,6 +1360,53 @@ void item::inherit_flags( const item_components &parents, const recipe &making )
     }
 }
 
+static void set_temp_rot( item &newit, const double relative_rot, const bool should_heat )
+{
+    if( newit.has_temperature() ) {
+        if( newit.goes_bad() ) {
+            newit.set_relative_rot( relative_rot );
+        }
+        if( should_heat ) {
+            newit.heat_up();
+        } else {
+            // Really what we should be doing is averaging the temperatures
+            // between the recipe components if we don't have a heat tool, but
+            // that's kind of hard.  For now just set the item to 20 C
+            // and reset the temperature.
+            //
+            // Temperature is not functional for non-foods
+            newit.set_item_temperature( units::from_celsius( 20 ) );
+        }
+    }
+}
+
+static void spawn_items( Character &guy, std::vector<item> &results,
+                         const cata::optional<tripoint> &loc, const double relative_rot, const bool should_heat,
+                         bool allow_wield = false )
+{
+    for( item &newit : results ) {
+        // todo: set this up recursively, who knows what kinda crafts will need it
+        if( !newit.empty() ) {
+            for( item *new_content : newit.all_items_top() ) {
+                set_temp_rot( *new_content, relative_rot, should_heat );
+            }
+        }
+        set_temp_rot( newit, relative_rot, should_heat );
+
+        newit.set_owner( guy.get_faction()->id );
+        if( newit.made_of( phase_id::LIQUID ) ) {
+            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
+        } else if( !loc && allow_wield && !guy.has_wield_conflicts( newit ) &&
+                   guy.can_wield( newit ).success() ) {
+            wield_craft( guy, newit );
+        } else if( !loc ) {
+            set_item_inventory( guy, newit );
+        } else {
+            set_item_map_or_vehicle( guy, loc.value_or( guy.pos() ), newit );
+        }
+    }
+}
+
 void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc )
 {
     if( !craft.is_craft() ) {
@@ -1372,16 +1419,18 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     item_components &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
     const bool should_heat = making.hot_result();
-    const bool remove_raw = making.removes_raw();
     std::vector<item> newits;
 
     if( making.is_practice() ) {
         add_msg( _( "You finish practicing %s." ), making.result_name() );
         // practice recipes don't produce a result item
     } else if( !making.result().is_null() ) {
-        // Set up the new item, and assign an inventory letter if available
-        newits = making.create_results( batch_size );
+        newits = making.create_results( batch_size, &used );
+        // only wield crafted items if there's only one
+        bool allow_wield = newits.size() == 1;
+        spawn_items( *this, newits, loc, relative_rot, should_heat, allow_wield );
     }
+
 
     // messages, learning of recipe
     if( !making.is_practice() && ( !newits.empty() || !making.result_eocs.empty() ) ) {
@@ -1403,140 +1452,17 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
                 std::max( get_skill_level( making.skill_used ), 1 ) *
                 std::max( get_int(), 1 );
             const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
-            if( x_in_y( making.time_to_craft_moves( *this ),  time_to_learn ) ) {
+            if( x_in_y( making.time_to_craft_moves( *this ), time_to_learn ) ) {
                 learn_recipe( &making );
-                add_msg( m_good, _( "You memorized the recipe for %s!" ), making.result_name() );
+                add_msg( m_good, _( "You memorized the recipe for %s!" ),
+                         making.result_name() );
             }
-        }
-    }
-
-    size_t newit_counter = 0;
-    for( item &newit : newits ) {
-
-        // Points to newit unless newit is a non-empty container, then it points to newit's contents.
-        // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
-        item &food_contained = !newit.empty() ? newit.only_item() : newit;
-
-        // Newly-crafted items are perfect by default. Inspect their materials to see if they shouldn't be
-        food_contained.inherit_flags( used, making );
-
-        for( const flag_id &flag : making.flags_to_delete ) {
-            food_contained.unset_flag( flag );
-        }
-
-        // Don't store components for things made by charges,
-        // Don't store components for things that can't be uncrafted.
-        if( recipe_dictionary::get_uncraft( making.result() ) && !food_contained.count_by_charges() &&
-            making.is_reversible() ) {
-            // Setting this for items counted by charges gives only problems:
-            // those items are automatically merged everywhere (map/vehicle/inventory),
-            // which would either lose this information or merge it somehow.
-            food_contained.components = used.split( batch_size, newit_counter );
-            newit_counter++;
-        } else if( food_contained.is_food() && !food_contained.has_flag( flag_NUTRIENT_OVERRIDE ) ) {
-            // use a copy of the used list so that the byproducts don't build up over iterations (#38071)
-            item_components usedbp;
-
-            // if a component item has "cooks_like" it will be replaced by that item as a component
-            for( item_components::type_vector_pair &tvp : used ) {
-                for( item &comp : tvp.second ) {
-                    // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
-                    if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
-                        const double relative_rot = comp.get_relative_rot();
-                        comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
-                        comp.set_relative_rot( relative_rot );
-                    }
-                    // If this recipe is cooked, components are no longer raw.
-                    if( should_heat || remove_raw ) {
-                        comp.set_flag_recursive( flag_COOKED );
-                    }
-
-                    usedbp.add( comp );
-                }
-            }
-
-            // byproducts get stored as a "component" but with a byproduct flag for consumption purposes
-            if( making.has_byproducts() ) {
-                for( item &byproduct : making.create_byproducts( batch_size ) ) {
-                    byproduct.set_flag( flag_BYPRODUCT );
-                    usedbp.add( byproduct );
-                }
-            }
-            // store components for food recipes that do not have the override flag
-            food_contained.components = usedbp.split( batch_size, newit_counter );
-
-            // store the number of charges the recipe would create with batch size 1.
-            if( &newit != &food_contained ) {  // If a canned/contained item was crafted…
-                // … the container holds exactly one completion of the recipe, no matter the batch size.
-                food_contained.recipe_charges = food_contained.charges;
-            } else { // Otherwise, the item is already stacked so we need to divide by batch size.
-                newit.recipe_charges = newit.charges / batch_size;
-            }
-            newit_counter++;
-        }
-
-        if( food_contained.has_temperature() ) {
-            if( food_contained.goes_bad() ) {
-                food_contained.set_relative_rot( relative_rot );
-            }
-            if( should_heat ) {
-                food_contained.heat_up();
-            } else {
-                // Really what we should be doing is averaging the temperatures
-                // between the recipe components if we don't have a heat tool, but
-                // that's kind of hard.  For now just set the item to 20 C
-                // and reset the temperature, don't
-                // forget byproducts below either when you fix this.
-                //
-                // Temperature is not functional for non-foods
-                food_contained.set_item_temperature( units::from_celsius( 20 ) );
-            }
-        }
-
-        // If the recipe has a `FULL_MAGAZINE` flag, fill it with ammo
-        if( newit.is_magazine() && making.has_flag( flag_FULL_MAGAZINE ) ) {
-            newit.ammo_set( newit.ammo_default(),
-                            newit.ammo_capacity( item::find_type( newit.ammo_default() )->ammo->type ) );
-        }
-
-        newit.set_owner( get_faction()->id );
-        // If these aren't equal, newit is a container, so finalize its contents too.
-        if( &newit != &food_contained ) {
-            food_contained.set_owner( get_faction()->id );
-        }
-
-        if( newit.made_of( phase_id::LIQUID ) ) {
-            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-        } else if( !loc && !has_wield_conflicts( craft ) &&
-                   can_wield( newit ).success() ) {
-            wield_craft( *this, newit );
-        } else {
-            set_item_map_or_vehicle( *this, loc.value_or( pos() ), newit );
         }
     }
 
     if( making.has_byproducts() ) {
         std::vector<item> bps = making.create_byproducts( batch_size );
-        for( item &bp : bps ) {
-            if( bp.has_temperature() ) {
-                if( bp.goes_bad() ) {
-                    bp.set_relative_rot( relative_rot );
-                }
-                if( should_heat ) {
-                    bp.heat_up();
-                } else {
-                    bp.set_item_temperature( units::from_celsius( 20 ) );
-                }
-            }
-            bp.set_owner( get_faction()->id );
-            if( bp.made_of( phase_id::LIQUID ) ) {
-                liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
-            } else if( !loc ) {
-                set_item_inventory( *this, bp );
-            } else {
-                set_item_map_or_vehicle( *this, loc.value_or( pos() ), bp );
-            }
-        }
+        spawn_items( *this, bps, loc, relative_rot, should_heat );
     }
 
     recoil = MAX_RECOIL;
@@ -1859,7 +1785,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         bool is_food = false;
         bool remove_raw = false;
         if( rec ) {
-            is_food = rec->create_result().is_comestible();
+            is_food = !!rec->result()->comestible;
             remove_raw = rec->hot_result() || rec->removes_raw();
         }
         enum class inventory_source : int {
@@ -2398,7 +2324,11 @@ ret_val<void> Character::can_disassemble( const item &obj, const read_only_visit
     if( !obj.is_ammo() ) { //we get ammo quantity to disassemble later on
         if( obj.count_by_charges() ) {
             // Create a new item to get the default charges
-            int qty = r.create_result().charges;
+            int qty = 0;
+            // it should always only create one item if batch size is 1, but just to be sure loop over results
+            for( item &it : r.create_results() ) {
+                qty += it.charges;
+            }
             if( obj.charges < qty ) {
                 const char *msg = n_gettext( "You need at least %d charge of %s.",
                                              "You need at least %d charges of %s.", qty );

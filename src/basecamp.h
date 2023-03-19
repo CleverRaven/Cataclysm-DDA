@@ -111,6 +111,7 @@ struct basecamp_fuel {
 
 struct basecamp_upgrade {
     std::string bldg;
+    mapgen_arguments args;
     translation name;
     bool avail = false;
     bool in_progress = false;
@@ -303,7 +304,8 @@ class basecamp
                                        //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
-        std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
+        std::string om_upgrade_description( const std::string &bldg, const mapgen_arguments &,
+                                            bool trunc = false ) const;
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
@@ -415,13 +417,15 @@ class basecamp
 class basecamp_action_components
 {
     public:
-        basecamp_action_components( const recipe &making, int batch_size, basecamp & );
+        basecamp_action_components( const recipe &making, const mapgen_arguments &, int batch_size,
+                                    basecamp & );
 
         // Returns true iff all necessary components were successfully chosen
         bool choose_components();
         void consume_components();
     private:
         const recipe &making_;
+        const mapgen_arguments &args_;
         int batch_size_;
         basecamp &base_;
         std::vector<comp_selection<item_comp>> item_selections_;

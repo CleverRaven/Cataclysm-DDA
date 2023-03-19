@@ -34,6 +34,19 @@
   },
   {
     "type": "AMMO",
+    "id": "notch",
+    "name": { "str": "notch", "str_pl": "notches" },
+    "symbol": "v",
+    "description": "A notch used with a fire drill to create an ember.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "brown",
+    "flags": [ "TRADER_AVOID", "NO_DROP" ],
+    "phase": "solid",
+    "ammo_type": "notch"
+  },
+  {
+    "type": "AMMO",
     "id": "aerosol_paint",
     "name": { "str_sp": "aerosol paint" },
     "symbol": "~",

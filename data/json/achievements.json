@@ -1574,9 +1574,18 @@
     "requirements": [ { "event_statistic": "witnessed_portal_storm", "is": ">=", "target": 1, "description": "Survive a portal storm" } ]
   },
   {
+    "id": "achievement_officer_kill",
+    "type": "achievement",
+    "name": "Killed the XEDRA officer",
+    "manually_given": true,
+    "description": "The haunting has finished and I am victorious.",
+    "requirements": [  ]
+  },
+  {
     "id": "achievement_arcade_mode",
     "type": "achievement",
     "name": "Arcade Mode",
+    "manually_given": true,
     "//": "this is the achievement that lets you forever have meta progression disabled",
     "description": "STOP HAND-HOLDING ME!!!",
     "requirements": [  ]

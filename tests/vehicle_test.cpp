@@ -119,14 +119,14 @@ TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
         veh_ptr->set_hp( pedel, pedel.hp() * 0.25, true );
         // Try starting the engine 100 time because it is random that a combustion engine does fails
         for( int i = 0; i < 100 ; i++ ) {
-            CHECK( veh_ptr->start_engine( 0 ) );
+            CHECK( veh_ptr->start_engine( pedel ) );
         }
     }
 
     SECTION( "when the pedal has 0 hp" ) {
         veh_ptr->set_hp( pedel, 0, true );
 
-        CHECK_FALSE( veh_ptr->start_engine( 0 ) );
+        CHECK_FALSE( veh_ptr->start_engine( pedel ) );
     }
 
     here.detach_vehicle( veh_ptr );
@@ -391,8 +391,8 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 TEST_CASE( "Check folded item damage transfers to parts and vice versa", "[item][vehicle]" )
 {
     std::vector<folded_item_damage_preset> presets {
-        { itype_folded_wheelchair_generic, 2111, 2277, 12666, 13666 },
-        { itype_folded_bicycle,            1689, 1961, 18582, 21582 },
+        { itype_folded_wheelchair_generic, 2111, 2411, 12666, 14466 },
+        { itype_folded_bicycle,            1689, 1989, 18582, 21882 },
     };
 
     for( const folded_item_damage_preset &preset : presets ) {
@@ -684,7 +684,7 @@ static void rack_check( const rack_preset &preset )
 }
 
 // Testing vehicle racking and unracking
-TEST_CASE( "Racking and unracking tests", "[vehicle]" )
+TEST_CASE( "Racking and unracking tests", "[vehicle][bikerack]" )
 {
     std::vector<rack_preset> racking_presets {
         // basic test; rack bike on car, unrack it, everything should succeed

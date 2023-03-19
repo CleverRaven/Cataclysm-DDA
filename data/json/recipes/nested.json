@@ -2395,7 +2395,7 @@
       "steel_lump",
       "steel_lump_from_other_steel",
       "budget_steel_lump",
-      "budget_steel_lump_scrap",
+      "budget_steel_lump_from_scrap",
       "lc_steel_lump",
       "mc_steel_lump",
       "hc_steel_lump"
@@ -3671,6 +3671,7 @@
       "peanut_shelled",
       "hickory_nut_shelled",
       "walnut_shelled",
+      "butternut_shelled",
       "hazelnut_shelled",
       "chestnut_shelled",
       "pecan_shelled",

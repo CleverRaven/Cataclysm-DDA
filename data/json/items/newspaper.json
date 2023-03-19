@@ -47,6 +47,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "childnote",
+    "category": "books",
+    "symbol": ",",
+    "color": "white",
+    "name": { "str": "child's note" },
+    "snippet_category": "note_child",
+    "description": "A piece of paper.  Something's written on it, scrawled in simple, messy handwriting.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "12 mg",
+    "volume": "1 ml"
+  },
+  {
+    "type": "GENERIC",
     "id": "note_mutant_alpha_boss",
     "name": { "str": "child's drawing" },
     "description": "A scrap of paper with a faded drawing on it.",

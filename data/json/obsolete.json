@@ -1076,8 +1076,20 @@
     "weapon_category": [ "HOOKING_WEAPONRY" ]
   },
   {
-    "type": "recipe",
-    "result": "lobotomizer",
-    "obsolete": true
+    "id": "mold_plastic",
+    "type": "TOOL",
+    "name": { "str": "plastic mold" },
+    "description": "A mold that can be used to form plastic chunks.",
+    "weight": "320 g",
+    "volume": "2500 ml",
+    "longest_side": "36 cm",
+    "price": 1000,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "bashing": 3,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_blue",
+    "qualities": [ [ "CONTAIN", 1 ] ]
   }
 ]

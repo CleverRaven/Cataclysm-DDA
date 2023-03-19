@@ -85,6 +85,9 @@ class item_location::impl
         virtual item_location parent_item() const {
             return item_location();
         }
+        virtual item_pocket *parent_pocket() const {
+            return nullptr;
+        }
         virtual tripoint position() const = 0;
         virtual std::string describe( const Character * ) const = 0;
         virtual item_location obtain( Character &, int ) = 0;
@@ -564,6 +567,7 @@ class item_location::impl::item_in_container : public item_location::impl
 {
     private:
         item_location container;
+        mutable item_pocket *container_pkt = nullptr; // NOLINT(cata-serialize)
 
         // figures out the index for the item, which is where it is in the total list of contents
         // note: could be a better way of handling this?
@@ -586,6 +590,18 @@ class item_location::impl::item_in_container : public item_location::impl
     public:
         item_location parent_item() const override {
             return container;
+        }
+
+        item_pocket *parent_pocket() const override {
+            if( container_pkt == nullptr ) {
+                std::vector<item_pocket *> const pkts = parent_item()->get_all_standard_pockets();
+                if( pkts.size() == 1 ) {
+                    container_pkt = pkts.front();
+                } else {
+                    container_pkt = parent_item()->contained_where( *target() );
+                }
+            }
+            return container_pkt;
         }
 
         item_in_container( const item_location &container, item *which ) :
@@ -718,11 +734,11 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         units::volume volume_capacity() const override {
-            return container->contained_where( *target() )->remaining_volume();
+            return parent_pocket()->remaining_volume();
         }
 
         units::mass weight_capacity() const override {
-            return container->contained_where( *target() )->remaining_weight();
+            return parent_pocket()->remaining_weight();
         }
 
         bool check_parent_capacity_recursive() const override {
@@ -790,7 +806,7 @@ void item_location::serialize( JsonOut &js ) const
 
 void item_location::deserialize( const JsonObject &obj )
 {
-    auto type = obj.get_string( "type" );
+    std::string type = obj.get_string( "type" );
 
     int idx = -1;
     tripoint pos = tripoint_min;
@@ -846,6 +862,14 @@ item_location item_location::parent_item() const
     return item_location::nowhere;
 }
 
+item_pocket *item_location::parent_pocket() const
+{
+    if( where() == type::container ) {
+        return ptr->parent_pocket();
+    }
+    return nullptr;
+}
+
 bool item_location::has_parent() const
 {
     if( where() == type::container ) {
@@ -861,7 +885,7 @@ bool item_location::parents_can_contain_recursive( item *it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent->contained_where( *get_item() );
+    item_pocket *pocket = parent_pocket();
 
     if( pocket->can_contain( *it ).success() ) {
         return parent.parents_can_contain_recursive( it );
@@ -877,7 +901,7 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent->contained_where( *get_item() );
+    item_pocket *pocket = parent_pocket();
 
     return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
                        it.charges_per_weight( pocket->remaining_weight() ),

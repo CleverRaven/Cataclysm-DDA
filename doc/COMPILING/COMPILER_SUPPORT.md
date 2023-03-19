@@ -72,7 +72,7 @@ ourselves to drop support for 10.11.
 
 ## GCC
 
-We support and test gcc from version 8.1.
+We support and test gcc from version 9.1.
 
 ## Clang
 

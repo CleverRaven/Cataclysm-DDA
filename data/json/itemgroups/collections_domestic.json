@@ -327,7 +327,7 @@
           },
           {
             "collection": [
-              { "item": "teddy", "prob": 50 },
+              { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 3 ], "prob": 50 },
               { "item": "hat_ball", "prob": 20 },
               { "item": "baseball", "prob": 20 },
               { "item": "roller_shoes_off", "prob": 10 },
@@ -413,7 +413,7 @@
           },
           {
             "collection": [
-              { "item": "teddy", "prob": 50 },
+              { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 3 ], "prob": 50 },
               { "item": "hat_ball", "prob": 20 },
               { "item": "baseball", "prob": 20 },
               { "item": "roller_shoes_off", "prob": 10 },
@@ -701,6 +701,7 @@
       { "item": "vac_sealer", "prob": 10 },
       { "item": "cookbook_italian", "prob": 10 },
       { "item": "cookbook_indian", "prob": 10 },
+      { "item": "cookbook_native", "prob": 5 },
       { "item": "cookbook_mexican", "prob": 10 },
       { "item": "sweets_book", "prob": 10 },
       { "item": "cookbook_liverforkids", "prob": 10 },

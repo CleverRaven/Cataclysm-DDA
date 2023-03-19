@@ -618,7 +618,7 @@
       [ "gold_medal", 1 ],
       [ "freeze_dried_meal", 5 ],
       { "group": "tinware", "prob": 10 },
-      { "item": "pen", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "pens", "prob": 10 },
       { "group": "costume_all_clothing", "prob": 10 }
     ]
   },
@@ -1934,7 +1934,7 @@
     "items": [
       { "item": "bandages", "prob": 30, "count": [ 1, 3 ] },
       { "group": "adhesive_bandages_box_used", "prob": 30 },
-      { "item": "liq_bandage", "prob": 5, "charges-min": 1 },
+      { "item": "liq_bandage_spray", "prob": 5, "charges-min": 1 },
       { "group": "full_1st_aid", "prob": 10 },
       { "item": "saline", "prob": 20, "charges": [ 1, 5 ] },
       { "item": "vitamins", "prob": 15, "charges": [ 1, 20 ] },
@@ -1948,7 +1948,7 @@
       [ "mask_dust", 65 ],
       [ "glasses_safety", 10 ],
       [ "towel", 50 ],
-      [ "scissors", 50 ],
+      [ "scissors_medical", 50 ],
       [ "fungicide", 10 ],
       [ "insecticide", 10 ],
       { "item": "soap", "prob": 20, "charges": [ 1, 10 ] },
@@ -2054,7 +2054,7 @@
       { "item": "coke", "prob": 3, "charges": [ 1, 8 ] },
       [ "longshirt", 30 ],
       { "group": "adhesive_bandages_box_used", "prob": 10 },
-      { "item": "liq_bandage", "prob": 2, "charges-min": 1 },
+      { "item": "liq_bandage_spray", "prob": 2, "charges-min": 1 },
       [ "heatpack", 10 ],
       { "item": "gum", "prob": 12, "charges": [ 1, 10 ] },
       { "item": "soap", "prob": 10, "charges": [ 1, 10 ] },
