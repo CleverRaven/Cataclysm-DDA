@@ -2156,7 +2156,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                       rider->posx(), rider->posy(), rider->posz(),
                       part_pos.x, part_pos.y, part_pos.z );
-            veh.part( ps ).remove_flag( vp_flag::passenger_flag );
+            veh.part( ps ).remove_flag( vehicle_part::passenger_flag );
             continue;
         }
 

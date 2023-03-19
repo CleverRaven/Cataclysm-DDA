@@ -220,15 +220,6 @@ int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
 static constexpr float accel_g = 9.81f;
 
-enum class vp_flag : uint32_t {
-    none = 0,
-    passenger_flag = 1,
-    animal_flag = 2,
-    carried_flag = 4,
-    carrying_flag = 8,
-    tracked_flag = 16 //carried vehicle part with tracking enabled
-};
-
 /**
  * Structure, describing vehicle part (i.e., wheel, seat)
  */
@@ -239,6 +230,12 @@ struct vehicle_part {
         friend item_location;
         friend class turret_data;
 
+        enum : int { passenger_flag = 1,
+                     animal_flag = 2,
+                     carried_flag = 4,
+                     carrying_flag = 8,
+                     tracked_flag = 16 //carried vehicle part with tracking enabled
+                   };
 
         vehicle_part(); /** DefaultConstructible */
 
@@ -248,14 +245,14 @@ struct vehicle_part {
         /** Check this instance is non-null (not default constructed) */
         explicit operator bool() const;
 
-        bool has_flag( const vp_flag flag ) const noexcept {
-            return static_cast<uint32_t>( flag ) & static_cast<uint32_t>( flags );
+        bool has_flag( const int flag ) const noexcept {
+            return flag & flags;
         }
-        void set_flag( const vp_flag flag ) noexcept {
-            flags = static_cast<vp_flag>( static_cast<uint32_t>( flags ) | static_cast<uint32_t>( flag ) );
+        int  set_flag( const int flag )       noexcept {
+            return flags |= flag;
         }
-        void remove_flag( const vp_flag flag ) noexcept {
-            flags = static_cast<vp_flag>( static_cast<uint32_t>( flags ) & ~static_cast<uint32_t>( flag ) );
+        int  remove_flag( const int flag )    noexcept {
+            return flags &= ~flag;
         }
 
         /**
@@ -477,7 +474,7 @@ struct vehicle_part {
          */
         bool removed = false; // NOLINT(cata-serialize)
         bool enabled = true;
-        vp_flag flags = vp_flag::none;
+        int flags = 0;
 
         /** ID of player passenger */
         character_id passenger_id;

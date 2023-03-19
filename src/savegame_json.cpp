@@ -3237,11 +3237,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     direction = units::from_degrees( direction_int );
     data.read( "blood", blood );
     data.read( "enabled", enabled );
-
-    uint32_t flags_int;
-    data.read( "flags", flags_int );
-    flags = static_cast<vp_flag>( flags_int );
-
+    data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
     if( data.has_int( "z_offset" ) ) {
         int z_offset = data.get_int( "z_offset" );
@@ -3300,7 +3296,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "direction", std::lround( to_degrees( direction ) ) );
     json.member( "blood", blood );
     json.member( "enabled", enabled );
-    json.member( "flags", static_cast<uint32_t>( flags ) );
+    json.member( "flags", flags );
     if( !carried_stack.empty() ) {
         std::stack<vehicle_part::carried_part_data> carried_copy = carried_stack;
         json.member( "carried_stack" );
