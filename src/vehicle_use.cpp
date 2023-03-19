@@ -391,49 +391,49 @@ void vehicle::control_engines()
 
 void vehicle::smash_security_system()
 {
-
-    //get security and controls location
-    int s = -1;
-    int c = -1;
-    for( int p : speciality ) {
-        if( part_flag( p, "SECURITY" ) && !parts[ p ].is_broken() ) {
-            s = p;
-            c = part_with_feature( s, "CONTROLS", true );
+    int idx_security = -1;
+    int idx_controls = -1;
+    for( const int p : speciality ) { //get security and controls location
+        const vehicle_part &vp = part( p );
+        if( vp.info().has_flag( "SECURITY" ) && !vp.is_broken() ) {
+            idx_security = p;
+            idx_controls = part_with_feature( vp.mount, "CONTROLS", true );
             break;
         }
     }
     Character &player_character = get_player_character();
     map &here = get_map();
-    //controls and security must both be valid
-    if( c >= 0 && s >= 0 ) {
-        ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
-        int skill = player_character.get_skill_level( skill_mechanics );
-        int percent_controls = 70 / ( 1 + skill );
-        int percent_alarm = ( skill + 3 ) * 10;
-        int rand = rng( 1, 100 );
-
-        if( percent_controls > rand ) {
-            damage_direct( here, c, part_info( c ).durability / 4 );
-
-            if( parts[ c ].removed || parts[ c ].is_broken() ) {
-                player_character.controlling_vehicle = false;
-                is_alarm_on = false;
-                add_msg( _( "You destroy the controls…" ) );
-            } else {
-                add_msg( _( "You damage the controls." ) );
-            }
-        }
-        if( percent_alarm > rand ) {
-            damage_direct( here, s, part_info( s ).durability / 5 );
-            // chance to disable alarm immediately, or disable on destruction
-            if( percent_alarm / 4 > rand || parts[ s ].is_broken() ) {
-                is_alarm_on = false;
-            }
-        }
-        add_msg( ( is_alarm_on ) ? _( "The alarm keeps going." ) : _( "The alarm stops." ) );
-    } else {
+    if( idx_controls < 0 || idx_security < 0 ) {
         debugmsg( "No security system found on vehicle." );
+        return; // both must be valid parts
     }
+    const vehicle_part &vp_controls = part( idx_controls );
+    const vehicle_part &vp_security = part( idx_security );
+    ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
+    const int skill = player_character.get_skill_level( skill_mechanics );
+    const int percent_controls = 70 / ( 1 + skill );
+    const int percent_alarm = ( skill + 3 ) * 10;
+    const int rand = rng( 1, 100 );
+
+    if( percent_controls > rand ) {
+        damage_direct( here, idx_controls, vp_controls.info().durability / 4 );
+
+        if( vp_controls.removed || vp_controls.is_broken() ) {
+            player_character.controlling_vehicle = false;
+            is_alarm_on = false;
+            add_msg( _( "You destroy the controls…" ) );
+        } else {
+            add_msg( _( "You damage the controls." ) );
+        }
+    }
+    if( percent_alarm > rand ) {
+        damage_direct( here, idx_security, vp_security.info().durability / 5 );
+        // chance to disable alarm immediately, or disable on destruction
+        if( percent_alarm / 4 > rand || vp_security.is_broken() ) {
+            is_alarm_on = false;
+        }
+    }
+    add_msg( is_alarm_on ? _( "The alarm keeps going." ) : _( "The alarm stops." ) );
 }
 
 void vehicle::autopilot_patrol_check()
