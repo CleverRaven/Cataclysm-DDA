@@ -1,0 +1,154 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "teddy_bear",
+    "name": { "str": "plush toy" },
+    "description": "A manufactured plush toy.  This is the default variant, if you see it something went wrong.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "weight": "900 g",
+    "volume": "3 L",
+    "price": 2000,
+    "price_postapoc": 100,
+    "symbol": "i",
+    "color": "cyan",
+    "flags": [ "SLEEP_AID" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "toy_plush_teddy",
+        "name": { "str": "teddy bear" },
+        "description": "A mass-produced plush teddy bear.  It is wearing a little red t-shirt but no pants.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_teddy_zombie",
+        "name": { "str": "zombie teddy bear" },
+        "description": "A dark green teddy bear with stylized stitches all over and X's for eyes.  The perfect size for a small child to hug the unlife out of.  Looks like the zombie apocalypse hit the toy store shelves first.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_ferret",
+        "name": { "str": "ferret plushie" },
+        "description": "A large plush ferret with cute beady eyes.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_trex",
+        "name": { "str": "T-rex plushie" },
+        "description": "A large plush t-rex.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_penguin",
+        "name": { "str": "penguin plushie" },
+        "description": "A velvety-soft plush penguin.  It makes a funny noise when you hug it.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_rabbit",
+        "name": { "str": "rabbit plushie" },
+        "description": "A large plush rabbit.",
+        "weight": 1
+      },
+      {
+        "id": "toy_plush_remora",
+        "name": { "str": "remora plushie" },
+        "description": "A large plush remora, a fish commonly seen alongside sharks.  Wait, wasn't there a shark plushie somewhere here…",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "shark_plushie",
+    "name": { "str": "shark plushie" },
+    "description": "A somewhat large, mass produced shark plushie.  Meant to provide comfort to people of all ages.",
+    "category": "other",
+    "material": [ "cotton" ],
+    "weight": "1945 g",
+    "volume": "30 L",
+    "longest_side": "103 cm",
+    "price": 600,
+    "price_postapoc": 20,
+    "symbol": "s",
+    "color": "cyan",
+    "flags": [ "SLEEP_AID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "toy_figurine_large",
+    "name": { "str": "large figurine" },
+    "description": "A large manufactured figurine.  This is the default variant, if you see it something went wrong.",
+    "category": "other",
+    "material": [ "plastic" ],
+    "weight": "500 g",
+    "volume": "1 L",
+    "price": 2000,
+    "price_postapoc": 20,
+    "symbol": "f",
+    "color": "cyan",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "toy_figure_trex",
+        "name": { "str": "T-rex figurine" },
+        "description": "A relatively large plastic figurine of a T-rex.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "toy_figurine",
+    "name": { "str": "figurine" },
+    "description": "A normal-sized manufactured figurine.  This is the default variant, if you see it something went wrong.",
+    "category": "other",
+    "material": [ "plastic" ],
+    "weight": "125 g",
+    "volume": "200 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "symbol": "f",
+    "color": "cyan",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "toy_figure_swordsman",
+        "name": { "str": "Swordsman figurine" },
+        "description": "A figurine of some unnamed swordsman, covered with scars and equipped with sturdy leather armor.  Seems to be ready to fight.",
+        "weight": 1
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "yoyo",
+    "name": { "str": "yoyo" },
+    "description": "A simple yoyo on a string.  Now you can be bored with style.",
+    "category": "other",
+    "material": [ "plastic" ],
+    "weight": "50 g",
+    "volume": "70 ml",
+    "longest_side": "7 cm",
+    "price": 200,
+    "price_postapoc": 5,
+    "symbol": "q",
+    "color": "light_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "fidget_spinner",
+    "name": { "str": "fidget spinner" },
+    "description": "A fidget spinner.  An artifact from when the times were simpler.",
+    "category": "other",
+    "material": [ "plastic", "steel" ],
+    "weight": "75 g",
+    "volume": "185 ml",
+    "longest_side": "10 cm",
+    "price": 500,
+    "price_postapoc": 5,
+    "symbol": "/",
+    "color": "green"
+  }
+]

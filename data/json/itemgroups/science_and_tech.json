@@ -498,7 +498,7 @@
       [ "autoclave", 20 ],
       [ "syringe", 8 ],
       [ "cotton_patchwork", 1 ],
-      [ "scissors", 50 ],
+      [ "scissors_medical", 50 ],
       [ "boots_rubber", 20 ],
       [ "subsuit_xl", 4 ],
       { "item": "cotton_patchwork", "prob": 1, "custom-flags": [ "FILTHY" ] },

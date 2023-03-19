@@ -249,13 +249,14 @@ struct vehicle_part {
         explicit operator bool() const;
 
         bool has_flag( const vp_flag flag ) const noexcept {
-            return static_cast<uint32_t>( flag ) & static_cast<uint32_t>( flags );
+            const uint32_t flag_as_uint32 = static_cast<uint32_t>( flag );
+            return ( flags & flag_as_uint32 ) == flag_as_uint32;
         }
         void set_flag( const vp_flag flag ) noexcept {
-            flags = static_cast<vp_flag>( static_cast<uint32_t>( flags ) | static_cast<uint32_t>( flag ) );
+            flags |= static_cast<uint32_t>( flag );
         }
         void remove_flag( const vp_flag flag ) noexcept {
-            flags = static_cast<vp_flag>( static_cast<uint32_t>( flags ) & ~static_cast<uint32_t>( flag ) );
+            flags &= ~static_cast<uint32_t>( flag );
         }
 
         /**
@@ -477,7 +478,6 @@ struct vehicle_part {
          */
         bool removed = false; // NOLINT(cata-serialize)
         bool enabled = true;
-        vp_flag flags = vp_flag::none;
 
         /** ID of player passenger */
         character_id passenger_id;
@@ -498,6 +498,7 @@ struct vehicle_part {
     private:
         /** What type of part is this? */
         vpart_id id;
+        uint32_t flags = 0;
     public:
         /** If it's a part with variants, which variant it is */
         std::string variant;

@@ -37,7 +37,8 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": [ "C4" ]
+    "use_action": [ "C4" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "c4armed",
@@ -1475,7 +1476,6 @@
     "explode_in_fire": true,
     "explosion": { "power": 2590 },
     "use_action": {
-      "need_wielding": true,
       "target": "homemade_demolition_charge_act",
       "msg": "You light the %s.",
       "target_charges": 20,
