@@ -3447,5 +3447,58 @@
     ],
     "qualities": [ [ "CONTAIN", 1 ] ],
     "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "lunchbox",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "lunchbox", "str_pl": "lunchboxes" },
+    "description": "A plastic box, commonly used to store lunch and utensils to eat it with.",
+    "weight": "282 g",
+    "volume": "2050 ml",
+    "longest_side": "21 cm",
+    "price": 1400,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "l",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": false,
+        "open_container": false,
+        "max_contains_volume": "1100 ml",
+        "max_contains_weight": "2 kg"
+      }
+    ],
+    "qualities": [ [ "CONTAIN", 1 ] ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
+  },
+  {
+    "id": "pencil_case",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "pencil case" },
+    "description": "A small fabric container with a zipper.  Commonly used by children to store school supplies.",
+    "weight": "200 g",
+    "volume": "1730 ml",
+    "price": 900,
+    "price_postapoc": 100,
+    "material": [ "cotton" ],
+    "symbol": "p",
+    "color": "dark_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": false,
+        "watertight": false,
+        "open_container": false,
+        "max_contains_volume": "1000 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm"
+      }
+    ],
+    "flags": [ "COLLAPSE_CONTENTS" ]
   }
 ]

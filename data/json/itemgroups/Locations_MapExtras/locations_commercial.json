@@ -618,7 +618,7 @@
       [ "gold_medal", 1 ],
       [ "freeze_dried_meal", 5 ],
       { "group": "tinware", "prob": 10 },
-      { "item": "pen", "prob": 10, "charges": [ 0, 100 ] },
+      { "group": "pens", "prob": 10 },
       { "group": "costume_all_clothing", "prob": 10 }
     ]
   },
@@ -1948,7 +1948,7 @@
       [ "mask_dust", 65 ],
       [ "glasses_safety", 10 ],
       [ "towel", 50 ],
-      [ "scissors", 50 ],
+      [ "scissors_medical", 50 ],
       [ "fungicide", 10 ],
       [ "insecticide", 10 ],
       { "item": "soap", "prob": 20, "charges": [ 1, 10 ] },

@@ -1982,5 +1982,23 @@
     "id": "chem_zinc",
     "type": "MIGRATION",
     "replace": "chem_zinc_oxide"
+  },
+  {
+    "id": "steel_scissors",
+    "type": "MIGRATION",
+    "replace": "scissors"
+  },
+  {
+    "id": "teddy",
+    "type": "MIGRATION",
+    "replace": "teddy_bear",
+    "variant": "toy_plush_teddy",
+    "flags": [ "FILTHY" ]
+  },
+  {
+    "id": "toothbrush_dirty",
+    "type": "MIGRATION",
+    "replace": "toothbrush_plain",
+    "flags": [ "FILTHY" ]
   }
 ]
