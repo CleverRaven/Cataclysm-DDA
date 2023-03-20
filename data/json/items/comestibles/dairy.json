@@ -302,7 +302,6 @@
     "material": [ "milk" ],
     "primary_material": "cheese",
     "volume": "250 ml",
-    "charges": 1,
     "fun": 1,
     "vitamins": [ [ "calcium", 13 ] ]
   },
@@ -323,7 +322,7 @@
     "material": [ "milk" ],
     "primary_material": "cheese",
     "volume": "250 ml",
-    "charges": 1,
+    "charges": 4,
     "fun": 5,
     "vitamins": [ [ "calcium", 13 ], [ "iron", 3 ] ]
   },
