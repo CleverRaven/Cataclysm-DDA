@@ -972,7 +972,7 @@ static bool are_requirements_nearby(
             const cata::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
 
             if( vp ) {
-                const int veh_battery = vp->vehicle().fuel_left( itype_battery, true );
+                const int veh_battery = vp->vehicle().fuel_left( itype_battery );
 
                 item welder( itype_welder, calendar::turn_zero );
                 welder.charges = veh_battery;
