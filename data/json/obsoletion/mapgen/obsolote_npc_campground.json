@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "campground_1a", "campground_1b" ], [ "campground_2a", "campground_2b" ] ],
+    "om_terrain": [ [ "campground_1a_npc", "campground_1b_npc" ], [ "campground_2a_npc", "campground_2b_npc" ] ],
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -79,7 +79,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "campground_roof" ],
+    "om_terrain": [ "campground_roof_npc" ],
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
