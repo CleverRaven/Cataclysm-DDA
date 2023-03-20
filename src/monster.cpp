@@ -2692,6 +2692,11 @@ void monster::die( Creature *nkiller )
             }
         }
     }
+    if( corpse ) {
+        corpse->process( get_map(), nullptr, pos() );
+        item_location corpse_loc{ map_cursor{ pos() }, corpse };
+        corpse_loc.make_active();
+    }
 
     // Adjust anger/morale of nearby monsters, if they have the appropriate trigger and are friendly
     // Keep filtering on the dying monsters' triggers to preserve current functionality
