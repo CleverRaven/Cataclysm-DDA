@@ -42,6 +42,34 @@
     "items": [ { "item": "cotton_ball", "prob": 100, "count": [ 1, 10 ] } ]
   },
   {
+    "id": "tampon_box_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "tampon", "prob": 100, "count": 24 } ]
+  },
+  {
+    "id": "tampon_box_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "tampon", "prob": 100, "count": [ 1, 24 ] } ]
+  },
+  {
+    "id": "menstrual_pad_box_full",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "menstrual_pad", "prob": 100, "count": 24 } ]
+  },
+  {
+    "id": "menstrual_pad_box_used",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_small",
+    "items": [ { "item": "menstrual_pad", "prob": 100, "count": [ 1, 24 ] } ]
+  },
+  {
     "id": "drugs_analgesic",
     "type": "item_group",
     "//": "Painkillers balanced according to rarity excluding illicit drugs",
@@ -59,6 +87,8 @@
       [ "liq_bandage_spray", 5 ],
       { "group": "adhesive_bandages_box_used", "prob": 50 },
       { "group": "cotton_ball_bag_used", "prob": 40 },
+      { "group": "tampon_box_used", "prob": 40 },
+      { "group": "menstrual_pad_box_used", "prob": 40 },
       [ "disinfectant", 30 ],
       [ "eyedrops", 10 ],
       [ "medical_gauze", 20 ],

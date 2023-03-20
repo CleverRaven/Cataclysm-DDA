@@ -67,6 +67,96 @@
     ]
   },
   {
+    "id": "tampon",
+    "name": { "str": "tampon" },
+    "type": "GENERIC",
+    "description": "A small cotton tampon with a plastic applicator.",
+    "symbol": "+",
+    "color": "white",
+    "looks_like": "cotton_ball",
+    "container": "bag_plastic",
+    "price": 25,
+    "price_postapoc": 200,
+    "//": "Makes a decent trade commodity but can be acquired in bulk.",
+    "weight": "10 g",
+    "volume": "50 ml",
+    "material": [ "plastic", "cotton" ],
+    "snippet_category": [
+      {
+        "id": "tampon1",
+        "text": "A small cotton tampon with a plastic applicator.  Useless for some, an invaluable commodity for others."
+      },
+      { "id": "tampon2", "text": "A 'light' cotton tampon with a plastic applicator rated for light flows." },
+      { "id": "tampon3", "text": "A 'super' cotton tampon with a plastic applicator rated for heavy flows." },
+      { "id": "tampon4", "text": "A small, lavender-scented cotton tampon with a plastic applicator." },
+      {
+        "id": "tampon5",
+        "text": "A small cotton tampon with a plastic applicator proudly claiming to be anti-microbial.  Ultra-fine print indicates that this tampon has no noticeable health benefits compared to others."
+      },
+      {
+        "id": "tampon6",
+        "text": "An expensive-looking tampon with a fancy, smooth plastic applicator.  The ultra-soft cotton has the appearance of a fluffy cloud."
+      },
+      {
+        "id": "tampon7",
+        "text": "A cheap-looking tampon.  The cotton looks rough, the plastic applicator has a few sharp edges, and the string is somehow already knotted."
+      }
+    ]
+  },
+  {
+    "id": "menstrual_pad",
+    "name": { "str": "menstrual pad" },
+    "type": "GENERIC",
+    "description": "An absorbent pad.",
+    "symbol": "=",
+    "color": "white",
+    "looks_like": "bandages",
+    "container": "bag_plastic",
+    "price": 25,
+    "price_postapoc": 200,
+    "//": "Makes a decent trade commodity but can be acquired in bulk.",
+    "weight": "10 g",
+    "volume": "50 ml",
+    "material": [ "plastic", "cotton" ],
+    "snippet_category": [
+      {
+        "id": "menstrual_pad1",
+        "text": "An absorbent menstrual pad.  Unfortunately, not as useful as a bandage as you'd think.  The adhesive is on the side opposite of the absorbent part."
+      },
+      { "id": "menstrual_pad2", "text": "A small panty-liner only meant for the lightest flows." },
+      { "id": "menstrual_pad3", "text": "A large menstrual pad meant for use overnight." },
+      {
+        "id": "menstrual_pad4",
+        "text": "An absorbent menstrual pad with racing stripes, for the fastest flows.  Probably."
+      },
+      { "id": "menstrual_pad5", "text": "An absorbent menstrual pad that smells strongly of essential oils." },
+      {
+        "id": "menstrual_pad6",
+        "text": "A pride-themed menstrual pad in trans flag coloring.  'Men can bleed too!' is proudly written on the packaging."
+      },
+      {
+        "id": "menstrual_pad7",
+        "text": "A cheap menstrual pad.  The cotton somehow looks like sandpaper and is almost see-through thin."
+      }
+    ]
+  },
+  {
+    "id": "menstrual_cup",
+    "name": { "str": "menstrual cup" },
+    "type": "GENERIC",
+    "description": "A tiny, washable, flexible plastic cup about the size of a medicine cup for catching menstrual flow.",
+    "symbol": "v",
+    "color": "pink",
+    "looks_like": "bottle_plastic_small",
+    "container": "bag_plastic",
+    "price": 1000,
+    "price_postapoc": 500,
+    "//": "Makes a decent trade commodity.",
+    "weight": "10 g",
+    "volume": "50 ml",
+    "material": [ "plastic" ]
+  },
+  {
     "id": "hairbrush",
     "name": { "str": "hairbrush", "str_pl": "hairbrushes" },
     "type": "GENERIC",
