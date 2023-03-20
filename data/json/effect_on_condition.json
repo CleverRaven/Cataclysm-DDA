@@ -626,6 +626,7 @@
     "effect": [ { "mapgen_update": "exodii_bomb_add" } ]
   },
   {
+    "type": "effect_on_condition",
     "id": "EOC_MISSION_GODCO_TROPHY2_done",
     "global": true,
     "condition": {
