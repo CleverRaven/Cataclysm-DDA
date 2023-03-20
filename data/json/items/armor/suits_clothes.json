@@ -191,7 +191,7 @@
     "id": "dinosuit",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str": "dinosaur suit body" },
+    "name": { "str": "dinosaur suit body", "str_pl": "dinosaur suit bodies" },
     "description": "The torso and legs of a full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
     "//": "My friend told me the bodysuit would weigh at least 7 kg alone.",
@@ -213,7 +213,7 @@
   {
     "id": "dinosuit_head",
     "type": "ARMOR",
-    "name": { "str": "dinosaur suit head" },
+    "name": { "str": "dinosaur suit head", "str_pl": "dinosaur suit heads" },
     "description": "A large head of a full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
@@ -235,7 +235,7 @@
   {
     "id": "dinosuit_gloves",
     "type": "ARMOR",
-    "name": { "str": "dinosaur suit gloves" },
+    "name": { "str": "dinosaur suit gloves", "str_pl": "pairs of dinosaur suit gloves" },
     "description": "A pair of plastic-taloned gloves as part of a full-body costume in the form of an anthropomorphic dinosaur.  They are quite encumbering but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
@@ -254,7 +254,7 @@
   {
     "id": "dinosuit_boots",
     "type": "ARMOR",
-    "name": { "str": "dinosaur suit boots" },
+    "name": { "str": "dinosaur suit boots", "str_pl": "pairs of dinosaur suit boots" },
     "description": "A pair of plastic-taloned booties that create the illusion of digitigrade dinosaur feet as part of a full-body costume in the form of an anthropomorphic dinosaur.  They are quite encumbering but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
@@ -274,7 +274,7 @@
     "id": "sharksuit",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str": "shark suit body" },
+    "name": { "str": "shark suit body", "str_pl": "shark suit bodies" },
     "description": "The torso and legs of a full-body costume in the form of an anthropomorphic bull shark.  It is quite encumbering and has little storage but is very warm.",
     "weight": "6033 g",
     "volume": "9 L",
@@ -295,7 +295,7 @@
   {
     "id": "sharksuit_head",
     "type": "ARMOR",
-    "name": { "str": "shark suit head" },
+    "name": { "str": "shark suit head", "str_pl": "shark suit heads" },
     "description": "A large head of a full-body costume in the form of an anthropomorphic bull shark.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
@@ -314,7 +314,7 @@
   {
     "id": "sharksuit_gloves",
     "type": "ARMOR",
-    "name": { "str": "shark suit gloves" },
+    "name": { "str": "shark suit gloves", "str_pl": "pairs of shark suit gloves" },
     "description": "A pair of thick gloves as part of a full-body costume in the form of an anthropomorphic bull shark.  They are quite encumbering but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
@@ -333,7 +333,7 @@
   {
     "id": "sharksuit_boots",
     "type": "ARMOR",
-    "name": { "str": "shark suit boots" },
+    "name": { "str": "shark suit boots", "str_pl": "pairs of shark suit boots" },
     "description": "A pair of booties that create the illusion of digitigrade  feet as part of a full-body costume in the form of an anthropomorphic bull shark.  They are quite encumbering but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
@@ -353,7 +353,7 @@
     "id": "dragonsuit",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str": "dragon suit body" },
+    "name": { "str": "dragon suit body", "str_pl": "dragon suit bodies" },
     "description": "The torso and legs of a cartoonish recreation of a western dragon remade into a suit.  Effectively useless nowadays, unless you think the mutants will treat you as one of their own if you wear this.  The wings really get in the way.",
     "weight": "7033 g",
     "volume": "9 L",
@@ -377,7 +377,7 @@
   {
     "id": "dragonsuit_head",
     "type": "ARMOR",
-    "name": { "str": "dragon suit head" },
+    "name": { "str": "dragon suit head", "str_pl": "dragon suit heads" },
     "description": "A large head of a cartoonish recreation of a western dragon remade into a suit.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
@@ -399,7 +399,7 @@
   {
     "id": "dragonsuit_gloves",
     "type": "ARMOR",
-    "name": { "str": "dragon suit gloves" },
+    "name": { "str": "dragon suit gloves", "str_pl": "pairs of dragon suit gloves" },
     "description": "A pair of plastic-taloned gloves as part of a cartoonish recreation of a western dragon remade into a suit.  They are quite encumbering but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
@@ -418,7 +418,7 @@
   {
     "id": "dragonsuit_boots",
     "type": "ARMOR",
-    "name": { "str": "dragon suit boots" },
+    "name": { "str": "dragon suit boots", "str_pl": "pairs of dragon suit boots" },
     "description": "A pair of plastic-taloned booties that create the illusion of digitigrade dinosaur feet as part of a full-body costume in the form of an anthropomorphic dinosaur.  They are quite encumbering but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
@@ -438,7 +438,7 @@
     "id": "felinesuit",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str": "feline suit body" },
+    "name": { "str": "feline suit body", "str_pl": "feline suit bodies" },
     "description": "The torso and legs of a fursuit made to resemble an anthropomorphic feline of indistinguishable breed.  It's a decent source of faux fur if you need it.",
     "weight": "7033 g",
     "volume": "9 L",
@@ -459,7 +459,7 @@
   {
     "id": "felinesuit_head",
     "type": "ARMOR",
-    "name": { "str": "feline suit head" },
+    "name": { "str": "feline suit head", "str_pl": "feline suit heads" },
     "description": "A large head of a full-body fursuit made to resemble an anthropomorphic feline of indistinguishable breed.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
@@ -481,7 +481,7 @@
   {
     "id": "felinesuit_gloves",
     "type": "ARMOR",
-    "name": { "str": "feline suit gloves" },
+    "name": { "str": "feline suit gloves", "str_pl": "pairs of feline suit gloves" },
     "description": "A pair of paw-shaped gloves with little pads as part of a full-body fursuit made to resemble an anthropomorphic feline of indistinguishable breed.  They are quite encumbering but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
@@ -500,7 +500,7 @@
   {
     "id": "felinesuit_boots",
     "type": "ARMOR",
-    "name": { "str": "feline suit boots" },
+    "name": { "str": "feline suit boots", "str_pl": "pairs of feline suit boots" },
     "description": "A pair of paw-shaped booties that create the illusion of digitigrade feet as part of a full-body fursuit made to resemble an anthropomorphic feline of indistinguishable breed.  They are quite encumbering but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
@@ -520,7 +520,7 @@
     "id": "foxsuit",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": { "str": "fox suit body" },
+    "name": { "str": "fox suit body", "str_pl": "fox suit bodies" },
     "description": "The torso and legs of a fursuit made to resemble an anthropomorphic fox with orange fur and white markings.  It's a decent source of faux fur if you need it.",
     "weight": "7033 g",
     "volume": "9 L",
@@ -541,7 +541,7 @@
   {
     "id": "foxsuit_head",
     "type": "ARMOR",
-    "name": { "str": "fox suit head" },
+    "name": { "str": "fox suit head", "str_pl": "fox suit heads" },
     "description": "A large head of a full-body fursuit made to resemble an anthropomorphic fox with orange fur and white markings.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
@@ -563,7 +563,7 @@
   {
     "id": "foxsuit_gloves",
     "type": "ARMOR",
-    "name": { "str": "fox suit gloves" },
+    "name": { "str": "fox suit gloves", "str_pl": "pairs of fox suit gloves" },
     "description": "A pair of paw-shaped gloves with little pads as part of a full-body fursuit made to resemble an anthropomorphic fox with orange fur and white markings.  They are quite encumbering but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
@@ -582,7 +582,7 @@
   {
     "id": "foxsuit_boots",
     "type": "ARMOR",
-    "name": { "str": "fox suit boots" },
+    "name": { "str": "fox suit boots", "str_pl": "pairs of fox suit boots" },
     "description": "A pair of paw-shaped boots that create the illusion of digitigrade feet as part of a full-body fursuit made to resemble an anthropomorphic fox with orange fur and white markings.  They are quite encumbering but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
@@ -828,7 +828,7 @@
   {
     "id": "wolfsuit",
     "type": "ARMOR",
-    "name": { "str": "wolf suit body" },
+    "name": { "str": "wolf suit body", "str_pl": "wolf suit bodies" },
     "description": "The torso and legs of a full-body fursuit in the form of an anthropomorphic wolf.  It is quite encumbering and has little storage but is very warm.",
     "weight": "7033 g",
     "//": "My friend told me the bodysuit would weigh at least 7 kg alone.",
@@ -852,7 +852,7 @@
   {
     "id": "wolfsuit_head",
     "type": "ARMOR",
-    "name": { "str": "wolf suit head" },
+    "name": { "str": "wolf suit head", "str_pl": "wolf suit heads" },
     "description": "A large head of a full-body fursuit in the form of an anthropomorphic wolf.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
@@ -874,7 +874,7 @@
   {
     "id": "wolfsuit_gloves",
     "type": "ARMOR",
-    "name": { "str": "wolf suit gloves" },
+    "name": { "str": "wolf suit gloves", "str_pl": "pairs of wolf suit gloves" },
     "description": "A pair of paw-shaped gloves with little pads as part of a full-body fursuit in the form of an anthropomorphic wolf.  They are quite encumbering but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
@@ -893,7 +893,7 @@
   {
     "id": "wolfsuit_boots",
     "type": "ARMOR",
-    "name": { "str": "wolf suit boots" },
+    "name": { "str": "wolf suit boots", "str_pl": "pairs of wolf suit boots" },
     "description": "A pair of paw-shaped booties that create the illusion of digitigrade feet as part of a full-body fursuit in the form of an anthropomorphic wolf.  They are quite encumbering and hard to walk in but are very warm.",
     "weight": "750 g",
     "volume": "1 L",
