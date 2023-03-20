@@ -1209,6 +1209,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     // ablative pockets have their contents displayed earlier in the UI
     if( !is_ablative() ) {
+        std::vector<std::pair<item const *, int>> counted_contents;
         bool contents_header = false;
         for( const item &contents_item : contents ) {
             if( !contents_header ) {
@@ -1223,8 +1224,27 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                    contents_item.color_in_inventory() ) );
                 info.emplace_back( vol_to_info( cont_type_str, desc + space, contents_item.volume() ) );
             } else {
-                info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
-                                   contents_item.color_in_inventory() ) );
+                bool found = false;
+                for( std::pair<item const *, int> &content : counted_contents ) {
+                    if( content.first->display_stacked_with( contents_item ) ) {
+                        content.second += 1;
+                        found = true;
+                    }
+                }
+                if( !found ) {
+                    std::pair<item const *, int> new_content( &contents_item, 1 );
+                    counted_contents.push_back( new_content );
+                }
+            }
+        }
+        for( std::pair<item const *, int> content : counted_contents ) {
+            if( content.second > 1 ) {
+                info.emplace_back( "DESCRIPTION",
+                                   space + std::to_string( content.second ) + " " + colorize( content.first->display_name(
+                                               content.second ), content.first->color_in_inventory() ) );
+            } else {
+                info.emplace_back( "DESCRIPTION", space + colorize( content.first->display_name(),
+                                   content.first->color_in_inventory() ) );
             }
         }
     }

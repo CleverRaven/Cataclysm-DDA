@@ -766,7 +766,7 @@ bool veh_interact::update_part_requirements()
     }
 
     if( std::any_of( parts_here.begin(), parts_here.end(), [&]( const int e ) {
-    return veh->part( e ).has_flag( vehicle_part::carried_flag );
+    return veh->part( e ).has_flag( vp_flag::carried_flag );
     } ) ) {
         msg = _( "Unracking is required before installing any parts here." );
         return false;
@@ -1423,7 +1423,7 @@ void veh_interact::calc_overview()
     overview_opts.clear();
     overview_headers.clear();
 
-    units::power epower = veh->net_battery_charge_rate();
+    units::power epower = veh->net_battery_charge_rate( /* include_reactors = */ true );
     overview_headers["1_ENGINE"] = [this]( const catacurses::window & w, int y ) {
         trim_and_print( w, point( 1, y ), getmaxx( w ) - 2, c_light_gray,
                         string_format( _( "Engines: %sSafe %4d kW</color> %sMax %4d kW</color>" ),

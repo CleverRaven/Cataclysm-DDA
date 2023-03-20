@@ -1936,8 +1936,9 @@ int known_magic::time_to_learn_spell( const Character &guy, const std::string &s
 int known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp ) const
 {
     const int base_time = to_moves<int>( 30_minutes );
-    return base_time * ( 1.0 + sp->difficulty / ( 1.0 + ( guy.get_int() - 8.0 ) / 8.0 ) +
-                         ( guy.get_skill_level( sp->skill ) / 10.0 ) );
+    const double int_modifier = ( guy.get_int() - 8.0 ) / 8.0;
+    const double skill_modifier = guy.get_skill_level( sp->skill ) / 10.0;
+    return base_time * ( 1.0 + sp->difficulty / ( 1.0 + int_modifier + skill_modifier ) );
 }
 
 int known_magic::get_spellname_max_width()

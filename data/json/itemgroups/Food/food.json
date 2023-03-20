@@ -460,6 +460,22 @@
   },
   {
     "type": "item_group",
+    "id": "softdrinks_bottled",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cola", "prob": 60, "container-item": "bottle_plastic" },
+      { "item": "colamdew", "prob": 55, "container-item": "bottle_plastic" },
+      { "item": "creamsoda", "prob": 50, "container-item": "bottle_plastic" },
+      { "item": "lemonlime", "prob": 50, "container-item": "bottle_plastic" },
+      { "item": "orangesoda", "prob": 45, "container-item": "bottle_plastic" },
+      { "item": "rootbeer", "prob": 40, "container-item": "bottle_plastic" },
+      { "item": "crispycran", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "purple_drink", "prob": 35, "container-item": "bottle_plastic" },
+      { "item": "choc_drink", "prob": 25, "container-item": "bottle_plastic" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "candy_chocolate",
     "subtype": "distribution",
     "entries": [
@@ -501,6 +517,12 @@
   },
   {
     "type": "item_group",
+    "id": "toastems",
+    "subtype": "distribution",
+    "entries": [ { "item": "toastem" }, { "item": "toastem2" }, { "item": "toastem3" } ]
+  },
+  {
+    "type": "item_group",
     "id": "snacks",
     "subtype": "distribution",
     "entries": [
@@ -539,6 +561,26 @@
       { "item": "choco_coffee_beans", "prob": 8 },
       { "item": "fruit_leather", "prob": 15 },
       { "item": "pine_nuts", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sandwiches",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "sandwich_cucumber", "prob": 15 },
+      { "item": "sandwich_deluxe", "prob": 10 },
+      { "item": "sandwich_reuben", "prob": 15 },
+      { "item": "sandwich_veggy", "prob": 30 },
+      { "item": "sandwich_t", "prob": 30 },
+      { "item": "sandwich_pb", "prob": 1 },
+      { "item": "sandwich_pbj", "prob": 1 },
+      { "item": "sandwich_pbh", "prob": 1 },
+      { "item": "sandwich_pbm", "prob": 1 },
+      { "item": "fish_sandwich", "prob": 15 },
+      { "item": "sandwich_jam_butter", "prob": 5 },
+      { "item": "sandwich_jam", "prob": 5 },
+      { "item": "sandwich_cheese", "prob": 50 }
     ]
   },
   {
@@ -954,6 +996,23 @@
       { "item": "egg_hummingbird", "prob": 1 },
       { "item": "egg_turkey", "prob": 1 },
       { "item": "egg_grouse", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "lunchbox_fruit",
+    "subtype": "distribution",
+    "entries": [ { "item": "banana", "prob": 10 }, { "item": "apple", "prob": 10 }, { "item": "orange", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "lunchbox_food",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "sandwiches", "prob": 75 },
+      { "group": "lunchbox_fruit", "prob": 25 },
+      { "item": "cheeseburger", "prob": 5 },
+      { "item": "hamburger", "prob": 5 }
     ]
   }
 ]

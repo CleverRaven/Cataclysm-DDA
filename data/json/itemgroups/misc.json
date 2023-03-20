@@ -289,5 +289,26 @@
       { "item": "chalice", "prob": 1 },
       { "item": "book_ruined", "prob": 1 }
     ]
+  },
+  {
+    "id": "pencil_case_with_contents",
+    "type": "item_group",
+    "container-item": "pencil_case",
+    "on_overflow": "spill",
+    "entries": [ { "group": "pencil_case_contents" } ]
+  },
+  {
+    "id": "pencil_case_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "pens", "prob": 90 },
+      { "group": "pens", "prob": 30 },
+      { "item": "pencil", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "scissors_child", "prob": 50 },
+      { "item": "eraser", "prob": 50 },
+      { "item": "sharpener", "prob": 50 },
+      { "item": "ruler", "prob": 50 }
+    ]
   }
 ]

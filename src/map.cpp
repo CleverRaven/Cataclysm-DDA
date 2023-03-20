@@ -585,17 +585,21 @@ void map::vehmove()
         }
     }
     dirty_vehicle_list.clear();
-    std::set<vehicle *> origins;
+    std::map<vehicle *, bool> vehs; // value true means in on map
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
         const level_cache *cache = get_cache_lazy( zlev );
-        if( cache ) {
-            for( vehicle *veh : cache->vehicle_list ) {
-                origins.emplace( veh );
+        if( !cache ) {
+            continue;
+        }
+        for( vehicle *veh : cache->vehicle_list ) {
+            vehs[veh] = true; // force on map vehicles to true
+            for( const std::pair<vehicle *const, float> &pair : veh->search_connected_vehicles() ) {
+                vehs.emplace( pair.first, false ); // add with 'false' if does not exist (off map)
             }
         }
     }
-    for( const std::pair<vehicle *const, bool> &veh_pair : vehicle::enumerate_vehicles( origins ) ) {
-        veh_pair.first->idle( veh_pair.second );
+    for( const std::pair<vehicle *const, bool> &veh_pair : vehs ) {
+        veh_pair.first->idle( /* on_map = */ veh_pair.second );
     }
 
     // refresh vehicle zones for moved vehicles
@@ -775,8 +779,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     }
 
     // If not enough wheels, mess up the ground a bit.
-    if( !vertical && !veh.valid_wheel_config() && !veh.is_in_water() && !veh.is_flying_in_air() &&
-        dp.z == 0 ) {
+    if( !vertical && !veh.valid_wheel_config() && !( veh.is_watercraft() && veh.can_float() ) &&
+        !veh.is_flying_in_air() && dp.z == 0 ) {
         veh.velocity += veh.velocity < 0 ? 2000 : -2000;
         for( const tripoint &p : veh.get_points() ) {
             const ter_id &pter = ter( p );
@@ -1220,13 +1224,13 @@ void map::board_vehicle( const tripoint &pos, Character *p )
         }
         return;
     }
-    if( vp->part().has_flag( vehicle_part::passenger_flag ) ) {
+    if( vp->part().has_flag( vp_flag::passenger_flag ) ) {
         Character *psg = vp->vehicle().get_passenger( vp->part_index() );
         debugmsg( "map::board_vehicle: passenger (%s) is already there",
                   psg ? psg->get_name() : "<null>" );
         unboard_vehicle( pos );
     }
-    vp->part().set_flag( vehicle_part::passenger_flag );
+    vp->part().set_flag( vp_flag::passenger_flag );
     vp->part().passenger_id = p->getID();
     vp->vehicle().invalidate_mass();
 
@@ -1240,7 +1244,7 @@ void map::board_vehicle( const tripoint &pos, Character *p )
 void map::unboard_vehicle( const vpart_reference &vp, Character *passenger, bool dead_passenger )
 {
     // Mark the part as un-occupied regardless of whether there's a live passenger here.
-    vp.part().remove_flag( vehicle_part::passenger_flag );
+    vp.part().remove_flag( vp_flag::passenger_flag );
     vp.vehicle().invalidate_mass();
 
     if( !passenger ) {
@@ -1376,7 +1380,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
                 debugmsg( "Empty passenger for part #%d at %d,%d,%d player at %d,%d,%d?",
                           prt, part_pos.x, part_pos.y, part_pos.z,
                           player_character.posx(), player_character.posy(), player_character.posz() );
-                veh.part( prt ).remove_flag( vehicle_part::passenger_flag );
+                veh.part( prt ).remove_flag( vp_flag::passenger_flag );
                 r.moved = true;
                 continue;
             }
@@ -5212,7 +5216,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                     ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                        const int missing = cur_veh.discharge_battery( 1, true );
+                        const int missing = cur_veh.discharge_battery( 1 );
                         // Around 85% efficient; a few of the discharges don't actually recharge
                         if( missing == 0 && !one_in( 7 ) ) {
                             if( n.is_vehicle_battery() ) {
