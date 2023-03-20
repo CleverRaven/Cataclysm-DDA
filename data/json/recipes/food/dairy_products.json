@@ -144,12 +144,13 @@
       { "proficiency": "prof_cheesemaking_1" },
       { "proficiency": "prof_cheesemaking_2" }
     ],
-    "tools": [
-      [ [ "water_boiling_heat", 2, "LIST" ] ],
-      [ [ "colander_steel", -1 ] ],
-      [ [ "cotton_patchwork", -1 ] ]
-    ],
-    "components": [ [ [ "milk", 10 ], [ "milk_raw", 10 ] ], [ [ "vinegar", 1 ], [ "chem_citric_acid", 1 ] ], [ [ "salt", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ], [ [ "colander_steel", -1 ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "components": [
+      [ [ "milk", 10 ], [ "milk_raw", 10 ] ],
+      [ [ "vinegar", 1 ], [ "chem_citric_acid", 1 ] ],
+      [ [ "salt", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
