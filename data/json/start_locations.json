@@ -639,7 +639,7 @@
     "type": "start_location",
     "ident": "sloc_memorial_hospital",
     "name": "Memorial Hospital",
-    "terrain": [ "Hospital_2_4" ]
+    "terrain": [ "Hospital_2_Floor2_7" ]
   },
   {
     "type": "start_location",

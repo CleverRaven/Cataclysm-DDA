@@ -220,7 +220,8 @@
         { "monster": "GROUP_ZOMBIE_COP", "x": [ 48, 55 ], "y": [ 27, 31 ], "density": 0.2 }
       ],
       "palettes": [ "med_sec_prison_palette" ],
-      "terrain": { " ": "t_open_air" }
+      "terrain": { " ": "t_open_air" },
+      "place_zones": [ { "type": "ZONE_START_POINT", "faction": "your_followers", "x": [ 54, 56 ], "y": [ 41, 45 ] } ]
     }
   },
   {

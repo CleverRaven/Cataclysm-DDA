@@ -58,7 +58,8 @@
       "sloc_school",
       "sloc_hotel_rooftop",
       "sloc_office_tower_rooftop",
-      "sloc_cathedral_rooftop"
+      "sloc_cathedral_rooftop",
+      "sloc_tenement_apartments"
     ],
     "start_name": "In Large Building",
     "flags": [ "CITY_START", "LONE_START" ]
@@ -457,7 +458,7 @@
     "name": "Challenge - Abandoned",
     "points": -8,
     "description": "Sickly and frail, you have spent most of your life in the patient's ward of the hospital.  When yours was evacuated, you were left behind because you were a lost cause.  You awaken to the sound of movement around the hospital.",
-    "allowed_locs": [ "sloc_hospital" ],
+    "allowed_locs": [ "sloc_hospital", "sloc_memorial_hospital" ],
     "start_name": "Hospital",
     "forced_traits": [ "FLIMSY2" ],
     "forbidden_traits": [ "TOUGH", "DISRESISTANT" ],
@@ -470,7 +471,7 @@
     "name": "Prison",
     "points": -4,
     "description": "When the Cataclysm happened, you were convicted or working in a prison.  Now the prisoners have turned into mindless horrors and the police officers joined hands with them… you might need to expedite your escape plans.",
-    "allowed_locs": [ "sloc_prison" ],
+    "allowed_locs": [ "sloc_prison", "sloc_medium_sec_prison" ],
     "start_name": "Prison",
     "professions": [
       "convict",
@@ -870,38 +871,5 @@
     "allowed_locs": [ "nuclear_plant" ],
     "professions": [ "electrician", "labtech", "medic" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
-  },
-  {
-    "type": "scenario",
-    "ident": "medium_sec_prison",
-    "name": "Medium-Security Prison",
-    "points": -3,
-    "description": "You were serving at a prison, when the world outside fell apart. Now it's up to you to escape.",
-    "allowed_locs": [ "sloc_medium_sec_prison" ],
-    "start_name": "Medium-Security Prison",
-    "professions": [ "convict", "convict_embezzler", "convict_political", "convict_ratman", "k9_cop", "cop" ],
-    "flags": [ "CITY_START", "LONE_START" ]
-  },
-  {
-    "type": "scenario",
-    "ident": "memorial_hospital",
-    "name": "Memorial Hospital",
-    "points": -2,
-    "description": "You awake from a coma 28 days after the Cataclysm, dressed only in a medical gown.",
-    "allowed_locs": [ "sloc_memorial_hospital" ],
-    "start_name": "Memorial Hospital",
-    "professions": [ "unemployed", "tweaker", "medic", "patient", "cop", "security", "gangster" ],
-    "flags": [ "CITY_START", "LONE_START" ]
-  },
-  {
-    "type": "scenario",
-    "ident": "tenement_apartments",
-    "name": "Tenement Apartments",
-    "points": 1,
-    "description": "Surrounded by the wailing of the dead, you are caught in a crowded apartment.",
-    "allowed_locs": [ "sloc_tenement_apartments" ],
-    "start_name": "Tenement Resident",
-    "professions": [ "unemployed", "tweaker", "cop", "security", "gangster" ],
-    "flags": [ "CITY_START", "LONE_START" ]
   }
 ]
