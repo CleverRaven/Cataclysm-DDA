@@ -4807,7 +4807,23 @@ units::volume map::free_volume( const tripoint_bub_ms &p )
     return free_volume( p.raw() );
 }
 
+item_location map::add_item_ret_loc( const tripoint &pos, item obj, bool overflow )
+{
+    std::pair<item *, tripoint> ret = _add_item_or_charges( pos, std::move( obj ), overflow );
+    if( ret.first != nullptr && !ret.first->is_null() ) {
+        return item_location { map_cursor{ ret.second }, ret.first };
+    }
+
+    return {};
+}
+
 item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
+{
+    return *_add_item_or_charges( pos, std::move( obj ), overflow ).first;
+}
+
+std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item obj,
+        bool overflow )
 {
     // Checks if item would not be destroyed if added to this tile
     auto valid_tile = [&]( const tripoint & e ) {
@@ -4850,17 +4866,17 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     };
 
     if( item_is_blacklisted( obj.typeId() ) ) {
-        return null_item_reference();
+        return { &null_item_reference(), tripoint_min };
     }
 
     // Some items never exist on map as a discrete item (must be contained by another item)
     if( obj.has_flag( flag_NO_DROP ) ) {
-        return null_item_reference();
+        return { &null_item_reference(), tripoint_min };
     }
 
     // If intended drop tile destroys the item then we don't attempt to overflow
     if( !valid_tile( pos ) ) {
-        return null_item_reference();
+        return { &null_item_reference(), tripoint_min };
     }
 
     if( ( !has_flag( ter_furn_flag::TFLAG_NOITEM, pos ) ||
@@ -4869,12 +4885,12 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
         if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
             if( obj.on_drop( pos, *this ) ) {
-                return null_item_reference();
+                return { &null_item_reference(), tripoint_min };
             }
 
         }
         // If tile can contain items place here...
-        return place_item( pos );
+        return { &place_item( pos ), pos };
 
     } else if( overflow ) {
         // ...otherwise try to overflow to adjacent tiles (if permitted)
@@ -4894,7 +4910,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             }
             if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
                 if( obj.on_drop( e, *this ) ) {
-                    return null_item_reference();
+                    return { &null_item_reference(), tripoint_min };
                 }
             }
 
@@ -4902,12 +4918,12 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
                 has_flag( ter_furn_flag::TFLAG_NOITEM, e ) || has_flag( ter_furn_flag::TFLAG_SEALED, e ) ) {
                 continue;
             }
-            return place_item( e );
+            return { &place_item( e ), e };
         }
     }
 
     // failed due to lack of space at target tile (+/- overflow tiles)
-    return null_item_reference();
+    return { &null_item_reference(), tripoint_min };
 }
 
 item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow )
