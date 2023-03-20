@@ -10,8 +10,8 @@
     "coverage": 55,
     "flags": [ "FLAMMABLE", "NOITEM", "DOOR", "WALL", "REDUCE_SCENT", "BLOCK_WIND", "BURROWABLE" ],
     "bash": {
-      "str_min": 24,
-      "str_max": 150,
+      "str_min": 300,
+      "str_max": 400,
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_null",

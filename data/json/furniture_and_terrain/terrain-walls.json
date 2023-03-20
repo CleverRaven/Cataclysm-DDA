@@ -2229,8 +2229,8 @@
     "coverage": 100,
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "CONNECT_WITH_WALL", "WALL", "BLOCK_WIND" ],
     "bash": {
-      "str_min": 35,
-      "str_max": 150,
+      "str_min": 350,
+      "str_max": 500,
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_null",
