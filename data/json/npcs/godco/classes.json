@@ -992,7 +992,7 @@
     "type": "item_group",
     "id": "GODCO_tom_carried",
     "subtype": "collection",
-    "entries": [ { "group": "full_survival_kit" }, { "item": "mre_hotdog_box" } ]
+    "entries": [ { "group": "full_survival_kit" } ]
   },
   {
     "type": "item_group",
