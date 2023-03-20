@@ -213,7 +213,7 @@
   {
     "id": "dinosuit_head",
     "type": "ARMOR",
-    "name": { "str": "dinosaur suit head", "str_pl": "dinosaur suit heads" },
+    "name": { "str": "dinosaur suit head" },
     "description": "A large head of a full-body costume in the form of an anthropomorphic dinosaur.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
@@ -295,7 +295,7 @@
   {
     "id": "sharksuit_head",
     "type": "ARMOR",
-    "name": { "str": "shark suit head", "str_pl": "shark suit heads" },
+    "name": { "str": "shark suit head" },
     "description": "A large head of a full-body costume in the form of an anthropomorphic bull shark.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
@@ -377,7 +377,7 @@
   {
     "id": "dragonsuit_head",
     "type": "ARMOR",
-    "name": { "str": "dragon suit head", "str_pl": "dragon suit heads" },
+    "name": { "str": "dragon suit head" },
     "description": "A large head of a cartoonish recreation of a western dragon remade into a suit.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
@@ -459,7 +459,7 @@
   {
     "id": "felinesuit_head",
     "type": "ARMOR",
-    "name": { "str": "feline suit head", "str_pl": "feline suit heads" },
+    "name": { "str": "feline suit head" },
     "description": "A large head of a full-body fursuit made to resemble an anthropomorphic feline of indistinguishable breed.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
@@ -541,7 +541,7 @@
   {
     "id": "foxsuit_head",
     "type": "ARMOR",
-    "name": { "str": "fox suit head", "str_pl": "fox suit heads" },
+    "name": { "str": "fox suit head" },
     "description": "A large head of a full-body fursuit made to resemble an anthropomorphic fox with orange fur and white markings.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
@@ -852,7 +852,7 @@
   {
     "id": "wolfsuit_head",
     "type": "ARMOR",
-    "name": { "str": "wolf suit head", "str_pl": "wolf suit heads" },
+    "name": { "str": "wolf suit head" },
     "description": "A large head of a full-body fursuit in the form of an anthropomorphic wolf.  It is quite encumbering but is very warm.",
     "weight": "3000 g",
     "volume": "3 L",
