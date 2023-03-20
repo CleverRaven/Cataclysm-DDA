@@ -464,14 +464,51 @@ void effect_on_conditions::load( const JsonObject &jo, const std::string &src )
 
 void eoc_events::notify( const cata::event &e )
 {
-    avatar &player_character = get_avatar();
-    dialogue d( get_talker_for( player_character ), nullptr );
+    if( !has_cached ) {
 
-    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
-        if( eoc.type == eoc_type::EVENT ) {
-            if( e.type() == eoc.required_event ) {
-                eoc.activate( d );
+        // initialize all events to an empty vector
+        for( event_type et = ( event_type )0; et < event_type::num_event_types;
+             et = static_cast<event_type>( ( size_t )et + 1 ) ) {
+
+            event_EOCs[et] = std::vector<effect_on_condition>();
+        }
+
+        //create a cache for the specific types of EOC's so they aren't constantly all itterated through
+        for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+            if( eoc.type == eoc_type::EVENT ) {
+                event_EOCs[eoc.required_event].emplace_back( eoc );
             }
         }
+
+        has_cached = true;
+    }
+
+    for( const effect_on_condition &eoc : event_EOCs[e.type()] ) {
+        // try to assign a character for the EOC
+        // TODO: refactor event_spec to take consistent inputs
+        npc *alpha_talker;
+        const std::vector<std::string> potential_alphas = { "avatar_id", "character", "attacker", "killer", "npc"};
+        for( std::string potential_key : potential_alphas ) {
+            cata_variant cv = e.get_variant_or_void( potential_key );
+            if( cv != cata_variant() ) {
+                character_id potential_id = cv.get<cata_variant_type::character_id>();
+                if( potential_id.is_valid() ) {
+                    alpha_talker = g->find_npc( potential_id );
+                    // if we find a successful entry exit early
+                    break;
+                }
+            }
+        }
+        dialogue d;
+        // if we have an NPC to trigger this event for, do so,
+        // otherwise fallback to having it effect the player
+        if( alpha_talker ) {
+            d = dialogue( get_talker_for( alpha_talker ), nullptr );
+        } else {
+            avatar &player_character = get_avatar();
+            d = dialogue( get_talker_for( player_character ), nullptr );
+        }
+
+        eoc.activate( d );
     }
 }

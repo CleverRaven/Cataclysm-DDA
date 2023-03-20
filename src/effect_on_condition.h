@@ -31,6 +31,10 @@ class eoc_events : public event_subscriber
 {
     public:
         void notify( const cata::event &e ) override;
+
+    private:
+        std::map<event_type, std::vector<effect_on_condition>> event_EOCs;
+        bool has_cached = false;
 };
 
 struct effect_on_condition {
