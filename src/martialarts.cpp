@@ -950,7 +950,7 @@ bool ma_buff::is_stealthy() const
 
 bool ma_buff::has_flag( const json_character_flag &flag ) const
 {
-    for( const json_character_flag q : flags ) {
+    for( const json_character_flag &q : flags ) {
         if( q == flag ) {
             return true;
         }
