@@ -1106,7 +1106,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
 
         width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) :
                 FULL_SCREEN_WIDTH;
-        const unsigned int header_info_width = width - FULL_SCREEN_WIDTH - 1;
+        const unsigned int header_info_width = std::max( width / 4, width - FULL_SCREEN_WIDTH - 1 );
         const int wStart = ( TERMX - width ) / 2;
 
         // Keybinding tips
