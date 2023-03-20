@@ -316,7 +316,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 450,
-    "description": "Fried mozzarella cheese sticks. Yum. It lacks sauce though.",
+    "description": "Fried mozzarella cheese sticks, Yum.  It lacks sauce though.",
     "price": 550,
     "price_postapoc": 400,
     "material": [ "milk" ],
