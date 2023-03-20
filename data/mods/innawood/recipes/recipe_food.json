@@ -557,7 +557,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
       [ [ "meat_offal", 2, "LIST" ] ],
       [ [ "vinegar", 1 ] ]
     ]
@@ -581,7 +581,7 @@
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
       [ [ "water", 6 ], [ "water_clean", 6 ], [ "salt_water", 6 ], [ "saline", 30 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "meat_offal", 12, "LIST" ] ],
       [ [ "vinegar", 6 ] ]
     ]

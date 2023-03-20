@@ -1226,7 +1226,7 @@
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       [ "sewage", 60 ],
-      [ "improvised_pipebomb", 4 ],
+      [ "pipebomb", 4 ],
       { "item": "crack", "prob": 8, "charges": [ 1, 4 ] },
       [ "crackpipe", 37 ],
       { "item": "lsd", "prob": 10, "charges": [ 1, 5 ] },
