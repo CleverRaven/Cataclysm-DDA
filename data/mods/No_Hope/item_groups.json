@@ -328,6 +328,14 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_zombie_flamer",
+    "ammo": 50,
+    "magazine": 100,
+    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
+  },
+  {
+    "type": "item_group",
     "id": "bunker_basement_loot",
     "subtype": "distribution",
     "copy-from": "bunker_basement_loot",
