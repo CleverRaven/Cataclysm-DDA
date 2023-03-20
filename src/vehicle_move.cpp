@@ -116,7 +116,7 @@ int vehicle::slowdown( int at_velocity ) const
                    "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
                    name, at_velocity, f_total_drag, slowdown, units::to_watt( static_drag() ) );
     // plows slow rolling vehicles, but not falling or floating vehicles
-    if( !( is_falling || is_floating || is_flying ) ) {
+    if( !( is_falling || ( is_watercraft() && can_float() ) || is_flying ) ) {
         slowdown -= units::to_watt( static_drag() );
     }
 
@@ -437,9 +437,9 @@ void vehicle::thrust( int thd, int z )
     bool pl_ctrl = player_in_control( get_player_character() );
 
     // No need to change velocity if there are no wheels
-    if( ( in_water && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
+    if( ( is_watercraft() && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
         // we're good
-    } else if( is_floating && !can_float() ) {
+    } else if( in_deep_water && !can_float() ) {
         stop();
         if( pl_ctrl ) {
             add_msg( _( "The %s is too leaky!" ), name );
@@ -1790,7 +1790,7 @@ vehicle *vehicle::act_on_map()
     Character &player_character = get_player_character();
     const bool pl_ctrl = player_in_control( player_character );
     // TODO: Remove this hack, have vehicle sink a z-level
-    if( is_floating && !can_float() ) {
+    if( in_deep_water && !can_float() ) {
         add_msg( m_bad, _( "Your %s sank." ), name );
         if( pl_ctrl ) {
             unboard_all();
@@ -1884,8 +1884,8 @@ vehicle *vehicle::act_on_map()
 
         // Eventually send it skidding if no control
         // But not if it's remotely controlled, is in water or can use rails
-        if( !controlled && !pl_ctrl && !is_floating && !can_use_rails && !is_flying &&
-            requested_z_change == 0 ) {
+        if( !controlled && !pl_ctrl && !( is_watercraft() && can_float() ) && !can_use_rails &&
+            !is_flying && requested_z_change == 0 ) {
             skidding = true;
         }
     }
@@ -2006,7 +2006,7 @@ void vehicle::check_falling_or_floating()
     // If we're flying none of the rest of this matters.
     if( is_flying && is_rotorcraft() ) {
         is_falling = false;
-        is_floating = false;
+        in_deep_water = false;
         in_water = false;
         return;
     }
@@ -2044,7 +2044,7 @@ void vehicle::check_falling_or_floating()
         static_cast<size_t>( supported_wheels ) * 2 >= wheelcache.size() ) {
         is_falling = false;
         in_water = false;
-        is_floating = false;
+        in_deep_water = false;
         return;
     }
     // TODO: Make the vehicle "slide" towards its center of weight
@@ -2053,7 +2053,7 @@ void vehicle::check_falling_or_floating()
     if( pts.empty() ) {
         // Dirty vehicle with no parts
         is_falling = false;
-        is_floating = false;
+        in_deep_water = false;
         in_water = false;
         is_flying = false;
         return;
@@ -2069,8 +2069,8 @@ void vehicle::check_falling_or_floating()
         }
         is_falling = !has_support( position, true );
     }
-    // floating if 2/3rds of the vehicle is in deep water
-    is_floating = 3 * deep_water_tiles >= 2 * pts.size();
+    // in_deep_water if 2/3 of the vehicle is in deep water
+    in_deep_water = 3 * deep_water_tiles >= 2 * pts.size();
     // in_water if 1/2 of the vehicle is in water at all
     in_water =  2 * water_tiles >= pts.size();
 }

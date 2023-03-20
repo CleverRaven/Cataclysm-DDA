@@ -1490,6 +1490,11 @@ class vehicle
          * is the vehicle mostly in water or mostly on fairly dry land?
          */
         bool is_in_water( bool deep_water = false ) const;
+        /**
+         * should vehicle be handled using watercraft logic
+         * as determined by amount of water it is in (and whether it is amphibious)
+         * result being true does not guarantee it is viable boat -- check @ref can_float()
+         */
         bool is_watercraft() const;
         /**
          * is the vehicle flying? is it a rotorcraft?
@@ -2122,9 +2127,11 @@ class vehicle
         // and that's the bit that controls recalculation.  The intent is to only recalculate
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true; // NOLINT(cata-serialize)
-        // is the vehicle currently mostly in deep water
-        mutable bool is_floating = false;
-        // is the vehicle currently mostly in water
+        // is at least 2/3 of the vehicle on deep water tiles
+        // -- this is the "sink or swim" threshold
+        mutable bool in_deep_water = false;
+        // is at least 1/2 of the vehicle on water tiles
+        // -- fordable for ground vehicles; non-amphibious boats float
         mutable bool in_water = false;
         // is the vehicle currently flying
         mutable bool is_flying = false;
