@@ -533,11 +533,12 @@
       { "group": "nested_sharps", "prob": 15 },
       { "group": "nested_weatherby_5", "prob": 15 },
       { "group": "nested_hk417_13", "prob": 40 },
-      { "group": "nested_ar15_retool_300blk", "prob": 15 },
       { "group": "nested_iwi_tavor_x95_300blk", "prob": 10 },
       { "group": "nested_hk_usc45", "prob": 20 },
       { "group": "nested_savage112", "prob": 15 },
-      { "group": "nested_mrad_smr", "prob": 6 }
+      { "group": "nested_mrad_smr", "prob": 6 },
+      { "group": "nested_axmc", "prob": 6 },
+      { "group": "nested_converted_axmc", "prob": 3 }
     ]
   },
   {
@@ -572,8 +573,10 @@
       { "item": "mdrx", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "m1carbine", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mrad_smr", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "axmc", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "group": "nested_ar15_with_kits", "prob": 15 },
-      { "group": "nested_mdrx_with_kits", "prob": 10 }
+      { "group": "nested_mdrx_with_kits", "prob": 10 },
+      { "group": "nested_axmc_with_kits", "prob": 10 }
     ]
   },
   {
@@ -1177,6 +1180,7 @@
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 8 },
       { "item": "m4_carbine", "variant": "m4a1", "prob": 35, "charges-min": 0, "charges-max": 30 },
       { "item": "as50", "prob": 5, "charges-min": 0, "charges-max": 10 },
+      { "item": "axmc", "prob": 10, "charges-min": 0, "charges-max": 10 },
       { "item": "hk417_13", "prob": 30, "charges-min": 0, "charges-max": 20 }
     ]
   },

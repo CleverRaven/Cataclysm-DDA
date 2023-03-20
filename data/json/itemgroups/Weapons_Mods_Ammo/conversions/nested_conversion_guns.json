@@ -116,6 +116,34 @@
     ]
   },
   {
+    "id": "nested_axmc_retool_308win",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "//2": "groups together all identical weapons rechambered for the same caliber and converted with different barrel-lengths.",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "axmc_308", "charges-min": 0, "charges-max": 10 },
+      { "item": "ai_308mag_10" },
+      { "item": "ai_308mag_10", "prob": 50 },
+      { "group": "on_hand_308" }
+    ]
+  },
+  {
+    "id": "nested_axmc_retool_300win",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "//2": "groups together all identical weapons rechambered for the same caliber and converted with different barrel-lengths.",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "axmc_300", "charges-min": 0, "charges-max": 10 },
+      { "item": "ai_338mag_10" },
+      { "item": "ai_338mag_10", "prob": 50 },
+      { "group": "on_hand_300" }
+    ]
+  },
+  {
     "type": "item_group",
     "subtype": "collection",
     "id": "nested_converted_ar15",
@@ -143,6 +171,18 @@
           { "group": "nested_mdrx_retool_300blk", "prob": 20 },
           { "group": "nested_mdrx_retool_308win", "prob": 15 }
         ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_converted_axmc",
+    "//": "An item group for a random, personally-converted weapon to spawn.",
+    "entries": [
+      {
+        "distribution": [ { "group": "nested_axmc_retool_300win", "prob": 20 }, { "group": "nested_axmc_retool_308win", "prob": 20 } ],
         "prob": 100
       }
     ]

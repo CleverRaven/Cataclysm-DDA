@@ -129,6 +129,20 @@
   },
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_contents_axmc_300win",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_axmc_300win" }, { "item": "ai_338mag_10", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_contents_axmc_308win",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_axmc_308win" }, { "item": "ai_308mag_10", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
     "id": "boxed_223rem_ar15kit",
     "//": "A complete and appropriately boxed conversion kit.",
     "subtype": "collection",
@@ -234,6 +248,20 @@
   },
   {
     "type": "item_group",
+    "id": "boxed_300win_axmckit",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool_huge", "contents-group": "nested_contents_axmc_300win" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_308win_axmckit",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool_huge", "contents-group": "nested_contents_axmc_308win" } ]
+  },
+  {
+    "type": "item_group",
     "subtype": "collection",
     "id": "boxed_ar15kits",
     "//": "An item group for a specific weapon platform’s possible conversion kits .",
@@ -276,6 +304,18 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "boxed_axmckits",
+    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "entries": [
+      {
+        "distribution": [ { "group": "boxed_300win_axmckit", "prob": 30 }, { "group": "boxed_308win_axmckit", "prob": 30 } ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "nested_ar15_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
     "entries": [ { "group": "boxed_ar15kits" }, { "item": "ar15", "charges-min": 0, "charges-max": 0 } ]
@@ -290,11 +330,22 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "nested_axmc_with_kits",
+    "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
+    "entries": [ { "group": "boxed_axmckits" }, { "item": "axmc", "charges-min": 0, "charges-max": 0 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "conversion_kits",
     "//": "An item group for a randomly selected conversion kit to spawn, regardless of type. Intended for use in gun stores and other sensible locations.",
     "entries": [
       {
-        "distribution": [ { "group": "boxed_ar15kits", "prob": 30 }, { "group": "boxed_mdrxkits", "prob": 15 } ],
+        "distribution": [
+          { "group": "boxed_ar15kits", "prob": 30 },
+          { "group": "boxed_mdrxkits", "prob": 15 },
+          { "group": "boxed_axmckits", "prob": 5 }
+        ],
         "prob": 100
       }
     ]

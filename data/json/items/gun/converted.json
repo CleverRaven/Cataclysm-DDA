@@ -89,5 +89,19 @@
     "type": "GUN",
     "name": { "str": "Desert Tech MDRX" },
     "default_mods": [ "retool_mdrx_308win_medium" ]
+  },
+  {
+    "id": "axmc_300",
+    "copy-from": "axmc",
+    "type": "GUN",
+    "name": { "str": "Accuracy International AXMC" },
+    "default_mods": [ "retool_axmc_300win" ]
+  },
+  {
+    "id": "axmc_308",
+    "copy-from": "axmc",
+    "type": "GUN",
+    "name": { "str": "Accuracy International AXMC" },
+    "default_mods": [ "retool_axmc_308win" ]
   }
 ]
