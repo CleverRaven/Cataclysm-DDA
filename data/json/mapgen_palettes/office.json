@@ -31,7 +31,7 @@
       "-": "t_door_metal_c",
       "E": "t_elevator",
       "G": "t_door_glass_c",
-      "R": "t_railing",
+      "R": "t_glass_railing",
       "s": "t_concrete",
       "V": "t_wall_glass",
       "w": "t_window",
@@ -61,14 +61,14 @@
       "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "r": "f_rack",
       "S": "f_sink",
-      "T": "f_toilet",
       "O": [ [ "f_cardboard_box", 6 ], "f_crate_c" ],
       "a": "f_trashcan",
       "f": "f_filing_cabinet",
       "Q": "f_safe_l",
       "x": "f_console_broken",
       "y": "f_locker",
-      "B": "f_bulletin"
+      "B": "f_bulletin",
+      "A": "f_bookcase"
     },
     "items": {
       "d": { "item": "SUS_office_desk", "chance": 40 },
@@ -80,6 +80,7 @@
       "a": { "item": "trash", "chance": 70, "repeat": [ 1, 3 ] },
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
       "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
+      "A": { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] },
       ".": { "item": "office_mess", "chance": 1 }
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
