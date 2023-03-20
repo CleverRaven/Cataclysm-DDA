@@ -972,7 +972,7 @@ static bool are_requirements_nearby(
             const cata::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
 
             if( vp ) {
-                const int veh_battery = vp->vehicle().fuel_left( itype_battery, true );
+                const int veh_battery = vp->vehicle().fuel_left( itype_battery );
 
                 item welder( itype_welder, calendar::turn_zero );
                 welder.charges = veh_battery;
@@ -1342,7 +1342,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             if( i.is_disassemblable() ) {
                 // Are the requirements fulfilled?
                 const recipe &r = recipe_dictionary::get_uncraft( ( i.typeId() == itype_disassembly ) ?
-                                  i.components.front().typeId() : i.typeId() );
+                                  i.components.only_item().typeId() : i.typeId() );
                 req = r.disassembly_requirements();
                 if( !std::all_of( req.get_qualities().begin(),
                 req.get_qualities().end(), [&inv]( const std::vector<quality_requirement> &cur ) {

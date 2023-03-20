@@ -251,6 +251,10 @@ class bookbinder_copy_activity_actor: public activity_actor
             return rec_id == act.rec_id && book_binder == act.book_binder;
         }
 
+        static int pages_for_recipe( const recipe &r ) {
+            return 1 + r.difficulty / 2;
+        }
+
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character &p ) override;
         void finish( player_activity &act, Character &p ) override;
@@ -712,10 +716,10 @@ class consume_activity_actor : public activity_actor
             type( type ) {}
 
         explicit consume_activity_actor( const item_location &consume_location ) :
-            consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
+            consume_location( consume_location ) {}
 
         explicit consume_activity_actor( const item &consume_item ) :
-            consume_item( consume_item ), consume_menu_selections( std::vector<int>() ) {}
+            consume_item( consume_item ) {}
 
         activity_id get_type() const override {
             return activity_id( "ACT_CONSUME" );

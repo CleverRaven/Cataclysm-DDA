@@ -731,7 +731,7 @@ static bool assert_maximum_density_for_material( const item &target )
     const std::map<material_id, int> &mats = target.made_of();
     if( !mats.empty() && test_data::known_bad.count( target.typeId() ) == 0 ) {
         const float max_density = max_density_for_mats( mats, target.type->mat_portion_total );
-        INFO( target.typeId() );
+        CAPTURE( target.typeId(), target.weight(), target.volume() );
         CHECK( item_density( target ) <= max_density );
 
         return item_density( target ) > max_density;

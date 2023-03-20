@@ -83,6 +83,20 @@ enum class mod_action : uint8_t {
     TICK,
 };
 
+// Limb score interactions
+struct limb_score_effect {
+    // Score id to affect
+    limb_score_id score_id;
+    // Multiplier to apply when not resisted
+    float mod;
+    float red_mod;
+    float scaling;
+    float red_scaling;
+
+    void load( const JsonObject &jo );
+    void deserialize( const JsonObject &jo );
+};
+
 class effect_type
 {
         friend void load_effect_type( const JsonObject &jo );
@@ -153,6 +167,7 @@ class effect_type
         }
         std::vector<enchantment_id> enchantments;
         cata::flat_set<json_character_flag> immune_flags;
+        cata::flat_set<json_character_flag> immune_bp_flags;
     protected:
         uint32_t get_effect_modifier_key( mod_action action, uint8_t reduction_level ) const {
             return static_cast<uint8_t>( action ) << 0 |
@@ -225,6 +240,7 @@ class effect_type
 
         std::unordered_map<std::string, std::unordered_map<uint32_t, modifier_value_arr>> mod_data;
         std::vector<vitamin_rate_effect> vitamin_data;
+        std::vector<limb_score_effect> limb_score_data;
         std::vector<std::pair<int, int>> kill_chance;
         std::vector<std::pair<int, int>> red_kill_chance;
 };
@@ -367,6 +383,9 @@ class effect
         /** Check if the effect has the specified flag */
         bool has_flag( const flag_id &flag ) const;
 
+        // Extract limb score modifiers for descriptions
+        std::vector<limb_score_effect> get_limb_score_data() const;
+
         bool kill_roll( bool reduced ) const;
         std::string get_death_message() const;
         event_type death_event() const;
@@ -396,6 +415,8 @@ class effect
 
         /** Returns if the effect is supposed to be handed in Creature::movement */
         bool impairs_movement() const;
+
+        float get_limb_score_mod( const limb_score_id &score, bool reduced = false ) const;
 
         /** Returns the effect's matching effect_type id. */
         const efftype_id &get_id() const {

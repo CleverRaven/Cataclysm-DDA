@@ -1189,7 +1189,8 @@
       "PADDED",
       "USE_UPS",
       "NO_UNLOAD",
-      "COMBAT_TOGGLEABLE"
+      "COMBAT_TOGGLEABLE",
+      "UNBREAKABLE_MELEE"
     ],
     "price": 50000000,
     "price_postapoc": 10000,
@@ -1200,19 +1201,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 5000 } } ],
     "ammo": "battery",
     "charges_per_use": 1,
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [
-            { "value": "CLIMATE_CONTROL_HEAT", "add": 50 },
-            { "value": "CLIMATE_CONTROL_CHILL", "add": 50 },
-            { "value": "FOOTSTEP_NOISE", "multiply": -0.67 }
-          ]
-        }
-      ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" }, { "id": "ench_dampened_steps" } ] },
     "use_action": [ "RM13ARMOR_OFF" ],
     "warmth": 30,
     "environmental_protection": 10,
@@ -1296,10 +1285,11 @@
       "PADDED",
       "USE_UPS",
       "NO_UNLOAD",
-      "COMBAT_TOGGLEABLE"
+      "COMBAT_TOGGLEABLE",
+      "UNBREAKABLE_MELEE"
     ],
     "material": [ "hyperweave_on", "carbide" ],
-    "turns_per_charge": 6,
+    "power_draw": "250 W",
     "revert_to": "rm13_armor",
     "use_action": [ "RM13ARMOR_ON" ],
     "environmental_protection": 40,
@@ -1321,7 +1311,7 @@
           { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "hyperweave_on", "covered_by_mat": 100, "thickness": 2.0 }
         ],
-        "encumbrance": 3,
+        "encumbrance": 10,
         "coverage": 100,
         "covers": [ "mouth", "head", "torso", "arm_l", "arm_r", "leg_l", "leg_r", "hand_l", "hand_r" ],
         "volume_encumber_modifier": 0
@@ -1331,7 +1321,7 @@
           { "type": "carbide", "covered_by_mat": 100, "thickness": 1.0 },
           { "type": "hyperweave_on", "covered_by_mat": 100, "thickness": 2.0 }
         ],
-        "encumbrance": 3,
+        "encumbrance": 10,
         "coverage": 100,
         "covers": [ "foot_l", "foot_r" ],
         "specifically_covers": [
@@ -1464,15 +1454,7 @@
       "NANOFAB_REPAIR",
       "PADDED"
     ],
-    "relic_data": {
-      "passive_effects": [
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
-    },
+    "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" } ] },
     "armor": [
       {
         "material": [ { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 } ],
@@ -2672,6 +2654,7 @@
     "color": "white",
     "warmth": 30,
     "material_thickness": 0.5,
+    "environmental_protection": 2,
     "use_action": {
       "target": "turtleneck",
       "menu_text": "Unroll neck",
@@ -2729,6 +2712,7 @@
     "color": "white",
     "warmth": 20,
     "material_thickness": 0.5,
+    "environmental_protection": 1,
     "use_action": {
       "target": "turtleneck_shirt",
       "menu_text": "Unroll neck",
@@ -3638,7 +3622,7 @@
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT", "ELECTRONIC" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
+    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
     "armor": [
       {
         "encumbrance": 20,
@@ -3656,7 +3640,7 @@
     "name": { "str": "battery powered utility exoskeleton (on)", "str_pl": "battery powered utility exoskeletons (on)" },
     "description": "This is a skeletal frame of sturdy metal with attached motors to allow the user to move heavier loads with less strain on the body.  It is turned on and continually drawing power.  Use it to turn it off.",
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "TRADER_AVOID" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
+    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
     "ammo": "battery",
     "power_draw": "972216 mW",
     "//": "Battery should last two hours (02:00:07). Weight capacity bonus should include weight of item AND battery, plus 90kg.",
@@ -3688,7 +3672,7 @@
     "charges_per_use": 1,
     "use_action": { "type": "transform", "msg": "The %s engages.", "target": "ice_utility_exoskeleton_on", "active": true },
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "SLOWS_MOVEMENT", "ELECTRONIC" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
+    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
     "armor": [
       {
         "encumbrance": 20,
@@ -3706,7 +3690,7 @@
     "name": { "str": "ICE utility exoskeleton (on)", "str_pl": "ICE utility exoskeletons (on)" },
     "description": "This is a skeletal frame of sturdy metal with attached motors to allow the user to move heavier loads with less strain on the body.  This model uses a compact internal combustion engine for power.  It is turned on and continually draining gasoline.  Use it to turn it off.",
     "flags": [ "STURDY", "OVERSIZE", "BELTED", "WATER_FRIENDLY", "TRADER_AVOID" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "STRENGTH", "add": 10 } ] } ] },
+    "relic_data": { "passive_effects": [ { "id": "ench_exo_strength" } ] },
     "turns_per_charge": 1,
     "//": "Full tank lasts a bit under three hours (166.66 minutes). Has less carry bonus than the battery one since the weight of the fuel will drop over time.",
     "revert_to": "ice_utility_exoskeleton_off",

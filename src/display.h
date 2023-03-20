@@ -151,10 +151,7 @@ std::pair<std::string, nc_color> temp_text_color( const Character &u,
 std::pair<std::string, nc_color> power_text_color( const Character &u );
 std::pair<std::string, nc_color> power_balance_text_color( const avatar &u );
 std::pair<std::string, nc_color> mana_text_color( const Character &you );
-std::pair<std::string, nc_color> str_text_color( const Character &p );
-std::pair<std::string, nc_color> dex_text_color( const Character &p );
-std::pair<std::string, nc_color> int_text_color( const Character &p );
-std::pair<std::string, nc_color> per_text_color( const Character &p );
+
 std::pair<std::string, nc_color> safe_mode_text_color( bool classic_mode );
 std::pair<std::string, nc_color> wind_text_color( const Character &u );
 std::pair<std::string, nc_color> weather_text_color( const Character &u );

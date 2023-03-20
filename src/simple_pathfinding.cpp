@@ -294,7 +294,7 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     constexpr int max_search_count = 100000;
 
     constexpr auto report_period = std::chrono::milliseconds( 100 );
-    auto report_next = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point report_next = std::chrono::steady_clock::now();
     int progress = 0;
     while( !open_set.empty() ) {
         const node_address cur_addr = open_set.top().addr;
