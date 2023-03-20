@@ -44,7 +44,7 @@ class talker_monster_const: public talker
 
         // effects and values
         bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
-        effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;        
+        effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
 
         std::string get_value( const std::string &var_name ) const override;
 
