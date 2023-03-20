@@ -4,6 +4,7 @@
     "type": "widget",
     "label": "Blood",
     "style": "text",
+    "flags": [ "W_DISABLED_WHEN_EMPTY" ],
     "clauses": [
       {
         "id": "slumber",
