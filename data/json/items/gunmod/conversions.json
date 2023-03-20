@@ -37,7 +37,7 @@
     "copy-from": "retool_ar15_223rem",
     "type": "GUNMOD",
     "name": { "str": "CQB .223 upper Receiver" },
-    "description": "This is a fully furnished and military-specification upper assembly for an AR-15-style carbine with a shortened 10.3-inch, 5.56mm barrel and includes a charging handle, forward assist, and bolt carrier group.  Given the right mechanical and weapon-related knowledge, it may be fitted or dismounted from the lower frame of a suitable rifle.",
+    "description": "This is a fully furnished and SOCOM-specification upper assembly for an AR-15-style carbine with a shortened 10.3-inch, 5.56mm barrel and includes a charging handle, forward assist, and bolt carrier group.  Given the right mechanical and weapon-related knowledge, it may be fitted or dismounted from the lower frame of a suitable rifle.",
     "weight": "1360 g",
     "longest_side": "337 mm",
     "integral_weight": "1360 g",
@@ -66,7 +66,7 @@
     "install_time": "5 m",
     "ammo_modifier": [ "300blk" ],
     "magazine_adaptor": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
-    "min_skills": [ [ "weapon", 3 ] ],
+    "min_skills": [ [ "weapon", 2 ] ],
     "add_mod": [ [ "brass catcher", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ], [ "muzzle", 1 ] ]
   },
   {

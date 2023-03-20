@@ -9,52 +9,63 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "nested_retool_300blk",
-    "//": "An assortment of different upper receiver kits, all of the same caliber, of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
-    "entries": [
-      {
-        "distribution": [
-          { "item": "retool_ar15_300blk", "prob": 10 },
-          { "item": "retool_ar15_300blk_medium", "prob": 10 },
-          { "item": "retool_ar15_300blk_short", "prob": 10 }
-        ],
-        "prob": 100
-      },
-      { "group": "nested_retool_extras" }
-    ]
+    "id": "nested_contents_223rem",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_ar15_223rem" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "nested_retool_223rem",
-    "//": "An assortment of different upper receiver kits, all of the same caliber, of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
-    "entries": [
-      {
-        "distribution": [
-          { "item": "retool_ar15_223rem", "prob": 10 },
-          { "item": "retool_ar15_223rem_medium", "prob": 10 },
-          { "item": "retool_ar15_223rem_short", "prob": 10 }
-        ],
-        "prob": 100
-      },
-      { "group": "nested_retool_extras" }
-    ]
+    "id": "nested_contents_223rem_medium",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_ar15_223rem_medium" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "nested_retool_50beowulf",
-    "//": "An assortment of different upper receiver kits, all of the same caliber, of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
+    "id": "nested_contents_223rem_short",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_ar15_223rem_short" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_contents_300blk",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_ar15_300blk" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_contents_300blk_medium",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_ar15_300blk_medium" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_contents_300blk_short",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_ar15_300blk_short" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_contents_50beowulf",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
     "entries": [
-      {
-        "distribution": [
-          { "item": "retool_ar15_50beowulf", "prob": 10 },
-          { "item": "retool_ar15_50beowulf_medium", "prob": 10 },
-          { "item": "retool_ar15_50beowulf_short", "prob": 10 }
-        ],
-        "prob": 100
-      },
+      { "item": "retool_ar15_50beowulf" },
       { "item": "50beowulf_ar15mag", "charges": 0 },
+      { "group": "nested_retool_extras" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_contents_50beowulf_medium",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [
+      { "item": "retool_ar15_50beowulf_medium" },
       { "item": "50beowulf_ar15mag", "charges": 0 },
       { "group": "nested_retool_extras" }
     ]
@@ -62,121 +73,219 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "nested_retool_mdrx223",
-    "//": "An assortment of different conversion kits, all of the same caliber, of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
+    "id": "nested_contents_50beowulf_short",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
     "entries": [
-      {
-        "distribution": [
-          { "item": "retool_mdrx_223rem", "prob": 10 },
-          { "item": "retool_mdrx_223rem_medium", "prob": 10 },
-          { "item": "retool_mdrx_223rem_short", "prob": 10 }
-        ],
-        "prob": 100
-      },
-      { "item": "stanag30", "charges": 0 },
+      { "item": "retool_ar15_50beowulf_short" },
+      { "item": "50beowulf_ar15mag", "charges": 0 },
       { "group": "nested_retool_extras" }
     ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "nested_retool_mdrx300blk",
-    "//": "An assortment of different conversion kits ), all of the same caliber (aka, one in this case), of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
-    "entries": [
-      { "distribution": [ { "item": "retool_mdrx_300blk", "prob": 10 } ], "prob": 100 },
-      { "item": "stanag30", "charges": 0 },
-      { "group": "nested_retool_extras" }
-    ]
+    "id": "nested_contents_mdrx_223rem",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_mdrx_223rem" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "nested_retool_mdrx308",
-    "//": "An assortment of different conversion kits, all of the same caliber, of which one will be selected to spawn within the conversion kit box. Also includes miscellaneous items packaged alongside.",
+    "id": "nested_contents_mdrx_223rem_medium",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_mdrx_223rem_medium" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_contents_mdrx_223rem_short",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_mdrx_223rem_short" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_contents_mdrx_300blk",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_mdrx_300blk" }, { "item": "stanag30", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_contents_mdrx_308win",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "entries": [ { "item": "retool_mdrx_308win" }, { "item": "ar10mag_20rd", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "nested_contents_mdrx_308win_medium",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
     "entries": [
-      {
-        "distribution": [ { "item": "retool_mdrx_308win", "prob": 10 }, { "item": "retool_mdrx_308win_medium", "prob": 10 } ],
-        "prob": 100
-      },
+      { "item": "retool_mdrx_308win_medium" },
       { "item": "ar10mag_20rd", "charges": 0 },
       { "group": "nested_retool_extras" }
     ]
   },
   {
     "type": "item_group",
-    "id": "boxed_300blk_ar15kit",
-    "//": "A complete and appropriately boxed conversion kit.",
-    "subtype": "collection",
-    "entries": [ { "item": "box_retool", "variant": "kit_300blk_ar15", "contents-group": "nested_retool_300blk" } ]
-  },
-  {
-    "type": "item_group",
     "id": "boxed_223rem_ar15kit",
     "//": "A complete and appropriately boxed conversion kit.",
     "subtype": "collection",
-    "entries": [ { "item": "box_retool", "variant": "kit_223rem_ar15", "contents-group": "nested_retool_223rem" } ]
+    "entries": [ { "item": "box_retool_large", "contents-group": "nested_contents_223rem" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_ar15kit_medium",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool_large", "contents-group": "nested_contents_223rem_medium" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_ar15kit_short",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool_sbr", "contents-group": "nested_contents_223rem_short" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300blk_ar15kit",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool_large", "contents-group": "nested_contents_300blk" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300blk_ar15kit_medium",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool_large", "contents-group": "nested_contents_300blk_medium" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_300blk_ar15kit_short",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool_sbr_micro", "contents-group": "nested_contents_300blk_short" } ]
   },
   {
     "type": "item_group",
     "id": "boxed_50beowulf_ar15kit",
     "//": "A complete and appropriately boxed conversion kit.",
     "subtype": "collection",
-    "entries": [ { "item": "box_retool", "variant": "kit_50beowulf_ar15", "contents-group": "nested_retool_50beowulf" } ]
+    "entries": [ { "item": "box_retool_large", "contents-group": "nested_contents_50beowulf" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_50beowulf_ar15kit_medium",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool_large", "contents-group": "nested_contents_50beowulf_medium" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_50beowulf_ar15kit_short",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool_sbr_micro", "contents-group": "nested_contents_50beowulf_short" } ]
   },
   {
     "type": "item_group",
     "id": "boxed_223rem_mdrxkit",
     "//": "A complete and appropriately boxed conversion kit.",
     "subtype": "collection",
-    "entries": [ { "item": "box_retool", "variant": "kit_223rem_mdrx", "contents-group": "nested_retool_mdrx223" } ]
+    "entries": [ { "item": "box_retool_large", "contents-group": "nested_contents_mdrx_223rem" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_mdrxkit_medium",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool", "contents-group": "nested_contents_mdrx_223rem_medium" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_223rem_mdrxkit_short",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool_sbr", "contents-group": "nested_contents_mdrx_223rem_short" } ]
   },
   {
     "type": "item_group",
     "id": "boxed_308win_mdrxkit",
     "//": "A complete and appropriately boxed conversion kit.",
     "subtype": "collection",
-    "entries": [ { "item": "box_retool", "variant": "kit_308win_mdrx", "contents-group": "nested_retool_mdrx308" } ]
+    "entries": [ { "item": "box_retool_large", "contents-group": "nested_contents_mdrx_308win" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_308win_mdrxkit_medium",
+    "//": "A complete and appropriately boxed conversion kit.",
+    "subtype": "collection",
+    "entries": [ { "item": "box_retool", "contents-group": "nested_contents_mdrx_308win_medium" } ]
   },
   {
     "type": "item_group",
     "id": "boxed_300blk_mdrxkit",
     "//": "A complete and appropriately boxed conversion kit.",
     "subtype": "collection",
-    "entries": [ { "item": "box_retool", "variant": "kit_300blk_mdrx", "contents-group": "nested_retool_mdrx300blk" } ]
+    "entries": [ { "item": "box_retool_large", "contents-group": "nested_contents_mdrx_300blk" } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_ar15kits",
+    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "boxed_223rem_ar15kit", "prob": 30 },
+          { "group": "boxed_223rem_ar15kit_medium", "prob": 25 },
+          { "group": "boxed_223rem_ar15kit_short", "prob": 15 },
+          { "group": "boxed_300blk_ar15kit", "prob": 25 },
+          { "group": "boxed_300blk_ar15kit_medium", "prob": 20 },
+          { "group": "boxed_300blk_ar15kit_short", "prob": 15 },
+          { "group": "boxed_50beowulf_ar15kit", "prob": 20 },
+          { "group": "boxed_50beowulf_ar15kit_medium", "prob": 15 },
+          { "group": "boxed_50beowulf_ar15kit_short", "prob": 10 }
+        ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "boxed_mdrxkits",
+    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "entries": [
+      {
+        "distribution": [
+          { "group": "boxed_223rem_mdrxkit", "prob": 30 },
+          { "group": "boxed_223rem_mdrxkit_medium", "prob": 25 },
+          { "group": "boxed_223rem_mdrxkit_short", "prob": 15 },
+          { "group": "boxed_300blk_mdrxkit", "prob": 10 },
+          { "group": "boxed_308win_mdrxkit", "prob": 25 },
+          { "group": "boxed_308win_mdrxkit_medium", "prob": 20 }
+        ],
+        "prob": 100
+      }
+    ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "nested_ar15_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
-    "entries": [
-      {
-        "distribution": [
-          { "group": "boxed_223rem_ar15kit", "prob": 10 },
-          { "group": "boxed_50beowulf_ar15kit", "prob": 10 },
-          { "group": "boxed_300blk_ar15kit", "prob": 10 }
-        ],
-        "prob": 100
-      },
-      { "item": "ar15", "charges-min": 0, "charges-max": 0 }
-    ]
+    "entries": [ { "group": "boxed_ar15kits" }, { "item": "ar15", "charges-min": 0, "charges-max": 0 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "nested_mdrx_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
-    "entries": [
-      {
-        "distribution": [
-          { "group": "boxed_223rem_mdrxkit", "prob": 10 },
-          { "group": "boxed_308win_mdrxkit", "prob": 10 },
-          { "group": "boxed_300blk_mdrxkit", "prob": 10 }
-        ],
-        "prob": 100
-      },
-      { "item": "mdrx", "charges-min": 0, "charges-max": 0 }
-    ]
+    "entries": [ { "group": "boxed_mdrxkits" }, { "item": "mdrx", "charges-min": 0, "charges-max": 0 } ]
   },
   {
     "type": "item_group",
@@ -185,14 +294,7 @@
     "//": "An item group for a randomly selected conversion kit to spawn, regardless of type. Intended for use in gun stores and other sensible locations.",
     "entries": [
       {
-        "distribution": [
-          { "group": "boxed_223rem_ar15kit", "prob": 30 },
-          { "group": "boxed_300blk_ar15kit", "prob": 30 },
-          { "group": "boxed_50beowulf_ar15kit", "prob": 20 },
-          { "group": "boxed_223rem_mdrxkit", "prob": 15 },
-          { "group": "boxed_308win_mdrxkit", "prob": 15 },
-          { "group": "boxed_300blk_mdrxkit", "prob": 15 }
-        ],
+        "distribution": [ { "group": "boxed_ar15kits", "prob": 30 }, { "group": "boxed_mdrxkits", "prob": 15 } ],
         "prob": 100
       }
     ]
