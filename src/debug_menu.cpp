@@ -1020,7 +1020,7 @@ static void change_spells( Character &character )
             mvwprintz( w_name.window, point( 2, line_number ),
                        spell_color, splt.name.translated() );
             mvwprintz( w_level.window, point( 2, line_number++ ), spell_color,
-                       _( "%1$-3d/%2$3d" ), spell_level, splt.max_level.evaluate( d ) );
+                       _( "%1$-3d/%2$3d" ), spell_level, static_cast<int>( splt.max_level.evaluate( d ) ) );
         }
 
         nc_color gray = c_light_gray;

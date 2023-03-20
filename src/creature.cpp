@@ -3031,6 +3031,8 @@ std::unique_ptr<talker> get_talker_for( const Creature &me )
 {
     if( !me.is_monster() ) {
         return std::make_unique<talker_character_const>( static_cast<const Character *>( &me ) );
+    } else if( me.is_monster() ) {
+        return std::make_unique<talker_monster_const>( static_cast<const monster *>( &me ) );
     } else {
         debugmsg( "Invalid creature type %s.", me.get_name() );
         standard_npc default_npc( "Default" );

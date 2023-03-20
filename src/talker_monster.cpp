@@ -12,52 +12,52 @@
 
 class time_duration;
 
-std::string talker_monster::disp_name() const
+std::string talker_monster_const::disp_name() const
 {
     return me_mon->disp_name();
 }
 
-int talker_monster::posx() const
+int talker_monster_const::posx() const
 {
     return me_mon->posx();
 }
 
-int talker_monster::posy() const
+int talker_monster_const::posy() const
 {
     return me_mon->posy();
 }
 
-int talker_monster::posz() const
+int talker_monster_const::posz() const
 {
     return me_mon->posz();
 }
 
-tripoint talker_monster::pos() const
+tripoint talker_monster_const::pos() const
 {
     return me_mon->pos();
 }
 
-tripoint_abs_ms talker_monster::global_pos() const
+tripoint_abs_ms talker_monster_const::global_pos() const
 {
     return me_mon->get_location();
 }
 
-tripoint_abs_omt talker_monster::global_omt_location() const
+tripoint_abs_omt talker_monster_const::global_omt_location() const
 {
     return me_mon->global_omt_location();
 }
 
-int talker_monster::pain_cur() const
+int talker_monster_const::pain_cur() const
 {
     return me_mon->get_pain();
 }
 
-bool talker_monster::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
+bool talker_monster_const::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
 {
     return me_mon->has_effect( effect_id, bp );
 }
 
-effect talker_monster::get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
+effect talker_monster_const::get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
 {
     return me_mon->get_effect( effect_id, bp );
 }
@@ -79,7 +79,7 @@ void talker_monster::mod_pain( int amount )
     me_mon->mod_pain( amount );
 }
 
-std::string talker_monster:: get_value( const std::string &var_name ) const
+std::string talker_monster_const:: get_value( const std::string &var_name ) const
 {
     return me_mon->get_value( var_name );
 }
@@ -94,12 +94,12 @@ void talker_monster::remove_value( const std::string &var_name )
     me_mon->remove_value( var_name );
 }
 
-std::string talker_monster::short_description() const
+std::string talker_monster_const::short_description() const
 {
     return me_mon->type->get_description();
 }
 
-int talker_monster::get_anger() const
+int talker_monster_const::get_anger() const
 {
     return me_mon->anger;
 }
@@ -109,7 +109,7 @@ void talker_monster::set_anger( int new_val )
     me_mon->anger = new_val;
 }
 
-int talker_monster::morale_cur() const
+int talker_monster_const::morale_cur() const
 {
     return me_mon->morale;
 }
@@ -119,7 +119,7 @@ void talker_monster::set_morale( int new_val )
     me_mon->morale = new_val;
 }
 
-int talker_monster::get_friendly() const
+int talker_monster_const::get_friendly() const
 {
     return me_mon->friendly;
 }
@@ -129,17 +129,17 @@ void talker_monster::set_friendly( int new_val )
     me_mon->friendly = new_val;
 }
 
-std::vector<std::string> talker_monster::get_topics( bool )
+std::vector<std::string> talker_monster_const::get_topics( bool )
 {
     return me_mon->type->chat_topics;
 }
 
-int talker_monster::get_cur_hp( const bodypart_id & ) const
+int talker_monster_const::get_cur_hp( const bodypart_id & ) const
 {
     return me_mon->get_hp();
 }
 
-bool talker_monster::will_talk_to_u( const Character &you, bool )
+bool talker_monster_const::will_talk_to_u( const Character &you, bool )
 {
     return !you.is_dead_state();
 }
