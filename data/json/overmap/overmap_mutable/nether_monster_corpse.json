@@ -7,10 +7,10 @@
     "city_distance": [ 20, 30 ],
     "city_sizes": [ 0, 20 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "CLASSIC" ],
     "check_for_locations_area": [
-      { "type": [ "subterranean_empty" ], "from": [ -11, -5, -1 ], "to": [ 11, 5, -1 ] },
-      { "type": [ "subterranean_empty" ], "from": [ -5, -11, -1 ], "to": [ 5, 11, -1 ] }
+      { "type": [ "land", "road" ], "from": [ 0, 0, 0 ], "to": [ 0, 0, 0 ] },
+      { "type": [ "subterranean_empty" ], "from": [ -15, -7, -1 ], "to": [ 15, 7, -1 ] },
+      { "type": [ "subterranean_empty" ], "from": [ -7, -15, -1 ], "to": [ 7, 15, -1 ] }
     ],
     "check_for_locations": [  ],
     "joins": [
@@ -21,7 +21,7 @@
       { "id": "tentacle_tee_to_tentacle", "opposite": "tentacle_to_tentacle_tee" },
       { "id": "tentacle_to_tentacle_tee", "opposite": "tentacle_tee_to_tentacle" },
       { "id": "surface_to_tentacle", "opposite": "tentacle_to_surface" },
-      { "id": "tentacle_to_surface", "opposite": "surface_to_tentacle", "into_locations": [ "land" ] },
+      { "id": "tentacle_to_surface", "opposite": "surface_to_tentacle", "into_locations": [ "land", "road" ] },
       "surface_to_bowels",
       "bowels_mid_to_mid",
       "bowels_edge_to_edge",
@@ -32,7 +32,7 @@
       "head_to_head"
     ],
     "overmaps": {
-      "surface": { "overmap": "corpse_surface_north", "below": "surface_to_bowels", "locations": [ "land" ] },
+      "surface": { "overmap": "corpse_surface_north", "below": "surface_to_bowels", "locations": [ "land", "road" ] },
       "bowels_center": {
         "overmap": "corpse_bowels_mid",
         "above": "surface_to_bowels",
@@ -144,7 +144,7 @@
         "north": { "id": "tentacle_to_tentacle", "alternatives": [ "tentacle_to_tentacle_tee" ] },
         "above": "tentacle_to_surface"
       },
-      "corpse_entry_surface": { "overmap": "corpse_tentacle_surface_entry_north", "below": "surface_to_tentacle", "locations": [ "land" ] },
+      "corpse_entry_surface": { "overmap": "corpse_tentacle_surface_entry_north", "below": "surface_to_tentacle", "locations": [ "land", "road" ] },
       "tentacle_tee": {
         "overmap": "corpse_tentacle_nes",
         "north": "tentacle_to_tentacle",
