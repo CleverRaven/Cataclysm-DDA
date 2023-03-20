@@ -737,5 +737,43 @@
     "sym": "A",
     "color": "cyan",
     "copy-from": "generic_city_house_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "tenement_apts_floor1_1", "tenement_apts_floor1_2" ],
+    "name": "tenement",
+    "sym": "t",
+    "color": "light_gray",
+    "see_cost": 10,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "tenement_apts_floor1_3",
+      "tenement_apts_floor1_4",
+      "tenement_apts_floor2_1",
+      "tenement_apts_floor2_2",
+      "tenement_apts_floor2_3",
+      "tenement_apts_floor2_4",
+      "tenement_apts_floor3_1",
+      "tenement_apts_floor3_2",
+      "tenement_apts_floor3_3",
+      "tenement_apts_floor3_4"
+    ],
+    "name": "tenement",
+    "sym": "t",
+    "color": "light_gray",
+    "see_cost": 10,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "tenement_apts_roof_1", "tenement_apts_roof_2", "tenement_apts_roof_3", "tenement_apts_roof_4" ],
+    "name": "tenement roof",
+    "sym": "t",
+    "color": "light_gray",
+    "see_cost": 2
   }
 ]

@@ -682,5 +682,121 @@
     "name": "nursing home lab",
     "sym": "N",
     "color": "dark_gray"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "Hospital_2_1",
+      "Hospital_2_2",
+      "Hospital_2_3",
+      "Hospital_2_4",
+      "Hospital_2_5",
+      "Hospital_2_6",
+      "Hospital_2_7",
+      "Hospital_2_8",
+      "Hospital_2_9"
+    ],
+    "name": "memorial hospital",
+    "sym": "H",
+    "color": "red",
+    "see_cost": 10,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "Hospital_2_Floor2_1",
+      "Hospital_2_Floor2_2",
+      "Hospital_2_Floor2_3",
+      "Hospital_2_Floor2_4",
+      "Hospital_2_Floor2_5",
+      "Hospital_2_Floor2_6",
+      "Hospital_2_Floor2_7",
+      "Hospital_2_Floor2_8",
+      "Hospital_2_Floor2_9"
+    ],
+    "name": "memorial hospital",
+    "sym": "H",
+    "color": "red",
+    "see_cost": 10,
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "Hospital_2_roof_1",
+      "Hospital_2_roof_2",
+      "Hospital_2_roof_3",
+      "Hospital_2_roof_4",
+      "Hospital_2_roof_5",
+      "Hospital_2_roof_6",
+      "Hospital_2_roof_7",
+      "Hospital_2_roof_8",
+      "Hospital_2_roof_9"
+    ],
+    "name": "memorial hospital roof",
+    "sym": "H",
+    "color": "red",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "med_sec_prison_1",
+      "med_sec_prison_2",
+      "med_sec_prison_3",
+      "med_sec_prison_4",
+      "med_sec_prison_5",
+      "med_sec_prison_6",
+      "med_sec_prison_7",
+      "med_sec_prison_8",
+      "med_sec_prison_9"
+    ],
+    "name": "medium-security prison",
+    "sym": "P",
+    "color": "yellow",
+    "see_cost": 10,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK", "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "med_sec_prison_secondfloor_1",
+      "med_sec_prison_secondfloor_2",
+      "med_sec_prison_secondfloor_3",
+      "med_sec_prison_secondfloor_4",
+      "med_sec_prison_secondfloor_5",
+      "med_sec_prison_secondfloor_6",
+      "med_sec_prison_secondfloor_7",
+      "med_sec_prison_secondfloor_8",
+      "med_sec_prison_secondfloor_9"
+    ],
+    "name": "medium-security prison",
+    "sym": "P",
+    "color": "yellow",
+    "see_cost": 10,
+    "mondensity": 2,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "med_sec_prison_roof_1",
+      "med_sec_prison_roof_2",
+      "med_sec_prison_roof_3",
+      "med_sec_prison_roof_4",
+      "med_sec_prison_roof_5",
+      "med_sec_prison_roof_6",
+      "med_sec_prison_roof_7",
+      "med_sec_prison_roof_8",
+      "med_sec_prison_roof_9"
+    ],
+    "name": "medium-security prison roof",
+    "sym": "P",
+    "color": "yellow",
+    "see_cost": 2
   }
 ]

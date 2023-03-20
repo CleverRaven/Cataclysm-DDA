@@ -755,5 +755,23 @@
       { "x": -4, "y": 0, "chance": 50, "item_groups": [ "ammo_swat" ] },
       { "x": -4, "y": 2, "chance": 50, "item_groups": [ "swat_gear" ] }
     ]
+  },
+  {
+    "id": "hospital_stretcher",
+    "type": "vehicle",
+    "name": "Stretcher",
+    "blueprint": [ "=" ],
+    "parts": [
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_caster" },
+      { "x": 0, "y": 0, "part": "bed" },
+      { "x": 1, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 1, "y": 0, "part": "wheel_caster" },
+      { "x": 1, "y": 0, "part": "bed" }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 15, "item_groups": [ "hospital_bed" ] },
+      { "x": 1, "y": 0, "chance": 15, "item_groups": [ "hospital_bed" ] }
+    ]
   }
 ]

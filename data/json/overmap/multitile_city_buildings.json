@@ -4870,5 +4870,62 @@
     "id": "orchard_1",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "orchard_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "orchard_roof_1_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "Hospital_2",
+    "overmaps": [
+      { "point": [ 1, 0, 0 ], "overmap": "Hospital_2_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "Hospital_2_Floor2_1_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "Hospital_2_roof_1_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "Hospital_2_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "Hospital_2_Floor2_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "Hospital_2_roof_2_north" },
+      { "point": [ -1, 0, 0 ], "overmap": "Hospital_2_3_north" },
+      { "point": [ -1, 0, 1 ], "overmap": "Hospital_2_Floor2_3_north" },
+      { "point": [ -1, 0, 2 ], "overmap": "Hospital_2_roof_3_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "Hospital_2_4_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "Hospital_2_Floor2_4_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "Hospital_2_roof_4_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "Hospital_2_5_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "Hospital_2_Floor2_5_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "Hospital_2_roof_5_north" },
+      { "point": [ -1, 1, 0 ], "overmap": "Hospital_2_6_north" },
+      { "point": [ -1, 1, 1 ], "overmap": "Hospital_2_Floor2_6_north" },
+      { "point": [ -1, 1, 2 ], "overmap": "Hospital_2_roof_6_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "Hospital_2_7_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "Hospital_2_Floor2_7_north" },
+      { "point": [ 1, 2, 2 ], "overmap": "Hospital_2_roof_7_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "Hospital_2_8_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "Hospital_2_Floor2_8_north" },
+      { "point": [ 0, 2, 2 ], "overmap": "Hospital_2_roof_8_north" },
+      { "point": [ -1, 2, 0 ], "overmap": "Hospital_2_9_north" },
+      { "point": [ -1, 2, 1 ], "overmap": "Hospital_2_Floor2_9_north" },
+      { "point": [ -1, 2, 2 ], "overmap": "Hospital_2_roof_9_north" }
+    ],
+    "locations": [ "land" ]
+  },
+  {
+    "type": "city_building",
+    "id": "tenement_apts",
+    "overmaps": [
+      { "point": [ 1, 0, 0 ], "overmap": "tenement_apts_floor1_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "tenement_apts_floor2_1_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "tenement_apts_floor3_1_north" },
+      { "point": [ 1, 0, 3 ], "overmap": "tenement_apts_roof_1_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "tenement_apts_floor1_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "tenement_apts_floor2_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "tenement_apts_floor3_2_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "tenement_apts_roof_2_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "tenement_apts_floor1_3_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "tenement_apts_floor2_3_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "tenement_apts_floor3_3_north" },
+      { "point": [ 1, 1, 3 ], "overmap": "tenement_apts_roof_3_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "tenement_apts_floor1_4_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "tenement_apts_floor2_4_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "tenement_apts_floor3_4_north" },
+      { "point": [ 0, 1, 3 ], "overmap": "tenement_apts_roof_4_north" }
+    ],
+    "locations": [ "land" ]
   }
 ]

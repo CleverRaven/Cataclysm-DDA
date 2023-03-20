@@ -628,5 +628,32 @@
     "id": "nuclear_plant",
     "name": "Nuclear Power Plant",
     "terrain": [ "nuclear_plant_5_5_1", "nuclear_plant_10_5_1" ]
+  },
+  {
+    "type": "start_location",
+    "ident": "sloc_medium_sec_prison",
+    "name": "Medium-Security Prison",
+    "terrain": [ "med_sec_prison_secondfloor_4" ]
+  },
+  {
+    "type": "start_location",
+    "ident": "sloc_memorial_hospital",
+    "name": "Memorial Hospital",
+    "terrain": [ "Hospital_2_4" ]
+  },
+  {
+    "type": "start_location",
+    "ident": "sloc_tenement_apartments",
+    "name": "Tenement Apartments",
+    "terrain": [
+      "tenement_apts_floor2_1",
+      "tenement_apts_floor2_2",
+      "tenement_apts_floor2_3",
+      "tenement_apts_floor2_4",
+      "tenement_apts_floor3_1",
+      "tenement_apts_floor3_2",
+      "tenement_apts_floor3_3",
+      "tenement_apts_floor3_4"
+    ]
   }
 ]

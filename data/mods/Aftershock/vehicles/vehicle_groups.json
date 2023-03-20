@@ -79,5 +79,10 @@
     "type": "vehicle_group",
     "id": "parkinglot",
     "vehicles": [ [ "robotic_taxi", 100 ] ]
+  },
+  {
+    "id": "hospital_stretchers",
+    "type": "vehicle_group",
+    "vehicles": [ [ "hospital_stretcher", 100 ] ]
   }
 ]

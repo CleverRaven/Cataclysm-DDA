@@ -8213,5 +8213,45 @@
     "locations": [ "field" ],
     "city_distance": [ 5, 40 ],
     "flags": [ "CLASSIC", "MAN_MADE", "UNIQUE" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "med_sec_prison",
+    "overmaps": [
+      { "point": [ -1, 0, 0 ], "overmap": "med_sec_prison_1_south" },
+      { "point": [ 0, 0, 0 ], "overmap": "med_sec_prison_2_south" },
+      { "point": [ 1, 0, 0 ], "overmap": "med_sec_prison_3_south" },
+      { "point": [ -1, -1, 0 ], "overmap": "med_sec_prison_4_south" },
+      { "point": [ 0, -1, 0 ], "overmap": "med_sec_prison_5_south" },
+      { "point": [ 1, -1, 0 ], "overmap": "med_sec_prison_6_south" },
+      { "point": [ -1, -2, 0 ], "overmap": "med_sec_prison_7_south" },
+      { "point": [ 0, -2, 0 ], "overmap": "med_sec_prison_8_south" },
+      { "point": [ 1, -2, 0 ], "overmap": "med_sec_prison_9_south" },
+      { "point": [ -1, 0, 1 ], "overmap": "med_sec_prison_secondfloor_1_south" },
+      { "point": [ 0, 0, 1 ], "overmap": "med_sec_prison_secondfloor_2_south" },
+      { "point": [ 1, 0, 1 ], "overmap": "med_sec_prison_secondfloor_3_south" },
+      { "point": [ -1, -1, 1 ], "overmap": "med_sec_prison_secondfloor_4_south" },
+      { "point": [ 0, -1, 1 ], "overmap": "med_sec_prison_secondfloor_5_south" },
+      { "point": [ 1, -1, 1 ], "overmap": "med_sec_prison_secondfloor_6_south" },
+      { "point": [ -1, -2, 1 ], "overmap": "med_sec_prison_secondfloor_7_south" },
+      { "point": [ 0, -2, 1 ], "overmap": "med_sec_prison_secondfloor_8_south" },
+      { "point": [ 1, -2, 1 ], "overmap": "med_sec_prison_secondfloor_9_south" },
+      { "point": [ -1, 0, 2 ], "overmap": "med_sec_prison_roof_1_south" },
+      { "point": [ 0, 0, 2 ], "overmap": "med_sec_prison_roof_2_south" },
+      { "point": [ 1, 0, 2 ], "overmap": "med_sec_prison_roof_3_south" },
+      { "point": [ -1, -1, 2 ], "overmap": "med_sec_prison_roof_4_south" },
+      { "point": [ 0, -1, 2 ], "overmap": "med_sec_prison_roof_5_south" },
+      { "point": [ 1, -1, 2 ], "overmap": "med_sec_prison_roof_6_south" },
+      { "point": [ -1, -2, 2 ], "overmap": "med_sec_prison_roof_7_south" },
+      { "point": [ 0, -2, 2 ], "overmap": "med_sec_prison_roof_8_south" },
+      { "point": [ 1, -2, 2 ], "overmap": "med_sec_prison_roof_9_south" }
+    ],
+    "locations": [ "land" ],
+    "occurrences": [ 1, 1 ],
+    "connections": [
+      { "point": [ -1, 1, 0 ], "terrain": "road", "existing": true },
+      { "point": [ 0, 1, 0 ], "terrain": "road", "existing": true },
+      { "point": [ 1, 1, 0 ], "terrain": "road", "existing": true }
+    ]
   }
 ]
