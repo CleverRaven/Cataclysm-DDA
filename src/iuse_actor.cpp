@@ -2190,6 +2190,9 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     for( const std::string &sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
         spell_text = sp_id.obj().name.translated();
+        if( sp_id->spell_class.is_valid() ) {
+            spell_text += ", " + sp_id->spell_class->name() + " ";
+        }
         if( pc.has_trait( trait_ILLITERATE ) ) {
             dump.emplace_back( "SPELL", spell_text );
         } else {
