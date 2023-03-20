@@ -23,6 +23,7 @@
       [ "m107a1mag", 50 ],
       [ "tac50mag", 20 ],
       [ "ai_338mag", 10 ],
+      [ "ai_338mag_10", 10 ],
       [ "m2010mag", 10 ],
       [ "scarhmag", 50 ],
       [ "scarhbigmag", 20 ],
@@ -114,6 +115,8 @@
       { "item": "usp45mag", "prob": 10, "charges": [ 0, 12 ] },
       { "item": "usp9mag", "prob": 10, "charges": [ 0, 15 ] },
       { "item": "as50mag", "prob": 2, "charges": [ 0, 10 ] },
+      { "item": "ai_338mag", "prob": 5, "charges": [ 0, 5 ] },
+      { "item": "ai_338mag_10", "prob": 10, "charges": [ 0, 10 ] },
       { "item": "hk417mag_20rd", "prob": 20, "charges": [ 0, 20 ] }
     ]
   },
@@ -426,6 +429,10 @@
       [ "usc10mag", 5 ],
       [ "usc15mag", 7 ],
       [ "usc20mag", 20 ],
+      [ "barrett_338lapua_mag", 5 ],
+      [ "ai_338mag", 15 ],
+      [ "ai_338mag_10", 10 ],
+      [ "ai_308mag_10", 15 ],
       [ "m1carbinebigmag", 30 ]
     ]
   },
