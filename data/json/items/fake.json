@@ -377,25 +377,6 @@
     "name": "hotplate abstract"
   },
   {
-    "id": "pseudo_microwave",
-    "copy-from": "microwave",
-    "sub": "microwave",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "microwave"
-  },
-  {
-    "copy-from": "pseudo_hotplate_abstract",
-    "id": "pseudo_veh_chemlab_hotplate",
-    "type": "TOOL",
-    "name": { "str": "lab hotplate" }
-  },
-  {
     "id": "pseudo_veh_foodco_vac_sealer",
     "name": { "str": "FOODCO kitchen buddy vacuum sealer" },
     "copy-from": "vac_sealer",
@@ -433,12 +414,6 @@
     "volume": "1 ml",
     "symbol": "@",
     "color": "red"
-  },
-  {
-    "copy-from": "pseudo_hotplate_abstract",
-    "id": "pseudo_veh_kitchen_hotplate",
-    "type": "TOOL",
-    "name": { "str": "kitchen unit hotplate" }
   },
   {
     "copy-from": "pseudo_hotplate_abstract",

@@ -982,7 +982,7 @@
       },
       "removal": { "time": "1 m" }
     },
-    "pseudo_tools": [ { "id": "pseudo_microwave" } ],
+    "pseudo_tools": [ { "id": "microwave" } ],
     "size": 20,
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 4, 7 ] },
