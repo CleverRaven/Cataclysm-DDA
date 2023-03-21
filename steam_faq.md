@@ -4,11 +4,11 @@ This FAQ is from the perspective of the existing players of the game and will no
 
 ### Will the existence of a paid release affect the free and open-source nature of the game?
 
-No. The game will always be free and open-source, and if you continue to get it through this website and github, you won't notice any difference at all. There could be features unique to the Steam API that are understandably Steam exclusive, but there is not and will never be any plan to have special "premium" feature. Remember, there is already a paid iOS release, and it hasn't affected the game.
+No. The game will always be free and open-source, and if you continue to get it through this website and github, you won't notice any difference at all. There could be features unique to the Steam API that are understandably Steam exclusive, but there is not and will never be any plan to have special "premium" features. Remember, there is already a paid iOS release, and it hasn't affected the game.
 
 ### Is this okay with the development team?
 
-Yes. The core development team has been discussing the idea of a Steam release for a long time. We consider it inevitable that someone was going to make one, and are happy that it's someone with a great deal of investment and experience with the game. It's impossible to get everyone's opinions in such a large project, but those of us in the secret, shadowy cabal where we cackle madly at ways to cut the fun out of hte game are all very happy to see KorGgenT heading this. Specifically, Kevin and Erk as the other two "senior developers" (what ever that means) were consulted in detail before any steps were made. (When asked if he had a problem with it, ZhilkinSerg just replied "no". We shook him gently, hoping for a more detailed answer, and he said "signs are hazy, ask again later".)
+Yes. The core development team has been discussing the idea of a Steam release for a long time. We consider it inevitable that someone was going to make one, and are happy that it's someone with a great deal of investment and experience with the game. It's impossible to get everyone's opinions in such a large project, but those of us in the secret, shadowy cabal where we cackle madly at ways to cut the fun out of hte game are all very happy to see KorGgenT heading this. Specifically, Kevin and Erk as the other two "senior developers" (whatever that means) were consulted in detail before any steps were made. (When asked if he had a problem with it, ZhilkinSerg just replied "no". We shook him gently, hoping for a more detailed answer, and he said "signs are hazy, ask again later".)
 
 ### Who gets the money? How will it be used?
 
