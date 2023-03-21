@@ -141,6 +141,7 @@
     "//": "Itemgroup for lore snippet items in Xedra Offices and Labs.",
     "entries": [
       { "item": "report_march_lord", "prob": 10 },
+      { "item": "border_patrol_files", "prob": 10 },
       { "item": "green_postit_field_agent", "prob": 40 },
       { "item": "agent_postit_gray", "prob": 50 },
       { "item": "agent_postit_migo", "prob": 20 }
