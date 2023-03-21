@@ -46,9 +46,10 @@
     "ammo": [ "metal_rail" ],
     "clip_size": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "metal_rail": 1 } } ],
-    "ups_charges": 40,
+    "energy_drain": "40 kJ",
     "reload": 1200,
     "valid_mod_locations": [ [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "sights", 1 ], [ "rail mount", 1 ], [ "underbarrel mount", 1 ] ],
-    "ammo_effects": [ "TRAIL" ]
+    "ammo_effects": [ "TRAIL" ],
+    "flags": [ "USE_UPS" ]
   }
 ]
