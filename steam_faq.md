@@ -21,3 +21,6 @@ That's fine. Download the free version or play a different game. Nobody is takin
 ### How do I deal with two zombies at once? They keep thrashing me and I don't know how to survive the first day.
 
 Remember, melee is a choice of desperation and necessity against a purely melee enemy. Try to use terrain to your advantage so that you're only facing one zombie at a time. Wait, how did we get on this topic? You sly dog, you got me distracted.
+
+
+*Author: I-am-Erk*
