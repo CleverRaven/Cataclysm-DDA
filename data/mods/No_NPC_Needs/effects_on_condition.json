@@ -9,7 +9,13 @@
       { "arithmetic": [ { "u_val": "stored_kcal_percentage" }, "=", { "const": 25 } ] },
       { "arithmetic": [ { "u_val": "thirst" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "u_val": "fatigue" }, "=", { "const": 0 } ] },
-      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "=", { "const": 0 } ] }
+      { "arithmetic": [ { "u_val": "sleep_deprivation" }, "=", { "const": 0 } ] },
+	      "vitamins": [
+      {
+        "vitamin": "vitC",
+        "rate": [ [ 100000 ] ]
+      }
+    ],
     ]
   }
 ]

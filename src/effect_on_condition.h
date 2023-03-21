@@ -31,6 +31,8 @@ struct effect_on_condition {
         /* If this is true each npc will have their own copy of it.  Deactivate conditions for traits/mutations/bionics will work but not weather.  */
         bool run_for_npcs = false;
         /* If this is true it will be run on the player and every npc.  Deactivate conditions will work based on the player.  */
+        bool exclude_player = false;
+        /* If this is true it will be run on every npc.  */
         bool global = false;
         effect_on_condition_id id;
         std::vector<std::pair<effect_on_condition_id, mod_id>> src;

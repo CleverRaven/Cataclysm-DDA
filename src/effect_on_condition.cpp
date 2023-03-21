@@ -85,9 +85,13 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "run_for_npcs", run_for_npcs, false );
+    optional( jo, was_loaded, "exclude_player", exclude_player, false );
     optional( jo, was_loaded, "global", global, false );
     if( !global && run_for_npcs ) {
         jo.throw_error( "run_for_npcs should only be true for global effect_on_conditions." );
+    }
+    if (!run_for_npcs && exclude_player) {
+        jo.throw_error("exclude_player should only be true for run_for_npcs effect_on_conditions.");
     }
 }
 
@@ -274,11 +278,14 @@ void effect_on_conditions::process_reactivate()
 bool effect_on_condition::activate( dialogue &d ) const
 {
     bool retval = false;
-    if( !has_condition || condition( d ) ) {
-        true_effect.apply( d );
-        retval = true;
-    } else if( has_false_effect ) {
-        false_effect.apply( d );
+    if ( !exclude_player ) {
+        if (!has_condition || condition(d)) {
+            true_effect.apply(d);
+            retval = true;
+        }
+        else if (has_false_effect) {
+            false_effect.apply(d);
+        }
     }
     // This works because if global is true then this is recurring and thus should only ever be passed containing the player
     // Thus we just need to run the npcs.
