@@ -222,7 +222,7 @@
             { "overmap": "neck_center", "pos": [ 0, 0, 0 ] },
             { "overmap": "neck_side", "pos": [ 1, 0, 0 ] }
           ],
-          "max": { "poisson": 1 }
+           "max": { "poisson": 1 }
         }
       ],
       [
@@ -269,11 +269,7 @@
       [ { "overmap": "tentacle_end_w_entry", "max": 1 } ],
       [ { "overmap": "tentacle_end_w_entry", "max": { "poisson": 0.8 } } ],
       [ { "overmap": "corpse_entry_surface", "weight": 1 } ],
-      [
-        { "overmap": "tentacle_end", "weight": 1000 },
-        { "overmap": "tentacle_end_lcorner", "weight": 1 },
-        { "overmap": "tentacle_end_straight", "weight": 1 }
-      ]
+      [ { "overmap": "tentacle_end", "weight": 1 } ]
     ]
   }
 ]
