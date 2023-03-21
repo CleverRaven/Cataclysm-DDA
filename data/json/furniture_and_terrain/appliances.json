@@ -1010,7 +1010,7 @@
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 8 ] },
-      { "item": "steel_chunk", "coutnt": [ 5, 10 ] }
+      { "item": "steel_chunk", "count": [ 5, 10 ] }
     ],
     "damage_reduction": { "all": 40 }
   },
@@ -1032,7 +1032,7 @@
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 6, 12 ] },
-      { "item": "steel_chunk", "coutnt": [ 8, 16 ] },
+      { "item": "steel_chunk", "count": [ 8, 16 ] },
       { "item": "sheet_metal_small", "count": [ 1, 4 ] }
     ],
     "damage_reduction": { "all": 50 }
