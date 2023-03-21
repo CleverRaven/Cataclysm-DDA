@@ -15,7 +15,7 @@ Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalypt
 
 ## Announcement: Steamy Days Ahead
 
-[Cataclysm: Dark Days Ahead is coming to Steam on March the 31st!](https://store.steampowered.com/app/2330750/Cataclysm_Dark_Days_Ahead/) Feel free to [check out the FAQ about how this will affect the project]({{ site.baseurl }}{% link steam_faq.md %})
+[Cataclysm: Dark Days Ahead is coming to Steam on March the 31st!](https://store.steampowered.com/app/2330750/Cataclysm_Dark_Days_Ahead/) Feel free to [check out the FAQ about how this will affect the project]({{ site.baseurl }}{% link /steam_faq.md %})
 
 ## Gameplay
 
