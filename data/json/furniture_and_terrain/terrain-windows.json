@@ -1170,7 +1170,7 @@
   {
     "type": "terrain",
     "id": "t_metal_grate_window_with_curtain_open",
-    "name": "window with metal grate with curtains",
+    "name": "window with metal grate and curtains",
     "description": "Metal bars made into a grate for a glass window with an opened curtain.  Highly durable and will stand against any foe.",
     "looks_like": "t_window_bars_domestic",
     "symbol": "#",
