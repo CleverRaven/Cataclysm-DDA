@@ -244,8 +244,8 @@
       "THIN_OBSTACLE"
     ],
     "bash": {
-      "str_min": 28,
-      "str_max": 75,
+      "str_min": 300,
+      "str_max": 400,
       "sound": "crunch!",
       "sound_fail": "whump!",
       "ter_set": "t_null",

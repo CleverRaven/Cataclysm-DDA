@@ -1478,9 +1478,9 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [
-      [ [ "log", 3 ] ],
+      [ [ "log", 6 ] ],
       [
         [ "wire", 6 ],
         [ "wire_barbed", 4 ],
@@ -1657,8 +1657,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ], [ "survival", 2 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "log", 2 ] ], [ [ "2x4", 3 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "log", 4 ] ], [ [ "2x4", 3 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ] ],
     "pre_note": "Must be between palisade walls to function, and at least one wall must have an adjacent rope & pulley system.",
     "pre_terrain": "t_pit",
     "post_terrain": "t_palisade_gate"
@@ -1940,7 +1940,7 @@
     "time": "120 m",
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [
-      [ [ "log", 3 ] ],
+      [ [ "log", 6 ] ],
       [
         [ "wire", 6 ],
         [ "wire_barbed", 4 ],
