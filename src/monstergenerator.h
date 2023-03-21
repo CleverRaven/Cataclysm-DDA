@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "enum_bitset.h"
@@ -13,7 +14,6 @@
 #include "generic_factory.h"
 #include "mattack_common.h"
 #include "mtype.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
@@ -72,7 +72,7 @@ class MonsterGenerator
 
         void check_monster_definitions() const;
 
-        cata::optional<mon_action_death> get_death_function( const std::string &f ) const;
+        std::optional<mon_action_death> get_death_function( const std::string &f ) const;
         const std::vector<mtype> &get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;

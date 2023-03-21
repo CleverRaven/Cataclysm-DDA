@@ -42,7 +42,8 @@
           { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
           { "item": "grapnel", "prob": 1 },
           { "item": "misc_repairkit", "prob": 5, "charges-min": 0 },
-          { "item": "knitting_needles", "prob": 1 }
+          { "item": "knitting_needles", "prob": 1 },
+          { "item": "medium_propane_tank", "prob": 20, "count": [ 1, 2 ], "charges": 15000 }
         ]
       }
     ]

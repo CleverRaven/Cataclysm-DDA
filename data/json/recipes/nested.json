@@ -40,7 +40,7 @@
     "name": "staffs",
     "description": "Recipes related to constructing different types of staffs.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "shock_staff", "q_staff", "bo_from long stick", "bo_from quarterstaff", "i_staff" ],
+    "nested_category_data": [ "shock_staff", "q_staff", "bo_from long stick", "bo_from quarterstaff", "i_staff", "i_staff_with sheet metal" ],
     "difficulty": 1
   },
   {
@@ -1739,11 +1739,49 @@
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "lamellar cuirasses",
-    "description": "Recipes related to constructing lamellar cuirasses in various shapes and sizes.",
+    "name": "leather lamellar cuirasses",
+    "description": "Recipes related to constructing leather lamellar cuirasses in various shapes and sizes.",
     "skill_used": "tailor",
     "nested_category_data": [ "armor_lamellar", "xs_armor_lamellar", "xl_armor_lamellar" ],
     "difficulty": 3
+  },
+  {
+    "id": "nested_armor_lamellar_steel",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "steel lamellar cuirasses",
+    "description": "Recipes related to constructing steel lamellar cuirasses in various shapes and sizes.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "armor_lamellar_lc",
+      "armor_lamellar_ch",
+      "xs_armor_lamellar_lc",
+      "xs_armor_lamellar_ch",
+      "xl_armor_lamellar_lc",
+      "xl_armor_lamellar_ch"
+    ],
+    "difficulty": 4
+  },
+  {
+    "id": "nested_armor_lamellar_steel_repair",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "name": "steel lamellar repair",
+    "description": "Recipes related to repairing steel lamellar armor in various shapes and sizes.",
+    "skill_used": "tailor",
+    "nested_category_data": [
+      "armor_lamellar_lc_repair",
+      "armor_lamellar_ch_repair",
+      "xs_armor_lamellar_lc_repair",
+      "xs_armor_lamellar_ch_repair",
+      "xl_armor_lamellar_lc_repair",
+      "xl_armor_lamellar_ch_repair"
+    ],
+    "difficulty": 4
   },
   {
     "id": "nested_armor_cuirass",
@@ -2357,7 +2395,7 @@
       "steel_lump",
       "steel_lump_from_other_steel",
       "budget_steel_lump",
-      "budget_steel_lump_scrap",
+      "budget_steel_lump_from_scrap",
       "lc_steel_lump",
       "mc_steel_lump",
       "hc_steel_lump"
@@ -3615,6 +3653,7 @@
       "sheet_nomex_patchwork",
       "sheet_lycra_patchwork",
       "sheet_nylon_patchwork",
+      "sheet_denim_patchwork",
       "sheet_canvas_patchwork"
     ],
     "difficulty": 1
@@ -3632,6 +3671,7 @@
       "peanut_shelled",
       "hickory_nut_shelled",
       "walnut_shelled",
+      "butternut_shelled",
       "hazelnut_shelled",
       "chestnut_shelled",
       "pecan_shelled",
@@ -3776,7 +3816,6 @@
     "description": "Recipes related to constructing long cordage ropes.",
     "skill_used": "tailor",
     "nested_category_data": [
-      "rope_makeshift_30",
       "rope_makeshift_30_spinwheel_cordages",
       "rope_makeshift_30_electric_spinwheel_cordages",
       "rope_makeshift_30_from_rope_makeshift_6",
@@ -3832,7 +3871,7 @@
     "activity_level": "fake",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "name": "auxillary weapons",
+    "name": "auxiliary weapons",
     "description": "Recipes related to modifying secondary weapons to attach to a wider variety of guns and crossbows.",
     "skill_used": "fabrication",
     "nested_category_data": [
@@ -4228,6 +4267,17 @@
     "nested_category_data": [ "scrap_aluminum_melted_foil", "scrap_aluminum_assorted_scrap" ]
   },
   {
+    "id": "nested_pemmican",
+    "type": "nested_category",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_MEAT",
+    "name": "pemmican",
+    "description": "Recipes related to making pemmican.",
+    "skill_used": "cooking",
+    "nested_category_data": [ "pemmican", "pemmican_veggy", "pemmican_meat" ]
+  },
+  {
     "id": "nested_chairs",
     "type": "nested_category",
     "activity_level": "MODERATE_EXERCISE",
@@ -4260,7 +4310,7 @@
     "name": "planks",
     "description": "Recipes related to constructing 4ft planks.",
     "skill_used": "fabrication",
-    "nested_category_data": [ "2x4_from long planks by hand", "2x4_from long planks with powertools" ]
+    "nested_category_data": [ "2x4_from long planks by hand", "2x4_from long planks with powertools", "2x4_from logs with powertools" ]
   },
   {
     "id": "nested_planks_short",

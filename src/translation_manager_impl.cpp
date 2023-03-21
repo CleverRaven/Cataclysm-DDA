@@ -18,22 +18,22 @@ std::uint32_t TranslationManager::Impl::Hash( const char *str )
     return hash;
 }
 
-cata::optional<std::pair<std::size_t, std::size_t>> TranslationManager::Impl::LookupString(
+std::optional<std::pair<std::size_t, std::size_t>> TranslationManager::Impl::LookupString(
             const char *query ) const
 {
     std::uint32_t hash = Hash( query );
     auto it = strings.find( hash );
     if( it == strings.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     for( const std::pair<size_t, size_t> &entry : it->second ) {
         const std::size_t document = entry.first;
         const std::size_t index = entry.second;
         if( strcmp( documents[document].GetOriginalString( index ), query ) == 0 ) {
-            return cata::optional<std::pair<std::size_t, std::size_t>> { entry };
+            return std::optional<std::pair<std::size_t, std::size_t>> { entry };
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 std::string TranslationManager::Impl::LanguageCodeOfPath( const std::string &path )
@@ -161,7 +161,7 @@ const char *TranslationManager::Impl::Translate( const std::string &message ) co
 
 const char *TranslationManager::Impl::Translate( const char *message ) const
 {
-    cata::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( message );
+    std::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( message );
     if( entry ) {
         const std::size_t document = entry->first;
         const std::size_t string_index = entry->second;
@@ -173,7 +173,7 @@ const char *TranslationManager::Impl::Translate( const char *message ) const
 const char *TranslationManager::Impl::TranslatePlural( const char *singular, const char *plural,
         std::size_t n ) const
 {
-    cata::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( singular );
+    std::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( singular );
     if( entry ) {
         const std::size_t document = entry->first;
         const std::size_t string_index = entry->second;
@@ -201,7 +201,7 @@ const char *TranslationManager::Impl::TranslateWithContext( const char *context,
         const char *message ) const
 {
     std::string query = ConstructContextualQuery( context, message );
-    cata::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( query.c_str() );
+    std::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( query.c_str() );
     if( entry ) {
         const std::size_t document = entry->first;
         const std::size_t string_index = entry->second;
@@ -216,7 +216,7 @@ const char *TranslationManager::Impl::TranslatePluralWithContext( const char *co
         std::size_t n ) const
 {
     std::string query = ConstructContextualQuery( context, singular );
-    cata::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( query.c_str() );
+    std::optional<std::pair<std::size_t, std::size_t>> entry = LookupString( query.c_str() );
     if( entry ) {
         const std::size_t document = entry->first;
         const std::size_t string_index = entry->second;

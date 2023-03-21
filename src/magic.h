@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <queue>
 #include <set>
 #include <string>
@@ -15,7 +16,6 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "event_subscriber.h"
-#include "optional.h"
 #include "point.h"
 #include "sounds.h"
 #include "translations.h"
@@ -136,10 +136,10 @@ struct enum_traits<spell_flag> {
 struct fake_spell {
     spell_id id;
 
-    static const cata::optional<int> max_level_default;
+    static const std::optional<int> max_level_default;
     // max level this spell can be
     // if null pointer, spell can be up to its own max level
-    cata::optional<int> max_level;
+    std::optional<int> max_level;
 
     static const int level_default;
     // level for things that need it
@@ -159,7 +159,7 @@ struct fake_spell {
 
     fake_spell() = default;
     explicit fake_spell( const spell_id &sp_id, bool hit_self = false,
-                         const cata::optional<int> &max_level = cata::nullopt ) : id( sp_id ),
+                         const std::optional<int> &max_level = std::nullopt ) : id( sp_id ),
         max_level( max_level ), self( hit_self ) {}
 
     bool operator==( const fake_spell &rhs ) const {
@@ -229,7 +229,7 @@ class spell_type
         std::vector<fake_spell> additional_spells;
 
         // if the spell has a field name defined, this is where it is
-        cata::optional<field_type_id> field = cata::nullopt;
+        std::optional<field_type_id> field = std::nullopt;
         // the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell
         int field_chance = 0;
         // field intensity at spell level 0
@@ -366,7 +366,7 @@ class spell_type
         static const std::string sound_id_default;
         static const std::string sound_variant_default;
         static const std::string effect_str_default;
-        static const cata::optional<field_type_id> field_default;
+        static const std::optional<field_type_id> field_default;
         static const int field_chance_default;
         static const int min_field_intensity_default;
         static const int max_field_intensity_default;
@@ -451,17 +451,17 @@ class spell
         // how much xp you have total
         int xp() const;
         // gain some exp
-        void gain_exp( int nxp );
+        void gain_exp( const Character &guy, int nxp );
         void set_exp( int nxp );
         // how much xp you get if you successfully cast the spell
         int casting_exp( const Character &guy ) const;
         // modifier for gaining exp
         float exp_modifier( const Character &guy ) const;
         // level up!
-        void gain_level();
+        void gain_level( const Character &guy );
         // gains a number of levels, or until max. 0 or less just returns early.
-        void gain_levels( int gains );
-        void set_level( int nlevel );
+        void gain_levels( const Character &guy, int gains );
+        void set_level( const Character &guy, int nlevel );
         // is the spell at max level?
         bool is_max_level() const;
         // what is the max level of the spell
@@ -482,7 +482,7 @@ class spell
         // calculate damage per second against a target
         float dps( const Character &caster, const Creature &target ) const;
         // select a target for the spell
-        cata::optional<tripoint> select_target( Creature *source );
+        std::optional<tripoint> select_target( Creature *source );
         // how big is the spell's radius
         int aoe() const;
         std::set<tripoint> effect_area( const spell_effect::override_parameters &params,
@@ -601,7 +601,7 @@ class spell
         bool target_by_species_id( const tripoint &p ) const;
 
         // picks a random valid tripoint from @area
-        cata::optional<tripoint> random_valid_target( const Creature &caster,
+        std::optional<tripoint> random_valid_target( const Creature &caster,
                 const tripoint &caster_pos ) const;
 };
 

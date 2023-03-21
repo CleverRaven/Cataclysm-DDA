@@ -1,8 +1,8 @@
 [
   {
     "type": "TRAIT_MIGRATION",
-    "id": "SELFAWARE",
-    "remove": true
+    "id": "BIOLUM0_active",
+    "trait": "BIOLUM0"
   },
   {
     "type": "TRAIT_MIGRATION",

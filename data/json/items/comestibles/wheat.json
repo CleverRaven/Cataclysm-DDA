@@ -144,19 +144,19 @@
     "type": "COMESTIBLE",
     "id": "flour",
     "name": { "str_sp": "flour" },
-    "weight": "13 g",
+    "weight": "12500 mg",
     "color": "white",
     "spoils_in": "360 days",
     "container": "bag_paper_powder",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -1,
-    "calories": 48,
+    "calories": 45,
     "description": "This enriched white flour is useful for baking.",
     "price": 450,
     "price_postapoc": 100,
     "material": [ "wheat", "powder" ],
-    "volume": "250 ml",
+    "volume": "240 ml",
     "//": "240 ml is equivalent to 1 cup of flour.  10 charges is roughly equivalent to a cup of flour for American recipes.",
     "flags": [ "EDIBLE_FROZEN", "RAW" ],
     "charges": 10,
@@ -619,5 +619,15 @@
     "price_postapoc": 500,
     "fun": 15,
     "use_action": [ "WEED_CAKE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "wild_rice",
+    "name": { "str_sp": "wild rice" },
+    "copy-from": "wheat",
+    "calories": 120,
+    "description": "Raw wild rice, still in its fibrous shell and not very tasty.",
+    "milling": { "into": "dry_wild_rice", "conversion_rate": 5 },
+    "fun": -20
   }
 ]

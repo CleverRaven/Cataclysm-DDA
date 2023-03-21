@@ -40,7 +40,7 @@
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "quiver_large",
-    "color": "light_gray",
+    "color": "brown",
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -117,7 +117,7 @@
     "color": "brown",
     "sided": true,
     "material_thickness": 1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
     "pocket_data": [
       {
         "magazine_well": "200 ml",
@@ -130,7 +130,16 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+    "armor": [
+      {
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1 } ],
+        "covers": [ "foot_l", "foot_r" ],
+        "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
+        "coverage": 25,
+        "encumbrance": [ 3, 4 ],
+        "layers": [ "BELTED" ]
+      }
+    ]
   },
   {
     "id": "bow_sling",
@@ -152,7 +161,7 @@
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "500 ml",
-        "max_contains_volume": "5 L",
+        "max_contains_volume": "7 L",
         "max_contains_weight": "5 kg",
         "max_item_length": "200 cm",
         "moves": 50,
@@ -233,20 +242,32 @@
   },
   {
     "id": "western_holster",
-    "copy-from": "holster",
     "type": "ARMOR",
-    "name": { "str": "western holster" },
-    "description": "A Western-style holster as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
+    "name": { "str": "western gun belt" },
+    "description": "A Western-style gun belt as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
     "weight": "260 g",
     "volume": "550 ml",
     "price_postapoc": 500,
     "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "sheath",
+    "color": "light_gray",
     "sided": true,
+    "material_thickness": 2,
     "armor": [
-      { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 1, 1 ], "specifically_covers": [ "torso_lower" ] },
+      {
+        "covers": [ "torso" ],
+        "coverage": 50,
+        "specifically_covers": [ "torso_waist" ],
+        "encumbrance": [ 1, 1 ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2 },
+          { "type": "steel", "covered_by_mat": 10, "thickness": 0.5 }
+        ]
+      },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 5,
+        "coverage": 40,
         "encumbrance": [ 2, 3 ],
         "specifically_covers": [ "leg_hip_r", "leg_hip_l" ]
       }
@@ -289,7 +310,8 @@
         "moves": 20
       }
     ],
-    "use_action": { "type": "holster" }
+    "use_action": { "type": "holster" },
+    "flags": [ "BELTED", "OVERSIZE" ]
   },
   {
     "id": "sholster",

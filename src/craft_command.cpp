@@ -100,7 +100,7 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( const JsonObject &data );
 template void comp_selection<item_comp>::deserialize( const JsonObject &data );
 
-void craft_command::execute( const cata::optional<tripoint> &new_loc )
+void craft_command::execute( const std::optional<tripoint> &new_loc )
 {
     loc = new_loc;
 
@@ -299,7 +299,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
                                     cont_not_empty = true;
                                     iname = tmp_i.tname( 1U, true );
                                 }
-                                if( const cata::optional<vpart_reference> vp = m.veh_at( p ).part_with_feature( "CARGO", true ) ) {
+                                if( const std::optional<vpart_reference> vp = m.veh_at( p ).part_with_feature( "CARGO", true ) ) {
                                     veh_items.emplace_back( std::pair<const vpart_reference, item>( vp.value(), tmp_i ) );
                                 } else {
                                     map_items.emplace_back( std::pair<const tripoint, item>( p, tmp_i ) );
@@ -414,7 +414,7 @@ bool craft_command::safe_to_unload_comp( const item &it )
 item craft_command::create_in_progress_craft()
 {
     // Use up the components and tools
-    std::list<item> used;
+    item_components used;
     std::vector<item_comp> comps_used;
     if( crafter->has_trait( trait_DEBUG_HS ) ) {
         return item( rec, batch_size, used, comps_used );
@@ -449,7 +449,9 @@ item craft_command::create_in_progress_craft()
                 unload_activity_actor::unload( *crafter, tmp_loc );
             }
         }
-        used.splice( used.end(), tmp );
+        for( item &it : tmp ) {
+            used.add( it );
+        }
     }
 
     for( const comp_selection<item_comp> &selection : item_selections ) {

@@ -1,12 +1,5 @@
 [
   {
-    "type": "enchantment",
-    "id": "afs_ench_esab",
-    "has": "WIELD",
-    "condition": "ACTIVE",
-    "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 18 }, { "value": "ITEM_DAMAGE_HEAT", "add": 35 } ]
-  },
-  {
     "id": "afs_energy_saber_off",
     "type": "TOOL",
     "name": { "str": "CE-4 \"The Claw\" (Non-Lethal)", "str_pl": "CE-4 \"The Claws\" (Non-Lethal)" },
@@ -120,7 +113,7 @@
   },
   {
     "id": "afs_hydraulic_gauntlet",
-    "type": "GENERIC",
+    "type": "ARMOR",
     "name": { "str": "hydraulic gauntlet" },
     "description": "A huge, heavy metal gauntlet lined with tubing and gauges.  Slow and unwieldy, it uses internal pressure to deliver devastating blows, but takes tremendous strength to use effectively.  Thanks to an internal microreactor, it doesn't require power of its own.",
     "weight": "3778 g",
@@ -133,8 +126,9 @@
     "color": "light_gray",
     "bashing": 50,
     "to_hit": -2,
-    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "LEAK_DAM", "UNARMED_WEAPON" ],
-    "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ]
+    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "LEAK_DAM" ],
+    "techniques": [ "BRUTAL", "AFS_PRESSURE_CRUNCH" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_r" ] } ]
   },
   {
     "id": "afs_freeze_gauntlet",
@@ -151,10 +145,18 @@
     "color": "light_cyan",
     "bashing": 3,
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 17 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 17 } ],
+          "name": { "str": "Ice Fists" },
+          "description": "Strikes from this weapon can freeze targets solid."
+        }
+      ]
     },
     "to_hit": 0,
-    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "UNARMED_WEAPON" ],
+    "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE" ],
     "techniques": [ "WBLOCK_1" ],
     "material_thickness": 1,
     "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]

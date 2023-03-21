@@ -2,11 +2,12 @@
 #ifndef CATA_SRC_WEATHER_H
 #define CATA_SRC_WEATHER_H
 
+#include <optional>
+
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
 #include "coordinates.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
@@ -44,6 +45,13 @@ static constexpr int BODYTEMP_SCORCHING = 9500;
 //!< Additional Threshold before speed is impacted by heat.
 static constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
+
+// Wetness percentage 0.0f is DRY
+// Level 1 wetness (DAMP) is between 0.0f and Level 2
+// Level 2 wetness percentage
+static constexpr float BODYWET_PERCENT_WET = 0.3f;
+// Level 3 wetness percentage
+static constexpr float BODYWET_PERCENT_SOAKED = 0.6f;
 
 // Rough tresholds for sunlight intensity in W/m2.
 namespace irradiance
@@ -104,7 +112,6 @@ struct weather_printable {
 
 struct weather_sum {
     int rain_amount = 0;
-    int acid_amount = 0;
     float sunlight = 0.0f;
     float radiant_exposure = 0.0f; // J/m2
     int wind_amount = 0;
@@ -205,11 +212,11 @@ class weather_manager
         int windspeed = 0;
 
         // For debug menu option "Force temperature"
-        cata::optional<units::temperature> forced_temperature;
+        std::optional<units::temperature> forced_temperature;
         // Cached weather data
         pimpl<w_point> weather_precise;
-        cata::optional<int> wind_direction_override;
-        cata::optional<int> windspeed_override;
+        std::optional<int> wind_direction_override;
+        std::optional<int> windspeed_override;
         weather_type_id weather_override;
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );

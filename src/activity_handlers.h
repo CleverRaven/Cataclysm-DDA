@@ -6,11 +6,11 @@
 #include <list>
 #include <map>
 #include <new>
+#include <optional>
 #include <unordered_set>
 #include <vector>
 
 #include "coordinates.h"
-#include "optional.h"
 #include "type_id.h"
 #include "requirements.h"
 
@@ -88,10 +88,10 @@ struct activity_reason_info {
     //is it possible to do this
     bool can_do;
     //construction index
-    cata::optional<construction_id> con_idx;
+    std::optional<construction_id> con_idx;
 
     activity_reason_info( do_activity_reason reason_, bool can_do_,
-                          const cata::optional<construction_id> &con_idx_ = cata::nullopt ) :
+                          const std::optional<construction_id> &con_idx_ = std::nullopt ) :
         reason( reason_ ),
         can_do( can_do_ ),
         con_idx( con_idx_ )
@@ -233,7 +233,6 @@ void wait_finish( player_activity *act, Character *you );
 void wait_npc_finish( player_activity *act, Character *you );
 void wait_stamina_finish( player_activity *act, Character *you );
 void wait_weather_finish( player_activity *act, Character *you );
-void washing_finish( player_activity *act, Character *you );
 
 int move_cost( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest );
 int move_cost_cart( const item &it, const tripoint_bub_ms &src, const tripoint_bub_ms &dest,

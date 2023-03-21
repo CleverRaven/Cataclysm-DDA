@@ -39,11 +39,12 @@ static const itype_id fuel_type_muscle( "muscle" );
 // Cache for the overmap widget string
 static disp_overmap_cache disp_om_cache;
 // Cache for the bodygraph widget string
-static std::array<disp_bodygraph_cache, 4> disp_bg_cache = { {
+static std::array<disp_bodygraph_cache, 5> disp_bg_cache = { {
         disp_bodygraph_cache( bodygraph_var::hp ),
         disp_bodygraph_cache( bodygraph_var::temp ),
         disp_bodygraph_cache( bodygraph_var::encumb ),
-        disp_bodygraph_cache( bodygraph_var::status )
+        disp_bodygraph_cache( bodygraph_var::status ),
+        disp_bodygraph_cache( bodygraph_var::wet )
     }
 };
 
@@ -106,66 +107,6 @@ vehicle *display::vehicle_driven( const Character &u )
         veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     return veh;
-}
-
-std::pair<std::string, nc_color> display::str_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_str() == p.get_str_base() ) {
-        clr = c_white;
-    } else if( p.get_str() > p.get_str_base() ) {
-        clr = c_green;
-    } else if( p.get_str() < p.get_str_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
-            p.get_str() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::dex_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_dex() == p.get_dex_base() ) {
-        clr = c_white;
-    } else if( p.get_dex() > p.get_dex_base() ) {
-        clr = c_green;
-    } else if( p.get_dex() < p.get_dex_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
-            p.get_dex() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::int_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_int() == p.get_int_base() ) {
-        clr = c_white;
-    } else if( p.get_int() > p.get_int_base() ) {
-        clr = c_green;
-    } else if( p.get_int() < p.get_int_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
-            p.get_int() ) : "++" ), clr );
-}
-
-std::pair<std::string, nc_color> display::per_text_color( const Character &p )
-{
-    nc_color clr;
-
-    if( p.get_per() == p.get_per_base() ) {
-        clr = c_white;
-    } else if( p.get_per() > p.get_per_base() ) {
-        clr = c_green;
-    } else if( p.get_per() < p.get_per_base() ) {
-        clr = c_red;
-    }
-    return std::make_pair( _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
-            p.get_per() ) : "++" ), clr );
 }
 
 std::string display::get_temp( const Character &u )
@@ -792,7 +733,7 @@ std::pair<std::string, nc_color> display::hunger_text_color( const Character &u 
 
 std::pair<std::string, nc_color> display::weight_text_color( const Character &u )
 {
-    const float bmi = u.get_bmi();
+    const float bmi = u.get_bmi_fat();
     std::string weight_string;
     nc_color weight_color = c_light_gray;
     if( get_option<bool>( "CRAZY" ) ) {
@@ -890,7 +831,7 @@ std::pair<std::string, nc_color> display::health_text_color( const Character &u 
 
 std::string display::weight_long_description( const Character &u )
 {
-    const float bmi = u.get_bmi();
+    const float bmi = u.get_bmi_fat();
     if( bmi > character_weight_category::morbidly_obese ) {
         return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
     } else if( bmi > character_weight_category::very_obese ) {
@@ -1123,11 +1064,13 @@ std::pair<std::string, nc_color> display::vehicle_fuel_percent_text_color( const
     if( veh && veh->cruise_on ) {
         itype_id fuel_type = itype_id::NULL_ID();
         // FIXME: Move this to a vehicle helper function like get_active_engine
-        for( size_t e = 0; e < veh->engines.size(); e++ ) {
-            if( veh->is_engine_on( e ) &&
-                !( veh->is_perpetual_type( e ) || veh->is_engine_type( e, fuel_type_muscle ) ) ) {
+        for( const int p : veh->engines ) {
+            const vehicle_part &vp = veh->part( p );
+            if( veh->is_engine_on( vp )
+                && !veh->is_perpetual_type( vp )
+                && !veh->is_engine_type( vp, fuel_type_muscle ) ) {
                 // Get the fuel type of the first engine that is turned on
-                fuel_type = veh->engine_fuel_current( e );
+                fuel_type = vp.fuel_current();
             }
         }
         int max_fuel = veh->fuel_capacity( fuel_type );
@@ -1599,6 +1542,21 @@ nc_color display::get_bodygraph_bp_color( const Character &u, const bodypart_id 
         }
         case bodygraph_var::status: {
             return display::limb_color( u, bid, true, true, true );
+        }
+        case bodygraph_var::wet: {
+            const int cur_wet = u.get_part_wetness( bid );
+            if( cur_wet == 0 ) {
+                return c_light_gray; // dry
+            } else {
+                const float cur_wet = u.get_part_wetness_percentage( bid );
+                if( cur_wet < BODYWET_PERCENT_WET ) {
+                    return c_light_cyan;
+                } else if( cur_wet < BODYWET_PERCENT_SOAKED ) {
+                    return c_light_blue;
+                } else {
+                    return c_blue; // maximum wetness
+                }
+            }
         }
         // Fall-through - invalid
         case bodygraph_var::last:

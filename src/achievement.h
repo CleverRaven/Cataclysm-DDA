@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <memory>
 #include <new>
+#include <optional>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -13,7 +14,6 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "event_subscriber.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -110,19 +110,26 @@ class achievement
                 time_duration period_;
         };
 
-        const cata::optional<time_bound> &time_constraint() const {
+        const std::optional<time_bound> &time_constraint() const {
             return time_constraint_;
         }
 
         const std::vector<achievement_requirement> &requirements() const {
             return requirements_;
         }
+
+        bool is_manually_given() const {
+            return manually_given_;
+        }
+
     private:
         translation name_;
         translation description_;
         bool is_conduct_ = false;
+        // if the achievement is given by an EOC
+        bool manually_given_ = false;
         std::vector<achievement_id> hidden_by_;
-        cata::optional<time_bound> time_constraint_;
+        std::optional<time_bound> time_constraint_;
         std::vector<achievement_requirement> requirements_;
 };
 

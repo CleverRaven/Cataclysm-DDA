@@ -167,7 +167,6 @@ std::vector<const recipe *> recipe_subset::recent() const
     return res;
 }
 
-
 std::vector<const recipe *> recipe_subset::search(
     const std::string &txt, const search_type key,
     const std::function<void( size_t, size_t )> &progress_callback ) const
@@ -216,7 +215,7 @@ std::vector<const recipe *> recipe_subset::search(
                 if( r->is_practice() ) {
                     return lcmatch( r->description.translated(), txt );
                 } else {
-                    const item result = r->create_result();
+                    const item result( r->result() );
                     return lcmatch( remove_color_tags( result.info( true ) ), txt );
                 }
             }
@@ -429,7 +428,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
 
     // defer entries dependent upon as-yet unparsed definitions
     if( jo.has_string( "copy-from" ) ) {
-        auto base = recipe_id( jo.get_string( "copy-from" ) );
+        recipe_id base = recipe_id( jo.get_string( "copy-from" ) );
         if( !out.count( base ) ) {
             deferred.emplace_back( jo, src );
             jo.allow_omitted_members();

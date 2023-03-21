@@ -165,7 +165,7 @@
     "apply_message": "Your speed is boosted to superhuman levels!",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
-    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
+    "enchantments": [ { "values": [ { "value": "SPEED", "multiply": 2.5 }, { "value": "ATTACK_SPEED", "multiply": -0.7 } ] } ]
   },
   {
     "type": "effect_type",
@@ -458,7 +458,7 @@
     "remove_message": "You no longer feel encumbered.",
     "rating": "good",
     "show_intensity": false,
-    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 1.2 } ] } ]
+    "enchantments": [ { "values": [ { "value": "ATTACK_SPEED", "multiply": -0.25 }, { "value": "MELEE_DAMAGE", "multiply": 0.6 } ] } ]
   },
   {
     "id": "eshaper_crystal_wrap",
@@ -472,7 +472,7 @@
     "enchantments": [
       {
         "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 }, { "value": "ITEM_DAMAGE_AP", "add": 6 } ]
+        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 } ]
       }
     ]
   },
@@ -572,7 +572,7 @@
     "id": "flask_stamina_eff",
     "name": [ "Constantia" ],
     "desc": [ "You can't get tired." ],
-    "apply_message": "You feel an energy in your muscles, untired and jazzed.",
+    "apply_message": "You feel an energy in your muscles, jazzed up and full of vitality.",
     "remove_message": "The energy in your body fades away.",
     "base_mods": { "stamina_min": [ 50 ] }
   },
@@ -600,7 +600,7 @@
     "id": "flask_resistance",
     "type": "effect_type",
     "name": [ "Resistentia" ],
-    "desc": [ "Thin layer of energy cover your body, and allow you to hold more physical damage than before." ],
+    "desc": [ "A thin layer of energy covers your body, and allows you to take more physical damage than before." ],
     "apply_message": "Your touch sense are blunted for a bit, but your skin feels more dense.",
     "remove_message": "The sturdy feeling is gone.",
     "rating": "good",

@@ -102,7 +102,7 @@
     "broken_color": "light_gray",
     "durability": 80,
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
-    "size": 250,
+    "size": "62500 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -195,7 +195,7 @@
     "name": { "str": "extra light quarterpanel" },
     "item": "pipe",
     "looks_like": "halfboard",
-    "durability": 96,
+    "durability": 70,
     "description": "A half-height thin metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "breaks_into": [ { "item": "pipe", "prob": 50 } ],
     "requirements": {

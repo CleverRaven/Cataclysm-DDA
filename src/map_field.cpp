@@ -9,6 +9,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <queue>
 #include <set>
 #include <string>
@@ -51,7 +52,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "overmapbuffer.h"
 #include "point.h"
 #include "rng.h"
@@ -747,7 +747,7 @@ static void field_processor_monster_spawn( const tripoint &p, field_entry &cur,
                 if( !mgr.name ) {
                     continue;
                 }
-                if( const cata::optional<tripoint> spawn_point =
+                if( const std::optional<tripoint> spawn_point =
                         random_point( points_in_radius( p, int_level.monster_spawn_radius ),
                 [&pd]( const tripoint & n ) {
                 return pd.here.passable( n );
@@ -1671,8 +1671,8 @@ void map::player_in_field( Character &you )
             }
         }
         if( ft == fd_electricity ) {
-            // Small universal damage based on intensity, only if not electroproofed.
-            if( cur.get_field_intensity() > 0 && !you.is_elec_immune() ) {
+            // Small universal damage based on intensity, only if not electroproofed and not in vehicle.
+            if( cur.get_field_intensity() > 0 && !you.is_elec_immune() && !you.in_vehicle ) {
                 const bodypart_id &main_part = bodypart_id( "torso" );
                 const int dmg = std::max( 1, rng( cur.get_field_intensity() / 2, cur.get_field_intensity() ) );
                 const int main_part_damage = you.deal_damage( nullptr, main_part,

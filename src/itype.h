@@ -7,6 +7,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -21,7 +22,6 @@
 #include "game_constants.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
-#include "optional.h"
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
@@ -97,7 +97,7 @@ class gunmod_location
 struct islot_tool {
     std::set<ammotype> ammo_id;
 
-    cata::optional<itype_id> revert_to;
+    std::optional<itype_id> revert_to;
     translation revert_msg;
 
     itype_id subtype;
@@ -107,7 +107,7 @@ struct islot_tool {
     int charge_factor = 1;
     int charges_per_use = 0;
     int turns_per_charge = 0;
-    units::energy power_draw = 0_J;
+    units::power power_draw = 0_W;
 
     std::vector<int> rand_charges;
 };
@@ -302,10 +302,9 @@ struct armor_portion_data {
     std::vector<part_material> materials;
 
     // Where does this cover if any
-    cata::optional<body_part_set> covers;
+    std::optional<body_part_set> covers;
 
     std::set<sub_bodypart_str_id> sub_coverage;
-
 
     // What layer does it cover if any
     std::set<layer_level> layers;
@@ -451,9 +450,9 @@ struct islot_armor {
 
     private:
         // Base material thickness, used to derive thickness in sub_data
-        cata::optional<float> _material_thickness = 0.0f;
-        cata::optional<int> _env_resist = 0;
-        cata::optional<int> _env_resist_w_filter = 0;
+        std::optional<float> _material_thickness = 0.0f;
+        std::optional<int> _env_resist = 0;
+        std::optional<int> _env_resist_w_filter = 0;
 };
 
 struct islot_pet_armor {
@@ -541,7 +540,7 @@ struct islot_book {
         /**
          * The name for the recipe as it appears in the book.
          */
-        cata::optional<translation> optional_name;
+        std::optional<translation> optional_name;
         /**
          * Hidden means it does not show up in the description of the book.
          */
@@ -559,6 +558,7 @@ struct islot_book {
     std::vector<book_proficiency_bonus> proficiencies;
 
     bool was_loaded = false;
+    bool is_scannable = false;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
@@ -655,8 +655,8 @@ struct itype_variant_data {
     translation alt_name;
     translation alt_description;
     ascii_art_id art;
-    cata::optional<std::string> alt_sym;
-    cata::optional<nc_color> alt_color = cata::nullopt;
+    std::optional<std::string> alt_sym;
+    std::optional<nc_color> alt_color = std::nullopt;
 
     bool append = false; // if the description should be appended to the base description.
 
@@ -751,6 +751,8 @@ struct islot_gun : common_ranged_data {
     int recoil = 0;
 
     int ammo_to_fire = 1;
+
+    std::map<ammotype, std::set<itype_id>> cached_ammos;
 };
 
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
@@ -884,8 +886,9 @@ struct islot_magazine {
     int reload_time = 100;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
-    cata::optional<itype_id> linkage;
+    std::optional<itype_id> linkage;
 
+    std::map<ammotype, std::set<itype_id>> cached_ammos;
     /** Map of [magazine type id] -> [set of gun itype_ids that accept the mag type ] */
     static std::map<itype_id, std::set<itype_id>> compatible_guns;
 };
@@ -908,7 +911,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Type id of casings, if any.
      */
-    cata::optional<itype_id> casing;
+    std::optional<itype_id> casing;
 
     /**
      * Control chance for and state of any items dropped at ranged target
@@ -1166,7 +1169,7 @@ struct itype {
 
     public:
         // The container it comes in
-        cata::optional<itype_id> default_container;
+        std::optional<itype_id> default_container;
 
         std::set<weapon_category_id> weapon_category;
 
@@ -1222,6 +1225,8 @@ struct itype {
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
 
+        // used for corpses placed by mapgen
+        mtype_id source_monster = mtype_id::NULL_ID();
     private:
         FlagsSetType item_tags;
 
@@ -1397,10 +1402,10 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        cata::optional<int> invoke( Character &p, item &it,
-                                    const tripoint &pos ) const; // Picks first method or returns 0
-        cata::optional<int> invoke( Character &p, item &it, const tripoint &pos,
-                                    const std::string &iuse_name ) const;
+        std::optional<int> invoke( Character &p, item &it,
+                                   const tripoint &pos ) const; // Picks first method or returns 0
+        std::optional<int> invoke( Character &p, item &it, const tripoint &pos,
+                                   const std::string &iuse_name ) const;
         int tick( Character &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;

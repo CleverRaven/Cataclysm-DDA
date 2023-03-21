@@ -598,25 +598,25 @@ bool do_turn()
     if( g->is_game_over() ) {
         return turn_handler::cleanup_at_end();
     }
+
+    weather_manager &weather = get_weather();
     // Actual stuff
     if( g->new_game ) {
         g->new_game = false;
+        if( get_option<std::string>( "ETERNAL_WEATHER" ) != "normal" ) {
+            weather.weather_override = static_cast<weather_type_id>
+                                       ( get_option<std::string>( "ETERNAL_WEATHER" ) );
+            weather.set_nextweather( calendar::turn );
+        } else {
+            weather.weather_override = WEATHER_NULL;
+            weather.set_nextweather( calendar::turn );
+        }
     } else {
         g->gamemode->per_turn();
         calendar::turn += 1_turns;
     }
 
     play_music( music::get_music_id_string() );
-
-    weather_manager &weather = get_weather();
-    if( get_option<std::string>( "ETERNAL_WEATHER" ) != "normal" ) {
-        weather.weather_override = static_cast<weather_type_id>
-                                   ( get_option<std::string>( "ETERNAL_WEATHER" ) );
-        weather.set_nextweather( calendar::turn );
-    } else {
-        weather.weather_override = WEATHER_NULL;
-        weather.set_nextweather( calendar::turn );
-    }
 
     // starting a new turn, clear out temperature cache
     weather.temperature_cache.clear();
@@ -633,8 +633,8 @@ bool do_turn()
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        if( veh && !veh->handle_potential_theft( dynamic_cast<Character &>( u ), true ) ) {
-            veh->handle_potential_theft( dynamic_cast<Character &>( u ), false, false );
+        if( veh && !veh->handle_potential_theft( u, true ) ) {
+            veh->handle_potential_theft( u, false, false );
         }
     }
 
@@ -674,9 +674,13 @@ bool do_turn()
     weather.update_weather();
     g->reset_light_level();
 
-    g->perhaps_add_random_npc();
+    g->perhaps_add_random_npc( /* ignore_spawn_timers_and_rates = */ false );
     while( u.moves > 0 && u.activity ) {
         u.activity.do_turn( u );
+    }
+    // FIXME: hack needed due to the legacy code in advanced_inventory::move_all_items()
+    if( !u.activity ) {
+        kill_advanced_inv();
     }
 
     // Process NPC sound events before they move or they hear themselves talking
@@ -818,7 +822,6 @@ bool do_turn()
     g->mon_info_update();
     u.process_turn();
     if( u.moves < 0 && get_option<bool>( "FORCE_REDRAW" ) ) {
-        g->mon_info_update();
         ui_manager::redraw();
         refresh_display();
     }
@@ -835,7 +838,7 @@ bool do_turn()
         wait_redraw = true;
         wait_message = _( "Wait till you wake up…" );
         wait_refresh_rate = 30_minutes;
-    } else if( const cata::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
+    } else if( const std::optional<std::string> progress = u.activity.get_progress_message( u ) ) {
         wait_redraw = true;
         wait_message = *progress;
         if( u.activity.is_interruptible() && u.activity.interruptable_with_kb ) {

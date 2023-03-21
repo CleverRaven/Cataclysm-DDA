@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <tuple>
@@ -54,7 +55,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -524,23 +524,31 @@ static double occupied_tile_fraction( creature_size target_size )
 
 double Creature::ranged_target_size() const
 {
+    double stance_factor = 1.0;
+    if( const Character *character = this->as_character() ) {
+        if( character->is_crouching() ) {
+            stance_factor = 0.6;
+        } else if( character->is_prone() ) {
+            stance_factor = 0.25;
+        }
+    }
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case creature_size::tiny:
             case creature_size::small:
-                return occupied_tile_fraction( creature_size::tiny );
+                return stance_factor * occupied_tile_fraction( creature_size::tiny );
             case creature_size::medium:
-                return occupied_tile_fraction( creature_size::small );
+                return stance_factor * occupied_tile_fraction( creature_size::small );
             case creature_size::large:
-                return occupied_tile_fraction( creature_size::medium );
+                return stance_factor * occupied_tile_fraction( creature_size::medium );
             case creature_size::huge:
-                return occupied_tile_fraction( creature_size::large );
+                return stance_factor * occupied_tile_fraction( creature_size::large );
             case creature_size::num_sizes:
                 debugmsg( "ERROR: Invalid Creature size class." );
                 break;
         }
     }
-    return occupied_tile_fraction( get_size() );
+    return stance_factor * occupied_tile_fraction( get_size() );
 }
 
 int range_with_even_chance_of_good_hit( int dispersion )
@@ -555,7 +563,7 @@ int range_with_even_chance_of_good_hit( int dispersion )
 }
 
 int Character::gun_engagement_moves( const item &gun, int target, int start,
-                                     Target_attributes attributes ) const
+                                     const Target_attributes &attributes ) const
 {
     int mv = 0;
     double penalty = start;
@@ -1098,9 +1106,9 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     return std::max( 0, dispersion );
 }
 
-static cata::optional<int> character_throw_assist( const Character &guy )
+static std::optional<int> character_throw_assist( const Character &guy )
 {
-    cata::optional<int> throw_assist = cata::nullopt;
+    std::optional<int> throw_assist = std::nullopt;
     if( guy.is_mounted() ) {
         auto *mons = guy.mounted_creature.get();
         if( mons->mech_str_addition() != 0 ) {
@@ -1123,7 +1131,7 @@ static int throwing_skill_adjusted( const Character &guy )
 
 int Character::thrown_item_adjusted_damage( const item &thrown ) const
 {
-    const cata::optional<int> throw_assist = character_throw_assist( *this );
+    const std::optional<int> throw_assist = character_throw_assist( *this );
     const bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                             !throw_assist;
 
@@ -1178,7 +1186,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
 }
 
 dealt_projectile_attack Character::throw_item( const tripoint &target, const item &to_throw,
-        const cata::optional<tripoint> &blind_throw_from_pos )
+        const std::optional<tripoint> &blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
     item thrown = to_throw;
@@ -1189,7 +1197,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const int throwing_skill = get_skill_level( skill_throw );
     const units::volume volume = to_throw.volume();
     const units::mass weight = to_throw.weight();
-    const cata::optional<int> throw_assist = character_throw_assist( *this );
+    const std::optional<int> throw_assist = character_throw_assist( *this );
 
     if( !throw_assist ) {
         const int stamina_cost = get_standard_stamina_cost( &thrown );
@@ -1315,7 +1323,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
         practice( skill_throw, 5, 2 );
     }
     // Reset last target pos
-    last_target_pos = cata::nullopt;
+    last_target_pos = std::nullopt;
     recoil = MAX_RECOIL;
 
     return dealt_attack;
@@ -1876,7 +1884,6 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
 
             print_colored_text( w, point( 1, line_number++ ), col, col, desc );
 
-
             if( display_numbers ) {
                 const std::string line = enumerate_as_string( out.chances.cbegin(), out.chances.cend(),
                 []( const aim_type_prediction::aim_confidence & conf ) {
@@ -2279,7 +2286,6 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
                               300 / get_option< float >( "GUN_DISPERSION_DIVIDER" ) ) );
     }
 
-
     float disperation_mod = enchantment_cache->modify_value( enchant_vals::mod::WEAPON_DISPERSION,
                             1.0f );
     if( disperation_mod != 1.0f ) {
@@ -2534,7 +2540,6 @@ target_handler::trajectory target_ui::run()
         }
     }
 
-
     // Event loop!
     ExitCode loop_exit_code;
     std::string timed_out_action;
@@ -2757,7 +2762,7 @@ void target_ui::init_window_and_input()
 
 bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_redraw )
 {
-    cata::optional<tripoint> mouse_pos;
+    std::optional<tripoint> mouse_pos;
     const auto shift_view_or_cursor = [this]( const tripoint & delta ) {
         if( this->shifting_view ) {
             this->set_view_offset( this->you->view_offset + delta );
@@ -2781,7 +2786,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
                 set_view_offset( you->view_offset + edge_scroll );
             }
         }
-    } else if( const cata::optional<tripoint> delta = ctxt.get_direction( action ) ) {
+    } else if( const std::optional<tripoint> delta = ctxt.get_direction( action ) ) {
         // Shift view/cursor with directional keys
         shift_view_or_cursor( *delta );
     } else if( action == "SELECT" &&
@@ -3310,7 +3315,7 @@ bool target_ui::action_switch_mode()
         // gun mode select
         const std::map<gun_mode_id, gun_mode> all_gun_modes = relevant->gun_all_modes();
         int skip = menu.ret - firing_modes_range.first;
-        for( std::pair<gun_mode_id, gun_mode> it : all_gun_modes ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &it : all_gun_modes ) {
             if( skip-- == 0 ) {
                 if( relevant->gun_current_mode().melee() ) {
                     refresh = true;
