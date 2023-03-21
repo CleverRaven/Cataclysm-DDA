@@ -665,9 +665,6 @@ bool avatar::create( character_type type, const std::string &tempname )
     prof = profession::generic();
     set_scenario( scenario::generic() );
 
-    const bool interactive = type != character_type::NOW &&
-                             type != character_type::FULL_RANDOM;
-
     std::vector<std::string> character_tabs = {
         _( "POINTS" ),
         _( "SCENARIO" ),
@@ -717,24 +714,9 @@ bool avatar::create( character_type type, const std::string &tempname )
             break;
     }
 
-    auto nameExists = [&]( const std::string & name ) {
-        return world_generator->active_world->save_exists( save_t::from_save_id( name ) ) &&
-               !query_yn( _( "A save with the name '%s' already exists in this world.\n"
-                             "Saving will overwrite the already existing character.\n\n"
-                             "Continue anyways?" ), name );
-    };
     set_body();
     const bool allow_reroll = type == character_type::RANDOM;
     do {
-        if( !interactive ) {
-            // no window is created because "Play now" does not require any configuration
-            if( nameExists( name ) ) {
-                return false;
-            }
-
-            break;
-        }
-
         if( pool == pool_type::TRANSFER ) {
             tabs.position.last();
         }
@@ -3787,9 +3769,19 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 if( !query_yn( _( "Are you SURE you're finished?  Your name will be randomly generated." ) ) ) {
                     continue;
                 } else {
-                    you.pick_name();
+                    do {
+                        // Pick a random name that doesn't already exist in the given world.
+                        you.pick_name( );
+                    } while( world_generator->active_world->save_exists( save_t::from_save_id( you.name ) ) );
                     tabs.complete = true;
                     break;
+                }
+            }
+            if( world_generator->active_world->save_exists( save_t::from_save_id( you.name ) ) ) {
+                if( !query_yn( _( "A save with the name '%s' already exists in this world.\n"
+                                  "Saving will overwrite the already existing character.\n\n"
+                                  "Continue anyways?" ), you.name ) ) {
+                    continue;
                 }
             }
             if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
