@@ -237,7 +237,7 @@
     "price_postapoc": 50
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "oil_press_electric",
     "name": { "str": "electric oil press", "str_pl": "electric oil presses" },
     "//": "based on YZS-68C oil press",
@@ -250,6 +250,9 @@
     "category": "veh_parts",
     "color": "green",
     "symbol": "Y",
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
+    ],
     "price": 100000,
     "price_postapoc": 1000
   }
