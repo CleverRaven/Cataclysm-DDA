@@ -324,6 +324,7 @@ bool mod_manager::copy_mod_contents( const t_mod_list &mods_to_copy,
         }
 
         // create needed directories
+        // NOLINTNEXTLINE(cata-translate-string-literal)
         const cata_path cur_mod_dir = output_base_path / string_format( "mod_%05d", i + 1 );
 
         std::queue<cata_path> dir_to_make;

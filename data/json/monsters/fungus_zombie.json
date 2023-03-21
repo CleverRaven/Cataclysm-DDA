@@ -222,7 +222,7 @@
     "special_attacks": [ [ "scratch", 15 ], [ "FUNGUS", 200 ] ],
     "death_drops": {
       "subtype": "collection",
-      "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ],
+      "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ],
       "//": "cloth as any other zombie (always), additional items from child_items (sometimes)"
     },
     "burn_into": "mon_zombie_child_scorched",
@@ -318,7 +318,7 @@
     "color": "white",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 9,
+    "melee_skill": 7,
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],

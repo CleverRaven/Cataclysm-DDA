@@ -14,6 +14,7 @@
 class map;
 class mapgendata;
 class mission;
+struct mapgen_arguments;
 struct mapgen_parameters;
 struct point;
 struct tripoint;
@@ -43,7 +44,6 @@ void mapgen_forest_trail_straight( mapgendata &dat );
 void mapgen_forest_trail_curved( mapgendata &dat );
 void mapgen_forest_trail_tee( mapgendata &dat );
 void mapgen_forest_trail_four_way( mapgendata &dat );
-void mapgen_hive( mapgendata &dat );
 void mapgen_river_center( mapgendata &dat );
 void mapgen_road( mapgendata &dat );
 //void mapgen_bridge( mapgendata &dat );
@@ -75,14 +75,17 @@ void madd_field( map *m, const point &, field_type_id type, int intensity );
 void mremove_fields( map *m, const point & );
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
-bool run_mapgen_update_func( const update_mapgen_id &, const tripoint_abs_omt &omt_pos,
-                             mission *miss = nullptr, bool cancel_on_collision = true,
-                             bool mirror_horizontal = false, bool mirror_vertical = false, int rotation = 0 );
+bool run_mapgen_update_func(
+    const update_mapgen_id &, const tripoint_abs_omt &omt_pos, const mapgen_arguments &,
+    mission *miss = nullptr, bool cancel_on_collision = true, bool mirror_horizontal = false,
+    bool mirror_vertical = false, int rotation = 0 );
 bool run_mapgen_update_func( const update_mapgen_id &, mapgendata &dat,
                              bool cancel_on_collision = true );
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );
-std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
-            const update_mapgen_id &, ter_id const &base_ter = t_dirt );
+std::pair<std::map<ter_id, int>, std::map<furn_id, int>>
+        get_changed_ids_from_update(
+            const update_mapgen_id &, const mapgen_arguments &,
+            ter_id const &base_ter = t_dirt );
 mapgen_parameters get_map_special_params( const std::string &mapgen_id );
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat );

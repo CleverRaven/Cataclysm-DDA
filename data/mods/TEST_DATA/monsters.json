@@ -46,6 +46,21 @@
   },
   {
     "type": "MONSTER",
+    "id": "mon_test_mattack",
+    "name": { "str": "mattack test monster" },
+    "description": "It exists only to try and mostly fail to attack you",
+    "default_faction": "zombie",
+    "symbol": "D",
+    "volume": "81500 ml",
+    "speed": 100,
+    "melee_skill": 1000,
+    "melee_dice": 0,
+    "morale": 100,
+    "aggression": 100,
+    "special_attacks": [ { "id": "test_conditions_1" } ]
+  },
+  {
+    "type": "MONSTER",
     "id": "mon_test_bovine",
     "name": { "str_sp": "monster producing cattle samples when dissected" },
     "description": "An 8-legged beast of rugged greenish skin.",
@@ -246,6 +261,14 @@
       "PUSH_MON",
       "FILTHY"
     ]
+  },
+  {
+    "id": "mon_debug_grab",
+    "type": "MONSTER",
+    "copy-from": "debug_mon",
+    "name": { "str": "debug grabber" },
+    "melee_skill": 200,
+    "special_attacks": [ [ "GRAB", 0 ] ]
   },
   {
     "id": "mon_debug_memory",

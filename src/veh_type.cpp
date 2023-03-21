@@ -779,6 +779,16 @@ void vpart_info::finalize()
             e.second.z_order = 0;
             e.second.list_order = 5;
         }
+        std::set<std::pair<itype_id, int>> &pt = e.second.pseudo_tools;
+        for( auto it = pt.begin(); it != pt.end(); /* blank */ ) {
+            const itype_id &tool = it->first;
+            if( !tool.is_valid() ) {
+                debugmsg( "invalid pseudo tool itype_id '%s' on '%s'", tool.str(), e.first.str() );
+                pt.erase( it++ );
+            } else {
+                ++it;
+            }
+        }
     }
 }
 

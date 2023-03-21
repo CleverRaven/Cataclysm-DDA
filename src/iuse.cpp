@@ -132,7 +132,6 @@ static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
-static const activity_id ACT_WASH( "ACT_WASH" );
 
 static const addiction_id addiction_marloss_b( "marloss_b" );
 static const addiction_id addiction_marloss_r( "marloss_r" );
@@ -1597,18 +1596,27 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
             return cata::nullopt;
         }
 
+        bool halluc = mon->is_hallucination();
+
         if( mon->type->id == mon_dog_thing ) {
-            p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, rng( 1, 10 ) ) );
+            if( !halluc ) {
+                p->deal_damage( mon, bodypart_id( "hand_r" ), damage_instance( damage_type::CUT, rng( 1, 10 ) ) );
+            }
             p->add_msg_if_player( m_bad, _( "You want to feed it the dog food, but it bites your fingers!" ) );
             if( one_in( 5 ) ) {
                 p->add_msg_if_player(
                     _( "Apparently, it's more interested in your flesh than the dog food in your hand!" ) );
-                p->consume_charges( *it, 1 );
+                if( halluc ) {
+                    item drop_me = p->reduce_charges( it, 1 );
+                    p->i_drop_at( drop_me );
+                } else {
+                    p->consume_charges( *it, 1 );
+                }
             }
             return cata::nullopt;
         }
 
-        if( mon->is_hallucination() ) {
+        if( halluc && one_in( 4 ) ) {
             p->add_msg_if_player( _( "You try to feed the %1$s some %2$s, but it vanishes!" ),
                                   mon->type->nname(), it->tname() );
             mon->die( nullptr );
@@ -1625,7 +1633,12 @@ cata::optional<int> iuse::petfood( Character *p, item *it, bool, const tripoint 
 
         mon->friendly = -1;
         mon->add_effect( effect_pet, 1_turns, true );
-        p->consume_charges( *it, 1 );
+        if( halluc ) {
+            item drop_me = p->reduce_charges( it, 1 );
+            p->i_drop_at( drop_me );
+        } else {
+            p->consume_charges( *it, 1 );
+        }
         return cata::nullopt;
     }
     p->add_msg_if_player( _( "There is nothing to be fed here." ) );
@@ -4728,7 +4741,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
             drew_blood = true;
             blood_temp = map_it.temperature;
 
-            auto bloodtype( map_it.get_mtype()->bloodType() );
+            field_type_id bloodtype( map_it.get_mtype()->bloodType() );
             if( bloodtype.obj().has_acid ) {
                 acid_blood = true;
             } else {
@@ -4761,7 +4774,7 @@ cata::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoi
     }
 
     if( acid_blood ) {
-        item acid( "chem_sulphuric_acid", calendar::turn );
+        item acid( "blood_acid", calendar::turn );
         acid.set_item_temperature( blood_temp );
         it->put_in( acid, item_pocket::pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
@@ -5934,27 +5947,17 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
                 }
             }
 
+            std::set<recipe_id> saved_recipes = eink.get_saved_recipes();
             for( const recipe *r : new_recipes ) {
                 const recipe_id &rident = r->ident();
-
-                const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
-                if( old_recipes.empty() ) {
-                    something_downloaded = true;
-                    eink.set_var( "EIPC_RECIPES", "," + rident.str() + "," );
-
+                if( saved_recipes.emplace( rident ).second ) { // recipe added
+                    eink.set_saved_recipes( saved_recipes );
                     p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
                                          r->result_name() );
+                    something_downloaded = true;
                 } else {
-                    if( old_recipes.find( "," + rident.str() + "," ) == std::string::npos ) {
-                        something_downloaded = true;
-                        eink.set_var( "EIPC_RECIPES", old_recipes + rident.str() + "," );
-
-                        p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
-                                             r->result_name() );
-                    } else {
-                        p.add_msg_if_player( m_good, _( "The recipe for %s is already stored in the tablet's memory." ),
-                                             r->result_name() );
-                    }
+                    p.add_msg_if_player( m_good, _( "The recipe for %s is already stored in the tablet's memory." ),
+                                         r->result_name() );
                 }
             }
         }
@@ -5979,7 +5982,7 @@ static bool einkpc_download_memory_card( Character &p, item &eink, item &mc )
         something_downloaded = true;
         p.add_msg_if_player( m_good, _( "You have updated your monster collection." ) );
 
-        auto photos = eink.get_var( "EINK_MONSTER_PHOTOS" );
+        std::string photos = eink.get_var( "EINK_MONSTER_PHOTOS" );
         if( photos.empty() ) {
             eink.set_var( "EINK_MONSTER_PHOTOS", monster_photos );
         } else {
@@ -6106,7 +6109,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
             amenu.addentry( ei_music, false, 'm', _( "No music on device" ) );
         }
 
-        if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
+        if( !it->get_saved_recipes().empty() ) {
             amenu.addentry( ei_recipe, true, 'r', _( "List stored recipes" ) );
         }
 
@@ -6191,27 +6194,11 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
             p->moves -= 50;
 
             uilist rmenu;
-
-            rmenu.text = _( "List recipes:" );
-
-            std::vector<recipe_id> candidate_recipes;
-            std::istringstream f( it->get_var( "EIPC_RECIPES" ) );
-            std::string s;
-            int k = 0;
-            while( getline( f, s, ',' ) ) {
-
-                if( s.empty() ) {
-                    continue;
-                }
-
-                candidate_recipes.emplace_back( s );
-
-                const recipe &recipe = *candidate_recipes.back();
-                if( recipe ) {
-                    rmenu.addentry( k++, true, -1, recipe.result_name( /*decorated=*/true ) );
-                }
+            for( const recipe_id &rid : it->get_saved_recipes() ) {
+                rmenu.addentry( 0, true, 0, rid->result_name( /* decorated = */ true ) );
             }
 
+            rmenu.text = _( "List recipes:" );
             rmenu.query();
 
             return 1;
@@ -6842,7 +6829,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                     pose = _( "stands" );
                 }
                 const std::vector<std::string> vec = guy->short_description_parts();
-                figure_appearance = join( vec, "\n\n" );
+                figure_appearance = string_join( vec, "\n\n" );
                 figure_name = guy->get_name();
                 pronoun_gender = guy->male ? _( "He" ) : _( "She" );
                 creature = guy;
@@ -7924,7 +7911,7 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *&v = veh.v;
         if( rl_dist( center, v->global_pos3() ) < 40 &&
-            v->fuel_left( itype_battery, true ) > 0 &&
+            v->fuel_left( itype_battery ) > 0 &&
             ( !empty( v->get_avail_parts( advctrl ) ) ||
               ( !advanced && !empty( v->get_avail_parts( ctrl ) ) ) ) ) {
             vehs.push_back( v );
@@ -7965,7 +7952,7 @@ cata::optional<int> iuse::remoteveh( Character *p, item *it, bool t, const tripo
         } else if( remote == nullptr ) {
             p->add_msg_if_player( _( "Lost contact with the vehicle." ) );
             stop = true;
-        } else if( remote->fuel_left( itype_battery, true ) == 0 ) {
+        } else if( remote->fuel_left( itype_battery ) == 0 ) {
             p->add_msg_if_player( m_bad, _( "The vehicle's battery died." ) );
             stop = true;
         }
@@ -8467,6 +8454,10 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
                     p->add_msg_if_player( _( "You can't attach the tow-line to an internal part." ) );
                     return cata::nullopt;
                 }
+                if( !source_veh->part( vp->part_index() ).carried_stack.empty() ) {
+                    p->add_msg_if_player( _( "You can't attach the tow-line to a racked part." ) );
+                    return cata::nullopt;
+                }
             }
             const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
@@ -8538,6 +8529,10 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
             }
             if( !target_veh->is_external_part( vpos ) ) {
                 p->add_msg_if_player( _( "You can't attach the tow-line to an internal part." ) );
+                return cata::nullopt;
+            }
+            if( !target_veh->part( target_vp->part_index() ).carried_stack.empty() ) {
+                p->add_msg_if_player( _( "You can't attach the tow-line to a racked part." ) );
                 return cata::nullopt;
             }
             const vpart_id vpid( it->typeId().str() );
@@ -8649,7 +8644,7 @@ cata::optional<int> iuse::cable_attach( Character *p, item *it, bool, const trip
         }
         const tripoint posp = *posp_;
         const optional_vpart_position vp = here.veh_at( posp );
-        auto ter = here.ter( posp );
+        ter_id ter = here.ter( posp );
         if( !vp && ter != t_chainfence ) {
             p->add_msg_if_player( _( "There's no vehicle there." ) );
             return cata::nullopt;
@@ -9440,11 +9435,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
         add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     // Assign the activity values.
-    p->assign_activity( ACT_WASH, required.time );
-    for( const drop_location &pair : to_clean ) {
-        p->activity.targets.push_back( pair.first );
-        p->activity.values.push_back( pair.second );
-    }
+    p->assign_activity( player_activity( wash_activity_actor( to_clean, required ) ) );
 
     return 0;
 }
@@ -9906,46 +9897,6 @@ cata::optional<int> iuse::binder_add_recipe( Character *p, item *binder, bool, c
         return cata::nullopt;
     }
 
-    uilist amenu;
-    amenu.text = _( "Choose menu option:" );
-
-    if( !binder->get_var( "EIPC_RECIPES" ).empty() ) {
-        amenu.addentry( 0, true, 'r', _( "View recipes" ) );
-    }
-    amenu.addentry( 1, true, 'w', _( "Copy a recipe from a book" ) );
-
-    amenu.query();
-    if( amenu.ret < 0 ) {
-        return cata::nullopt;
-    } else if( amenu.ret == 0 ) {
-        uilist rmenu;
-        rmenu.text = _( "List recipes:" );
-
-        std::vector<recipe_id> candidate_recipes;
-        std::istringstream f( binder->get_var( "EIPC_RECIPES" ) );
-        std::string s;
-        int k = 0;
-        while( getline( f, s, ',' ) ) {
-
-            if( s.empty() ) {
-                continue;
-            }
-
-            candidate_recipes.emplace_back( s );
-
-            const recipe &rec = *candidate_recipes.back();
-            const int pages = 1 + rec.difficulty / 2;
-            if( rec ) {
-                rmenu.addentry_col( k++, true, -1, rec.result_name(),
-                                    string_format( n_gettext( "%1$d page", "%1$d pages", pages ), pages ) );
-            }
-        }
-
-        rmenu.query();
-
-        return cata::nullopt;
-    }
-
     const inventory crafting_inv = p->crafting_inventory();
     const std::vector<const item *> writing_tools = crafting_inv.items_with( [&]( const item & it ) {
         return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_sufficient( p );
@@ -9956,88 +9907,57 @@ cata::optional<int> iuse::binder_add_recipe( Character *p, item *binder, bool, c
         return cata::nullopt;
     }
 
-    const recipe_subset res = p->get_recipes_from_books( crafting_inv );
-    if( !res.size() ) {
-        p->add_msg_if_player( m_info, _( "You do not have any recipes you can copy." ) );
-        return cata::nullopt;
-    }
-
-    std::vector<const recipe *> recipes;
-    recipes.reserve( res.size() );
-
-    uilist menu;
-    menu.text = _( "Choose recipe to copy" );
-
-    // due to way recipe_subset works, I can't a use range-based for loop here
-    // without compiler errors
-    for( auto rec = res.begin(); rec != res.end(); ++rec ) {
-        // bypass clang: use range-based for loop instead [modernize-loop-convert]
-        // because of the issue above
-        if( rec == res.end() ) {
-            continue;
-        }
-        recipes.emplace_back( *rec );
-
-        const int pages = 1 + ( *rec )->difficulty / 2;
-        menu.addentry_col( -1, binder->remaining_ammo_capacity() >= pages, ' ',
-                           ( *rec )->result_name(),
-                           string_format( n_gettext( "%1$d page", "%1$d pages", pages ), pages ) );
-    }
-
-    menu.query();
-    if( menu.ret < 0 ) {
-        return cata::nullopt;
-    }
-
     if( p->fine_detail_vision_mod() > 4.0f ) {
         p->add_msg_if_player( m_info, _( "It's too dark to write!" ) );
         return cata::nullopt;
     }
 
-    const int pages = 1 + recipes[menu.ret]->difficulty / 2;
-    if( !p->has_charges( itype_paper, pages ) ) {
-        p->add_msg_if_player( m_info, _( "You do not have enough paper to copy this recipe." ) );
-        return cata::nullopt;
-    }
-
-    if( binder->remaining_ammo_capacity() <  pages ) {
-        p->add_msg_if_player( m_info, _( "Your recipe book can not fit this recipe." ) );
-        return cata::nullopt;
-    }
-
-    const std::string old_recipes = binder->get_var( "EIPC_RECIPES" );
-    if( old_recipes.find( "," + recipes[menu.ret]->ident().str() + "," ) != std::string::npos ) {
-        p->add_msg_if_player( m_good, _( "Your recipe book already has a recipe for %s." ),
-                              recipes[menu.ret]->result_name() );
-        return cata::nullopt;
-    }
-
-    bool has_enough_charges = false;
-
-    // one charge per page
-    int max_charges = 0;
-    for( const item *it : writing_tools ) {
-        if( it->ammo_required() == 0 ) {
-            has_enough_charges = true;
-            break;
+    const recipe_subset res = p->get_recipes_from_books( crafting_inv );
+    const std::vector<const recipe *> recipes( res.begin(), res.end() );
+    const auto enough_writing_tool_charges = [&writing_tools]( int pages ) {
+        for( const item *it : writing_tools ) {
+            if( it->ammo_required() == 0 ) {
+                return true;
+            }
+            pages -= it->ammo_remaining() / it->ammo_required();
+            if( pages <= 0 ) {
+                return true;
+            }
         }
+        return false;
+    };
 
-        max_charges += it->ammo_remaining() / it->ammo_required();
-        if( max_charges >= pages ) {
-            has_enough_charges = true;
-            break;
+    uilist menu;
+    menu.text = _( "Choose recipe to copy" );
+    menu.hilight_disabled = true;
+    menu.desc_enabled = true;
+    for( const recipe *r : recipes ) {
+        std::string desc;
+        const int pages = bookbinder_copy_activity_actor::pages_for_recipe( *r );
+        const std::string pages_str = string_format( n_gettext( "%1$d page", "%1$d pages", pages ), pages );
+
+        if( !p->has_charges( itype_paper, pages ) ) {
+            desc = _( "You do not have enough paper to copy this recipe." );
+        } else if( binder->remaining_ammo_capacity() <  pages ) {
+            desc = _( "Your recipe book can not fit this recipe." );
+        } else if( binder->get_saved_recipes().count( r->ident() ) != 0 ) {
+            desc = string_format( _( "Your recipe book already has a recipe for %s." ), r->result_name() );
+        } else if( !enough_writing_tool_charges( pages ) ) {
+            desc = _( "Your writing tools do not have enough charges." );
         }
+        menu.addentry_col( -1, desc.empty(), cata::nullopt, r->result_name(), pages_str, desc );
     }
-
-    if( !has_enough_charges ) {
-        p->add_msg_if_player( m_info, _( "Your writing tool does not have enough charges." ) );
+    if( menu.entries.empty() ) {
+        p->add_msg_if_player( m_info, _( "You do not have any recipes you can copy." ) );
+        return cata::nullopt;
+    }
+    menu.query();
+    if( menu.ret < 0 ) {
         return cata::nullopt;
     }
 
-    p->assign_activity( player_activity(
-                            bookbinder_copy_activity_actor(
-                                item_location( *p, binder ),
-                                recipes[menu.ret]->ident() ) ) );
+    bookbinder_copy_activity_actor act( item_location( *p, binder ), recipes[menu.ret]->ident() );
+    p->assign_activity( player_activity( act ) );
 
     return cata::nullopt;
 }
@@ -10050,7 +9970,10 @@ cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool
         return cata::nullopt;
     }
 
-    if( binder->get_var( "EIPC_RECIPES" ).empty() ) {
+    std::set<recipe_id> binder_recipes = binder->get_saved_recipes();
+    const std::vector<recipe_id> recipes( binder_recipes.begin(), binder_recipes.end() );
+
+    if( binder_recipes.empty() ) {
         p->add_msg_if_player( m_info, _( "You have no recipes to manage." ) );
         return cata::nullopt;
     }
@@ -10058,55 +9981,30 @@ cata::optional<int> iuse::binder_manage_recipe( Character *p, item *binder, bool
     uilist rmenu;
     rmenu.text = _( "Manage recipes" );
 
-    int num_recipes = 0;
-    std::vector<recipe_id> recipes;
-
-    // copied from item::get_available_recipes
-    const std::string eipc_recipes = binder->get_var( "EIPC_RECIPES" );
-    // Capture the index one past the delimiter, i.e. start of target string.
-    size_t first_string_index = eipc_recipes.find_first_of( ',' ) + 1;
-    while( first_string_index != std::string::npos ) {
-        size_t next_string_index = eipc_recipes.find_first_of( ',', first_string_index );
-        if( next_string_index == std::string::npos ) {
-            break;
-        }
-        const recipe_id new_recipe( eipc_recipes.substr( first_string_index,
-                                    next_string_index - first_string_index ) );
-
-        if( new_recipe.is_valid() ) {
-            recipes.emplace_back( new_recipe );
-
-            std::string recipe_name = new_recipe->result_name();
-            if( p->knows_recipe( &new_recipe.obj() ) ) {
-                recipe_name += _( " (KNOWN)" );
-            }
-
-            const int pages = 1 + new_recipe->difficulty / 2;
-            rmenu.addentry_col( ++num_recipes, true, ' ',
-                                recipe_name,
-                                string_format( n_gettext( "%1$d page", "%1$d pages", pages ), pages ) );
+    for( const recipe_id &new_recipe : recipes ) {
+        std::string recipe_name = new_recipe->result_name();
+        if( p->knows_recipe( &new_recipe.obj() ) ) {
+            recipe_name += _( " (KNOWN)" );
         }
 
-        first_string_index = next_string_index + 1;
+        const int pages = bookbinder_copy_activity_actor::pages_for_recipe( *new_recipe );
+        rmenu.addentry_col( -1, true, ' ', recipe_name,
+                            string_format( n_gettext( "%1$d page", "%1$d pages", pages ), pages ) );
     }
 
     rmenu.query();
-    if( rmenu.ret > 0 ) {
-        const recipe_id &rec = recipes[rmenu.ret - 1];
-        if( !query_yn( _( "Remove the recipe for %1$s?" ), rec->result_name() ) ) {
-            return cata::nullopt;
-        }
-
-        recipes.erase( recipes.begin() + rmenu.ret - 1 );
-        binder->erase_var( "EIPC_RECIPES" );
-
-        for( const recipe_id &book_rec : recipes ) {
-            binder->eipc_recipe_add( book_rec );
-        }
-
-        const int pages = 1 + rec->difficulty / 2;
-        binder->ammo_consume( pages, ipos, p );
+    if( rmenu.ret < 0 ) {
+        return cata::nullopt;
     }
+    const recipe_id &rec = recipes[rmenu.ret];
+    if( !query_yn( _( "Remove the recipe for %1$s?" ), rec->result_name() ) ) {
+        return cata::nullopt;
+    }
+    binder_recipes.erase( rec );
+    binder->set_saved_recipes( binder_recipes );
+
+    const int pages = bookbinder_copy_activity_actor::pages_for_recipe( *rec );
+    binder->ammo_consume( pages, ipos, p );
 
     return cata::nullopt;
 }
@@ -10125,7 +10023,7 @@ cata::optional<int> iuse::voltmeter( Character *p, item *, bool, const tripoint 
         p->add_msg_if_player( _( "There's nothing to measure there." ) );
         return cata::nullopt;
     }
-    if( vp->vehicle().fuel_left( itype_battery, true ) ) {
+    if( vp->vehicle().fuel_left( itype_battery ) ) {
         p->add_msg_if_player( _( "The %1$s has voltage." ), vp->vehicle().name );
     } else {
         p->add_msg_if_player( _( "The %1$s has no voltage." ), vp->vehicle().name );

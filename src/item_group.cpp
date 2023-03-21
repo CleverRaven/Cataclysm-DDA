@@ -717,6 +717,7 @@ std::size_t Item_group::create( Item_spawn_data::ItemList &list,
     }
     const std::size_t items_created = list.size() - prev_list_size;
     put_into_container( list, items_created, container_item, birthday, on_overflow, context() );
+
     return list.size() - prev_list_size;
 }
 

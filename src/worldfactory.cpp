@@ -2121,8 +2121,8 @@ void load_world_option( const JsonObject &jo )
 //load external option from json
 void load_external_option( const JsonObject &jo )
 {
-    auto name = jo.get_string( "name" );
-    auto stype = jo.get_string( "stype" );
+    std::string name = jo.get_string( "name" );
+    std::string stype = jo.get_string( "stype" );
     options_manager &opts = get_options();
     if( !opts.has_option( name ) ) {
         translation sinfo;

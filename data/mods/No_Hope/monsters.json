@@ -684,5 +684,13 @@
       "STUN_IMMUNE",
       "MECH_DEFENSIVE"
     ]
+  },
+  {
+    "id": "mon_zombie_technician",
+    "type": "MONSTER",
+    "name": { "str": "zombie technician" },
+    "description": "Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.  As it approaches, everything metal you're carrying shifts very slightly in the zombie's direction, as if attracted by a strong magnetic force.",
+    "copy-from": "mon_zombie_technician",
+    "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 }, [ "GRAB", 7 ], [ "scratch", 20 ] ]
   }
 ]

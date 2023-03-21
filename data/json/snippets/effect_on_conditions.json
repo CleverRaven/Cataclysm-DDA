@@ -504,6 +504,19 @@
   },
   {
     "type": "snippet",
+    "category": "<XEDRA_OFFICER>",
+    "text": [
+      "an almost human voice saying \"Contact, clean this up.\"",
+      "an almost human voice saying \"This is what we've trained for.\"",
+      "an almost human voice saying \"I WONT LET YOU KILL ME!\"",
+      "an almost human voice saying \"Flank him, quick.\"",
+      "an almost human voice saying \"Get eyes on them.\"",
+      "an almost human voice saying \"I'm not going back.\"",
+      "an almost human voice saying \"The breach must be contained.\""
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "AMBIENT_LAB_SUBWAY",
     "text": [
       "<AMBIENT_SUBWAY>",
@@ -519,6 +532,17 @@
       "There is a shimmering spot above the rails.  Looking through, you can see the night sky and hear something howl with hatred and hunger.  You're certain it could not pass through an opening so small.  You're also certain the gateway will grow.",
       "The wall is carpeted by green-gray mushrooms, their caps turning towards you with anticipation.",
       "The wall's concrete is warped into a spiral relief, drawing your eye inexorably to its center.  You force yourself to look away, and feel something shift behind the wall."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "play_piano",
+    "text": [
+      "You play a short, light-hearted ditty.",
+      "You play a deep, sonorous symphony.",
+      "You play a short requiem.",
+      "You play a few notes, but nothing comes to you.",
+      "You want to be Mozart, but the best you can do is Schubert."
     ]
   }
 ]
