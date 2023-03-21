@@ -997,5 +997,10 @@
       [ "hippie_van", 250 ],
       [ "car_sports", 30 ]
     ]
+  },
+  {
+    "id": "hospital_stretchers",
+    "type": "vehicle_group",
+    "vehicles": [ [ "hospital_stretcher", 100 ] ]
   }
 ]
