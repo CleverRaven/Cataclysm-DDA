@@ -200,26 +200,6 @@
     "charged_qualities": [ [ "PRESSURIZATION", 2 ] ]
   },
   {
-    "id": "water_purifier_tool",
-    "type": "TOOL",
-    "copy-from": "fake_appliance_tool",
-    "name": { "str": "stationary water purifier" }
-  },
-  {
-    "id": "pseudo_water_purifier",
-    "//": "All vehicle water purifiers need to use the same pseudo-item because vehicle.cpp matches against a specific id",
-    "copy-from": "water_purifier",
-    "sub": "water_purifier",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "water purifier"
-  },
-  {
     "id": "pseudo_exercise_machine",
     "type": "TOOL",
     "name": { "str": "exercise machine" },

@@ -82,11 +82,11 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_null( "null" );
-static const itype_id itype_pseudo_water_purifier( "pseudo_water_purifier" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
+static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
 
 static const quality_id qual_SCREW( "SCREW" );
@@ -2057,10 +2057,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    if( vp.part_with_tool( itype_pseudo_water_purifier ) ) {
+    if( vp.part_with_tool( itype_water_purifier ) ) {
         menu.add( _( "Purify water in vehicle tank" ) )
         .enable( fuel_left( itype_water ) &&
-                 fuel_left( itype_battery ) >= itype_pseudo_water_purifier->charges_to_use() )
+                 fuel_left( itype_battery ) >= itype_water_purifier->charges_to_use() )
         .hotkey( "PURIFY_WATER" )
         .on_submit( [this] {
             const auto sel = []( const vehicle_part & pt )
@@ -2074,7 +2074,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             {
                 return;
             }
-            int64_t cost = static_cast<int64_t>( itype_pseudo_water_purifier->charges_to_use() );
+            int64_t cost = static_cast<int64_t>( itype_water_purifier->charges_to_use() );
             if( fuel_left( itype_battery ) < tank.ammo_remaining() * cost )
             {
                 //~ $1 - vehicle name, $2 - part name
