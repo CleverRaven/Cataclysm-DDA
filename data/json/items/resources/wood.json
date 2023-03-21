@@ -322,19 +322,19 @@
     "flags": [ "FIREWOOD" ]
   },
   {
-	"id": "lumber",
-	"type": "GENERIC",
-	"name": { "str": "lumber" },
-	"description": "Large and uncut lumber straight from a tree.",
-	"weight": "75000 g",
-	"volume": "125000 ml",
-	"longest_side": "350 cm",
-	"price": 30000,
-	"price_postapoc": 10,
-	"to_hit": -10,
-	"bashing": 10,
-	"material": [ "wood" ],
-	"symbol": "l",
-	"color": "brown"
+    "id": "lumber",
+    "type": "GENERIC",
+    "name": { "str": "lumber" },
+    "description": "Large and uncut lumber straight from a tree.",
+    "weight": "75000 g",
+    "volume": "125000 ml",
+    "longest_side": "350 cm",
+    "price": 30000,
+    "price_postapoc": 10,
+    "to_hit": -10,
+    "bashing": 10,
+    "material": [ "wood" ],
+    "symbol": "l",
+    "color": "brown"
   }
 ]
