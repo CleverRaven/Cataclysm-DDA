@@ -101,7 +101,6 @@ bool ranged_pull( monster *z );
 bool grab( monster *z );
 bool grab_drag( monster *z );
 bool suicide( monster *z );
-bool thrown_by_judo( monster *z );    //handles zombie getting thrown when u.is_throw_immune()
 bool riotbot( monster *z );
 bool stretch_attack( monster *z );
 bool stretch_bite( monster *z );
