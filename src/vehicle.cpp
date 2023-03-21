@@ -204,6 +204,11 @@ vehicle::vehicle() : vehicle( get_map(), vproto_id() )
 
 vehicle::~vehicle() = default;
 
+safe_reference<vehicle> vehicle::get_safe_reference()
+{
+    return anchor.reference_to( this );
+}
+
 bool vehicle::player_in_control( const Character &p ) const
 {
     // Debug switch to prevent vehicles from skidding

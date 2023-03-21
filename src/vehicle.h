@@ -852,6 +852,10 @@ class vehicle
         // Refresh active_item cache for vehicle parts
         void refresh_active_item_cache();
 
+        /** Return a pointer-like type that's automatically invalidated if this
+        * item is destroyed or assigned-to */
+        safe_reference<vehicle> get_safe_reference();
+
         /**
          * Set stat for part constrained by range [0,durability]
          * @note does not invoke base @ref item::on_damage callback
@@ -2087,6 +2091,7 @@ class vehicle
         bool has_tag( const std::string &tag ) const;
 
     private:
+        safe_reference_anchor anchor;
         mutable units::mass mass_cache; // NOLINT(cata-serialize)
         // cached pivot point
         mutable point pivot_cache; // NOLINT(cata-serialize)
