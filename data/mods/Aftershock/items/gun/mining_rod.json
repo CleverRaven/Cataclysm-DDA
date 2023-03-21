@@ -22,6 +22,6 @@
     "reload": 2000,
     "clip_size": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "metal_rail": 1 } } ],
-	"flags": [ "USE_UPS" ]
+    "flags": [ "USE_UPS" ]
   }
 ]
