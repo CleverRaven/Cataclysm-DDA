@@ -20,6 +20,7 @@
 #include <memory>
 #include <new>
 #include <numeric>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <stack>
@@ -96,7 +97,6 @@
 #include "mutation.h"
 #include "npc.h"
 #include "npc_class.h"
-#include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -511,8 +511,8 @@ void effect_source::deserialize( const JsonObject &data )
     data.read( "faction_id", this->fac );
     const std::string mfac_id = data.get_string( "mfaction_id", "" );
     this->mfac = !mfac_id.empty()
-                 ? cata::optional<mfaction_id>( mfaction_str_id( mfac_id ).id() )
-                 : cata::optional<mfaction_id>();
+                 ? std::optional<mfaction_id>( mfaction_str_id( mfac_id ).id() )
+                 : std::optional<mfaction_id>();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1256,7 +1256,7 @@ void Character::load( const JsonObject &data )
     data.read( "ammo_location", ammo_location );
     // Fixes savefile with invalid last_target_pos.
     if( last_target_pos && *last_target_pos == tripoint_min ) {
-        last_target_pos = cata::nullopt;
+        last_target_pos = std::nullopt;
     }
     if( tmptartyp == +1 ) {
         // Use overmap_buffer because game::active_npc is not filled yet.
@@ -2184,7 +2184,7 @@ void npc::load( const JsonObject &data )
         const tripoint pos = read_legacy_creature_pos( data );
         set_location( tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
                                        0 ) + tripoint( pos.x % SEEX, pos.y % SEEY, pos.z ) );
-        cata::optional<tripoint> opt;
+        std::optional<tripoint> opt;
         if( data.read( "last_player_seen_pos", opt ) && opt ) {
             last_player_seen_pos = get_location() + *opt - pos;
         }
@@ -2676,7 +2676,7 @@ void monster::load( const JsonObject &data )
     data.read( "fish_population", fish_population );
     data.read( "lifespan_end", lifespan_end );
     //for older saves convert summon time limit to lifespan end
-    cata::optional<time_duration> summon_time_limit;
+    std::optional<time_duration> summon_time_limit;
     data.read( "summon_time_limit", summon_time_limit );
     if( summon_time_limit ) {
         set_summon_time( *summon_time_limit );
@@ -3027,7 +3027,7 @@ void item::io( Archive &archive )
     if( note_read ) {
         snip_id = SNIPPET.migrate_hash_to_id( note );
     } else {
-        cata::optional<std::string> snip;
+        std::optional<std::string> snip;
         if( archive.read( "snippet_id", snip ) && snip ) {
             snip_id = snippet_id( snip.value() );
         }
@@ -3477,7 +3477,7 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "summon_time_limit", summon_time_limit );
     data.read( "magic", magic );
 
-    smart_controller_cfg = cata::nullopt;
+    smart_controller_cfg = std::nullopt;
     data.read( "smart_controller", smart_controller_cfg );
     data.read( "vehicle_noise", vehicle_noise );
 

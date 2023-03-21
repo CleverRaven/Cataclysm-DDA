@@ -1072,7 +1072,7 @@ void outfit::sort_armor( Character &guy )
                 item_location obtained = loc.obtain( guy );
                 if( obtained ) {
                     // wear the item
-                    cata::optional<std::list<item>::iterator> new_equip_it =
+                    std::optional<std::list<item>::iterator> new_equip_it =
                         guy.wear( obtained );
                     if( new_equip_it ) {
                         const bodypart_id &bp = armor_cat[tabindex];
@@ -1106,7 +1106,7 @@ void outfit::sort_armor( Character &guy )
                 item_location obtained = loc.obtain( guy );
                 if( obtained ) {
                     // wear the item
-                    cata::optional<std::list<item>::iterator> new_equip_it =
+                    std::optional<std::list<item>::iterator> new_equip_it =
                         guy.wear( obtained );
                     if( new_equip_it ) {
                         // save iterator to cursor's position

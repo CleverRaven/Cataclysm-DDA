@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -11,7 +12,6 @@
 #include <vector>
 
 #include "item.h"
-#include "optional.h"
 #include "relic.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -188,7 +188,7 @@ class Item_spawn_data
         /**
          * The group spawns contained in this item
          */
-        cata::optional<itype_id> container_item;
+        std::optional<itype_id> container_item;
         overflow_behaviour on_overflow = overflow_behaviour::none;
         bool sealed = true;
 
@@ -320,7 +320,7 @@ class Single_item_creator : public Item_spawn_data
          */
         std::string id;
         Type type;
-        cata::optional<Item_modifier> modifier;
+        std::optional<Item_modifier> modifier;
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 

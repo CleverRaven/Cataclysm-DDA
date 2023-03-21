@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <tuple>
@@ -28,7 +29,6 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
@@ -124,13 +124,13 @@ int vehicle::slowdown( int at_velocity ) const
 }
 
 void vehicle::smart_controller_handle_turn( bool thrusting,
-        const cata::optional<float> &k_traction_cache )
+        const std::optional<float> &k_traction_cache )
 {
     // get settings or defaults
     smart_controller_config cfg = smart_controller_cfg.value_or( smart_controller_config() );
 
     if( !has_enabled_smart_controller ) {
-        smart_controller_state = cata::nullopt;
+        smart_controller_state = std::nullopt;
         return;
     }
 
@@ -181,7 +181,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             add_msg( m_bad, _( "Smart controller is shutting down." ) );
         }
         has_enabled_smart_controller = false;
-        smart_controller_state = cata::nullopt;
+        smart_controller_state = std::nullopt;
         return;
     }
 
@@ -387,7 +387,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             }
         }
         if( failed_to_start ) {
-            this->smart_controller_state = cata::nullopt;
+            this->smart_controller_state = std::nullopt;
 
             for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
                 vehicle_part &vp = parts[engines[c_engines[i]]];

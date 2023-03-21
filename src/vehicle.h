@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <stack>
 #include <string>
@@ -31,7 +32,6 @@
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
-#include "optional.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -910,7 +910,7 @@ class vehicle
             old_owner = temp_owner;
         }
         void remove_old_owner() {
-            theft_time = cata::nullopt;
+            theft_time = std::nullopt;
             old_owner = faction_id::NULL_ID();
         }
         void set_owner( const faction_id &new_owner ) {
@@ -1569,7 +1569,7 @@ class vehicle
          * @param k_traction_cache cached value of vehicle::k_traction, if empty, will be computed
          */
         void smart_controller_handle_turn( bool thrusting = false,
-                                           const cata::optional<float> &k_traction_cache = cata::nullopt );
+                                           const std::optional<float> &k_traction_cache = std::nullopt );
 
         bool has_available_electric_engine();
         void disable_smart_controller_if_needed();
@@ -1632,13 +1632,13 @@ class vehicle
         /**
          * Try to add an item to part's cargo.
          *
-         * @returns cata::nullopt if it can't be put here (not a cargo part, adding this would violate
+         * @returns std::nullopt if it can't be put here (not a cargo part, adding this would violate
          * the volume limit or item count limit, not all charges can fit, etc.)
          * Otherwise, returns an iterator to the added item in the vehicle stack
          */
-        cata::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
+        std::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
         /** Like the above */
-        cata::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
+        std::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
         /**
          * Add an item counted by charges to the part's cargo.
          *
@@ -2018,12 +2018,12 @@ class vehicle
         // a magic vehicle, powered by magic.gif
         bool magic = false;
         // when does the magic vehicle disappear?
-        cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        std::optional<time_duration> summon_time_limit = std::nullopt;
         // cached values of the factors that determined last chosen engine state
         // NOLINTNEXTLINE(cata-serialize)
-        cata::optional<smart_controller_cache> smart_controller_state = cata::nullopt;
+        std::optional<smart_controller_cache> smart_controller_state = std::nullopt;
         // SC config. optional, as majority of vehicles don't have SC installed
-        cata::optional<smart_controller_config> smart_controller_cfg = cata::nullopt;
+        std::optional<smart_controller_config> smart_controller_cfg = std::nullopt;
         bool has_enabled_smart_controller = false; // NOLINT(cata-serialize)
 
         void add_tag( const std::string &tag );
@@ -2096,7 +2096,7 @@ class vehicle
         float of_turn_carry = 0.0f;
         units::power extra_drag = 0_W; // NOLINT(cata-serialize)
         // the time point when it was successfully stolen
-        cata::optional<time_point> theft_time;
+        std::optional<time_point> theft_time;
         // rotation used for mount precalc values
         // NOLINTNEXTLINE(cata-serialize)
         std::array<units::angle, 2> pivot_rotation = { { 0_degrees, 0_degrees } };

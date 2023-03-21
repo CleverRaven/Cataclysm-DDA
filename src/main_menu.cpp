@@ -10,6 +10,7 @@
 #include <functional>
 #include <istream>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "auto_pickup.h"
@@ -32,7 +33,6 @@
 #include "mapsharing.h"
 #include "messages.h"
 #include "music.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -689,7 +689,7 @@ bool main_menu::opening_screen()
 
         // handle mouse click
         if( action == "SELECT" || action == "MOUSE_MOVE" ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+            std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
             for( const auto &it : main_menu_button_map ) {
                 if( coord.has_value() && it.first.contains( coord.value() ) ) {
                     if( sel1 != it.second ) {

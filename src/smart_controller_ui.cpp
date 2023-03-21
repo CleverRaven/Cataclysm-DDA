@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <functional>
 #include <iosfwd>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -10,7 +11,6 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"

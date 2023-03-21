@@ -4,11 +4,11 @@
 
 #include <iosfwd>
 #include <new>
+#include <optional>
 #include <vector>
 
 #include "calendar.h"
 #include "event_subscriber.h"
-#include "optional.h"
 #include "string_formatter.h"
 #include "type_id.h"
 
@@ -40,7 +40,7 @@ class memorial_log_entry
         // For legacy lines loaded from the text memorial file.  For any given
         // memorial_log_entry either the following value will be populated or
         // the above four values (but not both).
-        cata::optional<std::string> preformatted_;
+        std::optional<std::string> preformatted_;
 };
 
 class memorial_logger : public event_subscriber

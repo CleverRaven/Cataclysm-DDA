@@ -308,7 +308,7 @@ query_popup::result query_popup::query_once()
 
         // If we're tracking mouse movement
         if( !options.empty() && ( res.action == "MOUSE_MOVE" || res.action == "SELECT" ) ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( win );
+            std::optional<point> coord = ctxt.get_coordinates_text( win );
             for( size_t i = 0; i < buttons.size(); i++ ) {
                 if( coord.has_value() && buttons[i].contains( coord.value() ) ) {
                     if( i != cur ) {

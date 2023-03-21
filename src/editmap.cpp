@@ -285,7 +285,7 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
     } else {
         input_context ctxt( "EGET_DIRECTION" );
         ctxt.set_iso( true );
-        const cata::optional<tripoint> vec = ctxt.get_direction( action );
+        const std::optional<tripoint> vec = ctxt.get_direction( action );
         if( !vec ) {
             return false;
         }
@@ -344,7 +344,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
     return current_ui;
 }
 
-cata::optional<tripoint> editmap::edit()
+std::optional<tripoint> editmap::edit()
 {
     avatar &player_character = get_avatar();
     restore_on_out_of_scope<tripoint> view_offset_prev( player_character.view_offset );
@@ -447,7 +447,7 @@ cata::optional<tripoint> editmap::edit()
     if( action == "CONFIRM" ) {
         return target;
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 /*
@@ -656,7 +656,7 @@ void editmap::draw_main_ui_overlay()
                         char part_mod = 0;
                         const vpart_id &vp_id = vpart_id( veh.part_id_string( veh_part,
                                                           part_mod, true, true ) );
-                        const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
+                        const std::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
                         units::angle veh_dir = veh.face.dir();
                         g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
@@ -2110,7 +2110,7 @@ void editmap::mapgen_retarget()
 
         ui_manager::redraw();
         action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             point vec_ms = omt_to_ms_copy( vec->xy() );
             tripoint ptarget = target + vec_ms;
             if( editmap_boundaries.contains( ptarget ) &&

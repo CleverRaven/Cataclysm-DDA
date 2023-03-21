@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
@@ -12,7 +13,6 @@
 #include "calendar.h"
 #include "dialogue_helpers.h"
 #include "magic.h"
-#include "optional.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
@@ -143,7 +143,7 @@ class enchantment
         static void load_enchantment( const JsonObject &jo, const std::string &src );
         static void reset();
         void load( const JsonObject &jo, const std::string &src = "",
-                   const cata::optional<std::string> &inline_id = cata::nullopt, bool is_child = false );
+                   const std::optional<std::string> &inline_id = std::nullopt, bool is_child = false );
 
         // Takes in a JsonValue which can be either a string or an enchantment object and returns the id of the enchantment the caller will use.
         // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
@@ -186,7 +186,7 @@ class enchantment
         std::vector<bodypart_changes> modified_bodyparts;
 
         std::set<trait_id> mutations;
-        cata::optional<emit_id> emitter;
+        std::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
 
         // name to display for enchantments on items
@@ -259,7 +259,7 @@ class enchant_cache : public enchantment
         void add_hit_you( const fake_spell &sp );
         void add_hit_me( const fake_spell &sp );
         void load( const JsonObject &jo, const std::string &src = "",
-                   const cata::optional<std::string> &inline_id = cata::nullopt );
+                   const std::optional<std::string> &inline_id = std::nullopt );
         bool operator==( const enchant_cache &rhs ) const;
 
         // details of each enchantment that includes them (name and description)

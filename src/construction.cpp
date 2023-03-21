@@ -1016,7 +1016,7 @@ void place_construction( std::vector<construction_group_str_id> const &groups )
     } );
     g->add_draw_callback( draw_valid );
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
+    const std::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {
         return;
     }

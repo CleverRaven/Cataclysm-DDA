@@ -5,6 +5,7 @@
 #include <list>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <tuple>
 #include <unordered_set>
@@ -28,7 +29,6 @@
 #include "iuse.h"
 #include "json.h"
 #include "make_static.h"
-#include "optional.h"
 #include "output.h"
 #include "pimpl.h"
 #include "ret_val.h"
@@ -45,12 +45,12 @@ struct tripoint;
 
 static item_action nullaction;
 
-static cata::optional<input_event> key_bound_to( const input_context &ctxt,
+static std::optional<input_event> key_bound_to( const input_context &ctxt,
         const item_action_id &act )
 {
     const std::vector<input_event> keys = ctxt.keys_bound_to( act, /*maximum_modifier_count=*/1 );
     if( keys.empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return keys.front();
     }
@@ -362,7 +362,7 @@ void game::item_action_menu( item_location loc )
         ss += std::get<2>( elem );
         ss += std::string( max_len.second - utf8_width( std::get<2>( elem ), true ), ' ' );
 
-        const cata::optional<input_event> bind = key_bound_to( ctxt, std::get<0>( elem ) );
+        const std::optional<input_event> bind = key_bound_to( ctxt, std::get<0>( elem ) );
         const bool enabled = assigned_action( std::get<0>( elem ) );
         const std::string desc =  std::get<3>( elem ) ;
 
