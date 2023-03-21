@@ -127,16 +127,6 @@
         "overmap": "corpse_tentacle_end_south",
         "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] }
       },
-      "tentacle_end_lcorner": {
-        "overmap": "corpse_tentacle_ne",
-        "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] },
-        "east": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] }
-      },
-      "tentacle_end_straight": {
-        "overmap": "corpse_tentacle_ns",
-        "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] },
-        "south": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] }
-      },
       "tentacle_end_w_entry": {
         "overmap": "corpse_tentacle_entry_north",
         "north": { "id": "tentacle_to_tentacle", "alternatives": [ "bowels_tentacle_to_edge" ] },
@@ -251,13 +241,6 @@
         }
       ],
       [ { "overmap": "corpse_head_lcorner", "weight": 1 }, { "overmap": "corpse_head_rcorner", "weight": 1 } ],
-      [ { "overmap": "tentacle_mid", "max": 12 } ],
-      [
-        { "overmap": "tentacle_corner", "max": 25 },
-        { "overmap": "tentacle_rcorner", "max": 25 },
-        { "overmap": "tentacle_mid", "max": 8 }
-      ],
-      [ { "overmap": "tentacle_mid", "max": { "poisson": 8 } } ],
       [ { "overmap": "tentacle_end_w_entry", "max": 1 } ],
       [ { "overmap": "tentacle_end_w_entry", "max": { "poisson": 0.8 } } ],
       [ { "overmap": "corpse_entry_surface", "weight": 1 } ],
