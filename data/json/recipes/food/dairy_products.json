@@ -166,9 +166,9 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "mozzarella_cheese", 4 ] ],
+      [ [ "mozzarella_cheese", 8 ] ],
       [ [ "flour", 4 ], [ "flour_wheat_free", 4 ] ],
-      [ [ "cooking_oil", 5 ] ],
+      [ [ "cooking_oil", 1 ] ],
       [ [ "milk", 1 ] ],
       [ [ "garlic_powder", 1 ] ],
       [ [ "eggs_any_shape", 1, "LIST" ] ]
