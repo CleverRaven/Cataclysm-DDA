@@ -103,7 +103,8 @@
     "default": "mon_dog",
     "monsters": [
       { "group": "GROUP_PET_CATS", "weight": 1, "cost_multiplier": 0 },
-      { "group": "GROUP_PET_DOGS", "weight": 1, "cost_multiplier": 0 }
+      { "group": "GROUP_PET_DOGS", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_ferret", "weight": 1, "cost_multiplier": 0 }
     ]
   }
 ]

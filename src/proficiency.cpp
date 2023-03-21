@@ -102,7 +102,7 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "category", _category );
 
     optional( jo, was_loaded, "default_time_multiplier", _default_time_multiplier );
-    optional( jo, was_loaded, "default_fail_multiplier", _default_fail_multiplier );
+    optional( jo, was_loaded, "default_skill_penalty", _default_skill_penalty );
     optional( jo, was_loaded, "default_weakpoint_bonus", _default_weakpoint_bonus );
     optional( jo, was_loaded, "default_weakpoint_penalty", _default_weakpoint_penalty );
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
@@ -110,6 +110,13 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "ignore_focus", _ignore_focus );
 
     optional( jo, was_loaded, "bonuses", _bonuses );
+
+    // TODO: Remove at some point
+    if( jo.has_float( "default_fail_multiplier" ) ) {
+        debugmsg( "Proficiency %s uses 'default_fail_multiplier' instead of 'default_skill_penalty'!",
+                  id.c_str() );
+        _default_skill_penalty = jo.get_float( "default_fail_multiplier" ) - 1.f;
+    }
 }
 
 void proficiency_category::load( const JsonObject &jo, const std::string & )
@@ -168,9 +175,9 @@ float proficiency::default_time_multiplier() const
     return _default_time_multiplier;
 }
 
-float proficiency::default_fail_multiplier() const
+float proficiency::default_skill_penalty() const
 {
-    return _default_fail_multiplier;
+    return _default_skill_penalty;
 }
 
 float proficiency::default_weakpoint_bonus() const
@@ -273,7 +280,7 @@ std::vector<display_proficiency> proficiency_set::display() const
 }
 
 bool proficiency_set::practice( const proficiency_id &practicing, const time_duration &amount,
-                                const cata::optional<time_duration> &max )
+                                const std::optional<time_duration> &max )
 {
     if( has_learned( practicing ) || !practicing->can_learn() || !has_prereqs( practicing ) ) {
         return false;

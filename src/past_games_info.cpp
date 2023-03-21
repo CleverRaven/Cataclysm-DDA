@@ -106,7 +106,7 @@ void past_games_info::ensure_loaded()
         }
 
         components.erase( components.begin(), components.end() - 6 );
-        sortable_filenames.emplace_back( join( components, "-" ), filename );
+        sortable_filenames.emplace_back( string_join( components, "-" ), filename );
     }
 
     std::sort( sortable_filenames.begin(),

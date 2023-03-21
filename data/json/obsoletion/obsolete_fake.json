@@ -18,7 +18,7 @@
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
     "sub": "char_smoker",
-    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ] }
   },
   {
     "id": "kiln_pseudo",
@@ -56,6 +56,6 @@
     "symbol": "[",
     "color": "dark_gray",
     "qualities": [ [ "SUSPENDING", 2 ], [ "ROPE", 2 ] ],
-    "flags": [ "TRADER_AVOID" ]
+    "extend": { "flags": [ "TRADER_AVOID" ] }
   }
 ]

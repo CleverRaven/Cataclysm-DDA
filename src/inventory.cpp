@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
+#include <optional>
 #include <string>
 #include <type_traits>
 
@@ -25,7 +26,6 @@
 #include "mapdata.h"
 #include "messages.h" //for rust message
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "point.h"
 #include "proficiency.h"
@@ -181,6 +181,16 @@ inventory &inventory::operator+= ( const std::list<item> &rhs )
     return *this;
 }
 
+inventory &inventory::operator+= ( const item_components &rhs )
+{
+    for( const item_components::type_vector_pair &tvp : rhs ) {
+        for( const item &rh : tvp.second ) {
+            add_item( rh, false, false );
+        }
+    }
+    return *this;
+}
+
 inventory &inventory::operator+= ( const std::vector<item> &rhs )
 {
     for( const item &rh : rhs ) {
@@ -211,6 +221,11 @@ inventory inventory::operator+ ( const inventory &rhs )
 }
 
 inventory inventory::operator+ ( const std::list<item> &rhs )
+{
+    return inventory( *this ) += rhs;
+}
+
+inventory inventory::operator+ ( const item_components &rhs )
 {
     return inventory( *this ) += rhs;
 }

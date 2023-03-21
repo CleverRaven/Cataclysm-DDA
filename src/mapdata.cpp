@@ -673,7 +673,7 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
-    cata::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
+    std::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
     if( f.has_value() ) {
         bitflags.set( f.value() );
         extraprocess_flags( f.value() );

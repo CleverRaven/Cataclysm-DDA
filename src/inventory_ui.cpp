@@ -1,6 +1,7 @@
 #include "inventory_ui.h"
 
 #include <cstdint>
+#include <optional>
 
 #include "activity_actor_definitions.h"
 #include "cata_assert.h"
@@ -25,7 +26,6 @@
 #include "map_selector.h"
 #include "memory_fast.h"
 #include "messages.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
@@ -177,7 +177,7 @@ bool is_worn_ablative( item_location const &container, item_location const &chil
     // if the item is in an ablative pocket then put it with the item it is in
     // first do a short circuit test if the parent has ablative pockets at all
     return container->is_ablative() && container->is_worn_by_player() &&
-           container->contained_where( *child )->get_pocket_data()->ablative;
+           child.parent_pocket()->get_pocket_data()->ablative;
 }
 
 /** The maximum distance from the screen edge, to snap a window to it */
@@ -489,7 +489,7 @@ void uistatedata::deserialize( const JsonObject &jo )
 
 static const selection_column_preset selection_preset{};
 
-bool inventory_entry::is_hidden( cata::optional<bool> const &hide_entries_override ) const
+bool inventory_entry::is_hidden( std::optional<bool> const &hide_entries_override ) const
 {
     if( !is_item() ) {
         return false;
@@ -508,11 +508,10 @@ bool inventory_entry::is_hidden( cata::optional<bool> const &hide_entries_overri
         return *hide_entries_override;
     }
     while( item.has_parent() && item != topmost_parent ) {
-        item_location parent = item.parent_item();
-        if( parent.get_item()->contained_where( *item )->settings.is_collapsed() ) {
+        if( item.parent_pocket()->settings.is_collapsed() ) {
             return true;
         }
-        item = parent;
+        item = item.parent_item();
     }
     return false;
 }
@@ -1986,7 +1985,7 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    const cata::optional<vpart_reference> vp =
+    const std::optional<vpart_reference> vp =
         get_map().veh_at( target ).part_with_feature( "CARGO", true );
     if( !vp ) {
         return;
@@ -2745,7 +2744,7 @@ inventory_input inventory_selector::process_input( const std::string &action, in
     inventory_input res{ action, ch, nullptr };
 
     if( res.action == "SELECT" ) {
-        cata::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
+        std::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
         if( o_p ) {
             point p = o_p.value();
             if( window_contains_point_relative( w_inv, p ) ) {
@@ -2768,7 +2767,7 @@ void inventory_column::cycle_hide_override()
 {
     if( hide_entries_override ) {
         if( *hide_entries_override ) {
-            hide_entries_override = cata::nullopt;
+            hide_entries_override = std::nullopt;
         } else {
             hide_entries_override = true;
         }
@@ -3619,7 +3618,7 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
 }
 
 pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
-                                  const std::string &selection_column_title, const cata::optional<tripoint> &where ) :
+                                  const std::string &selection_column_title, const std::optional<tripoint> &where ) :
     inventory_multiselector( p, preset, selection_column_title ), where( where )
 {
     ctxt.register_action( "WEAR" );

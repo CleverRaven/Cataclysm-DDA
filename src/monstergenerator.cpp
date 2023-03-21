@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <limits>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -28,7 +29,6 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "mongroup.h"
-#include "optional.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
@@ -176,6 +176,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_PRIORITIZE_TARGETS: return "PRIORITIZE_TARGETS";
         case MF_NOT_HALLU: return "NOT_HALLUCINATION";
         case MF_CANPLAY: return "CANPLAY";
+        case MF_CAN_BE_CULLED: return "CAN_BE_CULLED";
         case MF_PET_MOUNTABLE: return "PET_MOUNTABLE";
         case MF_PET_HARNESSABLE: return "PET_HARNESSABLE";
         case MF_DOGFOOD: return "DOGFOOD";
@@ -239,13 +240,13 @@ bool string_id<species_type>::is_valid() const
     return MonsterGenerator::generator().mon_species->is_valid( *this );
 }
 
-cata::optional<mon_action_death> MonsterGenerator::get_death_function( const std::string &f ) const
+std::optional<mon_action_death> MonsterGenerator::get_death_function( const std::string &f ) const
 {
     const auto it = death_map.find( f );
 
     return it != death_map.cend()
-           ? cata::optional<mon_action_death>( it->second )
-           : cata::optional<mon_action_death>();
+           ? std::optional<mon_action_death>( it->second )
+           : std::optional<mon_action_death>();
 }
 
 MonsterGenerator::MonsterGenerator()
@@ -929,7 +930,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     } else if( jo.has_object( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo.get_object( "melee_damage" ) );
     } else if( jo.has_object( "relative" ) ) {
-        cata::optional<damage_instance> tmp_dmg;
+        std::optional<damage_instance> tmp_dmg;
         JsonObject rel = jo.get_object( "relative" );
         rel.allow_omitted_members();
         if( rel.has_array( "melee_damage" ) ) {
@@ -946,7 +947,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             melee_damage.add( tmp_dmg.value() );
         }
     } else if( jo.has_object( "proportional" ) ) {
-        cata::optional<damage_instance> tmp_dmg;
+        std::optional<damage_instance> tmp_dmg;
         JsonObject prop = jo.get_object( "proportional" );
         prop.allow_omitted_members();
         if( prop.has_array( "melee_damage" ) ) {

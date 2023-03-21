@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <new>
+#include <optional>
 #include <vector>
 
 #include "character.h"
@@ -21,7 +22,6 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -312,7 +312,7 @@ void mission_start::reveal_refugee_center( mission *miss )
     min_distance.min.dbl_val = 0;
     t.min_distance = min_distance;
 
-    cata::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
+    std::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
 
     if( !target_pos ) {
         add_msg( _( "You don't know where the address could be…" ) );

@@ -576,7 +576,7 @@ static constexpr float fudge_factor = 0.025;
 
 template<typename T, typename W>
 std::map<T, float> hit_distribution( const targeting_graph<T, W> &graph,
-                                     cata::optional<float> guess = cata::nullopt, int iters = 100000 )
+                                     std::optional<float> guess = std::nullopt, int iters = 100000 )
 {
     std::map<T, float> hits;
     for( int i = 0; i < iters; ++i ) {
@@ -638,21 +638,21 @@ TEST_CASE( "targeting_graph_linear_distribution", "[targeting_graph][random]" )
     }
 
     SECTION( "With a perfectly accurate hit, only the center is hit" ) {
-        hits = hit_distribution( graph, cata::optional<float>( 0 ) );
+        hits = hit_distribution( graph, std::optional<float>( 0.0f ) );
         REQUIRE( hits[0] == 1.0f );
         CHECK( hits[1] == 0.0f );
         CHECK( hits[2] == 0.0f );
     }
 
     SECTION( "With the least accurate hit, only the end is hit" ) {
-        hits = hit_distribution( graph, cata::optional<float>( 1 ) );
+        hits = hit_distribution( graph, std::optional<float>( 1.0f ) );
         REQUIRE( hits[2] == 1.0f );
         CHECK( hits[0] == 0.0f );
         CHECK( hits[1] == 0.0f );
     }
 
     SECTION( "With a middling hit, only the middle ring is hit" ) {
-        hits = hit_distribution( graph, cata::optional<float>( 0.6 ) );
+        hits = hit_distribution( graph, std::optional<float>( 0.6f ) );
         REQUIRE( hits[1] == 1.0f );
         CHECK( hits[0] == 0.0f );
         CHECK( hits[2] == 0.0f );
@@ -684,7 +684,7 @@ TEST_CASE( "targeting_graph_simple_limb_distribution", "[targeting_graph][random
         targeting_graph<int, center_target> graph;
         graph.generate( 0, parts );
 
-        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 0.9 ) );
+        std::map<int, float> hits = hit_distribution( graph, std::optional<float>( 0.9f ) );
 
         // Check that we're within 2.5% of the expected distribution for simple targets
         // Nothing should hit the center, the hit is too inaccurate for that
@@ -814,7 +814,7 @@ TEST_CASE( "targeting_graph_complex_limb_distribution", "[targeting_graph][rando
         targeting_graph<int, center_target> graph;
         graph.generate( 0, parts );
 
-        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 0.9 ) );
+        std::map<int, float> hits = hit_distribution( graph, std::optional<float>( 0.9f ) );
 
         // Nothing should hit the center, the hit is too inaccurate for that
         REQUIRE( hits[0] == 0.0f );
@@ -828,7 +828,7 @@ TEST_CASE( "targeting_graph_complex_limb_distribution", "[targeting_graph][rando
         std::vector<int> parts = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         targeting_graph<int, center_target> graph;
         graph.generate( 0, parts );
-        std::map<int, float> hits = hit_distribution( graph, cata::optional<float>( 1.0 ) );
+        std::map<int, float> hits = hit_distribution( graph, std::optional<float>( 1.0f ) );
 
         REQUIRE( hits[0] == 0.0f );
         CHECK( hits[1] == Approx( 0.40 ).margin( fudge_factor ) );

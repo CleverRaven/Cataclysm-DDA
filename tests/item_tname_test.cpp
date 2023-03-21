@@ -563,4 +563,16 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
                    " " + purse_color + color_pref + "purses" + color_end_tag + " (2)" );
         }
     }
+
+    SECTION( "non-standard pocket: software" ) {
+        item usb_drive( "usb_drive" );
+        item medisoft( "software_medical" );
+        std::string const medisoft_nested_tname = colorize( medisoft.tname(),
+                medisoft.color_in_inventory() );
+        REQUIRE( usb_drive.is_software_storage() );
+        REQUIRE( medisoft.is_software() );
+        REQUIRE( medisoft_nested_tname == "<color_c_light_gray>MediSoft</color>" );
+        usb_drive.put_in( medisoft, item_pocket::pocket_type::SOFTWARE );
+        CHECK( usb_drive.tname( 1 ) == "USB drive " + nesting_sym + " " + medisoft_nested_tname );
+    }
 }

@@ -42,10 +42,10 @@ catacurses::window new_centered_win( int nlines, int ncols )
 * @{
 */
 
-static cata::optional<input_event> hotkey_from_char( const int ch )
+static std::optional<input_event> hotkey_from_char( const int ch )
 {
     if( ch == MENU_AUTOASSIGN ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else if( ch <= 0 || ch == ' ' ) {
         return input_event();
     }
@@ -64,13 +64,13 @@ static cata::optional<input_event> hotkey_from_char( const int ch )
 }
 
 uilist_entry::uilist_entry( const std::string &txt )
-    : retval( -1 ), enabled( true ), hotkey( cata::nullopt ), txt( txt ),
+    : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
       text_color( c_red_red )
 {
 }
 
 uilist_entry::uilist_entry( const std::string &txt, const std::string &desc )
-    : retval( -1 ), enabled( true ), hotkey( cata::nullopt ), txt( txt ),
+    : retval( -1 ), enabled( true ), hotkey( std::nullopt ), txt( txt ),
       desc( desc ), text_color( c_red_red )
 {
 }
@@ -81,7 +81,7 @@ uilist_entry::uilist_entry( const std::string &txt, const int key )
 {
 }
 
-uilist_entry::uilist_entry( const std::string &txt, const cata::optional<input_event> &key )
+uilist_entry::uilist_entry( const std::string &txt, const std::optional<input_event> &key )
     : retval( -1 ), enabled( true ), hotkey( key ), txt( txt ),
       text_color( c_red_red )
 {
@@ -95,7 +95,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
-                            const cata::optional<input_event> &key,
+                            const std::optional<input_event> &key,
                             const std::string &txt )
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       text_color( c_red_red )
@@ -110,7 +110,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
-                            const cata::optional<input_event> &key, const std::string &txt, const std::string &desc )
+                            const std::optional<input_event> &key, const std::string &txt, const std::string &desc )
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
       desc( desc ), text_color( c_red_red )
 {
@@ -125,7 +125,7 @@ uilist_entry::uilist_entry( const int retval, const bool enabled, const int key,
 }
 
 uilist_entry::uilist_entry( const int retval, const bool enabled,
-                            const cata::optional<input_event> &key,
+                            const std::optional<input_event> &key,
                             const std::string &txt, const std::string &desc,
                             const std::string &column )
     : retval( retval ), enabled( enabled ), hotkey( key ), txt( txt ),
@@ -760,7 +760,7 @@ void uilist::show( ui_adaptor &ui )
     const std::string padspaces = std::string( pad_size, ' ' );
 
     for( uilist_entry &entry : entries ) {
-        entry.drawn_rect = cata::nullopt;
+        entry.drawn_rect = std::nullopt;
     }
 
     // Entry text will be trimmed to this length for printing.  Need spacer at beginning/end, room for second column
@@ -969,7 +969,7 @@ uilist::handle_mouse_result_t uilist::handle_mouse( const input_context &ctxt,
     // Only check MOUSE_MOVE when looping internally
     if( !fentries.empty() && ( ret_act == "SELECT" || ( loop && ret_act == "MOUSE_MOVE" ) ) ) {
         result = handle_mouse_result_t::handled;
-        const cata::optional<point> p = ctxt.get_coordinates_text( window );
+        const std::optional<point> p = ctxt.get_coordinates_text( window );
         if( p && window_contains_point_relative( window, p.value() ) ) {
             const int new_fselected = find_entry_by_coordinate( p.value() );
             if( new_fselected >= 0 && static_cast<size_t>( new_fselected ) < fentries.size() ) {
@@ -1181,7 +1181,7 @@ void uilist::addentry( int retval, bool enabled, int key, const std::string &txt
 }
 
 void uilist::addentry( const int retval, const bool enabled,
-                       const cata::optional<input_event> &key,
+                       const std::optional<input_event> &key,
                        const std::string &txt )
 {
     entries.emplace_back( retval, enabled, key, txt );
@@ -1198,7 +1198,7 @@ void uilist::addentry_desc( int retval, bool enabled, int key, const std::string
     entries.emplace_back( retval, enabled, key, txt, desc );
 }
 
-void uilist::addentry_desc( int retval, bool enabled, const cata::optional<input_event> &key,
+void uilist::addentry_desc( int retval, bool enabled, const std::optional<input_event> &key,
                             const std::string &txt, const std::string &desc )
 {
     entries.emplace_back( retval, enabled, key, txt, desc );
@@ -1212,7 +1212,7 @@ void uilist::addentry_col( int retval, bool enabled, int key, const std::string 
 }
 
 void uilist::addentry_col( const int retval, const bool enabled,
-                           const cata::optional<input_event> &key,
+                           const std::optional<input_event> &key,
                            const std::string &txt, const std::string &column,
                            const std::string &desc )
 {

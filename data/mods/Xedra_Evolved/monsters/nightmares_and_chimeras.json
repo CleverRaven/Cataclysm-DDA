@@ -109,5 +109,13 @@
     "special_attacks": [ [ "DISAPPEAR", 1000 ] ],
     "death_function": { "message": "", "corpse_type": "NO_CORPSE" },
     "flags": [ "FLIES", "NO_BREATHE", "NOT_HALLUCINATION", "HARDTOSHOOT" ]
+  },
+  {
+    "id": "mon_you",
+    "copy-from": "mon_hologram",
+    "looks_like": "player",
+    "type": "MONSTER",
+    "name": { "str": "you" },
+    "description": "It is you.  It looks like you, it is equipped like you, it is even has a weapon like you."
   }
 ]
