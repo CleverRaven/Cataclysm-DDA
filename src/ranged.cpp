@@ -4006,7 +4006,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                                         gmode->tname(), units::to_kilojoule( energy_drain ) ) );
             } else if( gmode->has_flag( flag_USE_UPS ) ) {
                 messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
+                                        _( "You need a UPS with at least %2$d kJ to fire the %1$s!" ),
                                         gmode->tname(), units::to_kilojoule( energy_drain ) ) );
             }
         }

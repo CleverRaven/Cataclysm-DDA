@@ -752,7 +752,6 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```BIONIC_WEAPON``` ... This bionic is a weapon bionic and activating it will create (or destroy) its fake_item in the user's hands. Prevents all other activation effects.
 - ```BIONIC_ARMOR_INTERFACE``` ... This bionic can provide power to powered armor.
 - ```BIONIC_SLEEP_FRIENDLY``` ... This bionic won't provide a warning if the player tries to sleep while it's active.
-- ```BIONIC_GUN``` ... This bionic is a gun bionic and activating it will fire it. Prevents all other activation effects including power draw by bionic.
 - ```CONDUCTIVE``` ... Item is considered as conducting electricity, even if material it's made of is non-conductive. Opposite of `NONCONDUCTIVE`.
 - ```CORPSE``` ... Flag used to spawn various human corpses during the mapgen.
 - ```CRUTCHES``` ... Item with this flag helps characters not to fall down if their legs are broken.
