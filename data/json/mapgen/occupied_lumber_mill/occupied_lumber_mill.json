@@ -112,6 +112,7 @@
       "palettes": [ "lumberyard" ],
       "faction_owner": [
         { "id": "wasteland_scavengers", "x": [ 1, 23 ], "y": [ 1, 23 ] },
+        { "id": "wasteland_scavengers", "x": [ 1, 23 ], "y": [ 24, 47 ] },
         { "id": "wasteland_scavengers", "x": [ 24, 47 ], "y": [ 1, 23 ] },
         { "id": "wasteland_scavengers", "x": [ 24, 47 ], "y": [ 24, 47 ] },
         { "id": "wasteland_scavengers", "x": [ 48, 71 ], "y": [ 24, 47 ] },
