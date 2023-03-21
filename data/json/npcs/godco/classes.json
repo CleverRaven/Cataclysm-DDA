@@ -1279,6 +1279,6 @@
   {
     "type": "item_group",
     "id": "NC_GODCO_MERCHANT_sell",
-    "items": [ { "group": "NC_EVAC_SHOPKEEP_misc", "prob": 100, "repeat": [ 3, 5 ] } ]
+    "items": [ { "group": "NC_EVAC_SHOPKEEP_misc", "prob": 100 } ]
   }
 ]
