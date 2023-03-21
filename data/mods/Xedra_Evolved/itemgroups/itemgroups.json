@@ -194,7 +194,10 @@
       { "item": "xl_mt_chainmail_hands", "prob": 20 },
       { "item": "xl_mt_chainmail_legs", "prob": 20 },
       { "item": "xl_mt_chainmail_vest", "prob": 20 },
-      { "item": "xl_mt_chainmail_feet", "prob": 20 }
+      { "item": "xl_mt_chainmail_feet", "prob": 20 },
+      { "item": "xl_boots_glimmer_fur", "prob": 20 },
+      { "item": "xl_coat_glimmer_fur", "prob": 20 },
+      { "item": "xl_duster_glimmer_fur", "prob": 20 }
     ]
   },
   {
@@ -244,7 +247,10 @@
       { "item": "xs_mt_chainmail_hood", "prob": 20 },
       { "item": "xs_mt_chainmail_hands", "prob": 20 },
       { "item": "xs_mt_chainmail_legs", "prob": 20 },
-      { "item": "xs_mt_chainmail_vest", "prob": 20 }
+      { "item": "xs_mt_chainmail_vest", "prob": 20 },
+      { "item": "xs_boots_glimmer_fur", "prob": 20 },
+      { "item": "xs_coat_glimmer_fur", "prob": 20 },
+      { "item": "xs_duster_glimmer_fur", "prob": 20 }
     ]
   },
   {
