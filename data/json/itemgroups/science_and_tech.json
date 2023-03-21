@@ -122,9 +122,9 @@
       { "item": "closed_loop_extractor_large", "prob": 2 },
       { "item": "closed_loop_extractor_small", "prob": 2 },
       { "item": "gasket_plastic", "prob": 10 },
-      { "item": "butane_tank", "prob": 15, "charges-min": 1 },
+      { "item": "butane_tank", "prob": 15, "charges-min": 15000 },
       { "item": "vac_oven_small", "prob": 5 },
-      { "item": "butane_can", "prob": 2, "charges-min": 1 },
+      { "item": "butane_can", "prob": 2, "charges-min": 300 },
       { "item": "chem_citric_acid", "prob": 16 }
     ]
   },
@@ -188,7 +188,7 @@
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "hotplate_induction", "prob": 10, "charges": [ 0, 500 ] },
       {
-        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],
+        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 200, 400 ] } ],
         "prob": 5
       },
       [ "software_medical", 10 ],
