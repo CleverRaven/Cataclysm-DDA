@@ -34,10 +34,11 @@
     "item": "sheet_metal",
     "durability": 120,
     "breaks_into": "ig_vp_sheet_metal",
+    "//": "1m square sheet, assume 200cm weld",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 50 ] ] }
     },
     "damage_reduction": { "all": 7 }
   },
@@ -68,9 +69,9 @@
     "folded_volume": "3750 ml",
     "breaks_into": "ig_vp_cloth",
     "requirements": {
-      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "1 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "1 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 0, "bash": 3 }
   },
@@ -103,10 +104,11 @@
     "durability": 80,
     "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "size": "62500 ml",
+    "//": "1m square sheet, assume 200cm weld",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 50 ] ] }
     },
     "extend": { "categories": [ "cargo" ], "flags": [ "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "LOCKABLE_CARGO" ] },
     "damage_reduction": { "all": 7 }
@@ -131,10 +133,11 @@
     "durability": 450,
     "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
     "breaks_into": "ig_vp_steel_plate",
+    "//": "steel plating doesn't have a defined length so assume 200cm weld like regular board",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 50 ] ] }
     },
     "damage_reduction": { "all": 20 }
   },
@@ -167,7 +170,7 @@
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "10 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 5 }
   },
@@ -198,10 +201,11 @@
     "durability": 70,
     "description": "A half-height thin metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
     "breaks_into": [ { "item": "pipe", "prob": 50 } ],
+    "//": "60cm pipe, assume 120cm weld",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 120 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 30 ] ] }
     },
     "extend": { "flags": [ "HALF_BOARD" ] },
     "damage_reduction": { "all": 5 }
@@ -216,11 +220,12 @@
     "durability": 600,
     "name": { "str": "counterweight" },
     "description": "A half-height heavy metal wall.  Commonly used in forklifts to balance them when lifting heavy things.",
+    "//": "110cm block, so 1/4 that to repair it",
     "breaks_into": "ig_vp_hdframe",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "14 m", "using": [ [ "repair_welding_standard", 27 ] ] }
     },
     "damage_reduction": { "all": 20 },
     "extend": { "flags": [ "HALF_BOARD" ] }
