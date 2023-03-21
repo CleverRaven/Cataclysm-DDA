@@ -66,6 +66,13 @@
     },
     "liquids": { "l": { "liquid": "water_clean", "amount": [ 0, 30 ] } },
     "items": {
+      " ": {
+        "item": {
+          "subtype": "distribution",
+          "entries": [ { "item": "null", "prob": 20000 }, { "group": "backrooms_artifacts", "prob": 1 } ]
+        },
+        "chance": 100
+      },
       "c": [ { "item": "backrooms_master_table_office", "chance": 25 } ],
       "e": [ { "item": "backrooms_master_table_office", "chance": 25 } ],
       "f": [ { "item": "backrooms_master_desk", "chance": 33 } ],

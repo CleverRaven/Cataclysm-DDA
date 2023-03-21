@@ -4,6 +4,7 @@
 
 #include <iosfwd>
 #include <map>
+#include <optional>
 #include <set>
 #include <vector>
 #include <string>
@@ -11,7 +12,6 @@
 #include "calendar.h"
 #include "color.h"
 #include "flat_set.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -76,7 +76,7 @@ class proficiency
         translation _description;
 
         float _default_time_multiplier = 2.0f;
-        float _default_fail_multiplier = 2.0f;
+        float _default_skill_penalty = 1.0f;
 
         float _default_weakpoint_bonus = 0.0f;
         float _default_weakpoint_penalty = 0.0f;
@@ -101,7 +101,7 @@ class proficiency
         std::string description() const;
 
         float default_time_multiplier() const;
-        float default_fail_multiplier() const;
+        float default_skill_penalty() const;
 
         float default_weakpoint_bonus() const;
         float default_weakpoint_penalty() const;
@@ -127,7 +127,7 @@ class proficiency_set
         std::vector<display_proficiency> display() const;
         // True if the proficiency is learned;
         bool practice( const proficiency_id &practicing, const time_duration &amount,
-                       const cata::optional<time_duration> &max );
+                       const std::optional<time_duration> &max );
         void learn( const proficiency_id &learned );
         void remove( const proficiency_id &lost );
 

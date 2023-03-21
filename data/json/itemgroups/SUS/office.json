@@ -14,7 +14,7 @@
       { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 },
       { "item": "file", "count": [ 1, 8 ], "prob": 50 },
       { "item": "paper", "count": [ 2, 9 ], "prob": 60 },
-      { "item": "pen", "count": [ 1, 10 ], "prob": 95, "charges": [ 0, 100 ] },
+      { "group": "pens", "count": [ 1, 10 ], "prob": 95, "charges": [ 0, 100 ] },
       { "item": "book_binder", "prob": 90 },
       { "item": "stapler", "prob": 60 },
       { "item": "office_holepunch", "prob": 35 },

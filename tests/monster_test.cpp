@@ -3,6 +3,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -21,7 +22,6 @@
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
-#include "optional.h"
 #include "options.h"
 #include "options_helpers.h"
 #include "point.h"

@@ -829,7 +829,7 @@
       "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Replacement"
     ],
     "type": "talk_topic",
-    "dynamic_line": "As we mentioned before, our research into the portal storm phenomena requires that we obtain additional data to verify our own local measurements.  Recording this data will require you to carry a scientific instrument called an NRE recorder on your person while outside in the storm for around six minutes.  The recording instrument will be provided at no cost if you choose to accept.\"\n\n\"We offer the standard hazard pay of 4 HGC for completion of this contract.",
+    "dynamic_line": "As we mentioned before, our research into the portal storm phenomena requires that we obtain additional data to verify our own local measurements.  Recording this data will require you to carry a scientific instrument called an NRE recorder on your person while outside in the storm for around six minutes.  The recording instrument will be provided at no cost if you choose to accept.\"\n\n\"We are willing to offer 1 HGC for each standard-length recording.  Higher-quality data may be obtained by collecting more data before printing a report, and as a result, we are willing to provide higher pay for better recordings.",
     "responses": [
       {
         "text": "Sure, why not?  Let's do some science.",
@@ -859,7 +859,7 @@
   {
     "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Recorder",
     "type": "talk_topic",
-    "dynamic_line": "Once the storm starts, it should be enough to walk outside while carrying the NRE, as the recording requires no particular actions on your part.  Research insist on the fact that you must personally carry the NRE on your person to take accurate measurements, so leaving it outside while you take shelter won't work.  I'd explain the synchronistic relations that demand this, but I didn't really understand that part myself… oh, and you might may to obtain a high-caliber firearm before attempting to take the measurements.  Just in case things start leaking into uhm… prime."
+    "dynamic_line": "Once the storm starts, it should be enough to walk outside while carrying the NRE, as the recording requires no particular actions on your part.  Research insist on the fact that you must personally carry the NRE on your person to take accurate measurements, so leaving it outside while you take shelter won't work.  I'd explain the synchronistic relations that demand this, but I didn't really understand that part myself… oh, and you might want to obtain a high-caliber firearm before attempting to take the measurements.  Just in case things start leaking into uhm… prime."
   },
   {
     "id": "MISSION_ROBOFAC_INTERCOM_PORTAL_SM_1_OFFER_ADVICE_Outside",

@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <limits>
+#include <optional>
 #include <string>
 
 #include "cata_assert.h"
@@ -13,7 +14,6 @@
 #include "display.h"
 #include "enum_conversions.h"
 #include "line.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -107,7 +107,7 @@ moon_phase get_moon_phase( const time_point &p )
     return static_cast<moon_phase>( current_phase );
 }
 
-static constexpr time_duration angle_to_time( const units::angle a )
+static constexpr time_duration angle_to_time( const units::angle &a )
 {
     return a / 15.0_degrees * 1_hours;
 }
@@ -242,14 +242,14 @@ static units::angle sun_altitude( time_point t )
     return sun_azimuth_altitude( t ).second;
 }
 
-cata::optional<rl_vec2d> sunlight_angle( const time_point &t )
+std::optional<rl_vec2d> sunlight_angle( const time_point &t )
 {
     units::angle azimuth;
     units::angle altitude;
     std::tie( azimuth, altitude ) = sun_azimuth_altitude( t );
     if( altitude <= sunrise_angle ) {
         // Sun below horizon
-        return cata::nullopt;
+        return std::nullopt;
     }
     rl_vec2d horizontal_direction( -sin( azimuth ), cos( azimuth ) );
     rl_vec3d direction( horizontal_direction * cos( altitude ), sin( altitude ) );
@@ -268,8 +268,8 @@ static time_point solar_noon_near( const time_point &t )
 }
 
 static units::angle offset_to_sun_altitude(
-    const units::angle altitude, const units::angle longitude,
-    const season_effective_time approx_time, const bool evening )
+    const units::angle &altitude, const units::angle &longitude,
+    const season_effective_time &approx_time, const bool evening )
 {
     units::angle ra;
     units::angle declination;
@@ -293,8 +293,8 @@ static units::angle offset_to_sun_altitude(
     return normalize( target_sidereal_time - sidereal_time_at_approx_time );
 }
 
-static time_point sun_at_altitude( const units::angle altitude, const units::angle longitude,
-                                   const time_point t, const bool evening )
+static time_point sun_at_altitude( const units::angle &altitude, const units::angle &longitude,
+                                   const time_point &t, const bool evening )
 {
     const time_point solar_noon = solar_noon_near( t );
     units::angle initial_offset =

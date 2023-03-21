@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <utility>
@@ -39,7 +40,6 @@
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "mongroup.h"
-#include "optional.h"
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -1785,7 +1785,6 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     std::vector<tripoint> points;
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
-        std::set<tripoint> occupied = vehicle.v->get_points();
         // Important that this loop excludes fake parts, because those can be
         // outside map bounds
         for( const vpart_reference &vp : vehicle.v->get_all_parts() ) {
@@ -2573,7 +2572,7 @@ static bool mx_looters( map &m, const tripoint &abs_sub )
     //Spawn up to 5 hostile bandits with equal chance to be ranged or melee type
     const int num_looters = rng( 1, 5 );
     for( int i = 0; i < num_looters; i++ ) {
-        if( const cata::optional<tripoint> pos_ = random_point( m.points_in_radius( center, rng( 1,
+        if( const std::optional<tripoint> pos_ = random_point( m.points_in_radius( center, rng( 1,
         4 ) ), [&]( const tripoint & p ) {
         return m.passable( p );
         } ) ) {

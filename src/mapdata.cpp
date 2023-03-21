@@ -673,7 +673,7 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
-    cata::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
+    std::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
     if( f.has_value() ) {
         bitflags.set( f.value() );
         extraprocess_flags( f.value() );
@@ -1647,7 +1647,6 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "lockpick_result", lockpick_result, string_id_reader<furn_t> {},
               furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
-
 
     oxytorch = cata::make_value<activity_data_furn>();
     if( jo.has_object( "oxytorch" ) ) {

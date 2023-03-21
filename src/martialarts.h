@@ -83,7 +83,6 @@ struct ma_requirements {
     std::set<mabuff_id> forbid_buffs_all; // all listed buffs prevent triggering this bonus
     std::set<mabuff_id> forbid_buffs_any; // any listed buffs prevent triggering this bonus
 
-
     std::set<flag_id> req_flags; // any item flags required for this technique
     cata::flat_set<json_character_flag> req_char_flags; // any listed character flags required
     cata::flat_set<json_character_flag> req_char_flags_all; // all listed character flags required
@@ -159,7 +158,6 @@ class ma_technique
         // What way is the technique delivered to the target?
         std::vector<std::string> attack_vectors; // by priority
         std::vector<std::string> attack_vectors_random; // randomly
-
 
         int repeat_min = 1;    // Number of times the technique is repeated on a successful proc
         int repeat_max = 1;
@@ -239,11 +237,11 @@ class ma_buff
         float damage_mult( const Character &u, damage_type dt ) const;
 
         // returns various boolean flags
-        bool is_throw_immune() const;
         bool is_melee_bash_damage_cap_bonus() const;
         bool is_quiet() const;
         bool can_melee() const;
         bool is_stealthy() const;
+        bool has_flag( const json_character_flag &flag ) const;
 
         // The ID of the effect that is used to store this buff
         efftype_id get_effect_id() const;
@@ -259,6 +257,8 @@ class ma_buff
 
         ma_requirements reqs;
 
+        cata::flat_set<json_character_flag> flags;
+
         // mapped as buff_id -> min stacks of buff
 
         time_duration buff_duration = 0_turns; // total length this buff lasts
@@ -273,7 +273,6 @@ class ma_buff
 
         bool quiet = false;
         bool melee_allowed = false;
-        bool throw_immune = false; // are we immune to throws/grabs?
         bool melee_bash_damage_cap_bonus = false;
         bool strictly_melee = false; // can we only use it with weapons?
         bool stealthy = false; // do we make less noise when moving?

@@ -116,7 +116,7 @@
     "description": "seeing this is a bug",
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PSEUDO", "UNARMED_WEAPON" ],
+    "flags": [ "PSEUDO" ],
     "//": "Fist is internally represented as 'wielding a none as a weapon'"
   },
   {
@@ -1255,19 +1255,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "microwave",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": { "str": "microwave" },
-    "description": "A home microwave, has probably seen its share of baked beans.  Good for scrap parts.",
-    "price": 1000,
-    "price_postapoc": 10,
-    "material": [ "steel", "plastic" ],
-    "weight": "11339 g",
-    "volume": "9 L"
-  },
-  {
-    "type": "GENERIC",
     "id": "broken_eyebot",
     "symbol": ",",
     "color": "green",
@@ -2212,10 +2199,10 @@
     "category": "other",
     "price": 20000,
     "price_postapoc": 10,
-    "material": [ "iron" ],
+    "material": [ "steel" ],
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
-    "weight": "36287 g",
-    "volume": "3 L",
+    "weight": "115 kg",
+    "volume": "20 L",
     "bashing": 20,
     "to_hit": -5
   },
@@ -2630,6 +2617,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "sassafras_root",
+    "symbol": ",",
+    "color": "brown",
+    "name": { "str_sp": "sassafras root" },
+    "description": "A root taken from a sassafras tree.  Used in the production of certain sweet beverages.",
+    "price": 0,
+    "price_postapoc": 5,
+    "material": [ "wood" ],
+    "weight": "85 g",
+    "volume": "109 ml",
+    "bashing": 4,
+    "to_hit": 1
+  },
+  {
+    "type": "GENERIC",
     "id": "diamond",
     "symbol": "*",
     "color": "white",
@@ -2955,49 +2957,6 @@
     "category": "other"
   },
   {
-    "type": "GENERIC",
-    "id": "teddy",
-    "symbol": "o",
-    "color": "brown",
-    "name": { "str": "teddy bear" },
-    "description": "An old and half rotten teddy bear.  Looks like this one commemorates the grave of the child who once owned it.",
-    "price": 200,
-    "price_postapoc": 0,
-    "material": [ "cotton" ],
-    "weight": "514 g",
-    "volume": "750 ml",
-    "flags": [ "SLEEP_AID" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "teddy_bear",
-    "symbol": "o",
-    "color": "brown",
-    "name": { "str": "teddy bear" },
-    "description": "A mass-produced plush teddy bear.  It is wearing a little red t-shirt but no pants.",
-    "price": 200,
-    "price_postapoc": 10,
-    "material": [ "cotton" ],
-    "weight": "444 g",
-    "volume": "850 ml",
-    "flags": [ "SLEEP_AID" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "shark_plushie",
-    "symbol": "s",
-    "color": "cyan",
-    "name": { "str": "shark plushie" },
-    "description": "A somewhat large, mass produced shark plushie.  Meant to provide comfort to people of all ages.",
-    "price": 600,
-    "price_postapoc": 20,
-    "material": [ "cotton" ],
-    "weight": "1945 g",
-    "volume": "30000 ml",
-    "longest_side": "103 cm",
-    "flags": [ "SLEEP_AID" ]
-  },
-  {
     "id": "pouch_autoclave",
     "type": "AMMO",
     "ammo_type": "NULL",
@@ -3048,7 +3007,7 @@
         }
       ]
     },
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -3095,7 +3054,7 @@
         }
       ]
     },
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TOBACCO", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -3142,7 +3101,7 @@
         }
       ]
     },
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
+    "flags": [ "LITCIG", "LIGHT_2", "TRADER_AVOID", "FIRESTARTER", "FRAGILE", "OVERSIZE" ]
   },
   {
     "type": "GENERIC",
@@ -3196,7 +3155,7 @@
     "price_postapoc": 0,
     "material": [ "plastic" ],
     "flags": [ "NO_UNLOAD", "NO_RELOAD", "TRADER_AVOID" ],
-    "weight": "6 g",
+    "weight": "3 g",
     "volume": "5 ml",
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
@@ -4001,7 +3960,7 @@
     "price": 10,
     "price_postapoc": 1,
     "material": [ "plastic" ],
-    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "POWERARMOR_COMPATIBLE" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS", "POWERARMOR_COMPATIBLE", "PADDED" ],
     "weight": "250 g",
     "volume": "250 ml",
     "longest_side": "5 cm",

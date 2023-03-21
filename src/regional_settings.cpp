@@ -185,7 +185,6 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
                                    overlay );
             }
 
-
         }
     }
 }
@@ -1109,6 +1108,9 @@ void regional_settings::finalize()
         overmap_lake.finalize();
         region_terrain_and_furniture.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
+        for( std::pair<const std::string, regional_settings> &p : region_settings_map ) {
+            p.second.weather.sort_weather();
+        }
     }
 }
 

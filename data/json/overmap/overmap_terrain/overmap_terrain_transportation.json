@@ -83,6 +83,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "godco_enter",
+    "name": "dirt road",
+    "sym": "│",
+    "copy-from": "generic_rural_road"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "bridgehead_ramp",
     "copy-from": "generic_bridge",
     "name": "bridgehead (ramp)",
@@ -94,8 +101,7 @@
     "name": "roadstop",
     "sym": "^",
     "color": "light_blue",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -103,8 +109,7 @@
     "name": "public washroom",
     "sym": "^",
     "color": "light_blue",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -112,8 +117,7 @@
     "name": "roadside foodcart",
     "sym": "^",
     "color": "magenta",
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -335,7 +339,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "control_tower_0", "control_tower_1", "control_tower_2" ],
+    "id": [ "control_tower_0", "control_tower_1", "control_tower_2", "s_air_atc", "s_air_atc_2", "s_air_atc_3" ],
     "name": "control tower",
     "sym": "X",
     "color": "i_light_gray",
@@ -349,16 +353,30 @@
     "sym": "X",
     "color": "i_light_gray",
     "see_cost": 5,
-    "extras": "road"
+    "extras": "build"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "runway", "runway_carts", "runway_hangar", "runway_hangar2", "runway_wild", "runway_start", "runway_end" ],
+    "id": [
+      "runway",
+      "runway_carts",
+      "runway_hangar",
+      "runway_hangar2",
+      "runway_wild",
+      "runway_start",
+      "runway_end",
+      "s_air_runway_l",
+      "s_air_runway_B",
+      "s_air_runway_term",
+      "s_air_runway",
+      "s_air_runway_hangars",
+      "s_air_runway_r"
+    ],
     "name": "runway",
     "sym": "─",
     "color": "light_gray",
     "see_cost": 5,
-    "extras": "road"
+    "extras": "build"
   },
   {
     "type": "overmap_terrain",
@@ -391,7 +409,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "airport_lot_0", "airport_lot_1" ],
+    "id": [ "airport_lot_0", "airport_lot_1", "s_air_parking" ],
     "name": "parking lot",
     "sym": "O",
     "color": "dark_gray",
@@ -400,7 +418,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hangar",
+    "id": [ "hangar", "s_air_hangars" ],
     "name": "small hangar",
     "sym": "O",
     "color": "white",
@@ -409,7 +427,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "hangar_roof",
+    "id": [ "hangar_roof", "s_air_hangars_roof" ],
     "name": "small hangar roof",
     "sym": "O",
     "color": "white",
@@ -418,21 +436,45 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "waiting_area",
-    "name": "waiting area",
-    "sym": "<",
-    "color": "i_light_cyan",
+    "id": "s_air_term",
+    "name": "private airport terminal",
+    "sym": "A",
+    "color": "light_gray",
     "see_cost": 5,
-    "extras": "build"
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_term_roof",
+    "name": "private airport terminal roof",
+    "sym": "A",
+    "color": "light_gray",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "waiting_area",
+    "name": "regional airport terminal",
+    "copy-from": "s_air_term"
   },
   {
     "type": "overmap_terrain",
     "id": "waiting_area_roof",
-    "name": "waiting area roof",
-    "sym": "<",
-    "color": "i_light_cyan",
+    "name": "regional airport terminal roof",
+    "copy-from": "s_air_term_roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_air_helicopter_pad",
+    "name": "helicopter pad",
+    "sym": "H",
+    "color": "white",
     "see_cost": 5,
-    "extras": "build"
+    "extras": "build",
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",
@@ -460,6 +502,24 @@
       "parking_garage_down_1",
       "parking_garage_1_0",
       "parking_garage_1_1",
+      "parking_garage2x2_down_0",
+      "parking_garage2x2_down_1",
+      "parking_garage2x2_down_2",
+      "parking_garage2x2_down_3",
+      "parking_garage2x2_1_0",
+      "parking_garage2x2_1_1",
+      "parking_garage2x2_1_2",
+      "parking_garage2x2_1_3",
+      "parking_garage2x2_2_0",
+      "parking_garage2x2_2_1",
+      "parking_garage2x2_2_2",
+      "parking_garage2x2_2_3",
+      "parking_garage2x2_3_0",
+      "parking_garage2x2_3_1",
+      "parking_garage2x2_3_2",
+      "parking_garage2x2_3_3",
+      "parking_garage2x2_4_2",
+      "parking_garage2x2_4_3",
       "parking_garage_2_0",
       "parking_garage_2_1",
       "parking_garage_roof_0",
@@ -475,7 +535,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "parking_garage_0_0", "parking_garage_0_1" ],
+    "id": [
+      "parking_garage_0_0",
+      "parking_garage_0_1",
+      "parking_garage2x2_0_0",
+      "parking_garage2x2_0_1",
+      "parking_garage2x2_0_2",
+      "parking_garage2x2_0_3"
+    ],
     "copy-from": "parking_garage_1_0",
     "flags": [ "SIDEWALK" ]
   },

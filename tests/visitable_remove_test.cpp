@@ -3,6 +3,7 @@
 #include <list>
 #include <memory>
 #include <new>
+#include <optional>
 #include <vector>
 
 #include "calendar.h"
@@ -14,7 +15,6 @@
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -29,6 +29,7 @@
 static const itype_id itype_bone( "bone" );
 static const itype_id itype_bottle_plastic( "bottle_plastic" );
 static const itype_id itype_flask_hip( "flask_hip" );
+static const itype_id itype_null( "null" );
 static const itype_id itype_water( "water" );
 
 static const vproto_id vehicle_prototype_shopping_cart( "shopping_cart" );
@@ -85,7 +86,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     REQUIRE( suitable( p.pos(), 1 ) );
 
     item temp_liquid( liquid_id );
-    item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( "null" ) );
+    item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( itype_null ) );
     REQUIRE( obj.num_item_stacks() == 1 );
     const auto has_liquid_filter = [&liquid_id]( const item & it ) {
         return it.typeId() == liquid_id;
@@ -430,7 +431,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             return static_cast<bool>( here.veh_at( e ) );
         } ) == 1 );
 
-        const cata::optional<vpart_reference> vp = here.veh_at( veh ).part_with_feature( "CARGO", true );
+        const std::optional<vpart_reference> vp = here.veh_at( veh ).part_with_feature( "CARGO", true );
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
         const int part = vp->part_index();

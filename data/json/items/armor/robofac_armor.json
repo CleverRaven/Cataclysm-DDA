@@ -24,6 +24,8 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
+        "//": "more cylindrical",
+        "max_item_length": "200 mm",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -33,6 +35,8 @@
         "description": "Watertight internal reservoir.",
         "pocket_type": "CONTAINER",
         "max_contains_volume": "1500 ml",
+        "//": "more cylindrical",
+        "max_item_length": "200 mm",
         "watertight": true,
         "spoil_multiplier": 0.8,
         "max_contains_weight": "4 kg",
@@ -82,7 +86,15 @@
         "moves": 200,
         "holster": true,
         "description": "Strap for a gun barrel.",
-        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun", "robofac_gun_exodii" ]
+        "item_restriction": [
+          "robofac_gun_ar",
+          "robofac_gun_smg",
+          "robofac_gun_dmr",
+          "robofac_gun_shotgun",
+          "robofac_gun_exodii",
+          "robofac_gun_57",
+          "robofac_gun_46"
+        ]
       }
     ],
     "armor": [
@@ -175,7 +187,15 @@
         "moves": 200,
         "holster": true,
         "description": "Strap for a gun barrel.",
-        "item_restriction": [ "robofac_gun_ar", "robofac_gun_smg", "robofac_gun_dmr", "robofac_gun_shotgun", "robofac_gun_exodii" ]
+        "item_restriction": [
+          "robofac_gun_ar",
+          "robofac_gun_smg",
+          "robofac_gun_dmr",
+          "robofac_gun_shotgun",
+          "robofac_gun_exodii",
+          "robofac_gun_57",
+          "robofac_gun_46"
+        ]
       },
       { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_atomic_battery_cell" ] }
     ],

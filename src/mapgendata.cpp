@@ -2,6 +2,7 @@
 
 #include "all_enum_values.h"
 #include "debug.h"
+#include "hash_utils.h"
 #include "json.h"
 #include "map.h"
 #include "mapdata.h"
@@ -26,6 +27,18 @@ void mapgen_arguments::deserialize( const JsonValue &ji )
 {
     ji.read( map, true );
 }
+
+// NOLINTNEXTLINE(cert-dcl58-cpp)
+namespace std
+{
+
+size_t hash<mapgen_arguments>::operator()( const mapgen_arguments &args ) const noexcept
+{
+    cata::range_hash h;
+    return h( args.map );
+}
+
+} // namespace std
 
 static const regional_settings dummy_regional_settings;
 
@@ -71,13 +84,13 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &mp, const float densi
     set_neighbour( 5, direction::SOUTHEAST );
     set_neighbour( 6, direction::SOUTHWEST );
     set_neighbour( 7, direction::NORTHWEST );
-    if( cata::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( over ) ) {
+    if( std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( over ) ) {
         if( *maybe_args ) {
             mapgen_args_ = **maybe_args;
         } else {
             // We are the first omt from this overmap_special to be generated,
             // so now is the time to generate the arguments
-            if( cata::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( over ) ) {
+            if( std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( over ) ) {
                 const overmap_special &special = **s;
                 *maybe_args = special.get_args( *this );
                 mapgen_args_ = **maybe_args;

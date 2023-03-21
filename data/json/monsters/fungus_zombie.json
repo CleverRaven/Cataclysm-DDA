@@ -222,7 +222,7 @@
     "special_attacks": [ [ "scratch", 15 ], [ "FUNGUS", 200 ] ],
     "death_drops": {
       "subtype": "collection",
-      "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ],
+      "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ],
       "//": "cloth as any other zombie (always), additional items from child_items (sometimes)"
     },
     "burn_into": "mon_zombie_child_scorched",
@@ -266,13 +266,12 @@
     "id": "mon_fungal_wretch",
     "type": "MONSTER",
     "name": { "str": "fungal wretch", "str_pl": "fungal wretches" },
-    "description": "Were it not for the head, its orifices sealed by clumps of fungal growth, which limply crowns this massively swollen corpse, it’d be impossible to tell that this was once a human, let alone a child or adolescent.  The beast’s skin, stretched to paper-thin levels by what you can only assume to be lighter than air decomposition caused gasses built up within it, has turned into a spongy fungal covering with intermittent hair-line cracks which let out spores.  Like a nightmarish balloon the abomination is suspended off the floor with a faint glow emanating from within its guts, more than likely a result of the burning putrid gasses which keep it afloat.  At irregular intervals, you can see its form bulge and shift, a hint of something moving within its mass.",
+    "description": "This severely deformed child lies on its back, its ribs exposed to the sky.  With its limbs contorted in ways only possible through a lack of bones, the child’s ribcage stretches far beyond the boundaries of human biology, appearing akin to a bony hive coated in quivering fungal matter.  Spoors occasionally waft from its hollowed interior, and, periodically, you can catch sight of weakened movement staring within the abomination’s guts.",
     "default_faction": "fungus",
     "bodytype": "blob",
     "species": [ "FUNGUS" ],
-    "volume": "120000 ml",
+    "volume": "30000 ml",
     "weight": "45000 g",
-    "//": "Weight is more than its zombie counterpart cause of the fungal elements. It’s still rather slow, but it also has more health cause the fungus acts as a sort of makeshift armour.",
     "hp": 45,
     "speed": 20,
     "material": [ "flesh" ],
@@ -280,47 +279,27 @@
     "color": "pink",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 2,
+    "melee_skill": 1,
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_elec": 1,
-    "dodge": 1,
     "vision_day": 2,
     "vision_night": 2,
-    "harvest": "exempt",
-    "luminance": 5,
     "emit_fields": [ { "emit_id": "emit_fungal_leak", "delay": "1 s" } ],
-    "weakpoints": [
-      {
-        "id": "Belly",
-        "name": "the stretched skin of the abdomen",
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
-        "coverage_mult": { "broad": 0.5 },
-        "effects": [
-          {
-            "effect": "staggered",
-            "chance": 15,
-            "message": "The %s gargles as it’s sent wobbling!",
-            "damage_required": [ 10, 100 ]
-          }
-        ],
-        "coverage": 40
-      }
-    ],
+    "bleed_rate": 0,
+    "harvest": "zombie",
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "small_fungal_raptor_spawn", "hit_self": true },
+        "spell_data": { "id": "wretch_fungal_raptor_spawn", "hit_self": true },
         "cooldown": 50,
-        "monster_message": "With a high-pitched shriek, the wretch's belly splits open, and gore-smeared winged beasts climb out of the corpse!"
+        "monster_message": "Through a plume of fungal spores, a small beast struggles to take wing from the wretch’s abdomen!"
       }
     ],
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
-    "death_drops": "child_items",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "burn_into": "mon_zombie_child_scorched",
-    "flags": [ "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FLIES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ]
   },
   {
     "id": "mon_fungal_raptor",
@@ -339,7 +318,7 @@
     "color": "white",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 9,
+    "melee_skill": 7,
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 4 } ],

@@ -67,7 +67,7 @@
     "attack_cost": 110,
     "aggression": 30,
     "morale": 90,
-    "melee_skill": 11,
+    "melee_skill": 9,
     "melee_dice": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 12, "armor_penetration": 25 } ],
     "dodge": 5,
@@ -156,6 +156,7 @@
     "special_attacks": [
       { "id": "mutant_stinger" },
       { "id": "mutant_spinneret" },
+      [ "GRAB", 10 ],
       {
         "type": "bite",
         "cooldown": 10,
@@ -323,7 +324,7 @@
     "color": "light_red",
     "aggression": 30,
     "morale": 30,
-    "melee_skill": 9,
+    "melee_skill": 5,
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],

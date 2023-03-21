@@ -13,7 +13,7 @@
     "type": "martial_art",
     "id": "style_kicks",
     "name": { "str": "Force unarmed" },
-    "description": "Not a martial art, setting this style will prevent weapon attacks and force punches (with free hand) or kicks.",
+    "description": "Not a martial art, setting this style will prevent weapon attacks and force punches (with a free hand) or kicks.",
     "initiate": [ "You force yourself to fight unarmed.", "%s decides to fight unarmed." ],
     "arm_block": 1,
     "leg_block": 99,
@@ -25,14 +25,14 @@
     "id": "style_aikido",
     "name": { "str": "Aikido" },
     "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms but its techniques lack offensive power.",
-    "initiate": [ "You enter the hanmi stance.", "%s changes into a relaxed combat posture." ],
+    "initiate": [ "You enter the hanmi stance.", "%s enters a relaxed combat posture." ],
     "learn_difficulty": 5,
     "arm_block": 0,
     "static_buffs": [
       {
         "id": "buff_aikido_static1",
         "name": "Aikido Stance",
-        "description": "By disregarding offensive in favor of self-defense, you are better at protecting.\n\nBlocked damage reduced by 100% of Dexterity, +2 blocking effectiveness, +1.0 Dodging skill.",
+        "description": "By disregarding offense in favor of defense, you are better at protecting yourself.\n\nBlocked damage reduced by 100% of Dexterity, +2 blocking effectiveness, +1.0 Dodging skill.",
         "unarmed_allowed": true,
         "unarmed_weapons_allowed": false,
         "melee_allowed": true,
@@ -152,7 +152,7 @@
     "type": "martial_art",
     "id": "style_barbaran",
     "name": { "str": "Barbaran Montante" },
-    "description": "The Barbaran Montante originated in 16th century Spain and focuses on overcoming thick armor with heavy weaponry and sweeping blows, transferring kinetic energy through armor and into vulnerable organs and bones.",
+    "description": "Barbaran Montante originated in 16th century Spain and focuses on overcoming thick armor with heavy weaponry and sweeping blows, transferring kinetic energy through armor and into vulnerable organs and bones.",
     "initiate": [
       "You heft your weapon, stretch your shoulders, and slide into the Represa.",
       "%s rolls their shoulders and prepares to duel."
@@ -326,7 +326,7 @@
       {
         "id": "buff_capoeira_onmiss",
         "name": "Capoeira Tempo",
-        "description": "Hit or miss, its just part of the dance!  And the best part is about to start!\n\n+5% damage.\nLasts 1 turn.  Stacks 3 times.",
+        "description": "Hit or miss, it's just part of the dance!  And the best part is about to start!\n\n+5% damage.\nLasts 1 turn.  Stacks 3 times.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 1,
@@ -342,7 +342,7 @@
       {
         "id": "buff_capoeira_onmove",
         "name": "Capoeira Momentum",
-        "description": "You can feel the rhythm as you move.  Not only are you harder to hit, but your kicks are even more amazing!\n\n+1.0 Dodging skill.\nEnables \"Spin Kick\" and \"Sweep Kick\" techniques.\nLasts 3 turns.",
+        "description": "You can feel the rhythm as you move.  You are harder to hit, and your kicks are even more amazing!\n\n+1.0 Dodging skill.\nEnables \"Spin Kick\" and \"Sweep Kick\" techniques.\nLasts 3 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "buff_duration": 3,
@@ -369,7 +369,7 @@
       {
         "id": "buff_crane_static1",
         "name": "Crane's Precision",
-        "description": "Your attacks strike at your opponents weakness with speed and precision instead of brute force.\n\nBash damage increased by 75% of Dexterity but decreased by 75% of Strength.",
+        "description": "Your attacks strike at your opponents' weak spots with speed and precision instead of brute force.\n\nBash damage increased by 75% of Dexterity but decreased by 75% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "damage", "type": "bash", "scaling-stat": "dex", "scale": 0.75 },
@@ -396,7 +396,7 @@
       {
         "id": "buff_crane_ondodge",
         "name": "Crane's Flight",
-        "description": "Much like the crane, you a quick to avoid danger and strike back.\n\n+1 accuracy, +1.0 Dodging skill.\nEnables \"Crane Kick\" and \"Crane Strike\" techniques.\nLasts 3 turns.",
+        "description": "Much like the crane, you are quick to avoid danger and strike back.\n\n+1 accuracy, +1.0 Dodging skill.\nEnables \"Crane Kick\" and \"Crane Strike\" techniques.\nLasts 3 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "buff_duration": 3,
@@ -417,7 +417,7 @@
       {
         "id": "buff_dragon_static",
         "name": "Dragon's Knowledge",
-        "description": "You plan your attack far in advance relying on your intuition instead of your speed to strike true.\n\nAccuracy increased by 25% of Intelligence but decreased by 25% of Dexterity, bash damage increased by 75% of Intelligence but decreased by 75% of Strength.",
+        "description": "You plan your attacks far in advance, relying on your intuition instead of your speed to strike true.\n\nAccuracy increased by 25% of Intelligence but decreased by 25% of Dexterity, bash damage increased by 75% of Intelligence but decreased by 75% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "hit", "scaling-stat": "int", "scale": 0.25 },
@@ -461,7 +461,7 @@
       {
         "id": "buff_dragon_onpause",
         "name": "Dragon Power",
-        "description": "You take a moment to reflect on battles past and to come.  This insight will protect from future harm.\n\n+2 blocking effectiveness, blocked damage reduced by 100% of Intelligence, +1.0 Dodging skill.\nLasts 2 turns.",
+        "description": "You take a moment to reflect on battles past and to come.  This insight will protect you from future harm.\n\n+2 blocking effectiveness, blocked damage reduced by 100% of Intelligence, +1.0 Dodging skill.\nLasts 2 turns.",
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "buff_duration": 2,
@@ -531,7 +531,7 @@
       {
         "id": "buff_fencing_static",
         "name": "Fencing Stance",
-        "description": "Your side stance minimizes the chances you will be harmed in a combat.\n\nBlocked damage reduced by 50% of Dexterity.",
+        "description": "Your side stance reduces the chance that you will be harmed in combat.\n\nBlocked damage reduced by 50% of Dexterity.",
         "melee_allowed": true,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 0.5 } ]
       }
@@ -540,7 +540,7 @@
       {
         "id": "buff_fencing_onblock",
         "name": "Parry",
-        "description": "Your next strike will find its mark much easier from your parry.\n\n+1 accuracy.\nLasts 1 turn.",
+        "description": "Your next strike will find its mark much easier after your parry.\n\n+1 accuracy.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "buff_duration": 1,
@@ -646,18 +646,18 @@
     "type": "martial_art",
     "id": "style_judo",
     "name": { "str": "Judo" },
-    "description": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  You are resistant to most effects that can knock you down and can counter grab and takedown attacks with strong judo throw.",
+    "description": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  You are resistant to most effects that can knock you down and can counter grab and takedown attacks with a strong judo throw.",
     "initiate": [ "You prepare yourself for a grapple.", "%s prepares for a grapple." ],
     "learn_difficulty": 4,
     "static_buffs": [
       {
         "id": "buff_judo_static",
         "name": "Judo Stance",
-        "description": "Your knowledge of grappling allows you to recover from knock down effects instantly.  In addition, you can counter grabs and takedown attacks with a judo throw.",
+        "description": "Your knowledge of grappling allows you to recover from knockdown effects instantly.  In addition, you can counter grabs and takedown attacks with a judo throw.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "unarmed_weapons_allowed": false,
-        "throw_immune": true
+        "flags": [ "DOWNED_RECOVERY" ]
       }
     ],
     "ondodge_buffs": [
@@ -691,7 +691,7 @@
       {
         "id": "buff_karate_static",
         "name": "Karate Stance",
-        "description": "Your no nonsense stance allows you hit more accurately.\n\n+2 accuracy.",
+        "description": "Your no-nonsense stance allows you hit more accurately.\n\n+2 accuracy.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "flat_bonuses": [ { "stat": "hit", "scale": 2.0 } ]
@@ -719,7 +719,7 @@
     "type": "martial_art",
     "id": "style_kickboxing",
     "name": { "str": "Kickboxing" },
-    "description": "A martial art that combines western boxing with elements of Karate, Taekwondo, Muay Thai and Savate, particularly in the use of kicks.",
+    "description": "A martial art that combines western boxing with elements of Karate, Taekwondo, Muay Thai, and Savate, particularly in the use of kicks.",
     "initiate": [ "You assume a kickboxing stance and focus power into your limbs.", "%s assumes a kickboxing stance." ],
     "learn_difficulty": 4,
     "arm_block": 2,
@@ -766,7 +766,7 @@
       {
         "id": "buff_krav_maga_onblock",
         "name": "Strike Vitals",
-        "description": "Like a foe, your opponent has left themselves wide.\n\n+5% critical hit chance.\nLasts 1 turn.",
+        "description": "Like a fool, your opponent has left themselves wide open.\n\n+5% critical hit chance.\nLasts 1 turn.",
         "melee_allowed": true,
         "unarmed_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
@@ -781,7 +781,7 @@
     "type": "martial_art",
     "id": "style_leopard",
     "name": { "str": "Leopard Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Dexterity determines your damage, rather than Strength and also increases your critical hit chance.",
+    "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically-planned strikes.  Dexterity determines your damage, rather than Strength and also increases your critical hit chance.",
     "initiate": [ "You prepare to pounce like a leopard.", "%s assumes a leopard-like stance." ],
     "learn_difficulty": 10,
     "static_buffs": [
@@ -820,7 +820,7 @@
     "type": "martial_art",
     "id": "style_swordsmanship",
     "name": { "str": "Medieval Swordsmanship" },
-    "description": "The art of the longsword and sword & buckler, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
+    "description": "The art of the longsword and sword & buckler, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This style is a combination of the Italian and German traditions.",
     "initiate": [ "You take on a knightly stance.", "%s takes on a knightly stance." ],
     "strictly_melee": true,
     "learn_difficulty": 6,
@@ -866,7 +866,7 @@
       {
         "id": "buff_swordsmanship_onpause",
         "name": "Half Swording",
-        "description": "You grip the blade part way down for greater control.\n\nBlocked damage reduced by 50% of Strength, -1 accuracy.\nEnables \"Grab\" and \"Lethal Strike\" techniques.\nLasts 2 turns.",
+        "description": "You grip the blade partway down for greater control.\n\nBlocked damage reduced by 50% of Strength, -1 accuracy.\nEnables \"Grab\" and \"Lethal Strike\" techniques.\nLasts 2 turns.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 2,
@@ -931,7 +931,7 @@
       {
         "id": "buff_ninjutsu_static2",
         "name": "Sneak Attack",
-        "description": "To a true shinobi, the first strike and the last strike are one in the same.\n\n+25% critical hit chance.",
+        "description": "To a true shinobi, the first strike and the last strike are one and the same.\n\n+25% critical hit chance.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "forbidden_buffs_all": [ "buff_ninjutsu_onattack" ],
@@ -942,7 +942,7 @@
       {
         "id": "buff_ninjutsu_onattack",
         "name": "Loss of Surprise",
-        "description": "You intentions are known!  It will take you a few moments to sneak attack again.\n\nDisables \"Sneak Attack\" buff and \"Assassinate\" and \"Ninjutsu Takedown\" techniques.  Enables \"Swift Strike (crit)\" technique.\nLasts 3 turns, persists after switching styles.",
+        "description": "Your intentions are known!  It will take you a few moments to sneak attack again.\n\nDisables \"Sneak Attack\" buff and \"Assassinate\" and \"Ninjutsu Takedown\" techniques.  Enables \"Swift Strike (crit)\" technique.\nLasts 3 turns, persists after switching styles.",
         "unarmed_allowed": true,
         "melee_allowed": true,
         "buff_duration": 3,
@@ -953,7 +953,7 @@
       {
         "id": "buff_ninjutsu_onmove",
         "name": "Momentum Shift",
-        "description": "Ninjas are training to be extremely agile and mobile.\n\n+1.0 Dodging skill, accuracy increased by 20% of Dexterity.\nLasts 1 turn.",
+        "description": "Ninja are trained to be extremely agile and mobile.\n\n+1.0 Dodging skill, accuracy increased by 20% of Dexterity.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "unarmed_allowed": true,
         "melee_allowed": true,
@@ -1056,7 +1056,7 @@
     "type": "martial_art",
     "id": "style_pankration",
     "name": { "str": "Pankration" },
-    "description": "An ancient Greek martial art once used by the Spartans.  It combines boxing and wrestling techniques to create a brutal sport, though modern revival of the art is less of no-holds-barred in nature.",
+    "description": "An ancient Greek martial art once used by the Spartans.  It combines boxing and wrestling techniques to create a brutal sport, though the modern revival of the art is more restrained and rules-based.",
     "initiate": [ "You crouch slightly and prepare to rush forward.", "%s crouches slightly, ready to rush forward." ],
     "learn_difficulty": 3,
     "arm_block": 2,
@@ -1080,7 +1080,7 @@
       {
         "id": "buff_pankration_oncrit",
         "name": "Close Combat",
-        "description": "You got your opponent right where you want them!\n\n+20% damage.\nLasts 1 turn.",
+        "description": "You have your opponent right where you want them!\n\n+20% damage.\nLasts 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 4 } ],
         "unarmed_allowed": true,
         "required_buffs_all": [ "buff_pankration_ondodge" ],
@@ -1106,7 +1106,7 @@
     "id": "style_silat",
     "name": { "str": "Silat" },
     "description": "Pencak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
-    "initiate": [ "You give a salute of respect as you prepare to combat.", "%s gives a combat salute." ],
+    "initiate": [ "You give a salute of respect as you prepare for combat.", "%s gives a combat salute." ],
     "learn_difficulty": 7,
     "primary_skill": "cutting",
     "strictly_melee": true,
@@ -1114,7 +1114,7 @@
       {
         "id": "buff_silat_static",
         "name": "Silat Stance",
-        "description": "You try to stay loose as possible when fighting to have more chances to dodge.\n\n+1 dodge attempt.",
+        "description": "You try to stay as loose as possible when fighting to have more chances to dodge.\n\n+1 dodge attempt.",
         "melee_allowed": true,
         "bonus_dodges": 1
       }
@@ -1123,7 +1123,7 @@
       {
         "id": "buff_silat_ondodge",
         "name": "Silat Appraisal",
-        "description": "Each time you dodge an attack, you learn a bit more about your opponents' fighting style.  This allows you to make more precise attacks against them.\n\nAccuracy increased by 15% of Dexterity.\nLasts 2 turns.  Stacks 3 times.",
+        "description": "Each time you dodge an attack, you learn a bit more about your opponent's fighting style.  This allows you to make more precise attacks against them.\n\nAccuracy increased by 15% of Dexterity.\nLasts 2 turns.  Stacks 3 times.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "buff_duration": 2,
@@ -1149,7 +1149,7 @@
     "type": "martial_art",
     "id": "style_snake",
     "name": { "str": "Snake Kung Fu" },
-    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your accuracy and damage, rather than Dexterity and Strength.  Standing still will increases the accuracy and critical hit chance of your next few attacks.",
+    "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Perception determines your accuracy and damage, rather than Dexterity and Strength.  Standing still increases the accuracy and critical hit chance of your next few attacks.",
     "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
     "learn_difficulty": 10,
     "arm_block": 2,
@@ -1157,7 +1157,7 @@
       {
         "id": "buff_snake_static",
         "name": "Snake's Sight",
-        "description": "You are patient and know where to hit your opponent for the best results.\n\nAccuracy increased by 25% of Perception but decreased by 25% of Dexterity, bash damage increased by 75% of Perception but decreased by 75% of Strength.",
+        "description": "You are patient and know where to hit your opponent for best results.\n\nAccuracy increased by 25% of Perception but decreased by 25% of Dexterity, bash damage increased by 75% of Perception but decreased by 75% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [
           { "stat": "hit", "scaling-stat": "per", "scale": 0.25 },
@@ -1202,7 +1202,7 @@
       {
         "id": "buff_snake_onpause",
         "name": "Snake's Coil",
-        "description": "Every snake waits for the perfect moment to strike.  Aim as your opponents approve and attack their weakness without mercy!\n\n+1 accuracy, +1 blocking effectiveness, +5% critical hit chance.\nLasts 4 turns.  Stacks 3 times.",
+        "description": "Every snake waits for the perfect moment to strike.  Aim as your opponents approach and attack their weak spots without mercy!\n\n+1 accuracy, +1 blocking effectiveness, +5% critical hit chance.\nLasts 4 turns.  Stacks 3 times.",
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 4,
@@ -1220,7 +1220,7 @@
     "type": "martial_art",
     "id": "style_sojutsu",
     "name": { "str": "Sōjutsu" },
-    "description": "Sōjutsu, \"The Way of the Spear\", is the Japanese martial art of fighting with a spear.  Sōjutsu focuses on keeping opponents at a distance in order to maintain advantage in combat.  Standing still gives you an extra block attempt but moving will briefly increase your damage.",
+    "description": "Sōjutsu, \"The Way of the Spear\", is the Japanese martial art of fighting with a spear.  Sōjutsu focuses on keeping opponents at a distance in order to maintain the advantage in combat.  Standing still gives you an extra block attempt but moving will briefly increase your damage.",
     "initiate": [ "You prepare to defend against all that approach you.", "%s assumes a wide, defensive stance." ],
     "learn_difficulty": 7,
     "primary_skill": "stabbing",
@@ -1257,7 +1257,7 @@
     "type": "martial_art",
     "id": "style_taekwondo",
     "name": { "str": "Taekwondo" },
-    "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
+    "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks, it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage and your attacks do more damage if you are not holding anything.",
     "initiate": [ "You adopt a narrow fighting stance.", "%s adopts a narrow fighting stance." ],
     "learn_difficulty": 5,
     "arm_block": 1,
@@ -1269,7 +1269,7 @@
       {
         "id": "buff_taekwondo_static",
         "name": "Taekwondo Stance",
-        "description": "Using your legs to attack allows your hands to be free for better defense.\n\nBlocked damage reduced by 50% of Strength.",
+        "description": "Using your legs to attack keeps your hands free for better defense.\n\nBlocked damage reduced by 50% of Strength.",
         "unarmed_allowed": true,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 } ]
       },
@@ -1306,7 +1306,7 @@
       {
         "id": "buff_tai_chi_static",
         "name": "Tai Chi Stance",
-        "description": "You are focused of defense and predicting your opponents attacks.\n\n+1 block attempt, blocked damage reduced by 100% Perception.",
+        "description": "You are focused on defense and predicting your opponents' attacks.\n\n+1 block attempt, blocked damage reduced by 100% Perception.",
         "unarmed_allowed": true,
         "bonus_blocks": 1,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "per", "scale": 1.0 } ]
@@ -1380,7 +1380,7 @@
     "type": "martial_art",
     "id": "style_wingchun",
     "name": { "str": "Wing Chun" },
-    "description": "Wing Chun is a Chinese martial art that began by selecting the easiest-to-learn effective techniques from the various Shaolin animal forms.  It has a high stance, with weight entirely on the rear leg.  Wing Chun focuses on sensitivity to the opponent's direction of force, and flowing around it to get back to hitting.",
+    "description": "Wing Chun is a Chinese martial art that began by selecting the easiest-to-learn effective techniques from the various Shaolin animal forms.  It has a high stance, with one's weight resting entirely on the rear leg.  Wing Chun focuses on sensitivity to the opponent's direction of force, and flowing around it to create opportunities for attack.",
     "initiate": [
       "You take your stance and prepare to receive the gift of violence.",
       "%s patiently assumes a curiously pigeon-toed stance."
@@ -1439,7 +1439,7 @@
       {
         "id": "buff_zuiquan_static",
         "name": "Zui Quan Stance",
-        "description": "Others might think you stumble about at random but you know better.  Each movement is calculated to make evading harm with ease.\n\n+2 dodge attempts, Dodging skill increased by 20% of Intelligence.",
+        "description": "Others might think you stumble about at random, but you know better.  Each movement is calculated to evade harm with ease.\n\n+2 dodge attempts, Dodging skill increased by 20% of Intelligence.",
         "unarmed_allowed": true,
         "bonus_dodges": 2,
         "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "int", "scale": 0.2 } ]

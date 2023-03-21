@@ -1184,7 +1184,7 @@
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       },
-      "place_monster": [ { "monster": [ "mon_march_lord" ], "x": 2, "y": 7 } ],
+      "place_monster": [ { "monster": [ "mon_march_lord" ], "x": 3, "y": 4 } ],
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },
@@ -1217,7 +1217,39 @@
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       },
-      "place_monster": [ { "monster": [ "mon_march_lord" ], "x": 2, "y": 7 } ],
+      "place_monster": [ { "monster": [ "mon_march_lord" ], "x": 3, "y": 4 } ],
+      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "xed_8x8_containment_empty",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "|-gggg-|",
+        "|,,,,,,|",
+        "g,,,,,,L",
+        "g,,,,,,g",
+        "|,,,,,,|",
+        "|-gggg-|",
+        "........",
+        ".cxc6cc."
+      ],
+      "palettes": [ "lab_palette" ],
+      "computers": {
+        "6": {
+          "name": "Containment Control",
+          "security": 4,
+          "options": [
+            { "name": "EMERGENCY CONTAINMENT UNLOCK", "action": "unlock", "security": 4 },
+            { "name": "EMERGENCY CLEANSE", "action": "disconnect", "security": 7 }
+          ],
+          "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
+        }
+      },
       "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ]
     }
   },

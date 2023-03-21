@@ -188,6 +188,10 @@ class talker
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
+        virtual bool has_recipe( const recipe_id & ) const {
+            return false;
+        }
+        virtual void learn_recipe( const recipe_id & ) {}
         virtual void mutate( const int &, const bool & ) {}
         virtual void mutate_category( const mutation_category_id &, const bool & ) {}
         virtual void set_mutation( const trait_id & ) {}
@@ -440,6 +444,9 @@ class talker
         virtual int get_stored_kcal() const {
             return 0;
         }
+        virtual int get_healthy_kcal() const {
+            return 0;
+        }
         virtual int get_stim() const {
             return 0;
         }
@@ -485,6 +492,9 @@ class talker
         }
         virtual bool has_item_with_flag( const flag_id & ) const {
             return false;
+        }
+        virtual int item_rads( const flag_id &, aggregate_type ) const {
+            return 0;
         }
         virtual units::energy power_cur() const {
             return 0_kJ;
@@ -581,10 +591,13 @@ class talker
         virtual int get_body_temp_delta() const {
             return 0;
         }
-        virtual std::vector<bodypart_id> get_all_body_parts() const {
+        virtual std::vector<bodypart_id> get_all_body_parts( bool, bool ) const {
             return std::vector<bodypart_id>();
         }
         virtual int get_part_hp_cur( const bodypart_id & ) const {
+            return 0;
+        }
+        virtual int get_part_hp_max( const bodypart_id & ) const {
             return 0;
         }
         virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
