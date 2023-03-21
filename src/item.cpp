@@ -3017,12 +3017,12 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            iteminfo::lower_is_better, mod->ammo_required() );
     }
 
-    if( mod->get_gun_ups_drain() > 0_kJ && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
+    if( mod->get_gun_energy_drain() > 0_kJ && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
         info.emplace_back( "AMMO",
-                           string_format( n_gettext( "Uses <stat>%i</stat> charge of UPS per shot",
-                                          "Uses <stat>%i</stat> kJ of UPS per shot",
-                                          units::to_kilojoule( mod->get_gun_ups_drain() ) ),
-                                          units::to_kilojoule( mod->get_gun_ups_drain() ) ) );
+                           string_format( n_gettext( "Uses <stat>%i</stat> kJ of energy per shot",
+                                          "Uses <stat>%i</stat> kJ of energy per shot",
+                                          units::to_kilojoule( mod->get_gun_energy_drain() ) ),
+                                          units::to_kilojoule( mod->get_gun_energy_drain() ) ) );
     }
 
     if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
