@@ -145,7 +145,6 @@
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.04, "color": "blue", "sym": ";" },
     "sound_category": "rainstorm",
-    "sun_intensity": "none",
     "required_weathers": [ "rain" ],
     "priority": 60,
     "condition": {
