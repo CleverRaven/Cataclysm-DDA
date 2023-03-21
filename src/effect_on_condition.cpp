@@ -486,7 +486,7 @@ void eoc_events::notify( const cata::event &e )
     for( const effect_on_condition &eoc : event_EOCs[e.type()] ) {
         // try to assign a character for the EOC
         // TODO: refactor event_spec to take consistent inputs
-        npc *alpha_talker;
+        npc *alpha_talker  = nullptr;
         const std::vector<std::string> potential_alphas = { "avatar_id", "character", "attacker", "killer", "npc" };
         for( const std::string &potential_key : potential_alphas ) {
             cata_variant cv = e.get_variant_or_void( potential_key );
