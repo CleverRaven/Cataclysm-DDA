@@ -126,7 +126,7 @@
     "qualities": [ [ "SAW_M", 2 ] ]
   },
   {
-    "id": "fake_appliance_tool",
+    "abstract": "fake_appliance_tool",
     "name": { "str": "fake appliance tool" },
     "description": "Dummy item.  If you see this, then something went wrong.",
     "type": "TOOL",
