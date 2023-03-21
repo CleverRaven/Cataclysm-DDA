@@ -19,7 +19,7 @@
         [ "multi_cooker", 35 ],
         [ "char_smoker", 4 ],
         [ "charcoal_cooker", 4 ],
-        [ "fake_oven", 125 ],
+        [ "oven", 125 ],
         [ "esbit_stove", 2 ],
         [ "oil_cooker", 2 ],
         [ "gasoline_cooker", 2 ],

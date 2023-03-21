@@ -387,7 +387,7 @@
         { "item": "pilot_light", "count": 1 }
       ]
     },
-    "crafting_pseudo_item": "pseudo_app_oven_hotplate"
+    "crafting_pseudo_item": "oven"
   },
   {
     "type": "furniture",

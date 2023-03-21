@@ -104,7 +104,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE" ],
-    "pseudo_tools": [ { "id": "pseudo_app_oven_hotplate", "hotkey": "h" } ],
+    "pseudo_tools": [ { "id": "oven" }, { "id": "hotplate", "hotkey": "h" } ],
     "//": "Doesn't draw power at baseline, only when cooking.",
     "epower": "0 W",
     "item": "oven",

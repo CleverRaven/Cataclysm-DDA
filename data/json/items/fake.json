@@ -364,19 +364,6 @@
     "color": "red"
   },
   {
-    "abstract": "pseudo_hotplate_abstract",
-    "copy-from": "hotplate",
-    "sub": "hotplate",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "hotplate abstract"
-  },
-  {
     "id": "pseudo_veh_foodco_vac_sealer",
     "name": { "str": "FOODCO kitchen buddy vacuum sealer" },
     "copy-from": "vac_sealer",
@@ -414,20 +401,6 @@
     "volume": "1 ml",
     "symbol": "@",
     "color": "red"
-  },
-  {
-    "copy-from": "pseudo_hotplate_abstract",
-    "id": "pseudo_app_oven_hotplate",
-    "type": "TOOL",
-    "qualities": [ [ "OVEN", 2 ] ],
-    "name": { "str": "oven" }
-  },
-  {
-    "id": "fake_oven",
-    "type": "TOOL",
-    "copy-from": "fake_appliance_tool",
-    "name": { "str": "oven" },
-    "qualities": [ [ "OVEN", 2 ] ]
   },
   {
     "copy-from": "pseudo_forge_abstract",
