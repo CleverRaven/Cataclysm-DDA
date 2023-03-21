@@ -85,7 +85,7 @@
       "repair": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "60 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 6 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
+        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 6 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
     "damage_reduction": { "all": 20 }
@@ -112,7 +112,7 @@
       "repair": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "60 m",
-        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 10 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
+        "using": [ [ "repair_welding_standard", 20 ], [ "soldering_standard", 10 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
     "damage_reduction": { "all": 20 }
@@ -139,7 +139,7 @@
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "60 m",
-        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 12 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
+        "using": [ [ "repair_welding_standard", 30 ], [ "soldering_standard", 12 ], [ "vehicle_wrench_2", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
     "damage_reduction": { "all": 25 }
