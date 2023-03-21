@@ -7782,5 +7782,18 @@
     "pre_special": "check_empty",
     "post_terrain": "f_chair_white",
     "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_lumber",
+    "group": "place_lumber",
+    "category": "OTHER",
+    "required_skills": [  ],
+    "time": "15 s",
+    "components": [ [ [ "lumber", 1 ] ] ],
+    "pre_special": "check_empty",
+    "dark_craftable": true,
+    "post_terrain": "t_trunk",
+    "activity_level": "LIGHT_EXERCISE"
   }
 ]

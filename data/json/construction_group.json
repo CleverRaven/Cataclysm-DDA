@@ -1708,5 +1708,10 @@
     "type": "construction_group",
     "id": "place_chair_wood_white",
     "name": "Place a white wooden chair"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_lumber",
+    "name": "Place lumber"
   }
 ]
