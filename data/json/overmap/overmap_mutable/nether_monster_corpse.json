@@ -203,8 +203,28 @@
       ],
       [ { "overmap": "bowels_lcorner", "weight": 1 } ],
       [ { "overmap": "bowels_rcorner", "weight": 1 } ],
-      [ { "overmap": "neck_center", "max": 1 } ],
-      [ { "overmap": "neck_center", "max": { "poisson": 1.2 } } ],
+      [
+        {
+          "name": "neck_3x1",
+          "chunk": [
+            { "overmap": "neck_side", "pos": [ -1, 0, 0 ] },
+            { "overmap": "neck_center", "pos": [ 0, 0, 0 ] },
+            { "overmap": "neck_side", "pos": [ 1, 0, 0 ] }
+          ],
+          "max": 1
+        }
+      ],
+      [
+        {
+          "name": "neck_3x1_extra",
+          "chunk": [
+            { "overmap": "neck_side", "pos": [ -1, 0, 0 ] },
+            { "overmap": "neck_center", "pos": [ 0, 0, 0 ] },
+            { "overmap": "neck_side", "pos": [ 1, 0, 0 ] }
+          ],
+          "max": { "poisson": 1 }
+        }
+      ],
       [
         {
           "name": "head1",
@@ -239,7 +259,6 @@
         }
       ],
       [ { "overmap": "corpse_head_lcorner", "weight": 1 }, { "overmap": "corpse_head_rcorner", "weight": 1 } ],
-      [ { "overmap": "neck_side", "weight": 1 } ],
       [ { "overmap": "tentacle_mid", "max": 12 } ],
       [
         { "overmap": "tentacle_corner", "max": 25 },
