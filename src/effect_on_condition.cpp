@@ -467,8 +467,8 @@ void eoc_events::notify( const cata::event &e )
     if( !has_cached ) {
 
         // initialize all events to an empty vector
-        for( event_type et = ( event_type )0; et < event_type::num_event_types;
-             et = static_cast<event_type>( ( size_t )et + 1 ) ) {
+        for( event_type et = static_cast<event_type>( 0 ); et < event_type::num_event_types;
+             et = static_cast<event_type>( static_cast<size_t>( et ) + 1 ) ) {
 
             event_EOCs[et] = std::vector<effect_on_condition>();
         }
