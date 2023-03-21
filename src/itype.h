@@ -704,7 +704,7 @@ struct islot_gun : common_ranged_data {
     int loudness = 0;
 
     /**
-     * If this uses electric energy, how many (per shot).
+     * If this uses electric energy, how much (per shot).
      */
     units::energy energy_drain = 0_kJ;
     /**

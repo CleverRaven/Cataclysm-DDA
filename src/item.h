@@ -2286,13 +2286,16 @@ class item : public visitable
          */
         int shots_remaining( const Character *carrier ) const;
 
-        /** Energy available from battery/UPS/bionics */
+        /**
+         * Energy available from battery/UPS/bionics
+         * @param carrier is used for UPS and bionic power.
+         */
         units::energy energy_remaining( const Character *carrier = nullptr ) const;
 
 
         /**
          * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
-         * @param carrier is used for UPS and bionic power
+         * @param carrier is used for UPS and bionic power for tools
          */
         int ammo_remaining( const Character *carrier = nullptr ) const;
 

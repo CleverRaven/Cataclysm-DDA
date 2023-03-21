@@ -646,7 +646,7 @@ units::energy item::mod_energy( const units::energy &qty )
         return 0_J;
     }
 
-    units::energy val = energy_remaining() + qty;
+    units::energy val = energy_remaining( nullptr ) + qty;
     if( val < 0_J ) {
         return val;
     } else if( val > type->battery->max_capacity ) {
@@ -6861,7 +6861,7 @@ std::string item::display_name( unsigned int quantity ) const
         }
     } else if( is_vehicle_battery() ) {
         show_amt = true;
-        amount = to_joule( energy_remaining() );
+        amount = to_joule( energy_remaining( nullptr ) );
         max_amount = to_joule( type->battery->max_capacity );
     }
 
@@ -10486,7 +10486,7 @@ units::energy item::energy_remaining( const Character *carrier ) const
     // Magazine in the item
     const item *mag = magazine_current();
     if( mag ) {
-        ret += mag->energy_remaining();
+        ret += mag->energy_remaining( carrier );
     }
 
     // Power from bionic
