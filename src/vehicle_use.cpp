@@ -248,7 +248,7 @@ void vehicle::build_electronics_menu( veh_menu &menu )
         menu.add( camera_on
                   ? colorize( _( "Turn off camera system" ), c_pink )
                   : _( "Turn on camera system" ) )
-        .enable( fuel_left( fuel_type_battery, true ) )
+        .enable( fuel_left( fuel_type_battery ) )
         .hotkey( "TOGGLE_CAMERA" )
         .keep_menu_open()
         .on_submit( [&] {
@@ -671,7 +671,7 @@ bool vehicle::start_engine( vehicle_part &vp )
         const double cold_factor = engine_cold_factor( vp );
         const units::power start_power = -part_epower( vp ) * ( dmg * 5 + cold_factor * 2 + 10 );
         const int start_bat = power_to_energy_bat( start_power, start_time );
-        if( discharge_battery( start_bat, true ) != 0 ) {
+        if( discharge_battery( start_bat ) != 0 ) {
             sounds::sound( pos, vpi.engine_noise_factor(), sounds::sound_t::alarm,
                            string_format( _( "the %s rapidly clicking." ), vp.name() ), true, "vehicle",
                            "engine_multi_click_fail" );
@@ -809,7 +809,7 @@ void vehicle::enable_patrol()
 
 void vehicle::honk_horn() const
 {
-    const bool no_power = !fuel_left( fuel_type_battery, true );
+    const bool no_power = !fuel_left( fuel_type_battery );
     bool honked = false;
 
     for( const vpart_reference &vp : get_avail_parts( "HORN" ) ) {
@@ -889,7 +889,7 @@ void vehicle::reload_seeds( const tripoint &pos )
 void vehicle::beeper_sound() const
 {
     // No power = no sound
-    if( fuel_left( fuel_type_battery, true ) == 0 ) {
+    if( fuel_left( fuel_type_battery ) == 0 ) {
         return;
     }
 
@@ -1604,7 +1604,7 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
 
 void vpart_position::form_inventory( inventory &inv ) const
 {
-    const int veh_battery = vehicle().fuel_left( itype_battery, true );
+    const int veh_battery = vehicle().fuel_left( itype_battery );
     const cata::optional<vpart_reference> vp_faucet = part_with_tool( itype_water_faucet );
     const cata::optional<vpart_reference> vp_cargo = part_with_feature( "CARGO", true );
 
@@ -1653,16 +1653,16 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
         get_player_character().invoke_item( &pseudo );
         return true;
     }
-    if( veh.fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
+    if( veh.fuel_left( itype_battery ) < pseudo.ammo_required() ) {
         return false;
     }
-    // TODO: Figure out this comment: Pseudo items don't have a magazine in it, and they don't need it anymore.
     item pseudo_magazine( pseudo.magazine_default() );
     pseudo_magazine.clear_items(); // no initial ammo
     pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
-    const int capacity = pseudo.ammo_capacity( ammo_battery );
-    const int qty = capacity - veh.discharge_battery( capacity );
-    pseudo.ammo_set( itype_battery, qty );
+    const int64_t tool_capacity = pseudo.ammo_capacity( ammo_battery );
+    const int64_t veh_battery = veh.battery_left();
+    const int tool_battery = std::min( tool_capacity, veh_battery );
+    pseudo.ammo_set( itype_battery, tool_battery );
     get_player_character().invoke_item( &pseudo );
     player_activity &act = get_player_character().activity;
 
@@ -1673,8 +1673,8 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
         act.coords.push_back( vp_pos ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
     }
-
-    veh.charge_battery( pseudo.ammo_remaining() );
+    const int used_charges = tool_battery - pseudo.ammo_remaining();
+    veh.discharge_battery( used_charges );
     return true;
 }
 
@@ -1927,7 +1927,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
 
         menu.add( _( "Use " ) + tool->nname( 1 ) )
-        .enable( fuel_left( itype_battery, true ) >= tool->charges_to_use() )
+        .enable( fuel_left( itype_battery ) >= tool->charges_to_use() )
         .hotkey( hotkey )
         .skip_locked_check( !tool_wants_battery( tool ) )
         .on_submit( [this, vppos, tool] { use_vehicle_tool( *this, vppos, tool ); } );
@@ -2029,7 +2029,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
     if( vp.part_with_tool( itype_pseudo_water_purifier ) ) {
         menu.add( _( "Purify water in vehicle tank" ) )
         .enable( fuel_left( itype_water ) &&
-                 fuel_left( itype_battery, true ) >= itype_pseudo_water_purifier->charges_to_use() )
+                 fuel_left( itype_battery ) >= itype_pseudo_water_purifier->charges_to_use() )
         .hotkey( "PURIFY_WATER" )
         .on_submit( [this] {
             const auto sel = []( const vehicle_part & pt )
@@ -2044,7 +2044,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
                 return;
             }
             int64_t cost = static_cast<int64_t>( itype_pseudo_water_purifier->charges_to_use() );
-            if( fuel_left( itype_battery, true ) < tank.ammo_remaining() * cost )
+            if( fuel_left( itype_battery ) < tank.ammo_remaining() * cost )
             {
                 //~ $1 - vehicle name, $2 - part name
                 add_msg( m_bad, _( "Insufficient power to purify the contents of the %1$s's %2$s" ),

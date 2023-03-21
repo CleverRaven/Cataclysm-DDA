@@ -293,6 +293,7 @@
   {
     "id": "pencil_case_with_contents",
     "type": "item_group",
+    "subtype": "collection",
     "container-item": "pencil_case",
     "on_overflow": "spill",
     "entries": [ { "group": "pencil_case_contents" } ]

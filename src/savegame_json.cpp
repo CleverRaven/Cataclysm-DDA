@@ -3237,11 +3237,7 @@ void vehicle_part::deserialize( const JsonObject &data )
     direction = units::from_degrees( direction_int );
     data.read( "blood", blood );
     data.read( "enabled", enabled );
-
-    uint32_t flags_int;
-    data.read( "flags", flags_int );
-    flags = static_cast<vp_flag>( flags_int );
-
+    data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
     if( data.has_int( "z_offset" ) ) {
         int z_offset = data.get_int( "z_offset" );
@@ -3300,7 +3296,7 @@ void vehicle_part::serialize( JsonOut &json ) const
     json.member( "direction", std::lround( to_degrees( direction ) ) );
     json.member( "blood", blood );
     json.member( "enabled", enabled );
-    json.member( "flags", static_cast<uint32_t>( flags ) );
+    json.member( "flags", flags );
     if( !carried_stack.empty() ) {
         std::stack<vehicle_part::carried_part_data> carried_copy = carried_stack;
         json.member( "carried_stack" );
@@ -3410,7 +3406,10 @@ void vehicle::deserialize( const JsonObject &data )
     data.read( "velocity", velocity );
     data.read( "avg_velocity", avg_velocity );
     data.read( "falling", is_falling );
-    data.read( "floating", is_floating );
+    if( !data.read( "in_deep_water", in_deep_water ) ) {
+        // fallback; remove after 0.I
+        data.read( "floating", in_deep_water );
+    }
     data.read( "in_water", in_water );
     data.read( "flying", is_flying );
     data.read( "cruise_velocity", cruise_velocity );
@@ -3586,7 +3585,7 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "avg_velocity", avg_velocity );
     json.member( "falling", is_falling );
     json.member( "in_water", in_water );
-    json.member( "floating", is_floating );
+    json.member( "in_deep_water", in_deep_water );
     json.member( "flying", is_flying );
     json.member( "cruise_velocity", cruise_velocity );
     json.member( "vertical_velocity", vertical_velocity );
