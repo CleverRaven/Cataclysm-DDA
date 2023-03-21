@@ -300,44 +300,6 @@
     "name": { "str": "mounted electric oil press", "str_pl": "mounted electric oil presses" }
   },
   {
-    "abstract": "pseudo_forge_abstract",
-    "copy-from": "forge",
-    "sub": "forge",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "forge abstract"
-  },
-  {
-    "abstract": "pseudo_kiln_abstract",
-    "copy-from": "kiln",
-    "sub": "kiln",
-    "type": "TOOL",
-    "extend": { "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
-    "weight": "1 g",
-    "volume": "1 ml",
-    "symbol": "@",
-    "color": "red",
-    "name": "kiln abstract"
-  },
-  {
-    "copy-from": "pseudo_forge_abstract",
-    "id": "pseudo_veh_forge",
-    "type": "TOOL",
-    "name": { "str": "mounted electric forge" }
-  },
-  {
-    "copy-from": "pseudo_kiln_abstract",
-    "id": "pseudo_veh_kiln",
-    "type": "TOOL",
-    "name": { "str": "mounted electric kiln" }
-  },
-  {
     "id": "pseudo_veh_chemlab_chemset",
     "copy-from": "chemistry_set",
     "sub": "chemistry_set",
@@ -362,18 +324,6 @@
     "volume": "1 ml",
     "symbol": "@",
     "color": "red"
-  },
-  {
-    "copy-from": "pseudo_forge_abstract",
-    "id": "pseudo_app_forge",
-    "type": "TOOL",
-    "name": { "str": "electric forge appliance" }
-  },
-  {
-    "copy-from": "pseudo_kiln_abstract",
-    "id": "pseudo_app_kiln",
-    "name": { "str": "electric kiln appliance" },
-    "type": "TOOL"
   },
   {
     "id": "fake_lift_light",

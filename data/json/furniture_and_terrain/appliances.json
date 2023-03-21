@@ -178,14 +178,12 @@
   {
     "type": "vehicle_part",
     "id": "ap_forge",
+    "copy-from": "veh_forge_abstract",
     "name": { "str": "electric forge" },
     "description": "An electric forge, plugged in and ready to be used for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "veh_forge_abstract",
-    "looks_like": "veh_forge",
-    "requirements": { "removal": { "time": "6 m" } },
-    "pseudo_tools": [ { "id": "pseudo_app_forge" } ]
+    "looks_like": "veh_forge"
   },
   {
     "type": "vehicle_part",
@@ -240,7 +238,7 @@
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "item": "kiln",
     "copy-from": "veh_kiln",
-    "pseudo_tools": [ { "id": "pseudo_app_kiln" } ]
+    "pseudo_tools": [ { "id": "kiln" } ]
   },
   {
     "type": "vehicle_part",
