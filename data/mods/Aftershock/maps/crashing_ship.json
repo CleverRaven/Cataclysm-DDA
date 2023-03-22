@@ -66,7 +66,7 @@
         "M..YYYYYYYYYYYYYYYYYY..........................MM.YYY$.............YYY.M",
         "M..............................................MM......................M",
         "M..............................................MM.YYY.............^MMM.M",
-        "M..............................................MM.YYY..*........*..DzM.M",
+        "M..............................................MM.YYY..*........*..dzM.M",
         "M..............................................MM.YYY$.............MMM.M",
         "M..............................................MM......................M",
         "M..YYYYYYYYYYYYYYYYYY..........................MMMMMMMMMMMMMDDMMMMMMMMMM",
@@ -214,7 +214,7 @@
         { "text": "Escape Pods & Vehicle Bay", "x": 61, "y": 27 }
       ],
       "fields": { "F": { "field": "fd_fire", "intensity": 3, "age": 1 }, "x": { "field": "fd_blood", "intensity": 3 } },
-      "computers": { "^": { "name": "Escape Pod", "security": 0, "options": [ { "name": "Activate Escape Pod", "action": "unlock" } ] } }
+      "computers": { "^": { "name": "Escape Pod", "security": 0, "options": [ { "name": "Ready Escape Pod", "action": "unlock" } ] } }
     }
   }
 ]
