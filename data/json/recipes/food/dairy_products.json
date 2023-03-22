@@ -161,7 +161,7 @@
     "skill_used": "cooking",
     "difficulty": 1,
     "time": "25 m",
-    "charges": 8,
+    "charges": 10,
     "book_learn": [ [ "dairy_book", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ], [ [ "frying_oil", 1, "LIST" ] ] ],
