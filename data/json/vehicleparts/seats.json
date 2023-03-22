@@ -39,6 +39,7 @@
     "item": "seat",
     "location": "center",
     "looks_like": "reclining_seat",
+    "//": "weld repairs would mostly be the frame and springs of the seat, so low 6cm cost per quadrant",
     "name": { "str": "seat" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -46,7 +47,7 @@
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
         "time": "30 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
+        "using": [ [ "repair_welding_standard", 6 ], [ "sewing_standard", 8 ] ]
       }
     },
     "size": "25 L",
@@ -79,6 +80,7 @@
     "item": "seat",
     "location": "center",
     "looks_like": "seat",
+    "//": "weld repairs would mostly be the frame and springs of the seat, so low 6cm cost per quadrant",
     "name": { "str": "reclining seat" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -86,7 +88,7 @@
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
         "time": "30 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
+        "using": [ [ "repair_welding_standard", 6 ], [ "sewing_standard", 8 ] ]
       }
     },
     "size": "6250 ml",
@@ -119,6 +121,7 @@
     "item": "seat",
     "location": "center",
     "looks_like": "seat",
+    "//": "weld repairs would mostly be the frame and springs of the seat, so low 6cm cost per quadrant",
     "name": { "str": "back seat" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -126,7 +129,7 @@
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
         "time": "30 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
+        "using": [ [ "repair_welding_standard", 6 ], [ "sewing_standard", 8 ] ]
       }
     },
     "size": "30 L",
@@ -158,6 +161,7 @@
     "durability": 80,
     "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
     "folded_volume": "1250 ml",
+    "//": "weld repairs would mostly be the frame, so low 4cm cost per quadrant",
     "comfort": 1,
     "floor_bedding_warmth": 200,
     "item": "saddle",
@@ -168,7 +172,7 @@
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
         "time": "20 s",
-        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 4 ] ]
+        "using": [ [ "repair_welding_standard", 4 ], [ "sewing_standard", 4 ] ]
       }
     },
     "flags": [ "SEAT", "BOARDABLE", "NONBELTABLE" ],
@@ -197,7 +201,7 @@
       "repair": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "20 s",
-        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 3 ] ]
+        "using": [ [ "sewing_standard", 3 ] ]
       }
     },
     "flags": [ "SEAT", "BOARDABLE", "NONBELTABLE" ],
@@ -217,13 +221,14 @@
     "durability": 450,
     "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
     "item": "steel_plate",
+    "//": "more metal here so bigger weld cost - 20cm weld per damage quadrant",
     "location": "center",
     "looks_like": "seat",
     "name": { "str": "steel bench" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 10 ] ] }
     },
     "symbol": "#",
     "type": "vehicle_part"
