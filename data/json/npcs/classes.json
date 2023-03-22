@@ -259,6 +259,42 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_SCAVENGER_PREPPER",
+    "name": { "str": "Scavenger" },
+    "job_description": "I'm just trying to survive.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "shopkeeper_item_group": [
+      { "group": "homeguns", "rigid": true },
+      { "group": "lmoe_guns", "rigid": true },
+      { "group": "ammo_reloaded", "rigid": true },
+      { "group": "magazines", "rigid": true },
+      { "group": "gear_survival", "rigid": true }
+    ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SCAVENGER_MOONSHINER",
+    "name": { "str": "Scavenger" },
+    "job_description": "I'm just trying to survive.",
+    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "shopkeeper_item_group": [ { "group": "still_alcohol", "rigid": true }, { "group": "keg_wine_intact", "rigid": true } ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_HUNTER",
     "name": { "str": "Hunter" },
     "job_description": "I'm tracking game.",
