@@ -14,13 +14,10 @@ Add new boss for physics lab
 Add 4 New Apartment Complexes
 Add several new bungalows
 Sugar house expansion
-Add Bungalows 21 and 22
 Various additions and tweaks relating to Native American Heritage
 Add a drug lab
 Environmental storytelling about what children in the cataclysm had to go through
-Finish part 2 of the netherium monster corpse
-Menstrual products
-Add flags of various countries
+Add Netherium monster corpse map location
 Adds Water Wheels & XL Water Wheels as placeable appliances.
 Invertebrate larva and egg rework
 
@@ -101,7 +98,6 @@ Update compiler support.  Now supporting gcc 8.1+, clang 10+, XCode 10.1+
 Refactor some crafting infrastructure to support removal of charges
 More comparators for `event_transformation` `value_constraints`
 Convert build to C++17 (from C++14)
-Set OSX_MIN on CI to match release workflow
 Add Makefile option to compile in order of header popularity
 
 
