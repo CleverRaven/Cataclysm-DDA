@@ -416,22 +416,21 @@ static const item *get_most_rotten_component( const item &craft )
 
 // sorts with localized_compare, and enumerates entries, if more than \p max entries
 // the rest are abbreviated into " and %d more"
-static std::string enumerate_lcsorted_with_limit( const std::vector<std::string> &v, int max = 5 )
+static std::string enumerate_lcsorted_with_limit( const std::vector<std::string> &v,
+        const int max = 5 )
 {
-    std::vector<std::string> c = v; // copy so we can non destructively sort
-    std::sort( c.begin(), c.end(), localized_compare );
     if( max < 1 ) {
-        debugmsg( "max expected to be 1 or more" );
-        return "";
+        debugmsg( "Expected max to be 1 or more" );
+        return std::string();
     }
-    if( max >= static_cast<int>( c.size() ) ) {
+    std::vector<std::string> c( std::min<size_t>( max, v.size() ) );
+    std::partial_sort_copy( v.begin(), v.end(), c.begin(), c.end(), localized_compare );
+    const int more = static_cast<int>( v.size() - c.size() );
+    if( more == 0 ) {
         return enumerate_as_string( c );
     }
-    const std::string res =  enumerate_as_string( c,
-    [&max]( const std::string & r ) {
-        return ( --max >= 0 ) ? r : "";
-    }, enumeration_conjunction::none );
-    return res + string_format( _( " and %d more" ), -max );
+    const std::string res = enumerate_as_string( c, enumeration_conjunction::none );
+    return string_format( max == 1 ? _( "%s and %d more" ) : _( "%s, and %d more" ), res, more );
 }
 
 static time_duration get_shortest_lifespan_from_components( const item &craft )
@@ -5740,6 +5739,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 const bool can_install = player_character.meets_skill_requirements( vp.install_skills );
                 const std::string name = vp.name();
 
+                // Endarken parts that can't be installed with the character's skills
                 result_parts.emplace_back( can_install ? name : string_format( "<dark>%s</dark>", name ) );
             }
 
@@ -5750,7 +5750,6 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             // Sort according to the user's locale
             std::sort( result_parts.begin(), result_parts.end(), localized_compare );
 
-            // Endarken parts that can't be installed with the character's skills
             const std::string installable_parts = enumerate_lcsorted_with_limit( result_parts, 12 );
 
             insert_separation_line( info );
