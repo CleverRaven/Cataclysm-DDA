@@ -24,7 +24,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 30 ] ] }
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
     },
     "flags": [ "PROTRUSION" ],
     "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
@@ -60,7 +60,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 30 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
     },
     "flags": [ "PROTRUSION" ],
     "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
@@ -86,7 +86,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 30 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
     },
     "flags": [ "PROTRUSION" ],
     "damage_reduction": { "all": 40 }
@@ -117,7 +117,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 30 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
     },
     "flags": [ "CARGO", "PROTRUSION" ],
     "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
@@ -149,7 +149,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 40 ] ] }
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 20 ] ] }
     },
     "flags": [ "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL", "TRANSFORM_TERRAIN" ],
     "damage_reduction": { "all": 132 }
@@ -178,7 +178,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 30 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
     },
     "flags": [ "PROTRUSION", "SELF_JACK" ],
     "damage_reduction": { "all": 36 }
@@ -201,7 +201,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 20 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 10 ] ] }
     },
     "flags": [ "SELF_JACK" ],
     "damage_reduction": { "all": 5 }
