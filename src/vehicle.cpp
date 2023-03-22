@@ -5615,12 +5615,14 @@ void vehicle::place_spawn_items()
 
                 for( const itype_id &e : spawn.item_ids ) {
                     if( rng_float( 0, 1 ) < spawn_rate ) {
-                        created.emplace_back( item( e ).in_its_container() );
+                        item spawn( e );
+                        created.emplace_back( spawn.in_its_container( spawn.count() ) );
                     }
                 }
                 for( const std::pair<itype_id, std::string> &e : spawn.variant_ids ) {
                     if( rng_float( 0, 1 ) < spawn_rate ) {
-                        item added = item( e.first ).in_its_container();
+                        item spawn( e.first );
+                        item added = spawn.in_its_container( spawn.count() );
                         added.set_itype_variant( e.second );
                         created.push_back( added );
                     }
