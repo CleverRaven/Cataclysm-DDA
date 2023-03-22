@@ -1685,6 +1685,67 @@ void options_manager::add_options_interface()
     add( "USE_LANG", "interface", to_translation( "Language" ),
          to_translation( "Switch language." ), options_manager::get_lang_options(), "" );
 
+    add_option_group( "interface", Group( "keybinding_hints",
+                                          to_translation( "Keybinding hints settings" ),
+                                          to_translation( "Keybinding hints settings.  Customize how keybindings are displayed in the UI." ) ),
+    [&]( const std::string & page_id ) {
+        add( "KEYBINDINGS_ALTERNATE_COLOR_THEME", page_id,
+             to_translation( "Use an alternate keybindings color theme?" ),
+             to_translation( "Use an alternate keybindings color theme? Blue keys instead of yellow keys?" ),
+             false
+           );
+        add( "KEYBINDINGS_INLINE", page_id, to_translation( "Inline keybindings in hints" ),
+             to_translation( "Inline keybindings in hints (like 'E[x]amine') where possible." ),
+             true
+           );
+
+
+        add( "KEYBINDINGS_INLINE_UP_TO_X", page_id, to_translation( "Limit inlining of keybinding hints" ),
+             to_translation( "Inline keybindings in hints (like 'E(x)amine') if the length of the hint text is smaller than X characters. Disable this limit by setting this to 0." ),
+             0, 999, 20
+           );
+        add( "KEYBINDINGS_INLINE_SEPARATOR_LEFT", page_id,
+             to_translation( "Inline left separator character" ),
+             to_translation( "Character to insert to the left of the inlined key." ),
+             "(", 1
+           );
+        add( "KEYBINDINGS_INLINE_SEPARATOR_RIGHT", page_id,
+             to_translation( "Inline right separator character" ),
+             to_translation( "Character to insert to the right of the inlined key." ),
+             ")", 1
+           );
+        add( "KEYBINDINGS_SEPARATE_SEPARATOR_LEFT", page_id,
+             to_translation( "Separate left separator character" ),
+             to_translation( "Character to insert to the left of the separated key." ),
+             "[", 1
+           );
+        add( "KEYBINDINGS_SEPARATE_SEPARATOR_RIGHT", page_id,
+             to_translation( "Separate right separator character" ),
+             to_translation( "Character to insert to the right of the separated key." ),
+             "]", 1
+           );
+        add( "KEYBINDINGS_GROUP_SEPARATOR_LEFT", page_id,
+             to_translation( "Grouped left separator character" ),
+             to_translation( "Character to insert to the left of a group of keys." ),
+             "[", 1
+           );
+        add( "KEYBINDINGS_GROUP_SEPARATOR_RIGHT", page_id,
+             to_translation( "Grouped right separator character" ),
+             to_translation( "Character to insert to the right of a group of keys." ),
+             "]", 1
+           );
+        add( "KEYBINDINGS_GROUP_SEPARATOR_MIDDLE", page_id,
+             to_translation( "Grouped middle separator character" ),
+             to_translation( "Character to insert between each key in a group of keys." ),
+             "/", 1
+           );
+    } );
+
+    get_option( "KEYBINDINGS_INLINE_UP_TO_X" ).setPrerequisite( "KEYBINDINGS_INLINE" );
+    get_option( "KEYBINDINGS_INLINE_SEPARATOR_LEFT" ).setPrerequisite( "KEYBINDINGS_INLINE" );
+    get_option( "KEYBINDINGS_INLINE_SEPARATOR_RIGHT" ).setPrerequisite( "KEYBINDINGS_INLINE" );
+
+
     add_empty_line();
 
     add( "USE_CELSIUS", "interface", to_translation( "Temperature units" ),
@@ -3415,12 +3476,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             mvwprintz( w_options_header, point( 7, 0 ), c_white, "" );
             for( int i = 0; i < static_cast<int>( pages_.size() ); i++ ) {
                 wprintz( w_options_header, c_white, "[" );
+                nc_color color = iCurrentPage == i ? hilite( c_white ) : c_white;
                 if( ingame && i == iWorldOptPage ) {
-                    wprintz( w_options_header, iCurrentPage == i ? hilite( c_light_green ) : c_light_green,
-                             _( "Current world" ) );
+                    wprintz( w_options_header, color, _( "Current world" ) );
                 } else {
-                    wprintz( w_options_header, iCurrentPage == i ? hilite( c_light_green ) : c_light_green,
-                             "%s", pages_[i].name_ );
+                    wprintz( w_options_header, color, "%s", pages_[i].name_ );
                 }
                 wprintz( w_options_header, c_white, "]" );
                 wputch( w_options_header, BORDER_COLOR, LINE_OXOX );

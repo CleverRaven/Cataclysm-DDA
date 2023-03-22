@@ -103,8 +103,13 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
     int query_cnt = 0;
     int query_width = 0;
     for( const query_popup::query_option &opt : options ) {
-        const std::string &name = ctxt.get_action_name( opt.action );
-        const std::string &desc = ctxt.get_desc( opt.action, name, opt.filter );
+        // TODO: This function is only called once (on init) so we're not able
+        //   to properly color the key (colour tagging it prevents it from
+        //   being highlighted when selected)... This isn't a too much of
+        //   problem with the default settings because the key is separated
+        //   by parens but still...
+        const std::string &desc = ctxt.get_hint( opt.action, keybinding_hint_state::NONE_AT_ALL,
+                                  opt.filter );
         const int this_query_width = utf8_width( desc, true ) + horz_padding;
         ++query_cnt;
         query_width += this_query_width;

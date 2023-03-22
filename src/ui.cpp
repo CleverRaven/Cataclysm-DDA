@@ -275,9 +275,9 @@ void uilist::init()
     footer_text.clear();   // takes precedence over per-entry descriptions.
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
-    title_color = c_green;  // title color
+    title_color = c_white;  // title color
     hilight_color = h_white; // highlight for up/down selection bar
-    hotkey_color = c_light_green; // hotkey text to the right of menu entry's text
+    hotkey_color = c_yellow; // hotkey text to the right of menu entry's text
     disabled_color = c_dark_gray; // disabled menu entry
     allow_disabled = false;  // disallow selecting disabled options
     allow_anykey = false;    // do not return on unbound keys
@@ -778,9 +778,15 @@ void uilist::show( ui_adaptor &ui )
 
             mvwprintz( window, point( pad_left + 1, estart + si ), co, padspaces );
             if( entries[ei].hotkey.has_value() && entries[ei].hotkey.value() != input_event() ) {
-                const nc_color hotkey_co = ei == selected ? hilight_color : hotkey_color;
-                mvwprintz( window, point( pad_left + 1, estart + si ), entries[ ei ].enabled ? hotkey_co : co,
-                           "%s", right_justify( entries[ei].hotkey.value().short_description(), 2 ) );
+                const keybinding_hint_state hotkey_co = ei == selected ? keybinding_hint_state::HIGHLIGHTED :
+                                                        keybinding_hint_state::ENABLED;
+                const keybinding_hint_state hstate = entries[ ei ].enabled ? hotkey_co :
+                                                     keybinding_hint_state::DISABLED;
+                print_colored_text( window, point( pad_left + 1, estart + si ), string_format( "%s%s%s",
+                                    colorize( "[", input_context::get_hint_color_for_separator( hstate ) ),
+                                    colorize( right_justify( entries[ei].hotkey.value().short_description(), 1 ),
+                                              input_context::get_hint_color_for_key( hstate ) ), colorize( "]",
+                                                      input_context::get_hint_color_for_separator( hstate ) ) ) );
             }
             if( pad_size > 3 ) {
                 // pad_size indicates the maximal width of the entry, it is used above to
@@ -789,7 +795,7 @@ void uilist::show( ui_adaptor &ui )
                 // to be used.
                 const std::string &entry = ei == selected ? remove_color_tags( entries[ ei ].txt ) :
                                            entries[ ei ].txt;
-                point p( pad_left + 4, estart + si );
+                point p( pad_left + 5, estart + si );
                 entries[ei].drawn_rect =
                     inclusive_rectangle<point>( p + point( -3, 0 ), p + point( -4 + pad_size, 0 ) );
                 trim_and_print( window, p, entry_space, co, _color_error, "%s", entry );

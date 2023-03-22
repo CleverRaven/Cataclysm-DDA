@@ -17,7 +17,6 @@
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
-#include "input.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_pocket.h"
@@ -82,7 +81,8 @@ static std::vector<itype_id> caravan_items( caravan_category cat );
 
 static int caravan_price( Character &u, int price );
 
-static void draw_caravan_borders( const catacurses::window &w, int current_window );
+static void draw_caravan_borders( const catacurses::window &w, int current_window,
+                                  const input_context &ctxt );
 static void draw_caravan_categories( const catacurses::window &w, int category_selected,
                                      int total_price, int cash );
 static void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *items,
@@ -501,10 +501,6 @@ void defense_game::setup()
     int selection = 0;
     int num_selections = 20;
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        refresh_setup( w, selection );
-    } );
-
     input_context ctxt( "DEFENSE_SETUP" );
     ctxt.register_navigate_ui_list();
     ctxt.register_action( "LEFT", to_translation( "Cycle option value" ) );
@@ -514,6 +510,11 @@ void defense_game::setup()
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "START" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        refresh_setup( w, selection, ctxt );
+    } );
+
 
     while( true ) {
         ui_manager::redraw();
@@ -664,19 +665,21 @@ void defense_game::setup()
     }
 }
 
-void defense_game::refresh_setup( const catacurses::window &w, int selection )
+void defense_game::refresh_setup( const catacurses::window &w, int selection,
+                                  const input_context &ctxt )
 {
     // *INDENT-OFF* to preserve column alignment and human readability
     werase( w );
     draw_border( w, c_light_gray, _( "DEFENSE MODE" ), c_light_red );
 
-    mvwprintz( w, point(  2,  1 ), c_light_red,  _( "Press direction keys to cycle, ENTER to toggle, S to start" ) );
-    mvwprintz( w, point(  2,  2 ), c_white,      _( "Scenario:" ) );
-    mvwprintz( w, point(  2,  3 ), SELCOL(  0 ), defense_style_name( style ) );
-    mvwprintz( w, point( 28,  3 ), c_light_gray, defense_style_description( style ) );
-    mvwprintz( w, point(  2,  4 ), c_white,      _( "Location:" ) );
-    mvwprintz( w, point(  2,  5 ), SELCOL(  1 ), defense_location_name( location ) );
-    mvwprintz( w, point( 28,  5 ), c_light_gray, defense_location_description( location ) );
+    print_colored_text( w, point( 2, 1 ), string_format( _( "Press direction keys to cycle %s %s" ),
+                        ctxt.get_hint( "CONFIRM" ), ctxt.get_hint( "START" ) ) );
+    mvwprintz( w, point( 2, 2 ), c_white, _( "Scenario:" ) );
+    mvwprintz( w, point( 2, 3 ), SELCOL( 1 ), defense_style_name( style ) );
+    mvwprintz( w, point( 28, 3 ), c_light_gray, defense_style_description( style ) );
+    mvwprintz( w, point( 2, 4 ), c_white, _( "Location:" ) );
+    mvwprintz( w, point( 2, 5 ), SELCOL( 2 ), defense_location_name( location ) );
+    mvwprintz( w, point( 28, 5 ), c_light_gray, defense_location_description( location ) );
 
     mvwprintz( w, point(  2,  7 ), c_white,      _( "Initial Difficulty:" ) );
     mvwprintz( w, point( 20,  7 ), SELCOL(  2 ), "%5d", initial_difficulty );
@@ -864,12 +867,6 @@ void defense_game::caravan() const
     int current_window = 0;
 
     Character &player_character = get_player_character();
-    ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw_caravan_categories( w, category_selected, total_price, player_character.cash );
-        draw_caravan_items( w, &( items[category_selected] ),
-                            &( item_count[category_selected] ), offset, item_selected );
-        draw_caravan_borders( w, current_window );
-    } );
 
     input_context ctxt( "CARAVAN" );
     ctxt.register_cardinal();
@@ -878,6 +875,13 @@ void defense_game::caravan() const
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        draw_caravan_categories( w, category_selected, total_price, player_character.cash );
+        draw_caravan_items( w, &( items[category_selected] ),
+                            &( item_count[category_selected] ), offset, item_selected );
+        draw_caravan_borders( w, current_window, ctxt );
+    } );
 
     bool done = false;
     bool cancel = false;
@@ -890,9 +894,9 @@ void defense_game::caravan() const
                           "Switch between category selection and item selecting by pressing %s.\n"
                           "Pick an item with the up/down keys, press left/right to buy 1 less/more.\n"
                           "Press %s to buy everything in your cart, %s to buy nothing." ),
-                       ctxt.get_desc( "NEXT_TAB" ),
-                       ctxt.get_desc( "CONFIRM" ),
-                       ctxt.get_desc( "QUIT" )
+                       ctxt.get_hint_key_only( "NEXT_TAB" ),
+                       ctxt.get_hint_key_only( "CONFIRM" ),
+                       ctxt.get_hint_key_only( "QUIT" )
                      );
         } else if( action == "DOWN" ) {
             if( current_window == 0 ) { // Categories
@@ -1124,7 +1128,8 @@ std::vector<itype_id> caravan_items( caravan_category cat )
     return ret;
 }
 
-void draw_caravan_borders( const catacurses::window &w, int current_window )
+void draw_caravan_borders( const catacurses::window &w, int current_window,
+                           const input_context &ctxt )
 {
     // First, do the borders for the category window
     nc_color col = c_light_gray;
@@ -1173,9 +1178,9 @@ void draw_caravan_borders( const catacurses::window &w, int current_window )
     mvwputch( w, point( FULL_SCREEN_WIDTH - 1, 0 ), col, LINE_OOXX );
     mvwputch( w, point( FULL_SCREEN_WIDTH - 1, FULL_SCREEN_HEIGHT - 1 ), col, LINE_XOOX );
 
-    // Quick reminded about help.
-    // NOLINTNEXTLINE(cata-text-style): literal question mark
-    mvwprintz( w, point( 2, FULL_SCREEN_HEIGHT - 1 ), c_red, _( "Press ? for help." ) );
+    // Quick reminder about help.
+    print_colored_text( w, point( 2, FULL_SCREEN_HEIGHT - 1 ), string_format( _( "Press %s for help." ),
+                        ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ) ) );
     wnoutrefresh( w );
 }
 

@@ -121,6 +121,17 @@ enum class visibility_type : int {
     BOOMER_DARK
 };
 
+
+enum class keybinding_hint_state : int {
+    ENABLED, // default: yellow key everthing else white
+    DISABLED, // all dark and hard to see
+    TOGGLED_ON, // suffix green
+    TOGGLED_OFF, // suffix red
+    NONE, // no colors (other than keybind) set so that they can be set by parent
+    NONE_AT_ALL, // no colors at all set so that they can be set by parent
+    HIGHLIGHTED, // focused
+};
+
 // Matching rules for comparing a string to an overmap terrain id.
 enum class ot_match_type : int {
     // The provided string must completely match the overmap terrain id, including

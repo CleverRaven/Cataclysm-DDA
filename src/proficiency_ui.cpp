@@ -233,9 +233,9 @@ void prof_window::draw_header()
         fold_and_print( w_header, point( 1, 1 ), w - 2, c_light_gray,
                         cats[current_cat]->_description.translated() );
     }
-    std::string hint_txt = string_format( "[%s] %s   [%s] %s",
-                                          colorize( ctxt.get_desc( "FILTER", 1 ), c_yellow ), _( "filter" ),
-                                          colorize( ctxt.get_desc( "HELP_KEYBINDINGS", 1 ), c_yellow ), _( "help" ) );
+    std::string hint_txt = string_format( "%s %s",
+                                          ctxt.get_hint( "FILTER" ),
+                                          ctxt.get_hint( "HELP_KEYBINDINGS" ) );
     right_print( w_header, 0, 1, c_white, hint_txt );
     wnoutrefresh( w_header );
 }

@@ -393,9 +393,9 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
                                   "\n"
                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
-                                  "Press [<color_yellow>%s</color>] for more info.\n" ),
+                                  "Press %s for more info.\n" ),
                                u.get_str(), u.get_dex(), u.get_per(), u.get_int(),
-                               ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+                               ctxt.get_hint_key_only( "SHOW_DESCRIPTION" ) );
     ma_style_callback callback( 0, styles );
     menu.callback = &callback;
     menu.input_category = "MELEE_STYLE_PICKER";
@@ -928,11 +928,11 @@ static void draw_filter_and_sorting_indicators( const catacurses::window &w,
         const input_context &ctxt, const std::string &filterstring, const Compare &sorter )
 {
     const char *const sort_order = sorter.sort_by_points ? _( "points" ) : _( "name" );
-    const std::string sorting_indicator = string_format( "[%1$s] %2$s: %3$s",
-                                          colorize( ctxt.get_desc( "SORT" ), c_green ), _( "sort" ),
+    const std::string sorting_indicator = string_format( "%s: %s",
+                                          ctxt.get_hint( "SORT" ),
                                           sort_order );
-    const std::string filter_indicator = filterstring.empty() ? string_format( _( "[%s] filter" ),
-                                         colorize( ctxt.get_desc( "FILTER" ), c_green ) ) : filterstring;
+    const std::string filter_indicator = filterstring.empty() ? ctxt.get_hint( "FILTER" ) :
+                                         filterstring;
     nc_color current_color = BORDER_COLOR;
     print_colored_text( w, point( 2, getmaxy( w ) - 1 ), current_color, BORDER_COLOR,
                         string_format( "<%1s>-<%2s>", sorting_indicator, filter_indicator ) );
@@ -1025,17 +1025,18 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
         // Helptext points tab
         if( isWide ) {
             fold_and_print( w, point( 2, TERMY - 4 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                               "Press <color_light_green>%s</color> or <color_light_green>%s</color> to select pool and "
-                               "<color_light_green>%s</color> to confirm selection.\n"
-                               "Press <color_light_green>%s</color> to go to the next tab or "
-                               "<color_light_green>%s</color> to return to main menu." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                            ctxt.get_desc( "CONFIRM" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "QUIT" ) );
+                            _( "Press %s to view and alter keybindings.\n"
+                               "Press %s to select pool and "
+                               "%s to confirm selection.\n"
+                               "Press %s to go to the next tab or "
+                               "%s to return to main menu." ),
+                            ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ), ctxt.get_hint_pair( "UP", "DOWN" ),
+                            ctxt.get_hint_key_only( "CONFIRM" ), ctxt.get_hint_key_only( "NEXT_TAB" ),
+                            ctxt.get_hint_key_only( "QUIT" ) );
         } else {
             fold_and_print( w, point( 2, TERMY - 2 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+                            _( "Press %s to view and alter keybindings." ),
+                            ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ) );
         }
         wnoutrefresh( w );
         wnoutrefresh( w_description );
@@ -1086,15 +1087,13 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         tabs.draw( w );
         // Helptext stats tab
         fold_and_print( w, point( 2, TERMY - 5 ), getmaxx( w ) - 4, COL_NOTE_MINOR,
-                        _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                           "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select stat.\n"
-                           "Press <color_light_green>%s</color> to increase stat or "
-                           "<color_light_green>%s</color> to decrease stat.\n"
-                           "Press <color_light_green>%s</color> to go to the next tab or "
-                           "<color_light_green>%s</color> to return to the previous tab." ),
-                        ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                        ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
-                        ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+                        _( "Press %s to view and alter keybindings.\n"
+                           "Press %s to select stat.\n"
+                           "Press %s to increase or decrease stat.\n"
+                           "Press %s to go to the next tab or return to the previous tab." ),
+                        ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ), ctxt.get_hint_pair( "UP", "DOWN" ),
+                        ctxt.get_hint_pair( "RIGHT", "LEFT" ),
+                        ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB" ) );
 
         // This is description line, meaning its length excludes first column and border
         const std::string clear_line( getmaxx( w ) - iSecondColumn - 1, ' ' );
@@ -1756,7 +1755,7 @@ static std::string assemble_profession_details( const avatar &u, const input_con
 {
     std::string assembled;
 
-    assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
+    assembled += string_format( g_switch_msg( u ), ctxt.get_hint_key_only( "CHANGE_GENDER" ),
                                 sorted_profs[cur_id]->gender_appropriate_name( !u.male ) ) + "\n";
 
     if( sorted_profs[cur_id]->get_requirement().has_value() ) {
@@ -2177,7 +2176,7 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
 {
     std::string assembled;
 
-    assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
+    assembled += string_format( g_switch_msg( u ), ctxt.get_hint_key_only( "CHANGE_GENDER" ),
                                 sorted_hobbies[cur_id]->gender_appropriate_name( !u.male ) ) + "\n";
 
     assembled += "\n" + colorize( _( "Background story:" ), COL_HEADER ) + "\n";
@@ -2586,15 +2585,13 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         keybinding_hint = foldstring( string_format(
-                                          _( "Press <color_light_green>%s</color> to view and alter keybindings.\n"
-                                             "Press <color_light_green>%s</color> / <color_light_green>%s</color> to select skill.\n"
-                                             "Press <color_light_green>%s</color> to increase skill or "
-                                             "<color_light_green>%s</color> to decrease skill.\n"
-                                             "Press <color_light_green>%s</color> to go to the next tab or "
-                                             "<color_light_green>%s</color> to return to the previous tab." ),
-                                          ctxt.get_desc( "HELP_KEYBINDINGS" ), ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ),
-                                          ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
-                                          ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) ), TERMX - 2 );
+                                          _( "Press %s to view and alter keybindings.\n"
+                                             "Press %s to select skill.\n"
+                                             "Press %s to increase or decrease skill.\n"
+                                             "Press %s to go to the next tab or return to the previous tab." ),
+                                          ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ), ctxt.get_hint_pair( "UP", "DOWN" ),
+                                          ctxt.get_hint_pair( "RIGHT", "LEFT" ),
+                                          ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB" ) ), TERMX - 2 );
         iContentHeight = TERMY - static_cast<int>( keybinding_hint.size() ) - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_list = catacurses::newwin( iContentHeight, 35, point( 1, iHeaderHeight ) );
@@ -2870,7 +2867,7 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
         const scenario *current_scenario )
 {
     std::string assembled;
-    assembled += string_format( g_switch_msg( u ), ctxt.get_desc( "CHANGE_GENDER" ),
+    assembled += string_format( g_switch_msg( u ), ctxt.get_hint_key_only( "CHANGE_GENDER" ),
                                 current_scenario->gender_appropriate_name( !u.male ) ) + "\n";
 
     assembled += "\n" + colorize( _( "Scenario Story:" ), COL_HEADER ) + "\n";
@@ -3573,69 +3570,64 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
         // Helptext description window
         if( isWide ) {
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 9 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+                            _( "Press %s to view and alter keybindings." ),
+                            ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ) );
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 8 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to save character template." ),
-                            ctxt.get_desc( "SAVE_TEMPLATE" ) );
+                            _( "Press %s to save character template." ),
+                            ctxt.get_hint_key_only( "SAVE_TEMPLATE" ) );
 
             if( !MAP_SHARING::isSharing() && allow_reroll ) { // no random names when sharing maps
                 fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to pick a random name, "
-                                   "<color_light_green>%s</color> to randomize all description values, "
-                                   "<color_light_green>%s</color> to randomize all but scenario, or "
-                                   "<color_light_green>%s</color> to randomize everything." ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ),
-                                ctxt.get_desc( "REROLL_CHARACTER" ),
-                                ctxt.get_desc( "REROLL_CHARACTER_WITH_SCENARIO" ) );
+                                _( "Press %s to pick a random name, "
+                                   "%s to randomize all description values, "
+                                   "%s to randomize all but scenario, or "
+                                   "%s to randomize everything." ),
+                                ctxt.get_hint_key_only( "RANDOMIZE_CHAR_NAME" ),
+                                ctxt.get_hint_key_only( "RANDOMIZE_CHAR_DESCRIPTION" ),
+                                ctxt.get_hint_key_only( "REROLL_CHARACTER" ),
+                                ctxt.get_hint_key_only( "REROLL_CHARACTER_WITH_SCENARIO" ) );
             } else {
                 fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 7 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to pick a random name, "
-                                   "<color_light_green>%s</color> to randomize all description values." ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_NAME" ),
-                                ctxt.get_desc( "RANDOMIZE_CHAR_DESCRIPTION" ) );
+                                _( "Press %s to pick a random name, "
+                                   "%s to randomize all description values." ),
+                                ctxt.get_hint_key_only( "RANDOMIZE_CHAR_NAME" ),
+                                ctxt.get_hint_key_only( "RANDOMIZE_CHAR_DESCRIPTION" ) );
             }
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 6 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to switch gender." ),
-                            ctxt.get_desc( "CHANGE_GENDER" ) );
+                            _( "Press %s to switch gender." ),
+                            ctxt.get_hint_key_only( "CHANGE_GENDER" ) );
 
             if( !get_option<bool>( "SELECT_STARTING_CITY" ) ) {
                 fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to select a specific starting location." ),
-                                ctxt.get_desc( "CHOOSE_LOCATION" ) );
+                                _( "Press %s to select a specific starting location." ),
+                                ctxt.get_hint_key_only( "CHOOSE_LOCATION" ) );
             } else {
                 fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 5 ), TERMX, c_light_gray,
-                                _( "Press <color_light_green>%s</color> to select a specific starting city and <color_light_green>%s</color> to select a specific starting location." ),
-                                ctxt.get_desc( "CHOOSE_CITY" ), ctxt.get_desc( "CHOOSE_LOCATION" ) );
+                                _( "Press %s to select a specific starting city and %s to select a specific starting location." ),
+                                ctxt.get_hint_key_only( "CHOOSE_CITY" ), ctxt.get_hint_key_only( "CHOOSE_LOCATION" ) );
             }
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> or <color_light_green>%s</color> "
-                               "to cycle through editable values." ),
-                            ctxt.get_desc( "UP" ),
-                            ctxt.get_desc( "DOWN" ) );
+                            _( "Press %s to cycle through editable values." ),
+                            ctxt.get_hint_pair( "UP", "DOWN" ) );
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 3 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> and <color_light_green>%s</color> to change gender, height, age, and blood type." ),
-                            ctxt.get_desc( "LEFT" ),
-                            ctxt.get_desc( "RIGHT" ) );
+                            _( "Press %s to change gender, height, age, and blood type." ),
+                            ctxt.get_hint_pair( "LEFT", "RIGHT" ) );
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to edit value via popup input." ),
-                            ctxt.get_desc( "CONFIRM" ) );
+                            _( "Press %s to edit value via popup input." ),
+                            ctxt.get_hint_key_only( "CONFIRM" ) );
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to finish character creation "
-                               "or <color_light_green>%s</color> to return to the previous TAB." ),
-                            ctxt.get_desc( "NEXT_TAB" ),
-                            ctxt.get_desc( "PREV_TAB" ) );
+                            _( "Press %s to finish character creation or to return to the previous TAB." ),
+                            ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB" ) );
         } else {
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), TERMX, c_light_gray,
-                            _( "Press <color_light_green>%s</color> to view and alter keybindings." ),
-                            ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+                            _( "Press %s to view and alter keybindings." ),
+                            ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ) );
 
         }
         wnoutrefresh( w_guide );

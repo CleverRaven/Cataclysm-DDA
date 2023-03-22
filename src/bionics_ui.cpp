@@ -270,23 +270,25 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     center_print( window, 0, c_light_red, _( "Bionics" ) );
 
     std::string desc_append = string_format(
-                                  _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
-                                     "[<color_yellow>%s</color>] Toggle fuel saving mode, " ),
-                                  ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ) );
-    desc_append += string_format( _( " [<color_yellow>%s</color>] Sort: %s" ), ctxt.get_desc( "SORT" ),
+                                  _( "%s Reassign, %s Switch tabs, "
+                                     "%s Toggle fuel saving mode, " ),
+                                  ctxt.get_hint_key_only( "REASSIGN" ), ctxt.get_hint_key_only( "NEXT_TAB" ),
+                                  ctxt.get_hint_key_only( "TOGGLE_SAFE_FUEL" ) );
+    desc_append += string_format( _( " %s Sort: %s" ), ctxt.get_hint_key_only( "SORT" ),
                                   sort_mode_str( uistate.bionic_sort_mode ) );
     std::string desc;
     if( mode == REASSIGNING ) {
-        desc = _( "Reassigning.  Select a bionic to reassign or press [<color_yellow>SPACE</color>] to cancel." );
+        desc = string_format( _( "Reassigning.  Select a bionic to reassign or press %s to cancel." ),
+                              ctxt.get_hint_key_only( "CONFIRM" ) );
         fuel_string.clear();
     } else if( mode == ACTIVATING ) {
         desc = string_format( _( "<color_green>Activating</color>  "
-                                 "[<color_yellow>%s</color>] Examine, %s" ),
-                              ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
+                                 "%s Examine, %s" ),
+                              ctxt.get_hint_key_only( "TOGGLE_EXAMINE" ), desc_append );
     } else if( mode == EXAMINING ) {
         desc = string_format( _( "<color_light_blue>Examining</color>  "
-                                 "[<color_yellow>%s</color>] Activate, %s" ),
-                              ctxt.get_desc( "TOGGLE_EXAMINE" ), desc_append );
+                                 "%s Activate, %s" ),
+                              ctxt.get_hint_key_only( "TOGGLE_EXAMINE" ), desc_append );
     }
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -974,8 +976,9 @@ void avatar::power_bionics()
                     continue;
                 } else {
                     popup( _( "You can not activate %s!\n"
-                              "To read a description of %s, press '%s', then '%c'." ), bio_data.name,
-                           bio_data.name, ctxt.get_desc( "TOGGLE_EXAMINE" ), tmp->invlet );
+                              "To read a description of %s, press %s, then [%s]." ), bio_data.name,
+                           bio_data.name, ctxt.get_hint_key_only( "TOGGLE_EXAMINE" ), colorize( std::string( 1, tmp->invlet ),
+                                   input_context::get_hint_color_for_key() ) );
                 }
             } else if( menu_mode == EXAMINING ) {
                 // Describing bionics, allow user to jump to description key

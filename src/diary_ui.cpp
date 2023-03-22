@@ -260,15 +260,14 @@ void diary::show_diary_ui( diary *c_diary )
 
         draw_border( w_desc );
         center_print( w_desc, 0, c_light_gray, string_format( _( "%s´s Diary" ), c_diary->owner ) );
-        std::string desc = string_format( _( "%s, %s, %s, %s" ),
-                                          ctxt.get_desc( "NEW_PAGE", _( "New page" ), input_context::allow_all_keys ),
-                                          ctxt.get_desc( "CONFIRM", _( "Edit text" ), input_context::allow_all_keys ),
-                                          ctxt.get_desc( "DELETE PAGE", _( "Delete page" ), input_context::allow_all_keys ),
-                                          ctxt.get_desc( "EXPORT_DIARY", _( "Export diary" ), input_context::allow_all_keys )
+        std::string desc = string_format( _( "%s %s %s %s" ),
+                                          ctxt.get_hint( "NEW_PAGE" ),
+                                          ctxt.get_hint( "CONFIRM" ),
+                                          ctxt.get_hint( "DELETE PAGE" ),
+                                          ctxt.get_hint( "EXPORT_DIARY" )
                                         );
         center_print( w_desc, 1,  c_white, desc );
-        center_print( w_desc, 2,  c_white, ctxt.get_desc( "VIEW_SCORES",
-                      _( "View achievements, scores, and kills" ), input_context::allow_all_keys ) );
+        center_print( w_desc, 2,  c_white, ctxt.get_hint( "VIEW_SCORES" ) );
 
         wnoutrefresh( w_desc );
     } );

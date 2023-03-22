@@ -119,8 +119,8 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
         }
         ret.push_back( utf8_width_notags( text.c_str() ) );
 
-        std::string temp = shortcut_text( iSel == i ? hilite( c_yellow ) : c_yellow, vItems[i] );
-        text += string_format( "[%s]", colorize( temp, iSel == i ? hilite( c_white ) : c_white ) );
+        text += shortcut_text( vItems[i], iSel == i ?
+                               keybinding_hint_state::HIGHLIGHTED : keybinding_hint_state::ENABLED );
     }
 
     int text_width = utf8_width_notags( text.c_str() );
@@ -174,9 +174,10 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         case main_menu_opts::SPECIAL:
             for( int i = 1; i < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ); i++ ) {
                 std::string spec_name = special_game_name( static_cast<special_game_type>( i ) );
-                nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
-                sub_opts.push_back( shortcut_text( clr, spec_name ) );
-                int len = utf8_width( shortcut_text( clr, spec_name ), true );
+                std::string menu_option = shortcut_text( spec_name,
+                                          i == sel2 ? keybinding_hint_state::HIGHLIGHTED : keybinding_hint_state::ENABLED );
+                sub_opts.push_back( menu_option );
+                int len = utf8_width( menu_option, true );
                 if( len > xlen ) {
                     xlen = len;
                 }
@@ -184,9 +185,10 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
             break;
         case main_menu_opts::SETTINGS:
             for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
-                nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
-                sub_opts.push_back( shortcut_text( clr, vSettingsSubItems[i] ) );
-                int len = utf8_width( shortcut_text( clr, vSettingsSubItems[i] ), true );
+                std::string menu_option = shortcut_text( vSettingsSubItems[i],
+                                          i == sel2 ? keybinding_hint_state::HIGHLIGHTED : keybinding_hint_state::ENABLED );
+                sub_opts.push_back( menu_option );
+                int len = utf8_width( menu_option, true );
                 if( len > xlen ) {
                     xlen = len;
                 }
@@ -194,9 +196,10 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
             break;
         case main_menu_opts::NEWCHAR:
             for( int i = 0; static_cast<size_t>( i ) < vNewGameSubItems.size(); i++ ) {
-                nc_color clr = i == sel2 ? hilite( c_yellow ) : c_yellow;
-                sub_opts.push_back( shortcut_text( clr, vNewGameSubItems[i] ) );
-                int len = utf8_width( shortcut_text( clr, vNewGameSubItems[i] ), true );
+                std::string menu_option = shortcut_text( vNewGameSubItems[i],
+                                          i == sel2 ? keybinding_hint_state::HIGHLIGHTED : keybinding_hint_state::ENABLED );
+                sub_opts.push_back( menu_option );
+                int len = utf8_width( menu_option, true );
                 if( len > xlen ) {
                     xlen = len;
                 }
@@ -270,8 +273,7 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
         std::string opt = ( is_selection ? "» " : "  " ) + sub_opts[opt_index];
         int padding = ( xlen + 2 ) - utf8_width( opt, true );
         opt.append( padding, ' ' );
-        nc_color clr = is_selection ? hilite( c_white ) : c_white;
-        trim_and_print( w_sub, point( 1, y + 1 ), xlen + 2, clr, opt );
+        trim_and_print( w_sub, point( 1, y + 1 ), xlen + 2, opt );
         inclusive_rectangle<point> rec( top_left + point( 1, y  + 1 ),
                                         top_left + point( xlen + 2, y + 1 ) );
         main_menu_sub_button_map.emplace_back( rec, std::pair<int, int> { sel, y } );
@@ -1081,7 +1083,7 @@ void main_menu::world_tab( const std::string &worldname )
     std::array<char, 5> hotkeys = { 'd', 'r', 'm', 's', 't' };
     for( const std::string &it : vWorldSubItems ) {
         mmenu.entries.emplace_back( opt_val, true, hotkeys[opt_val],
-                                    remove_color_tags( shortcut_text( c_white, it ) ) );
+                                    remove_color_tags( shortcut_text( it ) ) );
         ++opt_val;
     }
     mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to Main Menu" ), c_yellow, c_yellow );

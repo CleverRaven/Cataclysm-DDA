@@ -101,14 +101,6 @@ window_panel::window_panel(
 // panels prettify and helper functions
 // ====================================
 
-static std::string trunc_ellipse( const std::string &input, unsigned int trunc )
-{
-    if( utf8_width( input ) > static_cast<int>( trunc ) ) {
-        return utf8_truncate( input, trunc - 1 ) + "…";
-    }
-    return input;
-}
-
 static int get_wgt_height( const widget_id &wgt )
 {
     if( wgt->_widgets.empty() || wgt->_arrange == "columns" || wgt->_arrange == "minimum_columns" ) {
@@ -641,27 +633,20 @@ static void draw_center_win( catacurses::window &w, int col_width, const input_c
 {
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
-               col_width - 1 ) + ":" );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 1 ), c_white, _( "Toggle panels on/off" ) );
-    mvwprintz( w, point( 1, 2 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
-               col_width - 1 ) + ":" );
-    mvwprintz( w, point( 1, 3 ), c_white, _( "Change display order" ) );
-    mvwprintz( w, point( 1, 4 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
-               col_width - 1 ) + ":" );
-    mvwprintz( w, point( 1, 5 ), c_white, _( "Exit" ) );
+    print_colored_text( w, point( 1, 0 ), ctxt.get_hint( "TOGGLE_PANEL" ) );
+    print_colored_text( w, point( 1, 1 ), ctxt.get_hint( "MOVE_PANEL" ) );
+    print_colored_text( w, point( 1, 2 ), ctxt.get_hint( "QUIT" ) );
 
     if( left_panel ) {
         const widget_id current_widget = panels[row_indices.at( current_row )].get_widget();
         for( const widget &wgt : widget::get_all() ) {
             if( wgt.getId() == current_widget ) {
-                fold_and_print( w, point( 1, 7 ), col_width - 2, c_white, _( wgt._description ) );
+                fold_and_print( w, point( 1, 3 ), col_width - 2, c_white, _( wgt._description ) );
                 break;
             }
         }
     } else {
-        fold_and_print( w, point( 1, 7 ), col_width - 2, c_white, _( sidebar._description ) );
+        fold_and_print( w, point( 1, 3 ), col_width - 2, c_white, _( sidebar._description ) );
     }
 
     wnoutrefresh( w );

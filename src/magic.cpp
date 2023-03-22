@@ -2052,19 +2052,22 @@ class spellcasting_callback : public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
+            input_context ctxt = menu->create_main_input_context();
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, 0 ), c_magenta, LINE_OXXX );
             mvwputch( menu->window, point( menu->w_width - menu->pad_right, menu->w_height - 1 ), c_magenta,
                       LINE_XXOX );
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, point( menu->w_width - menu->pad_right, i ), c_magenta, LINE_XOXO );
             }
-            std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) :
-                                        _( "Popup Distractions" );
-            mvwprintz( menu->window, point( menu->w_width - menu->pad_right + 2, 0 ),
-                       casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
-            const std::string assign_letter = _( "Assign Hotkey [=]" );
-            mvwprintz( menu->window, point( menu->w_width - assign_letter.length() - 1, 0 ), c_yellow,
-                       assign_letter );
+            std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) : _( "Popup Distractions" );
+            ignore_string = string_format( "%s ", ignore_string );
+
+            print_colored_text( menu->window, point( menu->w_width - menu->pad_right + 2, 0 ),
+                                ctxt.get_hint( "CAST_IGNORE", ignore_string,
+                                               casting_ignore ? keybinding_hint_state::TOGGLED_OFF : keybinding_hint_state::TOGGLED_ON ) );
+            const std::string assign_letter = ctxt.get_hint( "CHOOSE_INVLET", _( "Assign Hotkey" ) );
+            print_colored_text( menu->window, point( menu->w_width - assign_letter.length() - 1, 0 ),
+                                assign_letter );
             if( menu->selected >= 0 && static_cast<size_t>( menu->selected ) < known_spells.size() ) {
                 if( info_txt.empty() || selected_sp != menu->selected ) {
                     info_txt.clear();

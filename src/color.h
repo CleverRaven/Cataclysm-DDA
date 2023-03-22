@@ -518,6 +518,7 @@ nc_color bgcolor_from_string( const std::string &color );
 color_tag_parse_result get_color_from_tag( const std::string &s,
         report_color_error color_error = report_color_error::yes );
 std::string get_tag_from_color( const nc_color &color );
+std::string scolorize( const std::string &text, const nc_color &color );
 std::string colorize( const std::string &text, const nc_color &color );
 std::string colorize( const translation &text, const nc_color &color );
 

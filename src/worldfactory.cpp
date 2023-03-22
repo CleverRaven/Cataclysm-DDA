@@ -187,9 +187,7 @@ static std::optional<std::string> prompt_world_name( const std::string &title,
     popup.max_length( max_worldname_len ).title( title ).text( cur_worldname );
 
     input_context ctxt( "STRING_INPUT" );
-    popup.description( string_format(
-                           _( "Press [<color_c_yellow>%s</color>] to randomize the world name." ),
-                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ) ) );
+    popup.description( ctxt.get_hint( "PICK_RANDOM_WORLDNAME" ) );
 
     popup.custom_actions.emplace_back( "PICK_RANDOM_WORLDNAME", translation() );
     popup.add_callback( "PICK_RANDOM_WORLDNAME", [&popup]() {
@@ -1198,11 +1196,10 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             if( num_lines > window_height ) {
                 // The description didn't fit in the window, so provide a
                 // hint for how to see the whole thing
-                std::string message = string_format( _( "…%s = View full description " ),
-                                                     ctxt.get_desc( "VIEW_MOD_DESCRIPTION" ) );
-                nc_color color = c_green;
-                print_colored_text( w_description, point( window_width - utf8_width( message ), window_height - 1 ),
-                                    color, color, message );
+                std::string message = std::string( "..." ).append(
+                                          ctxt.get_hint( "VIEW_MOD_DESCRIPTION" ) );
+                print_colored_text( w_description, point( window_width - utf8_width( message, true ),
+                                    window_height - 1 ), message );
             }
         }
 
@@ -1230,8 +1227,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             fpopup->query_string( /*loop=*/false, /*draw_only=*/true );
         } else {
             mvwprintz( win, filter_pos, c_light_gray, "< " );
-            const char *help = current_filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " );
-            wprintz( win, c_light_gray, help, ctxt.get_desc( "FILTER" ) );
+            print_colored_text( win, ctxt.get_hint( "FILTER" ) );
             wprintz( win, c_white, current_filter );
             wprintz( win, c_light_gray, " >" );
         }
@@ -1607,42 +1603,29 @@ int worldfactory::show_worldgen_basic( WORLD *world )
             }
         }
 
-        auto get_clr = []( const nc_color & base, bool hi ) {
-            return hi ? hilite( base ) : base;
-        };
-
         if( all_sliders_drawn && y <= content_height ) {
             // Finish button
-            nc_color acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-            nc_color acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-            nc_color base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 1 ) );
-            std::string btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
-                                                 colorize( ctxt.get_desc( "FINALIZE", 1U ), acc_clr2 ),
-                                                 colorize( "][", acc_clr ), _( "Finish" ), colorize( "]", acc_clr ) );
-            const point finish_pos( win_width / 4 - utf8_width( btn_txt, true ) / 2, y );
-            print_colored_text( w_confirmation, finish_pos, base_clr, base_clr, btn_txt );
+            keybinding_hint_state finish_state = sel_opt == static_cast<int>( wg_sliders.size() + 1 ) ?
+                                                 keybinding_hint_state::HIGHLIGHTED : keybinding_hint_state::ENABLED;
+            std::string btn_txt = ctxt.get_hint( "FINALIZE", finish_state );
+            const point finish_pos( win_width / 4, y );
+            print_colored_text( w_confirmation, finish_pos, btn_txt );
             btn_map.emplace( static_cast<int>( wg_sliders.size() + 1 ),
                              inclusive_rectangle<point>( finish_pos, finish_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
             // Reset button
-            acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-            base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 2 ) );
-            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
-                                     colorize( ctxt.get_desc( "RESET", 1U ), acc_clr2 ),
-                                     colorize( "][", acc_clr ), _( "Reset" ), colorize( "]", acc_clr ) );
-            const point reset_pos( win_width / 2 - utf8_width( btn_txt, true ) / 2, y );
-            print_colored_text( w_confirmation, reset_pos, base_clr, base_clr, btn_txt );
+            keybinding_hint_state reset_state = sel_opt == static_cast<int>( wg_sliders.size() + 2 ) ?
+                                                keybinding_hint_state::HIGHLIGHTED : keybinding_hint_state::ENABLED;
+            btn_txt = ctxt.get_hint( "RESET", reset_state );
+            const point reset_pos( win_width / 4, ++y );
+            print_colored_text( w_confirmation, reset_pos, btn_txt );
             btn_map.emplace( static_cast<int>( wg_sliders.size() + 2 ),
                              inclusive_rectangle<point>( reset_pos, reset_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
             // Randomize button
-            acc_clr = get_clr( c_yellow, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-            acc_clr2 = get_clr( c_light_green, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-            base_clr = get_clr( c_white, sel_opt == static_cast<int>( wg_sliders.size() + 3 ) );
-            btn_txt = string_format( "%s%s%s %s %s", colorize( "[", acc_clr ),
-                                     colorize( ctxt.get_desc( "RANDOMIZE", 1U ), acc_clr2 ),
-                                     colorize( "][", acc_clr ), _( "Randomize" ), colorize( "]", acc_clr ) );
-            const point rand_pos( ( win_width * 3 ) / 4 - utf8_width( btn_txt, true ) / 2, y++ );
-            print_colored_text( w_confirmation, rand_pos, base_clr, base_clr, btn_txt );
+            keybinding_hint_state randomize_state = sel_opt == static_cast<int>( wg_sliders.size() + 3 ) ?
+                                                    keybinding_hint_state::HIGHLIGHTED : keybinding_hint_state::ENABLED;
+            btn_txt = ctxt.get_hint( "RANDOMIZE", randomize_state );
+            const point rand_pos( win_width / 4, ++y );
+            print_colored_text( w_confirmation, rand_pos, btn_txt );
             btn_map.emplace( static_cast<int>( wg_sliders.size() + 3 ),
                              inclusive_rectangle<point>( rand_pos, rand_pos + point( utf8_width( btn_txt, true ), 0 ) ) );
         }
@@ -1666,12 +1649,12 @@ int worldfactory::show_worldgen_basic( WORLD *world )
 
         // Hint text
         std::string hint_txt =
-            string_format( _( "Press [<color_yellow>%s</color>] to pick a random name for your world.\n"
-                              "Navigate options with [<color_yellow>directional keys</color>] "
-                              "and confirm with [<color_yellow>%s</color>].\n"
-                              "Press [<color_yellow>%s</color>] to see additional control information." ),
-                           ctxt.get_desc( "PICK_RANDOM_WORLDNAME", 1U ), ctxt.get_desc( "CONFIRM", 1U ),
-                           ctxt.get_desc( "HELP_KEYBINDINGS", 1U ) );
+            string_format( _( "Press %s to pick a random name for your world.\n"
+                              "Navigate options with directional keys "
+                              "and confirm with %s.\n"
+                              "Press %s to see additional control information." ),
+                           ctxt.get_hint_key_only( "PICK_RANDOM_WORLDNAME" ), ctxt.get_hint_key_only( "CONFIRM" ),
+                           ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ) );
         if( !custom_opts && sel_opt > 0 && sel_opt <= static_cast<int>( wg_sliders.size() ) ) {
             hint_txt = wg_sliders[sel_opt - 1]->level_desc( wg_slevels[sel_opt - 1] ).translated();
         }
@@ -1680,16 +1663,14 @@ int worldfactory::show_worldgen_basic( WORLD *world )
 
         // Advanced settings legend
         nc_color dummy = c_light_gray;
-        std::string sctxt = string_format( _( "[<color_yellow>%s</color>] - Advanced options" ),
-                                           ctxt.get_desc( "ADVANCED_SETTINGS", 1U ) );
+        std::string sctxt = ctxt.get_hint( "ADVANCED_SETTINGS" );
         mvwprintz( w_confirmation, point( 2, win_height - 4 ), c_light_gray, _( "Advanced settings:" ) );
         print_colored_text( w_confirmation, point( 2, win_height - 3 ), dummy, c_light_gray, sctxt );
         btn_map.emplace( static_cast<int>( wg_sliders.size() + 4 ),
                          inclusive_rectangle<point>(
                              point( 2, win_height - 3 ),
                              point( 2 + utf8_width( sctxt, true ), win_height - 3 ) ) );
-        sctxt = string_format( _( "[<color_yellow>%s</color>] - Open mod manager" ),
-                               ctxt.get_desc( "PICK_MODS", 1U ) );
+        sctxt = ctxt.get_hint( "PICK_MODS" );
         print_colored_text( w_confirmation, point( 2, win_height - 2 ), dummy, c_light_gray, sctxt );
         btn_map.emplace( static_cast<int>( wg_sliders.size() + 5 ),
                          inclusive_rectangle<point>(
@@ -1785,7 +1766,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                     wg_slevels[i] = wg_sliders[i]->random_level();
                 }
             }
-        } else if( navigate_ui_list( action, sel_opt, 1, wg_sliders.size() + 2, true ) ) {
+        } else if( navigate_ui_list( action, sel_opt, 1, wg_sliders.size() + 4, true ) ) {
             recalc_startpos = true;
         } else if( action == "LEFT" || action == "RIGHT" ) {
             if( sel_opt > 0 && sel_opt <= static_cast<int>( wg_sliders.size() ) ) {
@@ -1801,12 +1782,6 @@ int worldfactory::show_worldgen_basic( WORLD *world )
                 int lvl = wg_slevels[sel_opt - 1] + ( action == "LEFT" ? -1 : 1 );
                 wg_slevels[sel_opt - 1] = clamp<int>( lvl, 0, wg_sliders[sel_opt - 1]->count() - 1 );
                 wg_sliders[sel_opt - 1]->apply_opts( wg_slevels[sel_opt - 1], world->WORLD_OPTIONS );
-            } else if( sel_opt > static_cast<int>( wg_sliders.size() ) ) {
-                if( action == "LEFT" && sel_opt > static_cast<int>( wg_sliders.size() + 1 ) ) {
-                    sel_opt--;
-                } else if( action == "RIGHT" && sel_opt < static_cast<int>( wg_sliders.size() + 3 ) ) {
-                    sel_opt++;
-                }
             }
         } else if( action == "PICK_MODS" ) {
             show_worldgen_tab_modselection( w_confirmation, world, false );
@@ -1875,21 +1850,14 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
               LINE_XXOX ); // _|_
 
     // Add tips & hints
+
     fold_and_print( win, point( 2, TERMY - 10 ), getmaxx( win ) - 4, c_light_gray,
-                    _( "[<color_yellow>%s</color>] = save <color_cyan>Mod Load Order</color> as default <color_red>|</color> "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch Main-Tab <color_red>|</color> "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch "
-                       "<color_cyan>Mod List</color> and <color_cyan>Mod Load Order</color> <color_red>|</color> "
-                       "[<color_yellow>%s</color>/<color_yellow>%s</color>] = switch <color_cyan>Mod List</color> Tab <color_red>|</color> "
-                       "[<color_yellow>%s</color>] = keybindings" ),
-                    ctxtp.get_desc( "SAVE_DEFAULT_MODS" ),
-                    ctxtp.get_desc( "PREV_TAB" ),
-                    ctxtp.get_desc( "NEXT_TAB" ),
-                    ctxtp.get_desc( "LEFT" ),
-                    ctxtp.get_desc( "RIGHT" ),
-                    ctxtp.get_desc( "PREV_CATEGORY_TAB" ),
-                    ctxtp.get_desc( "NEXT_CATEGORY_TAB" ),
-                    ctxtp.get_desc( "HELP_KEYBINDINGS" )
+                    _( "%s | %s | %s | %s | %s" ),
+                    ctxtp.get_hint( "SAVE_DEFAULT_MODS" ),
+                    ctxtp.get_hint_pair( "PREV_TAB", "NEXT_TAB", _( "switch Main Tab" ) ),
+                    ctxtp.get_hint_pair( "LEFT", "RIGHT", _( "switch Mod List and Mod Load Order" ) ),
+                    ctxtp.get_hint_pair( "PREV_CATEGORY_TAB", "NEXT_CATEGORY_TAB", _( "switch Mod List Tab" ) ),
+                    ctxtp.get_hint( "HELP_KEYBINDINGS" )
                   );
     wnoutrefresh( win );
 }

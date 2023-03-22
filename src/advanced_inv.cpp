@@ -676,8 +676,9 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
 
             bcolor = in_vehicle ? c_light_blue :
                      area == data_location || all_brackets ? c_light_gray : c_dark_gray;
-            kcolor = area == data_location ? c_white : sel == data_location ||
-                     container_loc == data_location ? c_light_gray : c_dark_gray;
+            kcolor = area == data_location ? input_context::get_hint_color_for_key() : sel == data_location ||
+                     container_loc == data_location ? input_context::get_hint_color_for_key(
+                         keybinding_hint_state::HIGHLIGHTED ) : input_context::get_hint_color_for_key();
         }
         const std::string key = get_location_key( static_cast<aim_location>( i ) );
         const point p( squares[i].hscreen + point( ofs, 0 ) );
@@ -817,8 +818,8 @@ void advanced_inventory::redraw_pane( side p )
     }
     // draw a darker border around the inactive pane
     draw_border( w, active ? BORDER_COLOR : c_dark_gray );
-    mvwprintw( w, point( 3, 0 ), _( "< [%s] Sort: %s >" ), ctxt.get_desc( "SORT" ),
-               get_sortname( pane.sortby ) );
+    print_colored_text( w, point( 3, 0 ), string_format( _( "< %s: %s >" ), ctxt.get_hint( "SORT" ),
+                        get_sortname( pane.sortby ) ) );
     int max = square.max_size;
     if( max > 0 ) {
         int itemcount = square.get_item_count();
@@ -827,23 +828,22 @@ void advanced_inventory::redraw_pane( side p )
         mvwprintw( w, point( w_width / 2 - fmtw, 0 ), "< %d/%d >", itemcount, max );
     }
 
-    std::string fprefix = string_format( _( "[%s] Filter" ), ctxt.get_desc( "FILTER" ) );
+    std::string fprefix = ctxt.get_hint( "FILTER" );
     if( !filter_edit ) {
         if( !pane.filter.empty() ) {
-            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s: %s >", fprefix, pane.filter );
+            print_colored_text( w, point( 2, getmaxy( w ) - 1 ), string_format( "< %s: %s >", fprefix,
+                                pane.filter ) );
         } else {
-            mvwprintw( w, point( 2, getmaxy( w ) - 1 ), "< %s >", fprefix );
+            print_colored_text( w, point( 2, getmaxy( w ) - 1 ), string_format( "< %s >", fprefix ) );
         }
     }
     if( active ) {
         wattroff( w, c_white );
     }
     if( !filter_edit && !pane.filter.empty() ) {
-        std::string fsuffix = string_format( _( "[%s] Reset" ), ctxt.get_desc( "RESET_FILTER" ) );
-        mvwprintz( w, point( 6 + utf8_width( fprefix ), getmaxy( w ) - 1 ), c_white,
-                   pane.filter );
-        mvwprintz( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ), c_white, "%s",
-                   fsuffix );
+        std::string fsuffix = string_format( " %s", ctxt.get_hint( "RESET_FILTER" ) );
+        print_colored_text( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ),
+                            fsuffix );
     }
     wnoutrefresh( w );
 }
@@ -1165,8 +1165,8 @@ void advanced_inventory::redraw_sidebar()
     Messages::display_messages( head, 2, 1, w_width - 1, head_height - 2 );
     draw_minimap();
     right_print( head, 0, +3, c_white, string_format(
-                     _( "< [<color_yellow>%s</color>] keybindings >" ),
-                     ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
+                     _( "< %s >" ),
+                     ctxt.get_hint( "HELP_KEYBINDINGS" ) ) );
     if( get_player_character().has_watch() ) {
         const std::string time = to_string_time_of_day( calendar::turn );
         mvwprintz( head, point( 2, 0 ), c_white, time );
@@ -1791,7 +1791,9 @@ void query_destination_callback::draw_squares( const uilist *menu )
         // always show storage option for vehicle storage, if applicable
         bool canputitems = menu->entries[i - 1].enabled && square.canputitems();
         nc_color bcolor = canputitems ? sel == loc ? h_white : c_light_gray : c_red;
-        nc_color kcolor = canputitems ? sel == loc ? h_white : c_dark_gray : c_red;
+        nc_color kcolor = canputitems ? sel == loc ? input_context::get_hint_color_for_key(
+                              keybinding_hint_state::HIGHLIGHTED ) : input_context::get_hint_color_for_key() :
+                          input_context::get_hint_color( keybinding_hint_state::TOGGLED_OFF );
         const point p( square.hscreen + point( ofs, 5 ) );
         mvwprintz( menu->window, p, bcolor, "%c", bracket[0] );
         wprintz( menu->window, kcolor, "%s", key );

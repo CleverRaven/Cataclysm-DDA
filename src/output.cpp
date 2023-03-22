@@ -237,16 +237,34 @@ color_tag_parse_result::tag_type update_color_stack(
     return tag.type;
 }
 
-void print_colored_text( const catacurses::window &w, const point &p, nc_color &color,
+
+void print_colored_text( const catacurses::window &w, const point &p, const std::string &text,
+                         report_color_error color_error )
+{
+    print_colored_text( w, p, c_white, c_white, text, color_error );
+}
+void print_colored_text( const catacurses::window &w, const std::string &text,
+                         const report_color_error color_error )
+{
+    print_colored_text( w, c_white, c_white, text, color_error );
+}
+void print_colored_text( const catacurses::window &w, const point &p, const nc_color &color,
                          const nc_color &base_color, const std::string &text,
                          const report_color_error color_error )
 {
     if( p.y > -1 && p.x > -1 ) {
         wmove( w, p );
     }
+    print_colored_text( w, color, base_color, text, color_error );
+}
+void print_colored_text( const catacurses::window &w, const nc_color &color,
+                         const nc_color &base_color, const std::string &text,
+                         const report_color_error color_error )
+{
     const auto color_segments = split_by_color( text );
     std::stack<nc_color> color_stack;
-    color_stack.push( color );
+    nc_color c = color;
+    color_stack.push( c );
 
     for( auto seg : color_segments ) {
         if( seg.empty() ) {
@@ -261,8 +279,8 @@ void print_colored_text( const catacurses::window &w, const point &p, nc_color &
             }
         }
 
-        color = color_stack.empty() ? base_color : color_stack.top();
-        wprintz( w, color, seg );
+        c = color_stack.empty() ? base_color : color_stack.top();
+        wprintz( w, c, seg );
     }
 }
 
@@ -274,6 +292,13 @@ void trim_and_print( const catacurses::window &w, const point &begin,
     std::string sText = trim_by_length( text, width );
     nc_color dummy = base_color;
     print_colored_text( w, begin, dummy, base_color, sText, color_error );
+}
+
+void trim_and_print( const catacurses::window &w, const point &begin, const int width,
+                     const std::string &text, const report_color_error color_error )
+{
+    std::string sText = trim_by_length( text, width );
+    print_colored_text( w, begin, sText, color_error );
 }
 
 std::string trim_by_length( const std::string &text, int width )
@@ -579,6 +604,15 @@ int right_print( const catacurses::window &w, const int line, const int right_in
     const int available_width = std::max( 1, getmaxx( w ) - right_indent );
     const int x = std::max( 0, available_width - utf8_width( text, true ) );
     trim_and_print( w, point( x, line ), available_width, FG, text );
+    return x;
+}
+
+int right_print( const catacurses::window &w, const int line, const int right_indent,
+                 const std::string &text )
+{
+    const int available_width = std::max( 1, getmaxx( w ) - right_indent );
+    const int x = std::max( 0, available_width - utf8_width( text, true ) );
+    trim_and_print( w, point( x, line ), available_width, text );
     return x;
 }
 
@@ -2495,14 +2529,16 @@ void replace_keybind_tag( std::string &input )
         std::string keybind_desc;
         std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
         if( keys.empty() ) { // Display description for unbound keys
-            keybind_desc = colorize( '<' + ctxt.get_desc( keybind ) + '>', c_red );
+            keybind_desc = string_format( "<%s>", colorize( pgettext( "keybinding", "None applicable" ),
+                                          c_red ) );
 
             if( !ctxt.is_registered_action( keybind ) ) {
                 debugmsg( "Invalid/Missing <keybind>: '%s'", keybind_full );
             }
         } else {
             keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
-                return colorize( '\'' + k.long_description() + '\'', c_yellow );
+                return string_format( "[%s]", colorize( k.long_description(),
+                                                        input_context::get_hint_color_for_key() ) );
             }, enumeration_conjunction::or_ );
         }
         std::string to_replace = string_format( "%s%s%s", keybind_tag_start, keybind_full,
@@ -2554,30 +2590,24 @@ std::string rm_prefix( std::string str, char c1, char c2 )
     }
     return str;
 }
-
-// draw a menu-item-like string with highlighted shortcut character
-// Example: <w>ield, m<o>ve
-// returns: output length (in console cells)
-size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
-                       nc_color shortcut_color, const std::string &fmt )
+void print_global_and_character_mode_headers( const catacurses::window &w, const point &p,
+        bool globalSelected, bool show_character )
 {
-    wmove( w, p );
-    return shortcut_print( w, text_color, shortcut_color, fmt );
-}
-
-//same as above, from current position
-size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
-                       const std::string &fmt )
-{
-    std::string text = shortcut_text( shortcut_color, fmt );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    print_colored_text( w, point( -1, -1 ), text_color, text_color, text );
-
-    return utf8_width( remove_color_tags( text ) );
+    keybinding_hint_state g_state = globalSelected ? keybinding_hint_state::HIGHLIGHTED :
+                                    keybinding_hint_state::ENABLED;
+    std::string global = colorize( _( "<Global>" ), input_context::get_hint_color( g_state ) );
+    std::string character;
+    if( show_character ) {
+        keybinding_hint_state c_state = !globalSelected ? keybinding_hint_state::HIGHLIGHTED :
+                                        keybinding_hint_state::ENABLED;
+        character = string_format( "\u00A0%s", colorize( _( "<Character>" ),
+                                   input_context::get_hint_color( c_state ) ) );
+    }
+    print_colored_text( w, p, string_format( "%s%s", global, character ) );
 }
 
 //generate colorcoded shortcut text
-std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
+std::string shortcut_text( const std::string &fmt, keybinding_hint_state state )
 {
     size_t pos = fmt.find_first_of( '<' );
     size_t pos_end = fmt.find_first_of( '>' );
@@ -2587,7 +2617,8 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
         std::string poststring = fmt.substr( pos_end + 1, std::string::npos );
         std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
 
-        return prestring + colorize( shortcut, shortcut_color ) + poststring;
+        return input_context::get_hint_basic( shortcut, string_format( "%s%s%s", prestring, shortcut,
+                                              poststring ), state );
     }
 
     // no shortcut?
@@ -2688,11 +2719,6 @@ std::pair<std::string, nc_color> rad_badge_color( const int rad )
     i = i == values.size() ? i - 1 : i;
 
     return std::pair<std::string, nc_color>( _( values[i].second.first ), values[i].second.second );
-}
-
-std::string formatted_hotkey( const std::string &hotkey, const nc_color text_color )
-{
-    return colorize( hotkey, ACTIVE_HOTKEY_COLOR ).append( colorize( ": ", text_color ) );
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label,

@@ -249,21 +249,20 @@ int sokoban_game::start_game()
         draw_border( w_sokoban, BORDER_COLOR, _( "Sokoban" ), hilite( c_white ) );
 
         std::vector<std::string> shortcuts;
-        shortcuts.emplace_back( _( "<+> next" ) ); // '+': next
-        shortcuts.emplace_back( _( "<-> prev" ) ); // '-': prev
-        shortcuts.emplace_back( _( "<r>eset" ) ); // 'r': reset
-        shortcuts.emplace_back( _( "<q>uit" ) ); // 'q': quit
-        shortcuts.emplace_back( _( "<u>ndo move" ) ); // 'u': undo move
+        shortcuts.emplace_back( ctxt.get_hint( "NEXT" ) );
+        shortcuts.emplace_back( ctxt.get_hint( "PREV" ) );
+        shortcuts.emplace_back( ctxt.get_hint( "RESET" ) );
+        shortcuts.emplace_back( ctxt.get_hint( "QUIT" ) );
+        shortcuts.emplace_back( ctxt.get_hint( "UNDO" ) );
 
         int indent = 10;
         for( auto &shortcut : shortcuts ) {
-            indent = std::max( indent, utf8_width( shortcut ) + 1 );
+            indent = std::max( indent, utf8_width( shortcut, true ) + 1 );
         }
         indent = std::min( indent, 30 );
 
         for( size_t i = 0; i < shortcuts.size(); i++ ) {
-            shortcut_print( w_sokoban, point( FULL_SCREEN_WIDTH - indent, i + 1 ),
-                            c_white, c_light_green, shortcuts[i] );
+            print_colored_text( w_sokoban, point( FULL_SCREEN_WIDTH - indent, i + 1 ),  shortcuts[i] );
         }
 
         print_score( w_sokoban, iScore, iMoves );

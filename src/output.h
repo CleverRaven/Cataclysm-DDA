@@ -97,7 +97,6 @@ std::string string_from_int( catacurses::chtype ch );
 
 // Some consistent colors
 #define BORDER_COLOR c_light_gray
-#define ACTIVE_HOTKEY_COLOR c_yellow
 
 // Display data
 extern int TERMX; // width available for display
@@ -208,8 +207,15 @@ std::vector<std::string> foldstring( const std::string &str, int width, char spl
  * change to a color according to the color tags that are in the text.
  * @param base_color Base color that is used outside of any color tag.
  **/
-void print_colored_text( const catacurses::window &w, const point &p, nc_color &cur_color,
+void print_colored_text( const catacurses::window &w, const point &p, const nc_color &cur_color,
                          const nc_color &base_color, const std::string &text,
+                         report_color_error color_error = report_color_error::yes );
+void print_colored_text( const catacurses::window &w, const nc_color &cur_color,
+                         const nc_color &base_color, const std::string &text,
+                         report_color_error color_error = report_color_error::yes );
+void print_colored_text( const catacurses::window &w, const std::string &text,
+                         report_color_error color_error = report_color_error::yes );
+void print_colored_text( const catacurses::window &w, const point &p, const std::string &text,
                          report_color_error color_error = report_color_error::yes );
 /**
  * Print word wrapped text (with @ref color_tags) into the window.
@@ -297,6 +303,9 @@ inline int fold_and_print_from( const catacurses::window &w, const point &begin,
 void trim_and_print( const catacurses::window &w, const point &begin, int width,
                      const nc_color &base_color, const std::string &text,
                      report_color_error color_error = report_color_error::yes );
+void trim_and_print( const catacurses::window &w, const point &begin, int width,
+                     const std::string &text,
+                     report_color_error color_error = report_color_error::yes );
 std::string trim_by_length( const std::string &text, int width );
 template<typename ...Args>
 inline void trim_and_print( const catacurses::window &w, const point &begin,
@@ -320,6 +329,7 @@ void center_print( const catacurses::window &w, int y, const nc_color &FG,
                    const std::string &text );
 int right_print( const catacurses::window &w, int line, int right_indent,
                  const nc_color &FG, const std::string &text );
+int right_print( const catacurses::window &w, int line, int right_indent, const std::string &text );
 void insert_table( const catacurses::window &w, int pad, int line, int columns,
                    const nc_color &FG, const std::string &divider, bool r_align,
                    const std::vector<std::string> &data );
@@ -597,11 +607,10 @@ std::string string_replace( std::string text, const std::string &before, const s
 std::string replace_colors( std::string text );
 std::string uppercase_first_letter( const std::string &str );
 std::string lowercase_first_letter( const std::string &str );
-size_t shortcut_print( const catacurses::window &w, const point &p, nc_color text_color,
-                       nc_color shortcut_color, const std::string &fmt );
-size_t shortcut_print( const catacurses::window &w, nc_color text_color, nc_color shortcut_color,
-                       const std::string &fmt );
-std::string shortcut_text( nc_color shortcut_color, const std::string &fmt );
+void print_global_and_character_mode_headers( const catacurses::window &w, const point &p,
+        bool globalSelected, bool show_character = true );
+std::string shortcut_text( const std::string &fmt,
+                           const keybinding_hint_state state = keybinding_hint_state::ENABLED );
 
 /**
  * @return Pair of a string containing the bar, and its color
@@ -626,7 +635,9 @@ enum class enumeration_conjunction : int {
     none,
     and_,
     or_,
-    arrow
+    arrow,
+    space,
+    newline
 };
 
 /**
@@ -648,6 +659,10 @@ std::string enumerate_as_string( const Container &values,
                 return values.size() > 2 ? _( ", or " ) : _( " or " );
             case enumeration_conjunction::arrow:
                 return _( " > " );
+            case enumeration_conjunction::space:
+                return " ";
+            case enumeration_conjunction::newline:
+                return "\n";
         }
         debugmsg( "Unexpected conjunction" );
         return _( ", " );
@@ -657,6 +672,10 @@ std::string enumerate_as_string( const Container &values,
         switch( conj ) {
             case enumeration_conjunction::arrow:
                 return _( " > " );
+            case enumeration_conjunction::space:
+                return " ";
+            case enumeration_conjunction::newline:
+                return "\n";
             default:
                 return _( ", " );
         }
@@ -706,13 +725,7 @@ std::string enumerate_as_string( const Container &cont, F &&string_for,
     return enumerate_as_string( cont.begin(), cont.end(), std::forward<F>( string_for ), conj );
 }
 
-/**
- * @return A formatted string including the hotkey, color-tagged to stand out, and standardized
- * surrounding text to highlight that this is a hotkey to anyone using a screen reader
- * @param hotkey The hotkey to be formatted, without any color tags or other formatting
- * @param text_color The color of the surrounding text, so that only the hoteky stands out
- */
-std::string formatted_hotkey( const std::string &hotkey, nc_color text_color );
+
 
 /**
  * @return String containing the bar. Example: "Label [****--...    ]".

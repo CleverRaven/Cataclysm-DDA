@@ -653,9 +653,8 @@ void Messages::dialog::show()
         filter.query( false, true ); // Draw only
     } else {
         if( filter_str.empty() ) {
-            mvwprintz( w, point( border_width, w_height - 1 ), border_color,
-                       _( "< Press %s to filter, %s to reset >" ),
-                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "RESET_FILTER" ) );
+            print_colored_text( w, point( border_width, w_height - 1 ), string_format( _( "<%s %s>" ),
+                                ctxt.get_hint( "FILTER" ), ctxt.get_hint( "RESET_FILTER" ) ) );
         } else {
             mvwprintz( w, point( border_width, w_height - 1 ), border_color, "< %s >", filter_str );
             mvwprintz( w, point( border_width + 2, w_height - 1 ), filter_color, "%s", filter_str );

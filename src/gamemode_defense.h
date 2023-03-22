@@ -8,6 +8,7 @@
 #include "calendar.h"
 #include "coordinates.h"
 #include "enums.h"
+#include "input.h"
 #include "gamemode.h"
 #include "omdata.h"
 #include "type_id.h"
@@ -71,7 +72,7 @@ struct defense_game : public special_game {
         void init_to_style( defense_style new_style );
 
         void setup();
-        void refresh_setup( const catacurses::window &w, int selection );
+        void refresh_setup( const catacurses::window &w, int selection, const input_context &ctxt );
         void init_mtypes();
         void init_constructions();
         void init_map();

@@ -335,6 +335,7 @@ void auto_note_manager_gui::show()
     ctxt.register_action( "SWITCH_AUTO_NOTE_OPTION" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
     if( !char_emptyMode || !global_emptyMode ) {
         ctxt.register_navigate_ui_list();
         ctxt.register_action( "CONFIRM" );
@@ -354,10 +355,18 @@ void auto_note_manager_gui::show()
         wnoutrefresh( w_border );
 
         // == Draw header
-        int tmpx = 0;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
-        shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter> - Toggle" ) );
+        std::vector<std::string> hints;
+        hints.push_back( ctxt.get_hint( "SWITCH_AUTO_NOTE_OPTION",
+                                        get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ? keybinding_hint_state::TOGGLED_ON :
+                                        keybinding_hint_state::TOGGLED_OFF ) );
+        hints.push_back( ctxt.get_hint( "ENABLE_MAPEXTRA_NOTE" ) );
+        hints.push_back( ctxt.get_hint( "DISABLE_MAPEXTRA_NOTE" ) );
+        hints.push_back( ctxt.get_hint( "CONFIRM", _( "Toggle" ) ) );
+        // TODO: Show info about custom symbols (hotkey, hint, state)
+        hints.push_back( ctxt.get_hint( "CHANGE_MAPEXTRA_CHARACTER" ) );
+        hints.push_back( ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB", _( "Switch Page" ) ) );
+        fold_and_print( w_header, point( 0, 0 ), getmaxx( w_header ) - 1, c_light_gray,
+                        enumerate_as_string( hints, enumeration_conjunction::space ) );
 
         // Draw horizontal line and corner pieces of the table
         for( int x = 0; x < 78; x++ ) {
@@ -368,11 +377,8 @@ void auto_note_manager_gui::show()
                 mvwputch( w_header, point( x, iHeaderHeight - 2 ), c_light_gray, LINE_OXOX );
             }
         }
-        tmpx = 17;
-        tmpx += shortcut_print( w_header, point( tmpx, iHeaderHeight - 2 ),
-                                bCharacter ? hilite( c_white ) : c_white, c_light_green, _( "Character" ) ) + 2;
-        shortcut_print( w_header, point( tmpx, iHeaderHeight - 2 ),
-                        !bCharacter ? hilite( c_white ) : c_white, c_light_green, _( "Global" ) );
+
+        print_global_and_character_mode_headers( w_header, point( 17, iHeaderHeight - 2 ), !bCharacter );
 
         mvwprintz( w_header, point( 1, iHeaderHeight - 1 ), c_white, _( "Map Extra" ) );
         mvwprintz( w_header, point( 53, iHeaderHeight - 1 ), c_white, _( "Symbol" ) );
@@ -380,31 +386,6 @@ void auto_note_manager_gui::show()
 
         wnoutrefresh( w_header );
 
-        // TODO: Show info about custom symbols (hotkey, hint, state)
-        std::string header_info_custom_symbols = string_format( _( "<color_light_green>%1$s</color> %2$s" ),
-                ctxt.get_desc( "CHANGE_MAPEXTRA_CHARACTER" ), _( "Change a symbol for map extra" ) );
-        // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_header, point( 0, 1 ), FULL_SCREEN_WIDTH - 2, c_white,
-                        header_info_custom_symbols );
-
-        mvwprintz( w_header, point( 39, 1 ), c_white, _( "Auto notes enabled:" ) );
-
-        int currentX = 60;
-        mvwprintz( w_header, point( currentX, 1 ), c_white,
-                   std::string( FULL_SCREEN_WIDTH - 2 - currentX, ' ' ) );
-
-        const bool enabled_auto_notes_ME = get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" );
-        currentX += shortcut_print( w_header, point( currentX, 1 ),
-                                    enabled_auto_notes_ME ? c_light_green : c_light_red, c_white,
-                                    enabled_auto_notes_ME ? _( "True" ) : _( "False" ) );
-
-        currentX += shortcut_print( w_header, point( currentX, 1 ), c_white, c_light_green, "  " );
-        shortcut_print( w_header, point( currentX, 1 ), c_white, c_light_green, _( "<S>witch " ) );
-        currentX = 39;
-        mvwprintz( w_header, point( currentX, 0 ), c_white, std::string( FULL_SCREEN_WIDTH - 2 - currentX,
-                   ' ' ) );
-        shortcut_print( w_header, point( currentX, 0 ), c_white, c_light_green,
-                        _( "<Tab> to change pages." ) );
 
         // Clear table
         for( int y = 0; y < iContentHeight; y++ ) {
@@ -435,7 +416,8 @@ void auto_note_manager_gui::show()
                                            global_mapExtraCache )[displayCacheEntry];
 
                 const nc_color lineColor = ( i == currentLine ) ? hilite( c_white ) : c_white;
-                const nc_color statusColor = enabled_auto_notes_ME ? ( cacheEntry.second ? c_green : c_red ) :
+                const nc_color statusColor = get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) ?
+                                             ( cacheEntry.second ? c_green : c_red ) :
                                              c_dark_gray;
                 const std::string statusString = cacheEntry.second ? _( "yes" ) : _( "no" );
                 auto found_custom_symbol = ( bCharacter ? char_custom_symbol_cache :
@@ -486,7 +468,7 @@ void auto_note_manager_gui::show()
             get_options().save();
         } else if( action == "QUIT" ) {
             break;
-        } else if( action == "NEXT_TAB" ) {
+        } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             bCharacter = !bCharacter;
         }
 

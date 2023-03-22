@@ -157,18 +157,20 @@ void robot_finds_kitten::show() const
                                        _( "Your job is to find kitten.  This task is complicated by the existence of various things "
                                           "which are not kitten.  Robot must touch items to determine if they are kitten or not.  "
                                           "The game ends when robot finds kitten.  Alternatively, you may end the game by hitting %s." ),
-                                       ctxt.get_desc( "QUIT" ) );
+                                       ctxt.get_hint_key_only( "QUIT" ) );
             fold_and_print( w, point( 1, pos ), getmaxx( w ) - 4, c_light_gray,
                             _( "Press any key to start." ) );
             break;
         }
         case ui_state::main:
-            mvwprintz( w, point_zero, c_white, _( "robotfindskitten v22July2008 - press %s to quit." ),
-                       ctxt.get_desc( "QUIT" ) );
+            print_colored_text( w, point_zero,
+                                string_format( _( "robotfindskitten v22July2008 - press %s to quit." ),
+                                               ctxt.get_hint_key_only( "QUIT" ) ) );
             break;
         case ui_state::invalid_input:
-            mvwprintz( w, point_zero, c_white, _( "Invalid command: Use direction keys or press %s to quit." ),
-                       ctxt.get_desc( "QUIT" ) );
+            print_colored_text( w, point_zero,
+                                string_format( _( "Invalid command: Use direction keys or press %s to quit." ),
+                                               ctxt.get_hint_key_only( "QUIT" ) ) );
             break;
         case ui_state::bogus_message: {
             std::vector<std::string> bogusvstr = foldstring( this_bogus_message, rfkCOLS );

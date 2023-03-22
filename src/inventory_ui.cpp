@@ -560,13 +560,15 @@ int inventory_entry::get_invlet() const
 
 nc_color inventory_entry::get_invlet_color() const
 {
+    keybinding_hint_state state;
     if( !is_selectable() ) {
-        return c_dark_gray;
+        state = keybinding_hint_state::DISABLED;
     } else if( get_player_character().inv->assigned_invlet.count( get_invlet() ) ) {
-        return c_yellow;
+        state = keybinding_hint_state::ENABLED;
     } else {
         return c_white;
     }
+    return input_context::get_hint_color_for_key( state );
 }
 
 void inventory_entry::update_cache()
@@ -2636,18 +2638,17 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
     } else {
         int filter_offset = 0;
         if( has_available_choices() || !filter.empty() ) {
-            std::string text = string_format( filter.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " ),
-                                              ctxt.get_desc( "INVENTORY_FILTER" ) );
+            std::string text = ctxt.get_hint( "INVENTORY_FILTER" );
             filter_offset = utf8_width( text + filter ) + 6;
 
             mvwprintz( w, point( 2, getmaxy( w ) - border ), c_light_gray, "< " );
-            wprintz( w, c_light_gray, text );
+            print_colored_text( w, text );
             wprintz( w, c_white, filter );
             wprintz( w, c_light_gray, " >" );
         }
 
         right_print( w, getmaxy( w ) - border, border + 1, c_light_gray,
-                     string_format( "< [%s] %s >", ctxt.get_desc( "VIEW_CATEGORY_MODE" ),
+                     string_format( "< %s %s >", ctxt.get_hint_key_only( "VIEW_CATEGORY_MODE" ),
                                     io::enum_to_string( _uimode ) ) );
         const auto footer = get_footer( mode );
         if( !footer.first.empty() ) {
@@ -2700,7 +2701,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "INVENTORY_FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
-    ctxt.register_action( "SHOW_HIDE_CONTENTS", to_translation( "Show/hide contents" ) );
+    ctxt.register_action( "SHOW_HIDE_CONTENTS" );
     ctxt.register_action( "SHOW_HIDE_CONTENTS_ALL" );
     ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "TOGGLE_SKIP_UNSELECTABLE" );
@@ -3352,7 +3353,7 @@ drop_locations inventory_multiselector::execute()
         if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "TOGGLE_ENTRY" ) );
+                              ctxt.get_hint_key_only( "TOGGLE_ENTRY" ) );
                 continue;
             }
             break;
@@ -3404,7 +3405,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
             }
         } else if( input.action == "CONFIRM" ) {
             popup_getkey( _( "You need two items for comparison.  Use %s to select them." ),
-                          ctxt.get_desc( "TOGGLE_ENTRY" ) );
+                          ctxt.get_hint_key_only( "TOGGLE_ENTRY" ) );
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
         } else if( input.action == "TOGGLE_FAVORITE" ) {
@@ -3587,7 +3588,7 @@ drop_locations inventory_drop_selector::execute()
         if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "TOGGLE_ENTRY" ) );
+                              ctxt.get_hint_key_only( "TOGGLE_ENTRY" ) );
                 continue;
             }
             break;
@@ -3744,16 +3745,17 @@ pickup_selector::pickup_selector( Character &p, const inventory_selector_preset 
 #endif
 
     set_hint( string_format(
-                  _( "%s wield %s wear\n%s expand %s all\n%s examine %s/%s/%s quantity (or type number then %s)" ),
-                  colorize( ctxt.get_desc( "WIELD" ), c_yellow ),
-                  colorize( ctxt.get_desc( "WEAR" ), c_yellow ),
-                  colorize( ctxt.get_desc( "SHOW_HIDE_CONTENTS" ), c_yellow ),
-                  colorize( ctxt.get_desc( "SHOW_HIDE_CONTENTS_ALL" ), c_yellow ),
-                  colorize( ctxt.get_desc( "EXAMINE" ), c_yellow ),
-                  colorize( ctxt.get_desc( "MARK_WITH_COUNT" ), c_yellow ),
-                  colorize( ctxt.get_desc( "INCREASE_COUNT" ), c_yellow ),
-                  colorize( ctxt.get_desc( "DECREASE_COUNT" ), c_yellow ),
-                  colorize( ctxt.get_desc( "TOGGLE_ENTRY" ), c_yellow ) ) );
+                  _( "%s %s \n%s %s \n%s %s/%s/%s quantity (or type number then %s)" ),
+                  ctxt.get_hint( "WIELD" ),
+                  ctxt.get_hint( "WEAR" ),
+                  ctxt.get_hint( "SHOW_HIDE_CONTENTS" ),
+                  ctxt.get_hint( "SHOW_HIDE_CONTENTS_ALL" ),
+                  ctxt.get_hint( "EXAMINE" ),
+                  // todo(strat) replace get_hint_pair and get_hint_quad with a function that takes a list (get_hints)
+                  ctxt.get_hint_key_only( "MARK_WITH_COUNT" ),
+                  ctxt.get_hint_key_only( "INCREASE_COUNT" ),
+                  ctxt.get_hint_key_only( "DECREASE_COUNT" ),
+                  ctxt.get_hint_key_only( "TOGGLE_ENTRY" )));
 }
 
 void pickup_selector::apply_selection( std::vector<drop_location> selection )
@@ -3779,7 +3781,7 @@ drop_locations pickup_selector::execute()
         if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "TOGGLE_ENTRY" ) );
+                              ctxt.get_hint_key_only( "TOGGLE_ENTRY" ) );
                 continue;
             }
             break;

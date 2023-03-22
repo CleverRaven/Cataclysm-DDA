@@ -314,6 +314,34 @@ void user_interface::show()
     int iStartPos = 0;
     Character &player_character = get_player_character();
 
+
+    const bool has_more_than_one_tab = tabs.size() > 1;
+    bStuffChanged = false;
+    input_context ctxt( "AUTO_PICKUP" );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "QUIT" );
+    if( has_more_than_one_tab ) {
+        ctxt.register_action( "NEXT_TAB" );
+        ctxt.register_action( "PREV_TAB" );
+    }
+    ctxt.register_action( "ADD_RULE" );
+    ctxt.register_action( "REMOVE_RULE" );
+    ctxt.register_action( "COPY_RULE" );
+    ctxt.register_action( "ENABLE_RULE" );
+    ctxt.register_action( "DISABLE_RULE" );
+    ctxt.register_action( "MOVE_RULE_UP" );
+    ctxt.register_action( "MOVE_RULE_DOWN" );
+    ctxt.register_action( "TEST_RULE" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
+
+    const bool allow_swapping = tabs.size() == 2;
+    if( allow_swapping ) {
+        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
+    }
+
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Redraw the border
         draw_border( w_border, BORDER_COLOR, title );
@@ -328,51 +356,45 @@ void user_interface::show()
         wnoutrefresh( w_border );
 
         // Redraw the header
-        int tmpx = 0;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<A>dd" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<R>emove" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<C>opy" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<M>ove" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
-        if( !player_character.name.empty() ) {
-            shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<T>est" ) );
+        std::vector<std::string> hints;
+        hints.push_back( ctxt.get_hint( "SWITCH_AUTO_PICKUP_OPTION",
+                                        get_option<bool>( "AUTO_PICKUP" ) ? keybinding_hint_state::TOGGLED_ON :
+                                        keybinding_hint_state::TOGGLED_OFF ) );
+        hints.push_back( ctxt.get_hint( "ADD_RULE" ) );
+        hints.push_back( ctxt.get_hint( "REMOVE_RULE" ) );
+        hints.push_back( ctxt.get_hint( "COPY_RULE" ) );
+        if( allow_swapping ) {
+            hints.push_back( ctxt.get_hint( "SWAP_RULE_GLOBAL_CHAR" ) );
         }
-        tmpx = 0;
-        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                                _( "<+-> Move up/down" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                                _( "<Enter>-Edit" ) ) + 2;
-        shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
+        hints.push_back( ctxt.get_hint( "ENABLE_RULE" ) );
+        hints.push_back( ctxt.get_hint( "DISABLE_RULE" ) );
 
+        if( !player_character.name.empty() ) {
+            hints.push_back( ctxt.get_hint( "TEST_RULE" ) );
+        }
+        hints.push_back( ctxt.get_hint_pair( "MOVE_RULE_UP", "MOVE_RULE_DOWN", _( "Move up/down" ) ) );
+        hints.push_back( ctxt.get_hint( "CONFIRM", _( "Edit" ) ) );
+        if( has_more_than_one_tab ) {
+            hints.push_back( ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB", _( "Switch Page" ) ) );
+        }
+        const int i_hints = fold_and_print( w_header, point( 0, 0 ), getmaxx( w_header ) - 1, c_light_gray,
+                                            enumerate_as_string( hints, enumeration_conjunction::space ) );
         for( int i = 0; i < 78; i++ ) {
             if( i == 4 || i == 50 || i == 60 ) {
-                mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXXX );
-                mvwputch( w_header, point( i, 3 ), c_light_gray, LINE_XOXO );
+                mvwputch( w_header, point( i, i_hints ), c_light_gray, LINE_OXXX );
+                mvwputch( w_header, point( i,  i_hints + 1 ), c_light_gray, LINE_XOXO );
             } else {
                 // Draw line under header
-                mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXOX );
+                mvwputch( w_header, point( i, i_hints ), c_light_gray, LINE_OXOX );
             }
         }
-        mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
-        mvwprintz( w_header, point( 8, 3 ), c_white, _( "Rules" ) );
-        mvwprintz( w_header, point( 52, 3 ), c_white, _( "Inc/Exc" ) );
+        mvwprintz( w_header, point( 1, i_hints + 1 ), c_white, "#" );
+        mvwprintz( w_header, point( 8, i_hints + 1 ), c_white, _( "Rules" ) );
+        mvwprintz( w_header, point( 52, i_hints + 1 ), c_white, _( "Inc/Exc" ) );
 
         rule_list &cur_rules = tabs[iTab].new_rules;
-        int locx = 17;
-        for( size_t i = 0; i < tabs.size(); i++ ) {
-            const nc_color color = iTab == i ? hilite( c_white ) : c_white;
-            locx += shortcut_print( w_header, point( locx, 2 ), c_white, color, tabs[i].title ) + 1;
-        }
-
-        locx = 55;
-        mvwprintz( w_header, point( locx, 0 ), c_white, _( "Auto pickup enabled:" ) );
-        locx += shortcut_print( w_header, point( locx, 1 ),
-                                get_option<bool>( "AUTO_PICKUP" ) ? c_light_green : c_light_red, c_white,
-                                get_option<bool>( "AUTO_PICKUP" ) ? _( "True" ) : _( "False" ) );
-        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
-        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
-        shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
+        print_global_and_character_mode_headers( w_header, point( 17, i_hints ), iTab == 0,
+                !player_character.name.empty() );
 
         wnoutrefresh( w_header );
 
@@ -418,32 +440,6 @@ void user_interface::show()
 
         wnoutrefresh( w );
     } );
-
-    bStuffChanged = false;
-    input_context ctxt( "AUTO_PICKUP" );
-    ctxt.register_navigate_ui_list();
-    ctxt.register_leftright();
-    ctxt.register_action( "CONFIRM" );
-    ctxt.register_action( "QUIT" );
-    if( tabs.size() > 1 ) {
-        ctxt.register_action( "NEXT_TAB" );
-        ctxt.register_action( "PREV_TAB" );
-    }
-    ctxt.register_action( "ADD_RULE" );
-    ctxt.register_action( "REMOVE_RULE" );
-    ctxt.register_action( "COPY_RULE" );
-    ctxt.register_action( "ENABLE_RULE" );
-    ctxt.register_action( "DISABLE_RULE" );
-    ctxt.register_action( "MOVE_RULE_UP" );
-    ctxt.register_action( "MOVE_RULE_DOWN" );
-    ctxt.register_action( "TEST_RULE" );
-    ctxt.register_action( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "SWITCH_AUTO_PICKUP_OPTION" );
-
-    const bool allow_swapping = tabs.size() == 2;
-    if( allow_swapping ) {
-        ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
-    }
 
     while( true ) {
         rule_list &cur_rules = tabs[iTab].new_rules;
@@ -604,9 +600,9 @@ void player_settings::show()
 
     Character &player_character = get_player_character();
     ui.title = _( "Auto pickup manager" );
-    ui.tabs.emplace_back( _( "[<Global>]" ), global_rules );
+    ui.tabs.emplace_back( _( "<Global>" ), global_rules );
     if( !player_character.name.empty() ) {
-        ui.tabs.emplace_back( _( "[<Character>]" ), character_rules );
+        ui.tabs.emplace_back( _( "<Character>" ), character_rules );
     }
 
     ui.show();

@@ -458,12 +458,12 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
         nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
         const input_context ctxt( nmenu.input_category, keyboard_mode::keycode );
         nmenu.text = string_format(
-                         _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
-                         colorize( ctxt.get_desc( "CONFIRM", 1 ), c_yellow ),
-                         colorize( ctxt.get_desc( "EDIT_NOTE", 1 ), c_yellow ),
-                         colorize( ctxt.get_desc( "MARK_DANGER", 1 ), c_red ),
-                         colorize( ctxt.get_desc( "DELETE_NOTE", 1 ), c_yellow ),
-                         colorize( ctxt.get_desc( "QUIT", 1 ), c_yellow )
+                         _( "%s %s %s %s %s" ),
+                         ctxt.get_hint( "CONFIRM" ),
+                         ctxt.get_hint( "EDIT_NOTE" ),
+                         ctxt.get_hint( "MARK_DANGER" ),
+                         ctxt.get_hint( "DELETE_NOTE" ),
+                         ctxt.get_hint( "QUIT" )
                      );
         int row = 0;
         overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes( origin.z() );
@@ -1158,27 +1158,33 @@ static void draw_om_sidebar(
         }
     }
 
-    mvwprintz( wbar, point( 1, 12 ), c_magenta, _( "Use movement keys to pan." ) );
-    mvwprintz( wbar, point( 1, 13 ), c_magenta, _( "Press W to preview route." ) );
-    mvwprintz( wbar, point( 1, 14 ), c_magenta, _( "Press again to confirm." ) );
+    mvwprintz( wbar, point( 1, 12 ), input_context::get_hint_color(),
+               _( "Use movement keys to pan." ) );
     if( inp_ctxt != nullptr ) {
+        print_colored_text( wbar, point( 1, 13 ), inp_ctxt->get_hint( "CHOOSE_DESTINATION",
+                            _( "Preview route" ) ) );
+        print_colored_text( wbar, point( 1, 14 ), inp_ctxt->get_hint( "CHOOSE_DESTINATION",
+                            _( "Confirm route" ) ) );
         int y = 16;
 
-        const auto print_hint = [&]( const std::string & action, nc_color color = c_magenta ) {
-            y += fold_and_print( wbar, point( 1, y ), getmaxx( wbar ) - 1, color, string_format( _( "%s - %s" ),
-                                 inp_ctxt->get_desc( action ),
-                                 inp_ctxt->get_action_name( action ) ) );
+        const auto print_hint = [&]( const std::string & action,
+        keybinding_hint_state state = keybinding_hint_state::ENABLED ) {
+            y += fold_and_print( wbar, point( 1, y ), getmaxx( wbar ) - 1, c_white, inp_ctxt->get_hint( action,
+                                 state ) );
         };
 
         if( data.debug_editor ) {
-            print_hint( "PLACE_TERRAIN", c_light_blue );
-            print_hint( "PLACE_SPECIAL", c_light_blue );
-            print_hint( "SET_SPECIAL_ARGS", c_light_blue );
+            print_hint( "PLACE_TERRAIN", keybinding_hint_state::ENABLED );
+            print_hint( "PLACE_SPECIAL", keybinding_hint_state::ENABLED );
+            print_hint( "SET_SPECIAL_ARGS", keybinding_hint_state::ENABLED );
             ++y;
         }
 
         const bool show_overlays = uistate.overmap_show_overlays || uistate.overmap_blinking;
         const bool is_explored = overmap_buffer.is_explored( center );
+        const auto keybinding_hint_state_fn = [&]( const bool toggled_on ) {
+            return toggled_on ? keybinding_hint_state::TOGGLED_ON : keybinding_hint_state::TOGGLED_OFF;
+        };
 
         print_hint( "LEVEL_UP" );
         print_hint( "LEVEL_DOWN" );
@@ -1190,18 +1196,20 @@ static void draw_om_sidebar(
         print_hint( "DELETE_NOTE" );
         print_hint( "LIST_NOTES" );
         print_hint( "MISSIONS" );
-        print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
-        print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
-        print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
-        print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
-        print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
-        print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
-        print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
-        print_hint( "TOGGLE_FAST_SCROLL", fast_scroll ? c_pink : c_magenta );
-        print_hint( "TOGGLE_FOREST_TRAILS", uistate.overmap_show_forest_trails ? c_pink : c_magenta );
+        print_hint( "TOGGLE_MAP_NOTES", keybinding_hint_state_fn( uistate.overmap_show_map_notes ) );
+        print_hint( "TOGGLE_BLINKING", keybinding_hint_state_fn( uistate.overmap_blinking ) );
+        print_hint( "TOGGLE_OVERLAYS", keybinding_hint_state_fn( show_overlays ) );
+        print_hint( "TOGGLE_LAND_USE_CODES",
+                    keybinding_hint_state_fn( uistate.overmap_show_land_use_codes ) );
+        print_hint( "TOGGLE_CITY_LABELS", keybinding_hint_state_fn( uistate.overmap_show_city_labels ) );
+        print_hint( "TOGGLE_HORDES", keybinding_hint_state_fn( uistate.overmap_show_hordes ) );
+        print_hint( "TOGGLE_EXPLORED", keybinding_hint_state_fn( is_explored ) );
+        print_hint( "TOGGLE_FAST_SCROLL", keybinding_hint_state_fn( fast_scroll ) );
+        print_hint( "TOGGLE_FOREST_TRAILS",
+                    keybinding_hint_state_fn( uistate.overmap_show_forest_trails ) );
         print_hint( "TOGGLE_OVERMAP_WEATHER",
-                    !get_map().is_outside( get_player_character().pos() ) ? c_dark_gray :
-                    uistate.overmap_visible_weather ? c_pink : c_magenta );
+                    !get_map().is_outside( get_player_character().pos() ) ? keybinding_hint_state::DISABLED :
+                    keybinding_hint_state_fn( uistate.overmap_visible_weather ) );
         print_hint( "HELP_KEYBINDINGS" );
         print_hint( "QUIT" );
     }
@@ -1424,15 +1432,11 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
                    direction_name_short( direction_from( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ) );
 
         if( locations.size() > 1 ) {
-            fold_and_print( w_search, point( 1, 6 ), search_width, c_white,
-                            _( "Press [<color_yellow>%s</color>] or [<color_yellow>%s</color>] "
-                               "to cycle through search results." ),
-                            ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
+            fold_and_print( w_search, point( 1, 6 ), search_width, c_white, ctxt.get_hint_pair( "NEXT_TAB",
+                            "PREV_TAB",  _( "Cycle through search results" ) ) );
         }
-        fold_and_print( w_search, point( 1, 10 ), search_width, c_white,
-                        _( "Press [<color_yellow>%s</color>] to confirm." ), ctxt.get_desc( "CONFIRM" ) );
-        fold_and_print( w_search, point( 1, 11 ), search_width, c_white,
-                        _( "Press [<color_yellow>%s</color>] to quit." ), ctxt.get_desc( "QUIT" ) );
+        fold_and_print( w_search, point( 1, 10 ), search_width, c_white, ctxt.get_hint( "CONFIRM" ) );
+        fold_and_print( w_search, point( 1, 11 ), search_width, c_white, ctxt.get_hint( "QUIT" ) );
         draw_border( w_search );
         wnoutrefresh( w_search );
     } );
@@ -1503,9 +1507,9 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
         input_context ctxt( "OVERMAP_EDITOR" );
         ctxt.register_directions();
-        ctxt.register_action( "CONFIRM" );
+        ctxt.register_action( "CONFIRM", to_translation( "Apply" ) );
         ctxt.register_action( "ROTATE" );
-        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
         ctxt.register_action( "HELP_KEYBINDINGS" );
         ctxt.register_action( "ANY_INPUT" );
 
@@ -1554,12 +1558,10 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
             mvwprintz( w_editor, point( 1, 9 ), c_red, _( "their contents." ) );
             if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
                 ( !terrain && uistate.place_special->is_rotatable() ) ) {
-                mvwprintz( w_editor, point( 1, 11 ), c_white, _( "[%s] Rotate" ),
-                           ctxt.get_desc( "ROTATE" ) );
+                print_colored_text( w_editor, point( 1, 11 ), ctxt.get_hint( "ROTATE" ) );
             }
-            mvwprintz( w_editor, point( 1, 12 ), c_white, _( "[%s] Apply" ),
-                       ctxt.get_desc( "CONFIRM" ) );
-            mvwprintz( w_editor, point( 1, 13 ), c_white, _( "[ESCAPE/Q] Cancel" ) );
+            print_colored_text( w_editor, point( 1, 12 ), ctxt.get_hint( "CONFIRM" ) );
+            print_colored_text( w_editor, point( 1, 13 ), ctxt.get_hint( "QUIT" ) );
             wnoutrefresh( w_editor );
         } );
 

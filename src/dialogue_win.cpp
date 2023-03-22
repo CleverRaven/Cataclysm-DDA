@@ -19,7 +19,7 @@ multiline_list_entry talk_data::get_entry() const
 {
     multiline_list_entry entry;
     entry.entry_text = colorize( text, color );
-    entry.prefix = formatted_hotkey( hotkey_desc, color );
+    entry.prefix = colorize( hotkey_desc, c_yellow ).append( colorize( ": ", color ) );
     return entry;
 }
 
@@ -58,25 +58,13 @@ void dialogue_window::draw( const std::string &npc_name )
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
     if( !is_computer && !is_not_conversation ) {
         const int actions_xoffset = xmid + 2;
-        nc_color cur_color = c_magenta;
-        std::string formatted_text = formatted_hotkey( ctxt.get_desc( "LOOK_AT", 1 ),
-                                     cur_color ).append( _( "Look at" ) );
-        print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
-                            formatted_text );
+        print_colored_text( d_win, point( actions_xoffset, ycurrent ), ctxt.get_hint( "LOOK_AT" ) );
         ++ycurrent;
-        formatted_text = formatted_hotkey( ctxt.get_desc( "SIZE_UP_STATS", 1 ),
-                                           cur_color ).append( _( "Size up stats" ) );
-        print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
-                            formatted_text );
+        print_colored_text( d_win, point( actions_xoffset, ycurrent ), ctxt.get_hint( "SIZE_UP_STATS" ) );
         ++ycurrent;
-        formatted_text = formatted_hotkey( ctxt.get_desc( "YELL", 1 ), cur_color ).append( _( "Yell" ) );
-        print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
-                            formatted_text );
+        print_colored_text( d_win, point( actions_xoffset, ycurrent ), ctxt.get_hint( "YELL" ) );
         ++ycurrent;
-        formatted_text = formatted_hotkey( ctxt.get_desc( "CHECK_OPINION", 1 ),
-                                           cur_color ).append( _( "Check opinion" ) );
-        print_colored_text( d_win, point( actions_xoffset, ycurrent ), cur_color, c_magenta,
-                            formatted_text );
+        print_colored_text( d_win, point( actions_xoffset, ycurrent ), ctxt.get_hint( "CHECK_OPINION" ) );
     }
     wnoutrefresh( d_win );
 

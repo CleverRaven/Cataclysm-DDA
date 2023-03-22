@@ -42,11 +42,6 @@ static void draw_exam_window( const catacurses::window &win, const int border_y 
     mvwputch( win, point( width - 1, border_y ), BORDER_COLOR, LINE_XOXX );
 }
 
-static const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
-{
-    return string_format( comment, string_format( "[<color_yellow>%s</color>]", keys ) );
-};
-
 // needs extensive improvement
 
 static trait_id GetTrait( const std::vector<trait_id> &active,
@@ -66,32 +61,32 @@ static void show_mutations_titlebar( const catacurses::window &window,
                                      const mutation_menu_mode menu_mode, const input_context &ctxt )
 {
     werase( window );
-    std::string desc;
+    std::vector<std::string> hints;
     if( menu_mode == mutation_menu_mode::reassigning ) {
-        desc += std::string( _( "Reassigning." ) ) + "  " +
-                _( "Select a mutation to reassign or press [<color_yellow>SPACE</color>] to cancel. " );
+        hints.push_back( string_format(
+                             _( "Reassigning. Select a mutation to reassign or press %s to cancel." ),
+                             ctxt.get_hint_key_only( "CONFIRM" ) ) );
     }
     if( menu_mode == mutation_menu_mode::activating ) {
-        desc += colorize( _( "Activating" ),
-                          c_green ) + "  " + shortcut_desc( _( "%s Examine, " ),
-                                  ctxt.get_desc( "TOGGLE_EXAMINE" ) );
+        hints.push_back( colorize( _( "Activating" ), c_green ) );
+        hints.push_back( ctxt.get_hint( "TOGGLE_EXAMINE" ) );
     }
     if( menu_mode == mutation_menu_mode::examining ) {
-        desc += colorize( _( "Examining" ),
-                          c_light_blue ) + "  " + shortcut_desc( _( "%s Activate, " ),
-                                  ctxt.get_desc( "TOGGLE_EXAMINE" ) );
+        hints.push_back( colorize( _( "Examining" ), c_light_blue ) );
+        hints.push_back( ctxt.get_hint( "TOGGLE_EXAMINE", _( "Activate" ) ) );
     }
     if( menu_mode == mutation_menu_mode::hiding ) {
-        desc += colorize( _( "Hidding" ), c_cyan ) + "  " + shortcut_desc( _( "%s Activate, " ),
-                ctxt.get_desc( "TOGGLE_EXAMINE" ) );
+        hints.push_back( colorize( _( "Hiding" ), c_cyan ) );
+        hints.push_back( ctxt.get_hint( "TOGGLE_EXAMINE", _( "Activate" ) ) );
     }
     if( menu_mode != mutation_menu_mode::reassigning ) {
-        desc += shortcut_desc( _( "%s Reassign, " ), ctxt.get_desc( "REASSIGN" ) );
+        hints.push_back( ctxt.get_hint( "REASSIGN" ) );
     }
-    desc += shortcut_desc( _( "%s Toggle sprite visibility, " ), ctxt.get_desc( "TOGGLE_SPRITE" ) );
-    desc += shortcut_desc( _( "%s Change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+    hints.push_back( ctxt.get_hint( "TOGGLE_SPRITE" ) );
+    hints.push_back( ctxt.get_hint( "HELP_KEYBINDINGS" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc );
+    fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_light_gray,
+                    enumerate_as_string( hints, enumeration_conjunction::space ) );
     wnoutrefresh( window );
 }
 

@@ -650,16 +650,16 @@ construction_id construction_menu( const bool blueprint )
             if( current_construct_breakpoint > 0 ) {
                 // Print previous stage indicator if breakpoint is past the beginning
                 trim_and_print( w_con, point( pos_x, 2 ), available_window_width, c_white,
-                                _( "Press [<color_yellow>%s</color>] to show previous stage(s)." ),
-                                ctxt.get_desc( "SCROLL_STAGE_UP" ) );
+                                _( "Press %s to show previous stage(s)." ),
+                                ctxt.get_hint_key_only( "SCROLL_STAGE_UP" ) );
             }
             if( static_cast<size_t>( construct_buffer_breakpoints[current_construct_breakpoint] ) +
                 available_buffer_height < full_construct_buffer.size() ) {
                 // Print next stage indicator if more breakpoints are remaining after screen height
                 trim_and_print( w_con, point( pos_x, w_height - 2 - static_cast<int>( notes.size() ) ),
                                 available_window_width, c_white,
-                                _( "Press [<color_yellow>%s</color>] to show next stage(s)." ),
-                                ctxt.get_desc( "SCROLL_STAGE_DOWN" ) );
+                                _( "Press %s to show next stage(s)." ),
+                                ctxt.get_hint_key_only( "SCROLL_STAGE_DOWN" ) );
             }
             // Leave room for above/below indicators
             int ypos = 3;
@@ -724,26 +724,25 @@ construction_id construction_menu( const bool blueprint )
 
             notes.clear();
             if( tabindex == tabcount - 1 && !filter.empty() ) {
-                notes.push_back( string_format( _( "Press [<color_red>%s</color>] to clear filter." ),
-                                                ctxt.get_desc( "RESET_FILTER" ) ) );
+                notes.push_back( string_format( _( "Press %s to clear filter." ),
+                                                ctxt.get_hint_key_only( "RESET_FILTER" ) ) );
             }
-            notes.push_back( string_format( _( "Press [<color_yellow>%s or %s</color>] to tab." ),
-                                            ctxt.get_desc( "LEFT" ),
-                                            ctxt.get_desc( "RIGHT" ) ) );
-            notes.push_back( string_format( _( "Press [<color_yellow>%s</color>] to search." ),
-                                            ctxt.get_desc( "FILTER" ) ) );
+            notes.push_back( string_format( _( "Press %s to tab." ),
+                                            ctxt.get_hint_pair( "LEFT", "RIGHT" ) ) );
+            notes.push_back( string_format( _( "Press %s to search." ),
+                                            ctxt.get_hint_key_only( "FILTER" ) ) );
             if( !hide_unconstructable ) {
                 notes.push_back( string_format(
-                                     _( "Press [<color_yellow>%s</color>] to hide unavailable constructions." ),
-                                     ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
+                                     _( "Press %s to hide unavailable constructions." ),
+                                     ctxt.get_hint_key_only( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
             } else {
                 notes.push_back( string_format(
-                                     _( "Press [<color_red>%s</color>] to show unavailable constructions." ),
-                                     ctxt.get_desc( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
+                                     _( "Press %s to show unavailable constructions." ),
+                                     ctxt.get_hint_key_only( "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) ) );
             }
             notes.push_back( string_format(
-                                 _( "Press [<color_yellow>%s</color>] to view and edit keybindings." ),
-                                 ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
+                                 _( "Press %s to view and edit keybindings." ),
+                                 ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ) ) );
 
             recalc_buffer();
         } // Finished updating

@@ -316,8 +316,8 @@ static void draw_proficiencies_tab( ui_adaptor &ui, const catacurses::window &wi
     if( focused ) {
         ui.set_cursor( win, point_zero );
     }
-    center_print( win, 0, title_color, string_format( "[<color_yellow>%s</color>] %s",
-                  ctxt.get_desc( "VIEW_PROFICIENCIES" ), _( title_PROFICIENCIES ) ) );
+    center_print( win, 0, title_color, ctxt.get_hint( "VIEW_PROFICIENCIES",
+                  _( title_PROFICIENCIES ) ) );
 
     const int height = getmaxy( win ) - 1;
     const bool do_draw_scrollbar = height < static_cast<int>( profs.size() );
@@ -384,9 +384,7 @@ static void draw_stats_tab( ui_adaptor &ui, const catacurses::window &w_stats, c
     if( is_current_tab ) {
         ui.set_cursor( w_stats, point_zero );
     }
-    center_print( w_stats, 0, title_col,
-                  string_format( "[<color_yellow>%s</color>] %s",
-                                 ctxt.get_desc( "VIEW_BODYSTAT" ), _( title_STATS ) ) );
+    center_print( w_stats, 0, title_col, ctxt.get_hint( "VIEW_BODYSTAT", _( title_STATS ) ) );
 
     const auto highlight_line = [is_current_tab, line]( const unsigned line_to_draw ) {
         return is_current_tab && line == line_to_draw;
@@ -1063,21 +1061,15 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
     }
 
 
+    std::vector<std::string>hints;
     if( customize_character ) {
-        right_print( w_tip, 0, 16, c_light_gray, string_format(
-                         _( "[<color_yellow>%s</color>] Customize " ),
-                         ctxt.get_desc( "SWITCH_GENDER" ) ) );
+        hints.push_back( ctxt.get_hint( "SWITCH_GENDER" ) );
     }
+    hints.push_back( ctxt.get_hint( "morale" ) );
+    hints.push_back( ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ) );
+    hints.push_back( string_format( "%s", LINE_XOXO_S ) );
 
-    right_print( w_tip, 0, 6, c_light_gray, string_format(
-                     _( "[<color_yellow>%s</color>] Morale" ),
-                     ctxt.get_desc( "morale" ) ) );
-
-    right_print( w_tip, 0, 1, c_light_gray, string_format(
-                     _( "[<color_yellow>%s</color>]" ),
-                     ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
-
-    right_print( w_tip, 0, 0, c_light_gray, string_format( "%s", LINE_XOXO_S ) );
+    right_print( w_tip, 0, 0, enumerate_as_string( hints, enumeration_conjunction::space ) );
 
     wnoutrefresh( w_tip );
 }

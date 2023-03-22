@@ -2091,9 +2091,8 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
     ui.on_redraw( [&]( const ui_adaptor & ) {
         if( !confirm_message.empty() ) {
             draw_border( wnd_message );
-            mvwputch( wnd_message, point( 3, 1 ), c_white, confirm_message
-                      + " " + ctxt.describe_key_and_name( "CONFIRM" )
-                      + " " + ctxt.describe_key_and_name( "QUIT" ) );
+            mvwputch( wnd_message, point( 3, 1 ), c_white, string_format( "%s %s %s", confirm_message,
+                      ctxt.get_hint( "CONFIRM" ), ctxt.get_hint( "QUIT" ) ) );
             wnoutrefresh( wnd_message );
         }
 

@@ -737,14 +737,11 @@ void outfit::sort_armor( Character &guy )
         std::string temp = bp != bodypart_id( "bp_null" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", temp );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
-                         _( "[<color_yellow>%s</color>] Hide sprite.  "
-                            "[<color_yellow>%s</color>] Change side.  "
-                            "Press [<color_yellow>%s</color>] for help.  "
-                            "Press [<color_yellow>%s</color>] to change keybindings." ),
-                         ctxt.get_desc( "TOGGLE_CLOTH" ),
-                         ctxt.get_desc( "CHANGE_SIDE" ),
-                         ctxt.get_desc( "USAGE_HELP" ),
-                         ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
+                         "%s %s %s %s",
+                         ctxt.get_hint( "TOGGLE_CLOTH" ),
+                         ctxt.get_hint( "CHANGE_SIDE" ),
+                         ctxt.get_hint( "USAGE_HELP" ),
+                         ctxt.get_hint( "HELP_KEYBINDINGS" ) ) );
 
         leftListSize = tmp_worn.size();
         if( leftListLines > leftListSize ) {
@@ -1175,49 +1172,32 @@ void outfit::sort_armor( Character &guy )
             }
         } else if( action == "USAGE_HELP" ) {
             const std::vector<std::string> help_strings = {
-                string_format( _( "[<color_yellow>%s</color>]/[<color_yellow>%s</color>] to scroll the left pane (list of items).\n" ),
-                               ctxt.get_desc( "UP" ), ctxt.get_desc( "DOWN" ) ),
-                string_format( _( "[<color_yellow>%s</color>]/[<color_yellow>%s</color>] to scroll the middle pane (item information).\n" ),
-                               ctxt.get_desc( "SCROLL_ITEM_INFO_UP" ), ctxt.get_desc( "SCROLL_ITEM_INFO_DOWN" ) ),
-                string_format( _( "[<color_yellow>%s</color>]/[<color_yellow>%s</color>] to scroll the right pane (items grouped by body part).\n" ),
-                               ctxt.get_desc( "PREV_TAB" ), ctxt.get_desc( "NEXT_TAB" ) ),
-                string_format( _( "[<color_yellow>%s</color>]/[<color_yellow>%s</color>] to limit the left pane to a particular body part.\n" ),
-                               ctxt.get_desc( "LEFT" ), ctxt.get_desc( "RIGHT" ) ),
-                string_format( _( "[<color_yellow>%s</color>] to select an item for reordering.\n" ),
-                               ctxt.get_desc( "MOVE_ARMOR" ) ),
-                string_format( _( "[<color_yellow>%s</color>] to assign special inventory letters to clothing.\n" ),
-                               ctxt.get_desc( "ASSIGN_INVLETS" ) ),
-                string_format( _( "[<color_yellow>%s</color>] to change the side on which item is worn.\n" ),
-                               ctxt.get_desc( "CHANGE_SIDE" ) ),
-                string_format( _( "[<color_yellow>%s</color>] to toggle item visibility on character sprite.\n" ),
-                               ctxt.get_desc( "TOGGLE_CLOTH" ) ),
-                string_format( _( "[<color_yellow>%s</color>] to sort worn items into natural layer order.\n" ),
-                               ctxt.get_desc( "SORT_ARMOR" ) ),
-                string_format( _( "[<color_yellow>%s</color>] to equip a new item.\n" ),
-                               ctxt.get_desc( "EQUIP_ARMOR" ) ),
-                string_format( _( "[<color_yellow>%s</color>] to equip a new item at the currently selected position.\n" ),
-                               ctxt.get_desc( "EQUIP_ARMOR_HERE" ) ),
-                string_format( _( "[<color_yellow>%s</color>] to remove selected item.\n" ),
-                               ctxt.get_desc( "REMOVE_ARMOR" ) ),
-                "\n",
-                _( "Encumbrance explanation:\n" ),
+                ctxt.get_hint_pair( "UP", "DOWN", _( "to scroll the left pane (list of items)." ) ),
+                ctxt.get_hint_pair( "SCROLL_ITEM_INFO_UP", "SCROLL_ITEM_INFO_DOWN", _( "to scroll the middle pane (item information)." ) ),
+                ctxt.get_hint_pair( "PREV_TAB", "NEXT_TAB", _( "to scroll the right pane (items grouped by body part)." ) ),
+                ctxt.get_hint_pair( "LEFT", "RIGHT", _( "to limit the left pane to a particular body part." ) ),
+                ctxt.get_hint( "MOVE_ARMOR", _( "to select an item for reordering." ) ),
+                ctxt.get_hint( "ASSIGN_INVLETS", _( "to assign special inventory letters to clothing." ) ),
+                ctxt.get_hint( "CHANGE_SIDE", _( "to change the side on which item is worn." ) ),
+                ctxt.get_hint( "TOGGLE_CLOTH", _( "to toggle item visibility on character sprite." ) ),
+                ctxt.get_hint( "SORT_ARMOR", _( "to sort worn items into natural layer order." ) ),
+                ctxt.get_hint( "EQUIP_ARMOR", _( "to equip a new item." ) ),
+                ctxt.get_hint( "EQUIP_ARMOR_HERE", _( "to equip a new item at the currently selected position." ) ),
+                ctxt.get_hint( "REMOVE_ARMOR", _( "to remove selected item." ) ),
+                _( "\nEncumbrance explanation:" ),
                 _( "<color_light_gray>The first number is the summed encumbrance from all clothing on that bodypart."
-                   "The second number is an additional encumbrance penalty caused by wearing either multiple items "
+                   "  The second number is an additional encumbrance penalty caused by wearing either multiple items "
                    "on one of the bodypart's layers or wearing items the wrong way (e.g. a shirt over a backpack)."
-                   "The sum of these values is the effective encumbrance value your character has for that bodypart."
+                   "  The sum of these values is the effective encumbrance value your character has for that bodypart."
                    "</color>" )
             };
-            std::string assembled_string;
-            for( const std::string &current_line : help_strings ) {
-                assembled_string += current_line;
-            }
-
             const auto new_win = []() {
                 return catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
                                            point( std::max( 0, ( TERMX - FULL_SCREEN_WIDTH ) / 2 ),
                                                   std::max( 0, ( TERMY - FULL_SCREEN_HEIGHT ) / 2 ) ) );
             };
-            scrollable_text( new_win, _( "Sort armor help" ), assembled_string );
+            scrollable_text( new_win, _( "Sort armor help" ), enumerate_as_string( help_strings,
+                             enumeration_conjunction::newline ) );
         } else if( action == "QUIT" ) {
             exit = true;
         }

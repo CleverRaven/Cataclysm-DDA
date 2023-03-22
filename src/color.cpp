@@ -724,7 +724,12 @@ color_tag_parse_result get_color_from_tag( const std::string &s,
 
 std::string get_tag_from_color( const nc_color &color )
 {
-    return "<color_" + string_from_color( color ) + ">";
+    return string_format( "<color_%s>", string_from_color( color ) );
+}
+
+std::string scolorize( const std::string &text, const nc_color &color )
+{
+    return string_format( "<color_%s>%s</color>", string_from_color( color ), text );
 }
 
 std::string colorize( const std::string &text, const nc_color &color )
@@ -787,28 +792,25 @@ void color_manager::clear()
     }
 }
 
-static void draw_header( const catacurses::window &w )
+static void draw_header( const catacurses::window &w, const input_context &ctxt )
 {
-    int tmpx = 0;
-    tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green,
-                            _( "<R>emove custom color" ) ) + 2;
-    tmpx += shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green,
-                            _( "<Arrow Keys> To navigate" ) ) + 2;
-    shortcut_print( w, point( tmpx, 0 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
-    tmpx = 0;
-    tmpx += shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green,
-                            _( "Load a <C>olor theme" ) ) + 2;
-    shortcut_print( w, point( tmpx, 1 ), c_white, c_light_green, _( "Load <T>emplate" ) );
+    std::vector<std::string> hints;
+    hints.push_back( ctxt.get_hint( "REMOVE_CUSTOM" ) );
+    hints.push_back( ctxt.get_hint_quad( "LEFT", "RIGHT", "UP", "DOWN", _( "To navigate" ) ) );
+    hints.push_back( ctxt.get_hint( "CONFIRM", _( "Edit" ) ) );
+    hints.push_back( string_format( "\n%s", ctxt.get_hint( "LOAD_BASE_COLORS" ) ) );
+    hints.push_back( ctxt.get_hint( "LOAD_TEMPLATE" ) );
+    hints.push_back( "\nSome color changes may require a restart." );
+    const int i_hints = fold_and_print( w, point( 0, 0 ), getmaxx( w ) - 1,
+                                        input_context::get_hint_color(),
+                                        enumerate_as_string( hints, enumeration_conjunction::space ) );
 
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 0, 2 ), c_white, _( "Some color changes may require a restart." ) );
+    mvwhline( w, point( 0, i_hints ), LINE_OXOX, getmaxx( w ) ); // Draw line under header
+    mvwputch( w, point( 48, i_hints ), BORDER_COLOR, LINE_OXXX ); //^|^
 
-    mvwhline( w, point( 0, 3 ), LINE_OXOX, getmaxx( w ) ); // Draw line under header
-    mvwputch( w, point( 48, 3 ), BORDER_COLOR, LINE_OXXX ); //^|^
-
-    mvwprintz( w, point( 3, 4 ), c_white, _( "Colorname" ) );
-    mvwprintz( w, point( 21, 4 ), c_white, _( "Normal" ) );
-    mvwprintz( w, point( 52, 4 ), c_white, _( "Invert" ) );
+    mvwprintz( w, point( 3, i_hints ), input_context::get_hint_color(), _( "Colorname" ) );
+    mvwprintz( w, point( 21, i_hints ), input_context::get_hint_color(), _( "Normal" ) );
+    mvwprintz( w, point( 52, i_hints ), input_context::get_hint_color(), _( "Invert" ) );
 
     wnoutrefresh( w );
 }
@@ -889,7 +891,7 @@ void color_manager::show_gui()
         }
         wnoutrefresh( w_colors_border );
 
-        draw_header( w_colors_header );
+        draw_header( w_colors_header, ctxt );
 
         // Clear all lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -922,7 +924,8 @@ void color_manager::show_gui()
                     mvwprintz( w_colors, point( vLines[iCurrentCol - 1] + 2, i - iStartPos ), c_yellow, ">" );
                 }
 
-                mvwprintz( w_colors, point( 3, i - iStartPos ), c_white, iter->first ); //color name
+                mvwprintz( w_colors, point( 3, i - iStartPos ), input_context::get_hint_color(),
+                           iter->first ); //color name
                 mvwprintz( w_colors, point( 21, i - iStartPos ), entry.color, _( "default" ) ); //default color
 
                 if( !entry.name_custom.empty() ) {

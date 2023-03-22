@@ -233,17 +233,22 @@ class wish_mutate_callback: public uilist_callback
             mvwprintz( menu->window, point( startx, menu->w_height - 4 ), c_green, msg );
             msg.clear();
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            mvwprintw( menu->window, point( startx, menu->w_height - 3 ),
-                       _( "[%s] find, [%s] quit, [t] toggle base trait" ),
-                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
+            print_colored_text( menu->window, point( startx, menu->w_height - 3 ),
+                                string_format( _( "%s %s %s" ),
+                                               ctxt.get_hint( "UILIST.FILTER" ), ctxt.get_hint( "QUIT" ),
+                                               ctxt.get_hint_basic( "t", _( "toggle base trait" ) ) ) );
 
+            keybinding_hint_state traits_hint_state;
+            std::string traits_hint;
             if( only_active ) {
-                mvwprintz( menu->window, point( startx, menu->w_height - 2 ), c_green,
-                           _( "[a] show active traits (active)" ) );
+                traits_hint_state = keybinding_hint_state::TOGGLED_ON;
+                traits_hint = _( "show active traits (active)" );
             } else {
-                mvwprintz( menu->window, point( startx, menu->w_height - 2 ), c_white,
-                           _( "[a] show active traits" ) );
+                traits_hint_state = keybinding_hint_state::ENABLED;
+                traits_hint = _( "show active traits" );
             }
+            print_colored_text( menu->window, point( startx, menu->w_height - 2 ), ctxt.get_hint_basic( "a",
+                                traits_hint, traits_hint_state ) );
 
             wnoutrefresh( menu->window );
         }
@@ -586,12 +591,17 @@ class wish_monster_callback: public uilist_callback
                 mvwprintz( w_info, point( ( getmaxx( w_info ) - utf8_width( header ) ) / 2, 0 ), c_cyan, header );
             }
 
-            mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
+            print_colored_text( w_info, point( 0, getmaxy( w_info ) - 3 ), msg );
             msg.clear();
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
-                       _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
+            print_colored_text( w_info, point( 0, getmaxy( w_info ) - 2 ),
+                                string_format( "%s %s %s %s %s %s",
+                                               ctxt.get_hint( "UILIST.FILTER" ),
+                                               ctxt.get_hint_basic( "f", _( "Friendly" ) ),
+                                               ctxt.get_hint_basic( "h", _( "Hallucination" ) ),
+                                               ctxt.get_hint_basic( "i", _( "Increase group" ) ),
+                                               ctxt.get_hint_basic( "d", _( "Decrease group" ) ),
+                                               ctxt.get_hint( "QUIT" ) ) );
 
             wnoutrefresh( w_info );
         }
@@ -646,10 +656,10 @@ void debug_menu::wishmonster( const std::optional<tripoint> &p )
                     ++num_spawned;
                 }
                 input_context ctxt( wmenu.input_category, keyboard_mode::keycode );
-                cb.msg = string_format( _( "Spawned %d monsters, choose another or [%s] to quit." ),
-                                        num_spawned, ctxt.get_desc( "QUIT" ) );
+                cb.msg = string_format( _( "Spawned %d monsters, choose another or %s to quit." ),
+                                        num_spawned, ctxt.get_hint_key_only( "QUIT" ) );
                 if( num_spawned == 0 ) {
-                    cb.msg += _( "\nTarget location is not suitable for placing this kind of monster.  Choose a different target or [i]ncrease the groups size." );
+                    cb.msg += _( "\nTarget location is not suitable for placing this kind of monster.  Choose a different target or increase the groups size." );
                 }
                 uistate.wishmonster_selected = wmenu.selected;
             }
@@ -843,15 +853,17 @@ class wish_item_callback: public uilist_callback
                                 tmp.info( true ) );
             }
 
-            mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
+            print_colored_text( menu->window, point( startx, menu->w_height - 3 ), msg );
             msg.erase();
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
-                       _( "[%s] find, [%s] container, [%s] flag, [%s] everything, [%s] snippet, [%s] quit" ),
-                       ctxt.get_desc( "FILTER" ), ctxt.get_desc( "CONTAINER" ),
-                       ctxt.get_desc( "FLAG" ), ctxt.get_desc( "EVERYTHING" ),
-                       ctxt.get_desc( "SNIPPET" ),
-                       ctxt.get_desc( "QUIT" ) );
+            print_colored_text( menu->window, point( startx, menu->w_height - 2 ),
+                                string_format( "%s %s %s %s %s %s",
+                                               ctxt.get_hint( "UILIST.FILTER" ),
+                                               ctxt.get_hint( "CONTAINER" ),
+                                               ctxt.get_hint( "FLAG" ),
+                                               ctxt.get_hint( "EVERYTHING" ),
+                                               ctxt.get_hint( "SNIPPET" ),
+                                               ctxt.get_hint( "QUIT" ) ) );
             wnoutrefresh( menu->window );
         }
 };
@@ -989,8 +1001,8 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
                 }
                 if( amount > 0 ) {
                     input_context ctxt( wmenu.input_category, keyboard_mode::keycode );
-                    cb.msg = string_format( _( "Wish granted.  Wish for more or hit [%s] to quit." ),
-                                            ctxt.get_desc( "QUIT" ) );
+                    cb.msg = string_format( _( "Wish granted.  Wish for more or hit %s to quit" ),
+                                            ctxt.get_hint( "QUIT" ) );
                 }
             }
             uistate.wishitem_selected = wmenu.selected;

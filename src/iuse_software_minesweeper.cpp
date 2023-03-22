@@ -182,22 +182,22 @@ int minesweeper_game::start_game()
         draw_border( w_minesweeper_border );
 
         std::vector<std::string> shortcuts;
-        shortcuts.emplace_back( _( "<n>ew level" ) );
-        shortcuts.emplace_back( _( "<f>lag" ) );
-        shortcuts.emplace_back( _( "<q>uit" ) );
+        shortcuts.emplace_back( ctxt.get_hint( "NEW" ) );
+        shortcuts.emplace_back( ctxt.get_hint( "FLAG" ) );
+        shortcuts.emplace_back( ctxt.get_hint( "QUIT" ) );
 
         int iWidth = 0;
         for( auto &shortcut : shortcuts ) {
             if( iWidth > 0 ) {
                 iWidth += 1;
             }
-            iWidth += utf8_width( shortcut );
+            iWidth += utf8_width( shortcut, true );
         }
 
         int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
         for( auto &shortcut : shortcuts ) {
-            shortcut_print( w_minesweeper_border, point( iPos, 0 ), c_white, c_light_green, shortcut );
-            iPos += utf8_width( shortcut ) + 1;
+            print_colored_text( w_minesweeper_border, point( iPos, 0 ),  shortcut );
+            iPos += utf8_width( shortcut, true ) + 1;
         }
 
         mvwputch( w_minesweeper_border, point( 2, 0 ), hilite( c_white ), _( "Minesweeper" ) );

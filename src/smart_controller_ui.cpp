@@ -36,6 +36,7 @@ smart_controller_ui::smart_controller_ui( smart_controller_settings initial_sett
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 }
 
 void smart_controller_ui::refresh()
@@ -112,19 +113,13 @@ void smart_controller_ui::refresh()
 
     // key descriptions
     std::string keys_text = string_format(
-                                _( "Use [<color_yellow>%s</color> and <color_yellow>%s</color>] to select option.\n"
-                                   "Use [<color_yellow>%s</color>] to change value.\n"
-                                   "Use [<color_yellow>%s</color> or <color_yellow>%s</color>] to switch between sliders.\n"
-                                   "Use [<color_yellow>%s</color> and <color_yellow>%s</color>] to move sliders."
-                                   "Use [<color_yellow>%s</color>] to apply changes and quit." ),
-                                ctxt.get_desc( "UP" ),
-                                ctxt.get_desc( "DOWN" ),
-                                ctxt.get_desc( "CONFIRM" ),
-                                ctxt.get_desc( "NEXT_TAB" ),
-                                ctxt.get_desc( "CONFIRM" ),
-                                ctxt.get_desc( "LEFT" ),
-                                ctxt.get_desc( "RIGHT" ),
-                                ctxt.get_desc( "QUIT" ) );
+                                _( "%s\n%s\n%s\n%s\n%s\n%s" ),
+                                ctxt.get_hint_pair( "UP", "DOWN", _( "Select option" ) ),
+                                ctxt.get_hint( "CONFIRM", _( "Change value" ) ),
+                                ctxt.get_hint_pair( "NEXT_TAB", "CONFIRM", _( "Switch between sliders" ) ),
+                                ctxt.get_hint_pair( "LEFT", "RIGHT", _( "Move sliders" ) ),
+                                ctxt.get_hint( "QUIT", _( "Apply changes and quit" ) ),
+                                ctxt.get_hint( "HELP_KEYBINDINGS" ) );
 
     int keys_text_w =  WIDTH - 2;
     int keys_text_lines_n = foldstring( keys_text, keys_text_w ).size();

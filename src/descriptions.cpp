@@ -83,11 +83,11 @@ void game::extended_description( const tripoint &p )
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_head );
-        mvwprintz( w_head, point_zero, c_white,
-                   _( "[%s] describe creatures, [%s] describe furniture, "
-                      "[%s] describe terrain, [%s] describe vehicle/appliance, [%s] close." ),
-                   ctxt.get_desc( "CREATURE" ), ctxt.get_desc( "FURNITURE" ),
-                   ctxt.get_desc( "TERRAIN" ), ctxt.get_desc( "VEHICLE" ), ctxt.get_desc( "QUIT" ) );
+        print_colored_text( w_head, point_zero,
+                            string_format( _( "%s %s %s %s %s " ),
+                                           ctxt.get_hint( "CREATURE" ), ctxt.get_hint( "FURNITURE" ),
+                                           ctxt.get_hint( "TERRAIN" ), ctxt.get_hint( "VEHICLE" ),
+                                           ctxt.get_hint( "QUIT", _( "Close" ) ) ) );
 
         // Set up line drawings
         for( int i = 0; i < TERMX; i++ ) {

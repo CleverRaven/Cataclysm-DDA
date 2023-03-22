@@ -228,6 +228,7 @@
     "id": "ENABLE_MAPEXTRA_NOTE",
     "category": "AUTO_NOTES",
     "name": "Enable auto notes for map extras",
+    "short_name": "Enable",
     "bindings": [
       { "input_method": "keyboard_any", "key": "e" },
       { "input_method": "keyboard_char", "key": "E" },
@@ -239,6 +240,7 @@
     "id": "SWITCH_AUTO_NOTE_OPTION",
     "category": "AUTO_NOTES",
     "name": "Toggle auto notes option",
+    "short_name": "Auto notes",
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_char", "key": "S" },
@@ -250,6 +252,7 @@
     "id": "DISABLE_MAPEXTRA_NOTE",
     "category": "AUTO_NOTES",
     "name": "Disable auto notes for map extras",
+    "short_name": "Disable",
     "bindings": [
       { "input_method": "keyboard_any", "key": "d" },
       { "input_method": "keyboard_char", "key": "D" },
@@ -296,6 +299,7 @@
     "id": "ADD_RULE",
     "category": "AUTO_PICKUP",
     "name": "Add rule",
+    "short_name": "Add",
     "bindings": [
       { "input_method": "keyboard_any", "key": "a" },
       { "input_method": "keyboard_char", "key": "A" },
@@ -307,6 +311,7 @@
     "id": "REMOVE_RULE",
     "category": "AUTO_PICKUP",
     "name": "Remove rule",
+    "short_name": "Remove",
     "bindings": [
       { "input_method": "keyboard_any", "key": "r" },
       { "input_method": "keyboard_char", "key": "R" },
@@ -318,6 +323,7 @@
     "id": "COPY_RULE",
     "category": "AUTO_PICKUP",
     "name": "Copy rule",
+    "short_name": "Copy",
     "bindings": [
       { "input_method": "keyboard_any", "key": "c" },
       { "input_method": "keyboard_char", "key": "C" },
@@ -329,6 +335,7 @@
     "id": "SWAP_RULE_GLOBAL_CHAR",
     "category": "AUTO_PICKUP",
     "name": "Move rule global <-> character",
+    "short_name": "Move",
     "bindings": [
       { "input_method": "keyboard_any", "key": "m" },
       { "input_method": "keyboard_char", "key": "M" },
@@ -340,6 +347,7 @@
     "id": "ENABLE_RULE",
     "category": "AUTO_PICKUP",
     "name": "Enable rule",
+    "short_name": "Enable",
     "bindings": [
       { "input_method": "keyboard_any", "key": "e" },
       { "input_method": "keyboard_char", "key": "E" },
@@ -351,6 +359,7 @@
     "id": "DISABLE_RULE",
     "category": "AUTO_PICKUP",
     "name": "Disable rule",
+    "short_name": "Disable",
     "bindings": [
       { "input_method": "keyboard_any", "key": "d" },
       { "input_method": "keyboard_char", "key": "D" },
@@ -391,6 +400,7 @@
     "id": "SWITCH_AUTO_PICKUP_OPTION",
     "category": "AUTO_PICKUP",
     "name": "Enable auto pickup option",
+    "short_name": "Auto pickup",
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_char", "key": "S" },
@@ -423,6 +433,7 @@
     "id": "ADD_RULE",
     "category": "SAFEMODE",
     "name": "Add rule",
+    "short_name": "Add",
     "bindings": [
       { "input_method": "keyboard_any", "key": "a" },
       { "input_method": "keyboard_char", "key": "A" },
@@ -434,6 +445,7 @@
     "id": "REMOVE_RULE",
     "category": "SAFEMODE",
     "name": "Remove rule",
+    "short_name": "Remove",
     "bindings": [
       { "input_method": "keyboard_any", "key": "r" },
       { "input_method": "keyboard_char", "key": "R" },
@@ -445,6 +457,7 @@
     "id": "COPY_RULE",
     "category": "SAFEMODE",
     "name": "Copy rule",
+    "short_name": "Copy",
     "bindings": [
       { "input_method": "keyboard_any", "key": "c" },
       { "input_method": "keyboard_char", "key": "C" },
@@ -456,6 +469,7 @@
     "id": "SWAP_RULE_GLOBAL_CHAR",
     "category": "SAFEMODE",
     "name": "Move rule global <-> character",
+    "short_name": "Move",
     "bindings": [
       { "input_method": "keyboard_any", "key": "m" },
       { "input_method": "keyboard_char", "key": "M" },
@@ -467,6 +481,7 @@
     "id": "ENABLE_RULE",
     "category": "SAFEMODE",
     "name": "Enable rule",
+    "short_name": "Enable",
     "bindings": [
       { "input_method": "keyboard_any", "key": "e" },
       { "input_method": "keyboard_char", "key": "E" },
@@ -478,6 +493,7 @@
     "id": "DISABLE_RULE",
     "category": "SAFEMODE",
     "name": "Disable rule",
+    "short_name": "Disable",
     "bindings": [
       { "input_method": "keyboard_any", "key": "d" },
       { "input_method": "keyboard_char", "key": "D" },
@@ -507,6 +523,7 @@
     "id": "TEST_RULE",
     "category": "SAFEMODE",
     "name": "Test rule",
+    "short_name": "Test",
     "bindings": [
       { "input_method": "keyboard_any", "key": "t" },
       { "input_method": "keyboard_char", "key": "T" },
@@ -518,6 +535,7 @@
     "id": "SWITCH_SAFEMODE_OPTION",
     "category": "SAFEMODE",
     "name": "Enable safemode option",
+    "short_name": "Safe mode",
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_char", "key": "S" },
@@ -543,6 +561,7 @@
     "id": "USAGE_HELP",
     "category": "SORT_ARMOR",
     "name": "Display usage help",
+    "short_name": "Help",
     "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
   },
   {
@@ -561,6 +580,7 @@
     "id": "MOVE_PANEL",
     "category": "PANEL_MGMT",
     "name": "Select panel for moving",
+    "short_name": "Change display order",
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_any", "key": "RETURN" },
@@ -571,7 +591,7 @@
     "type": "keybinding",
     "id": "TOGGLE_PANEL",
     "category": "PANEL_MGMT",
-    "name": "Toggle panel off",
+    "name": "Toggle panels on/off",
     "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
   },
   {
@@ -579,6 +599,7 @@
     "id": "CHANGE_SIDE",
     "category": "SORT_ARMOR",
     "name": "Change side armor is worn on",
+    "short_name": "Change side",
     "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
@@ -586,6 +607,7 @@
     "id": "TOGGLE_CLOTH",
     "category": "SORT_ARMOR",
     "name": "Toggle armor visibility on character sprite",
+    "short_name": "Hide sprite",
     "bindings": [ { "input_method": "keyboard_any", "key": "H" } ]
   },
   {
@@ -641,6 +663,7 @@
     "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
     "name": "Display keybindings menu",
+    "short_name": "Keybindings",
     "bindings": [ { "input_method": "keyboard_char", "key": "?" }, { "input_method": "keyboard_code", "key": "/", "mod": [ "shift" ] } ]
   },
   {
@@ -927,7 +950,7 @@
     "type": "keybinding",
     "id": "PICK_RANDOM_WORLDNAME",
     "category": "STRING_INPUT",
-    "name": "Pick random world name",
+    "name": "Randomize world name",
     "bindings": [
       { "input_method": "keyboard_char", "key": "*" },
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
@@ -964,7 +987,7 @@
     "type": "keybinding",
     "id": "PICK_MODS",
     "category": "WORLDGEN_CONFIRM_DIALOG",
-    "name": "Pick random world name",
+    "name": "Open mod manager",
     "bindings": [
       { "input_method": "keyboard_any", "key": "m" },
       { "input_method": "keyboard_char", "key": "M" },
@@ -1193,6 +1216,7 @@
     "type": "keybinding",
     "id": "QUIT",
     "name": "Exit screen",
+    "short_name": "Quit",
     "bindings": [
       { "input_method": "keyboard_any", "key": "ESC" },
       { "input_method": "keyboard_any", "key": "q" },
@@ -1436,7 +1460,8 @@
   {
     "type": "keybinding",
     "id": "SWITCH_GENDER",
-    "name": "Customize character",
+    "name": "Customize base appearance and name",
+    "short_name": "Customize",
     "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
   },
   {
@@ -1963,6 +1988,7 @@
     "id": "INVENTORY_FILTER",
     "category": "INVENTORY",
     "name": "Set item filter",
+    "short_name": "Filter",
     "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
   },
   {
@@ -2016,6 +2042,7 @@
     "id": "SHOW_HIDE_CONTENTS",
     "category": "INVENTORY",
     "name": "Show/hide contents",
+    "short_name": "Expand",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
@@ -2023,6 +2050,7 @@
     "id": "SHOW_HIDE_CONTENTS_ALL",
     "category": "INVENTORY",
     "name": "Show/hide all contents",
+    "short_name": "All",
     "bindings": [ { "input_method": "keyboard_char", "key": "E" } ]
   },
   {
@@ -2036,6 +2064,7 @@
     "id": "TOGGLE_EXAMINE",
     "category": "BIONICS",
     "name": "Toggle activate/examine",
+    "short_name": "Toggle",
     "bindings": [ { "input_method": "keyboard_char", "key": "!" }, { "input_method": "keyboard_code", "key": "1", "mod": [ "shift" ] } ]
   },
   {
@@ -2071,6 +2100,7 @@
     "id": "TOGGLE_EXAMINE",
     "category": "MUTATIONS",
     "name": "Toggle activate/examine",
+    "short_name": "Toggle",
     "bindings": [ { "input_method": "keyboard_char", "key": "!" }, { "input_method": "keyboard_code", "key": "1", "mod": [ "shift" ] } ]
   },
   {
@@ -2614,6 +2644,7 @@
   {
     "type": "keybinding",
     "name": "View character's morale",
+    "short_name": "Morale",
     "category": "DEFAULTMODE",
     "id": "morale"
   },
@@ -3043,6 +3074,7 @@
     "id": "SORT",
     "category": "LIST_ITEMS",
     "name": "Change sort order",
+    "short_name": "Sort",
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_char", "key": "S" },
@@ -3089,6 +3121,7 @@
     "id": "REASSIGN",
     "category": "BIONICS",
     "name": "Reassign inventory letter",
+    "short_name": "Reassign",
     "bindings": [ { "input_method": "keyboard_any", "key": "=" } ]
   },
   {
@@ -3120,13 +3153,14 @@
     "id": "REASSIGN",
     "category": "MUTATIONS",
     "name": "Reassign inventory letter",
+    "short_name": "Reassign",
     "bindings": [ { "input_method": "keyboard_any", "key": "=" } ]
   },
   {
     "type": "keybinding",
     "id": "TOGGLE_SPRITE",
     "category": "MUTATIONS",
-    "name": "Toggle sprite",
+    "name": "Toggle sprite visibility",
     "bindings": [ { "input_method": "keyboard_any", "key": "," } ]
   },
   {
@@ -3212,6 +3246,7 @@
     "id": "ADD_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Add zone",
+    "short_name": "Add",
     "bindings": [
       { "input_method": "keyboard_any", "key": "a" },
       { "input_method": "keyboard_char", "key": "A" },
@@ -3223,6 +3258,7 @@
     "id": "ADD_PERSONAL_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Add personal zone",
+    "short_name": "Personal",
     "bindings": [
       { "input_method": "keyboard_any", "key": "p" },
       { "input_method": "keyboard_char", "key": "P" },
@@ -3234,6 +3270,7 @@
     "id": "REMOVE_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Remove zone",
+    "short_name": "Remove",
     "bindings": [
       { "input_method": "keyboard_any", "key": "r" },
       { "input_method": "keyboard_char", "key": "R" },
@@ -3263,6 +3300,7 @@
     "id": "SHOW_ZONE_ON_MAP",
     "category": "ZONES_MANAGER",
     "name": "Show zone on map",
+    "short_name": "Map",
     "bindings": [
       { "input_method": "keyboard_any", "key": "m" },
       { "input_method": "keyboard_char", "key": "M" },
@@ -3274,6 +3312,7 @@
     "id": "ENABLE_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Enable zone",
+    "short_name": "Enable",
     "bindings": [
       { "input_method": "keyboard_any", "key": "e" },
       { "input_method": "keyboard_char", "key": "E" },
@@ -3285,6 +3324,7 @@
     "id": "DISABLE_ZONE",
     "category": "ZONES_MANAGER",
     "name": "Disable zone",
+    "short_name": "Disable",
     "bindings": [
       { "input_method": "keyboard_any", "key": "d" },
       { "input_method": "keyboard_char", "key": "D" },
@@ -3296,6 +3336,7 @@
     "id": "ENABLE_PERSONAL_ZONES",
     "category": "ZONES_MANAGER",
     "name": "Enable personal zones",
+    "short_name": "Enable personal",
     "bindings": [
       { "input_method": "keyboard_any", "key": "z" },
       { "input_method": "keyboard_char", "key": "Z" },
@@ -3307,6 +3348,7 @@
     "id": "DISABLE_PERSONAL_ZONES",
     "category": "ZONES_MANAGER",
     "name": "Disable personal zones",
+    "short_name": "Disable personal",
     "bindings": [
       { "input_method": "keyboard_any", "key": "x" },
       { "input_method": "keyboard_char", "key": "X" },
@@ -3318,6 +3360,7 @@
     "id": "SHOW_ALL_ZONES",
     "category": "ZONES_MANAGER",
     "name": "Show all zones / hide distant zones",
+    "short_name": "Show all / hide distant",
     "bindings": [
       { "input_method": "keyboard_any", "key": "s" },
       { "input_method": "keyboard_char", "key": "S" },
@@ -3329,6 +3372,7 @@
     "id": "CHANGE_FACTION",
     "category": "ZONES_MANAGER",
     "name": "Change shown faction",
+    "short_name": "Shown faction",
     "bindings": [ { "input_method": "keyboard_any", "key": "F" } ]
   },
   {
@@ -3748,7 +3792,7 @@
     "type": "keybinding",
     "id": "LOAD_BASE_COLORS",
     "category": "COLORS",
-    "name": "Load base colors",
+    "name": "Load color theme",
     "bindings": [
       { "input_method": "keyboard_any", "key": "c" },
       { "input_method": "keyboard_char", "key": "C" },
@@ -4200,6 +4244,7 @@
   {
     "type": "keybinding",
     "name": "View character's morale",
+    "short_name": "Morale",
     "category": "PLAYER_INFO",
     "id": "morale",
     "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
@@ -4209,6 +4254,7 @@
     "category": "WISH_ITEM",
     "id": "CONTAINER",
     "name": "Toggle spawning item with container",
+    "short_name": "Container",
     "bindings": [ { "input_method": "keyboard_any", "key": "f" } ]
   },
   {
@@ -4216,6 +4262,7 @@
     "category": "WISH_ITEM",
     "id": "FLAG",
     "name": "Add flags to spawned items",
+    "short_name": "Flag",
     "bindings": [ { "input_method": "keyboard_char", "key": "F" }, { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] } ]
   },
   {
@@ -4223,6 +4270,7 @@
     "category": "WISH_ITEM",
     "id": "EVERYTHING",
     "name": "Toggle spawning everything",
+    "short_name": "Everything",
     "bindings": [ { "input_method": "keyboard_char", "key": "E" }, { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] } ]
   },
   {
@@ -4230,6 +4278,7 @@
     "category": "WISH_ITEM",
     "id": "SNIPPET",
     "name": "Choose snippet",
+    "short_name": "Snippet",
     "bindings": [ { "input_method": "keyboard_any", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
   },
   {
@@ -4422,6 +4471,7 @@
     "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
     "name": "Display keybindings menu",
+    "short_name": "Keybindings",
     "category": "STRING_INPUT",
     "//": "'?' is treated as text input, so a different key is used.",
     "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
@@ -4444,6 +4494,7 @@
     "type": "keybinding",
     "id": "HELP_KEYBINDINGS",
     "name": "Display keybindings menu",
+    "short_name": "Keybindings",
     "category": "STRING_EDITOR",
     "//": "'?' is treated as text input, so a different key is used.",
     "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]

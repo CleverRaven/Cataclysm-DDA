@@ -26,20 +26,22 @@ void snake_game::print_score( const catacurses::window &w_snake, int iScore )
     mvwprintz( w_snake, point( 5, 0 ), c_white, string_format( _( "Score: %d" ), iScore ) );
 }
 
-void snake_game::print_header( const catacurses::window &w_snake, bool show_shortcut )
+void snake_game::print_header( const catacurses::window &w_snake, const input_context &ctxt,
+                               bool show_shortcut )
 {
     draw_border( w_snake, BORDER_COLOR, _( "S N A K E" ), c_white );
     if( show_shortcut ) {
-        std::string shortcut = _( "<q>uit" );
-        shortcut_print( w_snake, point( FULL_SCREEN_WIDTH - utf8_width( shortcut ) - 2, 0 ),
-                        c_white, c_light_green, shortcut );
+        std::string shortcut = ctxt.get_hint( "QUIT" );
+        print_colored_text( w_snake, point( FULL_SCREEN_WIDTH - utf8_width( shortcut, true ) - 2, 0 ),
+                            shortcut );
     }
 }
 
-void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
+void snake_game::snake_over( const catacurses::window &w_snake, int iScore,
+                             const input_context &ctxt )
 {
     werase( w_snake );
-    print_header( w_snake, false );
+    print_header( w_snake, ctxt, false );
 
     // Body of dead snake
     size_t body_length = 3;
@@ -79,8 +81,7 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore )
     }
 
     center_print( w_snake, 17, c_yellow, string_format( _( "TOTAL SCORE: %d" ), iScore ) );
-    // TODO: print actual bound keys
-    center_print( w_snake, 21, c_white, _( "Press 'q' or ESC to exit." ) );
+    center_print( w_snake, 21, c_white, ctxt.get_hint( "QUIT", _( "to quit" ) ) );
     wnoutrefresh( w_snake );
 }
 
@@ -129,7 +130,7 @@ int snake_game::start_game()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w_snake );
-        print_header( w_snake );
+        print_header( w_snake, ctxt );
         for( auto it = vSnakeBody.begin(); it != vSnakeBody.end(); ++it ) {
             const nc_color col = it + 1 == vSnakeBody.end() ? c_white : c_light_gray;
             mvwputch( w_snake, point( it->second, it->first ), col, '#' );
@@ -235,7 +236,7 @@ int snake_game::start_game()
     } while( true );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        snake_over( w_snake, iScore );
+        snake_over( w_snake, iScore, ctxt );
     } );
     do {
         ui_manager::redraw();

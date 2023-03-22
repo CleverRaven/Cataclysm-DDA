@@ -367,7 +367,7 @@ input_context game::get_player_input( std::string &action )
             if( uquit == QUIT_WATCH ) {
                 deathcam_msg_popup = std::make_unique<static_popup>();
                 deathcam_msg_popup
-                ->wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_desc( "QUIT" ) )
+                ->wait_message( c_red, _( "Press %s to accept your fate…" ), ctxt.get_hint_key_only( "QUIT" ) )
                 .on_top( true );
             }
 
@@ -1752,8 +1752,8 @@ static void handle_debug_mode()
     uilist dbmenu;
     dbmenu.allow_anykey = true;
     dbmenu.title = _( "Debug Mode Filters" );
-    dbmenu.text = string_format( _( "Press [%1$s] to quickly toggle debug mode." ),
-                                 ctxt.get_desc( "debug_mode" ) );
+    dbmenu.text = string_format( _( "Press %s to quickly toggle debug mode." ),
+                                 ctxt.get_hint_key_only( "debug_mode" ) );
 
     dbmenu.entries.reserve( 1 + debugmode::DF_LAST );
 
@@ -2957,12 +2957,10 @@ bool game::handle_action()
             const int ch = evt.get_first_input();
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
                 std::string msg = string_format( _( "Unknown command: \"%s\" (%ld)" ), evt.long_description(), ch );
-                if( const std::optional<std::string> hint =
-                        press_x_if_bound( ACTION_KEYBINDINGS ) ) {
-                    msg = string_format( "%s\n%s", msg,
-                                         string_format( _( "%s at any time to see and edit keybindings relevant to "
-                                                           "the current context." ),
-                                                        *hint ) );
+                if( !ctxt.keys_bound_to( action_ident( ACTION_KEYBINDINGS ), /*maximum_modifier_count=*/ -1,
+                                         /*restrict_to_printable=*/false ).empty() ) {
+                    msg = string_format( "%s\n%s", msg, ctxt.get_hint( action_ident( ACTION_KEYBINDINGS ),
+                                         _( "at any time to see and edit keybindings relevant to the current context." ) ) );
                 }
                 add_msg( m_info, msg );
             }

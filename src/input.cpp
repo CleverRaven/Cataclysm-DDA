@@ -10,6 +10,7 @@
 #include <memory>
 #include <new>
 #include <optional>
+#include <regex>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -298,6 +299,10 @@ void input_manager::load( const cata_path &file_name, bool is_user_preferences )
         t_actions &actions = action_contexts[context];
         if( action.has_member( "name" ) ) {
             action.read( "name", actions[action_id].name );
+        }
+
+        if( action.has_member( "short_name" ) ) {
+            action.read( "short_name", actions[action_id].short_name );
         }
 
         t_input_event_list events;
@@ -1112,70 +1117,276 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     return rval;
 }
 
+std::string input_context::colorize_separate_format( const keybinding_hint_state state,
+        const std::string &key, const std::string &text,
+        const bool show_separators, const bool key_not_found )
+{
+    const translation fmt = to_translation(
+                                // \u00A0 is the non-breaking space
+                                //~ %1$s: key description,
+                                //~ %2$s: action description.
+                                //~ %3$s: separated left separator
+                                //~ %4$s: separated right separator
+                                "keybinding", "%3$s%1$s%4$s%2$s" );
+    std::string left_separator;
+    std::string right_separator;
+    if( show_separators ) {
+        left_separator = get_option<std::string>( "KEYBINDINGS_SEPARATE_SEPARATOR_LEFT" );
+        right_separator = get_option<std::string>( "KEYBINDINGS_SEPARATE_SEPARATOR_RIGHT" );
+    }
+
+    std::string colored_key = key;
+    if( state != keybinding_hint_state::NONE_AT_ALL ) {
+        colored_key = colorize( key, key_not_found ? c_red : input_context::get_hint_color_for_key(
+                                    state ) );
+    }
+    if( state != keybinding_hint_state::NONE && state != keybinding_hint_state::NONE_AT_ALL ) {
+        nc_color color_separator = input_context::get_hint_color_for_separator( state );
+        nc_color color = input_context::get_hint_color( state );
+        return string_format( fmt, colored_key, colorize( text, color ), colorize( left_separator,
+                              color_separator ), colorize( right_separator, color_separator ) );
+    }
+    return string_format( fmt, colored_key, text, left_separator, right_separator );
+}
+
+std::string input_context::colorize_inline_format( const keybinding_hint_state state,
+        const std::string &key, const std::string &left_text,
+        const std::string &right_text, const bool show_separators )
+{
+    const translation fmt = to_translation(
+                                //~ %1$s: action description text before key,
+                                //~ %2$s: key description,
+                                //~ %3$s: action description text after key.
+                                //~ %4$s: inline left separator
+                                //~ %5$s: inline right separator
+                                "keybinding", "%1$s%4$s%2$s%5$s%3$s" );
+    std::string left_separator;
+    std::string right_separator;
+    if( show_separators ) {
+        left_separator = get_option<std::string>( "KEYBINDINGS_INLINE_SEPARATOR_LEFT" );
+        right_separator = get_option<std::string>( "KEYBINDINGS_INLINE_SEPARATOR_RIGHT" );
+    }
+    std::string colored_key = key;
+    if( state != keybinding_hint_state::NONE_AT_ALL ) {
+        colored_key = colorize( key, input_context::get_hint_color_for_key( state ) );
+    }
+    if( state != keybinding_hint_state::NONE && state != keybinding_hint_state::NONE_AT_ALL ) {
+        nc_color color_separator = input_context::get_hint_color_for_separator( state );
+        nc_color color = input_context::get_hint_color( state );
+        return string_format( fmt, colorize( left_text, color ), colored_key, colorize( right_text, color ),
+                              colorize( left_separator, color_separator ), colorize( right_separator, color_separator ) );
+    }
+    return string_format( fmt, left_text, colored_key, right_text, left_separator, right_separator );
+}
+
+std::string input_context::get_hint_basic( const std::string &key,
+        const std::string &text,
+        const keybinding_hint_state state )
+{
+    // If the given k is the same as the text itself, we'd want to surround
+    //   the key with the proper separators.
+    const int pos = ci_find_substr( text, key );
+    if( pos >= 0 ) {
+        if( key.size() == text.size() ) {
+            return input_context::colorize_separate_format( state, key, text, true );
+        }
+        return input_context::colorize_inline_format( state, key, text.substr( 0, pos ),
+                text.substr( pos + key.size() ), true );
+    }
+    // Fallback to this if no string in keys is present in the text.
+    return input_context::colorize_separate_format( state, "", text, false );
+}
 std::string input_context::get_desc(
     const std::string &action_descriptor,
     const std::string &text,
-    const input_context::input_event_filter &evt_filter,
-    const translation &inline_fmt,
-    const translation &separate_fmt ) const
+    const keybinding_hint_state state,
+    const bool show_separators,
+    const input_context::input_event_filter &evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
-        return string_format( separate_fmt, pgettext( "keybinding", "any" ), text );
+        return input_context::colorize_separate_format( state, pgettext( "keybinding",
+                "any" ), text, show_separators );
     }
 
-    const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
 
+    const int n_text = utf8_width( text, true );
+    const bool should_inline_if_possible = get_option<bool>( "KEYBINDINGS_INLINE" );
+    const int n_max_inline = get_option<int>( "KEYBINDINGS_INLINE_UP_TO_X" );
+    const bool can_inline = n_max_inline == 0 || n_text < n_max_inline;
+    const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
     bool na = true;
     for( const input_event &evt : events ) {
         if( is_event_type_enabled( evt.type ) && evt_filter( evt ) ) {
             na = false;
+            if( n_text == 0 || !should_inline_if_possible || !can_inline ) {
+                break;
+            }
             if( ( evt.type == input_event_t::keyboard_char || evt.type == input_event_t::keyboard_code ) &&
                 evt.modifiers.empty() && evt.sequence.size() == 1 ) {
                 const int ch = evt.get_first_input();
                 if( ch > ' ' && ch <= '~' ) {
-                    const std::string key = utf32_to_utf8( ch );
-                    const int pos = ci_find_substr( text, key );
+                    const std::string k = utf32_to_utf8( ch );
+                    const int pos = ci_find_substr( text, k );
                     if( pos >= 0 ) {
-                        return string_format( inline_fmt, text.substr( 0, pos ),
-                                              key, text.substr( pos + key.size() ) );
+                        return input_context::get_hint_basic( k, text, state );
                     }
                 }
             }
         }
     }
-
+    std::string padded_text = text;
+    if( n_text > 0 ) {
+        padded_text = string_format( "\u00A0%s", padded_text );
+    }
     if( na ) {
         //~ keybinding description for unbound or non-applicable keys
-        return string_format( separate_fmt, pgettext( "keybinding", "n/a" ), text );
-    } else {
-        return string_format( separate_fmt, get_desc( action_descriptor, 1, evt_filter ), text );
+        return input_context::colorize_separate_format( state, pgettext( "keybinding",
+                "n/a" ), padded_text, show_separators, true );
+    }
+    return input_context::colorize_separate_format( state, get_desc( action_descriptor, 1,
+            evt_filter ), padded_text, show_separators );
+}
+
+const nc_color input_context::get_hint_color( keybinding_hint_state state )
+{
+    switch( state ) {
+        case keybinding_hint_state::DISABLED:
+            return c_dark_gray;
+        case keybinding_hint_state::TOGGLED_ON:
+            return c_green;
+        case keybinding_hint_state::TOGGLED_OFF:
+            return c_red;
+        case keybinding_hint_state::HIGHLIGHTED:
+            return h_light_gray;
+        default:
+            return c_light_gray;
+    }
+}
+const nc_color input_context::get_hint_color_for_separator( keybinding_hint_state state )
+{
+    switch( state ) {
+        case keybinding_hint_state::DISABLED:
+            return c_dark_gray;
+        case keybinding_hint_state::HIGHLIGHTED:
+            return h_light_gray;
+        default:
+            return c_light_gray;
     }
 }
 
-std::string input_context::get_desc(
-    const std::string &action_descriptor,
-    const std::string &text,
-    const input_event_filter &evt_filter ) const
+const nc_color input_context::get_hint_color_for_key( keybinding_hint_state state )
 {
-    return get_desc( action_descriptor, text, evt_filter,
-                     to_translation(
-                         //~ %1$s: action description text before key,
-                         //~ %2$s: key description,
-                         //~ %3$s: action description text after key.
-                         "keybinding", "%1$s(%2$s)%3$s" ),
-                     to_translation(
-                         // \u00A0 is the non-breaking space
-                         //~ %1$s: key description,
-                         //~ %2$s: action description.
-                         "keybinding", "[%1$s]\u00A0%2$s" ) );
+    switch( state ) {
+        case keybinding_hint_state::DISABLED:
+            return c_dark_gray;
+        case keybinding_hint_state::HIGHLIGHTED:
+            return get_option<bool>( "KEYBINDINGS_ALTERNATE_COLOR_THEME" ) ? h_cyan : h_yellow;
+        default:
+            return get_option<bool>( "KEYBINDINGS_ALTERNATE_COLOR_THEME" ) ? c_cyan : c_yellow;
+    }
 }
 
-std::string input_context::describe_key_and_name( const std::string &action_descriptor,
-        const input_context::input_event_filter &evt_filter ) const
+std::string replace_spaces_with_non_breaking( std::string s )
 {
-    return get_desc( action_descriptor, get_action_name( action_descriptor ), evt_filter );
+    return std::regex_replace( s, std::regex( " " ), "\u00A0" );
 }
+
+std::string input_context::_get_hint( const std::string &action_descriptor, bool show_suffix,
+                                      bool show_separators, keybinding_hint_state state,
+                                      const input_event_filter &evt_filter, const std::string &suffix_override ) const
+{
+    std::string suffix;
+    if( show_suffix ) {
+        suffix = suffix_override.empty() ? get_action_short_name( action_descriptor ) :
+                 suffix_override;
+        suffix = replace_spaces_with_non_breaking( suffix );
+    }
+    return get_desc( action_descriptor, suffix, state, show_separators, evt_filter );
+}
+
+std::string input_context::get_hint_key_only( const std::string &action_descriptor,
+        keybinding_hint_state state, const input_event_filter &evt_filter ) const
+{
+    return _get_hint( action_descriptor, false, true, state, evt_filter );
+}
+
+std::string input_context::get_hint( const std::string &action_descriptor,
+                                     keybinding_hint_state state, const input_event_filter &evt_filter ) const
+{
+    return _get_hint( action_descriptor, true, true, state, evt_filter );
+}
+
+std::string input_context::get_hint( const std::string &action_descriptor,
+                                     const std::string &suffix_override, keybinding_hint_state state,
+                                     const input_event_filter &evt_filter ) const
+{
+    return _get_hint( action_descriptor, true, true, state, evt_filter, suffix_override );
+}
+
+
+std::string input_context::get_hint_pair( const std::string &left_action_descriptor,
+        const std::string &right_action_descriptor, keybinding_hint_state state,
+        const input_event_filter &evt_filter ) const
+{
+
+    std::string l = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_LEFT" );
+    std::string r = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_RIGHT" );
+    std::string m = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_MIDDLE" );
+    return string_format( "%s%s%s%s%s",
+                          colorize( l, get_hint_color_for_separator( state ) ),
+                          _get_hint( left_action_descriptor, false, false, state, evt_filter ),
+                          colorize( m, get_hint_color_for_separator( state ) ),
+                          _get_hint( right_action_descriptor, false, false, state, evt_filter ),
+                          colorize( r, get_hint_color_for_separator( state ) ) );
+
+}
+
+std::string input_context::get_hint_pair( const std::string &left_action_descriptor,
+        const std::string &right_action_descriptor, const std::string &suffix_override,
+        keybinding_hint_state state, const input_event_filter &evt_filter ) const
+{
+
+    std::string suffix = replace_spaces_with_non_breaking( suffix_override );
+    return string_format( "%s\u00A0%s", get_hint_pair( left_action_descriptor, right_action_descriptor,
+                          state, evt_filter ), scolorize( suffix, get_hint_color( state ) ) );
+}
+std::string input_context::get_hint_quad( const std::string &first_action_descriptor,
+        const std::string &second_action_descriptor,
+        const std::string &third_action_descriptor,
+        const std::string &fourth_action_descriptor,
+        keybinding_hint_state state,
+        const input_event_filter &evt_filter ) const
+{
+    std::string l = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_LEFT" );
+    std::string r = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_RIGHT" );
+    std::string m = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_MIDDLE" );
+    std::string sep = scolorize( m, get_hint_color_for_separator( state ) );
+    return string_format( "%s%s%s%s%s%s%s%s%s",
+                          scolorize( l, get_hint_color_for_separator( state ) ),
+                          _get_hint( first_action_descriptor, false, false, state, evt_filter ),
+                          sep,
+                          _get_hint( second_action_descriptor, false, false, state, evt_filter ),
+                          sep,
+                          _get_hint( third_action_descriptor, false, false, state, evt_filter ),
+                          sep,
+                          _get_hint( fourth_action_descriptor, false, false, state, evt_filter ),
+                          scolorize( r, get_hint_color_for_separator( state ) ) );
+}
+
+std::string input_context::get_hint_quad( const std::string &first_action_descriptor,
+        const std::string &second_action_descriptor,
+        const std::string &third_action_descriptor,
+        const std::string &fourth_action_descriptor, const std::string &suffix_override,
+        keybinding_hint_state state,
+        const input_event_filter &evt_filter ) const
+{
+    std::string suffix = replace_spaces_with_non_breaking( suffix_override );
+    return string_format( "%s\u00A0%s", get_hint_quad( first_action_descriptor,
+                          second_action_descriptor, third_action_descriptor, fourth_action_descriptor, state, evt_filter ),
+                          scolorize( suffix, get_hint_color( state ) ) );
+}
+
 
 const std::string &input_context::handle_input()
 {
@@ -1487,16 +1698,18 @@ action_id input_context::display_menu( const bool permit_execute_action )
             } else {
                 mvwprintz( w_help, point( 2, i + 10 ), c_blue, "  " );
             }
-            nc_color col;
+            keybinding_hint_state hstate;
             if( attributes.input_events.empty() ) {
-                col = unbound_key;
+                hstate = keybinding_hint_state::TOGGLED_OFF;
             } else if( overwrite_default ) {
-                col = local_key;
+                hstate = keybinding_hint_state::TOGGLED_ON;
             } else {
-                col = global_key;
+                hstate = keybinding_hint_state::ENABLED;
             }
-            mvwprintz( w_help, point( 4, i + 10 ), col, "%s:", get_action_name( action_id ) );
-            mvwprintz( w_help, point( TERMX >= 100 ? 62 : 52, i + 10 ), col, "%s", get_desc( action_id ) );
+            mvwprintz( w_help, point( 4, i + 10 ), input_context::get_hint_color( hstate ), "%s:",
+                       get_action_name( action_id ) );
+            mvwprintz( w_help, point( TERMX >= 100 ? 62 : 52, i + 10 ), input_context::get_hint_color( hstate ),
+                       "%s", get_desc( action_id ) );
         }
 
         // spopup.query_string() will call wnoutrefresh( w_help )
@@ -1792,6 +2005,27 @@ std::optional<point> input_context::get_coordinates_text( const catacurses::wind
 #endif
 }
 
+std::string input_context::get_action_short_name( const std::string &action_id ) const
+{
+    // 1) Check if the hotkey has a short name
+    const action_attributes &attributes = inp_mngr.get_action_attributes( action_id, category );
+    if( !attributes.short_name.empty() ) {
+        return attributes.short_name.translated();
+    }
+
+    // 2) If the hotkey has no short name, the user has created a local hotkey in
+    // this context that is masking the global hotkey. Fallback to the global
+    // hotkey's short name.
+    const action_attributes &default_attributes = inp_mngr.get_action_attributes( action_id,
+            default_context_id );
+    if( !default_attributes.short_name.empty() ) {
+        return default_attributes.short_name.translated();
+    }
+
+    // 3) Unable to find suitable short name. Let's fallback to the normal name (which is hopefully short)
+    return get_action_name( action_id );
+}
+
 std::string input_context::get_action_name( const std::string &action_id ) const
 {
     // 1) Check action name overrides specific to this input_context
@@ -1853,7 +2087,9 @@ std::string input_context::press_x( const std::string &action_id,
     const std::string separator = _( " or " );
     std::string keyed = key_bound_pre;
     for( size_t j = 0; j < events.size(); j++ ) {
-        keyed += events[j].long_description();
+        keyed += string_format( "%s%s%s", colorize( "[", get_hint_color_for_separator() ),
+                                colorize( events[j].long_description(), get_hint_color_for_key() ), colorize( "]",
+                                        get_hint_color_for_separator() ) );
 
         if( j + 1 < events.size() ) {
             keyed += separator;

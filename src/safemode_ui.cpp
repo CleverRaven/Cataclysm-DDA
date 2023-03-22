@@ -144,51 +144,49 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 translate_marker( "<T>est" )
             }
         };
-
-        int tmpx = 0;
-        for( const std::string &hotkey : hotkeys ) {
-            tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( hotkey ) ) + 2;
+        std::vector<std::string> hints;
+        hints.push_back( ctxt.get_hint( "SWITCH_SAFEMODE_OPTION",
+                                        get_option<bool>( "SAFEMODE" ) ? keybinding_hint_state::TOGGLED_ON :
+                                        keybinding_hint_state::TOGGLED_OFF ) );
+        hints.push_back( ctxt.get_hint( "ADD_RULE" ) );
+        hints.push_back( ctxt.get_hint( "REMOVE_RULE" ) );
+        hints.push_back( ctxt.get_hint( "COPY_RULE" ) );
+        if( is_safemode_in ) {
+            hints.push_back( ctxt.get_hint( "SWAP_RULE_GLOBAL_CHAR" ) );
         }
+        hints.push_back( ctxt.get_hint( "ENABLE_RULE" ) );
+        hints.push_back( ctxt.get_hint( "DISABLE_RULE" ) );
+        hints.push_back( ctxt.get_hint( "TEST_RULE" ) );
+        hints.push_back( ctxt.get_hint_pair( "MOVE_RULE_UP", "MOVE_RULE_DOWN", _( "Move up/down" ) ) );
+        hints.push_back( ctxt.get_hint( "CONFIRM", _( "Edit" ) ) );
+        hints.push_back( ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB", _( "Switch page" ) ) );
 
-        tmpx = 0;
-        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                                _( "<+-> Move up/down" ) ) + 2;
-        tmpx += shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green,
-                                _( "<Enter>-Edit" ) ) + 2;
-        shortcut_print( w_header, point( tmpx, 1 ), c_white, c_light_green, _( "<Tab>-Switch Page" ) );
+        const int i_hints = fold_and_print( w_header, point( 0, 0 ), getmaxx( w_header ) - 1, c_light_gray,
+                                            enumerate_as_string( hints, enumeration_conjunction::space ) );
 
         for( int i = 0; i < 78; i++ ) {
-            mvwputch( w_header, point( i, 2 ), c_light_gray, LINE_OXOX ); // Draw line under header
+            mvwputch( w_header, point( i, i_hints ), c_light_gray, LINE_OXOX ); // Draw line under header
         }
 
         for( auto &pos : column_pos ) {
-            mvwputch( w_header, point( pos.second, 2 ), c_light_gray, LINE_OXXX );
-            mvwputch( w_header, point( pos.second, 3 ), c_light_gray, LINE_XOXO );
+            mvwputch( w_header, point( pos.second, i_hints ), c_light_gray, LINE_OXXX );
+            mvwputch( w_header, point( pos.second, i_hints + 1 ), c_light_gray, LINE_XOXO );
         }
 
-        mvwprintz( w_header, point( 1, 3 ), c_white, " #" );
-        mvwprintz( w_header, point( column_pos[COLUMN_RULE] + 4, 3 ), c_white, _( "Rules" ) );
-        mvwprintz( w_header, point( column_pos[COLUMN_ATTITUDE] + 2, 3 ), c_white, _( "Attitude" ) );
-        mvwprintz( w_header, point( column_pos[COLUMN_PROXIMITY] + 2, 3 ), c_white, _( "Dist" ) );
-        mvwprintz( w_header, point( column_pos[COLUMN_WHITE_BLACKLIST] + 2, 3 ), c_white, _( "B/W" ) );
-        mvwprintz( w_header, point( column_pos[COLUMN_CATEGORY] + 2, 3 ), c_white, pgettext( "category",
-                   "Cat" ) );
-        mvwprintz( w_header, point( column_pos[COLUMN_MOVEMENT_MODE] + 2, 3 ), c_white, _( "Mode" ) );
+        mvwprintz( w_header, point( 1, i_hints + 1 ), c_white, " #" );
+        mvwprintz( w_header, point( column_pos[COLUMN_RULE] + 4, i_hints + 1 ), c_white, _( "Rules" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_ATTITUDE] + 2, i_hints + 1 ), c_white,
+                   _( "Attitude" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_PROXIMITY] + 2, i_hints + 1 ), c_white, _( "Dist" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_WHITE_BLACKLIST] + 2, i_hints + 1 ), c_white,
+                   _( "B/W" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_CATEGORY] + 2, i_hints + 1 ), c_white,
+                   pgettext( "category",
+                             "Cat" ) );
+        mvwprintz( w_header, point( column_pos[COLUMN_MOVEMENT_MODE] + 2, i_hints + 1 ), c_white,
+                   _( "Mode" ) );
 
-        int locx = 17;
-        locx += shortcut_print( w_header, point( locx, 2 ), c_white,
-                                ( tab == GLOBAL_TAB ) ? hilite( c_white ) : c_white, _( "[<Global>]" ) ) + 1;
-        shortcut_print( w_header, point( locx, 2 ), c_white,
-                        ( tab == CHARACTER_TAB ) ? hilite( c_white ) : c_white, _( "[<Character>]" ) );
-
-        locx = 55;
-        mvwprintz( w_header, point( locx, 0 ), c_white, _( "Safe mode enabled:" ) );
-        locx += shortcut_print( w_header, point( locx, 1 ),
-                                ( get_option<bool>( "SAFEMODE" ) ? c_light_green : c_light_red ), c_white,
-                                ( get_option<bool>( "SAFEMODE" ) ? _( "True" ) : _( "False" ) ) );
-        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
-        locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
-        shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
+        print_global_and_character_mode_headers( w_header, point( 17, i_hints ), tab == GLOBAL_TAB );
 
         wnoutrefresh( w_header );
 

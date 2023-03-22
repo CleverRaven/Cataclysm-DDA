@@ -980,17 +980,14 @@ static void change_spells( Character &character )
         center_print( w_descborder.window, 0, c_magenta, _( "<<color_white>Description</color>>" ) );
 
         nc_color magenta = c_magenta;
-        const std::string help_keybindings = string_format(
-                _( "<<color_white>[<color_yellow>%1$s</color>] Keybindings</color>>" ),
-                ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+        const std::string help_keybindings = ctxt.get_hint( "HELP_KEYBINDINGS" );
         print_colored_text( w_descborder.window,
                             point( w_descborder.width - help_keybindings.length() + 42, TERMY - 1 ),
                             magenta, magenta, help_keybindings );
 
         std::string help_filter;
         if( filterstring.empty() ) {
-            help_filter = string_format( _( "<<color_white>[<color_yellow>%1$s</color>] Filter</color>>" ),
-                                         ctxt.get_desc( "FILTER" ) );
+            help_filter = ctxt.get_hint( "FILTER" );
         } else {
             help_filter = string_format( "<<color_white>%s</color>>", filterstring );
         }

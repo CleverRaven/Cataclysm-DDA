@@ -394,17 +394,17 @@ std::optional<tripoint> editmap::edit()
 
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "%s, %s, [%s,%s,%s,%s]\u00A0fast scroll, %s, %s, %s, %s, %s, %s" ),
-                                       ctxt.describe_key_and_name( "EDIT_TRAPS" ),
-                                       ctxt.describe_key_and_name( "EDIT_FIELDS" ),
-                                       ctxt.get_desc( "LEFT_WIDE", 1 ), ctxt.get_desc( "RIGHT_WIDE", 1 ),
-                                       ctxt.get_desc( "UP_WIDE", 1 ), ctxt.get_desc( "DOWN_WIDE", 1 ),
-                                       ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ),
-                                       ctxt.describe_key_and_name( "EDIT_TERRAIN" ),
-                                       ctxt.describe_key_and_name( "EDIT_FURNITURE" ),
-                                       ctxt.describe_key_and_name( "EDIT_OVERMAP" ),
-                                       ctxt.describe_key_and_name( "EDIT_ITEMS" ),
-                                       ctxt.describe_key_and_name( "QUIT" ) );
+                                       "%s %s [%s,%s]\u00A0fast scroll %s %s %s %s %s %s" ),
+                                       ctxt.get_hint( "EDIT_TRAPS" ),
+                                       ctxt.get_hint( "EDIT_FIELDS" ),
+                                       ctxt.get_hint_pair( "LEFT_WIDE", "RIGHT_WIDE" ),
+                                       ctxt.get_hint_pair( "UP_WIDE", "DOWN_WIDE" ),
+                                       ctxt.get_hint( "EDITMAP_SHOW_ALL" ),
+                                       ctxt.get_hint( "EDIT_TERRAIN" ),
+                                       ctxt.get_hint( "EDIT_FURNITURE" ),
+                                       ctxt.get_hint( "EDIT_OVERMAP" ),
+                                       ctxt.get_hint( "EDIT_ITEMS" ),
+                                       ctxt.get_hint( "QUIT" ) );
         info_title_curr = pgettext( "map editor state", "Looking around" );
         do_ui_invalidation();
 
@@ -1144,12 +1144,12 @@ void editmap::edit_feature()
         }
 
         input_context ctxt( emenu.input_category, keyboard_mode::keycode );
-        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
-                                       ctxt.describe_key_and_name( "CONFIRM" ),
-                                       ctxt.describe_key_and_name( "CONFIRM_QUIT" ),
-                                       ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ),
-                                       ctxt.describe_key_and_name( "EDITMAP_TAB" ),
-                                       ctxt.describe_key_and_name( "EDITMAP_MOVE" ) );
+        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s %s %s %s %s" ),
+                                       ctxt.get_hint( "CONFIRM" ),
+                                       ctxt.get_hint( "CONFIRM_QUIT" ),
+                                       ctxt.get_hint( "EDITMAP_SHOW_ALL" ),
+                                       ctxt.get_hint( "EDITMAP_TAB" ),
+                                       ctxt.get_hint( "EDITMAP_MOVE" ) );
         info_title_curr = info_title<T_t>();
         do_ui_invalidation();
 
@@ -1264,13 +1264,13 @@ void editmap::edit_fld()
         input_context ctxt( fmenu.input_category, keyboard_mode::keycode );
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "%s, %s, [%s,%s]\u00A0intensity, %s, %s, %s" ),
-                                       ctxt.describe_key_and_name( "EDITMAP_TAB" ),
-                                       ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
-                                       ctxt.get_desc( "LEFT", 1 ), ctxt.get_desc( "RIGHT", 1 ),
-                                       ctxt.describe_key_and_name( "CONFIRM" ),
-                                       ctxt.describe_key_and_name( "QUIT" ),
-                                       ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ) );
+                                       "%s %s %s\u00A0intensity %s %s %s" ),
+                                       ctxt.get_hint( "EDITMAP_TAB" ),
+                                       ctxt.get_hint( "EDITMAP_MOVE" ),
+                                       ctxt.get_hint_pair( "LEFT", "RIGHT" ),
+                                       ctxt.get_hint( "CONFIRM" ),
+                                       ctxt.get_hint( "QUIT" ),
+                                       ctxt.get_hint( "EDITMAP_SHOW_ALL" ) );
         info_title_curr = pgettext( "Map editor: Editing field effects", "Field effects" );
         do_ui_invalidation();
 
@@ -1725,23 +1725,23 @@ int editmap::select_shape( shapetype shape, int mode )
 
     do {
         if( moveall ) {
-            info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
-                                           ctxt.describe_key_and_name( "RESIZE" ),
-                                           ctxt.describe_key_and_name( "SWAP" ),
-                                           ctxt.describe_key_and_name( "CONFIRM" ),
-                                           ctxt.describe_key_and_name( "QUIT" ),
-                                           ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ) );
+            info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s %s %s %s %s" ),
+                                           ctxt.get_hint( "RESIZE" ),
+                                           ctxt.get_hint( "SWAP" ),
+                                           ctxt.get_hint( "CONFIRM" ),
+                                           ctxt.get_hint( "QUIT" ),
+                                           ctxt.get_hint( "EDITMAP_SHOW_ALL" ) );
             info_title_curr = _( "Moving selection" );
         } else {
             info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                           "%s, %s, %s, %s, %s, %s, %s" ),
-                                           ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
-                                           ctxt.describe_key_and_name( "RESIZE" ),
-                                           ctxt.describe_key_and_name( "SWAP" ),
-                                           ctxt.describe_key_and_name( "START" ),
-                                           ctxt.describe_key_and_name( "CONFIRM" ),
-                                           ctxt.describe_key_and_name( "QUIT" ),
-                                           ctxt.describe_key_and_name( "EDITMAP_SHOW_ALL" ) );
+                                           "%s %s %s %s %s %s %s" ),
+                                           ctxt.get_hint( "EDITMAP_MOVE" ),
+                                           ctxt.get_hint( "RESIZE" ),
+                                           ctxt.get_hint( "SWAP" ),
+                                           ctxt.get_hint( "START" ),
+                                           ctxt.get_hint( "CONFIRM" ),
+                                           ctxt.get_hint( "QUIT" ),
+                                           ctxt.get_hint( "EDITMAP_SHOW_ALL" ) );
             info_title_curr = _( "Resizing selection" );
         }
         do_ui_invalidation();
@@ -1913,11 +1913,11 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         input_context ctxt( gpmenu.input_category, keyboard_mode::keycode );
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "[%s,%s]\u00A0prev/next oter type, [%s,%s]\u00A0select, %s, %s" ),
-                                       ctxt.get_desc( "LEFT", 1 ), ctxt.get_desc( "RIGHT", 1 ),
-                                       ctxt.get_desc( "UP", 1 ), ctxt.get_desc( "DOWN", 1 ),
-                                       ctxt.describe_key_and_name( "CONFIRM" ),
-                                       ctxt.describe_key_and_name( "QUIT" ) );
+                                       "%s\u00A0prev/next other type %s\u00A0select %s %s" ),
+                                       ctxt.get_hint_pair( "LEFT", "RIGHT" ),
+                                       ctxt.get_hint_pair( "UP", "DOWN" ),
+                                       ctxt.get_hint( "CONFIRM" ),
+                                       ctxt.get_hint( "QUIT" ) );
         info_title_curr = string_format( pgettext( "map editor state", "Mapgen: %s" ),
                                          oter_id( gmenu.selected ).id().str() );
         do_ui_invalidation();
@@ -2102,9 +2102,9 @@ void editmap::mapgen_retarget()
 
     blink = true;
     do {
-        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s" ),
-                                       ctxt.describe_key_and_name( "CONFIRM" ),
-                                       ctxt.describe_key_and_name( "QUIT" ) );
+        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s %s" ),
+                                       ctxt.get_hint( "CONFIRM" ),
+                                       ctxt.get_hint( "QUIT" ) );
         info_title_curr = pgettext( "map generator", "Mapgen: Moving target" );
         do_ui_invalidation();
 
@@ -2196,10 +2196,10 @@ void editmap::edit_mapgen()
         blink = true;
 
         input_context ctxt( gmenu.input_category, keyboard_mode::keycode );
-        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s" ),
-                                       ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
-                                       ctxt.describe_key_and_name( "CONFIRM" ),
-                                       ctxt.describe_key_and_name( "QUIT" ) );
+        info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s %s %s" ),
+                                       ctxt.get_hint( "EDITMAP_MOVE" ),
+                                       ctxt.get_hint( "CONFIRM" ),
+                                       ctxt.get_hint( "QUIT" ) );
         info_title_curr = pgettext( "map generator", "Mapgen stamp" );
         do_ui_invalidation();
 

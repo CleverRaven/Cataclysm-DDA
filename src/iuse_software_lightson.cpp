@@ -154,24 +154,24 @@ int lightson_game::start_game()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         std::vector<std::string> shortcuts;
-        shortcuts.emplace_back( _( "<spacebar or 5> toggle lights" ) );
-        shortcuts.emplace_back( _( "<r>eset" ) );
-        shortcuts.emplace_back( _( "<q>uit" ) );
+        shortcuts.emplace_back( ctxt.get_hint_pair( "TOGGLE_SPACE", "TOGGLE_5", _( "toggle lights" ) ) );
+        shortcuts.emplace_back( ctxt.get_hint( "RESET" ) );
+        shortcuts.emplace_back( ctxt.get_hint( "QUIT" ) );
 
         int iWidth = 0;
         for( auto &shortcut : shortcuts ) {
             if( iWidth > 0 ) {
                 iWidth += 1;
             }
-            iWidth += utf8_width( shortcut );
+            iWidth += utf8_width( shortcut, true );
         }
 
         werase( w_border );
         draw_border( w_border );
         int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
         for( auto &shortcut : shortcuts ) {
-            shortcut_print( w_border, point( iPos, 0 ), c_white, c_light_green, shortcut );
-            iPos += utf8_width( shortcut ) + 1;
+            print_colored_text( w_border, point( iPos, 0 ),  shortcut );
+            iPos += utf8_width( shortcut, true ) + 1;
         }
 
         mvwputch( w_border, point( 2, 0 ), hilite( c_white ), _( "Lights on!" ) );

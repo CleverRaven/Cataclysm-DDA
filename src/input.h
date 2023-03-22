@@ -14,6 +14,8 @@
 #include <list>
 #endif
 
+#include "color.h"
+#include "enums.h"
 #include "point.h"
 #include "translations.h"
 
@@ -297,6 +299,7 @@ struct action_attributes {
     action_attributes() : is_user_created( false ) {}
     bool is_user_created;
     translation name;
+    translation short_name;
     std::vector<input_event> input_events;
 };
 
@@ -584,6 +587,7 @@ class input_context
             }
         };
 
+
         std::vector<manual_key> registered_manual_keys;
 
         // If true, prevent virtual keyboard from dismissing after a key press while this input context is active.
@@ -704,58 +708,49 @@ class input_context
         static bool disallow_lower_case_or_non_modified_letters( const input_event &evt );
         static bool allow_all_keys( const input_event &evt );
 
-        /**
-         * Get a description text for the key/other input method associated
-         * with the given action. If there are multiple bound keys, no more
-         * than max_limit will be described in the result. In addition, only
-         * keys satisfying evt_filter will be described.
-         *
-         * @param action_descriptor The action descriptor for which to return
-         *                          a description of the bound keys.
-         *
-         * @param max_limit No more than max_limit bound keys will be
-         *                  described in the returned description. A value of
-         *                  0 indicates no limit.
-         *
-         * @param evt_filter Only keys satisfying this function will be
-         *                   described.
-         */
-        std::string get_desc( const std::string &action_descriptor,
-                              unsigned int max_limit = 0,
-                              const input_event_filter &evt_filter = allow_all_keys ) const;
+        static std::string colorize_separate_format( const keybinding_hint_state state,
+                const std::string &key, const std::string &text,
+                const bool show_separators, const bool key_not_found = false );
+        static std::string colorize_inline_format( const keybinding_hint_state state,
+                const std::string &key, const std::string &left_text,
+                const std::string &right_text, const bool show_separators );
+        static const nc_color get_hint_color( keybinding_hint_state state =
+                keybinding_hint_state::ENABLED );
+        static const nc_color get_hint_color_for_separator( keybinding_hint_state state =
+                    keybinding_hint_state::ENABLED );
+        static const nc_color get_hint_color_for_key( keybinding_hint_state state =
+                    keybinding_hint_state::ENABLED );
 
-        /**
-         * Get a description based on `text`. If a bound key for `action_descriptor`
-         * satisfying `evt_filter` is contained in `text`, surround the key with
-         * brackets and change the case if necessary (e.g. "(Y)es"). Otherwise
-         * prefix `text` with description of the first bound key satisfying
-         * `evt_filter`, surrounded in square brackets (e.g "[RETURN] Yes").
-         *
-         * @param action_descriptor The action descriptor for which to return
-         *                          a description of the bound keys.
-         *
-         * @param text The base text for action description
-         *
-         * @param evt_filter Only keys satisfying this function will be considered
-         * @param inline_fmt Action description format when a key is found in the
-         *                   text (for example "(a)ctive")
-         * @param separate_fmt Action description format when a key is not found
-         *                     in the text (for example "[X] active" or "[N/A] active")
-         */
-        std::string get_desc( const std::string &action_descriptor,
-                              const std::string &text,
-                              const input_event_filter &evt_filter,
-                              const translation &inline_fmt,
-                              const translation &separate_fmt ) const;
-        std::string get_desc( const std::string &action_descriptor,
-                              const std::string &text,
-                              const input_event_filter &evt_filter = allow_all_keys ) const;
 
-        /**
-         * Equivalent to get_desc( act, get_action_name( act ), filter )
-         **/
-        std::string describe_key_and_name( const std::string &action_descriptor,
-                                           const input_event_filter &evt_filter = allow_all_keys ) const;
+        std::string get_hint_key_only( const std::string &action_descriptor,
+                                       keybinding_hint_state state = keybinding_hint_state::ENABLED,
+                                       const input_event_filter &evt_filter = allow_all_keys ) const;
+        std::string get_hint( const std::string &action_descriptor,
+                              keybinding_hint_state state = keybinding_hint_state::ENABLED,
+                              const input_event_filter &evt_filter = allow_all_keys ) const;
+        std::string get_hint( const std::string &action_descriptor, const std::string &suffix_override,
+                              keybinding_hint_state state = keybinding_hint_state::ENABLED,
+                              const input_event_filter &evt_filter = allow_all_keys ) const;
+        std::string get_hint_pair( const std::string &left_action_descriptor,
+                                   const std::string &right_action_descriptor,
+                                   keybinding_hint_state state = keybinding_hint_state::ENABLED,
+                                   const input_event_filter &evt_filter = allow_all_keys ) const;
+        std::string get_hint_pair( const std::string &left_action_descriptor,
+                                   const std::string &right_action_descriptor, const std::string &suffix_override,
+                                   keybinding_hint_state state = keybinding_hint_state::ENABLED,
+                                   const input_event_filter &evt_filter = allow_all_keys ) const;
+        std::string get_hint_quad( const std::string &first_action_descriptor,
+                                   const std::string &second_action_descriptor,
+                                   const std::string &third_action_descriptor,
+                                   const std::string &fourth_action_descriptor,
+                                   keybinding_hint_state state = keybinding_hint_state::ENABLED,
+                                   const input_event_filter &evt_filter = allow_all_keys ) const;
+        std::string get_hint_quad( const std::string &first_action_descriptor,
+                                   const std::string &second_action_descriptor,
+                                   const std::string &third_action_descriptor,
+                                   const std::string &fourth_action_descriptor, const std::string &suffix_override,
+                                   keybinding_hint_state state = keybinding_hint_state::ENABLED,
+                                   const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
          * Handles input and returns the next action in the queue.
@@ -819,6 +814,11 @@ class input_context
          */
         std::string get_action_name( const std::string &action_id ) const;
 
+        /**
+         * Get the human-readable short name for an action.
+         */
+        std::string get_action_short_name( const std::string &action_id ) const;
+
         /* For the future, something like this might be nice:
          * const std::string register_action(const std::string& action_descriptor, x, y, width, height);
          * (x, y, width, height) would describe an area on the visible window that, if clicked, triggers the action.
@@ -872,10 +872,74 @@ class input_context
         input_event first_unassigned_hotkey( const hotkey_queue &queue ) const;
         input_event next_unassigned_hotkey( const hotkey_queue &queue, const input_event &prev ) const;
     private:
+        /**
+         * @return A color-tagged and formatted string (based on the player's options)
+         *  displaying the hotkey, and optionally a "hint" describing the action
+         *  eg. E(x)amine or [x] Examine
+         */
+        std::string _get_hint( const std::string &action_descriptor, bool show_suffix, bool show_separators,
+                               keybinding_hint_state state,
+                               const input_event_filter &evt_filter, const std::string &suffix_override = std::string() ) const;
+        /**
+         * Get a description text for the key/other input method associated
+         * with the given action. If there are multiple bound keys, no more
+         * than max_limit will be described in the result. In addition, only
+         * keys satisfying evt_filter will be described.
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         *
+         * @param max_limit No more than max_limit bound keys will be
+         *                  described in the returned description. A value of
+         *                  0 indicates no limit.
+         *
+         * @param evt_filter Only keys satisfying this function will be
+         *                   described.
+         */
+        std::string get_desc( const std::string &action_descriptor,
+                              unsigned int max_limit = 0,
+                              const input_event_filter &evt_filter = allow_all_keys ) const;
+
+        /**
+         * Get a description based on `text`. If a bound key for `action_descriptor`
+         * satisfying `evt_filter` is contained in `text`, surround the key with
+         * brackets and change the case if necessary (e.g. "(Y)es"). Otherwise
+         * prefix `text` with description of the first bound key satisfying
+         * `evt_filter`, surrounded in square brackets (e.g "[RETURN] Yes").
+         *
+         * @param action_descriptor The action descriptor for which to return
+         *                          a description of the bound keys.
+         *
+         * @param text The base text for action description
+         *
+         * @param evt_filter Only keys satisfying this function will be considered
+         * @param inline_fmt Action description format when a key is found in the
+         *                   text (for example "(a)ctive")
+         * @param separate_fmt Action description format when a key is not found
+         *                     in the text (for example "[X] active" or "[N/A] active")
+         */
+        std::string get_desc( const std::string &action_descriptor,
+                              const std::string &text,
+                              const keybinding_hint_state state,
+                              const bool show_separators,
+                              const input_event_filter &evt_filter = allow_all_keys ) const;
+
 
         std::vector<std::string> registered_actions;
         std::string edittext;
     public:
+        /*
+         * Given a key string, text string and a keybinding_hint_state,
+         *   returns a color-tagged string with with the key properly
+         *   inlined into the text if it's present, otherwise fallback
+         *   to presenting the text on its own.
+         *
+         *   eg. get_hint_basic("x", "Examine", keybinding_hint_state::NONE)
+         *          -> "E(<color_yellow>x</color>)amine"
+         */
+        static std::string get_hint_basic( const std::string &key,
+                                           const std::string &text,
+                                           const keybinding_hint_state state = keybinding_hint_state::ENABLED );
         const std::string &input_to_action( const input_event &inp ) const;
         bool is_event_type_enabled( input_event_t type ) const;
         bool is_registered_action( const std::string &action_name ) const;

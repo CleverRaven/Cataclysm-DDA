@@ -6489,38 +6489,30 @@ bool game::is_zones_manager_open() const
     return zones_manager_open;
 }
 
-static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction )
+static void zones_manager_shortcuts( const catacurses::window &w_info, faction_id const &faction,
+                                     const input_context &ctxt )
 {
     werase( w_info );
 
-    int tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<A>dd" ) ) + 2;
-    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<P>ersonal" ) ) + 2;
-    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<R>emove" ) ) + 2;
-    tmpx += shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 1 ), c_white, c_light_green, _( "<D>isable" ) );
+    std::vector<std::string> hints;
+    hints.push_back( ctxt.get_hint( "ADD_ZONE" ) );
+    hints.push_back( ctxt.get_hint( "ADD_PERSONAL_ZONE" ) );
+    hints.push_back( ctxt.get_hint( "REMOVE_ZONE" ) );
+    hints.push_back( ctxt.get_hint( "ENABLE_ZONE" ) );
+    hints.push_back( ctxt.get_hint( "DISABLE_ZONE" ) );
+    hints.push_back( ctxt.get_hint( "SHOW_ZONE_ON_MAP" ) );
+    hints.push_back( ctxt.get_hint( "ENABLE_PERSONAL_ZONES" ) );
+    hints.push_back( ctxt.get_hint( "DISABLE_PERSONAL_ZONES" ) );
 
-    tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
-                            _( "<Z>-Enable personal" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 2 ), c_white, c_light_green,
-                    _( "<X>-Disable personal" ) );
+    hints.push_back( ctxt.get_hint_pair( "MOVE_ZONE_UP", "MOVE_ZONE_DOWN", _( "Move up/down" ) ) );
 
-    tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green,
-                            _( "<+-> Move up/down" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 3 ), c_white, c_light_green, _( "<Enter>-Edit" ) );
-
-    tmpx = 1;
-    tmpx += shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green,
-                            _( "<S>how all / hide distant" ) ) + 2;
-    shortcut_print( w_info, point( tmpx, 4 ), c_white, c_light_green, _( "<M>ap" ) );
-
+    hints.push_back( ctxt.get_hint( "CONFIRM", _( "Edit" ) ) );
+    hints.push_back( ctxt.get_hint( "SHOW_ALL_ZONES" ) );
     if( debug_mode ) {
-        shortcut_print( w_info, point( 1, 5 ), c_light_red, c_light_green,
-                        string_format( _( "Shown <F>action: %s" ), faction.str() ) );
+        hints.push_back( ctxt.get_hint( "CHANGE_FACTION", faction.str() ) );
     }
-
+    fold_and_print( w_info, point( 1, 1 ), getmaxx( w_info ) - 1, c_light_gray,
+                    enumerate_as_string( hints, enumeration_conjunction::space ) );
     wnoutrefresh( w_info );
 }
 
@@ -6780,7 +6772,7 @@ void game::zones_manager()
             return;
         }
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
-        zones_manager_shortcuts( w_zones_info, zones_faction );
+        zones_manager_shortcuts( w_zones_info, zones_faction, ctxt );
 
         if( zone_cnt == 0 ) {
             werase( w_zones );
@@ -6804,11 +6796,10 @@ void game::zones_manager()
                     iNum < start_index + ( ( max_rows > zone_cnt ) ? zone_cnt : max_rows ) ) {
                     const zone_data &zone = i.get();
 
-                    nc_color colorLine = zone.get_enabled() ? c_white : c_light_gray;
+                    nc_color colorLine = zone.get_enabled() ? c_light_gray : c_dark_gray;
 
                     if( iNum == active_index ) {
                         mvwprintz( w_zones, point( 0, iNum - start_index ), c_yellow, "%s", ">>" );
-                        colorLine = zone.get_enabled() ? c_light_green : c_green;
                     }
 
                     //Draw Zone name
@@ -7042,7 +7033,7 @@ void game::zones_manager()
                 }
 
                 blink = false;
-            } else if( action == "MOVE_ZONE_UP" && zone_cnt > 1 ) {
+            } else if( action == "MOVE_ZONE_DOWN" && zone_cnt > 1 ) {
                 if( active_index < zone_cnt - 1 ) {
                     mgr.swap( zones[active_index], zones[active_index + 1] );
                     zones = get_zones();
@@ -7051,7 +7042,7 @@ void game::zones_manager()
                 blink = false;
                 stuff_changed = true;
 
-            } else if( action == "MOVE_ZONE_DOWN" && zone_cnt > 1 ) {
+            } else if( action == "MOVE_ZONE_UP" && zone_cnt > 1 ) {
                 if( active_index > 0 ) {
                     mgr.swap( zones[active_index], zones[active_index - 1] );
                     zones = get_zones();
@@ -7333,24 +7324,16 @@ look_around_result game::look_around(
             creature_tracker &creatures = get_creature_tracker();
             monster *const mon = creatures.creature_at<monster>( lp, true );
             if( mon && u.sees( *mon ) ) {
-                std::string mon_name_text = string_format( _( "%s - %s" ),
-                                            ctxt.get_desc( "CHANGE_MONSTER_NAME" ),
-                                            ctxt.get_action_name( "CHANGE_MONSTER_NAME" ) );
-                mvwprintz( w_info, point( 1, getmaxy( w_info ) - 2 ), c_red, mon_name_text );
+                print_colored_text( w_info, point( 1, getmaxy( w_info ) - 2 ),
+                                    ctxt.get_hint( "CHANGE_MONSTER_NAME" ) );
             }
 
-            std::string fast_scroll_text = string_format( _( "%s - %s" ),
-                                           ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
-                                           ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
-            mvwprintz( w_info, point( 1, getmaxy( w_info ) - 1 ), fast_scroll ? c_light_green : c_green,
-                       fast_scroll_text );
+            print_colored_text( w_info, point( 1, getmaxy( w_info ) - 1 ), ctxt.get_hint( "TOGGLE_FAST_SCROLL",
+                                fast_scroll ?  keybinding_hint_state::TOGGLED_ON : keybinding_hint_state::TOGGLED_OFF ) );
 
             if( !ctxt.keys_bound_to( "toggle_pixel_minimap" ).empty() ) {
-                std::string pixel_minimap_text = string_format( _( "%s - %s" ),
-                                                 ctxt.get_desc( "toggle_pixel_minimap" ),
-                                                 ctxt.get_action_name( "toggle_pixel_minimap" ) );
-                right_print( w_info, getmaxy( w_info ) - 1, 1, pixel_minimap_option ? c_light_green : c_green,
-                             pixel_minimap_text );
+                right_print( w_info, getmaxy( w_info ) - 1, 1, ctxt.get_hint( "toggle_pixel_minimap",
+                             pixel_minimap_option ? keybinding_hint_state::TOGGLED_ON : keybinding_hint_state::TOGGLED_OFF ) );
             }
 
             int first_line = 1;
@@ -7852,7 +7835,8 @@ bool game::take_screenshot() const
 #endif
 
 //helper method so we can keep list_items shorter
-void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
+void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort,
+                                  const input_context &ctxt )
 {
     const int width = getmaxx( window );
     for( int i = 1; i < TERMX; i++ ) {
@@ -7876,48 +7860,39 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     mvwputch( window, point( width - 1, TERMY - height - 1 ), c_light_gray,
               LINE_XOXX ); // -|
 
-    mvwprintz( window, point( 2, 0 ), c_light_green, "<Tab> " );
-    wprintz( window, c_white, _( "Items" ) );
+    print_colored_text( window, point( 2, 0 ), ctxt.get_hint( "NEXT_TAB", _( "Items" ) ) );
 
-    std::string sSort;
-    if( bRadiusSort ) {
-        //~ Sort type: distance.
-        sSort = _( "<s>ort: dist" );
-    } else {
-        //~ Sort type: category.
-        sSort = _( "<s>ort: cat" );
-    }
+    std::string sSort = string_format( "%s %s", ctxt.get_hint( "SORT" ),
+                                       bRadiusSort ? _( "dist" ) : _( "cat" ) );
 
-    int letters = utf8_width( sSort );
+    int letters = utf8_width( sSort, true );
 
-    shortcut_print( window, point( getmaxx( window ) - letters, 0 ), c_white, c_light_green, sSort );
+    print_colored_text( window, point( getmaxx( window ) - letters, 0 ),  sSort );
 
     std::vector<std::string> tokens;
     if( !sFilter.empty() ) {
-        tokens.emplace_back( _( "<R>eset" ) );
+        tokens.emplace_back( ctxt.get_hint( "RESET_FILTER" ) );
     }
 
-    tokens.emplace_back( _( "<E>xamine" ) );
-    tokens.emplace_back( _( "<C>ompare" ) );
-    tokens.emplace_back( _( "<F>ilter" ) );
-    tokens.emplace_back( _( "<+/->Priority" ) );
+    tokens.emplace_back( ctxt.get_hint( "EXAMINE" ) );
+    tokens.emplace_back( ctxt.get_hint( "COMPARE" ) );
+    tokens.emplace_back( ctxt.get_hint( "FILTER" ) );
+    tokens.emplace_back( ctxt.get_hint_pair( "PRIORITY_INCREASE", "PRIORITY_DECREASE",
+                         _( "Priority" ) ) );
 
     int gaps = tokens.size() + 1;
     letters = 0;
     int n = tokens.size();
     for( int i = 0; i < n; i++ ) {
-        letters += utf8_width( tokens[i] ) - 2; //length ignores < >
+        letters += utf8_width( tokens[i], true ) - 1; //length ignores < >
     }
 
     int usedwidth = letters;
     const int gap_spaces = ( width - usedwidth ) / gaps;
     usedwidth += gap_spaces * gaps;
     point pos( gap_spaces + ( width - usedwidth ) / 2, TERMY - height - 1 );
-
-    for( int i = 0; i < n; i++ ) {
-        pos.x += shortcut_print( window, pos, c_white, c_light_green,
-                                 tokens[i] ) + gap_spaces;
-    }
+    fold_and_print( window, pos, width, c_light_gray, enumerate_as_string( tokens,
+                    enumeration_conjunction::space ) );
 }
 
 void game::list_items_monsters()
@@ -8085,7 +8060,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     ctxt.register_action( "TRAVEL_TO" );
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
-        reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
+        reset_item_list_state( w_items_border, iInfoHeight, sort_radius, ctxt );
 
         int iStartPos = 0;
         if( ground_items.empty() ) {
@@ -8541,8 +8516,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             draw_custom_border( w_monsters_border, 1, 1, 1, 1, 1, 1, LINE_XOXO, LINE_XOXO );
             draw_custom_border( w_monster_info_border, 1, 1, 1, 1, LINE_XXXO, LINE_XOXX, 1, 1 );
 
-            mvwprintz( w_monsters_border, point( 2, 0 ), c_light_green, "<Tab> " );
-            wprintz( w_monsters_border, c_white, _( "Monsters" ) );
+            print_colored_text( w_monsters_border, point( 2, 0 ), ctxt.get_hint( "NEXT_TAB",
+                                _( "Monsters" ) ) );
 
             if( monster_list.empty() ) {
                 werase( w_monsters );
@@ -8624,9 +8599,9 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         monNameSelected = is_npc ? get_safemode().npc_type_name() : m->name();
 
                         if( get_safemode().has_rule( monNameSelected, Creature::Attitude::ANY ) ) {
-                            sSafemode = _( "<R>emove from safe mode blacklist" );
+                            sSafemode = ctxt.get_hint( "SAFEMODE_BLACKLIST_REMOVE" );
                         } else {
-                            sSafemode = _( "<A>dd to safe mode blacklist" );
+                            sSafemode = ctxt.get_hint( "SAFEMODE_BLACKLIST_ADD" );
                         }
                     }
 
@@ -8685,27 +8660,26 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
                 if( bVMonsterLookFire ) {
                     mvwprintw( w_monster_info_border, point_east, "< " );
-                    wprintz( w_monster_info_border, c_light_green, ctxt.press_x( "look" ) );
-                    wprintz( w_monster_info_border, c_light_gray, " %s", _( "to look around" ) );
+                    print_colored_text( w_monster_info_border, ctxt.press_x( "look" ) );
+                    print_colored_text( w_monster_info_border, string_format( " %s", _( "to look around" ) ) );
 
                     if( cCurMon && rl_dist( u.pos(), cCurMon->pos() ) <= max_gun_range ) {
                         std::string press_to_fire_text = string_format( _( "%s %s" ),
                                                          ctxt.press_x( "fire" ),
                                                          string_format( _( "<color_light_gray>to shoot</color>" ) ) );
-                        right_print( w_monster_info_border, 0, 3, c_light_green, press_to_fire_text );
+                        right_print( w_monster_info_border, 0, 3, press_to_fire_text );
                     }
                     wprintw( w_monster_info_border, " >" );
                 }
 
                 if( !get_safemode().empty() ) {
                     if( get_safemode().has_rule( monNameSelected, Creature::Attitude::ANY ) ) {
-                        sSafemode = _( "<R>emove from safe mode blacklist" );
+                        sSafemode = ctxt.get_hint( "SAFEMODE_BLACKLIST_REMOVE" );
                     } else {
-                        sSafemode = _( "<A>dd to safe mode blacklist" );
+                        sSafemode = ctxt.get_hint( "SAFEMODE_BLACKLIST_ADD" );
                     }
 
-                    shortcut_print( w_monsters, point( 2, getmaxy( w_monsters ) - 1 ),
-                                    c_white, c_light_green, sSafemode );
+                    print_colored_text( w_monsters, point( 2, getmaxy( w_monsters ) - 1 ), sSafemode );
                 }
 
                 draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ),

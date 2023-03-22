@@ -2809,21 +2809,8 @@ void veh_interact::display_name()
 static std::string veh_act_desc( const input_context &ctxt, const std::string &id,
                                  const std::string &desc, const task_reason reason )
 {
-    static const translation inline_fmt_enabled = to_translation(
-                "keybinding", "<color_light_gray>%1$s<color_light_green>%2$s</color>%3$s</color>" );
-    static const translation inline_fmt_disabled = to_translation(
-                "keybinding", "<color_dark_gray>%1$s<color_green>%2$s</color>%3$s</color>" );
-    static const translation separate_fmt_enabled = to_translation(
-                "keybinding", "<color_light_gray><color_light_green>%1$s</color>-%2$s</color>" );
-    static const translation separate_fmt_disabled = to_translation(
-                "keybinding", "<color_dark_gray><color_green>%1$s</color>-%2$s</color>" );
-    if( reason == task_reason::CAN_DO ) {
-        return ctxt.get_desc( id, desc, input_context::allow_all_keys,
-                              inline_fmt_enabled, separate_fmt_enabled );
-    } else {
-        return ctxt.get_desc( id, desc, input_context::allow_all_keys,
-                              inline_fmt_disabled, separate_fmt_disabled );
-    }
+    return ctxt.get_hint( id, desc,
+                          reason == task_reason::CAN_DO ? keybinding_hint_state::ENABLED : keybinding_hint_state::DISABLED );
 }
 
 /**

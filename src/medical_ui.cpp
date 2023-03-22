@@ -316,9 +316,9 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
     // Hotkey Helper
     std::string desc;
     desc = string_format( _(
-                              "[<color_yellow>%s/%s</color>] Scroll info [<color_yellow>%s</color>] Use item [<color_yellow>%s</color>] Keybindings" ),
-                          ctxt.get_desc( "SCROLL_INFOBOX_UP" ), ctxt.get_desc( "SCROLL_INFOBOX_DOWN" ),
-                          ctxt.get_desc( "APPLY" ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
+                              "%s Scroll info %s Use item %s Keybindings" ),
+                          ctxt.get_hint_pair( "SCROLL_INFOBOX_UP", "SCROLL_INFOBOX_DOWN" ),
+                          ctxt.get_hint_key_only( "APPLY" ), ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ) );
 
     const int details_width = utf8_width( remove_color_tags( desc ) ) + 3;
     const int max_width = right_indent + TAB_WIDTH;

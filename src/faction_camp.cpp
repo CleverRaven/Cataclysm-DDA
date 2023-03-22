@@ -1989,10 +1989,12 @@ void basecamp::worker_assignment_ui()
         } else {
             mvwprintz( w_followers, point( 1, 4 ), c_light_red, no_npcs );
         }
-        mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 2 ), c_light_gray,
-                   _( "Press %s to inspect this follower." ), ctxt.get_desc( "INSPECT_NPC" ) );
-        mvwprintz( w_followers, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
-                   _( "Press %s to assign this follower to this camp." ), ctxt.get_desc( "CONFIRM" ) );
+        print_colored_text( w_followers, point( 1, FULL_SCREEN_HEIGHT - 2 ),
+                            string_format( _( "Press %s to inspect this follower." ),
+                                           ctxt.get_hint_key_only( "INSPECT_NPC" ) ) );
+        print_colored_text( w_followers, point( 1, FULL_SCREEN_HEIGHT - 1 ),
+                            string_format( _( "Press %s to assign this follower to this camp." ),
+                                           ctxt.get_hint_key_only( "CONFIRM" ) ) );
         wnoutrefresh( w_followers );
     } );
 
@@ -2099,10 +2101,12 @@ void basecamp::job_assignment_ui()
         } else {
             mvwprintz( w_jobs, point( 46, 4 ), c_light_red, no_npcs );
         }
-        mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 2 ), c_light_gray,
-                   _( "Press %s to inspect this follower." ), ctxt.get_desc( "INSPECT_NPC" ) );
-        mvwprintz( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 1 ), c_light_gray,
-                   _( "Press %s to change this workers job priorities." ), ctxt.get_desc( "CONFIRM" ) );
+        print_colored_text( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 2 ),
+                            string_format( _( "Press %s to inspect this follower." ),
+                                           ctxt.get_hint_key_only( "INSPECT_NPC" ) ) );
+        print_colored_text( w_jobs, point( 1, FULL_SCREEN_HEIGHT - 1 ),
+                            string_format( _( "Press %s to change this workers job priorities." ),
+                                           ctxt.get_hint_key_only( "CONFIRM" ) ) );
         wnoutrefresh( w_jobs );
     } );
 

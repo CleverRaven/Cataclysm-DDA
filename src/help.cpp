@@ -104,15 +104,20 @@ std::map<int, inclusive_rectangle<point>> help::draw_menu( const catacurses::win
     int second_column = divide_round_up( getmaxx( win ), 2 );
     size_t i = 0;
     for( const auto &text : help_texts ) {
+        const keybinding_hint_state state = selected == text.first ? keybinding_hint_state::HIGHLIGHTED :
+                                            keybinding_hint_state::ENABLED ;
         const std::string cat_name = text.second.first.translated();
-        const int cat_width = utf8_width( remove_color_tags( shortcut_text( c_white, cat_name ) ) );
+        std::string shortcut = shortcut_text( cat_name, state );
+        const int cat_width = utf8_width( shortcut, true );
         if( i < half_size ) {
             second_column = std::max( second_column, cat_width + 4 );
         }
 
         const point sc_start( i < half_size ? 1 : second_column, y + i % half_size );
-        shortcut_print( win, sc_start, selected == text.first ? hilite( c_white ) : c_white,
-                        selected == text.first ? hilite( c_light_blue ) : c_light_blue, cat_name );
+        wmove( win, sc_start );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        print_colored_text( win, point( -1, -1 ), shortcut );
+
         ++i;
 
         opt_map.emplace( text.first,

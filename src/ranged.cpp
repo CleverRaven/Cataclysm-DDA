@@ -1778,7 +1778,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
         for( const aim_type_prediction &out : sorted ) {
             std::string col_hl = out.is_default ? "light_green" : "light_gray";
             std::string desc =
-                string_format( "<color_white>[%s]</color> <color_%s>%s %s</color> | %s: <color_light_blue>%3d</color>",
+                string_format( "<color_white>[</color><color_yellow>%s</color><color_white>]</color> <color_%s>%s %s</color> | %s: <color_light_blue>%3d</color>",
                                out.hotkey, col_hl, out.name, _( "Aim" ), _( "Moves to fire" ), out.moves );
 
             print_colored_text( w, point( 1, line_number++ ), col, col, desc );
@@ -3473,13 +3473,13 @@ std::string target_ui::uitext_title() const
 std::string target_ui::uitext_fire() const
 {
     if( mode == TargetMode::Throw || mode == TargetMode::ThrowBlind ) {
-        return to_translation( "[Hotkey] to throw", "to throw" ).translated();
+        return to_translation( "[Hotkey] to throw", "Throw" ).translated();
     } else if( mode == TargetMode::Reach ) {
-        return to_translation( "[Hotkey] to attack", "to attack" ).translated();
+        return to_translation( "[Hotkey] to attack", "Attack" ).translated();
     } else if( mode == TargetMode::Spell ) {
-        return to_translation( "[Hotkey] to cast the spell", "to cast" ).translated();
+        return to_translation( "[Hotkey] to cast the spell", "Cast" ).translated();
     } else {
-        return to_translation( "[Hotkey] to fire", "to fire" ).translated();
+        return to_translation( "[Hotkey] to fire", "Fire" ).translated();
     }
 }
 
@@ -3495,8 +3495,8 @@ void target_ui::draw_help_notice()
     int text_y = getmaxy( w_target ) - 1;
     int width = getmaxx( w_target );
     const std::string label_help = string_format(
-                                       narrow ? _( "[%s] show help" ) : _( "[%s] show all controls" ),
-                                       ctxt.get_desc( "HELP_KEYBINDINGS", 1 ) );
+                                       narrow ? _( "%s show help" ) : _( "%s show all controls" ),
+                                       ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ) );
     int label_width = std::min( utf8_width( label_help ), width - 6 ); // 6 for borders and "< " + " >"
     int text_x = width - label_width - 6;
     mvwprintz( w_target, point( text_x + 1, text_y ), c_white, "< " );
@@ -3507,25 +3507,10 @@ void target_ui::draw_help_notice()
 void target_ui::draw_controls_list( int text_y )
 {
     // Change UI colors for visual feedback
-    // TODO: Colorize keys inside brackets to be consistent with other UI windows
-    nc_color col_enabled = c_white;
-    nc_color col_disabled = c_light_gray;
-    nc_color col_move = ( status != Status::OutOfAmmo ? col_enabled : col_disabled );
-    nc_color col_fire = ( status == Status::Good ? col_enabled : col_disabled );
-
-    // Get first key bound to given action OR ' ' if there are none.
-    const auto bound_key = [this]( const std::string & s ) {
-        const std::vector<input_event> keys = this->ctxt.keys_bound_to( s, /*maximum_modifier_count=*/1 );
-        return keys.empty() ? input_event() : keys.front();
-    };
-    const auto colored = [col_enabled]( nc_color color, const std::string & s ) {
-        if( color == col_enabled ) {
-            // col_enabled is the default one when printing
-            return s;
-        } else {
-            return colorize( s, color );
-        }
-    };
+    keybinding_hint_state move_hint_state = ( status != Status::OutOfAmmo ?
+                                            keybinding_hint_state::ENABLED : keybinding_hint_state::DISABLED );
+    keybinding_hint_state fire_hint_state = ( status == Status::Good ? keybinding_hint_state::ENABLED :
+                                            keybinding_hint_state::DISABLED );
 
     struct line {
         size_t order; // Lines with highest 'order' are removed first
@@ -3535,62 +3520,51 @@ void target_ui::draw_controls_list( int text_y )
 
     // Compile full list
     if( shifting_view ) {
-        lines.push_back( {8, colored( col_move, _( "Shift view with directional keys" ) )} );
+        lines.push_back( {8, colorize( _( "Shift view with directional keys" ), input_context::get_hint_color( move_hint_state ) )} );
     } else {
-        lines.push_back( {8, colored( col_move, _( "Move cursor with directional keys" ) )} );
+        lines.push_back( {8, colorize( _( "Move cursor with directional keys" ), input_context::get_hint_color( move_hint_state ) ) } );
     }
     if( is_mouse_enabled() ) {
         std::string move = _( "Mouse: LMB: Target, Wheel: Cycle," );
         std::string fire = _( "RMB: Fire" );
-        lines.push_back( {7, colored( col_move, move ) + " " + colored( col_fire, fire )} );
+        lines.push_back( {7, string_format( "%s %s", colorize( move, input_context::get_hint_color( move_hint_state ) ), colorize( fire, input_context::get_hint_color( fire_hint_state ) ) )} );
     }
     {
-        std::string cycle = string_format( _( "[%s] Cycle targets;" ), ctxt.get_desc( "NEXT_TARGET", 1 ) );
-        std::string fire = string_format( _( "[%s] %s." ), bound_key( "FIRE" ).short_description(),
-                                          uitext_fire() );
-        lines.push_back( {0, colored( col_move, cycle ) + " " + colored( col_fire, fire )} );
+        lines.push_back( {0, string_format( "%s %s", ctxt.get_hint( "NEXT_TARGET", _( "Cycle targets" ), move_hint_state ), ctxt.get_hint( "FIRE", uitext_fire(), fire_hint_state ) )} );
     }
     {
-        std::string text = string_format( _( "[%s] target self; [%s] toggle snap-to-target" ),
-                                          bound_key( "CENTER" ).short_description(),
-                                          bound_key( "TOGGLE_SNAP_TO_TARGET" ).short_description() );
-        lines.push_back( {3, colored( col_enabled, text )} );
+        std::string text = string_format( "%s %s",
+                                          ctxt.get_hint( "CENTER", _( "Target self" ) ),
+                                          ctxt.get_hint( "TOGGLE_SNAP_TO_TARGET" ) );
+        lines.push_back( {3, text} );
     }
     if( mode == TargetMode::Fire ) {
-        std::string aim_and_fire;
+        std::vector<std::string> aim_and_fire;
         for( const aim_type &e : aim_types ) {
             if( e.has_threshold ) {
-                aim_and_fire += string_format( "[%s] ", bound_key( e.action ).short_description() );
+                aim_and_fire.push_back( ctxt.get_hint( e.action, fire_hint_state ) );
             }
         }
-        aim_and_fire += _( "to aim and fire." );
 
-        std::string aim = string_format( _( "[%s] to steady your aim.  (10 moves)" ),
-                                         bound_key( "AIM" ).short_description() );
 
-        std::string dropaim = string_format( _( "[%s] to stop aiming." ),
-                                             bound_key( "STOPAIM" ).short_description() );
 
-        lines.push_back( {2, colored( col_fire, aim )} );
-        lines.push_back( { 2, colored( col_fire, dropaim ) } );
-        lines.push_back( {4, colored( col_fire, aim_and_fire )} );
+        lines.push_back( {2, ctxt.get_hint( "AIM", _( "Steady your aim (10 moves)" ), fire_hint_state )} );
+        lines.push_back( {2, ctxt.get_hint( "STOPAIM", _( "Stop aiming" ), fire_hint_state )} );
+        lines.push_back( {4, _( "Aim and fire with:" )} );
+        lines.push_back( {5, string_format( "  (%s)", enumerate_as_string( aim_and_fire, enumeration_conjunction::space ) )} );
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
             relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
-        lines.push_back( {5, colored( col_enabled, string_format( _( "[%s] to switch firing modes." ),
-                                      bound_key( "SWITCH_MODE" ).short_description() ) )
-                         } );
+        lines.push_back( {5, ctxt.get_hint( "SWITCH_MODE", _( "Switch firing modes" ) )} );
         if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
-            lines.push_back( { 6, colored( col_enabled, string_format( _( "[%s] to reload/switch ammo." ),
-                                           bound_key( "SWITCH_AMMO" ).short_description() ) )
-                             } );
+            lines.push_back( { 6, ctxt.get_hint( "SWITCH_AMMO", _( "Reload/Switch ammo" ) ) } );
         }
     }
     if( mode == TargetMode::Turrets ) {
         const std::string label = draw_turret_lines
-                                  ? _( "[%s] Hide lines of fire" )
-                                  : _( "[%s] Show lines of fire" );
-        lines.push_back( {1, colored( col_enabled, string_format( label, bound_key( "TOGGLE_TURRET_LINES" ).short_description() ) )} );
+                                  ? _( "Hide lines of fire" )
+                                  : _( "Show lines of fire" );
+        lines.push_back( {1, ctxt.get_hint( "TOGGLE_TURRET_LINES", label )} );
     }
 
     // Shrink the list until it fits
@@ -3607,7 +3581,7 @@ void target_ui::draw_controls_list( int text_y )
 
     text_y = height - lines.size() - 1;
     for( const line &l : lines ) {
-        nc_color col = col_enabled;
+        nc_color col = input_context::get_hint_color( keybinding_hint_state::ENABLED );
         print_colored_text( w_target, point( 1, text_y++ ), col, col, l.str );
     }
 }

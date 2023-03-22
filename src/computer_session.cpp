@@ -1717,13 +1717,13 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
     ctxt.register_action( "HELP_KEYBINDINGS" );
     print_indented_line( 0, width, force_uc && !is_keycode_mode_supported()
                          //~ 1st: query string, 2nd-4th: keybinding descriptions
-                         ? pgettext( "query_ynq", "%s %s, %s, %s (Case sensitive)" )
+                         ? pgettext( "query_ynq", "%s %s %s %s (Case sensitive)" )
                          //~ 1st: query string, 2nd-4th: keybinding descriptions
-                         : pgettext( "query_ynq", "%s %s, %s, %s" ),
+                         : pgettext( "query_ynq", "%s %s %s %s" ),
                          formatted_text,
-                         ctxt.describe_key_and_name( "YES", allow_key ),
-                         ctxt.describe_key_and_name( "NO", allow_key ),
-                         ctxt.describe_key_and_name( "QUIT", allow_key ) );
+                         ctxt.get_hint( "YES", keybinding_hint_state::ENABLED, allow_key ),
+                         ctxt.get_hint( "NO", keybinding_hint_state::ENABLED, allow_key ),
+                         ctxt.get_hint( "QUIT", keybinding_hint_state::ENABLED, allow_key ) );
 
     do {
         ui_manager::redraw();

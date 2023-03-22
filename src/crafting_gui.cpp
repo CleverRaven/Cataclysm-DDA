@@ -1122,20 +1122,9 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
         const unsigned int header_info_width = std::max( width / 4, width - FULL_SCREEN_WIDTH - 1 );
         const int wStart = ( TERMX - width ) / 2;
 
-        // Keybinding tips
-        static const translation inline_fmt = to_translation(
-                //~ %1$s: action description text before key,
-                //~ %2$s: key description,
-                //~ %3$s: action description text after key.
-                "keybinding", "%1$s[<color_yellow>%2$s</color>]%3$s" );
-        static const translation separate_fmt = to_translation(
-                //~ %1$s: key description,
-                //~ %2$s: action description.
-                "keybinding", "[<color_yellow>%1$s</color>]%2$s" );
         std::vector<std::string> act_descs;
         const auto add_action_desc = [&]( const std::string & act, const std::string & txt ) {
-            act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys,
-                                                   inline_fmt, separate_fmt ) );
+            act_descs.emplace_back( ctxt.get_hint( act, txt ) );
         };
         add_action_desc( "CONFIRM", pgettext( "crafting gui", "Craft" ) );
         add_action_desc( "HELP_RECIPE", pgettext( "crafting gui", "Describe" ) );
@@ -1153,7 +1142,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
         add_action_desc( "CYCLE_BATCH", pgettext( "crafting gui", "Batch" ) );
         add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
         keybinding_x = isWide ? 5 : 2;
-        keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
+        keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::space ),
                                       width - keybinding_x * 2 );
 
         const int tailHeight = keybinding_tips.size() + 2;
@@ -1891,11 +1880,11 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
             } else if( filterstring.empty() ) {
                 query_str = string_format( _( "Mark recipes in this tab as read?  This cannot be undone.  "
                                               "You can mark all recipes by choosing yes and pressing %s again." ),
-                                           ctxt.get_desc( "MARK_ALL_RECIPES_READ" ) );
+                                           ctxt.get_hint_key_only( "MARK_ALL_RECIPES_READ" ) );
             } else {
                 query_str = string_format( _( "Mark filtered recipes as read?  This cannot be undone.  "
                                               "You can mark all recipes by choosing yes and pressing %s again." ),
-                                           ctxt.get_desc( "MARK_ALL_RECIPES_READ" ) );
+                                           ctxt.get_hint_key_only( "MARK_ALL_RECIPES_READ" ) );
             }
             if( query_yn( query_str ) ) {
                 if( current_list_has_unread ) {

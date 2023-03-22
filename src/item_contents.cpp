@@ -2468,8 +2468,8 @@ void pocket_management_menu( const std::string &title, const std::vector<item *>
     static const std::string input_category = "INVENTORY";
     input_context ctxt( input_category );
     const std::string uilist_text = string_format(
-                                        _( "Modify pocket settings and move items between pockets.  [<color_yellow>%s</color>] Context menu" ),
-                                        ctxt.get_desc( "FAV_CONTEXT_MENU", 1 ) );
+                                        _( "Modify pocket settings and move items between pockets.  %s Context menu" ),
+                                        ctxt.get_hint_key_only( "FAV_CONTEXT_MENU" ) );
     uilist pocket_selector;
     pocket_favorite_callback cb( uilist_text, to_organize, pocket_selector );
     pocket_selector.title = title;
