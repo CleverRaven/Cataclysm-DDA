@@ -7,6 +7,7 @@
     "symbol": ".",
     "color": "magenta_white",
     "move_cost": 1,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT" ]
   },
   {
@@ -19,7 +20,7 @@
     "move_cost": 0,
     "coverage": 100,
     "looks_like": "t_concrete_wall",
-    "roof": "t_nm_floor_bone",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
@@ -34,7 +35,7 @@
     "move_cost": 0,
     "coverage": 100,
     "looks_like": "t_concrete_wall",
-    "roof": "t_nm_floor_bone",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ]
   },
   {
@@ -45,6 +46,7 @@
     "symbol": ".",
     "color": "magenta_white",
     "move_cost": 1,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT" ],
     "looks_like": "t_thconc_floor_flesh"
   },
@@ -57,7 +59,7 @@
     "color": "magenta_red",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_nm_floor_flesh",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_concrete_wall_flesh",
     "bash": {
@@ -78,7 +80,7 @@
     "color": "magenta",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_nm_floor_flesh",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_nm_wall_flesh",
     "bash": { "str_min": 15, "str_max": 25, "sound": "crash!", "sound_fail": "whump!", "ter_set": "t_nm_floor_flesh" }
@@ -93,7 +95,7 @@
     "color": "yellow_red",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_nm_floor_flesh",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_concrete_wall_flesh",
     "bash": {
@@ -125,7 +127,7 @@
     "symbol": "#",
     "color": "white",
     "move_cost": 0,
-    "roof": "t_nm_floor_flesh",
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "BLOCK_WIND", "NOITEM" ],
     "looks_like": "fd_web",
     "bash": { "sound": "Riiiiip!", "ter_set": "t_nm_floor_flesh", "str_min": 5, "str_max": 10 }
@@ -139,7 +141,7 @@
     "color": "magenta_red",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_nm_floor_flesh",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "MINEABLE", "BLOCK_WIND" ],
     "looks_like": "t_concrete_wall_flesh",
     "bash": {
