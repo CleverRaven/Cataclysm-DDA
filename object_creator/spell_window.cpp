@@ -484,10 +484,10 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         editable_spell.base_energy_cost.min.dbl_val = base_energy_cost_box.value();
         if( editable_spell.energy_increment.min.dbl_val.value() > 0.0f ) {
             final_energy_cost_box.setValue( std::max( final_energy_cost_box.value(),
-                                            editable_spell.base_energy_cost.min.dbl_val.value() ) );
+                                            static_cast<int>( editable_spell.base_energy_cost.min.dbl_val.value() ) ) );
         } else if( editable_spell.energy_increment.min.dbl_val.value() < 0.0f ) {
             final_energy_cost_box.setValue( std::min( final_energy_cost_box.value(),
-                                            editable_spell.base_energy_cost.min.dbl_val.value() ) );
+                                            static_cast<int>( editable_spell.base_energy_cost.min.dbl_val.value() ) ) );
         } else {
             final_energy_cost_box.setValue( editable_spell.base_energy_cost.min.dbl_val.value() );
         }
@@ -506,9 +506,9 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     [&]() {
         editable_spell.min_damage.min.dbl_val = min_damage_box.value();
         if( editable_spell.damage_increment.min.dbl_val.value() > 0.0f ) {
-            max_damage_box.setValue( std::max( max_damage_box.value(), editable_spell.min_damage.min.dbl_val.value() ) );
+            max_damage_box.setValue( std::max( max_damage_box.value(), static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
         } else if( editable_spell.damage_increment.min.dbl_val.value() < 0.0f ) {
-            max_damage_box.setValue( std::min( max_damage_box.value(), editable_spell.min_damage.min.dbl_val.value() ) );
+            max_damage_box.setValue( std::min( max_damage_box.value(), static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
         } else {
             max_damage_box.setValue( editable_spell.min_damage );
         }
@@ -526,7 +526,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     QObject::connect( &min_range_box, &QSpinBox::textChanged,
     [&]() {
         editable_spell.min_range.min.dbl_val = min_range_box.value();
-        max_range_box.setValue( std::max( max_range_box.value(), editable_spell.min_range.min.dbl_val.value() ) );
+        max_range_box.setValue( std::max( max_range_box.value(), static_cast<int>( editable_spell.min_range.min.dbl_val.value() ) ) );
         editable_spell.max_range.min.dbl_val = max_range_box.value();
         write_json();
     } );
@@ -541,7 +541,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     QObject::connect( &min_aoe_box, &QSpinBox::textChanged,
     [&]() {
         editable_spell.min_aoe.min.dbl_val = min_aoe_box.value();
-        max_aoe_box.setValue( std::max( max_aoe_box.value(), editable_spell.min_aoe.min.dbl_val.value() ) );
+        max_aoe_box.setValue( std::max( max_aoe_box.value(), static_cast<int>( editable_spell.min_aoe.min.dbl_val.value() ) ) );
         editable_spell.max_aoe.min.dbl_val = max_aoe_box.value();
         write_json();
     } );
@@ -556,7 +556,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     QObject::connect( &min_dot_box, &QSpinBox::textChanged,
     [&]() {
         editable_spell.min_dot.min.dbl_val = min_dot_box.value();
-        max_dot_box.setValue( std::max( max_dot_box.value(), editable_spell.min_dot.min.dbl_val.value() ) );
+        max_dot_box.setValue( std::max( max_dot_box.value(), static_cast<int>( editable_spell.min_dot.min.dbl_val.value() ) ) );
         editable_spell.max_dot.min.dbl_val = max_dot_box.value();
         write_json();
     } );
@@ -571,7 +571,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     QObject::connect( &min_pierce_box, &QSpinBox::textChanged,
     [&]() {
         editable_spell.min_pierce.min.dbl_val = min_pierce_box.value();
-        max_pierce_box.setValue( std::max( max_pierce_box.value(), editable_spell.min_pierce.min.dbl_val.value() ) );
+        max_pierce_box.setValue( std::max( max_pierce_box.value(), static_cast<int>( editable_spell.min_pierce.min.dbl_val.value() ) ) );
         editable_spell.max_pierce.min.dbl_val = max_pierce_box.value();
         write_json();
     } );
@@ -589,10 +589,10 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         editable_spell.base_casting_time.min.dbl_val = base_casting_time_box.value();
         if( editable_spell.casting_time_increment.min.dbl_val.value() > 0.0f ) {
             final_casting_time_box.setValue( std::max( final_casting_time_box.value(),
-                                             editable_spell.base_casting_time.min.dbl_val.value() ) );
+                                             static_cast<int>( editable_spell.base_casting_time.min.dbl_val.value() ) ) );
         } else if( editable_spell.energy_increment.min.dbl_val.value() < 0.0f ) {
             final_casting_time_box.setValue( std::min( final_casting_time_box.value(),
-                                             editable_spell.base_casting_time.min.dbl_val.value() ) );
+                                             static_cast<int>( editable_spell.base_casting_time.min.dbl_val.value() ) ) );
         } else {
             final_casting_time_box.setValue( editable_spell.base_casting_time.min.dbl_val.value() );
         }
@@ -1046,10 +1046,10 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         editable_spell.final_energy_cost = final_energy_cost_box.value();
         if( editable_spell.energy_increment.min.dbl_val.value() > 0.0f) {
             base_energy_cost_box.setValue( std::min( base_energy_cost_box.value(),
-                                           editable_spell.final_energy_cost.min.dbl_val.value() ) );
+                                           static_cast<int>( editable_spell.final_energy_cost.min.dbl_val.value() ) ) );
         } else if( editable_spell.energy_increment.min.dbl_val.value() < 0.0f ) {
             base_energy_cost_box.setValue( std::max( base_energy_cost_box.value(),
-                                           editable_spell.final_energy_cost.min.dbl_val.value() ) );
+                                           static_cast<int>( editable_spell.final_energy_cost.min.dbl_val.value() ) ) );
         } else {
             base_energy_cost_box.setValue( editable_spell.final_energy_cost.min.dbl_val.value() );
         }
@@ -1146,10 +1146,10 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         editable_spell.final_casting_time.min.dbl_val = final_casting_time_box.value();
         if( editable_spell.energy_increment.min.dbl_val.value() > 0.0f) {
             base_casting_time_box.setValue( std::min( base_casting_time_box.value(),
-                                            editable_spell.final_casting_time.min.dbl_val.value() ) );
+                                            static_cast<int>( editable_spell.final_casting_time.min.dbl_val.value() ) ) );
         } else if( editable_spell.energy_increment.min.dbl_val.value() < 0.0f ) {
             base_casting_time_box.setValue( std::max( base_casting_time_box.value(),
-                                            editable_spell.final_casting_time.min.dbl_val.value() ) );
+                                            static_cast<int>( editable_spell.final_casting_time.min.dbl_val.value() ) ) );
         } else {
             base_casting_time_box.setValue( editable_spell.final_casting_time.min.dbl_val.value() );
         }
