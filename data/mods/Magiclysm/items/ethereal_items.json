@@ -885,39 +885,42 @@
     "category": "armor",
     "copy-from": "armor_lightplate",
     "name": { "str_sp": "mage armor" },
-    "description": "A summoned magic armor.  It glows shiny and get sturdier with each spell and your intelligence level.",
+    "description": "A summoned magic armor.  It gets shinier and sturdier with each spell level.",
+    "weight": "1 g",
     "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 0,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
-    "passive_effects": [
-      {
-        "has": "WORN",
-        "condition": "ALWAYS",
-        "values": [
-          {
-            "value": "ARMOR_BASH",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
-          },
-          {
-            "value": "ARMOR_CUT",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
-          },
-          {
-            "value": "ARMOR_STAB",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
-          },
-          {
-            "value": "ARMOR_BULLET",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
-          },
-          {
-            "value": "LUMINATION",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
-          }
-        ]
-      }
-    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            {
+              "value": "ARMOR_BASH",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+            },
+            {
+              "value": "ARMOR_CUT",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+            },
+            {
+              "value": "ARMOR_STAB",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+            },
+            {
+              "value": "ARMOR_BULLET",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+            },
+            {
+              "value": "LUMINATION",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": 3 } ] }
+            }
+          ]
+        }
+      ]
+    },
     "armor": [
       {
         "encumbrance": 0,
