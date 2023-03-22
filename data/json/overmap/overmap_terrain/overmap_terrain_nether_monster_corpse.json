@@ -6,21 +6,21 @@
     "sym": "O",
     "color": "light_red",
     "see_cost": 5,
-    "flags": [ "RISK_HIGH" ]
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN" ]
   },
   {
     "type": "overmap_terrain",
     "id": "corpse_surface",
     "name": "monster corpse",
     "copy-from": "corpse_bowels_empty_edge",
-    "flags": [ "RISK_HIGH", "REQUIRES_PREDECESSOR" ],
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "NO_ROTATE" ],
     "sym": "T"
   },
   {
     "type": "overmap_terrain",
     "id": "corpse_bowels_mid",
     "copy-from": "corpse_bowels_empty_edge",
-    "flags": [ "RISK_HIGH", "NO_ROTATE" ],
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "NO_ROTATE" ],
     "sym": "O"
   },
   {
@@ -32,13 +32,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "corpse_bowels_neck_right",
-    "copy-from": "corpse_bowels_empty_edge",
-    "sym": "N"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_bowels_neck_left",
+    "id": "corpse_bowels_neck_edge",
     "copy-from": "corpse_bowels_empty_edge",
     "sym": "N"
   },
@@ -102,16 +96,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "corpse_brain",
-    "copy-from": "corpse_head"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "corpse_under_brain",
-    "copy-from": "corpse_head"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "corpse_head_edge",
     "copy-from": "corpse_bowels_empty_edge",
     "color": "red",
@@ -145,7 +129,7 @@
     "name": "monster corpse tentacle",
     "sym": "|",
     "color": "light_blue",
-    "flags": [ "LINEAR" ]
+    "flags": [ "SHOULD_NOT_SPAWN", "LINEAR" ]
   },
   {
     "type": "overmap_terrain",
@@ -154,7 +138,7 @@
     "name": "monster corpse tentacle",
     "sym": "M",
     "color": "blue",
-    "flags": [ "RISK_HIGH", "KNOWN_UP" ]
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "KNOWN_UP" ]
   },
   {
     "type": "overmap_terrain",
@@ -163,6 +147,6 @@
     "name": "monster corpse",
     "sym": "M",
     "color": "blue",
-    "flags": [ "RISK_HIGH", "KNOWN_DOWN", "REQUIRES_PREDECESSOR" ]
+    "flags": [ "RISK_HIGH", "SHOULD_NOT_SPAWN", "KNOWN_DOWN", "REQUIRES_PREDECESSOR" ]
   }
 ]

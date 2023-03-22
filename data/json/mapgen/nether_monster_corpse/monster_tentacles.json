@@ -22,9 +22,7 @@
         "              ",
         "              "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
+      "terrain": { "#": "t_soil" }
     }
   },
   {
@@ -50,9 +48,7 @@
         "              ",
         "              "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
+      "terrain": { "#": "t_soil" }
     }
   },
   {
@@ -78,9 +74,7 @@
         "              ",
         "              "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
+      "terrain": { "#": "t_soil" }
     }
   },
   {
@@ -106,9 +100,7 @@
         "#             ",
         "#             "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
+      "terrain": { "#": "t_soil" }
     }
   },
   {
@@ -134,9 +126,7 @@
         "              ",
         "              "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
+      "terrain": { "#": "t_soil" }
     }
   },
   {
@@ -162,9 +152,7 @@
         "#             ",
         "#             "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": {  }
+      "terrain": { "#": "t_soil" }
     }
   },
   {
@@ -172,7 +160,7 @@
     "method": "json",
     "om_terrain": "corpse_tentacle_straight",
     "object": {
-      "fill_ter": "t_nm_floor_flesh",
+      "fill_ter": "t_dirt_underground",
       "rows": [
         "######            ######",
         "######            ######",
@@ -199,20 +187,7 @@
         "######            ######",
         "######            ######"
       ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
-      "furniture": {
-        " ": [
-          [ "f_null", 1000 ],
-          [ "f_nm_tube", 20 ],
-          [ "f_nm_tube_emitter", 13 ],
-          [ "f_nm_nether_lily", 5 ],
-          [ "f_nm_nether_grass", 28 ],
-          [ "f_nm_nether_grass_tall", 20 ],
-          [ "f_nm_nether_patchwork", 10 ],
-          [ "f_nm_nether_lichen", 10 ]
-        ]
-      },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
         { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 1 },
@@ -246,20 +221,20 @@
     "method": "json",
     "om_terrain": "corpse_tentacle_end",
     "object": {
-      "fill_ter": "t_nm_floor_flesh",
+      "fill_ter": "t_dirt_underground",
       "rows": [
-        "XXXXXXXXXXXXXXXXXXXXXXXX",
-        "XXXXXXXXXXXXXXXXXXXXXXXX",
-        "XXXXXXXXXXXXXXXXXXXXXXXX",
-        "XXXXXXXXXXXXXXXXXXXXXXXX",
-        "XXXXxxxxxxxxxxxxxxxxXXXX",
-        "XXXxxxxxxxxxxxxxxxxxxXXX",
-        "XXTxxxxxxxxxxxxxxxxxxTXX",
-        "XTTxxTxxT      TxxTxxTTX",
-        "X@@xxTxxT      Txx@xx@@X",
-        "XX@xx@xT        Tx@xx@XX",
-        "XXX@x@@          @@x@XXX",
-        "XXXX@@            @@XXXX",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########################",
+        "########## #############",
+        "#########   ############",
+        "########      ##########",
+        "########       #########",
+        "#######         ########",
+        "#######          #######",
         "######            ######",
         "######            ######",
         "######            ######",
@@ -273,20 +248,7 @@
         "######            ######",
         "######            ######"
       ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
-      "furniture": {
-        " ": [
-          [ "f_null", 1000 ],
-          [ "f_nm_tube", 20 ],
-          [ "f_nm_tube_emitter", 13 ],
-          [ "f_nm_nether_lily", 5 ],
-          [ "f_nm_nether_grass", 28 ],
-          [ "f_nm_nether_grass_tall", 20 ],
-          [ "f_nm_nether_patchwork", 10 ],
-          [ "f_nm_nether_lichen", 10 ]
-        ]
-      },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 12 },
         { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 13 },
@@ -308,7 +270,7 @@
     "method": "json",
     "om_terrain": "corpse_tentacle_curved",
     "object": {
-      "fill_ter": "t_nm_floor_flesh",
+      "fill_ter": "t_dirt_underground",
       "rows": [
         "########################",
         "########################",
@@ -335,20 +297,7 @@
         "######           #######",
         "######           #######"
       ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
-      "furniture": {
-        " ": [
-          [ "f_null", 1000 ],
-          [ "f_nm_tube", 20 ],
-          [ "f_nm_tube_emitter", 13 ],
-          [ "f_nm_nether_lily", 5 ],
-          [ "f_nm_nether_grass", 28 ],
-          [ "f_nm_nether_grass_tall", 20 ],
-          [ "f_nm_nether_patchwork", 10 ],
-          [ "f_nm_nether_lichen", 10 ]
-        ]
-      },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 7 },
         { "chunks": [ "tentacle_bounds_h1" ], "x": [ 4, 6 ], "y": 8 },
@@ -392,7 +341,7 @@
     "method": "json",
     "om_terrain": "corpse_tentacle_tee",
     "object": {
-      "fill_ter": "t_nm_floor_flesh",
+      "fill_ter": "t_dirt_underground",
       "rows": [
         "########################",
         "########################",
@@ -419,20 +368,7 @@
         "######            ######",
         "######            ######"
       ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
-      "furniture": {
-        " ": [
-          [ "f_null", 1000 ],
-          [ "f_nm_tube", 20 ],
-          [ "f_nm_tube_emitter", 13 ],
-          [ "f_nm_nether_lily", 5 ],
-          [ "f_nm_nether_grass", 28 ],
-          [ "f_nm_nether_grass_tall", 20 ],
-          [ "f_nm_nether_patchwork", 10 ],
-          [ "f_nm_nether_lichen", 10 ]
-        ]
-      },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 17 },
         { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 18 },
@@ -473,7 +409,7 @@
     "method": "json",
     "om_terrain": "corpse_tentacle_four_way",
     "object": {
-      "fill_ter": "t_nm_floor_flesh",
+      "fill_ter": "t_dirt_underground",
       "rows": [
         "#######          #######",
         "#######          #######",
@@ -500,20 +436,7 @@
         "#######          #######",
         "#######          #######"
       ],
-      "palettes": [ "nether_monster_palette" ],
-      "terrain": { " ": [ [ "t_nm_floor_flesh", 25 ], [ "t_nm_ichor_sh", 10 ] ] },
-      "furniture": {
-        " ": [
-          [ "f_null", 1000 ],
-          [ "f_nm_tube", 20 ],
-          [ "f_nm_tube_emitter", 13 ],
-          [ "f_nm_nether_lily", 5 ],
-          [ "f_nm_nether_grass", 28 ],
-          [ "f_nm_nether_grass_tall", 20 ],
-          [ "f_nm_nether_patchwork", 10 ],
-          [ "f_nm_nether_lichen", 10 ]
-        ]
-      },
+      "terrain": { "#": "t_soil" },
       "place_nested": [
         { "chunks": [ "ant_up_to_surface" ], "joins": { "above": "tunnel_to_surface" }, "x": 11, "y": 11 },
         { "chunks": [ "tentacle_bounds_h" ], "x": [ 4, 6 ], "y": 0 },
