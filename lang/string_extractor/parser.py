@@ -221,6 +221,7 @@ parsers = {
     "sub_body_part": parse_sub_body_part,
     "talk_topic": parse_talk_topic,
     "technique": parse_technique,
+    "temperature_removal_blacklist": dummy_parser,
     "ter_furn_transform": parse_ter_furn_transform,
     "terrain": parse_terrain,
     "trait_blacklist": dummy_parser,

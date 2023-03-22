@@ -126,8 +126,7 @@
         [ "m4_carbine", -1 ],
         [ "ar15", -1 ],
         [ "m249", -1 ],
-        [ "m16a4", -1 ],
-        [ "surv_carbine_223", -1 ]
+        [ "m16a4", -1 ]
       ],
       [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ]
     ],
@@ -210,7 +209,7 @@
     "skills_required": [ "gun", 1 ],
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "hk_g3", -1 ], [ "rifle_308", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
+    "tools": [ [ [ "hk_g3", -1 ], [ "m1a", -1 ] ], [ [ "small_repairkit", 10 ], [ "large_repairkit", 5 ] ] ],
     "using": [ [ "308_casehead", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "duct_tape", 40 ] ] ]

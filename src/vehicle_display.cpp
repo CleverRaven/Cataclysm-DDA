@@ -431,7 +431,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     int indf = ( amnt / 20 ) % 5;
     mvwprintz( win, p + point( indf, 0 ), f_color, "%c", fsyms[indf] );
     if( verbose ) {
-        if( debug_mode ) {
+        if( debug_mode || cap == 0 ) {
             mvwprintz( win, p + point( 6, 0 ), f_color, "%d/%d", f_left, cap );
         } else {
             mvwprintz( win, p + point( 6, 0 ), f_color, "%d", f_left * 100 / cap );
@@ -453,7 +453,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             rate += power_to_energy_bat( net_battery_charge_rate( /* include_reactors = */ true ), 1_hours );
             units = _( "kJ" );
         }
-        if( rate != 0 ) {
+        if( rate != 0 && cap != 0 ) {
             int tank_use = 0;
             nc_color tank_color = c_light_green;
             std::string tank_goal = _( "full" );

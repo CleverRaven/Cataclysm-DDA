@@ -80,7 +80,7 @@
     "symbol": ":",
     "color": "red",
     "location": "mechanism",
-    "mod_targets": [ "glock_19", "glock_17", "glock_22", "glock_31", "glock_21", "glock_20", "glock_40", "glock_29" ],
+    "mod_targets": [ "glock_19", "glock_17", "glock_22", "glock_31", "glock_21", "glock_20", "glock_29" ],
     "//": "Install time should be short as it is simply a replacement back plate, installed by slightly more than field stripping the gun.",
     "install_time": "5 m",
     "//durability_modifier": -1,

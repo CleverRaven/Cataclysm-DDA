@@ -2,8 +2,8 @@
   {
     "id": "plastic_jack_o_lantern",
     "type": "TOOL",
-    "name": { "str": "plastic jack-o'-lantern" },
-    "description": "This is a plastic lantern that is painted to look like a pumpkin with a face.  It has a tiny LED light in it.  It doesn't provide very much light.",
+    "name": { "str": "plastic jack o'lantern" },
+    "description": "A plastic lantern that is painted to look like a pumpkin with a face.  It has a tiny LED light inside, which is currently off.  It's mostly for seasonal decoration and doesn't provide very much light.",
     "weight": "113 g",
     "volume": "3964 ml",
     "price": 100,
@@ -28,8 +28,8 @@
   {
     "id": "plastic_jack_o_lantern_lit",
     "type": "TOOL",
-    "name": { "str": "spooky plastic jack-o'-lantern", "str_pl": "plastic jack-o'-lanterns" },
-    "description": "There is a thick LED candle inside the pumpkin face.  It doesn't provide very much light, but it can run for quite a long time.  This lantern is lit.  The face shifts.",
+    "name": { "str": "spooky plastic jack o'lantern" },
+    "description": "A plastic lantern that is painted to look like a pumpkin with a face.  It has a tiny LED light inside which is currently on, to delightfully spooky effect.  It doesn't provide very much light, but it can stay lit for a very long time.",
     "weight": "113 g",
     "volume": "3964 ml",
     "price": 0,
@@ -96,7 +96,7 @@
     "id": "decorative_wreath",
     "type": "TOOL",
     "name": { "str": "yule wreath" },
-    "description": "This decorative wreath can be deployed as furniture to decorate for the winter holidays.",
+    "description": "A decorative wreath that can be deployed as furniture to celebrate the winter holidays.",
     "weight": "1814 g",
     "volume": "4 L",
     "price": 100,
@@ -127,7 +127,7 @@
     "type": "TOOL",
     "copy-from": "inflatable_decoration",
     "name": { "str": "inflatable dragon" },
-    "description": "A battery powered inflatable dragon from the Halloween before the end.  It might be fun to display it somewhere.",
+    "description": "A battery-powered inflatable dragon from the Halloween before the end.  It might be fun to display it somewhere.",
     "ammo": "battery",
     "pocket_data": [
       {
@@ -144,7 +144,7 @@
     "type": "TOOL",
     "copy-from": "inflatable_decoration",
     "name": { "str": "inflatable ghost" },
-    "description": "A battery powered inflatable ghost from the Halloween before the end.  It might be fun to display it somewhere.",
+    "description": "A battery-powered inflatable ghost from the Halloween before the end.  It might be fun to display it somewhere.",
     "ammo": "battery",
     "pocket_data": [
       {
@@ -161,7 +161,7 @@
     "type": "TOOL",
     "copy-from": "inflatable_decoration",
     "name": { "str": "fog machine" },
-    "description": "A battery powered fog machine.  It would be great for setting ambience.",
+    "description": "A battery-powered fog machine.  It would be great for setting ambience.",
     "ammo": "battery",
     "pocket_data": [
       {
