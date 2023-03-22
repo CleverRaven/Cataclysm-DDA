@@ -17,7 +17,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "180 m", "using": [ [ "welding_standard", 360 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 90 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "45 m", "using": [ [ "repair_welding_standard", 45 ] ] }
     },
     "flags": [ "ARMOR" ],
     "damage_reduction": { "all": 10, "cut": 45, "stab": 45 }
@@ -41,7 +41,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "210 m", "using": [ [ "welding_standard", 420 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "51 m", "using": [ [ "repair_welding_standard", 105 ] ] }
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "50 m", "using": [ [ "repair_welding_standard", 50 ] ] }
     },
     "flags": [ "SHOCK_ABSORBER" ],
     "damage_reduction": { "all": 25 }
