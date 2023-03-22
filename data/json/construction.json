@@ -7795,5 +7795,17 @@
     "dark_craftable": true,
     "post_terrain": "t_trunk",
     "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_stack_lumber",
+    "group": "build_stack_lumber",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "time": "10 m",
+    "components": [ [ [ "lumber", 4 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ] ],
+    "pre_note": "Must be between palisade walls to function, and at least one wall must have an adjacent rope & pulley system.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_stack_lumber"
   }
 ]

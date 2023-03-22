@@ -104,5 +104,26 @@
       "sound_fail": "whump!",
       "items": [ { "item": "2x4", "count": [ 16, 24 ] }, { "item": "splinter", "count": [ 20, 48 ] } ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_stack_lumber",
+    "name": "stack of lumber",
+    "looks_like": "bundle_lumber",
+    "description": "Four lumber tied together for easier transport.  Deconstruct to untie them.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost_mod": 5,
+    "required_str": -1,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "FLAMMABLE_ASH" ],
+    "deconstruct": { "items": [ { "item": "lumber", "count": 4 }, { "item": "rope_makeshift_6", "count": 2 } ] },
+    "bash": {
+      "str_min": 160,
+      "str_max": 360,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "lumber", "count": [ 2, 3 ] }, { "item": "splinter", "count": [ 60, 144 ] } ]
+    }
   }
 ]
