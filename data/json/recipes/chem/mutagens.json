@@ -152,7 +152,7 @@
     "using": [ [ "mutagen_production_standard", 25 ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [ [ "spider_egg", 1 ], [ "chitin_piece", 4 ] ],
+      [ [ "eggs_spider", 1, "LIST" ], [ "chitin_piece", 4 ] ],
       [ [ "spider_sample", 1 ] ],
       [ [ "ammonia_liquid", 1 ], [ "lye_powder", 100 ] ]
     ],

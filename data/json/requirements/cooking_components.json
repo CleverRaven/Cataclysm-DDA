@@ -92,13 +92,21 @@
     ]
   },
   {
+    "id": "eggs_invert",
+    "type": "requirement",
+    "//": "All of the different invertebrate eggs",
+    "components": [
+      [ [ "eggs_insect", 1, "LIST" ], [ "eggs_spider", 4, "LIST" ], [ "egg_worm", 1 ], [ "egg_snail", 4 ], [ "egg_slug", 4 ] ]
+    ]
+  },
+  {
     "id": "eggs_insect",
     "type": "requirement",
     "//": "All of the different insect eggs",
     "components": [
       [
         [ "ant_egg", 1 ],
-        [ "spider_egg", 4 ],
+        [ "ant_egg_acid", 1 ],
         [ "egg_roach", 4 ],
         [ "egg_roach_plague", 4 ],
         [ "egg_locust", 4 ],
@@ -111,13 +119,30 @@
         [ "egg_grasshopper", 4 ],
         [ "egg_lady_bug", 4 ],
         [ "egg_mole_cricket", 4 ],
-        [ "egg_mantis", 4 ],
+        [ "egg_mantis", 1 ],
         [ "egg_stag_beetle", 1 ],
         [ "egg_water_beetle", 4 ],
         [ "egg_water_bug", 4 ],
         [ "egg_butterfly", 4 ],
         [ "egg_moth", 4 ],
-        [ "egg_cicada", 4 ]
+        [ "egg_cicada", 4 ],
+        [ "egg_fly", 4 ],
+        [ "egg_mosquito", 4 ]
+      ]
+    ]
+  },
+  {
+    "id": "eggs_spider",
+    "type": "requirement",
+    "//": "All of the different spider eggs",
+    "components": [
+      [
+        [ "egg_spider_cellar", 1 ],
+        [ "egg_spider_jumping", 1 ],
+        [ "egg_spider_trapdoor", 1 ],
+        [ "egg_spider_web", 1 ],
+        [ "egg_spider_widow", 1 ],
+        [ "egg_spider_wolf", 1 ]
       ]
     ]
   },

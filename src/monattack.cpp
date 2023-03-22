@@ -142,7 +142,6 @@ static const itype_id itype_120mm_HEAT( "120mm_HEAT" );
 static const itype_id itype_40x46mm_m433( "40x46mm_m433" );
 static const itype_id itype_556( "556" );
 static const itype_id itype_anesthetic( "anesthetic" );
-static const itype_id itype_ant_egg( "ant_egg" );
 static const itype_id itype_badge_cybercop( "badge_cybercop" );
 static const itype_id itype_badge_deputy( "badge_deputy" );
 static const itype_id itype_badge_detective( "badge_detective" );
@@ -180,9 +179,6 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 
-static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
-static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
-static const mtype_id mon_ant_larva( "mon_ant_larva" );
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -462,78 +458,6 @@ bool mattack::eat_food( monster *z )
             }
         }
     }
-    return true;
-}
-
-bool mattack::antqueen( monster *z )
-{
-    std::vector<tripoint> egg_points;
-    std::vector<monster *> ants;
-    map &here = get_map();
-    creature_tracker &creatures = get_creature_tracker();
-    // Count up all adjacent tiles the contain at least one egg.
-    for( const tripoint &dest : here.points_in_radius( z->pos(), 2 ) ) {
-        if( here.impassable( dest ) ) {
-            continue;
-        }
-
-        if( monster *const mon = creatures.creature_at<monster>( dest ) ) {
-            if( mon->type->default_faction == STATIC( mfaction_str_id( "ant" ) ) && mon->type->upgrades ) {
-                ants.push_back( mon );
-            }
-
-            continue;
-        }
-
-        if( g->is_empty( dest ) && here.has_items( dest ) ) {
-            for( item &i : here.i_at( dest ) ) {
-                if( i.typeId() == itype_ant_egg ) {
-                    egg_points.push_back( dest );
-                    // Done looking at this tile
-                    break;
-                }
-            }
-        }
-    }
-
-    Character &player_character = get_player_character();
-    if( !ants.empty() ) {
-        // It takes a while
-        z->moves -= 100;
-        monster *ant = random_entry( ants );
-        if( player_character.sees( *z ) && player_character.sees( *ant ) ) {
-            add_msg( m_warning, _( "The %1$s feeds an %2$s and it grows!" ), z->name(),
-                     ant->name() );
-        }
-        ant->poly( ant->type->upgrade_into );
-    } else if( egg_points.empty() ) {
-        // There's no eggs nearby--lay one.
-        add_msg_if_player_sees( *z, _( "The %s lays an egg!" ), z->name() );
-        here.spawn_item( z->pos(), "ant_egg", 1, 0, calendar::turn );
-    } else {
-        // There are eggs nearby.  Let's hatch some.
-        // It takes a while
-        z->moves -= 20 * egg_points.size();
-        add_msg_if_player_sees( *z, m_warning, _( "The %s tends nearby eggs, and they hatch!" ),
-                                z->name() );
-        for( const tripoint &egg_pos : egg_points ) {
-            map_stack items = here.i_at( egg_pos );
-            for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-                if( it->typeId() != itype_ant_egg ) {
-                    ++it;
-                    continue;
-                }
-                const mtype_id &mt = z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva;
-                // Max one hatch per tile
-                if( monster *const mon = g->place_critter_at( mt, egg_pos ) ) {
-                    mon->make_ally( *z );
-                    it = items.erase( it );
-                    break;
-                }
-            }
-        }
-    }
-
     return true;
 }
 

@@ -153,7 +153,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_REVIVES: return "REVIVES";
         case MF_VERMIN: return "VERMIN";
         case MF_NOGIB: return "NOGIB";
-        case MF_LARVA: return "LARVA";
         case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
         case MF_ACID_BLOOD: return "ACID_BLOOD";
         case MF_BILE_BLOOD: return "BILE_BLOOD";
@@ -525,7 +524,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "SPLIT", mattack::split );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
-    add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
     add_hardcoded_attack( "CHECK_UP", mattack::nurse_check_up );
     add_hardcoded_attack( "ASSIST", mattack::nurse_assist );
     add_hardcoded_attack( "OPERATE", mattack::nurse_operate );

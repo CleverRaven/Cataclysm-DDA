@@ -68,7 +68,7 @@
     "harvest": "arachnid",
     "upgrades": { "age_grow": 3, "into": "mon_termite_worker" },
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "LARVA", "CLIMBS", "PATH_AVOID_FIRE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
     "id": "mon_termite_worker",
