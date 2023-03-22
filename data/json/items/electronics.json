@@ -53,7 +53,7 @@
     "type": "GENERIC",
     "id": "melchior_platter",
     "name": { "str": "supercomputer platter" },
-    "description": "A hefty and expensive-looking golden dish engraved with concentric circuitry.  You felt the urge to rip it from a supercomputer a while ago.",
+    "description": "A hefty and expensive-looking golden dish engraved with concentric circuitry.  You felt the urge to rip it from a supercomputer.",
     "symbol": "o",
     "color": "yellow",
     "weight": "12 kg",

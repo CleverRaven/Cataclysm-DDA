@@ -609,7 +609,7 @@
     "id": "f_melchior_unit",
     "name": "supercomputer",
     "looks_like": "f_server",
-    "description": "Hanging platters assembled into an inverted conical, their positions kept stable by dense threading of copper cabling.",
+    "description": "Hanging platters assembled into an inverted cone, their positions kept stable by dense threading of copper cabling.",
     "symbol": "V",
     "color": "yellow",
     "move_cost_mod": -1,
