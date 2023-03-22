@@ -747,6 +747,30 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_water_wheel",
+    "name": { "str": "water wheel" },
+    "symbol": "x",
+    "location": "structure",
+    "color": "yellow",
+    "flags": [ "WATER_WHEEL", "OBSTACLE", "APPLIANCE" ],
+    "description": "A mounted water wheel, ready to power other appliances.",
+    "copy-from": "water_wheel",
+    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "ap_xl_water_wheel",
+    "name": { "str": "large water wheel" },
+    "symbol": "x",
+    "location": "structure",
+    "color": "yellow",
+    "flags": [ "WATER_WHEEL", "OBSTACLE", "APPLIANCE" ],
+    "description": "A mounted large water wheel, ready to power other appliances.",
+    "copy-from": "xl_water_wheel",
+    "requirements": { "removal": { "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] } }
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_battery_small",
     "name": { "str": "small grid battery" },
     "symbol": "b",
