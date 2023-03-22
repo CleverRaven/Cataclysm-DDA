@@ -280,7 +280,7 @@ void options_manager::addOptionToPage( const std::string &name, const std::strin
     for( Page &p : pages_ ) {
         if( p.id_ == page ) {
             // Don't add duplicate options to the page
-            for( const cata::optional<std::string> &i : p.items_ ) {
+            for( const std::optional<std::string> &i : p.items_ ) {
                 if( i.has_value() && i.value() == name ) {
                     return;
                 }
@@ -774,7 +774,7 @@ std::string options_manager::cOpt::getValueName() const
         return bSet ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        const cata::optional<int_and_option> opt = findInt( iSet );
+        const std::optional<int_and_option> opt = findInt( iSet );
         if( opt ) {
             if( verbose ) {
                 return string_format( _( "%d: %s" ), iSet, opt->second );
@@ -812,7 +812,7 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        const cata::optional<int_and_option> opt = findInt( iDefault );
+        const std::optional<int_and_option> opt = findInt( iDefault );
         if( opt ) {
             if( verbose ) {
                 return string_format( _( "Default: %d: %s" ), iDefault, opt->second );
@@ -859,12 +859,12 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
     return -1;
 }
 
-cata::optional<options_manager::int_and_option> options_manager::cOpt::findInt(
+std::optional<options_manager::int_and_option> options_manager::cOpt::findInt(
     const int iSearch ) const
 {
     int i = static_cast<int>( getIntPos( iSearch ) );
     if( i == -1 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return mIntValues[i];
 }
@@ -1317,7 +1317,7 @@ bool android_get_default_setting( const char *settings_name, bool default_value 
 
 void options_manager::Page::removeRepeatedEmptyLines()
 {
-    const auto empty = [&]( const cata::optional<std::string> &v ) -> bool {
+    const auto empty = [&]( const std::optional<std::string> &v ) -> bool {
         return !v || get_options().get_option( *v ).is_hidden();
     };
 
@@ -3342,7 +3342,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
             bool found_opt = false;
             sel_worldgen_tab = 1;
-            cata::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
+            std::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
             if( world_options_only && with_tabs && coord.has_value() ) {
                 // worldgen tabs
                 found_opt = run_for_point_in<size_t, point>( worldgen_tab_map, *coord,
@@ -3609,7 +3609,7 @@ void options_manager::serialize( JsonOut &json ) const
     json.start_array();
 
     for( const Page &p : pages_ ) {
-        for( const cata::optional<std::string> &opt_name : p.items_ ) {
+        for( const std::optional<std::string> &opt_name : p.items_ ) {
             if( !opt_name ) {
                 continue;
             }

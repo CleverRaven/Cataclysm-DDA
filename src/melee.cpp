@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -53,7 +54,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "pimpl.h"
 #include "point.h"
@@ -318,7 +318,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
     }
 
     if( is_using_bionic_weapon() && temp.has_flag( flag_NO_UNWIELD ) ) {
-        if( cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
+        if( std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
             bionic &bio = **bio_opt;
             if( bio.get_weapon().typeId() == temp.typeId() ) {
                 weapon_bionic_uid = 0;
@@ -552,7 +552,7 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
     // Max out recoil & reset aim point
     recoil = MAX_RECOIL;
-    last_target_pos = cata::nullopt;
+    last_target_pos = std::nullopt;
 
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );
 }
@@ -951,7 +951,7 @@ void Character::reach_attack( const tripoint &p )
     // Original target size, used when there are monsters in front of our target
     const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() ) : 2;
     // Reset last target pos
-    last_target_pos = cata::nullopt;
+    last_target_pos = std::nullopt;
     // Max out recoil
     recoil = MAX_RECOIL;
 

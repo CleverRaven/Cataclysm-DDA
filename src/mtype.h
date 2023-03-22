@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <array>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -17,7 +18,6 @@
 #include "enums.h"
 #include "magic.h"
 #include "mattack_common.h"
-#include "optional.h"
 #include "pathfinding.h"
 #include "shearing.h"
 #include "speed_description.h"
@@ -123,7 +123,6 @@ enum m_flag : int {
     MF_REVIVES,             // Monster corpse will revive after a short period of time
     MF_VERMIN,              // Obsolete flag labeling "nuisance" or "scenery" monsters, now used to prevent loading the same.
     MF_NOGIB,               // Creature won't leave gibs / meat chunks when killed with huge damage.
-    MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
     MF_BILE_BLOOD,          // Makes monster bleed bile.
@@ -410,14 +409,14 @@ struct mtype {
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
-        cata::optional<int> upgrade_multi_range;
+        std::optional<int> upgrade_multi_range;
         bool upgrade_null_despawn;
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
         mtype_id fungalize_into; // mtype_id this monster fungalize into
 
         // Monster reproduction variables
-        cata::optional<time_duration> baby_timer;
+        std::optional<time_duration> baby_timer;
         int baby_count;
         mtype_id baby_monster;
         itype_id baby_egg;
@@ -425,7 +424,7 @@ struct mtype {
 
         // Monster biosignature variables
         itype_id biosig_item;
-        cata::optional<time_duration> biosig_timer;
+        std::optional<time_duration> biosig_timer;
 
         // All the bools together for space efficiency
 

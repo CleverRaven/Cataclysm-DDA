@@ -9,6 +9,7 @@
 #include <limits>
 #include <map>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <random>
 #include <set>
@@ -46,7 +47,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "point.h"
 #include "projectile.h"

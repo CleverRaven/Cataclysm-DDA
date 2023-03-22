@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -19,7 +20,6 @@
 #include "itype.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -42,7 +42,7 @@ struct islot_book;
 class aim_activity_actor : public activity_actor
 {
     private:
-        cata::optional<item> fake_weapon;
+        std::optional<item> fake_weapon;
         units::energy bp_cost_per_shot = 0_J;
         std::vector<tripoint> fin_trajectory;
 
@@ -397,7 +397,7 @@ class read_activity_actor : public activity_actor
     private:
         int moves_total;
         item_location book;
-        cata::optional<book_type> bktype; // NOLINT(cata-serialize)
+        std::optional<book_type> bktype; // NOLINT(cata-serialize)
 
         // Using an electronic book reader
         item_location ereader;
@@ -464,12 +464,12 @@ class pickup_activity_actor : public activity_actor
          * (e.g. if the player is in a moving vehicle). This should be null
          * if not grabbing from the ground.
          */
-        cata::optional<tripoint> starting_pos;
+        std::optional<tripoint> starting_pos;
 
     public:
         pickup_activity_actor( const std::vector<item_location> &target_items,
                                const std::vector<int> &quantities,
-                               const cata::optional<tripoint> &starting_pos,
+                               const std::optional<tripoint> &starting_pos,
                                bool autopickup ) : target_items( target_items ),
             quantities( quantities ), starting_pos( starting_pos ), stash_successful( true ),
             autopickup( autopickup ) {}
@@ -545,14 +545,14 @@ class lockpick_activity_actor : public activity_actor
 {
     private:
         int moves_total;
-        cata::optional<item_location> lockpick;
-        cata::optional<item> fake_lockpick;
+        std::optional<item_location> lockpick;
+        std::optional<item> fake_lockpick;
         tripoint target;
 
         lockpick_activity_actor(
             int moves_total,
-            const cata::optional<item_location> &lockpick,
-            const cata::optional<item> &fake_lockpick,
+            const std::optional<item_location> &lockpick,
+            const std::optional<item> &fake_lockpick,
             const tripoint &target
         ) : moves_total( moves_total ), lockpick( lockpick ), fake_lockpick( fake_lockpick ),
             target( target ) {}
@@ -578,7 +578,7 @@ class lockpick_activity_actor : public activity_actor
         void do_turn( player_activity &, Character & ) override {}
         void finish( player_activity &act, Character &who ) override;
 
-        static cata::optional<tripoint> select_location( avatar &you );
+        static std::optional<tripoint> select_location( avatar &you );
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<lockpick_activity_actor>( *this );
@@ -848,7 +848,7 @@ class craft_activity_actor : public activity_actor
         bool is_long;
 
         float activity_override = NO_EXERCISE;
-        cata::optional<requirement_data> cached_continuation_requirements; // NOLINT(cata-serialize)
+        std::optional<requirement_data> cached_continuation_requirements; // NOLINT(cata-serialize)
         float cached_crafting_speed; // NOLINT(cata-serialize)
         int cached_assistants; // NOLINT(cata-serialize)
         double cached_base_total_moves; // NOLINT(cata-serialize)
@@ -1254,14 +1254,14 @@ class tent_placement_activity_actor : public activity_actor
         item it;
         string_id<furn_t> wall;
         string_id<furn_t> floor;
-        cata::optional<string_id<furn_t>> floor_center;
+        std::optional<string_id<furn_t>> floor_center;
         string_id<furn_t> door_closed;
 
     public:
         tent_placement_activity_actor( int moves_total, tripoint target, int radius, const item &it,
-                                       string_id<furn_t> wall, string_id<furn_t> floor, cata::optional<string_id<furn_t>> floor_center,
+                                       string_id<furn_t> wall, string_id<furn_t> floor, std::optional<string_id<furn_t>> floor_center,
                                        string_id<furn_t> door_closed ) : moves_total( moves_total ), target( target ), radius( radius ),
-            it( it ), wall( wall ), floor( floor ), floor_center( std::move( floor_center ) ),
+            it( it ), wall( wall ), floor( floor ), floor_center( floor_center ),
             door_closed( door_closed ) {}
 
         activity_id get_type() const override {
@@ -1629,8 +1629,8 @@ class wield_activity_actor : public activity_actor
 class pickup_menu_activity_actor : public activity_actor
 {
     public:
-        pickup_menu_activity_actor( cata::optional<tripoint> where,
-                                    std::vector<drop_location> selection ) : where( std::move( where ) ),
+        pickup_menu_activity_actor( std::optional<tripoint> where,
+                                    std::vector<drop_location> selection ) : where( where ),
             selection( std::move( selection ) ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_PICKUP_MENU" );
@@ -1648,7 +1648,7 @@ class pickup_menu_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonValue & );
 
     private:
-        cata::optional<tripoint> where;
+        std::optional<tripoint> where;
         std::vector<drop_location> selection;
 };
 

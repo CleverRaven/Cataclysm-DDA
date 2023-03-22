@@ -100,7 +100,7 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( const JsonObject &data );
 template void comp_selection<item_comp>::deserialize( const JsonObject &data );
 
-void craft_command::execute( const cata::optional<tripoint> &new_loc )
+void craft_command::execute( const std::optional<tripoint> &new_loc )
 {
     loc = new_loc;
 
@@ -299,7 +299,7 @@ bool craft_command::continue_prompt_liquids( const std::function<bool( const ite
                                     cont_not_empty = true;
                                     iname = tmp_i.tname( 1U, true );
                                 }
-                                if( const cata::optional<vpart_reference> vp = m.veh_at( p ).part_with_feature( "CARGO", true ) ) {
+                                if( const std::optional<vpart_reference> vp = m.veh_at( p ).part_with_feature( "CARGO", true ) ) {
                                     veh_items.emplace_back( std::pair<const vpart_reference, item>( vp.value(), tmp_i ) );
                                 } else {
                                     map_items.emplace_back( std::pair<const tripoint, item>( p, tmp_i ) );

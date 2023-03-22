@@ -831,7 +831,7 @@ const std::vector<mission_type_id> &profession::missions() const
     return _missions;
 }
 
-cata::optional<achievement_id> profession::get_requirement() const
+std::optional<achievement_id> profession::get_requirement() const
 {
     return _requirement;
 }

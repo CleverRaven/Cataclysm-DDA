@@ -81,7 +81,7 @@ class outfit
         bool is_barefoot() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
-        cata::optional<const item *> item_worn_with_inv_let( char invlet ) const;
+        std::optional<const item *> item_worn_with_inv_let( char invlet ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
         // find the best clothing weapon when unarmed modifies
@@ -163,7 +163,7 @@ class outfit
             const itype_id &it, int quantity, std::list<item> &used,
             const std::function<bool( const item & )> &filter, Character &wearer );
         std::list<item>::iterator position_to_wear_new_item( const item &new_item );
-        cata::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
+        std::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
                 bool interactive, bool do_calc_encumbrance, bool do_sort_items = true, bool quiet = false );
         /** Calculate and return any bodyparts that are currently uncomfortable. */
         std::unordered_set<bodypart_id> where_discomfort( const Character &guy ) const;
@@ -221,7 +221,7 @@ class outfit
         std::vector<item_location> all_items_loc( Character &guy );
 
         // gets item position. not translated for worn index. DEPRECATE ME!
-        cata::optional<int> get_item_position( const item &it ) const;
+        std::optional<int> get_item_position( const item &it ) const;
         // finds the top level item at the position in the list. DEPRECATE ME!
         const item &i_at( int position ) const;
 

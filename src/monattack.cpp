@@ -10,6 +10,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <string>
@@ -65,7 +66,6 @@
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "pathfinding.h"
 #include "pimpl.h"
@@ -142,7 +142,6 @@ static const itype_id itype_120mm_HEAT( "120mm_HEAT" );
 static const itype_id itype_40x46mm_m433( "40x46mm_m433" );
 static const itype_id itype_556( "556" );
 static const itype_id itype_anesthetic( "anesthetic" );
-static const itype_id itype_ant_egg( "ant_egg" );
 static const itype_id itype_badge_cybercop( "badge_cybercop" );
 static const itype_id itype_badge_deputy( "badge_deputy" );
 static const itype_id itype_badge_detective( "badge_detective" );
@@ -180,9 +179,6 @@ static const material_id material_qt_steel( "qt_steel" );
 static const material_id material_steel( "steel" );
 static const material_id material_veggy( "veggy" );
 
-static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
-static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
-static const mtype_id mon_ant_larva( "mon_ant_larva" );
 static const mtype_id mon_biollante( "mon_biollante" );
 static const mtype_id mon_blob( "mon_blob" );
 static const mtype_id mon_blob_brain( "mon_blob_brain" );
@@ -330,7 +326,7 @@ bool mattack::none( monster * )
 
 bool mattack::eat_crop( monster *z )
 {
-    cata::optional<tripoint> target;
+    std::optional<tripoint> target;
     int num_targets = 1;
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( z->pos(), 1 ) ) {
@@ -462,78 +458,6 @@ bool mattack::eat_food( monster *z )
             }
         }
     }
-    return true;
-}
-
-bool mattack::antqueen( monster *z )
-{
-    std::vector<tripoint> egg_points;
-    std::vector<monster *> ants;
-    map &here = get_map();
-    creature_tracker &creatures = get_creature_tracker();
-    // Count up all adjacent tiles the contain at least one egg.
-    for( const tripoint &dest : here.points_in_radius( z->pos(), 2 ) ) {
-        if( here.impassable( dest ) ) {
-            continue;
-        }
-
-        if( monster *const mon = creatures.creature_at<monster>( dest ) ) {
-            if( mon->type->default_faction == STATIC( mfaction_str_id( "ant" ) ) && mon->type->upgrades ) {
-                ants.push_back( mon );
-            }
-
-            continue;
-        }
-
-        if( g->is_empty( dest ) && here.has_items( dest ) ) {
-            for( item &i : here.i_at( dest ) ) {
-                if( i.typeId() == itype_ant_egg ) {
-                    egg_points.push_back( dest );
-                    // Done looking at this tile
-                    break;
-                }
-            }
-        }
-    }
-
-    Character &player_character = get_player_character();
-    if( !ants.empty() ) {
-        // It takes a while
-        z->moves -= 100;
-        monster *ant = random_entry( ants );
-        if( player_character.sees( *z ) && player_character.sees( *ant ) ) {
-            add_msg( m_warning, _( "The %1$s feeds an %2$s and it grows!" ), z->name(),
-                     ant->name() );
-        }
-        ant->poly( ant->type->upgrade_into );
-    } else if( egg_points.empty() ) {
-        // There's no eggs nearby--lay one.
-        add_msg_if_player_sees( *z, _( "The %s lays an egg!" ), z->name() );
-        here.spawn_item( z->pos(), "ant_egg", 1, 0, calendar::turn );
-    } else {
-        // There are eggs nearby.  Let's hatch some.
-        // It takes a while
-        z->moves -= 20 * egg_points.size();
-        add_msg_if_player_sees( *z, m_warning, _( "The %s tends nearby eggs, and they hatch!" ),
-                                z->name() );
-        for( const tripoint &egg_pos : egg_points ) {
-            map_stack items = here.i_at( egg_pos );
-            for( map_stack::iterator it = items.begin(); it != items.end(); ) {
-                if( it->typeId() != itype_ant_egg ) {
-                    ++it;
-                    continue;
-                }
-                const mtype_id &mt = z->type->id == mon_ant_acid_queen ? mon_ant_acid_larva : mon_ant_larva;
-                // Max one hatch per tile
-                if( monster *const mon = g->place_critter_at( mt, egg_pos ) ) {
-                    mon->make_ally( *z );
-                    it = items.erase( it );
-                    break;
-                }
-            }
-        }
-    }
-
     return true;
 }
 
@@ -2772,10 +2696,10 @@ bool mattack::ranged_pull( monster *z )
 
     const optional_vpart_position veh_part = here.veh_at( target->pos() );
     if( foe && foe->in_vehicle && veh_part ) {
-        const cata::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
+        const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
         if( vp_seatbelt ) {
             z->moves -= 200;
-            const cata::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
+            const std::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
             target->add_msg_player_or_npc( m_warning, _( "%1s tries to drag you, but is stopped by your %2s!" ),
                                            _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
                                            z->disp_name( false, true ), vp_seatbelt->part().name( false ) );
@@ -2808,10 +2732,6 @@ bool mattack::ranged_pull( monster *z )
         int defender_check = rng( 0, std::max( pl->get_dex(), pl->get_str() ) );
         int attacker_check = rng( 0, z->type->melee_sides + z->type->melee_dice );
         const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
-
-        if( pl->is_throw_immune() ) {
-            defender_check = defender_check + 2;
-        }
 
         if( pl->get_effect_int( effect_stunned ) ) {
             defender_check = defender_check - 2;
@@ -2936,10 +2856,6 @@ bool mattack::grab( monster *z )
         defender_check = defender_check + 2;
     }
 
-    if( pl->is_throw_immune() ) {
-        defender_check = defender_check + 2;
-    }
-
     if( pl->get_effect_int( effect_stunned ) ) {
         defender_check = defender_check - 2;
     }
@@ -2989,9 +2905,9 @@ bool mattack::grab_drag( monster *z )
 
     const optional_vpart_position veh_part = get_map().veh_at( target->pos() );
     if( foe && foe->in_vehicle && veh_part ) {
-        const cata::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
+        const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
         if( vp_seatbelt ) {
-            const cata::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
+            const std::optional<vpart_reference> vp_seat = veh_part.avail_part_with_feature( "SEAT" );
             target->add_msg_player_or_npc( m_warning, _( "%1s tries to drag you, but is stopped by your %2s!" ),
                                            _( "%1s tries to drag <npcname>, but is stopped by their %2s!" ),
                                            z->disp_name( false, true ), vp_seatbelt->part().name( false ) );
@@ -4928,59 +4844,6 @@ bool mattack::slimespring( monster *z )
     return true;
 }
 
-bool mattack::thrown_by_judo( monster *z )
-{
-    Creature *target = z->attack_target();
-    if( target == nullptr ||
-        !z->is_adjacent( target, false ) ||
-        !z->sees( *target ) ) {
-        return false;
-    }
-
-    Character *foe = dynamic_cast< Character * >( target );
-    if( foe == nullptr ) {
-        // No mons for now
-        return false;
-    }
-    // "Wimpy" Judo is about to pay off... :D
-    if( foe->is_throw_immune() ) {
-        // DX + Unarmed
-        ///\EFFECT_DEX increases chance judo-throwing a monster
-
-        ///\EFFECT_UNARMED increases chance of judo-throwing monster, vs their melee skill
-        if( ( foe->dex_cur + foe->get_skill_level( skill_unarmed ) ) > ( z->type->melee_skill + rng( 0,
-                3 ) ) ) {
-            target->add_msg_if_player( m_good, _( "but you grab its arm and flip it to the ground!" ) );
-
-            // most of the time, when not isolated
-            if( !one_in( 4 ) && !target->is_elec_immune() && z->type->sp_defense == &mdefense::zapback ) {
-                // If it all pans out, we're zap the player's arm as he flips the monster.
-                target->add_msg_if_player( _( "The flip does shock you…" ) );
-                // Discounted electric damage for quick flip
-                damage_instance shock;
-                shock.add_damage( damage_type::ELECTRIC, rng( 1, 3 ) );
-                foe->deal_damage( z, bodypart_id( "arm_l" ), shock );
-                foe->deal_damage( z, bodypart_id( "arm_r" ), shock );
-                foe->check_dead_state();
-            }
-            // Monster is down,
-            z->add_effect( effect_downed, 5_turns );
-            const int min_damage = 10 + foe->get_skill_level( skill_unarmed );
-            const int max_damage = 20 + foe->get_skill_level( skill_unarmed );
-            // Deal moderate damage
-            const int damage = rng( min_damage, max_damage );
-            z->apply_damage( foe, bodypart_id( "torso" ), damage );
-            z->check_dead_state();
-        } else {
-            // Still avoids the major hit!
-            target->add_msg_if_player( _( "but you deftly spin out of its grasp!" ) );
-        }
-        return true;
-    } else {
-        return false;
-    }
-}
-
 bool mattack::riotbot( monster *z )
 {
     Creature *target = z->attack_target();
@@ -5513,10 +5376,6 @@ bool mattack::bio_op_takedown( monster *z )
         int attacker_check = rng( 0, z->type->melee_sides + z->type->melee_dice );
         const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
 
-        if( pl->is_throw_immune() ) {
-            defender_check = defender_check + 2;
-        }
-
         if( pl->get_effect_int( effect_stunned ) ) {
             defender_check = defender_check - 2;
         }
@@ -5530,23 +5389,21 @@ bool mattack::bio_op_takedown( monster *z )
             return true;
         }
     }
-    if( !foe->is_throw_immune() ) {
-        if( !target->is_immune_effect( effect_downed ) ) {
-            if( one_in( 4 ) ) {
-                hit = bodypart_id( "head" );
-                // 50% damage buff for the headshot.
-                dam = rng( 9, 21 );
-                target->add_msg_if_player( m_bad, _( "and slams you, face first, to the ground for %d damage!" ),
-                                           dam );
-                foe->deal_damage( z, bodypart_id( "head" ), damage_instance( damage_type::BASH, dam ) );
-            } else {
-                hit = bodypart_id( "torso" );
-                dam = rng( 6, 18 );
-                target->add_msg_if_player( m_bad, _( "and slams you to the ground for %d damage!" ), dam );
-                foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
-            }
-            foe->add_effect( effect_downed, 3_turns );
+    if( !target->is_immune_effect( effect_downed ) ) {
+        if( one_in( 4 ) ) {
+            hit = bodypart_id( "head" );
+            // 50% damage buff for the headshot.
+            dam = rng( 9, 21 );
+            target->add_msg_if_player( m_bad, _( "and slams you, face first, to the ground for %d damage!" ),
+                                       dam );
+            foe->deal_damage( z, bodypart_id( "head" ), damage_instance( damage_type::BASH, dam ) );
+        } else {
+            hit = bodypart_id( "torso" );
+            dam = rng( 6, 18 );
+            target->add_msg_if_player( m_bad, _( "and slams you to the ground for %d damage!" ), dam );
+            foe->deal_damage( z, bodypart_id( "torso" ), damage_instance( damage_type::BASH, dam ) );
         }
+        foe->add_effect( effect_downed, 3_turns );
     } else if( !foe->is_armed() ||
                foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item()->typeId() ) ) {
         // Saved by the tentacle-bracing! :)

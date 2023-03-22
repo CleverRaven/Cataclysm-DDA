@@ -195,9 +195,6 @@ static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
-static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
-static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
-static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
 static const npc_class_id NC_ROBOFAC_INTERCOM( "NC_ROBOFAC_INTERCOM" );
 
@@ -1922,7 +1919,7 @@ void iexamine::bulletin_board( Character &you, const tripoint &examp )
     map &here = get_map();
     // TODO: fix point types
     point_abs_omt omt( ms_to_omt_copy( here.getabs( examp.xy() ) ) );
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->validate_bb_pos( here.getabs( examp ) );
@@ -2402,61 +2399,6 @@ void iexamine::flower_marloss( Character &you, const tripoint &examp )
     here.furn_set( examp, f_null );
     here.spawn_item( you.pos(), itype_marloss_seed, 1, 3, calendar::turn );
     iexamine_helper::handle_harvest( you, "withered", false );
-}
-
-/**
- * Spawn spiders from a spider egg sack in radius 1 around the egg sack.
- * Transforms the egg sack furniture into a ruptured egg sack (f_egg_sacke).
- * Also spawns eggs.
- * @param you The player
- * @param examp Location of egg sack
- * @param montype The monster type of the created spiders.
- */
-void iexamine::egg_sack_generic( Character &you, const tripoint &examp,
-                                 const mtype_id &montype )
-{
-    map &here = get_map();
-    const std::string old_furn_name = here.furnname( examp );
-    if( !query_yn( _( "Harvest the %s?" ), old_furn_name ) ) {
-        none( you, examp );
-        return;
-    }
-    here.furn_set( examp, f_egg_sacke );
-    int monster_count = 0;
-    if( one_in( 2 ) ) {
-        for( const tripoint &nearby_pos : closest_points_first( examp, 1 ) ) {
-            if( !one_in( 3 ) ) {
-                continue;
-            } else if( g->place_critter_at( montype, nearby_pos ) ) {
-                monster_count++;
-            }
-        }
-    }
-    int roll = rng( 1, 5 );
-    bool drop_eggs = monster_count >= 1;
-    for( int i = 0; i < roll; i++ ) {
-        iexamine_helper::handle_harvest( you, "spider_egg", drop_eggs );
-    }
-    if( monster_count == 1 ) {
-        add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name );
-    } else if( monster_count >= 1 ) {
-        add_msg( m_warning, _( "Spiderlings burst from the %s!" ), old_furn_name );
-    }
-}
-
-void iexamine::egg_sackbw( Character &you, const tripoint &examp )
-{
-    egg_sack_generic( you, examp, mon_spider_widow_giant_s );
-}
-
-void iexamine::egg_sackcs( Character &you, const tripoint &examp )
-{
-    egg_sack_generic( you, examp, mon_spider_cellar_giant_s );
-}
-
-void iexamine::egg_sackws( Character &you, const tripoint &examp )
-{
-    egg_sack_generic( you, examp, mon_spider_web_s );
 }
 
 /**
@@ -4510,10 +4452,10 @@ static int getNearPumpCount( const tripoint &p, fuel_station_fuel_type &fuel_typ
     return result;
 }
 
-cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &fuel_units,
+std::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center, int &fuel_units,
         fuel_station_fuel_type &fuel_type )
 {
-    cata::optional<tripoint> tank_loc;
+    std::optional<tripoint> tank_loc;
     int distance = INT_MAX;
     fuel_units = 0;
 
@@ -4618,7 +4560,7 @@ static int getGasPricePerLiter( int discount )
     }
 }
 
-cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int number )
+std::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int number )
 {
     int k = 0;
     map &here = get_map();
@@ -4629,7 +4571,7 @@ cata::optional<tripoint> iexamine::getGasPumpByNumber( const tripoint &p, int nu
             return tmp;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool iexamine::toPumpFuel( const tripoint &src, const tripoint &dst, int units )
@@ -4736,7 +4678,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
     }
 
     int tankUnits;
-    const cata::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankUnits, fuelType );
+    const std::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankUnits, fuelType );
     if( !pTank_ ) {
         popup( str_to_illiterate_str( string_format( _( "Failure!  No %s tank found!" ), fuelTypeStr ) ) );
         return;
@@ -4844,7 +4786,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
             liters = maximum_liters;
         }
 
-        const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
+        const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
         if( !pGasPump || !toPumpFuel( pTank, *pGasPump, liters * 1000 ) ) {
             return;
@@ -4875,7 +4817,7 @@ void iexamine::pay_gas( Character &you, const tripoint &examp )
             return;
         }
 
-        const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
+        const std::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
         int amount_fuel = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : -1;
         if( amount_fuel < 0 ) {
@@ -6407,7 +6349,7 @@ void iexamine::open_safe( Character &, const tripoint &examp )
 void iexamine::workbench( Character &you, const tripoint &examp )
 {
     if( get_option<bool>( "WORKBENCH_ALL_OPTIONS" ) ) {
-        workbench_internal( you, examp, cata::nullopt );
+        workbench_internal( you, examp, std::nullopt );
     } else {
         if( !get_map().i_at( examp ).empty() ) {
             g->pickup( examp );
@@ -6419,7 +6361,7 @@ void iexamine::workbench( Character &you, const tripoint &examp )
 }
 
 void iexamine::workbench_internal( Character &you, const tripoint &examp,
-                                   const cata::optional<vpart_reference> &part )
+                                   const std::optional<vpart_reference> &part )
 {
     std::vector<item_location> crafts;
     std::string name;
@@ -6620,9 +6562,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "fungus", &iexamine::fungus },
             { "flower_dahlia", &iexamine::flower_dahlia },
             { "flower_marloss", &iexamine::flower_marloss },
-            { "egg_sackbw", &iexamine::egg_sackbw },
-            { "egg_sackcs", &iexamine::egg_sackcs },
-            { "egg_sackws", &iexamine::egg_sackws },
             { "dirtmound", &iexamine::dirtmound },
             { "aggie_plant", &iexamine::aggie_plant },
             { "fvat_empty", &iexamine::fvat_empty },

@@ -10,6 +10,7 @@
 #include <istream>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <type_traits>
@@ -47,7 +48,6 @@
 #include "mtype.h"
 #include "name.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_connection.h"
@@ -2215,7 +2215,7 @@ struct mutable_overmap_phase_remainder {
         }
     };
 
-    cata::optional<can_place_result> can_place(
+    std::optional<can_place_result> can_place(
         const overmap &om, const mutable_overmap_placement_rule_remainder &rule,
         const tripoint_om_omt &origin, om_direction::type dir,
         const joins_tracker &unresolved
@@ -2224,13 +2224,13 @@ struct mutable_overmap_phase_remainder {
 
         for( const mutable_overmap_piece_candidate piece : rule.pieces( origin, dir ) ) {
             if( !overmap::inbounds( piece.pos ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             if( !is_amongst_locations( om.ter( piece.pos ), piece.overmap->locations ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             if( unresolved.any_postponed_at( piece.pos ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             context_mandatory_joins_shortfall -= unresolved.count_unresolved_at( piece.pos );
         }
@@ -2246,7 +2246,7 @@ struct mutable_overmap_phase_remainder {
             const mutable_overmap_join &join = *ter_join.join;
             switch( unresolved.allows( pos_d, ter_join ) ) {
                 case joins_tracker::join_status::disallowed:
-                    return cata::nullopt;
+                    return std::nullopt;
                 case joins_tracker::join_status::matched_non_available:
                     ++context_mandatory_joins_shortfall;
                 // fallthrough
@@ -2267,11 +2267,11 @@ struct mutable_overmap_phase_remainder {
             // suitable locations
             tripoint_om_omt neighbour = pos_d.p + displace( pos_d.dir );
             if( !overmap::inbounds( neighbour ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             const oter_id &neighbour_terrain = om.ter( neighbour );
             if( !is_amongst_locations( neighbour_terrain, join.into_locations ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
         }
         return can_place_result{ context_mandatory_joins_shortfall,
@@ -2290,7 +2290,7 @@ struct mutable_overmap_phase_remainder {
                 for( const tripoint_rel_omt &piece_pos : rule.positions( dir ) ) {
                     tripoint_om_omt origin = pos - piece_pos;
 
-                    if( cata::optional<can_place_result> result = can_place(
+                    if( std::optional<can_place_result> result = can_place(
                                 om, rule, origin, dir, unresolved ) ) {
                         if( best_result < *result ) {
                             pos_dir_options.clear();
@@ -2988,7 +2988,7 @@ const oter_id &overmap::ter_unsafe( const tripoint_om_omt &p ) const
     return layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()];
 }
 
-cata::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p )
+std::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p )
 {
     auto it = mapgen_args_index.find( p );
     if( it == mapgen_args_index.end() ) {
@@ -3302,7 +3302,7 @@ void overmap::add_extra_note( const tripoint_om_omt &p )
             return;
         }
 
-        const cata::optional<auto_notes::custom_symbol> &symbol =
+        const std::optional<auto_notes::custom_symbol> &symbol =
             auto_note_settings.get_custom_symbol( extra );
         const std::string note_symbol = symbol ? ( *symbol ).get_symbol_string() : extra->get_symbol();
         const nc_color note_color = symbol ? ( *symbol ).get_color() : extra->color;
@@ -3855,7 +3855,7 @@ const city &overmap::get_nearest_city( const tripoint_om_omt &p ) const
 }
 
 tripoint_om_omt overmap::find_random_omt( const std::pair<std::string, ot_match_type> &target,
-        cata::optional<city> target_city ) const
+        std::optional<city> target_city ) const
 {
     const bool check_nearest_city = target_city.has_value();
     std::vector<tripoint_om_omt> valid;
@@ -5430,7 +5430,7 @@ void overmap::place_ravines()
     // We dont really care about the paths each ravine takes, so this can be whatever
     // The random return value was chosen because it easily produces decent looking windy ravines
     const pf::two_node_scoring_fn<point_om_omt> estimate =
-    [&]( pf::directed_node<point_om_omt>, const cata::optional<pf::directed_node<point_om_omt>> & ) {
+    [&]( pf::directed_node<point_om_omt>, const std::optional<pf::directed_node<point_om_omt>> & ) {
         return pf::node_score( 0, rng( 1, 2 ) );
     };
     // A path is generated for each of ravine, and all its constituent points are stored within the
@@ -5489,7 +5489,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_connection(
     int z, const bool must_be_unexplored ) const
 {
     const pf::two_node_scoring_fn<point_om_omt> estimate =
-    [&]( pf::directed_node<point_om_omt> cur, cata::optional<pf::directed_node<point_om_omt>> prev ) {
+    [&]( pf::directed_node<point_om_omt> cur, std::optional<pf::directed_node<point_om_omt>> prev ) {
         const oter_id id = ter( tripoint_om_omt( cur.pos, z ) );
 
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( id );
@@ -5786,12 +5786,12 @@ bool overmap::check_overmap_special_type( const overmap_special_id &id,
     return found_id->second == id;
 }
 
-cata::optional<overmap_special_id> overmap::overmap_special_at( const tripoint_om_omt &p ) const
+std::optional<overmap_special_id> overmap::overmap_special_at( const tripoint_om_omt &p ) const
 {
     auto it = overmap_special_placements.find( p );
 
     if( it == overmap_special_placements.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     return it->second;
@@ -6112,7 +6112,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
 
     const bool is_safe_zone = special.has_flag( "SAFE_AT_WORLDGEN" );
 
-    cata::optional<mapgen_arguments> *mapgen_args_p = &*mapgen_arg_storage.emplace();
+    std::optional<mapgen_arguments> *mapgen_args_p = &*mapgen_arg_storage.emplace();
     special_placement_result result = special.place( *this, p, dir, cit, must_be_unexplored );
     for( const std::pair<om_pos_dir, std::string> &join : result.joins_used ) {
         joins_used[join.first] = join.second;
@@ -6614,14 +6614,14 @@ shared_ptr_fast<npc> overmap::find_npc_by_unique_id( const std::string &id ) con
     return nullptr;
 }
 
-cata::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
+std::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
 {
     for( basecamp &v : camps ) {
         if( v.camp_omt_pos().xy() == p ) {
             return &v;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const

@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <vector>
 
@@ -15,7 +16,6 @@
 #include "flat_set.h"
 #include "item.h"
 #include "magic.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -36,7 +36,7 @@ struct bionic_data {
     translation name;
     translation description;
 
-    cata::optional<translation> cant_remove_reason;
+    std::optional<translation> cant_remove_reason;
     /** Power cost on activation */
     units::energy power_activate = 0_kJ;
     /** Power cost on deactivation */
@@ -76,7 +76,7 @@ struct bionic_data {
     /**Fraction of fuel energy passively converted to bionic power*/
     float passive_fuel_efficiency = 0.0f;
     /**Fraction of coverage diminishing fuel_efficiency*/
-    cata::optional<float> coverage_power_gen_penalty;
+    std::optional<float> coverage_power_gen_penalty;
     /**If true this bionic emits heat when producing power*/
     bool exothermic_power_gen = false;
     /**Type of field emitted by this bionic when it produces energy*/
@@ -223,7 +223,7 @@ struct bionic {
         item get_weapon() const;
         void set_weapon( const item &new_weapon );
         bool install_weapon( const item &new_weapon, bool skip_checks = false );
-        cata::optional<item> uninstall_weapon();
+        std::optional<item> uninstall_weapon();
         bool has_weapon() const;
         bool can_install_weapon() const;
         bool can_install_weapon( const item &new_weapon ) const;

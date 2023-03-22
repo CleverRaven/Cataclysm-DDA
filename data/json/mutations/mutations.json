@@ -205,6 +205,7 @@
       "POISONOUS",
       "POISONOUS2",
       "RADIOGENIC",
+      "RADIOPHILE",
       "RESISTCHILL",
       "RESISTWARM",
       "ROBUST",
@@ -3352,6 +3353,17 @@
     "points": 3,
     "description": "Your system has adapted to radiation.  While irradiated, you will actually heal slowly, converting the radiation into hit points.",
     "category": [ "SLIME", "MEDICAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RADIOPHILE",
+    "name": { "str": "Radiophile" },
+    "points": 1,
+    "description": "Your flesh has developed a unique reaction to radiation that lets you sense when ambient radiation is abnormally high.  Turn off to ignore messages.",
+    "prereqs": [ "RADIOGENIC" ],
+    "category": [ "SLIME", "MEDICAL" ],
+    "active": true,
+    "starts_active": true
   },
   {
     "type": "mutation",

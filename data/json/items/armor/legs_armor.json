@@ -62,6 +62,27 @@
     ]
   },
   {
+    "id": "xl_legguard_chitin",
+    "copy-from": "legguard_chitin",
+    "looks_like": "legguard_chitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL chitin leg guards", "str_pl": "pairs of XL chitin leg guards" },
+    "description": "A pair of leg guards made from the exoskeletons of insects.  This pair in particular looks fit for a giant.",
+    "material": [ "chitin" ],
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_legguard_chitin",
+    "type": "ARMOR",
+    "copy-from": "legguard_chitin",
+    "looks_like": "legguard_chitin",
+    "name": { "str": "pair of XS chitin leg guards", "str_pl": "pairs of XS chitin leg guards" },
+    "description": "A pair of leg guards made from the exoskeletons of insects.  This pair in particular feels like it was made for a small child.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "legguard_acidchitin",
     "copy-from": "legguard_chitin",
     "looks_like": "legguard_chitin",
@@ -73,6 +94,28 @@
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
     "material_thickness": 5,
     "extend": { "flags": [ "NO_REPAIR" ] }
+  },
+  {
+    "id": "xl_legguard_acidchitin",
+    "copy-from": "legguard_acidchitin",
+    "looks_like": "legguard_acidchitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL biosilicified chitin leg guards", "str_pl": "pairs of XL biosilicified chitin guards" },
+    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.  This pair in particular looks fit for a giant.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_legguard_acidchitin",
+    "copy-from": "legguard_acidchitin",
+    "looks_like": "legguard_acidchitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XS biosilicified chitin leg guards", "str_pl": "pairs of XS biosilicified chitin guards" },
+    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.  This pair in particular feels like it was made for a small child.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "bunker_pants",

@@ -50,7 +50,7 @@ mtype::mtype()
     phase = phase_id::SOLID;
     def_chance = 0;
     upgrades = false;
-    upgrade_multi_range = cata::optional<int>();
+    upgrade_multi_range = std::optional<int>();
     upgrade_null_despawn = false;
     half_life = -1;
     age_grow = -1;
@@ -180,7 +180,7 @@ field_type_id mtype::bloodType() const
     if( has_flag( MF_BILE_BLOOD ) ) {
         return fd_bile;
     }
-    if( has_flag( MF_LARVA ) || has_flag( MF_ARTHROPOD_BLOOD ) ) {
+    if( has_flag( MF_ARTHROPOD_BLOOD ) ) {
         return fd_blood_invertebrate;
     }
     if( made_of( material_veggy ) ) {
@@ -197,7 +197,7 @@ field_type_id mtype::bloodType() const
 
 field_type_id mtype::gibType() const
 {
-    if( has_flag( MF_LARVA ) || in_species( species_MOLLUSK ) ) {
+    if( in_species( species_MOLLUSK ) ) {
         return fd_gibs_invertebrate;
     }
     if( made_of( material_veggy ) ) {

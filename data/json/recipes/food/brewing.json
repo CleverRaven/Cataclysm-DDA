@@ -66,7 +66,7 @@
     "book_learn": [ [ "distilling_cookbook", 5 ], [ "scots_cookbook", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_brewing" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 57, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 58, "LIST" ] ] ],
     "//": "assuming grains are roasted, that's 52u flour by weight, plus 6u to heat water and activate yeast",
     "components": [ [ [ "water_clean", 3 ] ], [ [ "malted_grain", 2 ] ], [ [ "sugar", 50 ] ], [ [ "yeast", 1 ] ] ]
   },
@@ -383,6 +383,7 @@
     ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_fermenting" }, { "proficiency": "prof_winemaking" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "//": "6u to heat water and activate yeast, dandelions don't appear to be roasted here",
     "components": [
       [ [ "water_clean", 3 ] ],
@@ -416,7 +417,7 @@
       { "proficiency": "prof_winemaking" }
     ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 26, "LIST" ] ] ],
     "//": "20u to roast the burdocks and 6u to heat water & activate the yeast",
     "components": [
       [ [ "water_clean", 3 ] ],

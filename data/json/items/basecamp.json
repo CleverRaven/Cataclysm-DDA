@@ -30,7 +30,7 @@
     "type": "TOOL",
     "name": { "str": "basecamp forge" },
     "copy-from": "char_forge",
-    "description": "A fake forge used for basecamps.",
+    "description": "A fake charcoal forge used for basecamps.",
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "ZERO_WEIGHT" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
   },

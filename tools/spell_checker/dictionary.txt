@@ -58,6 +58,7 @@ alay
 albertonykus
 albertosaurus
 alchemic
+alchemies
 aldosterone
 alembic
 alexandrite
@@ -365,6 +366,7 @@ brined
 bringin
 broadhead
 broadswords
+brobdignagian
 bronchodilator
 bronchospasm
 bubblicious
@@ -1622,6 +1624,7 @@ malting
 manafusion
 manageably
 manball
+manca
 mancae
 manfriendwich
 manhack
@@ -2090,6 +2093,7 @@ plink
 plinker
 plinking
 plushie
+plushies
 pm
 podling
 podlings
@@ -2922,6 +2926,7 @@ unipolar
 universalism
 unjacketed
 unkept
+unlife
 unlivable
 unlively
 unlives
@@ -3138,6 +3143,7 @@ youre
 yourselves
 youthful 
 yowl
+yoyos
 yugg
 yukata
 yulecat

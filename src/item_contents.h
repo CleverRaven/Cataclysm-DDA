@@ -7,13 +7,13 @@
 #include <iosfwd>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
 
 #include "enums.h"
 #include "item_pocket.h"
-#include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -128,7 +128,7 @@ class item_contents
         std::vector<item *> ebooks();
         std::vector<const item *> ebooks() const;
 
-        void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
+        void update_modified_pockets( const std::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
         // this only checks MAGAZINE_WELL

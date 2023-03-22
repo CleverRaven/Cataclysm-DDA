@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -18,7 +19,6 @@
 #include "game_constants.h"
 #include "npc_favor.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap.h"
 #include "talker.h"
 #include "translations.h"
@@ -132,11 +132,11 @@ struct mission_target_params {
     mission *mission_pointer = nullptr;
 
     bool origin_u = true;
-    cata::optional<tripoint_rel_omt> offset;
-    cata::optional<str_or_var<T>> replaceable_overmap_terrain;
-    cata::optional<str_or_var<T>> overmap_special;
-    cata::optional<dbl_or_var<T>> reveal_radius;
-    cata::optional<var_info> target_var;
+    std::optional<tripoint_rel_omt> offset;
+    std::optional<str_or_var<T>> replaceable_overmap_terrain;
+    std::optional<str_or_var<T>> overmap_special;
+    std::optional<dbl_or_var<T>> reveal_radius;
+    std::optional<var_info> target_var;
     dbl_or_var<T> min_distance;
 
     bool must_see = false;
@@ -144,7 +144,7 @@ struct mission_target_params {
     bool random = false;
     bool create_if_necessary = true;
     dbl_or_var<T> search_range;
-    cata::optional<dbl_or_var<T>> z;
+    std::optional<dbl_or_var<T>> z;
     npc *guy = nullptr;
 };
 
@@ -167,7 +167,7 @@ void set_reveal( const std::string &terrain,
 void set_reveal_any( const JsonArray &ja,
                      std::vector<std::function<void( mission *miss )>> &funcs );
 mission_target_params<dialogue> parse_mission_om_target( const JsonObject &jo );
-cata::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params<dialogue>
+std::optional<tripoint_abs_omt> assign_mission_target( const mission_target_params<dialogue>
         &params );
 tripoint_abs_omt get_om_terrain_pos( const mission_target_params<dialogue> &params );
 void set_assign_om_target( const JsonObject &jo,

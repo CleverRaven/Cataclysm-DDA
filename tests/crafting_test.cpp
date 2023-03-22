@@ -4,6 +4,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -24,7 +25,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -1005,7 +1005,7 @@ static int resume_craft()
     REQUIRE( crafts.size() == 1 );
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
-    REQUIRE( player_character.crafting_speed_multiplier( *craft, cata::nullopt ) == 1.0 );
+    REQUIRE( player_character.crafting_speed_multiplier( *craft, std::nullopt ) == 1.0 );
     REQUIRE( !player_character.activity );
     player_character.use( player_character.get_item_position( craft ) );
     REQUIRE( player_character.activity );

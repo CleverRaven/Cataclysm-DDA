@@ -21,9 +21,8 @@
 # Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
-#   Run: make NATIVE=osx OSX_MIN=10.12
-#     It is highly recommended to supply OSX_MIN > 10.11
-#     otherwise optimizations are automatically disabled with -O0
+#   Run: make NATIVE=osx OSX_MIN=10.13
+#     The minimum OSX_MIN version supported is 10.13
 
 # Build types:
 # Debug (no optimizations)
@@ -83,11 +82,13 @@
 # Style all json files in parallel using all available CPU cores (don't make -jX on this, just make)
 #  make style-all-json-parallel
 # Disable astyle of source files.
-# make ASTYLE=0
+#  make ASTYLE=0
 # Disable format check of whitelisted json files.
-# make LINTJSON=0
+#  make LINTJSON=0
 # Disable building and running tests.
-# make RUNTESTS=0
+#  make RUNTESTS=0
+# Build source files in order of how often the matching header is included
+#  make HEADERPOPULARITY=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -831,7 +832,12 @@ ifeq ($(MSYS2),1)
 endif
 
 # Enumerations of all the source files and headers.
-SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
+ifeq ($(HEADERPOPULARITY), 1)
+  # Alternate source file enumeration sorted in order of how many times the matching header file is included in source files
+  SOURCES := $(shell echo "$$(echo $$(grep -oh "^#include \"[^\"]*.h\"" $(SRC_DIR)/*.cpp | sort | uniq -c | sort -rn | cut -d \" -f 2 | sed -e 's/\.h$$/.cpp/' | sed -e 's/^/$(SRC_DIR)\//') | xargs -n 1 ls 2> /dev/null; ls -1 $(SRC_DIR)/*.cpp)" | awk '!x[$$0]++')
+else
+  SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
+endif
 THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
@@ -863,7 +869,11 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
 endif
-OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
+ifeq ($(HEADERPOPULARITY), 1)
+	OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
+else
+	OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
+endif
 
 ifdef LANGUAGES
   export LOCALE_DIR

@@ -19,6 +19,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -82,7 +83,6 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -567,7 +567,7 @@ static int map_uilist()
  *   This allows to have some menu elements at the same time in the main menu and in the debug menu.
  * @returns The chosen action.
  */
-static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entries = true )
+static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entries = true )
 {
     std::vector<uilist_entry> menu = {
         { uilist_entry( 1, true, 'i', _( "Info…" ) ) },
@@ -623,12 +623,12 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
                 break;
 
             default:
-                return cata::nullopt;
+                return std::nullopt;
         }
         if( action >= 0 ) {
             return static_cast<debug_menu_index>( action );
         } else {
-            return cata::nullopt;
+            return std::nullopt;
         }
     }
 }
@@ -1240,7 +1240,7 @@ static void spawn_artifact()
         if( query_int( artifact_max_attributes, _( "Enter max attributes:" ) )
             && query_int( artifact_power_level, _( "Enter power level:" ) )
             && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) ) {
-            if( const cata::optional<tripoint> center = g->look_around() ) {
+            if( const std::optional<tripoint> center = g->look_around() ) {
                 if( query_yn( _( "Is the artifact resonant?" ) ) ) {
                     artifact_is_resonant = true;
                 }
@@ -1253,7 +1253,7 @@ static void spawn_artifact()
 
 static void teleport_short()
 {
-    const cata::optional<tripoint> where = g->look_around();
+    const std::optional<tripoint> where = g->look_around();
     const Character &player_character = get_player_character();
     if( !where || *where == player_character.pos() ) {
         return;
@@ -1308,7 +1308,7 @@ static void teleport_overmap( bool specific_coordinates = false )
         coord.z = coord_ints.size() >= 3 ? coord_ints[2] : 0;
         where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
     } else {
-        const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+        const std::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
         if( !dir_ ) {
             return;
         }
@@ -1331,7 +1331,7 @@ static void teleport_city()
     std::sort( cities.begin(), cities.end(), cities_cmp_population );
     uilist cities_menu;
     ui::omap::setup_cities_menu( cities_menu, cities );
-    cata::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
+    std::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
     if( c.has_value() ) {
         const tripoint_abs_omt where = tripoint_abs_omt(
                                            project_to<coords::omt>( c->pos_om ) + c->pos.raw(), 0 );
@@ -1350,7 +1350,7 @@ static void spawn_nested_mapgen()
     nest_menu.query();
     const int nest_choice = nest_menu.ret;
     if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_ids.size() ) ) {
-        const cata::optional<tripoint> where = g->look_around();
+        const std::optional<tripoint> where = g->look_around();
         if( !where ) {
             return;
         }
@@ -1377,7 +1377,7 @@ static void spawn_nested_mapgen()
 
 static void control_npc_menu()
 {
-    get_avatar().control_npc_menu();
+    get_avatar().control_npc_menu( true );
 }
 
 static void character_edit_stats_menu( Character &you )
@@ -2046,7 +2046,7 @@ static void character_edit_menu()
             mission_debug::edit( you );
             break;
         case D_TELE: {
-            if( const cata::optional<tripoint> newpos = g->look_around() ) {
+            if( const std::optional<tripoint> newpos = g->look_around() ) {
                 you.setpos( *newpos );
                 if( you.is_avatar() ) {
                     if( you.is_mounted() ) {
@@ -2568,7 +2568,7 @@ static void debug_menu_change_time()
 static void debug_menu_force_temperature()
 {
     uilist tempmenu;
-    cata::optional<units::temperature> &forced_temp = get_weather().forced_temperature;
+    std::optional<units::temperature> &forced_temp = get_weather().forced_temperature;
 
     tempmenu.addentry( 0, forced_temp.has_value(), MENU_AUTOASSIGN, _( "Reset" ) );
     tempmenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Set" ) );
@@ -2578,24 +2578,24 @@ static void debug_menu_force_temperature()
     } else {
         string_input_popup pop;
 
-        auto ask = [&pop]( const std::string & unit, cata::optional<int> current ) {
+        auto ask = [&pop]( const std::string & unit, std::optional<int> current ) {
             int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
                       .width( 20 )
                       .text( current ? std::to_string( *current ) : "" )
                       .only_digits( true )
                       .query_int();
 
-            return pop.canceled() ? current : cata::optional<int>( ret );
+            return pop.canceled() ? current : std::optional<int>( ret );
         };
 
-        cata::optional<int> current;
+        std::optional<int> current;
         std::string option = get_option<std::string>( "USE_CELSIUS" );
 
         if( option == "celsius" ) {
             if( forced_temp ) {
                 current = units::to_celsius( *forced_temp );
             }
-            cata::optional<int> ret = ask( "C", current );
+            std::optional<int> ret = ask( "C", current );
             if( ret ) {
                 forced_temp = units::from_celsius( *ret );
             }
@@ -2603,7 +2603,7 @@ static void debug_menu_force_temperature()
             if( forced_temp ) {
                 current = units::to_kelvin( *forced_temp );
             }
-            cata::optional<int> ret = ask( "K", current );
+            std::optional<int> ret = ask( "K", current );
             if( ret ) {
                 forced_temp = units::from_kelvin( *ret );
             }
@@ -2611,7 +2611,7 @@ static void debug_menu_force_temperature()
             if( forced_temp ) {
                 current = units::to_fahrenheit( *forced_temp );
             }
-            cata::optional<int> ret = ask( "F", current );
+            std::optional<int> ret = ask( "F", current );
             if( ret ) {
                 forced_temp = units::from_fahrenheit( *ret );
             }
@@ -2623,7 +2623,7 @@ void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
                                  /*maximum_modifier_count=*/ -1, false ).has_value();
-    cata::optional<debug_menu_index> action = debug_menu_uilist( debug_menu_has_hotkey );
+    std::optional<debug_menu_index> action = debug_menu_uilist( debug_menu_has_hotkey );
 
     // For the "cheaty" options, disable achievements when used
     achievements_tracker &achievements = get_achievements();
@@ -2646,7 +2646,7 @@ void debug()
         if( query_yn( _( query ) ) ) {
             achievements.set_enabled( false );
         } else {
-            action = cata::nullopt;
+            action = std::nullopt;
         }
     }
 
@@ -2715,7 +2715,7 @@ void debug()
         break;
 
         case debug_menu_index::SPAWN_MON:
-            debug_menu::wishmonster( cata::nullopt );
+            debug_menu::wishmonster( std::nullopt );
             break;
 
         case debug_menu_index::GAME_STATE:
@@ -2869,7 +2869,7 @@ void debug()
             }
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
-                weather.wind_direction_override = cata::nullopt;
+                weather.wind_direction_override = std::nullopt;
                 weather.set_nextweather( calendar::turn );
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
                 weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
@@ -2892,7 +2892,7 @@ void debug()
             }
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
-                weather.windspeed_override = cata::nullopt;
+                weather.windspeed_override = std::nullopt;
                 weather.set_nextweather( calendar::turn );
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
@@ -2903,7 +2903,7 @@ void debug()
         break;
 
         case debug_menu_index::GEN_SOUND: {
-            const cata::optional<tripoint> where = g->look_around();
+            const std::optional<tripoint> where = g->look_around();
             if( !where ) {
                 return;
             }
@@ -3078,7 +3078,7 @@ void debug()
             debug_menu_force_temperature();
             break;
         case debug_menu_index::SET_AUTOMOVE: {
-            const cata::optional<tripoint> dest = g->look_around();
+            const std::optional<tripoint> dest = g->look_around();
             if( !dest || *dest == player_character.pos() ) {
                 break;
             }

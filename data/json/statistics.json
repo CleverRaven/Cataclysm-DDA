@@ -2,9 +2,16 @@
   {
     "id": "avatar_id",
     "type": "event_statistic",
-    "stat_type": "unique_value",
-    "event_type": "game_start",
+    "stat_type": "last_value",
+    "event_type": "game_avatar_new",
     "field": "avatar_id"
+  },
+  {
+    "id": "last_words",
+    "type": "event_statistic",
+    "stat_type": "last_value",
+    "event_type": "game_avatar_death",
+    "field": "last_words"
   },
   {
     "id": "avatar_wakes_up",
@@ -391,9 +398,15 @@
     "description": { "str_sp": "minimum z level reached underwater" }
   },
   {
-    "id": "moves_veh_onboard",
+    "id": "vehicle_moves_with_abs_velocity",
     "type": "event_transformation",
     "event_type": "vehicle_moves",
+    "new_fields": { "abs_velocity": { "math_abs": "velocity" } }
+  },
+  {
+    "id": "moves_veh_onboard",
+    "type": "event_transformation",
+    "event_transformation": "vehicle_moves_with_abs_velocity",
     "value_constraints": { "avatar_on_board": { "equals": true } },
     "drop_fields": [ "avatar_on_board" ]
   },
@@ -423,7 +436,7 @@
   {
     "id": "moves_veh_ctrl_direct",
     "type": "event_transformation",
-    "event_type": "vehicle_moves",
+    "event_transformation": "vehicle_moves_with_abs_velocity",
     "value_constraints": { "avatar_is_driving": { "equals": true } },
     "drop_fields": [ "avatar_is_driving" ]
   },
@@ -437,7 +450,7 @@
   {
     "id": "moves_veh_ctrl_remote",
     "type": "event_transformation",
-    "event_type": "vehicle_moves",
+    "event_transformation": "vehicle_moves_with_abs_velocity",
     "value_constraints": { "avatar_remote_control": { "equals": true } },
     "drop_fields": [ "avatar_remote_control" ]
   },
@@ -511,7 +524,7 @@
     "id": "max_velocity_acft",
     "type": "event_statistic",
     "stat_type": "maximum",
-    "field": "velocity",
+    "field": "abs_velocity",
     "event_transformation": "moves_acft_ctrl_direct",
     "description": { "str_sp": "maximum velocity attained while piloting an aircraft" }
   },
@@ -555,7 +568,7 @@
     "id": "max_velocity_boat",
     "type": "event_statistic",
     "stat_type": "maximum",
-    "field": "velocity",
+    "field": "abs_velocity",
     "event_transformation": "moves_boat_ctrl_direct",
     "description": { "str_sp": "maximum velocity attained while sailing a watercraft" }
   },
@@ -591,7 +604,7 @@
     "id": "max_velocity_rail",
     "type": "event_statistic",
     "stat_type": "maximum",
-    "field": "velocity",
+    "field": "abs_velocity",
     "event_transformation": "moves_rail_ctrl_direct",
     "description": { "str_sp": "maximum velocity attained while driving a rail vehicle" }
   },
@@ -635,7 +648,7 @@
     "id": "max_velocity_gndv",
     "type": "event_statistic",
     "stat_type": "maximum",
-    "field": "velocity",
+    "field": "abs_velocity",
     "event_transformation": "moves_gndv_ctrl_direct",
     "description": { "str_sp": "maximum velocity attained while driving a land vehicle" }
   },
@@ -665,7 +678,7 @@
     "id": "max_velocity_skidding",
     "type": "event_statistic",
     "stat_type": "maximum",
-    "field": "velocity",
+    "field": "abs_velocity",
     "event_transformation": "moves_gndv_skidding",
     "description": { "str_sp": "maximum velocity that a driven vehicle skidded at" }
   },

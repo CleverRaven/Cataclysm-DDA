@@ -122,7 +122,7 @@
           { "item": "glass_bowl", "prob": 65, "count": [ 1, 6 ] },
           { "item": "malachite", "prob": 75, "count": [ 3, 15 ] },
           { "item": "citrine", "prob": 75, "count": [ 3, 15 ] },
-          { "item": "jar_glass", "prob": 60, "count": [ 1, 5 ] },
+          { "item": "jar_glass_sealed", "prob": 60, "count": [ 1, 5 ] },
           { "item": "glass", "prob": 60, "count": [ 1, 7 ] }
         ]
       },

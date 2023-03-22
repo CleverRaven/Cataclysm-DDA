@@ -1346,7 +1346,7 @@ void overmap::serialize( std::ostream &fout ) const
     fout << std::endl;
     json.member( "mapgen_arg_index" );
     json.start_array();
-    for( const std::pair<const tripoint_om_omt, cata::optional<mapgen_arguments> *> &p :
+    for( const std::pair<const tripoint_om_omt, std::optional<mapgen_arguments> *> &p :
          mapgen_args_index ) {
         json.start_array();
         json.write( p.first );

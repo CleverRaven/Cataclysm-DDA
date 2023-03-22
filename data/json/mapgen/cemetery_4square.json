@@ -28,7 +28,7 @@
       [ "story_book", 5 ],
       [ "syringe", 3 ],
       [ "tall_tales", 5 ],
-      [ "teddy", 15 ],
+      { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 3 ], "prob": 15 },
       [ "teleumbrella", 2 ],
       [ "thawb", 1 ],
       [ "umbrella", 10 ],
