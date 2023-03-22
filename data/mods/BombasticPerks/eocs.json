@@ -1,25 +1,51 @@
 [
-    {
-        "type": "effect_on_condition",
-        "id": "EOC_open_perk_menu",
-        "effect": [
-            { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } }
-        ]
-      },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_open_perk_menu",
+    "effect": [ { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_level_up",
+    "condition": { "compare_int": [ { "u_val": "var", "var_name": "available_exp" }, ">", { "const": 2000 } ] },
+    "effect": [
+      { "run_eocs": "EOC_give_perk_point" },
       {
-        "type": "effect_on_condition",
-        "id": "EOC_give_perk_point",
-        "effect": [
-            {
-                "arithmetic": [
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "=",
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "+",
-                  { "const": 1 }
-                ]
-            }
+        "arithmetic": [ { "u_val": "var", "var_name": "used_exp" }, "=", { "u_val": "var", "var_name": "used_exp" }, "+", { "const": 2000 } ]
+      },
+      { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_on_kill_check_exp",
+    "EOC_TYPE": "EVENT",
+    "required_event": "character_kills_monster",
+    "effect": [
+      {
+        "arithmetic": [
+          { "u_val": "var", "var_name": "available_exp" },
+          "=",
+          { "u_val": "var", "var_name": "exp" },
+          "-",
+          { "u_val": "var", "var_name": "used_exp" }
         ]
       }
-    
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_give_perk_point",
+    "effect": [
+      {
+        "arithmetic": [
+          { "global_val": "var", "var_name": "num_perks" },
+          "=",
+          { "global_val": "var", "var_name": "num_perks" },
+          "+",
+          { "const": 1 }
+        ]
+      }
+    ]
+  }
 ]

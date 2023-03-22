@@ -100,7 +100,7 @@
     {
       "type": "talk_topic",
       "id": "TALK_PERK_MENU_STRONGER",
-      "dynamic_line": "Stronger: \"Have you been working out?  +1 Strength.\"",
+      "dynamic_line": "<trait_name:perk_STR_UP>: \"<trait_description:perk_STR_UP>\"",
       "responses": [
         {
           "text": "Select Perk.",
@@ -125,7 +125,7 @@
     {
         "type": "talk_topic",
         "id": "TALK_PERK_MENU_FASTER",
-        "dynamic_line": "Faster: \"Have you been doing cardio?  +1 Dexterity.\"",
+        "dynamic_line": "<trait_name:perk_DEX_UP>: \"<trait_description:perk_DEX_UP>\"",
         "responses": [
           {
             "text": "Select Perk.",
@@ -150,7 +150,7 @@
       {
         "type": "talk_topic",
         "id": "TALK_PERK_MENU_SMARTER",
-        "dynamic_line": "Smarter: \"Have you been reading?  +1 Intelligence.\"",
+        "dynamic_line": "<trait_name:perk_INT_UP>: \"<trait_description:perk_INT_UP>\"",
         "responses": [
           {
             "text": "Select Perk.",
@@ -175,7 +175,7 @@
       {
         "type": "talk_topic",
         "id": "TALK_PERK_MENU_SHARPER",
-        "dynamic_line": "Sharper: \"Have you been staring out into the middle distance?  +1 Perception.\"",
+        "dynamic_line": "<trait_name:perk_PER_UP>: \"<trait_description:perk_PER_UP>\"",
         "responses": [
           {
             "text": "Select Perk.",
@@ -200,7 +200,7 @@
       {
         "type": "talk_topic",
         "id": "TALK_PERK_MENU_HOLDOUT_POCKET",
-        "dynamic_line": "Holdout Pocket: \"Never leave home without it!  You have a secret pocket no one knows about that can easily store a weapon.\"",
+        "dynamic_line": "<trait_name:perk_holdout_pocket>: \"<trait_description:perk_holdout_pocket>\"",
         "responses": [
           {
             "text": "Select Perk.",
@@ -225,7 +225,7 @@
       {
         "type": "talk_topic",
         "id": "TALK_PERK_MENU_BUILT_TOUGH",
-        "dynamic_line": "Built Tough: \"Your like a walking tank!  Take 10% less damage from all sources.\"",
+        "dynamic_line": "<trait_name:perk_built_tough>: \"<trait_description:perk_built_tough>\"",
         "responses": [
           {
             "text": "Select Perk.",
@@ -250,7 +250,7 @@
       {
         "type": "talk_topic",
         "id": "TALK_PERK_MENU_HAULER",
-        "dynamic_line": "Hauler: \"All that hauling has paid off.  You can carry 10kg of additional items.\"",
+        "dynamic_line": "<trait_name:perk_hauler>: \"<trait_description:perk_hauler>\"",
         "responses": [
           {
             "text": "Select Perk.",
@@ -275,7 +275,7 @@
       {
         "type": "talk_topic",
         "id": "TALK_PERK_MENU_VACATIONER",
-        "dynamic_line": "Vacationer: \"Everyday in the apocalpyse is just like the beach.  You are more comfortable in cold and warm weather.\"",
+        "dynamic_line": "<trait_name:perk_vacationer>: \"<trait_description:perk_vacationer>\"",
         "responses": [
           {
             "text": "Select Perk.",
@@ -300,7 +300,7 @@
       {
         "type": "talk_topic",
         "id": "TALK_PERK_MENU_THICK_SKULL",
-        "dynamic_line": "Thick Skull: \"You've taken so many blows to the head you've lost count.  You've got additional skull armor.\"",
+        "dynamic_line": "<trait_name:perk_thick_skull>: \"<trait_description:perk_thick_skull>\"",
         "responses": [
           {
             "text": "Select Perk.",
