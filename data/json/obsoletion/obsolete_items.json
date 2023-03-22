@@ -48,8 +48,7 @@
     "symbol": ";",
     "color": "light_blue",
     "qualities": [ [ "CONTAIN", 1 ] ]
-  }
-,
+  },
   {
     "id": "gambeson_loose",
     "repairs_like": "gambeson",
