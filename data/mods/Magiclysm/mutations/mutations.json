@@ -11,6 +11,12 @@
   },
   {
     "type": "mutation",
+    "id": "STYLISH",
+    "copy-from": "STYLISH",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
     "id": "PAINRESIST",
     "copy-from": "PAINRESIST",
     "extend": { "category": [ "DRAGON_BLACK" ] }
