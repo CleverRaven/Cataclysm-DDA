@@ -2578,24 +2578,24 @@ static void debug_menu_force_temperature()
     } else {
         string_input_popup pop;
 
-        auto ask = [&pop]( const std::string & unit, std::optional<int> current ) {
+        auto ask = [&pop]( const std::string & unit, std::optional<float> current ) {
             int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
                       .width( 20 )
                       .text( current ? std::to_string( *current ) : "" )
                       .only_digits( true )
                       .query_int();
 
-            return pop.canceled() ? current : std::optional<int>( ret );
+            return pop.canceled() ? current : std::optional<float>( static_cast<float>( ret ) );
         };
 
-        std::optional<int> current;
+        std::optional<float> current;
         std::string option = get_option<std::string>( "USE_CELSIUS" );
 
         if( option == "celsius" ) {
             if( forced_temp ) {
                 current = units::to_celsius( *forced_temp );
             }
-            std::optional<int> ret = ask( "C", current );
+            std::optional<float> ret = ask( "C", current );
             if( ret ) {
                 forced_temp = units::from_celsius( *ret );
             }
@@ -2603,7 +2603,7 @@ static void debug_menu_force_temperature()
             if( forced_temp ) {
                 current = units::to_kelvin( *forced_temp );
             }
-            std::optional<int> ret = ask( "K", current );
+            std::optional<float> ret = ask( "K", current );
             if( ret ) {
                 forced_temp = units::from_kelvin( *ret );
             }
@@ -2611,7 +2611,7 @@ static void debug_menu_force_temperature()
             if( forced_temp ) {
                 current = units::to_fahrenheit( *forced_temp );
             }
-            std::optional<int> ret = ask( "F", current );
+            std::optional<float> ret = ask( "F", current );
             if( ret ) {
                 forced_temp = units::from_fahrenheit( *ret );
             }
