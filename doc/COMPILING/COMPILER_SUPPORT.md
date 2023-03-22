@@ -9,9 +9,8 @@ and back to those shipping in any supported version of a popular distribution
 or relevant development environment, including Ubuntu, Debian, MSYS, and XCode.
 
 Since macOS can be harder to update we have active developers and users on
-unsupported versions of macOS we would like to support.  Newer macOS cannot
-compile for older macOS, so to support a reasonable number of users we aim to
-support at least 95% of users by macOS market share.
+unsupported versions of macOS we would like to support.  To support a reasonable
+number of users we aim to support at least 95% of users by macOS market share.
 
 At the time of writing:
 * Bionic is about to end general support, so we aim to support the next oldest
@@ -32,7 +31,7 @@ In practice, compiler support is often determined by what is covered in our
 automated testing.
 
 At time of writing, the oldest relevant compiler is XCode 10.1, the latest
-supported on macOS 10.13.
+supported on macOS 10.13, which is based on LLVM 6.
 
 With gcc 9.3, clang 10, and XCode 10.1 we can get all the C++17 language
 features and [most but not all of the C++17 library
