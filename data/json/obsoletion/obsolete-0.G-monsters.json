@@ -193,7 +193,7 @@
     "luminance": 8,
     "harvest": "zombie",
     "starting_ammo": { "pressurized_tank": 1000 },
-    "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ] },
+    "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops", 100 ] ] },
     "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "flags": [
@@ -309,7 +309,6 @@
     "path_settings": { "max_dist": 30, "allow_climb_stairs": false, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "PARROT", 15 ], [ "GRAB", 10 ], [ "SHRIEK", 70 ] ],
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
-    "death_drops": "feral_granny",
     "zombify_into": "mon_zombie_crawler",
     "fungalize_into": "mon_zombie_fungus",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],

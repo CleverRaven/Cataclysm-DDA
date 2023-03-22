@@ -19,7 +19,7 @@
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
     "using": [ [ "canning_high_heat", 1, "LIST" ] ],
     "//1": "pressure canning is measured in 0.5 liter quantities, so 1u of canning_high_heat.",
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [ [ [ "jar_glass_sealed", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ], [ [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -891,7 +891,12 @@
     "charges": 2,
     "using": [ [ "canning_low_heat", 1, "LIST" ] ],
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 1u of canning_low_heat. Due to pickling, ordinarily pressure canned meat can be water bathed.",
-    "components": [ [ [ "salt", 10 ], [ "saline", 10 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ], [ [ "vinegar", 16 ] ] ]
+    "components": [
+      [ [ "salt", 10 ], [ "saline", 10 ] ],
+      [ [ "jar_glass_sealed", 1 ] ],
+      [ [ "meat_offal", 2, "LIST" ] ],
+      [ [ "vinegar", 16 ] ]
+    ]
   },
   {
     "result": "offal_pickled",
@@ -913,7 +918,7 @@
     "//1": "waterbath canning is measured in 0.5 liter quantities, so 6u of canning_low_heat. Due to pickling, ordinarily pressure canned meat can be water bathed.",
     "components": [
       [ [ "salt", 60 ], [ "saline", 60 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass_sealed", 1 ] ],
       [ [ "meat_offal", 12, "LIST" ] ],
       [ [ "vinegar", 96 ] ]
     ]

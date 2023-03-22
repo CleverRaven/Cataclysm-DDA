@@ -1226,7 +1226,7 @@
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       [ "sewage", 60 ],
-      [ "improvised_pipebomb", 4 ],
+      [ "pipebomb", 4 ],
       { "item": "crack", "prob": 8, "charges": [ 1, 4 ] },
       [ "crackpipe", 37 ],
       { "item": "lsd", "prob": 10, "charges": [ 1, 5 ] },
@@ -1295,8 +1295,7 @@
       [ "material_shrd_limestone", 40 ],
       [ "material_niter", 5 ],
       [ "chem_rdx", 5 ],
-      [ "chem_hmtd", 10 ],
-      [ "tool_anfo_charge", 2 ]
+      [ "chem_hmtd", 10 ]
     ]
   },
   {
@@ -1369,7 +1368,6 @@
       { "group": "tools_toolbox", "prob": 1 },
       [ "apron_leather", 5 ],
       [ "apron_cut_resistant", 10 ],
-      [ "tool_anfo_charge", 1 ],
       { "item": "remotevehcontrol", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
