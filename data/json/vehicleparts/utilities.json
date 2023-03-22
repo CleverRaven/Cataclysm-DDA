@@ -27,8 +27,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 10 ] ]
+        "time": "20 m",
+        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 10 ] ]
       }
     },
     "size": "50 L",
@@ -61,8 +61,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 15 ] ]
+        "time": "20 m",
+        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 15 ] ]
       }
     },
     "size": "50 L",
@@ -109,8 +109,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 15 ] ]
+        "time": "20 m",
+        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 15 ] ]
       }
     },
     "size": "50 L",
@@ -150,8 +150,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 5 ] ]
+        "time": "20 m",
+        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 5 ] ]
       }
     },
     "size": "50 L",
@@ -184,8 +184,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 15 ] ]
+        "time": "10 m",
+        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 15 ] ]
       }
     },
     "size": "50 L",
@@ -218,8 +218,8 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 10 ] ]
+        "time": "10 m",
+        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 10 ] ]
       }
     },
     "size": "50 L",
@@ -283,8 +283,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 3 ] ],
-        "time": "60 m",
-        "using": [ [ "repair_welding_standard", 3 ], [ "soldering_standard", 5 ] ]
+        "time": "10 m",
+        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 5 ] ]
       }
     },
     "pseudo_tools": [ { "id": "pseudo_veh_oil_press" } ],
