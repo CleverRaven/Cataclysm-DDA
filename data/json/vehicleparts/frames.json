@@ -12,10 +12,11 @@
     "folding_time": "1 minute",
     "unfolding_time": "1 minute",
     "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
+    "//": "welds would likely occur along the circumference of the pipe, where they screw into the fittings - that's 8 ends for 4 pipes, about 3 cm each. repairing is more expensive than installing unlike most welds.",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "welding_standard", 40 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 30 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE" ],
     "categories": [ "hull" ],
@@ -55,10 +56,11 @@
     "durability": 400,
     "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": "ig_vp_frame",
+    "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 10 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 25 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "categories": [ "hull" ],
@@ -117,10 +119,11 @@
     "durability": 760,
     "description": "A heavy metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.",
     "breaks_into": "ig_vp_hdframe",
+    "//": "assuming about 50 cm square for a frame's welds, doubled in this case for redundant fail points",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "40 m", "using": [ [ "welding_standard", 20 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "200 m", "using": [ [ "welding_standard", 400 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "50 m", "using": [ [ "repair_welding_standard", 50 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "damage_reduction": { "all": 30 }
@@ -137,10 +140,11 @@
     "durability": 150,
     "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 5, 30 ] } ],
+    "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "25 m", "using": [ [ "welding_alloys", 10 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "12 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_alloys", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_alloys", 200 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "repair_welding_alloys", 25 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
     "damage_reduction": { "all": 7 }
@@ -158,10 +162,11 @@
     "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "folded_volume": "2500 ml",
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 5, 30 ] } ],
+    "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "25 m", "using": [ [ "welding_alloys", 10 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "12 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "repair_welding_alloys", 1 ] ] }
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_alloys", 200 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "repair_welding_alloys", 25 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE" ],
     "damage_reduction": { "all": 7 }
