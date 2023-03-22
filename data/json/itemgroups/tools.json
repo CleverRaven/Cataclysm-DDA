@@ -457,7 +457,7 @@
       { "item": "bandages", "count": 3 },
       { "item": "medical_gauze", "count": 6 },
       { "item": "booklet_firstaid" },
-      { "item": "scissors" }
+      { "item": "scissors_medical" }
     ]
   },
   {
@@ -486,7 +486,7 @@
       { "item": "bandages", "count": [ 0, 3 ] },
       { "item": "medical_gauze", "count": [ 0, 6 ] },
       { "item": "booklet_firstaid", "prob": 50 },
-      { "item": "scissors", "prob": 50 }
+      { "item": "scissors_medical", "prob": 50 }
     ]
   },
   {
@@ -495,7 +495,7 @@
     "//": "Portable medical equipment for doctors and paramedics (excludes consumables)",
     "items": [
       [ "scalpel", 50 ],
-      [ "scissors", 100 ],
+      [ "scissors_medical", 100 ],
       [ "stethoscope", 50 ],
       [ "syringe", 50 ],
       [ "thermometer", 50 ],
@@ -517,7 +517,7 @@
       { "item": "adhesive_bandages", "count": 3 },
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
       { "item": "gloves_medical" },
-      { "item": "scissors" }
+      { "item": "scissors_medical" }
     ]
   },
   {
@@ -534,7 +534,7 @@
       { "item": "adhesive_bandages", "count": [ 0, 3 ] },
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
       { "item": "gloves_medical", "prob": 50 },
-      { "item": "scissors", "prob": 30 }
+      { "item": "scissors_medical", "prob": 30 }
     ]
   },
   {

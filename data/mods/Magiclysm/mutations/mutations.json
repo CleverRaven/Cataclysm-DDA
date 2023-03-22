@@ -742,5 +742,67 @@
     "category": [ "DRAGON_BLACK" ],
     "threshreq": [ "THRESH_DRAGON_BLACK" ],
     "spells_learned": [ [ "acid_claw", 1 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "DENSE_BONES",
+    "copy-from": "DENSE_BONES",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PRED1",
+    "copy-from": "PRED1",
+    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PRED2",
+    "copy-from": "PRED2",
+    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PRED3_DRAGON",
+    "name": { "str": "Draconic Predator" },
+    "points": 4,
+    "description": "You have become something more than human.  Something better - and far, far worse.  Combat skills are easy to learn and maintain, and unlike lesser predators, your mental faculties don't suffer at all.",
+    "social_modifiers": { "intimidate": 5 },
+    "purifiable": false,
+    "types": [ "PREDATION" ],
+    "prereqs": [ "CARNIVORE" ],
+    "prereqs2": [ "PRED2" ],
+    "leads_to": [ "SAPIOVORE" ],
+    "changes_to": [ "PRED4_DRAGON" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "cancels": [ "PACIFIST" ],
+    "category": [ "DRAGON_BLACK" ],
+    "flags": [ "PRED3" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PRED4_DRAGON",
+    "name": { "str": "Draconic Apex Predator" },
+    "points": 5,
+    "description": "Your mind and brain have fully adapted to your new place at the top of the magical food chain.  You can effortlessly master and maintain combat skills, and your malevolent intellect only grows.",
+    "social_modifiers": { "intimidate": 6 },
+    "purifiable": false,
+    "types": [ "PREDATION" ],
+    "prereqs": [ "CARNIVORE" ],
+    "prereqs2": [ "PRED3_DRAGON" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "category": [ "DRAGON_BLACK" ],
+    "passive_mods": { "int_mod": 1 },
+    "flags": [ "PRED4" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SAPIOVORE",
+    "copy-from": "SAPIOVORE",
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK" ],
+      "prereqs2": [ "PRED3_DRAGON", "PRED4_DRAGON" ]
+    }
   }
 ]

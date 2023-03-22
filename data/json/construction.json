@@ -5175,6 +5175,32 @@
   },
   {
     "type": "construction",
+    "id": "app_water_wheel",
+    "group": "place_water_wheel",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "water_wheel", 1 ] ] ],
+    "pre_terrain": "t_water_moving_sh",
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_xl_water_wheel",
+    "group": "place_xl_water_wheel",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "xl_water_wheel", 1 ] ] ],
+    "pre_terrain": "t_water_moving_sh",
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_heater_large",
     "group": "place_heater_large",
     "category": "APPLIANCE",

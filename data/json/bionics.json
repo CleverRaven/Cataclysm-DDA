@@ -217,7 +217,6 @@
       "TOXICFLESH",
       "FRESHWATEROSMOSIS",
       "BIOLUM0",
-      "BIOLUM0_active",
       "BIOLUM1",
       "BIOLUM1_active",
       "BIOLUM2",
@@ -750,7 +749,8 @@
       "ALCMET",
       "SAPROVORE",
       "LACTOSE",
-      "GRAZER"
+      "GRAZER",
+      "VEGETARIAN"
     ]
   },
   {

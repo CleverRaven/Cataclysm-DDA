@@ -73,7 +73,8 @@
       { "group": "ammo_any_batteries_full", "prob": 50 },
       { "item": "radio", "prob": 30, "charges": 100 },
       { "item": "mp3", "prob": 30, "charges": 100 },
-      { "item": "pride_flag", "prob": 1 }
+      { "item": "pride_flag", "prob": 1 },
+      { "item": "national_flag", "prob": 1 }
     ]
   },
   {

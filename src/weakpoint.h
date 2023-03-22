@@ -4,12 +4,12 @@
 
 #include <array>
 #include <map>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "damage.h"
-#include "optional.h"
 #include "translation.h"
 #include "type_id.h"
 
@@ -92,9 +92,9 @@ struct weakpoint_family {
     // Name of proficiency corresponding to the family.
     proficiency_id proficiency;
     // The skill bonus for having the proficiency.
-    cata::optional<float> bonus;
+    std::optional<float> bonus;
     // The skill penalty for not having the proficiency.
-    cata::optional<float> penalty;
+    std::optional<float> penalty;
 
     float modifier( const Character &attacker ) const;
     void load( const JsonValue &jsin );

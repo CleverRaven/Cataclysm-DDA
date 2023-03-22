@@ -86,13 +86,107 @@
     "extend": { "flags": [ "OVERSIZE" ] }
   },
   {
-    "id": "xs_coat_fur",
+    "id": "xs_coat_glimmer_fur",
     "type": "ARMOR",
     "copy-from": "coat_glimmer_fur",
     "looks_like": "coat_glimmer_fur",
     "name": { "str": "XS glimmer fur coat" },
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "trenchcoat_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "glimmer fur trenchcoat" },
+    "description": "A thick glimmer fur trenchcoat, lined with pockets.  Great for storage.",
+    "weight": "1750 g",
+    "volume": "7250 ml",
+    "price": 97900,
+    "price_postapoc": 750,
+    "to_hit": -1,
+    "material": [ "fae_fur" ],
+    "symbol": "[",
+    "looks_like": "trenchcoat_leather",
+    "color": "brown",
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 9, 19 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 9, 9 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 80,
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
+    "warmth": 50,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ]
+  },
+  {
+    "id": "sleeveless_trenchcoat_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "sleeveless glimmer fur trenchcoat" },
+    "//": "The general guideline for sleeveless trenchcoats is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+    "description": "A thick glimmer fur trenchcoat without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
+    "weight": "1487 g",
+    "volume": "6750 ml",
+    "price": 83215,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ "fae_fur" ],
+    "symbol": "[",
+    "looks_like": "sleeveless_duster_fur",
+    "color": "brown",
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
+    ],
+    "warmth": 50,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER" ],
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 9, 19 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 40,
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 90,
+        "encumbrance": [ 4, 5 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 80,
+        "encumbrance": [ 0, 0 ]
+      }
+    ]
   },
   {
     "id": "duster_glimmer_fur",
@@ -163,6 +257,86 @@
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF", "FANCY" ]
+  },
+  {
+    "id": "sleeveless_duster_glimmer_fur",
+    "type": "ARMOR",
+    "name": { "str": "sleeveless glimmer fur duster" },
+    "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
+    "description": "A thick glimmer fur full-length duster without sleeves, leaving your arms unencumbered.  Has plenty of storage space due to its many pockets.",
+    "weight": "2007 g",
+    "volume": "8250 ml",
+    "price": 83215,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ "fae_fur" ],
+    "symbol": "[",
+    "looks_like": "duster_fur",
+    "color": "brown",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 9, 17 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 85,
+        "encumbrance": [ 4, 5 ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
+      },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 40,
+        "encumbrance": [ 0, 0 ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "24 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "24 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "21 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "13 cm",
+        "moves": 120
+      }
+    ],
+    "warmth": 50,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "POCKETS", "OUTER", "WATERPROOF", "RAINPROOF" ]
   },
   {
     "id": "xl_duster_glimmer_fur",

@@ -165,7 +165,7 @@ int npc_trading::adjusted_price( item const *it, int amount, Character const &bu
     npc const *faction_party = buyer.is_npc() ? buyer.as_npc() : seller.as_npc();
     faction_price_rule const *const fpr = faction_party->get_price_rules( *it );
 
-    double price = it->price_no_contents( true, fpr != nullptr ? fpr->price : cata::nullopt );
+    double price = it->price_no_contents( true, fpr != nullptr ? fpr->price : std::nullopt );
     if( fpr != nullptr ) {
         price *= fpr->premium;
         if( seller.is_npc() ) {

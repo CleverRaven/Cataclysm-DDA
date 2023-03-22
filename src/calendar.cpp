@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <limits>
+#include <optional>
 #include <string>
 
 #include "cata_assert.h"
@@ -13,7 +14,6 @@
 #include "display.h"
 #include "enum_conversions.h"
 #include "line.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -242,14 +242,14 @@ static units::angle sun_altitude( time_point t )
     return sun_azimuth_altitude( t ).second;
 }
 
-cata::optional<rl_vec2d> sunlight_angle( const time_point &t )
+std::optional<rl_vec2d> sunlight_angle( const time_point &t )
 {
     units::angle azimuth;
     units::angle altitude;
     std::tie( azimuth, altitude ) = sun_azimuth_altitude( t );
     if( altitude <= sunrise_angle ) {
         // Sun below horizon
-        return cata::nullopt;
+        return std::nullopt;
     }
     rl_vec2d horizontal_direction( -sin( azimuth ), cos( azimuth ) );
     rl_vec3d direction( horizontal_direction * cos( altitude ), sin( altitude ) );

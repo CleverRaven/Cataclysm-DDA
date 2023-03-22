@@ -149,6 +149,298 @@
     ]
   },
   {
+    "id": "national_flag",
+    "name": { "str": "national flag" },
+    "type": "ARMOR",
+    "description": "A large flag, made to fly in even the worst conditions.",
+    "copy-from": "american_flag",
+    "symbol": "[",
+    "looks_like": "sheet",
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "afghan_flag",
+        "name": { "str": "Afghan flag" },
+        "description": "It has three vertical boxes of black, red, and green placed behind the royal seal of Afghanistan.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "albanian_flag",
+        "name": { "str": "Albanian flag" },
+        "description": "It's a solid red, overlaid with the crest of Albania.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "algerian_flag",
+        "name": { "str": "Algerian flag" },
+        "description": "It's divided by green and white halves, overlaid with a crescent moon and a star in red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "andorran_flag",
+        "name": { "str": "Andorran flag" },
+        "description": "It has three vertical lines navy blue, yellow, and red, overlaid with the crest of Andorra.",
+        "weight": 3,
+        "append": true
+      },
+      {
+        "id": "angolan_flag",
+        "name": { "str": "Angolan flag" },
+        "description": "It's divided by red and black rectangles, overlaid by a gold machete, star, and half of a gear.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "argentinian_flag",
+        "name": { "str": "Argentinian flag" },
+        "description": "It has three horizontal lines of baby blue and white, with a gold star in the middle.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "armenian_flag",
+        "name": { "str": "Armenian flag" },
+        "description": "It has three stripes of red, navy blue, and orange.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "australian_flag",
+        "name": { "str": "Australian flag" },
+        "description": "It's solid navy blue, with various white stars.  In the top left corner is a miniature Union Jack.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "austrian_flag",
+        "name": { "str": "Austrian flag" },
+        "description": "It has three stripes of red and white.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "azerbaijanian_flag",
+        "name": { "str": "Azerbaijanian flag" },
+        "description": "It has three stripes of light blue, red, and green.  In the middle is a white crescent moon and star.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "antiguan_flag",
+        "name": { "str": "Antiguan flag" },
+        "description": "It has a black V-shape surrounded by red.  The bottom of the V is blue, with a rising sun immediately above.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bahamanian_flag",
+        "name": { "str": "Bahamanain flag" },
+        "description": "It has three stripes of light blue and yellow, with a black triangle on the far-left side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bahrainian_flag",
+        "name": { "str": "Bahrainian flag" },
+        "description": "It has a red background with a series of white spikes on the left.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bangladeshi_flag",
+        "name": { "str": "Bangladeshi flag" },
+        "description": "It's solid dark green, with a red circle in the middle.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "barbadian_flag",
+        "name": { "str": "Barbadian flag" },
+        "description": "It has three vertical lines of navy blue and yellow, with a black trident in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "belarusian_flag",
+        "name": { "str": "Belarusian flag" },
+        "description": "It has a red and green background, with a checker pattern on the left.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "belgian_flag",
+        "name": { "str": "Belgian flag" },
+        "description": "It has three vertical stripes of black, yellow, and red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "belizean_flag",
+        "name": { "str": "Belizean flag" },
+        "description": "It has two small stripes of red, separated by a square of blue, with the emblem of Belize in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "beninian_flag",
+        "name": { "str": "Beninian flag" },
+        "description": "It is divided into squares of yellow, red, and light green.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bhutanese_flag",
+        "name": { "str": "Bhutanese flag" },
+        "description": "It is divided into triangles of red and dark yellow, with a dragon in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bolivian_flag",
+        "name": { "str": "Bolivian flag" },
+        "description": "It has three stripes of red, yellow, and green, with the crest of Bolivia in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bosnian_flag",
+        "name": { "str": "Bosnian flag" },
+        "description": "It has a yellow triangle over a navy blue background, with white stars running along one side.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "brazilian_flag",
+        "name": { "str": "Brazilian flag" },
+        "description": "It has a yellow diamond on a light green base.  In the center of the diamond sits a blue orb with a curved, white line.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "botswanian_flag",
+        "name": { "str": "Botswanian flag" },
+        "description": "It has a black and white line running through a baby blue background.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bruneian_flag",
+        "name": { "str": "Bruneian flag" },
+        "description": "It has a diagonal black-and-white line through a yellow background, with a red lamp in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "bulgarian_flag",
+        "name": { "str": "Bulgarian flag" },
+        "description": "It has three stripes of white, green, and yellow.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "burkina_faso_flag",
+        "name": { "str": "Burkina Faso flag" },
+        "description": "It's divided into red and green, with a yellow star at the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "burundian_flag",
+        "name": { "str": "Burundian flag" },
+        "description": "It is divided into red and green triangles, with three stars at the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "ivory_coast_flag",
+        "name": { "str": "Ivory Coast flag" },
+        "description": "It has three vertical beige, white, and green stripes.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "cabo_verde_flag",
+        "name": { "str": "Cabo Verde flag" },
+        "description": "It has a thin red line in the center, surrounded by white and blue.  To the left lies an oval of gold stars.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "cambodian_flag",
+        "name": { "str": "Cambodian flag" },
+        "description": "It has three horizontal lines on navy blue and red, with a palace at the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "cameroon_flag",
+        "name": { "str": "Cameroon flag" },
+        "description": "It's divided into three green, red, and yellow stripes, with a golden star in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "canadian_flag",
+        "name": { "str": "Canadian flag" },
+        "description": "It has three red and white stripes, with the iconic maple leaf in red.",
+        "weight": 50,
+        "append": true
+      },
+      {
+        "id": "chad_flag",
+        "name": { "str": "Chad flag" },
+        "description": "It has three stripes of navy blue, yellow, and red.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "chilean_flag",
+        "name": { "str": "Chilean flag" },
+        "description": "It has a red and white backing, with a white star on blue in the upper left corner.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "chinese_flag",
+        "name": { "str": "Chinese flag" },
+        "description": "It has a solid red back, with five yellow stars in the top left.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "columbian_flag",
+        "name": { "str": "Columbian flag" },
+        "description": "It has a yellow, navy blue, and red stripe running horizontally.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "comoros_flag",
+        "name": { "str": "Comoros flag" },
+        "description": "Four horizontal stripes of yellow, white, red, and blue serve as a backdrop for a sideways green triangle on the far left, with a white crescent moon and four stars in the center.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "congolese_flag",
+        "name": { "str": "Congolese flag" },
+        "description": "A large red stripe divides a blue background into two triangles, the upper left corner sporting a yellow star.",
+        "weight": 10,
+        "append": true
+      },
+      {
+        "id": "costa_rican_flag",
+        "name": { "str": "Costa Rican flag" },
+        "description": "Five horizontal stripes of white, blue, and red run across it, with the coat of arms lying off-center.",
+        "weight": 10,
+        "append": true
+      }
+    ]
+  },
+  {
     "id": "state_flag",
     "repairs_like": "sheet",
     "type": "ARMOR",

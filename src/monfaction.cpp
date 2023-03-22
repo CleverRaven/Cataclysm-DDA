@@ -69,7 +69,7 @@ mf_attitude monfaction::attitude( const mfaction_id &other ) const
     return static_cast<mf_attitude>( attitude_vec[other.to_i()] );
 }
 
-cata::optional<mf_attitude> monfaction::attitude_rec( const mfaction_str_id &other ) const
+std::optional<mf_attitude> monfaction::attitude_rec( const mfaction_str_id &other ) const
 {
     const auto &found = attitude_map.find( other );
     if( found != attitude_map.end() ) {
@@ -80,7 +80,7 @@ cata::optional<mf_attitude> monfaction::attitude_rec( const mfaction_str_id &oth
         return attitude( other->base_faction );
     }
 
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 void monfactions::reset()
@@ -140,7 +140,7 @@ void monfaction::populate_attitude_vec() const
 {
     attitude_vec.clear();
     for( const monfaction &f : faction_factory.get_all() ) {
-        const cata::optional<mf_attitude> &attitude = attitude_rec( f.id );
+        const std::optional<mf_attitude> &attitude = attitude_rec( f.id );
         if( !attitude ) {
             debugmsg( "Invalid faction relations (no relation found): %s -> %s",
                       id.c_str(), f.id.c_str() );

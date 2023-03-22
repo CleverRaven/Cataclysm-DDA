@@ -7,6 +7,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <stack>
 #include <string>
 #include <tuple>
@@ -46,7 +47,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "projectile.h"

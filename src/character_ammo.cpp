@@ -61,7 +61,7 @@ bool Character::can_reload( const item &it, const item *ammo ) const
     }
 
     if( it.is_ammo_belt() ) {
-        const cata::optional<itype_id> &linkage = it.type->magazine->linkage;
+        const std::optional<itype_id> &linkage = it.type->magazine->linkage;
         if( linkage && !has_charges( *linkage, 1 ) ) {
             return false;
         }

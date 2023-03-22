@@ -133,7 +133,7 @@
     "type": "MONSTER_FACTION",
     "name": "fish",
     "base_faction": "animal",
-    "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider" ],
+    "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider", "beetle_diving", "water_scorpion" ],
     "by_mood": [ "bear", "big_cat", "kraken" ],
     "neutral": [
       "zombie",
@@ -511,7 +511,19 @@
     "type": "MONSTER_FACTION",
     "name": "strider",
     "base_faction": "insect",
-    "hate": [ "small_animal", "fish" ]
+    "hate": [ "small_animal", "fish", "beetle_diving", "water_scorpion" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "beetle_diving",
+    "base_faction": "insect",
+    "hate": [ "small_animal", "fish", "strider", "water_scorpion" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "water_scorpion",
+    "base_faction": "insect",
+    "hate": [ "small_animal", "fish", "strider", "beetle_diving" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -608,10 +620,5 @@
     "name": "dark_wyrm",
     "base_faction": "mutant",
     "neutral": [ "dark_wyrm" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "beetle",
-    "//": "faction for non-stag beetles, ported from TropiCata"
   }
 ]

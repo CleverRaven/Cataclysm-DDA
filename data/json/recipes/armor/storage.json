@@ -2109,12 +2109,6 @@
     "components": [ [ [ "strap_large", 1, "LIST" ] ] ]
   },
   {
-    "result": "rifle_case_xs_soft_leather",
-    "type": "recipe",
-    "copy-from": "rifle_case_soft_leather",
-    "time": "5 h"
-  },
-  {
     "result": "rifle_case_soft_2",
     "type": "recipe",
     "category": "CC_ARMOR",

@@ -442,7 +442,7 @@
     "flags": [ "RANDOM_DAMAGE", "HOSTILE_SUMMON", "PERMANENT", "SPAWN_WITH_DEATH_DROPS", "SILENT", "NO_EXPLOSION_SFX" ],
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_spider_cellar_small",
+    "effect_str": "mon_spider_cellar_giant_s",
     "min_aoe": 2,
     "max_aoe": 2
   },
