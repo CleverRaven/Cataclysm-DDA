@@ -10623,8 +10623,9 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty -= charg_used;
     }
 
-    // Modded items can consume UPS/bionic energy instead of ammo.
-    if( carrier != nullptr ) {
+    // Modded tools can consume UPS/bionic energy instead of (battery)ammo.
+    // Guns handle energy in energy_consume()
+    if( carrier != nullptr && type->tool && type->tool->ammo_id.count( ammo_battery ) ) {
         units::energy wanted_energy = units::from_kilojoule( qty );
 
         if( has_flag( flag_USE_UPS ) ) {
@@ -10638,7 +10639,7 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         }
 
         // It is possible for this to cause rounding error due to different precision of energy
-        // But that can happen only if there was not enough ammo and you shouldn't be able to shoot without sufficient ammo
+        // But that can happen only if there was not enough ammo and you shouldn't be able to use without sufficient ammo
         qty = units::to_kilojoule( wanted_energy );
     }
     return wanted_qty - qty;
@@ -10660,7 +10661,7 @@ units::energy item::energy_consume( units::energy qty, const tripoint &pos, Char
     }
 
     // Consume energy from contained magazine
-    if( uses_magazine() ) {
+    if( magazine_current() ) {
         qty -= magazine_current()->energy_consume( qty, pos, carrier );
     }
 
