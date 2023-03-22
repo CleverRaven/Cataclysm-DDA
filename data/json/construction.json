@@ -7803,7 +7803,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "10 m",
-    "components": [ [ [ "lumber", 4 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_30", 1 ] ] ],
+    "components": [ [ [ "lumber", 4 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_6", 2 ] ] ],
     "pre_note": "Must be between palisade walls to function, and at least one wall must have an adjacent rope & pulley system.",
     "pre_special": "check_empty",
     "post_terrain": "f_stack_lumber"
