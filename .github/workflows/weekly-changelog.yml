@@ -27,7 +27,7 @@ jobs:
           CURR_DATE: ${{ steps.current-date.outputs.formattedTime }}
         run: |
           LAST_WEEK="$(date -d "@$(( $(date +%s -d $CURR_DATE) - (60*60*24*7) ))" +"%Y-%m-%d")"
-          tools/generate_changelog.py -f --by-date /tmp/changelog.txt -T "${{ secrets.TX_TOKEN }}" "$LAST_WEEK"
+          tools/generate_changelog.py -f --by-date /tmp/changelog.txt -T "${{ secrets.GITHUB_TOKEN }}" "$LAST_WEEK"
           tac /tmp/changelog.txt > /tmp/changelog_rev.txt
           tools/merge_summaries.sh /tmp/changelog_rev.txt data/changelog.txt
           echo "date=$( date +"%Y-%m-%d" -d $CURR_DATE )" >> $GITHUB_OUTPUT
