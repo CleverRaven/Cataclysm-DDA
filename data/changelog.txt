@@ -3,6 +3,8 @@
 ## Features:
 Tilesets: Automatically prevent occlusions via semi-transparent sprites (similar to retraction)
 Add parametric mapgen to consolidate similar basecamp definitions
+More monster special attack logic
+Limbify downed recovery, rework Judo's passive bonus
 
 
 ## Content:
@@ -11,6 +13,24 @@ Add generic finales for generic mine
 Add new boss for physics lab
 Add 4 New Apartment Complexes
 Add several new bungalows
+Small bunker update
+Updates more offices with office-related furniture
+Update Occupied Lumbermills
+Sugar house expansion
+Add Bungalows 21 and 22
+Various additions and tweaks relating to Native American Heritage
+Add a drug lab
+Environmental storytelling about what children in the cataclysm had to go through
+Finish part 2 of the netherium monster corpse
+Completes the parking garage
+Office tower 2 overhaul
+Menstrual products
+Add (versions of) some appropriate mutation to the Black Dragon category
+Add flags of various countries
+Adds Water Wheels & XL Water Wheels as placeable appliances.
+Invertebrate larva and egg rework
+Biosilicified Chitin Leg Guards were the only piece of the Biosilicified armor set without XL and XS variants, I added them
+Add canine bite suits
 
 
 ## Interface:
@@ -18,6 +38,8 @@ Show crafting failure chances in the crafting interface
 Show addictions from hobbies in newcharacter tab
 Added ability to think to yourself in the message log
 Added Presets for pocket settings
+Fixed pocket contents displaying each item seperately
+Add two travel-related overmap keybinds for a better UX
 
 
 ## Mods:
@@ -32,6 +54,7 @@ Added Presets for pocket settings
 [Magiclysm Graphical Overmap] Delete Magiclysm Graphical Overmap
 [Magiclysm] Another approach to animist summoning
 [Xedra Evolved] Add content for dreamsmiths and dreamers
+[Backrooms] Add onura46 as a Backrooms maintainer
 
 
 ## Balance:
@@ -41,6 +64,9 @@ Add denim as a material and buff jeans
 Removed scent tracking from certain zombies
 Cody can make chainmail armor and charges more
 Rework melee, unarmed, dodge, cutting, stabbing, and bashing practice recipes to limit higher level practice actions to books
+Makes tinder easier to craft
+Cost parity for mod mutations
+Remove zombie technician's pull ability and normalize its properties.
 
 
 ## Bugfixes:
@@ -62,6 +88,27 @@ Fixes mobile home park road connections
 Flush map buffers after failing to create starting location
 Smart controller supports using only one engine
 Disassembly doesn't return items with UNRECOVERABLE flag
+Fixed truncation in monster list ui
+Resolved stat display error during character creation
+Disallow working on vehicle wheels in water
+Added "ammo": [ "battery" ]," line to microwave tool
+Make vehicle mass calculation aware of monster moving
+[Magiclysm] Fix fist weapons
+Fixes the situation where stat mods affect the displayed effects of your base stats.
+Add Dense Bones and Dromeosaur Muzzle to extra mut scen mod
+Straw Beds give more straw piles when deconstructed, up to 80%-90% of required instead of just 5%
+Intercom should sell the same set of UHMWPE armor.
+Fix `zinc_metal` stats (and cascade effects)
+Fix atomic coffeepot being unable to use batteries
+Expanded Digestive System cancels Meat Intolerance
+Correct cost of boiled makeshift bandage
+Follower NPCs shouldn't have static NPC traits
+Higher skill speeds up spell learn time instead of slowing down
+#64308
+Fix vehicle cheevos not handling reverse (negative) velocities correctly
+Prevent Android craft crash on small screens
+Make Crusader's Holy Shield actually work as a shield
+Update events to account for ability to swap avatars (debug or upon death)
 
 
 ## Performance:
@@ -73,6 +120,11 @@ Refactor effect types to use map indirection and enums instead of strings
 Epower and power in units::power
 Update compiler support.  Now supporting gcc 8.1+, clang 10+, XCode 10.1+
 Refactor some crafting infrastructure to support removal of charges
+More comparators for `event_transformation` `value_constraints`
+Convert build to C++17 (from C++14)
+Set OSX_MIN on CI to match release workflow
+Add Makefile option to compile in order of header popularity
+Refactor misleading variable name `vehicle::is_floating`
 
 
 ## Build:
@@ -111,66 +163,66 @@ Perspiration now exists so that your PC can wear heavy armor during summer witho
 
 New game entities (core): 10293
 Items: 2396
-    502 misc items, 45 books, 941 articles of clothing, 117 guns and gun related items,
-    364 comestibles, 308 tools, 119 ammunition types
+502 misc items, 45 books, 941 articles of clothing, 117 guns and gun related items,
+364 comestibles, 308 tools, 119 ammunition types
 Mapgen: 810
-    458 overmap terrains, 176 palettes, 17 start locations, 37 city buildings, 14 map extras,
-    105 overmap specials, 3 overmap locations
+458 overmap terrains, 176 palettes, 17 start locations, 37 city buildings, 14 map extras,
+105 overmap specials, 3 overmap locations
 Crafting: 1019
-    120 construction groups, 109 requirements, 69 proficiencies, 306 constructions,
-    42 recipe groups, 2 recipe categories, 57 practice recipes, 2 construction category,
-    312 nested categories
+120 construction groups, 109 requirements, 69 proficiencies, 306 constructions,
+42 recipe groups, 2 recipe categories, 57 practice recipes, 2 construction category,
+312 nested categories
 Achievements: 12
-    5 achievements, 4 event statistics, 3 event transformations
+5 achievements, 4 event statistics, 3 event transformations
 Item Traits: 1409
-    1267 item groups, 44 materials, 25 ammunition types, 5 ammo effects, 12 tool qualities,
-    29 vitamins, 25 item actions, 2 fault
+1267 item groups, 44 materials, 25 ammunition types, 5 ammo effects, 12 tool qualities,
+29 vitamins, 25 item actions, 2 fault
 Player Traits: 474
-    122 professions, 91 effect types, 117 mutations, 25 activity types, 2 behaviors,
-    1 movement mode, 5 morale types, 2 disease types, 46 mutation types,
-    8 trait groups, 55 sub body parts
+122 professions, 91 effect types, 117 mutations, 25 activity types, 2 behaviors,
+1 movement mode, 5 morale types, 2 disease types, 46 mutation types,
+8 trait groups, 55 sub body parts
 NPCs and NPC interactions: 1443
-    1153 talk topics, 142 missions, 14 scenarios, 78 npcs, 52 npc classes, 4 factions
+1153 talk topics, 142 missions, 14 scenarios, 78 npcs, 52 npc classes, 4 factions
 Map Traits: 321
-    202 terrains, 3 weather types, 95 furnitures, 1 gate, 7 field types, 13 terrain transformations
+202 terrains, 3 weather types, 95 furnitures, 1 gate, 7 field types, 13 terrain transformations
 Monsters: 461
-    300 monster types, 158 harvest entries, 3 species
+300 monster types, 158 harvest entries, 3 species
 Vehicles: 138
-    99 vehicle parts, 31 vehicles, 8 vehicle groups
+99 vehicle parts, 31 vehicles, 8 vehicle groups
 Magic: 117
-    99 spells, 4 enchantments, 12 emit definitions, 2 relic definitions
+99 spells, 4 enchantments, 12 emit definitions, 2 relic definitions
 UI and Sidebar: 861
-    836 sidebar widgets, 15 body graphs, 8 mood faces, 1 ascii art, 1 speed description
+836 sidebar widgets, 15 body graphs, 8 mood faces, 1 ascii art, 1 speed description
 Misc: 377
-    124 json flags, 29 weakpoint sets, 14 loot zones, 210 effect on conditions, 3 option sliders
+124 json flags, 29 weakpoint sets, 14 loot zones, 210 effect on conditions, 3 option sliders
 
 New game entities (mods): 5396
 New mods: 18
 Items: 885
-    220 misc items, 62 books, 222 comestibles, 114 tools, 170 articles of clothing,
-    51 guns and gun-related items, 27 ammunition types, 19 compact bionic modules
+220 misc items, 62 books, 222 comestibles, 114 tools, 170 articles of clothing,
+51 guns and gun-related items, 27 ammunition types, 19 compact bionic modules
 Player traits: 440
-    133 mutations, 33 trait groups, 76 professions, 3 techniques, 63 scenarios, 90 effect types,
-    1 martial art, 20 bionics, 11 start locations, 3 mutation categories, 5 proficiencies, 2 skills
+133 mutations, 33 trait groups, 76 professions, 3 techniques, 63 scenarios, 90 effect types,
+1 martial art, 20 bionics, 11 start locations, 3 mutation categories, 5 proficiencies, 2 skills
 Mapgen: 955
-    608 item groups, 89 overmap terrains, 64 palettes, 98 overmap specials,
-    8 city buildings, 88 map extras
+608 item groups, 89 overmap terrains, 64 palettes, 98 overmap specials,
+8 city buildings, 88 map extras
 Monsters: 1184
-    1067 monster types, 93 harvest entries, 9 species, 15 monster attacks
+1067 monster types, 93 harvest entries, 9 species, 15 monster attacks
 NPCs and NPC interactions: 310
-    250 talk topics, 19 npc classes, 27 mission definitions, 13 npcs, 1 faction
+250 talk topics, 19 npc classes, 27 mission definitions, 13 npcs, 1 faction
 Map traits: 217
-    99 terrains, 94 furnitures, 5 terrain transformations, 9 field types, 2 traps, 8 emit definitions
+99 terrains, 94 furnitures, 5 terrain transformations, 9 field types, 2 traps, 8 emit definitions
 Vehicles: 61
-    33 vehicle parts, 7 vehicle groups, 21 vehicles
+33 vehicle parts, 7 vehicle groups, 21 vehicles
 Magic: 320
-    290 spells, 30 enchantments
+290 spells, 30 enchantments
 Crafting: 74
-    50 requirements, 2 tool qualities, 21 constructions, 1 recipe category
+50 requirements, 2 tool qualities, 21 constructions, 1 recipe category
 Item Traits: 35
-    20 materials, 12 ammunition types, 3 ammo effects
+20 materials, 12 ammunition types, 3 ammo effects
 Achievements: 59
-    43 achievements, 8 event statistics, 8 event transformations
+43 achievements, 8 event statistics, 8 event transformations
 
 ## Features:
 Safe mode improvements
@@ -735,64 +787,64 @@ Magiclysm added a huge content update including many new traits called Attunemen
 
 New game entities (core): 4510
 Items: 987
-    228 misc items, 199 books, 196 articles of clothing, 161 guns and gun related items,
-    151 comestibles, 99 tools, 53 ammunition types
+228 misc items, 199 books, 196 articles of clothing, 161 guns and gun related items,
+151 comestibles, 99 tools, 53 ammunition types
 Mapgen: 778
-    424 overmap terrains, 198 palettes, 62 start locations, 41 city buildings, 25 map extras,
-    20 overmap specials, 5 overmap locations, 3 region setting
+424 overmap terrains, 198 palettes, 62 start locations, 41 city buildings, 25 map extras,
+20 overmap specials, 5 overmap locations, 3 region setting
 Crafting: 562
-    223 construction groups, 201 requirements, 60 proficiencies, 50 constructions,
-    17 recipe groups, 10 recipe categories, 1 construction category
+223 construction groups, 201 requirements, 60 proficiencies, 50 constructions,
+17 recipe groups, 10 recipe categories, 1 construction category
 Achievements: 363
-    115 achievements, 107 event statistics, 100 event transformations, 26 score entries, 15 conducts
+115 achievements, 107 event statistics, 100 event transformations, 26 score entries, 15 conducts
 Item Traits: 325
-    171 item groups, 97 materials, 20 ammunition types, 18 ammo effects, 13 tool qualities,
-    2 vitamins, 3 item actions, 1 fault
+171 item groups, 97 materials, 20 ammunition types, 18 ammo effects, 13 tool qualities,
+2 vitamins, 3 item actions, 1 fault
 Player Traits: 263
-    144 professions, 41 effect types, 28 skills, 17 mutations, 14 activity types,
-    4 skill display types, 3 behaviors, 3 movement modes, 3 scent types, 2 morale types,
-    1 butchery requirement, 1 disease type, 1 mutation types, 1 trait group
+144 professions, 41 effect types, 28 skills, 17 mutations, 14 activity types,
+4 skill display types, 3 behaviors, 3 movement modes, 3 scent types, 2 morale types,
+1 butchery requirement, 1 disease type, 1 mutation types, 1 trait group
 NPCs and NPC interactions: 237
-    255 talk topics, 29 missions, 29 scenarios, 15 npcs, 6 npc classes, 3 factions
+255 talk topics, 29 missions, 29 scenarios, 15 npcs, 6 npc classes, 3 factions
 Map Traits: 234
-    149 terrains, 12 weather types, 64 furnitures, 5 gates, 3 field types, 1 terrain transformation
+149 terrains, 12 weather types, 64 furnitures, 5 gates, 3 field types, 1 terrain transformation
 Monsters: 228
-    151 monster types, 72 harvest entries, 4 species, 1 anatomy entry
+151 monster types, 72 harvest entries, 4 species, 1 anatomy entry
 Vehicles: 140
-    80 vehicle parts, 41 vehicles, 12 vehicle part categories, 7 vehicle groups
+80 vehicle parts, 41 vehicles, 12 vehicle part categories, 7 vehicle groups
 Magic: 40
-    23 spells, 7 enchantments, 6 emit definitions, 4 relic definitions
+23 spells, 7 enchantments, 6 emit definitions, 4 relic definitions
 Misc: 363
-    258 json flags, 104 ascii art, 1 loot zone
+258 json flags, 104 ascii art, 1 loot zone
 
 New game entities (mods): 3231
 Items: 773
-    179 misc items, 172 books, 161 comestibles, 85 tools, 83 articles of clothing,
-    65 guns and gun-related items, 21 ammunition types, 7 compact bionic modules
+179 misc items, 172 books, 161 comestibles, 85 tools, 83 articles of clothing,
+65 guns and gun-related items, 21 ammunition types, 7 compact bionic modules
 Player traits: 749
-    273 mutations, 214 trait groups, 96 professions, 64 techniques, 47 scenarios, 21 effect types,
-    9 martial arts, 8 bionics, 8 start locations, 6 mutation categories, 2 proficiencies, 1 skill
+273 mutations, 214 trait groups, 96 professions, 64 techniques, 47 scenarios, 21 effect types,
+9 martial arts, 8 bionics, 8 start locations, 6 mutation categories, 2 proficiencies, 1 skill
 Mapgen: 430
-    154 item groups, 202 overmap terrains, 39 palettes, 30 overmap specials,
-    5 city buildings, 2 map extras
+154 item groups, 202 overmap terrains, 39 palettes, 30 overmap specials,
+5 city buildings, 2 map extras
 Monsters: 406
-    360 monster types, 32 harvest entries, 11 species, 3 monster attacks
+360 monster types, 32 harvest entries, 11 species, 3 monster attacks
 NPCs and NPC interactions: 234
-    144 talk topics, 59 npc classes, 15 mission definitions, 13 npcs, 3 factions
+144 talk topics, 59 npc classes, 15 mission definitions, 13 npcs, 3 factions
 Map traits: 190
-    103 terrains, 56 furnitures, 10 terrain transformations,
-    9 gates, 6 field types, 4 traps, 2 emit definitions
+103 terrains, 56 furnitures, 10 terrain transformations,
+9 gates, 6 field types, 4 traps, 2 emit definitions
 Vehicles: 185
-    141 vehicle parts, 27 vehicle groups, 17 vehicles
+141 vehicle parts, 27 vehicle groups, 17 vehicles
 Magic: 155
-    132 spells, 23 enchantments
+132 spells, 23 enchantments
 Crafting: 48
-    32 requirements, 7 tool qualities, 5 construction groups, 2 constructions,
-    1 recipe category, 1 recipe group
+32 requirements, 7 tool qualities, 5 construction groups, 2 constructions,
+1 recipe category, 1 recipe group
 Item Traits: 39
-    20 materials, 11 ammunition types, 8 ammo effects
+20 materials, 11 ammunition types, 8 ammo effects
 Achievements: 22
-    14 achievements, 3 event statistics, 3 event transformations, 2 score entries
+14 achievements, 3 event statistics, 3 event transformations, 2 score entries
 
 ## Features:
 Adds option to randomize INITIAL_DAY.
@@ -3658,10 +3710,10 @@ Armor is assigned to a layer, and armor on different layers doesn't impose layer
 Destroyed vehicle parts get ripped off the vehicle.
 Player can start at various locations.
 Special support for mapsharing installs:
-  - lock down debug menu;
-  - lock players to their username;
-  - more configurable file placement;
-  - locks around map files.
+- lock down debug menu;
+- lock players to their username;
+- more configurable file placement;
+- locks around map files.
 Language switch is dynamic now.
 Guns such as revolvers no longer eject casings when fired, they're instead ejected on reload.
 Internal furnace and Battery System CBMs are toggleable so you're less likely to eat random objects by accident.
@@ -3696,9 +3748,9 @@ Hulks and Brutes now have a very damaging fling attack.
 Jumper cables can be used to link together electrical systems of vehicles, including vehicles outside the reality bubble.
 Crafting a large batch of items can apply a discount to the crafting time required.
 Overhaul of "cut up" system:
-  - Cannot cut up an item if it includes a material that can't be cut up (e.g. shotgun);
-  - Cutting up returns items from each material that makes up the item;
-  - Cutting up most items should respect the total volume of the item.
+- Cannot cut up an item if it includes a material that can't be cut up (e.g. shotgun);
+- Cutting up returns items from each material that makes up the item;
+- Cutting up most items should respect the total volume of the item.
 Most terrain can be smashed now, if you can hit it hard enough.
 Can turn individual vehicle engines on and off.
 Filling an item with water from e.g. a river is now an interruptible action.
