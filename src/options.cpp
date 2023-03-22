@@ -3192,8 +3192,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
         //Draw options
         size_t iBlankOffset = 0; // Offset when blank line is printed.
         for( int i = iStartPos;
-             i < iStartPos + ( iContentHeight > static_cast<int>( page_items.size() ) ?
-                               static_cast<int>( page_items.size() ) : iContentHeight ); i++ ) {
+             i < iStartPos + std::min<int>( iContentHeight, page_items.size() ); i++ ) {
 
             int line_pos = i - iStartPos; // Current line position in window.
 

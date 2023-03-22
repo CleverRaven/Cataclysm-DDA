@@ -1261,6 +1261,18 @@ void input_context::register_cardinal()
     register_leftright();
 }
 
+void input_context::register_navigate_ui_list()
+{
+    register_action( "UP", to_translation( "Move cursor up" ) );
+    register_action( "DOWN", to_translation( "Move cursor down" ) );
+    register_action( "SCROLL_UP", to_translation( "Move cursor up" ) );
+    register_action( "SCROLL_DOWN", to_translation( "Move cursor down" ) );
+    register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    register_action( "HOME", to_translation( "Scroll to top" ) );
+    register_action( "END", to_translation( "Scroll to bottom" ) );
+}
+
 // dx and dy are -1, 0, or +1. Rotate the indicated direction 1/8 turn clockwise.
 void rotate_direction_cw( int &dx, int &dy )
 {
