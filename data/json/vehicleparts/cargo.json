@@ -43,8 +43,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
-        "time": "15 s",
-        "using": [ [ "repair_welding_standard", 30 ] ]
+        "time": "15 m",
+        "using": [ [ "repair_welding_standard", 15 ] ]
       }
     },
     "flags": [ "CARGO", "OBSTACLE" ],
@@ -82,7 +82,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "welding_standard", 60 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 30 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
     "damage_reduction": { "all": 6 }
@@ -109,8 +109,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
-        "time": "15 s",
-        "using": [ [ "repair_welding_standard", 30 ] ]
+        "time": "15 m",
+        "using": [ [ "repair_welding_standard", 15 ] ]
       }
     },
     "flags": [ "CARGO", "OBSTACLE" ],
@@ -137,8 +137,8 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ],
-        "time": "250 s",
-        "using": [ [ "repair_welding_standard", 1 ] ]
+        "time": "5 m",
+        "using": [ [ "repair_welding_standard", 5 ] ]
       }
     },
     "flags": [ "CARGO", "BOARDABLE" ],
@@ -185,7 +185,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 10 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
     "damage_reduction": { "all": 6 }
@@ -246,7 +246,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "50 m", "using": [ [ "welding_standard", 100 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 50 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 25 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ],
     "damage_reduction": { "all": 26 }
@@ -272,7 +272,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 30 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
     },
     "flags": [ "BIKE_RACK_VEH", "MULTISQUARE" ],
     "damage_reduction": { "all": 10 }
@@ -294,7 +294,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 30 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION" ],
     "damage_reduction": { "all": 10 }
