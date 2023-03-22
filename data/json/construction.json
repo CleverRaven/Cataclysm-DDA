@@ -7788,7 +7788,7 @@
     "id": "constr_place_lumber",
     "group": "place_lumber",
     "category": "OTHER",
-    "required_skills": [  ],
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 s",
     "components": [ [ [ "lumber", 1 ] ] ],
     "pre_special": "check_empty",
