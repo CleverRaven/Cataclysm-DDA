@@ -1041,6 +1041,7 @@ void Character::load( const JsonObject &data )
     on_stat_change( "sleep_deprivation", sleep_deprivation );
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
+    on_stat_change( "radiation", get_rad() );
     recalc_sight_limits();
     calc_encumbrance();
 
