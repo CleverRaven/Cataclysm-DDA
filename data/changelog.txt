@@ -13,24 +13,16 @@ Add generic finales for generic mine
 Add new boss for physics lab
 Add 4 New Apartment Complexes
 Add several new bungalows
-Small bunker update
-Updates more offices with office-related furniture
-Update Occupied Lumbermills
 Sugar house expansion
 Add Bungalows 21 and 22
 Various additions and tweaks relating to Native American Heritage
 Add a drug lab
 Environmental storytelling about what children in the cataclysm had to go through
 Finish part 2 of the netherium monster corpse
-Completes the parking garage
-Office tower 2 overhaul
 Menstrual products
-Add (versions of) some appropriate mutation to the Black Dragon category
 Add flags of various countries
 Adds Water Wheels & XL Water Wheels as placeable appliances.
 Invertebrate larva and egg rework
-Biosilicified Chitin Leg Guards were the only piece of the Biosilicified armor set without XL and XS variants, I added them
-Add canine bite suits
 
 
 ## Interface:
@@ -64,8 +56,6 @@ Add denim as a material and buff jeans
 Removed scent tracking from certain zombies
 Cody can make chainmail armor and charges more
 Rework melee, unarmed, dodge, cutting, stabbing, and bashing practice recipes to limit higher level practice actions to books
-Makes tinder easier to craft
-Cost parity for mod mutations
 Remove zombie technician's pull ability and normalize its properties.
 
 
@@ -89,25 +79,14 @@ Flush map buffers after failing to create starting location
 Smart controller supports using only one engine
 Disassembly doesn't return items with UNRECOVERABLE flag
 Fixed truncation in monster list ui
-Resolved stat display error during character creation
 Disallow working on vehicle wheels in water
-Added "ammo": [ "battery" ]," line to microwave tool
 Make vehicle mass calculation aware of monster moving
-[Magiclysm] Fix fist weapons
 Fixes the situation where stat mods affect the displayed effects of your base stats.
-Add Dense Bones and Dromeosaur Muzzle to extra mut scen mod
-Straw Beds give more straw piles when deconstructed, up to 80%-90% of required instead of just 5%
-Intercom should sell the same set of UHMWPE armor.
 Fix `zinc_metal` stats (and cascade effects)
-Fix atomic coffeepot being unable to use batteries
-Expanded Digestive System cancels Meat Intolerance
 Correct cost of boiled makeshift bandage
-Follower NPCs shouldn't have static NPC traits
 Higher skill speeds up spell learn time instead of slowing down
-#64308
 Fix vehicle cheevos not handling reverse (negative) velocities correctly
 Prevent Android craft crash on small screens
-Make Crusader's Holy Shield actually work as a shield
 Update events to account for ability to swap avatars (debug or upon death)
 
 
@@ -124,7 +103,6 @@ More comparators for `event_transformation` `value_constraints`
 Convert build to C++17 (from C++14)
 Set OSX_MIN on CI to match release workflow
 Add Makefile option to compile in order of header popularity
-Refactor misleading variable name `vehicle::is_floating`
 
 
 ## Build:
