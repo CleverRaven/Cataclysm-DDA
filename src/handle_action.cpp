@@ -2570,10 +2570,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             diary::show_diary_ui( u.get_avatar_diary() );
             break;
 
-        case ACTION_SCORES:
-            show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
-            break;
-
         case ACTION_FACTIONS:
             faction_manager_ptr->display();
             break;
