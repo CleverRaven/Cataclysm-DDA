@@ -85,6 +85,8 @@ enum class event_type : int {
     gains_addiction,
     gains_mutation,
     gains_skill_level,
+    game_avatar_death,
+    game_avatar_new,
     game_load,
     game_over,
     game_save,
@@ -172,7 +174,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 87,
+static_assert( static_cast<int>( event_type::num_event_types ) == 89,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -557,6 +559,32 @@ struct event_spec<event_type::gains_skill_level> {
 };
 
 template<>
+struct event_spec<event_type::game_avatar_death> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 5> fields = {{
+            { "avatar_id", cata_variant_type::character_id },
+            { "avatar_name", cata_variant_type::string },
+            { "avatar_is_male", cata_variant_type::bool_ },
+            { "is_suicide", cata_variant_type::bool_ },
+            { "last_words", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
+struct event_spec<event_type::game_avatar_new> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 7> fields = {{
+            { "is_new_game", cata_variant_type::bool_ },
+            { "is_debug", cata_variant_type::bool_ },
+            { "avatar_id", cata_variant_type::character_id },
+            { "avatar_name", cata_variant_type::string },
+            { "avatar_is_male", cata_variant_type::bool_ },
+            { "avatar_profession", cata_variant_type::profession_id },
+            { "avatar_custom_profession", cata_variant_type::string },
+        }
+    };
+};
+
+template<>
 struct event_spec<event_type::game_load> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "cdda_version", cata_variant_type::string },
@@ -566,9 +594,7 @@ struct event_spec<event_type::game_load> {
 
 template<>
 struct event_spec<event_type::game_over> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
-            { "is_suicide", cata_variant_type::bool_ },
-            { "last_words", cata_variant_type::string },
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "total_time_played", cata_variant_type::chrono_seconds },
         }
     };
@@ -585,12 +611,7 @@ struct event_spec<event_type::game_save> {
 
 template<>
 struct event_spec<event_type::game_start> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 6> fields = {{
-            { "avatar_id", cata_variant_type::character_id },
-            { "avatar_name", cata_variant_type::string },
-            { "avatar_is_male", cata_variant_type::bool_ },
-            { "avatar_profession", cata_variant_type::profession_id },
-            { "avatar_custom_profession", cata_variant_type::string },
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "game_version", cata_variant_type::string },
         }
     };
