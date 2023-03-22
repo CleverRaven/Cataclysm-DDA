@@ -781,8 +781,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // If not enough wheels, mess up the ground a bit.
     if( !vertical && !veh.valid_wheel_config() && !( veh.is_watercraft() && veh.can_float() ) &&
         !veh.is_flying_in_air() && dp.z == 0 ) {
-        veh.velocity -= veh.velocity < 0 ?
-                        std::max( veh.velocity, -2000 ) : std::min( veh.velocity, 2000 );
+        veh.velocity -= std::clamp( veh.velocity, -2000, 2000 ); // extra drag
         for( const tripoint &p : veh.get_points() ) {
             const ter_id &pter = ter( p );
             if( pter == t_dirt || pter == t_grass ) {
