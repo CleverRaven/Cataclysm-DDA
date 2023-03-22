@@ -2897,6 +2897,16 @@ void load_charge_migration_blacklist( const JsonObject &jo, const std::string &/
     charge_migration_blacklist.insert( new_blacklist.begin(), new_blacklist.end() );
 }
 
+static std::set<itype_id> temperature_removal_blacklist;
+
+void load_temperature_removal_blacklist( const JsonObject &jo, const std::string &/*src*/ )
+{
+    jo.allow_omitted_members();
+    std::set<itype_id> new_blacklist;
+    jo.read( "list", new_blacklist );
+    temperature_removal_blacklist.insert( new_blacklist.begin(), new_blacklist.end() );
+}
+
 template<typename Archive>
 void item::io( Archive &archive )
 {
@@ -3050,6 +3060,32 @@ void item::io( Archive &archive )
         // Some hot/cold items from legacy saves may be inactive
         active = true;
     }
+
+    // Former comestibles that no longer need temperature tracking
+    if( !has_temperature() && ( last_temp_check != calendar::turn_zero || has_own_flag( flag_HOT ) ||
+                                has_own_flag( flag_COLD ) || has_own_flag( flag_FROZEN ) ) ) {
+        bool abort = false;
+        if( active ) {
+            if( temperature_removal_blacklist.count( type->get_id() ) != 0 ) {
+                // list of items that are safe for straightforward deactivation
+                // NOTE: items that may be active for additional reasons other than temperature tracking
+                // should be handled in separate special cases containing item-specific deactivation logic
+                active = false;
+            } else {
+                // warn and bail in unexpected cases -- should be investigated
+                debugmsg( "Item %s is active and tracking temperature, but it should not!", type->get_id().str() );
+                // erroneous unsetting of last_temp_check/flags is hard to detect/rectify, so do not proceed
+                abort = true;
+            }
+        }
+        if( !abort ) {
+            last_temp_check = calendar::turn_zero;
+            unset_flag( flag_HOT );
+            unset_flag( flag_COLD );
+            unset_flag( flag_FROZEN );
+        }
+    }
+
     std::string mode;
     if( archive.read( "mode", mode ) ) {
         // only for backward compatibility (nowadays mode is stored in item_vars)
