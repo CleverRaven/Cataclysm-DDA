@@ -2477,7 +2477,8 @@
     "result": "sheet",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "8 s",
+    "time": "12 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "sheet_cotton", 12 ] ] ]
   },
   {
