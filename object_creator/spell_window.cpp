@@ -510,7 +510,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         } else if( editable_spell.damage_increment.min.dbl_val.value() < 0.0f ) {
             max_damage_box.setValue( std::min( max_damage_box.value(), static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
         } else {
-            max_damage_box.setValue( editable_spell.min_damage.min_damage.min.dbl_val.value() );
+            max_damage_box.setValue( editable_spell.min_damage.min.dbl_val.value() );
         }
         editable_spell.max_damage.min.dbl_val = max_damage_box.value();
         write_json();
