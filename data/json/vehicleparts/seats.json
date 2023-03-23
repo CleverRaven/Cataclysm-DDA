@@ -47,7 +47,7 @@
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
         "time": "30 m",
-        "using": [ [ "repair_welding_standard", 6 ], [ "sewing_standard", 8 ] ]
+        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
       }
     },
     "size": "25 L",
@@ -88,7 +88,7 @@
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
         "time": "30 m",
-        "using": [ [ "repair_welding_standard", 6 ], [ "sewing_standard", 8 ] ]
+        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
       }
     },
     "size": "6250 ml",
@@ -129,7 +129,7 @@
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
         "time": "30 m",
-        "using": [ [ "repair_welding_standard", 6 ], [ "sewing_standard", 8 ] ]
+        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 8 ] ]
       }
     },
     "size": "30 L",
@@ -172,7 +172,7 @@
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
         "time": "20 s",
-        "using": [ [ "repair_welding_standard", 4 ], [ "sewing_standard", 4 ] ]
+        "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 4 ] ]
       }
     },
     "flags": [ "SEAT", "BOARDABLE", "NONBELTABLE" ],
@@ -228,7 +228,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": "vehicle_weld_removal" },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 10 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "symbol": "#",
     "type": "vehicle_part"
