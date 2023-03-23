@@ -1977,6 +1977,8 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
     double num_low_hits = std::max( 0.0, num_all_hits - num_high_hits );
 
     double moves_per_attack = guy.attack_speed( *this );
+    moves_per_attack = guy.calculate_by_enchantment( moves_per_attack, enchant_vals::mod::ATTACK_SPEED,
+                       true );
     // attacks that miss do no damage but take time
     double total_moves = ( hit_trials - num_all_hits ) * moves_per_attack;
     double total_damage = 0.0;
@@ -5230,8 +5232,11 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
         }
 
         if( base_moves ) {
+            int attack_cost = attack_time( player_character );
+            attack_cost = player_character.calculate_by_enchantment( attack_cost,
+                          enchant_vals::mod::ATTACK_SPEED, true );
             info.emplace_back( "BASE", _( "Base moves per attack: " ), "",
-                               iteminfo::lower_is_better, attack_time( player_character ) );
+                               iteminfo::lower_is_better, attack_cost );
         }
 
         if( base_dps ) {

@@ -1614,6 +1614,9 @@ void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*av
             di.add_damage( type_name, other_dam, arpen, armor_mult, other_mul );
         }
     }
+
+    // Apply enchantment damage
+    di = modify_damage_dealt_with_enchantments( di );
 }
 
 matec_id Character::pick_technique( Creature &t, const item_location &weap, bool crit,
