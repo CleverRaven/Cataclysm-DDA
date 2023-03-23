@@ -6558,9 +6558,9 @@ std::vector<item *> map::put_items_from_loc( const item_group_id &group_id, cons
     return spawn_items( p, items );
 }
 
-void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p )
+void map::add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p, bool friendly )
 {
-    add_spawn( spawn_details.name, spawn_details.pack_size, p, false, -1, -1, "NONE",
+    add_spawn( spawn_details.name, spawn_details.pack_size, p, friendly, -1, -1, "NONE",
                spawn_details.data );
 }
 

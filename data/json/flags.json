@@ -538,6 +538,11 @@
     "//": "This item will spawn active. Not advised for items that drain power when active."
   },
   {
+    "id": "SPAWN_FRIENDLY",
+    "type": "json_flag",
+    "//": "This item will spawn friendly. Used for pets and such."
+  },
+  {
     "id": "STAB",
     "type": "json_flag"
   },

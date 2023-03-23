@@ -1695,7 +1695,7 @@ class map
         void add_spawn( const mtype_id &type, int count, const tripoint &p, bool friendly,
                         int faction_id, int mission_id, const std::string &name,
                         const spawn_data &data );
-        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p );
+        void add_spawn( const MonsterGroupResult &spawn_details, const tripoint &p, bool friendly = false );
         void do_vehicle_caching( int z );
         // Note: in 3D mode, will actually build caches on ALL z-levels
         void build_map_cache( int zlev, bool skip_lightmap = false );

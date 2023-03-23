@@ -27,6 +27,7 @@
 #include "explosion.h"
 #include "faction.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "harvest.h"
@@ -492,12 +493,17 @@ void monster::try_reproduce()
         }
 
         chance += 2;
+        bool friendly_parent = attitude_to( get_player_character() ) == Creature::Attitude::FRIENDLY;
         if( season_match && female && one_in( chance ) ) {
             int spawn_cnt = rng( 1, type->baby_count );
             if( type->baby_monster ) {
-                here.add_spawn( type->baby_monster, spawn_cnt, pos() );
+                here.add_spawn( type->baby_monster, spawn_cnt, pos(), friendly_parent );
             } else {
-                here.add_item_or_charges( pos(), item( type->baby_egg, *baby_timer, spawn_cnt ), true );
+                item item_to_spawn( type->baby_egg, *baby_timer, spawn_cnt );
+                if( friendly_parent ) {
+                    item_to_spawn.set_flag( flag_SPAWN_FRIENDLY );
+                }
+                here.add_item_or_charges( pos(), item_to_spawn, true );
             }
         }
 
