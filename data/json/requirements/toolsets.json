@@ -220,6 +220,27 @@
     ]
   },
   {
+    "id": "repair_welding_rebar",
+    "type": "requirement",
+    "//": "Repair of rebar items - per 10 cm of weld (100 seconds each), done this way to use 1 rebar per 40 cm - you should use new rebar instead of repairing individual rebars",
+    "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
+    "//2": "acetlyne is measured in grams while propane is measured in ml - this means acetlyene is roughly 2x as potent as propane per charge",
+    "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
+    "tools": [
+      [
+        [ "welder", 800 ],
+        [ "welding_kit", 800 ],
+        [ "welder_crude", 1600 ],
+        [ "oxy_torch", 40 ],
+        [ "propane_torch", 320 ]
+      ]
+    ],
+    "components": [
+      [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
+      [ [ "rebar", 1 ] ]
+    ]
+  },
+  {
     "id": "chainmail_standard",
     "type": "requirement",
     "//": "Construction of chainmail items",
