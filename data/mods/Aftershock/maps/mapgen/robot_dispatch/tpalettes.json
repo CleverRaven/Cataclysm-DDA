@@ -18,7 +18,6 @@
       "_": "t_metal_floor",
       "~": "t_water_sh",
       "1": "t_column",
-      "2": "t_machinery_light",
       "3": "t_machinery_heavy",
       "4": "t_machinery_electronic",
       "6": "t_console_broken",
@@ -33,6 +32,7 @@
       "w": "t_sidewalk"
     },
     "furniture": {
+      "2": "f_machinery_light",
       "$": "f_safe_l",
       "%": "f_robotic_arm",
       "a": "f_armchair",
