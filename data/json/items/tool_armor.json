@@ -531,6 +531,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": [ "FITNESS_CHECK" ],
+	"armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ]
   },
   {
