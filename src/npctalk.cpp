@@ -2325,6 +2325,7 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
         }
     } else {
         item container( container_name, calendar::turn );
+        new_item.charges = 1;    // Reset item default charges, prepare to receive specific defined charges
         new_item.mod_charges( count - 1 );
         container.put_in( new_item,
                           item_pocket::pocket_type::CONTAINER );
@@ -4140,7 +4141,7 @@ void talk_effect_t<T>::set_effect( talkfunction_ptr ptr )
     }
     set_effect_consequence( npctalk_setter, response );
 }
-#pragma optimize("", off)
+
 template<class T>
 talk_topic talk_effect_t<T>::apply( const T &d ) const
 {
@@ -4173,7 +4174,7 @@ talk_topic talk_effect_t<T>::apply( const T &d ) const
 
     return next_topic;
 }
-#pragma optimize("", on)
+
 template<class T>
 void talk_effect_t<T>::update_missions( T &d ) const
 {
