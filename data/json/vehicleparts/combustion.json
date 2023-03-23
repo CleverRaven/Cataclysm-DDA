@@ -166,7 +166,7 @@
     "type": "vehicle_part",
     "item": "1cyl_combustion",
     "//": "25 HP motorbike engine",
-    "description": "A small 1-cylinder gasoline engine delivering around 25 horsepower, enough for a scooter or moped.",
+    "description": "A small 1-cylinder gasoline engine delivering around 10 horsepower, enough for a scooter or moped.",
     "durability": 150,
     "epower": "0 W",
     "power": "7370 W",
