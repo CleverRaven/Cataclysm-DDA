@@ -104,7 +104,7 @@ std::string vehicle_part::name( bool with_prefix ) const
     std::string res = info().name();
 
     if( base.engine_displacement() > 0 ) {
-        res.insert( 0, string_format( _( "%2.1fL " ), base.engine_displacement() / 100.0 ) );
+        res.insert( 0, string_format( _( "%gL " ), base.engine_displacement() / 100.0 ) );
 
     } else if( wheel_diameter() > 0 ) {
         res.insert( 0, string_format( _( "%d\" " ), wheel_diameter() ) );
