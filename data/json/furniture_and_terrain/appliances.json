@@ -104,7 +104,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 80,
     "flags": [ "CARGO", "OBSTACLE", "COVERED", "FLAT_SURF", "APPLIANCE" ],
-    "pseudo_tools": [ { "id": "pseudo_app_oven_hotplate", "hotkey": "h" } ],
+    "pseudo_tools": [ { "id": "oven" }, { "id": "hotplate", "hotkey": "h" } ],
     "//": "Doesn't draw power at baseline, only when cooking.",
     "epower": "0 W",
     "item": "oven",
@@ -131,7 +131,7 @@
     "damage_reduction": { "all": 30 },
     "durability": 60,
     "flags": [ "OBSTACLE", "APPLIANCE" ],
-    "pseudo_tools": [ { "id": "pseudo_water_purifier", "hotkey": "p" } ],
+    "pseudo_tools": [ { "id": "water_purifier", "hotkey": "p" } ],
     "epower": "0 W",
     "item": "stationary_water_purifier",
     "looks_like": "f_water_purifier",
@@ -178,14 +178,12 @@
   {
     "type": "vehicle_part",
     "id": "ap_forge",
+    "copy-from": "veh_forge_abstract",
     "name": { "str": "electric forge" },
     "description": "An electric forge, plugged in and ready to be used for metalworking.  If you attempt to craft an item that needs a forge, you will be given the option of selecting it as a tool.",
     "item": "forge",
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
-    "copy-from": "veh_forge_abstract",
-    "looks_like": "veh_forge",
-    "requirements": { "removal": { "time": "6 m" } },
-    "pseudo_tools": [ { "id": "pseudo_app_forge" } ]
+    "looks_like": "veh_forge"
   },
   {
     "type": "vehicle_part",
@@ -240,7 +238,7 @@
     "flags": [ "CARGO", "OBSTACLE", "APPLIANCE" ],
     "item": "kiln",
     "copy-from": "veh_kiln",
-    "pseudo_tools": [ { "id": "pseudo_app_kiln" } ]
+    "pseudo_tools": [ { "id": "kiln" } ]
   },
   {
     "type": "vehicle_part",
@@ -982,7 +980,7 @@
       },
       "removal": { "time": "1 m" }
     },
-    "pseudo_tools": [ { "id": "pseudo_microwave" } ],
+    "pseudo_tools": [ { "id": "microwave" } ],
     "size": 20,
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 4, 7 ] },

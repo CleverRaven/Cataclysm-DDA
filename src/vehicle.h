@@ -1624,6 +1624,17 @@ class vehicle
         units::volume max_volume( int part ) const;
         units::volume free_volume( int part ) const;
         units::volume stored_volume( int part ) const;
+
+        /**
+        * Flags item \p tool with PSEUDO, if it needs battery and has MOD pocket then a
+        * magazine_battery_pseudo_mod is installed and a pseudo battery with high capacity
+        * is inserted into the magazine well pocket with however many battery charges are
+        * available to this vehicle.
+        * @param tool the tool item to modify
+        * @return amount of energy the pseudo battery is set to or 0 joules
+        */
+        units::energy prepare_vehicle_tool( item &tool ) const;
+
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
