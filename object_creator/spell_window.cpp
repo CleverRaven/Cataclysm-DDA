@@ -510,7 +510,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         } else if( editable_spell.damage_increment.min.dbl_val.value() < 0.0f ) {
             max_damage_box.setValue( std::min( max_damage_box.value(), static_cast<int>( editable_spell.min_damage.min.dbl_val.value() ) ) );
         } else {
-            max_damage_box.setValue( editable_spell.min_damage );
+            max_damage_box.setValue( editable_spell.min_damage.min_damage.min.dbl_val.value() );
         }
         editable_spell.max_damage.min.dbl_val = max_damage_box.value();
         write_json();
@@ -611,7 +611,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     QObject::connect( &min_duration_box, &QSpinBox::textChanged,
     [&]() {
         editable_spell.min_duration.min.dbl_val = min_duration_box.value();
-        max_duration_box.setValue( std::max( max_duration_box.value(), editable_spell.min_duration ) );
+        max_duration_box.setValue( std::max( max_duration_box.value(), static_cast<int>( editable_spell.min_duration.min.dbl_val.value() ) ) );
         editable_spell.min_duration.min.dbl_val = max_duration_box.value();
         write_json();
     } );
@@ -683,7 +683,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     difficulty_box.show();
     QObject::connect( &difficulty_box, &QSpinBox::textChanged,
     [&]() {
-        editable_spell.difficulty = difficulty_box.value();
+        editable_spell.difficulty.min.dbl_val = difficulty_box.value();
         write_json();
     } );
 
@@ -697,7 +697,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     max_level_box.show();
     QObject::connect( &max_level_box, &QSpinBox::textChanged,
     [&]() {
-        editable_spell.max_level = max_level_box.value();
+        editable_spell.max_level.min.dbl_val = max_level_box.value();
         write_json();
     } );
 
@@ -791,7 +791,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
                                      _( "the chance one_in( field_chance ) that the field spawns at a tripoint in the area of the spell. 0 and 1 are 100% chance" ) ) );
     QObject::connect( &field_chance_box, &QSpinBox::textChanged,
     [&]() {
-        editable_spell.field_chance = field_chance_box.value();
+        editable_spell.field_chance.min.dbl_val = field_chance_box.value();
         write_json();
     } );
 
@@ -804,7 +804,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     [&]() {
         editable_spell.min_field_intensity.min.dbl_val = min_field_intensity_box.value();
         max_field_intensity_box.setValue( std::max( max_field_intensity_box.value(),
-                                          editable_spell.min_field_intensity.min.dbl_val.value() ) );
+                                          static_cast<int>(editable_spell.min_field_intensity.min.dbl_val.value() ) ) );
         editable_spell.max_field_intensity.min.dbl_val = max_field_intensity_box.value();
         write_json();
     } );
@@ -911,7 +911,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     aoe_increment_box.show();
     QObject::connect( &aoe_increment_box, &QDoubleSpinBox::textChanged,
     [&]() {
-        editable_spell.aoe_increment = aoe_increment_box.value();
+        editable_spell.aoe_increment.min.dbl_val = aoe_increment_box.value();
         write_json();
     } );
 
@@ -941,7 +941,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     pierce_increment_box.show();
     QObject::connect( &pierce_increment_box, &QDoubleSpinBox::textChanged,
     [&]() {
-        editable_spell.pierce_increment = pierce_increment_box.value();
+        editable_spell.pierce_increment.min.dbl_val = pierce_increment_box.value();
         write_json();
     } );
 
@@ -1043,7 +1043,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
     final_energy_cost_box.show();
     QObject::connect( &final_energy_cost_box, &QSpinBox::textChanged,
     [&]() {
-        editable_spell.final_energy_cost = final_energy_cost_box.value();
+        editable_spell.final_energy_cost.min.dbl_val = final_energy_cost_box.value();
         if( editable_spell.energy_increment.min.dbl_val.value() > 0.0f) {
             base_energy_cost_box.setValue( std::min( base_energy_cost_box.value(),
                                            static_cast<int>( editable_spell.final_energy_cost.min.dbl_val.value() ) ) );
