@@ -77,6 +77,7 @@ class talker_monster: public talker
         void set_friendly( int ) override;
         bool will_talk_to_u( const Character &u, bool force ) override;
         std::vector<std::string> get_topics( bool radio_contact ) override;
+        int get_cur_hp( const bodypart_id & ) const override;
     protected:
         talker_monster() = default;
         monster *me_mon;

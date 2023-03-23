@@ -793,7 +793,7 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
 
         if( !result.count_by_charges() ) {
             for( int i = 0; i < new_amount; i++ ) {
-                ret.push_back( result.in_its_container( 1 ) );
+                ret.push_back( result.in_its_container() );
             }
         } else {
             while( new_amount > 0 ) {
@@ -831,7 +831,7 @@ const std::vector<mission_type_id> &profession::missions() const
     return _missions;
 }
 
-cata::optional<achievement_id> profession::get_requirement() const
+std::optional<achievement_id> profession::get_requirement() const
 {
     return _requirement;
 }

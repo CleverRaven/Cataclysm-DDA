@@ -531,7 +531,7 @@ Character::Character() :
     sleep_deprivation = 0;
     daily_sleep = 0_turns;
     continuous_sleep = 0_turns;
-    set_rad( 0 );
+    radiation = 0;
     slow_rad = 0;
     set_stim( 0 );
     set_stamina( 10000 ); //Temporary value for stamina. It will be reset later from external json option.
@@ -552,7 +552,7 @@ Character::Character() :
     *path_settings = pathfinding_settings{ 0, 1000, 1000, 0, true, true, true, false, true };
 
     move_mode = move_mode_walk;
-    next_expected_position = cata::nullopt;
+    next_expected_position = std::nullopt;
     crafting_cache.time = calendar::before_time_starts;
 
     set_power_level( 0_kJ );
@@ -1632,7 +1632,7 @@ void Character::dismount()
         add_msg_debug( debugmode::DF_CHARACTER, "dismount called when not riding" );
         return;
     }
-    if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
+    if( const std::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
         if( !g->is_empty( *pnt ) ) {
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
@@ -2006,7 +2006,7 @@ bool Character::can_switch_to( const move_mode_id &mode ) const
 
 void Character::expose_to_disease( const diseasetype_id &dis_type )
 {
-    const cata::optional<int> &healt_thresh = dis_type->health_threshold;
+    const std::optional<int> &healt_thresh = dis_type->health_threshold;
     if( healt_thresh && healt_thresh.value() < get_lifestyle() ) {
         return;
     }
@@ -2079,7 +2079,7 @@ void Character::process_turn()
         int temp_norm_scent = INT_MIN;
         bool found_intensity = false;
         for( const trait_id &mut : get_mutations() ) {
-            const cata::optional<int> &scent_intensity = mut->scent_intensity;
+            const std::optional<int> &scent_intensity = mut->scent_intensity;
             if( scent_intensity ) {
                 found_intensity = true;
                 temp_norm_scent = std::max( temp_norm_scent, *scent_intensity );
@@ -2090,7 +2090,7 @@ void Character::process_turn()
         }
 
         for( const trait_id &mut : get_mutations() ) {
-            const cata::optional<int> &scent_mask = mut->scent_mask;
+            const std::optional<int> &scent_mask = mut->scent_mask;
             if( scent_mask ) {
                 norm_scent += *scent_mask;
             }
@@ -2195,7 +2195,7 @@ void Character::process_turn()
 void Character::recalc_hp()
 {
     int str_boost_val = 0;
-    cata::optional<skill_boost> str_boost = skill_boost::get( "str" );
+    std::optional<skill_boost> str_boost = skill_boost::get( "str" );
     if( str_boost ) {
         int skill_total = 0;
         for( const std::string &skill_str : str_boost->skills() ) {
@@ -2731,7 +2731,7 @@ units::mass Character::weight_carried() const
 
 void Character::invalidate_weight_carried_cache()
 {
-    cached_weight_carried = cata::nullopt;
+    cached_weight_carried = std::nullopt;
 }
 
 units::mass Character::best_nearby_lifting_assist() const
@@ -2945,7 +2945,7 @@ ret_val<void> Character::can_unwield( const item &it ) const
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
         // check if "it" is currently wielded fake bionic weapon that can be deactivated
-        cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
+        std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
         if( !is_wielding( it ) || it.ethereal || !bio_opt ||
             !can_deactivate_bionic( **bio_opt ).success() ) {
             return ret_val<void>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
@@ -5110,8 +5110,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
             comfort += 1 + static_cast<int>( comfort_level::slightly_comfortable );
             // Note: shelled individuals can still use sleeping aids!
         } else if( vp ) {
-            const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
-            const cata::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
+            const std::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
+            const std::optional<vpart_reference> board = vp.part_with_feature( "BOARDABLE", true );
             if( carg ) {
                 const vehicle_stack items = vp->vehicle().get_items( carg->part_index() );
                 for( const item &items_it : items ) {
@@ -5399,7 +5399,7 @@ bool Character::is_elec_immune() const
 bool Character::is_immune_effect( const efftype_id &eff ) const
 {
     if( eff == effect_downed ) {
-        return is_throw_immune() || ( has_trait( trait_LEG_TENT_BRACE ) && is_barefoot() );
+        return has_trait( trait_LEG_TENT_BRACE ) && is_barefoot();
     } else if( eff == effect_onfire ) {
         return is_immune_damage( damage_type::HEAT );
     } else if( eff == effect_deaf ) {
@@ -5754,7 +5754,7 @@ social_modifiers Character::get_mutation_bionic_social_mods() const
     return mods;
 }
 
-template <cata::optional<float> mutation_branch::*member>
+template <std::optional<float> mutation_branch::*member>
 float calc_mutation_value( const std::vector<const mutation_branch *> &mutations )
 {
     float lowest = 0.0f;
@@ -5770,7 +5770,7 @@ float calc_mutation_value( const std::vector<const mutation_branch *> &mutations
     return std::min( 0.0f, lowest ) + std::max( 0.0f, highest );
 }
 
-template <cata::optional<float> mutation_branch::*member>
+template <std::optional<float> mutation_branch::*member>
 float calc_mutation_value_additive( const std::vector<const mutation_branch *> &mutations )
 {
     float ret = 0.0f;
@@ -5782,7 +5782,7 @@ float calc_mutation_value_additive( const std::vector<const mutation_branch *> &
     return ret;
 }
 
-template <cata::optional<float> mutation_branch::*member>
+template <std::optional<float> mutation_branch::*member>
 float calc_mutation_value_multiplicative( const std::vector<const mutation_branch *> &mutations )
 {
     float ret = 1.0f;
@@ -6306,7 +6306,10 @@ int Character::get_rad() const
 
 void Character::set_rad( int new_rad )
 {
-    radiation = new_rad;
+    if( radiation != new_rad ) {
+        radiation = new_rad;
+        on_stat_change( "radiation", radiation );
+    }
 }
 
 void Character::mod_rad( int mod )
@@ -6623,8 +6626,8 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    cata::optional<int> charges_used = actually_used->type->invoke( *this, *actually_used,
-                                       pt, method );
+    std::optional<int> charges_used = actually_used->type->invoke( *this, *actually_used,
+                                      pt, method );
     if( !charges_used.has_value() ) {
         moves = pre_obtain_moves;
         return false;
@@ -7326,7 +7329,7 @@ bool Character::unwield()
 
     // currently the only way to unwield NO_UNWIELD weapon is if it's a bionic that can be deactivated
     if( weapon.has_flag( flag_NO_UNWIELD ) ) {
-        cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
+        std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
         return bio_opt && can_deactivate_bionic( **bio_opt ).success();
     }
 
@@ -7893,7 +7896,7 @@ void Character::update_type_of_scent( bool init )
 
 void Character::update_type_of_scent( const trait_id &mut, bool gain )
 {
-    const cata::optional<scenttype_id> &mut_scent = mut->scent_typeid;
+    const std::optional<scenttype_id> &mut_scent = mut->scent_typeid;
     if( mut_scent ) {
         if( gain && mut_scent.value() != get_type_of_scent() ) {
             set_type_of_scent( mut_scent.value() );
@@ -8388,7 +8391,7 @@ std::string Character::is_snuggling() const
     auto end = here.i_at( pos() ).end();
 
     if( in_vehicle ) {
-        if( const cata::optional<vpart_reference> vp = here.veh_at( pos() ).part_with_feature( VPFLAG_CARGO,
+        if( const std::optional<vpart_reference> vp = here.veh_at( pos() ).part_with_feature( VPFLAG_CARGO,
                 false ) ) {
             vehicle *const veh = &vp->vehicle();
             const int cargo = vp->part_index();
@@ -8508,7 +8511,7 @@ int Character::floor_bedding_warmth( const tripoint &pos )
     int floor_bedding_warmth = 0;
 
     const optional_vpart_position vp = here.veh_at( pos );
-    const cata::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
+    const std::optional<vpart_reference> boardable = vp.part_with_feature( "BOARDABLE", true );
     // Search the floor for bedding
     if( furn_at_pos != f_null ) {
         floor_bedding_warmth += furn_at_pos.obj().floor_bedding_warmth;
@@ -8545,7 +8548,7 @@ int Character::floor_item_warmth( const tripoint &pos )
     map &here = get_map();
 
     if( !!here.veh_at( pos ) ) {
-        if( const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( VPFLAG_CARGO,
+        if( const std::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( VPFLAG_CARGO,
                 false ) ) {
             vehicle *const veh = &vp->vehicle();
             const int cargo = vp->part_index();
@@ -10132,8 +10135,8 @@ void Character::clear_destination()
 {
     auto_move_route.clear();
     clear_destination_activity();
-    destination_point = cata::nullopt;
-    next_expected_position = cata::nullopt;
+    destination_point = std::nullopt;
+    next_expected_position = std::nullopt;
 }
 
 bool Character::has_distant_destination() const
@@ -10573,7 +10576,7 @@ int Character::has_flag( const json_character_flag &flag ) const
 {
     // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
     return count_trait_flag( flag ) + count_bionic_with_flag( flag ) + has_effect_with_flag(
-               flag ) + count_bodypart_with_flag( flag );
+               flag ) + count_bodypart_with_flag( flag ) + count_mabuff_flag( flag );
 }
 
 bool Character::is_driving() const

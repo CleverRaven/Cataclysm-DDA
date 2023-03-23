@@ -1,7 +1,7 @@
 [
   {
     "id": "atomic_coffeepot",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "atomic coffeemaker" },
     "looks_like": "coffeemaker",
@@ -1155,6 +1155,7 @@
     "qualities": [ [ "COOK", 1 ], [ "OVEN", 1 ] ],
     "flags": [ "WATER_BREAK" ],
     "charges_per_use": 25,
+    "ammo": [ "battery" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

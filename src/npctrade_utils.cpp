@@ -63,11 +63,11 @@ bool _to_map( item const &it, map &here, tripoint const &dpoint_here )
     return true;
 }
 
-bool _to_veh( item const &it, cata::optional<vpart_reference> const &vp )
+bool _to_veh( item const &it, std::optional<vpart_reference> const &vp )
 {
     int const part = static_cast<int>( vp->part_index() );
     if( vp->vehicle().free_volume( part ) >= it.volume() ) {
-        cata::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( part, it );
+        std::optional<vehicle_stack::iterator> const ret = vp->vehicle().add_item( part, it );
         return !ret.has_value();
     }
     return true;
@@ -135,7 +135,7 @@ std::list<item> distribute_items_to_npc_zones( std::list<item> &items, npc &guy 
         bool leftover = true;
         for( tripoint_abs_ms const &dpoint : dest ) {
             tripoint const dpoint_here = here.getlocal( dpoint );
-            cata::optional<vpart_reference> const vp =
+            std::optional<vpart_reference> const vp =
                 here.veh_at( dpoint_here ).part_with_feature( "CARGO", false );
             if( vp && vp->vehicle().get_owner() == fac_id ) {
                 leftover = _to_veh( it, vp );

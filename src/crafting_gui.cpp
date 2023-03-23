@@ -8,6 +8,7 @@
 #include <iterator>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -30,7 +31,6 @@
 #include "json.h"
 #include "localized_comparator.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "point.h"
@@ -311,7 +311,7 @@ static std::string craft_success_chance_string( const recipe &recp, const Charac
         color = "cyan";
     }
 
-    return string_format( _( "Minor Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
+    return string_format( _( "Minor Failure Chance: <color_%s>%2.2f%%</color>" ), color, chance );
 }
 
 static std::string cata_fail_chance_string( const recipe &recp, const Character &guy )
@@ -328,7 +328,8 @@ static std::string cata_fail_chance_string( const recipe &recp, const Character 
         color = "light_gray";
     }
 
-    return string_format( _( "Catastrophic Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
+    return string_format( _( "Catastrophic Failure Chance: <color_%s>%2.2f%%</color>" ), color,
+                          chance );
 }
 
 
@@ -833,7 +834,7 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
         // Find next ','
         qry_end = qry.find_first_of( ',', qry_begin );
 
-        auto qry_filter_str = trim( qry.substr( qry_begin, qry_end - qry_begin ) );
+        std::string qry_filter_str = trim( qry.substr( qry_begin, qry_end - qry_begin ) );
         // Process filter
         if( qry_filter_str.size() > 2 && qry_filter_str[1] == ':' ) {
             switch( qry_filter_str[0] ) {
@@ -941,7 +942,7 @@ static const translation filter_help_start = to_translation(
             "\n\n"
             "<color_white>Examples:</color>\n" );
 
-static bool mouse_in_window( cata::optional<point> coord, const catacurses::window &w_ )
+static bool mouse_in_window( std::optional<point> coord, const catacurses::window &w_ )
 {
     if( coord.has_value() ) {
         inclusive_rectangle<point> window_area( point( getbegx( w_ ), getbegy( w_ ) ),
@@ -1106,7 +1107,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
 
         width = isWide ? ( freeWidth > FULL_SCREEN_WIDTH ? FULL_SCREEN_WIDTH * 2 : TERMX ) :
                 FULL_SCREEN_WIDTH;
-        const unsigned int header_info_width = width - FULL_SCREEN_WIDTH - 1;
+        const unsigned int header_info_width = std::max( width / 4, width - FULL_SCREEN_WIDTH - 1 );
         const int wStart = ( TERMX - width ) / 2;
 
         // Keybinding tips
@@ -1467,12 +1468,12 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
                 indent.assign( current.size(), 0 );
             } else {
                 static_popup popup;
-                auto last_update = std::chrono::steady_clock::now();
+                std::chrono::steady_clock::time_point last_update = std::chrono::steady_clock::now();
                 static constexpr std::chrono::milliseconds update_interval( 500 );
 
                 std::function<void( size_t, size_t )> progress_callback =
                 [&]( size_t at, size_t out_of ) {
-                    auto now = std::chrono::steady_clock::now();
+                    std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
                     if( now - last_update < update_interval ) {
                         return;
                     }
@@ -1486,7 +1487,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
 
                 std::vector<const recipe *> picking;
                 if( !filterstring.empty() ) {
-                    auto qry = trim( filterstring );
+                    std::string qry = trim( filterstring );
                     recipe_subset filtered_recipes =
                         filter_recipes( available_recipes, qry, player_character, progress_callback );
                     picking.insert( picking.end(), filtered_recipes.begin(), filtered_recipes.end() );
@@ -1598,7 +1599,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
         const int recmax = static_cast<int>( current.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
 
-        cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+        std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
         const bool mouse_in_list = coord.has_value() && mouseover_area_list.contains( coord.value() );
         const bool mouse_in_recipe = coord.has_value() && mouseover_area_recipe.contains( coord.value() );
 

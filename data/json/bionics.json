@@ -129,6 +129,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE",
       "ACIDPROOF",
       "TOXICFLESH",
       "FRESHWATEROSMOSIS",
@@ -228,7 +229,6 @@
       "TOXICFLESH",
       "FRESHWATEROSMOSIS",
       "BIOLUM0",
-      "BIOLUM0_active",
       "BIOLUM1",
       "BIOLUM1_active",
       "BIOLUM2",
@@ -618,6 +618,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE",
       "TALONS",
       "CLAWS",
       "CLAWS_RETRACT",
@@ -761,7 +762,8 @@
       "ALCMET",
       "SAPROVORE",
       "LACTOSE",
-      "GRAZER"
+      "GRAZER",
+      "VEGETARIAN"
     ]
   },
   {
@@ -1630,6 +1632,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE",
       "GASTROPOD_FOOT",
       "GASTROPOD_BALANCE",
       "LEG_TENTACLES",
@@ -1749,6 +1752,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE",
       "GASTROPOD_FOOT",
       "GASTROPOD_BALANCE",
       "LEG_TENTACLES",

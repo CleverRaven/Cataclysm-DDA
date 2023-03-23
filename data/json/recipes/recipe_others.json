@@ -361,7 +361,7 @@
     "//": "The tailoring kit is an expanded sewing kit, so a bone/wood needle is inappropriate.",
     "components": [
       [ [ "sewing_kit", 1 ] ],
-      [ [ "scissors", 1 ], [ "steel_scissors", 1 ] ],
+      [ [ "scissors", 1 ] ],
       [ [ "kevlar_shears", 1 ] ],
       [ [ "knitting_needles", 1 ] ],
       [ [ "awl_steel", 1 ] ],
@@ -2304,12 +2304,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "cordage_short", 4 ] ],
-    "components": [
-      [ [ "leather", 1 ], [ "fur", 1 ] ],
-      [ [ "cotton_patchwork", 1 ] ],
-      [ [ "scissors", 1 ], [ "steel_scissors", 1 ] ],
-      [ [ "mirror", 1 ] ]
-    ]
+    "components": [ [ [ "leather", 1 ], [ "fur", 1 ] ], [ [ "cotton_patchwork", 1 ] ], [ [ "scissors", 1 ] ], [ [ "mirror", 1 ] ] ]
   },
   {
     "type": "recipe",

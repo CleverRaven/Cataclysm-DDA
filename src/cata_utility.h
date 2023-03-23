@@ -361,12 +361,12 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path 
  * The file is opened for reading (binary mode), read into a string, and then closed.
  * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
  *
- * @return A nonempty optional with the contents of the file on success, or cata::nullopt on failure.
+ * @return A nonempty optional with the contents of the file on success, or std::nullopt on failure.
  */
 /**@{*/
-cata::optional<std::string> read_whole_file( const std::string &path );
-cata::optional<std::string> read_whole_file( const fs::path &path );
-cata::optional<std::string> read_whole_file( const cata_path &path );
+std::optional<std::string> read_whole_file( const std::string &path );
+std::optional<std::string> read_whole_file( const fs::path &path );
+std::optional<std::string> read_whole_file( const cata_path &path );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );

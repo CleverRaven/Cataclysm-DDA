@@ -80,7 +80,7 @@ TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
     clear_avatar();
     clear_map();
     standard_npc npc( "Mr. Testerman" );
-    cata::optional<tripoint> const dest = random_point( get_map(), []( tripoint const & p ) {
+    std::optional<tripoint> const dest = random_point( get_map(), []( tripoint const & p ) {
         return p.xy() != get_avatar().pos().xy();
     } );
     REQUIRE( dest.has_value() );
