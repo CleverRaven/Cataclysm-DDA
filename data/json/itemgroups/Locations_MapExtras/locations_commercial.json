@@ -290,7 +290,7 @@
       [ "deagle_44", 2 ],
       [ "lemat_revolver", 1 ],
       [ "m1911", 5 ],
-      [ "mn_ebr_kit", 1 ],
+      [ "mosin91_30", 1 ],
       [ "match_trigger", 3 ],
       [ "autoclave", 1 ],
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },

@@ -273,7 +273,7 @@
     "components": [
       [ [ "rune_stormshaper_weapon", 1 ] ],
       [ [ "scrap_copper", 10 ], [ "copper", 1000 ] ],
-      [ [ "gold", 100 ] ],
+      [ [ "gold_small", 100 ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 40, "LIST" ], [ "duct_tape", 40 ] ],
       [ [ "rune_stormshaper", 1 ] ]
     ]

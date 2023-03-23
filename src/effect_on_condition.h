@@ -4,12 +4,12 @@
 
 #include <string>
 #include <climits>
+#include <optional>
 
 #include "calendar.h"
 #include "condition.h"
 #include "dialogue.h"
 #include "json.h"
-#include "optional.h"
 #include "type_id.h"
 
 template<typename T>

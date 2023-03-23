@@ -8,13 +8,13 @@
 #include <list>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <type_traits>
 #include <vector>
 
 #include "enums.h"
 #include "flat_set.h"
-#include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
@@ -113,7 +113,7 @@ class item_pocket
                 bool is_unloadable() const;
                 void set_unloadable( bool );
 
-                const cata::optional<std::string> &get_preset_name() const;
+                const std::optional<std::string> &get_preset_name() const;
                 void set_preset_name( const std::string & );
 
                 void info( std::vector<iteminfo> &info ) const;
@@ -121,7 +121,7 @@ class item_pocket
                 void serialize( JsonOut &json ) const;
                 void deserialize( const JsonObject &data );
             private:
-                cata::optional<std::string> preset_name;
+                std::optional<std::string> preset_name;
                 int priority_rating = 0;
                 cata::flat_set<itype_id> item_whitelist;
                 cata::flat_set<itype_id> item_blacklist;
@@ -288,8 +288,8 @@ class item_pocket
         void set_item_defaults();
 
         // removes and returns the item from the pocket.
-        cata::optional<item> remove_item( const item &it );
-        cata::optional<item> remove_item( const item_location &it );
+        std::optional<item> remove_item( const item &it );
+        std::optional<item> remove_item( const item_location &it );
         // spills any contents that can't fit into the pocket, largest items first
         void overflow( const tripoint &pos );
         bool spill_contents( const tripoint &pos );
@@ -459,7 +459,7 @@ class pocket_data
         // max volume of stuff the pocket can hold
         units::volume volume_capacity = max_volume_for_container;
         // max volume of item that can be contained, otherwise it spills
-        cata::optional<units::volume> max_item_volume = cata::nullopt;
+        std::optional<units::volume> max_item_volume = std::nullopt;
         // min volume of item that can be contained, otherwise it spills
         units::volume min_item_volume = 0_ml;
         // min length of item that can be contained used for exterior pockets

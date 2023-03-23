@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
+#include <optional>
 #include <string>
 #include <type_traits>
 
@@ -25,7 +26,6 @@
 #include "mapdata.h"
 #include "messages.h" //for rust message
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "point.h"
 #include "proficiency.h"

@@ -380,7 +380,7 @@ void vehicle::init_state( map &placed_on, int init_veh_fuel, int init_veh_status
         }
     }
 
-    cata::optional<point> blood_inside_pos;
+    std::optional<point> blood_inside_pos;
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
         vehicle_part &pt = vp.part();
@@ -2007,7 +2007,7 @@ bool vehicle::remove_carried_vehicle( const std::vector<int> &carried_parts,
     if( carried_parts.empty() || racks.empty() ) {
         return false;
     }
-    cata::optional<vehicle_part::carried_part_data> carried_pivot;
+    std::optional<vehicle_part::carried_part_data> carried_pivot;
     tripoint pivot_pos;
     for( int carried_part : carried_parts ) {
         const auto &carried_stack = parts[carried_part].carried_stack;
@@ -2430,30 +2430,30 @@ std::vector<int> vehicle::parts_at_relative( const point &dp, const bool use_cac
     return res;
 }
 
-cata::optional<vpart_reference> vpart_position::obstacle_at_part() const
+std::optional<vpart_reference> vpart_position::obstacle_at_part() const
 {
-    cata::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true );
+    std::optional<vpart_reference> part = part_with_feature( VPFLAG_OBSTACLE, true );
     if( !part ) {
-        return cata::nullopt; // No obstacle here
+        return std::nullopt; // No obstacle here
     }
 
     if( part->has_feature( VPFLAG_OPENABLE ) && part->part().open ) {
-        return cata::nullopt; // Open door here
+        return std::nullopt; // Open door here
     }
 
     return part;
 }
 
-cata::optional<vpart_reference> vpart_position::part_displayed() const
+std::optional<vpart_reference> vpart_position::part_displayed() const
 {
     int part_id = vehicle().part_displayed_at( mount(), true );
     if( part_id == -1 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return vpart_reference( vehicle(), part_id );
 }
 
-cata::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &tool_type ) const
+std::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &tool_type ) const
 {
     for( const int idx : vehicle().parts_at_relative( mount(), false ) ) {
         const vpart_reference vp( vehicle(), idx );
@@ -2461,7 +2461,7 @@ cata::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &
             return vp;
         }
     }
-    return cata::optional<vpart_reference>();
+    return std::optional<vpart_reference>();
 }
 
 std::vector<std::pair<itype_id, int>> vpart_position::get_tools() const
@@ -2479,77 +2479,77 @@ std::vector<std::pair<itype_id, int>> vpart_position::get_tools() const
     return std::vector<std::pair<itype_id, int>>( tools.cbegin(), tools.cend() );
 }
 
-cata::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f,
+std::optional<vpart_reference> vpart_position::part_with_feature( const std::string &f,
         const bool unbroken ) const
 {
     const int i = vehicle().part_with_feature( part_index(), f, unbroken );
     if( i < 0 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return vpart_reference( vehicle(), i );
 }
 
-cata::optional<vpart_reference> vpart_position::part_with_feature( const vpart_bitflags f,
+std::optional<vpart_reference> vpart_position::part_with_feature( const vpart_bitflags f,
         const bool unbroken ) const
 {
     const int i = vehicle().part_with_feature( part_index(), f, unbroken );
     if( i < 0 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return vpart_reference( vehicle(), i );
 }
 
-cata::optional<vpart_reference> vpart_position::avail_part_with_feature(
+std::optional<vpart_reference> vpart_position::avail_part_with_feature(
     const std::string &f ) const
 {
     const int i = vehicle().avail_part_with_feature( part_index(), f );
-    return i >= 0 ? vpart_reference( vehicle(), i ) : cata::optional<vpart_reference>();
+    return i >= 0 ? vpart_reference( vehicle(), i ) : std::optional<vpart_reference>();
 }
 
-cata::optional<vpart_reference> vpart_position::avail_part_with_feature( vpart_bitflags f ) const
+std::optional<vpart_reference> vpart_position::avail_part_with_feature( vpart_bitflags f ) const
 {
     const int i = vehicle().avail_part_with_feature( part_index(), f );
-    return i >= 0 ? vpart_reference( vehicle(), i ) : cata::optional<vpart_reference>();
+    return i >= 0 ? vpart_reference( vehicle(), i ) : std::optional<vpart_reference>();
 }
 
-cata::optional<vpart_reference> optional_vpart_position::part_with_feature( const std::string &f,
+std::optional<vpart_reference> optional_vpart_position::part_with_feature( const std::string &f,
         const bool unbroken ) const
 {
-    return has_value() ? value().part_with_feature( f, unbroken ) : cata::nullopt;
+    return has_value() ? value().part_with_feature( f, unbroken ) : std::nullopt;
 }
 
-cata::optional<vpart_reference> optional_vpart_position::part_with_feature( const vpart_bitflags f,
+std::optional<vpart_reference> optional_vpart_position::part_with_feature( const vpart_bitflags f,
         const bool unbroken ) const
 {
-    return has_value() ? value().part_with_feature( f, unbroken ) : cata::nullopt;
+    return has_value() ? value().part_with_feature( f, unbroken ) : std::nullopt;
 }
 
-cata::optional<vpart_reference> optional_vpart_position::avail_part_with_feature(
+std::optional<vpart_reference> optional_vpart_position::avail_part_with_feature(
     const std::string &f ) const
 {
-    return has_value() ? value().avail_part_with_feature( f ) : cata::nullopt;
+    return has_value() ? value().avail_part_with_feature( f ) : std::nullopt;
 }
 
-cata::optional<vpart_reference> optional_vpart_position::avail_part_with_feature(
+std::optional<vpart_reference> optional_vpart_position::avail_part_with_feature(
     vpart_bitflags f ) const
 {
-    return has_value() ? value().avail_part_with_feature( f ) : cata::nullopt;
+    return has_value() ? value().avail_part_with_feature( f ) : std::nullopt;
 }
 
-cata::optional<vpart_reference> optional_vpart_position::obstacle_at_part() const
+std::optional<vpart_reference> optional_vpart_position::obstacle_at_part() const
 {
-    return has_value() ? value().obstacle_at_part() : cata::nullopt;
+    return has_value() ? value().obstacle_at_part() : std::nullopt;
 }
 
-cata::optional<vpart_reference> optional_vpart_position::part_displayed() const
+std::optional<vpart_reference> optional_vpart_position::part_displayed() const
 {
-    return has_value() ? value().part_displayed() : cata::nullopt;
+    return has_value() ? value().part_displayed() : std::nullopt;
 }
 
-cata::optional<vpart_reference> optional_vpart_position::part_with_tool(
+std::optional<vpart_reference> optional_vpart_position::part_with_tool(
     const itype_id &tool_type ) const
 {
-    return has_value() ? value().part_with_tool( tool_type ) : cata::nullopt;
+    return has_value() ? value().part_with_tool( tool_type ) : std::nullopt;
 }
 
 int vehicle::part_with_feature( int part, vpart_bitflags const flag, bool unbroken ) const
@@ -2697,15 +2697,15 @@ std::vector<const vehicle_part *> vehicle::get_parts_at( const tripoint &pos,
     return res;
 }
 
-cata::optional<std::string> vpart_position::get_label() const
+std::optional<std::string> vpart_position::get_label() const
 {
     const auto it = vehicle().labels.find( label( mount() ) );
     if( it == vehicle().labels.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( it->text.empty() ) {
         // legacy support TODO: change labels into a map and keep track of deleted labels
-        return cata::nullopt;
+        return std::nullopt;
     }
     return it->text;
 }
@@ -5499,48 +5499,48 @@ int vehicle::add_charges( int part, const item &itm )
     return add_item( part, itm_copy ) ? ret : 0;
 }
 
-cata::optional<vehicle_stack::iterator> vehicle::add_item( vehicle_part &pt, const item &obj )
+std::optional<vehicle_stack::iterator> vehicle::add_item( vehicle_part &pt, const item &obj )
 {
     int idx = index_of_part( &pt );
     if( idx < 0 ) {
         debugmsg( "Tried to add item to invalid part" );
-        return cata::nullopt;
+        return std::nullopt;
     }
     return add_item( idx, obj );
 }
 
-cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item &itm )
+std::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item &itm )
 {
     if( part < 0 || part >= static_cast<int>( parts.size() ) ) {
         debugmsg( "int part (%d) is out of range", part );
-        return cata::nullopt;
+        return std::nullopt;
     }
     // const int max_weight = ?! // TODO: weight limit, calculation per vpart & vehicle stats, not a hard user limit.
     // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
     vehicle_part &p = parts[ part ];
     if( p.is_broken() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( p.base.is_gun() ) {
         if( !itm.is_ammo() || !p.base.ammo_types().count( itm.ammo_type() ) ) {
-            return cata::nullopt;
+            return std::nullopt;
         }
     }
     bool charge = itm.count_by_charges();
     vehicle_stack istack = get_items( part );
     const int to_move = istack.amount_can_fit( itm );
     if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
-        return cata::nullopt; // @add_charges should be used in the latter case
+        return std::nullopt; // @add_charges should be used in the latter case
     }
     if( charge ) {
         item *here = istack.stacks_with( itm );
         if( here ) {
             invalidate_mass();
             if( !here->merge_charges( itm ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             } else {
-                return cata::optional<vehicle_stack::iterator>( istack.get_iterator_from_pointer( here ) );
+                return std::optional<vehicle_stack::iterator>( istack.get_iterator_from_pointer( here ) );
             }
         }
     }
@@ -5557,7 +5557,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     active_items.add( *new_pos, p.mount );
 
     invalidate_mass();
-    return cata::optional<vehicle_stack::iterator>( new_pos );
+    return std::optional<vehicle_stack::iterator>( new_pos );
 }
 
 bool vehicle::remove_item( int part, item *it )
@@ -5872,7 +5872,7 @@ void vehicle::refresh( const bool remove_fakes )
     int railwheel_ymax = INT_MIN;
 
     has_enabled_smart_controller = false;
-    smart_controller_state = cata::nullopt;
+    smart_controller_state = std::nullopt;
 
     bool refresh_done = false;
 
@@ -7304,8 +7304,8 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const itype_id veh_tool_type = type.obj().phase > phase_id::SOLID
                                    ? itype_water_faucet
                                    : type;
-    const cata::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type );
-    const cata::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
+    const std::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type );
+    const std::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
 
     const auto tool_wants_battery = []( const itype_id & type ) {
         item tool( type, calendar::turn_zero );
@@ -7509,7 +7509,7 @@ void vehicle::update_time( const time_point &update_to )
         int cost_to_purify = c_qty * item::find_type( itype_pseudo_water_purifier )->charges_to_use();
 
         if( qty > 0 ) {
-            const cata::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
+            const std::optional<vpart_reference> vp_purifier = vpart_position( *this, idx )
                     .part_with_tool( itype_pseudo_water_purifier );
 
             if( vp_purifier && ( fuel_left( itype_battery ) > cost_to_purify ) ) {

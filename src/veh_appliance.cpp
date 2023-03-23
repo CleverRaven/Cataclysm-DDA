@@ -49,7 +49,7 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
     return vpart_ap_standing_lamp;
 }
 
-void place_appliance( const tripoint &p, const vpart_id &vpart, const cata::optional<item> &base )
+void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optional<item> &base )
 {
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );

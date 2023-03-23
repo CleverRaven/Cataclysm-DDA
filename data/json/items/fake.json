@@ -50,7 +50,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str_sp": "autonomous surgical scalpels" },
-    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts on corpses.",
+    "description": "A system of surgical-grade scalpels.  They allow you to make precise cuts on corpses.",
     "to_hit": 2,
     "cutting": 8,
     "techniques": [ "PRECISE" ],
@@ -84,7 +84,7 @@
     "copy-from": "fake_item",
     "type": "GENERIC",
     "name": { "str_sp": "smoldering embers" },
-    "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
+    "description": "A handful of smoldering embers emitting smoke.  They are fading away before your eyes.",
     "emits": [ "emit_small_smoke_plume" ],
     "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]
   },

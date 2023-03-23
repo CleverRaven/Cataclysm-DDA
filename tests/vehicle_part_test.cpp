@@ -2,6 +2,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -18,7 +19,6 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -232,7 +232,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     REQUIRE( tank_it != nullptr );
     REQUIRE( veh.fuel_left( itype_water_clean ) == static_cast<int64_t>( water_charges ) );
 
-    cata::optional<vpart_reference> faucet;
+    std::optional<vpart_reference> faucet;
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         faucet = vpr.part_with_tool( itype_water_faucet );
         if( faucet.has_value() ) {

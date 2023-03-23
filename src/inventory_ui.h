@@ -11,6 +11,7 @@
 #include <list>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -25,7 +26,6 @@
 #include "item_pocket.h"
 #include "map.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "units.h"
@@ -131,7 +131,7 @@ class inventory_entry
         /**
         *  Whether it is hidden in inventory screen.
         * */
-        bool is_hidden( cata::optional<bool> const &hide_entries_override ) const;
+        bool is_hidden( std::optional<bool> const &hide_entries_override ) const;
 
         /** Whether the entry can be selected */
         bool is_selectable() const {
@@ -186,7 +186,7 @@ class inventory_entry
         bool chevron = false;
         int indent = 0;
         void cache_denial( inventory_selector_preset const &preset ) const;
-        mutable cata::optional<std::string> denial;
+        mutable std::optional<std::string> denial;
         mutable bool enabled = true;
 
         void set_custom_category( const item_category *category ) {
@@ -475,7 +475,7 @@ class inventory_column
         }
 
         void clear_indent_entries_override() {
-            indent_entries_override = cata::nullopt;
+            indent_entries_override = std::nullopt;
         }
 
         void invalidate_paging() {
@@ -564,8 +564,8 @@ class inventory_column
         std::vector<cell_t> cells;
         mutable std::vector<entry_cell_cache_t> entries_cell_cache;
 
-        cata::optional<bool> indent_entries_override = cata::nullopt;
-        cata::optional<bool> hide_entries_override = cata::nullopt;
+        std::optional<bool> indent_entries_override = std::nullopt;
+        std::optional<bool> hide_entries_override = std::nullopt;
         /** @return Number of visible cells */
         size_t visible_cells() const;
         void _get_entries( get_entries_t *res, entries_t const &ent,
@@ -997,7 +997,7 @@ class pickup_selector : public inventory_multiselector
     public:
         explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
                                   const std::string &selection_column_title = _( "ITEMS TO PICK UP" ),
-                                  const cata::optional<tripoint> &where = cata::nullopt );
+                                  const std::optional<tripoint> &where = std::nullopt );
         drop_locations execute();
         void apply_selection( std::vector<drop_location> selection );
     protected:
@@ -1008,7 +1008,7 @@ class pickup_selector : public inventory_multiselector
         bool wear();
         void remove_from_to_use( item_location &it );
         void add_reopen_activity();
-        const cata::optional<tripoint> where;
+        const std::optional<tripoint> where;
 };
 
 /**

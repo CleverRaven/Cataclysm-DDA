@@ -50,7 +50,8 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
         backpack.set_owner( guy );
         REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_zero}, &backpack } ) );
         WHEN( "backpack is worn - not available for sale" ) {
-            item &it = **guy.wear_item( backpack );
+            auto backpack_iter = *guy.wear_item( backpack );
+            item &it = *backpack_iter;
             REQUIRE( !guy.wants_to_sell( { guy, &it } ) );
             item scrap( "scrap" );
             scrap.set_owner( guy );
