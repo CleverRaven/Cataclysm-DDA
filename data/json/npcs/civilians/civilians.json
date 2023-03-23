@@ -12,8 +12,6 @@
     "type": "talk_topic",
     "id": "TALK_CIVILIAN_PANIC_EVAC",
     "dynamic_line": "They shriek and stumble backwards, as if you just became a threat.",
-    "responses": [
-      { "text": "[Awkwardly distance yourself.]", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "[Awkwardly distance yourself.]", "topic": "TALK_DONE" } ]
   }
 ]
