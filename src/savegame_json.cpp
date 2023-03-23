@@ -148,6 +148,8 @@ static const itype_id itype_usb_drive( "usb_drive" );
 
 static const matype_id style_none( "style_none" );
 
+static const mtype_id mon_breather( "mon_breather" );
+
 static const skill_id skill_chemistry( "chemistry" );
 
 static const ter_str_id ter_t_ash( "t_ash" );
@@ -2571,10 +2573,13 @@ void monster::load( const JsonObject &data )
         }
     }
 
-    std::string sidtmp;
-    // load->str->int
-    data.read( "typeid", sidtmp );
-    type = &mtype_id( sidtmp ).obj();
+    const mtype_id montype( data.get_string( "typeid", "invalid*type" ) );
+    if( montype.is_valid() ) {
+        type = &montype.obj();
+    } else { // type is invalid (monster deleted from data - replace with something neutral)
+        type = &mon_breather.obj();
+        DebugLog( D_WARNING, DC_ALL ) << "mtype '" << montype.str() << "' is invalid, set to mon_breather";
+    }
 
     data.read( "unique_name", unique_name );
     data.read( "nickname", nickname );
