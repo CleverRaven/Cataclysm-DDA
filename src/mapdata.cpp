@@ -839,7 +839,7 @@ ter_id t_null,
        t_pedestal_temple,
        // Temple tiles
        t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
-       t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
+       t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air,
        t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
        t_rad_platform,
        // Railroad and subway
@@ -1130,7 +1130,6 @@ void set_ter_ids()
     t_machinery_old = ter_id( "t_machinery_old" );
     t_machinery_electronic = ter_id( "t_machinery_electronic" );
     t_open_air = ter_id( "t_open_air" );
-    t_plut_generator = ter_id( "t_plut_generator" );
     t_pavement_bg_dp = ter_id( "t_pavement_bg_dp" );
     t_pavement_y_bg_dp = ter_id( "t_pavement_y_bg_dp" );
     t_sidewalk_bg_dp = ter_id( "t_sidewalk_bg_dp" );

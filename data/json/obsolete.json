@@ -27,46 +27,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_plut_generator",
-    "name": "plutonium generator",
-    "description": "This imposing apparatus harnesses the power of the atom.  Refined nuclear fuel is 'burned' to provide nearly limitless electrical power.  It's not doing much good here though.  Perhaps it could be salvaged for other purposes.",
-    "symbol": "0",
-    "color": "light_green",
-    "looks_like": "f_machinery_electronic",
-    "move_cost": 0,
-    "flags": [ "TRANSPARENT", "NOITEM", "SEALED", "REDUCE_SCENT", "PERMEABLE", "OBSOLETE" ],
-    "bash": {
-      "str_min": 50,
-      "str_max": 400,
-      "explosive": 25,
-      "ter_set": "t_concrete",
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 4, 16 ] },
-        { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "plutonium", "charges": [ 0, 3 ] },
-        { "item": "lead", "charges": [ 12, 18 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_concrete",
-      "items": [
-        { "item": "RAM", "count": [ 4, 8 ] },
-        { "item": "cable", "charges": [ 8, 16 ] },
-        { "item": "small_lcd_screen", "count": [ 2, 4 ] },
-        { "item": "large_lcd_screen", "count": 1 },
-        { "item": "e_scrap", "count": [ 12, 24 ] },
-        { "item": "circuit", "count": [ 6, 10 ] },
-        { "item": "power_supply", "count": [ 4, 8 ] },
-        { "item": "amplifier", "count": [ 3, 6 ] },
-        { "item": "plutonium", "charges": [ 2, 8 ] },
-        { "item": "scrap", "count": [ 8, 16 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_machinery_light",
     "name": "light machinery",
     "description": "Assorted light machinery.  You could scavenge it for parts.",
