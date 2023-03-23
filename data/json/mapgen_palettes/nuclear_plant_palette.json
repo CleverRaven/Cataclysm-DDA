@@ -39,7 +39,6 @@
       "E": [ [ "t_switchgear_l", 90 ], [ "t_switchgear_s", 10 ] ],
       "n": [ [ "t_sai_box", 90 ], [ "t_sai_box_damaged", 10 ] ],
       "x": "t_rad_platform",
-      "G": "t_generator_broken",
       "y": "t_carpet_strconcrete_yellow",
       "H": "t_railroad_track_small",
       "-": "t_railroad_track",
@@ -56,6 +55,7 @@
       ">": "t_stairs_down"
     },
     "furniture": {
+      "G": "f_generator_broken",
       "s": "f_server",
       "w": "f_sink",
       "h": "f_water_heater",
