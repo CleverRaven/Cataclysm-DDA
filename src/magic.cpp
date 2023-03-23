@@ -176,7 +176,7 @@ std::string enum_to_string<magic_energy_type>( magic_energy_type data )
 
 } // namespace io
 
-const cata::optional<int> fake_spell::max_level_default = cata::nullopt;
+const std::optional<int> fake_spell::max_level_default = std::nullopt;
 const int fake_spell::level_default = 0;
 const bool fake_spell::self_default = false;
 const int fake_spell::trigger_once_in_default = 1;
@@ -193,7 +193,7 @@ const std::string spell_type::sound_id_default;
 const std::string spell_type::sound_variant_default = "default";
 // empty string
 const std::string spell_type::effect_str_default;
-const cata::optional<field_type_id> spell_type::field_default = cata::nullopt;
+const std::optional<field_type_id> spell_type::field_default = std::nullopt;
 const int spell_type::field_chance_default = 1;
 const int spell_type::min_field_intensity_default = 0;
 const int spell_type::max_field_intensity_default = 0;
@@ -683,7 +683,7 @@ std::string spell::damage_string() const
     return damage_string;
 }
 
-cata::optional<tripoint> spell::select_target( Creature *source )
+std::optional<tripoint> spell::select_target( Creature *source )
 {
     tripoint target = source->pos();
     bool target_is_valid = false;
@@ -706,7 +706,7 @@ cata::optional<tripoint> spell::select_target( Creature *source )
                 }
                 if( !target_is_valid ) {
                     if( query_yn( _( "Stop targeting?  Time spent will be lost." ) ) ) {
-                        return cata::nullopt;
+                        return std::nullopt;
                     }
                 }
             } while( !target_is_valid );
@@ -719,17 +719,17 @@ cata::optional<tripoint> spell::select_target( Creature *source )
             if( effectiveness < 0 ) {
                 add_msg_debug( debugmode::debug_filter::DF_NPC, "%s cancels casting %s, target lost",
                                source_npc.disp_name(), name() );
-                return cata::nullopt;
+                return std::nullopt;
             } else {
                 target = effectiveness.target();
             }
         } // TODO: move monster spell attack targeting here
     } else if( has_flag( spell_flag::RANDOM_TARGET ) ) {
-        const cata::optional<tripoint> target_ = random_valid_target( *source, source->pos() );
+        const std::optional<tripoint> target_ = random_valid_target( *source, source->pos() );
         if( !target_ ) {
             source->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
                                        _( "You can't find a suitable target." ) );
-            return cata::nullopt;
+            return std::nullopt;
         }
         target = *target_;
     }
@@ -1581,7 +1581,7 @@ void spell::cast_all_effects( Creature &source, const tripoint &target ) const
             source.add_msg_if_player( sp.message() );
 
             if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
-                if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+                if( const std::optional<tripoint> new_target = sp.random_valid_target( source,
                         _self ? source.pos() : target ) ) {
                     sp.cast_all_effects( source, *new_target );
                 }
@@ -1609,7 +1609,7 @@ void spell::cast_extra_spell_effects( Creature &source, const tripoint &target )
     for( const fake_spell &extra_spell : type->additional_spells ) {
         spell sp = extra_spell.get_spell( get_level() );
         if( sp.has_flag( spell_flag::RANDOM_TARGET ) ) {
-            if( const cata::optional<tripoint> new_target = sp.random_valid_target( source,
+            if( const std::optional<tripoint> new_target = sp.random_valid_target( source,
                     extra_spell.self ? source.pos() : target ) ) {
                 sp.cast_all_effects( source, *new_target );
             }
@@ -1623,7 +1623,7 @@ void spell::cast_extra_spell_effects( Creature &source, const tripoint &target )
     }
 }
 
-cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
+std::optional<tripoint> spell::random_valid_target( const Creature &caster,
         const tripoint &caster_pos ) const
 {
     const bool ignore_ground = has_flag( spell_flag::RANDOM_CRITTER );
@@ -1640,7 +1640,7 @@ cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
         }
     }
     if( valid_area.empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return random_entry( valid_area );
 }
@@ -1936,8 +1936,9 @@ int known_magic::time_to_learn_spell( const Character &guy, const std::string &s
 int known_magic::time_to_learn_spell( const Character &guy, const spell_id &sp ) const
 {
     const int base_time = to_moves<int>( 30_minutes );
-    return base_time * ( 1.0 + sp->difficulty / ( 1.0 + ( guy.get_int() - 8.0 ) / 8.0 ) +
-                         ( guy.get_skill_level( sp->skill ) / 10.0 ) );
+    const double int_modifier = ( guy.get_int() - 8.0 ) / 8.0;
+    const double skill_modifier = guy.get_skill_level( sp->skill ) / 10.0;
+    return base_time * ( 1.0 + sp->difficulty / ( 1.0 + int_modifier + skill_modifier ) );
 }
 
 int known_magic::get_spellname_max_width()
@@ -2570,7 +2571,7 @@ void fake_spell::load( const JsonObject &jo )
     int max_level_int;
     optional( jo, false, "max_level", max_level_int, -1 );
     if( max_level_int == -1 ) {
-        max_level = cata::nullopt;
+        max_level = std::nullopt;
     } else {
         max_level = max_level_int;
     }

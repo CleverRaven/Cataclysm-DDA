@@ -80,7 +80,6 @@
     "description": "You are wearing equipment that gives 10 strength.",
     "has": "WORN",
     "condition": "ACTIVE",
-    "mutations": [ "mut_exo_strength" ],
     "values": [ { "value": "STRENGTH", "add": 10 } ]
   },
   {
@@ -90,7 +89,6 @@
     "description": "You are wearing equipment that muffles your footsteps.",
     "has": "WORN",
     "condition": "ACTIVE",
-    "mutations": [ "mut_exo_strength" ],
     "values": [ { "value": "FOOTSTEP_NOISE", "multiply": -0.67 } ]
   }
 ]

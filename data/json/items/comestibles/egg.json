@@ -172,7 +172,7 @@
     "abstract": "egg_insect",
     "//": "5x the weight and 3x the nutrition of real chicken eggs, toxins equal to 296g mutant meat",
     "color": "white",
-    "symbol": "%",
+    "symbol": "o",
     "material": [ "egg" ],
     "stack_size": 1,
     "volume": "250 ml",
@@ -198,37 +198,32 @@
     "proportional": { "weight": 4, "calories": 4, "volume": 4 },
     "vitamins": [ [ "calcium", 28 ], [ "iron", 72 ], [ "mutant_toxin", 100 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
-    "rot_spawn_chance": 60
+    "rot_spawn_chance": 100
   },
   {
     "type": "COMESTIBLE",
-    "id": "spider_egg",
-    "name": { "str": "spider egg" },
-    "copy-from": "egg_insect",
-    "color": "white",
-    "symbol": "%",
-    "description": "A fist-sized egg from a giant spider.  Incredibly gross."
+    "id": "ant_egg_acid",
+    "name": { "str": "acid ant egg" },
+    "copy-from": "ant_egg",
+    "description": "A large, heavy acid ant egg, the size of a softball.  Extremely nutritious, but incredibly gross.",
+    "rot_spawn": "GROUP_EGG_ANT_ACID"
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_roach",
     "name": { "str": "roach egg" },
+    "description": "A fist-sized egg from a giant roach.  Incredibly gross.",
     "copy-from": "egg_insect",
     "color": "white",
-    "symbol": "%",
-    "spoils_in": "4 days 16 hours",
-    "quench": 3,
-    "description": "A fist-sized egg from a giant roach.  Incredibly gross.",
-    "price": 80,
-    "material": [ "egg" ],
-    "rot_spawn": "GROUP_EGG_ROACH"
+    "rot_spawn": "GROUP_EGG_ROACH",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_roach_plague",
     "name": { "str": "plague vector egg" },
-    "copy-from": "egg_roach",
     "description": "A fist-sized egg from a plague vector.  Incredibly gross.",
+    "copy-from": "egg_roach",
     "vitamins": [ [ "mutant_toxin", 50 ] ],
     "rot_spawn": "GROUP_EGG_ROACH_PLAGUE"
   },
@@ -236,13 +231,11 @@
     "type": "COMESTIBLE",
     "id": "egg_locust",
     "name": { "str": "locust egg" },
+    "description": "A fist-sized egg from a locust.",
     "copy-from": "egg_insect",
     "color": "green",
-    "symbol": "o",
-    "spoils_in": "4 days 16 hours",
-    "quench": 3,
-    "description": "A fist-sized egg from a locust.",
-    "rot_spawn": "GROUP_EGG_LOCUST"
+    "rot_spawn": "GROUP_EGG_LOCUST",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
@@ -251,7 +244,6 @@
     "description": "The still-wet egg of a mutated dragonfly.  Serves as a disgusting substitute for the real thing, just don't let it hatch in the water.",
     "copy-from": "egg_insect",
     "color": "light_green",
-    "symbol": "o",
     "rot_spawn": "GROUP_EGG_DRAGONFLY",
     "rot_spawn_chance": 50
   },
@@ -259,18 +251,17 @@
     "type": "COMESTIBLE",
     "id": "egg_firefly",
     "name": { "str": "firefly egg" },
+    "description": "The fist-sized egg of a mutant firefly.  Glows faintly in the dark.",
     "copy-from": "egg_insect",
     "color": "yellow",
-    "symbol": "o",
-    "description": "The fist-sized egg of a mutant firefly.  Glows faintly in the dark.",
     "rot_spawn": "GROUP_EGG_FIREFLY",
-    "rot_spawn_chance": 100
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_centipede",
     "name": { "str": "centipede egg" },
-    "description": "A large, soft egg you got from butchering a mutant centipede.  Inside, you can already see a bundle of spindly legs, twitching in anticipation.",
+    "description": "A large, soft egg of a mutant centipede.  Inside, you can already see a bundle of spindly legs, twitching in anticipation.",
     "copy-from": "egg_insect",
     "color": "light_green",
     "proportional": { "weight": 2, "calories": 2, "volume": 2 },
@@ -282,11 +273,10 @@
     "type": "COMESTIBLE",
     "id": "egg_wasp",
     "name": { "str": "wasp egg" },
+    "description": "A white, flexible wasp egg.  It looks like a pristine grain of rice the size of your palm.",
     "copy-from": "egg_insect",
     "color": "white",
-    "symbol": "o",
     "spoils_in": "2 days",
-    "description": "A white, flexible wasp egg.  It looks like a pristine grain of rice the size of your palm.",
     "rot_spawn": "GROUP_EGG_WASP",
     "rot_spawn_chance": 100
   },
@@ -294,26 +284,24 @@
     "type": "COMESTIBLE",
     "id": "egg_stag_beetle",
     "name": { "str": "stag beetle egg" },
+    "description": "A huge, translucent beetle egg.  You can see a larva slowly squirming inside, contorting uncomfortably outside of the soil.",
     "copy-from": "egg_insect",
     "color": "brown",
-    "symbol": "o",
     "spoils_in": "20 days",
     "proportional": { "weight": 5, "calories": 5, "volume": 5 },
     "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ] ],
-    "description": "A huge, translucent beetle egg.  You can see a larva slowly squirming inside, contorting uncomfortably outside of the soil.",
     "rot_spawn": "GROUP_EGG_STAG_BEETLE",
-    "rot_spawn_chance": 100
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_antlion",
     "name": { "str": "antlion egg" },
+    "description": "A large, white antlion egg.  There is something hard inside.",
     "copy-from": "egg_insect",
     "color": "yellow",
-    "symbol": "o",
     "proportional": { "weight": 2, "calories": 2, "volume": 2 },
     "vitamins": [ [ "calcium", 14 ], [ "iron", 36 ], [ "mutant_toxin", 50 ] ],
-    "description": "A large, white antlion egg.  There is something hard inside.",
     "rot_spawn": "GROUP_EGG_ANTLION",
     "rot_spawn_chance": 50
   },
@@ -321,58 +309,38 @@
     "type": "COMESTIBLE",
     "id": "egg_strider",
     "name": { "str": "water strider egg" },
-    "copy-from": "egg_insect",
-    "color": "light_gray",
-    "symbol": "o",
-    "spoils_in": "3 days",
     "description": "A large, sticky, and wet water strider egg.  You should probably put it back in the water.",
+    "copy-from": "egg_insect",
     "rot_spawn": "GROUP_EGG_STRIDER",
-    "rot_spawn_chance": 100
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_grasshopper",
     "name": { "str": "grasshopper egg" },
+    "description": "A long, white, pill-shaped grasshopper egg.  Inside you can see two twitching legs.",
     "copy-from": "egg_insect",
     "color": "light_green",
-    "symbol": "o",
-    "description": "A long, white, pill-shaped grasshopper egg.  Inside you can see two twitching legs.",
     "rot_spawn": "GROUP_EGG_GRASSHOPPER",
-    "rot_spawn_chance": 100
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_lady_bug",
     "name": { "str": "ladybug egg" },
+    "description": "A ladybug egg.  It looks like a huge yellow rice grain.  You can see a translucent, hungry larva inside.",
     "copy-from": "egg_insect",
     "color": "light_red",
-    "symbol": "o",
-    "spoils_in": "7 days",
-    "description": "A ladybug egg.  It looks like a huge yellow rice grain.  You can see a translucent, hungry larva inside.",
     "rot_spawn": "GROUP_EGG_LADY_BUG",
-    "rot_spawn_chance": 50
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_lady_bug_giant",
-    "name": { "str": "giant ladybug egg" },
-    "copy-from": "egg_insect",
-    "color": "red",
-    "symbol": "o",
-    "spoils_in": "7 days",
-    "description": "A giant ladybug egg.  It looks like a huge yellow rice grain.  You can see an enormous, translucent, and very hungry larva inside.",
-    "rot_spawn": "GROUP_EGG_LADY_BUG_GIANT",
     "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_mole_cricket",
     "name": { "str": "mole cricket egg" },
+    "description": "A mole cricket egg covered in bits of sand and dirt.  It's brown with a few black dots on it.",
     "copy-from": "egg_insect",
     "color": "brown",
-    "symbol": "o",
-    "spoils_in": "9 days",
-    "description": "A mole cricket egg covered in bits of sand and dirt.  It's brown with a few black dots on it.",
     "rot_spawn": "GROUP_EGG_MOLE_CRICKET",
     "rot_spawn_chance": 50
   },
@@ -380,12 +348,115 @@
     "type": "COMESTIBLE",
     "id": "egg_mantis",
     "name": { "str": "praying mantis egg case" },
+    "description": "Praying mantis eggs glued to each other inside a strange-looking case.  It resembles a trilobite or a woodlouse.",
     "copy-from": "egg_insect",
     "color": "green",
-    "symbol": "%",
-    "spoils_in": "13 days",
-    "description": "Praying mantis eggs glued to each other inside a strange-looking case.  It resembles a trilobite or a woodlouse.",
+    "spoils_in": "10 days",
+    "proportional": { "weight": 5, "calories": 5, "volume": 5 },
+    "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ] ],
     "rot_spawn": "GROUP_EGG_MANTIS",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_fly",
+    "name": "fly egg",
+    "description": "The egg of a fly.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_FLY",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_mosquito",
+    "name": "mosquito egg",
+    "description": "The egg of a mosquito.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_MOSQUITO",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_spider_cellar",
+    "name": "cellar spider egg",
+    "description": "The egg of a cellar spider.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_SPIDER_CELLAR",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_spider_jumping",
+    "name": "jumping spider egg",
+    "description": "The egg of a jumping spider.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_SPIDER_JUMPING",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_spider_trapdoor",
+    "name": "trapdoor spider egg",
+    "description": "The egg of a trapdoor spider.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_SPIDER_TRAPDOOR",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_spider_web",
+    "name": "web spider egg",
+    "description": "The egg of a web spider.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_SPIDER_WEB",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_spider_widow",
+    "name": "black widow egg",
+    "description": "The egg of a black widow.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_SPIDER_WIDOW",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_spider_wolf",
+    "name": "wolf spider egg",
+    "description": "The egg of a wolf spider.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_SPIDER_WOLF",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_worm",
+    "name": "earthworm egg",
+    "description": "The egg of an earthworm.",
+    "copy-from": "egg_insect",
+    "spoils_in": "10 days",
+    "proportional": { "weight": 5, "calories": 5, "volume": 5 },
+    "vitamins": [ [ "calcium", 35 ], [ "iron", 90 ], [ "mutant_toxin", 125 ] ],
+    "rot_spawn": "GROUP_EGG_WORM",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_slug",
+    "name": "slug egg",
+    "description": "The egg of a slug.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_SLUG",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_snail",
+    "name": "snail egg",
+    "description": "The egg of a snail.",
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_SNAIL",
     "rot_spawn_chance": 50
   },
   {
@@ -986,40 +1057,45 @@
     "type": "COMESTIBLE",
     "id": "egg_water_beetle",
     "name": "water beetle egg",
-    "copy-from": "egg_strider",
     "description": "The egg of a water beetle, usually found near aquatic grass.",
-    "rot_spawn": "GROUP_EGG_WATER_BEETLE"
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_WATER_BEETLE",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_water_bug",
     "name": "water scorpion egg",
-    "copy-from": "egg_strider",
+    "copy-from": "egg_insect",
     "description": "The egg of a water scorpion, usually found near aquatic grass.",
-    "rot_spawn": "GROUP_EGG_WATER_BUG"
+    "rot_spawn": "GROUP_EGG_WATER_BUG",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_butterfly",
     "name": "butterfly egg",
-    "copy-from": "egg_insect",
     "description": "The egg of a butterfly.  They are usually found clustered on leaves.",
-    "rot_spawn": "GROUP_EGG_BUTTERFLY"
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_BUTTERFLY",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_moth",
     "name": "moth egg",
-    "copy-from": "egg_insect",
     "description": "The egg of a moth.  They are usually found clustered on leaves.",
-    "rot_spawn": "GROUP_EGG_MOTH"
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_MOTH",
+    "rot_spawn_chance": 50
   },
   {
     "type": "COMESTIBLE",
     "id": "egg_cicada",
     "name": "cicada egg",
-    "copy-from": "egg_insect",
     "description": "The egg of a cicada.  They are usually found near trees.",
-    "rot_spawn": "GROUP_EGG_CICADA"
+    "copy-from": "egg_insect",
+    "rot_spawn": "GROUP_EGG_CICADA",
+    "rot_spawn_chance": 50
   }
 ]

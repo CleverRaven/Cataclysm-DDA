@@ -1554,7 +1554,7 @@
     "id": "mon_zombie_technician",
     "type": "MONSTER",
     "name": { "str": "zombie technician" },
-    "description": "Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.  As it approaches, everything metal you're carrying shifts very slightly in the zombie's direction, as if attracted by a strong magnetic force.",
+    "description": "Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -1581,15 +1581,15 @@
       { "name": "the face", "armor_mult": { "physical": 0 }, "coverage": 3 },
       { "name": "the eye", "armor_mult": { "physical": 0 }, "coverage": 1 }
     ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_electromagnetics" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie" ],
     "vision_day": 15,
     "vision_night": 2,
     "harvest": "zombie",
     "fungalize_into": "mon_zombie_fungus",
-    "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 } ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_technician_death_drops",
-    "upgrades": { "half_life": 35, "into_group": "GROUP_ZOMBIE_ELECTRIC_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "RANGED_ATTACKER" ]
+    "upgrades": { "half_life": 30, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zombie_miner",

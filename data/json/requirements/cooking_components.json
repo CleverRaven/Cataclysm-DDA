@@ -92,13 +92,21 @@
     ]
   },
   {
+    "id": "eggs_invert",
+    "type": "requirement",
+    "//": "All of the different invertebrate eggs",
+    "components": [
+      [ [ "eggs_insect", 1, "LIST" ], [ "eggs_spider", 4, "LIST" ], [ "egg_worm", 1 ], [ "egg_snail", 4 ], [ "egg_slug", 4 ] ]
+    ]
+  },
+  {
     "id": "eggs_insect",
     "type": "requirement",
     "//": "All of the different insect eggs",
     "components": [
       [
         [ "ant_egg", 1 ],
-        [ "spider_egg", 4 ],
+        [ "ant_egg_acid", 1 ],
         [ "egg_roach", 4 ],
         [ "egg_roach_plague", 4 ],
         [ "egg_locust", 4 ],
@@ -111,13 +119,30 @@
         [ "egg_grasshopper", 4 ],
         [ "egg_lady_bug", 4 ],
         [ "egg_mole_cricket", 4 ],
-        [ "egg_mantis", 4 ],
+        [ "egg_mantis", 1 ],
         [ "egg_stag_beetle", 1 ],
         [ "egg_water_beetle", 4 ],
         [ "egg_water_bug", 4 ],
         [ "egg_butterfly", 4 ],
         [ "egg_moth", 4 ],
-        [ "egg_cicada", 4 ]
+        [ "egg_cicada", 4 ],
+        [ "egg_fly", 4 ],
+        [ "egg_mosquito", 4 ]
+      ]
+    ]
+  },
+  {
+    "id": "eggs_spider",
+    "type": "requirement",
+    "//": "All of the different spider eggs",
+    "components": [
+      [
+        [ "egg_spider_cellar", 1 ],
+        [ "egg_spider_jumping", 1 ],
+        [ "egg_spider_trapdoor", 1 ],
+        [ "egg_spider_web", 1 ],
+        [ "egg_spider_widow", 1 ],
+        [ "egg_spider_wolf", 1 ]
       ]
     ]
   },
@@ -128,21 +153,16 @@
     "components": [
       [
         [ "egg_fish", 1 ],
-        [ "egg_trout", 1 ],
         [ "egg_brown_trout", 1 ],
         [ "egg_brook_trout", 1 ],
         [ "egg_lake_trout", 1 ],
         [ "egg_rainbow_trout", 1 ],
-        [ "egg_steelhead_trout", 1 ],
         [ "egg_salmon", 1 ],
         [ "egg_kokanee_salmon", 1 ],
-        [ "egg_chinook_salmon", 1 ],
-        [ "egg_coho_salmon", 1 ],
         [ "egg_whitefish", 1 ],
         [ "egg_lbass", 1 ],
         [ "egg_sbass", 1 ],
         [ "egg_pbass", 1 ],
-        [ "egg_white_bass", 1 ],
         [ "egg_perch", 1 ],
         [ "egg_walleye", 1 ],
         [ "egg_sunfish", 1 ],
@@ -150,8 +170,6 @@
         [ "egg_bluegill", 1 ],
         [ "egg_redbreast", 1 ],
         [ "egg_green_sunfish", 1 ],
-        [ "egg_longear_sunfish", 1 ],
-        [ "egg_redear_sunfish", 1 ],
         [ "egg_rock_bass", 1 ],
         [ "egg_calico_bass", 1 ],
         [ "egg_bullhead", 1 ],
@@ -184,7 +202,16 @@
     "id": "cheese_standard",
     "type": "requirement",
     "//": "Any cheese you could use as is",
-    "components": [ [ [ "cheese", 1 ], [ "cheese_hard", 1 ], [ "can_cheese", 1 ], [ "cheese_rehydrated", 1 ], [ "cottage_cheese", 1 ] ] ]
+    "components": [
+      [
+        [ "cheese", 1 ],
+        [ "cheese_hard", 1 ],
+        [ "can_cheese", 1 ],
+        [ "cheese_rehydrated", 1 ],
+        [ "cottage_cheese", 1 ],
+        [ "mozzarella_cheese", 1 ]
+      ]
+    ]
   },
   {
     "id": "lf_milk_standard",
@@ -564,6 +591,7 @@
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
         [ "dry_rice", 1 ],
+        [ "dry_wild_rice", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
@@ -613,6 +641,7 @@
         [ "dry_lentils", 1 ],
         [ "raw_lentils", 1 ],
         [ "dry_rice", 1 ],
+        [ "dry_wild_rice", 1 ],
         [ "can_beans", 1 ],
         [ "beans_cooked", 1 ],
         [ "mushroom", 1 ],
@@ -673,6 +702,7 @@
         [ "dry_lentils", 1 ],
         [ "raw_lentils", 1 ],
         [ "dry_rice", 1 ],
+        [ "dry_wild_rice", 1 ],
         [ "can_beans", 1 ],
         [ "beans_cooked", 1 ],
         [ "mushroom", 1 ],
@@ -729,6 +759,7 @@
         [ "dry_lentils", 2 ],
         [ "raw_lentils", 2 ],
         [ "dry_rice", 2 ],
+        [ "dry_wild_rice", 2 ],
         [ "dandelion_cooked", 2 ],
         [ "burdock_cooked", 2 ],
         [ "bamboo_cooked", 2 ],
@@ -760,6 +791,7 @@
         [ "dry_lentils", 1 ],
         [ "raw_lentils", 1 ],
         [ "dry_rice", 1 ],
+        [ "dry_wild_rice", 1 ],
         [ "dandelion_cooked", 1 ],
         [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
@@ -1156,6 +1188,7 @@
         [ "dry_beans", 1 ],
         [ "raw_beans", 1 ],
         [ "dry_rice", 1 ],
+        [ "dry_wild_rice", 1 ],
         [ "can_beans", 1 ],
         [ "beans_cooked", 1 ],
         [ "dandelion_cooked", 1 ],

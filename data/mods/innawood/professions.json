@@ -365,5 +365,30 @@
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
+  },
+  {
+    "type": "profession",
+    "id": "native_settler",
+    "name": "Native Settler",
+    "description": "You were on the road with friends from your tribe to search for a new settlement spot when you seemed to be yanked somewhere completely different.  You see no sign of your friends, but at least you got your equipment and some seeds with you.",
+    "points": 3,
+    "skills": [ { "level": 4, "name": "survival" }, { "level": 2, "name": "archery" } ],
+    "proficiencies": [ "prof_basketweaving", "prof_pottery" ],
+    "items": {
+      "both": {
+        "items": [ "wicker_backpack", "tunic", "mocassins", "cloak", "chaps_leather", "bandana_head", "copper_knife", "shortbow" ],
+        "entries": [
+          { "item": "seed_pumpkin", "count": 5 },
+          { "item": "seed_beans", "count": 5 },
+          { "item": "seed_corn", "count": 5 },
+          { "item": "seed_wild_rice", "count": 5 },
+          { "item": "seed_bottle_gourd", "count": 1 },
+          { "item": "water_clean", "charges": 8, "container-item": "bottle_gourd" },
+          { "item": "arrow_heavy_fire_hardened_fletched", "charges": 10, "container-item": "quiver_birchbark" }
+        ]
+      },
+      "male": [ "loincloth" ],
+      "female": [ "loincloth" ]
+    }
   }
 ]

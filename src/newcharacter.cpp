@@ -11,6 +11,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <tuple>
 #include <unordered_map>
@@ -41,7 +42,6 @@
 #include "monster.h"
 #include "mutation.h"
 #include "name.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -168,7 +168,7 @@ bool tab_manager::handle_input( const std::string &action, const input_context &
     } else if( action == "NEXT_TAB" ) {
         position.next();
     } else if( action == "SELECT" ) {
-        cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+        std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
         if( coord.has_value() ) {
             point local_coord = coord.value() + window_pos;
             for( const auto &entry : tab_map ) {
@@ -362,7 +362,7 @@ static void set_hobbies( tab_manager &tabs, avatar &u, pool_type );
 static void set_skills( tab_manager &tabs, avatar &u, pool_type );
 static void set_description( tab_manager &tabs, avatar &you, bool allow_reroll, pool_type );
 
-static cata::optional<std::string> query_for_template_name();
+static std::optional<std::string> query_for_template_name();
 static void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
@@ -451,8 +451,8 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     prof = get_scenario()->weighted_random_profession();
     randomize_hobbies();
-    starting_city = cata::nullopt;
-    world_origin = cata::nullopt;
+    starting_city = std::nullopt;
+    world_origin = std::nullopt;
     random_start_location = true;
 
     str_max = rng( 6, HIGH_STAT - 2 );
@@ -1125,6 +1125,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
         werase( w_description );
         u.reset_stats();
         u.set_stored_kcal( u.get_healthy_kcal() );
+        u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
         switch( sel ) {
             case 1:
                 mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
@@ -2969,7 +2970,7 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
 
     assembled += "\n" + colorize( _( "Scenario Story:" ), COL_HEADER ) + "\n";
     assembled += colorize( current_scenario->description( u.male ), c_green ) + "\n";
-    const cata::optional<achievement_id> scenRequirement = current_scenario->get_requirement();
+    const std::optional<achievement_id> scenRequirement = current_scenario->get_requirement();
 
     if( scenRequirement.has_value() ||
         ( current_scenario->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ) {
@@ -4094,7 +4095,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             std::sort( cities.begin(), cities.end(), cities_cmp_population );
             uilist cities_menu;
             ui::omap::setup_cities_menu( cities_menu, cities );
-            cata::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
+            std::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
             if( c.has_value() ) {
                 you.starting_city = c;
                 you.world_origin = c->pos_om;
@@ -4343,7 +4344,7 @@ void Character::randomize_cosmetic_trait( const std::string &mutation_type )
     }
 }
 
-cata::optional<std::string> query_for_template_name()
+std::optional<std::string> query_for_template_name()
 {
     static const std::set<int> fname_char_blacklist = {
 #if defined(_WIN32)
@@ -4371,7 +4372,7 @@ cata::optional<std::string> query_for_template_name()
 
     spop.query_string( true );
     if( spop.canceled() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return spop.text();
     }

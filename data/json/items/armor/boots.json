@@ -1664,7 +1664,7 @@
     "id": "mocassins",
     "type": "ARMOR",
     "name": { "str": "pair of moccasins", "str_pl": "pairs of moccasins" },
-    "description": "Simple shoes made from animal pelts.",
+    "description": "A type of traditional Native American footwear sewn out of prepared leather or pelts.",
     "weight": "230 g",
     "volume": "500 ml",
     "price": 5000,

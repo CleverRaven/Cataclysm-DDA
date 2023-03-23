@@ -7,13 +7,13 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -107,7 +107,7 @@ class options_manager
                 std::vector<id_and_option> getItems() const;
 
                 int getIntPos( int iSearch ) const;
-                cata::optional<int_and_option> findInt( int iSearch ) const;
+                std::optional<int_and_option> findInt( int iSearch ) const;
 
                 int getMaxLength() const;
 
@@ -275,7 +275,7 @@ class options_manager
 
     private:
         options_container options;
-        cata::optional<options_container *> world_options; // NOLINT(cata-serialize)
+        std::optional<options_container *> world_options; // NOLINT(cata-serialize)
 
         /**
          * A page (or tab) to be displayed in the options UI.
@@ -291,7 +291,7 @@ class options_manager
                 std::string id_;
                 translation name_;
 
-                std::vector<cata::optional<std::string>> items_;
+                std::vector<std::optional<std::string>> items_;
 
                 void removeRepeatedEmptyLines();
 

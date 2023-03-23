@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -23,7 +24,6 @@
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -2695,7 +2695,8 @@ TEST_CASE( "pocket_leak" )
     REQUIRE( backpack.put_in( water, item_pocket::pocket_type::CONTAINER ).success() );
 
     WHEN( "single container" ) {
-        item &bkit = **u.wear_item( backpack );
+        auto backpack_iter = *u.wear_item( backpack );
+        item &bkit = *backpack_iter;
         item &waterit = bkit.only_item();
         waterit.set_item_temperature( water.get_freeze_point() + units::from_kelvin( 10 ) );
         REQUIRE( !waterit.is_frozen_liquid() );

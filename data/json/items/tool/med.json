@@ -387,5 +387,25 @@
       "menu_text": "Unwrap badge",
       "type": "transform"
     }
+  },
+  {
+    "id": "scissors_medical",
+    "type": "TOOL",
+    "name": { "str": "pair of medical scissors", "str_pl": "pairs of medical scissors" },
+    "description": "A pair of medical scissors, typically used by nurses or paramedics to cut bandages or fabric.",
+    "ascii_picture": "scissors",
+    "weight": "50 g",
+    "volume": "95 ml",
+    "longest_side": "14 cm",
+    "price": 700,
+    "price_postapoc": 20,
+    "to_hit": -1,
+    "cutting": 4,
+    "material": [ "steel" ],
+    "symbol": ",",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 2 ], [ "FABRIC_CUT", 1 ] ],
+    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ],
+    "weapon_category": [ "SHIVS" ]
   }
 ]
