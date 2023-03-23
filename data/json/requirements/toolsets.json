@@ -177,7 +177,16 @@
     "//1": "Arc welding is about 85% efficient, acetylene welding is about 40% efficient, propane welding is about 10% efficient",
     "//2": "acetlyne is measured in grams while propane is measured in ml - this means acetlyene is roughly 2x as potent as propane per charge",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "tools": [ [ [ "welder", 200 ], [ "welding_kit", 200 ], [ "welder_crude", 400 ], [ "toolset", 300 ], [ "oxy_torch", 10 ], [ "propane_torch", 80 ] ] ],
+    "tools": [
+      [
+        [ "welder", 200 ],
+        [ "welding_kit", 200 ],
+        [ "welder_crude", 400 ],
+        [ "toolset", 300 ],
+        [ "oxy_torch", 10 ],
+        [ "propane_torch", 80 ]
+      ]
+    ],
     "components": [
       [ [ "welding_rod_alloy", 10 ], [ "welding_wire_alloy", 10 ], [ "brazing_rod_alloy", 10 ] ],
       [ [ "material_aluminium_ingot", 1 ] ]
