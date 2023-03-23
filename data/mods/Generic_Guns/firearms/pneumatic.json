@@ -1,5 +1,5 @@
 [
-    {
+  {
     "id": "pellet_airgun",
     "copy-from": "varmint_airgun",
     "type": "GUN",
