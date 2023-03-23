@@ -19,7 +19,6 @@
       "~": "t_water_sh",
       "1": "t_column",
       "3": "t_machinery_heavy",
-      "4": "t_machinery_electronic",
       "6": "t_console_broken",
       "7": "t_gates_mech_control",
       "e": "t_elevator",
@@ -33,6 +32,7 @@
     },
     "furniture": {
       "2": "f_machinery_light",
+      "4": "f_machinery_electronic",
       "$": "f_safe_l",
       "%": "f_robotic_arm",
       "a": "f_armchair",

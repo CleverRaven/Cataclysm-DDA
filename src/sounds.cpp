@@ -122,7 +122,6 @@ static const ter_str_id ter_t_grass_tall( "t_grass_tall" );
 static const ter_str_id ter_t_grass_white( "t_grass_white" );
 static const ter_str_id ter_t_grate( "t_grate" );
 static const ter_str_id ter_t_guardrail_bg_dp( "t_guardrail_bg_dp" );
-static const ter_str_id ter_t_machinery_electronic( "t_machinery_electronic" );
 static const ter_str_id ter_t_machinery_heavy( "t_machinery_heavy" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
 static const ter_str_id ter_t_moss( "t_moss" );
@@ -1770,7 +1769,6 @@ void sfx::do_footstep()
             ter_t_slide,
             ter_t_conveyor,
             ter_t_machinery_heavy,
-            ter_t_machinery_electronic,
         };
         static const std::set<ter_str_id> chain_fence = {
             ter_t_chainfence,
