@@ -7456,6 +7456,7 @@ void vehicle::update_time( const time_point &update_to )
     }
 
     if( sm_pos.z < 0 ) {
+        last_update = update_to;
         return;
     }
 
