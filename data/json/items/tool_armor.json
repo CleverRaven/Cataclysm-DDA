@@ -526,10 +526,12 @@
     "price": 5000,
     "price_postapoc": 100,
     "material": [ "plastic" ],
-    "flags": [ "WATCH", "WATER_FRIENDLY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "flags": [ "WATCH", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE", "ELECTRONIC" ],
     "symbol": "[",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
     "use_action": [ "FITNESS_CHECK" ],
-    "armor": [ { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 20 } } ]
   },
   {
     "id": "holo_cloak",
