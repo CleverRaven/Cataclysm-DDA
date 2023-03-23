@@ -37,14 +37,14 @@
     "size": "150 L",
     "item": "basket",
     "location": "center",
-    "//": "weld together the edges of the basket, assume roughly 60cm length each",
+    "//": "weld together the edges of the basket, assume roughly 60cm length each for 120 total, 30cm per damage quadrant to repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 120 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
         "time": "15 m",
-        "using": [ [ "repair_welding_standard", 15 ] ]
+        "using": [ [ "repair_welding_standard", 3 ] ]
       }
     },
     "flags": [ "CARGO", "OBSTACLE" ],
@@ -76,13 +76,13 @@
     "broken_color": "brown",
     "durability": 75,
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
-    "//": "weld together the edges of the basket, assume roughly 60cm length, but only on one side.",
+    "//": "weld together the edges of the basket, assume roughly 60cm length, but only on one side, still 30cm per repair.",
     "size": "50 L",
     "damage_modifier": 60,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "welding_standard", 60 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
     "damage_reduction": { "all": 6 }
@@ -103,14 +103,14 @@
     "folded_volume": "6 L",
     "item": "folding_basket",
     "location": "center",
-    "//": "weld together the edges of the basket, assume roughly 60cm length each",
+    "//": "weld together the edges of the basket, assume roughly 60cm length each, 30cm per damage quadrant to repair",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 120 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
         "time": "15 m",
-        "using": [ [ "repair_welding_standard", 15 ] ]
+        "using": [ [ "repair_welding_standard", 3 ] ]
       }
     },
     "flags": [ "CARGO", "OBSTACLE" ],
@@ -132,13 +132,14 @@
     "size": "20 L",
     "item": "bike_basket",
     "location": "center",
+    "//": "10cm per damage quadrant to repair",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ],
         "time": "5 m",
-        "using": [ [ "repair_welding_standard", 5 ] ]
+        "using": [ [ "repair_welding_standard", 1 ] ]
       }
     },
     "flags": [ "CARGO", "BOARDABLE" ],
@@ -179,13 +180,13 @@
     "broken_color": "brown",
     "durability": 75,
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
-    "//": "weld one edge of the bike basket, assume roughly 20 cm",
+    "//": "weld one edge of the bike basket, assume roughly 20 cm, or 10cm per repair",
     "size": "15 L",
     "damage_modifier": 60,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "welding_standard", 20 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 5 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION" ],
     "damage_reduction": { "all": 6 }
@@ -242,11 +243,11 @@
     "description": "Storage space, mounted outside your vehicle's armor and vulnerable to damage.",
     "size": "250 L",
     "breaks_into": [  ],
-    "//": "assume 1m sq cargo space affixed on one edge, 100cm weld",
+    "//": "assume 1m sq cargo space affixed on one edge, 100cm weld and 50cm weld to repair each damage quadrant",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "50 m", "using": [ [ "welding_standard", 100 ] ] },
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "50 m", "using": [ [ "welding_standard", 100 ], [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 25 ] ] }
+      "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "CARGO", "PROTRUSION", "COVERED", "BOARDABLE" ],
     "damage_reduction": { "all": 26 }
@@ -269,10 +270,11 @@
       { "item": "steel_chunk", "count": [ 6, 8 ] },
       { "item": "scrap", "count": [ 6, 8 ] }
     ],
+    "//": "20cm weld per damage quadrant to repair",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "BIKE_RACK_VEH", "MULTISQUARE" ],
     "damage_reduction": { "all": 10 }
@@ -293,8 +295,7 @@
     "damage_modifier": 60,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] }
     },
     "flags": [ "UNMOUNT_ON_DAMAGE", "PROTRUSION" ],
     "damage_reduction": { "all": 10 }
