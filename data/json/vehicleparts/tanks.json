@@ -21,7 +21,7 @@
         "using": [ [ "vehicle_wrench_1", 1 ], [ "drilling_standard", 10 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 10 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 26, "stab": 8 }
@@ -76,7 +76,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 40 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "using": [ [ "repair_welding_standard", 20 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 28, "stab": 10 }
@@ -106,7 +106,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 20 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 28, "stab": 12 }
@@ -137,7 +137,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 20 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK", "FRIDGE", "ENABLED_DRAINS_EPOWER" ],
     "damage_reduction": { "all": 28, "stab": 12 }
@@ -169,7 +169,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 45 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 20 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FLUIDTANK" ],
     "damage_reduction": { "all": 30, "stab": 12 }
@@ -248,7 +248,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 50 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 20 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 30, "stab": 12 }
@@ -286,11 +286,11 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 1, 5 ] }
     ],
-    "//": "80cm weld install. weld repairs would involve patching up holes, for a medium tank assume 8cm squares (32 cm weld total)",
+    "//": "80cm weld install. weld repairs would involve patching up holes, for a medium tank assume 10cm squares (40 cm weld total)",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "40 m", "using": [ [ "welding_standard", 80 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "16 m", "using": [ [ "repair_welding_standard", 16 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "16 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "damage_reduction": { "all": 24, "stab": 18 }
   },
@@ -320,7 +320,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 10 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "GASTANK" ],
     "damage_reduction": { "all": 28, "stab": 12 }
@@ -350,7 +350,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 15 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 28, "stab": 12 }
@@ -380,7 +380,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 20 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "GASTANK" ],
     "damage_reduction": { "all": 28, "stab": 12 }
