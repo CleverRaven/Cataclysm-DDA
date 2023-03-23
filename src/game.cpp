@@ -414,6 +414,7 @@ game::game() :
     events().subscribe( &*memorial_logger_ptr );
     events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
+    events().subscribe( &*eoc_events_ptr );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
