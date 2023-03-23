@@ -10,6 +10,7 @@
     "species": [ "HUMAN" ],
     "material": [ "flesh" ],
     "weakpoint_sets": [ "wps_humanoid_body" ],
+    "chat_topics": [ "TALK_CIVILIAN_PANIC" ],
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 75,
