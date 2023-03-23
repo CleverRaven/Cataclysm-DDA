@@ -5011,10 +5011,22 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     if( !remaining ) {
                         JsonValue terrain_entry = terrain_json.next_value();
                         if( terrain_entry.test_string() ) {
-                            iid = ter_str_id( terrain_entry.get_string() ).id();
+                            const ter_str_id terstr( terrain_entry.get_string() );
+                            if( terstr.is_valid() ) {
+                                iid = terstr.id();
+                            } else {
+                                debugmsg( "invalid ter_str_id '%s'", terstr.str() );
+                                iid = t_dirt;
+                            }
                         } else if( terrain_entry.test_array() ) {
                             JsonArray terrain_rle = terrain_entry;
-                            iid = ter_str_id( terrain_rle.next_string() ).id();
+                            const ter_str_id terstr( terrain_rle.next_string() );
+                            if( terstr.is_valid() ) {
+                                iid = terstr.id();
+                            } else {
+                                debugmsg( "invalid ter_str_id '%s'", terstr.str() );
+                                iid = t_dirt;
+                            }
                             remaining = terrain_rle.next_int() - 1;
                             if( terrain_rle.size() > 2 ) {
                                 terrain_rle.throw_error( "Too many values for terrain RLE" );
