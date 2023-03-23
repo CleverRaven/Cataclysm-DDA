@@ -5207,9 +5207,16 @@ int64_t vehicle::battery_left( bool apply_loss ) const
 
 int vehicle::charge_battery( int amount, bool apply_loss )
 {
+    if( amount < 0 ) {
+        debugmsg( "called vehicle::charge_battery(%d), potential bug", amount );
+        return amount;
+    }
+    if( amount == 0 ) {
+        return 0;
+    }
     const std::map<vpart_reference, float> batteries = search_connected_batteries();
-    if( amount == 0 || batteries.empty() ) {
-        return amount; // nothing to do
+    if( batteries.empty() ) {
+        return amount;
     }
     const double loss = apply_loss ? weighted_power_loss( batteries ) : 0.0;
     int64_t total_charge = 0; // sum of current charge of all batteries
@@ -5243,9 +5250,16 @@ int vehicle::charge_battery( int amount, bool apply_loss )
 
 int vehicle::discharge_battery( int amount, bool apply_loss )
 {
+    if( amount < 0 ) {
+        debugmsg( "called vehicle::discharge_battery(%d), potential bug", amount );
+        return amount;
+    }
+    if( amount == 0 ) {
+        return 0;
+    }
     const std::map<vpart_reference, float> batteries = search_connected_batteries();
-    if( amount == 0 || batteries.empty() ) {
-        return amount; // nothing to do
+    if( batteries.empty() ) {
+        return amount;
     }
     const double loss = apply_loss ? weighted_power_loss( batteries ) : 0.0;
     int64_t total_charge = 0; // sum of current charge of all batteries
@@ -7440,7 +7454,7 @@ void vehicle::update_time( const time_point &update_to )
 
     map &here = get_map();
     // Parts emitting fields
-    const auto[ exhaust_part_idx, _discard_muffle ] = get_exhaust_part();
+    const std::pair<int, double> exhaust_and_muffle = get_exhaust_part();
     for( const int emitter_idx : emitters ) {
         const vehicle_part &pt = parts[emitter_idx];
         if( pt.is_unavailable() || !pt.enabled ) {
@@ -7450,10 +7464,10 @@ void vehicle::update_time( const time_point &update_to )
             here.emit_field( global_part_pos3( pt ), e );
         }
         for( const emit_id &e : pt.info().exhaust ) {
-            if( exhaust_part_idx == -1 ) {
+            if( exhaust_and_muffle.first == -1 ) {
                 here.emit_field( global_part_pos3( pt ), e );
             } else {
-                here.emit_field( exhaust_dest( exhaust_part_idx ), e );
+                here.emit_field( exhaust_dest( exhaust_and_muffle.first ), e );
             }
         }
         // reduce interval of parts with VPFLAG_ENABLED_DRAINS_EPOWER, otherwise their epower
@@ -7461,6 +7475,10 @@ void vehicle::update_time( const time_point &update_to )
         const time_duration interval = pt.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER )
                                        ? update_to - last_update - 1_seconds
                                        : update_to - last_update;
+        if( interval < 0_seconds ) {
+            debugmsg( "emitter simulating negative time interval, something is fishy / buggy" );
+            break;
+        }
         discharge_battery( power_to_energy_bat( -pt.info().epower, interval ) );
     }
 
