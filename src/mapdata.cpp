@@ -821,7 +821,6 @@ ter_id t_null,
        t_barndoor, t_palisade_pulley,
        t_gates_control_metal,
        t_sewage_pipe, t_sewage_pump,
-       t_centrifuge,
        t_column,
        t_vat,
        t_rootcellar,
@@ -1087,7 +1086,6 @@ void set_ter_ids()
     t_gates_control_metal = ter_id( "t_gates_control_metal" );
     t_sewage_pipe = ter_id( "t_sewage_pipe" );
     t_sewage_pump = ter_id( "t_sewage_pump" );
-    t_centrifuge = ter_id( "t_centrifuge" );
     t_column = ter_id( "t_column" );
     t_vat = ter_id( "t_vat" );
     t_rootcellar = ter_id( "t_rootcellar" );

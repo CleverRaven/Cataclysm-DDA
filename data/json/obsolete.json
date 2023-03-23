@@ -1,32 +1,6 @@
 [
   {
     "type": "terrain",
-    "id": "t_centrifuge",
-    "name": "centrifuge",
-    "description": "This is a centrifuge, a liquid separating device with an automated analyzer unit.  It could be used to analyze a medical fluid sample, such as blood, if a test tube was placed in it.",
-    "symbol": "{",
-    "color": "magenta",
-    "move_cost": 0,
-    "coverage": 30,
-    "flags": [ "TRANSPARENT", "PERMEABLE", "OBSOLETE" ],
-    "bash": {
-      "str_min": 3,
-      "str_max": 45,
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
-        { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 5 ] },
-        { "item": "steel_chunk", "count": [ 0, 3 ] },
-        { "item": "sheet_metal", "count": [ 1, 3 ] },
-        { "item": "cable", "charges": [ 1, 15 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_machinery_light",
     "name": "light machinery",
     "description": "Assorted light machinery.  You could scavenge it for parts.",
