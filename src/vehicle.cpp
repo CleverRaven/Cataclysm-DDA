@@ -7431,14 +7431,18 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
 
 void vehicle::update_time( const time_point &update_to )
 {
-    double muffle;
-    int exhaust_part;
-    std::tie( exhaust_part, muffle ) = get_exhaust_part();
+    const time_point update_from = last_update;
+    if( update_to < update_from || update_from == time_point( 0 ) ) {
+        // Special case going backwards in time - that happens
+        last_update = update_to;
+        return;
+    }
 
     map &here = get_map();
     // Parts emitting fields
-    for( int idx : emitters ) {
-        const vehicle_part &pt = parts[idx];
+    const auto[ exhaust_part_idx, _discard_muffle ] = get_exhaust_part();
+    for( const int emitter_idx : emitters ) {
+        const vehicle_part &pt = parts[emitter_idx];
         if( pt.is_unavailable() || !pt.enabled ) {
             continue;
         }
@@ -7446,23 +7450,21 @@ void vehicle::update_time( const time_point &update_to )
             here.emit_field( global_part_pos3( pt ), e );
         }
         for( const emit_id &e : pt.info().exhaust ) {
-            if( exhaust_part == -1 ) {
+            if( exhaust_part_idx == -1 ) {
                 here.emit_field( global_part_pos3( pt ), e );
             } else {
-                here.emit_field( exhaust_dest( exhaust_part ), e );
+                here.emit_field( exhaust_dest( exhaust_part_idx ), e );
             }
         }
-        discharge_battery( power_to_energy_bat( -pt.info().epower, update_to - last_update ) );
+        // reduce interval of parts with VPFLAG_ENABLED_DRAINS_EPOWER, otherwise their epower
+        // get charged twice - once by power_parts in vehicle::idle and once here
+        const time_duration interval = pt.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER )
+                                       ? update_to - last_update - 1_seconds
+                                       : update_to - last_update;
+        discharge_battery( power_to_energy_bat( -pt.info().epower, interval ) );
     }
 
     if( sm_pos.z < 0 ) {
-        last_update = update_to;
-        return;
-    }
-
-    const time_point update_from = last_update;
-    if( update_to < update_from || update_from == time_point( 0 ) ) {
-        // Special case going backwards in time - that happens
         last_update = update_to;
         return;
     }
