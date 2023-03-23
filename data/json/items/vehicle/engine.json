@@ -55,7 +55,7 @@
     "volume": "12 L",
     "price": 10000,
     "price_postapoc": 1000,
-    "displacement": 40,
+    "displacement": 5,
     "faults": [ "fault_engine_starter" ]
   },
   {
@@ -63,12 +63,12 @@
     "copy-from": "engine_gasoline",
     "type": "ENGINE",
     "name": { "str": "large 1-cylinder engine" },
-    "description": "A powerful, high-compression, single-cylinder 4-stroke combustion engine.",
+    "description": "A high-compression, single-cylinder 4-stroke combustion engine.",
     "weight": "28 kg",
     "volume": "42 L",
     "price": 10000,
     "price_postapoc": 1250,
-    "displacement": 55,
+    "displacement": 20,
     "faults": [ "fault_engine_starter" ]
   },
   {
@@ -81,7 +81,7 @@
     "volume": "6 L",
     "price": 6000,
     "price_postapoc": 750,
-    "displacement": 20,
+    "displacement": 2,
     "faults": [  ]
   },
   {
@@ -142,7 +142,7 @@
     "volume": "70 L",
     "price": 10000,
     "price_postapoc": 1000,
-    "displacement": 100
+    "displacement": 60
   },
   {
     "id": "v6_combustion",
