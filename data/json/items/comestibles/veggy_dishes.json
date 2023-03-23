@@ -1417,5 +1417,25 @@
     "charges": 4,
     "vitamins": [ [ "iron", 2 ] ],
     "fun": 2
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "succotash",
+    "name": { "str_sp": "succotash" },
+    "weight": "197 g",
+    "color": "yellow",
+    "spoils_in": "4 days",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": 1,
+    "calories": 300,
+    "description": "Coming from a word meaning \"broken corn kernels\" in the language of the Narragansett, it is a popular dish during hard times in New England.  Cheap and made from common ingredients.",
+    "price": 200,
+    "price_postapoc": 100,
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "FREEZERBURN" ],
+    "vitamins": [ [ "vitC", 15 ], [ "iron", 2 ], [ "calcium", 8 ] ],
+    "fun": 1
   }
 ]
