@@ -375,7 +375,7 @@
     "type": "MIGRATION",
     "replace": "shot_short_pump"
   },
-    {
+  {
     "id": [ "varmint_airgun" ],
     "type": "MIGRATION",
     "replace": "pellet_airgun"
