@@ -2158,6 +2158,7 @@ void inventory_selector::rearrange_columns( size_t client_width )
             own_inv_column.set_indent_entries_override( map_column.indent_entries() );
         }
         map_column.move_entries_to( own_inv_column );
+        own_inv_column.reset_width( {} );
     }
     if( prev_selection ) {
         highlight( prev_selection, false, front_only );
