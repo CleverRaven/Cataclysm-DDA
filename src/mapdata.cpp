@@ -825,7 +825,7 @@ ter_id t_null,
        t_rootcellar,
        t_cvdbody, t_cvdmachine,
        t_water_pump,
-       t_conveyor, t_machinery_heavy,
+       t_conveyor,
        t_improvised_shelter,
        // Staircases etc.
        t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
@@ -1119,7 +1119,6 @@ void set_ter_ids()
     t_covered_well = ter_id( "t_covered_well" );
     t_water_pump = ter_id( "t_water_pump" );
     t_conveyor = ter_id( "t_conveyor" );
-    t_machinery_heavy = ter_id( "t_machinery_heavy" );
     t_open_air = ter_id( "t_open_air" );
     t_pavement_bg_dp = ter_id( "t_pavement_bg_dp" );
     t_pavement_y_bg_dp = ter_id( "t_pavement_y_bg_dp" );

@@ -807,8 +807,8 @@
         "///..  //   "
       ],
       "flags": [ "ALLOW_TERRAIN_UNDER_OTHER_DATA" ],
-      "terrain": { "C": "t_metal_floor", "W": "t_metal_floor", "T": "t_metal_floor", "1": "t_machinery_heavy" },
-      "furniture": { "C": "f_counter", "W": "f_rack", "T": "f_afs_telepad" },
+      "terrain": { "C": "t_metal_floor", "W": "t_metal_floor", "T": "t_metal_floor" },
+      "furniture": { "1": "f_machinery_heavy", "C": "f_counter", "W": "f_rack", "T": "f_afs_telepad" },
       "items": {
         "W": [
           { "item": "afs_experimental_combat_gear", "chance": 10, "repeat": [ 1, 2 ] },
