@@ -28,7 +28,7 @@
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "20 m",
-        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 10 ] ]
+        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 10 ] ]
       }
     },
     "size": "50 L",
@@ -62,7 +62,7 @@
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "20 m",
-        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 15 ] ]
+        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 15 ] ]
       }
     },
     "size": "50 L",
@@ -110,7 +110,7 @@
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "20 m",
-        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 15 ] ]
+        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 15 ] ]
       }
     },
     "size": "50 L",
@@ -151,7 +151,7 @@
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "20 m",
-        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 5 ] ]
+        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 5 ] ]
       }
     },
     "size": "50 L",
@@ -185,7 +185,7 @@
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "10 m",
-        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 15 ] ]
+        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 15 ] ]
       }
     },
     "size": "50 L",
@@ -219,7 +219,7 @@
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "10 m",
-        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 10 ] ]
+        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 10 ] ]
       }
     },
     "size": "50 L",
@@ -284,7 +284,7 @@
       "repair": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "10 m",
-        "using": [ [ "repair_welding_standard", 10 ], [ "soldering_standard", 5 ] ]
+        "using": [ [ "repair_welding_standard", 2 ], [ "soldering_standard", 5 ] ]
       }
     },
     "pseudo_tools": [ { "id": "pseudo_veh_oil_press" } ],
