@@ -1096,13 +1096,21 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
     globvars.set_global_value( "npctalk_var_test_var", "It's global" );
 
     d.add_topic( "TALK_TEST_TAGS" );
-    gen_response_lines( d, 3 );
+    gen_response_lines( d, 7 );
     CHECK( d.responses[0].create_option_line( d, input_event() ).text ==
            "Avatar tag is set to It's avatar." );
     CHECK( d.responses[1].create_option_line( d, input_event() ).text ==
            "NPC tag is set to It's npc." );
     CHECK( d.responses[2].create_option_line( d, input_event() ).text ==
            "Global tag is set to It's global." );
+    CHECK( d.responses[3].create_option_line( d, input_event() ).text ==
+           "Item name is TEST rock." );
+    CHECK( d.responses[4].create_option_line( d, input_event() ).text ==
+           "Item description is A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies." );
+    CHECK( d.responses[5].create_option_line( d, input_event() ).text ==
+           "Trait name is Ink glands." );
+    CHECK( d.responses[6].create_option_line( d, input_event() ).text ==
+           "Trait description is A mutation to test enchantments." );
     globvars.clear_global_values();
 }
 

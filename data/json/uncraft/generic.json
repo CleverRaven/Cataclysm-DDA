@@ -122,7 +122,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "zinc_metal", 5071 ] ] ]
+    "//": "perfect = 20000; subtracted 5.5% loss",
+    "components": [ [ [ "zinc_metal", 18900 ] ] ]
   },
   {
     "result": "exodii_ingot_steel",

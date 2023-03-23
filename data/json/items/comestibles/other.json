@@ -1085,5 +1085,17 @@
     "fun": -15,
     "freezing_point": -274,
     "flags": [ "NUTRIENT_OVERRIDE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "dry_bottle_gourd",
+    "name": { "str": "dried bottle gourd" },
+    "copy-from": "dry_lentils",
+    "looks_like": "pumpkin",
+    "comestible_type": "FOOD",
+    "symbol": "6",
+    "description": "A vegetable from the gourd family, bottle gourds were brought to the Americas by the first Native American settlers crossing the Bering strait.  This one has been dried for processing into a watertight container.",
+    "volume": "2500 ml",
+    "flags": [ "INEDIBLE" ]
   }
 ]

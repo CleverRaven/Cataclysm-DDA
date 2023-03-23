@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -15,7 +16,6 @@
 #include "coordinates.h"
 #include "game_constants.h"
 #include "item.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -56,7 +56,7 @@ struct construction {
         std::string post_terrain;
 
         // Item group of byproducts created by the construction on success.
-        cata::optional<item_group_id> byproduct_item_group;
+        std::optional<item_group_id> byproduct_item_group;
 
         // Flags beginning furniture/terrain must have
         // Second element forces flags to be evaluated on terrain

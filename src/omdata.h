@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <list>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -21,7 +22,6 @@
 #include "cube_direction.h"
 #include "enum_bitset.h"
 #include "mapgen_parameter.h"
-#include "optional.h"
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
@@ -469,7 +469,7 @@ struct overmap_special_terrain : overmap_special_locations {
 
 struct overmap_special_connection {
     tripoint p;
-    cata::optional<tripoint> from;
+    std::optional<tripoint> from;
     cube_direction initial_dir = cube_direction::last; // NOLINT(cata-serialize)
     // TODO: Remove it.
     string_id<oter_type_t> terrain;

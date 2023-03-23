@@ -7,6 +7,7 @@
 #include <cstring>
 #include <map>
 #include <memory>
+#include <optional>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -33,7 +34,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "submap.h"
@@ -510,7 +510,7 @@ void map::generate_lightmap( const int zlev )
     for( wrapped_vehicle &vv : vehs ) {
         vehicle *v = vv.v;
 
-        auto lights = v->lights( true );
+        auto lights = v->lights();
 
         float veh_luminance = 0.0f;
         float iteration = 1.0f;

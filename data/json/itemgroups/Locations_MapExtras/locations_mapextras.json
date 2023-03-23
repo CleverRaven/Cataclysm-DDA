@@ -97,7 +97,7 @@
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       [ "claw_bar", 3 ],
       [ "crowbar", 18 ],
-      [ "improvised_pipebomb", 4 ],
+      [ "pipebomb", 4 ],
       [ "grenade", 3 ],
       [ "grenade_inc", 1 ],
       [ "mininuke", 1 ],

@@ -2,6 +2,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -18,7 +19,6 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -154,7 +154,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     REQUIRE( ovp.has_value() );
     vehicle &veh = ovp->vehicle();
 
-    REQUIRE( veh.fuel_left( itype_water_clean, true ) == 0 );
+    REQUIRE( veh.fuel_left( itype_water_clean ) == 0 );
     for( const vpart_reference &tank : veh.get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
         tank.part().ammo_set( itype_water_clean, give_water );
         break;
@@ -199,7 +199,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     }
 
     CHECK( veh.battery_power_level().first == expect_battery );
-    CHECK( veh.fuel_left( itype_water_clean, true ) == expect_water );
+    CHECK( veh.fuel_left( itype_water_clean ) == expect_water );
 
     veh.unboard_all();
 }
@@ -221,7 +221,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     REQUIRE( ovp.has_value() );
     vehicle &veh = ovp->vehicle();
 
-    REQUIRE( veh.fuel_left( itype_water_clean, true ) == 0 );
+    REQUIRE( veh.fuel_left( itype_water_clean ) == 0 );
     item *tank_it = nullptr;
     for( const vpart_reference &tank : veh.get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
         tank.part().ammo_set( itype_water_clean, water_charges );
@@ -230,9 +230,9 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
         break;
     }
     REQUIRE( tank_it != nullptr );
-    REQUIRE( veh.fuel_left( itype_water_clean, true ) == static_cast<int64_t>( water_charges ) );
+    REQUIRE( veh.fuel_left( itype_water_clean ) == static_cast<int64_t>( water_charges ) );
 
-    cata::optional<vpart_reference> faucet;
+    std::optional<vpart_reference> faucet;
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         faucet = vpr.part_with_tool( itype_water_faucet );
         if( faucet.has_value() ) {
@@ -243,7 +243,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     get_map().board_vehicle( faucet->pos() + tripoint_east, &character );
     veh_menu menu( veh, "TEST" );
     for( int i = 0; i < water_charges; i++ ) {
-        CAPTURE( i, veh.fuel_left( itype_water_clean, true ) );
+        CAPTURE( i, veh.fuel_left( itype_water_clean ) );
         menu.reset();
         veh.build_interact_menu( menu, faucet->pos(), false );
         const std::vector<veh_menu_item> items = menu.get_items();
@@ -252,7 +252,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
         []( const veh_menu_item & it ) {
             return it._text == "Have a drink";
         } );
-        REQUIRE( veh.fuel_left( itype_water_clean, true ) == ( water_charges - i ) );
+        REQUIRE( veh.fuel_left( itype_water_clean ) == ( water_charges - i ) );
         REQUIRE( drink_item_it != items.end() );
         REQUIRE( drink_item_it->_enabled == !stomach_should_be_full ); // stomach should be full
         REQUIRE( character.get_morale_level() == ( i != 0 ? 1 : 0 ) ); // bonus morale from cold water
@@ -264,7 +264,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
         process_activity( character );
         REQUIRE( character.get_morale_level() == 1 );
     }
-    REQUIRE( veh.fuel_left( itype_water_clean, true ) == 0 );
+    REQUIRE( veh.fuel_left( itype_water_clean ) == 0 );
     REQUIRE( tank_it->empty_container() );
     get_map().destroy_vehicle( &veh );
 }

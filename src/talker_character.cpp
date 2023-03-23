@@ -476,8 +476,8 @@ bool talker_character_const::unarmed_attack() const
 
 bool talker_character_const::can_stash_weapon() const
 {
-    cata::optional<bionic *> bionic_weapon = me_chr_const->find_bionic_by_uid(
-                me_chr_const->get_weapon_bionic_uid() );
+    std::optional<bionic *> bionic_weapon = me_chr_const->find_bionic_by_uid(
+            me_chr_const->get_weapon_bionic_uid() );
     if( bionic_weapon && me_chr_const->can_deactivate_bionic( **bionic_weapon ).success() ) {
         return true;
     }
@@ -836,7 +836,7 @@ void talker_character::add_bionic( const bionic_id &new_bionic )
 
 void talker_character::remove_bionic( const bionic_id &old_bionic )
 {
-    if( cata::optional<bionic *> bio = me_chr->find_bionic_by_type( old_bionic ) ) {
+    if( std::optional<bionic *> bio = me_chr->find_bionic_by_type( old_bionic ) ) {
         me_chr->remove_bionic( **bio );
     }
 }

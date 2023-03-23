@@ -194,7 +194,7 @@ Another example: The group "milk" spawns a container (taken from milk_containers
     "subtype": "distribution",
     "items": [
       "bottle_plastic", "bottle_glass", "flask_glass",
-      "jar_glass", "jar_3l_glass", "flask_hip", "55gal_drum"
+      "jar_glass_sealed", "jar_3l_glass_sealed", "flask_hip", "55gal_drum"
     ]
 },
 {
@@ -220,7 +220,7 @@ Mods can add entries to item groups by specifying a group with the same id that 
     "extend": {
       "items": [
         "bottle_plastic", "bottle_glass", "flask_glass",
-        "jar_glass", "jar_3l_glass", "flask_hip", "55gal_drum"
+        "jar_glass_sealed", "jar_3l_glass_sealed", "flask_hip", "55gal_drum"
       ]
     }
 },

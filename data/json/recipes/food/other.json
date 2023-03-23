@@ -279,7 +279,7 @@
     "charges": 12,
     "book_learn": [ [ "sweets_book", 2 ], [ "baking_book", 2 ], [ "family_cookbook", 2 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 16, "LIST" ] ] ],
     "//": "5u for sugar, 4u for gelatin, 1 for syrup, 6 for water and juice",
     "components": [
       [ [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
@@ -302,7 +302,7 @@
     "charges": 12,
     "book_learn": [ [ "sweets_book", 2 ], [ "baking_book", 2 ], [ "family_cookbook", 2 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 22, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 22, "LIST" ] ] ],
     "//": "5u for sugar, 10u for agar, 1 for syrup, 6 for water and juice",
     "components": [
       [ [ "water_clean", 1 ], [ "sweet_water", 1 ] ],

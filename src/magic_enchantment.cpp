@@ -266,7 +266,7 @@ void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
 }
 
 void enchantment::load( const JsonObject &jo, const std::string &,
-                        const cata::optional<std::string> &inline_id, bool is_child )
+                        const std::optional<std::string> &inline_id, bool is_child )
 {
     optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
 
@@ -298,7 +298,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     if( jo.has_string( "condition" ) ) {
         std::string condit;
         optional( jo, was_loaded, "condition", condit );
-        cata::optional<condition> con = io::string_to_enum_optional<condition>( condit );
+        std::optional<condition> con = io::string_to_enum_optional<condition>( condit );
         if( con.has_value() ) {
             active_conditions.second = con.value();
         } else {
@@ -319,6 +319,9 @@ void enchantment::load( const JsonObject &jo, const std::string &,
 
     optional( jo, was_loaded, "modified_bodyparts", modified_bodyparts );
     optional( jo, was_loaded, "mutations", mutations );
+
+    optional( jo, was_loaded, "name", name );
+    optional( jo, was_loaded, "description", description );
 
     if( !is_child && jo.has_array( "values" ) ) {
         for( const JsonObject value_obj : jo.get_array( "values" ) ) {
@@ -360,7 +363,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
 }
 
 void enchant_cache::load( const JsonObject &jo, const std::string &,
-                          const cata::optional<std::string> &inline_id )
+                          const std::optional<std::string> &inline_id )
 {
     enchantment::load( jo, "", inline_id, true );
     if( jo.has_array( "values" ) ) {
@@ -422,7 +425,8 @@ void enchant_cache::serialize( JsonOut &jsout ) const
         jsout.start_object();
         jsout.member( "effects" );
         jsout.start_array();
-        for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
+        for( const std::pair<const time_duration, std::vector<fake_spell>> &pair :
+             intermittent_activation ) {
             jsout.start_object();
             jsout.member( "frequency", to_string_writable( pair.first ) );
             jsout.member( "spell_effects", pair.second );
@@ -606,6 +610,8 @@ void enchant_cache::force_add( const enchantment &rhs, const Character &guy )
             intermittent_activation[act_pair.first].emplace_back( fake );
         }
     }
+
+    details.emplace_back( rhs.name.translated(), rhs.description.translated() );
 }
 
 void enchant_cache::set_has( enchantment::has value )

@@ -307,7 +307,7 @@
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT", "RANDOM_DAMAGE", "IGNORE_WALLS", "RANDOM_DURATION", "NO_EXPLOSION_SFX" ],
     "effect": "summon",
-    "effect_str": "mon_hologram",
+    "effect_str": "mon_you",
     "shape": "blast",
     "damage_type": "bash",
     "message": "It is you.  And this is you.  And that is you.  You are everywhere.",

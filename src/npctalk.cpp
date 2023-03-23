@@ -54,6 +54,7 @@
 #include "messages.h"
 #include "mission.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "npctrade.h"
@@ -1672,6 +1673,34 @@ void parse_tags( std::string &phrase, const Character &u, const Character &me,
             var.pop_back();
             global_variables &globvars = get_globals();
             phrase.replace( fa, l, globvars.get_global_value( "npctalk_var_" + var ) );
+        } else if( tag.find( "<item_name:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, itype_id( var )->nname( 1 ) );
+        } else if( tag.find( "<item_description:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, itype_id( var )->description.translated() );
+        } else if( tag.find( "<trait_name:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, trait_id( var )->name() );
+        } else if( tag.find( "<trait_description:" ) != std::string::npos ) {
+            //embedding an items name in the string
+            std::string var = tag.substr( tag.find( ':' ) + 1 );
+            // remove the trailing >
+            var.pop_back();
+            // attempt to cast as an item
+            phrase.replace( fa, l, trait_id( var )->desc() );
         } else if( tag.find( "<city>" ) != std::string::npos ) {
             std::string cityname = "nowhere";
             tripoint_abs_sm abs_sub = get_map().get_abs_sub();
@@ -2619,7 +2648,7 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
     dbl_or_var<T> dov_y_adjust = get_dbl_or_var<T>( jo, "y_adjust", false, 0 );
     bool z_override = jo.get_bool( "z_override", false );
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
-    cata::optional<mission_target_params<dialogue>> target_params;
+    std::optional<mission_target_params<dialogue>> target_params;
     if( jo.has_object( "target_params" ) ) {
         JsonObject target_obj = jo.get_object( "target_params" );
         target_params = mission_util::parse_mission_om_target( target_obj );
@@ -2686,7 +2715,7 @@ void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std
     dbl_or_var<T> dov = get_dbl_or_var<T>( jo, member );
     duration_or_var<T> dov_time_in_future = get_duration_or_var<T>( jo, "time_in_future", false,
                                             0_seconds );
-    cata::optional<var_info> target_var;
+    std::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
@@ -2767,7 +2796,7 @@ void talk_effect_fun_t<T>::set_mapgen_update( const JsonObject &jo, const std::s
             update_ids.emplace_back( get_str_or_var<T>( jv, member ) );
         }
     }
-    cata::optional<var_info> target_var;
+    std::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
@@ -2829,7 +2858,7 @@ void talk_effect_fun_t<T>::set_revert_location( const JsonObject &jo, const std:
     } else {
         key.str_val = "";
     }
-    cata::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
+    std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
     function = [target_var, dov_time_in_future, key]( const T & d ) {
         const tripoint_abs_ms abs_ms( get_tripoint_from_var<T>( target_var, d ) );
         tripoint_abs_omt omt_pos = project_to<coords::omt>( abs_ms );
@@ -2877,7 +2906,7 @@ void talk_effect_fun_t<T>::set_npc_goal( const JsonObject &jo, const std::string
                 return;
             }
             guy->set_mission( NPC_MISSION_TRAVELLING );
-            guy->guard_pos = cata::nullopt;
+            guy->guard_pos = std::nullopt;
             guy->set_attitude( NPCATT_NULL );
             run_eoc_vector( true_eocs, d );
             return;
@@ -3320,7 +3349,7 @@ void talk_effect_fun_t<T>::set_hp( const JsonObject &jo, const std::string &memb
                                    bool is_npc )
 {
     dbl_or_var<T> new_hp = get_dbl_or_var<T>( jo, member, true );
-    cata::optional<str_or_var<T>> target_part;
+    std::optional<str_or_var<T>> target_part;
     if( jo.has_string( "target_part" ) ) {
         target_part = get_str_or_var<T>( jo.get_member( "target_part" ), "target_part", true );
     }
@@ -3364,7 +3393,7 @@ void talk_effect_fun_t<T>::set_cast_spell( const JsonObject &jo, const std::stri
         } else {
             spell sp = fake.get_spell( 0 );
             if( targeted ) {
-                if( cata::optional<tripoint> target = sp.select_target( caster ) ) {
+                if( std::optional<tripoint> target = sp.select_target( caster ) ) {
                     sp.cast_all_effects( *caster, *target );
                     caster->add_msg_if_player( fake.trigger_message );
                 }
@@ -3432,7 +3461,7 @@ void talk_effect_fun_t<T>::set_finish_mission( const JsonObject &jo, const std::
 {
     str_or_var<T> mission_name = get_str_or_var<T>( jo.get_member( member ), member, true );
     bool success = false;
-    cata::optional<int> step;
+    std::optional<int> step;
     if( jo.has_int( "step" ) ) {
         step = jo.get_int( "step" );
     } else {
@@ -3539,7 +3568,7 @@ void talk_effect_fun_t<T>::set_make_sound( const JsonObject &jo, const std::stri
     } else {
         jo.throw_error( "Invalid message type." );
     }
-    cata::optional<var_info> target_var;
+    std::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
@@ -3595,7 +3624,7 @@ void talk_effect_fun_t<T>::set_run_npc_eocs( const JsonObject &jo,
     }
 
     bool local = jo.get_bool( "local", false );
-    cata::optional<int> npc_range;
+    std::optional<int> npc_range;
     if( jo.has_int( "npc_range" ) ) {
         npc_range = jo.get_int( "npc_range" );
     }
@@ -3904,7 +3933,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     const bool friendly = jo.get_bool( "friendly", false );
 
     duration_or_var<T> dov_lifespan = get_duration_or_var<T>( jo, "lifespan", false, 0_seconds );
-    cata::optional<var_info> target_var;
+    std::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
@@ -3941,7 +3970,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
         int max_radius = dov_max_radius.evaluate( d );
         int real_count = dov_real_count.evaluate( d );
         int hallucination_count = dov_hallucination_count.evaluate( d );
-        cata::optional<time_duration> lifespan;
+        std::optional<time_duration> lifespan;
         tripoint target_pos = d.actor( is_npc )->pos();
         if( target_var.has_value() ) {
             target_pos = get_map().getlocal( get_tripoint_from_var<T>( target_var, d ) );
@@ -4013,7 +4042,7 @@ void talk_effect_fun_t<T>::set_field( const JsonObject &jo, const std::string &m
     const bool indoor_only = jo.get_bool( "indoor_only", false );
     const bool hit_player = jo.get_bool( "hit_player", true );
 
-    cata::optional<var_info> target_var;
+    std::optional<var_info> target_var;
     if( jo.has_member( "target_var" ) ) {
         target_var = read_var_info( jo.get_object( "target_var" ) );
     }
@@ -4042,7 +4071,7 @@ template<class T>
 void talk_effect_fun_t<T>::set_teleport( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    cata::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
+    std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
     str_or_var<T> fail_message;
     if( jo.has_member( "fail_message" ) ) {
         fail_message = get_str_or_var<T>( jo.get_member( "fail_message" ), "fail_message", false, "" );

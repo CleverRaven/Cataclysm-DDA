@@ -530,11 +530,56 @@
     "type": "MONSTER",
     "name": { "str": "zombie burner" },
     "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead.  Their failure is made manifest in this gas-masked husk, its black suit torn and ripped.  Its flamethrower, dangling limply at its side, is attached to a tank of napalm strapped onto its back, which trickles its contents onto the ground.",
-    "copy-from": "mon_zombie_flamer",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 5,
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 100,
+    "speed": 70,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "white_red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "dodge": 1,
+    "armor_bash": 12,
+    "armor_cut": 25,
+    "armor_bullet": 20,
+    "armor_elec": 4,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
+    "vision_day": 30,
+    "vision_night": 3,
+    "luminance": 8,
+    "harvest": "zombie",
+    "starting_ammo": { "pressurized_tank": 1000 },
     "death_drops": {
       "subtype": "collection",
       "groups": [ [ "mon_zombie_soldier_death_drops_no_hope", 100 ], [ "mon_zombie_flamer", 100 ] ]
-    }
+    },
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
+    "burn_into": "mon_zombie_scorched",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "DRIPS_NAPALM",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_mech_recon",
@@ -684,5 +729,13 @@
       "STUN_IMMUNE",
       "MECH_DEFENSIVE"
     ]
+  },
+  {
+    "id": "mon_zombie_technician",
+    "type": "MONSTER",
+    "name": { "str": "zombie technician" },
+    "description": "Still wearing its work clothes and hardhat, this zombie likely used to work on power lines or other electrical equipment.  As it approaches, everything metal you're carrying shifts very slightly in the zombie's direction, as if attracted by a strong magnetic force.",
+    "copy-from": "mon_zombie_technician",
+    "special_attacks": [ [ "PULL_METAL_WEAPON", 25 ], { "type": "bite", "cooldown": 20 }, [ "GRAB", 7 ], [ "scratch", 20 ] ]
   }
 ]
