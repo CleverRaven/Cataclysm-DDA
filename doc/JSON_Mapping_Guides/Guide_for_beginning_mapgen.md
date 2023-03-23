@@ -137,7 +137,6 @@ Sample:
         "f": "t_linoleum_white",
         "l": "t_linoleum_white",
         "w": "t_linoleum_white",
-        "x": "t_console_broken",
         "z": "t_shrub",
         "{": "t_door_glass_c",
         "|": "t_wall_b",
@@ -146,6 +145,7 @@ Sample:
         "T": "t_tree_coffee"
       },
       "furniture": {
+        "x": "f_console_broken",
         "#": "f_counter",
         "%": "f_trashcan",
         "/": "f_bluebell",

@@ -19,7 +19,6 @@
       "~": "t_water_sh",
       "1": "t_column",
       "3": "t_machinery_heavy",
-      "6": "t_console_broken",
       "7": "t_gates_mech_control",
       "e": "t_elevator",
       "E": "t_elevator_control_off",
@@ -31,6 +30,7 @@
       "w": "t_sidewalk"
     },
     "furniture": {
+      "6": "f_console_broken",
       "2": "f_machinery_light",
       "4": "f_machinery_electronic",
       "$": "f_safe_l",

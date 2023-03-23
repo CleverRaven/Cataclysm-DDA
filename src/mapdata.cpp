@@ -816,7 +816,7 @@ ter_id t_null,
        t_atm,
        t_missile, t_missile_exploded,
        t_radio_tower, t_radio_controls,
-       t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_gates_control_brick,
+       t_gates_mech_control, t_gates_control_concrete, t_gates_control_brick,
        t_barndoor, t_palisade_pulley,
        t_gates_control_metal,
        t_sewage_pipe, t_sewage_pump,
@@ -1074,8 +1074,6 @@ void set_ter_ids()
     t_missile_exploded = ter_id( "t_missile_exploded" );
     t_radio_tower = ter_id( "t_radio_tower" );
     t_radio_controls = ter_id( "t_radio_controls" );
-    t_console_broken = ter_id( "t_console_broken" );
-    t_console = ter_id( "t_console" );
     t_gates_mech_control = ter_id( "t_gates_mech_control" );
     t_gates_control_brick = ter_id( "t_gates_control_brick" );
     t_gates_control_concrete = ter_id( "t_gates_control_concrete" );
