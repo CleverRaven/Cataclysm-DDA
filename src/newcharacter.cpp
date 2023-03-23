@@ -3769,10 +3769,13 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 if( !query_yn( _( "Are you SURE you're finished?  Your name will be randomly generated." ) ) ) {
                     continue;
                 } else {
+                    int n_tries = 0;
                     do {
                         // Pick a random name that doesn't already exist in the given world.
                         you.pick_name( );
-                    } while( world_generator->active_world->save_exists( save_t::from_save_id( you.name ) ) );
+                        ++n_tries;
+                    } while( n_tries < 10 &&
+                             world_generator->active_world->save_exists( save_t::from_save_id( you.name ) ) );
                     tabs.complete = true;
                     break;
                 }
