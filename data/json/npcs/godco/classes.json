@@ -1013,8 +1013,7 @@
       { "item": "oil_lamp", "prob": 7, "charges-min": 100 },
       { "item": "lamp_oil", "prob": 5, "charges-min": 100 },
       { "item": "pur_tablets", "prob": 10, "charges": [ 5, 15 ] },
-      { "item": "mess_kit", "prob": 33, "charges": [ 100, 500 ] },
-      { "item": "mess_tin", "prob": 33, "charges": [ 100, 500 ] },
+      { "item": "mess_kit", "prob": 33 },
       { "item": "popcan_stove", "prob": 33, "charges": [ 100, 500 ] },
       {
         "distribution": [ { "group": "premium_contents" }, { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ],

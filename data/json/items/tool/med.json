@@ -39,7 +39,7 @@
     "weight": "100 g",
     "volume": "3250 ml",
     "price": 1000,
-    "price_postapoc": 10000,
+    "price_postapoc": 1500,
     "to_hit": -1,
     "material": [ "glass" ],
     "symbol": "!",

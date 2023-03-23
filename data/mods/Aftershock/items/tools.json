@@ -593,5 +593,34 @@
     "symbol": "H",
     "color": "light_gray",
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "mil_mess_kit",
+    "type": "TOOL",
+    "name": { "str": "military mess kit" },
+    "description": "A military mess kit designed for long-range reconnaissance patrols deployed behind enemy lines.  All of its parts are made from thin sheets of aluminum-superalloy composite and are insulated with ceramic coating.  Relies on a battery-operated hotplate, rather than the smoke-producing chemical-fueled hexamine stove.  Compact, durable and lightweight.",
+    "weight": "900 g",
+    "volume": "1 L",
+    "longest_side": "10 cm",
+    "price": 6000,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "superalloy", "ceramic" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "sub": "hotplate_induction",
+    "charges_per_use": 25,
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_plus_battery_cell"
+      }
+    ]
   }
 ]
