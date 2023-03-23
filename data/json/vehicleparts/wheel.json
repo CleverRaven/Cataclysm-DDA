@@ -117,7 +117,11 @@
     "item": "wheel_mount_heavy",
     "//": "150cm weld",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 150 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 150 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "removal": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "20 m",
