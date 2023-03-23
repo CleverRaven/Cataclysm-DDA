@@ -1981,7 +1981,10 @@
         "encumbrance": 30
       },
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }, { "type": "cotton", "covered_by_mat": 100, "thickness": 0.001 } ],
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.001 }
+        ],
         "covers": [ "eyes" ],
         "coverage": 95,
         "cover_ranged": 10,
@@ -1989,7 +1992,10 @@
         "breathability": "GOOD"
       },
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 }, { "type": "cotton", "covered_by_mat": 100, "thickness": 0.001 } ],
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.001 }
+        ],
         "covers": [ "mouth" ],
         "coverage": 95,
         "cover_ranged": 10,
