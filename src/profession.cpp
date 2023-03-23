@@ -480,7 +480,7 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( auto iter = result.begin(); iter != result.end(); ) {
-        const auto sub = item_substitutions.get_substitution( *iter, traits );
+        const std::vector<item> sub = item_substitutions.get_substitution( *iter, traits );
         if( !sub.empty() ) {
             result.insert( result.begin(), sub.begin(), sub.end() );
             iter = result.erase( iter );
@@ -831,7 +831,7 @@ const std::vector<mission_type_id> &profession::missions() const
     return _missions;
 }
 
-cata::optional<achievement_id> profession::get_requirement() const
+std::optional<achievement_id> profession::get_requirement() const
 {
     return _requirement;
 }

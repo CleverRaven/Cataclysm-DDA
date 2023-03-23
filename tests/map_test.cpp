@@ -147,7 +147,7 @@ void map::check_submap_active_item_consistency()
                 tripoint p( x, y, z );
                 submap *s = get_submap_at_grid( p );
                 REQUIRE( s != nullptr );
-                bool submap_has_active_items = !s->active_items.get().empty();
+                bool submap_has_active_items = !s->active_items.empty();
                 bool cache_has_active_items = submaps_with_active_items.count( p + abs_sub.xy() ) != 0;
                 CAPTURE( abs_sub.xy(), p, p + abs_sub.xy() );
                 CHECK( submap_has_active_items == cache_has_active_items );
@@ -221,7 +221,7 @@ TEST_CASE( "milk_rotting", "[active_item][map]" )
     tripoint const test_loc;
     tripoint_abs_sm const test_loc_sm = project_to<coords::sm>( here.getglobal( test_loc ) );
 
-    restore_on_out_of_scope<cata::optional<units::temperature>> restore_temp(
+    restore_on_out_of_scope<std::optional<units::temperature>> restore_temp(
                 get_weather().forced_temperature );
     get_weather().forced_temperature = units::from_celsius( 21 );
     REQUIRE( units::to_celsius( get_weather().get_temperature( test_loc ) ) == 21 );

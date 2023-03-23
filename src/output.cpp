@@ -1225,7 +1225,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     while( true ) {
         ui_manager::redraw();
         action = ctxt.handle_input();
-        cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+        std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
 
         if( data.handle_scrolling && item_info_bar.handle_dragging( action, coord, *data.ptr_selected ) ) {
             // No action required, the scrollbar has handled it
@@ -1795,7 +1795,7 @@ scrollbar &scrollbar::set_draggable( input_context &ctxt )
     return *this;
 }
 
-bool scrollbar::handle_dragging( const std::string &action, const cata::optional<point> &coord,
+bool scrollbar::handle_dragging( const std::string &action, const std::optional<point> &coord,
                                  int &position )
 {
     if( ( action != "MOUSE_MOVE" && action != "CLICK_AND_DRAG" ) && dragging ) {
@@ -1938,14 +1938,14 @@ int multiline_list::get_offset_from_entry( const int entry )
 
 bool multiline_list::handle_navigation( std::string &action, input_context &ctxt )
 {
-    cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+    std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
     inclusive_rectangle<point> mouseover_area( point( catacurses::getbegx( w ),
             catacurses::getbegy( w ) ), point( getmaxx( w ) + catacurses::getbegx( w ),
                     getmaxy( w ) + catacurses::getbegy( w ) ) );
     bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
 
     mouseover_position = -1;
-    cata::optional<point> local_coord = ctxt.get_coordinates_text( w );
+    std::optional<point> local_coord = ctxt.get_coordinates_text( w );
     if( local_coord.has_value() ) {
         for( const auto &entry : entry_map ) {
             if( entry.second.contains( local_coord.value() ) ) {
@@ -2175,7 +2175,7 @@ void scrolling_text_view::draw( const nc_color &base_color )
 
 bool scrolling_text_view::handle_navigation( const std::string &action, input_context &ctxt )
 {
-    cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+    std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
     inclusive_rectangle<point> mouseover_area( point( getbegx( w_ ), getbegy( w_ ) ),
             point( getmaxx( w_ ) + getbegx( w_ ), getmaxy( w_ ) + getbegy( w_ ) ) );
     bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
@@ -3140,27 +3140,6 @@ std::string wildcard_trim_rule( const std::string &pattern_in )
     }
 
     return pattern;
-}
-
-std::vector<std::string> string_split( const std::string &text_in, char delim_in )
-{
-    std::vector<std::string> elems;
-
-    if( text_in.empty() ) {
-        return elems; // Well, that was easy.
-    }
-
-    std::stringstream ss( text_in );
-    std::string item;
-    while( std::getline( ss, item, delim_in ) ) {
-        elems.push_back( item );
-    }
-
-    if( text_in.back() == delim_in ) {
-        elems.emplace_back( "" );
-    }
-
-    return elems;
 }
 
 // find substring (case insensitive)

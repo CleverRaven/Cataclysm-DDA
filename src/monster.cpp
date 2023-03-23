@@ -4,6 +4,7 @@
 #include <array>
 #include <cmath>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <tuple>
@@ -50,7 +51,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -1192,7 +1192,7 @@ void monster::set_dest( const tripoint_abs_ms &p )
 
 void monster::unset_dest()
 {
-    goal = cata::nullopt;
+    goal = std::nullopt;
     path.clear();
 }
 
@@ -1936,7 +1936,7 @@ void monster::deal_damage_handle_type( const effect_source &source, const damage
         case damage_type::CUT:
         case damage_type::STAB:
         case damage_type::BULLET:
-            make_bleed( source, 1_minutes * rng( 1, adjusted_damage ) );
+            make_bleed( source, 1_minutes * rng( 0, adjusted_damage ) );
         default:
             break;
     }
@@ -2797,6 +2797,10 @@ void monster::drop_items_on_death( item *corpse )
     std::vector<item> new_items = item_group::items_from( type->death_drops,
                                   calendar::start_of_cataclysm,
                                   spawn_flags::use_spawn_rate );
+
+    for( item &e : new_items ) {
+        e.randomize_rot();
+    }
 
     // for non corpses this is much simpler
     if( !corpse ) {

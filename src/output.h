@@ -12,6 +12,7 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
+#include <optional>
 #include <stack>
 #include <string>
 #include <type_traits>
@@ -26,7 +27,6 @@
 #include "enums.h"
 #include "item.h"
 #include "line.h"
-#include "optional.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -410,7 +410,7 @@ class border_helper
 
             int as_curses_line() const;
         };
-        cata::optional<std::map<point, border_connection>> border_connection_map;
+        std::optional<std::map<point, border_connection>> border_connection_map;
 
         std::forward_list<border_info> border_info_list;
 };
@@ -920,7 +920,7 @@ class scrollbar
         // draw the scrollbar to the window
         void apply( const catacurses::window &window );
         // Checks if the user is dragging the scrollbar with the mouse (set_draggable first)
-        bool handle_dragging( const std::string &action, const cata::optional<point> &coord,
+        bool handle_dragging( const std::string &action, const std::optional<point> &coord,
                               int &position );
     private:
         int offset_x_v, offset_y_v;
@@ -1137,7 +1137,6 @@ extern scrollingcombattext SCT;
 
 std::string wildcard_trim_rule( const std::string &pattern_in );
 bool wildcard_match( const std::string &text_in, const std::string &pattern_in );
-std::vector<std::string> string_split( const std::string &text_in, char delim );
 int ci_find_substr( const std::string &str1, const std::string &str2,
                     const std::locale &loc = std::locale() );
 

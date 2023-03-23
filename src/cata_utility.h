@@ -361,12 +361,12 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path 
  * The file is opened for reading (binary mode), read into a string, and then closed.
  * Any exceptions during reading, including failing to open the file, are reported as dbgmsg.
  *
- * @return A nonempty optional with the contents of the file on success, or cata::nullopt on failure.
+ * @return A nonempty optional with the contents of the file on success, or std::nullopt on failure.
  */
 /**@{*/
-cata::optional<std::string> read_whole_file( const std::string &path );
-cata::optional<std::string> read_whole_file( const fs::path &path );
-cata::optional<std::string> read_whole_file( const cata_path &path );
+std::optional<std::string> read_whole_file( const std::string &path );
+std::optional<std::string> read_whole_file( const fs::path &path );
+std::optional<std::string> read_whole_file( const cata_path &path );
 /**@}*/
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
@@ -473,9 +473,27 @@ bool return_false( const T & )
 }
 
 /**
- * Joins a vector of `std::string`s into a single string with a delimiter/joiner
+ * Joins an iterable (class implementing begin() and end()) of elements into a single
+ * string with specified delimiter by using `<<` ostream operator on each element
  */
-std::string join( const std::vector<std::string> &strings, const std::string &joiner );
+template<typename Container>
+std::string string_join( const Container &iterable, const std::string &joiner )
+{
+    std::ostringstream buffer;
+
+    for( auto a = iterable.begin(); a != iterable.end(); ++a ) {
+        if( a != iterable.begin() ) {
+            buffer << joiner;
+        }
+        buffer << *a;
+    }
+    return buffer.str();
+}
+
+/**
+* Splits a string by delimiter into a vector of strings
+*/
+std::vector<std::string> string_split( const std::string &string, char delim );
 
 /**
  * Append all arguments after the first to the first.

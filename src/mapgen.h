@@ -354,7 +354,8 @@ class mapgen_palette
 
             std::string context;
             std::vector<palette_id> ancestors;
-            mapgen_parameters *parameters;
+            mapgen_parameters *top_level_parameters;
+            const mapgen_parameters *current_parameters;
             std::vector<mapgen_constraint<palette_id>> constraints;
         };
 
@@ -434,6 +435,10 @@ class mapgen_function_json_base
 
         void add_placement_coords_to( std::unordered_set<point> & ) const;
 
+        const mapgen_parameters &get_parameters() const {
+            return parameters;
+        }
+
     private:
         JsonObject jsobj;
     protected:
@@ -501,9 +506,10 @@ class update_mapgen_function_json : public mapgen_function_json_base
         bool setup_update( const JsonObject &jo );
         void finalize_parameters();
         void check() const;
-        bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
-                         mission *miss, bool verify = false,
-                         bool mirror_horizontal = false, bool mirror_vertical = false, int rotation = 0 ) const;
+        bool update_map(
+            const tripoint_abs_omt &omt_pos, const mapgen_arguments &, const point &offset,
+            mission *miss, bool verify = false, bool mirror_horizontal = false,
+            bool mirror_vertical = false, int rotation = 0 ) const;
         bool update_map( const mapgendata &md, const point &offset = point_zero,
                          bool verify = false ) const;
 

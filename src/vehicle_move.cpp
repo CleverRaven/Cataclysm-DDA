@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <tuple>
@@ -28,7 +29,6 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
@@ -116,7 +116,7 @@ int vehicle::slowdown( int at_velocity ) const
                    "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
                    name, at_velocity, f_total_drag, slowdown, units::to_watt( static_drag() ) );
     // plows slow rolling vehicles, but not falling or floating vehicles
-    if( !( is_falling || is_floating || is_flying ) ) {
+    if( !( is_falling || ( is_watercraft() && can_float() ) || is_flying ) ) {
         slowdown -= units::to_watt( static_drag() );
     }
 
@@ -124,13 +124,13 @@ int vehicle::slowdown( int at_velocity ) const
 }
 
 void vehicle::smart_controller_handle_turn( bool thrusting,
-        const cata::optional<float> &k_traction_cache )
+        const std::optional<float> &k_traction_cache )
 {
     // get settings or defaults
     smart_controller_config cfg = smart_controller_cfg.value_or( smart_controller_config() );
 
     if( !has_enabled_smart_controller ) {
-        smart_controller_state = cata::nullopt;
+        smart_controller_state = std::nullopt;
         return;
     }
 
@@ -143,10 +143,10 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     std::vector<int> c_engines;
     bool has_electric_engine = false;
     for( int i = 0; i < static_cast<int>( engines.size() ); ++i ) {
-        const bool is_electric = is_engine_type( i, fuel_type_battery );
-        if( ( is_electric || is_combustion_engine_type( i ) ) &&
-            ( ( parts[ engines[ i ] ].is_available() && engine_fuel_left( i ) > 0 ) ||
-              is_part_on( engines[ i ] ) ) ) {
+        const vehicle_part &vp = parts[engines[i]];
+        const bool is_electric = is_engine_type( vp, fuel_type_battery );
+        if( ( is_electric || is_engine_type_combustion( vp ) ) &&
+            ( ( vp.is_available() && engine_fuel_left( vp ) ) || vp.enabled ) ) {
             c_engines.push_back( i );
             if( is_electric ) {
                 has_electric_engine = true;
@@ -181,7 +181,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             add_msg( m_bad, _( "Smart controller is shutting down." ) );
         }
         has_enabled_smart_controller = false;
-        smart_controller_state = cata::nullopt;
+        smart_controller_state = std::nullopt;
         return;
     }
 
@@ -233,7 +233,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
     int prev_mask = 0;
     // opt_ prefix denotes values for currently found "optimal" engine configuration
-    units::power opt_net_echarge_rate = net_battery_charge_rate();
+    units::power opt_net_echarge_rate = net_battery_charge_rate( /* include_reactors = */ true );
     // total engine fuel energy usage (J)
     units::power opt_fuel_usage = 0_W;
 
@@ -244,10 +244,11 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     float cur_load_alternator = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
 
     for( size_t i = 0; i < c_engines.size(); ++i ) {
-        if( is_engine_on( c_engines[i] ) ) {
-            bool is_electric = is_engine_type( c_engines[i], fuel_type_battery );
+        const vehicle_part &vp = parts[engines[c_engines[i]]];
+        if( is_engine_on( vp ) ) {
+            const bool is_electric = is_engine_type( vp, fuel_type_battery );
             prev_mask |= 1 << i;
-            units::power fu = engine_fuel_usage( c_engines[i] ) * ( cur_load_approx + ( is_electric ? 0 :
+            units::power fu = engine_fuel_usage( vp ) * ( cur_load_approx + ( is_electric ? 0 :
                               cur_load_alternator ) );
             opt_fuel_usage += fu;
             if( is_electric ) {
@@ -302,12 +303,13 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
         bool gas_engine_to_shut_down = false;
         for( size_t i = 0; i < c_engines.size(); ++i ) {
+            vehicle_part &vp = parts[engines[c_engines[i]]];
             bool old_state = ( prev_mask & ( 1 << i ) ) != 0;
             bool new_state = ( mask & ( 1 << i ) ) != 0;
             // switching enabled flag temporarily to perform calculations below
-            toggle_specific_engine( c_engines[i], new_state );
+            vp.enabled = new_state;
 
-            if( old_state && !new_state && !is_engine_type( c_engines[i], fuel_type_battery ) ) {
+            if( old_state && !new_state && !is_engine_type( vp, fuel_type_battery ) ) {
                 gas_engine_to_shut_down = true;
             }
         }
@@ -319,14 +321,15 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         int safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
         int accel = is_stationary ? 1 : current_acceleration() * traction;
         units::power fuel_usage = 0_W;
-        units::power net_echarge_rate = net_battery_charge_rate();
+        units::power net_echarge_rate = net_battery_charge_rate( /* include_reactors = */ true );
         float load_approx = static_cast<float>( std::min( accel_demand, accel ) ) / std::max( accel, 1 );
         update_alternator_load();
         float load_approx_alternator  = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
 
         for( int e : c_engines ) {
-            bool is_electric = is_engine_type( e, fuel_type_battery );
-            units::power fu = engine_fuel_usage( e ) * ( load_approx + ( is_electric ? 0 :
+            const vehicle_part &vp = parts[engines[e]];
+            const bool is_electric = is_engine_type( vp, fuel_type_battery );
+            units::power fu = engine_fuel_usage( vp ) * ( load_approx + ( is_electric ? 0 :
                               load_approx_alternator ) );
             fuel_usage += fu;
             if( is_electric ) {
@@ -366,26 +369,29 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
     }
 
     for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
-        toggle_specific_engine( c_engines[i], static_cast<bool>( prev_mask & ( 1 << i ) ) );
+        vehicle_part &vp = parts[engines[c_engines[i]]];
+        vp.enabled = static_cast<bool>( prev_mask & ( 1 << i ) );
     }
 
     if( opt_mask != prev_mask ) { // we found new configuration
         bool failed_to_start = false;
         bool turned_on_gas_engine = false;
         for( size_t i = 0; i < c_engines.size(); ++i ) {
+            vehicle_part &vp = parts[engines[c_engines[i]]];
             // ..0.. < ..1..  was off, new state on
             if( ( prev_mask & ( 1 << i ) ) < ( opt_mask & ( 1 << i ) ) ) {
-                if( !start_engine( c_engines[i], true ) ) {
+                if( !start_engine( vp, true ) ) {
                     failed_to_start = true;
                 }
-                turned_on_gas_engine |= !is_engine_type( c_engines[i], fuel_type_battery );
+                turned_on_gas_engine |= !is_engine_type( vp, fuel_type_battery );
             }
         }
         if( failed_to_start ) {
-            this->smart_controller_state = cata::nullopt;
+            this->smart_controller_state = std::nullopt;
 
             for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
-                toggle_specific_engine( c_engines[i], static_cast<bool>( prev_mask & ( 1 << i ) ) );
+                vehicle_part &vp = parts[engines[c_engines[i]]];
+                vp.enabled = static_cast<bool>( prev_mask & ( 1 << i ) );
             }
             for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
                 vp.part().enabled = false;
@@ -398,9 +404,10 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
         } else {  //successfully changed engines state
             for( size_t i = 0; i < c_engines.size(); ++i ) {
+                vehicle_part &vp = parts[engines[c_engines[i]]];
                 // was on, needs to be off
                 if( ( prev_mask & ( 1 << i ) ) > ( opt_mask & ( 1 << i ) ) ) {
-                    start_engine( c_engines[i], false );
+                    start_engine( vp, false );
                 }
             }
             if( turned_on_gas_engine ) {
@@ -430,9 +437,9 @@ void vehicle::thrust( int thd, int z )
     bool pl_ctrl = player_in_control( get_player_character() );
 
     // No need to change velocity if there are no wheels
-    if( ( in_water && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
+    if( ( is_watercraft() && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
         // we're good
-    } else if( is_floating && !can_float() ) {
+    } else if( in_deep_water && !can_float() ) {
         stop();
         if( pl_ctrl ) {
             add_msg( _( "The %s is too leaky!" ), name );
@@ -558,9 +565,9 @@ void vehicle::thrust( int thd, int z )
             requested_z_change = z;
         }
         //break the engines a bit, if going too fast.
-        int strn = static_cast<int>( strain() * strain() * 100 );
-        for( size_t e = 0; e < engines.size(); e++ ) {
-            do_engine_damage( e, strn );
+        const int strn = static_cast<int>( strain() * strain() * 100 );
+        for( const int p : engines ) {
+            do_engine_damage( parts[p], strn );
         }
     }
 
@@ -715,20 +722,20 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     const int sign_before = sgn( velocity_before );
     bool empty = true;
     map &here = get_map();
-    for( int p = 0; p < num_parts(); p++ ) {
-        if( parts.at( p ).removed || ( parts.at( p ).is_fake && !parts.at( p ).is_active_fake ) ) {
+    for( int p = 0; p < part_count(); p++ ) {
+        const vehicle_part &vp = parts.at( p );
+        if( vp.removed || !vp.is_real_or_active_fake() ) {
             continue;
         }
 
-        const vpart_info &info = part_info( p );
-        if( !parts.at( p ).is_fake &&
-            info.location != part_location_structure && info.rotor_diameter() == 0 ) {
+        const vpart_info &info = vp.info();
+        if( !vp.is_fake && info.location != part_location_structure && info.rotor_diameter() == 0 ) {
             continue;
         }
         empty = false;
         // Coordinates of where part will go due to movement (dx/dy/dz)
         //  and turning (precalc[1])
-        const tripoint dsp = global_pos3() + dp + parts[p].precalc[1];
+        const tripoint dsp = global_pos3() + dp + vp.precalc[1];
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_diameter() / 2.0f ) );
@@ -1310,7 +1317,7 @@ void vehicle::selfdrive( const point &p )
     }
     if( p.y != 0 ) {
         int thr_amount = 100 * ( std::abs( velocity ) < 2000 ? 4 : 5 );
-        if( cruise_on ) {
+        if( cruise_on && !is_towed() ) {
             cruise_thrust( -p.y * thr_amount );
         } else {
             thrust( -p.y );
@@ -1783,7 +1790,7 @@ vehicle *vehicle::act_on_map()
     Character &player_character = get_player_character();
     const bool pl_ctrl = player_in_control( player_character );
     // TODO: Remove this hack, have vehicle sink a z-level
-    if( is_floating && !can_float() ) {
+    if( in_deep_water && !can_float() ) {
         add_msg( m_bad, _( "Your %s sank." ), name );
         if( pl_ctrl ) {
             unboard_all();
@@ -1877,8 +1884,8 @@ vehicle *vehicle::act_on_map()
 
         // Eventually send it skidding if no control
         // But not if it's remotely controlled, is in water or can use rails
-        if( !controlled && !pl_ctrl && !is_floating && !can_use_rails && !is_flying &&
-            requested_z_change == 0 ) {
+        if( !controlled && !pl_ctrl && !( is_watercraft() && can_float() ) && !can_use_rails &&
+            !is_flying && requested_z_change == 0 ) {
             skidding = true;
         }
     }
@@ -1999,7 +2006,7 @@ void vehicle::check_falling_or_floating()
     // If we're flying none of the rest of this matters.
     if( is_flying && is_rotorcraft() ) {
         is_falling = false;
-        is_floating = false;
+        in_deep_water = false;
         in_water = false;
         return;
     }
@@ -2037,7 +2044,7 @@ void vehicle::check_falling_or_floating()
         static_cast<size_t>( supported_wheels ) * 2 >= wheelcache.size() ) {
         is_falling = false;
         in_water = false;
-        is_floating = false;
+        in_deep_water = false;
         return;
     }
     // TODO: Make the vehicle "slide" towards its center of weight
@@ -2046,7 +2053,7 @@ void vehicle::check_falling_or_floating()
     if( pts.empty() ) {
         // Dirty vehicle with no parts
         is_falling = false;
-        is_floating = false;
+        in_deep_water = false;
         in_water = false;
         is_flying = false;
         return;
@@ -2062,8 +2069,8 @@ void vehicle::check_falling_or_floating()
         }
         is_falling = !has_support( position, true );
     }
-    // floating if 2/3rds of the vehicle is in deep water
-    is_floating = 3 * deep_water_tiles >= 2 * pts.size();
+    // in_deep_water if 2/3 of the vehicle is in deep water
+    in_deep_water = 3 * deep_water_tiles >= 2 * pts.size();
     // in_water if 1/2 of the vehicle is in water at all
     in_water =  2 * water_tiles >= pts.size();
 }
@@ -2149,7 +2156,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             debugmsg( "throw passenger: passenger at %d,%d,%d, part at %d,%d,%d",
                       rider->posx(), rider->posy(), rider->posz(),
                       part_pos.x, part_pos.y, part_pos.z );
-            veh.part( ps ).remove_flag( vehicle_part::passenger_flag );
+            veh.part( ps ).remove_flag( vp_flag::passenger_flag );
             continue;
         }
 
@@ -2234,8 +2241,8 @@ bool vehicle::should_enable_fake( const tripoint &fake_precalc, const tripoint &
                                   const tripoint &neighbor_precalc ) const
 {
     // if parent's pos is diagonal to neighbor, but fake isn't, fake can fill a gap opened
-    tripoint abs_parent_neighbor_diff = get_abs_diff( parent_precalc, neighbor_precalc );
-    tripoint abs_fake_neighbor_diff = get_abs_diff( fake_precalc, neighbor_precalc );
+    tripoint abs_parent_neighbor_diff = ( parent_precalc - neighbor_precalc ).abs();
+    tripoint abs_fake_neighbor_diff = ( fake_precalc - neighbor_precalc ).abs();
     return ( abs_parent_neighbor_diff.x == 1 && abs_parent_neighbor_diff.y == 1 ) &&
            ( ( abs_fake_neighbor_diff.x == 1 && abs_fake_neighbor_diff.y == 0 ) ||
              ( abs_fake_neighbor_diff.x == 0 && abs_fake_neighbor_diff.y == 1 ) );

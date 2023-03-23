@@ -248,7 +248,7 @@
     "color": "white",
     "phase": "liquid",
     "container": "bottle_plastic_small",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
@@ -477,7 +477,7 @@
     "color": "light_cyan",
     "phase": "liquid",
     "container": "bottle_plastic_small",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 3000 }
   },
   {
@@ -1247,7 +1247,7 @@
     "color": "yellow",
     "phase": "liquid",
     "spoils_in": "28 days",
-    "flags": [ "NO_INGEST", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 3000 }
   },
   {
@@ -1603,7 +1603,7 @@
     "phase": "liquid",
     "symbol": "~",
     "color": "light_blue",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 1,

@@ -326,6 +326,25 @@
     "weight": "7 kg",
     "volume": "8 L",
     "material": [ "nylon", "kevlar_layered" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ballistic_vest_heavy_military",
+        "name": { "str": "heavy ballistic vest" },
+        "description": "It's styled in a dark olive color.",
+        "color": "light_green",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "ballistic_vest_heavy_xedra",
+        "name": { "str": "XEDRA containment armor" },
+        "description": "It's black with IR reflective markings and a large XE on the right shoulder.",
+        "color": "light_green",
+        "weight": 0,
+        "append": true
+      }
+    ],
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {
