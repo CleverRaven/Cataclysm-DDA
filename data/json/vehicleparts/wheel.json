@@ -49,7 +49,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 25 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_LIGHT", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 0, 1 ] } ],
@@ -88,7 +88,7 @@
         "time": "15 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "12 m", "using": [ [ "repair_welding_standard", 12 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "12 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_MEDIUM", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 2, 5 ] } ],
@@ -127,7 +127,7 @@
         "time": "20 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "17 m", "using": [ [ "repair_welding_standard", 17 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_HEAVY", "NEEDS_JACKING" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] }, { "item": "steel_chunk", "count": [ 3, 7 ] } ],
@@ -159,7 +159,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 10 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "RAIL" ],
     "damage_reduction": { "all": 66 }
@@ -185,7 +185,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 0 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 10 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "damage_reduction": { "all": 60 }
   },
@@ -212,7 +212,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_fasten", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_fasten", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "50 m", "using": [ [ "repair_welding_standard", 50 ] ] }
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "50 m", "using": [ [ "repair_welding_standard", 10 ] ] }
     },
     "flags": [ "ARMOR", "OBSTACLE", "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "STEERABLE" ],
     "wheel_type": "rigid",
