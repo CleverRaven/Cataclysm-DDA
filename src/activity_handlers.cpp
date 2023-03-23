@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <queue>
 #include <set>
@@ -72,7 +73,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -1339,11 +1339,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                     veh = &vp->vehicle();
                     part = act_ref.values[4];
                     if( source_veh &&
-                        source_veh->fuel_left( liquid.typeId(), false, ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
+                        source_veh->fuel_left( liquid.typeId(), ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
                 {
                     return &veh->part( part ) != &pa;
                     }
-                                                                                                                           } : return_true<const vehicle_part &> ) ) <= 0 ) {
+                                                                                                                    } : return_true<const vehicle_part &> ) ) <= 0 ) {
                         act_ref.set_to_null();
                         return;
                     }
@@ -2118,10 +2118,10 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
 // Note: similar hack could be used to implement all sorts of vehicle pseudo-items
 //  and possibly CBM pseudo-items too.
 struct weldrig_hack {
-    cata::optional<vpart_reference> part;
+    std::optional<vpart_reference> part;
     item pseudo;
 
-    weldrig_hack() : part( cata::nullopt ) { }
+    weldrig_hack() : part( std::nullopt ) { }
 
     bool init( const player_activity &act ) {
         if( act.coords.empty() || act.str_values.size() < 2 ) {
@@ -2564,7 +2564,7 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
         return;
     }
 
-    you->craft( cata::nullopt, id );
+    you->craft( std::nullopt, id );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )
@@ -2930,7 +2930,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
-            if( cata::optional<bionic *> bio = you->find_bionic_by_uid( act->values[2] ) ) {
+            if( std::optional<bionic *> bio = you->find_bionic_by_uid( act->values[2] ) ) {
                 you->perform_uninstall( **bio, act->values[0], act->values[1], act->values[3] );
             } else {
                 debugmsg( _( "Tried to uninstall bionic with UID %s, but you don't have this bionic installed." ),
@@ -2947,7 +2947,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 const bionic_id upbid = bid->upgraded_bionic;
                 // TODO: Let the user pick bionic to upgrade if multiple candidates exist
                 bionic_uid upbio_uid = 0;
-                if( cata::optional<bionic *> bio = you->find_bionic_by_type( upbid ) ) {
+                if( std::optional<bionic *> bio = you->find_bionic_by_type( upbid ) ) {
                     upbio_uid = ( *bio )->get_uid();
                 }
 
@@ -3547,7 +3547,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
     }
 
     // choose target for spell before continuing
-    const cata::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
+    const std::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
             you ) : get_map().getlocal( act->coords.front() );
     if( target ) {
         // npcs check for target viability

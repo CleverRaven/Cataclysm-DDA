@@ -212,12 +212,12 @@ void auto_note_settings::set_auto_note_status( const map_extra_id &mapExtId,
     }
 }
 
-cata::optional<custom_symbol> auto_note_settings::get_custom_symbol(
+std::optional<custom_symbol> auto_note_settings::get_custom_symbol(
     const map_extra_id &mapExtId ) const
 {
     auto entry = character_custom_symbols.find( mapExtId );
-    return entry == character_custom_symbols.end() ? cata::nullopt
-           : cata::optional<custom_symbol>( entry->second );
+    return entry == character_custom_symbols.end() ? std::nullopt
+           : std::optional<custom_symbol>( entry->second );
 }
 
 void auto_note_settings::set_custom_symbol( const map_extra_id &mapExtId,

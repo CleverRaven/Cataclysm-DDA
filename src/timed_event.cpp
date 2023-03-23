@@ -3,6 +3,7 @@
 #include <array>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -29,7 +30,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
@@ -147,7 +147,7 @@ void timed_event::actualize()
         case timed_event_type::AMIGARA: {
             get_event_bus().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
-            cata::optional<tripoint> fault_point;
+            std::optional<tripoint> fault_point;
             bool horizontal = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == t_fault ) {

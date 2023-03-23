@@ -685,7 +685,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
 
     // TODO: check fuel for combustion engines
 
-    if( pt.info().epower < 0_W && fuel_left( fuel_type_battery, true ) <= 0 ) {
+    if( pt.info().epower < 0_W && fuel_left( fuel_type_battery ) <= 0 ) {
         if( alert ) {
             add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name() );
         }

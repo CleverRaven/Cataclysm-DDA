@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <stack>
 #include <string>
@@ -31,7 +32,6 @@
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
-#include "optional.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -249,13 +249,14 @@ struct vehicle_part {
         explicit operator bool() const;
 
         bool has_flag( const vp_flag flag ) const noexcept {
-            return static_cast<uint32_t>( flag ) & static_cast<uint32_t>( flags );
+            const uint32_t flag_as_uint32 = static_cast<uint32_t>( flag );
+            return ( flags & flag_as_uint32 ) == flag_as_uint32;
         }
         void set_flag( const vp_flag flag ) noexcept {
-            flags = static_cast<vp_flag>( static_cast<uint32_t>( flags ) | static_cast<uint32_t>( flag ) );
+            flags |= static_cast<uint32_t>( flag );
         }
         void remove_flag( const vp_flag flag ) noexcept {
-            flags = static_cast<vp_flag>( static_cast<uint32_t>( flags ) & ~static_cast<uint32_t>( flag ) );
+            flags &= ~static_cast<uint32_t>( flag );
         }
 
         /**
@@ -477,7 +478,6 @@ struct vehicle_part {
          */
         bool removed = false; // NOLINT(cata-serialize)
         bool enabled = true;
-        vp_flag flags = vp_flag::none;
 
         /** ID of player passenger */
         character_id passenger_id;
@@ -498,6 +498,7 @@ struct vehicle_part {
     private:
         /** What type of part is this? */
         vpart_id id;
+        uint32_t flags = 0;
     public:
         /** If it's a part with variants, which variant it is */
         std::string variant;
@@ -812,21 +813,25 @@ class vehicle
          */
         static vehicle *find_vehicle( const tripoint &where );
 
-        /**
-         * Traverses the graph of connected vehicles, starting from start_veh, and continuing
-         * along all vehicles connected by some kind of POWER_TRANSFER part.
-         * @param start_veh The vehicle to start traversing from. NB: the start_vehicle is
-         * assumed to have been already visited!
-         * @param amount An amount of power to traverse with. This is passed back to the visitor,
-         * and reset to the visitor's return value at each step.
-         * @param action A function(vehicle* veh, int amount, int loss) returning int. The function
-         * may do whatever it desires, and may be a lambda (including a capturing lambda).
-         * NB: returning 0 from a visitor will stop traversal immediately!
-         * @return The last visitor's return value.
-         */
-        template <typename Func, typename Vehicle>
-        static int traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action );
+        /// Returns a map of connected vehicle pointers to power loss factor:
+        /// Keys are vehicles connected by POWER_TRANSFER parts, includes self
+        /// Values are line loss, 0.01 corresponds to 1% charge loss to wire resistance
+        /// May load the connected vehicles' submaps
+        /// Templated to support const and non-const vehicle*
+        template<typename Vehicle>
+        static std::map<Vehicle *, float> search_connected_vehicles( Vehicle *start );
     public:
+        //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
+        std::map<vehicle *, float> search_connected_vehicles();
+        //! @copydoc vehicle::search_connected_vehicles( Vehicle *start )
+        std::map<const vehicle *, float> search_connected_vehicles() const;
+
+        /// Returns a map of connected battery references to power loss factor
+        /// Keys are batteries in vehicles (includes self) connected by POWER_TRANSFER parts
+        /// Values are line loss, 0.01 corresponds to 1% charge loss to wire resistance
+        /// May load the connected vehicles' submaps
+        std::map<vpart_reference, float> search_connected_batteries();
+
         vehicle( map &placed_on, const vproto_id &type_id, int init_veh_fuel = -1,
                  int init_veh_status = -1, bool may_spawn_locked = false );
         vehicle();
@@ -905,7 +910,7 @@ class vehicle
             old_owner = temp_owner;
         }
         void remove_old_owner() {
-            theft_time = cata::nullopt;
+            theft_time = std::nullopt;
             old_owner = faction_id::NULL_ID();
         }
         void set_owner( const faction_id &new_owner ) {
@@ -1264,11 +1269,11 @@ class vehicle
         std::list<item *> fuel_items_left();
 
         // Checks how much certain fuel left in tanks.
-        int64_t fuel_left( const itype_id &ftype, bool recurse = false,
+        int64_t fuel_left( const itype_id &ftype,
                            const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
         const;
         // Checks how much of an engine's current fuel is left in the tanks.
-        int engine_fuel_left( const vehicle_part &vp, bool recurse = false ) const;
+        int engine_fuel_left( const vehicle_part &vp ) const;
         // Returns total vehicle fuel capacity for the given fuel type
         int fuel_capacity( const itype_id &ftype ) const;
 
@@ -1320,8 +1325,7 @@ class vehicle
         // Total power drain across all vehicle accessories.
         units::power total_accessory_epower() const;
         // Net power draw or drain on batteries.
-        units::power net_battery_charge_rate( bool include_reactors = true,
-                                              bool connected_vehicles = false ) const;
+        units::power net_battery_charge_rate( bool include_reactors ) const;
         // Maximum available power available from all reactors. Power from
         // reactors is only drawn when batteries are empty.
         units::power max_reactor_epower() const;
@@ -1338,20 +1342,26 @@ class vehicle
         std::pair<int, int> connected_battery_power_level() const;
 
         /**
-         * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
-         * @param amount to discharge in kJ
-         * @param include_other_vehicles if true charge also to cable connected vehicles.
-         * @return amount of charge left over.
-         */
-        int charge_battery( int amount, bool include_other_vehicles = true );
+        * @param apply_loss if true apply wire loss when charge crosses vehicle power cables
+        * @return battery charge in kJ from all connected batteries
+        */
+        int64_t battery_left( bool apply_loss = true ) const;
 
         /**
-         * Try to discharge our (and, optionally, connected vehicles') batteries by the given amount.
-         * @param amount to discharge in kJ
-         * @param recurse if true draws also from cable connected vehicles.
-         * @return amount of request unfulfilled (0 if totally successful).
+         * Charges batteries in connected vehicles/appliances
+         * @param amount to charge in kJ
+         * @param apply_loss if true apply wire loss when charge crosses vehicle power cables
+         * @return 0 or left over charge in kJ which does not fit in any connected batteries
          */
-        int discharge_battery( int amount, bool recurse = true );
+        int charge_battery( int amount, bool apply_loss = true );
+
+        /**
+         * Discharges batteries in connected vehicles/appliances
+         * @param amount to discharge in kJ
+         * @param apply_loss if true apply wire loss when charge crosses vehicle power cables
+         * @return 0 or unfulfilled part of \p amount in kJ
+         */
+        int discharge_battery( int amount, bool apply_loss = true );
 
         /**
          * Mark mass caches and pivot cache as dirty
@@ -1489,6 +1499,11 @@ class vehicle
          * is the vehicle mostly in water or mostly on fairly dry land?
          */
         bool is_in_water( bool deep_water = false ) const;
+        /**
+         * should vehicle be handled using watercraft logic
+         * as determined by amount of water it is in (and whether it is amphibious)
+         * result being true does not guarantee it is viable boat -- check @ref can_float()
+         */
         bool is_watercraft() const;
         /**
          * is the vehicle flying? is it a rotorcraft?
@@ -1536,16 +1551,9 @@ class vehicle
         /** Returns roughly driving skill level at which there is no chance of fumbling. */
         float handling_difficulty() const;
 
-        /**
-        * Use vehicle::traverse_vehicle_graph (breadth-first search) to enumerate all vehicles
-        * connected to @ref origins by parts with POWER_TRANSFER flag.
-        * @param origins set of pointers to vehicles to start searching from
-        * @return a map of vehicle pointers to a bool that is true if the
-        * vehicle is in the @ref origins set.
-        */
-        static std::map<vehicle *, bool> enumerate_vehicles( const std::set<vehicle *> &origins );
         // idle fuel consumption
-        void idle( bool on_map = true );
+        // @param on_map if true vehicle processes noise/smoke and updates time
+        void idle( bool on_map );
         // continuous processing for running vehicle alarms
         void alarm();
         // leak from broken tanks
@@ -1561,7 +1569,7 @@ class vehicle
          * @param k_traction_cache cached value of vehicle::k_traction, if empty, will be computed
          */
         void smart_controller_handle_turn( bool thrusting = false,
-                                           const cata::optional<float> &k_traction_cache = cata::nullopt );
+                                           const std::optional<float> &k_traction_cache = std::nullopt );
 
         bool has_available_electric_engine();
         void disable_smart_controller_if_needed();
@@ -1616,6 +1624,17 @@ class vehicle
         units::volume max_volume( int part ) const;
         units::volume free_volume( int part ) const;
         units::volume stored_volume( int part ) const;
+
+        /**
+        * Flags item \p tool with PSEUDO, if it needs battery and has MOD pocket then a
+        * magazine_battery_pseudo_mod is installed and a pseudo battery with high capacity
+        * is inserted into the magazine well pocket with however many battery charges are
+        * available to this vehicle.
+        * @param tool the tool item to modify
+        * @return amount of energy the pseudo battery is set to or 0 joules
+        */
+        units::energy prepare_vehicle_tool( item &tool ) const;
+
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
@@ -1624,13 +1643,13 @@ class vehicle
         /**
          * Try to add an item to part's cargo.
          *
-         * @returns cata::nullopt if it can't be put here (not a cargo part, adding this would violate
+         * @returns std::nullopt if it can't be put here (not a cargo part, adding this would violate
          * the volume limit or item count limit, not all charges can fit, etc.)
          * Otherwise, returns an iterator to the added item in the vehicle stack
          */
-        cata::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
+        std::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
         /** Like the above */
-        cata::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
+        std::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
         /**
          * Add an item counted by charges to the part's cargo.
          *
@@ -2010,12 +2029,12 @@ class vehicle
         // a magic vehicle, powered by magic.gif
         bool magic = false;
         // when does the magic vehicle disappear?
-        cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        std::optional<time_duration> summon_time_limit = std::nullopt;
         // cached values of the factors that determined last chosen engine state
         // NOLINTNEXTLINE(cata-serialize)
-        cata::optional<smart_controller_cache> smart_controller_state = cata::nullopt;
+        std::optional<smart_controller_cache> smart_controller_state = std::nullopt;
         // SC config. optional, as majority of vehicles don't have SC installed
-        cata::optional<smart_controller_config> smart_controller_cfg = cata::nullopt;
+        std::optional<smart_controller_config> smart_controller_cfg = std::nullopt;
         bool has_enabled_smart_controller = false; // NOLINT(cata-serialize)
 
         void add_tag( const std::string &tag );
@@ -2088,7 +2107,7 @@ class vehicle
         float of_turn_carry = 0.0f;
         units::power extra_drag = 0_W; // NOLINT(cata-serialize)
         // the time point when it was successfully stolen
-        cata::optional<time_point> theft_time;
+        std::optional<time_point> theft_time;
         // rotation used for mount precalc values
         // NOLINTNEXTLINE(cata-serialize)
         std::array<units::angle, 2> pivot_rotation = { { 0_degrees, 0_degrees } };
@@ -2121,9 +2140,11 @@ class vehicle
         // and that's the bit that controls recalculation.  The intent is to only recalculate
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true; // NOLINT(cata-serialize)
-        // is the vehicle currently mostly in deep water
-        mutable bool is_floating = false;
-        // is the vehicle currently mostly in water
+        // is at least 2/3 of the vehicle on deep water tiles
+        // -- this is the "sink or swim" threshold
+        mutable bool in_deep_water = false;
+        // is at least 1/2 of the vehicle on water tiles
+        // -- fordable for ground vehicles; non-amphibious boats float
         mutable bool in_water = false;
         // is the vehicle currently flying
         mutable bool is_flying = false;

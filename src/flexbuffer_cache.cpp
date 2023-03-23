@@ -426,7 +426,7 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse_and_cache(
     }
 
     std::string json_source_path_string = lexically_normal_json_source_path.generic_u8string();
-    cata::optional<std::string> json_file_contents = read_whole_file(
+    std::optional<std::string> json_file_contents = read_whole_file(
                 lexically_normal_json_source_path );
     if( !json_file_contents.has_value() || json_file_contents->empty() ) {
         throw std::runtime_error( "Failed to read " + json_source_path_string );

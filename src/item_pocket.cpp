@@ -1593,7 +1593,7 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
     return false;
 }
 
-cata::optional<item> item_pocket::remove_item( const item &it )
+std::optional<item> item_pocket::remove_item( const item &it )
 {
     item ret( it );
     const size_t sz = contents.size();
@@ -1601,7 +1601,7 @@ cata::optional<item> item_pocket::remove_item( const item &it )
         return &rhs == &it;
     } );
     if( sz == contents.size() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return ret;
     }
@@ -1624,10 +1624,10 @@ bool item_pocket::remove_internal( const std::function<bool( item & )> &filter,
     return false;
 }
 
-cata::optional<item> item_pocket::remove_item( const item_location &it )
+std::optional<item> item_pocket::remove_item( const item_location &it )
 {
     if( !it ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return remove_item( *it );
 }
@@ -1982,7 +1982,7 @@ std::list<item> &item_pocket::edit_contents()
 }
 
 ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
-        const bool into_bottom )
+        const bool into_bottom, bool restack_charges )
 {
     ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
@@ -1993,7 +1993,9 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
         } else {
             contents.push_back( it );
         }
-        restack();
+        if( restack_charges ) {
+            restack();
+        }
     }
     return ret;
 }
@@ -2264,7 +2266,7 @@ units::volume pocket_data::max_contains_volume() const
 
 void item_pocket::favorite_settings::clear()
 {
-    preset_name = cata::nullopt;
+    preset_name = std::nullopt;
     priority_rating = 0;
     item_whitelist.clear();
     item_blacklist.clear();
@@ -2473,7 +2475,7 @@ void item_pocket::favorite_settings::set_preset_name( const std::string &s )
     preset_name = s;
 }
 
-const cata::optional<std::string> &item_pocket::favorite_settings::get_preset_name() const
+const std::optional<std::string> &item_pocket::favorite_settings::get_preset_name() const
 {
     return preset_name;
 }
