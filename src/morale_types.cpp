@@ -78,6 +78,7 @@ const morale_type MORALE_PERM_NOFACE( "morale_perm_noface" );
 const morale_type MORALE_PERM_NOMAD( "morale_perm_nomad" );
 const morale_type MORALE_PERM_NUMB( "morale_perm_numb" );
 const morale_type MORALE_PERM_OPTIMIST( "morale_perm_optimist" );
+const morale_type MORALE_PERM_RADIOPHILE( "morale_perm_radiophile" );
 const morale_type MORALE_PHOTOS( "morale_photos" );
 const morale_type MORALE_PLAY_WITH_PET( "morale_play_with_pet" );
 const morale_type MORALE_PYROMANIA_NEARFIRE( "morale_pyromania_nearfire" );

@@ -675,7 +675,7 @@
     "type": "item_group",
     "id": "guns_rifle_improvised",
     "//": "Makeshift or otherwise poor quality rifles.",
-    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "rifle_3006", "prob": 30 }, { "item": "rifle_9mm", "prob": 60 } ]
+    "items": [ { "item": "rifle_22", "prob": 60 }, { "item": "remington_700", "prob": 30 }, { "item": "rifle_9mm", "prob": 60 } ]
   },
   {
     "type": "item_group",

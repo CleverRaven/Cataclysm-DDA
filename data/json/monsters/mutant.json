@@ -156,6 +156,7 @@
     "special_attacks": [
       { "id": "mutant_stinger" },
       { "id": "mutant_spinneret" },
+      [ "GRAB", 10 ],
       {
         "type": "bite",
         "cooldown": 10,

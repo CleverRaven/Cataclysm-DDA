@@ -415,6 +415,7 @@ CheckedError Parser::Next() {
                 cursor_++;
                 uint64_t val;
                 ECHECK(ParseHexNum(2, &val));
+                // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
                 attribute_ += static_cast<char>(val);
                 break;
               }
@@ -422,6 +423,7 @@ CheckedError Parser::Next() {
                 cursor_++;
                 uint64_t val;
                 ECHECK(ParseHexNum(4, &val));
+                // NOLINTNEXTLINE(clang-analyzer-core.UndefinedBinaryOperatorResult)
                 if (val >= 0xD800 && val <= 0xDBFF) {
                   if (unicode_high_surrogate != -1) {
                     return Error(
@@ -793,6 +795,7 @@ CheckedError Parser::ParseField(StructDef &struct_def) {
 
   if (token_ == '=') {
     NEXT();
+    // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
     ECHECK(ParseSingleValue(&field->name, field->value, true));
     if (IsStruct(type) || (struct_def.fixed && field->value.constant != "0"))
       return Error(
@@ -825,6 +828,7 @@ CheckedError Parser::ParseField(StructDef &struct_def) {
     }
   }
 
+  // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
   field->doc_comment = dc;
   ECHECK(ParseMetaData(&field->attributes));
   field->deprecated = field->attributes.Lookup("deprecated") != nullptr;
@@ -1225,6 +1229,7 @@ CheckedError Parser::ParseTable(const StructDef &struct_def, std::string *value,
           ECHECK(Expect(kTokenStringConstant));
           return NoError();
         }
+        // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
         auto field = struct_def_inner->fields.Lookup(name);
         if (!field) {
           if (!opts.skip_unexpected_fields_in_json) {
@@ -1505,6 +1510,7 @@ CheckedError Parser::ParseVector(const Type &type, uoffset_t *ovalue,
   if (force_align) {
     size_t align;
     ECHECK(ParseAlignAttribute(force_align->constant, 1, &align));
+    // NOLINTNEXTLINE(clang-analyzer-core.UndefinedBinaryOperatorResult)
     if (align > 1) { builder_.ForceVectorAlignment(len, elemsize, align); }
   }
 
@@ -2494,6 +2500,7 @@ CheckedError Parser::ParseDecl() {
   EXPECT(kTokenIdentifier);
   StructDef *struct_def;
   ECHECK(StartStruct(name, &struct_def));
+  // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
   struct_def->doc_comment = dc;
   struct_def->fixed = fixed;
   ECHECK(ParseMetaData(&struct_def->attributes));
@@ -2690,6 +2697,7 @@ CheckedError Parser::ParseProtoDecl() {
       parent_namespace = current_namespace_;
       current_namespace_ = UniqueNamespace(ns);
     }
+    // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
     struct_def->doc_comment = struct_comment;
     ECHECK(ParseProtoFields(struct_def, isextend, false));
     if (!isextend) { current_namespace_ = parent_namespace; }
@@ -2828,6 +2836,7 @@ CheckedError Parser::ParseProtoFields(StructDef *struct_def, bool isextend,
         field = struct_def->fields.Lookup(name);
       }
       if (!field) ECHECK(AddField(*struct_def, name, type, &field));
+      // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
       field->doc_comment = field_comment;
       if (!IsScalar(type.base_type) && required) {
         field->presence = FieldDef::kRequired;

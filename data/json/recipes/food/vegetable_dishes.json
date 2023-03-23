@@ -234,6 +234,22 @@
   },
   {
     "type": "recipe",
+    "result": "butternut_shelled",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "10 m",
+    "batch_time_factors": [ 20, 1 ],
+    "autolearn": true,
+    "charges": 20,
+    "qualities": [ { "id": "ANVIL", "level": 1 } ],
+    "tools": [ [ [ "bag_canvas", -1 ], [ "pillowcase", -1 ], [ "sheet", -1 ] ] ],
+    "components": [ [ [ "butternut", 20 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "hazelnut_shelled",
     "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",

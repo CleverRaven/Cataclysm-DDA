@@ -1,7 +1,7 @@
 [
   {
     "id": "atomic_coffeepot",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "tools",
     "name": { "str": "atomic coffeemaker" },
     "looks_like": "coffeemaker",

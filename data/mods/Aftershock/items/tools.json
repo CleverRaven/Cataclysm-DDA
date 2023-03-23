@@ -266,6 +266,27 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "atomic_coffeepot",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "atomic coffeemaker" },
+    "looks_like": "coffeemaker",
+    "description": "A Curie-G coffeemaker, made by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
+    "weight": "6000 g",
+    "volume": "1500 ml",
+    "longest_side": "20 cm",
+    "price": 100000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 5,
+    "material": [ "plastic", "aluminum" ],
+    "qualities": [ [ "BOIL", 1 ] ],
+    "symbol": ",",
+    "color": "light_green",
+    "use_action": [ "HOTPLATE_ATOMIC" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+  },
+  {
     "id": "afs_power_cutter",
     "type": "TOOL",
     "name": { "str": "power cutter (off)", "str_pl": "power cutters (off)" },

@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -56,7 +57,6 @@
 #include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -166,7 +166,7 @@ static void swap_npc( npc &one, npc &two, npc &tmp )
     two = std::move( tmp );
 }
 
-void avatar::control_npc( npc &np )
+void avatar::control_npc( npc &np, const bool debug )
 {
     if( !np.is_player_ally() ) {
         debugmsg( "control_npc() called on non-allied npc %s", np.name );
@@ -202,9 +202,13 @@ void avatar::control_npc( npc &np )
     const bool z_level_changed = g->vertical_shift( posz() );
     g->update_map( *this, z_level_changed );
     character_mood_face( true );
+
+    profession_id prof_id = prof ? prof->ident() : profession::generic()->ident();
+    get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/false, debug,
+            getID(), name, male, prof_id, custom_profession );
 }
 
-void avatar::control_npc_menu()
+void avatar::control_npc_menu( const bool debug )
 {
     std::vector<shared_ptr_fast<npc>> followers;
     uilist charmenu;
@@ -225,7 +229,7 @@ void avatar::control_npc_menu()
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return;
     }
-    get_avatar().control_npc( *followers[charmenu.ret] );
+    get_avatar().control_npc( *followers[charmenu.ret], debug );
 }
 
 void avatar::longpull( const std::string &name )

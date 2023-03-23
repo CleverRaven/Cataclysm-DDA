@@ -1226,7 +1226,7 @@
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       [ "sewage", 60 ],
-      [ "improvised_pipebomb", 4 ],
+      [ "pipebomb", 4 ],
       { "item": "crack", "prob": 8, "charges": [ 1, 4 ] },
       [ "crackpipe", 37 ],
       { "item": "lsd", "prob": 10, "charges": [ 1, 5 ] },
@@ -1295,8 +1295,7 @@
       [ "material_shrd_limestone", 40 ],
       [ "material_niter", 5 ],
       [ "chem_rdx", 5 ],
-      [ "chem_hmtd", 10 ],
-      [ "tool_anfo_charge", 2 ]
+      [ "chem_hmtd", 10 ]
     ]
   },
   {
@@ -1369,7 +1368,6 @@
       { "group": "tools_toolbox", "prob": 1 },
       [ "apron_leather", 5 ],
       [ "apron_cut_resistant", 10 ],
-      [ "tool_anfo_charge", 1 ],
       { "item": "remotevehcontrol", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
@@ -2023,11 +2021,9 @@
       [ "cookbook_italian", 25 ],
       [ "cookbook_mexican", 14 ],
       [ "manual_electronics", 20 ],
-      [ "decoy_elfa", 5 ],
       [ "manual_tailor", 15 ],
       [ "manual_carpentry", 10 ],
       [ "101_carpentry", 10 ],
-      [ "manual_driving", 20 ],
       [ "textbook_speech", 12 ],
       { "group": "novels", "prob": 439 },
       { "group": "kids_books", "prob": 50 },
@@ -2072,7 +2068,9 @@
       [ "sandbox_kit", 1 ],
       [ "dnd_handbook", 1 ],
       [ "balloon", 5 ],
-      { "group": "writing_utensils", "prob": 40 }
+      { "item": "scissors_wavy", "prob": 7 },
+      { "group": "pencil_case_contents", "prob": 50 },
+      { "group": "pencil_case_with_contents", "prob": 30 }
     ]
   },
   {
@@ -2147,7 +2145,7 @@
       { "item": "chem_sulphur", "prob": 10, "charges-min": 100 },
       { "item": "chem_aluminium_powder", "prob": 5, "charges": [ 1, 100 ] },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
-      { "item": "chem_zinc", "prob": 5, "charges-min": 100 },
+      { "item": "chem_zinc_oxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_saltpetre", "prob": 10, "charges": [ 1, 50 ] },
       { "item": "chem_carbide", "prob": 10, "charges-min": 100 },
@@ -2739,7 +2737,7 @@
       { "group": "jewelry_accessories", "prob": 35 },
       [ "story_book", 5 ],
       [ "syringe", 3 ],
-      [ "teddy", 15 ],
+      { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 3 ], "prob": 15 },
       [ "arm", 5 ],
       [ "leg", 5 ],
       [ "fetus", 5 ],
