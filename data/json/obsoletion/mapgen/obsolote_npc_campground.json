@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "campground_1a", "campground_1b" ], [ "campground_2a", "campground_2b" ] ],
+    "om_terrain": [ [ "campground_1a_npc", "campground_1b_npc" ], [ "campground_2a_npc", "campground_2b_npc" ] ],
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -57,8 +57,8 @@
       ],
       "palettes": [ "campground_palette" ],
       "place_monster": [
-        { "group": "CAMPERS", "x": [ 8, 18 ], "y": [ 7, 22 ], "chance": 50, "repeat": [ 0, 2 ] },
-        { "group": "CAMPERS", "x": [ 3, 17 ], "y": [ 32, 46 ], "chance": 50, "repeat": [ 0, 2 ] },
+        { "group": "CAMPERS", "chance": 50, "x": [ 8, 18 ], "y": [ 7, 22 ], "repeat": [ 0, 2 ] },
+        { "group": "CAMPERS", "chance": 50, "x": [ 3, 17 ], "y": [ 32, 46 ], "repeat": [ 0, 2 ] },
         { "group": "GROUP_PARK_ANIMAL", "x": [ 2, 17 ], "y": [ 2, 15 ] },
         { "group": "GROUP_PARK_ANIMAL", "x": [ 2, 17 ], "y": [ 31, 46 ] },
         { "group": "GROUP_PARK_ANIMAL", "x": [ 30, 46 ], "y": [ 31, 46 ] }
@@ -79,7 +79,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "campground_roof" ],
+    "om_terrain": [ "campground_roof_npc" ],
     "object": {
       "fill_ter": "t_flat_roof",
       "rows": [
