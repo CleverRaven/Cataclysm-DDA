@@ -562,9 +562,9 @@ bool do_turn()
         } else {
             // Rate limit key polling to 10 times a second.
             static auto start = std::chrono::time_point_cast<std::chrono::milliseconds>(
-                                    std::chrono::system_clock::now() );
+                                    std::chrono::steady_clock::now() );
             const auto now = std::chrono::time_point_cast<std::chrono::milliseconds>(
-                                 std::chrono::system_clock::now() );
+                                 std::chrono::steady_clock::now() );
             if( ( now - start ).count() > 100 ) {
                 handle_key_blocking_activity();
                 start = now;

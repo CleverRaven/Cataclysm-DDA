@@ -67,13 +67,13 @@ static const item_category_id item_category_WEAPON_HELD( "WEAPON_HELD" );
 
 namespace
 {
-using startup_timer = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+using startup_timer = std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>;
 startup_timer tp_start;
 
 void debug_print_timer( startup_timer const &tp, std::string const &msg = "inv_ui setup took" )
 {
     startup_timer const tp_now =
-        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::system_clock::now() );
+        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::steady_clock::now() );
     add_msg_debug( debugmode::DF_GAME, "%s: %i ms", msg, ( tp_now - tp ).count() );
 }
 
@@ -2228,7 +2228,7 @@ void inventory_selector::reassign_custom_invlets()
 void inventory_selector::prepare_layout()
 {
     startup_timer const tp_prep =
-        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::system_clock::now() );
+        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::steady_clock::now() );
 
     const auto snap = []( size_t cur_dim, size_t max_dim ) {
         return cur_dim + 2 * max_win_snap_distance >= max_dim ? max_dim : cur_dim;
@@ -2645,7 +2645,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
 {
     item_name_cache_users++;
     tp_start =
-        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::system_clock::now() );
+        std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::steady_clock::now() );
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Page down" ) );

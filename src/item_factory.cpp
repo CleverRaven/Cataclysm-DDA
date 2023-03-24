@@ -2834,7 +2834,7 @@ static void get_relative( const JsonObject &jo, const std::string &member, std::
                           T default_val )
 {
     if( jo.has_member( member ) ) {
-        value = value.value_or( default_val ) + jo.get_float( member );
+        value = value.value_or( static_cast<T>( default_val ) ) + jo.get_float( member );
     }
 }
 
@@ -2843,7 +2843,7 @@ static void get_proportional( const JsonObject &jo, const std::string &member,
                               std::optional<T> &value, T default_val )
 {
     if( jo.has_member( member ) ) {
-        value = value.value_or( default_val ) * jo.get_float( member );
+        value = value.value_or( static_cast<T>( default_val ) ) * jo.get_float( member );
     }
 }
 

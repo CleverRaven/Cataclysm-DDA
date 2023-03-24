@@ -12255,7 +12255,7 @@ void game::debug_hour_timer::print_time()
     if( enabled ) {
         if( calendar::once_every( time_duration::from_hours( 1 ) ) ) {
             const IRLTimeMs now = std::chrono::time_point_cast<std::chrono::milliseconds>(
-                                      std::chrono::system_clock::now() );
+                                      std::chrono::steady_clock::now() );
             if( start_time ) {
                 add_msg( "in-game hour took: %d ms", ( now - *start_time ).count() );
             } else {

@@ -2466,7 +2466,7 @@ bool cata_tiles::draw_from_id_string_internal( const std::string &id, TILE_CATEG
         if( display_tile.animated ) {
             // idle animations run during the user's turn, and the animation speed
             // needs to be defined by the tileset to look good, so we use system clock:
-            std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+            std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
             auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>( now );
             auto value = now_ms.time_since_epoch();
             // aiming roughly at the standard 60 frames per second:

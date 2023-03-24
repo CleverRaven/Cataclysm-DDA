@@ -1002,7 +1002,7 @@ class game
         class debug_hour_timer
         {
             public:
-                using IRLTimeMs = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+                using IRLTimeMs = std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>;
                 void toggle();
                 void print_time();
             private:
