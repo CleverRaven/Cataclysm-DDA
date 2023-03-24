@@ -1101,8 +1101,8 @@
     "symbol": "B",
     "color": "yellow",
     "calories": 0
-},
-{
+  },
+  {
     "type": "COMESTIBLE",
     "id": "dry_bottle_gourd",
     "name": { "str": "dried bottle gourd" },
