@@ -1,10 +1,6 @@
 #include "Utils.h"
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 bool isPointMethod( const FunctionDecl *d )
@@ -68,6 +64,4 @@ NameConvention::MatchResult NameConvention::Match( StringRef name ) const
     }
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

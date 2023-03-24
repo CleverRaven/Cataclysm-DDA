@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <unordered_set>
 
 #include "bodypart.h"
@@ -16,7 +17,6 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "messages.h"
-#include "optional.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -721,7 +721,7 @@ std::string effect::disp_desc( bool reduced ) const
     std::string ret;
 
     std::string timestr;
-    time_duration effect_dur_elapsed = ( calendar::turn - start_time );
+    time_duration effect_dur_elapsed = calendar::turn - start_time;
     if( to_turns<int>( effect_dur_elapsed ) == 0 ) {
         timestr = _( "just now" );
     } else {
@@ -1489,7 +1489,7 @@ void load_effect_type( const JsonObject &jo )
     optional( jo, false, "chance_kill_resist", new_etype.red_kill_chance );
     optional( jo, false, "death_msg", new_etype.death_msg, to_translation( "You died." ) );
     optional( jo, false, "death_event", new_etype.death_event,
-              enum_flags_reader<event_type>( "event_type" ), cata::nullopt );
+              enum_flags_reader<event_type>( "event_type" ), std::nullopt );
 
     new_etype.max_intensity = jo.get_int( "max_intensity", 1 );
     new_etype.dur_add_perc = jo.get_int( "dur_add_perc", 100 );

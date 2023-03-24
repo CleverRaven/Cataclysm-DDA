@@ -469,7 +469,7 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-cata::optional<achievement_id> scenario::get_requirement() const
+std::optional<achievement_id> scenario::get_requirement() const
 {
     return _requirement;
 }

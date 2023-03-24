@@ -24,7 +24,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arm_xlsplint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -41,7 +41,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arm_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -58,7 +58,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "arm_xs_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -75,7 +75,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "leg_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -92,7 +92,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "leg_xlsplint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
@@ -109,7 +109,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "leg_xs_splint",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",

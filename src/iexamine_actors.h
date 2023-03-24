@@ -12,8 +12,8 @@ class item_location;
 class appliance_convert_examine_actor : public iexamine_actor
 {
     private:
-        cata::optional<furn_str_id> furn_set = cata::nullopt;
-        cata::optional<ter_str_id> ter_set = cata::nullopt;
+        std::optional<furn_str_id> furn_set = std::nullopt;
+        std::optional<ter_str_id> ter_set = std::nullopt;
         itype_id appliance_item;
 
     public:
@@ -42,7 +42,7 @@ class cardreader_examine_actor : public iexamine_actor
         // Option 2: Regenerate entire current overmap tile
         update_mapgen_id mapgen_id;
 
-        cata::optional<int> omt_allowed_radius;
+        std::optional<int> omt_allowed_radius;
 
         bool map_regen = false;
 

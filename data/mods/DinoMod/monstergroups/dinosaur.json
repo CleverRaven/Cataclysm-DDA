@@ -64,6 +64,7 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_DANGEROUS",
     "monsters": [
+      { "monster": "mon_tawa", "weight": 200, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_coelophysis", "weight": 200, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dilophosaurus", "weight": 150, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ceratosaurus", "weight": 100, "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
@@ -152,6 +153,7 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_DANGEROUS_HATCHLING",
     "monsters": [
+      { "monster": "mon_tawa_hatchling", "weight": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_coelophysis_hatchling", "weight": 4, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
       { "monster": "mon_dilophosaurus_hatchling", "weight": 15, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_ceratosaurus_hatchling", "cost_multiplier": 30, "pack_size": [ 1, 2 ] },
@@ -315,6 +317,7 @@
     "type": "monstergroup",
     "name": "GROUP_DINOSAUR_PREDATOR_RIVER",
     "monsters": [
+      { "monster": "mon_tawa", "pack_size": [ 4, 8 ] },
       { "monster": "mon_coelophysis", "pack_size": [ 4, 8 ] },
       { "monster": "mon_ceratosaurus", "cost_multiplier": 30 },
       { "monster": "mon_torvosaurus", "cost_multiplier": 30 },

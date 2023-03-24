@@ -205,6 +205,7 @@
       "POISONOUS",
       "POISONOUS2",
       "RADIOGENIC",
+      "RADIOPHILE",
       "RESISTCHILL",
       "RESISTWARM",
       "ROBUST",
@@ -3296,7 +3297,7 @@
     "visibility": 4,
     "ugliness": 3,
     "description": "You develop a reservoir of fluids that bulges out of your abdomen.  Your body has adapted to containing extra liquids in event of shortfalls.",
-    "thirst_modifier": 0.75,
+    "thirst_modifier": -0.25,
     "types": [ "THIRST" ],
     "leads_to": [ "BOMBADIER_BLAST" ],
     "category": [ "INSECT" ]
@@ -3352,6 +3353,17 @@
     "points": 3,
     "description": "Your system has adapted to radiation.  While irradiated, you will actually heal slowly, converting the radiation into hit points.",
     "category": [ "SLIME", "MEDICAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "RADIOPHILE",
+    "name": { "str": "Radiophile" },
+    "points": 1,
+    "description": "Your flesh has developed a unique reaction to radiation that lets you sense when ambient radiation is abnormally high.  Turn off to ignore messages.",
+    "prereqs": [ "RADIOGENIC" ],
+    "category": [ "SLIME", "MEDICAL" ],
+    "active": true,
+    "starts_active": true
   },
   {
     "type": "mutation",
@@ -3750,7 +3762,7 @@
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
-    "description": "Your feet have fused into hooves.  This allows kicking attacks to do much more damage, provides natural armor, and removes the need to wear shoes; however, you cannot wear shoes of any kind.  Reduces wet effects.",
+    "description": "Your feet have fused into hooves.  This allows you to perform a powerful kicking attack, provides natural armor, and removes the need to wear shoes; however, you cannot wear normal shoes.  Reduces wet effects.",
     "types": [ "FEET", "SOLES" ],
     "category": [ "CATTLE", "CHIMERA" ],
     "wet_protection": [ { "part": "foot_l", "neutral": 10 }, { "part": "foot_r", "neutral": 10 } ],
