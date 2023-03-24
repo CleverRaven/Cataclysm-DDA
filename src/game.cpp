@@ -2426,7 +2426,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "sky" );
     ctxt.register_action( "missions" );
     ctxt.register_action( "factions" );
-    ctxt.register_action( "scores" );
     ctxt.register_action( "morale" );
     ctxt.register_action( "messages" );
     ctxt.register_action( "help" );

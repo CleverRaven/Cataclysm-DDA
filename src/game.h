@@ -526,6 +526,8 @@ class game
         void reload_npcs();
         void remove_npc( character_id const &id );
         const kill_tracker &get_kill_tracker() const;
+        stats_tracker &stats();
+        achievements_tracker &achievements();
         /** Add follower id to set of followers. */
         void add_npc_follower( const character_id &id );
         /** Remove follower id from follower set. */
@@ -1042,9 +1044,7 @@ class game
         const scenario *scen = nullptr; // NOLINT(cata-serialize)
 
         event_bus &events();
-        stats_tracker &stats();
         timed_event_manager &timed_events; // NOLINT(cata-serialize)
-        achievements_tracker &achievements();
         memorial_logger &memorial();
 
         global_variables global_variables_instance;

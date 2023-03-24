@@ -14,6 +14,7 @@
 #include "options.h"
 #include "output.h"
 #include "popup.h"
+#include "scores_ui.h"
 #include "string_editor_window.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -177,6 +178,7 @@ void diary::show_diary_ui( diary *c_diary )
     ctxt.register_action( "NEW_PAGE" );
     ctxt.register_action( "DELETE PAGE" );
     ctxt.register_action( "EXPORT_DIARY" );
+    ctxt.register_action( "VIEW_SCORES" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     ui_adaptor ui_diary;
@@ -245,7 +247,7 @@ void diary::show_diary_ui( diary *c_diary )
         const point &beg = beg_and_max.first;
         const point &max = beg_and_max.second;
 
-        w_desc = catacurses::newwin( 3, max.x * 3 / 10 + max.x + 10, point( beg.x - 5 - max.x * 3 / 10,
+        w_desc = catacurses::newwin( 4, max.x * 3 / 10 + max.x + 10, point( beg.x - 5 - max.x * 3 / 10,
                                      beg.y - 6 ) );
 
         ui.position_from_window( w_desc );
@@ -263,6 +265,8 @@ void diary::show_diary_ui( diary *c_diary )
                                           ctxt.get_desc( "EXPORT_DIARY", _( "Export diary" ), input_context::allow_all_keys )
                                         );
         center_print( w_desc, 1,  c_white, desc );
+        center_print( w_desc, 2,  c_white, ctxt.get_desc( "VIEW_SCORES",
+                      _( "View achievements, scores, and kills" ), input_context::allow_all_keys ) );
 
         wnoutrefresh( w_desc );
     } );
@@ -339,6 +343,8 @@ void diary::show_diary_ui( diary *c_diary )
             c_diary->new_page();
             selected[window_mode::PAGE_WIN] = c_diary->pages.size() - 1;
 
+        } else if( action == "VIEW_SCORES" ) {
+            show_scores_ui( g->achievements(), g->stats(), g->get_kill_tracker() );
         } else if( action == "DELETE PAGE" ) {
             if( !c_diary->pages.empty() ) {
                 if( query_yn( _( "Really delete Page?" ) ) ) {
