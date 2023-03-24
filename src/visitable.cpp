@@ -514,7 +514,8 @@ VisitResponse map_selector::visit_items(
 VisitResponse vehicle_cursor::visit_items(
     const std::function<VisitResponse( item *, item * )> &func ) const
 {
-    int idx = veh.part_with_feature( part, "CARGO", true );
+    const vehicle_part &vp = veh.part( part );
+    const int idx = veh.part_with_feature( vp.mount, "CARGO", true );
     if( idx >= 0 ) {
         for( item &e : veh.get_items( idx ) ) {
             if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
@@ -740,17 +741,17 @@ std::list<item> vehicle_cursor::remove_items_with( const
         // nothing to do
         return res;
     }
-
-    int idx = veh.part_with_feature( part, "CARGO", false );
+    const vehicle_part &vp = veh.part( part );
+    const int idx = veh.part_with_feature( vp.mount, "CARGO", false );
     if( idx < 0 ) {
         return res;
     }
 
-    vehicle_part &p = veh.part( idx );
-    for( auto iter = p.items.begin(); iter != p.items.end(); ) {
+    cata::colony<item> &items = veh.part( idx ).items;
+    for( auto iter = items.begin(); iter != items.end(); ) {
         if( filter( *iter ) ) {
             res.push_back( *iter );
-            iter = p.items.erase( iter );
+            iter = items.erase( iter );
 
             if( --count == 0 ) {
                 return res;

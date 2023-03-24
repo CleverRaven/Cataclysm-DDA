@@ -700,7 +700,7 @@ static bool can_pickup_at( const tripoint &p )
     map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
     if( vp ) {
-        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
+        const int cargo_part = vp->vehicle().part_with_feature( vp->mount(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
 
