@@ -229,10 +229,7 @@
     "tools": [
       [ [ "welder", 800 ], [ "welding_kit", 800 ], [ "welder_crude", 1600 ], [ "oxy_torch", 40 ], [ "propane_torch", 320 ] ]
     ],
-    "components": [
-      [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
-      [ [ "rebar", 1 ] ]
-    ]
+    "components": [ [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ], [ [ "rebar", 1 ] ] ]
   },
   {
     "id": "chainmail_standard",
