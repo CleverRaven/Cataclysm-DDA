@@ -1438,7 +1438,8 @@ class item : public visitable
          * Helper to bring a cable back to its initial state.
          * @return True if the cable should be deleted.
          */
-        const bool reset_cable( Character *p = nullptr, item *parent_item = nullptr, const bool loose_message = false, const tripoint sees_point = tripoint_zero );
+        const bool reset_cable( Character *p = nullptr, item *parent_item = nullptr,
+                                const bool loose_message = false, const tripoint sees_point = tripoint_zero );
         void reset_cables( Character *p );
 
         /**

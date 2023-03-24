@@ -12777,26 +12777,26 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 
     // Lambda function for checking if a cable's been stretched too long, resetting it if so.
     // @return True if the cable is disconnected.
-    const auto is_cable_too_long = [this,carrier,pos,parent_item,&here,last_t_abs_pos_is_oob]() {
+    const auto is_cable_too_long = [this, carrier, pos, parent_item, &here, last_t_abs_pos_is_oob]() {
         if( debug_mode ) {
             add_msg_debug( debugmode::DF_IUSE, "%s linked to %s%s, length %d/%d",
-                parent_item != nullptr ? parent_item->label( 1 ) : label( 1 ),
-                link.t_abs_pos.to_string(), last_t_abs_pos_is_oob ? " (OoB)" : "",
-                link.max_length - charges, link.max_length );
+                           parent_item != nullptr ? parent_item->label( 1 ) : label( 1 ),
+                           link.t_abs_pos.to_string(), last_t_abs_pos_is_oob ? " (OoB)" : "",
+                           link.max_length - charges, link.max_length );
         }
         if( charges == 0 && carrier != nullptr ) {
             carrier->add_msg_if_player( m_warning, parent_item == nullptr ?
-                string_format( _( "Your %s is stretched to its limit!" ), label( 1 ) ) :
-                string_format( _( "Your %s's cable is stretched to its limit!" ), parent_item->label( 1 ) ) );
+                                        string_format( _( "Your %s is stretched to its limit!" ), label( 1 ) ) :
+                                        string_format( _( "Your %s's cable is stretched to its limit!" ), parent_item->label( 1 ) ) );
         } else if( charges < 0 ) {
             if( carrier != nullptr ) {
                 carrier->add_msg_if_player( m_bad, parent_item == nullptr ?
-                    string_format( _( "Your over-extended %s breaks loose!" ), label( 1 ) ) :
-                    string_format( _( "Your %s's over-extended cable breaks loose!" ), parent_item->label( 1 ) ) );
+                                            string_format( _( "Your over-extended %s breaks loose!" ), label( 1 ) ) :
+                                            string_format( _( "Your %s's over-extended cable breaks loose!" ), parent_item->label( 1 ) ) );
             } else {
                 add_msg_if_player_sees( pos, m_bad, parent_item == nullptr ?
-                    string_format( _( "The over-extended %s breaks loose!" ), label( 1 ) ) :
-                    string_format( _( "The %s's over-extended cable breaks loose!" ), parent_item->label( 1 ) ) );
+                                        string_format( _( "The over-extended %s breaks loose!" ), label( 1 ) ) :
+                                        string_format( _( "The %s's over-extended cable breaks loose!" ), parent_item->label( 1 ) ) );
             }
             return true;
         }
@@ -12817,7 +12817,8 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
             if( check_length ) {
                 // We can't get the exact connection point without the vehicle loaded, so fudge some forgiveness by adding the mount dimensions.
                 // Better to err on the side of keeping things connected.
-                charges = link.max_length - rl_dist( here.getabs( pos ), link.t_abs_pos.raw() ) + link.t_mount.abs().x + link.t_mount.abs().y;
+                charges = link.max_length - rl_dist( here.getabs( pos ), link.t_abs_pos.raw() ) +
+                          link.t_mount.abs().x + link.t_mount.abs().y;
                 if( is_cable_too_long() ) {
                     return reset_cable( carrier, parent_item );
                 }
@@ -12840,7 +12841,8 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     // we should always process it to avoid erroneously skipping devices riding inside of it.
     if( last_t_abs_pos_is_oob && t_veh->velocity < HALF_MAPSIZE_X * 400 ) {
         if( check_length ) {
-            charges = link.max_length - rl_dist( here.getabs( pos ), link.t_abs_pos.raw() ) + link.t_mount.abs().x + link.t_mount.abs().y;
+            charges = link.max_length - rl_dist( here.getabs( pos ), link.t_abs_pos.raw() ) +
+                      link.t_mount.abs().x + link.t_mount.abs().y;
             if( is_cable_too_long() ) {
                 return reset_cable( carrier, parent_item );
             }
@@ -12868,7 +12870,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         link.t_abs_pos = new_t_abs_pos;
         check_length = true;
     }
-    
+
     // If either the link's connected sides moved, check cable's length.
     if( check_length ) {
         charges = link.max_length - rl_dist( pos, t_veh_bub_pos + t_veh->part( link_vp_index ).precalc[0] );
@@ -12925,13 +12927,14 @@ const int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh,
         // This is used for determining which to do.
         bool short_time_passed = turns_elapsed <= link.charge_interval;
 
-        if( !calendar::once_every( time_duration::from_turns( link.charge_interval ) ) && short_time_passed ) {
+        if( !calendar::once_every( time_duration::from_turns( link.charge_interval ) ) &&
+            short_time_passed ) {
             return link.charge_rate;
         }
 
         // If a long time passed, multiply the total by the efficiency rather than cancelling a charge.
         int transfer_total = short_time_passed ? 1 :
-            ( turns_elapsed / link.charge_interval ) * ( 1.0 - 1.0 / link.charge_efficiency );
+                             ( turns_elapsed / link.charge_interval ) * ( 1.0 - 1.0 / link.charge_efficiency );
 
         if( power_in ) {
             const int battery_deficit = linked_veh.discharge_battery( transfer_total, true );
@@ -12958,7 +12961,8 @@ const int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh,
     return 0;
 }
 
-const bool item::reset_cable( Character *p, item *parent_item, const bool loose_message, const tripoint sees_point )
+const bool item::reset_cable( Character *p, item *parent_item, const bool loose_message,
+                              const tripoint sees_point )
 {
     link.t_abs_pos = tripoint_abs_ms( tripoint_min );
     link.i_bub_pos = tripoint_min;
@@ -12969,8 +12973,8 @@ const bool item::reset_cable( Character *p, item *parent_item, const bool loose_
         // Character is holding the item, so immediately reel it up.
         if( loose_message ) {
             p->add_msg_if_player( m_bad, parent_item == nullptr ?
-                string_format( _( "You notice your %s has come loose!" ), label( 1 ) ) :
-                string_format( _( "You notice your %s's cable has come loose!" ), parent_item->label( 1 ) ) );
+                                  string_format( _( "You notice your %s has come loose!" ), label( 1 ) ) :
+                                  string_format( _( "You notice your %s's cable has come loose!" ), parent_item->label( 1 ) ) );
         }
         p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
         //p->moves -= charges * 10; TODOkama Make this only happen when safe, and interruptible?
@@ -12980,8 +12984,8 @@ const bool item::reset_cable( Character *p, item *parent_item, const bool loose_
     } else {
         if( loose_message ) {
             add_msg_if_player_sees( sees_point, m_bad, parent_item == nullptr ?
-                string_format( _( "You notice the %s has come loose!" ), label( 1 ) ) :
-                string_format( _( "You notice the %s's cable has come loose!" ), parent_item->label( 1 ) ) );
+                                    string_format( _( "You notice the %s has come loose!" ), label( 1 ) ) :
+                                    string_format( _( "You notice the %s's cable has come loose!" ), parent_item->label( 1 ) ) );
         }
         // Character isn't holding the item, so wait until the player picks it up to reel it up.
         link.state = cable_state::needs_reeling;
