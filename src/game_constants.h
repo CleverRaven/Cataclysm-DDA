@@ -22,7 +22,6 @@ static constexpr int LOCATION_WIDTH = 48;
 static constexpr int STATUS_HEIGHT = 4;
 static constexpr int STATUS_WIDTH = 55;
 
-static constexpr int BLINK_SPEED = 300;
 static constexpr int EXPLOSION_MULTIPLIER = 7;
 
 // Really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet).
@@ -203,16 +202,16 @@ const std::map<float, std::string> activity_levels_str_map = {
     { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
 };
 
-// these are the lower bounds of each of the weight classes.
+// these are the lower bounds of each of the weight classes, determined by the amount of BMI coming from stored calories (fat)
 namespace character_weight_category
 {
-constexpr float emaciated = 14.0f;
-constexpr float underweight = 16.0f;
-constexpr float normal = 18.5f;
-constexpr float overweight = 25.0f;
-constexpr float obese = 30.0f;
-constexpr float very_obese = 35.0f;
-constexpr float morbidly_obese = 40.0f;
+constexpr float emaciated = 1.0f;
+constexpr float underweight = 2.0f;
+constexpr float normal = 3.0f;
+constexpr float overweight = 5.0f;
+constexpr float obese = 10.0f;
+constexpr float very_obese = 15.0f;
+constexpr float morbidly_obese = 20.0f;
 } // namespace character_weight_category
 
 // these are the lower bounds of each of the health classes.

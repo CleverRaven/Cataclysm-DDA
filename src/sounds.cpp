@@ -66,10 +66,14 @@ static bool audio_muted = false;
 #endif
 
 static weather_type_id previous_weather;
-static cata::optional<bool> previous_is_night;
+#if defined(SDL_SOUND)
+static std::optional<bool> previous_is_night;
+#endif
 static float g_sfx_volume_multiplier = 1.0f;
-static auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-static auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
+static std::chrono::high_resolution_clock::time_point start_sfx_timestamp =
+    std::chrono::high_resolution_clock::now();
+static std::chrono::high_resolution_clock::time_point end_sfx_timestamp =
+    std::chrono::high_resolution_clock::now();
 static auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 static activity_id act;
 static std::pair<std::string, std::string> engine_external_id_and_variant;
@@ -877,23 +881,24 @@ void sfx::do_vehicle_engine_sfx()
     const bool indoors = !is_creature_outside( player_character );
     const bool night = is_night( calendar::turn );
 
-    for( size_t e = 0; e < veh->engines.size(); ++e ) {
-        if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_internal",
-                                        veh->part_info( veh->engines[ e ] ).get_id().str(),
-                                        seas_str, indoors, night ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal",
-                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
-            } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "muscle" );
-            } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "wind" );
-            } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "electric" );
-            } else {
-                id_and_variant = std::make_pair( "engine_working_internal", "combustion" );
-            }
+    for( const int p : veh->engines ) {
+        const vehicle_part &vp = veh->part( p );
+        if( !veh->is_engine_on( vp ) ) {
+            continue;
         }
+        std::string variant = vp.info().get_id().str();
+        if( sfx::has_variant_sound( "engine_working_internal", variant, seas_str, indoors, night ) ) {
+            // has special sound variant for this vpart id
+        } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
+            variant = "muscle";
+        } else if( veh->is_engine_type( vp, fuel_type_wind ) ) {
+            variant = "wind";
+        } else if( veh->is_engine_type( vp, fuel_type_battery ) ) {
+            variant = "electric";
+        } else {
+            variant = "combustion";
+        }
+        id_and_variant = std::make_pair( "engine_working_internal", variant );
     }
 
     if( !is_channel_playing( ch ) ) {
@@ -1020,23 +1025,24 @@ void sfx::do_vehicle_exterior_engine_sfx()
     const bool indoors = !is_creature_outside( player_character );
     const bool night = is_night( calendar::turn );
 
-    for( size_t e = 0; e < veh->engines.size(); ++e ) {
-        if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_external",
-                                        veh->part_info( veh->engines[ e ] ).get_id().str(),
-                                        seas_str, indoors, night ) ) {
-                id_and_variant = std::make_pair( "engine_working_external",
-                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
-            } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "muscle" );
-            } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "wind" );
-            } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "electric" );
-            } else {
-                id_and_variant = std::make_pair( "engine_working_external", "combustion" );
-            }
+    for( const int p : veh->engines ) {
+        const vehicle_part &vp = veh->part( p );
+        if( !veh->is_engine_on( vp ) ) {
+            continue;
         }
+        std::string variant = vp.info().get_id().str();
+        if( sfx::has_variant_sound( "engine_working_external", variant, seas_str, indoors, night ) ) {
+            // has special sound variant for this vpart id
+        } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
+            variant = "muscle";
+        } else if( veh->is_engine_type( vp, fuel_type_wind ) ) {
+            variant = "wind";
+        } else if( veh->is_engine_type( vp, fuel_type_battery ) ) {
+            variant = "electric";
+        } else {
+            variant = "combustion";
+        }
+        id_and_variant = std::make_pair( "engine_working_external", variant );
     }
 
     if( is_channel_playing( ch ) ) {
@@ -1151,7 +1157,8 @@ void sfx::do_ambient()
             channel::outdoor_blizzard,
             channel::outdoors_clear_env,
             channel::outdoors_sunny_env,
-            channel::outdoors_cloudy_env
+            channel::outdoors_cloudy_env,
+            channel::outdoors_portal_storm_env
         };
         std::set<channel> active_channels;
         for( const channel &ch : outdoor_channels ) {
@@ -1775,8 +1782,8 @@ void sfx::do_footstep()
 
         const auto play_plmove_sound_variant = [&]( const std::string & variant,
                                                const std::string & season,
-                                               const cata::optional<bool> &indoors,
-        const cata::optional<bool> &night ) {
+                                               const std::optional<bool> &indoors,
+        const std::optional<bool> &night ) {
             play_variant_sound( "plmove", variant, season, indoors, night,
                                 heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
@@ -1839,26 +1846,30 @@ void sfx::do_obstacle( const std::string &obst )
         return;
     }
 
-    const Character &player_character = get_player_character();
-    const season_type seas = season_of_year( calendar::turn );
-    const std::string seas_str = season_str( seas );
-    const bool indoors = !is_creature_outside( player_character );
-    const bool night = is_night( calendar::turn );
-    int heard_volume = sfx::get_heard_volume( player_character.pos() );
-    if( sfx::has_variant_sound( "plmove", obst, seas_str, indoors, night ) ) {
-        play_variant_sound( "plmove", obst, seas_str, indoors, night,
-                            heard_volume, 0_degrees, 0.8, 1.2 );
-    } else if( ter_str_id( obst ).is_valid() &&
-               ( ter_id( obst )->has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ||
-                 ter_id( obst )->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) ) {
-        play_variant_sound( "plmove", "walk_water", seas_str, indoors, night,
-                            heard_volume, 0_degrees, 0.8, 1.2 );
-    } else {
-        play_variant_sound( "plmove", "clear_obstacle", seas_str, indoors,
-                            night, heard_volume, 0_degrees, 0.8, 1.2 );
+    end_sfx_timestamp = std::chrono::high_resolution_clock::now();
+    sfx_time = end_sfx_timestamp - start_sfx_timestamp;
+    if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
+        const Character &player_character = get_player_character();
+        const season_type seas = season_of_year( calendar::turn );
+        const std::string seas_str = season_str( seas );
+        const bool indoors = !is_creature_outside( player_character );
+        const bool night = is_night( calendar::turn );
+        int heard_volume = sfx::get_heard_volume( player_character.pos() );
+        if( sfx::has_variant_sound( "plmove", obst, seas_str, indoors, night ) ) {
+            play_variant_sound( "plmove", obst, seas_str, indoors, night,
+                                heard_volume, 0_degrees, 0.8, 1.2 );
+        } else if( ter_str_id( obst ).is_valid() &&
+                   ( ter_id( obst )->has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER ) ||
+                     ter_id( obst )->has_flag( ter_furn_flag::TFLAG_DEEP_WATER ) ) ) {
+            play_variant_sound( "plmove", "walk_water", seas_str, indoors, night,
+                                heard_volume, 0_degrees, 0.8, 1.2 );
+        } else {
+            play_variant_sound( "plmove", "clear_obstacle", seas_str, indoors,
+                                night, heard_volume, 0_degrees, 0.8, 1.2 );
+        }
+        // prevent footsteps from triggering
+        start_sfx_timestamp = std::chrono::high_resolution_clock::now();
     }
-    // prevent footsteps from triggering
-    start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 }
 
 void sfx::play_activity_sound( const std::string &id, const std::string &variant, int volume )
@@ -1978,7 +1989,7 @@ void sfx::do_player_death_hurt( const Character &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle( const std::string & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, const std::string &,
-                              const cata::optional<bool> &, const cata::optional<bool> &, int ) { }
+                              const std::optional<bool> &, const std::optional<bool> &, int ) { }
 /*@}*/
 
 #endif // if defined(SDL_SOUND)

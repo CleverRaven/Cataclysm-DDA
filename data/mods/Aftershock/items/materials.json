@@ -89,5 +89,21 @@
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
     "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "material",
+    "id": "enamel",
+    "name": "enamel",
+    "density": 6,
+    "bash_resist": 4,
+    "cut_resist": 7,
+    "bullet_resist": 6,
+    "acid_resist": 2,
+    "fire_resist": 4,
+    "elec_resist": 8,
+    "chip_resist": 2,
+    "dmg_adj": [ "scratched", "chipped", "cracked", "shattered" ],
+    "bash_dmg_verb": "chipped",
+    "cut_dmg_verb": "scratched"
   }
 ]

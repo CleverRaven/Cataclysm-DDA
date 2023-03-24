@@ -24,12 +24,42 @@ enum class type : int;
 } // namespace om_direction
 
 struct mapgen_arguments {
+    mapgen_arguments() = default;
+
+    template <
+        typename InputRange,
+        std::enable_if_t <
+            std::is_same <
+                typename InputRange::value_type, std::pair<std::string, cata_variant>
+                >::value ||
+            std::is_same <
+                typename InputRange::value_type, std::pair<const std::string, cata_variant>
+                >::value
+            > * = nullptr >
+    explicit mapgen_arguments( const InputRange &map_ )
+        : map( map_.begin(), map_.end() )
+    {}
+
     std::unordered_map<std::string, cata_variant> map;
+
+    bool operator==( const mapgen_arguments &other ) const {
+        return map == other.map;
+    }
 
     void merge( const mapgen_arguments & );
     void serialize( JsonOut & ) const;
     void deserialize( const JsonValue &ji );
 };
+
+namespace std
+{
+
+template<>
+struct hash<mapgen_arguments> {
+    size_t operator()( const mapgen_arguments & ) const noexcept;
+};
+
+} // namespace std
 
 namespace mapgendata_detail
 {
@@ -44,6 +74,11 @@ template<>
 inline std::string extract_variant_value<std::string>( const cata_variant &v )
 {
     return v.get_string();
+}
+template<>
+inline cata_variant extract_variant_value<cata_variant>( const cata_variant &v )
+{
+    return v;
 }
 
 } // namespace mapgendata_detail

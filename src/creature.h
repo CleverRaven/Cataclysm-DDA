@@ -473,10 +473,6 @@ class Creature : public viewer
         virtual void deal_damage_handle_type( const effect_source &source, const damage_unit &du,
                                               bodypart_id bp, int &damage, int &pain );
 
-        // Pass handling bleed to creature/character
-        virtual void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                                 int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) = 0;
-
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
         virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
@@ -617,6 +613,7 @@ class Creature : public viewer
         bool has_effect_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
         bool has_effect_with_flag( const flag_id &flag ) const;
         std::vector<effect> get_effects_with_flag( const flag_id &flag ) const;
+        std::vector<effect> get_effects_from_bp( const bodypart_id &bp ) const;
         std::vector<effect> get_effects() const;
 
         /** Return the effect that matches the given arguments exactly. */
@@ -674,6 +671,7 @@ class Creature : public viewer
         virtual int get_num_blocks_bonus() const;
         virtual int get_num_dodges_bonus() const;
         virtual int get_num_dodges_base() const;
+        virtual int get_num_blocks_base() const;
 
         virtual int get_env_resist( bodypart_id bp ) const;
 
@@ -747,6 +745,7 @@ class Creature : public viewer
         std::vector<bodypart_id> get_all_body_parts_of_type(
             body_part_type::type part_type,
             get_body_part_flags flags = get_body_part_flags::none ) const;
+        bodypart_id get_random_body_part_of_type( body_part_type::type part_type ) const;
         bodypart_id get_root_body_part() const;
         /* Returns all body parts with the given flag */
         std::vector<bodypart_id> get_all_body_parts_with_flag( const json_character_flag &flag ) const;
@@ -848,6 +847,7 @@ class Creature : public viewer
         virtual void mod_stat( const std::string &stat, float modifier );
 
         virtual void set_num_blocks_bonus( int nblocks );
+        virtual void mod_num_blocks_bonus( int nblocks );
         virtual void mod_num_dodges_bonus( int ndodges );
 
         virtual void set_armor_bash_bonus( int nbasharm );
@@ -1202,8 +1202,8 @@ class Creature : public viewer
         virtual void process_one_effect( effect &e, bool is_new ) = 0;
 
         pimpl<effects_map> effects;
-        static std::queue<scheduled_effect> scheduled_effects;
-        static std::queue<terminating_effect> terminating_effects;
+        std::queue<scheduled_effect, std::list<scheduled_effect>> scheduled_effects;
+        std::queue<terminating_effect, std::list<terminating_effect>> terminating_effects;
 
         std::vector<damage_over_time_data> damage_over_time_map;
 
@@ -1248,7 +1248,8 @@ class Creature : public viewer
 
         virtual void on_stat_change( const std::string &, int ) {}
         virtual void on_effect_int_change( const efftype_id &, int, const bodypart_id & ) {}
-        virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
+        virtual void on_damage_of_type( const effect_source &, int, damage_type,
+                                        const bodypart_id & ) {}
 
     public:
         // Keep a count of moves passed in which resets every 100 turns as a result of practicing archery proficiency

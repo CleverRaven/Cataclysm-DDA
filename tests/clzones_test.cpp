@@ -44,7 +44,7 @@ int _count_items_or_charges( const T &items, const itype_id &id )
 }
 
 int count_items_or_charges( const tripoint src, const itype_id &id,
-                            const cata::optional<vpart_reference> &vp )
+                            const std::optional<vpart_reference> &vp )
 {
     if( vp ) {
         return _count_items_or_charges( vp->vehicle().get_items( vp->part_index() ), id );
@@ -65,7 +65,7 @@ TEST_CASE( "zone unloading ammo belts", "[zones][items][ammo_belt][activities][u
 {
     avatar &dummy = get_avatar();
     map &here = get_map();
-    cata::optional<vpart_reference> vp;
+    std::optional<vpart_reference> vp;
     bool const in_vehicle = GENERATE( false, true );
     CAPTURE( in_vehicle );
 

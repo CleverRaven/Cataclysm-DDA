@@ -2,6 +2,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -18,7 +19,6 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -44,6 +44,8 @@ static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
 
 static const recipe_id recipe_oatmeal_cooked( "oatmeal_cooked" );
+
+static const trait_id trait_DEBUG_CNF( "DEBUG_CNF" );
 
 static const vpart_id vpart_ap_fridge_test( "ap_fridge_test" );
 static const vpart_id vpart_halfboard_horizontal( "halfboard_horizontal" );
@@ -130,6 +132,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
 
     const tripoint test_origin( 60, 60, 0 );
     Character &character = get_player_character();
+    character.toggle_trait( trait_DEBUG_CNF );
     const item backpack( "backpack" );
     character.wear_item( backpack );
     for( const item &i : items ) {
@@ -151,7 +154,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     REQUIRE( ovp.has_value() );
     vehicle &veh = ovp->vehicle();
 
-    REQUIRE( veh.fuel_left( itype_water_clean, true ) == 0 );
+    REQUIRE( veh.fuel_left( itype_water_clean ) == 0 );
     for( const vpart_reference &tank : veh.get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
         tank.part().ammo_set( itype_water_clean, give_water );
         break;
@@ -196,7 +199,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
     }
 
     CHECK( veh.battery_power_level().first == expect_battery );
-    CHECK( veh.fuel_left( itype_water_clean, true ) == expect_water );
+    CHECK( veh.fuel_left( itype_water_clean ) == expect_water );
 
     veh.unboard_all();
 }
@@ -218,7 +221,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     REQUIRE( ovp.has_value() );
     vehicle &veh = ovp->vehicle();
 
-    REQUIRE( veh.fuel_left( itype_water_clean, true ) == 0 );
+    REQUIRE( veh.fuel_left( itype_water_clean ) == 0 );
     item *tank_it = nullptr;
     for( const vpart_reference &tank : veh.get_avail_parts( vpart_bitflags::VPFLAG_FLUIDTANK ) ) {
         tank.part().ammo_set( itype_water_clean, water_charges );
@@ -227,9 +230,9 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
         break;
     }
     REQUIRE( tank_it != nullptr );
-    REQUIRE( veh.fuel_left( itype_water_clean, true ) == static_cast<int64_t>( water_charges ) );
+    REQUIRE( veh.fuel_left( itype_water_clean ) == static_cast<int64_t>( water_charges ) );
 
-    cata::optional<vpart_reference> faucet;
+    std::optional<vpart_reference> faucet;
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         faucet = vpr.part_with_tool( itype_water_faucet );
         if( faucet.has_value() ) {
@@ -240,7 +243,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
     get_map().board_vehicle( faucet->pos() + tripoint_east, &character );
     veh_menu menu( veh, "TEST" );
     for( int i = 0; i < water_charges; i++ ) {
-        CAPTURE( i, veh.fuel_left( itype_water_clean, true ) );
+        CAPTURE( i, veh.fuel_left( itype_water_clean ) );
         menu.reset();
         veh.build_interact_menu( menu, faucet->pos(), false );
         const std::vector<veh_menu_item> items = menu.get_items();
@@ -249,7 +252,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
         []( const veh_menu_item & it ) {
             return it._text == "Have a drink";
         } );
-        REQUIRE( veh.fuel_left( itype_water_clean, true ) == ( water_charges - i ) );
+        REQUIRE( veh.fuel_left( itype_water_clean ) == ( water_charges - i ) );
         REQUIRE( drink_item_it != items.end() );
         REQUIRE( drink_item_it->_enabled == !stomach_should_be_full ); // stomach should be full
         REQUIRE( character.get_morale_level() == ( i != 0 ? 1 : 0 ) ); // bonus morale from cold water
@@ -261,7 +264,7 @@ TEST_CASE( "faucet_offers_cold_water", "[vehicle][vehicle_parts]" )
         process_activity( character );
         REQUIRE( character.get_morale_level() == 1 );
     }
-    REQUIRE( veh.fuel_left( itype_water_clean, true ) == 0 );
+    REQUIRE( veh.fuel_left( itype_water_clean ) == 0 );
     REQUIRE( tank_it->empty_container() );
     get_map().destroy_vehicle( &veh );
 }
@@ -271,7 +274,7 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
     SECTION( "cook oatmeal without oatmeal" ) {
         std::vector<item> items;
 
-        test_craft_via_rig( items, 2, 2, 1, 1, recipe_oatmeal_cooked.obj(), false );
+        test_craft_via_rig( items, 105, 105, 1, 1, recipe_oatmeal_cooked.obj(), false );
     }
     SECTION( "cook oatmeal without battery" ) {
         std::vector<item> items;
@@ -283,13 +286,13 @@ TEST_CASE( "craft_available_via_vehicle_rig", "[vehicle][vehicle_craft]" )
         std::vector<item> items;
         items.emplace_back( itype_oatmeal );
 
-        test_craft_via_rig( items, 2, 2, 0, 0, recipe_oatmeal_cooked.obj(), false );
+        test_craft_via_rig( items, 105, 105, 0, 0, recipe_oatmeal_cooked.obj(), false );
     }
     SECTION( "cook oatmeal successfully" ) {
         std::vector<item> items;
         items.emplace_back( itype_oatmeal );
 
-        test_craft_via_rig( items, 2, 0, 1, 0, recipe_oatmeal_cooked.obj(), true );
+        test_craft_via_rig( items, 105, 0, 1, 0, recipe_oatmeal_cooked.obj(), true );
     }
 }
 

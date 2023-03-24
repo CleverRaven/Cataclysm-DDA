@@ -12,6 +12,7 @@
 #include <stdexcept>
 #include <string>
 
+#include "cached_options.h"
 #include "catacharset.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -23,6 +24,7 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "pinyin.h"
 #include "rng.h"
 #include "translations.h"
 #include "unicode.h"
@@ -89,7 +91,14 @@ bool lcmatch( const std::string &str, const std::string &qry )
     }
     // Then try removing accents from str ONLY
     std::for_each( u32_str.begin(), u32_str.end(), remove_accent );
-    return u32_str.find( u32_qry ) != std::u32string::npos;
+    if( u32_str.find( u32_qry ) != std::u32string::npos ) {
+        return true;
+    }
+    if( use_pinyin_search ) {
+        // Finally, try to convert the string to pinyin and compare
+        return pinyin::pinyin_match( u32_str, u32_qry );
+    }
+    return false;
 }
 
 bool lcmatch( const translation &str, const std::string &qry )
@@ -473,12 +482,12 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path 
     return read_maybe_compressed_file( path.get_unrelative_path() );
 }
 
-cata::optional<std::string> read_whole_file( const std::string &path )
+std::optional<std::string> read_whole_file( const std::string &path )
 {
     return read_whole_file( fs::u8path( path ) );
 }
 
-cata::optional<std::string> read_whole_file( const fs::path &path )
+std::optional<std::string> read_whole_file( const fs::path &path )
 {
     std::string outstring;
     try {
@@ -508,14 +517,14 @@ cata::optional<std::string> read_whole_file( const fs::path &path )
             throw std::runtime_error( "reading file failed" );
         }
 
-        return cata::optional<std::string>( std::move( outstring ) );
+        return std::optional<std::string>( std::move( outstring ) );
     } catch( const std::exception &err ) {
         debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
-cata::optional<std::string> read_whole_file( const cata_path &path )
+std::optional<std::string> read_whole_file( const cata_path &path )
 {
     return read_whole_file( path.get_unrelative_path() );
 }
@@ -642,17 +651,25 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
-std::string join( const std::vector<std::string> &strings, const std::string &joiner )
+std::vector<std::string> string_split( const std::string &string, char delim )
 {
-    std::ostringstream buffer;
+    std::vector<std::string> elems;
 
-    for( auto a = strings.begin(); a != strings.end(); ++a ) {
-        if( a != strings.begin() ) {
-            buffer << joiner;
-        }
-        buffer << *a;
+    if( string.empty() ) {
+        return elems; // Well, that was easy.
     }
-    return buffer.str();
+
+    std::stringstream ss( string );
+    std::string item;
+    while( std::getline( ss, item, delim ) ) {
+        elems.push_back( item );
+    }
+
+    if( string.back() == delim ) {
+        elems.emplace_back( "" );
+    }
+
+    return elems;
 }
 
 template<>

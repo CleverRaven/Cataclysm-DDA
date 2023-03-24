@@ -19,17 +19,21 @@ void _remove_if( std::list<item_reference> &active_items, item const *it )
 
 } // namespace
 
+float item_reference::spoil_multiplier()
+{
+    return std::accumulate(
+               pocket_chain.begin(), pocket_chain.end(), 1.0F,
+    []( float a, item_pocket const * pk ) {
+        return a * pk->spoil_multiplier();
+    } );
+}
+
 void active_item_cache::remove( const item *it )
 {
-    int const ps = it->processing_speed();
-    if( ps == item::NO_PROCESSING ) {
-        // this item might have contained an active item so remove it from all queues
-        for( decltype( active_items )::value_type &al : active_items ) {
-            _remove_if( al.second, it );
-        }
-    } else {
-        _remove_if( active_items[ps], it );
+    for( item const *iter : it->all_items_ptr() ) {
+        _remove_if( active_items[iter->processing_speed()], iter );
     }
+    _remove_if( active_items[it->processing_speed()], it );
     if( it->can_revive() ) {
         special_items[ special_item_type::corpse ].remove_if( [it]( const item_reference & active_item ) {
             item *const target = active_item.item_ref.get();
@@ -45,23 +49,37 @@ void active_item_cache::remove( const item *it )
     }
 }
 
-void active_item_cache::add( item &it, point location )
+bool active_item_cache::add( item &it, point location, item *parent,
+                             std::vector<item_pocket const *> const &pocket_chain )
 {
-    // If the item is already in the cache for some reason, don't add a second reference
+    std::vector<item_pocket const *> pockets = pocket_chain;
+    bool ret = false;
+    for( item_pocket *pk : it.get_all_standard_pockets() ) {
+        pockets.emplace_back( pk );
+        for( item *pkit : pk->all_items_top() ) {
+            ret |= add( *pkit, location, &it, pockets );
+        }
+    }
+    if( it.processing_speed() == item::NO_PROCESSING ) {
+        return ret;
+    }
     std::list<item_reference> &target_list = active_items[it.processing_speed()];
+    // If the item is already in the cache for some reason, don't add a second reference
     if( std::find_if( target_list.begin(),
     target_list.end(), [&it]( const item_reference & active_item_ref ) {
     return &it == active_item_ref.item_ref.get();
     } ) != target_list.end() ) {
-        return;
+        return true;
     }
+    item_reference ref{ location, it.get_safe_reference(), parent, pocket_chain };
     if( it.can_revive() ) {
-        special_items[ special_item_type::corpse ].push_back( item_reference{ location, it.get_safe_reference() } );
+        special_items[special_item_type::corpse].emplace_back( ref );
     }
     if( it.get_use( "explosion" ) ) {
-        special_items[ special_item_type::explosive ].push_back( item_reference{ location, it.get_safe_reference() } );
+        special_items[special_item_type::explosive].emplace_back( ref );
     }
-    target_list.push_back( item_reference{ location, it.get_safe_reference() } );
+    target_list.emplace_back( std::move( ref ) );
+    return true;
 }
 
 bool active_item_cache::empty() const
@@ -118,8 +136,14 @@ std::vector<item_reference> active_item_cache::get_for_processing()
 std::vector<item_reference> active_item_cache::get_special( special_item_type type )
 {
     std::vector<item_reference> matching_items;
-    for( const item_reference &it : special_items[type] ) {
-        matching_items.push_back( it );
+    std::list<item_reference> &items = special_items[type];
+    for( auto it = items.begin(); it != items.end(); ) {
+        if( it->item_ref ) {
+            matching_items.push_back( *it );
+            ++it;
+        } else {
+            it = items.erase( it );
+        }
     }
     return matching_items;
 }

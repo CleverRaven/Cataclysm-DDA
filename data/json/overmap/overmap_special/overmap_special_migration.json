@@ -36,6 +36,11 @@
   },
   {
     "type": "overmap_special_migration",
+    "id": "FakeSpecial_cs_open_sewer",
+    "new_id": "cs_open_sewer"
+  },
+  {
+    "type": "overmap_special_migration",
     "id": "Mine Entrance",
     "//": "Removed - no new id"
   },
@@ -48,5 +53,15 @@
     "type": "overmap_special_migration",
     "id": "Movie Theater",
     "new_id": "Drive-in Theater"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Mansion_Wild",
+    "new_id": "Mansion_Road_1"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "Mansion_WildAlt",
+    "new_id": "Mansion_Road_Alt_1"
   }
 ]
