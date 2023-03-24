@@ -249,5 +249,15 @@
     "name": { "str": "Doctor: red zone badge" },
     "description": "An employee badge for a medical doctor.  The reverse side describes the protocol for using it; this could grant access at red zone card readers.",
     "flags": [ "SCIENCE_CARD_MEDICAL_RED", "PRESERVE_SPAWN_OMT" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_science_mu",
+    "symbol": ",",
+    "copy-from": "id_science",
+    "name": { "str": "System supervisor: slate zone badge" },
+    "//": "Given by Hub 01's director, intentionally works everywhere.",
+    "description": "This is an employee badge for a system's supervisor.  The reverse side describes the protocol for using it; this could grant access through white zone card readers.",
+    "flags": [ "SCIENCE_CARD_MU_UNIVERSAL" ]
   }
 ]

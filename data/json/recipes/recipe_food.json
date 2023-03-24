@@ -81,15 +81,7 @@
     "//2": "https://blackblum.com/pages/charcoal-water-filter",
     "//3": "50g of charcoal for 1 liter of water = 12.5g of charcoal per u of water.  1u charcoal weighs 1.04g, so making it 12:1",
     "autolearn": true,
-    "tools": [
-      [
-        [ "water_purifier", 14 ],
-        [ "water_purifier_tool", 14 ],
-        [ "pur_tablets", 1 ],
-        [ "char_purifier", 12 ],
-        [ "char_purifier_clay", 12 ]
-      ]
-    ],
+    "tools": [ [ [ "water_purifier", 14 ], [ "pur_tablets", 1 ], [ "char_purifier", 12 ], [ "char_purifier_clay", 12 ] ] ],
     "components": [ [ [ "water", 1 ] ] ]
   },
   {
@@ -745,7 +737,7 @@
     "//": "capacity: 50kg/hour * 40% efficiency = 20 L/hour -> 45s / 250 mL",
     "time": "45 s",
     "//2": "45 s * 5.5kW = 250 kJ",
-    "tools": [ [ [ "pseudo_veh_oil_press", 250 ] ] ],
+    "tools": [ [ [ "oil_press_electric", 250 ] ] ],
     "autolearn": true,
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_food_prep" } ],

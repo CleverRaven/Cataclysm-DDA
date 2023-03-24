@@ -1611,6 +1611,7 @@
     "weight": "6 kg",
     "volume": "11500 ml",
     "price": 30000,
+    "price_postapoc": 500,
     "material": [ "asbestos" ],
     "symbol": "#",
     "color": "light_gray"
@@ -1623,6 +1624,7 @@
     "weight": "3 kg",
     "volume": "11500 ml",
     "price": 3000,
+    "price_postapoc": 200,
     "material": [ "epoxy", "kevlar" ],
     "symbol": "#",
     "color": "light_gray"

@@ -646,7 +646,7 @@ void item_contents::read_mods( const item_contents &read_input )
 }
 
 void item_contents::combine( const item_contents &read_input, const bool convert,
-                             const bool into_bottom )
+                             const bool into_bottom, bool restack_charges )
 {
     std::vector<item> uninserted_items;
     size_t pocket_index = 0;
@@ -692,7 +692,7 @@ void item_contents::combine( const item_contents &read_input, const bool convert
 
             for( const item *it : pocket.all_items_top() ) {
                 const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it,
-                        into_bottom );
+                        into_bottom, restack_charges );
                 if( !inserted.success() ) {
                     uninserted_items.push_back( *it );
                     debugmsg( "error: item %s cannot fit into pocket while loading: %s",

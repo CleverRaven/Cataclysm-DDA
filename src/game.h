@@ -41,6 +41,7 @@ class creature_tracker;
 class JsonValue;
 class item;
 class location;
+class eoc_events;
 class spell_events;
 class viewer;
 
@@ -1031,6 +1032,8 @@ class game
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr; // NOLINT(cata-serialize)
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
+        pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
+
 
         map &m;
         avatar &u;
