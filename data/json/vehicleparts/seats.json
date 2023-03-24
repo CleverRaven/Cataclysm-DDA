@@ -171,7 +171,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "mechanics", 2 ] ],
-        "time": "20 s",
+        "time": "20 m",
         "using": [ [ "repair_welding_standard", 1 ], [ "sewing_standard", 4 ] ]
       }
     },
@@ -198,11 +198,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 3 ] ],
-        "time": "20 s",
-        "using": [ [ "sewing_standard", 3 ] ]
-      }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "sewing_standard", 3 ] ] }
     },
     "flags": [ "SEAT", "BOARDABLE", "NONBELTABLE" ],
     "breaks_into": [ { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
