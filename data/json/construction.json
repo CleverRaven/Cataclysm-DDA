@@ -7815,7 +7815,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "10 m",
-    "components": [ [ [ "lumber", 4 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_6", 2 ] ] ],
+    "components": [ [ [ "timber", 4 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_6", 2 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_stack_timber"
   }
