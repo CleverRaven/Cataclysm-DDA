@@ -324,7 +324,7 @@
   {
     "id": "timber",
     "type": "GENERIC",
-    "name": { "str": "lumber" },
+    "name": { "str": "timber" },
     "description": "A large and uncut timber log straight from a tree.",
     "category": "other",
     "weight": "75000 g",
