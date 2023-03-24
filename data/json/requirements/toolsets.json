@@ -227,13 +227,7 @@
     "//2": "acetlyne is measured in grams while propane is measured in ml - this means acetlyene is roughly 2x as potent as propane per charge",
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "SAW_M", "level": 2 } ],
     "tools": [
-      [
-        [ "welder", 800 ],
-        [ "welding_kit", 800 ],
-        [ "welder_crude", 1600 ],
-        [ "oxy_torch", 40 ],
-        [ "propane_torch", 320 ]
-      ]
+      [ [ "welder", 800 ], [ "welding_kit", 800 ], [ "welder_crude", 1600 ], [ "oxy_torch", 40 ], [ "propane_torch", 320 ] ]
     ],
     "components": [
       [ [ "welding_rod_steel", 10 ], [ "welding_wire_steel", 10 ], [ "brazing_rod_bronze", 10 ] ],
