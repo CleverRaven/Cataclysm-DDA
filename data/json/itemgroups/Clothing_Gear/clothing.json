@@ -1976,6 +1976,7 @@
     "entries": [
       { "item": "backpack", "prob": 38 },
       { "item": "backpack_hiking", "prob": 3 },
+      { "item": "backpack_hunting", "prob": 1 },
       { "item": "petpack", "prob": 3 },
       { "item": "backpack_tactical_large", "prob": 1 },
       { "item": "bigback", "prob": 1 },
@@ -1997,6 +1998,7 @@
     "entries": [
       { "item": "backpack", "prob": 38 },
       { "item": "backpack_hiking", "prob": 3 },
+      { "item": "backpack_hunting", "prob": 1 },
       { "item": "daypack", "prob": 3 },
       { "item": "backpack_tactical_large", "prob": 1 },
       { "group": "molle_backpacks_and_accessories", "prob": 1 },
