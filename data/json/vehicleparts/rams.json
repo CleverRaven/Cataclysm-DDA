@@ -61,8 +61,16 @@
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "15 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "damage_reduction": { "all": 87 }
