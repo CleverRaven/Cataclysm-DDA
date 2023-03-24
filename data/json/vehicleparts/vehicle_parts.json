@@ -2540,7 +2540,7 @@
   {
     "type": "vehicle_part",
     "id": "jumper_cable_debug",
-    "name": { "str": "shiny cable" },
+    "name": { "str": "shiny debug cable" },
     "symbol": "{",
     "categories": [ "other" ],
     "color": "yellow",
