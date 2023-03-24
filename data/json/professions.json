@@ -688,7 +688,7 @@
     "id": "churl",
     "name": "Churl",
     "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous Cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
-    "points": 1,
+    "points": 0,
     "items": {
       "both": {
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "small_relic", "gloves_wraps", "tunic_rag" ],
@@ -706,7 +706,8 @@
       { "level": 1, "name": "fabrication" },
       { "level": 1, "name": "tailor" }
     ],
-    "traits": [ "PROF_CHURL" ]
+    "traits": [ "PROF_CHURL", "ILLITERATE" ],
+    "flags": [ "SCEN_ONLY" ]
   },
   {
     "type": "profession",
@@ -1599,7 +1600,7 @@
           "glasses_safety",
           "wristwatch",
           "water_clean",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           { "item": "adhesive_bandages", "count": 10 },
           "aspirin",
           "stethoscope"
@@ -1710,7 +1711,7 @@
           "dress_shoes",
           "coat_lab",
           "water_clean",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           { "item": "adhesive_bandages", "count": 10 },
           "aspirin",
           "stethoscope",
@@ -3649,19 +3650,14 @@
           "tac_helmet",
           "canteen",
           "wristwatch",
-          "quikclot"
+          "quikclot",
+          "mess_kit"
         ],
         "entries": [
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m4_carbine", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
-          {
-            "item": "medium_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 600,
-            "container-item": "mil_mess_kit"
-          },
           { "group": "charged_two_way_radio" },
           { "item": "chestrig", "contents-group": "army_mags_m4" }
         ]
@@ -3739,13 +3735,13 @@
           "clay_pot",
           "waterskin",
           "awl_bone",
-          "fur_rollmat",
-          "fire_drill"
+          "fur_rollmat"
         ],
         "entries": [
           { "item": "needle_bone", "ammo-item": "sinew", "charges": 200 },
           { "item": "primitive_knife", "container-item": "sheath" },
-          { "item": "quiver", "contents-group": "quiver_naturalist" }
+          { "item": "quiver", "contents-group": "quiver_naturalist" },
+          { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
         ]
       },
       "male": [ "chestwrap_fur", "loincloth_fur" ],
@@ -4766,7 +4762,8 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
     },
-    "flags": [ "SCEN_ONLY" ]
+    "flags": [ "SCEN_ONLY" ],
+    "missions": [ "MISSION_HELICOPTER_PILOT" ]
   },
   {
     "type": "profession",
@@ -4811,7 +4808,7 @@
           "wristwatch",
           "boots",
           "mbag",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           "stethoscope",
           "scissors",
           "syringe",
@@ -4864,7 +4861,7 @@
           "boots_combat",
           "wristwatch",
           "thermometer",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           "scalpel",
           "syringe",
           "morphine",
@@ -4913,7 +4910,7 @@
           "sneakers",
           "mbag",
           { "item": "adhesive_bandages", "count": 10 },
-          "bandages",
+          { "item": "bandages", "count": 3 },
           "water_clean",
           "water_clean",
           "water_clean",
@@ -4949,52 +4946,6 @@
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
       }
-    }
-  },
-  {
-    "type": "profession",
-    "id": "mili_burner",
-    "name": "Military Corpse Disposal",
-    "description": "In response to the outbreak, you were dispatched to contain the infection by burning the corpses.  With command consumed by the undead, your priorities have shifted to basic survival.",
-    "points": 6,
-    "skills": [
-      { "level": 3, "name": "gun" },
-      { "level": 3, "name": "rifle" },
-      { "level": 3, "name": "launcher" },
-      { "level": 2, "name": "melee" },
-      { "level": 2, "name": "pistol" },
-      { "level": 2, "name": "survival" },
-      { "level": 2, "name": "firstaid" },
-      { "level": 2, "name": "stabbing" },
-      { "level": 2, "name": "swimming" }
-    ],
-    "items": {
-      "both": {
-        "items": [
-          "pants_army",
-          "socks",
-          "undershirt",
-          "boots_combat",
-          "wristwatch",
-          "gloves_tactical",
-          "helmet_army",
-          "jacket_army_modern",
-          "webbing_belt",
-          "chestpouch"
-        ],
-        "entries": [
-          { "group": "charged_two_way_radio" },
-          { "group": "full_gasmask" },
-          { "item": "water_clean", "container-item": "canteen" },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "flamethrower", "ammo-item": "napalm", "charges": 3000, "custom-flags": [ "auto_wield" ] },
-          { "item": "m17", "ammo-item": "9mm", "container-item": "holster", "charges": 17 },
-          { "item": "p320mag_17rd_9x19mm", "ammo-item": "9mm", "charges": 17 },
-          { "item": "knife_combat", "container-item": "sheath" }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -5047,7 +4998,6 @@
     "items": {
       "both": {
         "items": [
-          "tux",
           "fedora",
           "socks",
           "dress_shoes",

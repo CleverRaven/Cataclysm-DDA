@@ -23,6 +23,17 @@
   },
   {
     "type": "npc",
+    "id": "hells_raiders_assassin",
+    "//": "EOC-specific, should not spawn outside of trigger events.",
+    "name_suffix": "assassin",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 10,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
     "id": "marloss_voice",
     "//": "Generic Marloss Priest who leads pilgrim bands.",
     "name_suffix": "Marloss Voice",

@@ -10,7 +10,7 @@
       { "id": "SAW_M", "level": 1 }
     ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
-    "components": [ [ [ "mercury", 1 ] ], [ [ "garlic", 4 ] ], [ [ "blood", 3 ] ], [ [ "silver", 1 ] ] ],
+    "components": [ [ [ "mercury", 1 ] ], [ [ "garlic", 4 ] ], [ [ "blood", 3 ] ], [ [ "silver_small", 1 ] ] ],
     "time": "30 m",
     "charges": 4,
     "skill_used": "cooking",

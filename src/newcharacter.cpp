@@ -11,6 +11,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <tuple>
 #include <unordered_map>
@@ -41,7 +42,6 @@
 #include "monster.h"
 #include "mutation.h"
 #include "name.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -168,7 +168,7 @@ bool tab_manager::handle_input( const std::string &action, const input_context &
     } else if( action == "NEXT_TAB" ) {
         position.next();
     } else if( action == "SELECT" ) {
-        cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+        std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
         if( coord.has_value() ) {
             point local_coord = coord.value() + window_pos;
             for( const auto &entry : tab_map ) {
@@ -362,7 +362,7 @@ static void set_hobbies( tab_manager &tabs, avatar &u, pool_type );
 static void set_skills( tab_manager &tabs, avatar &u, pool_type );
 static void set_description( tab_manager &tabs, avatar &you, bool allow_reroll, pool_type );
 
-static cata::optional<std::string> query_for_template_name();
+static std::optional<std::string> query_for_template_name();
 static void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
@@ -441,13 +441,18 @@ void avatar::randomize( const bool random_scenario, bool play_now )
                 scenarios.emplace_back( &scen );
             }
         }
-        set_scenario( random_entry( scenarios ) );
+        const scenario *selected_scenario = random_entry( scenarios );
+        if( selected_scenario ) {
+            set_scenario( selected_scenario );
+        } else {
+            debugmsg( "Failed randomizing sceario - no entries matching requirements." );
+        }
     }
 
     prof = get_scenario()->weighted_random_profession();
     randomize_hobbies();
-    starting_city = cata::nullopt;
-    world_origin = cata::nullopt;
+    starting_city = std::nullopt;
+    world_origin = std::nullopt;
     random_start_location = true;
 
     str_max = rng( 6, HIGH_STAT - 2 );
@@ -623,8 +628,11 @@ void avatar::add_profession_items()
                 inv->push_back( it );
             }
         } else if( it.is_armor() ) {
-            // TODO: debugmsg if wearing fails
-            wear_item( it, false, false );
+            if( can_wear( it ).success() ) {
+                wear_item( it, false, false );
+            } else {
+                inv->push_back( it );
+            }
         } else {
             inv->push_back( it );
         }
@@ -804,12 +812,14 @@ bool avatar::create( character_type type, const std::string &tempname )
     cash = rng( -200000, 200000 );
     randomize_heartrate();
 
+    //set stored kcal to a normal amount for your height
+    set_stored_kcal( get_healthy_kcal() );
     if( has_trait( trait_XS ) ) {
-        set_stored_kcal( 10000 );
+        set_stored_kcal( std::floor( get_stored_kcal() / 5 ) );
         toggle_trait( trait_XS );
     }
     if( has_trait( trait_XXXL ) ) {
-        set_stored_kcal( 125000 );
+        set_stored_kcal( std::floor( get_stored_kcal() * 5 ) );
         toggle_trait( trait_XXXL );
     }
 
@@ -1114,6 +1124,8 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 
         werase( w_description );
         u.reset_stats();
+        u.set_stored_kcal( u.get_healthy_kcal() );
+        u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
         switch( sel ) {
             case 1:
                 mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
@@ -1123,6 +1135,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                                _( "Increasing Str further costs 2 points" ) );
                 }
                 u.recalc_hp();
+                u.set_stored_kcal( u.get_healthy_kcal() );
                 mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
                            u.get_part_hp_max( bodypart_id( "head" ) ) );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -2180,6 +2193,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
             if( !profession_sorter.sort_by_points ) {
                 std::sort( sorted_profs.begin(), sorted_profs.end(), profession_sorter );
             }
+            recalc_profs = true;
         } else if( action == "SORT" ) {
             profession_sorter.sort_by_points = !profession_sorter.sort_by_points;
             recalc_profs = true;
@@ -2956,7 +2970,7 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
 
     assembled += "\n" + colorize( _( "Scenario Story:" ), COL_HEADER ) + "\n";
     assembled += colorize( current_scenario->description( u.male ), c_green ) + "\n";
-    const cata::optional<achievement_id> scenRequirement = current_scenario->get_requirement();
+    const std::optional<achievement_id> scenRequirement = current_scenario->get_requirement();
 
     if( scenRequirement.has_value() ||
         ( current_scenario->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ) {
@@ -3169,7 +3183,6 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                        sorted_scens[i]->gender_appropriate_name( u.male ) );
 
         }
-
 
         list_sb.offset_x( 0 )
         .offset_y( 5 )
@@ -3623,7 +3636,8 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                     profession::StartingSkillList::iterator i = hobby_skills.begin();
                     while( i != hobby_skills.end() ) {
                         if( i->first == elem->ident() ) {
-                            int skill_exp_bonus = calculate_cumulative_experience( i->second );
+                            int skill_exp_bonus = leftover_exp + calculate_cumulative_experience( i->second );
+                            leftover_exp = 0;
 
                             // Calculate Level up to find final level and remaining exp
                             while( skill_exp_bonus >= exp_to_level ) {
@@ -3829,7 +3843,13 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
         werase( w_addictions );
         // Profession addictions description tab
-        const auto prof_addictions = you.prof->addictions();
+        std::vector<addiction> prof_addictions = you.prof->addictions();
+        for( const profession *profession : you.hobbies ) {
+            const std::vector<addiction> &hobby_addictions = profession->addictions();
+            for( const addiction &iter : hobby_addictions ) {
+                prof_addictions.push_back( iter );
+            }
+        }
         if( isWide ) {
             if( prof_addictions.empty() ) {
                 mvwprintz( w_addictions, point_zero, c_light_gray, _( "Starting addictions: " ) );
@@ -3979,6 +3999,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 case char_creation::HEIGHT:
                     if( you.base_height() < max_allowed_height ) {
                         you.mod_base_height( 1 );
+                        you.set_stored_kcal( you.get_healthy_kcal() );
                     }
                     break;
                 case char_creation::AGE:
@@ -4010,6 +4031,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 case char_creation::HEIGHT:
                     if( you.base_height() > min_allowed_height ) {
                         you.mod_base_height( -1 );
+                        you.set_stored_kcal( you.get_healthy_kcal() );
                     }
                     break;
                 case char_creation::AGE:
@@ -4073,7 +4095,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             std::sort( cities.begin(), cities.end(), cities_cmp_population );
             uilist cities_menu;
             ui::omap::setup_cities_menu( cities_menu, cities );
-            cata::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
+            std::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
             if( c.has_value() ) {
                 you.starting_city = c;
                 you.world_origin = c->pos_om;
@@ -4322,7 +4344,7 @@ void Character::randomize_cosmetic_trait( const std::string &mutation_type )
     }
 }
 
-cata::optional<std::string> query_for_template_name()
+std::optional<std::string> query_for_template_name()
 {
     static const std::set<int> fname_char_blacklist = {
 #if defined(_WIN32)
@@ -4350,7 +4372,7 @@ cata::optional<std::string> query_for_template_name()
 
     spop.query_string( true );
     if( spop.canceled() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return spop.text();
     }

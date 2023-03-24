@@ -280,7 +280,7 @@ void options_manager::addOptionToPage( const std::string &name, const std::strin
     for( Page &p : pages_ ) {
         if( p.id_ == page ) {
             // Don't add duplicate options to the page
-            for( const cata::optional<std::string> &i : p.items_ ) {
+            for( const std::optional<std::string> &i : p.items_ ) {
                 if( i.has_value() && i.value() == name ) {
                     return;
                 }
@@ -774,7 +774,7 @@ std::string options_manager::cOpt::getValueName() const
         return bSet ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        const cata::optional<int_and_option> opt = findInt( iSet );
+        const std::optional<int_and_option> opt = findInt( iSet );
         if( opt ) {
             if( verbose ) {
                 return string_format( _( "%d: %s" ), iSet, opt->second );
@@ -812,7 +812,7 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        const cata::optional<int_and_option> opt = findInt( iDefault );
+        const std::optional<int_and_option> opt = findInt( iDefault );
         if( opt ) {
             if( verbose ) {
                 return string_format( _( "Default: %d: %s" ), iDefault, opt->second );
@@ -859,12 +859,12 @@ int options_manager::cOpt::getIntPos( const int iSearch ) const
     return -1;
 }
 
-cata::optional<options_manager::int_and_option> options_manager::cOpt::findInt(
+std::optional<options_manager::int_and_option> options_manager::cOpt::findInt(
     const int iSearch ) const
 {
     int i = static_cast<int>( getIntPos( iSearch ) );
     if( i == -1 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return mIntValues[i];
 }
@@ -1317,7 +1317,7 @@ bool android_get_default_setting( const char *settings_name, bool default_value 
 
 void options_manager::Page::removeRepeatedEmptyLines()
 {
-    const auto empty = [&]( const cata::optional<std::string> &v ) -> bool {
+    const auto empty = [&]( const std::optional<std::string> &v ) -> bool {
         return !v || get_options().get_option( *v ).is_hidden();
     };
 
@@ -1465,6 +1465,16 @@ void options_manager::add_options_general()
          to_translation( "Always: You will be prompted to move onto dangerous tiles.  Running: You will only be able to move onto dangerous tiles while running and will be prompted.  Crouching: You will only be able to move onto a dangerous tile while crouching and will be prompted.  Never:  You will not be able to move onto a dangerous tile unless running and will not be warned or prompted." ),
     { { "ALWAYS", to_translation( "Always" ) }, { "RUNNING", to_translation( "Running" ) }, { "CROUCHING", to_translation( "Crouching" ) }, { "NEVER", to_translation( "Never" ) } },
     "ALWAYS"
+       );
+
+    add( "FORCE_SMART_CONTROLLER_OFF_ON_ENGINE_STOP", "general",
+         to_translation( "Force smart engine controller off" ),
+         to_translation( "If enabled, turn off the smart engine controller when you turn off the engine of the car without an electric motor" ),
+    {
+        { "disabled", to_translation( "options", "Disabled" ) },
+        { "enabled", to_translation( "Enabled" ) },
+        { "ask", to_translation( "Ask" ) }
+    }, "ask"
        );
 
     add_empty_line();
@@ -1692,6 +1702,12 @@ void options_manager::add_options_interface()
                          "Key code is currently WIP and bypasses IMEs, caps lock, and num lock." ),
     { { "keychar", to_translation( "Symbol" ) }, { "keycode", to_translation( "Key code" ) } },
     "keychar", COPT_CURSES_HIDE );
+
+    add( "USE_PINYIN_SEARCH", "interface", to_translation( "Use pinyin in search" ),
+         to_translation( "If true, pinyin (pronunciation of Chinese characters) can be used in searching/filtering "
+                         "(may cause major slowdown when searching through too many entries.)" ),
+         false
+       );
 
     add( "FORCE_CAPITAL_YN", "interface",
          to_translation( "Force capital/modified letters in prompts" ),
@@ -1957,6 +1973,12 @@ void options_manager::add_options_interface()
          true
        );
 
+    add( "ASTERISK_POSITION", "interface", to_translation( "Favorited item's mark position" ),
+         to_translation( "Where to place mark of the favorited item (asterisk): before item's name (prefix) or after item's name (suffix)." ),
+    { { "prefix", to_translation( "Prefix" ) }, { "suffix", to_translation( "Suffix" ) } },
+    "right"
+       );
+
     add_empty_line();
 
     add( "ENABLE_JOYSTICK", "interface", to_translation( "Enable joystick" ),
@@ -2031,6 +2053,11 @@ void options_manager::add_options_graphics()
        );
 
     get_option( "ANIMATION_DELAY" ).setPrerequisite( "ANIMATIONS" );
+
+    add( "BLINK_SPEED", "graphics", to_translation( "Blinking effects speed" ),
+         to_translation( "The speed of every blinking effects in ms." ),
+         100, 5000, 300
+       );
 
     add( "FORCE_REDRAW", "graphics", to_translation( "Force redraw" ),
          to_translation( "If true, forces the game to redraw at least once per turn." ),
@@ -2167,25 +2194,28 @@ void options_manager::add_options_graphics()
     get_option( "DISTANT_TILES" ).setPrerequisite( "USE_DISTANT_TILES" );
     get_option( "SWAP_ZOOM" ).setPrerequisite( "USE_DISTANT_TILES" );
 
-    add( "USE_TILES_OVERMAP", "graphics", to_translation( "Use tiles to display overmap" ),
+    add( "USE_OVERMAP_TILES", "graphics", to_translation( "Use tiles to display overmap" ),
          to_translation( "If true, replaces some TTF-rendered text with tiles for overmap display." ),
-         false, COPT_CURSES_HIDE
+         true, COPT_CURSES_HIDE
        );
 
-    get_option( "USE_TILES_OVERMAP" ).setPrerequisite( "USE_TILES" );
+    get_option( "USE_OVERMAP_TILES" ).setPrerequisite( "USE_TILES" );
 
     std::vector<options_manager::id_and_option> om_tilesets = build_tilesets_list();
-    // filter out SmashButton_iso from overmap tilesets
+    // filter out iso tilesets from overmap tilesets
     om_tilesets.erase( std::remove_if( om_tilesets.begin(), om_tilesets.end(), []( const auto & it ) {
-        return it.first == "SmashButton_iso";
+        static const std::string iso_suffix = "_iso";
+        const std::string &id = it.first;
+        return id.size() >= iso_suffix.size() &&
+               id.compare( id.size() - iso_suffix.size(), iso_suffix.size(), iso_suffix ) == 0;
     } ), om_tilesets.end() );
 
     add( "OVERMAP_TILES", "graphics", to_translation( "Choose overmap tileset" ),
          to_translation( "Choose the overmap tileset you want to use." ),
-         om_tilesets, "retrodays", COPT_CURSES_HIDE
+         om_tilesets, "Larwick Overmap", COPT_CURSES_HIDE
        ); // populate the options dynamically
 
-    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_TILES_OVERMAP" );
+    get_option( "OVERMAP_TILES" ).setPrerequisite( "USE_OVERMAP_TILES" );
 
     add_empty_line();
 
@@ -2487,8 +2517,8 @@ void options_manager::add_options_world_default()
     add_empty_line();
 
     add( "INITIAL_TIME", "world_default", to_translation( "Initial time" ),
-         to_translation( "Initial starting time of day on character generation." ),
-         0, 23, 8
+         to_translation( "Initial starting time of day on character generation.  Value -1 randomizes the starting time and overrides scenario setting." ),
+         -1, 23, 8
        );
 
     add( "INITIAL_DAY", "world_default", to_translation( "Initial day" ),
@@ -2625,23 +2655,34 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "RETRACT_ISO_WALLS", "debug", to_translation( "Draw walls retracted in ISO tile-sets" ),
-    to_translation( "Draw walls normal, retracted, or automatically retracting near player." ), {
-        { 0, to_translation( "Normal" ) }, { 1, to_translation( "Retracted" ) },
+    add( "PREVENT_OCCLUSION", "debug", to_translation( "Handle occlusion by high sprites" ),
+    to_translation( "Draw walls normal (Off), retracted/transparent (On), or automatically retracting/transparent near player (Auto)." ), {
+        { 0, to_translation( "Off" ) }, { 1, to_translation( "On" ) },
         { 2, to_translation( "Auto" ) }
-    }, 0, 0
+    }, 2, 2
        );
 
-    add( "RETRACT_DIST_MIN", "debug", to_translation( "Minimum distance for auto-retracting walls" ),
-         to_translation( "Minimum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
+    add( "PREVENT_OCCLUSION_TRANSP", "debug", to_translation( "Prevent occlusion via transparency" ),
+         to_translation( "Prevent occlusion by using semi-transparent sprites." ),
+         true
+       );
+
+    add( "PREVENT_OCCLUSION_RETRACT", "debug", to_translation( "Prevent occlusion via retraction" ),
+         to_translation( "Prevent occlusion by retracting high sprites." ),
+         true
+       );
+
+    add( "PREVENT_OCCLUSION_MIN_DIST", "debug",
+         to_translation( "Minimum distance for auto occlusion handling" ),
+         to_translation( "Minimum distance for auto occlusion handling.  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
 
-    add( "RETRACT_DIST_MAX", "debug", to_translation( "Maximum distance for auto-retracting walls" ),
-         to_translation( "Maximum distance for auto-retracting walls.  Values above zero overwrite tileset settings." ),
+    add( "PREVENT_OCCLUSION_MAX_DIST", "debug",
+         to_translation( "Maximum distance for auto occlusion handling" ),
+         to_translation( "Maximum distance for auto .  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
-
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
 }
@@ -2665,7 +2706,6 @@ void options_manager::add_options_android()
          // take default setting from pre-game settings screen - important as there are issues with Back button on Android 9 with specific devices
          android_get_default_setting( "Trap Back button", true )
        );
-
 
     add( "ANDROID_NATIVE_UI", "android", to_translation( "Use native Android UI menus" ),
          to_translation( "If true, native Android dialogs are used for some in-game menus, "
@@ -3302,7 +3342,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
             bool found_opt = false;
             sel_worldgen_tab = 1;
-            cata::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
+            std::optional<point> coord = ctxt.get_coordinates_text( w_options_border );
             if( world_options_only && with_tabs && coord.has_value() ) {
                 // worldgen tabs
                 found_opt = run_for_point_in<size_t, point>( worldgen_tab_map, *coord,
@@ -3569,7 +3609,7 @@ void options_manager::serialize( JsonOut &json ) const
     json.start_array();
 
     for( const Page &p : pages_ ) {
-        for( const cata::optional<std::string> &opt_name : p.items_ ) {
+        for( const std::optional<std::string> &opt_name : p.items_ ) {
             if( !opt_name ) {
                 continue;
             }
@@ -3630,20 +3670,23 @@ static void update_options_cache()
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
 
-    tile_retracted = ::get_option<int>( "RETRACT_ISO_WALLS" );
-    tile_retract_dist_min = ::get_option<float>( "RETRACT_DIST_MIN" );
-    tile_retract_dist_max = ::get_option<float>( "RETRACT_DIST_MAX" );
+    prevent_occlusion = ::get_option<int>( "PREVENT_OCCLUSION" );
+    prevent_occlusion_retract = ::get_option<bool>( "PREVENT_OCCLUSION_RETRACT" );
+    prevent_occlusion_transp = ::get_option<bool>( "PREVENT_OCCLUSION_TRANSP" );
+    prevent_occlusion_min_dist = ::get_option<float>( "PREVENT_OCCLUSION_MIN_DIST" );
+    prevent_occlusion_max_dist = ::get_option<float>( "PREVENT_OCCLUSION_MAX_DIST" );
 
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
                     get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );
-    use_tiles_overmap = ::get_option<bool>( "USE_TILES_OVERMAP" );
+    use_tiles_overmap = ::get_option<bool>( "USE_OVERMAP_TILES" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
+    use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
 }
 
 bool options_manager::save() const

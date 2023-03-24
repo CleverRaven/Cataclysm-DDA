@@ -9,7 +9,7 @@
       "fill_ter": "t_floor",
       "rows": [
         "||||||||||||||||        ",
-        "|FwlwL|P#######|4      Y",
+        "|FwlwL|P-------|4      Y",
         "|Flwlw#..U.U.U.g        ",
         "|#wlwl#........g        ",
         "|#lwlw#........g        ",
@@ -44,7 +44,6 @@
       "terrain": {
         " ": "t_sidewalk",
         "Y": "t_sidewalk",
-        "#": "t_linoleum_white",
         "+": "t_door_c",
         ".": "t_floor",
         "F": "t_linoleum_white",
@@ -57,6 +56,7 @@
         "l": "t_linoleum_gray",
         "s": "t_linoleum_gray",
         "t": "t_linoleum_gray",
+        "#": "t_linoleum_white",
         "f": "t_linoleum_white",
         "w": "t_linoleum_white",
         "{": "t_linoleum_white",
@@ -66,6 +66,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "-": "f_counter",
         "f": "f_counter_gate_c",
         "B": "f_bench",
         "C": "f_trashcan",
@@ -73,7 +74,7 @@
         "H": "f_chair",
         "L": "f_locker",
         "O": "f_woodstove",
-        "P": "f_indoor_plant",
+        "P": [ "f_indoor_plant", "f_indoor_plant_y" ],
         "T": "f_table",
         "U": "f_chair",
         "Y": "f_street_light",

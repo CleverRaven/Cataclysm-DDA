@@ -2,16 +2,17 @@
   {
     "type": "palette",
     "id": "roof_palette",
+    "//": "Please use the '-' symbol when placing rain gutters.",
     "terrain": {
       ".": "t_flat_roof",
       " ": "t_open_air",
       "o": "t_glass_roof",
       "_": "t_floor",
-      "2": "t_gutter_north",
-      "-": "t_gutter_south",
-      "3": "t_gutter_east",
+      "-": "t_gutter",
+      "|": "t_gutter",
+      "2": "t_gutter",
+      "3": "t_gutter",
       "4": "t_gutter_downspout",
-      "|": "t_gutter_west",
       "5": "t_gutter_drop",
       "#": "t_grate",
       "&": "t_null",
@@ -51,6 +52,13 @@
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
     },
     "liquids": { "Я": { "liquid": "water_clean", "amount": [ 0, 300 ] } },
+    "nested": {
+      "5": { "chunks": [ [ "null", 90 ], [ "roof_1x1_birdnest", 10 ] ] },
+      "|": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] },
+      "2": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] },
+      "3": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] },
+      "-": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] }
+    },
     "toilets": { "T": {  } }
   }
 ]

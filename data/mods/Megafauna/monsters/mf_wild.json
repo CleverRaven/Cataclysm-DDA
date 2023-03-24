@@ -503,7 +503,7 @@
     "speed": 100,
     "material": [ "flesh" ],
     "symbol": "A",
-    "color": "black",
+    "color": "light_blue",
     "aggression": -10,
     "morale": 25,
     "melee_dice": 1,

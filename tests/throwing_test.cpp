@@ -98,7 +98,7 @@ static void test_throwing_player_versus(
         you.set_stamina( you.get_stamina_max() );
 
         you.wield( it );
-        monster &mon = spawn_test_monster( mon_id, monster_start );
+        monster &mon = spawn_test_monster( mon_id, monster_start, false );
         mon.set_moves( 0 );
 
         dealt_projectile_attack atk = you.throw_item( mon.pos(), it );
@@ -250,7 +250,7 @@ static void test_player_kills_monster(
 
         reset_player( you, pstats, player_start );
 
-        monster &mon = spawn_test_monster( mon_id, monster_start );
+        monster &mon = spawn_test_monster( mon_id, monster_start, false );
         mon.set_moves( 0 );
 
         while( !mon_is_dead ) {

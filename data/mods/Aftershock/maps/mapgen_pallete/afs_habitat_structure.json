@@ -30,7 +30,7 @@
       ">": "t_stairs_down",
       "<": "t_stairs_up"
     },
-    "furniture": { "~": "f_shower", "^": "f_sink", "*": "f_sink" }
+    "furniture": { "~": "f_habitat_bathroom", "^": "f_sink", "*": "f_sink", "%": "f_fireman_cabinet" }
   },
   {
     "type": "palette",
@@ -54,8 +54,8 @@
     "terrain": { "p": "t_sewage_pipe" },
     "furniture": {
       "@": "f_bed",
-      "f": "f_table",
-      "y": "f_table",
+      "f": "f_workbench",
+      "y": "f_workbench",
       "c": "f_console_broken",
       "h": "f_chair",
       "P": "f_water_purifier",
@@ -64,13 +64,10 @@
       "E": "f_machinery_electronic",
       "L": "f_machinery_light",
       "H": "f_machinery_heavy",
-      "O": "f_machinery_old",
+      "O": "f_ECU",
+      "T": "f_cryofluid_pump",
       "p": "f_solar_unit",
-      "t": "f_toposcan_process",
-      "T": "f_toposcan_terminal",
-      "S": "f_toposcan_scanner",
       "F": "f_fridge",
-      "^": "f_sink",
       "j": "f_counter",
       "q": "f_rack",
       "r": "f_bookcase",
@@ -86,6 +83,34 @@
         { "item": "afs_tools_structural_repair", "chance": 20, "repeat": [ 2, 5 ] }
       ],
       "k": { "item": "SUS_office_desk", "chance": 60 },
+      "l": { "item": "afs_frontier_cryo_g", "chance": 50 },
+      "@": { "item": "bed", "chance": 50 },
+      "v": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "afs_habitat_residential_furnishing",
+    "furniture": {
+      "@": "f_bed",
+      "f": "f_workbench",
+      "y": "f_table",
+      "c": "f_console_broken",
+      "h": "f_chair",
+      "j": "f_counter",
+      "o": "f_habitat_kitchenette",
+      "W": "f_habitat_storage_board",
+      "U": "f_habitat_storage_board",
+      "n": "f_screenmirror",
+      "q": "f_rack",
+      "v": "f_trashcan",
+      "l": "f_locker",
+      "k": "f_desk"
+    },
+    "items": {
+      "o": { "item": "afs_kitchenette", "chance": 60 },
+      "U": { "item": "afs_old_food_storage", "chance": 60 },
+      "W": { "item": "afs_colonist_outfit", "chance": 60 },
       "l": { "item": "afs_frontier_cryo_g", "chance": 50 },
       "@": { "item": "bed", "chance": 50 },
       "v": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] }

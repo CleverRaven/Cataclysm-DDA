@@ -22,5 +22,11 @@
     "id": "FakeSpecial_park_7",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "park_7_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "FakeSpecial_orchard",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "orchard_north" } ]
   }
 ]

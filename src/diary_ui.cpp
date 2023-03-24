@@ -14,6 +14,7 @@
 #include "options.h"
 #include "output.h"
 #include "popup.h"
+#include "scores_ui.h"
 #include "string_editor_window.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -25,9 +26,9 @@
 namespace
 {
 /**print list scrollable, printed std::vector<std::string> as list with scrollbar*/
-void print_list_scrollable( catacurses::window *win, std::vector<std::string> list, int *selection,
-                            int entries_per_page, int xoffset, int width, bool active, bool border,
-                            const report_color_error color_error )
+void print_list_scrollable( catacurses::window *win, const std::vector<std::string> &list,
+                            int *selection, int entries_per_page, int xoffset, int width,
+                            bool active, bool border, const report_color_error color_error )
 {
     if( *selection < 0 && !list.empty() ) {
         *selection = static_cast<int>( list.size() ) - 1;
@@ -36,7 +37,6 @@ void print_list_scrollable( catacurses::window *win, std::vector<std::string> li
     }
     const int borderspace = border ? 1 : 0;
     entries_per_page = entries_per_page - borderspace * 2;
-
 
     const int top_of_page = entries_per_page * ( *selection / entries_per_page );
 
@@ -67,10 +67,11 @@ void print_list_scrollable( catacurses::window *win, std::vector<std::string> li
 
 }
 
-void print_list_scrollable( catacurses::window *win, std::vector<std::string> list, int *selection,
-                            bool active, bool border, const report_color_error color_error )
+void print_list_scrollable( catacurses::window *win, const std::vector<std::string> &list,
+                            int *selection, bool active, bool border,
+                            const report_color_error color_error )
 {
-    print_list_scrollable( win, std::move( list ), selection, getmaxy( *win ), 0, getmaxx( *win ),
+    print_list_scrollable( win, list, selection, getmaxy( *win ), 0, getmaxx( *win ),
                            active, border,
                            color_error );
 }
@@ -168,9 +169,7 @@ void diary::show_diary_ui( diary *c_diary )
     enum class window_mode : int {PAGE_WIN = 0, CHANGE_WIN, TEXT_WIN, NUM_WIN, FIRST_WIN = 0, LAST_WIN = NUM_WIN - 1};
     window_mode currwin = window_mode::PAGE_WIN;
 
-
     std::map<window_mode, int> selected = { {window_mode::PAGE_WIN, 0}, {window_mode::CHANGE_WIN, 0}, {window_mode::TEXT_WIN, 0} };
-
 
     input_context ctxt( "DIARY" );
     ctxt.register_cardinal();
@@ -179,6 +178,7 @@ void diary::show_diary_ui( diary *c_diary )
     ctxt.register_action( "NEW_PAGE" );
     ctxt.register_action( "DELETE PAGE" );
     ctxt.register_action( "EXPORT_DIARY" );
+    ctxt.register_action( "VIEW_SCORES" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     ui_adaptor ui_diary;
@@ -247,7 +247,7 @@ void diary::show_diary_ui( diary *c_diary )
         const point &beg = beg_and_max.first;
         const point &max = beg_and_max.second;
 
-        w_desc = catacurses::newwin( 3, max.x * 3 / 10 + max.x + 10, point( beg.x - 5 - max.x * 3 / 10,
+        w_desc = catacurses::newwin( 4, max.x * 3 / 10 + max.x + 10, point( beg.x - 5 - max.x * 3 / 10,
                                      beg.y - 6 ) );
 
         ui.position_from_window( w_desc );
@@ -265,6 +265,8 @@ void diary::show_diary_ui( diary *c_diary )
                                           ctxt.get_desc( "EXPORT_DIARY", _( "Export diary" ), input_context::allow_all_keys )
                                         );
         center_print( w_desc, 1,  c_white, desc );
+        center_print( w_desc, 2,  c_white, ctxt.get_desc( "VIEW_SCORES",
+                      _( "View achievements, scores, and kills" ), input_context::allow_all_keys ) );
 
         wnoutrefresh( w_desc );
     } );
@@ -341,6 +343,8 @@ void diary::show_diary_ui( diary *c_diary )
             c_diary->new_page();
             selected[window_mode::PAGE_WIN] = c_diary->pages.size() - 1;
 
+        } else if( action == "VIEW_SCORES" ) {
+            show_scores_ui( g->achievements(), g->stats(), g->get_kill_tracker() );
         } else if( action == "DELETE PAGE" ) {
             if( !c_diary->pages.empty() ) {
                 if( query_yn( _( "Really delete Page?" ) ) ) {

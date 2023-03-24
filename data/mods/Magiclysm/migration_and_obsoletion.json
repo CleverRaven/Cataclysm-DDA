@@ -1,0 +1,73 @@
+[
+  {
+    "id": "spell_scroll_summon_zombie",
+    "type": "MIGRATION",
+    "replace": "spell_scroll_summon_undead"
+  },
+  {
+    "id": "spell_scroll_summon_skeleton",
+    "type": "MIGRATION",
+    "replace": "spell_scroll_summon_undead"
+  },
+  {
+    "id": "spell_scroll_summon_decayed_pouncer",
+    "type": "MIGRATION",
+    "replace": "spell_scroll_summon_undead_swarm"
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_zombie",
+    "//": "obsoleted",
+    "name": { "str": "Scroll of Summon Zombie", "str_pl": "Scrolls of Summon Zombie" },
+    "description": "An ethereal-looking zombie rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_undead" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_skeleton",
+    "//": "obsoleted",
+    "name": { "str": "Scroll of Summon Skeleton", "str_pl": "Scrolls of Summon Skeleton" },
+    "description": "A ghostly skeleton rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_undead" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_decayed_pouncer",
+    "//": "obsoleted",
+    "name": { "str": "Scroll of Summon Decayed Pouncer", "str_pl": "Scrolls of Summon Decayed Pouncer" },
+    "description": "A decrepit looking large cat rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_decayed_pouncer" ] }
+  },
+  {
+    "id": "summon_decayed_pouncer",
+    "type": "SPELL",
+    "name": "Summon Decayed Pouncer",
+    "description": "A decrepit looking large cat rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
+    "valid_targets": [ "ground" ],
+    "min_damage": 1,
+    "max_damage": 3,
+    "//": "obsoleted",
+    "damage_increment": 0.1,
+    "max_level": -1,
+    "difficulty": 10,
+    "spell_class": "ANIMIST",
+    "effect": "summon",
+    "effect_str": "mon_zougar",
+    "shape": "blast",
+    "energy_source": "HP",
+    "base_energy_cost": 30,
+    "//2": "half a minute",
+    "base_casting_time": 3000,
+    "min_range": 3,
+    "max_range": 3,
+    "min_aoe": 2,
+    "max_aoe": 2,
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
+    "min_duration": 36000,
+    "max_duration": 1080000,
+    "duration_increment": 36000
+  }
+]

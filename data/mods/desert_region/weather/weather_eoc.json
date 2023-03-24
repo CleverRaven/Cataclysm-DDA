@@ -55,12 +55,12 @@
         "or": [
           { "is_weather": "dust_storm" },
           { "is_weather": "early_dust_storm" },
-          { "compare_int": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 1 } ] },
-          { "compare_int": [ { "global_val": "var", "var_name": "cause_early_dust_storm" }, "=", { "const": 1 } ] },
+          { "compare_num": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 1 } ] },
+          { "compare_num": [ { "global_val": "var", "var_name": "cause_early_dust_storm" }, "=", { "const": 1 } ] },
           { "is_weather": "portal_storm" },
           { "is_weather": "early_portal_storm" },
-          { "compare_int": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] },
-          { "compare_int": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
+          { "compare_num": [ { "global_val": "var", "var_name": "cause_portal_storm" }, "=", { "const": 1 } ] },
+          { "compare_num": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
         ]
       }
     },
@@ -103,7 +103,7 @@
       "not": {
         "or": [
           { "is_weather": "dust_storm" },
-          { "compare_int": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 1 } ] }
+          { "compare_num": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 1 } ] }
         ]
       }
     },
@@ -135,8 +135,8 @@
       "or": [
         { "is_weather": "dust_storm" },
         { "is_weather": "early_dust_storm" },
-        { "compare_int": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 1 } ] },
-        { "compare_int": [ { "global_val": "var", "var_name": "cause_early_dust_storm" }, "=", { "const": 1 } ] }
+        { "compare_num": [ { "global_val": "var", "var_name": "cause_dust_storm" }, "=", { "const": 1 } ] },
+        { "compare_num": [ { "global_val": "var", "var_name": "cause_early_dust_storm" }, "=", { "const": 1 } ] }
       ]
     },
     "effect": [
@@ -160,7 +160,7 @@
     "recurrence": [ "10 seconds", "30 seconds" ],
     "global": true,
     "condition": {
-      "and": [ { "compare_int": [ { "weather": "windpower" }, "<=", { "const": 60 } ] }, { "is_weather": "early_dust_storm" } ]
+      "and": [ { "compare_num": [ { "weather": "windpower" }, "<=", { "const": 60 } ] }, { "is_weather": "early_dust_storm" } ]
     },
     "deactivate_condition": { "not": { "is_weather": "early_dust_storm" } },
     "effect": [ { "arithmetic": [ { "weather": "windpower" }, "+=", { "const": 3 } ] }, { "u_message": "WIND", "type": "bad" } ]
@@ -179,7 +179,7 @@
     "id": "EOC_DUST_WIND_STRONG",
     "recurrence": [ "10 seconds", "30 seconds" ],
     "global": true,
-    "condition": { "and": [ { "compare_int": [ { "weather": "windpower" }, "<=", { "const": 120 } ] }, { "is_weather": "dust_storm" } ] },
+    "condition": { "and": [ { "compare_num": [ { "weather": "windpower" }, "<=", { "const": 120 } ] }, { "is_weather": "dust_storm" } ] },
     "deactivate_condition": { "not": { "is_weather": "dust_storm" } },
     "effect": [ { "arithmetic": [ { "weather": "windpower" }, "+=", { "const": 4 } ] }, { "u_message": "WIND", "type": "bad" } ]
   }

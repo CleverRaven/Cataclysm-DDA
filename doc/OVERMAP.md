@@ -245,6 +245,8 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `mapgen_tee`      | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
 | `mapgen_four_way` | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
 | `eoc`             | Supply an effect_on_condition id or an inline effect_on_condition.  The condition of the eoc will be tested to see if the special can be placed.  The effect of the eoc will be run when the special is placed.  See [effect_on_condition.md](effect_on_condition.md). |
+| `entry_eoc`       | An effect on condition ID that will run when you enter this location.                            |
+| `exit_eoc`        | An effect on condition ID that will run when you exit this location.                            |
 
 ### Example
 
@@ -272,7 +274,7 @@ an exhaustive example...
     "mapgen_four_way": [ { "method": "builtin", "name": "road_four_way" } ],
     "eoc": {
       "id": "EOC_REFUGEE_CENTER_GENERATE",
-      "condition": { "compare_int": [ { "global_val": "var", "var_name": "refugee_centers", "default": 0 }, "<", { "const": 1 } ] },
+      "condition": { "compare_num": [ { "global_val": "var", "var_name": "refugee_centers", "default": 0 }, "<", { "const": 1 } ] },
       "effect": [ { "arithmetic": [ { "global_val": "var", "var_name": "refugee_centers" }, "++" ] } ]
     }
 }

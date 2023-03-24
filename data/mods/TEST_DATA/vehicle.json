@@ -134,7 +134,11 @@
       { "x": 0, "y": -1, "parts": [ "frame", "board" ] },
       { "x": 1, "y": -1, "parts": [ "frame", "board" ] },
       { "x": -1, "y": 0, "parts": [ "frame", "board" ] },
-      { "x": 0, "y": 0, "parts": [ "frame", "seat", "roof", "cam_control", "controls", "dashboard", "battery_car" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "frame", "seat", "roof", "cam_control", "controls", "dashboard", "battery_car", "horn_car" ]
+      },
       { "x": 1, "y": 0, "parts": [ "frame", "board" ] },
       { "x": -1, "y": 1, "parts": [ "frame", "board" ] },
       { "x": 0, "y": 1, "parts": [ "frame", "board", "omnicam" ] },
@@ -361,7 +365,7 @@
     "durability": 100,
     "description": "A fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
     "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
-    "epower": -30,
+    "epower": "-30 W",
     "size": "500 L",
     "item": "fridge_test",
     "requirements": {

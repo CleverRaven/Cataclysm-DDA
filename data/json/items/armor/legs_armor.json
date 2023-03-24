@@ -62,6 +62,27 @@
     ]
   },
   {
+    "id": "xl_legguard_chitin",
+    "copy-from": "legguard_chitin",
+    "looks_like": "legguard_chitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL chitin leg guards", "str_pl": "pairs of XL chitin leg guards" },
+    "description": "A pair of leg guards made from the exoskeletons of insects.  This pair in particular looks fit for a giant.",
+    "material": [ "chitin" ],
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_legguard_chitin",
+    "type": "ARMOR",
+    "copy-from": "legguard_chitin",
+    "looks_like": "legguard_chitin",
+    "name": { "str": "pair of XS chitin leg guards", "str_pl": "pairs of XS chitin leg guards" },
+    "description": "A pair of leg guards made from the exoskeletons of insects.  This pair in particular feels like it was made for a small child.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
     "id": "legguard_acidchitin",
     "copy-from": "legguard_chitin",
     "looks_like": "legguard_chitin",
@@ -73,6 +94,28 @@
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
     "material_thickness": 5,
     "extend": { "flags": [ "NO_REPAIR" ] }
+  },
+  {
+    "id": "xl_legguard_acidchitin",
+    "copy-from": "legguard_acidchitin",
+    "looks_like": "legguard_acidchitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL biosilicified chitin leg guards", "str_pl": "pairs of XL biosilicified chitin guards" },
+    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.  This pair in particular looks fit for a giant.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 1.5, "volume": 1.5 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_legguard_acidchitin",
+    "copy-from": "legguard_acidchitin",
+    "looks_like": "legguard_acidchitin",
+    "type": "ARMOR",
+    "name": { "str": "pair of XS biosilicified chitin leg guards", "str_pl": "pairs of XS biosilicified chitin guards" },
+    "description": "A pair of leg guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.  This pair in particular feels like it was made for a small child.",
+    "material": [ "acidchitin" ],
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "bunker_pants",
@@ -852,18 +895,18 @@
     "category": "armor",
     "name": { "str": "pair of improvised tire leg guards", "str_pl": "pairs of improvised tire leg guards" },
     "description": "Leg guards made of thick chunks of tire held together with duct tape.",
-    "weight": "4800 g",
-    "volume": "4000 ml",
+    "weight": "2400 g",
+    "volume": "2000 ml",
     "price": 2300,
-    "price_postapoc": 500,
+    "price_postapoc": 250,
     "to_hit": 1,
     "material": [ "rubber" ],
     "symbol": "[",
     "looks_like": "legguard_hard",
-    "color": "dark_gray",
+    "color": "light_gray",
     "warmth": 5,
     "material_thickness": 4,
-    "flags": [ "OUTER", "NONCONDUCTIVE" ],
+    "flags": [ "OUTER", "BLOCK_WHILE_WORN", "NONCONDUCTIVE" ],
     "armor": [
       {
         "covers": [ "leg_l", "leg_r" ],
@@ -985,7 +1028,7 @@
     "volume": "2500 ml",
     "price": 10000,
     "price_postapoc": 750,
-    "material": [ "kevlar", "cotton", "plastic_pad" ],
+    "material": [ "kevlar", "denim", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "jeans",
     "color": "dark_gray",
@@ -996,8 +1039,8 @@
     "armor": [
       {
         "material": [
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.25 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 }
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.6 }
         ],
         "encumbrance": [ 10, 14 ],
         "coverage": 100,
@@ -1006,8 +1049,8 @@
       },
       {
         "material": [
-          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.25 },
-          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 0.3 },
+          { "type": "denim", "covered_by_mat": 100, "thickness": 0.6 },
           { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 12 }
         ],
         "encumbrance": [ 0, 0 ],
@@ -1016,6 +1059,7 @@
         "specifically_covers": [ "leg_knee_l", "leg_knee_r" ]
       }
     ],
+    "//": "Mid-heavyweight 14 oz denim jeans.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

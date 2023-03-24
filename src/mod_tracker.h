@@ -9,7 +9,6 @@
 #include "demangle.h"
 #include "type_id.h"
 
-
 /**
  * Mod Tracking:
  *
@@ -40,7 +39,6 @@ struct mod_tracker {
     template<typename T>
 struct has_src_member<T, cata::void_t<decltype( std::declval<T &>().src.emplace_back( std::declval<T &>().id, mod_id() ) )>> :
     std::true_type {};
-
 
     /** Dummy function, for if those conditions are not satisfied */
     template < typename T, typename std::enable_if_t < !has_src_member<T>::value > * = nullptr >

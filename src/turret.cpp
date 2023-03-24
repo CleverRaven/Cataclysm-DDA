@@ -50,7 +50,7 @@ std::vector<vehicle_part *> vehicle::turrets( const tripoint &target )
 {
     std::vector<vehicle_part *> res = turrets();
     // exclude turrets not ready to fire or where target is out of range
-    res.erase( std::remove_if( res.begin(), res.end(), [&]( const vehicle_part * e ) {
+    res.erase( std::remove_if( res.begin(), res.end(), [&]( vehicle_part * e ) {
         return turret_query( *e ).query() != turret_data::status::ready ||
                rl_dist( global_part_pos3( *e ), target ) > e->base.gun_range();
     } ), res.end() );
@@ -65,20 +65,10 @@ turret_data vehicle::turret_query( vehicle_part &pt )
     return turret_data( this, &pt );
 }
 
-turret_data vehicle::turret_query( const vehicle_part &pt ) const
-{
-    return const_cast<vehicle *>( this )->turret_query( const_cast<vehicle_part &>( pt ) );
-}
-
 turret_data vehicle::turret_query( const tripoint &pos )
 {
     auto res = get_parts_at( pos, "TURRET", part_status_flag::any );
     return !res.empty() ? turret_query( *res.front() ) : turret_data();
-}
-
-turret_data vehicle::turret_query( const tripoint &pos ) const
-{
-    return const_cast<vehicle *>( this )->turret_query( pos );
 }
 
 std::string turret_data::name() const

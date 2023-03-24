@@ -108,7 +108,6 @@ tags
 
 # Generated translation source
 /lang/po/*.pot
-/lang/po/en.po
 
 # Compiled binary translations
 /lang/mo/

@@ -636,7 +636,7 @@
     "color": "light_gray",
     "count": 10,
     "ammo_type": [ "223" ],
-    "flags": [ "SPEEDLOADER" ],
+    "flags": [ "SPEEDLOADER_CLIP" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "223": 10, "300blk": 10 } } ]
   }
 ]

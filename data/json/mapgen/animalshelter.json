@@ -9,8 +9,8 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "bandages", "prob": 25 },
-      { "item": "adhesive_bandages", "prob": 25, "count": [ 1, 20 ] },
+      { "item": "bandages", "prob": 25, "count": [ 1, 3 ] },
+      { "group": "adhesive_bandages_box_used", "prob": 25 },
       { "item": "saline", "prob": 20 },
       { "item": "vitamins", "prob": 15 },
       { "item": "calcium_tablet", "prob": 15 },
@@ -46,6 +46,7 @@
       { "item": "towel", "prob": 20 },
       { "item": "soap", "prob": 10 },
       { "item": "gloves_medical", "prob": 20 },
+      { "item": "bite_suit", "prob": 70 },
       { "item": "cotton_patchwork", "prob": 15 },
       { "item": "bag_plastic", "prob": 20 },
       { "item": "jerky", "prob": 40 },

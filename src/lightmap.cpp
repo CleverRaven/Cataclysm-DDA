@@ -7,6 +7,7 @@
 #include <cstring>
 #include <map>
 #include <memory>
+#include <optional>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -33,7 +34,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "submap.h"
@@ -155,7 +155,7 @@ bool map::build_transparency_cache( const int zlev )
                 return std::make_pair( value, value_wo_fields );
             };
 
-            if( cur_submap->is_uniform ) {
+            if( cur_submap->is_uniform() ) {
                 float value;
                 float dummy;
                 std::tie( value, dummy ) = calc_transp( sm_offset );
@@ -510,7 +510,7 @@ void map::generate_lightmap( const int zlev )
     for( wrapped_vehicle &vv : vehs ) {
         vehicle *v = vv.v;
 
-        auto lights = v->lights( true );
+        auto lights = v->lights();
 
         float veh_luminance = 0.0f;
         float iteration = 1.0f;
@@ -1057,7 +1057,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z, int exte
     // Cameras are also handled here, so that we only need to get through all vehicle parts once
     int cam_control = -1;
     for( const vpart_reference &vp : veh->get_all_parts_with_fakes() ) {
-        if( vp.part().is_broken() || !vp.info().has_flag( VPFLAG_EXTENDS_VISION ) ) {
+        if( vp.part().removed || vp.part().is_broken() || !vp.info().has_flag( VPFLAG_EXTENDS_VISION ) ) {
             continue;
         }
         const tripoint mirror_pos = vp.pos();
