@@ -129,7 +129,6 @@
         "coverage": 100,
         "encumbrance": 0,
         "//": "skip second entry for arm encumbrance"
-        ]
       }
   },
   {
@@ -476,7 +475,8 @@
     "description": "A customized hood made from quilted fabrics and Kevlar.  Can be worn under helmets.  Comes in XS size.",
     "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
     "extend": { "flags": [ "UNDERSIZE" ] }
-=======
+  },
+  {
     "id": "l-stick_on",
     "copy-from": "l-stick",
     "type": "TOOL",
