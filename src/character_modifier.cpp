@@ -1,6 +1,9 @@
 #include "character.h"
 #include "character_modifier.h"
+#include "enum_conversions.h"
+#include "flag.h"
 #include "generic_factory.h"
+#include "messages.h"
 #include "move_mode.h"
 
 static const character_modifier_id
@@ -144,12 +147,13 @@ void character_modifier::load( const JsonObject &jo, const std::string & )
 // Scores
 
 // the total of the manipulator score in the best limb group
-static float manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
-                                body_part_type::type type, int override_encumb, int override_wounds )
+float Character::manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
+                                    body_part_type::type type, int override_encumb, int override_wounds ) const
 {
     std::map<body_part_type::type, std::vector<std::pair<bodypart, float>>> bodypart_groups;
     std::vector<float> score_groups;
     const bool required_type = type != body_part_type::type::num_types;
+    const bool local_effect = has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL );
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         if( required_type ) {
             for( const auto &bp_type : id.first->limbtypes ) {
@@ -170,13 +174,32 @@ static float manipulator_score( const std::map<bodypart_str_id, bodypart> &body,
                    b.first.get_limb_score_max( limb_score_manip ) * b.second;
         } );
         for( const std::pair<bodypart, float> &id : part.second ) {
+            float local_mul = 1.0f;
+            // Calculate local effect modifiers
+            if( local_effect ) {
+                for( const effect &local : get_effects_from_bp( id.first.get_id() ) ) {
+                    if( local.has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+                        float temp = local.get_limb_score_mod( limb_score_manip, resists_effect( local ) );
+                        local_mul *= temp;
+                        if( temp != 1.0f ) {
+                            add_msg_debug( debugmode::DF_CHARACTER,
+                                           "Local limb score modifier %s for manipulation score on BP %s found, effect multiplier %.1f",
+                                           local.disp_name(), id.first.get_id()->name, local_mul );
+                        }
+                    }
+                }
+            }
             total = std::min( total + id.first.get_limb_score( limb_score_manip, -1, override_encumb,
-                              override_wounds ) * id.second,
-                              id.first.get_limb_score_max( limb_score_manip ) * id.second );
+                              override_wounds ) * id.second * local_mul,
+                              id.first.get_limb_score_max( limb_score_manip ) * local_mul * id.second );
         }
+        add_msg_debug( debugmode::DF_CHARACTER,
+                       "Manipulation score of bodypart group %s %.1f",
+                       io::enum_to_string<body_part_type::type>( part.first ), total );
         score_groups.emplace_back( total );
     }
     const auto score_groups_max = std::max_element( score_groups.begin(), score_groups.end() );
+
     if( score_groups_max == score_groups.end() ) {
         return 0.0f;
     } else {
@@ -188,9 +211,14 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
                                  int override_encumb, int override_wounds ) const
 {
     int skill = -1;
+    float effect_mul = 1.0f;
+    // Check for any global limb score modifier
+    for( const effect &eff : get_effects_with_flag( flag_EFFECT_LIMB_SCORE_MOD ) ) {
+        effect_mul *= eff.get_limb_score_mod( score, resists_effect( eff ) );
+    }
     // manipulator/swim scores are treated a little special for now
     if( score == limb_score_manip ) {
-        return manipulator_score( body, bp, override_encumb, override_wounds );
+        return manipulator_score( body, bp, override_encumb, override_wounds ) * effect_mul;
     } else if( score == limb_score_swim ) {
         skill = get_skill_level( skill_swimming );
     }
@@ -203,9 +231,25 @@ float Character::get_limb_score( const limb_score_id &score, const body_part_typ
             mod = id.second.get_limb_score( score, skill, override_encumb,
                                             override_wounds ) * id.first->limbtypes.at( bp );
         }
+        if( has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+            for( const effect &local : get_effects_from_bp( id.first ) ) {
+                float local_mul = 1.0f;
+                // Second filter to only apply the local effects at this step (non-local modifiers are already calulated)
+                if( local.has_flag( flag_EFFECT_LIMB_SCORE_MOD_LOCAL ) ) {
+                    local_mul = local.get_limb_score_mod( score, resists_effect( local ) );
+                    mod *= local_mul;
+                    if( local_mul != 1.0f ) {
+                        add_msg_debug( debugmode::DF_CHARACTER,
+                                       "Local limb score modifier %s for limb score %s on BP %s found, effect multiplier %.1f, score contribution after modifier %.1f",
+                                       local.disp_name(),
+                                       score.c_str(), id.first.c_str(), local_mul, mod );
+                    }
+                }
+            }
+        }
         total += mod;
     }
-    return std::max( 0.0f, total );
+    return std::max( 0.0f, total * effect_mul );
 }
 
 // Modifiers
@@ -273,7 +317,7 @@ float character_modifier::modifier( const Character &c, const skill_id &skill ) 
     bool sc_assigned = false;
     for( const auto &sc : limbscores ) {
         float mod_sc = c.get_limb_score( sc.first, limbtype, override_encumb, override_wounds );
-        mod_sc *= sc.second;
+        mod_sc = limbscore_modop == MULT ? pow( mod_sc, sc.second ) : mod_sc * sc.second;
         if( !sc_assigned ) {
             score = mod_sc;
             sc_assigned = true;

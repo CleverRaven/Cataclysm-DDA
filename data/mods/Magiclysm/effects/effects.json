@@ -472,7 +472,7 @@
     "enchantments": [
       {
         "hit_me_effect": [ { "id": "eshaper_crystal_wrap_damage" } ],
-        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 }, { "value": "ITEM_DAMAGE_AP", "add": 6 } ]
+        "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 17 } ]
       }
     ]
   },
@@ -572,7 +572,7 @@
     "id": "flask_stamina_eff",
     "name": [ "Constantia" ],
     "desc": [ "You can't get tired." ],
-    "apply_message": "You feel an energy in your muscles, untired and jazzed.",
+    "apply_message": "You feel an energy in your muscles, jazzed up and full of vitality.",
     "remove_message": "The energy in your body fades away.",
     "base_mods": { "stamina_min": [ 50 ] }
   },

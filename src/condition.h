@@ -88,7 +88,7 @@ duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, const std
         bool required = true,
         time_duration default_val = 0_seconds );
 template<class T>
-tripoint_abs_ms get_tripoint_from_var( cata::optional<var_info> var, const T &d );
+tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, const T &d );
 var_info read_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, talker *talk,
                       const std::string &value );

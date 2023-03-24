@@ -41,5 +41,11 @@
     "type": "requirement",
     "//": "Counterpart to welding_* installation requirements",
     "qualities": [ { "id": "SAW_M", "level": 2 } ]
+  },
+  {
+    "id": "vehicle_weld_removal_cut_resistant",
+    "type": "requirement",
+    "//": "Used for parts that can't be cut with hand tools",
+    "qualities": [ { "id": "SAW_M", "level": 3 } ]
   }
 ]

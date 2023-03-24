@@ -515,7 +515,7 @@
     "type": "mutation",
     "id": "CRUSHINGFEET",
     "name": "Crushing Feet",
-    "points": -4,
+    "points": 0,
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
@@ -599,6 +599,12 @@
   },
   {
     "type": "mutation",
+    "id": "DENSE_BONES",
+    "copy-from": "DENSE_BONES",
+    "extend": { "category": [ "MASTODON" ] }
+  },
+  {
+    "type": "mutation",
     "id": "MUT_TOUGH",
     "copy-from": "MUT_TOUGH",
     "extend": { "category": [ "MASTODON" ] }
@@ -656,7 +662,7 @@
     "type": "mutation",
     "id": "TRUNK",
     "name": { "str": "Elephant Trunk" },
-    "points": -4,
+    "points": 0,
     "visibility": 5,
     "ugliness": 6,
     "mixed_effect": true,
@@ -708,7 +714,7 @@
     "type": "mutation",
     "id": "TRIPAWS",
     "name": "Three Fingered",
-    "points": -3,
+    "points": 0,
     "visibility": 3,
     "ugliness": 2,
     "mixed_effect": true,
@@ -742,7 +748,7 @@
     "type": "mutation",
     "id": "TRUMPET",
     "name": "Trumpeting Voice",
-    "points": -1,
+    "points": 0,
     "mixed_effect": true,
     "description": "You have a trumpeting, elephantine voice.  Threatening NPCs will be easier, but lying will be very hard.",
     "category": [ "MASTODON" ],

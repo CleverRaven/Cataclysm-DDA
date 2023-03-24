@@ -89,6 +89,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "id": "LIGHTEATER",                         // Unique ID.
   "name": "Optimist",                         // In-game name displayed.
   "points": 2,                                // Point cost of the trait.  Positive values cost points and negative values give points.
+  "vitamin_cost"                              // Category vitamin cost of gaining this trait (default: 100)
   "visibility": 0,                            // Visibility of the trait for purposes of NPC interaction (default: 0).
   "ugliness": 0,                              // Ugliness of the trait for purposes of NPC interaction (default: 0).
   "cut_dmg_bonus": 3,                         // Bonus to unarmed cut damage (default: 0).
@@ -197,8 +198,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "fatigue_regen_modifier": 0.333,            // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
   "stamina_regen_modifier": 0.1,              // Increase stamina regen by this proportion (1.0 being 100% of normal regen).
   "cardio_multiplier": 1.5,                   // Multiplies total cardio fitness by this amount.
-  "healing_awake": 1.0,                       // Healing rate per turn while awake.
-  "healing_resting": 0.5,                     // Healing rate per turn while resting.
+  "healing_multiplier": 0.5,                  // Multiplier to PLAYER/NPC_HEALING_RATE.
+  "healing_awake": 1.0,                       // Percentage of healing rate used while awake.
   "mending_modifier": 1.2,                    // Multiplier on how fast your limbs mend (1.2 is 20% faster).
   "attackcost_modifier": 0.9,                 // Attack cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_modifier": 0.9,                   // Overall movement speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
@@ -316,8 +317,12 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 | `id`               | Unique ID. Must be one continuous word, use underscores when necessary.
 | `name`             | Human readable name for the category of mutations.
 | `threshold_mut`    | A special mutation that marks the point at which the identity of the character is changed by the extent of mutation they have experienced.
+| `threshold_min`    | Amount of primer the character needs to have in their body to attempt breaking the threshold.  Default 2200.
 | `mutagen_message`  | A message displayed to the player when they mutate in this category.
 | `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
+| `vitamin`          | The vitamin id of the primer of this category. The character's vitamin level will act as the weight of this category when selecting which category to try and mutate towards, and gets decreased on successful mutation by the trait's mutagen cost.
+| `base_removal_chance`| Int, percent chance for a mutation of this category removing a conflicting base (starting) trait, rolled per `Character::mutate_towards` attempts.  Default 100%.  Removed base traits will **NOT** be considered base traits from here on, even if you regain them later. 
+| `base_removal_cost_mul` | Float, multiplier on the primer cost of the trait that removed a canceled starting trait, down to 0.0 for free mutations as long as a starting trait was given up.  Default 3.0, used for human-like categories and lower as categories become more inhuman.
 | `wip`              | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
 | `skip_test`        | If true, this mutation category will be skipped in consistency tests; this should only be used if you know what you're doing. See tests/mutation_test.cpp.
 

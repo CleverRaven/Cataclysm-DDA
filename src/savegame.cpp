@@ -394,7 +394,7 @@ void overmap::convert_terrain(
             old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
             old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ||
             old == "s_lot" || old == "mine_entrance" || old == "mine_finale" ||
-            old == "triffid_finale" ) {
+            old == "triffid_finale" || old == "hive" ) {
             ter_set( pos, oter_id( old + "_north" ) );
         } else if( old.compare( 0, 6, "bridge" ) == 0 ) {
             ter_set( pos, oter_id( old ) );
@@ -1346,7 +1346,7 @@ void overmap::serialize( std::ostream &fout ) const
     fout << std::endl;
     json.member( "mapgen_arg_index" );
     json.start_array();
-    for( const std::pair<const tripoint_om_omt, cata::optional<mapgen_arguments> *> &p :
+    for( const std::pair<const tripoint_om_omt, std::optional<mapgen_arguments> *> &p :
          mapgen_args_index ) {
         json.start_array();
         json.write( p.first );

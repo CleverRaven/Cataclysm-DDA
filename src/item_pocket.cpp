@@ -23,6 +23,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
+#include "json_loader.h"
 #include "localized_comparator.h"
 #include "map.h"
 #include "math_defines.h"
@@ -55,8 +56,7 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
 // *INDENT-ON*
 } // namespace io
 
-constexpr units::volume pocket_data::max_volume_for_container;
-constexpr units::mass pocket_data::max_weight_for_container;
+std::vector<item_pocket::favorite_settings> item_pocket::pocket_presets;
 
 std::string pocket_data::check_definition() const
 {
@@ -1181,11 +1181,11 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
             info.back().bNewLine = true;
 
             info.emplace_back( arm_type_str, _( "<bold>Protection</bold>: Bash: " ), "",
-                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.bash_resist() );
+                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.resist( damage_type::BASH ) );
             info.emplace_back( arm_type_str, space + _( "Cut: " ), "",
-                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.cut_resist() );
+                               iteminfo::no_newline | iteminfo::is_decimal, ablative_armor.resist( damage_type::CUT ) );
             info.emplace_back( arm_type_str, space + _( "Ballistic: " ), "", iteminfo::is_decimal,
-                               ablative_armor.bullet_resist() );
+                               ablative_armor.resist( damage_type::BULLET ) );
         }
     } else if( data->ammo_restriction.empty() ) {
         // With no ammo_restriction defined, show current volume/weight, and total capacity
@@ -1209,6 +1209,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     // ablative pockets have their contents displayed earlier in the UI
     if( !is_ablative() ) {
+        std::vector<std::pair<item const *, int>> counted_contents;
         bool contents_header = false;
         for( const item &contents_item : contents ) {
             if( !contents_header ) {
@@ -1223,8 +1224,27 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                    contents_item.color_in_inventory() ) );
                 info.emplace_back( vol_to_info( cont_type_str, desc + space, contents_item.volume() ) );
             } else {
-                info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
-                                   contents_item.color_in_inventory() ) );
+                bool found = false;
+                for( std::pair<item const *, int> &content : counted_contents ) {
+                    if( content.first->display_stacked_with( contents_item ) ) {
+                        content.second += 1;
+                        found = true;
+                    }
+                }
+                if( !found ) {
+                    std::pair<item const *, int> new_content( &contents_item, 1 );
+                    counted_contents.push_back( new_content );
+                }
+            }
+        }
+        for( std::pair<item const *, int> content : counted_contents ) {
+            if( content.second > 1 ) {
+                info.emplace_back( "DESCRIPTION",
+                                   space + std::to_string( content.second ) + " " + colorize( content.first->display_name(
+                                               content.second ), content.first->color_in_inventory() ) );
+            } else {
+                info.emplace_back( "DESCRIPTION", space + colorize( content.first->display_name(),
+                                   content.first->color_in_inventory() ) );
             }
         }
     }
@@ -1573,7 +1593,7 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
     return false;
 }
 
-cata::optional<item> item_pocket::remove_item( const item &it )
+std::optional<item> item_pocket::remove_item( const item &it )
 {
     item ret( it );
     const size_t sz = contents.size();
@@ -1581,7 +1601,7 @@ cata::optional<item> item_pocket::remove_item( const item &it )
         return &rhs == &it;
     } );
     if( sz == contents.size() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return ret;
     }
@@ -1604,10 +1624,10 @@ bool item_pocket::remove_internal( const std::function<bool( item & )> &filter,
     return false;
 }
 
-cata::optional<item> item_pocket::remove_item( const item_location &it )
+std::optional<item> item_pocket::remove_item( const item_location &it )
 {
     if( !it ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return remove_item( *it );
 }
@@ -1962,7 +1982,7 @@ std::list<item> &item_pocket::edit_contents()
 }
 
 ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
-        const bool into_bottom )
+        const bool into_bottom, bool restack_charges )
 {
     ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
@@ -1973,7 +1993,9 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
         } else {
             contents.push_back( it );
         }
-        restack();
+        if( restack_charges ) {
+            restack();
+        }
     }
     return ret;
 }
@@ -2143,6 +2165,83 @@ void item_pocket::heat_up()
     }
 }
 
+void item_pocket::add_preset( const item_pocket::favorite_settings &preset )
+{
+    pocket_presets.emplace_back( preset );
+    save_presets();
+}
+
+void item_pocket::save_presets()
+{
+    cata_path file = PATH_INFO::pocket_presets();
+
+    write_to_file( file, [&]( std::ostream & fout ) {
+        JsonOut jout( fout, true );
+        serialize_presets( jout );
+    }, _( "pocket preset configuration" ) );
+}
+
+bool item_pocket::has_preset( const std::string &s )
+{
+    return find_preset( s ) != pocket_presets.end();
+}
+
+std::vector<item_pocket::favorite_settings>::iterator item_pocket::find_preset(
+    const std::string &s )
+{
+    std::vector<item_pocket::favorite_settings>::iterator iter = std::find_if( pocket_presets.begin(),
+            pocket_presets.end(),
+    [&s]( const item_pocket::favorite_settings & preset ) {
+        return preset.get_preset_name().value() == s;
+    } );
+    return iter;
+}
+
+void item_pocket::delete_preset( const std::vector<item_pocket::favorite_settings>::iterator iter )
+{
+    pocket_presets.erase( iter );
+    save_presets();
+}
+
+void item_pocket::load_presets()
+{
+    cata::ifstream fin;
+    cata_path file = PATH_INFO::pocket_presets();
+
+    fs::path file_path = file.get_unrelative_path();
+    fin.open( file_path, std::ifstream::in | std::ifstream::binary );
+
+    if( fin.good() ) {
+        try {
+            JsonValue jsin = json_loader::from_path( file );
+            deserialize_presets( jsin.get_array() );
+        } catch( const JsonError &e ) {
+            debugmsg( "Error while loading pocket presets: %s", e.what() );
+        }
+    }
+
+    fin.close();
+}
+
+void item_pocket::serialize_presets( JsonOut &json )
+{
+    json.start_array();
+    for( const item_pocket::favorite_settings &preset : pocket_presets ) {
+        preset.serialize( json );
+    }
+    json.end_array();
+}
+
+void item_pocket::deserialize_presets( const JsonArray &ja )
+{
+    pocket_presets.clear();
+    for( JsonObject jo : ja ) {
+        item_pocket::favorite_settings preset;
+        preset.deserialize( jo );
+        pocket_presets.emplace_back( preset );
+    }
+}
+
 units::volume pocket_data::max_contains_volume() const
 {
     if( ammo_restriction.empty() ) {
@@ -2167,6 +2266,7 @@ units::volume pocket_data::max_contains_volume() const
 
 void item_pocket::favorite_settings::clear()
 {
+    preset_name = std::nullopt;
     priority_rating = 0;
     item_whitelist.clear();
     item_blacklist.clear();
@@ -2370,6 +2470,16 @@ void item_pocket::favorite_settings::set_unloadable( bool flag )
     unload = flag;
 }
 
+void item_pocket::favorite_settings::set_preset_name( const std::string &s )
+{
+    preset_name = s;
+}
+
+const std::optional<std::string> &item_pocket::favorite_settings::get_preset_name() const
+{
+    return preset_name;
+}
+
 template<typename T>
 std::string enumerate( cata::flat_set<T> container )
 {
@@ -2390,6 +2500,10 @@ void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
         info.emplace_back( "BASE", string_format(
                                _( "Items in this pocket <bad>won't be unloaded</bad> unless you manually drop them." ) ) );
     }
+    if( preset_name.has_value() ) {
+        info.emplace_back( "BASE", string_format( _( "Preset Name: %s" ), preset_name.value() ) );
+    }
+
     info.emplace_back( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) );
     info.emplace_back( "BASE", string_format( _( "Item Whitelist: %s" ),
                        item_whitelist.empty() ? _( "(empty)" ) :

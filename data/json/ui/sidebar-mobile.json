@@ -1581,7 +1581,7 @@
         "id": "sk",
         "sym": "ₒ",
         "color": "c_red",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
       },
       {
         "id": "e",
@@ -1589,8 +1589,8 @@
         "color": "c_light_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
           ]
         }
       },
@@ -1600,8 +1600,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
           ]
         }
       },
@@ -1611,8 +1611,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
           ]
         }
       },
@@ -1622,8 +1622,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
           ]
         }
       },
@@ -1633,8 +1633,8 @@
         "color": "c_light_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
           ]
         }
       },
@@ -1644,8 +1644,8 @@
         "color": "c_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
           ]
         }
       },
@@ -1653,7 +1653,7 @@
         "id": "m_o",
         "sym": "ₒ",
         "color": "c_white",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
       }
     ],
     "type": "widget"
@@ -1667,19 +1667,19 @@
         "id": "sk",
         "sym": "⎻⎺",
         "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
       },
       {
         "id": "sk",
         "sym": "ₗ",
         "color": "c_yellow",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
       },
       {
         "id": "sk",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
       },
       {
         "id": "e",
@@ -1687,8 +1687,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
           ]
         }
       },
@@ -1698,8 +1698,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
           ]
         }
       },
@@ -1709,8 +1709,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
           ]
         }
       },
@@ -1720,8 +1720,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
           ]
         }
       },
@@ -1731,8 +1731,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
           ]
         }
       },
@@ -1742,8 +1742,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
           ]
         }
       },
@@ -1753,8 +1753,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
           ]
         }
       },
@@ -1764,8 +1764,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
           ]
         }
       },
@@ -1775,8 +1775,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
           ]
         }
       },
@@ -1786,8 +1786,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
           ]
         }
       },
@@ -1797,8 +1797,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
           ]
         }
       },
@@ -1808,8 +1808,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
           ]
         }
       },
@@ -1819,8 +1819,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
           ]
         }
       },
@@ -1830,8 +1830,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
           ]
         }
       },
@@ -1841,8 +1841,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
           ]
         }
       },
@@ -1852,8 +1852,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
           ]
         }
       },
@@ -1863,8 +1863,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
           ]
         }
       },
@@ -1874,8 +1874,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
+            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
+            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
           ]
         }
       },
@@ -1883,19 +1883,19 @@
         "id": "m_o",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
       },
       {
         "id": "m_o",
         "sym": "ₕ",
         "color": "c_red",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
       },
       {
         "id": "m_o",
         "sym": " ⎺",
         "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
+        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
       }
     ],
     "type": "widget"

@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <new>
+#include <optional>
 #include <vector>
 
 #include "character.h"
@@ -21,7 +22,6 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "point.h"
@@ -302,17 +302,17 @@ void mission_start::reveal_refugee_center( mission *miss )
     overmap_special.str_val = "evac_center";
     t.overmap_special = overmap_special;
     t.mission_pointer = miss;
-    int_or_var<dialogue> search_range;
-    search_range.min.int_val = 0;
+    dbl_or_var<dialogue> search_range;
+    search_range.min.dbl_val = 0;
     t.search_range = search_range;
-    int_or_var<dialogue> reveal_radius;
-    reveal_radius.min.int_val = 1;
+    dbl_or_var<dialogue> reveal_radius;
+    reveal_radius.min.dbl_val = 1;
     t.reveal_radius = reveal_radius;
-    int_or_var<dialogue> min_distance;
-    min_distance.min.int_val = 0;
+    dbl_or_var<dialogue> min_distance;
+    min_distance.min.dbl_val = 0;
     t.min_distance = min_distance;
 
-    cata::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
+    std::optional<tripoint_abs_omt> target_pos = mission_util::assign_mission_target( t );
 
     if( !target_pos ) {
         add_msg( _( "You don't know where the address could be…" ) );
@@ -329,8 +329,8 @@ void mission_start::reveal_refugee_center( mission *miss )
         str_or_var<dialogue> overmap_terrain;
         overmap_terrain.str_val = "refctr_S3e";
         t.overmap_terrain = overmap_terrain;
-        int_or_var<dialogue> reveal_radius;
-        reveal_radius.min.int_val = 3;
+        dbl_or_var<dialogue> reveal_radius;
+        reveal_radius.min.dbl_val = 3;
         t.reveal_radius = reveal_radius;
         target_pos = mission_util::assign_mission_target( t );
         const tripoint_abs_omt dest_refugee_center = overmap_buffer.find_closest( *target_pos,

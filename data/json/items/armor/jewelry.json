@@ -83,12 +83,12 @@
     "id": "bronze_medal",
     "type": "ARMOR",
     "name": { "str": "bronze medal" },
-    "description": "A medal awarded for achieving third place in some event.  It might be worth something if it was made of bronze; this one is made from iron.",
+    "description": "A medal awarded for achieving third place in some event.  It might be worth something if it was made of bronze; this one is made from brass.",
     "weight": "25 g",
     "volume": "10 ml",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "iron" ],
+    "material": [ "brass" ],
     "symbol": "[",
     "looks_like": "copper_locket",
     "color": "brown",
@@ -242,10 +242,11 @@
         "encumbrance": 0,
         "coverage": 0,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "diving_watch",
@@ -287,7 +288,7 @@
     "name": { "str": "copper bracelet" },
     "description": "An old-fashioned copper bracelet.",
     "weight": "45 g",
-    "volume": "5 ml",
+    "volume": "10 ml",
     "price": 2500,
     "price_postapoc": 10,
     "material": [ "copper" ],
@@ -310,7 +311,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of copper earrings", "str_pl": "pairs of copper earrings" },
     "description": "A pair of copper earrings.  They're pretty heavy.",
-    "weight": "9 g",
+    "weight": "8 g",
     "volume": "1 ml",
     "price": 2900,
     "price_postapoc": 10,
@@ -369,7 +370,7 @@
     "type": "ARMOR",
     "name": { "str": "copper ring" },
     "description": "A plain, copper ring.  Not very shiny, and not very popular.",
-    "weight": "9 g",
+    "weight": "8 g",
     "volume": "1 ml",
     "price": 2000,
     "price_postapoc": 10,
@@ -383,10 +384,11 @@
         "encumbrance": 0,
         "coverage": 0,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
       }
     ],
-    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "cufflinks",
@@ -978,7 +980,7 @@
     "color": "yellow",
     "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "gold_watch",
@@ -1275,8 +1277,15 @@
     "symbol": "[",
     "color": "white",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_engagement",
@@ -1291,8 +1300,15 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_purity",
@@ -1307,8 +1323,15 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_signet",
@@ -1323,8 +1346,15 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_wedding",
@@ -1339,8 +1369,15 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "silver_necklace",
@@ -1410,8 +1447,15 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "leather_collar",
@@ -2066,8 +2110,15 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "amethyst_gold_ring",
@@ -2197,8 +2248,15 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "ALLOWS_TALONS" ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "id": "amethyst_silver_ring",
@@ -2358,8 +2416,15 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "id": "amethyst_platinum_ring",

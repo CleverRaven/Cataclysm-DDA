@@ -96,12 +96,6 @@
   },
   {
     "type": "effect_type",
-    "id": "manic_fugue",
-    "name": [ "Manic Fugue" ],
-    "desc": [ "Your creative state is happening." ]
-  },
-  {
-    "type": "effect_type",
     "id": "creativity",
     "//": "Tracks inventors creative sparks",
     "name": [ "One Amazing Idea", "Several Inspired Tangents", "Brimming with Creativity" ],
@@ -109,6 +103,19 @@
       "You have one incredibly amazing idea.",
       "You've got a few theories you'd like to explore.",
       "Your brain can't hold any more brilliance."
+    ],
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "dreamer_eff",
+    "name": [ "Matter Twist", "Matter Deformation", "Dimensional Shift", "Dimensional Chasm", "Reality Gateway" ],
+    "desc": [
+      "Sometimes the world nearby twists.  Was it you?",
+      "Sometimes there is an odd noise you hear.  Sounds like a whisper.",
+      "You feel someone's presences.  They are wondering.",
+      "Random voices jump into your head time to time.  Most of them are friendly.",
+      "You clearly feel the otherworldly presence.  They are ready to help you."
     ],
     "rating": "good"
   },
@@ -148,7 +155,7 @@
     "rating": "good",
     "blocks_effects": [ "vampire_virus" ],
     "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
-    "max_duration": 86400,
+    "max_duration": 8640000,
     "dur_add_perc": 25
   },
   {
@@ -332,6 +339,19 @@
       "stamina_min": [ 40 ],
       "stamina_chance": [ 2 ]
     }
+  },
+  {
+    "id": "eater_lump_pool",
+    "type": "effect_type",
+    "name": [ "Dream Gorging" ],
+    "desc": [
+      "You ate a whole dreamdross ingot.  It is too much for your body, but temporarily you have a +6 to your strength and better regeneration."
+    ],
+    "apply_message": "A huge warm wave moves from your stomach through your body.",
+    "remove_message": "The warm feeling fades away.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 6 }, { "value": "REGEN_HP", "multiply": 1 } ] } ]
   },
   {
     "type": "effect_type",

@@ -16,7 +16,7 @@
     "symbol": "V",
     "color": "white",
     "morale": 100,
-    "melee_skill": 7,
+    "melee_skill": 4,
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
@@ -53,7 +53,7 @@
     "color": "white",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 9,
+    "melee_skill": 8,
     "melee_dice": 2,
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
@@ -371,7 +371,7 @@
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 8,
+    "melee_skill": 7,
     "melee_dice": 3,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
@@ -414,7 +414,7 @@
     "morale": 25,
     "regen_morale": true,
     "regenerates_in_dark": true,
-    "melee_skill": 10,
+    "melee_skill": 9,
     "melee_dice": 4,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "cut", "amount": 5, "armor_penetration": 10 } ],
@@ -891,7 +891,7 @@
     "color": "dark_gray",
     "aggression": 100,
     "morale": 100,
-    "melee_skill": 12,
+    "melee_skill": 8,
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
@@ -1300,6 +1300,38 @@
     "copy-from": "mon_pale_reflection"
   },
   {
+    "id": "mon_XEDRA_officer",
+    "type": "MONSTER",
+    "name": { "str": "mercenary officer" },
+    "copy-from": "mon_zombie_bio_op",
+    "hp": 150,
+    "armor_bash": 30,
+    "armor_cut": 30,
+    "armor_bullet": 40,
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "NO_BREATHE" ],
+    "death_drops": "xedra_officer_set",
+    "bleed_rate": 0,
+    "vision_day": 40,
+    "vision_night": 40,
+    "special_attacks": [
+      {
+        "type": "spell",
+        "spell_data": { "id": "spell_conjure_memories" },
+        "max_range": 3,
+        "cooldown": 30,
+        "monster_message": "The creature screams \"SOMEONE HELP ME, ANYONE!\"."
+      }
+    ],
+    "death_function": { "effect": { "id": "mon_XEDRA_officer_banish", "hit_self": true } }
+  },
+  {
+    "id": "mon_XEDRA_soldier",
+    "type": "MONSTER",
+    "name": { "str": "mercenary ghost" },
+    "copy-from": "mon_zombie_soldier_blackops_1",
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The soldier fades away to nothing." }
+  },
+  {
     "id": "mon_tainted_shadow",
     "type": "MONSTER",
     "name": { "str": "tainted shadow" },
@@ -1343,7 +1375,7 @@
     "morale": 100,
     "vision_day": 60,
     "vision_night": 60,
-    "path_settings": { "max_dist": 60 },
+    "path_settings": { "max_dist": 60, "allow_open_doors": true },
     "death_function": { "corpse_type": "NO_CORPSE", "message": "it just disappeared." },
     "flags": [
       "NO_BREATHE",

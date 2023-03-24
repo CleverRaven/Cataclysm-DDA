@@ -1045,20 +1045,6 @@
   },
   {
     "type": "keybinding",
-    "id": "ZOOM_OUT",
-    "category": "OVERMAP",
-    "name": "Zoom out",
-    "bindings": [ { "input_method": "keyboard_char", "key": "Z" }, { "input_method": "keyboard_code", "key": "z", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "id": "ZOOM_IN",
-    "category": "OVERMAP",
-    "name": "Zoom in",
-    "bindings": [ { "input_method": "keyboard_any", "key": "z" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "DELETE_NOTE",
     "category": "OVERMAP_NOTES",
     "name": "Delete note",
@@ -1220,6 +1206,18 @@
     "id": "CHOOSE_DESTINATION",
     "name": "Choose destination",
     "bindings": [ { "input_method": "keyboard_char", "key": "W" }, { "input_method": "keyboard_code", "key": "w", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "GO_TO_DESTINATION",
+    "name": "Go to destination",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CENTER_ON_DESTINATION",
+    "name": "Center on destination",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
   },
   {
     "type": "keybinding",
@@ -2020,6 +2018,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SHOW_HIDE_CONTENTS_ALL",
+    "category": "INVENTORY",
+    "name": "Show/hide all contents",
+    "bindings": [ { "input_method": "keyboard_char", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_SKIP_UNSELECTABLE",
     "category": "INVENTORY",
     "name": "Toggle skipping unselectable items"
@@ -2568,8 +2573,7 @@
     "type": "keybinding",
     "name": "Abandon character",
     "category": "DEFAULTMODE",
-    "id": "SUICIDE",
-    "bindings": [ { "input_method": "keyboard_char", "key": "Q" }, { "input_method": "keyboard_code", "key": "q", "mod": [ "shift" ] } ]
+    "id": "SUICIDE"
   },
   {
     "type": "keybinding",
@@ -2604,13 +2608,6 @@
     "category": "DEFAULTMODE",
     "id": "factions",
     "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_code", "key": "3", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "View achievements, scores, and kills",
-    "category": "DEFAULTMODE",
-    "id": "scores",
-    "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -2958,6 +2955,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle prone",
+    "category": "DEFAULTMODE",
+    "id": "toggle_prone"
+  },
+  {
+    "type": "keybinding",
     "name": "Movement mode menu",
     "category": "DEFAULTMODE",
     "id": "open_movement",
@@ -2976,7 +2979,8 @@
     "type": "keybinding",
     "id": "diary",
     "name": "Open diary",
-    "category": "DEFAULTMODE"
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -4110,6 +4114,27 @@
   },
   {
     "type": "keybinding",
+    "id": "FAV_SAVE_PRESET",
+    "category": "INVENTORY",
+    "name": "Save preset",
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_APPLY_PRESET",
+    "category": "INVENTORY",
+    "name": "Apply preset",
+    "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "FAV_DEL_PRESET",
+    "category": "INVENTORY",
+    "name": "Delete preset",
+    "bindings": [ { "input_method": "keyboard_char", "key": "D" }, { "input_method": "keyboard_code", "key": "d", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "FAV_CLEAR",
     "category": "INVENTORY",
     "name": "Clear entries",
@@ -4253,6 +4278,13 @@
     "name": "Add new page",
     "category": "DIARY",
     "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "n" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "View achievements, scores, and kills",
+    "category": "DIARY",
+    "id": "VIEW_SCORES",
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "v" ] } ]
   },
   {
     "type": "keybinding",
