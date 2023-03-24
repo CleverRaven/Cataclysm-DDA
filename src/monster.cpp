@@ -4,6 +4,7 @@
 #include <array>
 #include <cmath>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <tuple>
@@ -50,7 +51,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -1192,7 +1192,7 @@ void monster::set_dest( const tripoint_abs_ms &p )
 
 void monster::unset_dest()
 {
-    goal = cata::nullopt;
+    goal = std::nullopt;
     path.clear();
 }
 
@@ -2627,7 +2627,7 @@ void monster::die( Creature *nkiller )
 
     if( type->mdeath_effect.has_effect ) {
         //Not a hallucination, go process the death effects.
-        spell death_spell = type->mdeath_effect.sp.get_spell();
+        spell death_spell = type->mdeath_effect.sp.get_spell( *this );
         if( killer != nullptr && !type->mdeath_effect.sp.self &&
             death_spell.is_target_in_range( *this, killer->pos() ) ) {
             death_spell.cast_all_effects( *this, killer->pos() );
@@ -2636,7 +2636,7 @@ void monster::die( Creature *nkiller )
         }
     }
 
-    item *corpse = nullptr;
+    item_location corpse;
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     switch( type->mdeath_effect.corpse_type ) {
         case mdeath_type::NORMAL:
@@ -2670,8 +2670,8 @@ void monster::die( Creature *nkiller )
     }
 
     if( death_drops && !no_extra_death_drops ) {
-        drop_items_on_death( corpse );
-        spawn_dissectables_on_death( corpse );
+        drop_items_on_death( corpse.get_item() );
+        spawn_dissectables_on_death( corpse.get_item() );
     }
     if( death_drops && !is_hallucination() ) {
         for( const item &it : inv ) {
@@ -2691,6 +2691,10 @@ void monster::die( Creature *nkiller )
                 get_map().add_item( pos(), it );
             }
         }
+    }
+    if( corpse ) {
+        corpse->process( get_map(), nullptr, corpse.position() );
+        corpse.make_active();
     }
 
     // Adjust anger/morale of nearby monsters, if they have the appropriate trigger and are friendly

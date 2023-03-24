@@ -205,10 +205,7 @@ std::vector<const recipe *> recipe_subset::search(
                 return search_reqs( r->simple_requirements().get_qualities(), txt );
 
             case search_type::quality_result: {
-                const auto &quals = item::find_type( r->result() )->qualities;
-                return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
-                    return lcmatch( e.first->name, txt );
-                } );
+                return item::find_type( r->result() )->has_any_quality( txt );
             }
 
             case search_type::description_result: {

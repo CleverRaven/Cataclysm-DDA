@@ -163,7 +163,7 @@
     "id": "f_fridge",
     "name": "refrigerator",
     "symbol": "{",
-    "description": "A tall metal storage container that, if powered, will refrigerate food and other perishables for preservation.",
+    "description": "A standard household refrigerator.  If powered, it will cool its contents to extend the time before they spoil.",
     "color": "light_cyan",
     "move_cost_mod": -1,
     "coverage": 90,
@@ -246,7 +246,7 @@
     "name": "freezer",
     "looks_like": "f_fridge",
     "symbol": "{",
-    "description": "A chest freezer that could be used to freeze foods, if it were connected to a working power source.",
+    "description": "A chest freezer.  If powered, it could freeze and preserve its contents.",
     "color": "blue",
     "move_cost_mod": -1,
     "coverage": 60,
@@ -320,7 +320,7 @@
     "type": "furniture",
     "id": "f_washer",
     "name": "washing machine",
-    "description": "A large, chunky machine that uses soap and large amounts of water to wash batches of clothes with minimal effort.",
+    "description": "An appliance used to clean laundry.  It needs to be plugged into a grid that provides it with electricity and large amounts of water to be used.",
     "symbol": "{",
     "bgcolor": "white",
     "move_cost_mod": -1,
@@ -353,7 +353,7 @@
     "id": "f_oven",
     "name": "oven",
     "symbol": "#",
-    "description": "A standard convection-based oven, commonly used for heating and cooking food.  It can safely contain a fire, although it's not adequately ventilated.  You could disconnect it and plug it in to a working power grid, or power it with UPS.",
+    "description": "A standard electric convection-based oven, commonly used for heating and cooking food.  It can safely contain a fire, although it's not adequately ventilated.  You could disconnect it and plug it into a working power grid, or power it with a UPS.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 60,
@@ -387,7 +387,7 @@
         { "item": "pilot_light", "count": 1 }
       ]
     },
-    "crafting_pseudo_item": "pseudo_app_oven_hotplate"
+    "crafting_pseudo_item": "oven"
   },
   {
     "type": "furniture",
@@ -395,7 +395,7 @@
     "name": "gas oven",
     "looks_like": "f_oven",
     "symbol": "#",
-    "description": "A standard gas powered oven, commonly used for heating and cooking food.  With the state of nearby gas lines unknown it's best not to put any fire near it.",
+    "description": "A standard gas-powered oven, commonly used for heating and cooking food.  With the state of nearby gas lines unknown, it's best not to put any fire near it.",
     "color": "dark_gray",
     "move_cost_mod": 2,
     "coverage": 60,
@@ -433,7 +433,7 @@
     "name": "gas oven and microwave combo",
     "copy-from": "f_gas_oven",
     "symbol": "#",
-    "description": "A standard gas powered oven, commonly used for heating and cooking food.  With the state of nearby gas lines unknown it's best not to put any fire near it.  You could disassemble the shelving holding them together and pull the microwave out.",
+    "description": "A standard gas-powered oven, commonly used for heating and cooking food.  This one has an attached microwave.  With the state of nearby gas lines unknown, it's best not to put any fire near it.  You could disassemble the shelving holding them together and pull the microwave out.",
     "color": "dark_gray",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE", "NO_SELF_CONNECT" ],
     "deconstruct": { "items": [ { "item": "microwave", "count": 1 } ], "furn_set": "f_gas_oven" },
@@ -601,6 +601,35 @@
         { "item": "pipe", "count": 1 },
         { "item": "e_scrap", "count": [ 20, 50 ] },
         { "item": "cable", "charges": [ 2, 8 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_melchior_unit",
+    "name": "supercomputer",
+    "looks_like": "f_server",
+    "description": "Hanging platters assembled into an inverted cone, their positions kept stable by dense threading of copper cabling.",
+    "symbol": "V",
+    "color": "yellow",
+    "move_cost_mod": -1,
+    "coverage": 50,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 16,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "melchior_platter", "count": [ 4, 6 ] },
+        { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "cable", "charges": [ 4, 6 ], "prob": 50 },
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 0, 2 ], "prob": 50 },
+        { "item": "power_supply", "prob": 25 },
+        { "item": "amplifier", "prob": 25 },
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
       ]
     }
   },

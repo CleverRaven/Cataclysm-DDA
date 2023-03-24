@@ -4,6 +4,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -24,7 +25,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "player_helpers.h"
@@ -918,18 +918,6 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
     }
-    SECTION( "clean_water_in_loaded_mess_kit" ) {
-        std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
-        item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.put_in(
-            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
-        tools.push_back( plastic_bottle );
-        tools.push_back( tool_with_ammo( "mess_kit", 500 ) );
-
-        // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
-        prep_craft( recipe_water_clean, tools, true );
-    }
     SECTION( "clean_water_in_loaded_survivor_mess_kit" ) {
         std::vector<item> tools;
         tools.push_back( tool_with_ammo( "hotplate", 500 ) );
@@ -1005,7 +993,7 @@ static int resume_craft()
     REQUIRE( crafts.size() == 1 );
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
-    REQUIRE( player_character.crafting_speed_multiplier( *craft, cata::nullopt ) == 1.0 );
+    REQUIRE( player_character.crafting_speed_multiplier( *craft, std::nullopt ) == 1.0 );
     REQUIRE( !player_character.activity );
     player_character.use( player_character.get_item_position( craft ) );
     REQUIRE( player_character.activity );

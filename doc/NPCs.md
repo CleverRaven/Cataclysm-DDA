@@ -1279,6 +1279,7 @@ Example | Description
 `"u_val": "activity_level"` | Current activity level index, from 0-5
 `"u_val": "fatigue"` | Current fatigue level.
 `"u_val": "stamina"` | Current stamina level.
+`"u_val": "health"` | Current health level.
 `"u_val": "sleep_deprivation"` | Current sleep deprivation level.
 `"u_val": "anger"` | Current anger level, only works for monsters.
 `"u_val": "friendly"` | Current friendly level, only works for monsters.

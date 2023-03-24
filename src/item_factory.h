@@ -44,7 +44,7 @@ class migration
     public:
         itype_id id;
         std::string variant;
-        cata::optional<std::string> from_variant;
+        std::optional<std::string> from_variant;
         itype_id replace;
         std::set<std::string> flags;
         int charges = 0;

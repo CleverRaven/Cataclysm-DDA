@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
+#include <optional>
 #include <set>
 #include <string>
 
@@ -13,7 +14,6 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "itype.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "string_formatter.h"
@@ -241,7 +241,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
     }
 
     // print the label for this location
-    const cata::optional<std::string> label = vpart_position( const_cast<vehicle &>( *this ),
+    const std::optional<std::string> label = vpart_position( const_cast<vehicle &>( *this ),
             p ).get_label();
     if( label && y <= max_y ) {
         mvwprintz( win, point( 1, y++ ), c_light_red, _( "Label: %s" ), label->c_str() );
@@ -431,7 +431,7 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
     int indf = ( amnt / 20 ) % 5;
     mvwprintz( win, p + point( indf, 0 ), f_color, "%c", fsyms[indf] );
     if( verbose ) {
-        if( debug_mode ) {
+        if( debug_mode || cap == 0 ) {
             mvwprintz( win, p + point( 6, 0 ), f_color, "%d/%d", f_left, cap );
         } else {
             mvwprintz( win, p + point( 6, 0 ), f_color, "%d", f_left * 100 / cap );
@@ -450,10 +450,10 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, const point &
             units = _( "mL" );
         }
         if( fuel_type == itype_battery ) {
-            rate += power_to_energy_bat( net_battery_charge_rate(), 1_hours );
+            rate += power_to_energy_bat( net_battery_charge_rate( /* include_reactors = */ true ), 1_hours );
             units = _( "kJ" );
         }
-        if( rate != 0 ) {
+        if( rate != 0 && cap != 0 ) {
             int tank_use = 0;
             nc_color tank_color = c_light_green;
             std::string tank_goal = _( "full" );

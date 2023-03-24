@@ -21,7 +21,6 @@
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "processor", 1 ] ],
-      [ [ "lens_small", 1 ] ],
       [ [ "plut_cell", 1 ] ]
     ]
   },

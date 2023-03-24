@@ -913,7 +913,7 @@ void avatar::power_bionics()
                                     break;
                                 case 1:
                                     // TODO: Move to function, create activity and add tool requirements
-                                    if( cata::optional<item> weapon = bio.uninstall_weapon() ) {
+                                    if( std::optional<item> weapon = bio.uninstall_weapon() ) {
                                         i_add_or_drop( *weapon );
                                     }
                                     break;

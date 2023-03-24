@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <tuple>
@@ -28,7 +29,6 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
@@ -116,7 +116,7 @@ int vehicle::slowdown( int at_velocity ) const
                    "%s at %d vimph, f_drag %3.2f, drag accel %d vmiph - extra drag %d",
                    name, at_velocity, f_total_drag, slowdown, units::to_watt( static_drag() ) );
     // plows slow rolling vehicles, but not falling or floating vehicles
-    if( !( is_falling || is_floating || is_flying ) ) {
+    if( !( is_falling || ( is_watercraft() && can_float() ) || is_flying ) ) {
         slowdown -= units::to_watt( static_drag() );
     }
 
@@ -124,13 +124,13 @@ int vehicle::slowdown( int at_velocity ) const
 }
 
 void vehicle::smart_controller_handle_turn( bool thrusting,
-        const cata::optional<float> &k_traction_cache )
+        const std::optional<float> &k_traction_cache )
 {
     // get settings or defaults
     smart_controller_config cfg = smart_controller_cfg.value_or( smart_controller_config() );
 
     if( !has_enabled_smart_controller ) {
-        smart_controller_state = cata::nullopt;
+        smart_controller_state = std::nullopt;
         return;
     }
 
@@ -181,7 +181,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             add_msg( m_bad, _( "Smart controller is shutting down." ) );
         }
         has_enabled_smart_controller = false;
-        smart_controller_state = cata::nullopt;
+        smart_controller_state = std::nullopt;
         return;
     }
 
@@ -233,7 +233,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
 
     int prev_mask = 0;
     // opt_ prefix denotes values for currently found "optimal" engine configuration
-    units::power opt_net_echarge_rate = net_battery_charge_rate();
+    units::power opt_net_echarge_rate = net_battery_charge_rate( /* include_reactors = */ true );
     // total engine fuel energy usage (J)
     units::power opt_fuel_usage = 0_W;
 
@@ -321,7 +321,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
         int safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
         int accel = is_stationary ? 1 : current_acceleration() * traction;
         units::power fuel_usage = 0_W;
-        units::power net_echarge_rate = net_battery_charge_rate();
+        units::power net_echarge_rate = net_battery_charge_rate( /* include_reactors = */ true );
         float load_approx = static_cast<float>( std::min( accel_demand, accel ) ) / std::max( accel, 1 );
         update_alternator_load();
         float load_approx_alternator  = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
@@ -387,7 +387,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             }
         }
         if( failed_to_start ) {
-            this->smart_controller_state = cata::nullopt;
+            this->smart_controller_state = std::nullopt;
 
             for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
                 vehicle_part &vp = parts[engines[c_engines[i]]];
@@ -437,9 +437,9 @@ void vehicle::thrust( int thd, int z )
     bool pl_ctrl = player_in_control( get_player_character() );
 
     // No need to change velocity if there are no wheels
-    if( ( in_water && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
+    if( ( is_watercraft() && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
         // we're good
-    } else if( is_floating && !can_float() ) {
+    } else if( in_deep_water && !can_float() ) {
         stop();
         if( pl_ctrl ) {
             add_msg( _( "The %s is too leaky!" ), name );
@@ -893,8 +893,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     if( armor_part >= 0 ) {
         ret.part = armor_part;
     }
-
-    int dmg_mod = part_info( ret.part ).dmg_mod;
+    const vehicle_part &vp = this->part( ret.part );
+    const vpart_info &vpi = vp.info();
     // Let's calculate type of collision & mass of object we hit
     float mass2 = 0.0f;
     // e = 0 -> plastic collision
@@ -919,7 +919,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                    !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_TINY, p ) ) &&
                  // Protrusions don't collide with short terrain.
                  // Tiny also doesn't, but it's already excluded unless there's a wheel present.
-                 !( part_with_feature( ret.part, "PROTRUSION", true ) >= 0 &&
+                 !( part_with_feature( vp.mount, "PROTRUSION", true ) >= 0 &&
                     here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SHORT, p ) ) &&
                  // These are bashable, but don't interact with vehicles.
                  !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOCOLLIDE, p ) &&
@@ -1057,7 +1057,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 }
             }
         } else if( ret.type == veh_coll_body ) {
-            int dam = obj_dmg * dmg_mod / 100;
+            int dam = obj_dmg * vpi.dmg_mod / 100;
 
             // We know critter is set for this type.  Assert to inform static
             // analysis.
@@ -1790,7 +1790,7 @@ vehicle *vehicle::act_on_map()
     Character &player_character = get_player_character();
     const bool pl_ctrl = player_in_control( player_character );
     // TODO: Remove this hack, have vehicle sink a z-level
-    if( is_floating && !can_float() ) {
+    if( in_deep_water && !can_float() ) {
         add_msg( m_bad, _( "Your %s sank." ), name );
         if( pl_ctrl ) {
             unboard_all();
@@ -1884,8 +1884,8 @@ vehicle *vehicle::act_on_map()
 
         // Eventually send it skidding if no control
         // But not if it's remotely controlled, is in water or can use rails
-        if( !controlled && !pl_ctrl && !is_floating && !can_use_rails && !is_flying &&
-            requested_z_change == 0 ) {
+        if( !controlled && !pl_ctrl && !( is_watercraft() && can_float() ) && !can_use_rails &&
+            !is_flying && requested_z_change == 0 ) {
             skidding = true;
         }
     }
@@ -2006,7 +2006,7 @@ void vehicle::check_falling_or_floating()
     // If we're flying none of the rest of this matters.
     if( is_flying && is_rotorcraft() ) {
         is_falling = false;
-        is_floating = false;
+        in_deep_water = false;
         in_water = false;
         return;
     }
@@ -2044,7 +2044,7 @@ void vehicle::check_falling_or_floating()
         static_cast<size_t>( supported_wheels ) * 2 >= wheelcache.size() ) {
         is_falling = false;
         in_water = false;
-        is_floating = false;
+        in_deep_water = false;
         return;
     }
     // TODO: Make the vehicle "slide" towards its center of weight
@@ -2053,7 +2053,7 @@ void vehicle::check_falling_or_floating()
     if( pts.empty() ) {
         // Dirty vehicle with no parts
         is_falling = false;
-        is_floating = false;
+        in_deep_water = false;
         in_water = false;
         is_flying = false;
         return;
@@ -2069,8 +2069,8 @@ void vehicle::check_falling_or_floating()
         }
         is_falling = !has_support( position, true );
     }
-    // floating if 2/3rds of the vehicle is in deep water
-    is_floating = 3 * deep_water_tiles >= 2 * pts.size();
+    // in_deep_water if 2/3 of the vehicle is in deep water
+    in_deep_water = 3 * deep_water_tiles >= 2 * pts.size();
     // in_water if 1/2 of the vehicle is in water at all
     in_water =  2 * water_tiles >= pts.size();
 }

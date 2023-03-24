@@ -9,6 +9,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -58,7 +59,6 @@
 #include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -596,7 +596,7 @@ void npc::discharge_cbm_weapon()
         return;
     }
 
-    cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
+    std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
     if( !bio_opt ) {
         debugmsg( "NPC tried to use a non-existent gun bionic with UID %d", weapon_bionic_uid );
         return;
@@ -786,7 +786,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
 
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
             if( get_weapon_bionic_uid() ) {
-                if( cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
+                if( std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
                     if( deactivate_bionic( **bio_opt, eff_only ) ) {
                         // restore state and try again
                         refund_power();
@@ -934,7 +934,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_activate();
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == bio_lighter ) {
-        const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
+        const std::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
         if( pnt && here.is_flammable( *pnt ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
@@ -970,7 +970,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_effect( effect_adrenaline, 20_minutes );
         }
     } else if( bio.id == bio_emp ) {
-        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
+        if( const std::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
             add_msg_activate();
             explosion_handler::emp_blast( *pnt );
             mod_moves( -100 );
@@ -1056,7 +1056,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( !is_avatar() ) {
             return false;
         }
-        cata::optional<tripoint> target = lockpick_activity_actor::select_location( player_character );
+        std::optional<tripoint> target = lockpick_activity_actor::select_location( player_character );
         if( target.has_value() ) {
             add_msg_activate();
             assign_activity(
@@ -1543,7 +1543,7 @@ void Character::heat_emission( const bionic &bio, units::energy fuel_energy )
 
 float Character::get_effective_efficiency( const bionic &bio, float fuel_efficiency ) const
 {
-    const cata::optional<float> &coverage_penalty = bio.info().coverage_power_gen_penalty;
+    const std::optional<float> &coverage_penalty = bio.info().coverage_power_gen_penalty;
     float effective_efficiency = fuel_efficiency;
     if( coverage_penalty ) {
         int coverage = 0;
@@ -2193,7 +2193,7 @@ bool Character::uninstall_bionic( const bionic &bio, Character &installer, bool 
 void Character::perform_uninstall( const bionic &bio, int difficulty, int success, int pl_skill )
 {
     map &here = get_map();
-    cata::optional<bionic *> bio_opt = find_bionic_by_uid( bio.get_uid() );
+    std::optional<bionic *> bio_opt = find_bionic_by_uid( bio.get_uid() );
     if( !bio_opt ) {
         debugmsg( "Tried to uninstall non-existent bionic with UID %d", bio.get_uid() );
         return;
@@ -2452,7 +2452,7 @@ bool Character::install_bionics( const itype &type, Character &installer, bool a
 
     bionic_uid upbio_uid = 0;
     // TODO: Let the player pick a bionic to upgrade (if dupes exist)
-    if( cata::optional<bionic *> upbio = find_bionic_by_type( upbioid ) ) {
+    if( std::optional<bionic *> upbio = find_bionic_by_type( upbioid ) ) {
         upbio_uid = ( *upbio )->get_uid();
     }
 
@@ -2494,7 +2494,7 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
     if( success > 0 ) {
         get_event_bus().send<event_type::installs_cbm>( getID(), bid );
         if( upbio_uid ) {
-            if( cata::optional<bionic *> upbio = find_bionic_by_uid( upbio_uid ) ) {
+            if( std::optional<bionic *> upbio = find_bionic_by_uid( upbio_uid ) ) {
                 const std::string bio_name = ( *upbio )->id->name.translated();
                 remove_bionic( **upbio );
                 //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
@@ -2803,20 +2803,20 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
     return bio_uid;
 }
 
-cata::optional<bionic *> Character::find_bionic_by_type( const bionic_id &b ) const
+std::optional<bionic *> Character::find_bionic_by_type( const bionic_id &b ) const
 {
     for( bionic &bio : *my_bionics ) {
         if( bio.id == b ) {
             return &bio;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
-cata::optional<bionic *> Character::find_bionic_by_uid( bionic_uid bio_uid ) const
+std::optional<bionic *> Character::find_bionic_by_uid( bionic_uid bio_uid ) const
 {
     if( !bio_uid ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     for( bionic &bio : *my_bionics ) {
@@ -2824,13 +2824,13 @@ cata::optional<bionic *> Character::find_bionic_by_uid( bionic_uid bio_uid ) con
             return &bio;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 void Character::remove_bionic( const bionic &bio )
 {
     const bionic_uid bio_uid = bio.get_uid();
-    cata::optional<bionic *> bio_opt = find_bionic_by_uid( bio_uid );
+    std::optional<bionic *> bio_opt = find_bionic_by_uid( bio_uid );
     if( !bio_opt ) {
         debugmsg( "Tried to uninstall non-existent bionic with UID %d", bio_uid );
         return;
@@ -2981,20 +2981,20 @@ bool bionic::install_weapon( const item &new_weapon, bool skip_checks )
     return true;
 }
 
-cata::optional<item> bionic::uninstall_weapon()
+std::optional<item> bionic::uninstall_weapon()
 {
     if( !has_weapon() ) {
         debugmsg( "Tried to uninstall a weapon on bionic \"%s\" with UID %i that doesn't have a weapon installed.",
                   id.str(), uid );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( id->installable_weapon_flags.empty() ) {
         debugmsg( "Tried to uinstall a weapon from non-dynamic bionic \"%s\" with UID %i.", id.str(),
                   uid );
-        return cata::nullopt;
+        return std::nullopt;
     }
-    cata::optional<item> old_item = get_weapon();
+    std::optional<item> old_item = get_weapon();
     weapon = item();
 
     if( old_item && !old_item->is_null() ) {
@@ -3402,7 +3402,7 @@ std::vector<vehicle *> Character::get_cable_vehicle()
     map &here = get_map();
 
     for( const item *cable : cables ) {
-        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
+        const std::optional<tripoint> target = cable->get_cable_target( this, pos() );
         if( target ) {
             const optional_vpart_position vp = here.veh_at( *target );
             if( vp ) {

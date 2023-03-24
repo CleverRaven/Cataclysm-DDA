@@ -11,6 +11,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <ratio>
 #include <set>
 #include <string>
@@ -55,7 +56,6 @@
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -1105,7 +1105,7 @@ static void draw_om_sidebar(
                 mvwprintz( wbar, point( 1, ++lines ), c_white, "- %s", pred->id().str() );
             }
         }
-        cata::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
+        std::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
         if( args ) {
             if( *args ) {
                 for( const std::pair<const std::string, cata_variant> &arg : ( **args ).map ) {
@@ -1570,14 +1570,14 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
             action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 
-            if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
                 curs += vec->xy();
             } else if( action == "CONFIRM" ) { // Actually modify the overmap
                 if( terrain ) {
                     overmap_buffer.ter_set( curs, uistate.place_terrain->id.id() );
                     overmap_buffer.set_seen( curs, true );
                 } else {
-                    if( cata::optional<std::vector<tripoint_abs_omt>> used_points =
+                    if( std::optional<std::vector<tripoint_abs_omt>> used_points =
                             overmap_buffer.place_special( *uistate.place_special, curs,
                                                           uistate.omedit_rotation, false, true ) ) {
                         for( const tripoint_abs_omt &pos : *used_points ) {
@@ -1604,7 +1604,7 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 
 static void set_special_args( tripoint_abs_omt &curs )
 {
-    cata::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( curs );
+    std::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( curs );
     if( !maybe_args ) {
         popup( _( "No overmap special args at this location." ) );
         return;
@@ -1613,7 +1613,7 @@ static void set_special_args( tripoint_abs_omt &curs )
         popup( _( "Overmap special args at this location have already been set." ) );
         return;
     }
-    cata::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( curs );
+    std::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( curs );
     if( !s ) {
         popup( _( "No overmap special at this location from which to fetch parameters." ) );
         return;
@@ -1697,14 +1697,11 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
 
 static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
 
-static std::string try_travel_to_destination( avatar &player_character, const tripoint_abs_omt curs,
-        const bool driving )
+static bool try_travel_to_destination( avatar &player_character, const tripoint_abs_omt curs,
+                                       const bool driving )
 {
     std::vector<tripoint_abs_omt> path = get_overmap_path_to( curs, driving );
-    bool same_path_selected = false;
-    if( path == player_character.omt_path ) {
-        same_path_selected = true;
-    }
+    bool same_path_selected = path == player_character.omt_path;
     std::string confirm_msg;
     if( !driving && player_character.weight_carried() > player_character.weight_capacity() ) {
         confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
@@ -1730,9 +1727,9 @@ static std::string try_travel_to_destination( avatar &player_character, const tr
             player_character.reset_move_mode();
             player_character.assign_activity( ACT_TRAVELLING );
         }
-        return "QUIT";
+        return true;
     }
-    return nullptr;
+    return false;
 }
 
 static tripoint_abs_omt display( const tripoint_abs_omt &orig,
@@ -1820,7 +1817,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     bool show_explored = true;
     static bool fast_scroll = false;
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
-    cata::optional<tripoint> mouse_pos;
+    std::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
 
     ui.on_redraw( [&]( ui_adaptor & ui ) {
@@ -1841,7 +1838,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 #else
         action = ictxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 #endif
-        if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
+        if( const std::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
             curs += vec->xy() * scroll_d;
         } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
@@ -1887,7 +1884,9 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             avatar &player_character = get_avatar();
             if( !player_character.omt_path.empty() ) {
                 const bool driving = player_character.in_vehicle && player_character.controlling_vehicle;
-                action = try_travel_to_destination( player_character, curs, driving );
+                if( try_travel_to_destination( player_character, curs, driving ) ) {
+                    action = "QUIT";
+                }
             }
         } else if( action == "CENTER_ON_DESTINATION" ) {
             avatar &player_character = get_avatar();
@@ -1907,7 +1906,9 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 player_character.omt_path.swap( path );
             }
             if( same_path_selected && !player_character.omt_path.empty() ) {
-                action = try_travel_to_destination( player_character, curs, driving );
+                if( try_travel_to_destination( player_character, curs, driving ) ) {
+                    action = "QUIT";
+                }
             }
         } else if( action == "TOGGLE_BLINKING" ) {
             uistate.overmap_blinking = !uistate.overmap_blinking;
@@ -2074,10 +2075,10 @@ void ui::omap::setup_cities_menu( uilist &cities_menu, std::vector<city> &cities
     }
 }
 
-cata::optional<city> ui::omap::select_city( uilist &cities_menu,
+std::optional<city> ui::omap::select_city( uilist &cities_menu,
         std::vector<city> &cities_container, bool random )
 {
-    cata::optional<city> ret_val = cata::nullopt;
+    std::optional<city> ret_val = std::nullopt;
     if( random ) {
         ret_val = random_entry( cities_container );
     } else {
@@ -2085,7 +2086,7 @@ cata::optional<city> ui::omap::select_city( uilist &cities_menu,
         if( cities_menu.ret == RANDOM_CITY_ENTRY ) {
             ret_val = random_entry( cities_container );
         } else if( cities_menu.ret == UILIST_CANCEL ) {
-            ret_val = cata::nullopt;
+            ret_val = std::nullopt;
         } else {
             if( cities_menu.entries.size() > 1 ) {
                 ret_val = cities_container[cities_menu.selected - 1];
