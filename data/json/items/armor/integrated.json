@@ -401,7 +401,16 @@
     "color": "light_red",
     "warmth": 12,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "SOFT", "TOUGH_FEET", "NO_SALVAGE" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "WATER_FRIENDLY",
+      "SOFT",
+      "TOUGH_FEET",
+      "NO_SALVAGE"
+    ],
     "armor": [
       {
         "material": [
