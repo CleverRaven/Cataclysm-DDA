@@ -115,8 +115,16 @@
     "qualities": [ [ "LIFT", 2 ], [ "JACK", 6 ] ],
     "//": "30cm of weld per quadrant of damage, 60cm of weld to install",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "welding_standard", 60 ], [ "vehicle_bolt_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "welding_standard", 60 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "CARGO", "PROTRUSION" ],
