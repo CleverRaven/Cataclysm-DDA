@@ -7785,12 +7785,24 @@
   },
   {
     "type": "construction",
-    "id": "constr_place_lumber",
-    "group": "place_lumber",
+    "id": "constr_gather_timber",
+    "group": "gather_timber",
+    "category": "OTHER",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "TREE_CUTTING", "level": 1 } ] ],
+    "byproducts": [ { "item": "timber", "charges": 1 } ],
+    "pre_terrain": "t_trunk",
+    "post_terrain": "t_trunk"
+  },
+  {
+    "type": "construction",
+    "id": "constr_place_timber",
+    "group": "place_timber",
     "category": "OTHER",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "15 s",
-    "components": [ [ [ "lumber", 1 ] ] ],
+    "components": [ [ [ "timber", 1 ] ] ],
     "pre_special": "check_empty",
     "dark_craftable": true,
     "post_terrain": "t_trunk",
@@ -7798,13 +7810,13 @@
   },
   {
     "type": "construction",
-    "id": "constr_stack_lumber",
-    "group": "build_stack_lumber",
+    "id": "constr_stack_timber",
+    "group": "build_stack_timber",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "10 m",
     "components": [ [ [ "lumber", 4 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ], [ "vine_6", 2 ] ] ],
     "pre_special": "check_empty",
-    "post_terrain": "f_stack_lumber"
+    "post_terrain": "f_stack_timber"
   }
 ]

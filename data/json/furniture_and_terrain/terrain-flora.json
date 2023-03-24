@@ -2373,8 +2373,7 @@
     "color": "brown",
     "move_cost": 4,
     "coverage": 45,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "ter_set": "t_dirt", "items": [ { "item": "lumber", "count": 1 } ] },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "REDUCE_SCENT", "MOUNTABLE", "SHORT" ],
     "bash": {
       "str_min": 80,
       "str_max": 180,

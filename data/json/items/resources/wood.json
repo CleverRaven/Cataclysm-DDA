@@ -322,10 +322,10 @@
     "flags": [ "FIREWOOD" ]
   },
   {
-    "id": "lumber",
+    "id": "timber",
     "type": "GENERIC",
     "name": { "str": "lumber" },
-    "description": "Large and uncut lumber straight from a tree.",
+    "description": "A large and uncut timber log straight from a tree.",
     "category": "other",
     "weight": "75000 g",
     "volume": "125000 ml",

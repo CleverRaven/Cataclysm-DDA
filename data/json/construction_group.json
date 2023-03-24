@@ -1711,12 +1711,17 @@
   },
   {
     "type": "construction_group",
-    "id": "place_lumber",
-    "name": "Place lumber"
+    "id": "gather_timber",
+    "name": "Gather timber"
   },
   {
     "type": "construction_group",
-    "id": "build_stack_lumber",
-    "name": "Build stack of lumber"
+    "id": "place_timber",
+    "name": "Place timber"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_stack_timber",
+    "name": "Build stack of timber"
   }
 ]

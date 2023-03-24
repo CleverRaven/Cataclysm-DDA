@@ -107,10 +107,10 @@
   },
   {
     "type": "furniture",
-    "id": "f_stack_lumber",
-    "name": "stack of lumber",
-    "looks_like": "bundle_lumber",
-    "description": "Four lumber tied together for easier transport.  Deconstruct to untie them.",
+    "id": "f_stack_timber",
+    "name": "stack of timber",
+    "looks_like": "bundle_timber",
+    "description": "Four timber logs tied together for easier transport.  Deconstruct to untie them.",
     "symbol": "#",
     "color": "brown",
     "move_cost_mod": 5,
@@ -123,7 +123,7 @@
       "str_max": 360,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "lumber", "count": [ 2, 3 ] }, { "item": "splinter", "count": [ 60, 144 ] } ]
+      "items": [ { "item": "timber", "count": [ 2, 3 ] }, { "item": "splinter", "count": [ 60, 144 ] } ]
     }
   }
 ]
