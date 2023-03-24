@@ -284,5 +284,6 @@
 	  "name": "Escape Pod Launch",
 	  "description": "You're slammed back against the seat as the pod launches at incredible speed from the ship!",
 	  "efffect_str": "EOC_afs_escape_pod_launch"
+	  "valid_targets": "ground"
   }
 ]
