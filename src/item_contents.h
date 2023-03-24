@@ -241,7 +241,7 @@ class item_contents
          * volume, length, weight, ammo type, and all other physical restrictions.  This is
          * synonymous with the success of item_contents::can_contain with that item.
          *
-         * For the MOD, CORPSE, SOFTWARE, and MIGRATION pocket types, if contents have such a
+         * For the MOD, CORPSE, SOFTWARE, CABLE, and MIGRATION pocket types, if contents have such a
          * pocket, items will be successfully inserted without regard to volume, length, or any
          * other restrictions, since these pockets are not considered to be normal "containers".
          */
