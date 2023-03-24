@@ -27,14 +27,14 @@
         "weight": 1
       },
       {
-        "id": "book_nonf_hard_dodge_tlwd_2",
+        "id": "mag_dodge_3",
         "name": { "str": "Self-Defense for Gentlemen and Ladies", "str_pl": "copies of Self-Defense for Gentlemen and Ladies" },
         "description": "An old treatise about self defense, with style.",
         "//": "978-1583948682",
         "weight": 1
       },
       {
-        "id": "book_nonf_hard_dodge_tlwd_3",
+        "id": "mag_dodge_4",
         "name": {
           "str": "Self-Defence for Non-Experts: A Book for People Who Can't Fight",
           "str_pl": "copies of Self-Defence for Non-Experts: A Book for People Who Can't Fight"

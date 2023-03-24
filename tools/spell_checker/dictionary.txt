@@ -56,6 +56,7 @@ alay
 albertonykus
 albertosaurus
 alchemic
+alchemies
 aldosterone
 alembic
 alexandrite
@@ -195,7 +196,6 @@ avians
 aving
 avium
 avy
-awared
 axeman
 axolotl
 azide
@@ -204,6 +204,9 @@ babiues
 babylonica
 backblast
 backrest
+backstep
+backstepping
+backsteps
 backtracing
 bagh
 bakelite
@@ -337,6 +340,7 @@ bootup
 boozeberry
 borderless
 boreas
+bos
 bovid
 bowfin
 bowyery
@@ -360,6 +364,7 @@ brined
 bringin
 broadhead
 broadswords
+brobdignagian
 bronchodilator
 bronchospasm
 bubblicious
@@ -381,8 +386,9 @@ burdocks
 burette
 burnback
 burnin
-burs
 butadiene
+butternut
+butternuts
 buttstock
 buzzcut
 buzzz
@@ -770,6 +776,9 @@ dragonscale
 draugr
 drawknife
 dreamdross
+dreamdrossed
+dreamforged
+dreamsmith
 dreamstuff
 driers
 drivetrain
@@ -1055,6 +1064,7 @@ frostburnt
 frostnipped
 frostrimed
 froths
+frybread
 ft
 fuckn
 fuckwits
@@ -1119,6 +1129,7 @@ gibbous
 github
 gladius
 glaive
+glaives
 glasknife
 glassblower
 glassblowing
@@ -1274,6 +1285,7 @@ honeygold
 honker
 hoose
 hooved
+horchata
 hosomaki
 hotcut
 hotkey
@@ -1436,6 +1448,7 @@ keypress
 keyring
 kg
 khopesh
+khopeshes
 khru
 kickboard
 kickin
@@ -1474,6 +1487,7 @@ kreck
 krick
 kriegsmesser
 kriegsmessers
+krises
 kshhhsk
 kshhssk
 kshssssssk
@@ -1483,6 +1497,7 @@ ksssh
 kufi
 kuji
 kukri
+kukris
 kunoichi
 kunst
 kzzz
@@ -1606,10 +1621,12 @@ malting
 manafusion
 manageably
 manball
+manca
 mancae
 manfriendwich
 manhack
 manhacks
+manoomin
 manuc
 manwich
 mapgen
@@ -1688,6 +1705,7 @@ migo
 mildewy
 militar
 milkfat
+millenia
 milspec
 mineable
 minesweeper
@@ -1735,6 +1753,7 @@ mordant
 morels
 moriatur
 morningstar
+morningstars
 moroi
 mortems
 mosaicus
@@ -1940,6 +1959,8 @@ overpenetration
 overpressure
 overqueen
 overshoes
+overswing
+overswinging
 overtaxing
 overtop
 ovipositor
@@ -2069,13 +2090,13 @@ plink
 plinker
 plinking
 plushie
+plushies
 pm
 podling
 podlings
 pokeball
 polearm
 polearms
-poleaxe
 poleaxe
 poleaxes
 poleyns
@@ -2197,6 +2218,7 @@ quadrupedal
 quams
 quantification
 quarterpanel
+quarterstaves
 queenright
 quells
 quern
@@ -2438,6 +2460,8 @@ seweranha
 sexten
 sexualities
 sh
+shadowbox
+shadowboxing
 shadowcat
 shambler
 shantak
@@ -2526,6 +2550,7 @@ solarpunk
 solderers
 solderless
 soled
+somersault
 sommat
 somniferum
 soother
@@ -2711,6 +2736,7 @@ tarket
 tassed
 tassin
 tastemakers
+tawa
 taxa
 tazed
 tazer
@@ -2760,6 +2786,7 @@ thyreophoran
 tileset
 tillable
 tillage
+timelapse
 tinamou
 tinning
 tiredly
@@ -2825,6 +2852,7 @@ trudges
 tryphillum
 tsumi
 tsundere
+tsurugi
 tuber
 tucunare
 tumescences
@@ -2834,8 +2862,10 @@ tuno
 turipache
 turreted
 tusked
+tusslin
 twere
 twintailed
+twohand
 txt
 typologies
 tyrannosaurid
@@ -2892,6 +2922,7 @@ unipolar
 universalism
 unjacketed
 unkept
+unlife
 unlivable
 unlively
 unlives
@@ -2908,6 +2939,7 @@ unpadded
 unpowered
 unpressurised
 unreinforced
+unrifled
 unrushed
 unsaved
 unseasoned
@@ -2926,7 +2958,6 @@ unstylish
 untampered
 untargeted
 untilled
-untired
 untrodden
 untyped
 unwield
@@ -3004,6 +3035,7 @@ wantin
 warframe
 wargame
 warhammer
+warhammers
 warmouth
 wasnt
 wastebread
@@ -3075,6 +3107,7 @@ workcycle
 workshifts
 worldgen
 wraitheon
+wrasslin
 wretchmother
 wrightii
 wristed
@@ -3106,6 +3139,7 @@ youre
 yourselves
 youthful 
 yowl
+yoyos
 yugg
 yukata
 yulecat

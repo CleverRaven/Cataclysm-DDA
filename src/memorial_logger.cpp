@@ -877,7 +877,7 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
-        case event_type::game_over: {
+        case event_type::game_avatar_death: {
             bool suicide = e.get<bool>( "is_suicide" );
             std::string last_words = e.get<cata_variant_type::string>( "last_words" );
             if( suicide ) {
@@ -896,11 +896,19 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
-        case event_type::game_start: {
-            add( //~ %s is player name
-                pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
-                pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
-                avatar_name );
+        case event_type::game_avatar_new: {
+            bool new_game = e.get<bool>( "is_new_game" );
+            if( new_game ) {
+                add( //~ %s is player name
+                    pgettext( "memorial_male", "%s began their journey into the Cataclysm." ),
+                    pgettext( "memorial_female", "%s began their journey into the Cataclysm." ),
+                    avatar_name );
+            } else {
+                add( //~ %s is player name
+                    pgettext( "memorial_male", "%s took over the journey through the Cataclysm." ),
+                    pgettext( "memorial_female", "%s took over the journey through the Cataclysm." ),
+                    avatar_name );
+            }
             break;
         }
         case event_type::installs_cbm: {
@@ -1097,7 +1105,9 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::cuts_tree:
         case event_type::reads_book:
         case event_type::game_load:
+        case event_type::game_over:
         case event_type::game_save:
+        case event_type::game_start:
         case event_type::u_var_changed:
         case event_type::vehicle_moves:
             break;

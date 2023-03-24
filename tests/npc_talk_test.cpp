@@ -1096,13 +1096,21 @@ TEST_CASE( "npc_test_tags", "[npc_talk]" )
     globvars.set_global_value( "npctalk_var_test_var", "It's global" );
 
     d.add_topic( "TALK_TEST_TAGS" );
-    gen_response_lines( d, 3 );
+    gen_response_lines( d, 7 );
     CHECK( d.responses[0].create_option_line( d, input_event() ).text ==
            "Avatar tag is set to It's avatar." );
     CHECK( d.responses[1].create_option_line( d, input_event() ).text ==
            "NPC tag is set to It's npc." );
     CHECK( d.responses[2].create_option_line( d, input_event() ).text ==
            "Global tag is set to It's global." );
+    CHECK( d.responses[3].create_option_line( d, input_event() ).text ==
+           "Item name is TEST rock." );
+    CHECK( d.responses[4].create_option_line( d, input_event() ).text ==
+           "Item description is A rock the size of a baseball.  Makes a decent melee weapon, and is also good for throwing at enemies." );
+    CHECK( d.responses[5].create_option_line( d, input_event() ).text ==
+           "Trait name is Ink glands." );
+    CHECK( d.responses[6].create_option_line( d, input_event() ).text ==
+           "Trait description is A mutation to test enchantments." );
     globvars.clear_global_values();
 }
 
@@ -1136,7 +1144,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     get_weather().weather_precise->humidity = 20;
     get_weather().weather_precise->pressure = 20;
     get_weather().clear_temp_cache();
-    player_character.set_stored_kcal( 45000 );
+    player_character.set_stored_kcal( 118169 );
     player_character.remove_items_with( []( const item & it ) {
         return it.get_category_shallow().get_id() == item_category_manual ||
                it.get_category_shallow().get_id() == item_category_food ||
@@ -1145,7 +1153,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.remove_value( "npctalk_var_test_var_time_test_test" );
     calendar::turn = calendar::turn_zero;
 
-    int expected_answers = 6;
+    int expected_answers = 8;
     if( player_character.magic->max_mana( player_character ) == 900 ) {
         expected_answers++;
     }
@@ -1193,7 +1201,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.add_morale( MORALE_HAIRCUT, 23 );
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
-    player_character.set_stored_kcal( 55000 );
+    player_character.set_stored_kcal( 118169 );
     player_character.worn.wear_item( player_character, item( "backpack" ), false, false );
     player_character.inv->add_item( item( itype_bottle_glass ) );
     player_character.inv->add_item( item( itype_bottle_glass ) );
@@ -1259,7 +1267,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 34 ].text == "Mana is at 2%." );
     CHECK( d.responses[ 35 ].text == "Hunger is 26." );
     CHECK( d.responses[ 36 ].text == "Thirst is 27." );
-    CHECK( d.responses[ 37 ].text == "Stored kcal is 55'000." );
+    CHECK( d.responses[ 37 ].text == "Stored kcal is 118'169." );
     CHECK( d.responses[ 38 ].text == "Stored kcal is at 100% of healthy." );
     CHECK( d.responses[ 39 ].text == "Has 3 glass bottles." );
     CHECK( d.responses[ 40 ].text == "Has more or equal to 35 experience." );
@@ -1533,6 +1541,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // "Sets stored_kcal_percentage to 50."
     effects = d.responses[ 24 ].success;
     effects.apply( d );
+    // this should be player_character.get_healthy_kcal() instead of 550000 but for whatever reason it is hardcoded to that value??
     CHECK( player_character.get_stored_kcal() == 550000 / 2 );
 
     // Spell tests setup

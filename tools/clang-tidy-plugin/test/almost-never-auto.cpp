@@ -119,6 +119,9 @@ void f0()
     int j4[2][2];
     auto &j5 = j4;
     auto &j6 = j4[0];
+
+    // Don't try to add a type to lambda captures
+    auto lam = [j7 = j0] { return j7; };
 }
 
 template<typename T>

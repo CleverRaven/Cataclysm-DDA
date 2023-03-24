@@ -3657,19 +3657,14 @@
           "tac_helmet",
           "canteen",
           "wristwatch",
-          "quikclot"
+          "quikclot",
+          "mess_kit"
         ],
         "entries": [
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m4_carbine", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
-          {
-            "item": "medium_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 600,
-            "container-item": "mil_mess_kit"
-          },
           { "group": "charged_two_way_radio" },
           { "item": "chestrig", "contents-group": "army_mags_m4" }
         ]
@@ -3747,13 +3742,13 @@
           "clay_pot",
           "waterskin",
           "awl_bone",
-          "fur_rollmat",
-          "fire_drill"
+          "fur_rollmat"
         ],
         "entries": [
           { "item": "needle_bone", "ammo-item": "sinew", "charges": 200 },
           { "item": "primitive_knife", "container-item": "sheath" },
-          { "item": "quiver", "contents-group": "quiver_naturalist" }
+          { "item": "quiver", "contents-group": "quiver_naturalist" },
+          { "item": "fire_drill", "ammo-item": "notch", "charges": 24 }
         ]
       },
       "male": [ "chestwrap_fur", "loincloth_fur" ],

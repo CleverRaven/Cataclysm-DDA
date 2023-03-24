@@ -227,7 +227,7 @@ void avatar::power_mutations()
     }
 #endif
 
-    cata::optional<trait_id> examine_id;
+    std::optional<trait_id> examine_id;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( wBio );
@@ -401,7 +401,7 @@ void avatar::power_mutations()
                         }
 
                         menu_mode = mutation_menu_mode::activating;
-                        examine_id = cata::nullopt;
+                        examine_id = std::nullopt;
                         // TODO: show a message like when reassigning a key to an item?
                         break;
                     }
@@ -568,7 +568,7 @@ void avatar::power_mutations()
                             }
 
                             menu_mode = mutation_menu_mode::activating;
-                            examine_id = cata::nullopt;
+                            examine_id = std::nullopt;
                             // TODO: show a message like when reassigning a key to an item?
                             break;
                         }
@@ -611,15 +611,15 @@ void avatar::power_mutations()
                 }
             } else if( action == "REASSIGN" ) {
                 menu_mode = mutation_menu_mode::reassigning;
-                examine_id = cata::nullopt;
+                examine_id = std::nullopt;
             } else if( action == "TOGGLE_EXAMINE" ) {
                 // switches between activation and examination
                 menu_mode = menu_mode == mutation_menu_mode::activating ?
                             mutation_menu_mode::examining : mutation_menu_mode::activating;
-                examine_id = cata::nullopt;
+                examine_id = std::nullopt;
             } else if( action == "TOGGLE_SPRITE" ) {
                 menu_mode = mutation_menu_mode::hiding;
-                examine_id = cata::nullopt;
+                examine_id = std::nullopt;
             } else if( action == "QUIT" ) {
                 exit = true;
             }

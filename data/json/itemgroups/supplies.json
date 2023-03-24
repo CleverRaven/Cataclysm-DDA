@@ -99,7 +99,7 @@
       { "item": "wood_panel", "prob": 60, "count": [ 1, 8 ] },
       { "item": "wood_block", "prob": 100, "count": [ 5, 20 ] },
       { "item": "rock", "prob": 70, "count": [ 10, 20 ] },
-      { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
+      { "item": "coal_lump", "prob": 20, "count": [ 10, 200 ] },
       { "item": "material_cement", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
       { "item": "material_sand", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
       { "item": "material_gravel", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
@@ -330,7 +330,7 @@
       [ "cu_pipe", 50 ],
       [ "fungicide", 5 ],
       [ "insecticide", 5 ],
-      { "item": "charcoal", "prob": 5, "charges": [ 25, 50 ] },
+      { "item": "charcoal", "prob": 5, "charges": [ 200, 400 ] },
       { "group": "ammo_pocket_batteries_full", "prob": 50 },
       [ "solar_cell", 5 ],
       [ "fertilizer_commercial", 30 ],
@@ -369,7 +369,7 @@
       [ "lye_potassium", 5 ],
       { "item": "lye_powder", "prob": 10, "charges": [ 100, 200 ] },
       { "item": "magnesium", "prob": 10, "charges": [ 50, 100 ] },
-      { "item": "charcoal", "prob": 10, "charges": [ 25, 50 ] },
+      { "item": "charcoal", "prob": 10, "charges": [ 200, 400 ] },
       { "item": "chem_sulphur", "prob": 10, "charges-min": 100 },
       [ "chunk_sulfur", 5 ],
       [ "chem_aluminium_powder", 10 ],
@@ -766,12 +766,19 @@
     "id": "writing_utensils",
     "type": "item_group",
     "items": [
-      { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },
-      { "item": "pen", "prob": 15, "charges": [ 0, 100 ] },
-      { "item": "pencil", "prob": 35, "charges": [ 0, 100 ] },
-      { "item": "black_pen", "prob": 35, "charges": [ 0, 100 ] },
-      { "item": "blue_pen", "prob": 20, "charges": [ 0, 100 ] },
-      { "item": "red_pen", "prob": 10, "charges": [ 0, 100 ] },
+      { "item": "permanent_marker", "prob": 8, "charges": [ 0, 500 ] },
+      { "item": "pencil", "prob": 28, "charges": [ 0, 100 ] },
+      { "group": "pens", "prob": 64 }
+    ]
+  },
+  {
+    "id": "pens",
+    "type": "item_group",
+    "items": [
+      { "item": "pen", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "black_pen", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "blue_pen", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "red_pen", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "green_pen", "prob": 5, "charges": [ 0, 100 ] }
     ]
   },

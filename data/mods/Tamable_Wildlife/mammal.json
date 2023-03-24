@@ -351,6 +351,22 @@
     "extend": { "flags": [ "CANPLAY", "PET_MOUNTABLE" ] }
   },
   {
+    "id": "mon_tusked_moose_calf",
+    "type": "MONSTER",
+    "copy-from": "mon_tusked_moose_calf",
+    "name": { "str": "tusked moose calf", "str_pl": "tusked moose calves" },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
+    "id": "mon_moose_calf",
+    "type": "MONSTER",
+    "copy-from": "mon_moose_calf",
+    "name": { "str": "moose calf", "str_pl": "moose calves" },
+    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
+    "extend": { "flags": [ "CANPLAY" ] }
+  },
+  {
     "id": "mon_reindeer_fawn",
     "type": "MONSTER",
     "copy-from": "mon_reindeer_fawn",

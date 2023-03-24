@@ -482,6 +482,15 @@ Monster flags. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list.
 
 What makes the monster afraid / angry / what calms it. See [JSON_FLAGS.md](JSON_FLAGS.md) for a full list
 
+## "chat_topics"
+(string, optional)
+
+Lists possible chat topics that will be used as dialogue display when talking to a monster, done by `e`xamining it and `c`hatting with it. The creature in question must be friendly to the player in order to talk to it. Monsters can be assigned variables, but cannot trade with the exchange interface. Listing multiple chat topics will cause the game to crash. This must be defined as an array.
+
+```JSON
+"chat_topics": [ "TALK_FREE_MERCHANTS_MERCHANT" ]
+```
+
 ## "revert_to_itype"
 (string, optional)
 

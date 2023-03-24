@@ -339,7 +339,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
 - ```BULLET_IMMUNE``` Wearing an item with this flag makes you immune to bullet damage
 - ```CANT_WEAR``` This item can't be worn directly.
-- ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
+- ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm when it is mostly unencumbered.
 - ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
 - ```DECAY_EXPOSED_ATMOSPHERE``` Consumable will go bad once exposed to the atmosphere (such as MREs).
 - ```DEAF``` Makes the player deaf.
@@ -428,6 +428,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```COLDBLOOD``` For heat dependent mutations.
 - ```COLDBLOOD2``` For very heat dependent mutations.
 - ```COLDBLOOD3``` For cold-blooded mutations.
+- ```DOWNED_RECOVERY``` Always has 50% chance to recover from downing, regardless of limb scores / stats.
 - ```ECTOTHERM``` For ectothermic mutations, like `COLDBLOOD4` and `DRAGONBLOOD3` (Black Dragon from Magiclysm).
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
@@ -1264,7 +1265,6 @@ These flags apply to crafting recipes, i.e. those that fall within the following
 - ```BLIND_EASY``` Easy to craft with little to no light.
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
-- ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
 - ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 
