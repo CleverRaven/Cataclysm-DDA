@@ -320,8 +320,16 @@
     "name": { "str": "heavy-duty opaque hatch" },
     "//": "40cm of weld per quadrant of damage, 4x that to install",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "80 m", "using": [ [ "welding_standard", 160 ], [ "vehicle_bolt_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "80 m",
+        "using": [ [ "welding_standard", 160 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "size": "37500 ml",
