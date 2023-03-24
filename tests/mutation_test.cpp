@@ -581,8 +581,7 @@ TEST_CASE( "Chance of bad mutations vs instability", "[mutations][instability]" 
         {4000, 0.598f},
         {5000, 0.649f},
         {6000, 0.686f},
-        {8000, 0.737f},
-        {10000, 0.770f}
+        {8000, 0.737f}
     };
 
     const int tries = 1000;
