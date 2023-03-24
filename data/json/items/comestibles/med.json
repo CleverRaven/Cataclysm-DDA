@@ -248,7 +248,7 @@
     "color": "white",
     "phase": "liquid",
     "container": "bottle_plastic_small",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 2000 }
   },
   {
@@ -477,7 +477,7 @@
     "color": "light_cyan",
     "phase": "liquid",
     "container": "bottle_plastic_small",
-    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE", "WATER_DISSOLVE" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 3000 }
   },
   {
@@ -1247,7 +1247,7 @@
     "color": "yellow",
     "phase": "liquid",
     "spoils_in": "28 days",
-    "flags": [ "NO_INGEST", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 3000 }
   },
   {
@@ -1315,8 +1315,9 @@
     "description": "Essential dietary nutrients conveniently packaged in pill form.  An option of last resort when a balanced diet is not possible.  Excess use can cause hypervitaminosis.",
     "weight": "1 g",
     "volume": "100 ml",
-    "price": 500,
-    "price_postapoc": 2000,
+    "price": 90,
+    "price_postapoc": 100,
+    "//": "Note that the above are prices FOR A SINGLE PILL! They're intended to be relatively high due to multivitamins being an irreplaceable good.",
     "charges": 20,
     "stack_size": 20,
     "symbol": "!",
@@ -1603,7 +1604,7 @@
     "phase": "liquid",
     "symbol": "~",
     "color": "light_blue",
-    "flags": [ "NO_INGEST", "WATER_DISSOLVE", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "NO_INGEST", "WATER_DISSOLVE" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 1,

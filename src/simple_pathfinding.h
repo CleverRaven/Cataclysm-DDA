@@ -3,12 +3,12 @@
 #define CATA_SRC_SIMPLE_PATHFINDING_H
 
 #include <functional>
+#include <optional>
 #include <vector>
 
 #include "coordinates.h"
 #include "enums.h"
 #include "omdata.h"
-#include "optional.h"
 #include "point.h"
 
 namespace pf
@@ -64,7 +64,7 @@ struct node_score {
 // previous node in the path as context.
 template<typename Point>
 using two_node_scoring_fn =
-    std::function<node_score( directed_node<Point>, cata::optional<directed_node<Point>> )>;
+    std::function<node_score( directed_node<Point>, std::optional<directed_node<Point>> )>;
 
 // non-templated implementation
 directed_path<point> greedy_path( const point &source, const point &dest, const point &max,
@@ -85,8 +85,8 @@ directed_path<Point> greedy_path( const Point &source, const Point &dest, const 
 {
     directed_path<Point> res;
     const two_node_scoring_fn<point> point_scorer
-    = [scorer]( directed_node<point> current, cata::optional<directed_node<point>> prev ) {
-        cata::optional<directed_node<Point>> prev_node;
+    = [scorer]( directed_node<point> current, std::optional<directed_node<point>> prev ) {
+        std::optional<directed_node<Point>> prev_node;
         if( prev ) {
             prev_node = directed_node<Point>( Point( prev->pos ), prev->dir );
         }
@@ -128,7 +128,7 @@ using omt_scoring_fn = std::function<omt_score( tripoint_abs_omt )>;
 simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt &dest, int radius, const omt_scoring_fn &scorer,
         const std::function<void( size_t, size_t )> &progress_fn,
-        const cata::optional<int> &max_cost = cata::nullopt );
+        const std::optional<int> &max_cost = std::nullopt );
 
 } // namespace pf
 

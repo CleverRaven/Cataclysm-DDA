@@ -444,6 +444,9 @@ class talker
         virtual int get_stored_kcal() const {
             return 0;
         }
+        virtual int get_healthy_kcal() const {
+            return 0;
+        }
         virtual int get_stim() const {
             return 0;
         }

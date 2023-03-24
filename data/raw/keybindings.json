@@ -1209,6 +1209,18 @@
   },
   {
     "type": "keybinding",
+    "id": "GO_TO_DESTINATION",
+    "name": "Go to destination",
+    "bindings": [ { "input_method": "keyboard_any", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CENTER_ON_DESTINATION",
+    "name": "Center on destination",
+    "bindings": [ { "input_method": "keyboard_any", "key": "c" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "FIRE",
     "category": "TARGET",
     "name": "Fire weapon",
@@ -2599,13 +2611,6 @@
   },
   {
     "type": "keybinding",
-    "name": "View achievements, scores, and kills",
-    "category": "DEFAULTMODE",
-    "id": "scores",
-    "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
     "name": "View morale",
     "category": "DEFAULTMODE",
     "id": "morale",
@@ -2950,6 +2955,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle prone",
+    "category": "DEFAULTMODE",
+    "id": "toggle_prone"
+  },
+  {
+    "type": "keybinding",
     "name": "Movement mode menu",
     "category": "DEFAULTMODE",
     "id": "open_movement",
@@ -2968,7 +2979,8 @@
     "type": "keybinding",
     "id": "diary",
     "name": "Open diary",
-    "category": "DEFAULTMODE"
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -4266,6 +4278,13 @@
     "name": "Add new page",
     "category": "DIARY",
     "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "n" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "View achievements, scores, and kills",
+    "category": "DIARY",
+    "id": "VIEW_SCORES",
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "v" ] } ]
   },
   {
     "type": "keybinding",

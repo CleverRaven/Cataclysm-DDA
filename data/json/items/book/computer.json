@@ -333,7 +333,7 @@
         "weight": 1
       },
       {
-        "id": "textbook_computer_5",
+        "id": "textbook_computer_6",
         "name": { "str": "Data-Driven Science and Engineering", "str_pl": "copies of Data-Driven Science and Engineering" },
         "description": "A guide for scientists and engineers describing how to use modern computer systems and methods in their work.",
         "//": "978-1009098489",

@@ -1485,7 +1485,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
             tripoint_abs_omt omt_pos = you->global_omt_location();
             const update_mapgen_id &regen_mapgen = here.tr_at( p ).map_regen_target();
             here.remove_trap( p );
-            if( !run_mapgen_update_func( regen_mapgen, omt_pos, nullptr, false ) ) {
+            if( !run_mapgen_update_func( regen_mapgen, omt_pos, {}, nullptr, false ) ) {
                 popup( _( "Failed to generate the new map" ) );
                 return false;
             }
@@ -1521,14 +1521,14 @@ bool trapfunc::cast_spell( const tripoint &p, Creature *critter, item * )
     }
     map &here = get_map();
     trap tr = here.tr_at( p );
-    const spell trap_spell = tr.spell_data.get_spell( 0 );
+    const spell trap_spell = tr.spell_data.get_spell( *critter, 0 );
     npc dummy;
     if( !tr.has_flag( json_flag_UNCONSUMED ) ) {
         here.remove_trap( p );
     }
     // we remove the trap before casting the spell because otherwise if we teleport we might be elsewhere at the end and p is no longer valid
     trap_spell.cast_all_effects( dummy, critter->pos() );
-    trap_spell.make_sound( p );
+    trap_spell.make_sound( p, get_player_character() );
 
     return true;
 }

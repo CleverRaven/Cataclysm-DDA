@@ -9,6 +9,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -18,7 +19,6 @@
 #include "color.h"
 #include "compatibility.h"
 #include "damage.h"
-#include "optional.h"
 #include "point.h"
 #include "requirements.h"
 #include "translations.h"
@@ -234,11 +234,11 @@ class vpart_category
 class vpart_info
 {
     public:
-        static void load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
+        static void load_engine( std::optional<vpslot_engine> &eptr, const JsonObject &jo,
                                  const itype_id &fuel_type );
-        static void load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo );
-        static void load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
-        static void load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo );
+        static void load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo );
+        static void load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
+        static void load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
@@ -327,7 +327,7 @@ class vpart_info
         /**
          * Getter for optional workbench info
          */
-        const cata::optional<vpslot_workbench> &get_workbench_info() const;
+        const std::optional<vpslot_workbench> &get_workbench_info() const;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
 
@@ -362,10 +362,10 @@ class vpart_info
         // time required to unfold this part
         time_duration unfolding_time = time_duration::from_seconds( 10 );
 
-        cata::optional<vpslot_engine> engine_info;
-        cata::optional<vpslot_wheel> wheel_info;
-        cata::optional<vpslot_rotor> rotor_info;
-        cata::optional<vpslot_workbench> workbench_info;
+        std::optional<vpslot_engine> engine_info;
+        std::optional<vpslot_wheel> wheel_info;
+        std::optional<vpslot_rotor> rotor_info;
+        std::optional<vpslot_workbench> workbench_info;
 
         /** Unique identifier for this part */
         vpart_id id;
@@ -416,7 +416,7 @@ class vpart_info
         itype_id default_ammo = itype_id::NULL_ID();
 
         /** Volume of a foldable part when folded */
-        cata::optional<units::volume> folded_volume = cata::nullopt;
+        std::optional<units::volume> folded_volume = std::nullopt;
 
         /** Cargo location volume */
         units::volume size = 0_ml;

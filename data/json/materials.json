@@ -2624,14 +2624,23 @@
     "id": "charcoal",
     "name": "Charcoal",
     "copy-from": "wood",
-    "fuel_data": { "energy": "1600 kJ" }
+    "fuel_data": { "energy": "6240 kJ" },
+    "//": "physical density for charcoal estimated to sit at about 0.208 kg/liter, while energy density per kg is slightly lower than pure anthracite coal at 30 MJ/kg.",
+    "//1": "208g of charcoal (1 liter) yields 6240 kJ (30MJ x .208), and a single chunk (8mL/1.664g) is worth 50kJ",
+    "//2": "density sourced from https://www.aqua-calc.com/page/density-table/substance/charcoal and http://ukrfuel.com/news-physical-properties-of-charcoal-22.html",
+    "density": 0.208
   },
   {
     "type": "material",
     "id": "coal",
     "name": "Coal",
     "copy-from": "wood",
-    "fuel_data": { "energy": "30000 kJ" }
+    "//": "mostly pure anthracite coal, 100% purity anthracite has 33.5MJ/kilogram.",
+    "//1": "Raw density of anthracite is ~1.5g/cm^3 but bulk density is lower at slightly less than 1.0.",
+    "//2": "Roughly 5x the energy content of charcoal per liter under that specific bulk density. Fuel data below assumes bulk density.",
+    "//3": "Compressed pure anthracite (1.5 g/cm^3 density) would represent about 50 MJ/kg and could eventually be a second material.",
+    "fuel_data": { "energy": "31200 kJ" },
+    "density": 0.931
   },
   {
     "type": "material",

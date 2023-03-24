@@ -121,8 +121,8 @@
     "crit_tec": true,
     "weighting": -250,
     "messages": [
-      "Snicker-snack!  You slice through %s like hot knife slices through butter.",
-      "Snicker-snack!  <npcname> slices through %s like hot knife slices through butter."
+      "Snicker-snack!  You slice through %s like a hot knife through butter",
+      "Snicker-snack!  <npcname> slices through %s like a hot knife through butter"
     ],
     "description": "Cut damage multiply by 99, crit only",
     "attack_vectors": [ "WEAPON" ]
@@ -164,7 +164,7 @@
       { "stat": "damage", "type": "cut", "scale": 2.5 },
       { "stat": "damage", "type": "stab", "scale": 2.5 }
     ],
-    "messages": [ "With a loud crack the piston extends sending %s reeling", "<npcname> sends %s reeling" ],
+    "messages": [ "With a loud crack the piston extends, sending %s reeling", "<npcname> sends %s reeling" ],
     "description": "Stun 1 turn, knockback 2 tile, crit only, requires ammo",
     "attack_vectors": [ "WEAPON" ]
   },
@@ -313,8 +313,8 @@
     "id": "tec_bojutsu_kneestrike",
     "name": "Knee Strike",
     "messages": [
-      "After blocking %s's attack you quickly strike at their knee!",
-      "After blocking %s's attack <npcname> quickly strikes at their knee!"
+      "After blocking %s's attack you quickly strike at their knee",
+      "After blocking %s's attack <npcname> quickly strikes at their knee"
     ],
     "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "melee_allowed": true,
@@ -329,8 +329,8 @@
     "id": "tec_bojutsu_frontstrike",
     "name": "Overhead Front Strike",
     "messages": [
-      "You block %s's attack and counter with a Overhead Front Strike!",
-      "<npcname> blocks %s's attack and counter with a Overhead Front Strike!"
+      "You block %s's attack and counter with a Overhead Front Strike",
+      "<npcname> blocks %s's attack and counter with a Overhead Front Strike"
     ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
@@ -344,7 +344,7 @@
     "type": "technique",
     "id": "tec_bojutsu_rollingstrike",
     "name": "Rolling Strike",
-    "messages": [ "Using your rolling staff you quickly strike %s", "Using rolling staff <npcname> quickly strikes %s" ],
+    "messages": [ "Using your rolling staff you quickly strike %s", "Using their rolling staff <npcname> quickly strikes %s" ],
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "required_buffs_all": [ "buff_bojutsu_onmove" ],
@@ -1178,8 +1178,8 @@
   {
     "type": "technique",
     "id": "tec_krav_maga_crit",
-    "name": "Cheapshot",
-    "messages": [ "You hit %s where it hurts", "<npcname> hits %s with a cheapshot" ],
+    "name": "Cheap Shot",
+    "messages": [ "You hit %s where it hurts", "<npcname> hits %s with a cheap shot" ],
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "melee_allowed": true,
     "unarmed_allowed": true,
@@ -1482,7 +1482,7 @@
     "type": "technique",
     "id": "niten_timing_attack",
     "name": "In-One Timing",
-    "messages": [ "You strike at %s's weaknesses", "<npcname> strikes %s's weaknesses" ],
+    "messages": [ "You strike at %s's weak spot", "<npcname> strikes at %s's weak spot" ],
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
     "required_buffs_all": [ "buff_niten_ondodge" ],

@@ -1382,6 +1382,20 @@
     "entries": [ { "item": "mosin91_30", "variant": "mosin91_30", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_762R" } ]
   },
   {
+    "id": "nested_psl",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      { "item": "psl", "charges-min": 0, "charges-max": 10 },
+      { "item": "pslmag10" },
+      { "item": "pslmag10", "prob": 50 },
+      { "item": "pslmag5", "prob": 50 },
+      { "group": "on_hand_762R" }
+    ]
+  },
+  {
     "id": "nested_remington700_270",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",

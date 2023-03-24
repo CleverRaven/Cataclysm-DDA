@@ -1889,7 +1889,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>56</color>-<color_c_yellow>532</color>"
+               " <color_c_yellow>52</color>-<color_c_yellow>532</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
@@ -2470,7 +2470,7 @@ TEST_CASE( "repairable and with what tools", "[iteminfo][repair]" )
 
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using integrated multitool, arc welder, makeshift arc welder, or welding kit.\n"
+           "<color_c_white>Repair</color> using integrated multitool, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
            "<color_c_white>With</color> <color_c_cyan>Steel</color>.\n"
          );
 
@@ -2783,6 +2783,7 @@ TEST_CASE( "ammo restriction info", "[iteminfo][ammo_restriction]" )
         CHECK( item_info_str( compbow, mag_cap ) ==
                "--\n"
                "Capacity: <color_c_yellow>1</color> round of arrows\n" );
+
 
     }
 }

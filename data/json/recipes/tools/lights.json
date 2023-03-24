@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "candle",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",

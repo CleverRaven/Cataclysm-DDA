@@ -215,6 +215,8 @@ Another mandatory field is the spell shape. This dictates how the area of effect
 
 The following JSON fields are also used in spells and, while optional, greatly expand how spells can behave.
 
+All fields that are numeric can also be a "variable object"( see [NPCs.md](NPCs.md) for full details) instead of a number.  
+
 | Field group | Description | Example
 | ---  | --- | ---
 | `min_X`, `max_X`, ``X_increment`` | Minimun value, maximum value, and the value, that add each level. Note: your spell don't take max_X on the max lvl, it will always add the correct amount of X_increment to your spell - in spell with `min_damage: 0, max_damage: 100, damage_increment: 5` and `max_level: 10`, on level 10 the spell will deal only 50 damage, as [ 0 + (5\*10) ]. Opposite is also true, in spell with `min_damage: 0, max_damage: 25, damage_increment: 5` on level 10 will deal only 25 damage, as the highest value, described in `max_X` | `min_damage`, `min_range`, `min_aoe`
@@ -228,7 +230,7 @@ The following JSON fields are also used in spells and, while optional, greatly e
 | `base_casting_time`, `final_casting_time`, `casting_time_increment` | Respond for amount of time user cast the spell. Same as duration, writed in moves, which allow to make spells, that can be casted for 0.5 or 0.25 seconds. Doesn't work for monsters and for items, that cast spells | "base_casting_time": 1000, <br>"final_casting_time": 100, <br>"casting_time_increment": -50,
 | `base_energy_cost`, `final_energy_cost`, `energy_increment` | Respond for amount of energy you spend for cast | "base_energy_cost": 30, <br>"final_energy_cost": 100, <br>"energy_increment": -6,
 | `field_id`, `field_chance`, `min_field_intensity`, `max_field_intensity`, `field_intensity_increment`, `field_intensity_variance` | Respond for field spawn. `field_id` describe what field will be spawned; `field_chance` describe the chance of spawning the field, as "one in `field_chance`" (1 means the probability is 100%, 2 is 50%, 3 is 33% etc.); `min_field_intensity`, `max_field_intensity` and `field_intensity_increment` are respond for the field intensity and it grow depend on level (for example, for fd_electricity intensity 1 represent spark, when intensity 10 is electric cloud); `field_intensity_variance` allow the spell randomly increase and decrease the intensity of the spell as a percent (intencity 10 and variance 0.1 means it can grow or shring at 10%, from 9 to 11)| "field_id": "fd_blood", <br>"field_chance": 100,    <br>"min_field_intensity": 10, <br>"max_field_intensity": 10, <br>"field_intensity_increment": 1, <br>"field_intensity_variance": 0.1
-| `effect_str` | By default respond for effect, the spell can deal (see EFFECTS_JSON.md), but can vary depend on effect | "effect_str": "zapped", 
+| `effect_str` | By default respond for effect, the spell can deal (see [EFFECTS_JSON](EFFECTS_JSON.md)), but can vary depend on effect | "effect_str": "zapped", 
 | `max_level` | How much you can train the spell. 0 by default | "max_level": 10,
 | `difficulty` | How hard to cast the spell. Higher difficulty make spell easier to fail, but also train your spell skill to the `difficulty` level (spell with difficulty 10 can train user to spellcasting lvl 10) | "difficulty": 7,
 | `affected_body_parts` | Respond on which body part `effect_str` will occur. Doesn't respond what body part the spell will target if you damage the target, it always aim a `torso` no matter what | "affected_body_parts": [ "head" ] 
@@ -782,7 +784,7 @@ The following is a list of possible enchantment `values`:
 | `BIONIC_POWER` |
 | `BONUS_BLOCK` | Affects the number of blocks you can perform.
 | `BONUS_DODGE` | Affects the number of dodges you can perform.
-| `CARRY_WEIGHT` |
+| `CARRY_WEIGHT` | Affect the summary weight player can carry. `"add": 1000` adds 1 kg of weight to carry.
 | `CLIMATE_CONTROL_HEAT` | Moves body temperature up towards comfortable by number of warmth units up to value.
 | `CLIMATE_CONTROL_CHILL` | Moves body temperature down towards comfortable by number of warmth units up to value.
 | `DEXTERITY` | Affects the dexterity stat.
@@ -825,12 +827,12 @@ The following is a list of possible enchantment `values`:
 | `SOCIAL_LIE` | Affects your ability to lie.
 | `SOCIAL_PERSUADE` | Affects your ability to persuade.
 | `READING_EXP` | Changes the minimum you learn from each reading increment.
-| `RECOIL_MODIFIER` | Affects recoil when shooting a gun.
+| `RECOIL_MODIFIER` | Affects recoil when shooting a gun. Can be applied only to guns. Positive value increase the dispersion, negative decrease one.
 | `REGEN_HP` | Affects the rate you recover hp.
 | `REGEN_MANA` | 
 | `REGEN_STAMINA` | 
 | `THIRST` | 
-| `WEAPON_DISPERSION` | 
+| `WEAPON_DISPERSION` | Can be applied only to guns. Positive value increase the dispersion, negative decrease one.
 
 
 | Melee-only enchantment values | Description
