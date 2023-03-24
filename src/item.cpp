@@ -414,6 +414,25 @@ static const item *get_most_rotten_component( const item &craft )
     return most_rotten;
 }
 
+// sorts with localized_compare, and enumerates entries, if more than \p max entries
+// the rest are abbreviated into " and %d more"
+static std::string enumerate_lcsorted_with_limit( const std::vector<std::string> &v,
+        const int max = 5 )
+{
+    if( max < 1 ) {
+        debugmsg( "Expected max to be 1 or more" );
+        return std::string();
+    }
+    std::vector<std::string> c( std::min<size_t>( max, v.size() ) );
+    std::partial_sort_copy( v.begin(), v.end(), c.begin(), c.end(), localized_compare );
+    const int more = static_cast<int>( v.size() - c.size() );
+    if( more == 0 ) {
+        return enumerate_as_string( c );
+    }
+    const std::string res = enumerate_as_string( c, enumeration_conjunction::none );
+    return string_format( max == 1 ? _( "%s and %d more" ) : _( "%s, and %d more" ), res, more );
+}
+
 static time_duration get_shortest_lifespan_from_components( const item &craft )
 {
     const item *shortest_lifespan_component = nullptr;
@@ -742,13 +761,11 @@ item &item::ammo_set( const itype_id &ammo, int qty )
                 if( opts.empty() ) {
                     const std::string magazines_str = enumerate_as_string( mags,
                     []( const itype_id & mag ) {
-                        return string_format(
-                                   // NOLINTNEXTLINE(cata-translate-string-literal)
-                                   "%s (taking %s)", mag.str(),
-                                   enumerate_as_string( mag->magazine->type,
+                        const std::string ammotype_str = enumerate_as_string( mag->magazine->type,
                         []( const ammotype & a ) {
                             return a.str();
-                        } ) );
+                        } );
+                        return string_format( _( "%s (taking %s)" ), mag.str(), ammotype_str );
                     } );
                     debugmsg( "Cannot find magazine fitting %s with any capacity for ammo %s "
                               "(ammotype %s).  Magazines considered were %s",
@@ -2101,8 +2118,8 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                        bool /* debug */ ) const
 {
     if( parts->test( iteminfo_parts::BASE_MOD_SRC ) ) {
-        info.emplace_back( "BASE", string_format( _( "Origin: %s" ), enumerate_as_string( type->src.begin(),
-        type->src.end(), []( const std::pair<itype_id, mod_id> &source ) {
+        info.emplace_back( "BASE", string_format( _( "Origin: %s" ), enumerate_as_string( type->src,
+        []( const std::pair<itype_id, mod_id> &source ) {
             return string_format( "'%s'", source.second->name() );
         }, enumeration_conjunction::arrow ) ) );
         insert_separation_line( info );
@@ -2112,7 +2129,7 @@ void item::basic_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::BASE_MATERIAL ) ) {
         const std::vector<const material_type *> mat_types = made_of_types();
         if( !mat_types.empty() ) {
-            const std::string material_list = enumerate_as_string( mat_types.begin(), mat_types.end(),
+            const std::string material_list = enumerate_as_string( mat_types,
             []( const material_type * material ) {
                 return string_format( "<stat>%s</stat>", material->name() );
             }, enumeration_conjunction::none );
@@ -2257,12 +2274,14 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
 
-            const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
+            const std::string tags_listed = enumerate_as_string( item_tags,
+            []( const flag_id & f ) {
                 return f.str();
             }, enumeration_conjunction::none );
             info.emplace_back( "BASE", string_format( _( "tags: %s" ), tags_listed ) );
 
-            const std::string flags_listed = enumerate_as_string( type->get_flags(), []( const flag_id & f ) {
+            const std::string flags_listed = enumerate_as_string( type->get_flags(),
+            []( const flag_id & f ) {
                 return f.str();
             }, enumeration_conjunction::none );
 
@@ -2458,16 +2477,12 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     };
 
     const auto max_nutr_vitamins = sorted_lex( max_nutr.vitamins );
-    const std::string required_vits = enumerate_as_string(
-                                          max_nutr_vitamins.begin(),
-                                          max_nutr_vitamins.end(),
+    const std::string required_vits = enumerate_as_string( max_nutr_vitamins,
     [&]( const std::pair<vitamin_id, int> &v ) {
         return format_vitamin( v, true );
     } );
 
-    const std::string effect_vits = enumerate_as_string(
-                                        max_nutr_vitamins.begin(),
-                                        max_nutr_vitamins.end(),
+    const std::string effect_vits = enumerate_as_string( max_nutr_vitamins,
     [&]( const std::pair<vitamin_id, int> &v ) {
         return format_vitamin( v, false );
     } );
@@ -3000,8 +3015,8 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
         const std::set<ammotype> types_of_ammo = mod->ammo_types();
         if( !types_of_ammo.empty() ) {
-            info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( types_of_ammo.begin(),
-            types_of_ammo.end(), []( const ammotype & at ) {
+            info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( types_of_ammo,
+            []( const ammotype & at ) {
                 return at->name();
             }, enumeration_conjunction::none ) );
         }
@@ -3057,8 +3072,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
         if( !fm.empty() ) {
             insert_separation_line( info );
-            info.emplace_back( "GUN", _( "<bold>Fire modes</bold>: " ) +
-                               enumerate_as_string( fm ) );
+            info.emplace_back( "GUN", _( "<bold>Fire modes</bold>: " ) + enumerate_as_string( fm ) );
         }
     }
 
@@ -3067,17 +3081,15 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         if( uses_magazine() ) {
             // Keep this identical with tool magazines in item::tool_info
             const std::vector<itype_id> compat_sorted = sorted_lex( magazine_compatible() );
-            const std::string mag_names = enumerate_as_string( compat_sorted.begin(),
-            compat_sorted.end(), []( const itype_id & id ) {
+            const std::string mag_names = enumerate_as_string( compat_sorted,
+            []( const itype_id & id ) {
                 return item::nname( id );
             } );
 
             const std::set<flag_id> flag_restrictions = contents.magazine_flag_restrictions();
-            const std::string flag_names = enumerate_as_string( flag_restrictions.begin(),
-            flag_restrictions.end(), []( const flag_id & e ) {
-                const json_flag &f = e.obj();
-                std::string info = f.name();
-                return info;
+            const std::string flag_names = enumerate_as_string( flag_restrictions,
+            []( const flag_id & e ) {
+                return e->name();
             } );
 
             std::string display = _( "<bold>Compatible magazines</bold>:" );
@@ -3265,8 +3277,7 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     }
 
     if( parts->test( iteminfo_parts::GUNMOD_LOCATION ) ) {
-        info.emplace_back( "GUNMOD", string_format( _( "Location: %s" ),
-                           mod.location.name() ) );
+        info.emplace_back( "GUNMOD", string_format( _( "Location: %s" ), mod.location.name() ) );
     }
 
     if( !mod.blacklist_mod.empty() && parts->test( iteminfo_parts::GUNMOD_BLACKLIST_MOD ) ) {
@@ -4365,19 +4376,19 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 }
                 if( !known_recipe_list.empty() ) {
                     lines.emplace_back( _( "You already know how to craft:" ) );
-                    lines.emplace_back( enumerate_as_string( known_recipe_list ) );
+                    lines.emplace_back( enumerate_lcsorted_with_limit( known_recipe_list ) );
                 }
                 if( !learnable_recipe_list.empty() ) {
                     lines.emplace_back( _( "You understand how to craft:" ) );
-                    lines.emplace_back( enumerate_as_string( learnable_recipe_list ) );
+                    lines.emplace_back( enumerate_lcsorted_with_limit( learnable_recipe_list ) );
                 }
                 if( !unlearnable_recipe_list.empty() ) {
                     lines.emplace_back( _( "You lack the skills to understand:" ) );
-                    lines.emplace_back( enumerate_as_string( unlearnable_recipe_list ) );
+                    lines.emplace_back( enumerate_lcsorted_with_limit( unlearnable_recipe_list ) );
                 }
                 if( !practice_recipe_list.empty() ) {
                     lines.emplace_back( _( "This book can help you practice:" ) );
-                    lines.emplace_back( enumerate_as_string( practice_recipe_list ) );
+                    lines.emplace_back( enumerate_lcsorted_with_limit( practice_recipe_list ) );
                 }
                 insert_separation_line( info );
                 for( const std::string &recipe_line : lines ) {
@@ -4446,17 +4457,15 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             if( uses_magazine() ) {
                 // Keep this identical with gun magazines in item::gun_info
                 const std::vector<itype_id> compat_sorted = sorted_lex( magazine_compatible() );
-                const std::string mag_names = enumerate_as_string( compat_sorted.begin(),
-                compat_sorted.end(), []( const itype_id & id ) {
+                const std::string mag_names = enumerate_as_string( compat_sorted,
+                []( const itype_id & id ) {
                     return item::nname( id );
                 } );
 
                 const std::set<flag_id> flag_restrictions = contents.magazine_flag_restrictions();
-                const std::string flag_names = enumerate_as_string( flag_restrictions.begin(),
-                flag_restrictions.end(), []( const flag_id & e ) {
-                    const json_flag &f = e.obj();
-                    std::string info = f.name();
-                    return info;
+                const std::string flag_names = enumerate_as_string( flag_restrictions,
+                []( const flag_id & e ) {
+                    return e->name();
                 } );
 
                 std::string display = _( "<bold>Compatible magazines</bold>:" );
@@ -4570,7 +4579,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( ( !known_recipe_list.empty() || !learnable_recipe_list.empty() ||
               !unlearnable_recipe_list.empty() ) &&
             parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
-            std::string recipe_line =
+            const std::string recipe_line =
                 string_format( n_gettext( "Contains %1$d copied crafting recipe:",
                                           "Contains %1$d copied crafting recipes:",
                                           total_recipes ), total_recipes );
@@ -4579,38 +4588,31 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
 
             if( !known_recipe_list.empty() ) {
-                std::vector<std::string> sorted_known_recipes = known_recipe_list;
-                std::sort( sorted_known_recipes.begin(), sorted_known_recipes.end(), localized_compare );
-                std::string recipe_line =
+                const std::string recipe_line =
                     string_format( n_gettext( "\nYou already know %1$d recipe:\n%2$s",
                                               "\nYou already know %1$d recipes:\n%2$s",
                                               known_recipe_list.size() ),
-                                   known_recipe_list.size(), enumerate_as_string( sorted_known_recipes ) );
+                                   known_recipe_list.size(), enumerate_lcsorted_with_limit( known_recipe_list ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
 
             if( !learnable_recipe_list.empty() ) {
-                std::vector<std::string> sorted_learnable_recipes = learnable_recipe_list;
-                std::sort( sorted_learnable_recipes.begin(), sorted_learnable_recipes.end(), localized_compare );
-                std::string recipe_line =
+                const std::string recipe_line =
                     string_format( n_gettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
                                               "\nYou have the skills to craft %1$d recipes:\n%2$s",
                                               learnable_recipe_list.size() ),
-                                   learnable_recipe_list.size(), enumerate_as_string( sorted_learnable_recipes ) );
+                                   learnable_recipe_list.size(), enumerate_lcsorted_with_limit( learnable_recipe_list ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
 
             if( !unlearnable_recipe_list.empty() ) {
-                std::vector<std::string> sorted_unlearnable_recipes = unlearnable_recipe_list;
-                std::sort( sorted_unlearnable_recipes.begin(), sorted_unlearnable_recipes.end(),
-                           localized_compare );
-                std::string recipe_line =
+                const std::string recipe_line =
                     string_format( n_gettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
                                               "\nYou lack the skills to craft %1$d recipes:\n%2$s",
                                               unlearnable_recipe_list.size() ),
-                                   unlearnable_recipe_list.size(), enumerate_as_string( sorted_unlearnable_recipes ) );
+                                   unlearnable_recipe_list.size(), enumerate_lcsorted_with_limit( unlearnable_recipe_list ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
@@ -4682,38 +4684,31 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             info.emplace_back( iteminfo( "DESCRIPTION", source_line ) );
 
             if( !known_recipe_list.empty() ) {
-                std::vector<std::string> sorted_known_recipes = known_recipe_list;
-                std::sort( sorted_known_recipes.begin(), sorted_known_recipes.end(), localized_compare );
-                std::string recipe_line =
+                const std::string recipe_line =
                     string_format( n_gettext( "\nYou already know %1$d recipe:\n%2$s",
                                               "\nYou already know %1$d recipes:\n%2$s",
                                               known_recipe_list.size() ),
-                                   known_recipe_list.size(), enumerate_as_string( sorted_known_recipes ) );
+                                   known_recipe_list.size(), enumerate_lcsorted_with_limit( known_recipe_list ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
 
             if( !learnable_recipe_list.empty() ) {
-                std::vector<std::string> sorted_learnable_recipes = learnable_recipe_list;
-                std::sort( sorted_learnable_recipes.begin(), sorted_learnable_recipes.end(), localized_compare );
                 std::string recipe_line =
                     string_format( n_gettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
                                               "\nYou have the skills to craft %1$d recipes:\n%2$s",
                                               learnable_recipe_list.size() ),
-                                   learnable_recipe_list.size(), enumerate_as_string( sorted_learnable_recipes ) );
+                                   learnable_recipe_list.size(), enumerate_lcsorted_with_limit( learnable_recipe_list ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
 
             if( !unlearnable_recipe_list.empty() ) {
-                std::vector<std::string> sorted_unlearnable_recipes = unlearnable_recipe_list;
-                std::sort( sorted_unlearnable_recipes.begin(), sorted_unlearnable_recipes.end(),
-                           localized_compare );
                 std::string recipe_line =
                     string_format( n_gettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
                                               "\nYou lack the skills to craft %1$d recipes:\n%2$s",
                                               unlearnable_recipe_list.size() ),
-                                   unlearnable_recipe_list.size(), enumerate_as_string( sorted_unlearnable_recipes ) );
+                                   unlearnable_recipe_list.size(), enumerate_lcsorted_with_limit( unlearnable_recipe_list ) );
 
                 info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
@@ -4730,8 +4725,8 @@ void item::actions_info( std::vector<iteminfo> &info, const iteminfo_query *part
         return;
     }
     insert_separation_line( info );
-    std::string actions = enumerate_as_string( use_methods.begin(),
-    use_methods.end(), []( const std::pair<std::string, use_function> &val ) {
+    std::string actions = enumerate_as_string( use_methods,
+    []( const std::pair<std::string, use_function> &val ) {
         return string_format( "<info>%s</info>", val.second.get_name() );
     } );
     info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Actions</bold>: %s" ), actions ) );
@@ -4895,12 +4890,13 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     const std::vector<itype_id> rep = sorted_lex( repaired_with() );
     if( !rep.empty() ) {
         info.emplace_back( "DESCRIPTION", string_format( _( "<bold>Repair</bold> using %s." ),
-        enumerate_as_string( rep.begin(), rep.end(), []( const itype_id & e ) {
+                           enumerate_as_string( rep,
+        []( const itype_id & e ) {
             return nname( e );
         }, enumeration_conjunction::or_ ) ) );
 
-        const std::string repairs_with = enumerate_as_string( type->repairs_with.begin(),
-        type->repairs_with.end(), []( const material_id & e ) {
+        const std::string repairs_with = enumerate_as_string( type->repairs_with,
+        []( const material_id & e ) {
             return string_format( "<info>%s</info>", e->name() );
         } );
         if( !repairs_with.empty() ) {
@@ -4932,7 +4928,7 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
                                         recipe_time_flag::ignore_proficiencies ) );
 
         const requirement_data::alter_item_comp_vector &comps_list = req.get_components();
-        const std::string comps_str = enumerate_as_string( comps_list.begin(), comps_list.end(),
+        const std::string comps_str = enumerate_as_string( comps_list,
         []( const std::vector<item_comp> &comp_opts ) {
             return comp_opts.front().to_string();
         } );
@@ -4957,12 +4953,11 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
             descr = string_format( _( "<bold>Disassembly</bold> takes %1$s and might yield: %2$s." ),
                                    approx_time, comps_str );
         } else {
-            const std::string reqs_str = enumerate_as_string( reqs_list );
             descr = string_format(
                         //~ 1 is approx. time, 2 is a list of items and tools with qualities, 3 is a list of items.
                         //~ Bold text in the middle makes it easier to see where the second list starts.
                         _( "<bold>Disassembly</bold> takes %1$s, requires %2$s and <bold>might yield</bold>: %3$s." ),
-                        approx_time, reqs_str, comps_str );
+                        approx_time, enumerate_as_string( reqs_list ), comps_str );
         }
 
         insert_separation_line( info );
@@ -5069,13 +5064,15 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     const bionic_id bid = type->bionic->id;
     const std::vector<material_id> &fuels = bid->fuel_opts;
     if( !fuels.empty() ) {
-        const int &fuel_numb = fuels.size();
+        const std::string fuels_str = enumerate_as_string( fuels,
+        []( const material_id & id ) {
+            return "<info>" + id->name() + "</info>";
+        } );
 
         info.emplace_back( "DESCRIPTION",
                            n_gettext( "* This bionic can produce power from the following fuel: ",
-                                      "* This bionic can produce power from the following fuels: ",
-                                      fuel_numb ) + enumerate_as_string( fuels.begin(),
-                                              fuels.end(), []( const material_id & id ) -> std::string { return "<info>" + id->name() + "</info>"; } ) );
+                                      "* This bionic can produce power from the following fuels: ", fuels.size() )
+                           + fuels_str );
     }
 
     insert_separation_line( info );
@@ -5275,9 +5272,8 @@ void item::melee_combat_info( std::vector<iteminfo> &info, const iteminfo_query 
             const std::vector<matec_id> all_tec_sorted = sorted_lex( all_techniques );
             insert_separation_line( info );
             info.emplace_back( "DESCRIPTION", _( "<bold>Techniques when wielded</bold>: " ) +
-            enumerate_as_string( all_tec_sorted.begin(), all_tec_sorted.end(), []( const matec_id & tid ) {
-                return string_format( "<stat>%s</stat>: <info>%s</info>", tid.obj().name,
-                                      tid.obj().description );
+            enumerate_as_string( all_tec_sorted, []( const matec_id & tid ) {
+                return string_format( "<stat>%s</stat>: <info>%s</info>", tid.obj().name, tid.obj().description );
             } ) );
         }
     }
@@ -5603,12 +5599,15 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( !holsters.empty() && parts->test( iteminfo_parts::DESCRIPTION_HOLSTERS ) ) {
         insert_separation_line( info );
-        info.emplace_back( "DESCRIPTION", _( "<bold>Can be stored in</bold>: " ) +
-                           enumerate_as_string( holsters.begin(), holsters.end(),
-        [&]( const itype * e ) {
-            bool is_worn = player_character.is_wearing( e->get_id() );
-            return ( is_worn ? "<good>" : "" ) + e->nname( 1 ) + ( is_worn ? "</good>" : "" );
-        } ) );
+        std::vector<std::string> holsters_str;
+        holsters_str.reserve( holsters.size() );
+        for( const itype *e : holsters ) {
+            holsters_str.emplace_back( player_character.is_wearing( e->get_id() )
+                                       ? string_format( "<good>%s</good>", e->nname( 1 ) )
+                                       : e->nname( 1 ) );
+        }
+        info.emplace_back( "DESCRIPTION",
+                           _( "<bold>Can be stored in</bold>: " ) + enumerate_lcsorted_with_limit( holsters_str ) );
         info.back().sName += ".";
     }
 
@@ -5677,71 +5676,36 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     // Recipes using this item as an ingredient
     if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES ) ) {
         // with the inventory display allowing you to select items, showing the things you could make with contained items could be confusing.
-        itype_id tid = typeId();
+        const itype_id &tid = typeId();
         const inventory &crafting_inv = player_character.crafting_inventory();
         const recipe_subset available_recipe_subset = player_character.get_available_recipes(
                     crafting_inv );
         const std::set<const recipe *> &item_recipes = available_recipe_subset.of_component( tid );
 
+        insert_separation_line( info );
         if( item_recipes.empty() ) {
-            insert_separation_line( info );
-            info.emplace_back( "DESCRIPTION",
-                               _( "You know of nothing you could craft with it." ) );
+            info.emplace_back( "DESCRIPTION", _( "You know of nothing you could craft with it." ) );
         } else {
-            // Maximum number of recipes to display
-            constexpr int max_recipes = 12;
-
-            // Pairs of <item name, can_craft_with_inventory>
-            std::vector<std::pair<std::string, bool>> result_names;
-
-            int processed_recipes = 0;
-
-            // Build result_names vector of at most the first `max_recipes` items
+            std::vector<std::string> crafts;
             for( const recipe *r : item_recipes ) {
-                // Break out early if we've hit our limit
-                if( processed_recipes++ > max_recipes ) {
-                    break;
-                }
+                const bool can_make = r->deduped_requirements()
+                                      .can_make_with_inventory( crafting_inv, r->get_component_filter() );
 
-                bool can_make = r->deduped_requirements().can_make_with_inventory(
-                                    crafting_inv, r->get_component_filter() );
-
-                result_names.emplace_back( std::make_pair( r->result_name( /*decorated=*/true ), can_make ) );
+                // Endarken recipes that can't be constructed with the survivor's inventory
+                const std::string name = r->result_name( /* decorated = */ true );
+                crafts.emplace_back( can_make ? name : string_format( "<dark>%s</dark>", name ) );
             }
-
-            // Sort according to the user's locale
-            std::sort( result_names.begin(), result_names.end(), localized_compare );
-
-            // Endarken recipes that can't be constructed with the survivor's inventory
-            const std::string recipes =
-                enumerate_as_string( result_names.begin(), result_names.end(),
-            []( const std::pair<std::string, bool> &p ) {
-                if( p.second ) {
-                    return p.first;
-                } else {
-                    return string_format( "<dark>%s</dark>", p.first );
-                }
-            } );
-
-            insert_separation_line( info );
-
-            const int num_undisplayed_recipes = item_recipes.size() - max_recipes;
-
-            const std::string fmt = ( num_undisplayed_recipes > 0 )
-                                    ? string_format( _( "You could use it to craft: %s, and more" ), recipes )
-                                    : string_format( _( "You could use it to craft: %s" ), recipes );
-
-            info.emplace_back( " DESCRIPTION", fmt );
+            const std::string recipes = enumerate_lcsorted_with_limit( crafts, 12 );
+            info.emplace_back( " DESCRIPTION", string_format( _( "You could use it to craft: %s" ), recipes ) );
         }
     }
 
     if( is_armor() ) {
         const ret_val<void> can_wear = player_character.can_wear( *this, true );
-        if( ! can_wear.success() ) {
+        if( !can_wear.success() ) {
             insert_separation_line( info );
-            info.emplace_back( "DESCRIPTION",
-                               // can_wear returns a translated string
-                               string_format( "<bad>%s</bad>", can_wear.str() ) );
+            // can_wear returns a translated string
+            info.emplace_back( "DESCRIPTION", string_format( "<bad>%s</bad>", can_wear.str() ) );
         }
     }
 
@@ -5758,37 +5722,25 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         const auto print_parts = [&info, &player_character](
                                      const std::vector<vpart_info> &vparts,
-                                     const std::string & install_where_full,
-                                     const std::string & install_where_abbreviated,
+                                     const std::string & install_where,
                                      const std::function<bool( const vpart_info & )> &predicate
         ) {
-            // Maximum number of parts to display
-            constexpr int max_parts = 12;
-
-            // Pairs of <item name, has_skills_to_install>
-            std::vector<std::pair<std::string, bool>> result_parts;
-
-            int processed_parts = 0;
-
-            // Build result_names vector of at most the first `max_parts` items
+            std::vector<std::string> result_parts;
             for( const vpart_info &vp : vparts ) {
-                // Break out early if we've hit our limit
-                if( processed_parts++ > max_parts ) {
-                    break;
-                }
-
-                bool is_duplicate = std::any_of( result_parts.begin(), result_parts.end(),
-                [name = vp.name()]( const auto & pair ) {
-                    return pair.first == name;
+                const bool is_duplicate = std::any_of( result_parts.begin(), result_parts.end(),
+                [name = vp.name()]( const std::string & r ) {
+                    return r == name;
                 } );
 
                 if( is_duplicate || !predicate( vp ) ) {
                     continue; // skip part variants, they have same part names
                 }
 
-                bool can_install = player_character.meets_skill_requirements( vp.install_skills );
+                const bool can_install = player_character.meets_skill_requirements( vp.install_skills );
+                const std::string name = vp.name();
 
-                result_parts.emplace_back( std::make_pair( vp.name(), can_install ) );
+                // Endarken parts that can't be installed with the character's skills
+                result_parts.emplace_back( can_install ? name : string_format( "<dark>%s</dark>", name ) );
             }
 
             if( result_parts.empty() ) {
@@ -5798,36 +5750,18 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             // Sort according to the user's locale
             std::sort( result_parts.begin(), result_parts.end(), localized_compare );
 
-            // Endarken parts that can't be installed with the character's skills
-            const std::string installable_parts =
-                enumerate_as_string( result_parts.begin(), result_parts.end(),
-            []( const std::pair<std::string, bool> &p ) {
-                if( p.second ) {
-                    return p.first;
-                } else {
-                    return string_format( "<dark>%s</dark>", p.first );
-                }
-            } );
-
-            const int num_hidden_parts = vparts.size() - max_parts;
-            const std::string fmt = ( num_hidden_parts > 0 )
-                                    ? string_format( install_where_abbreviated, installable_parts )
-                                    : string_format( install_where_full, installable_parts );
+            const std::string installable_parts = enumerate_lcsorted_with_limit( result_parts, 12 );
 
             insert_separation_line( info );
-            info.emplace_back( " DESCRIPTION", fmt );
+            info.emplace_back( " DESCRIPTION", string_format( install_where, installable_parts ) );
         };
 
-        print_parts( vparts,
-                     _( "You could install it in a vehicle: %s" ),
-                     _( "You could install it in a vehicle: %s, and more" ),
+        print_parts( vparts, _( "You could install it in a vehicle: %s" ),
         []( const vpart_info & vp ) {
             return !vp.has_flag( vpart_bitflags::VPFLAG_APPLIANCE );
         } );
 
-        print_parts( vparts,
-                     _( "You could install it as an appliance: %s" ),
-                     _( "You could install it as an appliance: %s, and more" ),
+        print_parts( vparts, _( "You could install it as an appliance: %s" ),
         []( const vpart_info & vp ) {
             return vp.has_flag( vpart_bitflags::VPFLAG_APPLIANCE );
         } );
@@ -6036,7 +5970,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         for( const std::string &spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
             if( player_character.magic->knows_spell( sp_id ) &&
-                !player_character.magic->get_spell( sp_id ).is_max_level() ) {
+                !player_character.magic->get_spell( sp_id ).is_max_level( player_character ) ) {
                 ret = c_yellow;
             }
             if( !player_character.magic->knows_spell( sp_id ) &&
@@ -10705,24 +10639,20 @@ std::string item::print_ammo( ammotype at ) const
     }
 
     if( type->magazine ) {
-        return enumerate_as_string( type->magazine->cached_ammos[at].begin(),
-        type->magazine->cached_ammos[at].end(), []( const itype_id & id ) {
-
+        return enumerate_as_string( type->magazine->cached_ammos[at],
+        []( const itype_id & id ) {
             return string_format( "<info>%s</info>", id->nname( 1 ) );
         } );
     }
 
     if( type->gun ) {
-        return enumerate_as_string( type->gun->cached_ammos[at].begin(),
-        type->gun->cached_ammos[at].end(), []( const itype_id & id ) {
-
+        return enumerate_as_string( type->gun->cached_ammos[at],
+        []( const itype_id & id ) {
             return string_format( "<info>%s</info>", id->nname( 1 ) );
         } );
     }
 
     return "";
-
-
 }
 
 itype_id item::common_ammo_default( bool conversion ) const
@@ -12114,15 +12044,11 @@ std::string item::components_to_string() const
             }
         }
     }
-    return enumerate_as_string( counts.begin(), counts.end(),
-    []( const std::pair<std::string, int> &entry ) -> std::string {
-        if( entry.second != 1 )
-        {
-            return string_format( pgettext( "components count", "%d x %s" ), entry.second, entry.first );
-        } else
-        {
-            return entry.first;
-        }
+    return enumerate_as_string( counts,
+    []( const std::pair<std::string, int> &entry ) {
+        return entry.second != 1
+               ? string_format( pgettext( "components count", "%d x %s" ), entry.second, entry.first )
+               : entry.first;
     }, enumeration_conjunction::none );
 }
 

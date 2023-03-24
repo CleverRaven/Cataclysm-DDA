@@ -1265,7 +1265,6 @@ These flags apply to crafting recipes, i.e. those that fall within the following
 - ```BLIND_EASY``` Easy to craft with little to no light.
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
-- ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
 - ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 
