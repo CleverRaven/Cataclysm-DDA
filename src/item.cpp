@@ -10207,12 +10207,16 @@ int item::ammo_remaining( const Character *carrier, bool cable_links ) const
 
     // Cable connections
     if( cable_links && plugged_in ) {
-        map &here = get_map();
         for( const item *cable : contents.cables( true ) ) {
-            const optional_vpart_position vp = here.veh_at( cable->link.t_abs_pos );
-            if( vp ) {
-                ret += vp->vehicle().connected_battery_power_level().first;
+            if( cable->link.t_veh_safe ) {
+                ret += cable->link.t_veh_safe->connected_battery_power_level().first;
                 break;
+            } else {
+                const optional_vpart_position vp = get_map().veh_at( cable->link.t_abs_pos );
+                if( vp ) {
+                    ret += vp->vehicle().connected_battery_power_level().first;
+                    break;
+                }
             }
         }
     }
@@ -10403,11 +10407,15 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 
     // Consume power from appliances/vehicles connected with cables
     if( plugged_in ) {
-        //qty -= contents.ammo_consume_via_cable( qty, pos );
-        item *cable = contents.cables( true ).front();//TODOkama don't just use front here
-        const optional_vpart_position vp = get_map().veh_at( cable->link.t_abs_pos );
-        if( vp ) {
-            qty = vp->vehicle().discharge_battery( qty, true );
+        for( const item *cable : contents.cables( true ) ) {
+            if( cable->link.t_veh_safe ) {
+                qty = cable->link.t_veh_safe->discharge_battery( qty, true );
+            } else {
+                const optional_vpart_position vp = get_map().veh_at( cable->link.t_abs_pos );
+                if( vp ) {
+                    qty = vp->vehicle().discharge_battery( qty, true );
+                }
+            }
         }
     }
 
@@ -12980,7 +12988,7 @@ const bool item::reset_cable( Character *p, item *parent_item, const bool loose_
         //p->moves -= charges * 10; TODOkama Make this only happen when safe, and interruptible?
         active = false;
         if( parent_item != nullptr ) {
-        parent_item->plugged_in = false;
+            parent_item->plugged_in = false;
         }
         return has_flag( flag_AUTO_DELETE_CABLE );
     } else {
