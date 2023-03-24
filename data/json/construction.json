@@ -7792,8 +7792,8 @@
     "time": "10 m",
     "qualities": [ [ { "id": "TREE_CUTTING", "level": 1 } ] ],
     "byproducts": [ { "item": "timber", "charges": 1 } ],
-    "pre_terrain": "t_trunk",
-    "post_terrain": "t_trunk"
+    "pre_terrain": "f_trunk",
+    "post_terrain": "f_null"
   },
   {
     "type": "construction",
@@ -7805,7 +7805,7 @@
     "components": [ [ [ "timber", 1 ] ] ],
     "pre_special": "check_empty",
     "dark_craftable": true,
-    "post_terrain": "t_trunk",
+    "post_terrain": "f_trunk",
     "activity_level": "LIGHT_EXERCISE"
   },
   {
