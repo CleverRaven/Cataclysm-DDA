@@ -961,12 +961,47 @@ bool game::start_game()
         }
     }
     if( scen->has_flag( "BORDERED" ) ) {
+        const point_abs_omt p_player = get_player_character().global_omt_location().xy();
+        point_abs_om om;
+        point_om_omt omt;
+        std::tie( om, omt ) = project_remain<coords::om>( p_player );
+
+        // The Wall is supposed to be a 100x100 rectangle centered on player,
+        // but if player is spawned next to edges of the overmap we need to make it smaller so it doesn't overlap the overmap's borders
+        int left_x = omt.x() < 50 ? 1 : omt.x() - 50;
+        int right_x = omt.x() > 129 ? 179 : omt.x() + 50;
+        int up_y = omt.y() < 50 ? 1 : omt.y() - 50;
+        int down_y = omt.y() > 129 ? 179 : omt.y() + 50;
+
         overmap &starting_om = get_cur_om();
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            starting_om.place_special_forced( overmap_special_world, { 0, 0, z },
-                                              om_direction::type::north );
+
+        for( int x = left_x; x <= right_x; x++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { x, up_y, z },
+                                                  om_direction::type::north );
+            }
         }
 
+        for( int x = left_x; x <= right_x; x++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { x, down_y, z },
+                                                  om_direction::type::north );
+            }
+        }
+
+        for( int y = up_y; y <= down_y; y++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { left_x, y, z },
+                                                  om_direction::type::north );
+            }
+        }
+
+        for( int y = up_y; y <= down_y; y++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { right_x, y, z },
+                                                  om_direction::type::north );
+            }
+        }
     }
     for( item *&e : u.inv_dump() ) {
         e->set_owner( get_player_character() );
