@@ -2520,7 +2520,10 @@
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
     "subtype": "collection",
     "ammo": 100,
-    "entries": [ { "item": "savage112", "charges-min": 0, "charges-max": 1 }, { "group": "on_hand_338lapua" } ]
+    "entries": [
+      { "item": "savage112", "charges-min": 0, "charges-max": 1, "contents-item": [ "rifle_scope" ] },
+      { "group": "on_hand_338lapua" }
+    ]
   },
   {
     "id": "nested_mrad_smr",

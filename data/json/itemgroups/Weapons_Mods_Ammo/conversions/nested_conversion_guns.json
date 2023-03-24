@@ -62,6 +62,27 @@
     ]
   },
   {
+    "id": "nested_ar15_retool_450bushmaster",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "//2": "groups together all identical weapons rechambered for the same caliber and converted with different barrel-lengths.",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [
+      {
+        "distribution": [
+          { "item": "ar15_450", "charges-min": 0, "charges-max": 4, "prob": 10 },
+          { "item": "ar15_450medium", "charges-min": 0, "charges-max": 4, "prob": 8 },
+          { "item": "ar15_450short", "charges-min": 0, "charges-max": 4, "prob": 6 }
+        ],
+        "prob": 100
+      },
+      { "item": "450_ar15mag" },
+      { "item": "450_ar15mag", "prob": 50 },
+      { "group": "on_hand_450" }
+    ]
+  },
+  {
     "id": "nested_mdrx_retool_223rem",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
@@ -153,7 +174,8 @@
         "distribution": [
           { "group": "nested_ar15_retool_223rem", "prob": 30 },
           { "group": "nested_ar15_retool_300blk", "prob": 20 },
-          { "group": "nested_ar15_retool_50beowulf", "prob": 15 }
+          { "group": "nested_ar15_retool_50beowulf", "prob": 15 },
+          { "group": "nested_ar15_retool_450bushmaster", "prob": 15 }
         ],
         "prob": 100
       }

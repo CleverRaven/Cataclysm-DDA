@@ -56,6 +56,27 @@
     "default_mods": [ "retool_ar15_50beowulf_short" ]
   },
   {
+    "id": "ar15_450",
+    "copy-from": "ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_450" ]
+  },
+  {
+    "id": "ar15_450medium",
+    "copy-from": "ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_450_medium" ]
+  },
+  {
+    "id": "ar15_450short",
+    "copy-from": "ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_450_short" ]
+  },
+  {
     "id": "mdrx_223",
     "copy-from": "mdrx",
     "type": "GUN",
@@ -100,8 +121,8 @@
     "variants": [
       {
         "id": "mdrx_300",
-    "name": { "str": "Desert Tech bullpup carbine" },
-    "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for 223 Remington, 308 Winchester, and 300 AAC Blackout being available.",
+        "name": { "str": "Desert Tech bullpup carbine" },
+        "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for 223 Remington, 308 Winchester, and 300 AAC Blackout being available.",
         "description": "Bringing a compact, highly modular, and soft-recoiling weapon system to the table, the Desert Tech Micro Dynamic Rifle Extreme (MDRX) is a gas-operated bullpup carbine originally unveiled in 2014, with this updated model of the weapon having been released in 2019.  One of the rifle’s most notable features is the utter simplicity of swapping the carbine's chambering, with an easy change of the barrel, bolt, and a handful of other components being all the steps required to chamber the MDRX for either 223 Remington, 308 Winchester, or 300 AAC Blackout.",
         "weight": 1
       }

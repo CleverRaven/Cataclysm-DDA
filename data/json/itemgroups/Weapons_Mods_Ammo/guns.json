@@ -597,7 +597,8 @@
       { "item": "1895sbl", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "browning_blr", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "ar10", "prob": 10, "charges-min": 0, "charges-max": 0 },
-      { "item": "ar15_50", "prob": 10, "charges-min": 0, "charges-max": 0 }
+      { "item": "ar15_50", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "ar15_450", "prob": 12, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
