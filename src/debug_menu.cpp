@@ -661,21 +661,21 @@ static void spell_description(
     description << spl.description() << '\n';
 
     // Spell Casting flags
-    description << spell_desc::enumerate_spell_data( spl ) << '\n';
+    description << spell_desc::enumerate_spell_data( spl, chrc ) << '\n';
 
     // Spell Level: 0 / 0 (MAX)
     description << string_format(
                     //~ %1$s - spell current level, %2$s - spell max level, %3$s - is max level
                     _( "Spell Level: %1$s / %2$d %3$s" ),
                     spl_level == -1 ? _( "Unlearned" ) : std::to_string( spl_level ),
-                    spl.get_max_level(),
-                    spl_level == spl.get_max_level() ? _( "(MAX)" ) : "" ) << '\n';
+                    spl.get_max_level( chrc ),
+                    spl_level == spl.get_max_level( chrc ) ? _( "(MAX)" ) : "" ) << '\n';
 
     // Difficulty: 0 ( 0.0 % Failure Chance)
     description << string_format(
                     //~ %1$d - difficulty, %2$s - failure chance
                     _( "Difficulty: %1$d (%2$s)" ),
-                    spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) << '\n';
+                    spl.get_difficulty( chrc ), spl.colorized_fail_percent( chrc ) ) << '\n';
 
     const std::string impeded = _( "(impeded)" );
 
@@ -686,14 +686,15 @@ static void spell_description(
                     spl.energy_cost_string( chrc ),
                     spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
                     spl.energy_cur_string( chrc ) ) << '\n';
-
+    dialogue d( get_talker_for( chrc ), nullptr );
     // Casting Time: 0 (impeded)
     description << string_format(
                     //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
                     _( "Casting Time: %1$s %2$s (%3$s base time) " ),
                     to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
                     spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
-                    to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time ) ) ) << '\n';
+                    to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time.evaluate(
+                                   d ) ) ) ) << '\n';
 
     std::string targets;
     if( spl.is_valid_target( spell_target::none ) ) {
@@ -708,7 +709,7 @@ static void spell_description(
         description << string_format( _( "Only affects the monsters: %1$s" ), target_ids ) << '\n';
     }
 
-    const int damage = spl.damage();
+    const int damage = spl.damage( chrc );
     const std::string spl_eff = spl.effect();
     std::string damage_string;
     std::string range_string;
@@ -717,19 +718,19 @@ static void spell_description(
     if( spl_eff == "attack" ) {
         if( damage > 0 ) {
             std::string dot_string;
-            if( spl.damage_dot() ) {
+            if( spl.damage_dot( chrc ) ) {
                 //~ amount of damage per second, abbreviated
-                dot_string = string_format( _( ", %1$d/sec" ), spl.damage_dot() );
+                dot_string = string_format( _( ", %1$d/sec" ), spl.damage_dot( chrc ) );
             }
-            damage_string = string_format( _( "Damage: %1$s %2$s%3$s" ), spl.damage_string(),
+            damage_string = string_format( _( "Damage: %1$s %2$s%3$s" ), spl.damage_string( chrc ),
                                            spl.damage_type_string(), dot_string );
             damage_string = colorize( damage_string, spl.damage_type_color() );
         } else if( damage < 0 ) {
-            damage_string = string_format( _( "Healing: %1$s" ), colorize( spl.damage_string(),
+            damage_string = string_format( _( "Healing: %1$s" ), colorize( spl.damage_string( chrc ),
                                            light_green ) );
         }
 
-        if( spl.aoe() > 0 ) {
+        if( spl.aoe( chrc ) > 0 ) {
             std::string aoe_string_temp = _( "Spell Radius" );
             std::string degree_string;
             if( spl.shape() == spell_shape::cone ) {
@@ -738,17 +739,18 @@ static void spell_description(
             } else if( spl.shape() == spell_shape::line ) {
                 aoe_string_temp = _( "Line Width" );
             }
-            aoe_string = string_format( _( "%1$s: %2$d %3$s" ), aoe_string_temp, spl.aoe(), degree_string );
+            aoe_string = string_format( _( "%1$s: %2$d %3$s" ), aoe_string_temp, spl.aoe( chrc ),
+                                        degree_string );
         }
 
     } else if( spl_eff == "teleport_random" ) {
-        if( spl.aoe() > 0 ) {
-            aoe_string = string_format( _( "Variance: %1$d" ), spl.aoe() );
+        if( spl.aoe( chrc ) > 0 ) {
+            aoe_string = string_format( _( "Variance: %1$d" ), spl.aoe( chrc ) );
         }
 
     } else if( spl_eff == "spawn_item" ) {
-        damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage(),
-                                       item::nname( itype_id( spl.effect_data() ), spl.damage() ) );
+        damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage( chrc ),
+                                       item::nname( itype_id( spl.effect_data() ), spl.damage( chrc ) ) );
 
     } else if( spl_eff == "summon" ) {
         std::string monster_name = "FIXME";
@@ -762,8 +764,8 @@ static void spell_description(
         } else {
             monster_name = monster( mtype_id( spl.effect_data() ) ).get_name();
         }
-        damage_string = string_format( _( "Summon: %1$d %2$s" ), spl.damage(), monster_name );
-        aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe() );
+        damage_string = string_format( _( "Summon: %1$d %2$s" ), spl.damage( chrc ), monster_name );
+        aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe( chrc ) );
 
     } else if( spl_eff == "targeted_polymorph" ) {
         std::string monster_name = spl.effect_data();
@@ -779,23 +781,23 @@ static void spell_description(
         } else {
             monster_name = mtype_id( spl.effect_data() )->nname();
         }
-        damage_string = string_format( _( "Targets under: %1$dhp become a %2$s" ), spl.damage(),
+        damage_string = string_format( _( "Targets under: %1$dhp become a %2$s" ), spl.damage( chrc ),
                                        monster_name );
 
     } else if( spl_eff == "ter_transform" ) {
-        aoe_string = string_format( "Spell Radius: %1$s", spl.aoe_string() );
+        aoe_string = string_format( "Spell Radius: %1$s", spl.aoe_string( chrc ) );
 
     } else if( spl_eff == "banishment" ) {
-        damage_string = string_format( _( "Damage: %1$s %2$s" ), spl.damage_string(),
+        damage_string = string_format( _( "Damage: %1$s %2$s" ), spl.damage_string( chrc ),
                                        spl.damage_type_string() );
-        if( spl.aoe() > 0 ) {
-            aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe() );
+        if( spl.aoe( chrc ) > 0 ) {
+            aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe( chrc ) );
         }
     }
 
     // Range / AOE in two columns
     description << string_format( _( "Range: %1$s" ),
-                                  spl.range() <= 0 ? _( "self" ) : std::to_string( spl.range() ) ) << '\n';
+                                  spl.range( chrc ) <= 0 ? _( "self" ) : std::to_string( spl.range( chrc ) ) ) << '\n';
 
     description << aoe_string << '\n';
 
@@ -805,8 +807,8 @@ static void spell_description(
     // todo: damage over time here, when it gets implemented
 
     // Show duration for spells that endure
-    if( spl.duration() > 0 || spl.has_flag( spell_flag::PERMANENT ) ) {
-        description << string_format( _( "Duration: %1$s" ), spl.duration_string() ) << '\n';
+    if( spl.duration( chrc ) > 0 || spl.has_flag( spell_flag::PERMANENT ) ) {
+        description << string_format( _( "Duration: %1$s" ), spl.duration_string( chrc ) ) << '\n';
     }
 
     // helper function for printing tool and item component requirement lists
@@ -1003,6 +1005,7 @@ static void change_spells( Character &character )
         calcStartPos( spells_start, spell_selected, TERMY - 2, relative_size );
 
         int line_number = 1;
+        dialogue d( get_talker_for( get_player_character() ), nullptr );
         for( int i = spells_start; i < relative_size; ++i ) {
             if( line_number == TERMY - 1 ) {
                 break;
@@ -1017,7 +1020,7 @@ static void change_spells( Character &character )
             mvwprintz( w_name.window, point( 2, line_number ),
                        spell_color, splt.name.translated() );
             mvwprintz( w_level.window, point( 2, line_number++ ), spell_color,
-                       _( "%1$-3d/%2$3d" ), spell_level, splt.max_level );
+                       _( "%1$-3d/%2$3d" ), spell_level, static_cast<int>( splt.max_level.evaluate( d ) ) );
         }
 
         nc_color gray = c_light_gray;
@@ -1091,10 +1094,11 @@ static void change_spells( Character &character )
         spell_middle_or_id( spellid );
     };
 
-    auto toggle_all_spells = [&]( int level ) {
+    auto toggle_all_spells = [&]( int level, Character & character ) {
+        dialogue d( get_talker_for( character ), nullptr );
         // -2 sets it to max level
         for( spell_tuple *spt : spells_relative ) {
-            std::get<1>( *spt ) = level > -2 ? level : std::get<0>( *spt ).max_level;
+            std::get<1>( *spt ) = level > -2 ? level : std::get<0>( *spt ).max_level.evaluate( d );
             set_spell( std::get<0>( *spt ), std::get<1>( *spt ) );
             std::get<2>( *spt ).clear();
         }
@@ -1111,7 +1115,7 @@ static void change_spells( Character &character )
     bool showing_only_learned = false;
 
     bool force_update_description = false;
-
+    dialogue d( get_talker_for( character ), nullptr );
     while( true ) {
         update_description( force_update_description );
         force_update_description = false;
@@ -1160,14 +1164,15 @@ static void change_spells( Character &character )
         } else if( action == "RIGHT" ) {
             int &spell_level = std::get<1>( *spells_relative[spell_selected] );
             spell_level = std::min( spell_level + 1,
-                                    std::get<0>( *spells_relative[spell_selected] ).max_level );
+                                    static_cast<int>( std::get<0>( *spells_relative[spell_selected] ).max_level.evaluate( d ) ) );
             set_spell( std::get<0>( *spells_relative[spell_selected] ), spell_level );
             force_update_description = true;
 
         } else if( action == "CONFIRM" ) {
             int &spell_level = std::get<1>( *spells_relative[spell_selected] );
             query_int( spell_level, _( "Set spell level to?  Currently: %1$d" ), spell_level );
-            spell_level = clamp( spell_level, -1, std::get<0>( *spells_relative[spell_selected] ).max_level );
+            spell_level = clamp( spell_level, -1,
+                                 static_cast<int>( std::get<0>( *spells_relative[spell_selected] ).max_level.evaluate( d ) ) );
             set_spell( std::get<0>( *spells_relative[spell_selected] ), spell_level );
             force_update_description = true;
 
@@ -1180,13 +1185,13 @@ static void change_spells( Character &character )
         } else if( action == "TOGGLE_ALL_SPELL" ) {
             if( toggle_spells_state == 0 ) {
                 toggle_spells_state = 1;
-                toggle_all_spells( -1 ); // unlearn all spells
+                toggle_all_spells( -1, character ); // unlearn all spells
             } else if( toggle_spells_state == 1 ) {
                 toggle_spells_state = 2;
-                toggle_all_spells( 0 ); // sets all spells to the minimum level
+                toggle_all_spells( 0, character ); // sets all spells to the minimum level
             } else  {
                 toggle_spells_state = 0;
-                toggle_all_spells( -2 ); // max level
+                toggle_all_spells( -2, character ); // max level
             }
 
         } else if( action == "SHOW_ONLY_LEARNED" ) {
@@ -1377,7 +1382,7 @@ static void spawn_nested_mapgen()
 
 static void control_npc_menu()
 {
-    get_avatar().control_npc_menu();
+    get_avatar().control_npc_menu( true );
 }
 
 static void character_edit_stats_menu( Character &you )
@@ -2578,24 +2583,24 @@ static void debug_menu_force_temperature()
     } else {
         string_input_popup pop;
 
-        auto ask = [&pop]( const std::string & unit, std::optional<int> current ) {
+        auto ask = [&pop]( const std::string & unit, std::optional<float> current ) {
             int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
                       .width( 20 )
                       .text( current ? std::to_string( *current ) : "" )
                       .only_digits( true )
                       .query_int();
 
-            return pop.canceled() ? current : std::optional<int>( ret );
+            return pop.canceled() ? current : std::optional<float>( static_cast<float>( ret ) );
         };
 
-        std::optional<int> current;
+        std::optional<float> current;
         std::string option = get_option<std::string>( "USE_CELSIUS" );
 
         if( option == "celsius" ) {
             if( forced_temp ) {
                 current = units::to_celsius( *forced_temp );
             }
-            std::optional<int> ret = ask( "C", current );
+            std::optional<float> ret = ask( "C", current );
             if( ret ) {
                 forced_temp = units::from_celsius( *ret );
             }
@@ -2603,7 +2608,7 @@ static void debug_menu_force_temperature()
             if( forced_temp ) {
                 current = units::to_kelvin( *forced_temp );
             }
-            std::optional<int> ret = ask( "K", current );
+            std::optional<float> ret = ask( "K", current );
             if( ret ) {
                 forced_temp = units::from_kelvin( *ret );
             }
@@ -2611,7 +2616,7 @@ static void debug_menu_force_temperature()
             if( forced_temp ) {
                 current = units::to_fahrenheit( *forced_temp );
             }
-            std::optional<int> ret = ask( "F", current );
+            std::optional<float> ret = ask( "F", current );
             if( ret ) {
                 forced_temp = units::from_fahrenheit( *ret );
             }

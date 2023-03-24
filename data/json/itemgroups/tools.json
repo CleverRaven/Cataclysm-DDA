@@ -205,7 +205,7 @@
       [ "knife_hunting", 10 ],
       { "group": "knife_rambo_cont", "prob": 10 },
       [ "knife_swissarmy", 10 ],
-      { "item": "mess_kit", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 20 },
       [ "multitool", 10 ],
       [ "pockknife", 30 ],
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
@@ -215,8 +215,7 @@
       { "item": "tinderbox", "prob": 10, "charges": [ 0, 100 ] },
       [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
-      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      [ "mess_tin", 10 ]
+      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] }
     ]
   },
   {
@@ -591,7 +590,7 @@
       { "group": "knife_rambo_cont", "prob": 10 },
       [ "knife_swissarmy", 5 ],
       [ "knife_trench", 10 ],
-      { "item": "mess_kit", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 20 },
       { "item": "portable_stove", "prob": 2, "container-item": "nylon_bag", "sealed": false },
       [ "multitool", 5 ],
       [ "pockknife", 50 ],
@@ -599,7 +598,7 @@
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       {
-        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],
+        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 350, 400 ] } ],
         "prob": 5
       },
       [ "signal_flare", 20 ],
@@ -611,7 +610,6 @@
       [ "whistle_multitool", 1 ],
       [ "chem_hexamine", 10 ],
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      [ "mess_tin", 5 ],
       [ "horse_tack", 3 ],
       [ "saddlebag", 5 ],
       [ "lifestraw", 3 ],

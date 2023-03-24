@@ -1335,7 +1335,7 @@
   {
     "id": "welding_kit",
     "type": "TOOL",
-    "name": { "str": "welding kit" },
+    "name": { "str": "high-temperature welding kit" },
     "description": "A welder combined with a fireproof insulating blanket allows for advanced welds and repairs to tempered steels.",
     "weight": "10500 g",
     "volume": "12500 ml",
@@ -1611,6 +1611,7 @@
     "weight": "6 kg",
     "volume": "11500 ml",
     "price": 30000,
+    "price_postapoc": 500,
     "material": [ "asbestos" ],
     "symbol": "#",
     "color": "light_gray"
@@ -1623,6 +1624,7 @@
     "weight": "3 kg",
     "volume": "11500 ml",
     "price": 3000,
+    "price_postapoc": 200,
     "material": [ "epoxy", "kevlar" ],
     "symbol": "#",
     "color": "light_gray"

@@ -17,7 +17,6 @@
       { "group": "GROUP_PET_DOGS", "weight": 90, "cost_multiplier": 0 },
       { "monster": "mon_dog_mutant_mongrel", "weight": 7, "cost_multiplier": 0 },
       { "monster": "mon_dog_incorporeal", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_dog_telekenetic", "weight": 1, "cost_multiplier": 0 },
       { "monster": "mon_dog_antimemetic", "weight": 1, "cost_multiplier": 0 }
     ]
   },

@@ -185,9 +185,9 @@ class inventory_entry
         size_t generation = 0;
         bool chevron = false;
         int indent = 0;
+        mutable bool enabled = true;
         void cache_denial( inventory_selector_preset const &preset ) const;
         mutable std::optional<std::string> denial;
-        mutable bool enabled = true;
 
         void set_custom_category( const item_category *category ) {
             custom_category = category;
@@ -199,12 +199,22 @@ class inventory_entry
             }
             collation_meta.reset();
         }
+        struct entry_cell_cache_t {
+            nc_color color = c_unset;
+            std::vector<std::string> text;
+        };
+
+        const entry_cell_cache_t &get_entry_cell_cache( inventory_selector_preset const &preset ) const;
+        void make_entry_cell_cache( inventory_selector_preset const &preset,
+                                    bool update_only = true ) const;
+        void reset_entry_cell_cache() const;
 
     private:
         const item_category *custom_category = nullptr;
     protected:
         // indents the entry if it is contained in an item
         bool _indent = true;
+        mutable std::optional<entry_cell_cache_t> entry_cell_cache;
 
 };
 
@@ -397,7 +407,7 @@ class inventory_column
         inventory_entry *add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
-        void set_stack_favorite( std::vector<item_location> &locations, bool favorite );
+        void set_stack_favorite( inventory_entry &entry, bool favorite );
 
         void set_collapsed( inventory_entry &entry, bool collapse );
 
@@ -423,7 +433,7 @@ class inventory_column
             this->visibility = visibility;
         }
 
-        void set_width( size_t new_width, const std::vector<inventory_column *> &all_columns );
+        void set_width( size_t new_width );
         void set_height( size_t new_height );
         size_t get_width() const;
         size_t get_height() const;
@@ -489,13 +499,6 @@ class inventory_column
         void cycle_hide_override();
 
     protected:
-        struct entry_cell_cache_t {
-            bool assigned = false;
-            nc_color color = c_unset;
-            std::string const *denial = nullptr;
-            std::vector<std::string> text;
-        };
-
         /**
          * Move the selection.
          */
@@ -522,13 +525,9 @@ class inventory_column
          *  If corresponding cell is not empty (its width is greater than zero),
          *  then a value returned by  inventory_column::get_entry_indent() is added to the result.
          */
-        size_t get_entry_cell_width( size_t index, size_t cell_index ) const;
         size_t get_entry_cell_width( const inventory_entry &entry, size_t cell_index ) const;
         /** Sum of the cell widths */
         size_t get_cells_width() const;
-
-        entry_cell_cache_t make_entry_cell_cache( const inventory_entry &entry ) const;
-        const entry_cell_cache_t &get_entry_cell_cache( size_t index ) const;
 
         const inventory_selector_preset &preset;
 
@@ -562,7 +561,6 @@ class inventory_column
         };
 
         std::vector<cell_t> cells;
-        mutable std::vector<entry_cell_cache_t> entries_cell_cache;
 
         std::optional<bool> indent_entries_override = std::nullopt;
         std::optional<bool> hide_entries_override = std::nullopt;

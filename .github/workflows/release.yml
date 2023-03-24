@@ -143,7 +143,7 @@ jobs:
             ext: tar.gz
             content: application/gzip
           - name: OSX Curses x64
-            os: macos-10.15
+            os: macos-12
             mxe: none
             tiles: 0
             sound: 0
@@ -151,7 +151,7 @@ jobs:
             ext: dmg
             content: application/x-apple-diskimage
           - name: OSX Tiles x64
-            os: macos-10.15
+            os: macos-12
             mxe: none
             tiles: 1
             sound: 0
@@ -268,6 +268,9 @@ jobs:
       - name: Build CDDA (windows msvc)
         if: runner.os == 'Windows'
         env:
+          # Enable pretty backtraces
+          BACKTRACE: 1
+          CDDA_STRIPPED_PDB: 1
           VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
         run: |
           msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
@@ -276,7 +279,7 @@ jobs:
       - name: Build CDDA (osx)
         if: runner.os == 'macOS'
         run: |
-          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=10.12 dmgdist
+          make -j3 TILES=${{ matrix.tiles }} SOUND=${{ matrix.tiles }} RELEASE=1 LOCALIZE=1 LANGUAGES=all BACKTRACE=0 PCH=0 USE_HOME_DIR=1 OSX_MIN=10.13 dmgdist
           mv Cataclysm.dmg cdda-${{ matrix.artifact }}-${{ needs.release.outputs.timestamp }}.dmg
       - name: Set up JDK 8 (android)
         if: runner.os == 'Linux' && matrix.android != 'none' && matrix.mxe == 'none'
