@@ -73,7 +73,11 @@
     "folded_volume": "3750 ml",
     "breaks_into": "ig_vp_cloth",
     "requirements": {
-      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "vehicle_nail_install", 1 ], [ "vehicle_bolt_install", 1 ] ] },
+      "install": {
+        "skills": [ [ "fabrication", 1 ] ],
+        "time": "5 m",
+        "using": [ [ "vehicle_nail_install", 1 ], [ "vehicle_bolt_install", 1 ] ]
+      },
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "1 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "1 m", "using": [ [ "adhesive", 2 ] ] }
     },
