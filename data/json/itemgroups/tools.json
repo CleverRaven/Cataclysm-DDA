@@ -598,7 +598,7 @@
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       {
-        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],
+        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 350, 400 ] } ],
         "prob": 5
       },
       [ "signal_flare", 20 ],
