@@ -12979,7 +12979,9 @@ const bool item::reset_cable( Character *p, item *parent_item, const bool loose_
         p->add_msg_if_player( m_info, _( "You reel in the cable." ) );
         //p->moves -= charges * 10; TODOkama Make this only happen when safe, and interruptible?
         active = false;
+        if( parent_item != nullptr ) {
         parent_item->plugged_in = false;
+        }
         return has_flag( flag_AUTO_DELETE_CABLE );
     } else {
         if( loose_message ) {
