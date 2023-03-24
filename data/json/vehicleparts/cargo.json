@@ -245,7 +245,11 @@
     "breaks_into": [  ],
     "//": "assume 1m sq cargo space affixed on one edge, 100cm weld and 50cm weld to repair each damage quadrant",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "50 m", "using": [ [ "welding_standard", 100 ], [ "vehicle_bolt_install", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "50 m",
+        "using": [ [ "welding_standard", 100 ], [ "vehicle_bolt_install", 1 ] ]
+      },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
