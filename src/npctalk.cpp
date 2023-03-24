@@ -277,7 +277,7 @@ int calc_spell_training_cost( const Character &teacher, const Character &student
     }
     const spell &temp_spell = teacher.magic->get_spell( id );
     const bool knows = student.magic->knows_spell( id );
-    return calc_spell_training_cost_gen( knows, temp_spell.get_difficulty(),
+    return calc_spell_training_cost_gen( knows, temp_spell.get_difficulty( student ),
                                          temp_spell.get_level() );
 }
 
@@ -3391,7 +3391,7 @@ void talk_effect_fun_t<T>::set_cast_spell( const JsonObject &jo, const std::stri
             debugmsg( "No valid caster for spell." );
             run_eoc_vector( false_eocs, d );
         } else {
-            spell sp = fake.get_spell( 0 );
+            spell sp = fake.get_spell( *caster, 0 );
             if( targeted ) {
                 if( std::optional<tripoint> target = sp.select_target( caster ) ) {
                     sp.cast_all_effects( *caster, *target );

@@ -493,7 +493,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Spell;
     ui.casting = &casting;
-    ui.range = casting.range();
+    ui.range = casting.range( you );
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
 
@@ -2597,7 +2597,7 @@ target_handler::trajectory target_ui::run()
             if( status != Status::Good ) {
                 continue;
             }
-            bool can_skip_confirm = mode == TargetMode::Spell && casting->damage() <= 0;
+            bool can_skip_confirm = mode == TargetMode::Spell && casting->damage( player_character ) <= 0;
             if( !can_skip_confirm && !confirm_non_enemy_target() ) {
                 continue;
             }
@@ -2653,7 +2653,7 @@ target_handler::trajectory target_ui::run()
             break;
         }
         case ExitCode::Fire: {
-            bool harmful = !( mode == TargetMode::Spell && casting->damage() <= 0 );
+            bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
             on_target_accepted( harmful );
             break;
         }
@@ -2928,15 +2928,15 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
         switch( casting->shape() ) {
             case spell_shape::blast:
                 spell_aoe = spell_effect::spell_effect_blast(
-                                spell_effect::override_parameters( *casting ), src, dst );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             case spell_shape::cone:
                 spell_aoe = spell_effect::spell_effect_cone(
-                                spell_effect::override_parameters( *casting ), src, dst );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             case spell_shape::line:
                 spell_aoe = spell_effect::spell_effect_line(
-                                spell_effect::override_parameters( *casting ), src, dst );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             default:
                 spell_aoe.clear();
@@ -3838,10 +3838,10 @@ void target_ui::panel_spell_info( int &text_y )
     }
     print_colored_text( w_target, point( 1, text_y++ ), clr, clr, fail_str );
 
-    if( casting->aoe() > 0 ) {
+    if( casting->aoe( get_player_character() ) > 0 ) {
         nc_color color = c_light_gray;
         const std::string fx = casting->effect();
-        const std::string aoes = casting->aoe_string();
+        const std::string aoes = casting->aoe_string( get_player_character() );
         if( fx == "attack" || fx == "area_pull" || fx == "area_push" || fx == "ter_transform" ) {
 
             if( casting->shape() == spell_shape::cone ) {
@@ -3853,13 +3853,14 @@ void target_ui::panel_spell_info( int &text_y )
             } else {
                 text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
                                           _( "Effective Spell Radius: %s%s" ), aoes,
-                                          casting->in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
+                                          casting->in_aoe( src, dst, get_player_character() ) ? colorize( _( " WARNING!  IN RANGE" ),
+                                                  c_red ) : "" );
             }
         }
     }
 
     mvwprintz( w_target, point( 1, text_y++ ), c_light_red, _( "Damage: %s" ),
-               casting->damage_string() );
+               casting->damage_string( get_player_character() ) );
 
     text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, clr,
                               casting->description() );

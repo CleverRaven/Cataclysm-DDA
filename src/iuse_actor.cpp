@@ -2196,7 +2196,7 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
             if( pc.magic->knows_spell( sp_id ) ) {
                 const spell sp = pc.magic->get_spell( sp_id );
                 spell_text += ": " + string_format( _( "Level %u" ), sp.get_level() );
-                if( sp.is_max_level() ) {
+                if( sp.is_max_level( pc ) ) {
                     spell_text = string_format( _( "<color_light_green>%1$s (Max)</color>" ), spell_text );
                 } else {
                     spell_text = string_format( "<color_yellow>%s</color>", spell_text );
@@ -2232,7 +2232,7 @@ std::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tri
         if( p.magic->knows_spell( sp_id ) ) {
             const spell sp = p.magic->get_spell( sp_id );
             entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
-            if( sp.is_max_level() ) {
+            if( sp.is_max_level( p ) ) {
                 entry.ctxt += _( " (Max)" );
                 entry.enabled = false;
             } else {
@@ -2289,7 +2289,7 @@ std::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tri
         }
         study_spell.moves_total = study_time;
         spell &studying = p.magic->get_spell( spell_id( spells[action] ) );
-        if( studying.get_difficulty() < p.get_skill_level( studying.skill() ) ) {
+        if( studying.get_difficulty( p ) < p.get_skill_level( studying.skill() ) ) {
             p.handle_skill_warning( studying.skill(),
                                     true ); // show the skill warning on start reading, since we don't show it during
         }

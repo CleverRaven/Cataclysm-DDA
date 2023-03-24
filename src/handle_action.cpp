@@ -1684,7 +1684,7 @@ bool bionic::activate_spell( Character &caster ) const
         // the return value tells us if the spell fails. if it has no spell it can't fail
         return true;
     }
-    spell sp = id->spell_on_activate->get_spell();
+    spell sp = id->spell_on_activate->get_spell( caster );
     return caster.cast_spell( sp, true );
 }
 
