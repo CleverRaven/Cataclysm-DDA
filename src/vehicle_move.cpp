@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <tuple>
@@ -28,7 +29,6 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
@@ -124,13 +124,13 @@ int vehicle::slowdown( int at_velocity ) const
 }
 
 void vehicle::smart_controller_handle_turn( bool thrusting,
-        const cata::optional<float> &k_traction_cache )
+        const std::optional<float> &k_traction_cache )
 {
     // get settings or defaults
     smart_controller_config cfg = smart_controller_cfg.value_or( smart_controller_config() );
 
     if( !has_enabled_smart_controller ) {
-        smart_controller_state = cata::nullopt;
+        smart_controller_state = std::nullopt;
         return;
     }
 
@@ -181,7 +181,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             add_msg( m_bad, _( "Smart controller is shutting down." ) );
         }
         has_enabled_smart_controller = false;
-        smart_controller_state = cata::nullopt;
+        smart_controller_state = std::nullopt;
         return;
     }
 
@@ -387,7 +387,7 @@ void vehicle::smart_controller_handle_turn( bool thrusting,
             }
         }
         if( failed_to_start ) {
-            this->smart_controller_state = cata::nullopt;
+            this->smart_controller_state = std::nullopt;
 
             for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
                 vehicle_part &vp = parts[engines[c_engines[i]]];
@@ -893,8 +893,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     if( armor_part >= 0 ) {
         ret.part = armor_part;
     }
-
-    int dmg_mod = part_info( ret.part ).dmg_mod;
+    const vehicle_part &vp = this->part( ret.part );
+    const vpart_info &vpi = vp.info();
     // Let's calculate type of collision & mass of object we hit
     float mass2 = 0.0f;
     // e = 0 -> plastic collision
@@ -919,7 +919,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                    !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_TINY, p ) ) &&
                  // Protrusions don't collide with short terrain.
                  // Tiny also doesn't, but it's already excluded unless there's a wheel present.
-                 !( part_with_feature( ret.part, "PROTRUSION", true ) >= 0 &&
+                 !( part_with_feature( vp.mount, "PROTRUSION", true ) >= 0 &&
                     here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_SHORT, p ) ) &&
                  // These are bashable, but don't interact with vehicles.
                  !here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_NOCOLLIDE, p ) &&
@@ -1057,7 +1057,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 }
             }
         } else if( ret.type == veh_coll_body ) {
-            int dam = obj_dmg * dmg_mod / 100;
+            int dam = obj_dmg * vpi.dmg_mod / 100;
 
             // We know critter is set for this type.  Assert to inform static
             // analysis.

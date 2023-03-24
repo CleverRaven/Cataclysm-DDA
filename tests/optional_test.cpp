@@ -1,29 +1,29 @@
 #include <new>
+#include <optional>
 #include <type_traits>
 
 #include "cata_catch.h"
-#include "optional.h"
 
 TEST_CASE( "optional_assignment_works", "[optional]" )
 {
-    cata::optional<int> a( 1 );
+    std::optional<int> a( 1 );
     REQUIRE( a );
     CHECK( *a == 1 );
 
-    cata::optional<int> b( 2 );
-    cata::optional<int> unset;
+    std::optional<int> b( 2 );
+    std::optional<int> unset;
     a = b;
     REQUIRE( a );
     CHECK( *a == 2 );
     a = unset;
     CHECK( !a );
-    a = std::move( b );
+    a = b;
     REQUIRE( a );
     CHECK( *a == 2 );
-    a = std::move( unset );
+    a = unset;
     CHECK( !a );
 
-    const cata::optional<int> c( 3 );
+    const std::optional<int> c( 3 );
     a = c;
     REQUIRE( a );
     CHECK( *a == 3 );
@@ -44,10 +44,10 @@ TEST_CASE( "optional_assignment_works", "[optional]" )
 
 TEST_CASE( "optional_swap", "[optional]" )
 {
-    cata::optional<int> a = GENERATE( cata::optional<int>(), cata::optional<int>( 1 ) );
-    cata::optional<int> b = GENERATE( cata::optional<int>(), cata::optional<int>( 2 ) );
-    cata::optional<int> a_orig = a;
-    cata::optional<int> b_orig = b;
+    std::optional<int> a = GENERATE( std::optional<int>(), std::optional<int>( 1 ) );
+    std::optional<int> b = GENERATE( std::optional<int>(), std::optional<int>( 2 ) );
+    std::optional<int> a_orig = a;
+    std::optional<int> b_orig = b;
     REQUIRE( a == a_orig );
     REQUIRE( b == b_orig );
     std::swap( a, b );

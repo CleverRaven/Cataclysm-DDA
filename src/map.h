@@ -13,6 +13,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <tuple>
 #include <utility>
@@ -36,7 +37,6 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "maptile_fwd.h"
-#include "optional.h"
 #include "point.h"
 #include "reachability_cache.h"
 #include "rng.h"
@@ -123,7 +123,7 @@ struct visibility_variables {
     int g_light_level = 0;
     int u_clairvoyance = 0;
     float vision_threshold = 0.0f;
-    cata::optional<field_type_id> clairvoyance_field;
+    std::optional<field_type_id> clairvoyance_field;
 };
 
 struct bash_params {
@@ -1286,6 +1286,7 @@ class map
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
         // TODO: fix point types (remove the first overload)
+        item_location add_item_ret_loc( const tripoint &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const point &p, const item &obj, bool overflow = true ) {
@@ -1585,6 +1586,9 @@ class map
         template<typename Map>
         static cata::copy_const<Map, field_entry> *get_field_helper(
             Map &m, const tripoint &p, const field_type_id &type );
+
+        std::pair<item *, tripoint> _add_item_or_charges( const tripoint &pos, item obj,
+                bool overflow = true );
     public:
 
         // Splatters of various kind
@@ -2187,11 +2191,11 @@ class map
 
         // caches the highest zlevel above which all zlevels are uniform
         // !value || value->first != map::abs_sub means cache is invalid
-        cata::optional<std::pair<tripoint_abs_sm, int>> max_populated_zlev = cata::nullopt;
+        std::optional<std::pair<tripoint_abs_sm, int>> max_populated_zlev = std::nullopt;
 
         // this is set for maps loaded in bounds of the main map (g->m)
         bool _main_requires_cleanup = false;
-        cata::optional<bool> _main_cleanup_override = cata::nullopt;
+        std::optional<bool> _main_cleanup_override = std::nullopt;
 
     public:
         void queue_main_cleanup();

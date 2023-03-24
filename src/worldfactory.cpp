@@ -179,7 +179,7 @@ WORLD *worldfactory::make_new_world( bool show_prompt, const std::string &world_
     return add_world( std::move( retworld ) );
 }
 
-static cata::optional<std::string> prompt_world_name( const std::string &title,
+static std::optional<std::string> prompt_world_name( const std::string &title,
         const std::string &cur_worldname )
 {
     string_input_popup popup;
@@ -196,7 +196,7 @@ static cata::optional<std::string> prompt_world_name( const std::string &title,
         return true;
     } );
     std::string message = popup.query_string();
-    return !popup.canceled() ? cata::optional<std::string>( message ) : cata::optional<std::string>();
+    return !popup.canceled() ? std::optional<std::string>( message ) : std::optional<std::string>();
 }
 
 int worldfactory::show_worldgen_advanced( WORLD *world )
@@ -229,8 +229,8 @@ int worldfactory::show_worldgen_advanced( WORLD *world )
             curtab += tabs[curtab]( wf_win, world, true );
         }
         if( curtab >= 0 ) {
-            cata::optional<std::string> ret = prompt_world_name( _( "Choose a new name for this world." ),
-                                              world->world_name );
+            std::optional<std::string> ret = prompt_world_name( _( "Choose a new name for this world." ),
+                                             world->world_name );
             if( !ret.has_value() ) {
                 // return to settings tab
                 curtab = 1;
@@ -637,7 +637,7 @@ WORLD *worldfactory::pick_world( bool show_prompt, bool empty_only )
 
         // handle mouse click
         if( action == "SELECT" || action == "MOUSE_MOVE" ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+            std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
             if( !!coord ) {
                 int cnt = run_for_point_in<int, point>( button_map, *coord,
                 [&sel, &on_move]( const std::pair<int, inclusive_rectangle<point>> &p ) {
@@ -975,7 +975,7 @@ void worldfactory::show_active_world_mods( const std::vector<mod_id> &world_mods
         const int scroll_rate = recmax > 20 ? 10 : 3;
 
         if( !world_mods.empty() && action == "MOUSE_MOVE" ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( w_mods );
+            std::optional<point> coord = ctxt.get_coordinates_text( w_mods );
             if( !!coord ) {
                 run_for_point_in<int, point>( ent_map, *coord,
                 [&cursor]( const std::pair<int, inclusive_rectangle<point>> &p ) {
@@ -1376,7 +1376,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
             bool found_opt = false;
             sel_top_tab = 0;
-            cata::optional<point> coord = ctxt.get_coordinates_text( win );
+            std::optional<point> coord = ctxt.get_coordinates_text( win );
             if( !!coord ) {
                 // Mod tabs
                 bool new_val = false;
@@ -1819,7 +1819,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         std::string action = ctxt.handle_input();
         // Handle mouse input
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( w_confirmation );
+            std::optional<point> coord = ctxt.get_coordinates_text( w_confirmation );
             if( !!coord ) {
                 int orig_opt = sel_opt;
                 bool found = run_for_point_in<int, point>( btn_map, *coord,
@@ -1861,7 +1861,7 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         if( action == "CONFIRM" ) {
             if( sel_opt == 0 ) {
                 // rename
-                cata::optional<std::string> ret = prompt_world_name( _( "World name:" ), worldname );
+                std::optional<std::string> ret = prompt_world_name( _( "World name:" ), worldname );
                 if( !ret.value_or( "" ).empty() ) {
                     world->world_name = worldname = ret.value();
                 }

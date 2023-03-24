@@ -3,6 +3,7 @@
 #include <array>
 #include <memory>
 #include <new>
+#include <optional>
 #include <string>
 #include <utility>
 
@@ -29,7 +30,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
-#include "optional.h"
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
@@ -147,7 +147,7 @@ void timed_event::actualize()
         case timed_event_type::AMIGARA: {
             get_event_bus().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
-            cata::optional<tripoint> fault_point;
+            std::optional<tripoint> fault_point;
             bool horizontal = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == t_fault ) {
@@ -289,7 +289,7 @@ void timed_event::actualize()
                 const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
                 monster dispatcher( mon_dsa_alien_dispatch );
                 fake_spell summoning( spell_dks_summon_alrp, true, 12 );
-                summoning.get_spell().cast_all_effects( dispatcher, spot );
+                summoning.get_spell( player_character ).cast_all_effects( dispatcher, spot );
             } else {
                 tinymap mx_map;
                 mx_map.load( map_point, false );

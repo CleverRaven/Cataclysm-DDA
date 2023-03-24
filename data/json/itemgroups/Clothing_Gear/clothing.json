@@ -1976,6 +1976,7 @@
     "entries": [
       { "item": "backpack", "prob": 38 },
       { "item": "backpack_hiking", "prob": 3 },
+      { "item": "backpack_hunting", "prob": 1 },
       { "item": "petpack", "prob": 3 },
       { "item": "backpack_tactical_large", "prob": 1 },
       { "item": "bigback", "prob": 1 },
@@ -1997,6 +1998,7 @@
     "entries": [
       { "item": "backpack", "prob": 38 },
       { "item": "backpack_hiking", "prob": 3 },
+      { "item": "backpack_hunting", "prob": 1 },
       { "item": "daypack", "prob": 3 },
       { "item": "backpack_tactical_large", "prob": 1 },
       { "group": "molle_backpacks_and_accessories", "prob": 1 },
@@ -2744,8 +2746,7 @@
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "optical_cloak", 1 ],
       { "item": "holo_cloak", "prob": 1, "charges": [ 0, 1000 ] },
-      { "item": "mess_kit", "prob": 9, "charges": [ 0, 500 ] },
-      { "item": "mil_mess_kit", "prob": 1, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 9 },
       [ "backpack", 38 ],
       [ "briefcase", 10 ],
       { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
@@ -2771,7 +2772,6 @@
       [ "solarpack", 5 ],
       [ "chem_hexamine", 3 ],
       { "item": "esbit_stove", "prob": 6, "charges": [ 0, 50 ] },
-      [ "mess_tin", 4 ],
       { "group": "full_survival_kit", "prob": 4 }
     ]
   },
@@ -4342,6 +4342,7 @@
       { "item": "ring_wedding", "prob": 1 },
       { "item": "american_flag", "prob": 1 },
       { "item": "pride_flag", "prob": 1 },
+      { "item": "national_flag", "prob": 1 },
       { "item": "state_flag", "prob": 1 },
       { "item": "tool_belt", "prob": 2 },
       { "group": "flask_liquor", "prob": 3 }

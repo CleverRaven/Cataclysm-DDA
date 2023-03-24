@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <tuple>
@@ -54,7 +55,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -493,7 +493,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Spell;
     ui.casting = &casting;
-    ui.range = casting.range();
+    ui.range = casting.range( you );
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
 
@@ -1106,9 +1106,9 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     return std::max( 0, dispersion );
 }
 
-static cata::optional<int> character_throw_assist( const Character &guy )
+static std::optional<int> character_throw_assist( const Character &guy )
 {
-    cata::optional<int> throw_assist = cata::nullopt;
+    std::optional<int> throw_assist = std::nullopt;
     if( guy.is_mounted() ) {
         auto *mons = guy.mounted_creature.get();
         if( mons->mech_str_addition() != 0 ) {
@@ -1131,7 +1131,7 @@ static int throwing_skill_adjusted( const Character &guy )
 
 int Character::thrown_item_adjusted_damage( const item &thrown ) const
 {
-    const cata::optional<int> throw_assist = character_throw_assist( *this );
+    const std::optional<int> throw_assist = character_throw_assist( *this );
     const bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                             !throw_assist;
 
@@ -1186,7 +1186,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
 }
 
 dealt_projectile_attack Character::throw_item( const tripoint &target, const item &to_throw,
-        const cata::optional<tripoint> &blind_throw_from_pos )
+        const std::optional<tripoint> &blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
     item thrown = to_throw;
@@ -1197,7 +1197,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const int throwing_skill = get_skill_level( skill_throw );
     const units::volume volume = to_throw.volume();
     const units::mass weight = to_throw.weight();
-    const cata::optional<int> throw_assist = character_throw_assist( *this );
+    const std::optional<int> throw_assist = character_throw_assist( *this );
 
     if( !throw_assist ) {
         const int stamina_cost = get_standard_stamina_cost( &thrown );
@@ -1323,7 +1323,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
         practice( skill_throw, 5, 2 );
     }
     // Reset last target pos
-    last_target_pos = cata::nullopt;
+    last_target_pos = std::nullopt;
     recoil = MAX_RECOIL;
 
     return dealt_attack;
@@ -2597,7 +2597,7 @@ target_handler::trajectory target_ui::run()
             if( status != Status::Good ) {
                 continue;
             }
-            bool can_skip_confirm = mode == TargetMode::Spell && casting->damage() <= 0;
+            bool can_skip_confirm = mode == TargetMode::Spell && casting->damage( player_character ) <= 0;
             if( !can_skip_confirm && !confirm_non_enemy_target() ) {
                 continue;
             }
@@ -2653,7 +2653,7 @@ target_handler::trajectory target_ui::run()
             break;
         }
         case ExitCode::Fire: {
-            bool harmful = !( mode == TargetMode::Spell && casting->damage() <= 0 );
+            bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
             on_target_accepted( harmful );
             break;
         }
@@ -2762,7 +2762,7 @@ void target_ui::init_window_and_input()
 
 bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_redraw )
 {
-    cata::optional<tripoint> mouse_pos;
+    std::optional<tripoint> mouse_pos;
     const auto shift_view_or_cursor = [this]( const tripoint & delta ) {
         if( this->shifting_view ) {
             this->set_view_offset( this->you->view_offset + delta );
@@ -2786,7 +2786,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
                 set_view_offset( you->view_offset + edge_scroll );
             }
         }
-    } else if( const cata::optional<tripoint> delta = ctxt.get_direction( action ) ) {
+    } else if( const std::optional<tripoint> delta = ctxt.get_direction( action ) ) {
         // Shift view/cursor with directional keys
         shift_view_or_cursor( *delta );
     } else if( action == "SELECT" &&
@@ -2928,15 +2928,15 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
         switch( casting->shape() ) {
             case spell_shape::blast:
                 spell_aoe = spell_effect::spell_effect_blast(
-                                spell_effect::override_parameters( *casting ), src, dst );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             case spell_shape::cone:
                 spell_aoe = spell_effect::spell_effect_cone(
-                                spell_effect::override_parameters( *casting ), src, dst );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             case spell_shape::line:
                 spell_aoe = spell_effect::spell_effect_line(
-                                spell_effect::override_parameters( *casting ), src, dst );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             default:
                 spell_aoe.clear();
@@ -3838,10 +3838,10 @@ void target_ui::panel_spell_info( int &text_y )
     }
     print_colored_text( w_target, point( 1, text_y++ ), clr, clr, fail_str );
 
-    if( casting->aoe() > 0 ) {
+    if( casting->aoe( get_player_character() ) > 0 ) {
         nc_color color = c_light_gray;
         const std::string fx = casting->effect();
-        const std::string aoes = casting->aoe_string();
+        const std::string aoes = casting->aoe_string( get_player_character() );
         if( fx == "attack" || fx == "area_pull" || fx == "area_push" || fx == "ter_transform" ) {
 
             if( casting->shape() == spell_shape::cone ) {
@@ -3853,13 +3853,14 @@ void target_ui::panel_spell_info( int &text_y )
             } else {
                 text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
                                           _( "Effective Spell Radius: %s%s" ), aoes,
-                                          casting->in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
+                                          casting->in_aoe( src, dst, get_player_character() ) ? colorize( _( " WARNING!  IN RANGE" ),
+                                                  c_red ) : "" );
             }
         }
     }
 
     mvwprintz( w_target, point( 1, text_y++ ), c_light_red, _( "Damage: %s" ),
-               casting->damage_string() );
+               casting->damage_string( get_player_character() ) );
 
     text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, clr,
                               casting->description() );

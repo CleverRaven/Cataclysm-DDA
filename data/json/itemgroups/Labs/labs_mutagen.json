@@ -45,7 +45,6 @@
       { "item": "fish", "prob": 40, "count": [ 1, 3 ] },
       { "item": "tallow_tainted", "prob": 20, "count": [ 1, 2 ] },
       { "item": "egg_bird_unfert", "prob": 30, "count-min": 1, "count-max": 12 },
-      { "item": "spider_egg", "prob": 20, "count-min": 1, "count-max": 12 },
       { "item": "gastropod_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "batrachian_sample", "prob": 40, "count": [ 1, 3 ] },
       { "item": "insect_sample", "prob": 40, "count": [ 1, 3 ] },

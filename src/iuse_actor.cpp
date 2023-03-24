@@ -211,7 +211,7 @@ void iuse_transform::load( const JsonObject &obj )
     obj.read( "menu_text", menu_text );
 }
 
-cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tripoint &pos ) const
+std::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tripoint &pos ) const
 {
     int scale = 1;
     auto iter = it.type->ammo_scale.find( type );
@@ -219,7 +219,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         scale = iter->second;
     }
     if( t ) {
-        return cata::nullopt; // invoked from active item processing, do nothing.
+        return std::nullopt; // invoked from active item processing, do nothing.
     }
 
     int result = 0;
@@ -229,15 +229,15 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
 
     if( possess && need_worn && !p.is_worn( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( possess && need_wielding && !p.is_wielding( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( need_empty && !it.empty() ) {
         p.add_msg_if_player( m_info, _( "You need to empty the %1$s before activating it." ), it.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( p.is_worn( it ) ) {
@@ -248,7 +248,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
                 if( branch.conflicts_with_item( tmp ) ) {
                     p.add_msg_if_player( m_info, _( "Your %1$s mutation prevents you from doing that." ),
                                          p.mutation_name( mut ) );
-                    return cata::nullopt;
+                    return std::nullopt;
                 }
             }
         }
@@ -259,17 +259,17 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( need_fire && possess ) {
         if( !p.use_charges_if_avail( itype_fire, need_fire ) ) {
             p.add_msg_if_player( m_info, need_fire_msg, it.tname() );
-            return cata::nullopt;
+            return std::nullopt;
         }
         if( p.is_underwater() ) {
             p.add_msg_if_player( m_info, _( "You can't do that while underwater" ) );
-            return cata::nullopt;
+            return std::nullopt;
         }
     }
 
@@ -444,7 +444,7 @@ void unpack_actor::load( const JsonObject &obj )
     assign( obj, "filthy_volume_threshold", filthy_vol_threshold );
 }
 
-cata::optional<int> unpack_actor::use( Character &p, item &it, bool, const tripoint & ) const
+std::optional<int> unpack_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     std::vector<item> items = item_group::items_from( unpack_group, calendar::turn );
     item last_armor;
@@ -497,15 +497,15 @@ void countdown_actor::load( const JsonObject &obj )
     obj.read( "message", message );
 }
 
-cata::optional<int> countdown_actor::use( Character &p, item &it, bool t,
+std::optional<int> countdown_actor::use( Character &p, item &it, bool t,
         const tripoint &pos ) const
 {
     if( t ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( it.active ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( p.sees( pos ) && !message.empty() ) {
@@ -604,7 +604,7 @@ void explosion_iuse::load( const JsonObject &obj )
     obj.read( "no_deactivate_msg", no_deactivate_msg );
 }
 
-cata::optional<int> explosion_iuse::use( Character &p, item &it, bool t, const tripoint &pos ) const
+std::optional<int> explosion_iuse::use( Character &p, item &it, bool t, const tripoint &pos ) const
 {
     if( t ) {
         if( sound_volume >= 0 ) {
@@ -622,7 +622,7 @@ cata::optional<int> explosion_iuse::use( Character &p, item &it, bool t, const t
                 p.add_msg_if_player( m_info, no_deactivate_msg.translated(), it.tname() );
             }
         }
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( explosion.power >= 0.0f ) {
@@ -742,7 +742,7 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const tripoint & ) const
+std::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const tripoint & ) const
 {
     auto need_these = tools_needed;
 
@@ -753,7 +753,7 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( tool.first ),
                                      it.type_name( 1 ) );
-            return cata::nullopt;
+            return std::nullopt;
         }
     }
     for( const auto &consumable : charges_needed ) {
@@ -764,7 +764,7 @@ cata::optional<int> consume_drug_iuse::use( Character &p, item &it, bool, const 
                                      _( "I need a %1$s to consume %2$s!" ),
                                      item::nname( consumable.first ),
                                      it.type_name( 1 ) );
-            return cata::nullopt;
+            return std::nullopt;
         }
     }
     // Apply the various effects.
@@ -839,12 +839,12 @@ int delayed_transform_iuse::time_to_do( const item &it ) const
     return transform_age - to_turns<int>( it.age() );
 }
 
-cata::optional<int> delayed_transform_iuse::use( Character &p, item &it, bool t,
+std::optional<int> delayed_transform_iuse::use( Character &p, item &it, bool t,
         const tripoint &pos ) const
 {
     if( time_to_do( it ) > 0 ) {
         p.add_msg_if_player( m_info, "%s", not_ready_msg );
-        return cata::nullopt;
+        return std::nullopt;
     }
     return iuse_transform::use( p, it, t, pos );
 }
@@ -874,11 +874,11 @@ void place_monster_iuse::load( const JsonObject &obj )
     }
 }
 
-cata::optional<int> place_monster_iuse::use( Character &p, item &it, bool, const tripoint & ) const
+std::optional<int> place_monster_iuse::use( Character &p, item &it, bool, const tripoint & ) const
 {
     if( it.ammo_remaining() < need_charges ) {
         p.add_msg_if_player( m_info, _( "This requires %d charges to activate." ), need_charges );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
@@ -889,18 +889,18 @@ cata::optional<int> place_monster_iuse::use( Character &p, item &it, bool, const
         if( !g->place_critter_around( newmon_ptr, p.pos(), 1 ) ) {
             p.add_msg_if_player( m_info, _( "There is no adjacent square to release the %s in!" ),
                                  newmon.name() );
-            return cata::nullopt;
+            return std::nullopt;
         }
     } else {
         const std::string query = string_format( _( "Place the %s where?" ), newmon.name() );
-        const cata::optional<tripoint> pnt_ = choose_adjacent( query );
+        const std::optional<tripoint> pnt_ = choose_adjacent( query );
         if( !pnt_ ) {
-            return cata::nullopt;
+            return std::nullopt;
         }
         // place_critter_at returns the same pointer as its parameter (or null)
         if( !g->place_critter_at( newmon_ptr, *pnt_ ) ) {
             p.add_msg_if_player( m_info, _( "You cannot place a %s there." ), newmon.name() );
-            return cata::nullopt;
+            return std::nullopt;
         }
     }
     p.moves -= moves;
@@ -967,14 +967,14 @@ void place_npc_iuse::load( const JsonObject &obj )
     obj.read( "place_randomly", place_randomly );
 }
 
-cata::optional<int> place_npc_iuse::use( Character &p, item &, bool, const tripoint & ) const
+std::optional<int> place_npc_iuse::use( Character &p, item &, bool, const tripoint & ) const
 {
     map &here = get_map();
     const tripoint_range<tripoint> target_range = place_randomly ?
             points_in_radius( p.pos(), radius ) :
             points_in_radius( choose_adjacent( _( "Place npc where?" ) ).value_or( p.pos() ), 0 );
 
-    const cata::optional<tripoint> target_pos =
+    const std::optional<tripoint> target_pos =
     random_point( target_range, [&here]( const tripoint & t ) {
         return here.passable( t ) && here.has_floor_or_support( t ) &&
                !get_creature_tracker().creature_at( t );
@@ -982,7 +982,7 @@ cata::optional<int> place_npc_iuse::use( Character &p, item &, bool, const tripo
 
     if( !target_pos.has_value() ) {
         p.add_msg_if_player( m_info, _( "There is no square to spawn npc in!" ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     here.place_npc( target_pos.value().xy(), npc_class_id );
@@ -1044,26 +1044,26 @@ void deploy_furn_actor::load( const JsonObject &obj )
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
 }
 
-cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
+std::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         const tripoint &pos ) const
 {
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     tripoint pnt = pos;
     if( pos == p.pos() ) {
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
+        if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Deploy where?" ) ) ) {
             pnt = *pnt_;
         } else {
-            return cata::nullopt;
+            return std::nullopt;
         }
     }
 
     if( pnt == p.pos() ) {
         p.add_msg_if_player( m_info,
                              _( "You attempt to become one with the furniture.  It doesn't work." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     map &here = get_map();
@@ -1073,18 +1073,18 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         // and/or integrate furniture deployment with construction (which already seems to perform these checks sometimes?)
         p.add_msg_if_player( m_info, _( "The space under %s is too cramped to deploy a %s in." ),
                              veh_there.value().vehicle().disp_name(), it.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // For example: dirt = 2, long grass = 3
     if( here.move_cost( pnt ) != 2 && here.move_cost( pnt ) != 3 ) {
         p.add_msg_if_player( m_info, _( "You can't deploy a %s there." ), it.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( here.has_furn( pnt ) ) {
         p.add_msg_if_player( m_info, _( "There is already furniture at that location." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( here.has_items( pnt ) ) {
@@ -1094,7 +1094,7 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         for( item &i : temp.i_at( pnt ) ) {
             if( !i.is_owned_by( p, true ) ) {
                 p.add_msg_if_player( m_info, _( "You can't deploy furniture on other people's belongings!" ) );
-                return cata::nullopt;
+                return std::nullopt;
             }
         }
 
@@ -1109,7 +1109,7 @@ cata::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
             } else {
                 p.add_msg_if_player( m_info,
                                      _( "You need a mop to clean up liquids before deploying furniture." ) );
-                return cata::nullopt;
+                return std::nullopt;
             }
         }
     }
@@ -1156,14 +1156,14 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
     }
 }
 
-cata::optional<int> reveal_map_actor::use( Character &p, item &it, bool, const tripoint & ) const
+std::optional<int> reveal_map_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     if( it.already_used_by_player( p ) ) {
         p.add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     } else if( p.fine_detail_vision_mod() > 4 ) {
         p.add_msg_if_player( _( "It's too dark to read." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
                                    p.global_omt_location().raw() ) );
@@ -1195,7 +1195,7 @@ bool firestarter_actor::prep_firestarter_use( const Character &p, tripoint_bub_m
 {
     // checks for fuel are handled by use and the activity, not here
     if( pos == p.pos_bub() ) {
-        if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
+        if( const std::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             // TODO: fix point types
             pos = tripoint_bub_ms( *pnt_ );
         } else {
@@ -1328,18 +1328,18 @@ int firestarter_actor::moves_cost_by_fuel( const tripoint_bub_ms &pos ) const
     return moves_cost_slow;
 }
 
-cata::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
+std::optional<int> firestarter_actor::use( Character &p, item &it, bool t,
         const tripoint &spos ) const
 {
     if( t ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // TODO: fix point types
     tripoint_bub_ms pos( spos );
     float light = light_mod( p.pos() );
     if( !prep_firestarter_use( p, pos ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     double skill_level = p.get_skill_level( skill_survival );
@@ -1389,32 +1389,32 @@ std::unique_ptr<iuse_actor> salvage_actor::clone() const
     return std::make_unique<salvage_actor>( *this );
 }
 
-cata::optional<int> salvage_actor::use( Character &p, item &cutter, bool t, const tripoint & ) const
+std::optional<int> salvage_actor::use( Character &p, item &cutter, bool t, const tripoint & ) const
 {
     if( t ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     item_location item_loc = game_menus::inv::salvage( p, this );
     if( !item_loc ) {
         add_msg( _( "Never mind." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     return salvage_actor::try_to_cut_up( p, cutter, item_loc );
 }
 
-cata::optional<int> salvage_actor::try_to_cut_up
+std::optional<int> salvage_actor::try_to_cut_up
 ( Character &p, item &cutter, item_location &cut ) const
 {
     if( !valid_to_cut_up( &p, *cut.get_item() ) ) {
         // Messages should have already been displayed.
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( &cutter == cut.get_item() ) {
         add_msg( m_info, _( "You can not cut the %s with itself." ), cutter.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     salvage_actor::cut_up( p, cut );
@@ -1427,7 +1427,7 @@ static void visit_salvage_products( const item &it,
                                     const std::function<void( const item & )> &func )
 {
     for( const auto &material : it.made_of() ) {
-        if( const cata::optional<itype_id> id = material.first->salvaged_into() ) {
+        if( const std::optional<itype_id> id = material.first->salvaged_into() ) {
             item exemplar( *id );
             func( exemplar );
         }
@@ -1444,7 +1444,7 @@ static units::mass proportional_weight( const item &it, int material_portions )
 static bool can_produce_results( const item &it )
 {
     for( const std::pair<const material_id, int> &mat : it.made_of() ) {
-        if( const cata::optional<itype_id> mat_id = mat.first->salvaged_into() ) {
+        if( const std::optional<itype_id> mat_id = mat.first->salvaged_into() ) {
             item material( *mat_id );
             if( material.count_by_charges() ) {
                 material.charges = 1;
@@ -1516,7 +1516,7 @@ bool salvage_actor::valid_to_cut_up( const Character *const p, const item &it ) 
 
 // Find a recipe that can be used to craft item x. Searches craft and uncraft recipes
 // Used only by salvage_actor::cut_up
-static cata::optional<recipe> find_uncraft_recipe( const item &x )
+static std::optional<recipe> find_uncraft_recipe( const item &x )
 {
     auto is_valid_uncraft = [&x]( const recipe & curr ) -> bool {
         return !( curr.obsolete || curr.result() != x.typeId()
@@ -1536,7 +1536,7 @@ static cata::optional<recipe> find_uncraft_recipe( const item &x )
     if( iter != recipe_dict.end() ) {
         return iter->second;
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 void salvage_actor::cut_up( Character &p, item_location &cut ) const
@@ -1616,7 +1616,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
         }
 
         // Try to find an available recipe and "restore" its components
-        cata::optional<recipe> uncraft = find_uncraft_recipe( curr );
+        std::optional<recipe> uncraft = find_uncraft_recipe( curr );
         if( uncraft )
         {
             const requirement_data requirements = uncraft->simple_requirements();
@@ -1656,7 +1656,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
 
     // Add the uniformly distributed mass to the relevant salvage items
     for( const auto &iter : mat_to_weight ) {
-        if( const cata::optional<itype_id> id = iter.first->salvaged_into() ) {
+        if( const std::optional<itype_id> id = iter.first->salvaged_into() ) {
             salvage[*id] += iter.second / id->obj().weight;
         }
     }
@@ -1800,10 +1800,10 @@ bool inscribe_actor::item_inscription( item &tool, item &cut ) const
     return true;
 }
 
-cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const tripoint & ) const
+std::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     int choice = INT_MAX;
@@ -1821,13 +1821,13 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
     }
 
     if( choice < 0 || choice > 1 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( choice == 0 ) {
-        const cata::optional<tripoint> dest_ = choose_adjacent( _( "Write where?" ) );
+        const std::optional<tripoint> dest_ = choose_adjacent( _( "Write where?" ) );
         if( !dest_ ) {
-            return cata::nullopt;
+            return std::nullopt;
         }
         return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), verb ),
                                              dest_.value() );
@@ -1836,7 +1836,7 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
     item_location loc = game_menus::inv::titled_menu( get_avatar(), _( "Inscribe which item?" ) );
     if( !loc ) {
         p.add_msg_if_player( m_info, _( "Never mind." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     item &cut = *loc;
     if( &cut == &it ) {
@@ -1849,7 +1849,7 @@ cata::optional<int> inscribe_actor::use( Character &p, item &it, bool t, const t
         return cost >= 0 ? cost : 1;
     }
 
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 void fireweapon_off_actor::load( const JsonObject &obj )
@@ -1868,16 +1868,16 @@ std::unique_ptr<iuse_actor> fireweapon_off_actor::clone() const
     return std::make_unique<fireweapon_off_actor>( *this );
 }
 
-cata::optional<int> fireweapon_off_actor::use( Character &p, item &it, bool t,
+std::optional<int> fireweapon_off_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
     if( t ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( it.charges <= 0 ) {
         p.add_msg_if_player( "%s", lacks_fuel_message );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     p.moves -= moves;
@@ -1930,7 +1930,7 @@ std::unique_ptr<iuse_actor> fireweapon_on_actor::clone() const
     return std::make_unique<fireweapon_on_actor>( *this );
 }
 
-cata::optional<int> fireweapon_on_actor::use( Character &p, item &it, bool t,
+std::optional<int> fireweapon_on_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
     bool extinguish = true;
@@ -1976,14 +1976,14 @@ std::unique_ptr<iuse_actor> manualnoise_actor::clone() const
     return std::make_unique<manualnoise_actor>( *this );
 }
 
-cata::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, const tripoint & ) const
+std::optional<int> manualnoise_actor::use( Character &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( !it.ammo_sufficient( &p ) ) {
         p.add_msg_if_player( "%s", no_charges_message );
-        return cata::nullopt;
+        return std::nullopt;
     }
     {
         p.moves -= moves;
@@ -2025,7 +2025,7 @@ void musical_instrument_actor::load( const JsonObject &obj )
     obj.read( "npc_descriptions", npc_descriptions );
 }
 
-cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool t,
+std::optional<int> musical_instrument_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
     if( !p.is_npc() && music::is_active_music_id( music::music_id::instrument ) ) {
@@ -2040,14 +2040,14 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
         p.add_msg_player_or_npc( m_bad, _( "You can't play music while mounted." ),
                                  _( "<npcname> can't play music while mounted." ) );
         it.active = false;
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( p.is_underwater() ) {
         p.add_msg_player_or_npc( m_bad,
                                  _( "You can't play music underwater." ),
                                  _( "<npcname> can't play music underwater." ) );
         it.active = false;
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // Stop playing a wind instrument when winded or even eventually become winded while playing it?
@@ -2059,7 +2059,7 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
                                  _( "<npcname> stops playing their %s." ),
                                  it.display_name() );
         it.active = false;
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( !t && it.active ) {
@@ -2067,7 +2067,7 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
                                  _( "<npcname> stops playing their %s." ),
                                  it.display_name() );
         it.active = false;
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // Check for worn or wielded - no "floating"/bionic instruments for now
@@ -2079,7 +2079,7 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
                                  _( "<npcname> needs to hold or wear %s to play it." ),
                                  it.display_name() );
         it.active = false;
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // At speed this low you can't coordinate your actions well enough to play the instrument
@@ -2089,7 +2089,7 @@ cata::optional<int> musical_instrument_actor::use( Character &p, item &it, bool 
                                  _( "<npcname> feels too weak to play their %s." ),
                                  it.display_name() );
         it.active = false;
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // We can play the music now
@@ -2186,17 +2186,20 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     dump.emplace_back( "DESCRIPTION", message );
     dump.emplace_back( "DESCRIPTION", _( "Spells Contained:" ) );
     avatar &pc = get_avatar();
-    std::string spell_text;
     for( const std::string &sp_id_str : spells ) {
         const spell_id sp_id( sp_id_str );
-        spell_text = sp_id.obj().name.translated();
+        std::string spell_text = sp_id->name.translated();
+        if( sp_id->spell_class.is_valid() ) {
+            spell_text = string_format( pgettext( "spell name, spell class", "%s, %s" ),
+                                        spell_text, sp_id->spell_class->name() );
+        }
         if( pc.has_trait( trait_ILLITERATE ) ) {
             dump.emplace_back( "SPELL", spell_text );
         } else {
             if( pc.magic->knows_spell( sp_id ) ) {
                 const spell sp = pc.magic->get_spell( sp_id );
                 spell_text += ": " + string_format( _( "Level %u" ), sp.get_level() );
-                if( sp.is_max_level() ) {
+                if( sp.is_max_level( pc ) ) {
                     spell_text = string_format( _( "<color_light_green>%1$s (Max)</color>" ), spell_text );
                 } else {
                     spell_text = string_format( "<color_yellow>%s</color>", spell_text );
@@ -2211,15 +2214,15 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tripoint & ) const
+std::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tripoint & ) const
 {
     if( p.fine_detail_vision_mod() > 4 ) {
         p.add_msg_if_player( _( "It's too dark to read." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( p.has_trait( trait_ILLITERATE ) ) {
         p.add_msg_if_player( _( "You can't read." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     std::vector<uilist_entry> uilist_initializer;
     uilist spellbook_uilist;
@@ -2232,7 +2235,7 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
         if( p.magic->knows_spell( sp_id ) ) {
             const spell sp = p.magic->get_spell( sp_id );
             entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
-            if( sp.is_max_level() ) {
+            if( sp.is_max_level( p ) ) {
                 entry.ctxt += _( " (Max)" );
                 entry.enabled = false;
             } else {
@@ -2252,7 +2255,7 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
 
     if( know_it_all ) {
         add_msg( m_info, _( "You already know everything this could teach you." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     spellbook_uilist.entries = uilist_initializer;
@@ -2264,7 +2267,7 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
     spellbook_uilist.query();
     const int action = spellbook_uilist.ret;
     if( action < 0 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const bool knows_spell = p.magic->knows_spell( spells[action] );
     player_activity study_spell( ACT_STUDY_SPELL,
@@ -2285,11 +2288,11 @@ cata::optional<int> learn_spell_actor::use( Character &p, item &, bool, const tr
             { 10100, true, -1, _( "Until you gain a spell level" ) }
         } );
         if( study_time <= 0 ) {
-            return cata::nullopt;
+            return std::nullopt;
         }
         study_spell.moves_total = study_time;
         spell &studying = p.magic->get_spell( spell_id( spells[action] ) );
-        if( studying.get_difficulty() < p.get_skill_level( studying.skill() ) ) {
+        if( studying.get_difficulty( p ) < p.get_skill_level( studying.skill() ) ) {
             p.handle_skill_warning( studying.skill(),
                                     true ); // show the skill warning on start reading, since we don't show it during
         }
@@ -2342,15 +2345,15 @@ std::string cast_spell_actor::get_name() const
     return mundane ? _( "Activate" ) : _( "Cast spell" );
 }
 
-cata::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tripoint & ) const
+std::optional<int> cast_spell_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     if( need_worn && !p.is_worn( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( need_wielding && !p.is_wielding( it ) ) {
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     spell casting = spell( spell_id( item_spell ) );
@@ -2460,11 +2463,11 @@ static item_location form_loc( Character &you, const tripoint &p, item &it )
     return item_location( you, &it );
 }
 
-cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tripoint &p ) const
+std::optional<int> holster_actor::use( Character &you, item &it, bool, const tripoint &p ) const
 {
     if( you.is_wielding( it ) ) {
         you.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     int pos = 0;
@@ -2499,14 +2502,14 @@ cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tr
 
     if( pos < -1 ) {
         you.add_msg_if_player( _( "Never mind." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( pos >= 0 ) {
         item_location weapon =  you.get_wielded_item();
         if( weapon && weapon.get_item()->has_flag( flag_NO_UNWIELD ) ) {
             you.add_msg_if_player( m_bad, _( "You can't unwield your %s." ), weapon.get_item()->tname() );
-            return cata::nullopt;
+            return std::nullopt;
         }
 
         // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
@@ -2518,7 +2521,7 @@ cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tr
 
     } else {
         if( you.as_avatar() == nullptr ) {
-            return cata::nullopt;
+            return std::nullopt;
         }
 
         // iuse_actor really needs to work with item_location
@@ -2551,14 +2554,14 @@ void ammobelt_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        item::nname( belt ) ) );
 }
 
-cata::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripoint & ) const
+std::optional<int> ammobelt_actor::use( Character &p, item &, bool, const tripoint & ) const
 {
     item mag( belt );
     mag.ammo_unset();
 
     if( p.rate_action_reload( mag ) != hint_rating::good ) {
         p.add_msg_if_player( _( "Insufficient ammunition to assemble %s" ), mag.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     item_location loc = p.i_add( mag );
@@ -2659,11 +2662,11 @@ static item_location get_item_location( Character &p, item &it, const tripoint &
     return item_location( map_cursor( pos ), &it );
 }
 
-cata::optional<int> repair_item_actor::use( Character &p, item &it, bool,
+std::optional<int> repair_item_actor::use( Character &p, item &it, bool,
         const tripoint &position ) const
 {
     if( !can_use_tool( p, it, true ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     p.assign_activity( ACT_REPAIR_ITEM, 0, p.get_item_position( &it ), INT_MIN );
@@ -3306,25 +3309,25 @@ static Character &get_patient( Character &healer, const tripoint &pos )
     return *person;
 }
 
-cata::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoint &pos ) const
+std::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoint &pos ) const
 {
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( it.is_filthy() ) {
         p.add_msg_if_player( m_info, _( "You can't use filthy items for healing." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     Character &patient = get_patient( p, pos );
     const bodypart_str_id hpp = use_healing_item( p, patient, it, false ).id();
     if( hpp == bodypart_str_id::NULL_ID() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // each tier of proficiency cuts required time by half
@@ -3839,26 +3842,26 @@ static void place_and_add_as_known( Character &p, const tripoint &pos, const tra
     }
 }
 
-cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const tripoint & ) const
+std::optional<int> place_trap_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     const bool could_bury = !bury_question.empty();
     if( !allow_underwater && p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
-    const cata::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
-                                          it.tname() ) );
+    const std::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
+                                         it.tname() ) );
     if( !pos_ ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     tripoint pos = *pos_;
 
     if( !is_allowed( p, pos, it.tname() ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     map &here = get_map();
@@ -3874,7 +3877,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
                 p.add_msg_if_player( m_info,
                                      _( "That trap needs a space in %d tiles radius to be clear, centered %d tiles from you." ),
                                      outer_layer_trap.obj().get_trap_radius(), distance_to_trap_center );
-                return cata::nullopt;
+                return std::nullopt;
             }
         }
     }
@@ -3922,7 +3925,7 @@ void emit_actor::load( const JsonObject &obj )
     assign( obj, "scale_qty", scale_qty );
 }
 
-cata::optional<int> emit_actor::use( Character &, item &it, bool, const tripoint &pos ) const
+std::optional<int> emit_actor::use( Character &, item &it, bool, const tripoint &pos ) const
 {
     map &here = get_map();
     const float scaling = scale_qty ? it.charges : 1.0f;
@@ -3962,17 +3965,17 @@ void saw_barrel_actor::load( const JsonObject &jo )
 }
 
 //Todo: Make this consume charges if performed with a tool that uses charges.
-cata::optional<int> saw_barrel_actor::use( Character &p, item &it, bool t, const tripoint & ) const
+std::optional<int> saw_barrel_actor::use( Character &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     item_location loc = game_menus::inv::saw_barrel( p, it );
 
     if( !loc ) {
         p.add_msg_if_player( _( "Never mind." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     item &obj = *loc.obtain( p );
@@ -4021,17 +4024,17 @@ void saw_stock_actor::load( const JsonObject &jo )
 }
 
 //Todo: Make this consume charges if performed with a tool that uses charges.
-cata::optional<int> saw_stock_actor::use( Character &p, item &it, bool t, const tripoint & ) const
+std::optional<int> saw_stock_actor::use( Character &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     item_location loc = game_menus::inv::saw_stock( p, it );
 
     if( !loc ) {
         p.add_msg_if_player( _( "Never mind." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     item &obj = *loc.obtain( p );
@@ -4094,18 +4097,18 @@ void molle_attach_actor::load( const JsonObject &jo )
     assign( jo, "moves", moves );
 }
 
-cata::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
+std::optional<int> molle_attach_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
     if( t ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     item_location loc = game_menus::inv::molle_attach( p, it );
 
     if( !loc ) {
         p.add_msg_if_player( _( "Never mind." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     item &obj = *loc.get_item();
@@ -4124,7 +4127,7 @@ std::unique_ptr<iuse_actor> molle_attach_actor::clone() const
     return std::make_unique<molle_attach_actor>( *this );
 }
 
-cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
+std::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
         const tripoint & ) const
 {
 
@@ -4145,7 +4148,7 @@ cata::optional<int> molle_detach_actor::use( Character &p, item &it, bool,
     }
 
     p.add_msg_if_player( _( "Never mind." ) );
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 std::unique_ptr<iuse_actor> molle_detach_actor::clone() const
@@ -4158,7 +4161,7 @@ void molle_detach_actor::load( const JsonObject &jo )
     assign( jo, "moves", moves );
 }
 
-cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,
+std::optional<int> install_bionic_actor::use( Character &p, item &it, bool,
         const tripoint & ) const
 {
     if( p.can_install_bionics( *it.type, p, false ) ) {
@@ -4170,7 +4173,7 @@ cata::optional<int> install_bionic_actor::use( Character &p, item &it, bool,
             return 1;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 ret_val<void> install_bionic_actor::can_use( const Character &p, const item &it, bool,
@@ -4230,7 +4233,7 @@ void install_bionic_actor::finalize( const itype_id &my_item_type )
     }
 }
 
-cata::optional<int> detach_gunmods_actor::use( Character &p, item &it, bool,
+std::optional<int> detach_gunmods_actor::use( Character &p, item &it, bool,
         const tripoint & ) const
 {
     auto filter_irremovable = []( std::vector<item *> &gunmods ) {
@@ -4272,7 +4275,7 @@ cata::optional<int> detach_gunmods_actor::use( Character &p, item &it, bool,
     }
 
     p.add_msg_if_player( _( "Never mind." ) );
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 ret_val<void> detach_gunmods_actor::can_use( const Character &p, const item &it, bool,
@@ -4314,7 +4317,7 @@ void detach_gunmods_actor::finalize( const itype_id &my_item_type )
     }
 }
 
-cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
+std::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
         const tripoint &pnt ) const
 {
 
@@ -4343,7 +4346,7 @@ cata::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
     }
 
     p.add_msg_if_player( _( "Never mind." ) );
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 ret_val<void> modify_gunmods_actor::can_use( const Character &p, const item &it, bool,
@@ -4403,17 +4406,17 @@ void deploy_tent_actor::load( const JsonObject &obj )
     assign( obj, "broken_type", broken_type );
 }
 
-cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const tripoint & ) const
+std::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     int diam = 2 * radius + 1;
     if( p.is_mounted() ) {
         p.add_msg_if_player( _( "You cannot do that while mounted." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
-    const cata::optional<tripoint> dir = choose_direction( string_format(
-            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
+    const std::optional<tripoint> dir = choose_direction( string_format(
+                                            _( "Put up the %s where (%dx%d clear area)?" ), it.tname(), diam, diam ) );
     if( !dir ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     const tripoint direction = *dir;
 
@@ -4427,20 +4430,20 @@ cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const 
     for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
-            return cata::nullopt;
+            return std::nullopt;
         }
         if( const Creature *const c = creatures.creature_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
-            return cata::nullopt;
+            return std::nullopt;
         }
         if( here.impassable( dest ) || !here.has_flag( ter_furn_flag::TFLAG_FLAT, dest ) ) {
             add_msg( m_info, _( "The %s in that direction isn't suitable for placing the %s." ),
                      here.name( dest ), it.tname() );
-            return cata::nullopt;
+            return std::nullopt;
         }
         if( here.has_furn( dest ) ) {
             add_msg( m_info, _( "There is already furniture (%s) there." ), here.furnname( dest ) );
-            return cata::nullopt;
+            return std::nullopt;
         }
     }
 
@@ -4482,11 +4485,11 @@ void weigh_self_actor::info( const item &, std::vector<iteminfo> &dump ) const
                        _( "Use this item to weigh yourself.  Includes everything you are wearing." ) );
 }
 
-cata::optional<int> weigh_self_actor::use( Character &p, item &, bool, const tripoint & ) const
+std::optional<int> weigh_self_actor::use( Character &p, item &, bool, const tripoint & ) const
 {
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot weigh yourself while mounted." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     // this is a weight, either in kgs or in lbs.
     double weight = convert_weight( p.get_weight() );
@@ -4526,23 +4529,23 @@ void sew_advanced_actor::load( const JsonObject &obj )
     }
 }
 
-cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const tripoint & ) const
+std::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     if( p.is_npc() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( p.fine_detail_vision_mod() > 4 ) {
         add_msg( m_info, _( "You can't see to sew!" ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     auto filter = [this]( const item & itm ) {
@@ -4554,13 +4557,13 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
                             filter, *p.as_avatar(), _( "Enhance which clothing?" ) );
     if( !loc ) {
         p.add_msg_if_player( m_info, _( "You do not have that item!" ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     item &mod = *loc;
     if( &mod == &it ) {
         p.add_msg_if_player( m_info,
                              _( "This can be used to repair or modify other items, not itself." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // Gives us an item with the mod added or removed (toggled)
@@ -4677,7 +4680,7 @@ cata::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const
     const int choice = tmenu.ret;
 
     if( choice < 0 || choice >= static_cast<int>( clothing_mods.size() ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     // The mod player picked
@@ -4769,7 +4772,7 @@ void change_scent_iuse::load( const JsonObject &obj )
     assign( obj, "waterproof", waterproof );
 }
 
-cata::optional<int> change_scent_iuse::use( Character &p, item &it, bool, const tripoint & ) const
+std::optional<int> change_scent_iuse::use( Character &p, item &it, bool, const tripoint & ) const
 {
     p.set_value( "prev_scent", p.get_type_of_scent().c_str() );
     if( waterproof ) {
@@ -4810,7 +4813,7 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
     dump.emplace_back( "DESCRIPTION", description );
 }
 
-cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool,
+std::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool,
         const tripoint & ) const
 {
     Character *char_ptr = nullptr;

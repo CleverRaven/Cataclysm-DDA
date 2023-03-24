@@ -65,7 +65,7 @@ else
     # The OSX_MIN version here should match that used in release builds so that
     # CI detects issues that will affect releases.  It doesn't affect builds on
     # other platforms.
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 OSX_MIN=10.12
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 OSX_MIN=10.13
 fi
 
 # vim:tw=0

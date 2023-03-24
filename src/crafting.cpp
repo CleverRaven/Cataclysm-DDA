@@ -11,6 +11,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <tuple>
@@ -54,7 +55,6 @@
 #include "messages.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -109,7 +109,6 @@ static const std::string flag_BLIND_EASY( "BLIND_EASY" );
 static const std::string flag_BLIND_HARD( "BLIND_HARD" );
 static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
-static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
 
 class basecamp;
 
@@ -209,7 +208,7 @@ static float lerped_multiplier( const T &value, const T &low, const T &high )
 }
 
 static float workbench_crafting_speed_multiplier( const Character &you, const item &craft,
-        const cata::optional<tripoint> &loc )
+        const std::optional<tripoint> &loc )
 {
     float multiplier;
     units::mass allowed_mass;
@@ -217,17 +216,17 @@ static float workbench_crafting_speed_multiplier( const Character &you, const it
 
     map &here = get_map();
     if( !loc ) {
-        // cata::nullopt indicates crafting from inventory
+        // std::nullopt indicates crafting from inventory
         // Use values from f_fake_bench_hands
         const furn_t &f = furn_f_fake_bench_hands.obj();
         multiplier = f.workbench->multiplier;
         allowed_mass = f.workbench->allowed_mass;
         allowed_volume = f.workbench->allowed_volume;
-    } else if( const cata::optional<vpart_reference> vp = here.veh_at(
+    } else if( const std::optional<vpart_reference> vp = here.veh_at(
                    *loc ).part_with_feature( "WORKBENCH", true ) ) {
         // Vehicle workbench
         const vpart_info &vp_info = vp->part().info();
-        if( const cata::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
+        if( const std::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
             multiplier = wb_info->multiplier;
             allowed_mass = wb_info->allowed_mass;
             allowed_volume = wb_info->allowed_volume;
@@ -276,7 +275,7 @@ float Character::crafting_speed_multiplier( const recipe &rec ) const
 }
 
 float Character::crafting_speed_multiplier( const item &craft,
-        const cata::optional<tripoint> &loc ) const
+        const std::optional<tripoint> &loc ) const
 {
     if( !craft.is_craft() ) {
         debugmsg( "Can't calculate crafting speed multiplier of non-craft '%s'", craft.tname() );
@@ -335,7 +334,7 @@ bool Character::has_morale_to_craft() const
     return get_morale_level() >= -50;
 }
 
-void Character::craft( const cata::optional<tripoint> &loc, const recipe_id &goto_recipe )
+void Character::craft( const std::optional<tripoint> &loc, const recipe_id &goto_recipe )
 {
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size, goto_recipe );
@@ -346,7 +345,7 @@ void Character::craft( const cata::optional<tripoint> &loc, const recipe_id &got
     }
 }
 
-void Character::recraft( const cata::optional<tripoint> &loc )
+void Character::recraft( const std::optional<tripoint> &loc )
 {
     if( lastrecipe.str().empty() ) {
         popup( _( "Craft something first" ) );
@@ -355,7 +354,7 @@ void Character::recraft( const cata::optional<tripoint> &loc )
     }
 }
 
-void Character::long_craft( const cata::optional<tripoint> &loc, const recipe_id &goto_recipe )
+void Character::long_craft( const std::optional<tripoint> &loc, const recipe_id &goto_recipe )
 {
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size, goto_recipe );
@@ -516,7 +515,7 @@ std::vector<const item *> Character::get_eligible_containers_for_crafting() cons
             }
         }
 
-        if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
+        if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
                 true ) ) {
             for( const item &it : vp->vehicle().get_items( vp->part_index() ) ) {
                 std::vector<const item *> eligible = get_eligible_containers_recursive( it, true );
@@ -626,19 +625,19 @@ void Character::invalidate_crafting_inventory()
 }
 
 void Character::make_craft( const recipe_id &id_to_make, int batch_size,
-                            const cata::optional<tripoint> &loc )
+                            const std::optional<tripoint> &loc )
 {
     make_craft_with_command( id_to_make, batch_size, false, loc );
 }
 
 void Character::make_all_craft( const recipe_id &id_to_make, int batch_size,
-                                const cata::optional<tripoint> &loc )
+                                const std::optional<tripoint> &loc )
 {
     make_craft_with_command( id_to_make, batch_size, true, loc );
 }
 
 void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long,
-        const cata::optional<tripoint> &loc )
+        const std::optional<tripoint> &loc )
 {
     const recipe &recipe_to_make = *id_to_make;
 
@@ -650,7 +649,7 @@ void Character::make_craft_with_command( const recipe_id &id_to_make, int batch_
     last_craft->execute();
 }
 
-static cata::optional<item_location> wield_craft( Character &p, item &craft )
+static std::optional<item_location> wield_craft( Character &p, item &craft )
 {
     if( p.wield( craft ) ) {
         item_location weapon = p.get_wielded_item();
@@ -661,7 +660,7 @@ static cata::optional<item_location> wield_craft( Character &p, item &craft )
         }
         return weapon;
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 static item_location set_item_inventory( Character &p, item &newit )
@@ -709,10 +708,10 @@ static item_location set_item_map( const tripoint &loc, item &newit )
 static item_location set_item_map_or_vehicle( const Character &p, const tripoint &loc, item &newit )
 {
     map &here = get_map();
-    if( const cata::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
+    if( const std::optional<vpart_reference> vp = here.veh_at( loc ).part_with_feature( "CARGO",
             false ) ) {
 
-        if( const cata::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
+        if( const std::optional<vehicle_stack::iterator> it = vp->vehicle().add_item( vp->part_index(),
                 newit ) ) {
             p.add_msg_player_or_npc(
                 //~ %1$s: name of item being placed, %2$s: vehicle part name
@@ -752,7 +751,7 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
 }
 
 static item_location place_craft_or_disassembly(
-    Character &ch, item &craft, cata::optional<tripoint> target )
+    Character &ch, item &craft, std::optional<tripoint> target )
 {
     item_location craft_in_world;
 
@@ -768,9 +767,9 @@ static item_location place_craft_or_disassembly(
                 best_bench_multi = wb->multiplier;
                 target = adj;
             }
-        } else if( const cata::optional<vpart_reference> vp = here.veh_at(
+        } else if( const std::optional<vpart_reference> vp = here.veh_at(
                        adj ).part_with_feature( "WORKBENCH", true ) ) {
-            if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+            if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
                 if( wb_info->multiplier > best_bench_multi ) {
                     best_bench_multi = wb_info->multiplier;
                     target = adj;
@@ -786,7 +785,7 @@ static item_location place_craft_or_disassembly(
         if( !ch.has_two_arms_lifting() || ( ch.is_npc() && ch.has_wield_conflicts( craft ) ) ) {
             craft_in_world = set_item_map_or_vehicle( ch, ch.pos(), craft );
         } else if( !ch.has_wield_conflicts( craft ) ) {
-            if( cata::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
+            if( std::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
                 craft_in_world = *it_loc;
             }  else {
                 // This almost certainly shouldn't happen
@@ -816,7 +815,7 @@ static item_location place_craft_or_disassembly(
             const option choice = amenu.ret == UILIST_CANCEL ? DROP : static_cast<option>( amenu.ret );
             switch( choice ) {
                 case WIELD_CRAFT: {
-                    if( cata::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
+                    if( std::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
                         craft_in_world = *it_loc;
                     } else {
                         // This almost certainly shouldn't happen
@@ -850,7 +849,7 @@ static item_location place_craft_or_disassembly(
     return craft_in_world;
 }
 
-void Character::start_craft( craft_command &command, const cata::optional<tripoint> &loc )
+void Character::start_craft( craft_command &command, const std::optional<tripoint> &loc )
 {
     if( command.empty() ) {
         debugmsg( "Attempted to start craft with empty command" );
@@ -933,7 +932,7 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
     struct learn_subject {
         proficiency_id proficiency;
         float time_multiplier;
-        cata::optional<time_duration> max_experience;
+        std::optional<time_duration> max_experience;
     };
 
     const std::vector<npc *> helpers = get_crafting_helpers();
@@ -1381,7 +1380,7 @@ static void set_temp_rot( item &newit, const double relative_rot, const bool sho
 }
 
 static void spawn_items( Character &guy, std::vector<item> &results,
-                         const cata::optional<tripoint> &loc, const double relative_rot, const bool should_heat,
+                         const std::optional<tripoint> &loc, const double relative_rot, const bool should_heat,
                          bool allow_wield = false )
 {
     for( item &newit : results ) {
@@ -1407,7 +1406,7 @@ static void spawn_items( Character &guy, std::vector<item> &results,
     }
 }
 
-void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc )
+void Character::complete_craft( item &craft, const std::optional<tripoint> &loc )
 {
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
@@ -1663,9 +1662,9 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         const std::function<bool( const item & )> &filter, bool player_inv, const recipe *rec )
 {
     Character &player_character = get_player_character();
-    std::vector<std::pair<item_comp, cata::optional<nc_color>>> player_has;
-    std::vector<std::pair<item_comp, cata::optional<nc_color>>> map_has;
-    std::vector<std::pair<item_comp, cata::optional<nc_color>>> mixed;
+    std::vector<std::pair<item_comp, std::optional<nc_color>>> player_has;
+    std::vector<std::pair<item_comp, std::optional<nc_color>>> map_has;
+    std::vector<std::pair<item_comp, std::optional<nc_color>>> mixed;
 
     comp_selection<item_comp> selected;
 
@@ -1686,19 +1685,19 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                 int player_charges = charges_of( type, INT_MAX, filter );
                 bool found = false;
                 if( player_charges >= count ) {
-                    player_has.emplace_back( component, cata::nullopt );
+                    player_has.emplace_back( component, std::nullopt );
                     found = true;
                 }
                 if( map_charges >= count ) {
-                    map_has.emplace_back( component, cata::nullopt );
+                    map_has.emplace_back( component, std::nullopt );
                     found = true;
                 }
                 if( !found && player_charges + map_charges >= count ) {
-                    mixed.emplace_back( component, cata::nullopt );
+                    mixed.emplace_back( component, std::nullopt );
                 }
             } else {
                 if( map_charges >= count ) {
-                    map_has.emplace_back( component, cata::nullopt );
+                    map_has.emplace_back( component, std::nullopt );
                 }
             }
         } else { // Counting by units, not charges
@@ -1709,7 +1708,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                 const item item_sought( type );
                 if( ( item_sought.is_software() && count_softwares( type ) > 0 ) ||
                     has_amount( type, count, false, filter ) ) {
-                    cata::optional<nc_color> colr = cata::nullopt;
+                    std::optional<nc_color> colr = std::nullopt;
                     if( !has_amount( type, count, false, [&filter]( const item & it ) {
                     return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
                     } ) ) {
@@ -1719,7 +1718,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                     found = true;
                 }
                 if( map_inv.has_components( type, count, filter ) ) {
-                    cata::optional<nc_color> colr = cata::nullopt;
+                    std::optional<nc_color> colr = std::nullopt;
                     if( !map_inv.has_components( type, count, [&filter]( const item & it ) {
                     return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
                     } ) ) {
@@ -1731,7 +1730,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                 if( !found &&
                     amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
                     map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) {
-                    cata::optional<nc_color> colr = cata::nullopt;
+                    std::optional<nc_color> colr = std::nullopt;
                     if( amount_of( type, false, std::numeric_limits<int>::max(), [&filter]( const item & it ) {
                     return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
                     } ) + map_inv.amount_of( type, false,
@@ -1744,7 +1743,7 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                 }
             } else {
                 if( map_inv.has_components( type, count, filter ) ) {
-                    cata::optional<nc_color> colr = cata::nullopt;
+                    std::optional<nc_color> colr = std::nullopt;
                     if( !map_inv.has_components( type, count, [&filter]( const item & it ) {
                     return filter( it ) && ( it.is_container_empty() || !it.is_watertight_container() );
                     } ) ) {
@@ -2400,7 +2399,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
     }
 
     item_location disassembly_in_world = place_craft_or_disassembly( *this, new_disassembly,
-                                         cata::nullopt );
+                                         std::nullopt );
 
     if( !disassembly_in_world ) {
         return item_location::nowhere;
@@ -2667,7 +2666,6 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     // If the components are empty, item is the default kind and made of default components
     if( components.empty() ) {
-        const bool uncraft_liquids_contained = dis.has_flag( flag_UNCRAFT_LIQUIDS_CONTAINED );
         for( const auto &altercomps : dis_requirements.get_components() ) {
             const item_comp &comp = altercomps.front();
             int compcount = comp.count;
@@ -2676,24 +2674,16 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
                 compcount *= activity.position;
             }
             const bool is_liquid = newit.made_of( phase_id::LIQUID );
-            if( uncraft_liquids_contained && is_liquid && newit.charges != 0 ) {
-                // Spawn liquid item in its default container
-                compcount = compcount / newit.charges;
-                if( compcount != 0 ) {
-                    newit = newit.in_its_container();
-                }
-            } else {
-                // Compress liquids and counted-by-charges items into one item,
-                // they are added together on the map anyway and handle_liquid
-                // should only be called once to put it all into a container at once.
-                if( newit.count_by_charges() || is_liquid ) {
-                    newit.charges = compcount;
-                    compcount = 1;
-                } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
-                    // tools that can be unloaded should be created unloaded,
-                    // tools that can't be unloaded will keep their default charges.
-                    newit.charges = 0;
-                }
+            // Compress liquids and counted-by-charges items into one item,
+            // they are added together on the map anyway and handle_liquid
+            // should only be called once to put it all into a container at once.
+            if( newit.count_by_charges() || is_liquid ) {
+                newit.charges = compcount;
+                compcount = 1;
+            } else if( !newit.craft_has_charges() && newit.charges > 0 ) {
+                // tools that can be unloaded should be created unloaded,
+                // tools that can't be unloaded will keep their default charges.
+                newit.charges = 0;
             }
 
             // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
