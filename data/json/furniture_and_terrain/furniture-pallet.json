@@ -117,7 +117,7 @@
     "required_str": -1,
     "coverage": 60,
     "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "FLAMMABLE_ASH" ],
-    "deconstruct": { "items": [ { "item": "lumber", "count": 4 }, { "item": "rope_makeshift_6", "count": 2 } ] },
+    "deconstruct": { "items": [ { "item": "timber", "count": 4 }, { "item": "rope_makeshift_6", "count": 2 } ] },
     "bash": {
       "str_min": 160,
       "str_max": 360,
