@@ -4419,7 +4419,7 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
         return vp.avail_part_with_feature( "CABLE_PORTS" ) || vp.avail_part_with_feature( "APPLIANCE" );
     };
     const std::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Connect your device where?" ),
-                                          "", has_port, false );
+                                         "", has_port, false );
     if( !pnt_ ) {
         add_msg( vehicle_nearby ?
                  _( "There's nowhere to plug it in nearby; try the vehicle's dashboard or electronics controls." ) :
