@@ -1964,7 +1964,7 @@
     "id": "motor_micro",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "micro motor" },
+    "name": { "str": "micro electric motor" },
     "category": "spare_parts",
     "description": "A very small electric motor like those used in RC cars.  Useful in lots of electronics recipes.",
     "price": 1000,

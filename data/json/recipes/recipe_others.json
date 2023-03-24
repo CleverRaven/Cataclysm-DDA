@@ -1502,7 +1502,7 @@
       [ [ "steel_lump", 3 ], [ "steel_chunk", 9 ], [ "scrap", 36 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "pipe", 4 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "element", 3 ], [ "crude_heating_element", 3 ] ],
       [ [ "cable", 16 ] ]
     ]

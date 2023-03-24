@@ -999,7 +999,7 @@
     "components": [
       [ [ "power_supply", 4 ] ],
       [ [ "plut_cell", 1 ] ],
-      [ [ "motor", 2 ] ],
+      [ [ "motor_small", 2 ] ],
       [ [ "tazer", 1 ] ],
       [ [ "e_scrap", 3 ] ],
       [ [ "steel_chunk", 12 ] ]
@@ -1706,7 +1706,7 @@
       [ [ "plut_cell", 2 ] ],
       [ [ "steel_armor", 2 ] ],
       [ [ "sheet_metal_small", 6 ] ],
-      [ [ "motor", 1 ] ],
+      [ [ "motor_small", 1 ] ],
       [ [ "cable", 2 ] ],
       [ [ "solder_wire", 20 ] ]
     ]
@@ -1755,7 +1755,7 @@
       [ [ "mil_plate", 2 ] ],
       [ [ "hard_steel_armor", 10 ] ],
       [ [ "sheet_metal_small", 40 ] ],
-      [ [ "motor", 1 ] ],
+      [ [ "motor_small", 1 ] ],
       [ [ "cable", 10 ] ],
       [ [ "omnicamera", 1 ] ],
       [ [ "betavoltaic", 20 ] ],
@@ -1802,7 +1802,7 @@
       [ [ "mil_plate", 2 ] ],
       [ [ "hard_steel_armor", 6 ] ],
       [ [ "sheet_metal_small", 40 ] ],
-      [ [ "motor", 1 ] ],
+      [ [ "motor_small", 1 ] ],
       [ [ "cable", 25 ] ],
       [ [ "omnicamera", 1 ] ],
       [ [ "betavoltaic", 40 ] ],
@@ -2037,7 +2037,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "motor_small", 24 ] ],
+      [ [ "motor_tiny", 8 ] ],
       [ [ "power_supply", 8 ] ],
       [ [ "cable", 16 ] ],
       [ [ "scrap", 6 ] ],
@@ -2053,7 +2053,7 @@
     "time": "6 h 40 m",
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "motor_tiny", 24 ] ], [ [ "power_supply", 8 ] ], [ [ "cable", 16 ] ], [ [ "scrap", 14 ] ] ]
+    "components": [ [ [ "motor_micro", 16 ] ], [ [ "power_supply", 8 ] ], [ [ "cable", 16 ] ], [ [ "scrap", 14 ] ] ]
   },
   {
     "result": "reverse_jointed_legs",
@@ -2110,8 +2110,8 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
-      [ [ "motor_tiny", 4 ] ],
-      [ [ "motor_micro", 10 ] ],
+      [ [ "motor_tiny", 3 ] ],
+      [ [ "motor_micro", 12 ] ],
       [ [ "power_supply", 6 ] ],
       [ [ "cable", 12 ] ],
       [ [ "steel_chunk", 4 ] ],
@@ -2129,8 +2129,8 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
-      [ [ "motor_tiny", 4 ] ],
-      [ [ "motor_micro", 10 ] ],
+      [ [ "motor_tiny", 3 ] ],
+      [ [ "motor_micro", 12 ] ],
       [ [ "power_supply", 6 ] ],
       [ [ "cable", 12 ] ],
       [ [ "steel_chunk", 2 ] ],
@@ -3594,7 +3594,7 @@
     "time": "6 m",
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "motor_small", 1 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "plastic_chunk", 8 ] ], [ [ "motor_tiny", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "result": "pot_copper",
@@ -3664,7 +3664,6 @@
     "components": [
       [ [ "antenna", 1 ] ],
       [ [ "cable", 8 ] ],
-      [ [ "motor_tiny", 1 ] ],
       [ [ "motor_micro", 2 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "plastic_chunk", 8 ] ],
@@ -4734,7 +4733,7 @@
     "time": "15 m",
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1, "amount": 1 }, { "id": "HAMMER", "level": 3, "amount": 1 } ],
-    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 2 ] ], [ [ "pot", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_micro", 1 ] ] ]
+    "components": [ [ [ "scrap", 4 ] ], [ [ "cable", 2 ] ], [ [ "pot", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "motor_tiny", 1 ] ] ]
   },
   {
     "result": "box_small",
@@ -4779,7 +4778,7 @@
       [ [ "cable", 8 ] ],
       [ [ "hose", 1 ] ],
       [ [ "cu_pipe", 3 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "e_scrap", 4 ] ],
       [ [ "element", 4 ] ],
       [ [ "power_supply", 4 ] ],
@@ -4804,7 +4803,7 @@
       [ [ "cable", 15 ] ],
       [ [ "hose", 2 ] ],
       [ [ "pipe_fittings", 6 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "cu_pipe", 5 ] ]
     ]
   },
@@ -4843,7 +4842,7 @@
       [ [ "sheet_metal", 6 ] ],
       [ [ "cable", 15 ] ],
       [ [ "hose", 2 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "pipe_fittings", 6 ] ],
       [ [ "cu_pipe", 5 ] ]
     ]
@@ -4907,7 +4906,7 @@
       [ [ "sheet_metal", 2 ] ],
       [ [ "cable", 10 ] ],
       [ [ "hose", 4 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "pipe_fittings", 2 ] ],
       [ [ "solder_wire", 10 ] ],
       [ [ "cu_pipe", 4 ] ]
@@ -5044,7 +5043,7 @@
       [ [ "sheet_metal_small", 4 ] ],
       [ [ "cable", 10 ] ],
       [ [ "hose", 5 ] ],
-      [ [ "motor", 1 ] ],
+      [ [ "motor_small", 1 ] ],
       [ [ "metal_tank", 1 ] ],
       [ [ "plastic_chunk", 5 ] ],
       [ [ "pipe_fittings", 4 ] ],
@@ -5100,7 +5099,7 @@
       [ [ "sheet_metal", 6 ] ],
       [ [ "cable", 15 ] ],
       [ [ "hose", 2 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "cu_pipe", 5 ] ]
     ]
   },
@@ -5330,7 +5329,7 @@
       [ [ "sheet_metal_small", 2 ] ],
       [ [ "steel_chunk", 4 ] ],
       [ [ "cable", 2 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "plastic_chunk", 6 ] ],
       [ [ "solder_wire", 10 ] ]
     ]
