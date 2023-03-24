@@ -140,11 +140,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ],
-        "time": "5 m",
-        "using": [ [ "repair_welding_standard", 1 ] ]
-      }
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "CARGO", "BOARDABLE" ],
     "damage_reduction": { "all": 6 }
