@@ -2611,13 +2611,6 @@
   },
   {
     "type": "keybinding",
-    "name": "View achievements, scores, and kills",
-    "category": "DEFAULTMODE",
-    "id": "scores",
-    "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
     "name": "View morale",
     "category": "DEFAULTMODE",
     "id": "morale",
@@ -2986,7 +2979,8 @@
     "type": "keybinding",
     "id": "diary",
     "name": "Open diary",
-    "category": "DEFAULTMODE"
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -4284,6 +4278,13 @@
     "name": "Add new page",
     "category": "DIARY",
     "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "n" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "View achievements, scores, and kills",
+    "category": "DIARY",
+    "id": "VIEW_SCORES",
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "v" ] } ]
   },
   {
     "type": "keybinding",

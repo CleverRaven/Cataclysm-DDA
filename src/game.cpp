@@ -2426,7 +2426,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "sky" );
     ctxt.register_action( "missions" );
     ctxt.register_action( "factions" );
-    ctxt.register_action( "scores" );
     ctxt.register_action( "morale" );
     ctxt.register_action( "messages" );
     ctxt.register_action( "help" );
@@ -5435,48 +5434,47 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
 
 void game::control_vehicle()
 {
-    int veh_part = -1;
-    vehicle *veh = remoteveh();
-    if( veh != nullptr ) {
-        for( const vpart_reference &vpr : veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
-            veh->interact_with( vpr.pos() );
+    if( vehicle *remote_veh = remoteveh() ) { // remote controls have priority
+        for( const vpart_reference &vpr : remote_veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
+            remote_veh->interact_with( vpr.pos() );
             return;
         }
     }
-    if( veh == nullptr ) {
-        if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
-            veh = &vp->vehicle();
-            veh_part = vp->part_index();
+    vehicle *veh = nullptr;
+    if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
+        veh = &vp->vehicle();
+        const int controls_idx = veh->avail_part_with_feature( vp->mount(), "CONTROLS" );
+        const int reins_idx = veh->avail_part_with_feature( vp->mount(), "CONTROL_ANIMAL" );
+        const bool controls_ok = controls_idx >= 0; // controls available to "drive"
+        const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
+                              && veh->has_engine_type( fuel_type_animal, false )
+                              && veh->has_harnessed_animal();
+        if( veh->player_in_control( u ) ) {
+            // player already "driving" - offer ways to leave
+            if( controls_ok ) {
+                veh->interact_with( u.pos() );
+            } else if( reins_idx >= 0 ) {
+                u.controlling_vehicle = false;
+                add_msg( m_info, _( "You let go of the reins." ) );
+            }
+        } else if( u.in_vehicle && ( controls_ok || reins_ok ) ) {
+            // player not driving but has controls or reins on tile
+            if( veh->is_locked ) {
+                veh->interact_with( u.pos() );
+                return; // interact_with offers to hotwire
+            }
+            if( !veh->handle_potential_theft( u ) ) {
+                return; // player not owner and refused to steal
+            }
+            if( veh->engine_on ) {
+                u.controlling_vehicle = true;
+                add_msg( _( "You take control of the %s." ), veh->name );
+            } else {
+                veh->start_engines( true );
+            }
         }
     }
-    if( veh != nullptr && veh->player_in_control( u ) &&
-        veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ) {
-        veh->interact_with( u.pos() );
-    } else if( veh && veh->player_in_control( u ) &&
-               veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 ) {
-        u.controlling_vehicle = false;
-        add_msg( m_info, _( "You let go of the reins." ) );
-    } else if( veh && ( veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ||
-                        ( veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 &&
-                          veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
-               u.in_vehicle ) {
-        if( veh->is_locked ) {
-            veh->interact_with( u.pos() );
-            return;
-        }
-        if( veh->engine_on ) {
-            if( !veh->handle_potential_theft( u ) ) {
-                return;
-            }
-            u.controlling_vehicle = true;
-            add_msg( _( "You take control of the %s." ), veh->name );
-        } else {
-            if( !veh->handle_potential_theft( u ) ) {
-                return;
-            }
-            veh->start_engines( true );
-        }
-    } else {    // Start looking for nearby vehicle controls.
+    if( !veh ) { // no controls or animal reins under player position, search nearby
         int num_valid_controls = 0;
         std::optional<tripoint> vehicle_position;
         std::optional<vpart_reference> vehicle_controls;
@@ -12257,7 +12255,7 @@ void game::debug_hour_timer::print_time()
     if( enabled ) {
         if( calendar::once_every( time_duration::from_hours( 1 ) ) ) {
             const IRLTimeMs now = std::chrono::time_point_cast<std::chrono::milliseconds>(
-                                      std::chrono::system_clock::now() );
+                                      std::chrono::steady_clock::now() );
             if( start_time ) {
                 add_msg( "in-game hour took: %d ms", ( now - *start_time ).count() );
             } else {

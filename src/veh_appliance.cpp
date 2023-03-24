@@ -68,6 +68,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optio
         veh->install_part( point_zero, vpart );
     }
     veh->name = vpart->name();
+    veh->last_update = calendar::turn;
 
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.

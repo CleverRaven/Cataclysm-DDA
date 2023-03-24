@@ -3226,7 +3226,7 @@ int get_auto_consume_moves( Character &you, const bool food )
         std::vector<item *> items_here;
         if( vp ) {
             vehicle &veh = vp->vehicle();
-            int index = veh.part_with_feature( vp->part_index(), "CARGO", false );
+            int index = veh.part_with_feature( vp->mount(), "CARGO", false );
             if( index >= 0 ) {
                 vehicle_stack vehitems = veh.get_items( index );
                 for( item &it : vehitems ) {
