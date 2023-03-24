@@ -81,7 +81,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     //handles teleporting into solids.
     if( here.impassable( target ) ) {
         if( force ) {
-            const cata::optional<tripoint> nt =
+            const std::optional<tripoint> nt =
                 random_point( points_in_radius( target, 5 ),
             []( const tripoint & el ) {
                 return get_map().passable( el );

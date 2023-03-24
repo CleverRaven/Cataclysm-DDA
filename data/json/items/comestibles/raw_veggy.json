@@ -1143,5 +1143,23 @@
     "charges": 10,
     "vitamins": [ [ "iron", 1 ] ],
     "fun": -5
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "raw_bottle_gourd",
+    "name": { "str": "raw bottle gourd" },
+    "copy-from": "cucumber",
+    "looks_like": "pumpkin",
+    "weight": "800 g",
+    "spoils_in": "31 days",
+    "comestible_type": "FOOD",
+    "symbol": "6",
+    "quench": 2,
+    "calories": 36,
+    "fun": -5,
+    "description": "A vegetable from the gourd family, bottle gourds were brought to the Americas by the first Native American settlers crossing the Bering strait.  It can be further prepared to produce a hard, watertight shell, usable as a biodegradable liquid container.  Eating it doesn't look worth it.",
+    "volume": "4500 ml",
+    "flags": [ "FREEZERBURN", "SMOKABLE", "RAW" ],
+    "smoking_result": "dry_bottle_gourd"
   }
 ]

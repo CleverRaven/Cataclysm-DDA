@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstdlib>
+#include <optional>
 #include <string>
 #include <type_traits>
 
@@ -25,7 +26,6 @@
 #include "mapdata.h"
 #include "messages.h" //for rust message
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "point.h"
 #include "proficiency.h"
@@ -37,7 +37,6 @@
 #include "vpart_position.h"
 
 static const itype_id itype_aspirin( "aspirin" );
-static const itype_id itype_battery( "battery" );
 static const itype_id itype_butchery_tree_pseudo( "butchery_tree_pseudo" );
 static const itype_id itype_codeine( "codeine" );
 static const itype_id itype_fire( "fire" );
@@ -350,29 +349,22 @@ void inventory::push_back( const item &newit )
 extern void remove_stale_inventory_quick_shortcuts();
 #endif
 
-item *inventory::provide_pseudo_item( const itype_id &id, int battery )
+item *inventory::provide_pseudo_item( const item &tool )
 {
-    if( id.is_empty() || !provisioned_pseudo_tools.insert( id ).second ) {
-        return nullptr; // empty itype_id or already provided tool -> bail out
+    if( !provisioned_pseudo_tools.insert( tool.typeId() ).second ) {
+        return nullptr; // already provided tool -> bail out
     }
+    item *res = &add_item( tool );
+    res->set_flag( flag_PSEUDO );
+    return res;
+}
 
-    item &it = add_item( item( id, calendar::turn, 0 ) );
-    it.set_flag( flag_PSEUDO );
-
-    // if tool doesn't need battery bail out early
-    if( battery <= 0 || it.magazine_default().is_null() ) {
-        return &it;
+item *inventory::provide_pseudo_item( const itype_id &tool_type )
+{
+    if( !tool_type.is_valid() ) {
+        return nullptr;
     }
-    item it_batt( it.magazine_default() );
-    item it_ammo = item( it_batt.ammo_default(), calendar::turn_zero );
-    if( it_ammo.is_null() || it_ammo.typeId() != itype_battery ) {
-        return &it;
-    }
-
-    it_batt.ammo_set( it_batt.ammo_default(), battery );
-    it.put_in( it_batt, item_pocket::pocket_type::MAGAZINE_WELL );
-
-    return &it;
+    return provide_pseudo_item( item( tool_type, calendar::turn ) );
 }
 
 book_proficiency_bonuses inventory::get_book_proficiency_bonuses() const
@@ -524,10 +516,10 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
     for( const tripoint &p : pts ) {
         // a temporary hack while trees are terrain
         if( m.ter( p )->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
-            provide_pseudo_item( itype_butchery_tree_pseudo, 0 );
+            provide_pseudo_item( itype_butchery_tree_pseudo );
         }
         const furn_t &f = m.furn( p ).obj();
-        if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item, 0 ) ) {
+        if( item *furn_item = provide_pseudo_item( f.crafting_pseudo_item ) ) {
             const itype *ammo = f.crafting_ammo_item_type();
             if( furn_item->has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
                 // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
@@ -562,7 +554,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         }
         // Kludges for now!
         if( m.has_nearby_fire( p, 0 ) ) {
-            if( item *fire = provide_pseudo_item( itype_fire, 0 ) ) {
+            if( item *fire = provide_pseudo_item( itype_fire ) ) {
                 fire->charges = 1;
             }
         }

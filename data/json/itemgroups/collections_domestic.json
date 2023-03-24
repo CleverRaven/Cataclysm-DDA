@@ -165,7 +165,6 @@
       { "item": "atomic_lamp", "prob": 1 },
       { "item": "alarmclock", "prob": 10 },
       { "item": "pet_carrier", "prob": 3 },
-      { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
       { "item": "charcoal", "prob": 20 },
       { "item": "thermometer", "prob": 3 },
       { "item": "hygrometer", "prob": 3 },
@@ -258,6 +257,7 @@
       { "group": "cotton_ball_bag_used", "prob": 20 },
       [ "contacts", 20 ],
       { "item": "pride_flag", "prob": 5 },
+      { "item": "national_flag", "prob": 2 },
       { "item": "vitamins", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "aspirin", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "nic_gum", "prob": 20, "charges": [ 1, 10 ] },
@@ -327,7 +327,7 @@
           },
           {
             "collection": [
-              { "item": "teddy", "prob": 50 },
+              { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 3 ], "prob": 50 },
               { "item": "hat_ball", "prob": 20 },
               { "item": "baseball", "prob": 20 },
               { "item": "roller_shoes_off", "prob": 10 },
@@ -413,7 +413,7 @@
           },
           {
             "collection": [
-              { "item": "teddy", "prob": 50 },
+              { "item": "teddy_bear", "custom-flags": [ "FILTHY" ], "damage": [ 0, 3 ], "prob": 50 },
               { "item": "hat_ball", "prob": 20 },
               { "item": "baseball", "prob": 20 },
               { "item": "roller_shoes_off", "prob": 10 },
@@ -701,6 +701,7 @@
       { "item": "vac_sealer", "prob": 10 },
       { "item": "cookbook_italian", "prob": 10 },
       { "item": "cookbook_indian", "prob": 10 },
+      { "item": "cookbook_native", "prob": 5 },
       { "item": "cookbook_mexican", "prob": 10 },
       { "item": "sweets_book", "prob": 10 },
       { "item": "cookbook_liverforkids", "prob": 10 },

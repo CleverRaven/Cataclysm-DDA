@@ -51,6 +51,7 @@
     "description": "The alchemist comes from the technomancer's skills with unliving matter combined with the animist's grasp on the ambient ley lines.  It requires magical talent and lots of time, but is invaluable for creating powerful magical effects in a storable, accessible form.",
     "prereqs": [ "ANIMIST", "TECHNOMANCER" ],
     "spells_learned": [ [ "alchemist_make_potion_starter", 5 ], [ "alchemist_make_potion_bomb", 5 ], [ "alchemist_make_potion_trap", 5 ] ],
+    "integrated_armor": [ "alchemist_pocket" ],
     "cancels": [
       "ARTIFICER",
       "BIOTEK",
@@ -292,10 +293,7 @@
     "description": "Stone is superior to flesh.  You have allowed this axiom into your life, and work to correct your own weakness with biomancy.  The strength of the Earth rushed up to meet you with open arms.",
     "prereqs": [ "BIOMANCER", "EARTHSHAPER" ],
     "spells_learned": [ [ "quake", 5 ], [ "rock_blast", 5 ] ],
-    "armor": [
-      { "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "head" ], "cut": 15 }
-    ],
-    "passive_mods": { "str_mod": 5 },
+    "enchantments": [ "EARTH_ELEMENTAL" ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",

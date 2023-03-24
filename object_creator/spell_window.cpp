@@ -775,7 +775,7 @@ creator::spell_window::spell_window( QWidget *parent, Qt::WindowFlags flags )
         std::string selected = field_id_box.currentText().toStdString();
         field_type_id field;
         if( selected == "NONE" ) {
-            editable_spell.field = cata::nullopt;
+            editable_spell.field = std::nullopt;
         } else {
             editable_spell.field = field_type_id( selected );
         }

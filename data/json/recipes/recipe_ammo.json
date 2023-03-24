@@ -895,5 +895,42 @@
         [ "straw_pile", 1 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "tinder",
+    "id_suffix": "softer",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "1 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "splinter", 2 ], [ "withered", 2 ], [ "cattail_stalk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "tinder",
+    "id_suffix": "softest",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": "1 m",
+    "autolearn": true,
+    "components": [
+      [
+        [ "pine_bough", 1 ],
+        [ "cotton_patchwork", 1 ],
+        [ "paper", 5 ],
+        [ "cardboard", 1 ],
+        [ "rolling_paper", 30 ],
+        [ "wrapper", 5 ],
+        [ "straw_pile", 1 ]
+      ]
+    ]
   }
 ]

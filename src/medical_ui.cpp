@@ -670,7 +670,7 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
     }
 
     for( const std::pair<const std::string, int> &speed_effect : speed_effects ) {
-        nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
+        nc_color col = speed_effect.second > 0 ? c_green : c_red;
         speed_detail_str += colorize( string_format( _( "%s    %s%d%%\n" ), speed_effect.first,
                                       ( speed_effect.second > 0 ? "+" : "-" ),
                                       std::abs( speed_effect.second ) ), col );

@@ -5,6 +5,7 @@
 #include <climits>
 #include <cstddef>
 #include <iosfwd>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -18,7 +19,6 @@
 #include "enums.h"
 #include "item_location.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -128,7 +128,7 @@ class player_activity
         /**
          * Helper that returns an activity specific progress message.
          */
-        cata::optional<std::string> get_progress_message( const avatar &u ) const;
+        std::optional<std::string> get_progress_message( const avatar &u ) const;
 
         /**
          * If this returns true, the action can be continued without

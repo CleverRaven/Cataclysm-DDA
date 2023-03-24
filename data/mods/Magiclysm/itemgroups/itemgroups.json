@@ -1250,7 +1250,8 @@
           { "item": "recovery_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_fatigue", "prob": 100 },
           { "item": "spell_scroll_druidic_regrowth", "prob": 100 },
-          { "item": "spell_scroll_druidic_healing", "prob": 100 }
+          { "item": "spell_scroll_druidic_healing", "prob": 100 },
+          { "item": "spell_scroll_druid_bandage", "prob": 100 }
         ],
         "prob": 10
       }

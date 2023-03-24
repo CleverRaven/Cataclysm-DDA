@@ -101,7 +101,7 @@ item vehicle_part::properties_to_item() const
 
 std::string vehicle_part::name( bool with_prefix ) const
 {
-    auto res = info().name();
+    std::string res = info().name();
 
     if( base.engine_displacement() > 0 ) {
         res.insert( 0, string_format( _( "%2.1fL " ), base.engine_displacement() / 100.0 ) );
@@ -204,7 +204,7 @@ bool vehicle_part::is_cleaner_on() const
 
 bool vehicle_part::is_unavailable( const bool carried ) const
 {
-    return is_broken() || ( has_flag( carried_flag ) && carried );
+    return is_broken() || ( has_flag( vp_flag::carried_flag ) && carried );
 }
 
 bool vehicle_part::is_available( const bool carried ) const
@@ -685,7 +685,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
 
     // TODO: check fuel for combustion engines
 
-    if( pt.info().epower < 0_W && fuel_left( fuel_type_battery, true ) <= 0 ) {
+    if( pt.info().epower < 0_W && fuel_left( fuel_type_battery ) <= 0 ) {
         if( alert ) {
             add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name() );
         }

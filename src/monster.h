@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
@@ -20,7 +21,6 @@
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -541,7 +541,7 @@ class monster : public Creature
         short ignoring = 0;
         bool aggro_character = true;
 
-        cata::optional<time_point> lastseen_turn;
+        std::optional<time_point> lastseen_turn;
 
         // Stair data.
         int staircount = 0;
@@ -586,16 +586,16 @@ class monster : public Creature
 
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
-        cata::optional<tripoint_abs_ms> goal;
+        std::optional<tripoint_abs_ms> goal;
         bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades = false;
         int upgrade_time = 0;
         bool reproduces = false;
-        cata::optional<time_point> baby_timer;
+        std::optional<time_point> baby_timer;
         bool biosignatures = false;
-        cata::optional<time_point> biosig_timer;
+        std::optional<time_point> biosig_timer;
         time_point udder_timer;
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
@@ -605,7 +605,7 @@ class monster : public Creature
         int next_patrol_point = -1;
 
         std::bitset<NUM_MEFF> effect_cache;
-        cata::optional<time_point> lifespan_end = cata::nullopt;
+        std::optional<time_point> lifespan_end = std::nullopt;
         int turns_since_target = 0;
 
         Character *find_dragged_foe();

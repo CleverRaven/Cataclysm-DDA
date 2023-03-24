@@ -75,8 +75,6 @@
     ],
     "valid_mod_locations": [ [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "NEVER_JAMS", "MUNDANE", "WONT_TRAIN_MARKSMANSHIP" ],
-    "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "WEAPON_DISPERSION", "multiply": -0.9 } ] } ]
-    }
+    "relic_data": { "passive_effects": [ { "id": "ench_smart_gun" } ] }
   }
 ]

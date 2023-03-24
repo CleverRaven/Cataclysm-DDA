@@ -220,7 +220,7 @@
       { "item": "trenchcoat", "prob": 25 },
       { "item": "gloves_fingerless", "prob": 30 },
       { "item": "mask_hockey", "prob": 20 },
-      { "item": "improvised_pipebomb", "prob": 40 },
+      { "item": "pipebomb", "prob": 40 },
       { "item": "molotov", "prob": 100 },
       { "item": "ref_lighter", "prob": 30, "charges-min": 0 },
       { "item": "lighter", "prob": 30, "charges-min": 10 },
