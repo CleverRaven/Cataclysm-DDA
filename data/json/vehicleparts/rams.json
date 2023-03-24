@@ -11,8 +11,16 @@
     "//": "constructed from a 1 meter armor sheet in most cases, affixed along two edges = 200cm weld to install.",
     "description": "A reinforced ram.  Place at the edge of vehicle to reduce damage taken in collisions, and to increase damaged delivered in collisions, if the ram is the first vehicle part to collide.",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "15 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
     "flags": [ "PROTRUSION", "OBSTACLE" ]
