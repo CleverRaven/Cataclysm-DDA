@@ -147,7 +147,11 @@
     "breaks_into": "ig_vp_steel_plate",
     "//": "steel plating doesn't have a defined length so assume 200cm weld like regular board, 50cm weld per damage quadrant to repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 1 ] ]
+      },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
