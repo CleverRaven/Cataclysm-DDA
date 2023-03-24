@@ -4770,12 +4770,11 @@ units::power vehicle::total_water_wheel_epower() const
     return epower;
 }
 
-units::power vehicle::net_battery_charge_rate( bool include_reactors, bool include_cable_links ) const
+units::power vehicle::net_battery_charge_rate( bool include_reactors ) const
 {//TODOkama maybe delete include_cable_links? This got simplified
     return total_engine_epower() + total_alternator_epower() + total_accessory_epower() +
            total_solar_epower() + total_wind_epower() + total_water_wheel_epower() +
-           ( include_reactors ? active_reactor_epower( false ) : 0_W ) +
-           ( include_cable_links ? linked_item_epower_this_turn : 0_W );
+           linked_item_epower_this_turn + ( include_reactors ? active_reactor_epower( false ) : 0_W );
 }
 
 units::power vehicle::active_reactor_epower() const
