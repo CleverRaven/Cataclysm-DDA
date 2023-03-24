@@ -62,6 +62,7 @@
       - [Flags](#flags-11)
     - [Camp building recipes](#camp-building-recipes)
       - [Flags](#flags-12)
+      - [Blueprint reorientation flags](#blueprint-reorientation-flags)
   - [Scenarios](#scenarios)
     - [Flags](#flags-13)
       - [Profession Flags](#profession-flags)
@@ -338,7 +339,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
 - ```BULLET_IMMUNE``` Wearing an item with this flag makes you immune to bullet damage
 - ```CANT_WEAR``` This item can't be worn directly.
-- ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
+- ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm when it is mostly unencumbered.
 - ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
 - ```DECAY_EXPOSED_ATMOSPHERE``` Consumable will go bad once exposed to the atmosphere (such as MREs).
 - ```DEAF``` Makes the player deaf.
@@ -427,12 +428,12 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```COLDBLOOD``` For heat dependent mutations.
 - ```COLDBLOOD2``` For very heat dependent mutations.
 - ```COLDBLOOD3``` For cold-blooded mutations.
+- ```DOWNED_RECOVERY``` Always has 50% chance to recover from downing, regardless of limb scores / stats.
 - ```ECTOTHERM``` For ectothermic mutations, like `COLDBLOOD4` and `DRAGONBLOOD3` (Black Dragon from Magiclysm).
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
-- ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
 - ```INFECTION_IMMUNE``` This mutation grants immunity to infections, including infection from bites and tetanus.
 - ```SUPER_HEARING``` You can hear much better than a normal person.
 - ```IMMUNE_HEARING_DAMAGE``` Immune to hearing damage from loud sounds.
@@ -599,6 +600,7 @@ Effect flags. These are checked by hardcode for monsters (introducing new flags 
 
 - ```DISABLE_FLIGHT``` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
 - ```EFFECT_IMPEDING``` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
+- ```EFFECT_LIMB_SCORE_MOD``` Effect with a limb score component to be used in Character::get_limb_score. See [EFFECTS_JSON.md](EFFECTS_JSON.md) for the exact function of limb score modifiers and [JSON_INFO.md](JSON_INFO.md#limb-scores) for the effects of the scores.
 
 ## Furniture and Terrain
 
@@ -851,15 +853,12 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```SPEEDLOADER``` Acts like a magazine, except it transfers rounds to the emptied target gun or magazine instead of being inserted into it.
 - ```SPEEDLOADER_CLIP``` Acts like a ```SPEEDLOADER```, except the target gun or magazine don't have to be emptied to oocur the transferments.
 
-    
-## Mapgen
-    
-- ```ERASE_ALL_BEFORE_PLACING_TERRAIN``` Clear items, traps, or furniture before placing terrain tile. See also [`remove_all`](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MAPGEN.md#remove-everything-with-remove_all). Mutually exclusive with `ALLOW_TERRAIN_UNDER_OTHER_DATA `.
-- ```ALLOW_TERRAIN_UNDER_OTHER_DATA``` Keep items, traps, or furniture before placing terrain tile. Mutually exclusive with `ERASE_ALL_BEFORE_PLACING_TERRAIN`.
-- ```NO_UNDERLYING_ROTATE``` The map won't be rotated even if the underlying tile is.
-- ```AVOID_CREATURES``` If a creature is present on terrain, furniture and traps won't be placed.
 
-    
+## Mapgen
+
+See [Mapgen flags](MAPGEN.md#mapgen-flags).
+
+
 ## Map Specials
 
 - ```mx_bandits_block``` ...  Road block made by bandits from tree logs, caltrops, or nailboards.
@@ -912,7 +911,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
 - ```mx_spider``` ... A big spider web, complete with spiders and eggs.
 - ```mx_supplydrop``` ... Crates with some military items in it.
-- ```mx_Trapdoor_spider_den``` ... Chunk of a forest with a spider spawning out of nowhere.
+- ```mx_Trapdoor_spider_den``` ... A spider spawning out of nowhere.
 - ```mx_trees``` ... A small chunk of forest with puddles with fresh water.
 - ```mx_trees_2``` ... A small chunk of forest with puddles with fresh water.
 
@@ -931,6 +930,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 
 ### Flags
 
+- ```ALLOWS_BODY_BLOCK``` Allows body blocks (arms and legs blocks) to trigger even while wielding the item with the flag. Used with small items like knives and pistols that do not interfere with the ability to block with your body. Only works if your current martial art allows body blocks too.
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
 - ```BIONIC_WEAPON``` Cannot wield this item normally. It has to be attached to a bionic and equipped through activation of the bionic.
 - ```DIAMOND``` Diamond coating adds 30% bonus to cutting and piercing damage.
@@ -1265,7 +1265,6 @@ These flags apply to crafting recipes, i.e. those that fall within the following
 - ```BLIND_EASY``` Easy to craft with little to no light.
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
-- ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
 - ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 
@@ -1273,6 +1272,10 @@ These flags apply to crafting recipes, i.e. those that fall within the following
 These flags apply only to camp building recipes (hubs and expansions), i.e. those that have category `CC_BUILDING`.
 
 #### Flags
+
+- ```NO_FOOD_REQ``` Food requirements are waived for this camp building recipe.
+
+#### Blueprint reorientation flags
 The purpose of these flags is to allow reuse of blueprints to create the "same" facility oriented differently. Mirroring takes place before
 rotation, and it is an error to try to apply mirroring multiple times with the same orientation, as well as to try to apply multiple
 rotations. It is permitted to apply different versions of the flags if they apply to different directions (and it is indeed the primary
@@ -1384,7 +1387,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
-    
+
 ### Use actions
 
 These flags apply to the `use_action` field, instead of the `flags` field.

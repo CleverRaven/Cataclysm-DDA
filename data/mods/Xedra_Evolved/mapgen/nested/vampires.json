@@ -38,6 +38,10 @@
         { "item": "charcoal", "x": 2, "y": 1, "chance": 100, "repeat": [ 3, 10 ] },
         { "item": "bucket", "x": 1, "y": 1, "chance": 100 },
         { "item": "water_clean", "x": 3, "y": 1, "chance": 80, "repeat": [ 1, 4 ] }
+      ],
+      "place_monster": [
+        { "monster": "mon_vampire_strigoi", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 8 },
+        { "monster": "mon_vampire_moroi", "x": [ 0, 4 ], "y": [ 0, 4 ], "chance": 16 }
       ]
     }
   },

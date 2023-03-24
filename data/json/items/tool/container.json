@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "steel bottle" },
-    "description": "A stainless steel water bottle, holds 750ml of liquid.",
+    "description": "A stainless steel water bottle, holds 750 ml of liquid.",
     "weight": "200 g",
     "volume": "787 ml",
     "price": 0,

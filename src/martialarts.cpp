@@ -305,9 +305,10 @@ void ma_buff::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
     optional( jo, was_loaded, "quiet", quiet, false );
-    optional( jo, was_loaded, "throw_immune", throw_immune, false );
     optional( jo, was_loaded, "stealthy", stealthy, false );
     optional( jo, was_loaded, "melee_bash_damage_cap_bonus", melee_bash_damage_cap_bonus, false );
+
+    optional( jo, was_loaded, "flags", flags );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -861,8 +862,6 @@ ma_buff::ma_buff()
     dodges_bonus = 0; // extra dodges, like karate
     blocks_bonus = 0; // extra blocks, like karate
 
-    throw_immune = false;
-
 }
 
 efftype_id ma_buff::get_effect_id() const
@@ -936,10 +935,6 @@ float ma_buff::damage_mult( const Character &u, damage_type dt ) const
 {
     return bonuses.get_mult( u, affected_stat::DAMAGE, dt );
 }
-bool ma_buff::is_throw_immune() const
-{
-    return throw_immune;
-}
 bool ma_buff::is_melee_bash_damage_cap_bonus() const
 {
     return melee_bash_damage_cap_bonus;
@@ -951,6 +946,16 @@ bool ma_buff::is_quiet() const
 bool ma_buff::is_stealthy() const
 {
     return stealthy;
+}
+
+bool ma_buff::has_flag( const json_character_flag &flag ) const
+{
+    for( const json_character_flag &q : flags ) {
+        if( q == flag ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool ma_buff::can_melee() const
@@ -1682,11 +1687,13 @@ float Character::mabuff_attack_cost_mult() const
     return ret;
 }
 
-bool Character::is_throw_immune() const
+int Character::count_mabuff_flag( const json_character_flag &flag ) const
 {
-    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
-        return b.is_throw_immune();
+    int ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, flag]( const ma_buff & b, const effect & ) {
+        ret += b.has_flag( flag );
     } );
+    return ret;
 }
 bool Character::is_melee_bash_damage_cap_bonus() const
 {

@@ -52,6 +52,7 @@ static const itype_id itype_foodperson_mask( "foodperson_mask" );
 static const itype_id itype_foodperson_mask_on( "foodperson_mask_on" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
@@ -186,6 +187,18 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
             add_topics.emplace_back( "TALK_MUTE_ANGRY" );
         } else {
             add_topics.emplace_back( "TALK_MUTE" );
+        }
+    }
+    if( player_character.has_trait( trait_PROF_CHURL ) ) {
+        if( add_topics.back() == me_npc->chatbin.talk_mug ||
+            add_topics.back() == me_npc->chatbin.talk_stranger_aggressive ) {
+            me_npc->make_angry();
+            add_topics.emplace_back( "TALK_CHURL_ANGRY" );
+        } else if( ( me_npc->op_of_u.trust >= 0 ) && ( me_npc->op_of_u.anger <= 0 ) &&
+                   ( me_npc->int_cur >= 9 ) ) {
+            add_topics.emplace_back( "TALK_CHURL_TRADE" );
+        } else {
+            add_topics.emplace_back( "TALK_CHURL" );
         }
     }
 
@@ -378,7 +391,7 @@ std::string talker_npc::spell_training_text( talker &student, const spell_id &sp
     }
     const spell &temp_spell = me_npc->magic->get_spell( sp );
     const bool knows = pupil->magic->knows_spell( sp );
-    const int cost = me_npc->calc_spell_training_cost( knows, temp_spell.get_difficulty(),
+    const int cost = me_npc->calc_spell_training_cost( knows, temp_spell.get_difficulty( *pupil ),
                      temp_spell.get_level() );
     std::string text;
     if( knows ) {

@@ -147,6 +147,12 @@
     "components": [ [ [ "dreamdross_lump", 10 ], [ "scrap_dreamdross", 100 ] ] ]
   },
   {
+    "id": "spell_components_research_dreamdross",
+    "type": "requirement",
+    "qualities": [ { "id": "DREAM_HAMMER", "level": 1 } ],
+    "components": [ [ [ "dreamdross_lump", 2 ], [ "scrap_dreamdross", 20 ] ] ]
+  },
+  {
     "id": "spell_components_human_blood",
     "type": "requirement",
     "components": [ [ [ "demihuman_blood", 1 ], [ "mutant_human_blood", 1 ], [ "blood", 1 ] ] ]

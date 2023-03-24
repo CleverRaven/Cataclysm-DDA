@@ -627,6 +627,7 @@
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "plastic_chunk", "count": [ 3, 6 ] },
       { "item": "hose", "prob": 50 },
       { "item": "motor_tiny", "prob": 25 }
     ],
@@ -662,6 +663,7 @@
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "plastic_chunk", "count": [ 5, 8 ] },
       { "item": "hose", "prob": 50 },
       { "item": "motor_tiny", "prob": 25 }
     ],
@@ -1129,7 +1131,7 @@
       "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "adhesive", 3 ] ] }
     },
     "flags": [ "FLOATS", "BOARDABLE" ],
-    "breaks_into": [ { "item": "sheet_kevlar", "count": [ 1, 3 ] } ],
+    "breaks_into": [ { "item": "rigid_kevlar_plate", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 14 }
   },
   {
@@ -1856,6 +1858,38 @@
   },
   {
     "type": "vehicle_part",
+    "id": "compact_ASRG_containment",
+    "name": { "str": "advanced Stirling radioisotope generator" },
+    "looks_like": "f_compact_ASRG_containment",
+    "symbol": "0",
+    "categories": [ "energy" ],
+    "color": "green_white",
+    "broken_symbol": "#",
+    "broken_color": "blue",
+    "damage_modifier": 80,
+    "durability": 400,
+    "description": "A military ASRG covered in heavy plating.  Provides constant albeit low power to your car.",
+    "epower": 130,
+    "location": "center",
+    "item": "compact_ASRG_containment",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 7 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [ "OBSTACLE", "RADIOACTIVE", "COVERED", "PERPETUAL", "REACTOR" ],
+    "breaks_into": [
+      { "item": "scrap", "count": [ 4, 16 ] },
+      { "item": "steel_chunk", "count": [ 1, 6 ] },
+      { "item": "plutonium", "charges": [ 0, 2 ] },
+      { "item": "lead", "charges": [ 12, 18 ] }
+    ],
+    "damage_reduction": { "all": 58 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "water_faucet",
     "name": { "str": "water faucet" },
     "symbol": "u",
@@ -2034,7 +2068,7 @@
     "location": "armor",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal_cut_resistant", 1 ] ] }
     },
     "flags": [ "ARMOR", "NO_REPAIR" ],
     "breaks_into": [
@@ -2421,7 +2455,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": "1 W",
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "Thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
@@ -2440,7 +2474,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": "1 W",
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "A long orange extension cord for connecting appliances.  Currently plugged in.",
@@ -2459,7 +2493,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": "1 W",
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "An extra long 30m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
@@ -2480,7 +2514,7 @@
     "damage_modifier": 10,
     "durability": 120,
     "description": "Very thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
-    "epower": "5 W",
+    "epower": "5 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "item": "jumper_cable_heavy",
     "requirements": { "removal": { "time": "5 s" } },
@@ -2803,6 +2837,33 @@
   },
   {
     "type": "vehicle_part",
+    "id": "omnicamera_reinforced",
+    "copy-from": "omnicam",
+    "looks_like": "omnicam",
+    "name": { "str": "reinforced security camera" },
+    "symbol": "o",
+    "categories": [ "operations" ],
+    "color": "light_red",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "durability": 300,
+    "description": "A small camera encased in a protective metal cage.  Will relay what it can see to a camera control station.",
+    "folded_volume": "2 L",
+    "bonus": 24,
+    "item": "omnicamera_reinforced",
+    "epower": "-10 W",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
+    },
+    "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ],
+    "breaks_into": [ { "item": "e_scrap", "count": [ 6, 20 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "robot_controls",
     "name": { "str": "robot controls" },
     "symbol": "&",
@@ -3023,7 +3084,7 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 2 ] ] }
     },
     "flags": [  ],
-    "pseudo_tools": [ { "id": "pseudo_water_purifier", "hotkey": "p" } ],
+    "pseudo_tools": [ { "id": "water_purifier", "hotkey": "p" } ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 26 }
   },
@@ -3281,5 +3342,67 @@
       "removal": { "time": "50 s", "skills": [ [ "mechanics", 2 ] ] }
     },
     "flags": [  ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "stowed_fridge",
+    "name": { "str": "tied-down fridge" },
+    "symbol": "F",
+    "categories": [ "other" ],
+    "color": "white",
+    "broken_symbol": "*",
+    "broken_color": "light_gray",
+    "damage_modifier": 5,
+    "durability": 200,
+    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
+    "bonus": 300,
+    "item": "stowed_fridge",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 13 ] },
+      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "motor_tiny", "prob": 25 }
+    ],
+    "damage_reduction": { "all": 32 },
+    "flag": "EXTRA_DRAG"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "stowed_freezer",
+    "name": { "str": "tied-down freezer" },
+    "symbol": "F",
+    "categories": [ "other" ],
+    "color": "white",
+    "broken_symbol": "*",
+    "broken_color": "light_gray",
+    "damage_modifier": 5,
+    "durability": 200,
+    "description": "A chest freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
+    "bonus": 300,
+    "item": "stowed_freezer",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
+    },
+    "breaks_into": [
+      { "item": "sheet_metal", "count": [ 1, 4 ] },
+      { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "scrap", "count": [ 2, 8 ] },
+      { "item": "cable", "charges": [ 1, 2 ] },
+      { "item": "pipe_fittings", "count": [ 1, 3 ] },
+      { "item": "hose", "count": 1 },
+      { "item": "cu_pipe", "count": [ 2, 4 ] },
+      { "item": "scrap_copper", "count": [ 1, 2 ] }
+    ],
+    "damage_reduction": { "all": 32 },
+    "flag": "EXTRA_DRAG"
   }
 ]

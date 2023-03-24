@@ -7,6 +7,7 @@
       {
         "id": "rad_0",
         "text": " green ",
+        "sym": "-",
         "color": "white_green",
         "condition": {
           "and": [
@@ -18,6 +19,7 @@
       {
         "id": "rad_30",
         "text": " blue ",
+        "sym": "+",
         "color": "h_white",
         "condition": {
           "and": [
@@ -32,6 +34,7 @@
       {
         "id": "rad_60",
         "text": " yellow ",
+        "sym": "!",
         "color": "i_yellow",
         "condition": {
           "and": [
@@ -46,6 +49,7 @@
       {
         "id": "rad_120",
         "text": " orange ",
+        "sym": "‼",
         "color": "red_yellow",
         "condition": {
           "and": [
@@ -60,6 +64,7 @@
       {
         "id": "rad_240",
         "text": " red ",
+        "sym": "X",
         "color": "red_red",
         "condition": {
           "and": [
@@ -74,6 +79,7 @@
       {
         "id": "rad_500",
         "text": " black ",
+        "sym": "☼",
         "color": "pink",
         "condition": {
           "and": [
@@ -90,7 +96,18 @@
     "label": "Radiation",
     "style": "text",
     "flags": [ "W_DISABLED_WHEN_EMPTY" ],
-    "copy-from": "rad_badge_template",
-    "//": "Shows worn/wielded radiation badge color from display::rad_badge_text_color"
+    "copy-from": "rad_badge_template"
+  },
+  {
+    "id": "rad_badge_letter",
+    "type": "widget",
+    "copy-from": "rad_badge_desc",
+    "style": "symbol"
+  },
+  {
+    "id": "rad_badge_letter_no_label",
+    "type": "widget",
+    "copy-from": "rad_badge_letter",
+    "flags": [ "W_LABEL_NONE" ]
   }
 ]

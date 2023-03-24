@@ -53,7 +53,7 @@ class scenario
         std::vector<effect_on_condition_id> _eoc;
 
         // does this scenario require a specific achiement to unlock
-        cata::optional<achievement_id> _requirement;
+        std::optional<achievement_id> _requirement;
 
         bool _custom_start_date = false;
         bool _is_random_hour = false;
@@ -99,7 +99,7 @@ class scenario
         int start_location_count() const;
         int start_location_targets_count() const;
 
-        cata::optional<achievement_id> get_requirement() const;
+        std::optional<achievement_id> get_requirement() const;
 
         bool custom_start_date() const;
         void rerandomize() const;

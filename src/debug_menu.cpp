@@ -19,6 +19,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -82,7 +83,6 @@
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -123,6 +123,7 @@ static const achievement_id achievement_achievement_arcade_mode( "achievement_ar
 static const bodypart_str_id body_part_no_a_real_part( "no_a_real_part" );
 
 static const efftype_id effect_asthma( "asthma" );
+static const efftype_id effect_bleed( "bleed" );
 
 static const faction_id faction_no_faction( "no_faction" );
 
@@ -566,7 +567,7 @@ static int map_uilist()
  *   This allows to have some menu elements at the same time in the main menu and in the debug menu.
  * @returns The chosen action.
  */
-static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entries = true )
+static std::optional<debug_menu_index> debug_menu_uilist( bool display_all_entries = true )
 {
     std::vector<uilist_entry> menu = {
         { uilist_entry( 1, true, 'i', _( "Info…" ) ) },
@@ -622,12 +623,12 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
                 break;
 
             default:
-                return cata::nullopt;
+                return std::nullopt;
         }
         if( action >= 0 ) {
             return static_cast<debug_menu_index>( action );
         } else {
-            return cata::nullopt;
+            return std::nullopt;
         }
     }
 }
@@ -660,21 +661,21 @@ static void spell_description(
     description << spl.description() << '\n';
 
     // Spell Casting flags
-    description << spell_desc::enumerate_spell_data( spl ) << '\n';
+    description << spell_desc::enumerate_spell_data( spl, chrc ) << '\n';
 
     // Spell Level: 0 / 0 (MAX)
     description << string_format(
                     //~ %1$s - spell current level, %2$s - spell max level, %3$s - is max level
                     _( "Spell Level: %1$s / %2$d %3$s" ),
                     spl_level == -1 ? _( "Unlearned" ) : std::to_string( spl_level ),
-                    spl.get_max_level(),
-                    spl_level == spl.get_max_level() ? _( "(MAX)" ) : "" ) << '\n';
+                    spl.get_max_level( chrc ),
+                    spl_level == spl.get_max_level( chrc ) ? _( "(MAX)" ) : "" ) << '\n';
 
     // Difficulty: 0 ( 0.0 % Failure Chance)
     description << string_format(
                     //~ %1$d - difficulty, %2$s - failure chance
                     _( "Difficulty: %1$d (%2$s)" ),
-                    spl.get_difficulty(), spl.colorized_fail_percent( chrc ) ) << '\n';
+                    spl.get_difficulty( chrc ), spl.colorized_fail_percent( chrc ) ) << '\n';
 
     const std::string impeded = _( "(impeded)" );
 
@@ -685,14 +686,15 @@ static void spell_description(
                     spl.energy_cost_string( chrc ),
                     spell_desc::energy_cost_encumbered( spl, chrc ) ?  impeded : "",
                     spl.energy_cur_string( chrc ) ) << '\n';
-
+    dialogue d( get_talker_for( chrc ), nullptr );
     // Casting Time: 0 (impeded)
     description << string_format(
                     //~ %1$s - cast time, %2$s - is casting impeded, %3$s - casting base time
                     _( "Casting Time: %1$s %2$s (%3$s base time) " ),
                     to_string( time_duration::from_moves( spl.casting_time( chrc ) ) ),
                     spell_desc::casting_time_encumbered( spl, chrc ) ? impeded : "",
-                    to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time ) ) ) << '\n';
+                    to_string( time_duration::from_moves( std::get<0>( spl_data ).base_casting_time.evaluate(
+                                   d ) ) ) ) << '\n';
 
     std::string targets;
     if( spl.is_valid_target( spell_target::none ) ) {
@@ -707,7 +709,7 @@ static void spell_description(
         description << string_format( _( "Only affects the monsters: %1$s" ), target_ids ) << '\n';
     }
 
-    const int damage = spl.damage();
+    const int damage = spl.damage( chrc );
     const std::string spl_eff = spl.effect();
     std::string damage_string;
     std::string range_string;
@@ -716,19 +718,19 @@ static void spell_description(
     if( spl_eff == "attack" ) {
         if( damage > 0 ) {
             std::string dot_string;
-            if( spl.damage_dot() ) {
+            if( spl.damage_dot( chrc ) ) {
                 //~ amount of damage per second, abbreviated
-                dot_string = string_format( _( ", %1$d/sec" ), spl.damage_dot() );
+                dot_string = string_format( _( ", %1$d/sec" ), spl.damage_dot( chrc ) );
             }
-            damage_string = string_format( _( "Damage: %1$s %2$s%3$s" ), spl.damage_string(),
+            damage_string = string_format( _( "Damage: %1$s %2$s%3$s" ), spl.damage_string( chrc ),
                                            spl.damage_type_string(), dot_string );
             damage_string = colorize( damage_string, spl.damage_type_color() );
         } else if( damage < 0 ) {
-            damage_string = string_format( _( "Healing: %1$s" ), colorize( spl.damage_string(),
+            damage_string = string_format( _( "Healing: %1$s" ), colorize( spl.damage_string( chrc ),
                                            light_green ) );
         }
 
-        if( spl.aoe() > 0 ) {
+        if( spl.aoe( chrc ) > 0 ) {
             std::string aoe_string_temp = _( "Spell Radius" );
             std::string degree_string;
             if( spl.shape() == spell_shape::cone ) {
@@ -737,17 +739,18 @@ static void spell_description(
             } else if( spl.shape() == spell_shape::line ) {
                 aoe_string_temp = _( "Line Width" );
             }
-            aoe_string = string_format( _( "%1$s: %2$d %3$s" ), aoe_string_temp, spl.aoe(), degree_string );
+            aoe_string = string_format( _( "%1$s: %2$d %3$s" ), aoe_string_temp, spl.aoe( chrc ),
+                                        degree_string );
         }
 
     } else if( spl_eff == "teleport_random" ) {
-        if( spl.aoe() > 0 ) {
-            aoe_string = string_format( _( "Variance: %1$d" ), spl.aoe() );
+        if( spl.aoe( chrc ) > 0 ) {
+            aoe_string = string_format( _( "Variance: %1$d" ), spl.aoe( chrc ) );
         }
 
     } else if( spl_eff == "spawn_item" ) {
-        damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage(),
-                                       item::nname( itype_id( spl.effect_data() ), spl.damage() ) );
+        damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage( chrc ),
+                                       item::nname( itype_id( spl.effect_data() ), spl.damage( chrc ) ) );
 
     } else if( spl_eff == "summon" ) {
         std::string monster_name = "FIXME";
@@ -761,8 +764,8 @@ static void spell_description(
         } else {
             monster_name = monster( mtype_id( spl.effect_data() ) ).get_name();
         }
-        damage_string = string_format( _( "Summon: %1$d %2$s" ), spl.damage(), monster_name );
-        aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe() );
+        damage_string = string_format( _( "Summon: %1$d %2$s" ), spl.damage( chrc ), monster_name );
+        aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe( chrc ) );
 
     } else if( spl_eff == "targeted_polymorph" ) {
         std::string monster_name = spl.effect_data();
@@ -778,23 +781,23 @@ static void spell_description(
         } else {
             monster_name = mtype_id( spl.effect_data() )->nname();
         }
-        damage_string = string_format( _( "Targets under: %1$dhp become a %2$s" ), spl.damage(),
+        damage_string = string_format( _( "Targets under: %1$dhp become a %2$s" ), spl.damage( chrc ),
                                        monster_name );
 
     } else if( spl_eff == "ter_transform" ) {
-        aoe_string = string_format( "Spell Radius: %1$s", spl.aoe_string() );
+        aoe_string = string_format( "Spell Radius: %1$s", spl.aoe_string( chrc ) );
 
     } else if( spl_eff == "banishment" ) {
-        damage_string = string_format( _( "Damage: %1$s %2$s" ), spl.damage_string(),
+        damage_string = string_format( _( "Damage: %1$s %2$s" ), spl.damage_string( chrc ),
                                        spl.damage_type_string() );
-        if( spl.aoe() > 0 ) {
-            aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe() );
+        if( spl.aoe( chrc ) > 0 ) {
+            aoe_string = string_format( _( "Spell Radius: %1$d" ), spl.aoe( chrc ) );
         }
     }
 
     // Range / AOE in two columns
     description << string_format( _( "Range: %1$s" ),
-                                  spl.range() <= 0 ? _( "self" ) : std::to_string( spl.range() ) ) << '\n';
+                                  spl.range( chrc ) <= 0 ? _( "self" ) : std::to_string( spl.range( chrc ) ) ) << '\n';
 
     description << aoe_string << '\n';
 
@@ -804,8 +807,8 @@ static void spell_description(
     // todo: damage over time here, when it gets implemented
 
     // Show duration for spells that endure
-    if( spl.duration() > 0 || spl.has_flag( spell_flag::PERMANENT ) ) {
-        description << string_format( _( "Duration: %1$s" ), spl.duration_string() ) << '\n';
+    if( spl.duration( chrc ) > 0 || spl.has_flag( spell_flag::PERMANENT ) ) {
+        description << string_format( _( "Duration: %1$s" ), spl.duration_string( chrc ) ) << '\n';
     }
 
     // helper function for printing tool and item component requirement lists
@@ -1002,6 +1005,7 @@ static void change_spells( Character &character )
         calcStartPos( spells_start, spell_selected, TERMY - 2, relative_size );
 
         int line_number = 1;
+        dialogue d( get_talker_for( get_player_character() ), nullptr );
         for( int i = spells_start; i < relative_size; ++i ) {
             if( line_number == TERMY - 1 ) {
                 break;
@@ -1016,7 +1020,7 @@ static void change_spells( Character &character )
             mvwprintz( w_name.window, point( 2, line_number ),
                        spell_color, splt.name.translated() );
             mvwprintz( w_level.window, point( 2, line_number++ ), spell_color,
-                       _( "%1$-3d/%2$3d" ), spell_level, splt.max_level );
+                       _( "%1$-3d/%2$3d" ), spell_level, static_cast<int>( splt.max_level.evaluate( d ) ) );
         }
 
         nc_color gray = c_light_gray;
@@ -1090,10 +1094,11 @@ static void change_spells( Character &character )
         spell_middle_or_id( spellid );
     };
 
-    auto toggle_all_spells = [&]( int level ) {
+    auto toggle_all_spells = [&]( int level, Character & character ) {
+        dialogue d( get_talker_for( character ), nullptr );
         // -2 sets it to max level
         for( spell_tuple *spt : spells_relative ) {
-            std::get<1>( *spt ) = level > -2 ? level : std::get<0>( *spt ).max_level;
+            std::get<1>( *spt ) = level > -2 ? level : std::get<0>( *spt ).max_level.evaluate( d );
             set_spell( std::get<0>( *spt ), std::get<1>( *spt ) );
             std::get<2>( *spt ).clear();
         }
@@ -1110,7 +1115,7 @@ static void change_spells( Character &character )
     bool showing_only_learned = false;
 
     bool force_update_description = false;
-
+    dialogue d( get_talker_for( character ), nullptr );
     while( true ) {
         update_description( force_update_description );
         force_update_description = false;
@@ -1159,14 +1164,15 @@ static void change_spells( Character &character )
         } else if( action == "RIGHT" ) {
             int &spell_level = std::get<1>( *spells_relative[spell_selected] );
             spell_level = std::min( spell_level + 1,
-                                    std::get<0>( *spells_relative[spell_selected] ).max_level );
+                                    static_cast<int>( std::get<0>( *spells_relative[spell_selected] ).max_level.evaluate( d ) ) );
             set_spell( std::get<0>( *spells_relative[spell_selected] ), spell_level );
             force_update_description = true;
 
         } else if( action == "CONFIRM" ) {
             int &spell_level = std::get<1>( *spells_relative[spell_selected] );
             query_int( spell_level, _( "Set spell level to?  Currently: %1$d" ), spell_level );
-            spell_level = clamp( spell_level, -1, std::get<0>( *spells_relative[spell_selected] ).max_level );
+            spell_level = clamp( spell_level, -1,
+                                 static_cast<int>( std::get<0>( *spells_relative[spell_selected] ).max_level.evaluate( d ) ) );
             set_spell( std::get<0>( *spells_relative[spell_selected] ), spell_level );
             force_update_description = true;
 
@@ -1179,13 +1185,13 @@ static void change_spells( Character &character )
         } else if( action == "TOGGLE_ALL_SPELL" ) {
             if( toggle_spells_state == 0 ) {
                 toggle_spells_state = 1;
-                toggle_all_spells( -1 ); // unlearn all spells
+                toggle_all_spells( -1, character ); // unlearn all spells
             } else if( toggle_spells_state == 1 ) {
                 toggle_spells_state = 2;
-                toggle_all_spells( 0 ); // sets all spells to the minimum level
+                toggle_all_spells( 0, character ); // sets all spells to the minimum level
             } else  {
                 toggle_spells_state = 0;
-                toggle_all_spells( -2 ); // max level
+                toggle_all_spells( -2, character ); // max level
             }
 
         } else if( action == "SHOW_ONLY_LEARNED" ) {
@@ -1239,7 +1245,7 @@ static void spawn_artifact()
         if( query_int( artifact_max_attributes, _( "Enter max attributes:" ) )
             && query_int( artifact_power_level, _( "Enter power level:" ) )
             && query_int( artifact_max_negative_value, _( "Enter negative power limit:" ) ) ) {
-            if( const cata::optional<tripoint> center = g->look_around() ) {
+            if( const std::optional<tripoint> center = g->look_around() ) {
                 if( query_yn( _( "Is the artifact resonant?" ) ) ) {
                     artifact_is_resonant = true;
                 }
@@ -1252,7 +1258,7 @@ static void spawn_artifact()
 
 static void teleport_short()
 {
-    const cata::optional<tripoint> where = g->look_around();
+    const std::optional<tripoint> where = g->look_around();
     const Character &player_character = get_player_character();
     if( !where || *where == player_character.pos() ) {
         return;
@@ -1307,7 +1313,7 @@ static void teleport_overmap( bool specific_coordinates = false )
         coord.z = coord_ints.size() >= 3 ? coord_ints[2] : 0;
         where = tripoint_abs_omt( OMAPX * coord.x, OMAPY * coord.y, coord.z );
     } else {
-        const cata::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
+        const std::optional<tripoint> dir_ = choose_direction( _( "Where is the desired overmap?" ) );
         if( !dir_ ) {
             return;
         }
@@ -1330,7 +1336,7 @@ static void teleport_city()
     std::sort( cities.begin(), cities.end(), cities_cmp_population );
     uilist cities_menu;
     ui::omap::setup_cities_menu( cities_menu, cities );
-    cata::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
+    std::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
     if( c.has_value() ) {
         const tripoint_abs_omt where = tripoint_abs_omt(
                                            project_to<coords::omt>( c->pos_om ) + c->pos.raw(), 0 );
@@ -1349,7 +1355,7 @@ static void spawn_nested_mapgen()
     nest_menu.query();
     const int nest_choice = nest_menu.ret;
     if( nest_choice >= 0 && nest_choice < static_cast<int>( nest_ids.size() ) ) {
-        const cata::optional<tripoint> where = g->look_around();
+        const std::optional<tripoint> where = g->look_around();
         if( !where ) {
             return;
         }
@@ -1376,7 +1382,7 @@ static void spawn_nested_mapgen()
 
 static void control_npc_menu()
 {
-    get_avatar().control_npc_menu();
+    get_avatar().control_npc_menu( true );
 }
 
 static void character_edit_stats_menu( Character &you )
@@ -1966,7 +1972,8 @@ static void character_edit_menu()
                     uilist ssmenu;
                     std::vector<std::pair<std::string, mutation_category_id>> mutation_categories_list;
                     mutation_categories_list.reserve( mutations_category.size() );
-                    for( const std::pair<mutation_category_id, std::vector<trait_id> > mut_cat : mutations_category ) {
+                    for( const std::pair<const mutation_category_id, std::vector<trait_id> > &mut_cat :
+                         mutations_category ) {
                         mutation_categories_list.emplace_back( mut_cat.first.c_str(), mut_cat.first );
                     }
                     ssmenu.text = _( "Choose mutation category:" );
@@ -2044,7 +2051,7 @@ static void character_edit_menu()
             mission_debug::edit( you );
             break;
         case D_TELE: {
-            if( const cata::optional<tripoint> newpos = g->look_around() ) {
+            if( const std::optional<tripoint> newpos = g->look_around() ) {
                 you.setpos( *newpos );
                 if( you.is_avatar() ) {
                     if( you.is_mounted() ) {
@@ -2326,8 +2333,8 @@ void mission_debug::edit_mission( mission &m )
 static void draw_benchmark( const int max_difference )
 {
     // call the draw procedure as many times as possible in max_difference milliseconds
-    auto start_tick = std::chrono::steady_clock::now();
-    auto end_tick = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point start_tick = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point end_tick = std::chrono::steady_clock::now();
     int64_t difference = 0;
     int draw_counter = 0;
 
@@ -2566,7 +2573,7 @@ static void debug_menu_change_time()
 static void debug_menu_force_temperature()
 {
     uilist tempmenu;
-    cata::optional<units::temperature> &forced_temp = get_weather().forced_temperature;
+    std::optional<units::temperature> &forced_temp = get_weather().forced_temperature;
 
     tempmenu.addentry( 0, forced_temp.has_value(), MENU_AUTOASSIGN, _( "Reset" ) );
     tempmenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Set" ) );
@@ -2576,24 +2583,24 @@ static void debug_menu_force_temperature()
     } else {
         string_input_popup pop;
 
-        auto ask = [&pop]( const std::string & unit, cata::optional<int> current ) {
+        auto ask = [&pop]( const std::string & unit, std::optional<float> current ) {
             int ret = pop.title( string_format( _( "Set temperature to?  [%s]" ), unit ) )
                       .width( 20 )
                       .text( current ? std::to_string( *current ) : "" )
                       .only_digits( true )
                       .query_int();
 
-            return pop.canceled() ? current : cata::optional<int>( ret );
+            return pop.canceled() ? current : std::optional<float>( static_cast<float>( ret ) );
         };
 
-        cata::optional<int> current;
+        std::optional<float> current;
         std::string option = get_option<std::string>( "USE_CELSIUS" );
 
         if( option == "celsius" ) {
             if( forced_temp ) {
                 current = units::to_celsius( *forced_temp );
             }
-            cata::optional<int> ret = ask( "C", current );
+            std::optional<float> ret = ask( "C", current );
             if( ret ) {
                 forced_temp = units::from_celsius( *ret );
             }
@@ -2601,7 +2608,7 @@ static void debug_menu_force_temperature()
             if( forced_temp ) {
                 current = units::to_kelvin( *forced_temp );
             }
-            cata::optional<int> ret = ask( "K", current );
+            std::optional<float> ret = ask( "K", current );
             if( ret ) {
                 forced_temp = units::from_kelvin( *ret );
             }
@@ -2609,7 +2616,7 @@ static void debug_menu_force_temperature()
             if( forced_temp ) {
                 current = units::to_fahrenheit( *forced_temp );
             }
-            cata::optional<int> ret = ask( "F", current );
+            std::optional<float> ret = ask( "F", current );
             if( ret ) {
                 forced_temp = units::from_fahrenheit( *ret );
             }
@@ -2621,7 +2628,7 @@ void debug()
 {
     bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG,
                                  /*maximum_modifier_count=*/ -1, false ).has_value();
-    cata::optional<debug_menu_index> action = debug_menu_uilist( debug_menu_has_hotkey );
+    std::optional<debug_menu_index> action = debug_menu_uilist( debug_menu_has_hotkey );
 
     // For the "cheaty" options, disable achievements when used
     achievements_tracker &achievements = get_achievements();
@@ -2644,7 +2651,7 @@ void debug()
         if( query_yn( _( query ) ) ) {
             achievements.set_enabled( false );
         } else {
-            action = cata::nullopt;
+            action = std::nullopt;
         }
     }
 
@@ -2713,7 +2720,7 @@ void debug()
         break;
 
         case debug_menu_index::SPAWN_MON:
-            debug_menu::wishmonster( cata::nullopt );
+            debug_menu::wishmonster( std::nullopt );
             break;
 
         case debug_menu_index::GAME_STATE:
@@ -2826,19 +2833,20 @@ void debug()
         case debug_menu_index::CHANGE_WEATHER: {
             uilist weather_menu;
             weather_manager &weather = get_weather();
+            weather_generator wgen = weather.get_cur_weather_gen();
             weather_menu.text = _( "Select new weather pattern:" );
             weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
-            for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
+            for( size_t i = 0; i < wgen.sorted_weather.size(); i++ ) {
                 weather_menu.addentry( i, true, MENU_AUTOASSIGN,
-                                       weather_types::get_all()[i].name.translated() );
+                                       wgen.sorted_weather[i]->name.translated() );
             }
 
             weather_menu.query();
 
             if( weather_menu.ret >= 0 &&
-                static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
-                const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
+                static_cast<size_t>( weather_menu.ret ) < wgen.sorted_weather.size() ) {
+                const weather_type_id selected_weather = wgen.sorted_weather[weather_menu.ret]->id;
                 if( weather.weather_id->debug_leave_eoc.has_value() ) {
                     dialogue d( get_talker_for( get_avatar() ), nullptr );
                     effect_on_condition_id( weather.weather_id->debug_leave_eoc.value() )->activate( d );
@@ -2866,7 +2874,7 @@ void debug()
             }
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
-                weather.wind_direction_override = cata::nullopt;
+                weather.wind_direction_override = std::nullopt;
                 weather.set_nextweather( calendar::turn );
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
                 weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
@@ -2889,7 +2897,7 @@ void debug()
             }
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
-                weather.windspeed_override = cata::nullopt;
+                weather.windspeed_override = std::nullopt;
                 weather.set_nextweather( calendar::turn );
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
@@ -2900,7 +2908,7 @@ void debug()
         break;
 
         case debug_menu_index::GEN_SOUND: {
-            const cata::optional<tripoint> where = g->look_around();
+            const std::optional<tripoint> where = g->look_around();
             if( !where ) {
                 return;
             }
@@ -2999,7 +3007,7 @@ void debug()
                     break;
             }
             if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
-                player_character.make_bleed( effect_source::empty(), part, 1_minutes * intensity );
+                player_character.add_effect( effect_bleed,  1_minutes * intensity, part );
             }
         }
         break;
@@ -3075,7 +3083,7 @@ void debug()
             debug_menu_force_temperature();
             break;
         case debug_menu_index::SET_AUTOMOVE: {
-            const cata::optional<tripoint> dest = g->look_around();
+            const std::optional<tripoint> dest = g->look_around();
             if( !dest || *dest == player_character.pos() ) {
                 break;
             }

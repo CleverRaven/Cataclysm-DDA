@@ -121,6 +121,7 @@
       { "monster": "mon_boar_wild", "weight": 2, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "group": "GROUP_STRAY_CATS", "weight": 10 },
       { "group": "GROUP_STRAY_CATS", "weight": 1, "pack_size": [ 2, 8 ] },
+      { "monster": "mon_ferret", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_chipmunk", "weight": 30, "cost_multiplier": 0, "pack_size": [ 1, 2 ] },
       { "monster": "mon_cougar", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_deer", "weight": 4, "cost_multiplier": 2, "pack_size": [ 1, 5 ] },

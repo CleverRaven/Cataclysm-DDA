@@ -30,6 +30,8 @@
 
 class item;
 
+static const efftype_id effect_bleed( "bleed" );
+
 static const zone_type_id zone_type_ZONE_START_POINT( "ZONE_START_POINT" );
 
 namespace
@@ -488,7 +490,7 @@ void start_location::handle_heli_crash( avatar &you ) const
             // Damage + Bleed
             case 1:
             case 2:
-                you.make_bleed( effect_source::empty(), bp, 6_minutes );
+                you.add_effect( effect_bleed, 6_minutes, bp );
             /* fallthrough */
             case 3:
             case 4:
