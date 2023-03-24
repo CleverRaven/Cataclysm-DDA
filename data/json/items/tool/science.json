@@ -576,6 +576,8 @@
     "symbol": ";",
     "color": "dark_gray",
     "charges_per_use": 1,
+    "capacity": 19000,
+    "count": 19000,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -698,11 +700,13 @@
         "airtight": true,
         "watertight": true,
         "rigid": true,
-        "ammo_restriction": { "oxygen": 300 }
+        "ammo_restriction": { "oxygen": 1000 }
       }
     ],
-    "initial_charges": 300,
-    "max_charges": 300,
+    "initial_charges": 1000,
+    "max_charges": 1000,
+    "capacity": 1000,
+    "count": 1000,
     "charges_per_use": 1,
     "use_action": [ "OXYGEN_BOTTLE" ]
   },
