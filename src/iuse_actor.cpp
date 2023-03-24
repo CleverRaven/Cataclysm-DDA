@@ -4385,10 +4385,10 @@ std::string link_up_actor::get_name() const
     return iuse_actor::get_name();
 }
 
-cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tripoint & ) const
+std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
-        return cata::nullopt; // invoked from active item processing, do nothing.
+        return std::nullopt; // invoked from active item processing, do nothing.
     }
 
     if( it.plugged_in ) {
@@ -4396,12 +4396,12 @@ cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tr
             it.reset_cables( &p );
             return 0;
         }
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     if( !it.has_pocket_type( item_pocket::pocket_type::CABLE ) ) {
         debugmsg( "Called a link_up action on an item (%s) without a CABLE pocket!", it.tname() );
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     map &here = get_map();
@@ -4418,13 +4418,13 @@ cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tr
         }
         return vp.avail_part_with_feature( "CABLE_PORTS" ) || vp.avail_part_with_feature( "APPLIANCE" );
     };
-    const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Connect your device where?" ),
+    const std::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Connect your device where?" ),
                                           "", has_port, false );
     if( !pnt_ ) {
         add_msg( vehicle_nearby ?
                  _( "There's nowhere to plug it in nearby; try the vehicle's dashboard or electronics controls." ) :
                  _( "There's nowhere to plug it in nearby." ) );
-        return cata::nullopt;
+        return std::nullopt;
     }
     const tripoint &pnt = *pnt_;
     const optional_vpart_position vp = here.veh_at( pnt );
@@ -4435,10 +4435,10 @@ cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tr
         } else {
             p.add_msg_if_player( m_info, _( "You can't plug it in there." ) );
         }
-        return cata::nullopt;
+        return std::nullopt;
     }
 
-    cata::optional<vpart_reference> vp_port = vp.avail_part_with_feature( "CABLE_PORTS" );
+    std::optional<vpart_reference> vp_port = vp.avail_part_with_feature( "CABLE_PORTS" );
     if( !vp_port ) {
         vp_port = vp.avail_part_with_feature( "APPLIANCE" );
     }
@@ -4467,7 +4467,7 @@ cata::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tr
                                  it.label( 1 ), vp->vehicle().name );
         } else {
             debugmsg( "Failed to add the %s inside the %s!", cable.tname(), it.tname() );
-            return cata::nullopt;
+            return std::nullopt;
         }
     } else {
         item *existing_cable = it.get_contents().cables().front();

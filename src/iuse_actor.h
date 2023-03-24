@@ -1053,7 +1053,7 @@ class link_up_actor : public iuse_actor
 
         ~link_up_actor() override = default;
         void load( const JsonObject &jo ) override;
-        cata::optional<int> use( Character &p, item &it, bool t, const tripoint & ) const override;
+        std::optional<int> use( Character &p, item &it, bool t, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
         std::string get_name() const override;
