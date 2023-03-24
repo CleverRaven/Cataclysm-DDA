@@ -3193,7 +3193,7 @@ void item::deserialize( const JsonObject &data )
 
         contents.read_mods( read_contents );
         update_modified_pockets();
-        contents.combine( read_contents, false, true, false );//TODOkama what's the last one here
+        contents.combine( read_contents, false, true, false );
 
         if( data.has_object( "contents" ) ) {
             JsonObject tested = data.get_object( "contents" );

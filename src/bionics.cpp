@@ -3412,15 +3412,7 @@ std::vector<vehicle *> Character::get_cable_vehicle()
         if( vp ) {
             remote_vehicles.emplace_back( &vp->vehicle() );
         }
-    }/* TODOkama delete?
-        const std::optional<tripoint> target = cable->get_cable_target( this, pos() );
-        if( target ) {
-            const optional_vpart_position vp = here.veh_at( *target );
-            if( vp ) {
-                remote_vehicles.emplace_back( &vp->vehicle() );
-            }
-        }
-    }*/
+    }
 
     return remote_vehicles;
 }
