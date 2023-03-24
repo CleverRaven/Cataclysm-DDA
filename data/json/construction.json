@@ -7790,7 +7790,7 @@
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": "10 m",
-    "qualities": [ [ { "id": "TREE_CUTTING", "level": 1 } ] ],
+    "qualities": [ [ { "id": "AXE", "level": 1 } ] ],
     "byproducts": [ { "item": "timber", "charges": 1 } ],
     "pre_terrain": "f_trunk",
     "post_terrain": "f_null"
