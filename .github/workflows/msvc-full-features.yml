@@ -36,6 +36,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  # Enable pretty backtraces
+  BACKTRACE: 1
   # Compressed size ~1GB based on observations
   CCACHE_LIMIT: 8GB
   CDDA_CCACHE_PATH: ${{ github.workspace }}\ccache\

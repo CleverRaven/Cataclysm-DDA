@@ -64,6 +64,7 @@
 #include "effect.h"
 #include "effect_source.h"
 #include "event.h"
+#include "event_bus.h"
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
@@ -1040,6 +1041,7 @@ void Character::load( const JsonObject &data )
     on_stat_change( "sleep_deprivation", sleep_deprivation );
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
+    on_stat_change( "radiation", get_rad() );
     recalc_sight_limits();
     calc_encumbrance();
 
@@ -2896,6 +2898,16 @@ void load_charge_migration_blacklist( const JsonObject &jo, const std::string &/
     charge_migration_blacklist.insert( new_blacklist.begin(), new_blacklist.end() );
 }
 
+static std::set<itype_id> temperature_removal_blacklist;
+
+void load_temperature_removal_blacklist( const JsonObject &jo, const std::string &/*src*/ )
+{
+    jo.allow_omitted_members();
+    std::set<itype_id> new_blacklist;
+    jo.read( "list", new_blacklist );
+    temperature_removal_blacklist.insert( new_blacklist.begin(), new_blacklist.end() );
+}
+
 template<typename Archive>
 void item::io( Archive &archive )
 {
@@ -3049,6 +3061,32 @@ void item::io( Archive &archive )
         // Some hot/cold items from legacy saves may be inactive
         active = true;
     }
+
+    // Former comestibles that no longer need temperature tracking
+    if( !has_temperature() && ( last_temp_check != calendar::turn_zero || has_own_flag( flag_HOT ) ||
+                                has_own_flag( flag_COLD ) || has_own_flag( flag_FROZEN ) ) ) {
+        bool abort = false;
+        if( active ) {
+            if( temperature_removal_blacklist.count( type->get_id() ) != 0 ) {
+                // list of items that are safe for straightforward deactivation
+                // NOTE: items that may be active for additional reasons other than temperature tracking
+                // should be handled in separate special cases containing item-specific deactivation logic
+                active = false;
+            } else {
+                // warn and bail in unexpected cases -- should be investigated
+                debugmsg( "Item %s is active and tracking temperature, but it should not!", type->get_id().str() );
+                // erroneous unsetting of last_temp_check/flags is hard to detect/rectify, so do not proceed
+                abort = true;
+            }
+        }
+        if( !abort ) {
+            last_temp_check = calendar::turn_zero;
+            unset_flag( flag_HOT );
+            unset_flag( flag_COLD );
+            unset_flag( flag_FROZEN );
+        }
+    }
+
     std::string mode;
     if( archive.read( "mode", mode ) ) {
         // only for backward compatibility (nowadays mode is stored in item_vars)
@@ -3147,7 +3185,7 @@ void item::deserialize( const JsonObject &data )
 
         contents.read_mods( read_contents );
         update_modified_pockets();
-        contents.combine( read_contents, false, true );
+        contents.combine( read_contents, false, true, false );
 
         if( data.has_object( "contents" ) ) {
             JsonObject tested = data.get_object( "contents" );
@@ -4635,6 +4673,43 @@ void stats_tracker::deserialize( const JsonObject &jo )
         d.second.set_type( d.first );
     }
     jo.read( "initial_scores", initial_scores );
+
+    // TODO: remove after 0.H
+    // migration for saves made before addition of event_type::game_avatar_new
+    event_multiset gan_evts = get_events( event_type::game_avatar_new );
+    if( !gan_evts.count() ) {
+        event_multiset gs_evts = get_events( event_type::game_start );
+        if( gs_evts.count() ) {
+            auto gs_evt = gs_evts.first().value();
+            cata::event::data_type gs_data = gs_evt.first;
+
+            // retroactively insert starting avatar
+            cata::event::data_type gan_data( gs_data );
+            gan_data["is_new_game"] = cata_variant::make<cata_variant_type::bool_>( true );
+            gan_data["is_debug"] = cata_variant::make<cata_variant_type::bool_>( false );
+            gan_data.erase( "game_version" );
+            get_event_bus().send( cata::event( event_type::game_avatar_new, calendar::start_of_game,
+                                               std::move( gan_data ) ) );
+
+            // retroactively insert current avatar, if different from starting avatar
+            // we don't know when they took over, so just use current time point
+            avatar &u = get_avatar();
+            if( u.getID() != gs_data["avatar_id"].get<cata_variant_type::character_id>() ) {
+                profession_id prof_id = u.prof ? u.prof->ident() : profession::generic()->ident();
+                get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
+                                      u.getID(), u.name, u.male, prof_id, u.custom_profession ) );
+            }
+        } else {
+            // last ditch effort for really old saves that don't even have event_type::game_start
+            // treat current avatar as the starting avatar; abuse is_new_game=false to flag such cases
+            avatar &u = get_avatar();
+            profession_id prof_id = u.prof ? u.prof->ident() : profession::generic()->ident();
+            std::swap( calendar::turn, calendar::start_of_game );
+            get_event_bus().send( cata::event::make<event_type::game_avatar_new>( false, false,
+                                  u.getID(), u.name, u.male, prof_id, u.custom_profession ) );
+            std::swap( calendar::turn, calendar::start_of_game );
+        }
+    }
 }
 
 namespace

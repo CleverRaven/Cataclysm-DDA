@@ -165,7 +165,6 @@
       { "item": "atomic_lamp", "prob": 1 },
       { "item": "alarmclock", "prob": 10 },
       { "item": "pet_carrier", "prob": 3 },
-      { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
       { "item": "charcoal", "prob": 20 },
       { "item": "thermometer", "prob": 3 },
       { "item": "hygrometer", "prob": 3 },

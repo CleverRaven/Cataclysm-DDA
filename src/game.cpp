@@ -250,6 +250,9 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_holybook_bible1( "holybook_bible1" );
+static const itype_id itype_holybook_bible2( "holybook_bible2" );
+static const itype_id itype_holybook_bible3( "holybook_bible3" );
 static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_rope_30( "rope_30" );
@@ -291,6 +294,7 @@ static const species_id species_PLANT( "PLANT" );
 static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescued" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
@@ -303,6 +307,7 @@ static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
@@ -409,6 +414,7 @@ game::game() :
     events().subscribe( &*memorial_logger_ptr );
     events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
+    events().subscribe( &*eoc_events_ptr );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
@@ -1004,8 +1010,9 @@ bool game::start_game()
         }
     }
 
-    get_event_bus().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
-            u.custom_profession, getVersionString() );
+    get_event_bus().send<event_type::game_start>( getVersionString() );
+    get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/true, /*is_debug=*/false,
+            u.getID(), u.name, u.male, u.prof->ident(), u.custom_profession );
     time_played_at_last_load = std::chrono::seconds( 0 );
     time_of_last_load = std::chrono::steady_clock::now();
     tripoint_abs_omt abs_omt = u.global_omt_location();
@@ -2610,6 +2617,7 @@ bool game::is_game_over()
         return true;
     }
     if( uquit == QUIT_SUICIDE ) {
+        bury_screen();
         if( u.in_vehicle ) {
             m.unboard_vehicle( u.pos() );
         }
@@ -2624,6 +2632,7 @@ bool game::is_game_over()
         if( !u.is_dead_state() ) {
             return false;
         }
+        bury_screen();
         effect_on_conditions::avatar_death();
         if( !u.is_dead_state() ) {
             return false;
@@ -2644,6 +2653,194 @@ bool game::is_game_over()
         return is_game_over();
     }
     return false;
+}
+
+void game::bury_screen() const
+{
+    avatar &u = get_avatar();
+
+    std::vector<std::string> vRip;
+
+    int iMaxWidth = 0;
+    int iNameLine = 0;
+    int iInfoLine = 0;
+
+    if( u.has_amount( itype_holybook_bible1, 1 ) || u.has_amount( itype_holybook_bible2, 1 ) ||
+        u.has_amount( itype_holybook_bible3, 1 ) ) {
+        if( !( u.has_trait( trait_CANNIBAL ) || u.has_trait( trait_PSYCHOPATH ) ) ) {
+            vRip.emplace_back( "               _______  ___" );
+            vRip.emplace_back( "              <       `/   |" );
+            vRip.emplace_back( "               >  _     _ (" );
+            vRip.emplace_back( "              |  |_) | |_) |" );
+            vRip.emplace_back( "              |  | \\ | |   |" );
+            vRip.emplace_back( "   ______.__%_|            |_________  __" );
+            vRip.emplace_back( " _/                                  \\|  |" );
+            iNameLine = vRip.size();
+            vRip.emplace_back( "|                                        <" );
+            vRip.emplace_back( "|                                        |" );
+            iMaxWidth = utf8_width( vRip.back() );
+            vRip.emplace_back( "|                                        |" );
+            vRip.emplace_back( "|_____.-._____              __/|_________|" );
+            vRip.emplace_back( "              |            |" );
+            iInfoLine = vRip.size();
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |           <" );
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |   _        |" );
+            vRip.emplace_back( "              |__/         |" );
+            vRip.emplace_back( "             % / `--.      |%" );
+            vRip.emplace_back( "         * .%%|          -< @%%%" ); // NOLINT(cata-text-style)
+            vRip.emplace_back( "         `\\%`@|            |@@%@%%" );
+            vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
+            vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
+
+        } else {
+            vRip.emplace_back( "               _______  ___" );
+            vRip.emplace_back( "              |       \\/   |" );
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |            |" );
+            iInfoLine = vRip.size();
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |           <" );
+            vRip.emplace_back( "              |   _        |" );
+            vRip.emplace_back( "              |__/         |" );
+            vRip.emplace_back( "   ______.__%_|            |__________  _" );
+            vRip.emplace_back( " _/                                   \\| \\" );
+            iNameLine = vRip.size();
+            vRip.emplace_back( "|                                         <" );
+            vRip.emplace_back( "|                                         |" );
+            iMaxWidth = utf8_width( vRip.back() );
+            vRip.emplace_back( "|                                         |" );
+            vRip.emplace_back( "|_____.-._______            __/|__________|" );
+            vRip.emplace_back( "             % / `_-.   _  |%" );
+            vRip.emplace_back( "         * .%%|  |_) | |_)< @%%%" ); // NOLINT(cata-text-style)
+            vRip.emplace_back( "         `\\%`@|  | \\ | |   |@@%@%%" );
+            vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
+            vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
+        }
+    } else {
+        vRip.emplace_back( R"(           _________  ____           )" );
+        vRip.emplace_back( R"(         _/         `/    \_         )" );
+        vRip.emplace_back( R"(       _/      _     _      \_.      )" );
+        vRip.emplace_back( R"(     _%\      |_) | |_)       \_     )" );
+        vRip.emplace_back( R"(   _/ \/      | \ | |           \_   )" );
+        vRip.emplace_back( R"( _/                               \_ )" );
+        vRip.emplace_back( R"(|                                   |)" );
+        iNameLine = vRip.size();
+        vRip.emplace_back( R"( )                                 < )" );
+        vRip.emplace_back( R"(|                                   |)" );
+        vRip.emplace_back( R"(|                                   |)" );
+        vRip.emplace_back( R"(|   _                               |)" );
+        vRip.emplace_back( R"(|__/                                |)" );
+        iMaxWidth = utf8_width( vRip.back() );
+        vRip.emplace_back( R"( / `--.                             |)" );
+        vRip.emplace_back( R"(|                                  ( )" );
+        iInfoLine = vRip.size();
+        vRip.emplace_back( R"(|                                   |)" );
+        vRip.emplace_back( R"(|                                   |)" );
+        vRip.emplace_back( R"(|     %                         .   |)" );
+        vRip.emplace_back( R"(|  @`                            %% |)" );
+        vRip.emplace_back( R"(| %@%@%\                *      %`%@%|)" );
+        vRip.emplace_back( R"(%%@@@.%@%\%%            `\  %%.%%@@%@)" );
+        vRip.emplace_back( R"(@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@)" );
+    }
+
+    const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
+
+    catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                               iOffset );
+    draw_border( w_rip );
+
+    sfx::do_player_death_hurt( get_player_character(), true );
+    sfx::fade_audio_group( sfx::group::weather, 2000 );
+    sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
+    sfx::fade_audio_group( sfx::group::context_themes, 2000 );
+    sfx::fade_audio_group( sfx::group::fatigue, 2000 );
+
+    for( size_t iY = 0; iY < vRip.size(); ++iY ) {
+        size_t iX = 0;
+        const char *str = vRip[iY].data();
+        for( int slen = vRip[iY].size(); slen > 0; ) {
+            const uint32_t cTemp = UTF8_getch( &str, &slen );
+            if( cTemp != U' ' ) {
+                nc_color ncColor = c_light_gray;
+
+                if( cTemp == U'%' ) {
+                    ncColor = c_green;
+
+                } else if( cTemp == U'_' || cTemp == U'|' ) {
+                    ncColor = c_white;
+
+                } else if( cTemp == U'@' ) {
+                    ncColor = c_brown;
+
+                } else if( cTemp == U'*' ) {
+                    ncColor = c_red;
+                }
+
+                mvwputch( w_rip, point( iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), iY + 1 ), ncColor,
+                          cTemp );
+            }
+            iX += mk_wcwidth( cTemp );
+        }
+    }
+
+    std::string sTemp;
+
+    center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
+
+    const time_duration survived = calendar::turn - calendar::start_of_game;
+    const int minutes = to_minutes<int>( survived ) % 60;
+    const int hours = to_hours<int>( survived ) % 24;
+    const int days = to_days<int>( survived );
+
+    if( days > 0 ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
+    } else if( hours > 0 ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        sTemp = string_format( "%dh %dm", hours, minutes );
+    } else {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        sTemp = string_format( "%dm", minutes );
+    }
+
+    center_print( w_rip, iInfoLine++, c_white, sTemp );
+
+    const int iTotalKills = g->get_kill_tracker().monster_kill_count();
+
+    sTemp = _( "Kills:" );
+    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - 5, 1 + iInfoLine++ ), c_light_gray,
+               ( sTemp + " " ) );
+    wprintz( w_rip, c_magenta, "%d", iTotalKills );
+
+    sTemp = _( "In memory of:" );
+    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
+               c_light_gray,
+               sTemp );
+
+    sTemp = u.get_name();
+    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
+               sTemp );
+
+    sTemp = _( "Last Words:" );
+    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
+               c_light_gray,
+               sTemp );
+
+    int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
+    std::string sLastWords = string_input_popup()
+                             .window( w_rip, point( iStartX, iNameLine ), iStartX + iMaxWidth - 4 - 1 )
+                             .max_length( iMaxWidth - 4 - 1 )
+                             .query_string();
+
+    const bool is_suicide = uquit == QUIT_SUICIDE;
+    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
+            sLastWords );
 }
 
 void game::death_screen()

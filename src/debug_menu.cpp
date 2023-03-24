@@ -1377,7 +1377,7 @@ static void spawn_nested_mapgen()
 
 static void control_npc_menu()
 {
-    get_avatar().control_npc_menu();
+    get_avatar().control_npc_menu( true );
 }
 
 static void character_edit_stats_menu( Character &you )

@@ -311,7 +311,7 @@ static std::string craft_success_chance_string( const recipe &recp, const Charac
         color = "cyan";
     }
 
-    return string_format( _( "Minor Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
+    return string_format( _( "Minor Failure Chance: <color_%s>%2.2f%%</color>" ), color, chance );
 }
 
 static std::string cata_fail_chance_string( const recipe &recp, const Character &guy )
@@ -328,7 +328,8 @@ static std::string cata_fail_chance_string( const recipe &recp, const Character 
         color = "light_gray";
     }
 
-    return string_format( _( "Catastrophic Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
+    return string_format( _( "Catastrophic Failure Chance: <color_%s>%2.2f%%</color>" ), color,
+                          chance );
 }
 
 
