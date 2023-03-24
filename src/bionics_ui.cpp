@@ -35,6 +35,8 @@
 
 static const itype_id itype_battery( "battery" );
 
+static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
+
 // '!', '-' and '=' are uses as default bindings in the menu
 static const invlet_wrapper
 bionic_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
@@ -301,7 +303,10 @@ static std::string build_bionic_poweronly_string( const bionic &bio, avatar *p )
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
 
-    if( bio_data.power_activate > 0_kJ ) {
+    if( bio_data.has_flag( json_flag_BIONIC_GUN ) && bio.get_weapon().get_gun_bionic_drain() > 0_kJ ) {
+        properties.push_back( string_format( _( "%s act" ),
+                                             units::display( bio.get_weapon().get_gun_bionic_drain() ) ) );
+    } else if( bio_data.power_activate > 0_kJ ) {
         properties.push_back( string_format( _( "%s act" ),
                                              units::display( bio_data.power_activate ) ) );
     }

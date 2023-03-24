@@ -2646,6 +2646,7 @@ class item : public visitable
          */
         units::energy get_gun_energy_drain() const;
         units::energy get_gun_ups_drain() const;
+        units::energy get_gun_bionic_drain() const;
 
         void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {

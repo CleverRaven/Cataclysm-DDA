@@ -13615,6 +13615,14 @@ units::energy item::get_gun_ups_drain() const
     return 0_kJ;
 }
 
+units::energy item::get_gun_bionic_drain() const
+{
+    if( has_flag( flag_USES_BIONIC_POWER ) ) {
+        return get_gun_energy_drain();
+    }
+    return 0_kJ;
+}
+
 bool item::has_label() const
 {
     return has_var( "item_label" );
