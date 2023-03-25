@@ -1284,6 +1284,8 @@ void pointmenu_cb::select( uilist *const menu )
     impl->select( menu );
 }
 
+// Templating of existing `unsigned int` triggers linter rules against `unsigned long`
+// NOLINTBEGIN(cata-no-long)
 template bool navigate_ui_list<int, int>( const std::string &action, int &val, int page_delta,
         int size, bool wrap );
 template bool navigate_ui_list<int, size_t>( const std::string &action, int &val, int page_delta,
@@ -1300,8 +1302,6 @@ template bool navigate_ui_list<defense_location, defense_location>( const std::s
         defense_location &val,
         int page_delta, defense_location size, bool wrap );
 
-// Templating of existing `unsigned int` triggers linter rules against `unsigned long`
-// NOLINTBEGIN(cata-no-long)
 template<typename V, typename S>
 bool navigate_ui_list( const std::string &action, V &val, int page_delta, S size, bool wrap )
 {
