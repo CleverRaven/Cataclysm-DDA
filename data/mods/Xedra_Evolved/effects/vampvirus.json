@@ -126,7 +126,12 @@
               "id": "eoc_vampvirus_1_trait",
               "condition": { "u_has_trait": "VAMPIRE" },
               "effect": [
-                { "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ], "type": "mutation", "true_eocs": [ "EOC_VAMPVIRUS1" ], "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ] },
+                {
+                  "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ],
+                  "type": "mutation",
+                  "true_eocs": [ "EOC_VAMPVIRUS1" ],
+                  "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
+                },
                 { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." }
               ],
               "false_effect": [
