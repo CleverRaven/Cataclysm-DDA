@@ -359,8 +359,6 @@ Example:
   ",": "t_pavement_y",
   "_": "t_pavement",
   "r": "t_floor",
-  "6": "t_console",
-  "x": "t_console_broken",
   "$": "t_shrub",
   "^": "t_floor",
   ".": "t_floor",

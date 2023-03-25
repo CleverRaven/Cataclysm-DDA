@@ -1566,16 +1566,6 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             }
             done_deconstruct( top, player_character );
         }
-        if( t.id.id() == t_console_broken )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 20, 4 );
-            }
-        }
-        if( t.id.id() == t_console )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 40, 8 );
-            }
-        }
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
         here.spawn_items( p, item_group::items_from( t.deconstruct.drop_group, calendar::turn ) );

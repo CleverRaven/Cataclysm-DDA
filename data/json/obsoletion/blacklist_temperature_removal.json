@@ -1,25 +1,7 @@
 [
   {
-    "type": "charge_migration_blacklist",
-    "list": [
-      "adhesive_bandages",
-      "alcohol_wipes",
-      "bandages",
-      "bandages_makeshift",
-      "bandages_makeshift_bleached",
-      "bandages_makeshift_boiled",
-      "cotton_ball",
-      "disinrag",
-      "disincotton_ball",
-      "medical_gauze"
-    ]
-  },
-  {
-    "type": "charge_removal_blacklist",
-    "list": [  ]
-  },
-  {
     "type": "temperature_removal_blacklist",
+    "//": "Allows removal of active flag from items that had temperature tracking https://github.com/CleverRaven/Cataclysm-DDA/pull/63945",
     "list": [
       "napkin",
       "cardboard",
