@@ -30,7 +30,7 @@ These sites are owned and managed by the project directly.
 
 ## Community Managed Resources
 These are resources provided by third parties that the project sees as helpful to users.
-* [Hitchhiker's Guide to the Cataclysm](https://nornagon.github.io/cdda-guide/)
+* [Hitchhiker's Guide to the Cataclysm](https://cdda-guide.nornagon.net)
 * [Wiki](http://cddawiki.chezzo.com/cdda_wiki/index.php)
 
 ## System Requirements
