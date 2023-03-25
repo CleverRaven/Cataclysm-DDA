@@ -170,8 +170,8 @@
     "name": { "str_sp": "lead" },
     "description": "A soft, dull metal used since ancient times.  Due to its malleability, it has a wide variety of uses including the manufacture of ammunition.",
     "weight": "5 g",
-    "//": "Density 11.34g/cm³ ~ 2.8kg/250ml @ stack 1000 = 3g/unit",
-    "volume": "50ml",
+    "volume": "97 ml",
+    "//": "200*5g / 11.342g/ml = ~88.17ml. Add 10% to take an uneven chunk into account = 96.99ml rounded upwards to 97ml.",
     "price": 1,
     "price_postapoc": 2,
     "count": 100,
@@ -734,6 +734,20 @@
     "symbol": "=",
     "color": "light_gray",
     "ammo_type": "components"
+  },
+  {
+    "id": "1l_lead",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "1L lead ingot" },
+    "description": "A one-liter ingot of solid lead.",
+    "weight": "11342 g",
+    "volume": "1 L",
+    "price": 2269,
+    "price_postapoc": 4500,
+    "material": [ "lead" ],
+    "symbol": "=",
+    "color": "light_gray"
   },
   {
     "id": "5l_lead",
