@@ -150,6 +150,20 @@ void stomach_contents::deserialize( const JsonObject &jo )
     jo.read( "contents", str );
     contents = string_to_ml( str );
     jo.read( "last_ate", last_ate );
+
+    // the next chunk deletes obsoleted vitamins
+    const auto predicate = []( const std::pair<vitamin_id, int> &pair ) {
+        if( !pair.first.is_valid() ) {
+            DebugLog( D_WARNING, DC_ALL )
+                    << "deleted '" << pair.first.str() << "' from stomach_contents::nutrients::vitamins";
+            return true;
+        }
+        return false;
+    };
+    std::map<vitamin_id, int>::iterator it = nutr.vitamins.begin();
+    while( ( it = std::find_if( it, nutr.vitamins.end(), predicate ) ) != nutr.vitamins.end() ) {
+        nutr.vitamins.erase( it++ );
+    }
 }
 
 units::volume stomach_contents::capacity( const Character &owner ) const

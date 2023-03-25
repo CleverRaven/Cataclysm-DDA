@@ -298,8 +298,8 @@
     "type": "SPELL",
     "id": "centipede_mom_summon",
     "name": { "str": "Summon Centipede" },
-    "description": "Summons a small, pissed off centipede.",
-    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_TARGET", "NO_PROJECTILE", "NO_EXPLOSION_SFX" ],
+    "description": "Summons a small, sometimes pissed off centipede.",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT", "RANDOM_TARGET", "NO_PROJECTILE", "NO_EXPLOSION_SFX", "SPAWN_GROUP" ],
     "valid_targets": [ "ground" ],
     "base_casting_time": 200,
     "min_range": 1,
@@ -310,7 +310,7 @@
     "max_aoe": 1,
     "shape": "line",
     "effect": "summon",
-    "effect_str": "mon_centipede_small"
+    "effect_str": "GROUP_CENTIPEDE_MOM_SUMMON"
   },
   {
     "type": "SPELL",

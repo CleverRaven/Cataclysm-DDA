@@ -918,18 +918,6 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
         prep_craft( recipe_water_clean, tools, true );
     }
-    SECTION( "clean_water_in_loaded_mess_kit" ) {
-        std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "hotplate", 500 ) );
-        item plastic_bottle( "bottle_plastic" );
-        plastic_bottle.put_in(
-            item( "water", calendar::turn_zero, 2 ), item_pocket::pocket_type::CONTAINER );
-        tools.push_back( plastic_bottle );
-        tools.push_back( tool_with_ammo( "mess_kit", 500 ) );
-
-        // Can't actually test crafting here since crafting a liquid currently causes a ui prompt
-        prep_craft( recipe_water_clean, tools, true );
-    }
     SECTION( "clean_water_in_loaded_survivor_mess_kit" ) {
         std::vector<item> tools;
         tools.push_back( tool_with_ammo( "hotplate", 500 ) );

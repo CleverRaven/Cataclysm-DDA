@@ -21,9 +21,8 @@
 # Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
-#   Run: make NATIVE=osx OSX_MIN=10.12
-#     It is highly recommended to supply OSX_MIN > 10.11
-#     otherwise optimizations are automatically disabled with -O0
+#   Run: make NATIVE=osx OSX_MIN=10.13
+#     The minimum OSX_MIN version supported is 10.13
 
 # Build types:
 # Debug (no optimizations)

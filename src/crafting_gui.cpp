@@ -311,7 +311,7 @@ static std::string craft_success_chance_string( const recipe &recp, const Charac
         color = "cyan";
     }
 
-    return string_format( _( "Minor Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
+    return string_format( _( "Minor Failure Chance: <color_%s>%2.2f%%</color>" ), color, chance );
 }
 
 static std::string cata_fail_chance_string( const recipe &recp, const Character &guy )
@@ -328,7 +328,8 @@ static std::string cata_fail_chance_string( const recipe &recp, const Character 
         color = "light_gray";
     }
 
-    return string_format( _( "Catastrophic Failure Chance: <color_%s>%2.2f</color>" ), color, chance );
+    return string_format( _( "Catastrophic Failure Chance: <color_%s>%2.2f%%</color>" ), color,
+                          chance );
 }
 
 
@@ -1710,22 +1711,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
             user_moved_line = highlight_unread_recipes;
         } else if( action == "SCROLL_UP" && mouse_in_list ) {
             line = std::max( 0, line - 1 );
-        } else if( action == "PAGE_DOWN" ) {
-            if( line == recmax - 1 ) {
-                line = 0;
-            } else if( line + scroll_rate >= recmax ) {
-                line = recmax - 1;
-            } else {
-                line += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( line == 0 ) {
-                line = recmax - 1;
-            } else if( line <= scroll_rate ) {
-                line = 0;
-            } else {
-                line += -scroll_rate;
-            }
+        } else if( action == "PAGE_UP" || action == "PAGE_DOWN" ) {
+            line = increment_and_clamp( line, action == "PAGE_UP" ? -scroll_rate : scroll_rate, recmax );
         } else if( action == "HOME" ) {
             line = 0;
             user_moved_line = highlight_unread_recipes;

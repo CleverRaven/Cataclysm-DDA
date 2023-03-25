@@ -792,6 +792,7 @@ class input_context
         void register_updown();
         void register_leftright();
         void register_cardinal();
+        void register_navigate_ui_list();
 
         /**
          * Displays the possible actions in the current context and their

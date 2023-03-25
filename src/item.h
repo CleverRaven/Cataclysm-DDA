@@ -642,8 +642,6 @@ class item : public visitable
 
         units::length length() const;
 
-        units::length integral_length() const;
-
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
          * NOTE: Result is rounded up to next nearest milliliter when working with stackable (@ref count_by_charges) items that have fractional volume per charge.
@@ -1160,10 +1158,6 @@ class item : public visitable
         std::vector<const part_material *> armor_made_of( const bodypart_id &bp ) const;
         std::vector<const part_material *> armor_made_of( const sub_bodypart_id &bp ) const;
         /**
-        * The ids of all the qualities this contains.
-        */
-        const std::map<quality_id, int> &quality_of() const;
-        /**
          * Same as @ref made_of(), but returns the @ref material_type directly.
          */
         std::vector<const material_type *> made_of_types() const;
@@ -1355,9 +1349,6 @@ class item : public visitable
         /** Maximum amount of damage to an item (state before destroyed) */
         int max_damage() const;
 
-        /** Number of degradation increments before the item is destroyed */
-        int degrade_increments() const;
-
         /**
          * Relative item health.
          * Returns 1 for undamaged ||items, values in the range (0, 1) for damaged items
@@ -1510,7 +1501,6 @@ class item : public visitable
         bool is_salvageable() const;
         bool is_disassemblable() const;
         bool is_craft() const;
-        bool is_scannable() const;
 
         bool is_deployable() const;
         bool is_tool() const;

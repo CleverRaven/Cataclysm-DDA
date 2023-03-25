@@ -472,7 +472,7 @@
     "components": [
       [ [ "iodine_crystal", 218 ] ],
       [ [ "chem_potassium_hydroxide", 600 ], [ "lye_potassium", 15 ] ],
-      [ [ "ammonia", 1 ] ]
+      [ [ "ammonia_hydroxide", 1 ] ]
     ]
   },
   {

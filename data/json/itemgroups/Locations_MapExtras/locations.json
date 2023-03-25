@@ -974,7 +974,6 @@
       [ "survnote", 1 ],
       [ "tinder", 1 ],
       { "item": "hobo_stove", "prob": 1 },
-      { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
       [ "eclipse_glasses", 1 ],
       { "group": "writing_utensils", "prob": 5 }
     ]
@@ -1226,7 +1225,7 @@
       { "item": "matches", "prob": 60, "charges": [ 0, 20 ] },
       { "item": "ref_matches", "prob": 60, "charges": [ 0, 32 ] },
       [ "sewage", 60 ],
-      [ "improvised_pipebomb", 4 ],
+      [ "pipebomb", 4 ],
       { "item": "crack", "prob": 8, "charges": [ 1, 4 ] },
       [ "crackpipe", 37 ],
       { "item": "lsd", "prob": 10, "charges": [ 1, 5 ] },
@@ -1295,8 +1294,7 @@
       [ "material_shrd_limestone", 40 ],
       [ "material_niter", 5 ],
       [ "chem_rdx", 5 ],
-      [ "chem_hmtd", 10 ],
-      [ "tool_anfo_charge", 2 ]
+      [ "chem_hmtd", 10 ]
     ]
   },
   {
@@ -1369,7 +1367,6 @@
       { "group": "tools_toolbox", "prob": 1 },
       [ "apron_leather", 5 ],
       [ "apron_cut_resistant", 10 ],
-      [ "tool_anfo_charge", 1 ],
       { "item": "remotevehcontrol", "prob": 10, "charges": [ 0, 100 ] }
     ]
   },
@@ -2490,7 +2487,7 @@
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 5, "charges": [ 0, 300 ] },
-      { "item": "mess_kit", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 10 },
       { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "popcan_stove", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "denat_alcohol", "prob": 6, "charges-min": 250 },
@@ -2557,7 +2554,6 @@
       [ "chem_hexamine", 4 ],
       { "item": "esbit_stove", "prob": 8, "charges": [ 0, 50 ] },
       [ "bottle_folding", 6 ],
-      [ "mess_tin", 8 ],
       [ "metal_file", 5 ],
       [ "pin_reamer", 3 ],
       { "group": "writing_utensils", "prob": 20 }

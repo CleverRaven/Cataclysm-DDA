@@ -226,7 +226,7 @@
           { "item": "matches", "prob": 20, "charges": [ 0, 20 ] },
           { "item": "small_lighter", "prob": 20, "charges": [ 0, 50 ] },
           {
-            "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],
+            "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 200, 400 ] } ],
             "prob": 5
           }
         ],
