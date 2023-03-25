@@ -236,7 +236,7 @@
         "t": "t_tile_flat_roof",
         "+": "t_door_c",
         "0": "t_window_domestic",
-        ">": "t_stairs_down",
+        ">": "t_stairs_down_no_roof",
         "4": "t_gutter_downspout"
       },
       "furniture": {
