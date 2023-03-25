@@ -148,7 +148,7 @@
       { "item": "under_armor", "prob": 20 },
       { "item": "elbow_pads", "prob": 20 },
       { "item": "knee_pads", "prob": 20 },
-      { "item": "mil_mess_kit", "prob": 30 },
+      { "item": "mess_kit", "prob": 30 },
       { "item": "e_tool", "prob": 15 },
       { "item": "chocolate", "prob": 30 },
       { "item": "can_beans", "prob": 20 },

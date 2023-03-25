@@ -33,6 +33,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "omnicamera_reinforced",
+    "copy-from": "omnicamera",
+    "looks_like": "omnicamera",
+    "name": { "str": "reinforced security camera" },
+    "description": "A security camera with a cage built around it to protect it from damage without reducing its effectiveness.",
+    "weight": "1400 g",
+    "to_hit": -5,
+    "material": [ "steel", "plastic" ],
+    "price": 20000,
+    "price_postapoc": 1500
+  },
+  {
+    "type": "GENERIC",
     "id": "vehicle_controls",
     "name": { "str": "vehicle controls", "str_pl": "sets of vehicle controls" },
     "description": "A set of various vehicle controls.  Useful for crafting.",

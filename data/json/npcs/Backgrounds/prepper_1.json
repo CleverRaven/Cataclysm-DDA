@@ -63,17 +63,17 @@
       "type": "mission",
       "context": "BGSS",
       "value": "yes",
-      "no": "I still haven't made it there.  Every time I've tried I've been headed off by the <zombies>.  Who knows, maybe someday.",
+      "no": "I never made it there and can't imagine I ever will.  Every time I've tried I've been headed off by the <zombies>.",
       "yes": "The shelter's in your hands, at this point."
     },
     "responses": [
       { "text": "Could you tell me that story again?", "topic": "BGSS_PREPPER_1_STORY1" },
       {
-        "text": "We could go check out that shelter together if you like.  Might be better having another person to keep you safe?",
+        "text": "I could go check out that shelter for you if you like.  Bring back any supplies you left behind?",
         "//": "Checks to see if you have already finished this quest (by extension, it applies to any future NPC with this background), whether you have read their notes from TALK_PREPPER_1_COMPUTER, and whether you have already asked them about this quest. The conditional checks here look a little crazy but they simply gate you out of this conversation for various reasons.",
         "condition": {
           "and": [
-            { "not": "has_assigned_mission" },
+            { "not": { "u_has_mission": "directions_prepper_1_SHELTER" } },
             {
               "not": { "u_has_var": "prepper_1_found_computer", "type": "mission", "context": "BGSS", "value": "yes" }
             },
@@ -100,7 +100,7 @@
         "success": {
           "topic": "BGSS_PREPPER_1_SHELTERSUCCESS",
           "effect": [
-            { "add_mission": "directions_prepper_1_SHELTER" },
+            { "run_eocs": [ "EOC_PREPPER_1_MAKE_MISSION" ] },
             {
               "u_message": "<npc_name> marks the location of the LMOE shelter on your map.",
               "type": "good",
@@ -287,8 +287,8 @@
   {
     "id": "BGSS_PREPPER_1_SHELTERSUCCESS",
     "type": "talk_topic",
-    "dynamic_line": "I marked the spot for you.  With everything I've seen out there, I suppose it's better to have someone on your side.  But I'll be watching to make sure you don't take anything…",
-    "responses": [ { "text": "Thanks for the directions.  Let's check it out.", "topic": "TALK_NONE" } ]
+    "dynamic_line": "I marked the spot for you.  When you get there, pry off the metal above the door and you'll see the special latch I made to keep thieves out.  I trust you to make the right decisions.",
+    "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_NONE" } ]
   },
   {
     "id": "BGSS_PREPPER_1_SHELTERFAILURE",
@@ -692,6 +692,15 @@
     ]
   },
   {
+    "type": "effect_on_condition",
+    "id": "EOC_PREPPER_1_MAKE_MISSION",
+    "//": "Assigns the mission through an EOC to avoid having to bring the NPC along with the player.",
+    "effect": [
+      { "assign_mission": "directions_prepper_1_SHELTER" },
+      { "u_add_var": "prepper_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+    ]
+  },
+  {
     "id": "directions_prepper_1_SHELTER",
     "type": "mission_definition",
     "name": { "str": "Check out that LMOE shelter" },
@@ -700,14 +709,12 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Locked LMOE Shelter", "om_terrain": "lmoe_prepperquest", "reveal_radius": 3, "search_range": 400 },
-      "effect": { "u_add_var": "prepper_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
+      "assign_mission_target": { "om_special": "Locked LMOE Shelter", "om_terrain": "lmoe_prepperquest", "reveal_radius": 3, "search_range": 400 }
     },
     "end": {
-      "opinion": { "trust": 1, "value": 1 },
       "effect": [
         {
-          "u_message": "<npc_name> walks up to the front door and pries back a thin piece of metal from the top of the doorframe, revealing an opening.  They reach inside, pull hard on something, and you hear a heavy metal *clunk*.",
+          "u_message": "You approach the LMOE and do as you were told, prying back a thin piece of metal atop the doorframe, revealing an opening.  You reach inside and grab a handle attached to a wire, pull hard on it, and hear a heavy metal *clunk*.  The door is open.",
           "type": "good",
           "popup": true
         },
@@ -722,7 +729,7 @@
       "accepted": "…",
       "rejected": "…",
       "advice": "…",
-      "inquire": "Any luck finding the LMOE shelter?  Don't forget to take me with you.  I changed the design and you sure as hell aren't getting in unless you know the trick.",
+      "inquire": "Any luck finding the LMOE shelter?",
       "success": "Damn, can't believe we finally made it.  I was smart enough not to store anything that might rot, so as long as nobody else already broke in, I bet there's at least two weeks of good food just sitting there.  Pristine workshop down there, too.  It cost me a pretty penny to get built.  I could tell you all about it sometime if you ever wanted.  Anyway, thanks for helping me get back here.  It sure ain't safe to travel on your own anymore.",
       "success_lie": "…",
       "failure": "Not that surprising."

@@ -111,7 +111,7 @@ static names_vec get_matching_groups( nameFlags searchFlags )
 // Get a random name with the specified flag
 std::string get( nameFlags searchFlags )
 {
-    auto matching_groups = get_matching_groups( searchFlags );
+    Name::names_vec matching_groups = get_matching_groups( searchFlags );
     if( !matching_groups.empty() ) {
         // get number of choices
         size_t nChoices = 0;

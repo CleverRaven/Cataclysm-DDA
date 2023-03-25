@@ -659,6 +659,8 @@
     ],
     "items": [
       { "x": -1, "y": -1, "chance": 7, "items": [ "bandages" ] },
+      { "x": -1, "y": -1, "chance": 7, "items": [ "bandages" ] },
+      { "x": -1, "y": -1, "chance": 7, "items": [ "bandages" ] },
       { "x": -1, "y": -1, "chance": 5, "item_groups": [ "MRE" ] },
       { "x": -1, "y": -1, "chance": 5, "item_groups": [ "MRE" ] },
       { "x": -1, "y": -1, "chance": 5, "item_groups": [ "MRE" ] },
@@ -741,6 +743,8 @@
     ],
     "items": [
       { "x": -1, "y": -1, "chance": 7, "items": [ "bandages" ] },
+      { "x": -1, "y": -1, "chance": 7, "items": [ "bandages" ] },
+      { "x": -1, "y": -1, "chance": 7, "items": [ "bandages" ] },
       { "x": -1, "y": -1, "chance": 7, "item_groups": [ "MRE" ] },
       { "x": -1, "y": -1, "chance": 7, "item_groups": [ "MRE" ] },
       { "x": -1, "y": -1, "chance": 7, "item_groups": [ "MRE" ] },
@@ -817,6 +821,8 @@
       { "x": -11, "y": 0, "parts": [ "frame_sw", "halfboard_sw", "plating_military" ] }
     ],
     "items": [
+      { "x": -1, "y": 1, "chance": 7, "items": [ "bandages" ] },
+      { "x": -1, "y": 1, "chance": 7, "items": [ "bandages" ] },
       { "x": -1, "y": 1, "chance": 7, "items": [ "bandages" ] },
       { "x": -1, "y": 1, "chance": 7, "item_groups": [ "MRE" ] },
       { "x": -1, "y": 1, "chance": 7, "item_groups": [ "MRE" ] },
@@ -1245,6 +1251,8 @@
       { "x": -4, "y": -1, "chance": 7, "ammo": 80, "items": [ "mp3" ] },
       { "x": -2, "y": -1, "chance": 7, "items": [ "aspirin" ] },
       { "x": -2, "y": -1, "chance": 7, "items": [ "bandages" ] },
+      { "x": -2, "y": -1, "chance": 7, "items": [ "bandages" ] },
+      { "x": -2, "y": -1, "chance": 7, "items": [ "bandages" ] },
       { "x": -2, "y": -1, "chance": 10, "item_groups": [ "full_ifak" ] },
       { "x": -2, "y": 1, "chance": 7, "items": [ "screwdriver" ] },
       { "x": -2, "y": 1, "chance": 10, "items": [ "mag_fieldrepair" ] },
@@ -1516,6 +1524,8 @@
       { "x": -3, "y": 0, "chance": 7, "items": [ "knife_combat" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "aspirin" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
+      { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
+      { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
       { "x": -1, "y": 0, "chance": 10, "item_groups": [ "full_ifak" ] },
       { "x": -1, "y": 0, "chance": 10, "items": [ "pocket_firstaid" ] },
       { "x": -1, "y": 2, "chance": 7, "items": [ "screwdriver" ] },
@@ -1623,6 +1633,8 @@
       { "x": -4, "y": 2, "chance": 5, "items": [ "hood_rain" ] },
       { "x": -3, "y": 0, "chance": 7, "items": [ "knife_combat" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "aspirin" ] },
+      { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
+      { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
       { "x": -1, "y": 0, "chance": 7, "items": [ "bandages" ] },
       { "x": -1, "y": 0, "chance": 10, "item_groups": [ "full_ifak" ] },
       { "x": -1, "y": 0, "chance": 10, "items": [ "pocket_firstaid" ] },

@@ -48,6 +48,11 @@
     "info": "This gear has an <info>alarm clock</info> feature."
   },
   {
+    "id": "ALLOWS_BODY_BLOCK",
+    "type": "json_flag",
+    "info": "This item <info>allows to block with your body</info> when wielded as a weapon."
+  },
+  {
     "id": "ALLOWS_NATURAL_ATTACKS",
     "type": "json_flag",
     "info": "This clothing won't hinder special attacks that involve <info>mutated or cybernetic anatomy</info>."
@@ -1722,6 +1727,10 @@
     "type": "json_flag"
   },
   {
+    "id": "TOUGH_FEET",
+    "type": "json_flag"
+  },
+  {
     "id": "TOURNIQUET",
     "type": "json_flag"
   },
@@ -1956,6 +1965,11 @@
   },
   {
     "id": "SCIENCE_CARD_MEDICAL_RED",
+    "type": "json_flag",
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MU_UNIVERSAL",
     "type": "json_flag",
     "info": "You could probably use this to access a secure zone of a facility."
   },

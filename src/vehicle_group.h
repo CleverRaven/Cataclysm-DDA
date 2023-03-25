@@ -3,12 +3,12 @@
 #define CATA_SRC_VEHICLE_GROUP_H
 
 #include <iosfwd>
+#include <optional>
 #include <unordered_map>
 #include <vector>
 
 #include "mapgen.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "rng.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -150,7 +150,7 @@ class VehicleFunction_json : public VehicleFunction
         int status;
 
         std::string placement;
-        cata::optional<VehicleLocation> location;
+        std::optional<VehicleLocation> location;
 };
 
 /**

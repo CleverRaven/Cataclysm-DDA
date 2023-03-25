@@ -233,7 +233,7 @@ void game::list_missions()
             break;
         } else if( action == "SELECT" ) {
             // get clicked coord
-            cata::optional<point> coord = ctxt.get_coordinates_text( w_missions );
+            std::optional<point> coord = ctxt.get_coordinates_text( w_missions );
             if( coord.has_value() ) {
 
                 for( auto &it : tabs_coords ) {
@@ -253,7 +253,7 @@ void game::list_missions()
             }
         } else if( action == "MOUSE_MOVE" ) {
             // get clicked coord
-            cata::optional<point> coord = ctxt.get_coordinates_text( w_missions );
+            std::optional<point> coord = ctxt.get_coordinates_text( w_missions );
             if( coord.has_value() ) {
 
                 for( auto &it : mission_row_coords ) {

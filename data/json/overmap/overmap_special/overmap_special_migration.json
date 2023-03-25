@@ -36,6 +36,11 @@
   },
   {
     "type": "overmap_special_migration",
+    "id": "FakeSpecial_cs_open_sewer",
+    "new_id": "cs_open_sewer"
+  },
+  {
+    "type": "overmap_special_migration",
     "id": "Mine Entrance",
     "//": "Removed - no new id"
   },

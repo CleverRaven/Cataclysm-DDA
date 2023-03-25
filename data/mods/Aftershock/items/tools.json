@@ -44,8 +44,9 @@
     "type": "TOOL",
     "name": { "str": "structural imager" },
     "description": "A compact imaging tool, capable of scanning and visualizing objects hiding behind walls, maintenance panels and all other sort of visual barriers.  While normally used to diagnostic potential faults within the internal systems of spaceships, the ability to peer between obstacles grant it obvious surveillance applications.  It can be activated to reveal a small conical area around you.",
-    "weight": "1060 g",
-    "volume": "350 ml",
+    "weight": "500 g",
+    "volume": "850 ml",
+    "longest_side": "20 cm",
     "price": "10 kUSD",
     "to_hit": -2,
     "bashing": 6,
@@ -64,6 +65,66 @@
     ],
     "use_action": { "type": "cast_spell", "spell_id": "afs_clairvoyance_cone", "no_fail": true, "level": 5 },
     "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "afs_motion_sensor",
+    "type": "TOOL",
+    "name": { "str": "motion scanner" },
+    "description": "A handheld motion scanner normally used for pest control within spaceships.  This model features an integrated screen to highlight the location of detected motion.  It must be activated to function.",
+    "weight": "680 g",
+    "volume": "650 ml",
+    "price": "6 kUSD",
+    "longest_side": "20 cm",
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
+    ],
+    "relic_data": {
+      "passive_effects": [
+        { "id": "afs_motion_sensor_wield" },
+        {
+          "has": "HELD",
+          "condition": "ALWAYS",
+          "name": { "str": "Passive Motion Detection" },
+          "description": "Passively detects movement at 10 second intervals.",
+          "intermittent_activation": { "effects": [ { "frequency": "10 seconds", "spell_effects": [ { "id": "afs_motion_sensor_spell" } ] } ] }
+        }
+      ]
+    },
+    "flags": [ "BELT_CLIP", "MUNDANE" ],
+    "use_action": {
+      "menu_text": "Activate",
+      "type": "transform",
+      "target": "afs_motion_sensor_on",
+      "need_charges": 1,
+      "active": true,
+      "msg": "The %s screen flashes on."
+    }
+  },
+  {
+    "id": "afs_motion_sensor_on",
+    "type": "TOOL",
+    "copy-from": "afs_motion_sensor",
+    "name": { "str": "motion scanner (on)", "str_pl": "motion scanners (on)" },
+    "description": "This active motion scanner will survey your surroundings every ten seconds and audibly alert you when movement is detected.  Wielding it will accurately reveal the location of motion sources.",
+    "revert_to": "afs_motion_sensor",
+    "use_action": {
+      "menu_text": "Deactivate",
+      "type": "transform",
+      "target": "afs_motion_sensor",
+      "msg": "The %s screen flashes briefly before fading out."
+    }
   },
   {
     "id": "afs_plasma_torch",
@@ -203,6 +264,27 @@
     "color": "light_green",
     "use_action": [ "HOTPLATE" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "atomic_coffeepot",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "atomic coffeemaker" },
+    "looks_like": "coffeemaker",
+    "description": "A Curie-G coffeemaker, made by CuppaTech.  It famously uses a radioactive generator to heat water for coffee.  Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
+    "weight": "6000 g",
+    "volume": "1500 ml",
+    "longest_side": "20 cm",
+    "price": 100000,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 5,
+    "material": [ "plastic", "aluminum" ],
+    "qualities": [ [ "BOIL", 1 ] ],
+    "symbol": ",",
+    "color": "light_green",
+    "use_action": [ "HOTPLATE_ATOMIC" ],
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
     "id": "afs_power_cutter",
@@ -432,6 +514,8 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
+          "name": { "str": "Augmented Reality" },
+          "description": "You are wearing equipment that gives 1 additional perception but causes you to see strange things.",
           "mutations": [ "PSYCHOPATH", "SCHIZOPHRENIC" ],
           "values": [ { "value": "PERCEPTION", "add": 1 } ]
         }
@@ -509,5 +593,34 @@
     "symbol": "H",
     "color": "light_gray",
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "mil_mess_kit",
+    "type": "TOOL",
+    "name": { "str": "military mess kit" },
+    "description": "A military mess kit designed for long-range reconnaissance patrols deployed behind enemy lines.  All of its parts are made from thin sheets of aluminum-superalloy composite and are insulated with ceramic coating.  Relies on a battery-operated hotplate, rather than the smoke-producing chemical-fueled hexamine stove.  Compact, durable and lightweight.",
+    "weight": "900 g",
+    "volume": "1 L",
+    "longest_side": "10 cm",
+    "price": 6000,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "superalloy", "ceramic" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "sub": "hotplate_induction",
+    "charges_per_use": 25,
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_plus_battery_cell"
+      }
+    ]
   }
 ]

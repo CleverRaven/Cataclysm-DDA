@@ -24,6 +24,7 @@ class JsonObject;
 class JsonOut;
 class JsonValue;
 class item;
+class item_components;
 class nc_color;
 class read_only_visitable;
 template <typename E> struct enum_traits;
@@ -365,7 +366,7 @@ struct requirement_data {
          * Returned requirement_data is for *all* batches at once.
          */
         static requirement_data continue_requirements( const std::vector<item_comp> &required_comps,
-                const std::list<item> &remaining_comps );
+                const item_components &remaining_comps );
 
         /**
          * Merge similar quality/tool/component lists.

@@ -5,28 +5,28 @@
 <color_yellow>Whales</color> (<color_dark_gray>retirado</color>)    <color_yellow>KevinGranade</color>
 
 <color_white>Desarrolladores Principales Actuales:</color>
-<color_yellow>I-am-Erk</color> - Ultica, lore writing, ideas guy.
-<color_yellow>KorGgenT</color> - Professional yak shaver.
+<color_yellow>I-am-Erk</color> - Ultica, escritura de lore, el tío de las ideas.
+<color_yellow>KorGgenT</color> - Peluquero profesional de yaks.
 
 <color_white>Agradecimientos especiales a:</color>
-<color_yellow>anothersimulacrum</color> - For stepping in and doing the hard work.
-<color_yellow>BombasticSlacks</color> - For fleshing out the armor system and making us sweat.
-<color_yellow>Fris0uman</color> - For getting our fridges working.
-<color_yellow>John-Candlebury</color> - For Hub01 and all the beautiful maps.
-<color_yellow>jbytheway</color> - For parametric mapgen and mutable locations.
-<color_yellow>BrettDong</color> - For translations and analyzing weird bugs.
-<color_yellow>wapcaplet</color> - For all things sidebar-related.
-<color_yellow>ZhilkinSerg</color> - For merging all the things.
-<color_yellow>Rivet-the-Zombie</color> - For keeping up the one-merge-per-day record.
-<color_yellow>Night-Pryanik</color> - For countless bugfixes and enhancements.
-<color_yellow>Qrox</color> - For making the UI infrastructure even better.
-<color_yellow>Ramza13</color> - For turning JSON into a turing-complete language.
-<color_yellow>Drew4484</color> - For all the steel.
-<color_yellow>LyleSY</color> - For even more dinosaurrrs.
-<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color>, and <color_yellow>Eltank</color>.
+<color_yellow>anothersimulacrum</color> - Por participar y hacer el trabajo difícil.
+<color_yellow>BombasticSlacks</color> - Por detallar el sistema de blindaje y hacernos sudar.
+<color_yellow>Fris0uman</color> - Por hacer funcionar nuestras neveras.
+<color_yellow>John-Candlebury</color> - Por Hub01 y todos los hermosos mapas.
+<color_yellow>jbytheway</color> - Por la generación paramétrica de mapa y los lugares mutables.
+<color_yellow>BrettDong</color> - Por las traducciones y analizar errores raros.
+<color_yellow>wapcaplet</color> - Por todo lo relacionado con la barra lateral.
+<color_yellow>ZhilkinSerg</color> - Por la mezcla de todas las cosas.
+<color_yellow>Rivet-the-Zombie</color> - Por sostener el récord de un merge por día.
+<color_yellow>Night-Pryanik</color> - Por los incontables arreglos y mejoras.
+<color_yellow>Qrox</color> - Por hacer que la infraestructura de la interfaz sea mejor.
+<color_yellow>Ramza13</color> - Por convertir el JSON en un lenguaje de turing completo.
+<color_yellow>Drew4484</color> - Por todo el acero.
+<color_yellow>LyleSY</color> - Por más dinosauriosss.
+<color_yellow>irwiss</color>, <color_yellow>Maleclypse</color>, <color_yellow>Venera3</color>, <color_yellow>MylieDaniels</color>, <color_yellow>andrei8l</color>, <color_yellow>mqrause</color> y <color_yellow>Eltank</color>.
 
 <color_white>Gracias especialmente a los contribuidores de arte:</color>
-<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color>, and many more.
+<color_yellow>Fris0uman</color>, <color_yellow>Golfavel</color>, <color_yellow>vetall812</color>, <color_yellow>Dandy-boy</color> y muchos más.
 
 <color_white>Por favor para ver la lista completa de contribuidores:</color>
 <color_cyan>https://github.com/CleverRaven/Cataclysm-DDA/contributors</color>
@@ -36,12 +36,12 @@
 
 ******************************************************************************
 
-<color_white>Main Developers (<color_cyan>0.F</color>):</color>
+<color_white>Desarrolladores principales (<color_cyan>0.F</color>):</color>
 <color_yellow>mlangsdorf</color> - Vehículos, botes, campos base y guías de modding.
 <color_yellow>I-am-Erk</color> - Legado Ultica vive.
 <color_yellow>KorGgenT</color> - No me dejan saber donde poner mis dos por cuatro.
 
-<color_white>Special thanks to (<color_cyan>0.F</color>):</color>
+<color_white>Agradecimientos especiales para (<color_cyan>0.F</color>):</color>
 <color_yellow>Aivean </color> - Por su sobresaliente rendimiento.
 <color_yellow>anothersimulacrum</color> - Por fatigarme.
 <color_yellow>jbytheway</color> - Por hacer que consiga cosas.
@@ -49,7 +49,7 @@
 <color_yellow>Qrox</color> - Por mostrar la ubicación de los mensajes de error.
 <color_yellow>LyleSY</color> - Por los dinosaurrss.
 
-<color_white>Special thanks for art contributions (<color_cyan>0.F</color>):</color>
+<color_white>Agradecimiento especial para las contribuciones en arte (<color_cyan>0.F</color>):</color>
 <color_yellow>acepleiades</color>, <color_yellow>barsoosayque</color>, <color_yellow>Fris0uman</color>, <color_yellow>int-ua</color>, y muchos mas.
 
 <color_white>Por favor para ver la lista completa de contribuidores:</color>

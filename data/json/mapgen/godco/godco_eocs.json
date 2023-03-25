@@ -99,5 +99,24 @@
       { "u_lose_var": "theresa_going_away", "type": "general", "context": "completed" },
       { "u_add_var": "theresa_gone", "type": "general", "context": "completed", "value": "yes" }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "godco_place_trader",
+    "recurrence": 100,
+    "global": false,
+    "condition": {
+      "and": [
+        { "compare_int": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "==", { "const": 0 } ] },
+        { "days_since_cataclysm": 7 },
+        { "u_near_om_location": "godco_enter", "range": 2 },
+        { "not": { "u_near_om_location": "godco_enter", "range": 1 } }
+      ]
+    },
+    "deactivate_condition": { "compare_int": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "==", { "const": 1 } ] },
+    "effect": [
+      { "mapgen_update": "godco_permanent_trader_add", "om_terrain": "godco_enter" },
+      { "arithmetic": [ { "global_val": "var", "var_name": "godco_met_merchants" }, "=", { "const": 1 } ] }
+    ]
   }
 ]

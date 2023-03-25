@@ -137,5 +137,27 @@
     "description": "A locker used to contain animals safely during transportation if installed properly.  There is room for animal food and other animal care goods.  It is meant to hold medium or smaller animals for transport.  Use it on a suitable animal to capture, use it on an empty tile to release.",
     "weight": "10000 g",
     "volume": "31250 ml"
+  },
+  {
+    "id": "stowed_fridge",
+    "type": "GENERIC",
+    "name": "tied-down fridge",
+    "symbol": "F",
+    "looks_like": "fridge",
+    "material": "steel",
+    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
+    "weight": "75 kg",
+    "volume": "800 L"
+  },
+  {
+    "id": "stowed_freezer",
+    "type": "GENERIC",
+    "name": "tied-down freezer",
+    "symbol": "F",
+    "looks_like": "freezer",
+    "material": "steel",
+    "description": "A chest freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
+    "weight": "50 kg",
+    "volume": "900 L"
   }
 ]

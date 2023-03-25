@@ -31,6 +31,22 @@
   },
   {
     "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "2x4",
+    "id_suffix": "from logs",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 10 ], [ "2x4", 7 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "//": "Hopefully a balanced method of crafting planks without going through interface hoops",
+    "components": [ [ [ "log", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "wood_beam",
     "id_suffix": "with_planer",
@@ -434,7 +450,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "glass_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -448,7 +464,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "tempered_glass_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -462,7 +478,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "result": "rigid_plastic_sheet",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -488,8 +504,8 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
-      { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.15 },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 }
+      { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 1.5, "skill_penalty": 0.15 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "reinforced_glass_pane", 4 ] ] ]
@@ -507,7 +523,7 @@
     "using": [ [ "welding_standard", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -544,11 +560,11 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 8, "LIST" ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "brick",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -562,7 +578,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "fire_brick",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -601,7 +617,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "adobe_pallet_full",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -614,7 +630,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "mortar_adobe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
@@ -629,7 +645,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "mortar_build",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -643,7 +659,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "result": "mortar_lime",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",

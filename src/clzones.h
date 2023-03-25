@@ -7,6 +7,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -15,7 +16,6 @@
 #include <vector>
 
 #include "memory_fast.h"
-#include "optional.h"
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
@@ -528,7 +528,7 @@ class zone_manager
         std::unordered_set<tripoint_abs_ms> get_near(
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const item *it = nullptr, const faction_id &fac = your_fac ) const;
-        cata::optional<tripoint_abs_ms> get_nearest(
+        std::optional<tripoint_abs_ms> get_nearest(
             const zone_type_id &type, const tripoint_abs_ms &where, int range = MAX_DISTANCE,
             const faction_id &fac = your_fac ) const;
         zone_type_id get_near_zone_type_for_item( const item &it, const tripoint_abs_ms &where,
@@ -539,8 +539,8 @@ class zone_manager
                                       const faction_id &fac = your_fac ) const;
         const zone_data *get_bottom_zone( const tripoint_abs_ms &where,
                                           const faction_id &fac = your_fac ) const;
-        cata::optional<std::string> query_name( const std::string &default_name = "" ) const;
-        cata::optional<zone_type_id> query_type( bool personal = false ) const;
+        std::optional<std::string> query_name( const std::string &default_name = "" ) const;
+        std::optional<zone_type_id> query_type( bool personal = false ) const;
         void swap( zone_data &a, zone_data &b );
         void rotate_zones( map &target_map, int turns );
         // list of tripoints of zones that are loot zones only
