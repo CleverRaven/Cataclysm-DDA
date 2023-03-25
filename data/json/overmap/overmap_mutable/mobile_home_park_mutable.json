@@ -11,12 +11,16 @@
     "check_for_locations_area": [ { "type": [ "land" ], "from": [ -2, -11, 0 ], "to": [ 14, 11, 0 ] } ],
     "joins": [ "hub_to_hub", "hub_to_extension", "road_to_road" ],
     "overmaps": {
-      "road_ew": { "overmap": "road_ew", "east": "hub_to_hub", "connections": { "west": { "connection": "local_road" } } },
       "trailer_hub_00": { "overmap": "trailer_hub_00_north" },
-      "trailer_hub_11": { "overmap": "trailer_hub_11_north", "east": "road_to_road" },
+      "trailer_hub_11": { "overmap": "trailer_hub_11_north", "west": "hub_to_hub", "east": "road_to_road" },
       "trailer_hub_10": { "overmap": "trailer_hub_10_west" },
       "trailer_hub_10_roof": { "overmap": "trailer_hub_10_roof_west" },
-      "trailer_hub_01": { "overmap": "trailer_hub_01_north", "west": "hub_to_hub", "south": "hub_to_extension" },
+      "trailer_hub_01": {
+        "overmap": "trailer_hub_01_north",
+        "east": "hub_to_hub",
+        "south": "hub_to_extension",
+        "connections": { "west": { "connection": "local_road" } }
+      },
       "trailer_road_2parkway_north": { "overmap": "trailer_road_2parkway_north" },
       "trailer_road_2parkway_east": { "overmap": "trailer_road_2parkway_east" },
       "trailer_road_1parkway_north": { "overmap": "trailer_road_1parkway_north" },
@@ -58,7 +62,7 @@
       "trailer_public_00_roof": { "overmap": "trailer_public_00_roof_north" },
       "trailer_public_10_roof": { "overmap": "trailer_public_10_roof_north" }
     },
-    "root": "road_ew",
+    "root": "trailer_hub_01",
     "phases": [
       [
         {
@@ -67,7 +71,6 @@
             { "overmap": "trailer_hub_00", "pos": [ 0, 0, 0 ] },
             { "overmap": "trailer_hub_10", "pos": [ 1, 0, 0 ] },
             { "overmap": "trailer_hub_10_roof", "pos": [ 1, 0, 1 ] },
-            { "overmap": "trailer_hub_01", "pos": [ 0, 1, 0 ] },
             { "overmap": "trailer_hub_11", "pos": [ 1, 1, 0 ] }
           ],
           "max": 1

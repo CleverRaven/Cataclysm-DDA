@@ -120,7 +120,7 @@
     "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
     "categories": [ "cargo" ],
     "damage_modifier": 80,
-    "epower": -40,
+    "epower": "-40 W",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 2, 2 ] },
       { "item": "steel_chunk", "count": [ 1, 2 ] },
@@ -146,7 +146,7 @@
     "location": "fuel_source",
     "copy-from": "fridgetank",
     "description": "A 60L heated tank.  When turned on, it will prevent the contents from freezing.",
-    "epower": -60,
+    "epower": "-60 W",
     "flags": [ "FLUIDTANK", "HEATED_TANK", "ENABLED_DRAINS_EPOWER" ]
   },
   {

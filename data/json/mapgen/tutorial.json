@@ -75,12 +75,12 @@
         "^": { "item": "mask_dust", "chance": 100 },
         "*": { "item": "paint_brush", "chance": 100 },
         "(": [
-          { "item": "r_paint", "chance": 100 },
-          { "item": "b_paint", "chance": 100 },
-          { "item": "w_paint", "chance": 100 },
-          { "item": "g_paint", "chance": 100 },
-          { "item": "p_paint", "chance": 100 },
-          { "item": "y_paint", "chance": 100 }
+          { "item": "paint_red", "chance": 100 },
+          { "item": "paint_blue", "chance": 100 },
+          { "item": "paint_white", "chance": 100 },
+          { "item": "paint_green", "chance": 100 },
+          { "item": "paint_purple", "chance": 100 },
+          { "item": "paint_yellow", "chance": 100 }
         ],
         ")": { "item": "baseball", "chance": 100, "amount": 10 },
         "_": { "item": "codeine", "chance": 100 },

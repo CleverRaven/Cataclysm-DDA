@@ -280,5 +280,29 @@
     "qualities": [ { "id": "BOIL", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "wild_sarsaparilla_root", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "horchata",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "skills_required": [ "cooking", 2 ],
+    "difficulty": 4,
+    "charges": 2,
+    "time": "60 m",
+    "batch_time_factors": [ 75, 2 ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "food_processor", 20 ] ], [ [ "cotton_patchwork", -1 ] ] ],
+    "book_learn": [ [ "cookbook_mexican", 3 ] ],
+    "components": [
+      [ [ "rice_cooked", 1 ] ],
+      [ [ "sugar_standard", 1, "LIST" ] ],
+      [ [ "cinnamon", 1 ] ],
+      [ [ "milk_standard", 1, "LIST" ], [ "lf_milk_standard", 1, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ]
+    ],
+    "//": "Compressed the timescale for flavor infusion to keep things easy and avoid intermediate crafting items."
   }
 ]

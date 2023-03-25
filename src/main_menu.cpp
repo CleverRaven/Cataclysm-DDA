@@ -10,6 +10,7 @@
 #include <functional>
 #include <istream>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "auto_pickup.h"
@@ -32,7 +33,6 @@
 #include "mapsharing.h"
 #include "messages.h"
 #include "music.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -51,17 +51,16 @@
 
 enum class main_menu_opts : int {
     MOTD = 0,
-    NEWCHAR = 1,
-    LOADCHAR = 2,
-    WORLD = 3,
-    SPECIAL = 4,
-    SETTINGS = 5,
-    HELP = 6,
-    CREDITS = 7,
-    QUIT = 8
+    NEWCHAR,
+    LOADCHAR,
+    WORLD,
+    SPECIAL,
+    SETTINGS,
+    HELP,
+    CREDITS,
+    QUIT,
+    NUM_MENU_OPTS,
 };
-
-static constexpr int max_menu_opts = 8;
 
 std::string main_menu::queued_world_to_load;
 std::string main_menu::queued_save_id_to_load;
@@ -141,9 +140,9 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
         }
         std::vector<std::string> tmp_chars = utf8_display_split( remove_color_tags( txt ) );
         for( int x = 0; static_cast<size_t>( x ) < tmp_chars.size(); x++ ) {
-            if( tmp_chars.at( x ) == "[" ) {
+            if( tmp_chars[x] == "[" ) {
                 for( int x2 = x; static_cast<size_t>( x2 ) < tmp_chars.size(); x2++ ) {
-                    if( tmp_chars.at( x2 ) == "]" ) {
+                    if( tmp_chars[x2] == "]" ) {
                         inclusive_rectangle<point> rec( win_offset + offset + point( x, y_off ),
                                                         win_offset + offset + point( x2, y_off ) );
                         main_menu_button_map.emplace_back( rec, sel_opt++ );
@@ -237,29 +236,41 @@ void main_menu::display_sub_menu( int sel, const point &bottom_left, int sel_lin
     }
 
     point top_left( bottom_left + point( 0, -( sub_opts.size() + 1 ) ) );
+
+    // If sel2 somehow outgrew the options vector, clamp it back.
+    sel2 = std::min<int>( sel2, sub_opts.size() );
+
     int height = sub_opts.size();
     if( top_left.y < 0 ) {
+        // Options don't fit screen. Decrease height till they do.
         height += top_left.y;
         top_left.y = 0;
-    } else {
-        sub_opt_off = 0;
-    }
 
-    if( sel2 - 1 < sub_opt_off ) {
-        sub_opt_off = sel2;
-    } else if( sel2 + 1 > sub_opt_off + height ) {
-        sub_opt_off = sel2 - height + 1;
+        // Calculate an offset from which to draw the options
+        if( sel2 - 1 < sub_opt_off ) {
+            // Trying to go below the showed options, decrease our offset
+            sub_opt_off = sel2;
+        } else if( sel2 + 1 > sub_opt_off + height ) {
+            // We are going over the list the other way around - increase offset
+            sub_opt_off = sel2 - height + 1;
+        }
+    } else {
+        // Options fit the screen, no offset required.
+        sub_opt_off = 0;
     }
 
     catacurses::window w_sub = catacurses::newwin( height + 2, xlen + 4, top_left );
     werase( w_sub );
     draw_border( w_sub, c_white );
 
+    // Print as many options as decided previously, starting from the index sub_opt_offset
     for( int y = 0; y < height; y++ ) {
-        std::string opt = ( sel2 == y + sub_opt_off ? "» " : "  " ) + sub_opts[y + sub_opt_off];
+        int opt_index = sub_opt_off + y;
+        bool is_selection = sel2 == opt_index;
+        std::string opt = ( is_selection ? "» " : "  " ) + sub_opts[opt_index];
         int padding = ( xlen + 2 ) - utf8_width( opt, true );
         opt.append( padding, ' ' );
-        nc_color clr = sel2 == y + sub_opt_off ? hilite( c_white ) : c_white;
+        nc_color clr = is_selection ? hilite( c_white ) : c_white;
         trim_and_print( w_sub, point( 1, y + 1 ), xlen + 2, clr, opt );
         inclusive_rectangle<point> rec( top_left + point( 1, y  + 1 ),
                                         top_left + point( xlen + 2, y + 1 ) );
@@ -677,7 +688,7 @@ bool main_menu::opening_screen()
 
         // handle mouse click
         if( action == "SELECT" || action == "MOUSE_MOVE" ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+            std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
             for( const auto &it : main_menu_button_map ) {
                 if( coord.has_value() && it.first.contains( coord.value() ) ) {
                     if( sel1 != it.second ) {
@@ -716,22 +727,10 @@ bool main_menu::opening_screen()
             if( query_yn( _( "Really quit?" ) ) ) {
                 return false;
             }
-        } else if( action == "LEFT" || action == "PREV_TAB" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
-            if( sel1 > 0 ) {
-                sel1--;
-            } else {
-                sel1 = max_menu_opts;
-            }
-            sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
-            on_move();
-        } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
-            sel_line = 0;
-            if( sel1 < max_menu_opts ) {
-                sel1++;
-            } else {
-                sel1 = 0;
-            }
+            sel1 = increment_and_wrap( sel1, action == "RIGHT" ||
+                                       action == "NEXT_TAB", static_cast<int>( main_menu_opts::NUM_MENU_OPTS ) );
             sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
             on_move();
         } else if( action == "UP" || action == "DOWN" ||
@@ -847,6 +846,7 @@ bool main_menu::opening_screen()
                     }
                     break;
                 case main_menu_opts::WORLD:
+                    sel2 = std::min<int>( sel2, world_generator->all_worldnames().size() );
                     world_tab( sel2 > 0 ? world_generator->all_worldnames().at( sel2 - 1 ) : "" );
                     break;
                 case main_menu_opts::LOADCHAR:

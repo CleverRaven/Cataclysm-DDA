@@ -24,7 +24,7 @@
     "armor_elec": 2,
     "harvest": "zombie_leather",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN" ]
   },
   {
     "id": "mon_devourer",
@@ -42,6 +42,7 @@
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "dark_gray_yellow",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
@@ -94,7 +95,8 @@
     "speed": 110,
     "symbol": "Z",
     "color": "blue",
-    "melee_skill": 9,
+    "melee_skill": 8,
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "melee_dice": 9,
     "melee_dice_sides": 5,
     "melee_damage": [ { "damage_type": "cut", "amount": 5 } ],
@@ -160,6 +162,7 @@
     "material": [ "flesh" ],
     "symbol": "S",
     "color": "red_yellow",
+    "scents_tracked": [ "sc_human", "sc_fetid", "sc_flower" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 7,
@@ -207,7 +210,7 @@
     "death_drops": "default_zombie_items",
     "upgrades": { "half_life": 24, "into": "mon_zombie_gasbag_crawler" },
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ]
   },
   {
     "id": "mon_zombie_gasbag_crawler",
@@ -226,6 +229,7 @@
     "symbol": "W",
     "color": "yellow_yellow",
     "aggression": 100,
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "morale": 100,
     "melee_skill": 3,
     "melee_dice": 2,
@@ -258,6 +262,7 @@
     "material": [ "flesh" ],
     "symbol": "w",
     "color": "yellow_yellow",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 3,
@@ -334,6 +339,7 @@
     "material": [ "flesh" ],
     "symbol": "S",
     "color": "magenta_red",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 5,
@@ -375,7 +381,7 @@
     "armor_elec": 5,
     "bleed_rate": 50,
     "harvest": "exempt",
-    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ]
   },
   {
     "id": "mon_zombie_living_wall",
@@ -401,6 +407,6 @@
     "armor_elec": 6,
     "bleed_rate": 0,
     "harvest": "exempt",
-    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "IMMOBILE", "WARM", "POISON", "IMMOBILE", "NO_BREATHE", "FILTHY" ]
   }
 ]

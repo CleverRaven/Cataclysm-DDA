@@ -11,7 +11,7 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": "<", "time": "1 d" },
             {
-              "compare_int": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "!=", { "const": 1 } ]
+              "compare_num": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "!=", { "const": 1 } ]
             },
             { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
@@ -24,7 +24,7 @@
           "and": [
             { "u_compare_time_since_var": "u_waiting_on_armor", "type": "timer", "context": "hub_rnd", "op": ">", "time": "1 d" },
             {
-              "compare_int": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "!=", { "const": 1 } ]
+              "compare_num": [ { "global_val": "var", "var_name": "hub01_uhmwpe_researched" }, "!=", { "const": 1 } ]
             },
             { "u_has_var": "u_gave_armor_disk", "type": "dialogue", "context": "hub_rnd", "value": "yes" }
           ]
@@ -44,6 +44,7 @@
           { "u_spawn_item": "robofac_military_skirt" },
           { "u_spawn_item": "robofac_military_vambraces" },
           { "u_spawn_item": "robofac_military_greaves" },
+          { "u_spawn_item": "robofac_military_mantle" },
           { "u_spawn_item": "robofac_military_helmet" },
           { "u_add_var": "u_can_buy_armor", "type": "dialogue", "context": "hub_rnd", "value": "no" }
         ],
@@ -223,7 +224,7 @@
         "text": "I've found a rifle chambered for a caliber I don't recognize.  Do you think you could make an HWP adapter for it?",
         "condition": {
           "and": [
-            { "compare_int": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "!=", { "const": 1 } ] },
+            { "compare_num": [ { "global_val": "var", "var_name": "hub01_hwp_exotic_researched" }, "!=", { "const": 1 } ] },
             { "not": { "u_has_var": "u_project_ongoing", "type": "dialogue", "context": "hub_rnd", "value": "yes" } },
             { "u_has_var": "u_has_researched_gun", "type": "dialogue", "context": "hub_rnd", "value": "yes" },
             {
@@ -366,7 +367,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_TIMEGATE"
       },
       {
-        "text": "Wwhy should I use this over something like a rifle that doesn't need proprietary parts?",
+        "text": "Why should I use this over something like a rifle that doesn't need proprietary parts?",
         "topic": "TALK_ROBOFAC_INTERCOM_RIFLE_BENEFITS"
       },
       { "text": "What about another project?", "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_MENU" },

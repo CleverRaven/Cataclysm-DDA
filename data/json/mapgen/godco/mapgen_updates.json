@@ -122,5 +122,11 @@
     "method": "json",
     "update_mapgen_id": "theresa_remove",
     "object": { "remove_npcs": [ { "class": "godco_theresa", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "godco_permanent_trader_add",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "godco_permanent_trader" ], "x": 1, "y": 8 } ] }
   }
 ]

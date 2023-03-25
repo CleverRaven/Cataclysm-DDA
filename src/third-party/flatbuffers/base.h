@@ -385,7 +385,6 @@ template<typename T> T EndianSwap(T t) {
   #pragma warning(pop)
 #endif
 
-
 template<typename T> T EndianScalar(T t) {
   #if FLATBUFFERS_LITTLEENDIAN
     return t;

@@ -241,13 +241,13 @@
     "type": "COMESTIBLE",
     "id": "chocolate",
     "name": { "str": "chocolate bar" },
-    "weight": "34 g",
+    "weight": "43 g",
     "color": "brown",
     "spoils_in": "360 days",
     "container": "wrapper",
     "comestible_type": "FOOD",
     "symbol": "%",
-    "calories": 140,
+    "calories": 220,
     "description": "A bar of chocolate from a popular candy brand.  A delicious treat.",
     "price": 130,
     "price_postapoc": 200,
@@ -255,6 +255,7 @@
     "volume": "250 ml",
     "charges": 3,
     "flags": [ "EDIBLE_FROZEN" ],
+    "vitamins": [ [ "calcium", 8 ], [ "iron", 8 ] ],
     "fun": 10
   },
   {

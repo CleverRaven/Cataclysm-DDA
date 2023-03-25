@@ -195,6 +195,10 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `forbidden_effects_all`     | Array of effect ids, if the monster has every effect the attack can't trigger.
 | `required_effects_any`      | Array of effect ids, the monster needs any one for the attack to trigger.
 | `required_effects_all`      | Array of effect ids, the monster needs every effect for the attack to trigger.
+| `target_required_effects_any`| Target analogues for the above, the attack target having the effects imposes the same trigger behavior
+| `target_required_effects_all`|
+| `target_forbidden_effects_any` |
+| `target_forbidden_effects_all` |
 | `attack_upper`		      | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted).
 | `range`       		      | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
 | `hitsize_min`               | Integer, lower bound of limb size this attack can target (if no bodypart targets are explicitly defined)
@@ -269,11 +273,16 @@ Casts a separately-defined spell at the monster's target.  Spells with `target_s
 | `spell_data`            | List of spell properties for the attack.
 | `min_level`             | The level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
 | `cooldown `             | How often the monster can cast this spell
+| `attack_chance`		  | Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
 | `monster_message`       | Message to print when the spell is cast, replacing the `message` in the spell definition. Dynamic fields correspond to `<Monster Display Name> / <Spell Name> / <Target name>`.
 | `forbidden_effects_any` | Array of effect IDs, if the monster has any one the attack can't trigger.
 | `forbidden_effects_all` | Array of effect IDs, if the monster has every effect the attack can't trigger.
 | `required_effects_any`  | Array of effect IDs, the monster needs any one for the attack to trigger.
 | `required_effects_all`  | Array of effect IDs, the monster needs every effect for the attack to trigger.
+| `target_required_effects_any`| Target analogues for the above, the attack target having the effects imposes the same trigger behavior
+| `target_required_effects_all`|
+| `target_forbidden_effects_any` |
+| `target_forbidden_effects_all` |
 | `allow_no_target`       | Bool, default `false`. If `true` the monster will cast it even without a hostile target.
 
 
@@ -285,6 +294,7 @@ Makes the monster leap a few tiles over passable terrain as long as it can see i
 | ---                  | ---
 | `max_range`          | (Required) Float, maximal range of the jump.  Respects circular distance setting!
 | `min_range`          | (Required) Float, minimal range of the jump.  Respects circular distance setting!
+| `attack_chance`	   | Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
 | `prefer_leap`        | Leap even when adjacent to target, will still choose the closest acceptable destination.
 | `random_leap`        | Disregard target location entirely when leaping, leading to completely random jumps.
 | `allow_no_target`    | Default `false` prevents monster from using the ability without a hostile target at its destination.

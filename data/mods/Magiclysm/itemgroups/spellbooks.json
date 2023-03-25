@@ -6,7 +6,7 @@
       [ "summon_scroll_smudged", 10 ],
       [ "spell_scroll_tornskin", 10 ],
       [ "spell_scroll_smite", 40 ],
-      [ "spell_scroll_summon_zombie", 25 ],
+      [ "spell_scroll_summon_undead", 25 ],
       [ "spell_scroll_light_healing", 50 ],
       [ "spell_scroll_bio_acidicspray", 35 ],
       [ "spell_scroll_create_atomic_light", 50 ],
@@ -49,7 +49,6 @@
     "type": "item_group",
     "items": [
       [ "spell_scroll_sound_bomb", 35 ],
-      [ "spell_scroll_summon_skeleton", 35 ],
       [ "spell_scroll_pain_split", 25 ],
       [ "spell_scroll_bio_grotesque", 40 ],
       [ "spell_scroll_bio_fleshpouch", 30 ],
@@ -58,6 +57,7 @@
       [ "spell_scroll_druid_rootstrike", 40 ],
       [ "spell_scroll_druid_healing_herb", 35 ],
       [ "spell_scroll_druid_naturebow1", 20 ],
+      [ "spell_scroll_druid_bandage", 30 ],
       [ "spell_scroll_seismic_stomp", 20 ],
       [ "spell_scroll_eshaper_shardspray", 25 ],
       [ "spell_scroll_eshaper_spawn_tools", 40 ],
@@ -93,7 +93,8 @@
       [ "spell_scroll_boneclub", 20 ],
       [ "spell_scroll_flamesword", 35 ],
       [ "spell_scroll_force_jar", 30 ],
-      [ "spell_scroll_flamebreath", 30 ]
+      [ "spell_scroll_flamebreath", 30 ],
+      [ "spell_scroll_thought_shield", 35 ]
     ]
   },
   {
@@ -106,7 +107,10 @@
       [ "spell_scroll_recover_fatigue", 25 ],
       [ "spell_scroll_recover_stamina", 25 ],
       [ "spell_scroll_recover_bionic_power", 25 ],
-      [ "spell_scroll_summon_decayed_pouncer", 35 ],
+      [ "spell_scroll_summon_undead_swarm", 35 ],
+      [ "spell_scroll_convert", 50 ],
+      [ "spell_scroll_dominate", 50 ],
+      [ "spell_scroll_life_detonation", 50 ],
       [ "spell_scroll_summon_floating_disk", 25 ],
       [ "spell_scroll_vicious_tentacle", 40 ],
       [ "spell_scroll_bio_bonespear", 20 ],
@@ -170,7 +174,8 @@
       [ "spell_scroll_freezing_touch", 40 ],
       [ "spell_scroll_focused_bolt", 4 ],
       [ "spell_scroll_rupture", 4 ],
-      [ "spell_scroll_cause_rot", 4 ]
+      [ "spell_scroll_cause_rot", 4 ],
+      [ "spell_scroll_earthshaper_reveal_world_map", 15 ]
     ]
   },
   {

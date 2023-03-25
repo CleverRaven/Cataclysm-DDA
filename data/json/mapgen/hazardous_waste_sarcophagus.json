@@ -240,10 +240,47 @@
         "9": "f_utility_shelf",
         "a": "f_air_conditioner",
         "F": "f_filing_cabinet",
-        "~": [ [ "f_null", 50 ], [ "f_wreckage", 50 ] ]
+        "~": [ [ "f_null", 2 ], "f_wreckage", "f_rubble", "f_rubble_landfill" ]
       },
       "toilets": { "&": {  } },
-      "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 80 ] } },
+      "//": "Reused from mx_toxic_waste, with some minor tweaks (less soapy water, more acid so it really looks more hazardous).",
+      "liquids": {
+        "W": { "liquid": "water_clean", "amount": [ 0, 80 ] },
+        "~": [
+          { "liquid": "chem_acetic_acid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "acetic_anhydride", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_acetone", "amount": [ 1, 4 ], "chance": 200 },
+          { "liquid": "chem_formaldehyde", "amount": [ 1, 4 ], "chance": 140 },
+          { "liquid": "chem_muriatic_acid", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_hydrogen_peroxide", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_hydrogen_peroxide_conc", "amount": [ 1, 2 ], "chance": 100 },
+          { "liquid": "chem_nitric_acid", "amount": [ 1, 4 ], "chance": 200 },
+          { "liquid": "chem_sulphuric_acid", "amount": [ 1, 4 ], "chance": 200 },
+          { "liquid": "ammonia_liquid", "amount": [ 1, 4 ], "chance": 50 },
+          { "liquid": "ammonia_hydroxide", "amount": [ 1, 4 ], "chance": 70 },
+          { "liquid": "bleach", "amount": [ 1, 4 ], "chance": 80 },
+          { "liquid": "lye", "amount": [ 1, 4 ], "chance": 10 },
+          { "liquid": "lye_potassium", "amount": [ 1, 2 ], "chance": 50 },
+          { "liquid": "ether", "amount": [ 1, 2 ], "chance": 120 },
+          { "liquid": "chem_DMSO", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_chloroform", "amount": [ 1, 2 ], "chance": 130 },
+          { "liquid": "chem_phenol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_benzene", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_toluene", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_glycerol", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "chem_ethanol", "amount": [ 1, 4 ], "chance": 10 },
+          { "liquid": "methed_alcohol", "amount": [ 1, 4 ], "chance": 50 },
+          { "liquid": "denat_alcohol", "amount": [ 1, 4 ], "chance": 10 },
+          { "liquid": "chem_methanol", "amount": [ 1, 4 ], "chance": 10 },
+          { "liquid": "diesel", "amount": [ 1, 4 ], "chance": 50 },
+          { "liquid": "motor_oil", "amount": [ 1, 4 ], "chance": 10 },
+          { "liquid": "chem_turpentine", "amount": [ 1, 4 ], "chance": 10 },
+          { "liquid": "camphine", "amount": [ 1, 4 ], "chance": 100 },
+          { "liquid": "soapy_water", "amount": [ 1, 4 ], "chance": 50 },
+          { "liquid": "gasoline", "amount": [ 1, 4 ], "chance": 10 }
+        ]
+      },
+      "//2": "Two itemgroups reused from mx_toxic_waste as they contain nothing super specific.",
       "items": {
         "8": { "item": "mechanics", "chance": 60, "repeat": [ 1, 2 ] },
         "9": { "item": "sewage_plant", "chance": 60, "repeat": [ 1, 2 ] },
@@ -253,7 +290,14 @@
         "l": { "item": "cleaning", "chance": 60, "repeat": 2 },
         "F": { "item": "office_paper", "chance": 50 },
         " ": { "item": "corpse_and_science", "chance": 1 },
-        "~": [ { "item": "trash", "chance": 50 }, { "item": "sewer", "chance": 50 }, { "item": "nanomaterials", "chance": 3 } ]
+        "~": [
+          { "item": "trash", "chance": 15 },
+          { "item": "sewer", "chance": 15 },
+          { "item": "hazardous_waste", "chance": 50 },
+          { "item": "toxic_waste_mx_radioactive", "chance": 30 },
+          { "item": "toxic_waste_mx_chems", "chance": 50 },
+          { "item": "nanomaterials", "chance": 3 }
+        ]
       },
       "place_item": [ { "item": "sarcophagus_access_code", "x": 20, "y": 31 } ],
       "set": [
@@ -263,7 +307,7 @@
         { "square": "radiation", "amount": [ 10, 30 ], "x": 24, "y": 24, "x2": 47, "y2": 47 }
       ],
       "monster": { " ": { "monster": "mon_zombie", "chance": 10 } },
-      "//": "The government would not put live humans into a highly irradiated cavern with lots of maneating zombies.  Right?  Right?!",
+      "//3": "The government would not put live humans into a highly irradiated cavern with lots of maneating zombies.  Right?  Right?!",
       "monsters": { "~": { "monster": "GROUP_VANILLA_NO_FERAL", "chance": 20, "density": 0.1 } },
       "computers": {
         "5": {
@@ -284,6 +328,17 @@
         }
       }
     }
+  },
+  {
+    "id": "hazardous_waste",
+    "type": "item_group",
+    "items": [
+      { "item": "sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
+      { "item": "water_sewage", "container-item": "55gal_drum", "charges-min": 26, "charges-max": 126, "prob": 40 },
+      { "item": "meat_tainted", "container-item": "55gal_drum", "charges-min": 3, "charges-max": 20, "prob": 2 },
+      { "group": "toxic_waste_mx_chems", "prob": 35 },
+      { "item": "55gal_drum", "prob": 50 }
+    ]
   },
   {
     "id": "corpse_and_science",

@@ -26,7 +26,7 @@ if (BUILD_TESTING)
         if (LOCALIZE)
             add_dependencies(cata_test-tiles test_mo)
         endif()
-        target_link_libraries(cata_test-tiles cataclysm-tiles-common)
+        target_link_libraries(cata_test-tiles PRIVATE cataclysm-tiles-common)
         add_test(NAME test-tiles
                 COMMAND sh -c
                 "$<TARGET_FILE:cata_test-tiles> --rng-seed time"
@@ -38,7 +38,7 @@ if (BUILD_TESTING)
         if (LOCALIZE)
             add_dependencies(cata_test test_mo)
         endif()
-        target_link_libraries(cata_test cataclysm-common)
+        target_link_libraries(cata_test PRIVATE cataclysm-common)
         add_test(NAME test
                 COMMAND sh -c
                 "$<TARGET_FILE:cata_test> --rng-seed time"

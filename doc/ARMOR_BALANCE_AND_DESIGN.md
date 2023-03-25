@@ -202,8 +202,17 @@ Sided armor is armor that even though it describes covering, both legs, both arm
     }
   ],
   "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-  "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ],
-  "armor": [ { "encumbrance": [ 2, 3 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
+  "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
+  "armor": [
+    {
+      "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 1 } ],
+      "covers": [ "foot_l", "foot_r" ],
+      "specifically_covers": [ "foot_ankle_l", "foot_ankle_r" ],
+      "coverage": 25,
+      "encumbrance": [ 2, 3 ],
+      "layers": [ "BELTED" ]
+    }
+  ]
 }
 ```
 #### Further Reading
@@ -398,6 +407,7 @@ plate definition:
   "color": "dark_gray",
   "material_thickness": 25,
   "non_functional": "destroyed_large_ceramic_plate",
+  "damage_verb": "makes a crunch, something has shifted",
   "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
   "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
 }
@@ -409,6 +419,8 @@ Look at the Plates and Vests and ballistic armor or anything with ABLATIVE_LARGE
 ### Transform vs Durability
 #### Explanation
 Normally armor degrades with use. This degradation is incremental and decreases the armors effectiveness and protection. However not all armor degrades, some instead will become completely compromised. For these items ```"non_functional": "ITEM_ID"``` can be added. Instead of the normal degradation rules, armor with non_functional will have a chance to transform into its non_functional version when struck. Specifically transform items are concerned with how much damage they take before reduction, rather than after reduction and as the damage scales towards their total resistance (and beyond) scales to a 33% chance to transform (and beyond). Example a 50 damage bullet hitting a 50 damage plate has a 33% chance to transform, a 25 damage bullet would only have a 16.5% chance to cause a transform, 100 damage a 66% chance.
+
+Transforming items can also specify a custom destruction message with ```"damage_verb"``` which is what will be said when it is damaged.
 
 #### Example
 ```json
@@ -427,6 +439,7 @@ Normally armor degrades with use. This degradation is incremental and decreases 
   "color": "dark_gray",
   "material_thickness": 25,
   "non_functional": "destroyed_large_ceramic_plate",
+  "damage_verb": "makes a crunch, something has shifted",
   "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
   "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
 }
@@ -554,7 +567,7 @@ RAIN_PROOF | Wont get wet in rain
 HOOD | Keeps head warm if nothing on it
 POCKETS | Keeps hands warm if they are free
 BLOCK_WHILE_WORN | Can be used to block with while worn
-COLLAR | Keeps mouth warm if not covered
+COLLAR | Keeps mouth warm if not heavily encumbered
 ONLY_ONE | Only one of this item can be worn
 ONE_PER_LAYER | Only one item can be worn on this clothing layer
 FANCY | Clothing is impractically fancy, (like a top hat)

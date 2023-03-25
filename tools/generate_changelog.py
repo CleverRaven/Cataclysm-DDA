@@ -1072,6 +1072,12 @@ def main_entry(argv):
     )
 
     parser.add_argument(
+        '-T', '--token-string',
+        help='Specify the Personal Token as an inline argument.',
+        default=None
+    )
+
+    parser.add_argument(
         '-N', '--include-summary-none',
         action='store_true',
         help='Indicates if Pull Requests with Summary "None" should be '
@@ -1112,8 +1118,10 @@ def main_entry(argv):
 
     personal_token = read_personal_token(arguments.token_file)
     if personal_token is None:
-        log.warning("GitHub Token was not provided, API calls will have "
-                    "severely limited rates.")
+        personal_token = arguments.token_string
+        if personal_token is None:
+            log.warning("GitHub Token was not provided, API calls will have "
+                        "severely limited rates.")
 
     if arguments.by_date is None and arguments.by_build is None:
         raise ValueError("Script should be called with either --by-date or "

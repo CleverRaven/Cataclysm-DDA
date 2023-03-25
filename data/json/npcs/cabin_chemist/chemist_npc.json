@@ -105,71 +105,92 @@
       },
       {
         "text": "[50$]  I'll buy some sprayable fungicide.",
-        "effect": [
-          { "u_buy_item": "gas_fungicidal", "container": "jug_plastic", "cost": 5000, "count": 1500 },
-          { "npc_add_effect": "chemist_waiting_for_gas_fungicidal", "duration": "8 h" },
-          { "npc_add_effect": "currently_busy", "duration": "8 h" }
-        ],
+        "effect": {
+          "u_buy_item": "gas_fungicidal",
+          "container": "jug_plastic",
+          "cost": 5000,
+          "count": 1500,
+          "true_eocs": "EOC_BUY_SPRAYFUNG_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_gas_fungicidal" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[50$]  I'll buy some powder fungicide.",
-        "effect": [
-          { "u_buy_item": "fungicide", "container": "bottle_twoliter", "cost": 5000, "count": 1500 },
-          { "npc_add_effect": "chemist_waiting_for_fungicide", "duration": "8 h" },
-          { "npc_add_effect": "currently_busy", "duration": "8 h" }
-        ],
+        "effect": {
+          "u_buy_item": "fungicide",
+          "container": "bottle_twoliter",
+          "cost": 5000,
+          "count": 1500,
+          "true_eocs": "EOC_BUY_POWDERFUNG_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_fungicide" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[50$]  I'll buy some disinfectant.",
-        "effect": [
-          { "u_buy_item": "disinfectant", "container": "bottle_plastic", "cost": 5000, "count": 20 },
-          { "npc_add_effect": "chemist_waiting_for_disinfectant", "duration": "12 h" },
-          { "npc_add_effect": "currently_busy", "duration": "12 h" }
-        ],
+        "effect": {
+          "u_buy_item": "disinfectant",
+          "container": "bottle_plastic",
+          "cost": 5000,
+          "count": 20,
+          "true_eocs": "EOC_BUY_DISINFECT_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_disinfectant" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[120$]  I'll buy some antibiotics.",
-        "effect": [
-          { "u_buy_item": "antibiotics", "container": "bottle_plastic_pill_prescription", "cost": 12000, "count": 20 },
-          { "npc_add_effect": "chemist_waiting_for_antibiotics", "duration": "96 h" },
-          { "npc_add_effect": "currently_busy", "duration": "96 h" }
-        ],
+        "effect": {
+          "u_buy_item": "antibiotics",
+          "container": "bottle_plastic_pill_prescription",
+          "cost": 12000,
+          "count": 20,
+          "true_eocs": "EOC_BUY_ANTIBIO_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_antibiotics" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[140$]  I'll buy some antifungal drugs.",
-        "effect": [
-          { "u_buy_item": "antifungal", "container": "bottle_plastic_pill_prescription", "cost": 14000, "count": 20 },
-          { "npc_add_effect": "chemist_waiting_for_antifungal", "duration": "96 h" },
-          { "npc_add_effect": "currently_busy", "duration": "96 h" }
-        ],
+        "effect": {
+          "u_buy_item": "antifungal",
+          "container": "bottle_plastic_pill_prescription",
+          "cost": 14000,
+          "count": 20,
+          "true_eocs": "EOC_BUY_ANTIFUNG_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_antifungal" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[200$]  I'll buy some black gunpowder.",
-        "effect": [
-          { "u_buy_item": "chem_black_powder", "container": "jar_3l_glass_sealed", "cost": 20000, "count": 10000 },
-          { "npc_add_effect": "chemist_waiting_for_chem_black_powder", "duration": "72 h" },
-          { "npc_add_effect": "currently_busy", "duration": "72 h" }
-        ],
+        "effect": {
+          "u_buy_item": "chem_black_powder",
+          "container": "jar_3l_glass_sealed",
+          "cost": 20000,
+          "count": 10000,
+          "true_eocs": "EOC_BUY_BLACKPOWDER_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_chem_black_powder" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[300$]  I'll buy some napalm.",
-        "effect": [
-          { "u_buy_item": "napalm", "container": "jerrycan", "cost": 30000, "count": 10000 },
-          { "npc_add_effect": "chemist_waiting_for_napalm", "duration": "72 h" },
-          { "npc_add_effect": "currently_busy", "duration": "72 h" }
-        ],
+        "effect": {
+          "u_buy_item": "napalm",
+          "container": "jerrycan",
+          "cost": 30000,
+          "count": 10000,
+          "true_eocs": "EOC_BUY_NAPALM_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_napalm" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       }
@@ -193,74 +214,164 @@
       },
       {
         "text": "[50$]  I'll buy some sprayable fungicide.",
-        "effect": [
-          { "u_buy_item": "gas_fungicidal", "container": "jug_plastic", "cost": 5000, "count": 1500 },
-          { "npc_add_effect": "chemist_waiting_for_gas_fungicidal", "duration": "8 h" },
-          { "npc_add_effect": "currently_busy", "duration": "8 h" }
-        ],
+        "effect": {
+          "u_buy_item": "gas_fungicidal",
+          "container": "jug_plastic",
+          "cost": 5000,
+          "count": 1500,
+          "true_eocs": "EOC_BUY_SPRAYFUNG_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_gas_fungicidal" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[50$]  I'll buy some powder fungicide.",
-        "effect": [
-          { "u_buy_item": "fungicide", "container": "bottle_twoliter", "cost": 5000, "count": 1500 },
-          { "npc_add_effect": "chemist_waiting_for_fungicide", "duration": "8 h" },
-          { "npc_add_effect": "currently_busy", "duration": "8 h" }
-        ],
+        "effect": {
+          "u_buy_item": "fungicide",
+          "container": "bottle_twoliter",
+          "cost": 5000,
+          "count": 1500,
+          "true_eocs": "EOC_BUY_POWDERFUNG_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_fungicide" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[50$]  I'll buy some disinfectant.",
-        "effect": [
-          { "u_buy_item": "disinfectant", "container": "bottle_plastic", "cost": 5000, "count": 20 },
-          { "npc_add_effect": "chemist_waiting_for_disinfectant", "duration": "12 h" },
-          { "npc_add_effect": "currently_busy", "duration": "12 h" }
-        ],
+        "effect": {
+          "u_buy_item": "disinfectant",
+          "container": "bottle_plastic",
+          "cost": 5000,
+          "count": 20,
+          "true_eocs": "EOC_BUY_DISINFECT_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_disinfectant" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[120$]  I'll buy some antibiotics.",
-        "effect": [
-          { "u_buy_item": "antibiotics", "container": "bottle_plastic_pill_prescription", "cost": 12000, "count": 20 },
-          { "npc_add_effect": "chemist_waiting_for_antibiotics", "duration": "96 h" },
-          { "npc_add_effect": "currently_busy", "duration": "96 h" }
-        ],
+        "effect": {
+          "u_buy_item": "antibiotics",
+          "container": "bottle_plastic_pill_prescription",
+          "cost": 12000,
+          "count": 20,
+          "true_eocs": "EOC_BUY_ANTIBIO_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_antibiotics" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[140$]  I'll buy some antifungal drugs.",
-        "effect": [
-          { "u_buy_item": "antifungal", "container": "bottle_plastic_pill_prescription", "cost": 14000, "count": 20 },
-          { "npc_add_effect": "chemist_waiting_for_antifungal", "duration": "96 h" },
-          { "npc_add_effect": "currently_busy", "duration": "96 h" }
-        ],
+        "effect": {
+          "u_buy_item": "antifungal",
+          "container": "bottle_plastic_pill_prescription",
+          "cost": 14000,
+          "count": 20,
+          "true_eocs": "EOC_BUY_ANTIFUNG_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_antifungal" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[200$]  I'll buy some black gunpowder.",
-        "effect": [
-          { "u_buy_item": "chem_black_powder", "container": "jar_3l_glass_sealed", "cost": 20000, "count": 10000 },
-          { "npc_add_effect": "chemist_waiting_for_chem_black_powder", "duration": "72 h" },
-          { "npc_add_effect": "currently_busy", "duration": "72 h" }
-        ],
+        "effect": {
+          "u_buy_item": "chem_black_powder",
+          "container": "jar_3l_glass_sealed",
+          "cost": 20000,
+          "count": 10000,
+          "true_eocs": "EOC_BUY_BLACKPOWDER_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_chem_black_powder" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       },
       {
         "text": "[300$]  I'll buy some napalm.",
-        "effect": [
-          { "u_buy_item": "napalm", "container": "jerrycan", "cost": 30000, "count": 10000 },
-          { "npc_add_effect": "chemist_waiting_for_napalm", "duration": "72 h" },
-          { "npc_add_effect": "currently_busy", "duration": "72 h" }
-        ],
+        "effect": {
+          "u_buy_item": "napalm",
+          "container": "jerrycan",
+          "cost": 30000,
+          "count": 10000,
+          "true_eocs": "EOC_BUY_NAPALM_TRUE_EFFECT",
+          "false_eocs": "EOC_CHEMIST_BUY_FALSE_EFFECT"
+        },
         "condition": { "not": { "npc_has_effect": "chemist_waiting_for_napalm" } },
         "topic": "TALK_CABIN_CHEMIST_BULK_SELL_END"
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BUY_NAPALM_TRUE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_effect": "chemist_waiting_for_napalm", "duration": "72 h" },
+      { "npc_add_effect": "currently_busy", "duration": "72 h" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BUY_BLACKPOWDER_TRUE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_effect": "chemist_waiting_for_chem_black_powder", "duration": "72 h" },
+      { "npc_add_effect": "currently_busy", "duration": "72 h" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BUY_ANTIFUNG_TRUE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_effect": "chemist_waiting_for_antifungal", "duration": "96 h" },
+      { "npc_add_effect": "currently_busy", "duration": "96 h" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BUY_ANTIBIO_TRUE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_effect": "chemist_waiting_for_antibiotics", "duration": "96 h" },
+      { "npc_add_effect": "currently_busy", "duration": "96 h" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BUY_DISINFECT_TRUE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_effect": "chemist_waiting_for_disinfectant", "duration": "12 h" },
+      { "npc_add_effect": "currently_busy", "duration": "12 h" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BUY_POWDERFUNG_TRUE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_effect": "chemist_waiting_for_fungicide", "duration": "8 h" },
+      { "npc_add_effect": "currently_busy", "duration": "8 h" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BUY_SPRAYFUNG_TRUE_EFFECT",
+    "global": false,
+    "effect": [
+      { "npc_add_effect": "chemist_waiting_for_gas_fungicide", "duration": "8 h" },
+      { "npc_add_effect": "currently_busy", "duration": "8 h" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CHEMIST_BUY_FALSE_EFFECT",
+    "global": false,
+    "effect": [  ]
   }
 ]
