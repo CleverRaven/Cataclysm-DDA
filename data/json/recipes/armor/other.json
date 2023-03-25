@@ -129,7 +129,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "silver_small", 15 ] ] ]
+    "components": [ [ [ "silver_small", 6 ] ] ]
   },
   {
     "type": "recipe",

@@ -3385,24 +3385,6 @@ bool mattack::photograph( monster *z )
                 return true;
             }
         }
-    } else if( player_character.has_trait( trait_PROF_CYBERCO ) ) {
-        // And you're wearing your badge
-        if( player_character.is_wearing( itype_badge_cybercop ) ) {
-            if( one_in( 3 ) ) {
-                add_msg( m_info, _( "The %s winks a LED and departs.  One machine to another?" ),
-                         z->name() );
-                z->no_corpse_quiet = true;
-                z->no_extra_death_drops = true;
-                z->die( nullptr );
-                return false;
-            } else {
-                add_msg( m_info,
-                         _( "The %s acknowledges you as an officer responding, but hangs around to watch." ),
-                         z->name() );
-                add_msg( m_info, _( "Apparently yours aren't the only systems kept alive post-apocalypse." ) );
-                return true;
-            }
-        }
     }
 
     if( player_character.has_trait( trait_PROF_FED ) ) {
