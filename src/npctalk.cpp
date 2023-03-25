@@ -2302,7 +2302,7 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
     }
     if( container_name.empty() ) {
         if( new_item.count_by_charges() ) {
-            new_item.mod_charges( count - 1 );
+            new_item.charges = count;
             d.actor( false )->i_add_or_drop( new_item );
         } else {
             for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
@@ -2324,7 +2324,7 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
         }
     } else {
         item container( container_name, calendar::turn );
-        new_item.mod_charges( count - 1 );
+        new_item.charges = count;
         container.put_in( new_item,
                           item_pocket::pocket_type::CONTAINER );
         d.actor( false )->i_add_or_drop( container );
