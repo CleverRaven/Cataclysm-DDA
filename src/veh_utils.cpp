@@ -163,7 +163,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
     if( wasbroken ) {
         const units::angle dir = pt.direction;
         point loc = pt.mount;
-        auto replacement_id = pt.info().get_id();
+        vpart_id replacement_id = pt.info().get_id();
         get_map().spawn_items( who.pos(), pt.pieces_for_broken_part() );
         veh.remove_part( part_index );
         const int partnum = veh.install_part( loc, replacement_id, std::move( base ), variant );
@@ -213,10 +213,10 @@ veh_menu_item &veh_menu_item::skip_locked_check( const bool skip_locked_check )
     return *this;
 }
 
-static cata::optional<input_event> veh_keybind( const cata::optional<std::string> &hotkey )
+static std::optional<input_event> veh_keybind( const std::optional<std::string> &hotkey )
 {
     if( !hotkey.has_value() || hotkey->empty() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     const std::vector<input_event> hk_keycode = input_context( "VEHICLE", keyboard_mode::keycode )
@@ -231,7 +231,7 @@ static cata::optional<input_event> veh_keybind( const cata::optional<std::string
         return hk_keychar.front(); // fallback to keychar hotkey
     }
 
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 veh_menu_item &veh_menu_item::hotkey( const char hotkey_char )
@@ -255,7 +255,7 @@ veh_menu_item &veh_menu_item::hotkey( const std::string &action )
 veh_menu_item &veh_menu_item::hotkey_auto()
 {
     this->_hotkey_char = MENU_AUTOASSIGN;
-    this->_hotkey_action = cata::nullopt;
+    this->_hotkey_action = std::nullopt;
     return *this;
 }
 
@@ -271,7 +271,7 @@ veh_menu_item &veh_menu_item::keep_menu_open( const bool keep_menu_open )
     return *this;
 }
 
-veh_menu_item &veh_menu_item::location( const cata::optional<tripoint> &location )
+veh_menu_item &veh_menu_item::location( const std::optional<tripoint> &location )
 {
     this->_location = location;
     return *this;
@@ -330,7 +330,7 @@ std::vector<uilist_entry> veh_menu::get_uilist_entries() const
 
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];
-        const cata::optional<input_event> hotkey_event = veh_keybind( it._hotkey_action );
+        const std::optional<input_event> hotkey_event = veh_keybind( it._hotkey_action );
         uilist_entry entry = hotkey_event.has_value()
                              ? uilist_entry( it._text, hotkey_event )
                              : uilist_entry( it._text, it._hotkey_char.value_or( 0 ) );

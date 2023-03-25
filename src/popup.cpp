@@ -8,6 +8,7 @@
 #include "catacharset.h"
 #include "input.h"
 #include "output.h"
+#include "ui.h"
 #include "ui_manager.h"
 
 query_popup::query_popup()
@@ -280,8 +281,7 @@ query_popup::result query_popup::query_once()
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }
     if( !options.empty() ) {
-        ctxt.register_action( "LEFT" );
-        ctxt.register_action( "RIGHT" );
+        ctxt.register_leftright();
         ctxt.register_action( "CONFIRM" );
         for( const query_popup::query_option &opt : options ) {
             ctxt.register_action( opt.action );
@@ -308,7 +308,7 @@ query_popup::result query_popup::query_once()
 
         // If we're tracking mouse movement
         if( !options.empty() && ( res.action == "MOUSE_MOVE" || res.action == "SELECT" ) ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( win );
+            std::optional<point> coord = ctxt.get_coordinates_text( win );
             for( size_t i = 0; i < buttons.size(); i++ ) {
                 if( coord.has_value() && buttons[i].contains( coord.value() ) ) {
                     if( i != cur ) {
@@ -333,18 +333,8 @@ query_popup::result query_popup::query_once()
 
     if( cancel && res.action == "QUIT" ) {
         res.wait_input = false;
-    } else if( res.action == "LEFT" ) {
-        if( cur > 0 ) {
-            --cur;
-        } else {
-            cur = options.size() - 1;
-        }
-    } else if( res.action == "RIGHT" ) {
-        if( cur + 1 < options.size() ) {
-            ++cur;
-        } else {
-            cur = 0;
-        }
+    } else if( res.action == "LEFT" || res.action == "RIGHT" ) {
+        cur = increment_and_wrap( cur, res.action == "RIGHT", options.size() );
     } else if( res.action == "CONFIRM" ) {
         if( cur < options.size() ) {
             res.wait_input = false;

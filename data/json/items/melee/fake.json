@@ -11,7 +11,7 @@
     "volume": "500 ml",
     "bashing": 8,
     "cutting": 16,
-    "flags": [ "STAB", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID", "ZERO_WEIGHT" ],
+    "flags": [ "STAB", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID", "ZERO_WEIGHT", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "BIONIC_WEAPONRY", "CLAWS" ],
     "qualities": [ [ "CUT", 2 ], [ "BUTCHER", 12 ] ]
   },

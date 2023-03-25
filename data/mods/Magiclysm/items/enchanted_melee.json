@@ -517,6 +517,7 @@
     "copy-from": "pickaxe",
     "name": { "str": "pickaxe +1", "str_pl": "pickaxes +1" },
     "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
+    "use_action": [ "PICKAXE" ],
     "relative": { "to_hit": 1 }
   },
   {
@@ -525,6 +526,7 @@
     "copy-from": "pickaxe",
     "name": { "str": "pickaxe +2", "str_pl": "pickaxes +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
+    "use_action": [ "PICKAXE" ],
     "relative": { "to_hit": 2 }
   },
   {
@@ -825,7 +827,7 @@
     "price": 3900,
     "symbol": "/",
     "color": "light_gray",
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "CONSTRUCTED_SWORDS" ],
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "use_action": [ "WEATHER_TOOL" ],
@@ -848,7 +850,7 @@
     "techniques": [ "WBLOCK_2", "WIDE" ],
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "CONSTRUCTED_SWORDS" ],
     "use_action": [
       { "type": "cast_spell", "spell_id": "frost_spray", "no_fail": true, "level": 10, "need_wielding": true },
       "WEATHER_TOOL"

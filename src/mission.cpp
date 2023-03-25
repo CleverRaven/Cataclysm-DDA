@@ -193,6 +193,11 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             if( type->goal == MGOAL_KILL_MONSTER ) {
                 found_mission->step_complete( 1 );
             }
+            if( type->goal == MGOAL_KILL_MONSTERS ) {
+                if( found_mission->monster_kill_goal-- == 0 ) {
+                    found_mission->step_complete( 1 );
+                }
+            }
         }
         return;
     }
@@ -252,7 +257,7 @@ bool mission::on_creature_fusion( Creature &fuser, Creature &fused )
             continue;
         }
         const mission_type *const type = found_mission->type;
-        if( type->goal == MGOAL_KILL_MONSTER ) {
+        if( type->goal == MGOAL_KILL_MONSTER || type->goal == MGOAL_KILL_MONSTERS ) {
             // the fuser has to be killed now!
             mon_fuser->mission_ids.emplace( mission_id );
             mon_fused->mission_ids.erase( mission_id );
@@ -347,6 +352,7 @@ void mission::step_complete( const int _step )
         case MGOAL_FIND_MONSTER:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
+        case MGOAL_KILL_MONSTERS:
         case MGOAL_COMPUTER_TOGGLE:
         case MGOAL_TALK_TO_NPC:
             // Go back and report.
@@ -529,7 +535,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
                     if( here.has_items( p ) && here.accessible_items( p ) ) {
                         count_items( here.i_at( p ) );
                     }
-                    if( const cata::optional<vpart_reference> vp =
+                    if( const std::optional<vpart_reference> vp =
                             here.veh_at( p ).part_with_feature( "CARGO", true ) ) {
                         count_items( vp->vehicle().get_items( vp->part_index() ) );
                     }
@@ -582,6 +588,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         case MGOAL_TALK_TO_NPC:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
+        case MGOAL_KILL_MONSTERS:
         case MGOAL_KILL_NEMESIS:
         case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
@@ -782,6 +789,18 @@ void mission::set_target_npc_id( const character_id &npc_id )
 void mission::set_assigned_player_id( const character_id &char_id )
 {
     player_id = char_id;
+}
+
+void mission::update_world_missions_character( const character_id &old_char_id,
+        const character_id &new_char_id )
+{
+    for( auto &world_mission : world_missions ) {
+        if( world_mission.second.in_progress() &&
+            ( world_mission.second.get_assigned_player_id()  == old_char_id ||
+              world_mission.second.get_assigned_player_id() == character_id( - 1 ) ) ) {
+            world_mission.second.set_assigned_player_id( new_char_id );
+        }
+    }
 }
 
 bool mission::is_assigned() const

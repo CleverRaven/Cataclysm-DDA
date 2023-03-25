@@ -218,10 +218,10 @@ npc::npc()
     , companion_mission_time_ret( calendar::before_time_starts )
 {
     last_updated = calendar::turn;
-    last_player_seen_pos = cata::nullopt;
+    last_player_seen_pos = std::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
-    guard_pos = cata::nullopt;
+    guard_pos = std::nullopt;
     goal = tripoint_abs_omt( tripoint_min );
     fetching_item = false;
     has_new_items = true;
@@ -738,8 +738,6 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.snip_give_carry_too_heavy = tguy.chatbin.snip_give_carry_too_heavy;
     chatbin.snip_wear = tguy.chatbin.snip_wear;
 
-    set_base_age( tguy.base_age() );
-    set_base_height( tguy.base_height() );
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
@@ -878,10 +876,13 @@ void npc::randomize( const npc_class_id &type )
     for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
         this->magic->learn_spell( spell_pair.first, *this, true );
         spell &sp = this->magic->get_spell( spell_pair.first );
-        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level( *this ) ) {
             sp.gain_level( *this );
         }
     }
+
+    set_base_age( rng( 18, 55 ) );
+    randomize_height();
 
     // Add eocs
     effect_on_conditions::load_new_character( *this );
@@ -1720,7 +1721,7 @@ void npc::mutiny()
     set_fac( faction_amf );
     job.clear_all_priorities();
     if( assigned_camp ) {
-        assigned_camp = cata::nullopt;
+        assigned_camp = std::nullopt;
     }
     chatbin.first_topic = chatbin.talk_stranger_neutral;
     set_attitude( NPCATT_NULL );
@@ -1863,7 +1864,7 @@ std::vector<spell_id> npc::spells_offered_to( Character &you )
         if( you.magic->can_learn_spell( you, sp ) ) {
             if( you.magic->knows_spell( sp ) ) {
                 const spell &student_spell = you.magic->get_spell( sp );
-                if( student_spell.is_max_level() ||
+                if( student_spell.is_max_level( you ) ||
                     student_spell.get_level() >= teacher_spell.get_level() ) {
                     continue;
                 }
@@ -1976,12 +1977,10 @@ bool npc::wants_to_sell( const item_location &it ) const
     if( !it->is_owned_by( *this ) ) {
         return false;
     }
-    const int market_price = it->price( true );
-    return wants_to_sell( it, value( *it, market_price ), market_price ).success();
+    return wants_to_sell( it, value( *it ) ).success();
 }
 
-ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
-                                  int /*market_price*/ ) const
+ret_val<void> npc::wants_to_sell( const item_location &it, int at_price ) const
 {
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
@@ -2011,12 +2010,15 @@ ret_val<void> npc::wants_to_sell( const item_location &it, int at_price,
 
 bool npc::wants_to_buy( const item &it ) const
 {
-    const int market_price = it.price( true );
-    return wants_to_buy( it, value( it, market_price ), market_price ).success();
+    return wants_to_buy( it, value( it ) ).success();
 }
 
-ret_val<void> npc::wants_to_buy( const item &it, int at_price, int /*market_price*/ ) const
+ret_val<void> npc::wants_to_buy( const item &it, int at_price ) const
 {
+    if( it.has_flag( flag_DANGEROUS ) || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        return ret_val<void>::make_failure();
+    }
+
     if( will_exchange_items_freely() ) {
         return ret_val<void>::make_success();
     }
@@ -2208,16 +2210,16 @@ void npc::update_worst_item_value()
 
 double npc::value( const item &it ) const
 {
+    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
+        return -1000;
+    }
+
     int market_price = it.price( true );
     return value( it, market_price );
 }
 
 double npc::value( const item &it, double market_price ) const
 {
-    if( it.is_dangerous() || ( it.has_flag( flag_BOMB ) && it.active ) ) {
-        // NPCs won't be interested in buying active explosives
-        return -1000;
-    }
     if( is_shopkeeper() ||
         // faction currency trades at market price
         ( my_fac != nullptr && my_fac->currency == it.typeId() ) ) {
@@ -2499,7 +2501,7 @@ bool npc::within_boundaries_of_camp() const
     for( int x2 = -3; x2 < 3; x2++ ) {
         for( int y2 = -3; y2 < 3; y2++ ) {
             const point_abs_omt nearby = p + point( x2, y2 );
-            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
+            std::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
             if( bcp ) {
                 return true;
             }
@@ -2620,7 +2622,7 @@ void npc::npc_dismount()
                        disp_name() );
         return;
     }
-    cata::optional<tripoint> pnt;
+    std::optional<tripoint> pnt;
     for( const tripoint &elem : get_map().points_in_radius( pos(), 1 ) ) {
         if( g->is_empty( elem ) ) {
             pnt = elem;
@@ -2928,10 +2930,10 @@ void npc::reboot()
     // if not, they will faint again, and the NPC can be kept asleep until the bug is fixed.
     cancel_activity();
     path.clear();
-    last_player_seen_pos = cata::nullopt;
+    last_player_seen_pos = std::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
-    guard_pos = cata::nullopt;
+    guard_pos = std::nullopt;
     goal = no_goal_point;
     fetching_item = false;
     has_new_items = true;
@@ -2947,7 +2949,7 @@ void npc::reboot()
     ai_cache.sound_alerts.clear();
     ai_cache.s_abs_pos = tripoint_zero;
     ai_cache.stuck = 0;
-    ai_cache.guard_pos = cata::nullopt;
+    ai_cache.guard_pos = std::nullopt;
     ai_cache.my_weapon_value = 0;
     ai_cache.friends.clear();
     ai_cache.dangerous_explosives.clear();
@@ -2966,12 +2968,12 @@ void npc::die( Creature *nkiller )
         return;
     }
     if( assigned_camp ) {
-        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
         if( bcp ) {
             ( *bcp )->remove_assignee( getID() );
         }
     }
-    assigned_camp = cata::nullopt;
+    assigned_camp = std::nullopt;
     // Need to unboard from vehicle before dying, otherwise
     // the vehicle code cannot find us
     if( in_vehicle ) {
@@ -3057,7 +3059,7 @@ std::string npc_attitude_id( npc_attitude att )
     return iter->second;
 }
 
-cata::optional<int> npc::closest_enemy_to_friendly_distance() const
+std::optional<int> npc::closest_enemy_to_friendly_distance() const
 {
     return ai_cache.closest_enemy_to_friendly_distance();
 }
@@ -3281,8 +3283,6 @@ void npc::on_load()
     effect_on_conditions::load_existing_character( *this );
     shop_restock();
 }
-
-constexpr tripoint_abs_omt npc::no_goal_point;
 
 bool npc::query_yn( const std::string &/*msg*/ ) const
 {
@@ -3587,16 +3587,16 @@ void npc::reset_companion_mission()
     reset_miss_id( comp_mission.miss_id );
     comp_mission.role_id.clear();
     if( comp_mission.destination ) {
-        comp_mission.destination = cata::nullopt;
+        comp_mission.destination = std::nullopt;
     }
 }
 
-cata::optional<tripoint_abs_omt> npc::get_mission_destination() const
+std::optional<tripoint_abs_omt> npc::get_mission_destination() const
 {
     if( comp_mission.destination ) {
         return comp_mission.destination;
     } else {
-        return cata::nullopt;
+        return std::nullopt;
     }
 }
 
@@ -3887,6 +3887,16 @@ std::string npc::get_current_activity() const
         return current_activity_id.obj().verb().translated();
     } else {
         return _( "nothing" );
+    }
+}
+
+void npc::update_missions_target( character_id old_character, character_id new_character )
+{
+    for( ::mission *&temp : chatbin.missions_assigned ) {
+        if( temp->get_assigned_player_id() == old_character ||
+            temp->get_assigned_player_id() == character_id( - 1 ) ) {
+            temp->set_assigned_player_id( new_character );
+        }
     }
 }
 

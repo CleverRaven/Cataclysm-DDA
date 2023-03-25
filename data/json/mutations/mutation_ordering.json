@@ -2,6 +2,7 @@
   {
     "type": "overlay_order",
     "overlay_ordering": [
+      { "id": [ "eye_color" ], "order": 250 },
       {
         "id": [
           "THRESH_CATTLE",

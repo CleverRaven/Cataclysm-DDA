@@ -61,15 +61,16 @@
       { "monster": "mon_feral_maid_broom", "freq": 80, "pack_size": [ 1, 2 ] },
       { "monster": "mon_feral_maid_candlestick", "freq": 80, "pack_size": [ 1, 2 ] },
       { "monster": "mon_feral_maid_knife", "freq": 80, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_feral_maid_broom", "freq": 80, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_feral_maid_candlestick", "freq": 80, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
-      { "monster": "mon_feral_maid_knife", "freq": 80, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_maid_broom", "freq": 60, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_feral_maid_candlestick", "freq": 60, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_feral_maid_knife", "freq": 60, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
       { "monster": "mon_feral_fancy_rapier", "freq": 60, "cost_multiplier": 3 },
-      { "monster": "mon_feral_fancy_rapier", "freq": 40, "cost_multiplier": 6, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_fancy_rapier", "freq": 40, "cost_multiplier": 4, "pack_size": [ 1, 2 ] },
       { "monster": "mon_feral_fancy_rapier_fake", "freq": 80, "cost_multiplier": 2 },
-      { "monster": "mon_feral_fancy_rapier_fake", "freq": 50, "cost_multiplier": 2, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_fancy_rapier_fake", "freq": 50, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_feral_fancy_crossbow", "freq": 60, "cost_multiplier": 5 },
-      { "monster": "mon_feral_fancy_crossbow", "freq": 40, "cost_multiplier": 10, "pack_size": [ 2, 3 ] }
+      { "monster": "mon_feral_fancy_crossbow", "freq": 40, "cost_multiplier": 10, "pack_size": [ 1, 2 ] },
+      { "group": "GROUP_MANSION_ARMORED", "freq": 20, "cost_multiplier": 15 }
     ]
   },
   {
@@ -238,12 +239,13 @@
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "7 days", "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "28 days", "pack_size": [ 1, 5 ] },
       { "monster": "mon_zombie_pig", "weight": 10, "cost_multiplier": 25, "starts": "90 days", "pack_size": [ 1, 5 ] },
-      { "monster": "mon_giant_cockroach", "weight": 10, "pack_size": [ 1, 5 ] },
+      { "monster": "mon_giant_cockroach", "weight": 10, "pack_size": [ 1, 2 ] },
       { "monster": "mon_pregnant_giant_cockroach", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_giant_cockroach_nymph", "weight": 5 },
       { "monster": "mon_tiger", "weight": 1, "cost_multiplier": 30 },
       { "monster": "mon_woodlouse", "weight": 10, "pack_size": [ 1, 5 ] },
-      { "monster": "mon_woodlouse_manca", "weight": 5 }
+      { "monster": "mon_woodlouse_manca", "weight": 5 },
+      { "monster": "mon_ferret", "weight": 10 }
     ]
   },
   {
@@ -297,6 +299,16 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_BASEMENT_HOUSE",
+    "//": "60-30-10% chance of zombies/roaches/cellar spiders, no mixing enemies in the same spawn",
+    "monsters": [
+      { "group": "GROUP_HOUSE", "weight": 6, "pack_size": [ 2, 6 ] },
+      { "group": "GROUP_ROACH", "weight": 3, "pack_size": [ 3, 10 ] },
+      { "group": "GROUP_SPIDER_BASEMENT", "weight": 1, "pack_size": [ 1, 5 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "DUMP_ANIMALS",
     "monsters": [
       { "monster": "mon_null", "weight": 378 },
@@ -335,7 +347,7 @@
         "conditions": [ "DAWN", "DUSK", "NIGHT", "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_spider_widow_giant", "weight": 30, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_giant_cockroach", "weight": 50, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_giant_cockroach", "weight": 50, "pack_size": [ 1, 3 ] },
       { "monster": "mon_black_rat", "weight": 30, "pack_size": [ 4, 8 ] },
       { "monster": "mon_wasp_small", "weight": 50, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zombie_child", "weight": 20, "pack_size": [ 2, 6 ] },
@@ -502,11 +514,6 @@
     "type": "monstergroup",
     "name": "GROUP_BEEKEEPER",
     "monsters": [ { "monster": "mon_beekeeper", "cost_multiplier": 0 } ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_CANNIBAL",
-    "monsters": [ { "monster": "mon_shia" } ]
   },
   {
     "type": "monstergroup",

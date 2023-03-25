@@ -89,7 +89,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
         if( loc.has_parent() ) {
             item_location parent_loc = loc.parent_item();
             item_loc_with_depth parent( parent_loc );
-            item_pocket *const pocket = parent_loc->contained_where( *loc );
+            item_pocket *const pocket = loc.parent_pocket();
             pocket->unseal();
             bool exists = false;
             auto it = sorted_containers.lower_bound( parent );
@@ -408,7 +408,7 @@ int Character::get_item_position( const item *it ) const
         return -1;
     }
 
-    cata::optional<int> pos = worn.get_item_position( *it );
+    std::optional<int> pos = worn.get_item_position( *it );
     if( pos ) {
         return worn_position_to_index( *pos );
     }
@@ -429,7 +429,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         return;
     }
 
-    const cata::optional<vpart_reference> vp = get_map().veh_at(
+    const std::optional<vpart_reference> vp = get_map().veh_at(
                 target ).part_with_feature( "CARGO", false );
     if( rl_dist( pos(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
         || ( vp.has_value() && vp->part().is_cleaner_on() ) ) {

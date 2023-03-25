@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Preserve leading spaces
+IFS=''
+
 # Features Content Interface Mods Balance Bugfixes Performance Infrastructure Build I18N
 
 while read -r category description; do

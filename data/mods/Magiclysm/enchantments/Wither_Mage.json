@@ -30,12 +30,6 @@
     "scaling_mods": { "per_mod": [ 0.1 ], "dex_mod": [ 0.2 ], "str_mod": [ 0.2 ], "int_mod": [ 0.1 ], "stamina_min": [ 1 ] }
   },
   {
-    "type": "enchantment",
-    "id": "WITHER_MAGE_AP",
-    "condition": "ALWAYS",
-    "values": [ { "value": "ITEM_DAMAGE_AP", "add": 15 } ]
-  },
-  {
     "id": "wither_mage_bio_damage",
     "type": "SPELL",
     "name": "Wither Mage bio DoT AoE",
