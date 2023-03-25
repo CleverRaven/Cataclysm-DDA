@@ -427,6 +427,7 @@
       { "group": "nested_m1carbine", "prob": 1 },
       { "group": "nested_ak556", "prob": 2 },
       { "group": "nested_bren2_762", "prob": 1 },
+      { "group": "nested_bren2_556", "prob": 1 },
       { "group": "nested_mdrx", "prob": 1 },
       { "group": "nested_zpapm90", "prob": 1 },
       { "group": "nested_converted_ar15", "prob": 6 },
@@ -466,6 +467,7 @@
       { "item": "m1carbine", "prob": 1, "charges-min": 0, "charges-max": 15 },
       { "item": "ak556", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "bren2_762", "prob": 1, "charges-min": 0, "charges-max": 30 },
+      { "item": "bren2_556", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "mdrx", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
@@ -498,6 +500,7 @@
       { "item": "mdrx", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "ak556", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "bren2_762", "prob": 6, "charges-min": 0, "charges-max": 0 },
+      { "item": "bren2_556", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "ak556", "variant": "zpapm90", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "savage112", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "group": "nested_ar15_with_kits", "prob": 15 },
@@ -1209,6 +1212,8 @@
       { "item": "remington700_270", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_m77", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
+      { "item": "bren2_762", "prob": 1, "charges-min": 0, "charges-max": 30 },
+      { "item": "bren2_556", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "mdrx", "prob": 2, "charges-min": 0, "charges-max": 30 },
       { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 8 },
       { "item": "mk47", "prob": 1, "charges-min": 0, "charges-max": 30 },

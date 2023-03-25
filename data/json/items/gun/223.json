@@ -57,6 +57,7 @@
           "stanag30_beowulf",
           "stanag30ranger_beowulf",
           "50beowulf_ar15mag",
+          "450_ar15mag",
           "survivor223mag"
         ]
       }
@@ -280,6 +281,7 @@
           "stanag30_beowulf",
           "stanag30ranger_beowulf",
           "50beowulf_ar15mag",
+          "450_ar15mag",
           "survivor223mag"
         ]
       }
@@ -465,6 +467,7 @@
           "stanag30_beowulf",
           "stanag30ranger_beowulf",
           "50beowulf_ar15mag",
+          "450_ar15mag",
           "survivor223mag"
         ]
       }
@@ -529,6 +532,7 @@
           "stanag30_beowulf",
           "stanag30ranger_beowulf",
           "50beowulf_ar15mag",
+          "450_ar15mag",
           "survivor223mag"
         ]
       }
@@ -602,6 +606,7 @@
           "stanag30_beowulf",
           "stanag30ranger_beowulf",
           "50beowulf_ar15mag",
+          "450_ar15mag",
           "survivor223mag"
         ]
       }
@@ -1020,6 +1025,76 @@
       [ "sling", 1 ],
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag5ranger",
+          "stanag10",
+          "stanag10ranger",
+          "stanag20",
+          "stanag20ranger",
+          "stanag30ranger",
+          "stanag40",
+          "stanag40ranger",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "bren2_556",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "Bren 5.56x45mm carbine" },
+    "description": "A semi-automatic clone of the Check Republic’s standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "bren2_556",
+        "name": { "str": "CZ Bren 2" },
+        "description": "Hailing from the Check Republic, this modular carbine supplanted the older CZ 805 rifle within Check military use, improving upon the former’s features and bringing fully ambidextrous controls, a streamlined design, and an easily adjustable gas system to the table.  Chambered for the 5.56x45mm NATO cartridge, this particular weapon possesses a 16.5-inch barrel and is a civilian MS, 'modular semi-automatic,' model.  Incorporating a number of US-made parts, the weapon features a removable muzzle break rather than the flash hider that comes standard with military rifles.",
+        "weight": 1
+      }
+    ],
+    "weight": "3450 g",
+    "volume": "4200 ml",
+    "longest_side": "91 cm",
+    "price": 225900,
+    "price_postapoc": 3500,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "aluminum", "plastic" ],
+    "color": "black",
+    "ammo": [ "223" ],
+    "dispersion": 140,
+    "durability": 8,
+    "default_mods": [ "folding_stock", "muzzle_brake" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "stock accessory", 2 ],
+      [ "stock", 1 ]
     ],
     "pocket_data": [
       {

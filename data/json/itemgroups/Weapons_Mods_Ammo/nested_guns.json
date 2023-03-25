@@ -2489,6 +2489,18 @@
     ]
   },
   {
+    "id": "nested_bren2_556",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bren2_556", "variant": "bren2_556", "charges-min": 0, "charges-max": 30 },
+      { "item": "stanag30" },
+      { "item": "stanag30", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
+  },
+  {
     "id": "nested_mdrx",
     "type": "item_group",
     "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
