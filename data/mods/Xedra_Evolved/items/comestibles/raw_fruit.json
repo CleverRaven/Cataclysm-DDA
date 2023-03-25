@@ -1,0 +1,40 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "pomegranate",
+    "name": { "str": "pomegranate" },
+    "weight": "282 g",
+    "color": "red",
+    "spoils_in": "3 months",
+    "comestible_type": "FOOD",
+    "symbol": ":",
+    "calories": 234,
+    "description": "A pomegranate is a ruby-red fruit with juicy seeds—called arils.  The flesh of the fruit is not eaten but rather the arils (seeds).  If the fruit is kept intact the arils can stay good for three months, but quickly go bad once they are removed from the fruit.",
+    "price": 900,
+    "price_postapoc": 300,
+    "material": [ "fruit" ],
+    "volume": "375 ml",
+    "fun": 3,
+    "flags": [ "FREEZERBURN" ],
+    "vitamins": [ [ "vitC", 14 ], [ "iron", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "fig",
+    "name": { "str": "fig" },
+    "weight": "40 g",
+    "color": "yellow",
+    "spoils_in": "5 days",
+    "comestible_type": "FOOD",
+    "symbol": ",",
+    "calories": 30,
+    "description": "Figs are a unique fruit resembling a teardrop. They’re about the size of your thumb, filled with hundreds of tiny seeds, and have an edible purple or green peel. The flesh of the fruit is pink and has a mild, sweet taste. The scientific name for the fig is Ficus carica.",
+    "price": 120,
+    "price_postapoc": 300,
+    "material": [ "fruit" ],
+    "volume": "500 ml",
+    "fun": 5,
+    "flags": [ "SMOKABLE" ],
+    "smoking_result": "dry_fruit"
+  }
+]
