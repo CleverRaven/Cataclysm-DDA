@@ -198,7 +198,7 @@ static void setup_repair( item &fix, player_activity &act, Character &u )
     // Setup activity
     item_location fixloc( u, &fix );
     item_location tailorloc( map_cursor( spawn_pos ), &tailor );
-    act.values.emplace_back( 3 );
+    act.values.emplace_back( /* repeat_type::FULL */ 3 );
     act.str_values.emplace_back( "repair_fabric" );
     act.targets.emplace_back( tailorloc );
     act.targets.emplace_back( fixloc );

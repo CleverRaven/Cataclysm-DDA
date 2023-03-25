@@ -2010,7 +2010,7 @@ void options_manager::add_options_interface()
 
     add( "ITEM_HEALTH_BAR", "interface", to_translation( "Show item health bars" ),
          // NOLINTNEXTLINE(cata-text-style): one space after "etc."
-         to_translation( "If true, show item health bars instead of reinforced, scratched etc. text." ),
+         to_translation( "If true, show item health bars instead of scratched, ripped etc. text." ),
          true
        );
 

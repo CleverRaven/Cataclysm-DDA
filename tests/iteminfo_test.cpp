@@ -2459,15 +2459,6 @@ TEST_CASE( "repairable and with what tools", "[iteminfo][repair]" )
 
     std::vector<iteminfo_parts> repaired = { iteminfo_parts::DESCRIPTION_REPAIREDWITH };
 
-    // TODO: Move reinforcement to a different part flag ? Repair tools interfere here (especially
-    // with Magiclysm, which has enchanted tailor's kit)
-    /*
-    item socks( "test_socks" );
-    CHECK( item_info_str( socks, repaired ) ==
-           "--\n"
-           "* This item can be <color_c_green>reinforced</color>.\n" );
-    */
-
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
            "<color_c_white>Repair</color> using integrated multitool, arc welder, makeshift arc welder, or high-temperature welding kit.\n"

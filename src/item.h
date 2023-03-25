@@ -1207,11 +1207,6 @@ class item : public visitable
          * @param threshold Item is flammable if it provides more fuel than threshold.
          */
         bool flammable( int threshold = 0 ) const;
-        /**
-        * Whether the item can be repaired beyond normal health.
-        */
-        bool reinforceable() const;
-        /*@}*/
 
         /**
         * Helper function to retrieve any applicable resistance bonuses from item mods.

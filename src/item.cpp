@@ -4897,9 +4897,6 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( !repairs_with.empty() ) {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>With</bold> %s." ), repairs_with ) );
         }
-        if( reinforceable() ) {
-            info.emplace_back( "DESCRIPTION", _( "* This item can be <good>reinforced</good>." ) );
-        }
     } else {
         info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
     }
@@ -8478,7 +8475,6 @@ float item::_resist( const damage_type dmg_type, bool to_self, int resist_value,
     }
 
     // base resistance
-    // Don't give reinforced items +armor, just more resistance to ripping
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
@@ -8793,10 +8789,9 @@ std::string item::damage_symbol() const
 {
     switch( damage_level() ) {
         default:
-            // reinforced
-            return _( R"(++)" );
+            return _( R"(??)" ); // negative damage is invalid
         case 0:
-            return _( R"(||)" );
+            return damage() == 0 ? _( R"(++)" ) : _( R"(||)" );
         case 1:
             return _( R"(|\)" );
         case 2:
@@ -8817,15 +8812,7 @@ std::string item::durability_indicator( bool include_intact ) const
 {
     std::string outputstring;
 
-    if( damage() < 0 ) {
-        if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            outputstring = colorize( damage_symbol(), damage_color() ) + degradation_symbol() + "\u00A0";
-        } else if( is_gun() ) {
-            outputstring = pgettext( "damage adjective", "accurized " );
-        } else {
-            outputstring = pgettext( "damage adjective", "reinforced " );
-        }
-    } else if( has_flag( flag_CORPSE ) ) {
+    if( has_flag( flag_CORPSE ) ) {
         if( damage() > 0 ) {
             switch( damage_level() ) {
                 case 1:
@@ -9040,19 +9027,6 @@ bool item::conductive() const
     const std::vector<const material_type *> &mats = made_of_types();
     return std::any_of( mats.begin(), mats.end(), []( const material_type * mt ) {
         return mt->is_conductive();
-    } );
-}
-
-bool item::reinforceable() const
-{
-    if( is_null() || has_flag( flag_NO_REPAIR ) ) {
-        return false;
-    }
-
-    // If a material is reinforceable, so are we
-    const std::vector<const material_type *> &mats = made_of_types();
-    return std::any_of( mats.begin(), mats.end(), []( const material_type * mt ) {
-        return mt->reinforces();
     } );
 }
 
