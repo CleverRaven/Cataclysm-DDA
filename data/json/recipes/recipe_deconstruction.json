@@ -93,7 +93,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 5 ] ] ]
+    "components": [ [ [ "copper", 9 ] ] ]
   },
   {
     "result": "copper_necklace",
@@ -101,7 +101,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "time": "12 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 4 ] ] ]
+    "components": [ [ [ "copper", 6 ] ] ]
   },
   {
     "result": "copper_pan",
@@ -2307,7 +2307,7 @@
     "time": "30 s",
     "activity_level": "MODERATE_EXERCISE",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 8 ] ] ]
+    "components": [ [ [ "copper", 9 ] ] ]
   },
   {
     "result": "copper_ear",
@@ -2351,7 +2351,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap_copper", 1 ] ], [ [ "copper", 11 ] ] ]
+    "components": [ [ [ "scrap_copper", 1 ] ], [ [ "copper", 19 ] ] ]
   },
   {
     "result": "diamond_dental_grill",
@@ -3502,7 +3502,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap_copper", 1 ] ], [ [ "copper", 9 ] ] ]
+    "components": [ [ [ "scrap_copper", 1 ] ], [ [ "copper", 10 ] ] ]
   },
   {
     "result": "potato_masher",
@@ -7606,7 +7606,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 31 ] ] ]
+    "components": [ [ [ "copper", 49 ] ] ]
   },
   {
     "result": "wrench_large",
