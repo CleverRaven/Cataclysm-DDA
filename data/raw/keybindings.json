@@ -2738,8 +2738,7 @@
     "type": "keybinding",
     "name": "Sidebar options",
     "category": "DEFAULTMODE",
-    "id": "toggle_panel_adm",
-    "bindings": [ { "input_method": "keyboard_char", "key": "}" }, { "input_method": "keyboard_code", "key": "]", "mod": [ "shift" ] } ]
+    "id": "toggle_panel_adm"
   },
   {
     "type": "keybinding",
