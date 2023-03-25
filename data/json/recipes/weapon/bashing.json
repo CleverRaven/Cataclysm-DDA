@@ -360,7 +360,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_UNARMED",
     "skill_used": "fabrication",
-    "skills_required": [ "bashing", 1 ],
+    "skills_required": [ "unarmed", 1 ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_redsmithing" },
