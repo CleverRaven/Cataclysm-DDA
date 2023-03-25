@@ -309,5 +309,33 @@
     "name": { "str": "heavy-duty hoist" },
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ],
     "qualities": [ [ "LIFT", 40 ] ]
+  },
+  {
+    "id": "pseudo_app_oxygen_concentrator",
+    "type": "TOOL",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
+    "description": "Dummy item.  If you see this, then something went wrong.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "@",
+    "color": "red",
+    "name": { "str": "oxygen concentrator" }
+  },
+  {
+    "id": "pseudo_app_hd_compressor_unit",
+    "type": "TOOL",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "ZERO_WEIGHT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "default_magazine": "pseudo_battery" } ],
+    "description": "Dummy item.  If you see this, then something went wrong.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "@",
+    "color": "red",
+    "name": { "str": "high pressure compressor unit" },
+    "charges_per_use": 100,
+    "charged_qualities": [ [ "PRESSURIZATION", 10 ] ]
   }
 ]

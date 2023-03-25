@@ -1718,5 +1718,15 @@
     "type": "construction_group",
     "id": "place_chair_wood_white",
     "name": "Place a white wooden chair"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_oxygen_concentrator",
+    "name": "Place Oxygen Concentrator"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_hd_compressor_unit",
+    "name": "Place High Pressure Compressor Unit"
   }
 ]

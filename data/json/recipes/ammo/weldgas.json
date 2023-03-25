@@ -225,5 +225,44 @@
     ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "components": [ [ [ "material_aluminium_ingot", 1 ], [ "scrap_aluminum", 13 ] ] ]
+  },
+  {
+    "result": "oxygen_tank",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "chemistry",
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "45 m",
+    "autolearn": true,
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 1620 ] ], [ [ "pseudo_app_hd_compressor_unit", 1350 ] ] ],
+    "components": [ [ [ "oxygen_tank", 1 ] ] ]
+  },
+  {
+    "result": "oxygen_cylinder",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "chemistry",
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "9 h 25 m",
+    "autolearn": true,
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 20250 ] ], [ [ "pseudo_app_hd_compressor_unit", 16875 ] ] ],
+    "components": [ [ [ "oxygen_cylinder", 1 ] ] ]
+  },
+  {
+    "result": "smoxygen_tank",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "chemistry",
+    "flags": [ "FULL_MAGAZINE" ],
+    "time": "25 m",
+    "autolearn": true,
+    "tools": [ [ [ "pseudo_app_oxygen_concentrator", 810 ] ], [ [ "pseudo_app_hd_compressor_unit", 675 ] ] ],
+    "components": [ [ [ "smoxygen_tank", 1 ] ] ]
   }
 ]
