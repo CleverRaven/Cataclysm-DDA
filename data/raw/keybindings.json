@@ -2611,10 +2611,9 @@
   },
   {
     "type": "keybinding",
-    "name": "View morale",
+    "name": "View character's morale",
     "category": "DEFAULTMODE",
-    "id": "morale",
-    "bindings": [ { "input_method": "keyboard_any", "key": "v" } ]
+    "id": "morale"
   },
   {
     "type": "keybinding",
@@ -4180,6 +4179,13 @@
     "id": "VIEW_BODYSTAT",
     "name": "View character's body status",
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "View character's morale",
+    "category": "PLAYER_INFO",
+    "id": "morale",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
   },
   {
     "type": "keybinding",

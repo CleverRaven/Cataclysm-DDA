@@ -1062,11 +1062,16 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
                    you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
     }
 
+
     if( customize_character ) {
-        right_print( w_tip, 0, 8, c_light_gray, string_format(
-                         _( "[<color_yellow>%s</color>] Customize character" ),
+        right_print( w_tip, 0, 16, c_light_gray, string_format(
+                         _( "[<color_yellow>%s</color>] Customize " ),
                          ctxt.get_desc( "SWITCH_GENDER" ) ) );
     }
+
+    right_print( w_tip, 0, 6, c_light_gray, string_format(
+                     _( "[<color_yellow>%s</color>] Morale" ),
+                     ctxt.get_desc( "morale" ) ) );
 
     right_print( w_tip, 0, 1, c_light_gray, string_format(
                      _( "[<color_yellow>%s</color>]" ),
@@ -1231,6 +1236,11 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ui_tip.invalidate_ui();
     } else if( action == "VIEW_PROFICIENCIES" ) {
         show_proficiencies_window( you );
+
+    } else if( action == "morale" ) {
+        if( you.is_avatar() ) {
+            you.as_avatar()->disp_morale( );
+        }
     } else if( action == "VIEW_BODYSTAT" ) {
         display_bodygraph( you );
     } else if( customize_character && action == "SWITCH_GENDER" ) {
@@ -1472,6 +1482,7 @@ void Character::disp_info( bool customize_character )
     ctxt.register_action( "SWITCH_GENDER", to_translation( "Customize base appearance and name" ) );
     ctxt.register_action( "VIEW_PROFICIENCIES", to_translation( "View character proficiencies" ) );
     ctxt.register_action( "VIEW_BODYSTAT", to_translation( "View character's body status" ) );
+    ctxt.register_action( "morale" );
     ctxt.register_action( "SCROLL_INFOBOX_UP", to_translation( "Scroll information box up" ) );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN", to_translation( "Scroll information box down" ) );
     ctxt.register_action( "SELECT_TRAIT_VARIANT" );
