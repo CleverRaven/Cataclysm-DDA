@@ -68,12 +68,16 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+
 namespace vehicles
 {
 // ratio of constant rolling resistance to the part that varies with velocity
 constexpr double rolling_constant_to_variable = 33.33;
 constexpr float vmiph_per_tile = 400.0f;
+// steering/turning increment
+constexpr units::angle steer_increment = 15_degrees;
 } // namespace vehicles
+
 struct rider_data {
     Creature *psg = nullptr;
     int prt = -1;
