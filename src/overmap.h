@@ -462,10 +462,6 @@ class overmap
         void place_nemesis( const tripoint_abs_omt & );
         bool remove_nemesis(); // returns true if nemesis found and removed
 
-        static bool obsolete_terrain( const std::string &ter );
-        void convert_terrain(
-            const std::unordered_map<tripoint_om_omt, std::string> &needs_conversion );
-
         // Overall terrain
         void place_river( const point_om_omt &pa, const point_om_omt &pb );
         void place_forests();
@@ -570,7 +566,10 @@ class overmap
         void load_legacy_monstergroups( const JsonArray &jsin );
         void save_monster_groups( JsonOut &jo ) const;
     public:
-        static void load_obsolete_terrains( const JsonObject &jo );
+        static void load_oter_id_migration( const JsonObject &jo );
+        static void reset_oter_id_migrations();
+        static bool is_oter_id_obsolete( const std::string &oterid );
+        void migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::string> &points );
 };
 
 bool is_river( const oter_id &ter );

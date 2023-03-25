@@ -5197,8 +5197,17 @@ Obsoletion is used, when we want to remove the item entirely from the game, with
 
 For items, monsters, furniture, terrain, factions, loot groups and lot of similar stuff, you remove all places, where the entity can spawn (maps, palettes, NPCs etc), mark the item with "OBSOLETE" flag (optional), and move into `data/json/obsoletion/` or inside  - they will stay here till the next developement cycle, to make fluent transfer between one stable and another
 
-For maps, you also remove it from all the places it can occur, add the map into `data/json/obsoletion/`, and also add the overmap terriains into `data/json/obsoletion/obsolete_overmap_terrains.json`
-list.
+For maps, you remove the item from all the places it can spawn, remove the mapgen entries, and add the overmap terrain id into `data/json/obsoletion/migration_oter_ids.json`, to migrate oter_id `hive` and `hive2` into `omt_obsolete` add an entry similar to this, note that if mapgen has already generated this area this will only alter the tile shown on the overmap:
+```json
+  {
+    "type": "oter_id_migration",
+    "//": "obsoleted in 0.H",
+    "oter_ids": {
+      "hive": "omt_obsolete",
+      "hive2": "omt_obsolete"
+    }
+  }
+```
 
 For overmap specials add an entry to `data/json/obsoletion/migration_overmap_specials.json`:
 ```json
