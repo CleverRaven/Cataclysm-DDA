@@ -4,6 +4,7 @@
 #include <array>
 #include <cmath>
 #include <memory>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <tuple>
@@ -50,7 +51,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -699,7 +699,7 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 
 std::string monster::speed_description( float mon_speed_rating,
                                         bool immobile,
-                                        speed_description_id speed_desc )
+                                        const speed_description_id &speed_desc )
 {
     if( speed_desc.is_null() || !speed_desc.is_valid() ) {
         return std::string();
@@ -1192,7 +1192,7 @@ void monster::set_dest( const tripoint_abs_ms &p )
 
 void monster::unset_dest()
 {
-    goal = cata::nullopt;
+    goal = std::nullopt;
     path.clear();
 }
 
@@ -1591,7 +1591,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if( effect == effect_downed ) {
-        if( type->bodytype == "insect" || type->bodytype == "insect_flying" || type->bodytype == "spider" ||
+        if( type->bodytype == "insect" || type->bodytype == "flying insect" || type->bodytype == "spider" ||
             type->bodytype == "crab" ) {
             return x_in_y( 3, 4 );
         } else return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
@@ -1627,8 +1627,8 @@ bool monster::is_immune_damage( const damage_type dt ) const
     }
 }
 
-void monster::make_bleed( const effect_source &source, const bodypart_id &bp,
-                          time_duration duration, int intensity, bool permanent, bool force, bool defferred )
+void monster::make_bleed( const effect_source &source, time_duration duration, int intensity,
+                          bool permanent, bool force, bool defferred )
 {
     if( type->bleed_rate == 0 ) {
         return;
@@ -1636,9 +1636,10 @@ void monster::make_bleed( const effect_source &source, const bodypart_id &bp,
 
     duration = ( duration * type->bleed_rate ) / 100;
     if( type->in_species( species_ROBOT ) ) {
-        add_effect( source, effect_dripping_mechanical_fluid, duration, bp );
+        add_effect( source, effect_dripping_mechanical_fluid, duration, bodypart_str_id::NULL_ID() );
     } else {
-        add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
+        add_effect( source, effect_bleed, duration, bodypart_str_id::NULL_ID(), permanent, intensity, force,
+                    defferred );
     }
 }
 
@@ -1899,6 +1900,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
 void monster::deal_damage_handle_type( const effect_source &source, const damage_unit &du,
                                        bodypart_id bp, int &damage, int &pain )
 {
+    const int adjusted_damage = du.amount * du.damage_multiplier * du.unconditional_damage_mult;
     switch( du.type ) {
         case damage_type::ELECTRIC:
             if( has_flag( MF_ELECTRIC ) ) {
@@ -1929,10 +1931,12 @@ void monster::deal_damage_handle_type( const effect_source &source, const damage
         // typeless damage, should always go through
         case damage_type::BIOLOGICAL:
         // internal damage, like from smoke or poison
+        case damage_type::HEAT:
+            break;
         case damage_type::CUT:
         case damage_type::STAB:
         case damage_type::BULLET:
-        case damage_type::HEAT:
+            make_bleed( source, 1_minutes * rng( 0, adjusted_damage ) );
         default:
             break;
     }
@@ -2163,7 +2167,7 @@ int monster::get_worn_armor_val( damage_type dt ) const
         return 0;
     }
     if( armor_item ) {
-        return armor_item->damage_resist( dt );
+        return armor_item->resist( dt );
     }
     return 0;
 }
@@ -2414,7 +2418,6 @@ bool monster::has_special( const std::string &special_name ) const
     return iter != special_attacks.end() && iter->second.enabled;
 }
 
-
 void monster::explode()
 {
     // Handled in mondeath::normal
@@ -2624,7 +2627,7 @@ void monster::die( Creature *nkiller )
 
     if( type->mdeath_effect.has_effect ) {
         //Not a hallucination, go process the death effects.
-        spell death_spell = type->mdeath_effect.sp.get_spell();
+        spell death_spell = type->mdeath_effect.sp.get_spell( *this );
         if( killer != nullptr && !type->mdeath_effect.sp.self &&
             death_spell.is_target_in_range( *this, killer->pos() ) ) {
             death_spell.cast_all_effects( *this, killer->pos() );
@@ -2633,7 +2636,7 @@ void monster::die( Creature *nkiller )
         }
     }
 
-    item *corpse = nullptr;
+    item_location corpse;
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     switch( type->mdeath_effect.corpse_type ) {
         case mdeath_type::NORMAL:
@@ -2667,11 +2670,14 @@ void monster::die( Creature *nkiller )
     }
 
     if( death_drops && !no_extra_death_drops ) {
-        drop_items_on_death( corpse );
-        spawn_dissectables_on_death( corpse );
+        drop_items_on_death( corpse.get_item() );
+        spawn_dissectables_on_death( corpse.get_item() );
     }
     if( death_drops && !is_hallucination() ) {
         for( const item &it : inv ) {
+            if( it.has_var( "DESTROY_ITEM_ON_MON_DEATH" ) ) {
+                continue;
+            }
             if( corpse ) {
                 corpse->force_insert_item( it, item_pocket::pocket_type::CONTAINER );
             } else {
@@ -2685,6 +2691,10 @@ void monster::die( Creature *nkiller )
                 get_map().add_item( pos(), it );
             }
         }
+    }
+    if( corpse ) {
+        corpse->process( get_map(), nullptr, corpse.position() );
+        corpse.make_active();
     }
 
     // Adjust anger/morale of nearby monsters, if they have the appropriate trigger and are friendly
@@ -2792,6 +2802,10 @@ void monster::drop_items_on_death( item *corpse )
                                   calendar::start_of_cataclysm,
                                   spawn_flags::use_spawn_rate );
 
+    for( item &e : new_items ) {
+        e.randomize_rot();
+    }
+
     // for non corpses this is much simpler
     if( !corpse ) {
         for( item &it : new_items ) {
@@ -2849,7 +2863,6 @@ void monster::spawn_dissectables_on_death( item *corpse )
         return;
     }
 
-    std::vector<item> new_dissectables;
     for( const harvest_entry &entry : *type->dissect ) {
         std::vector<item> dissectables = item_group::items_from( item_group_id( entry.drop ),
                                          calendar::turn,
@@ -3510,7 +3523,6 @@ void monster::on_load()
             aggro_character = false;
         }
     }
-
 
     // TODO: regen_morale
     float regen = type->regenerates;

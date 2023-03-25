@@ -450,4 +450,19 @@ enum class character_type : int {
     FULL_RANDOM,
 };
 
+enum class aggregate_type : int {
+    FIRST,
+    LAST,
+    MIN,
+    MAX,
+    SUM,
+    AVERAGE,
+    num_aggregate_types
+};
+
+template<>
+struct enum_traits<aggregate_type> {
+    static constexpr aggregate_type last = aggregate_type::num_aggregate_types;
+};
+
 #endif // CATA_SRC_ENUMS_H

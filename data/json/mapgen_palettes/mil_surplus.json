@@ -78,7 +78,6 @@
             { "item": "two_way_radio", "prob": 1 },
             { "item": "mess_kit", "prob": 3 },
             { "item": "camelbak", "prob": 2 },
-            { "item": "mess_tin", "prob": 2 },
             { "collection": [ { "item": "esbit_stove" }, { "item": "chem_hexamine", "count": [ 1, 3 ] } ], "prob": 2 }
           ]
         },
@@ -173,7 +172,6 @@
             { "item": "two_way_radio", "prob": 1 },
             { "item": "mess_kit", "prob": 3 },
             { "item": "camelbak", "prob": 2 },
-            { "item": "mess_tin", "prob": 2 },
             { "collection": [ { "item": "esbit_stove" }, { "item": "chem_hexamine", "count": [ 1, 3 ] } ], "prob": 2 }
           ]
         },
@@ -272,7 +270,6 @@
             { "item": "two_way_radio", "prob": 1 },
             { "item": "mess_kit", "prob": 3 },
             { "item": "camelbak", "prob": 2 },
-            { "item": "mess_tin", "prob": 2 },
             { "collection": [ { "item": "esbit_stove" }, { "item": "chem_hexamine", "count": [ 1, 3 ] } ], "prob": 2 }
           ]
         },

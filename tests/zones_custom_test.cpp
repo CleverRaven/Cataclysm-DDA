@@ -24,7 +24,11 @@ TEST_CASE( "zones_custom", "[zones]" )
         item batt( "test_battery_disposable" );
         item bag_plastic( "bag_plastic" );
         item nested_batt( "test_battery_disposable" );
-        bag_plastic.put_in( nested_batt, item_pocket::pocket_type::CONTAINER );
+        int const num = GENERATE( 1, 2 );
+        for( int i = 0; i < num; i++ ) {
+            bag_plastic.put_in( nested_batt, item_pocket::pocket_type::CONTAINER );
+        }
+        CAPTURE( num, bag_plastic.display_name() );
 
         mapgen_place_zone( zone_loc + tripoint_north_west, zone_loc + tripoint_south_east,
                            zone_type_LOOT_CUSTOM, your_fac, {}, "completely unrelated overlap" );

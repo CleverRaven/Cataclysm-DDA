@@ -62,7 +62,7 @@ class addiction
         time_duration sated = 1_hours;
 
         addiction() = default;
-        explicit addiction( addiction_id const t, const int i = 1 ) : type {t}, intensity {i} { }
+        explicit addiction( const addiction_id &t, const int i = 1 ) : type {t}, intensity {i} { }
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &jo );

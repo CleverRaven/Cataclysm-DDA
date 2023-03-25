@@ -38,7 +38,6 @@ static std::string att_enum_to_string( mf_attitude att )
     return "?";
 }
 
-
 // generates a file in current directory that contains dump of all inter-faction attitude
 TEST_CASE( "generate_monfactions_attitude_matrix", "[.]" )
 {
@@ -90,8 +89,6 @@ TEST_CASE( "monfactions_reciprocate", "[monster][monfactions]" )
         }
     }
 }
-
-
 
 TEST_CASE( "monfactions_attitude", "[monster][monfactions]" )
 {

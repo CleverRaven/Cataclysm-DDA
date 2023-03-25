@@ -83,6 +83,28 @@ static std::string submap_terrain_rle_ss(
     "  \"computers\": [ ]\n"
     "}\n"
 );
+static std::string submap_terrain_with_invalid_ter_ids_ss(
+    "{\n"
+    "  \"version\": 32,\n"
+    "  \"coordinates\": [ 0, 0, 0 ],\n"
+    "  \"turn_last_touched\": 0,\n"
+    "  \"temperature\": 0,\n"
+    "  \"terrain\": [\n"
+    "    [ \"t_this_ter_id_does_not_exist\", 143 ],\n"
+    "    \"t_rock_floor\""
+    "  ],\n"
+    "  \"radiation\": [ 0, 144 ],\n"
+    "  \"furniture\": [ ],\n"
+    "  \"items\": [ ],\n"
+    "  \"traps\": [ ],\n"
+    "  \"fields\": [ ],\n"
+    "  \"cosmetics\": [ ],\n"
+    "  \"spawns\": [ ],\n"
+    "  \"vehicles\": [ ],\n"
+    "  \"partial_constructions\": [ ],\n"
+    "  \"computers\": [ ]\n"
+    "}\n"
+);
 static std::string submap_furniture_ss(
     "{\n"
     "  \"version\": 32,\n"
@@ -752,6 +774,8 @@ static_assert( SEEY == 12, "Reminder to update submap tests when SEEY changes." 
 
 static JsonValue submap_empty = json_loader::from_string( submap_empty_ss );
 static JsonValue submap_terrain_rle = json_loader::from_string( submap_terrain_rle_ss );
+static JsonValue submap_terrain_with_invalid_ter_ids = json_loader::from_string(
+            submap_terrain_with_invalid_ter_ids_ss );
 static JsonValue submap_furniture = json_loader::from_string( submap_furniture_ss );
 static JsonValue submap_trap = json_loader::from_string( submap_trap_ss );
 static JsonValue submap_rad = json_loader::from_string( submap_rad_ss );
@@ -904,6 +928,29 @@ TEST_CASE( "submap_terrain_rle_load", "[submap][load]" )
     }
     for( int x = 1; x < SEEX - 2; ++x ) {
         CHECK( sm.get_ter( { x, SEEY - 1 } ) == t_rock_floor );
+    }
+}
+
+TEST_CASE( "submap_terrain_load_invalid_ter_ids_as_t_dirt", "[submap][load]" )
+{
+    submap sm;
+    const std::string error = capture_debugmsg_during( [&sm]() {
+        load_from_jsin( sm, submap_terrain_with_invalid_ter_ids );
+    } );
+    submap_checks checks;
+    checks.terrain = false;
+    REQUIRE( is_normal_submap( sm, checks ) );
+    REQUIRE( error == "invalid ter_str_id 't_this_ter_id_does_not_exist'" );
+
+    //capture_debugmsg_during
+    const ter_id t_dirt( "t_dirt" );
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            CAPTURE( x, y );
+            // expect t_rock_floor patch in a corner
+            const ter_id expected = ( ( x == 11 ) && ( y == 11 ) ) ? t_rock_floor : t_dirt;
+            CHECK( sm.get_ter( {x, y} ) == expected );
+        }
     }
 }
 

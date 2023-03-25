@@ -37,7 +37,7 @@
       { "item": "mask_filter", "prob": 20 },
       { "group": "ammo_pocket_batteries_full", "prob": 15 },
       { "item": "radio", "prob": 10 },
-      { "item": "bandages", "prob": 10 },
+      { "item": "bandages", "prob": 10, "count": 3 },
       { "item": "knife_combat", "prob": 20 },
       { "item": "vest", "prob": 15 },
       { "item": "cleansuit", "prob": 20 },

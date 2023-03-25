@@ -162,7 +162,7 @@ struct file_flexbuffer : parsed_flexbuffer {
 
         bool is_stale() const override {
             std::error_code ec;
-            auto mtime = fs::last_write_time( source_file_path_ );
+            fs::file_time_type mtime = fs::last_write_time( source_file_path_ );
             if( ec ) {
                 // Assume yes out of date.
                 return true;
@@ -243,10 +243,10 @@ class flexbuffer_disk_cache
                 }
 
                 // Explicit constructor from milliseconds to file_time_type.
-                auto cached_mtime = fs::file_time_type( std::chrono::milliseconds( std::strtoull(
-                        // extension() returns a string with the leading .
-                        mtime_str.c_str() + 1,
-                        nullptr, 0 ) ) );
+                fs::file_time_type cached_mtime = fs::file_time_type( std::chrono::milliseconds( std::strtoull(
+                                                      // extension() returns a string with the leading .
+                                                      mtime_str.c_str() + 1,
+                                                      nullptr, 0 ) ) );
 
                 fs::path root_relative_json_path = cached_flexbuffer_path.parent_path().lexically_relative(
                                                        cache_path ) / original_json_file_name;
@@ -396,7 +396,7 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse( fs::path json_source
 
     std::error_code ec;
     // If we got this far we can get the mtime.
-    auto mtime = fs::last_write_time( json_source_path, ec );
+    fs::file_time_type mtime = fs::last_write_time( json_source_path, ec );
 
     return std::make_shared<file_flexbuffer>(
                std::move( storage ),
@@ -426,7 +426,7 @@ std::shared_ptr<parsed_flexbuffer> flexbuffer_cache::parse_and_cache(
     }
 
     std::string json_source_path_string = lexically_normal_json_source_path.generic_u8string();
-    cata::optional<std::string> json_file_contents = read_whole_file(
+    std::optional<std::string> json_file_contents = read_whole_file(
                 lexically_normal_json_source_path );
     if( !json_file_contents.has_value() || json_file_contents->empty() ) {
         throw std::runtime_error( "Failed to read " + json_source_path_string );

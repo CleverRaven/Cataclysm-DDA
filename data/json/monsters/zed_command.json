@@ -15,6 +15,7 @@
     "material": [ "bone" ],
     "symbol": "Z",
     "color": "red_white",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 5,
     "morale": 100,
     "melee_skill": 4,

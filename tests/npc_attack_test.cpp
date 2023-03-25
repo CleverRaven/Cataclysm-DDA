@@ -153,7 +153,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
             main_npc.worn.clear();
 
             item armor( "power_armor_basic" );
-            cata::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
+            std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
             REQUIRE( wear_success );
 
             // If the flag gets removed from power armor, some other item with the flag will need to replace it.
@@ -191,7 +191,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
             main_npc.worn.clear();
 
             item headlamp( "wearable_light" );
-            cata::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( headlamp );
+            std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( headlamp );
             REQUIRE( wear_success );
 
             // If the flag gets added, some other item without the flag will need to replace it.
@@ -295,7 +295,7 @@ TEST_CASE( "NPC faces zombies", "[npc_attack]" )
         WHEN( "NPC is wearing active power armor. " ) {
             item armor( "power_armor_basic_on" );
             armor.activate();
-            cata::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
+            std::optional<std::list<item>::iterator> wear_success = main_npc.wear_item( armor );
             REQUIRE( wear_success );
 
             THEN( "NPC deactivates their power armor. " ) {

@@ -314,6 +314,16 @@
   },
   {
     "type": "snippet",
+    "category": "melchior_science_doc",
+    "text": [
+      {
+        "id": "ruthenium_alloy",
+        "text": "Results for a so called  \"predictive material science experiment\".  Numerous graphs detail the deformation testing of a complex ruthenium alloy."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "lab_notes",
     "text": [
       "We've had to remind the groups that the trams that have been completed for inter-facility shipments are not for personal use, no matter how long it's been since they've seen their significant others.  Receiving says their stockrooms are a mess because of all the frivolous shipments.  Don't people know better about office romances anyways?",
@@ -348,7 +358,7 @@
       "The resin expressed by CC-09, designated CC-09-R1, was quite amenable to NMR study.  We gained some really interesting insights into how it meshes with CC-09 internal structures to form a carapace.  Siobhan thinks she can adapt the concepts to human biology, and is applying for a grant to study this further.",
       "We got a treasure trove of new specimens from XEDRA-40 today, from subplane designate 020XE.  We dubbed the samples XE142.  Due to proximity, we assumed they might share chemical properties with some of the specimens from 000XE, but so far they seem totally unrelated (which calls into question our naming conventions, but it's too late now).  The new specimens seem to be made of recognizable cellular matter, and quite biologically sophisticated.  Individuals, if XE142 can be said to have individuals, are amorphous, but complex: they form a firm outer gel coat, and ultrasound probing suggests that the XE142 matter inside coalesces into specialized internal organs.  When XE142 samples combine, the organs and coat appear to reform to suit the new, larger organism.",
       "Well-meaning exploratory teams from XEDRA-40 brought us back what they thought was a relative of XE142, from adjacent subplane 021XE.  It does not, in fact, seem to be related to me.  Like XE142, XE157 is amorphous.  There the similarities end: it is almost impervious to any attempts to sample it, regenerating rapidly from damage.  It ate my scalpel, then stretched out a pod and ate my entire tool tray before splitting in two.  We've isolated the specimens until we can figure out how to study them without driving tool budgets through the roof.  On the bright side, they're surprisingly not all that hostile, even compared to XE142.",
-      "We got a sample of what I can only describe as \"alien hamburger\" from XEDRA-40 today.  They say the probe was being chased by some kind of enormous creature in 079XE.  It managed to get an appendage through the portal, but they shut it down and it was sliced off.  The bit of claw that remained on this side rapidly degraded to mush.  We haven't been able to ascertain exactly why, but Melchior helped us model molecular coherence with the physical laws applying in 079XE: this has yielded the working hypothesis that in 079XE, it is possible for nitrogen groups to form a stable durable bond akin to a disulphide bridge.  These bonds might have been critical to holding the thing together, and when the became less stable in our world, the creature collapsed.",
+      "We got a sample of what I can only describe as \"alien hamburger\" from XEDRA-40 today.  They say the probe was being chased by some kind of enormous creature in 079XE.  It managed to get an appendage through the portal, but they shut it down and it was sliced off.  The bit of claw that remained on this side rapidly degraded to mush.  We haven't been able to ascertain exactly why, but Melchior helped us model molecular coherence with the physical laws applying in 079XE: this has yielded the working hypothesis that in 079XE, it is possible for nitrogen groups to form a stable durable bond akin to a disulfide bridge.  These bonds might have been critical to holding the thing together, and when the became less stable in our world, the creature collapsed.",
       "Admin asked us to vivisect a bunch of samples from 001AA today.  It was boring, as predicted.  We were unable to identify any functional differences between samples from our Earth, and samples from a functionally identical mirror.  What a shock.",
       "Admin has been on a kick getting us to study samples from close mirrors today.  They must have an ulterior motive, but I can't think what.  We took a look at stuff from 020-040AA.  By the later ends of it we were finding minor evolutionary differences, as expected, all well within the range of genetic drift.  Maybe tomorrow they'll get us something that diverges along the theta axis instead, and we'll prove MORE things we already knew!",
       "Spent most of the day elbow deep in samples of XE142.  If nothing else, I think dead XE142 matter could make a half decent adhesive.  Got a little on the counter and it took me hours to scrub it clean.",

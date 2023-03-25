@@ -75,7 +75,6 @@ double calc_steadiness( const Character &you, const item &weapon, const tripoint
 
 double calculate_aim_cap( const Character &you, const tripoint &target );
 
-
 struct Target_attributes {
     int range = 1;
     double size = 0.5;

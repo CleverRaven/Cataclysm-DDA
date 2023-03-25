@@ -151,6 +151,13 @@
   },
   {
     "type": "item_group",
+    "id": "military_grenadier_mods",
+    "//": "Default mods for m4 carbines issued with grenade launchers",
+    "subtype": "distribution",
+    "entries": [ { "item": "m203", "prob": 40 }, { "item": "m320_mod", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
     "id": "vz58v_mods",
     "//": "Default mods for the vz. 58 V variant of the VZ combat rifle",
     "subtype": "collection",

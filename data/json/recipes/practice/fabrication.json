@@ -10,7 +10,7 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 1 ] ],
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
-    "proficiencies": [ { "proficiency": "prof_fletching", "fail_multiplier": 1, "time_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_fletching", "time_multiplier": 1, "skill_penalty": 0 } ],
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CUT", "level": 2 } ],
     "//": "Modifying so much the arrows/bolts will cause them to eventually lose their shape",
@@ -32,7 +32,7 @@
     "description": "Practice carving different forms and shapes in a piece of wood.",
     "skill_used": "fabrication",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
-    "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1, "time_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1, "skill_penalty": 0 } ],
     "time": "1 h",
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "//": "One could use other wooden items to practice carving, but the stick and plank are the most easily acquired.",
@@ -50,7 +50,7 @@
     "description": "Practice basic carpentry by cutting, shaping and uniting some planks or sticks with nails.",
     "skill_used": "fabrication",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
-    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "fail_multiplier": 1, "time_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic", "time_multiplier": 1, "skill_penalty": 0 } ],
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "//": "You destroy the wood with your practice, and the nails are now unusable.",
@@ -69,8 +69,8 @@
     "skill_used": "fabrication",
     "practice_data": { "min_difficulty": 2, "max_difficulty": 3, "skill_limit": 4 },
     "proficiencies": [
-      { "proficiency": "prof_metalworking", "fail_multiplier": 1, "time_multiplier": 1 },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1, "time_multiplier": 1 }
+      { "proficiency": "prof_metalworking", "time_multiplier": 1, "skill_penalty": 0 },
+      { "proficiency": "prof_welding_basic", "time_multiplier": 1, "skill_penalty": 0 }
     ],
     "time": "1 h",
     "components": [ [ [ "sheet_metal_small", 24 ] ] ],
@@ -92,7 +92,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking", "required": true },
       { "proficiency": "prof_welding_basic", "required": true },
-      { "proficiency": "prof_welding", "fail_multiplier": 1, "time_multiplier": 1 }
+      { "proficiency": "prof_welding", "time_multiplier": 1, "skill_penalty": 0 }
     ],
     "time": "1 h",
     "components": [ [ [ "sheet_metal_small", 30 ] ] ],

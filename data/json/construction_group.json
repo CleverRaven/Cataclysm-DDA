@@ -1,11 +1,6 @@
 [
   {
     "type": "construction_group",
-    "id": "add_mattress_to_bed_frame",
-    "name": "Add Mattress to Bed Frame"
-  },
-  {
-    "type": "construction_group",
     "id": "armor_reinforced_window",
     "name": "Armor Reinforced Window"
   },
@@ -66,13 +61,8 @@
   },
   {
     "type": "construction_group",
-    "id": "build_bed_frame",
-    "name": "Build Bed Frame"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_bed_from_scratch",
-    "name": "Build Bed from Scratch"
+    "id": "build_bed",
+    "name": "Build Bed/Bunk bed"
   },
   {
     "type": "construction_group",
@@ -93,11 +83,6 @@
     "type": "construction_group",
     "id": "build_bulletin_board",
     "name": "Build Bulletin Board"
-  },
-  {
-    "type": "construction_group",
-    "id": "build_bunk_bed",
-    "name": "Build Bunk Bed"
   },
   {
     "type": "construction_group",
@@ -886,11 +871,6 @@
   },
   {
     "type": "construction_group",
-    "id": "build_workbench",
-    "name": "Build Workbench"
-  },
-  {
-    "type": "construction_group",
     "id": "build_woven_wattle_fence",
     "name": "Build Woven Wattle Fence"
   },
@@ -1126,6 +1106,36 @@
   },
   {
     "type": "construction_group",
+    "id": "paint_wall_orange",
+    "name": "Paint Wall Orange"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_wall_pink",
+    "name": "Paint Wall Pink"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_wall_gray",
+    "name": "Paint Wall Gray"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_wall_cyan",
+    "name": "Paint Wall Cyan"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_wall_brown",
+    "name": "Paint Wall Brown"
+  },
+  {
+    "type": "construction_group",
+    "id": "paint_wall_black",
+    "name": "Paint Wall Black"
+  },
+  {
+    "type": "construction_group",
     "id": "place_fridge",
     "name": "Place Fridge"
   },
@@ -1163,6 +1173,11 @@
     "type": "construction_group",
     "id": "place_foodco",
     "name": "Place FOODCO"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_microwave",
+    "name": "Place Microwave"
   },
   {
     "type": "construction_group",
@@ -1283,6 +1298,16 @@
     "type": "construction_group",
     "id": "place_xl_wind_turbine",
     "name": "Place Large Wind Turbine"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_water_wheel",
+    "name": "Place Water Wheel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_xl_water_wheel",
+    "name": "Place Large Water Wheel"
   },
   {
     "type": "construction_group",

@@ -160,7 +160,10 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "chem_washing_soda",
-    "byproducts": [ [ "ammonia_liquid", 4 ], [ "chem_calcium_chloride", 51 ] ],
+    "byproduct_group": [
+      { "item": "ammonia_liquid", "container-item": "null", "charges": 4 },
+      { "item": "chem_calcium_chloride", "container-item": "null", "charges": 51 }
+    ],
     "charges": 41,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -194,7 +197,7 @@
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "chem_baking_soda",
-    "byproducts": [ [ "material_quicklime", 8 ] ],
+    "byproduct_group": [ { "item": "material_quicklime", "charges": 8 } ],
     "charges": 76,
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",

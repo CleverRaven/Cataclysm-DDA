@@ -269,7 +269,7 @@
     "weight": "500 g",
     "volume": "1 L",
     "price": 1800,
-    "price_postapoc": 500
+    "price_postapoc": 25
   },
   {
     "id": "simple_crank",

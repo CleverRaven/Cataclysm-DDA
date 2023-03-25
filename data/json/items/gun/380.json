@@ -53,6 +53,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 270,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "60 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "fn1910mag" ] } ]
   },

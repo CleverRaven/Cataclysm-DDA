@@ -42,7 +42,7 @@
       { "item": "brick_kiln", "prob": 80, "charges": [ 0, 1000 ] },
       { "item": "kiln", "prob": 40, "charges": [ 0, 1000 ] },
       { "item": "con_mix", "prob": 120, "charges": [ 0, 500 ] },
-      { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6000 ] },
+      { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6600 ] },
       { "item": "reciprocating_saw", "prob": 80, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 20, "charges": [ 0, 500 ] },
       [ "metal_smoother", 90 ],
@@ -205,7 +205,7 @@
       [ "knife_hunting", 10 ],
       { "group": "knife_rambo_cont", "prob": 10 },
       [ "knife_swissarmy", 10 ],
-      { "item": "mess_kit", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 20 },
       [ "multitool", 10 ],
       [ "pockknife", 30 ],
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
@@ -215,8 +215,7 @@
       { "item": "tinderbox", "prob": 10, "charges": [ 0, 100 ] },
       [ "lifestraw", 4 ],
       [ "chem_hexamine", 10 ],
-      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      [ "mess_tin", 10 ]
+      { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] }
     ]
   },
   {
@@ -228,6 +227,7 @@
       [ "bucket", 40 ],
       { "item": "chainsaw_off", "prob": 30, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 30, "charges": [ 0, 500 ] },
+      { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] },
       [ "g_shovel", 40 ],
       [ "hand_drill", 20 ],
       [ "hoe", 60 ],
@@ -250,7 +250,7 @@
     "type": "item_group",
     "//": "Portable tools for plumbing and pipefitting",
     "items": [
-      { "group": "tools_common", "prob": 100 },
+      { "group": "tools_common_small", "prob": 100 },
       [ "wrench", 200 ],
       [ "wrench_large", 20 ],
       [ "big_pliers", 10 ],
@@ -362,9 +362,9 @@
       { "item": "polisher", "prob": 70, "charges": [ 0, 100 ] },
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
-      { "item": "small_propane_tank", "prob": 10, "count": [ 1, 5 ] },
-      { "item": "medium_propane_tank", "prob": 20, "count": [ 1, 3 ] },
-      { "item": "large_propane_tank", "prob": 15, "count": [ 1, 2 ] },
+      { "item": "small_propane_tank", "prob": 10, "count": [ 1, 5 ], "charges": [ 1000, 3000 ] },
+      { "item": "medium_propane_tank", "prob": 20, "count": [ 1, 3 ], "charges": [ 5000, 15000 ] },
+      { "item": "large_propane_tank", "prob": 15, "count": [ 1, 2 ], "charges": [ 20000, 60000 ] },
       { "item": "welding_blanket", "prob": 20, "count": [ 0, 1 ] },
       {
         "distribution": [
@@ -453,10 +453,10 @@
       { "item": "disinfectant" },
       { "item": "saline" },
       { "item": "adhesive_bandages", "count": 6 },
-      { "item": "bandages", "charges": 3 },
+      { "item": "bandages", "count": 3 },
       { "item": "medical_gauze", "count": 6 },
       { "item": "booklet_firstaid" },
-      { "item": "scissors" }
+      { "item": "scissors_medical" }
     ]
   },
   {
@@ -465,8 +465,8 @@
     "subtype": "collection",
     "container-item": "ipok",
     "items": [
-      { "item": "medical_gauze", "charges": 3 },
-      { "item": "bandages", "charges": 1 },
+      { "item": "medical_gauze", "count": 3 },
+      { "item": "bandages", "count": 1 },
       { "item": "gloves_medical" },
       { "item": "tourniquet_upper" }
     ]
@@ -482,10 +482,10 @@
       { "item": "disinfectant", "charges": [ 0, 5 ] },
       { "item": "saline", "prob": 60 },
       { "item": "adhesive_bandages", "count": [ 0, 6 ] },
-      { "item": "bandages", "charges": [ 0, 3 ] },
+      { "item": "bandages", "count": [ 0, 3 ] },
       { "item": "medical_gauze", "count": [ 0, 6 ] },
       { "item": "booklet_firstaid", "prob": 50 },
-      { "item": "scissors", "prob": 50 }
+      { "item": "scissors_medical", "prob": 50 }
     ]
   },
   {
@@ -494,7 +494,7 @@
     "//": "Portable medical equipment for doctors and paramedics (excludes consumables)",
     "items": [
       [ "scalpel", 50 ],
-      [ "scissors", 100 ],
+      [ "scissors_medical", 100 ],
       [ "stethoscope", 50 ],
       [ "syringe", 50 ],
       [ "thermometer", 50 ],
@@ -511,12 +511,12 @@
       { "item": "medical_tape", "charges": 20 },
       { "item": "tourniquet_upper" },
       { "item": "quikclot", "charges": 5 },
-      { "item": "bandages", "charges": 3, "count": 3 },
+      { "item": "bandages", "count": 9 },
       { "item": "medical_gauze", "count": 3 },
       { "item": "adhesive_bandages", "count": 3 },
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
       { "item": "gloves_medical" },
-      { "item": "scissors" }
+      { "item": "scissors_medical" }
     ]
   },
   {
@@ -528,12 +528,12 @@
       { "item": "medical_tape", "charges": [ 0, 20 ] },
       { "item": "tourniquet_upper", "prob": 20 },
       { "item": "quikclot", "charges": [ 0, 5 ] },
-      { "item": "bandages", "charges": [ 0, 3 ], "count": [ 0, 3 ] },
+      { "item": "bandages", "count": [ 0, 9 ] },
       { "item": "medical_gauze", "count": [ 0, 3 ] },
       { "item": "adhesive_bandages", "count": [ 0, 3 ] },
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": [ 0, 3 ] },
       { "item": "gloves_medical", "prob": 50 },
-      { "item": "scissors", "prob": 30 }
+      { "item": "scissors_medical", "prob": 30 }
     ]
   },
   {
@@ -562,7 +562,7 @@
       { "item": "glowstick", "prob": 60, "charges": 1400 },
       { "item": "oil_lamp", "prob": 10, "charges": [ 0, 750 ] },
       { "item": "wearable_light", "prob": 15, "charges": [ 0, 100 ] },
-      { "item": "propane_lantern", "prob": 15, "charges": [ 0, 30 ] }
+      { "item": "propane_lantern", "prob": 15, "charges": [ 2000, 3000 ] }
     ]
   },
   {
@@ -590,14 +590,15 @@
       { "group": "knife_rambo_cont", "prob": 10 },
       [ "knife_swissarmy", 5 ],
       [ "knife_trench", 10 ],
-      { "item": "mess_kit", "prob": 20, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 20 },
+      { "item": "portable_stove", "prob": 2, "container-item": "nylon_bag", "sealed": false },
       [ "multitool", 5 ],
       [ "pockknife", 50 ],
       [ "knife_folding", 30 ],
       { "item": "pur_tablets", "container-item": "bottle_plastic_small", "prob": 10, "charges": [ 1, 15 ] },
       { "item": "ref_lighter", "prob": 20, "charges": [ 0, 50 ] },
       {
-        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],
+        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 350, 400 ] } ],
         "prob": 5
       },
       [ "signal_flare", 20 ],
@@ -609,13 +610,12 @@
       [ "whistle_multitool", 1 ],
       [ "chem_hexamine", 10 ],
       { "item": "esbit_stove", "prob": 15, "charges": [ 0, 50 ] },
-      [ "mess_tin", 5 ],
       [ "horse_tack", 3 ],
       [ "saddlebag", 5 ],
       [ "lifestraw", 3 ],
       [ "acetylene_machine", 2 ],
-      { "item": "propane_lantern", "prob": 15, "charges": [ 0, 30 ] },
-      { "item": "propane_cooker", "prob": 15, "charges": [ 0, 10 ] }
+      { "item": "propane_lantern", "prob": 15, "charges": [ 2000, 3000 ] },
+      { "item": "propane_cooker", "prob": 15, "charges": [ 2000, 3000 ] }
     ]
   },
   {
@@ -664,7 +664,7 @@
       { "item": "multimeter", "prob": 5, "charges": [ 0, 100 ] },
       [ "melting_point", 5 ],
       [ "vortex", 5 ],
-      { "item": "hotplate", "prob": 5, "charges": [ 0, 500 ] },
+      { "item": "hotplate_induction", "prob": 5, "charges": [ 0, 500 ] },
       [ "jar_glass_sealed", 5 ],
       [ "jar_3l_glass_sealed", 5 ],
       [ "magnifying_glass", 5 ],
@@ -711,7 +711,7 @@
       [ "stand_ring_clamps", 5 ],
       [ "syringe", 4 ],
       [ "xacto", 4 ],
-      { "item": "cotton_ball", "prob": 4, "charges": [ 1, 10 ] },
+      { "group": "cotton_ball_bag_used", "prob": 4 },
       { "group": "ammo_any_batteries_full", "prob": 50 },
       [ "acetylene_machine", 1 ],
       { "group": "writing_utensils", "prob": 5 }
@@ -833,10 +833,11 @@
     "type": "item_group",
     "items": [
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
+      { "item": "polesaw_off", "prob": 10, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "trimmer_off", "prob": 40, "charges": [ 0, 600 ] },
       { "item": "jackhammer", "prob": 50, "charges": [ 0, 1200 ] },
-      { "item": "elec_jackhammer", "prob": 50, "charges": [ 0, 1000 ] },
+      { "item": "elec_jackhammer", "prob": 50, "charges": [ 0, 1320 ] },
       { "item": "reciprocating_saw", "prob": 50, "charges": [ 0, 500 ] },
       { "item": "cordless_impact_wrench", "prob": 30, "charges": [ 0, 500 ] },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
@@ -851,11 +852,41 @@
     "items": [
       [ "ax", 100 ],
       { "item": "chainsaw_off", "prob": 80, "charges": [ 0, 400 ] },
+      { "item": "polesaw_off", "prob": 75, "charges": [ 0, 400 ] },
       [ "saw", 100 ],
       { "item": "bow_saw", "prob": 80 },
       { "item": "circsaw_off", "prob": 50, "charges": [ 0, 500 ] },
       [ "circsaw_blade", 10 ],
       { "item": "elec_chainsaw_off", "prob": 35, "charges": [ 0, 500 ] }
     ]
+  },
+  {
+    "id": "tools_fishingrods_commercial",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Commercially available fishing rods",
+    "items": [
+      { "item": "fishing_rod_professional", "prob": 2 },
+      { "item": "fishing_rod_2pc_packed", "prob": 4 },
+      { "item": "fishing_rod_tele_packed", "prob": 3 }
+    ]
+  },
+  {
+    "id": "tools_fishingrods_portable",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Fishing rods with better portability",
+    "items": [
+      { "item": "fishing_rod_2pc_packed", "prob": 3 },
+      { "item": "fishing_rod_tele_packed", "prob": 3 },
+      { "item": "plastichoboreel", "prob": 1 }
+    ]
+  },
+  {
+    "id": "tools_fishing_makeshift",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "Post-cataclysm makeshift fishing implements",
+    "items": [ [ "fishing_rod_basic", 100 ], [ "fish_trap_basket", 100 ], [ "fishing_hook_bone", 100 ] ]
   }
 ]

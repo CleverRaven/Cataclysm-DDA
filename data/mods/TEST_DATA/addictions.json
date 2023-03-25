@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "test_EOC_CAFFEINE_ADDICTION",
     "condition": {
-      "compare_int": [
+      "compare_num": [
         { "rand": 2000 },
         "<=",
         { "u_val": "addiction_intensity", "addiction": "test_caffeine", "mod": { "val": 2000, "step": 20 } }
@@ -18,10 +18,10 @@
             "condition": {
               "and": [
                 {
-                  "compare_int": [ { "u_val": "stim" }, ">", { "u_val": "addiction_intensity", "addiction": "test_caffeine", "mod": -10 } ]
+                  "compare_num": [ { "u_val": "stim" }, ">", { "u_val": "addiction_intensity", "addiction": "test_caffeine", "mod": -10 } ]
                 },
                 {
-                  "compare_int": [ { "rand": 10 }, "<", { "u_val": "addiction_intensity", "addiction": "test_caffeine" } ]
+                  "compare_num": [ { "rand": 10 }, "<", { "u_val": "addiction_intensity", "addiction": "test_caffeine" } ]
                 }
               ]
             },
@@ -31,9 +31,9 @@
             "id": "test_EOC_CAFFEINE_ADDICTION_SHAKES",
             "condition": {
               "and": [
-                { "compare_int": [ { "u_val": "addiction_intensity", "addiction": "test_caffeine" }, ">=", { "const": 8 } ] },
+                { "compare_num": [ { "u_val": "addiction_intensity", "addiction": "test_caffeine" }, ">=", { "const": 8 } ] },
                 {
-                  "compare_int": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "test_caffeine" } ]
+                  "compare_num": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "test_caffeine" } ]
                 }
               ]
             },
