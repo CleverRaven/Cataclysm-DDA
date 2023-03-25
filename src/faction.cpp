@@ -765,9 +765,9 @@ void faction_manager::display() const
     tab_mode tab = tab_mode::FIRST_TAB;
     size_t selection = 0;
     input_context ctxt( "FACTION_MANAGER" );
-    ctxt.register_cardinal();
-    ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
@@ -1026,29 +1026,12 @@ void faction_manager::display() const
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "NEXT_TAB" || action == "RIGHT" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) + 1 );
-            if( tab >= tab_mode::NUM_TABS ) {
-                tab = tab_mode::FIRST_TAB;
-            }
+        if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
+            // necessary to use increment_and_wrap
+            static_assert( static_cast<int>( tab_mode::FIRST_TAB ) == 0 );
+            tab = increment_and_wrap( tab, action == "RIGHT" || action == "NEXT_TAB", tab_mode::NUM_TABS );
             selection = 0;
-        } else if( action == "PREV_TAB" || action == "LEFT" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) - 1 );
-            if( tab < tab_mode::FIRST_TAB ) {
-                tab = tab_mode::LAST_TAB;
-            }
-            selection = 0;
-        } else if( action == "DOWN" ) {
-            selection++;
-            if( selection >= active_vec_size ) {
-                selection = 0;
-            }
-        } else if( action == "UP" ) {
-            if( selection == 0 ) {
-                selection = active_vec_size == 0 ? 0 : active_vec_size - 1;
-            } else {
-                selection--;
-            }
+        } else if( navigate_ui_list( action, selection, 10, active_vec_size, true ) ) {
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_FOLLOWERS && guy ) {
                 if( guy->has_companion_mission() ) {
