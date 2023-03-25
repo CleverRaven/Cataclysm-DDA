@@ -1063,19 +1063,8 @@ bool talk_function::display_and_choose_opts(
         mission_key.cur_key = cur_key_list[sel];
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "DOWN" ) {
-            if( sel == cur_key_list.size() - 1 ) {
-                sel = 0;    // Wrap around
-            } else {
-                sel++;
-            }
-            info_offset = 0;
-        } else if( action == "UP" ) {
-            if( sel == 0 ) {
-                sel = cur_key_list.size() - 1;    // Wrap around
-            } else {
-                sel--;
-            }
+        if( action == "UP" || action == "SCROLL_UP" || action == "DOWN" || action == "SCROLL_DOWN" ) {
+            sel = increment_and_wrap( sel, action == "DOWN" || action == "SCROLL_DOWN", cur_key_list.size() );
             info_offset = 0;
         } else if( action == "PAGE_UP" ) {
             if( info_offset > 0 ) {

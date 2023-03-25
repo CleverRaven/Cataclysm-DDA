@@ -132,6 +132,22 @@
       }
   },
   {
+    "type": "COMESTIBLE",
+    "id": "egg_lady_bug_giant",
+    "name": { "str": "giant ladybug egg" },
+    "description": "A giant ladybug egg.  It looks like a huge yellow rice grain.  You can see an enormous, translucent, and very hungry larva inside.",
+    "copy-from": "egg_insect",
+    "color": "red"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "spider_egg",
+    "name": { "str": "spider egg" },
+    "description": "A fist-sized egg from a giant spider.  Incredibly gross.",
+    "copy-from": "egg_insect",
+    "color": "white"
+  },
+  {
     "type": "PET_ARMOR",
     "id": "superalloy_harness_dog",
     "copy-from": "kevlar_harness",
