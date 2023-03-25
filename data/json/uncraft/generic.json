@@ -109,6 +109,30 @@
     "components": [ [ [ "lead", 2155 ] ] ]
   },
   {
+    "result": "10l_silver",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_silver", 2 ] ] ]
+  },
+  {
+    "result": "5l_silver",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "25 m",
+    "tools": [ [ [ "angle_grinder", 20 ] ] ],
+    "components": [ [ [ "1l_silver", 5 ] ] ]
+  },
+  {
+    "result": "1l_silver",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "silver_small", 1993 ] ] ]
+  },
+  {
     "result": "exodii_ingot_zinc",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
