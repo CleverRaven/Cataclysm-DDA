@@ -17,7 +17,6 @@ Sugar house expansion
 Various additions and tweaks relating to Native American Heritage
 Add a drug lab
 Environmental storytelling about what children in the cataclysm had to go through
-Add Netherium monster corpse map location
 Adds Water Wheels & XL Water Wheels as placeable appliances.
 Invertebrate larva and egg rework
 
