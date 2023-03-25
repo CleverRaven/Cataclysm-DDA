@@ -154,9 +154,9 @@ jobs:
             native: osx
             sanitize: undefined
             tiles: 1
-            sound: 0
+            sound: 1
             localize: 1
-            title: Clang 14, macOS 12, Tiles, UBSan
+            title: Clang 14, macOS 12, Tiles, Sound, UBSan
             # ~880MB ccache-compressed in a clean build
             # ~100 compressed
             # observed usage: 3.85GB -> 500MB
@@ -266,6 +266,7 @@ jobs:
         sdl2: latest
         sdl2-ttf: latest
         sdl2-image: latest
+        sdl2-mixer: latest
     - name: install build dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
