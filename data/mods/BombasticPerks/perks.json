@@ -1,121 +1,126 @@
 [
-    {
-        "type": "mutation_type",
-        "id": "perk"
-      },
-    {
-        "type": "mutation",
-        "id": "perk_STR_UP",
-        "name": { "str": "Stronger" },
-        "points": 0,
-        "description": "Have you been working out?  +1 Strength.",
-        "category": [ "perk" ],
-        "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
-      },
+  {
+    "type": "mutation_type",
+    "id": "perk"
+  },
+  {
+    "type": "mutation",
+    "id": "perk_perk_menu",
+    "name": { "str": "Open Perk Menu" },
+    "points": 0,
+    "description": "Direct access to the perk menu.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_open_perk_menu" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_STR_UP",
+    "name": { "str": "Stronger" },
+    "points": 0,
+    "description": "Have you been working out?  +1 Strength.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_DEX_UP",
+    "name": { "str": "Faster" },
+    "points": 0,
+    "description": "Have you been doing cardio?  +1 Dexterity.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_INT_UP",
+    "name": { "str": "Smarter" },
+    "points": 0,
+    "description": "Have you been reading?  +1 Intelligence.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_PER_UP",
+    "name": { "str": "Sharper" },
+    "points": 0,
+    "description": "Have you been staring out into the middle distance?  +1 Perception.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_holdout_pocket",
+    "name": { "str": "Holdout Pocket" },
+    "points": 0,
+    "description": "Never leave home without it!  You have a secret pocket no one knows about that can easily store a weapon.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_holdout_pocket" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_built_tough",
+    "name": { "str": "Built Tough" },
+    "points": 0,
+    "description": "Your like a walking tank!  Take 10% less damage from all sources.",
+    "category": [ "perk" ],
+    "enchantments": [
       {
-        "type": "mutation",
-        "id": "perk_DEX_UP",
-        "name": { "str": "Faster" },
-        "points": 0,
-        "description": "Have you been doing cardio?  +1 Dexterity.",
-        "category": [ "perk" ],
-        "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
-      },
-      {
-        "type": "mutation",
-        "id": "perk_INT_UP",
-        "name": { "str": "Smarter" },
-        "points": 0,
-        "description": "Have you been reading?  +1 Intelligence.",
-        "category": [ "perk" ],
-        "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
-      },
-      {
-        "type": "mutation",
-        "id": "perk_PER_UP",
-        "name": { "str": "Sharper" },
-        "points": 0,
-        "description": "Have you been staring out into the middle distance?  +1 Perception.",
-        "category": [ "perk" ],
-        "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
-      },
-      {
-        "type": "mutation",
-        "id": "perk_holdout_pocket",
-        "name": { "str": "Holdout Pocket" },
-        "points": 0,
-        "description": "Never leave home without it!  You have a secret pocket no one knows about that can easily store a weapon.",
-        "category": [ "perk" ],
-        "integrated_armor": [ "integrated_holdout_pocket" ]
-      },
-      {
-        "type": "mutation",
-        "id": "perk_built_tough",
-        "name": { "str": "Built Tough" },
-        "points": 0,
-        "description": "Your like a walking tank!  Take 10% less damage from all sources.",
-        "category": [ "perk" ],
-        "enchantments": [ { "condition": "ALWAYS", 
-            "values": [ 
-                { "value": "ARMOR_ACID", "multiply": -0.1 },
-                { "value": "ARMOR_BASH", "multiply": -0.1 },
-                { "value": "ARMOR_BIO", "multiply": -0.1 },
-                { "value": "ARMOR_BULLET", "multiply": -0.1 },
-                { "value": "ARMOR_COLD", "multiply": -0.1 },
-                { "value": "ARMOR_CUT", "multiply": -0.1 },
-                { "value": "ARMOR_ELEC", "multiply": -0.1 },
-                { "value": "ARMOR_HEAT", "multiply": -0.1 },
-                { "value": "ARMOR_STAB", "multiply": -0.1 }
-            ] 
-        } ]
-      },
-      {
-        "type": "mutation",
-        "id": "perk_hauler",
-        "name": { "str": "Hauler" },
-        "points": 0,
-        "description": "All that hauling has paid off.  You can carry 10kg of additional items.",
-        "category": [ "perk" ],
-        "enchantments": [ { "condition": "ALWAYS", 
-            "values": [ 
-                { "value": "CARRY_WEIGHT", "add": 10000 }
-            ] 
-        } ]
-      },
-      {
-        "type": "mutation",
-        "id": "perk_vacationer",
-        "name": { "str": "Vacationer" },
-        "points": 0,
-        "description": "Everyday in the apocalpyse is just like the beach.  You are more comfortable in cold and warm weather.",
-        "category": [ "perk" ],
-        "enchantments": [ { "condition": "ALWAYS", 
-            "values": [ 
-                { "value": "CLIMATE_CONTROL_HEAT", "add": 10 },
-                { "value": "CLIMATE_CONTROL_CHILL", "add": 10 }
-            ] 
-        } ]
-      },
-      {
-        "type": "mutation",
-        "id": "perk_thick_skull",
-        "name": { "str": "Thick Skull" },
-        "points": 0,
-        "description": "You've taken so many blows to the head you've lost count.  You've got additional skull armor.",
-        "category": [ "perk" ],
-        "integrated_armor": [ "integrated_thick_skull" ]
-      },
-      {
-        "type": "mutation",
-        "id": "perk_tuck_and_roll",
-        "name": { "str": "Tuck and Roll" },
-        "points": 0,
-        "description": "At some point you got really good at falling off rooftops. take 40% less fall damage.",
-        "category": [ "perk" ],
-        "enchantments": [ { "condition": "ALWAYS", 
-            "values": [ 
-                { "value": "FALL_DAMAGE", "multiply": -0.4 }
-            ] 
-        } ]
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "ARMOR_ACID", "multiply": -0.1 },
+          { "value": "ARMOR_BASH", "multiply": -0.1 },
+          { "value": "ARMOR_BIO", "multiply": -0.1 },
+          { "value": "ARMOR_BULLET", "multiply": -0.1 },
+          { "value": "ARMOR_COLD", "multiply": -0.1 },
+          { "value": "ARMOR_CUT", "multiply": -0.1 },
+          { "value": "ARMOR_ELEC", "multiply": -0.1 },
+          { "value": "ARMOR_HEAT", "multiply": -0.1 },
+          { "value": "ARMOR_STAB", "multiply": -0.1 }
+        ]
       }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_hauler",
+    "name": { "str": "Hauler" },
+    "points": 0,
+    "description": "All that hauling has paid off.  You can carry 10kg of additional items.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_vacationer",
+    "name": { "str": "Vacationer" },
+    "points": 0,
+    "description": "Everyday in the apocalpyse is just like the beach.  You are more comfortable in cold and warm weather.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_thick_skull",
+    "name": { "str": "Thick Skull" },
+    "points": 0,
+    "description": "You've taken so many blows to the head you've lost count.  You've got additional skull armor.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_thick_skull" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_tuck_and_roll",
+    "name": { "str": "Tuck and Roll" },
+    "points": 0,
+    "description": "At some point you got really good at falling off rooftops. take 40% less fall damage.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -0.4 } ] } ]
+  }
 ]

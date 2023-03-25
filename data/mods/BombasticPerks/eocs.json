@@ -7,11 +7,37 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_level_up",
-    "condition": { "compare_int": [ { "u_val": "var", "var_name": "available_exp" }, ">", { "const": 2000 } ] },
+    "condition": {
+      "compare_int": [ { "u_val": "var", "var_name": "available_exp" }, ">", { "u_val": "var", "var_name": "exp_to_perk" } ]
+    },
     "effect": [
       { "run_eocs": "EOC_give_perk_point" },
       {
-        "arithmetic": [ { "u_val": "var", "var_name": "used_exp" }, "=", { "u_val": "var", "var_name": "used_exp" }, "+", { "const": 2000 } ]
+        "arithmetic": [
+          { "u_val": "var", "var_name": "used_exp" },
+          "=",
+          { "u_val": "var", "var_name": "used_exp" },
+          "+",
+          { "u_val": "var", "var_name": "exp_to_perk" }
+        ]
+      },
+      {
+        "arithmetic": [
+          { "u_val": "var", "var_name": "available_exp" },
+          "=",
+          { "u_val": "exp" },
+          "-",
+          { "u_val": "var", "var_name": "used_exp" }
+        ]
+      },
+      {
+        "arithmetic": [
+          { "u_val": "var", "var_name": "exp_to_perk" },
+          "=",
+          { "u_val": "var", "var_name": "exp_to_perk" },
+          "+",
+          { "const": 300 }
+        ]
       },
       { "open_dialogue": { "topic": "TALK_PERK_MENU_MAIN" } }
     ]
@@ -19,18 +45,32 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_on_kill_check_exp",
-    "EOC_TYPE": "EVENT",
+    "eoc_type": "EVENT",
     "required_event": "character_kills_monster",
     "effect": [
       {
         "arithmetic": [
           { "u_val": "var", "var_name": "available_exp" },
           "=",
-          { "u_val": "var", "var_name": "exp" },
+          { "u_val": "exp" },
           "-",
           { "u_val": "var", "var_name": "used_exp" }
         ]
-      }
+      },
+      { "run_eocs": "EOC_level_up" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_give_perk_menu",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
+    "effect": [
+      { "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "exp_to_perk" }, "=", { "const": 100 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "available_exp" }, "=", { "const": 0 } ] },
+      { "u_add_trait": "perk_perk_menu" }
     ]
   },
   {
@@ -38,13 +78,7 @@
     "id": "EOC_give_perk_point",
     "effect": [
       {
-        "arithmetic": [
-          { "global_val": "var", "var_name": "num_perks" },
-          "=",
-          { "global_val": "var", "var_name": "num_perks" },
-          "+",
-          { "const": 1 }
-        ]
+        "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "+", { "const": 1 } ]
       }
     ]
   }

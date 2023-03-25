@@ -1,326 +1,271 @@
 [
-    {
-      "type": "talk_topic",
-      "id": "TALK_PERK_MENU_MAIN",
-      "dynamic_line": "<global_val:num_perks> perk points to spend.",
-      "responses": [
-        {
-          "condition": {
-            "and": [
-              { "compare_num": [ { "global_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
-              { "not": { "u_has_trait": "perk_STR_UP" } }
-            ]
-          },
-          "text": "Gain [Stronger]",
-          "topic": "TALK_PERK_MENU_STRONGER"
-        },
-        {
-            "condition": {
-              "and": [
-                { "compare_num": [ { "global_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
-                { "not": { "u_has_trait": "perk_DEX_UP" } }
-              ]
-            },
-            "text": "Gain [Faster]",
-            "topic": "TALK_PERK_MENU_FASTER"
-          },
-          {
-            "condition": {
-              "and": [
-                { "compare_num": [ { "global_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
-                { "not": { "u_has_trait": "perk_INT_UP" } }
-              ]
-            },
-            "text": "Gain [Smarter]",
-            "topic": "TALK_PERK_MENU_SMARTER"
-          },
-          {
-            "condition": {
-              "and": [
-                { "compare_num": [ { "global_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
-                { "not": { "u_has_trait": "perk_PER_UP" } }
-              ]
-            },
-            "text": "Gain [Sharper]",
-            "topic": "TALK_PERK_MENU_SHARPER"
-          },
-          {
-            "condition": {
-              "and": [
-                { "compare_num": [ { "global_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
-                { "not": { "u_has_trait": "perk_holdout_pocket" } }
-              ]
-            },
-            "text": "Gain [Holdout Pocket]",
-            "topic": "TALK_PERK_MENU_HOLDOUT_POCKET"
-          },
-          {
-            "condition": {
-              "and": [
-                { "compare_num": [ { "global_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
-                { "not": { "u_has_trait": "perk_built_tough" } }
-              ]
-            },
-            "text": "Gain [Built Tough]",
-            "topic": "TALK_PERK_MENU_BUILT_TOUGH"
-          },
-          {
-            "condition": {
-              "and": [
-                { "compare_num": [ { "global_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
-                { "not": { "u_has_trait": "perk_hauler" } }
-              ]
-            },
-            "text": "Gain [Hauler]",
-            "topic": "TALK_PERK_MENU_HAULER"
-          },
-          {
-            "condition": {
-              "and": [
-                { "compare_num": [ { "global_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
-                { "not": { "u_has_trait": "perk_vacationer" } }
-              ]
-            },
-            "text": "Gain [Vacationer]",
-            "topic": "TALK_PERK_MENU_VACATIONER"
-          },
-          {
-            "condition": {
-              "and": [
-                { "compare_num": [ { "global_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
-                { "not": { "u_has_trait": "perk_thick_skull" } }
-              ]
-            },
-            "text": "Gain [Thick Skull]",
-            "topic": "TALK_PERK_MENU_THICK_SKULL"
-          },
-        { "text": "Quit.", "topic": "TALK_DONE" }
-      ]
-    },
-    {
-      "type": "talk_topic",
-      "id": "TALK_PERK_MENU_STRONGER",
-      "dynamic_line": "<trait_name:perk_STR_UP>: \"<trait_description:perk_STR_UP>\"",
-      "responses": [
-        {
-          "text": "Select Perk.",
-          "topic": "TALK_PERK_MENU_MAIN",
-          "effect": [
-            { "u_add_trait": "perk_STR_UP" },
-            {
-              "arithmetic": [
-                { "global_val": "var", "var_name": "num_perks" },
-                "=",
-                { "global_val": "var", "var_name": "num_perks" },
-                "-",
-                { "const": 1 }
-              ]
-            }
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_MAIN",
+    "dynamic_line": "<u_val:num_perks> perk points to spend.\nCurrent EXP: <u_val:available_exp>.\nEXP to next level: <u_val:exp_to_perk>.",
+    "responses": [
+      {
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+            { "not": { "u_has_trait": "perk_STR_UP" } }
           ]
         },
-        { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-        { "text": "Quit.", "topic": "TALK_DONE" }
-      ]
-    },
-    {
-        "type": "talk_topic",
-        "id": "TALK_PERK_MENU_FASTER",
-        "dynamic_line": "<trait_name:perk_DEX_UP>: \"<trait_description:perk_DEX_UP>\"",
-        "responses": [
-          {
-            "text": "Select Perk.",
-            "topic": "TALK_PERK_MENU_MAIN",
-            "effect": [
-              { "u_add_trait": "perk_DEX_UP" },
-              {
-                "arithmetic": [
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "=",
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "-",
-                  { "const": 1 }
-                ]
-              }
-            ]
-          },
-          { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-          { "text": "Quit.", "topic": "TALK_DONE" }
-        ]
+        "text": "Gain [Stronger]",
+        "topic": "TALK_PERK_MENU_STRONGER"
       },
       {
-        "type": "talk_topic",
-        "id": "TALK_PERK_MENU_SMARTER",
-        "dynamic_line": "<trait_name:perk_INT_UP>: \"<trait_description:perk_INT_UP>\"",
-        "responses": [
-          {
-            "text": "Select Perk.",
-            "topic": "TALK_PERK_MENU_MAIN",
-            "effect": [
-              { "u_add_trait": "perk_INT_UP" },
-              {
-                "arithmetic": [
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "=",
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "-",
-                  { "const": 1 }
-                ]
-              }
-            ]
-          },
-          { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-          { "text": "Quit.", "topic": "TALK_DONE" }
-        ]
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+            { "not": { "u_has_trait": "perk_DEX_UP" } }
+          ]
+        },
+        "text": "Gain [Faster]",
+        "topic": "TALK_PERK_MENU_FASTER"
       },
       {
-        "type": "talk_topic",
-        "id": "TALK_PERK_MENU_SHARPER",
-        "dynamic_line": "<trait_name:perk_PER_UP>: \"<trait_description:perk_PER_UP>\"",
-        "responses": [
-          {
-            "text": "Select Perk.",
-            "topic": "TALK_PERK_MENU_MAIN",
-            "effect": [
-              { "u_add_trait": "perk_PER_UP" },
-              {
-                "arithmetic": [
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "=",
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "-",
-                  { "const": 1 }
-                ]
-              }
-            ]
-          },
-          { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-          { "text": "Quit.", "topic": "TALK_DONE" }
-        ]
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+            { "not": { "u_has_trait": "perk_INT_UP" } }
+          ]
+        },
+        "text": "Gain [Smarter]",
+        "topic": "TALK_PERK_MENU_SMARTER"
       },
       {
-        "type": "talk_topic",
-        "id": "TALK_PERK_MENU_HOLDOUT_POCKET",
-        "dynamic_line": "<trait_name:perk_holdout_pocket>: \"<trait_description:perk_holdout_pocket>\"",
-        "responses": [
-          {
-            "text": "Select Perk.",
-            "topic": "TALK_PERK_MENU_MAIN",
-            "effect": [
-              { "u_add_trait": "perk_holdout_pocket" },
-              {
-                "arithmetic": [
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "=",
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "-",
-                  { "const": 1 }
-                ]
-              }
-            ]
-          },
-          { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-          { "text": "Quit.", "topic": "TALK_DONE" }
-        ]
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+            { "not": { "u_has_trait": "perk_PER_UP" } }
+          ]
+        },
+        "text": "Gain [Sharper]",
+        "topic": "TALK_PERK_MENU_SHARPER"
       },
       {
-        "type": "talk_topic",
-        "id": "TALK_PERK_MENU_BUILT_TOUGH",
-        "dynamic_line": "<trait_name:perk_built_tough>: \"<trait_description:perk_built_tough>\"",
-        "responses": [
-          {
-            "text": "Select Perk.",
-            "topic": "TALK_PERK_MENU_MAIN",
-            "effect": [
-              { "u_add_trait": "perk_built_tough" },
-              {
-                "arithmetic": [
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "=",
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "-",
-                  { "const": 1 }
-                ]
-              }
-            ]
-          },
-          { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-          { "text": "Quit.", "topic": "TALK_DONE" }
-        ]
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+            { "not": { "u_has_trait": "perk_holdout_pocket" } }
+          ]
+        },
+        "text": "Gain [Holdout Pocket]",
+        "topic": "TALK_PERK_MENU_HOLDOUT_POCKET"
       },
       {
-        "type": "talk_topic",
-        "id": "TALK_PERK_MENU_HAULER",
-        "dynamic_line": "<trait_name:perk_hauler>: \"<trait_description:perk_hauler>\"",
-        "responses": [
-          {
-            "text": "Select Perk.",
-            "topic": "TALK_PERK_MENU_MAIN",
-            "effect": [
-              { "u_add_trait": "perk_hauler" },
-              {
-                "arithmetic": [
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "=",
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "-",
-                  { "const": 1 }
-                ]
-              }
-            ]
-          },
-          { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-          { "text": "Quit.", "topic": "TALK_DONE" }
-        ]
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+            { "not": { "u_has_trait": "perk_built_tough" } }
+          ]
+        },
+        "text": "Gain [Built Tough]",
+        "topic": "TALK_PERK_MENU_BUILT_TOUGH"
       },
       {
-        "type": "talk_topic",
-        "id": "TALK_PERK_MENU_VACATIONER",
-        "dynamic_line": "<trait_name:perk_vacationer>: \"<trait_description:perk_vacationer>\"",
-        "responses": [
-          {
-            "text": "Select Perk.",
-            "topic": "TALK_PERK_MENU_MAIN",
-            "effect": [
-              { "u_add_trait": "perk_vacationer" },
-              {
-                "arithmetic": [
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "=",
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "-",
-                  { "const": 1 }
-                ]
-              }
-            ]
-          },
-          { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-          { "text": "Quit.", "topic": "TALK_DONE" }
-        ]
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+            { "not": { "u_has_trait": "perk_hauler" } }
+          ]
+        },
+        "text": "Gain [Hauler]",
+        "topic": "TALK_PERK_MENU_HAULER"
       },
       {
-        "type": "talk_topic",
-        "id": "TALK_PERK_MENU_THICK_SKULL",
-        "dynamic_line": "<trait_name:perk_thick_skull>: \"<trait_description:perk_thick_skull>\"",
-        "responses": [
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+            { "not": { "u_has_trait": "perk_vacationer" } }
+          ]
+        },
+        "text": "Gain [Vacationer]",
+        "topic": "TALK_PERK_MENU_VACATIONER"
+      },
+      {
+        "condition": {
+          "and": [
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+            { "not": { "u_has_trait": "perk_thick_skull" } }
+          ]
+        },
+        "text": "Gain [Thick Skull]",
+        "topic": "TALK_PERK_MENU_THICK_SKULL"
+      },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_STRONGER",
+    "dynamic_line": "<trait_name:perk_STR_UP>: \"<trait_description:perk_STR_UP>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "effect": [
+          { "u_add_trait": "perk_STR_UP" },
           {
-            "text": "Select Perk.",
-            "topic": "TALK_PERK_MENU_MAIN",
-            "effect": [
-              { "u_add_trait": "perk_thick_skull" },
-              {
-                "arithmetic": [
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "=",
-                  { "global_val": "var", "var_name": "num_perks" },
-                  "-",
-                  { "const": 1 }
-                ]
-              }
-            ]
-          },
-          { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-          { "text": "Quit.", "topic": "TALK_DONE" }
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
         ]
-      }
-  ]
-  
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_FASTER",
+    "dynamic_line": "<trait_name:perk_DEX_UP>: \"<trait_description:perk_DEX_UP>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "effect": [
+          { "u_add_trait": "perk_DEX_UP" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_SMARTER",
+    "dynamic_line": "<trait_name:perk_INT_UP>: \"<trait_description:perk_INT_UP>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "effect": [
+          { "u_add_trait": "perk_INT_UP" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_SHARPER",
+    "dynamic_line": "<trait_name:perk_PER_UP>: \"<trait_description:perk_PER_UP>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "effect": [
+          { "u_add_trait": "perk_PER_UP" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_HOLDOUT_POCKET",
+    "dynamic_line": "<trait_name:perk_holdout_pocket>: \"<trait_description:perk_holdout_pocket>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "effect": [
+          { "u_add_trait": "perk_holdout_pocket" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_BUILT_TOUGH",
+    "dynamic_line": "<trait_name:perk_built_tough>: \"<trait_description:perk_built_tough>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "effect": [
+          { "u_add_trait": "perk_built_tough" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_HAULER",
+    "dynamic_line": "<trait_name:perk_hauler>: \"<trait_description:perk_hauler>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "effect": [
+          { "u_add_trait": "perk_hauler" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_VACATIONER",
+    "dynamic_line": "<trait_name:perk_vacationer>: \"<trait_description:perk_vacationer>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "effect": [
+          { "u_add_trait": "perk_vacationer" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_THICK_SKULL",
+    "dynamic_line": "<trait_name:perk_thick_skull>: \"<trait_description:perk_thick_skull>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "effect": [
+          { "u_add_trait": "perk_thick_skull" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  }
+]
