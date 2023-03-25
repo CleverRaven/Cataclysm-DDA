@@ -433,7 +433,7 @@
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [
       [ [ "corn_kernels", 1 ], [ "can_corn", 1 ], [ "hominy", 1 ] ],
-      [ [ "raw_beans", 1 ], [ "can_beans", 1 ], [ "dry_beans" ], [ "raw_lentils", 1 ], [ "dry_lentils", 1 ] ],
+      [ [ "raw_beans", 1 ], [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_lentils", 1 ], [ "dry_lentils", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [
         [ "salt", 1 ],
@@ -461,7 +461,7 @@
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [
       [ [ "corn_kernels", 1 ], [ "can_corn", 1 ], [ "hominy", 1 ] ],
-      [ [ "raw_beans", 1 ], [ "can_beans", 1 ], [ "dry_beans" ], [ "raw_lentils", 1 ], [ "dry_lentils", 1 ] ],
+      [ [ "raw_beans", 1 ], [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_lentils", 1 ], [ "dry_lentils", 1 ] ],
       [
         [ "onion", 2 ],
         [ "irradiated_onion", 2 ],
