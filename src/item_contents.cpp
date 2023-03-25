@@ -2063,6 +2063,28 @@ units::volume item_contents::get_total_holster_volume() const
     return holster_volume;
 }
 
+units::mass item_contents::get_used_holster_weight() const
+{
+    units::mass holster_weight = units::mass();
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && pocket.is_holster() ) {
+            holster_weight += pocket.contains_weight();
+        }
+    }
+    return holster_weight;
+}
+
+units::mass item_contents::get_total_holster_weight() const
+{
+    units::mass holster_weight = units::mass();
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) && pocket.is_holster() ) {
+            holster_weight += pocket.weight_capacity();
+        }
+    }
+    return holster_weight;
+}
+
 units::volume item_contents::total_container_capacity( const bool unrestricted_pockets_only ) const
 {
     units::volume total_vol = 0_ml;

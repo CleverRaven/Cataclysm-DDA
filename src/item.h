@@ -882,6 +882,9 @@ class item : public visitable
         units::volume get_total_holster_volume() const;
         units::volume get_used_holster_volume() const;
 
+        units::mass get_total_holster_weight() const;
+        units::mass get_used_holster_weight() const;
+
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
