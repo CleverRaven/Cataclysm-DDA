@@ -1234,6 +1234,9 @@
         [ "imperial_stout", 1 ],
         [ "india_pale_ale", 1 ],
         [ "mead", 1 ],
+        [ "hopped_mead", 1 ],
+        [ "plain_mead", 1 ],
+        [ "spiced_mead", 1 ],
         [ "pale_ale", 1 ],
         [ "stout", 1 ]
       ]
