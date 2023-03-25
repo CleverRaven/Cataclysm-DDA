@@ -103,7 +103,7 @@
     "description": "Segmented magnesium alloy plating installed within your torso, partially mitigating blunt impacts and bullet wounds.",
     "occupied_bodyparts": [ [ "torso", 10 ] ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "mutation_conflicts": [ "AMORPHOUS", "INSECT_RESEVOIR" ],
+    "mutation_conflicts": [ "AMORPHOUS", "INSECT_RESERVOIR" ],
     "passive_pseudo_items": [ "armor_bio_torso" ]
   },
   {
