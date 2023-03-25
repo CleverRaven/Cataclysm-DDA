@@ -1779,12 +1779,13 @@ void selection_column::on_change( const inventory_entry &entry )
         if( my_entry.chosen_count == 0 ) {
             return; // Not interested.
         }
-        add_entry( my_entry );
+        add_entry( my_entry )->make_entry_cell_cache( preset );
         paging_is_valid = false;
         last_changed = my_entry;
     } else if( iter->chosen_count != my_entry.chosen_count ) {
         if( my_entry.chosen_count > 0 ) {
             iter->chosen_count = my_entry.chosen_count;
+            iter->make_entry_cell_cache( preset );
         } else {
             iter = entries.erase( iter );
         }
@@ -3514,12 +3515,14 @@ void inventory_multiselector::on_input( const inventory_input &input )
         toggle_entries( count, toggle_mode::SELECTED );
     } else if( input.action == "INCREASE_COUNT" || input.action == "DECREASE_COUNT" ) {
         inventory_entry &entry = get_active_column().get_highlighted();
-        size_t const count = entry.chosen_count;
-        size_t const max = entry.get_available_count();
-        size_t const newcount = input.action == "INCREASE_COUNT"
-                                ? count < max ? count + 1 : max
-                                : count > 1 ? count - 1 : 0;
-        toggle_entry( entry, newcount );
+        if( entry.is_selectable() ) {
+            size_t const count = entry.chosen_count;
+            size_t const max = entry.get_available_count();
+            size_t const newcount = input.action == "INCREASE_COUNT"
+                                    ? count < max ? count + 1 : max
+                                    : count > 1 ? count - 1 : 0;
+            toggle_entry( entry, newcount );
+        }
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {
         toggle_categorize_contained();
     } else {

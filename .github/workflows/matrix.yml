@@ -96,6 +96,7 @@ jobs:
             # ~30MB compressed
             # observed usage: 3.0GB -> 300MB
             ccache_limit: 2G
+            ccache_key: linux-llvm-10
 
           - compiler: g++-9
             os: ubuntu-latest
@@ -113,6 +114,7 @@ jobs:
             # ~370MB compressed
             # observed usage: 4.0GB -> 1.5GB
             ccache_limit: 3G
+            ccache_key: linux-gcc-9-lto
 
           - compiler: clang++-12
             os: ubuntu-22.04
@@ -131,6 +133,7 @@ jobs:
             # ~50MB compressed
             # observed usage: 4.0GB -> 400MB
             ccache_limit: 3G
+            ccache_key: linux-llvm-12-asan
 
           - compiler: g++-11
             os: ubuntu-latest
@@ -146,6 +149,7 @@ jobs:
             # ~50MB compressed
             # observed usage: 4.4GB -> 400MB
             ccache_limit: 4G
+            ccache_key: linux-gcc-11-asan
 
           - compiler: clang++
             os: macos-12
@@ -161,6 +165,7 @@ jobs:
             # ~100 compressed
             # observed usage: 3.85GB -> 500MB
             ccache_limit: 4G
+            ccache_key: macos-llvm-14
 
           - compiler: g++
             os: ubuntu-latest
@@ -179,9 +184,10 @@ jobs:
             # ~36MB compressed
             # observed usage: 3.0GB -> 350MB
             ccache_limit: 2G
+            ccache_key: mingw-gcc-12
 
           - compiler: g++-9
-            os: ubuntu-20.04
+            os: ubuntu-latest
             release: 1
             cmake: 1
             tiles: 1
@@ -193,6 +199,7 @@ jobs:
             # ~25MB compressed
             # observed usage: 3.0GB -> 300MB
             ccache_limit: 2G
+            ccache_key: linux-gcc-9-cmake
 
           # Reserving space for msvc ccache & vcpkg cache
             # observed usage:
@@ -245,12 +252,12 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
       run: |
           sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
-    - name: install new GCC (Ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-11') }}
+    - name: install recent ccache on ubuntu 20.04
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.os == 'ubuntu-20.04' }}
       run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-          sudo apt-get update
-          sudo apt-get install g++-11
+          sudo apt-get remove --purge -y ccache
+          curl -sL https://github.com/ccache/ccache/releases/download/v4.8/ccache-4.8-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.8-linux-x86_64/ccache
+          ccache --version
     - name: set up a mock GCC toolchain root for Clang (Ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}
       run: |
@@ -271,7 +278,7 @@ jobs:
       if: ${{ env.SKIP == 'false' }}
       run: |
         echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
-        echo "ccache-path=$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')" >> $GITHUB_OUTPUT
+        echo "ccache-path=$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.cache/ccache')" >> $GITHUB_OUTPUT
       shell: bash
     - name: ccache cache files
       if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
@@ -279,9 +286,9 @@ jobs:
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
-        key: ccache-${{ github.ref_name }}-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.datetime }}
+        key: ccache-${{ github.ref_name }}-${{ matrix.ccache_key }}--${{ steps.get-vars.outputs.datetime }}
         restore-keys: |
-          ccache-master-${{ runner.os }}-${{ matrix.compiler }}--
+          ccache-master-${{ matrix.ccache_key }}--
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build
       if: ${{ env.SKIP == 'false' }}
@@ -289,10 +296,10 @@ jobs:
     - name: post-build ccache manipulation
       if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
       run: |
-        ccache --show-stats
+        ccache --show-stats --verbose
         ccache -M ${{ env.CCACHE_LIMIT }}
         ccache -c
-        ccache --show-stats
+        ccache --show-stats --verbose
     - name: clear ccache on PRs
       if: ${{ github.ref_name != 'master' && env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
       run: |

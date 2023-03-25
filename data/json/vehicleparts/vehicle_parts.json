@@ -1869,7 +1869,7 @@
     "damage_modifier": 80,
     "durability": 400,
     "description": "A military ASRG covered in heavy plating.  Provides constant albeit low power to your car.",
-    "epower": 130,
+    "epower": "130 W",
     "location": "center",
     "item": "compact_ASRG_containment",
     "requirements": {

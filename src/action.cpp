@@ -1048,6 +1048,7 @@ action_id handle_main_menu()
                           ctxt.get_action_name( action_ident( ACTION_KEYBINDINGS ) ) );
 
     REGISTER_ACTION( ACTION_OPTIONS );
+    REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
     REGISTER_ACTION( ACTION_AUTOPICKUP );
     REGISTER_ACTION( ACTION_AUTONOTES );
     REGISTER_ACTION( ACTION_SAFEMODE );

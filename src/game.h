@@ -45,7 +45,7 @@ class eoc_events;
 class spell_events;
 class viewer;
 
-static constexpr int DEFAULT_TILESET_ZOOM = 16;
+constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 // The reference to the one and only game instance.
 class game;

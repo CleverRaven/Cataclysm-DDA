@@ -36,6 +36,7 @@
       "BIOLUM0",
       "BIOLUM1",
       "BIOLUM2",
+      "CAMO1",
       "CANINE_EARS",
       "CARNIVORE",
       "CEPH_EYES",
@@ -331,7 +332,7 @@
     "name": "Mutant - Cephalopod Threshold",
     "description": "Start as a post-threshold Cephalopod Mutant",
     "forced_traits": "THRESH_CEPHALOPOD",
-    "extend": { "traits": [ "CLAWS_TENTACLE", "DEX_UP_4", "INT_UP_4", "LEG_TENT_BRACE", "SHELL2" ] }
+    "extend": { "traits": [ "CAMO2", "CEPH_MIND", "CLAWS_TENTACLE", "DEX_UP_4", "INT_UP_4", "LEG_TENT_BRACE", "SHELL2" ] }
   },
   {
     "type": "scenario",

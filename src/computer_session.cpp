@@ -1407,14 +1407,10 @@ void computer_session::action_deactivate_shock_vent()
     Character &player_character = get_player_character();
     player_character.moves -= 30;
     bool has_vent = false;
-    bool has_generator = false;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {
         if( here.get_field( dest, fd_shock_vent ) != nullptr ) {
             has_vent = true;
-        }
-        if( here.ter( dest ) == t_plut_generator ) {
-            has_generator = true;
         }
         here.remove_field( dest, fd_shock_vent );
     }
@@ -1429,11 +1425,7 @@ void computer_session::action_deactivate_shock_vent()
     }
     print_line(
         _( "External power lines status: 100%% OFFLINE.  Reason: NO EXTERNAL POWER DETECTED." ) );
-    if( has_generator ) {
-        print_line( _( "Backup power status: STANDBY MODE." ) );
-    } else {
-        print_error( _( "Backup power status: OFFLINE.  Reason: UNKNOWN" ) );
-    }
+    print_line( _( "Backup power status: STANDBY MODE." ) );
     query_any( _( "Press any key…" ) );
 }
 
