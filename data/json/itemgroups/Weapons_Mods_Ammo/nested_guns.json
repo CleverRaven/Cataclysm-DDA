@@ -2550,5 +2550,13 @@
       { "item": "ai_338mag_10", "prob": 50 },
       { "group": "on_hand_338lapua" }
     ]
+  },
+  {
+    "id": "nested_ithaca37",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "ammo": 100,
+    "entries": [ { "item": "remington_870", "variant": "ithaca37", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_shot" } ]
   }
 ]
