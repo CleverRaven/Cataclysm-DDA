@@ -74,14 +74,9 @@ Fixes mobile home park road connections
 Flush map buffers after failing to create starting location
 Smart controller supports using only one engine
 Disassembly doesn't return items with UNRECOVERABLE flag
-Fixed truncation in monster list ui
-Disallow working on vehicle wheels in water
 Make vehicle mass calculation aware of monster moving
 Fixes the situation where stat mods affect the displayed effects of your base stats.
-Fix `zinc_metal` stats (and cascade effects)
-Correct cost of boiled makeshift bandage
 Higher skill speeds up spell learn time instead of slowing down
-Fix vehicle cheevos not handling reverse (negative) velocities correctly
 Prevent Android craft crash on small screens
 Update events to account for ability to swap avatars (debug or upon death)
 
