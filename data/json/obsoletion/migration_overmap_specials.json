@@ -116,11 +116,6 @@
   },
   {
     "type": "overmap_special_migration",
-    "id": "warehouse",
-    "//": "Removed in 0.G - no new id"
-  },
-  {
-    "type": "overmap_special_migration",
     "id": "public pond",
     "//": "Removed in 0.G - no new id"
   },
