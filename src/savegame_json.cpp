@@ -3227,6 +3227,7 @@ void item::deserialize( const JsonObject &data )
 
     // 2023-03-26 remove in 0.H, remnants of reinforcing
     damage_ = std::clamp( damage_, 0, max_damage() );
+    degradation_ = std::clamp( degradation_, 0, max_damage() );
 
     // 2023-03-26 remove in 0.H, accurizing is obsolete
     faults.erase( STATIC( fault_id( "fault_gun_unaccurized" ) ) );

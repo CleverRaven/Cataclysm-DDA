@@ -280,20 +280,14 @@ class item : public visitable
 
         /**
         * Sets item damage constrained by [@ref degradation and @ref max_damage]
-        * This method does not invoke the @ref on_before_damage callback
-        * This method does not invoke the @ref on_after_damage callback
-        * @return same instance to allow method chaining
         */
-        item &set_damage( int qty );
+        void set_damage( int qty );
 
         /**
         * Sets item's degradation constrained by [0 and @ref max_damage]
         * If item damage is lower it is raised up to @ref degradation
-        * This method does not invoke the @ref on_before_damage callback
-        * This method does not invoke the @ref on_after_damage callback
-        * @return same instance to allow method chaining
         */
-        item &set_degradation( int qty );
+        void set_degradation( int qty );
 
         /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge

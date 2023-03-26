@@ -263,8 +263,8 @@ TEST_CASE( "Unfolding vehicle parts and testing degradation", "[item][degradatio
         {    0,    0,    0,    0, 4000 },
         { 1000, 1000, 1000, 1000, 3000 },
         { 2000, 2000, 2000, 2000, 2000 },
-        { 1800, 2000, 1800, 1800, 2200 },
-        { 3000, 4000, 3000, 3000, 1000 },
+        { 1800, 2000, 2000, 2000, 2000 },
+        { 3000, 3999, 3999, 3999,    1 },
     };
 
     for( const vehicle_preset &veh_preset : vehicle_presets ) {

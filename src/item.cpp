@@ -822,9 +822,10 @@ int item::degradation() const
 
 void item::rand_degradation()
 {
-    degradation_ = damage() <= 0 ? 0 : rng( 0, damage() );
-    degradation_ = type->degrade_increments() > 0 ? degradation_ * ( 50.f / static_cast<float>
-                   ( type->degrade_increments() ) ) : 0;
+    if( type->degrade_increments() == 0 ) {
+        return; // likely count_by_charges
+    }
+    set_degradation( rng( 0, damage() ) * 50.0f / type->degrade_increments() );
 }
 
 int item::damage_level( int dmg ) const
@@ -839,18 +840,15 @@ int item::damage_level( int dmg ) const
     }
 }
 
-item &item::set_damage( int qty )
+void item::set_damage( int qty )
 {
-    damage_ = std::max( std::min( qty, max_damage() ), 0 );
-    degradation_ = std::max( std::min( damage_, degradation_ ), 0 );
-    return *this;
+    damage_ = std::clamp( qty, degradation_, max_damage() );
 }
 
-item &item::set_degradation( int qty )
+void item::set_degradation( int qty )
 {
     degradation_ = std::clamp( qty, 0, max_damage() );
-    damage_ = std::clamp( damage_, degradation(), max_damage() );
-    return *this;
+    damage_ = std::clamp( damage_, degradation_, max_damage() );
 }
 
 item item::split( int qty )
@@ -8592,15 +8590,17 @@ float item::get_relative_health() const
     return 1.0f - static_cast<float>( damage() ) / max_dmg;
 }
 
-static int get_degrade_factor( int damage, int max_damage )
+static int get_degrade_amount( const item &it, int dmgNow_, int dmgPrev )
 {
-    if( max_damage == 0 ) {
+    const int max_dmg = it.max_damage();
+    const int degrade_increments = it.type->degrade_increments();
+    if( max_dmg == 0 || degrade_increments == 0 ) {
         return 0; // count by charges
     }
-    if( damage == 0 ) {
-        return -1;
-    }
-    return ( damage - 1 ) * 5 / max_damage;
+    const int facNow_ = dmgNow_ == 0 ? -1 : ( dmgNow_ - 1 ) * 5 / max_dmg;
+    const int facPrev = dmgPrev == 0 ? -1 : ( dmgPrev - 1 ) * 5 / max_dmg;
+
+    return std::max( facNow_ - facPrev, 0 ) * max_dmg / degrade_increments;
 }
 
 bool item::mod_damage( int qty, damage_type dt )
@@ -8608,29 +8608,19 @@ bool item::mod_damage( int qty, damage_type dt )
     if( has_flag( flag_UNBREAKABLE ) ) {
         return false;
     }
-
-    if( qty > 0 ) {
-        on_damage_pre();
-    }
-    const int dmg_lvl = get_degrade_factor( damage_, max_damage() );
-
-    bool destroy = false;
     if( count_by_charges() ) {
         charges -= std::min( type->stack_size * qty / itype::damage_scale, charges );
-        destroy = charges == 0;
+        return charges == 0; // return destroy = true if no charges
     } else {
-        destroy = ( damage_ + qty ) > max_damage();
-        damage_ = std::clamp( damage_ + qty, degradation_, max_damage() );
-    }
+        const int dmg_before = damage_;
+        const bool destroy = ( damage_ + qty ) > max_damage();
+        set_damage( damage_ + qty );
 
-    if( qty > 0 && !destroy ) {
-        const int degrade = std::max( get_degrade_factor( damage_, max_damage() ) - dmg_lvl, 0 );
-        int incr = type->degrade_increments();
-        if( incr > 0 ) {
-            degradation_ += degrade * max_damage() / incr;
+        if( qty > 0 && !destroy ) { // apply automatic degradation
+            set_degradation( degradation_ + get_degrade_amount( *this, damage_, dmg_before ) );
         }
+        return destroy;
     }
-    return destroy;
 }
 
 bool item::mod_damage( const int qty )
