@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_MONATTACK_H
 #define CATA_SRC_MONATTACK_H
 
+#include "bodypart.h"
+
 class monster;
 class Creature;
 
@@ -117,6 +119,7 @@ void frag( monster *z, Creature *target );              // Automated MGL
 void tankgun( monster *z, Creature *target );           // Tankbot primary.
 void flame( monster *z, Creature *target );
 
+bool dodge_check( monster *z, Creature *target, bodypart_id bp, damage_instance dam_inst );
 bool dodge_check( monster *z, Creature *target );
 } //namespace mattack
 
