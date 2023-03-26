@@ -169,6 +169,6 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10", "ai_308mag_10" ] } ]
   }
 ]

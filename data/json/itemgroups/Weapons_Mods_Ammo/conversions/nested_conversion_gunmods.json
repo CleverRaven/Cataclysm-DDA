@@ -53,7 +53,7 @@
   },
   {
     "type": "item_group",
-    "id": "boxed_223rem_ar15kit_short",
+    "id": "boxed_300blk_ar15kit_short",
     "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
     "subtype": "collection",
     "container-item": "box_retool_sbr_micro",
@@ -217,9 +217,9 @@
           { "group": "boxed_50beowulf_ar15kit", "prob": 20 },
           { "group": "boxed_50beowulf_ar15kit_medium", "prob": 15 },
           { "group": "boxed_50beowulf_ar15kit_short", "prob": 10 },
-          { "group": "boxed_450_ar15kit", "prob": 20 },
-          { "group": "boxed_450_ar15kit_medium", "prob": 15 },
-          { "group": "boxed_450_ar15kit_short", "prob": 10 }
+          { "group": "boxed_450bushmaster_ar15kit", "prob": 20 },
+          { "group": "boxed_450bushmaster_ar15kit_medium", "prob": 15 },
+          { "group": "boxed_450bushmaster_ar15kit_short", "prob": 10 }
         ],
         "prob": 100
       }
