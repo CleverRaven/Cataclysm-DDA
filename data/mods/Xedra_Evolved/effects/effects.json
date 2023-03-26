@@ -222,8 +222,6 @@
     "resist_effects": [ "blood_treatment" ],
     "blocks_effects": [ "cold", "flu" ],
     "max_intensity": 3,
-    "int_decay_step": 1,
-    "int_decay_tick": 2851200,
     "//": "Each stage is intended to last 5.3 days.  I'm not sure if I've got the decay ticks correct on this.",
     "rating": "bad",
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",

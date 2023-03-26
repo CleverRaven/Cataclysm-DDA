@@ -109,8 +109,13 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ADD_VAMPIRUS_INTENSITY",
-    "effect": { "u_add_effect": "vampire_virus", "intensity": 1 }
+    "id": "EOC_ADD_VAMPIRUS_INTENSITY1",
+    "effect": { "u_add_effect": "vampire_virus", "intensity": 2, "duration": "PERMANENT" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ADD_VAMPIRUS_INTENSITY2",
+    "effect": { "u_add_effect": "vampire_virus", "intensity": 3, "duration": "PERMANENT" }
   },
   {
     "type": "effect_on_condition",
@@ -147,7 +152,7 @@
                   "true_eocs": [ "EOC_VAMPVIRUS1", "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                   "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
                 },
-                { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY", "time_in_future": [ "5 days", "8 hours" ] } }
+                { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY1", "time_in_future": [ "5 days", "8 hours" ] }
               ],
               "false_effect": [
                 { "u_add_trait": "VAMPIRE" },
@@ -177,7 +182,7 @@
                   "true_eocs": [ "EOC_VAMPVIRUS2" ],
                   "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
                 },
-                { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY", "time_in_future": [ "5 days", "8 hours" ] }
+                { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY2", "time_in_future": [ "5 days", "8 hours" ] }
               ],
               "false_effect": [
                 { "u_add_trait": "VAMPIRE2" },
