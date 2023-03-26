@@ -130,6 +130,7 @@
         "encumbrance": 0,
         "//": "skip second entry for arm encumbrance"
       }
+    ]
   },
   {
     "type": "COMESTIBLE",
