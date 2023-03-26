@@ -2536,11 +2536,6 @@ void options_manager::add_options_world_default()
          0.0, 50.0, 1.0, 0.1
        );
 
-    add( "ITEM_SPAWNRATE", "world_default", to_translation( "Item spawn scaling factor" ),
-         to_translation( "A scaling factor that determines density of item spawns.  A higher number means more items." ),
-         0.01, 10.0, 1.0, 0.01
-       );
-
     add( "NPC_SPAWNTIME", "world_default", to_translation( "Random NPC spawn time" ),
          to_translation( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  A higher number means fewer NPCs.  Set to 0 days to disable random NPCs." ),
          0.0, 100.0, 4.0, 0.01
@@ -2551,6 +2546,144 @@ void options_manager::add_options_world_default()
          to_translation( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
          0.0, 100, 4.0, 0.01
        );
+
+    add_empty_line();
+
+    add( "ITEM_SPAWNRATE", "world_default", to_translation( "Item spawn scaling factor" ),
+         to_translation( "A scaling factor that determines density of item spawns.  A higher number means more items." ),
+         0.01, 10.0, 1.0, 0.01
+       );
+
+    add_option_group( "world_default", Group( "item_category_spawn_rate",
+                      to_translation( "Item category spawn rate" ),
+                      to_translation( "Spawn rate for item categories.  Values less than or equal to 1.0 represent a chance for items from category in question to spawn at all.  Values more than 1.0 represent amount of additional items from category in question to spawn.  Set to 0.0 to forbid spawning items from category in question." ) ),
+    [&]( const std::string & page_id ) {
+
+        add( "SPAWN_RATE_guns", page_id, to_translation( "Guns" ),
+             to_translation( "Spawn rate for items from GUNS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_magazines", page_id, to_translation( "Magazines" ),
+             to_translation( "Spawn rate for items from MAGAZINES category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_ammo", page_id, to_translation( "Ammo" ),
+             to_translation( "Spawn rate for items from AMMO category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_weapons", page_id, to_translation( "Weapons" ),
+             to_translation( "Spawn rate for items from WEAPONS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_tools", page_id, to_translation( "Tools" ),
+             to_translation( "Spawn rate for items from TOOLS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_clothing", page_id, to_translation( "Clothing" ),
+             to_translation( "Spawn rate for items from CLOTHING category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_armor", page_id, to_translation( "Armor" ),
+             to_translation( "Spawn rate for items from ARMOR category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_food", page_id, to_translation( "Food" ),
+             to_translation( "Spawn rate for items from FOOD category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_drugs", page_id, to_translation( "Drugs" ),
+             to_translation( "Spawn rate for items from DRUGS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_manuals", page_id, to_translation( "Manuals" ),
+             to_translation( "Spawn rate for items from MANUALS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_books", page_id, to_translation( "Books" ),
+             to_translation( "Spawn rate for items from BOOKS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_maps", page_id, to_translation( "Maps" ),
+             to_translation( "Spawn rate for items from MAPS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_mods", page_id, to_translation( "Mods" ),
+             to_translation( "Spawn rate for items from MODS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_mutagen", page_id, to_translation( "Mutagens" ),
+             to_translation( "Spawn rate for items from MUTAGENS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_bionics", page_id, to_translation( "Bionics" ),
+             to_translation( "Spawn rate for items from BIONICS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_currency", page_id, to_translation( "Currency" ),
+             to_translation( "Spawn rate for items from CURRENCY category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_veh_parts", page_id, to_translation( "Vehicle parts" ),
+             to_translation( "Spawn rate for items from VEHICLE PARTS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_fuel", page_id, to_translation( "Fuel" ),
+             to_translation( "Spawn rate for items from FUEL category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_seeds", page_id, to_translation( "Seeds" ),
+             to_translation( "Spawn rate for items from SEEDS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_chems", page_id, to_translation( "Chemicals" ),
+             to_translation( "Spawn rate for items from CHEMICAL STUFF category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_spare_parts", page_id, to_translation( "Spare parts" ),
+             to_translation( "Spawn rate for items from SPARE PARTS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_container", page_id, to_translation( "Containers" ),
+             to_translation( "Spawn rate for items from CONTAINERS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_artifacts", page_id, to_translation( "Artifacts" ),
+             to_translation( "Spawn rate for items from ARTIFACTS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_keys", page_id, to_translation( "Keys" ),
+             to_translation( "Spawn rate for items from KEYS category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+
+        add( "SPAWN_RATE_other", page_id, to_translation( "Other items" ),
+             to_translation( "Spawn rate for items from OTHER category." ),
+             0.0, 10.0, 1.0, 0.01
+           );
+    } );
 
     add_empty_line();
 
