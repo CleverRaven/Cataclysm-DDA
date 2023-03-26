@@ -537,11 +537,11 @@ void kill_advanced_inv();
 
 /**
  * Helper for typical UI list navigation with wrap-around
- * Add delta to val, stop at 0 and size-1 and wrap around
+ * Add delta to val, then wrap to the range [0,size)
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_and_wrap( V val,
-        int delta, S size )
+inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+increment_and_wrap( V val, int delta, S size )
 {
     if( size == 0 ) {
         return 0;
@@ -567,8 +567,8 @@ inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_an
  * Add 1/-1 to val, then wrap to the range [0,size)
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_and_wrap( V val,
-        bool inc, S size )
+inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+increment_and_wrap( V val, bool inc, S size )
 {
     if( size == 0 ) {
         return 0;
@@ -587,8 +587,8 @@ inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_an
  * Add 1/-1 to val, then wrap to the range [0,size)
  */
 template<typename T, typename I>
-inline typename std::enable_if<std::is_enum<T>::value, T>::type increment_and_wrap( T val, I inc,
-        T size )
+inline typename std::enable_if<std::is_enum<T>::value, T>::type
+increment_and_wrap( T val, I inc, T size )
 {
     return static_cast<T>( increment_and_wrap( static_cast<int>( val ), inc,
                            static_cast<int>( size ) ) );
@@ -597,11 +597,11 @@ inline typename std::enable_if<std::is_enum<T>::value, T>::type increment_and_wr
 
 /**
  * Helper for typical UI list navigation without wrap-around
- * Add delta to val, then clamp to the range [min, max]
+ * Add delta to val, then clamp to the range [min,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_and_clamp( V val,
-        int delta, S min, S max )
+inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+increment_and_clamp( V val, int delta, S min, S max )
 {
     if constexpr( std::is_unsigned_v<V> ) {
         if( delta < 0 && val <= static_cast<V>( -delta ) ) {
@@ -616,8 +616,8 @@ inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_an
  * Add 1/-1 to val, then clamp to the range [0,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_and_clamp( V val,
-        bool inc, S max )
+inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+increment_and_clamp( V val, bool inc, S max )
 {
     if constexpr( std::is_unsigned_v<V> ) {
         if( !inc && val == 0 ) {
@@ -632,8 +632,8 @@ inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_an
  * Add delta to val, then clamp to the range [0,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_and_clamp( V val,
-        int delta, S max )
+inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+increment_and_clamp( V val, int delta, S max )
 {
     // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
     if constexpr( std::is_unsigned_v<V> ) {
@@ -650,8 +650,8 @@ inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_an
  * Add 1/-1 to val, then clamp to the range [min,max]
  */
 template<typename V, typename S>
-inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_and_clamp( V val,
-        bool inc, S min, S max )
+inline typename std::enable_if < !std::is_enum<V>::value, V >::type
+increment_and_clamp( V val, bool inc, S min, S max )
 {
     if constexpr( std::is_unsigned_v<V> ) {
         if( !inc && val == 0 ) {
@@ -667,8 +667,8 @@ inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_an
  * Add 1/-1 to val, then clamp to the range [0,max]
  */
 template<typename T, typename I>
-inline typename std::enable_if<std::is_enum<T>::value, T>::type increment_and_clamp( T val, I inc,
-        T size )
+inline typename std::enable_if<std::is_enum<T>::value, T>::type
+increment_and_clamp( T val, I inc, T size )
 {
     return static_cast<T>( increment_and_clamp( static_cast<int>( val ), inc,
                            static_cast<int>( size ) ) );
