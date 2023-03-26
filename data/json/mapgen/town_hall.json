@@ -75,7 +75,7 @@
     },
     "item": { "]": { "item": "american_flag" }, "[": { "item": "american_flag" } },
     "vendingmachines": { "4": { "item_group": "vending_drink", "lootable": true }, "5": { "item_group": "vending_food", "lootable": true } },
-    "monster": { " ": { "group": "GROUP_CIVILIAN_NO_FERAL", "chance": 1 } }
+    "monster": { " ": { "group": "GROUP_CIVILIAN", "chance": 1 } }
   },
   {
     "type": "mapgen",
