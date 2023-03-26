@@ -1894,11 +1894,9 @@ npc_action npc::address_needs( float danger )
             return npc_noop;
         }
     }
-    //Does the hallucination needs to disappear ?
-    if( is_hallucination() && player_character.sees( *this ) ) {
-        if( !player_character.has_effect( effect_hallu ) ) {
-            die( nullptr );
-        }
+    //Hallucinations have a chance of disappearing each turn
+    if( is_hallucination() && one_in( 25 ) ) {
+        die( nullptr );
     }
 
     if( danger > NPC_DANGER_VERY_LOW ) {

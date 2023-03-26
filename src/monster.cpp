@@ -2425,25 +2425,9 @@ void monster::explode()
     hp = INT_MIN + 1;
 }
 
-void monster::set_summon_time( const time_duration &length )
-{
-    lifespan_end = calendar::turn + length;
-}
-
-void monster::decrement_summon_timer()
-{
-    if( !lifespan_end ) {
-        return;
-    }
-    if( lifespan_end.value() <= calendar::turn ) {
-        die( nullptr );
-    }
-}
-
 void monster::process_turn()
 {
     map &here = get_map();
-    decrement_summon_timer();
     if( !is_hallucination() ) {
         for( const std::pair<const emit_id, time_duration> &e : type->emit_fields ) {
             if( !calendar::once_every( e.second ) ) {
