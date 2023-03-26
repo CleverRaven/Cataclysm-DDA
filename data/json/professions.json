@@ -4575,7 +4575,7 @@
     "type": "profession",
     "id": "mil_grenadier",
     "name": "Military Grenadier",
-    "description": "There's no kill like overkill, and not many people in this world can boast that they have a grenade launcher and know how to use it.  Just try not to blow yourself up, that would be really embarassing.",
+    "description": "There's no kill like overkill, and not many people in this world can boast that they have a grenade launcher and know how to use it.  Just try not to blow yourself up, that would be really embarrassing.",
     "points": 3,
     "proficiencies": [ "prof_gunsmithing_basic" ],
     "skills": [
