@@ -99,6 +99,21 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_SUCCESFUL_ROLL_REMAINDER",
+    "effect": { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_SUCCESFUL_ROLL_REMAINDER2",
+    "effect": { "u_message": "Suddenly you feel your heart slowing and you realize a new ability." }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_ADD_VAMPIRUS_INTENSITY",
+    "effect": { "u_add_effect": "vampire_virus", "intensity": 1 }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_VAMPIRES",
     "recurrence": [ { "global_val": "ps_min_woc", "default": "1 days" }, { "global_val": "ps_max_woc", "default": "2 days" } ],
     "global": true,
@@ -129,10 +144,10 @@
                 {
                   "u_roll_remainder": [ "EYEGLEAM", "STAMINAFORBLOOD" ],
                   "type": "mutation",
-                  "true_eocs": [ "EOC_VAMPVIRUS1" ],
+                  "true_eocs": [ "EOC_VAMPVIRUS1", "EOC_SUCCESFUL_ROLL_REMAINDER" ],
                   "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
                 },
-                { "u_message": "Suddenly you feel your heart pounding and you realize a new ability." }
+                { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY", "time_in_future": [ "5 days", "8 hours" ] } }
               ],
               "false_effect": [
                 { "u_add_trait": "VAMPIRE" },
@@ -162,7 +177,7 @@
                   "true_eocs": [ "EOC_VAMPVIRUS2" ],
                   "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
                 },
-                { "u_message": "Suddenly you feel your heart slowing and you realize a new ability." }
+                { "queue_eocs": "EOC_ADD_VAMPIRUS_INTENSITY", "time_in_future": [ "5 days", "8 hours" ] }
               ],
               "false_effect": [
                 { "u_add_trait": "VAMPIRE2" },
