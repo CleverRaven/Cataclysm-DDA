@@ -5174,7 +5174,7 @@
     "type": "profession",
     "id": "portal_traveler",
     "name": "Portal Traveler",
-    "description": "You were abducted from your home, taken hostage, and used as a test subject in a lab.  In the last test, you were dressed in strange clothes and put in a room where you started to feel… different.  You lost consciousness and woke up somewhere unfamiliar.",
+    "description": "You were abducted from your home, taken hostage, and used as a test subject in a lab.  For the last test, you were dressed in strange clothes and put in a room where you started to feel… different.  You lost consciousness and woke up somewhere unfamiliar.",
     "points": 2,
     "items": {
       "both": {
@@ -5204,7 +5204,7 @@
     "type": "profession",
     "id": "ninja",
     "name": { "male": "Ninja", "female": "Kunoichi" },
-    "description": "You were obsessed with media about ninja, so you practiced your movements, dressed all in black, and spent big bucks to acquire some tools of the trade.  Some may quesiton your historical authenticity, but you're perfectly happy living out your fantasy unhindered.",
+    "description": "You are obsessed with the techniques and aesthetics of the ninja, so you practiced your movements, dressed all in black, and spent big bucks to acquire some tools of the trade.  Some may question your historical authenticity, but you're perfectly happy living out your fantasy regardless.",
     "points": 5,
     "skills": [
       { "level": 2, "name": "cutting" },
