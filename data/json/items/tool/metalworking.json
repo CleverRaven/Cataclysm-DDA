@@ -19,7 +19,7 @@
   {
     "id": "anvil_track",
     "type": "TOOL",
-    "name": { "str": "anvil" },
+    "name": { "str": "railroad track anvil" },
     "description": "A section of railroad track cut into the shape of an anvil.  One side is ground into a curved horn and there's a small hardy hole on the other.",
     "weight": "20000 g",
     "volume": "3 L",
@@ -31,6 +31,22 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "ANVIL", 3 ] ],
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
+    "id": "anvil_stake",
+    "type": "TOOL",
+    "name": { "str": "set of stake anvils", "str_pl": "sets of stake anvils" },
+    "description": "A pair of steel stakes, one with a top hammered flat and the other a curved cylindrical horn.  These were the anvils smiths hammered on throughout much of history before the larger anvils used today.  Useless on their own except as improvised bludgeons, they need to be hammered into a log for as a base first.",
+    "weight": "4000 g",
+    "volume": "700 ml",
+    "price": 1400,
+    "price_postapoc": 1000,
+    "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
+    "bashing": 20,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "dark_gray",
     "flags": [ "DURABLE_MELEE" ]
   },
   {
