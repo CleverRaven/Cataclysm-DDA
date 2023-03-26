@@ -1156,7 +1156,7 @@
     "items": {
       "both": {
         "items": [ "pants", "socks", "sneakers", "wristwatch" ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "tshirt", "variant": "generic_tshirt" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
@@ -1692,7 +1692,7 @@
     "items": {
       "both": {
         "items": [ "tank_top", "jacket_windbreaker", "hat_ball", "gloves_work", "glasses_safety", "socks", "sneakers", "pants_cargo" ],
-        "entries": [ { "item": "g_shovel" }, { "item": "scabbard", "contents-item": "machete" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "g_shovel" }, { "item": "scabbard", "contents-item": "machete" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -1723,7 +1723,7 @@
           "stethoscope",
           "pudding"
         ],
-        "entries": [ { "item": "mask_dust", "variant": "white_mask_dust" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "mask_dust", "variant": "white_mask_dust" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -1894,7 +1894,7 @@
     "items": {
       "both": {
         "items": [ "jeans", "longshirt", "socks", "sneakers", "knit_scarf", "pockknife", "water_clean", "wristwatch", "mbag" ],
-        "entries": [ { "group": "charged_matches" }, { "item": "catfood_dry", "count": 10 } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_matches" }, { "item": "catfood_dry", "count": 10 } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -4117,6 +4117,7 @@
         "entries": [
           { "group": "charged_matches" },
           { "group": "full_gasmask" },
+          { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "jackhammer", "charges": 0 },
           { "item": "light_minus_disposable_cell", "charges": 100 },
@@ -4242,7 +4243,7 @@
     "items": {
       "both": {
         "items": [ "haori", "kimono", "hakama", "loincloth", "tabi_dress", "geta", "bellywrap" ],
-        "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "bokken_inferior", "container-item": "scabbard" } ]
       },
       "female": [ "chestwrap" ]
     },
@@ -4300,23 +4301,26 @@
     "points": 2,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "swimming" } ],
     "items": {
-      "both": [
-        "jeans",
-        "leather_belt",
-        "dress_shirt",
-        "jacket_leather",
-        "socks",
-        "cowboy_hat",
-        "boots_western",
-        "wristwatch",
-        "mbag",
-        "horse_tack",
-        "bullwhip",
-        "pockknife",
-        "cattlefodder",
-        "cattlefodder",
-        "cig"
-      ],
+      "both": {
+        "items": [
+          "jeans",
+          "leather_belt",
+          "dress_shirt",
+          "jacket_leather",
+          "socks",
+          "cowboy_hat",
+          "boots_western",
+          "wristwatch",
+          "mbag",
+          "horse_tack",
+          "bullwhip",
+          "pockknife",
+          "cattlefodder",
+          "cattlefodder",
+          "cig"
+        ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -4420,6 +4424,7 @@
           "novel_western"
         ],
         "entries": [
+          { "group": "charged_smart_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "whiskey", "container-item": "bottle_glass" },
           {
@@ -4502,7 +4507,12 @@
           { "item": "legpouch_large", "contents-group": "army_mags_m14" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "m14ebr", "ammo-item": "762_51", "charges": 20, "contents-item": [ "acog_scope", "shoulder_strap", "bipod" ] },
+          {
+            "item": "m14ebr",
+            "ammo-item": "762_51",
+            "charges": 20,
+            "contents-item": [ "acog_scope", "shoulder_strap", "bipod" ]
+          },
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
         ]
       },
@@ -4546,7 +4556,12 @@
           { "group": "charged_two_way_radio" },
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },
-          { "item": "m249", "ammo-item": "556", "charges": 200, "contents-item": [ "shoulder_strap", "holo_sight", "bipod" ] },
+          {
+            "item": "m249",
+            "ammo-item": "556",
+            "charges": 200,
+            "contents-item": [ "shoulder_strap", "holo_sight", "bipod" ]
+          },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
@@ -4591,8 +4606,13 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "us_ballistic_vest_pristine" },
-          { "item": "water_clean", "container-item": "canteen" },          
-          { "item": "m320", "ammo-item": "40x46mm_m433", "charges": 1, "contents-item": [ "shoulder_strap", "holo_sight" ] },
+          { "item": "water_clean", "container-item": "canteen" },
+          {
+            "item": "m320",
+            "ammo-item": "40x46mm_m433",
+            "charges": 1,
+            "contents-item": [ "shoulder_strap", "holo_sight" ]
+          },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "grenade_pouch", "contents-group": [ "army_grenades_40x46" ] },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -4641,7 +4661,7 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "us_ballistic_vest_pristine" },
-          { "item": "water_clean", "container-item": "canteen" },          
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "mossberg_500", "ammo-item": "shot_00", "charges": 6, "contents-item": [ "shoulder_strap" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
@@ -4690,8 +4710,8 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "us_ballistic_vest_pristine" },
-	      { "group": "army_mags_m14" },
-          { "item": "water_clean", "container-item": "canteen" },            
+          { "group": "army_mags_m14" },
+          { "item": "water_clean", "container-item": "canteen" },
           { "item": "M24", "ammo-item": "762_51", "charges": 20, "contents-item": [ "shoulder_strap", "suppressor" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
@@ -4741,8 +4761,8 @@
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "us_ballistic_vest_pristine" },
-		  { "group": "army_mags_mp7" },
-          { "item": "water_clean", "container-item": "canteen" },       
+          { "group": "army_mags_mp7" },
+          { "item": "water_clean", "container-item": "canteen" },
           {
             "item": "hk_mp7",
             "ammo-item": "46mm",
@@ -5214,7 +5234,10 @@
     "points": 2,
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "speech" }, { "level": 3, "name": "swimming" } ],
     "items": {
-      "both": { "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ] },
+      "both": {
+        "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ],
+        "entries": [ { "group": "charged_smart_phone" } ]
+      },
       "male": [ "briefs", "shorts", "tank_top" ],
       "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
     },
@@ -5379,6 +5402,7 @@
           "tele_sight_pistol"
         ],
         "entries": [
+          { "group": "charged_cell_phone" },
           { "item": "glock_29", "ammo-item": "10mm_fmj", "charges": 15 },
           { "item": "glock_20mag", "ammo-item": "10mm_fmj", "charges": 15, "container-item": "bbholster" }
         ]
@@ -5428,6 +5452,7 @@
       "both": {
         "items": [ "fancy_sunglasses", "platinum_watch", "knit_scarf_loose", "gloves_liner", "polaroid_photo", "switchblade" ],
         "entries": [
+          { "group": "charged_cell_phone" },
           { "item": "knife_combat", "container-item": "gartersheath1" },
           { "item": "leg_sheath6", "contents-group": "leg_sheath6_throwing_knives" }
         ]
