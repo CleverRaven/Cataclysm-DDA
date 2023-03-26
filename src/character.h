@@ -406,6 +406,10 @@ class Character : public Creature, public visitable
         Character &operator=( const Character & ) = delete;
         ~Character() override;
 
+        // initialize avatar and avatar mocks
+        void initialize( character_type type );
+
+
         Character *as_character() override {
             return this;
         }

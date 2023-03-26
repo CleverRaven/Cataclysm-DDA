@@ -348,9 +348,387 @@ static std::string pools_to_string( const avatar &u, pool_type pool )
         case pool_type::TRANSFER:
             return _( "Character Transfer: No changes can be made." );
         case pool_type::FREEFORM:
-            return _( "Freeform" );
+            return _( "Story Teller" );
     }
     return "If you see this, this is a bug";
+}
+
+// creates an npc with similar stats to an avatar for testing
+static void npc_from_avatar( const avatar &u, npc &dummy )
+{
+    // set stats
+    dummy.str_max = u.str_max;
+    dummy.dex_max = u.dex_max;
+    dummy.int_max = u.int_max;
+    dummy.per_max = u.per_max;
+    dummy.reset_stats();
+
+
+    // set skills
+    for( auto t : u.get_all_skills() ) {
+        dummy.set_skill_level( t.first, t.second.level() );
+    }
+
+    // set profession and hobbies
+    dummy.prof = u.prof;
+    dummy.hobbies = u.hobbies;
+
+    // set mutations
+    for( const trait_id &t : u.get_mutations( true ) ) {
+        dummy.set_mutation( t );
+    }
+
+    dummy.initialize( character_type::FULL_RANDOM );
+}
+
+static void reset_npc( Character &dummy )
+{
+    dummy.set_body();
+    dummy.normalize(); // In particular this clears martial arts style
+
+    // delete all worn items.
+    dummy.worn.clear();
+    dummy.calc_encumbrance();
+    dummy.inv->clear();
+    dummy.remove_weapon();
+    dummy.clear_mutations();
+
+    // Clear stomach and then eat a nutritious meal to normalize stomach
+    // contents (needs to happen before clear_morale).
+    dummy.stomach.empty();
+    dummy.guts.empty();
+    dummy.clear_vitamins();
+
+    // This sets HP to max, clears addictions and morale,
+    // and sets hunger, thirst, fatigue and such to zero
+    dummy.environmental_revert_effect();
+    // However, the above does not set stored kcal
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
+
+    dummy.empty_skills();
+    dummy.martial_arts_data->clear_styles();
+    dummy.clear_morale();
+    dummy.clear_bionics();
+    dummy.activity.set_to_null();
+    dummy.reset_chargen_attributes();
+    dummy.set_pain( 0 );
+    dummy.reset_bonuses();
+    dummy.set_speed_base( 100 );
+    dummy.set_speed_bonus( 0 );
+    dummy.set_sleep_deprivation( 0 );
+    for( const proficiency_id &prof : dummy.known_proficiencies() ) {
+        dummy.lose_proficiency( prof, true );
+    }
+
+    // Reset cardio_acc to baseline
+    dummy.reset_cardio_acc();
+    // Restore all stamina and go to walk mode
+    dummy.set_stamina( dummy.get_stamina_max() );
+    dummy.reset_activity_level();
+
+    // Make sure we don't carry around weird effects.
+    dummy.clear_effects();
+
+    // Make stats nominal.
+    dummy.str_max = 8;
+    dummy.dex_max = 8;
+    dummy.int_max = 8;
+    dummy.per_max = 8;
+    dummy.set_str_bonus( 0 );
+    dummy.set_dex_bonus( 0 );
+    dummy.set_int_bonus( 0 );
+    dummy.set_per_bonus( 0 );
+}
+
+static double calc_armor_value( const Character &u, bodypart_id bp )
+{
+    // a low damage value to be concerned about early
+    // only concerned with bash damage since it is most
+    // prevalent early game
+
+
+
+    float armor_val = 0.0f;
+
+    // check any other items the character has on them
+    if( u.prof ) {
+        for( const item &i : u.prof->items( true, std::vector<trait_id>() ) ) {
+            armor_val += i.resist( damage_type::BASH, false, bp );
+        }
+    }
+
+    return armor_val;
+}
+
+static std::tuple<int, std::string> get_defense_difficulty( const Character &u )
+{
+    // figure out how survivable the character is.
+
+    // the percent margin between result bands
+    const float percent_band = 0.5f;
+
+    // guess at the ammount of armor an average clothed person would have
+    float base_armor = 2.0f;
+
+    // how much each portion is valued compared to the deviation of others
+    const float standard_movement = 1.0f;
+    const float difficult_movement = 2.0f;
+    const float dodge = 1.0f;
+    const float head_protection = 0.2f;
+    const float torso_protection = 0.4f;
+    const float arms_protection = 0.2f;
+    const float legs_protection = 0.2f;
+
+
+    // get a generic npc to compare against
+    npc average = npc();
+    reset_npc( average );
+
+    // calculate move cost on simple ground
+    int player_run_cost = u.run_cost( 100 );
+    int average_run_cost = average.run_cost( 100 );
+    float per = standard_movement * ( player_run_cost - average_run_cost ) / average_run_cost;
+
+    // calculate move cost on simple ground
+    player_run_cost = u.run_cost( 400 );
+    average_run_cost = average.run_cost( 400 );
+    per += difficult_movement * ( player_run_cost - average_run_cost ) / average_run_cost;
+
+    // calculate head armor
+    per += head_protection * ( calc_armor_value( u, bodypart_id( "head" ) ) - base_armor ) / base_armor;
+    // calculate torso armor
+    per += torso_protection * ( calc_armor_value( u,
+                                bodypart_id( "torso" ) ) - base_armor ) / base_armor;
+    // calculate arm armor
+    per += arms_protection * ( calc_armor_value( u,
+                               bodypart_id( "arm_r" ) ) - base_armor ) / base_armor;
+    // calculate leg armor
+    per += legs_protection * ( calc_armor_value( u,
+                               bodypart_id( "leg_r" ) ) - base_armor ) / base_armor;
+    // calculate dodge
+    per += dodge * ( u.get_dodge() - average.get_dodge() ) / average.get_dodge();
+
+    if( per <= -2 * percent_band ) {
+        return std::make_tuple( 5, string_format( "%2f Made Of Paper", per ) );
+    } else if( per <= -1 * percent_band ) {
+        return std::make_tuple( 4, string_format( "%2f Fragile", per ) );
+    } else if( per <= 0.0f ) {
+        return std::make_tuple( 3, string_format( "%2f Average", per ) );
+    } else if( per <= percent_band ) {
+        return std::make_tuple( 2, string_format( "%2f Tough", per ) );
+    } else if( per <= 2 * percent_band ) {
+        return std::make_tuple( 1, string_format( "%2f Hard To Kill", per ) );
+    }
+    return std::make_tuple( 1, string_format( "%2f Immortal", per ) );
+}
+
+static double calc_dps_value( const Character &u )
+{
+    // check against the big three
+    // efficient early weapons you can easily get access to
+    item early_piercing = item( "knife_combat" );
+    item early_cutting = item( "machete" );
+    item early_bashing = item( "bat" );
+
+    double baseline = std::max( u.weapon_value( early_piercing ),
+                                u.weapon_value( early_cutting ) );
+    baseline = std::max( baseline, u.weapon_value( early_bashing ) );
+
+
+
+    // check any other items the character has on them
+    if( u.prof ) {
+        for( const item &i : u.prof->items( true, std::vector<trait_id>() ) ) {
+            baseline = std::max( baseline, u.weapon_value( i ) );
+        }
+    }
+
+    return baseline;
+}
+
+static std::tuple<int, std::string> get_combat_difficulty( const Character &u )
+{
+    // figure out how good the player is at combat.
+    // get the best dps of a basic civilian with 3 scavengable weapons
+    // compare to the dps of this character with 1 of those 3 or their best weapon they spawn with
+
+    // the percent margin between result bands
+    const float percent_band = 0.5f;
+
+
+    // get a generic npc to compare against
+    npc average = npc();
+    reset_npc( average );
+
+    double npc_dps = calc_dps_value( average );
+    double player_dps = calc_dps_value( u );
+
+    float per = ( player_dps - npc_dps ) / npc_dps;
+
+    if( per <= -2 * percent_band ) {
+        return std::make_tuple( 5, string_format( "%2f Sitting Duck", per ) );
+    } else if( per <= -1 * percent_band ) {
+        return std::make_tuple( 4, string_format( "%2f Innefective", per ) );
+    } else if( per <= 0.0f ) {
+        return std::make_tuple( 3, string_format( "%2f Average", per ) );
+    } else if( per <= percent_band ) {
+        return std::make_tuple( 2, string_format( "%2f Scrapper", per ) );
+    } else if( per <= 2 * percent_band ) {
+        return std::make_tuple( 1, string_format( "%2f Trained Fighter", per ) );
+    }
+    return std::make_tuple( 1, string_format( "%2f Trained Killer", per ) );
+}
+
+static std::tuple<int, std::string> get_genetics_difficulty( const Character &u )
+{
+    // figure out how genetically advantaged the character is
+
+    // how many attributes the average character has
+    const int average_stats = 38;
+    // how much stats above HIGH_STAT penalize the player
+    const int high_stat_penalty = 2;
+    // how much traits are valued at
+    const int trait_value = 2;
+    // the percent margin between result bands
+    const float percent_band = 0.1f;
+
+
+    int genetics_total = u.str_max + u.dex_max + u.per_max + u.int_max;
+    genetics_total += std::max( 0, u.str_max - HIGH_STAT ) * high_stat_penalty;
+    genetics_total += std::max( 0, u.dex_max - HIGH_STAT ) * high_stat_penalty;
+    genetics_total += std::max( 0, u.per_max - HIGH_STAT ) * high_stat_penalty;
+    genetics_total += std::max( 0, u.int_max - HIGH_STAT ) * high_stat_penalty;
+
+    // each trait effects genetics slightly as well
+    for( const trait_id &trait : u.get_mutations( true ) ) {
+        genetics_total += trait->points > 0 ? trait_value : -1 * trait_value;
+    }
+
+    float per = static_cast<float>( genetics_total - average_stats ) / static_cast<float>
+                ( average_stats );
+
+    if( per <= -2 * percent_band ) {
+        return std::make_tuple( 5, string_format( "%2f Weak", per ) );
+    } else if( per <= -1 * percent_band ) {
+        return std::make_tuple( 4, string_format( "%2f Unimpressive", per ) );
+    } else if( per <= 0.0f ) {
+        return std::make_tuple( 3, string_format( "%2f Average", per ) );
+    } else if( per <= percent_band ) {
+        return std::make_tuple( 2, string_format( "%2f Impressive", per ) );
+    } else if( per <= 2 * percent_band ) {
+        return std::make_tuple( 1, string_format( "%2f Powerful", per ) );
+    }
+    return std::make_tuple( 1, string_format( "%2f Superhuman", per ) );
+}
+
+static std::tuple<int, std::string> get_expertise_difficulty( const Character &u )
+{
+    // a bit extra over multipool since you get 2 points per in multi
+    const int average_skill_ranks = 4;
+    const float per_bands = 0.6f;
+
+    // how much each proficiency is valued compared to a skill point
+    const int proficiency_value = 2;
+
+    // how much each portion is valued compared to the deviation of others
+    const float skill_weighting = 1.0f;
+    const float reading_weighting = 2.0f;
+    const float learn_weighting = 2.0f;
+    const float focus_weighting = 2.0f;
+
+
+    // sum player skills and proficiencies
+    int player_skills = 0;
+    // every skill point is worth 1 point of value
+    for( const auto &t : u.get_all_skills() ) {
+        // combat skills will be handled in offence
+        if( !t.first->is_combat_skill() ) {
+            player_skills += t.second.level();
+        }
+    }
+    // every proficiency is worth about the value of 2 skill points
+    for( const proficiency_id &t : u._proficiencies->known_profs() ) {
+        player_skills += proficiency_value;
+    }
+
+
+    // get a generic npc to compare against
+    npc average = npc();
+    reset_npc( average );
+
+    // skills and professions
+    float per = skill_weighting * static_cast<float>( player_skills - average_skill_ranks ) /
+                static_cast<float>( average_skill_ranks );
+
+    // focus
+    per += focus_weighting * static_cast<float>( u.calc_focus_equilibrium(
+                true ) - average.calc_focus_equilibrium(
+                true ) ) / static_cast<float>( average.calc_focus_equilibrium( true ) );
+
+    // reading speed negative is good
+    per -= reading_weighting * static_cast<float>( u.read_speed() - average.read_speed() ) /
+           static_cast<float>( average.read_speed() );
+
+    // how much each point of experience is worth to your character
+    per += learn_weighting * static_cast<float>( u.adjust_for_focus( 100 ) -
+            average.adjust_for_focus( 100 ) ) / static_cast<float>( average.adjust_for_focus( 100 ) );
+
+
+
+    if( per <= -1 * per_bands ) {
+        return std::make_tuple( 5, string_format( "%2f Hopeless", per ) );
+    } else if( per <= 0.0f ) {
+        return std::make_tuple( 4, string_format( "%2f Mediocre", per ) );
+    } else if( per <= per_bands ) {
+        return std::make_tuple( 3, string_format( "%2f Average", per ) );
+    } else if( per <= 2 * per_bands ) {
+        return std::make_tuple( 2, string_format( "%2f Skilled", per ) );
+    }
+    return std::make_tuple( 1, string_format( "%2f Brilliant", per ) );
+}
+
+
+static int calc_social_value( const Character &u, npc &compare )
+{
+    // weighting skill and underlying values equally
+
+    int social = std::max( u.intimidation(), u.persuade_skill() );
+    int lying = u.lie_skill();
+
+    compare.form_opinion( u );
+
+    int oppinion = compare.op_of_u.trust;
+    oppinion -= compare.op_of_u.anger;
+    oppinion += compare.op_of_u.fear;
+    oppinion += compare.op_of_u.value;
+
+    return social + lying + oppinion;
+}
+
+static std::tuple<int, std::string> get_social_difficulty( const Character &u )
+{
+
+
+    npc average = npc();
+    reset_npc( average );
+
+    // compare the characters social value to an average npc
+    int player_val = calc_social_value( u, average );
+    int average_val = calc_social_value( average, average );
+
+
+    float per = static_cast<float>( player_val - average_val ) / static_cast<float>
+                ( average_val );
+    if( per <= -0.6f ) {
+        return std::make_tuple( 5, string_format( "%2f Sheltered", per ) );
+    } else if( per <= 0.0f ) {
+        return std::make_tuple( 4, string_format( "%2f Awkward", per ) );
+    } else if( per <= 0.6f ) {
+        return std::make_tuple( 3, string_format( "%2f Average", per ) );
+    } else if( per <= 1.2f ) {
+        return std::make_tuple( 2, string_format( "%2f Social", per ) );
+    }
+    return std::make_tuple( 1, string_format( "%2f Charasmatic", per ) );
 }
 
 static std::string difficulty_to_string( const avatar &u )
@@ -366,40 +744,6 @@ static std::string difficulty_to_string( const avatar &u )
     int wld_cnt = 0;
     int scl_cnt = 0;
 
-    auto mod_diff = [&]( const difficulty_impact &diff ) {
-        if( diff.offence != difficulty_impact::DIFF_NONE ) {
-            off_diff += static_cast<int>( diff.offence );
-            off_cnt++;
-        } else if( diff.defence != difficulty_impact::DIFF_NONE ) {
-            def_diff += static_cast<int>( diff.defence );
-            def_cnt++;
-        } else if( diff.crafting != difficulty_impact::DIFF_NONE ) {
-            cft_diff += static_cast<int>( diff.crafting );
-            cft_cnt++;
-        } else if( diff.wilderness != difficulty_impact::DIFF_NONE ) {
-            wld_diff += static_cast<int>( diff.wilderness );
-            wld_cnt++;
-        } else if( diff.social != difficulty_impact::DIFF_NONE ) {
-            scl_diff += static_cast<int>( diff.social );
-            scl_cnt++;
-        }
-    };
-
-    if( u.prof != nullptr ) {
-        mod_diff( u.prof->difficulty() );
-    }
-    if( get_scenario() != nullptr ) {
-        mod_diff( get_scenario()->difficulty() );
-    }
-    for( const profession *prof : u.hobbies ) {
-        if( prof != nullptr ) {
-            mod_diff( prof->difficulty() );
-        }
-    }
-    for( const trait_id &tr : u.my_traits ) {
-        mod_diff( tr->impact_on_difficulty );
-    }
-
     int off = std::round( off_diff / ( off_cnt > 0 ? off_cnt : 1 ) );
     int def = std::round( def_diff / ( def_cnt > 0 ? def_cnt : 1 ) );
     int cft = std::round( cft_diff / ( cft_cnt > 0 ? cft_cnt : 1 ) );
@@ -408,24 +752,44 @@ static std::string difficulty_to_string( const avatar &u )
 
     auto diff_colr = []( int diff ) {
         switch( diff ) {
-            case 1: return "light_green";
-            case 2: return "light_cyan";
-            case 4: return "brown";
-            case 5: return "light_red";
-            default: return "yellow";
+            case 1:
+                return "light_green";
+            case 2:
+                return "light_cyan";
+            case 4:
+                return "brown";
+            case 5:
+                return "light_red";
+            default:
+                return "yellow";
         }
     };
 
     auto diff_desc = []( int diff ) {
-        return difficulty_impact::get_diff_desc( static_cast<difficulty_impact::difficulty_option>( diff > 0 ? diff : 3 ) );
+        return std::string( "test" );
     };
 
-    return string_format( "%s |  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>", _( "Difficulty" ),
-                          _( "Offense" ), diff_colr( off ), diff_desc( off ),
-                          _( "Defense" ), diff_colr( def ), diff_desc( def ),
-                          _( "Crafting" ), diff_colr( cft ), diff_desc( cft ),
-                          _( "Wilderness" ), diff_colr( wld ), diff_desc( wld ),
-                          _( "Social" ), diff_colr( scl ), diff_desc( scl ) );
+    // apply professions, hobbies, etc for testing
+
+    // make a faux avatar that can have the effects of creation applied to it
+    npc n = npc();
+    reset_npc( n );
+    npc_from_avatar( u, n );
+
+    std::tuple<int, std::string> genetics = get_genetics_difficulty( n );
+    std::tuple<int, std::string> socials = get_social_difficulty( n );
+    std::tuple<int, std::string> expertise = get_expertise_difficulty( n );
+    std::tuple<int, std::string> combat = get_combat_difficulty( n );
+    std::tuple<int, std::string> defense = get_defense_difficulty( n );
+
+
+    return string_format( "%s |  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>  %s: <color_%s>%s</color>",
+                          _( "Summary" ),
+                          _( "Genetics" ), diff_colr( std::get<0>( genetics ) ), std::get<1>( genetics ),
+                          _( "Offense" ), diff_colr( std::get<0>( combat ) ), std::get<1>( combat ),
+                          _( "Defense" ), diff_colr( std::get<0>( defense ) ), std::get<1>( defense ),
+                          _( "Expertise" ), diff_colr( std::get<0>( expertise ) ), std::get<1>( expertise ),
+                          _( "Social" ), diff_colr( std::get<0>( socials ) ), std::get<1>( socials ) );
 }
 
 static void set_points( tab_manager &tabs, avatar &u, pool_type & );
@@ -756,7 +1120,12 @@ bool avatar::create( character_type type, const std::string &tempname )
     };
     tab_manager tabs( character_tabs );
 
-    pool_type pool = pool_type::MULTI_POOL;
+    const std::string point_pool = get_option<std::string>( "CHARACTER_POINT_POOLS" );
+    pool_type pool = pool_type::FREEFORM;
+    if( point_pool == "multi_pool" ) {
+        // if using legacy multipool only set it to that
+        pool = pool_type::MULTI_POOL;
+    }
 
     switch( type ) {
         case character_type::CUSTOM:
@@ -852,6 +1221,13 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     save_template( _( "Last Character" ), pool );
 
+    initialize( type );
+
+    return true;
+}
+
+void Character::initialize( character_type type )
+{
     recalc_hp();
 
     if( has_trait( trait_SMELLY ) ) {
@@ -906,15 +1282,6 @@ bool avatar::create( character_type type, const std::string &tempname )
             learn_recipe( &r );
         }
     }
-    for( const mtype_id &elem : prof->pets() ) {
-        starting_pets.push_back( elem );
-    }
-
-    if( get_scenario()->vehicle() != vproto_id::NULL_ID() ) {
-        starting_vehicle = get_scenario()->vehicle();
-    } else {
-        starting_vehicle = prof->vehicle();
-    }
 
     std::vector<addiction> prof_addictions = prof->addictions();
     for( const addiction &iter : prof_addictions ) {
@@ -949,6 +1316,25 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
     }
 
+    // Activate some mutations right from the start.
+    for( const trait_id &mut : get_mutations() ) {
+        const mutation_branch &branch = mut.obj();
+        if( branch.starts_active ) {
+            my_mutations[mut].powered = true;
+        }
+    }
+
+    // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
+    apply_persistent_morale();
+
+    // Restart cardio accumulator
+    reset_cardio_acc();
+}
+
+void avatar::initialize( character_type type )
+{
+    this->as_character()->initialize( type );
+
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
         for( const matype_id &s : t->initial_ma_styles ) {
@@ -963,23 +1349,17 @@ bool avatar::create( character_type type, const std::string &tempname )
         }
     }
 
-    // Activate some mutations right from the start.
-    for( const trait_id &mut : get_mutations() ) {
-        const mutation_branch &branch = mut.obj();
-        if( branch.starts_active ) {
-            my_mutations[mut].powered = true;
-        }
+    for( const mtype_id &elem : prof->pets() ) {
+        starting_pets.push_back( elem );
+    }
+
+    if( get_scenario()->vehicle() != vproto_id::NULL_ID() ) {
+        starting_vehicle = get_scenario()->vehicle();
+    } else {
+        starting_vehicle = prof->vehicle();
     }
 
     prof->learn_spells( *this );
-
-    // Ensure that persistent morale effects (e.g. Optimist) are present at the start.
-    apply_persistent_morale();
-
-    // Restart cardio accumulator
-    reset_cardio_acc();
-
-    return true;
 }
 
 static void draw_points( const catacurses::window &w, pool_type pool, const avatar &u,
@@ -992,10 +1372,12 @@ static void draw_points( const catacurses::window &w, pool_type pool, const avat
     int pMsg_length = utf8_width( remove_color_tags( points_msg ), true );
     nc_color color = c_light_gray;
     print_colored_text( w, point( 2, 3 ), color, c_light_gray, points_msg );
-    if( netPointCost > 0 ) {
-        mvwprintz( w, point( pMsg_length + 2, 3 ), c_red, " (-%d)", std::abs( netPointCost ) );
-    } else if( netPointCost < 0 ) {
-        mvwprintz( w, point( pMsg_length + 2, 3 ), c_green, " (+%d)", std::abs( netPointCost ) );
+    if( pool != pool_type::FREEFORM ) {
+        if( netPointCost > 0 ) {
+            mvwprintz( w, point( pMsg_length + 2, 3 ), c_red, " (-%d)", std::abs( netPointCost ) );
+        } else if( netPointCost < 0 ) {
+            mvwprintz( w, point( pMsg_length + 2, 3 ), c_green, " (+%d)", std::abs( netPointCost ) );
+        }
     }
     print_colored_text( w, point( 2, 4 ), color, c_light_gray, difficulty_to_string( u ) );
 }
@@ -1051,23 +1433,25 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
     std::vector<point_limit_tuple> opts;
 
     const point_limit_tuple multi_pool = std::make_tuple( pool_type::MULTI_POOL,
-                                         _( "Multiple pools" ),
+                                         _( "Legacy: Multiple pools" ),
                                          _( "Stats, traits and skills have separate point pools.\n"
                                             "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
-                                            "Scenarios and professions affect skill points." ) );
+                                            "Scenarios and professions affect skill points.\n"
+                                            "This is a legacy mode point totals are no longer balanced." ) );
 
-    const point_limit_tuple one_pool = std::make_tuple( pool_type::ONE_POOL, _( "Single pool" ),
-                                       _( "Stats, traits and skills share a single point pool." ) );
+    const point_limit_tuple one_pool = std::make_tuple( pool_type::ONE_POOL, _( "Legacy: Single pool" ),
+                                       _( "Stats, traits and skills share a single point pool.\n"
+                                          "This is a legacy mode point totals are no longer balanced." ) );
 
-    const point_limit_tuple freeform = std::make_tuple( pool_type::FREEFORM, _( "Freeform" ),
-                                       _( "No point limits are enforced." ) );
+    const point_limit_tuple freeform = std::make_tuple( pool_type::FREEFORM, _( "Storyteller" ),
+                                       _( "No point limits are enforced, create a character with the intention of telling a story or challenging yourself." ) );
 
     if( point_pool == "multi_pool" ) {
         opts = { { multi_pool } };
-    } else if( point_pool == "no_freeform" ) {
-        opts = { { multi_pool, one_pool } };
+    } else if( point_pool == "story_teller" ) {
+        opts = { { freeform } };
     } else {
-        opts = { { multi_pool, one_pool, freeform } };
+        opts = { { freeform, multi_pool, one_pool } };
     }
 
     int highlighted = 0;
@@ -1200,7 +1584,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
             case 1:
                 mvwprintz( w, point( 2, 6 ), COL_SELECT, _( "Strength:" ) );
                 mvwprintz( w, point( 16, 6 ), c_light_gray, "%2d", u.str_max );
-                if( u.str_max >= HIGH_STAT ) {
+                if( u.str_max >= HIGH_STAT && pool != pool_type::FREEFORM ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Str further costs 2 points" ) );
                 }
@@ -1220,7 +1604,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
             case 2:
                 mvwprintz( w, point( 2, 7 ), COL_SELECT, _( "Dexterity:" ) );
                 mvwprintz( w, point( 16, 7 ), c_light_gray, "%2d", u.dex_max );
-                if( u.dex_max >= HIGH_STAT ) {
+                if( u.dex_max >= HIGH_STAT && pool != pool_type::FREEFORM ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Dex further costs 2 points" ) );
                 }
@@ -1241,7 +1625,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
             case 3: {
                 mvwprintz( w, point( 2, 8 ), COL_SELECT, _( "Intelligence:" ) );
                 mvwprintz( w, point( 16, 8 ), c_light_gray, "%2d", u.int_max );
-                if( u.int_max >= HIGH_STAT ) {
+                if( u.int_max >= HIGH_STAT && pool != pool_type::FREEFORM ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Int further costs 2 points" ) );
                 }
@@ -1260,7 +1644,7 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
             case 4:
                 mvwprintz( w, point( 2, 9 ), COL_SELECT, _( "Perception:" ) );
                 mvwprintz( w, point( 16, 9 ), c_light_gray, "%2d", u.per_max );
-                if( u.per_max >= HIGH_STAT ) {
+                if( u.per_max >= HIGH_STAT && pool != pool_type::FREEFORM ) {
                     mvwprintz( w, point( iSecondColumn, 3 ), c_light_red,
                                _( "Increasing Per further costs 2 points" ) );
                 }
@@ -1557,14 +1941,17 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
                     if( negativeTrait ) {
                         points *= -1;
                     }
-                    mvwprintz( w, point( full_string_length + 3, 3 ), col_tr,
-                               n_gettext( "%s %s %d point", "%s %s %d points", points ),
-                               cursor.name(),
-                               negativeTrait ? _( "earns" ) : _( "costs" ),
-                               points );
+                    if( pool != pool_type::FREEFORM ) {
+                        mvwprintz( w, point( full_string_length + 3, 3 ), col_tr,
+                                   n_gettext( "%s %s %d point", "%s %s %d points", points ),
+                                   cursor.name(),
+                                   negativeTrait ? _( "earns" ) : _( "costs" ),
+                                   points );
+                    }
                     fold_and_print( w_description, point_zero,
                                     TERMX - 2, col_tr,
                                     cursor.desc() );
+
                 }
 
                 nc_color cLine = col_off_pas;
@@ -2102,22 +2489,24 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
             // Draw header.
             draw_points( w, pool, u, netPointCost );
-            const char *prof_msg_temp;
-            if( negativeProf ) {
-                //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = n_gettext( "Profession %1$s earns %2$d point",
-                                           "Profession %1$s earns %2$d points",
-                                           pointsForProf );
-            } else {
-                //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = n_gettext( "Profession %1$s costs %2$d point",
-                                           "Profession %1$s costs %2$d points",
-                                           pointsForProf );
-            }
+            if( pool != pool_type::FREEFORM ) {
+                const char *prof_msg_temp;
+                if( negativeProf ) {
+                    //~ 1s - profession name, 2d - current character points.
+                    prof_msg_temp = n_gettext( "Profession %1$s earns %2$d point",
+                                               "Profession %1$s earns %2$d points",
+                                               pointsForProf );
+                } else {
+                    //~ 1s - profession name, 2d - current character points.
+                    prof_msg_temp = n_gettext( "Profession %1$s costs %2$d point",
+                                               "Profession %1$s costs %2$d points",
+                                               pointsForProf );
+                }
 
-            int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-            mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
-                       prof_msg_temp, sorted_profs[cur_id]->gender_appropriate_name( u.male ), pointsForProf );
+                int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
+                mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
+                           prof_msg_temp, sorted_profs[cur_id]->gender_appropriate_name( u.male ), pointsForProf );
+            }
         }
 
         //Draw options
@@ -2402,24 +2791,27 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
             if( negativeProf ) {
                 pointsForProf *= -1;
             }
+
             // Draw header.
             draw_points( w, pool, u, netPointCost );
-            const char *prof_msg_temp;
-            if( negativeProf ) {
-                //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = n_gettext( "Background %1$s earns %2$d point",
-                                           "Background %1$s earns %2$d points",
-                                           pointsForProf );
-            } else {
-                //~ 1s - profession name, 2d - current character points.
-                prof_msg_temp = n_gettext( "Background %1$s costs %2$d point",
-                                           "Background %1$s costs %2$d points",
-                                           pointsForProf );
-            }
+            if( pool != pool_type::FREEFORM ) {
+                const char *prof_msg_temp;
+                if( negativeProf ) {
+                    //~ 1s - profession name, 2d - current character points.
+                    prof_msg_temp = n_gettext( "Background %1$s earns %2$d point",
+                                               "Background %1$s earns %2$d points",
+                                               pointsForProf );
+                } else {
+                    //~ 1s - profession name, 2d - current character points.
+                    prof_msg_temp = n_gettext( "Background %1$s costs %2$d point",
+                                               "Background %1$s costs %2$d points",
+                                               pointsForProf );
+                }
 
-            int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-            mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick.success() ? c_green : c_light_red,
-                       prof_msg_temp, sorted_hobbies[cur_id]->gender_appropriate_name( u.male ), pointsForProf );
+                int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
+                mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick.success() ? c_green : c_light_red,
+                           prof_msg_temp, sorted_hobbies[cur_id]->gender_appropriate_name( u.male ), pointsForProf );
+            }
         }
 
         //Draw options
@@ -2785,17 +3177,20 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
         // Write the hint as to upgrade costs
         const int cost = skill_increment_cost( u, currentSkill->ident() );
         const int level = u.get_skill_level( currentSkill->ident() );
-        const int upgrade_levels = level == 0 ? 2 : 1;
-        // We have two different strings to pluralize, so we have to use two translation calls.
-        const std::string upgrade_levels_s = string_format(
-                //~ levels here are skill levels at character creation time
-                n_gettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
-        const nc_color color = skill_points_left( u, pool ) >= cost ? COL_SKILL_USED : c_light_red;
-        mvwprintz( w, point( remaining_points_length + 9, 3 ), color,
-                   //~ Second string is e.g. "1 level" or "2 levels"
-                   n_gettext( "Upgrading %s by %s costs %d point",
-                              "Upgrading %s by %s costs %d points", cost ),
-                   currentSkill->name(), upgrade_levels_s, cost );
+        if( pool != pool_type::FREEFORM ) {
+            // in pool the first level of a skill gives 2
+            const int upgrade_levels = level == 0 ? 2 : 1;
+            // We have two different strings to pluralize, so we have to use two translation calls.
+            const std::string upgrade_levels_s = string_format(
+                    //~ levels here are skill levels at character creation time
+                    n_gettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
+            const nc_color color = skill_points_left( u, pool ) >= cost ? COL_SKILL_USED : c_light_red;
+            mvwprintz( w, point( remaining_points_length + 9, 3 ), color,
+                       //~ Second string is e.g. "1 level" or "2 levels"
+                       n_gettext( "Upgrading %s by %s costs %d point",
+                                  "Upgrading %s by %s costs %d points", cost ),
+                       currentSkill->name(), upgrade_levels_s, cost );
+        }
 
         calcStartPos( cur_offset, cur_pos, iContentHeight, num_skills );
         for( int i = cur_offset; i < num_skills && i - cur_offset < iContentHeight; ++i ) {
@@ -2889,7 +3284,8 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
             if( level > 0 ) {
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free, but
                 // decreasing it from level 2 forfeits the free extra level (thus changes it to 0)
-                u.mod_skill_level( skill_id, level == 2 ? -2 : -1 );
+                // this only matters in legacy character creation modes
+                u.mod_skill_level( skill_id, level == 2 && pool != pool_type::FREEFORM ? -2 : -1 );
                 u.set_knowledge_level( skill_id, u.get_skill_level( skill_id ) );
             }
             details_recalc = true;
@@ -2898,7 +3294,8 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
             const int level = u.get_skill_level( skill_id );
             if( level < MAX_SKILL ) {
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free
-                u.mod_skill_level( skill_id, level == 0 ? +2 : +1 );
+                // this only matters in legacy character creation modes
+                u.mod_skill_level( skill_id, level == 0 && pool != pool_type::FREEFORM ? +2 : +1 );
                 u.set_knowledge_level( skill_id, u.get_skill_level( skill_id ) );
             }
             details_recalc = true;
@@ -3117,22 +3514,25 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
             if( negativeScen ) {
                 pointsForScen *= -1;
             }
-
             // Draw header.
             draw_points( w, pool, u, netPointCost );
+            if( pool != pool_type::FREEFORM ) {
 
-            const char *scen_msg_temp;
-            if( negativeScen ) {
-                scen_msg_temp = n_gettext( "Scenario earns %2$d point",
-                                           "Scenario earns %2$d points", pointsForScen );
-            } else {
-                scen_msg_temp = n_gettext( "Scenario costs %2$d point",
-                                           "Scenario costs %2$d points", pointsForScen );
+                const char *scen_msg_temp;
+
+                if( negativeScen ) {
+                    scen_msg_temp = n_gettext( "Scenario earns %2$d point",
+                                               "Scenario earns %2$d points", pointsForScen );
+                } else {
+                    scen_msg_temp = n_gettext( "Scenario costs %2$d point",
+                                               "Scenario costs %2$d points", pointsForScen );
+                }
+
+
+                int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
+                mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
+                           scen_msg_temp, sorted_scens[cur_id]->gender_appropriate_name( u.male ), pointsForScen );
             }
-
-            int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, pool ) ) );
-            mvwprintz( w, point( pMsg_length + 9, 3 ), can_afford.success() ? c_green : c_light_red,
-                       scen_msg_temp, sorted_scens[cur_id]->gender_appropriate_name( u.male ), pointsForScen );
         }
 
         //Draw options

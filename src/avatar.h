@@ -97,6 +97,8 @@ class avatar : public Character
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
+        // initialize avatar and avatar mocks
+        void initialize( character_type type );
         void add_profession_items();
         void randomize( bool random_scenario, bool play_now = false );
         void randomize_cosmetics();
