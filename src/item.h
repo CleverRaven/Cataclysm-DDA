@@ -279,16 +279,20 @@ class item : public visitable
         item &ammo_unset();
 
         /**
-         * Filter setting damage constrained by @ref min_damage and @ref max_damage
-         * @return same instance to allow method chaining
-         */
+        * Sets item damage constrained by [@ref degradation and @ref max_damage]
+        * This method does not invoke the @ref on_before_damage callback
+        * This method does not invoke the @ref on_after_damage callback
+        * @return same instance to allow method chaining
+        */
         item &set_damage( int qty );
 
         /**
-         * Filter setting degradation constrained by 0 and @ref max_damage
-         * @note this method also sets the damage to qty if damage is less than qty
-         * @return same instance to allow method chaining
-         */
+        * Sets item's degradation constrained by [0 and @ref max_damage]
+        * If item damage is lower it is raised up to @ref degradation
+        * This method does not invoke the @ref on_before_damage callback
+        * This method does not invoke the @ref on_after_damage callback
+        * @return same instance to allow method chaining
+        */
         item &set_degradation( int qty );
 
         /**
@@ -1314,9 +1318,8 @@ class item : public visitable
          * here mostly for back-compatibility. It should not be used when
          * doing continuous math with the damage value: use damage() instead.
          *
-         * For example, for min_damage = -1000, max_damage = 4000
+         * For example, for min_damage = 0, max_damage = 4000
          *   damage       level
-         *   -1000 ~   -1    -1
          *              0     0
          *       1 ~ 1333     1
          *    1334 ~ 2666     2
@@ -1328,18 +1331,19 @@ class item : public visitable
          */
         int damage_level( int dmg = INT_MIN ) const;
 
-        /**
-        * Returns a scaling value for armor values based on damage taken
-        */
-        float damage_scaling( bool to_self = false ) const;
-
         /** Maximum amount of damage to an item (state before destroyed) */
         int max_damage() const;
 
         /**
+        * Returns how many damage levels can be repaired on this item rounded up
+        * Example: item with 100 damage returns 1 ( 100 -> 0 )
+        * Example: item with 2000 damage returns 2 ( 2000 -> 1333 -> 0 )
+        */
+        int repairable_levels() const;
+
+        /**
          * Relative item health.
-         * Returns 1 for undamaged ||items, values in the range (0, 1) for damaged items
-         * and values above 1 for reinforced ++items.
+         * Returns 1 for undamaged items, values in the range (0, 1) for damaged items
          */
         float get_relative_health() const;
 

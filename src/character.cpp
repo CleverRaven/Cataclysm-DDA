@@ -6330,7 +6330,7 @@ float Character::leak_level() const
         if( it->has_flag( flag_RADIOACTIVE ) ) {
             if( it->has_flag( flag_LEAK_ALWAYS ) ) {
                 ret += to_gram( it->weight() ) / 250.f;
-            } else if( it->has_flag( flag_LEAK_DAM ) && it->damage() > 0 ) {
+            } else if( it->has_flag( flag_LEAK_DAM ) ) {
                 ret += it->damage_level();
             }
         }

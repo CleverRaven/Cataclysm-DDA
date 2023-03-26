@@ -834,20 +834,9 @@ int item::damage_level( int dmg ) const
         return 0;
     } else if( max_damage() <= 1 ) {
         return dmg > 0 ? 4 : dmg;
-    } else if( dmg < 0 ) {
-        return -( 3 * ( -dmg - 1 ) / ( max_damage() - 1 ) + 1 );
     } else {
         return 3 * ( dmg - 1 ) / ( max_damage() - 1 ) + 1;
     }
-}
-
-float item::damage_scaling( bool to_self ) const
-{
-    float scale = damage_level() * .125f;
-    // caps the scale if this is a hit to the player vs the item itself
-    scale = 1.0f - scale;
-    // reinforce only effects damage to the item proper otherwise max scaling is 100f
-    return to_self ? scale : std::min( scale, 1.0f );
 }
 
 item &item::set_damage( int qty )
@@ -859,8 +848,8 @@ item &item::set_damage( int qty )
 
 item &item::set_degradation( int qty )
 {
-    degradation_ = std::max( std::min( qty, max_damage() ), 0 );
-    damage_ = std::min( std::max( damage_, degradation() ), max_damage() );
+    degradation_ = std::clamp( qty, 0, max_damage() );
+    damage_ = std::clamp( damage_, degradation(), max_damage() );
     return *this;
 }
 
@@ -8430,7 +8419,7 @@ float item::_resist( const damage_type dmg_type, bool to_self, int resist_value,
     float resist = 0.0f;
     float mod = get_clothing_mod_val_for_damage_type( dmg_type );
 
-    const float damage_scale = damage_scaling( to_self );
+    const float damage_scale = 1.0f - damage_level() * 0.125f;
 
     if( !bp_null ) {
         // If we have armour portion materials for this body part, use that instead
@@ -8596,14 +8585,22 @@ int item::max_damage() const
 
 float item::get_relative_health() const
 {
-    return ( max_damage() + 1.0f - damage() ) / ( max_damage() + 1.0f );
+    const int max_dmg = max_damage();
+    if( max_dmg == 0 ) { // count_by_charges items
+        return 1.0f;
+    }
+    return 1.0f - static_cast<float>( damage() ) / max_dmg;
 }
 
-static int get_dmg_lvl_internal( int dmg, int min, int max )
+static int get_degrade_factor( int damage, int max_damage )
 {
-    const int inc = ( max - min ) / 5;
-    dmg -= min;
-    return inc > 0 ? dmg == 0 ? -1 : ( dmg - 1 ) / inc : 0;
+    if( max_damage == 0 ) {
+        return 0; // count by charges
+    }
+    if( damage == 0 ) {
+        return -1;
+    }
+    return ( damage - 1 ) * 5 / max_damage;
 }
 
 bool item::mod_damage( int qty, damage_type dt )
@@ -8612,22 +8609,22 @@ bool item::mod_damage( int qty, damage_type dt )
         return false;
     }
 
-    bool destroy = false;
-    int dmg_lvl = get_dmg_lvl_internal( damage_, 0, max_damage() );
+    if( qty > 0 ) {
+        on_damage_pre();
+    }
+    const int dmg_lvl = get_degrade_factor( damage_, max_damage() );
 
+    bool destroy = false;
     if( count_by_charges() ) {
         charges -= std::min( type->stack_size * qty / itype::damage_scale, charges );
-        destroy |= charges == 0;
-    }
-
-    if( !count_by_charges() ) {
-        destroy |= damage_ + qty > max_damage();
-
-        damage_ = std::max( std::min( damage_ + qty, max_damage() ), degradation_ );
+        destroy = charges == 0;
+    } else {
+        destroy = ( damage_ + qty ) > max_damage();
+        damage_ = std::clamp( damage_ + qty, degradation_, max_damage() );
     }
 
     if( qty > 0 && !destroy ) {
-        int degrade = std::max( get_dmg_lvl_internal( damage_, 0, max_damage() ) - dmg_lvl, 0 );
+        const int degrade = std::max( get_degrade_factor( damage_, max_damage() ) - dmg_lvl, 0 );
         int incr = type->degrade_increments();
         if( incr > 0 ) {
             degradation_ += degrade * max_damage() / incr;
@@ -8649,6 +8646,15 @@ bool item::inc_damage( const damage_type dt )
 bool item::inc_damage()
 {
     return inc_damage( damage_type::NONE );
+}
+
+int item::repairable_levels() const
+{
+    const int levels = damage_level( damage_ ) - damage_level( degradation_ );
+
+    return levels > 0
+           ? levels                    // full integer levels of damage
+           : damage() > degradation(); // partial level of damage can still be repaired
 }
 
 item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp )
@@ -8726,16 +8732,7 @@ item::armor_status item::damage_armor_transforms( damage_unit &du ) const
 
 nc_color item::damage_color() const
 {
-    // TODO: unify with veh_interact::countDurability
     switch( damage_level() ) {
-        default:
-            // reinforced
-            if( damage() <= 0 ) {
-                // fully reinforced
-                return c_green;
-            } else {
-                return c_light_green;
-            }
         case 0:
             return c_light_green;
         case 1:
@@ -8750,16 +8747,17 @@ nc_color item::damage_color() const
             } else {
                 return c_red;
             }
+        default:
+            debugmsg( "damage_level returned unexpected value %d", damage_level() );
+            return c_dark_gray;
     }
 }
 
 std::string item::damage_symbol() const
 {
     switch( damage_level() ) {
-        default:
-            return _( R"(??)" ); // negative damage is invalid
         case 0:
-            return damage() == 0 ? _( R"(++)" ) : _( R"(||)" );
+            return _( R"(||)" );
         case 1:
             return _( R"(|\)" );
         case 2:
@@ -8772,7 +8770,9 @@ std::string item::damage_symbol() const
             } else {
                 return _( R"(..)" );
             }
-
+        default:
+            debugmsg( "damage_level returned unexpected value %d", damage_level() );
+            return _( R"(??)" ); // negative damage is invalid
     }
 }
 

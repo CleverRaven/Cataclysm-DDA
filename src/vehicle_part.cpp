@@ -154,23 +154,9 @@ int vehicle_part::max_damage() const
     return base.max_damage();
 }
 
-int vehicle_part::repairable_levels() const
-{
-    int levels = damage_level() - damage_level( degradation() );
-
-    return levels > 0
-           ? levels                    // full integer levels of damage
-           : damage() > degradation(); // partial level of damage can still be repaired
-}
-
 bool vehicle_part::is_repairable() const
 {
-    return !is_broken() && repairable_levels() > 0 && info().is_repairable();
-}
-
-int vehicle_part::damage_level( int dmg ) const
-{
-    return base.damage_level( dmg );
+    return !is_broken() && base.repairable_levels() > 0 && info().is_repairable();
 }
 
 double vehicle_part::health_percent() const
