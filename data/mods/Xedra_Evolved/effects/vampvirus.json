@@ -215,7 +215,7 @@
     "recurrence": [ "8 hours", "14 hours 15 minutes" ],
     "condition": {
       "and": [
-        { "compare_num": [ { "u_val": "vitamin", "name": "blood" }, "<=", { "const": -450 } ] },
+        { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "<=", { "const": -450 } ] },
         { "u_has_effect": "vampire_virus" }
       ]
     },
