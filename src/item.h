@@ -280,7 +280,6 @@ class item : public visitable
 
         /**
          * Filter setting damage constrained by @ref min_damage and @ref max_damage
-         * @note this method does not invoke the @ref on_damage callback
          * @return same instance to allow method chaining
          */
         item &set_damage( int qty );
@@ -1347,7 +1346,6 @@ class item : public visitable
         /**
          * Apply damage to const itemrained by @ref min_damage and @ref max_damage
          * @param qty maximum amount by which to adjust damage (negative permissible)
-         * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed
          */
         bool mod_damage( int qty, damage_type dt );
@@ -1356,7 +1354,6 @@ class item : public visitable
 
         /**
          * Increment item damage by @ref itype::damage_scale constrained by @ref max_damage
-         * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed
          */
         bool inc_damage( damage_type dt );
@@ -1708,16 +1705,6 @@ class item : public visitable
          * Callback when contents of the item are affected in any way other than just processing.
          */
         void on_contents_changed();
-
-        /**
-         * Callback immediately **before** an item is damaged
-         * @param qty maximum damage that will be applied (constrained by @ref max_damage)
-         * @param dt type of damage (or damage_type::NONE)
-         */
-        void on_damage( int qty, damage_type dt );
-
-        // Callback invoked after the item's damage is changed or after deserialization
-        void on_damage_changed();
 
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
