@@ -4,7 +4,8 @@
     "copy-from": "ar15",
     "type": "GUN",
     "name": { "str": "AR-15" },
-    "//": "This weapon only exists as a fallback migration to prevent already spawned guns from breaking within people’s runs. As the new conversion system requires a retooled weapon to come loaded with an installed conversion kit to be able to fire any given cartridge, guns that have already been spawned before the implementation of this change will not possess such a default attachment and will thus be unusable. This simply preserves the original stats of the weapon before the conversion rework and sets it as a migration, so people can still use their guns in their ongoing runs. This should be removed at a time when this is no longer an issue."
+    "//": "This weapon only exists as a fallback migration to prevent already spawned guns from breaking within people’s runs. As the new conversion system requires a retooled weapon to come loaded with an installed conversion kit to be able to fire any given cartridge, guns that have already been spawned before the implementation of this change will not possess such a default attachment and will thus be unusable. This simply preserves the original stats of the weapon before the conversion rework and sets it as a migration, so people can still use their guns in their ongoing runs. This should be removed at a time when this is no longer an issue.",
+    "default_mods": [ "retool_ar15_223rem" ]
   },
   {
     "id": "m27_assault_rifle_migration",
@@ -32,7 +33,8 @@
         "name": { "str": "M38 DMR" },
         "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
       }
-    ]
+    ],
+    "default_mods": [ "retool_ar15_223rem" ]
   },
   {
     "id": "m4_carbine_migration",
@@ -50,7 +52,8 @@
         "ascii_picture": "m4a1",
         "weight": 1
       }
-    ]
+    ],
+    "default_mods": [ "retool_ar15_223rem_medium" ]
   },
   {
     "id": "m4_cqbr_migration",
@@ -68,7 +71,8 @@
         "ascii_picture": "m4a1",
         "weight": 1
       }
-    ]
+    ],
+    "default_mods": [ "pistol_grip", "retool_ar15_223rem_short", "suppressor", "adjustable_stock" ]
   },
   {
     "id": "m16a4_migration",
@@ -85,7 +89,8 @@
         "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas-operated, rotating bolt rifle known for its accuracy and controllable recoil.",
         "weight": 1
       }
-    ]
+    ],
+    "default_mods": [ "retool_ar15_223rem" ]
   },
   {
     "id": "m16_auto_rifle_migration",
@@ -107,6 +112,7 @@
         "name": { "str": "Remington ACR" },
         "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing carbines."
       }
-    ]
+    ],
+    "default_mods": [ "retool_ar15_223rem" ]
   }
 ]

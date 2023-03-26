@@ -825,7 +825,7 @@
     "variant": "m38dmr_migration"
   },
   {
-    "id": "m4_carbine",
+    "id": "m4a1",
     "type": "MIGRATION",
     "replace": "m4_carbine_migration",
     "variant": "m4a1_migration"
@@ -837,13 +837,13 @@
     "variant": "m16a4_migration"
   },
   {
-    "id": "m16_auto_rifle",
+    "id": "m16a3",
     "type": "MIGRATION",
     "replace": "m16_auto_rifle_migration",
     "variant": "m16a3_migration"
   },
   {
-    "id": "m16_auto_rifle",
+    "id": "acr",
     "type": "MIGRATION",
     "replace": "m16_auto_rifle_migration",
     "variant": "acr_migration"
