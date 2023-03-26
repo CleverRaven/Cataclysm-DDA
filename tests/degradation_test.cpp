@@ -59,15 +59,6 @@ TEST_CASE( "Degradation on spawned items", "[item][degradation]" )
         CHECK( doub.degradation() == 0 );
     }
 
-    SECTION( "Items spawned with -1000 damage" ) {
-        float norm = get_avg_degradation( itype_test_baseball, max_iters, -1000 );
-        float half = get_avg_degradation( itype_test_baseball_half_degradation, max_iters, -1000 );
-        float doub = get_avg_degradation( itype_test_baseball_x2_degradation, max_iters, -1000 );
-        CHECK( norm == Approx( 0.0 ).epsilon( 0.001 ) );
-        CHECK( half == Approx( 0.0 ).epsilon( 0.001 ) );
-        CHECK( doub == Approx( 0.0 ).epsilon( 0.001 ) );
-    }
-
     SECTION( "Items spawned with 0 damage" ) {
         float norm = get_avg_degradation( itype_test_baseball, max_iters, 0 );
         float half = get_avg_degradation( itype_test_baseball_half_degradation, max_iters, 0 );
@@ -86,13 +77,13 @@ TEST_CASE( "Degradation on spawned items", "[item][degradation]" )
         CHECK( doub == Approx( 2000.0 ).epsilon( 0.1 ) );
     }
 
-    SECTION( "Items spawned with 4000 damage" ) {
-        float norm = get_avg_degradation( itype_test_baseball, max_iters, 4000 );
-        float half = get_avg_degradation( itype_test_baseball_half_degradation, max_iters, 4000 );
-        float doub = get_avg_degradation( itype_test_baseball_x2_degradation, max_iters, 4000 );
-        CHECK( norm == Approx( 2000.0 ).epsilon( 0.1 ) );
-        CHECK( half == Approx( 1000.0 ).epsilon( 0.1 ) );
-        CHECK( doub == Approx( 4000.0 ).epsilon( 0.1 ) );
+    SECTION( "Items spawned with 3000 damage" ) {
+        float norm = get_avg_degradation( itype_test_baseball, max_iters, 3000 );
+        float half = get_avg_degradation( itype_test_baseball_half_degradation, max_iters, 3000 );
+        float doub = get_avg_degradation( itype_test_baseball_x2_degradation, max_iters, 3000 );
+        CHECK( norm == Approx( 1500.0 ).epsilon( 0.1 ) );
+        CHECK( half == Approx( 750.0 ).epsilon( 0.1 ) );
+        CHECK( doub == Approx( 3000.0 ).epsilon( 0.1 ) );
     }
 }
 
@@ -109,26 +100,17 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
 {
     GIVEN( "An item with default degradation rate" ) {
         item it( itype_test_baseball );
-        it.mod_damage( -1000 );
+        it.mod_damage( 0 );
         REQUIRE( it.type->degrade_increments() == 50 );
         REQUIRE( it.degradation() == 0 );
-        REQUIRE( it.damage() == -1000 );
-        REQUIRE( it.damage_level() == -1 );
-
-        WHEN( "Item loses 2 damage levels" ) {
-            add_x_dmg_levels( it, 2 );
-            THEN( "Item gains 10 percent as degradation, -1 damage level" ) {
-                CHECK( it.degradation() == 200 );
-                CHECK( it.damage_level() == -1 );
-                CHECK( it.damage() == it.degradation() );
-            }
-        }
+        REQUIRE( it.damage() == 0 );
+        REQUIRE( it.damage_level() == 0 );
 
         WHEN( "Item loses 10 damage levels" ) {
             add_x_dmg_levels( it, 10 );
             THEN( "Item gains 10 percent as degradation, 0 damage level" ) {
-                CHECK( it.degradation() == 1000 );
-                CHECK( it.damage_level() == 0 );
+                CHECK( it.degradation() == 1040 );
+                CHECK( it.damage_level() == 1 );
                 CHECK( it.damage() == it.degradation() );
             }
         }
@@ -137,7 +119,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
             add_x_dmg_levels( it, 20 );
             THEN( "Item gains 10 percent as degradation, 1 damage level" ) {
                 CHECK( it.degradation() == 2000 );
-                CHECK( it.damage_level() == 1 );
+                CHECK( it.damage_level() == 2 );
                 CHECK( it.damage() == it.degradation() );
             }
         }
@@ -145,35 +127,17 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
 
     GIVEN( "An item with half degradation rate" ) {
         item it( itype_test_baseball_half_degradation );
-        it.mod_damage( -1000 );
+        it.mod_damage( 0 );
         REQUIRE( it.type->degrade_increments() == 100 );
         REQUIRE( it.degradation() == 0 );
-        REQUIRE( it.damage() == -1000 );
-        REQUIRE( it.damage_level() == -1 );
-
-        WHEN( "Item loses 2 damage levels" ) {
-            add_x_dmg_levels( it, 2 );
-            THEN( "Item gains 5 percent as degradation, -1 damage level" ) {
-                CHECK( it.degradation() == 100 );
-                CHECK( it.damage_level() == -1 );
-                CHECK( it.damage() == it.degradation() );
-            }
-        }
-
-        WHEN( "Item loses 10 damage levels" ) {
-            add_x_dmg_levels( it, 10 );
-            THEN( "Item gains 5 percent as degradation, -1 damage level" ) {
-                CHECK( it.degradation() == 500 );
-                CHECK( it.damage_level() == -1 );
-                CHECK( it.damage() == it.degradation() );
-            }
-        }
+        REQUIRE( it.damage() == 0 );
+        REQUIRE( it.damage_level() == 0 );
 
         WHEN( "Item loses 20 damage levels" ) {
             add_x_dmg_levels( it, 20 );
             THEN( "Item gains 5 percent as degradation, 0 damage level" ) {
-                CHECK( it.degradation() == 1000 );
-                CHECK( it.damage_level() == 0 );
+                CHECK( it.degradation() == 960 );
+                CHECK( it.damage_level() == 1 );
                 CHECK( it.damage() == it.degradation() );
             }
         }
@@ -181,26 +145,16 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
 
     GIVEN( "An item with double degradation rate" ) {
         item it( itype_test_baseball_x2_degradation );
-        it.mod_damage( -1000 );
         REQUIRE( it.type->degrade_increments() == 25 );
         REQUIRE( it.degradation() == 0 );
-        REQUIRE( it.damage() == -1000 );
-        REQUIRE( it.damage_level() == -1 );
-
-        WHEN( "Item loses 2 damage levels" ) {
-            add_x_dmg_levels( it, 2 );
-            THEN( "Item gains 20 percent as degradation, -1 damage level" ) {
-                CHECK( it.degradation() == 400 );
-                CHECK( it.damage_level() == -1 );
-                CHECK( it.damage() == it.degradation() );
-            }
-        }
+        REQUIRE( it.damage() == 0 );
+        REQUIRE( it.damage_level() == 0 );
 
         WHEN( "Item loses 10 damage levels" ) {
             add_x_dmg_levels( it, 10 );
             THEN( "Item gains 20 percent as degradation, 1 damage level" ) {
-                CHECK( it.degradation() == 2000 );
-                CHECK( it.damage_level() == 1 );
+                CHECK( it.degradation() == 2080 );
+                CHECK( it.damage_level() == 2 );
                 CHECK( it.damage() == it.degradation() );
             }
         }
@@ -208,7 +162,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
         WHEN( "Item loses 20 damage levels" ) {
             add_x_dmg_levels( it, 20 );
             THEN( "Item gains 20 percent as degradation, 3 damage level" ) {
-                CHECK( it.degradation() == 4000 );
+                CHECK( it.degradation() == 3040 );
                 CHECK( it.damage_level() == 3 );
                 CHECK( it.damage() == it.degradation() );
             }
@@ -295,13 +249,13 @@ TEST_CASE( "Repairing degraded items", "[item][degradation]" )
             REQUIRE( fix.damage() == 1000 );
             REQUIRE( fix.degradation() == 1000 );
 
-            THEN( "Repaired to 0 damage" ) {
+            THEN( "Can't repair to less than 1000 damage due to degradation" ) {
                 player_activity act( ACT_REPAIR_ITEM, 0, 0 );
                 setup_repair( fix, act, u );
                 while( !act.is_null() ) {
                     ::repair_item_finish( &act, &u, true );
                 }
-                CHECK( fix.damage() == 0 );
+                CHECK( fix.damage() == 1000 );
             }
         }
 
@@ -317,7 +271,7 @@ TEST_CASE( "Repairing degraded items", "[item][degradation]" )
                 while( !act.is_null() ) {
                     ::repair_item_finish( &act, &u, true );
                 }
-                CHECK( fix.damage() == 0 );
+                CHECK( fix.damage() == 1000 );
             }
         }
 
@@ -327,13 +281,13 @@ TEST_CASE( "Repairing degraded items", "[item][degradation]" )
             REQUIRE( fix.damage() == 2000 );
             REQUIRE( fix.degradation() == 2000 );
 
-            THEN( "Repaired to 1000 damage" ) {
+            THEN( "Can't repair to less than 2000 damage due to degradation" ) {
                 player_activity act( ACT_REPAIR_ITEM, 0, 0 );
                 setup_repair( fix, act, u );
                 while( !act.is_null() ) {
                     ::repair_item_finish( &act, &u, true );
                 }
-                CHECK( fix.damage() == 1000 );
+                CHECK( fix.damage() == 2000 );
             }
         }
 
@@ -343,13 +297,13 @@ TEST_CASE( "Repairing degraded items", "[item][degradation]" )
             REQUIRE( fix.damage() == 3999 );
             REQUIRE( fix.degradation() == 2000 );
 
-            THEN( "Repaired to 1000 damage" ) {
+            THEN( "Repaired to 2000 damage" ) {
                 player_activity act( ACT_REPAIR_ITEM, 0, 0 );
                 setup_repair( fix, act, u );
                 while( !act.is_null() ) {
                     ::repair_item_finish( &act, &u, true );
                 }
-                CHECK( fix.damage() == 1000 );
+                CHECK( fix.damage() == 2000 );
             }
         }
 
@@ -359,13 +313,13 @@ TEST_CASE( "Repairing degraded items", "[item][degradation]" )
             REQUIRE( fix.damage() == 3000 );
             REQUIRE( fix.degradation() == 3000 );
 
-            THEN( "Repaired to 2000 damage" ) {
+            THEN( "Can't repair to less than 3000 damage due to degradation" ) {
                 player_activity act( ACT_REPAIR_ITEM, 0, 0 );
                 setup_repair( fix, act, u );
                 while( !act.is_null() ) {
                     ::repair_item_finish( &act, &u, true );
                 }
-                CHECK( fix.damage() == 2000 );
+                CHECK( fix.damage() == 3000 );
             }
         }
 
@@ -375,13 +329,13 @@ TEST_CASE( "Repairing degraded items", "[item][degradation]" )
             REQUIRE( fix.damage() == 3999 );
             REQUIRE( fix.degradation() == 3000 );
 
-            THEN( "Repaired to 2000 damage" ) {
+            THEN( "Repaired to 3000 damage" ) {
                 player_activity act( ACT_REPAIR_ITEM, 0, 0 );
                 setup_repair( fix, act, u );
                 while( !act.is_null() ) {
                     ::repair_item_finish( &act, &u, true );
                 }
-                CHECK( fix.damage() == 2000 );
+                CHECK( fix.damage() == 3000 );
             }
         }
 
@@ -391,13 +345,13 @@ TEST_CASE( "Repairing degraded items", "[item][degradation]" )
             REQUIRE( fix.damage() == 4000 );
             REQUIRE( fix.degradation() == 4000 );
 
-            THEN( "Repaired to 3000 damage" ) {
+            THEN( "Can't repair to less than 4000 damage due to degradation" ) {
                 player_activity act( ACT_REPAIR_ITEM, 0, 0 );
                 setup_repair( fix, act, u );
                 while( !act.is_null() ) {
                     ::repair_item_finish( &act, &u, true );
                 }
-                CHECK( fix.damage() == 3000 );
+                CHECK( fix.damage() == 4000 );
             }
         }
     }
@@ -440,11 +394,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 0 );
             REQUIRE( gun.damage() == 0 );
             REQUIRE( gun.degradation() == 0 );
-            THEN( "Repaired to -1000 damage" ) {
+            THEN( "Can't repair to less than 0 damage" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == -1000 );
+                CHECK( gun.damage() == 0 );
             }
         }
 
@@ -477,13 +431,13 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
         WHEN( "0 damage / 1000 degradation" ) {
             gun.set_damage( 0 );
             gun.set_degradation( 1000 );
-            REQUIRE( gun.damage() == 0 );
+            REQUIRE( gun.damage() == 1000 );
             REQUIRE( gun.degradation() == 1000 );
-            THEN( "Repaired to 0 damage" ) {
+            THEN( "Can't repair to less than 1000 damage due to degradation" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 0 );
+                CHECK( gun.damage() == 1000 );
             }
         }
 
@@ -492,11 +446,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 1000 );
             REQUIRE( gun.damage() == 1000 );
             REQUIRE( gun.degradation() == 1000 );
-            THEN( "Repaired to 0 damage" ) {
+            THEN( "Can't repair to less than 1000 damage due to degradation" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 0 );
+                CHECK( gun.damage() == 1000 );
             }
         }
 
@@ -516,13 +470,13 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
         WHEN( "1000 damage / 2000 degradation" ) {
             gun.set_damage( 1000 );
             gun.set_degradation( 2000 );
-            REQUIRE( gun.damage() == 1000 );
+            REQUIRE( gun.damage() == 2000 );
             REQUIRE( gun.degradation() == 2000 );
-            THEN( "Repaired to 1000 damage" ) {
+            THEN( "Can't repair to less than 2000 damage due to degradation" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 1000 );
+                CHECK( gun.damage() == 2000 );
             }
         }
 
@@ -531,11 +485,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 2000 );
             REQUIRE( gun.damage() == 2000 );
             REQUIRE( gun.degradation() == 2000 );
-            THEN( "Repaired to 1333 damage" ) {
+            THEN( "Can't repair to less than 2000 damage due to degradation" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 1333 );
+                CHECK( gun.damage() == 2000 );
             }
         }
 
@@ -555,13 +509,13 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
         WHEN( "2000 damage / 3000 degradation" ) {
             gun.set_damage( 2000 );
             gun.set_degradation( 3000 );
-            REQUIRE( gun.damage() == 2000 );
+            REQUIRE( gun.damage() == 3000 );
             REQUIRE( gun.degradation() == 3000 );
-            THEN( "Repaired to 2000 damage" ) {
+            THEN( "Can't repair to less than 3000 damage due to degradation" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 2000 );
+                CHECK( gun.damage() == 3000 );
             }
         }
 
@@ -570,11 +524,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 3000 );
             REQUIRE( gun.damage() == 3000 );
             REQUIRE( gun.degradation() == 3000 );
-            THEN( "Repaired to 2666 damage" ) {
+            THEN( "Can't repair to less than 3000 damage due to degradation" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 2666 );
+                CHECK( gun.damage() == 3000 );
             }
         }
 
@@ -594,13 +548,13 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
         WHEN( "3000 damage / 4000 degradation" ) {
             gun.set_damage( 3000 );
             gun.set_degradation( 4000 );
-            REQUIRE( gun.damage() == 3000 );
+            REQUIRE( gun.damage() == 4000 );
             REQUIRE( gun.degradation() == 4000 );
-            THEN( "Repaired to 3000 damage" ) {
+            THEN( "Can't repair to less than 4000 damage due to degradation" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 3000 );
+                CHECK( gun.damage() == 4000 );
             }
         }
 
@@ -609,11 +563,11 @@ TEST_CASE( "Gun repair with degradation", "[item][degradation]" )
             gun.set_degradation( 4000 );
             REQUIRE( gun.damage() == 4000 );
             REQUIRE( gun.degradation() == 4000 );
-            THEN( "Repaired to 3999 damage" ) {
+            THEN( "Can't repair to less than 4000 damage due to degradation" ) {
                 u.wield( gun );
                 item_location gun_loc( u, &gun );
                 ::gun_repair( &u, &gun, gun_loc );
-                CHECK( gun.damage() == 3999 );
+                CHECK( gun.damage() == 4000 );
             }
         }
     }
