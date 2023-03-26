@@ -189,6 +189,7 @@
                 {
                   "u_roll_remainder": [ "BLOODHASTE", "HYPNOTIC_GAZE" ],
                   "type": "mutation",
+                  "true_eocs": [ "EOC_VAMPVIRUS2" ],
                   "false_eocs": [ "EOC_COMPLETED_ROLL_REMAINDER" ]
                 },
                 {
@@ -198,7 +199,7 @@
               "false_effect": [
                 { "u_add_trait": "VAMPIRE3" },
                 {
-                  "u_message": "With a popping sound several of your teeth fall out but when you put a finger into your mouth to feel the hole, there are new sharp fangs where you expected nothing."
+                  "u_message": "You don't seem to feel as hungry as you were before and you definitely recover from exertion faster than before."
                 }
               ]
             }
@@ -214,7 +215,7 @@
     "recurrence": [ "8 hours", "14 hours 15 minutes" ],
     "condition": {
       "and": [
-        { "compare_num": [ { "u_val": "vitamin", "name": "blood" }, "<=", { "const": 450 } ] },
+        { "compare_num": [ { "u_val": "vitamin", "name": "blood" }, "<=", { "const": -450 } ] },
         { "u_has_effect": "vampire_virus" }
       ]
     },
