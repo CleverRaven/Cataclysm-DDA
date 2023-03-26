@@ -42,7 +42,9 @@
       "9": "t_floor",
       "A": "t_floor",
       "?": "t_floor",
-      "K": "t_floor"
+      "K": "t_floor",
+      "N": "t_floor",
+      "Y": "t_floor"
     },
     "furniture": {
       "*": "f_centrifuge",
@@ -71,7 +73,7 @@
       "&": "f_toilet",
       "A": "f_autodoc",
       "?": "f_autodoc_couch",
-      "X": "f_oxygen_concentrator",
+      "N": "f_oxygen_concentrator",
       "Y": "f_hd_compressor_unit"
     },
     "toilets": { "&": {  } }
