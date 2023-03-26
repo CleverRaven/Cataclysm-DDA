@@ -20,7 +20,7 @@
     "id": "anvil_track",
     "type": "TOOL",
     "name": { "str": "railroad track anvil" },
-    "description": "A section of railroad track cut into the shape of an anvil.  One side is ground into a curved horn and there's a small hardy hole on the other.",
+    "description": "A section of railroad track cut into the shape of an anvil.  One side is ground into a curved horn and there's a small hardy hole on the other.  Too small to use on its own, it needs to be installed onto a log to act as a base first.",
     "weight": "20000 g",
     "volume": "3 L",
     "price": 10000,
@@ -30,7 +30,6 @@
     "material": [ "mc_steel" ],
     "symbol": ";",
     "color": "dark_gray",
-    "qualities": [ [ "ANVIL", 3 ] ],
     "flags": [ "DURABLE_MELEE" ]
   },
   {

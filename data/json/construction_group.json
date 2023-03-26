@@ -1656,6 +1656,16 @@
   },
   {
     "type": "construction_group",
+    "id": "install_anvil_track",
+    "name": "Install Railroad Track Anvil"
+  },
+  {
+    "type": "construction_group",
+    "id": "install_anvil_stake",
+    "name": "Install Stake Anvil"
+  },
+  {
+    "type": "construction_group",
     "id": "build_archery_target_box",
     "name": "Set Up Box Archery Target"
   },

@@ -2474,6 +2474,33 @@
   },
   {
     "type": "construction",
+    "id": "constr_anvil_track",
+    "group": "install_anvil_track",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "anvil_track", 1 ] ], [ [ "log", 1 ] ], [ [ "spike", 4 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_anvil_track",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_anvil_stake",
+    "group": "install_anvil_stake",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "components": [ [ [ "anvil_stake", 1 ] ], [ [ "log", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_anvil_stake",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "constr_forge",
     "group": "place_forge",
     "category": "FURN",

@@ -72,6 +72,20 @@
     "qualities": [ [ "ANVIL", 1 ] ]
   },
   {
+    "id": "fake_anvil_track",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "stake" },
+    "qualities": [ [ "ANVIL", 3 ] ]
+  },
+  {
+    "id": "fake_anvil_stake",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "stake" },
+    "qualities": [ [ "ANVIL", 3 ] ]
+  },
+  {
     "id": "fake_milling_item",
     "copy-from": "fake_item",
     "type": "GENERIC",
