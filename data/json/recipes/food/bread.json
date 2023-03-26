@@ -273,7 +273,6 @@
       [ [ "any_butter_or_oil", 1, "LIST" ] ]
     ]
   },
-
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
