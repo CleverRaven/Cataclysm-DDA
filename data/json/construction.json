@@ -1261,7 +1261,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "180 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "SMOOTH", "level": 1 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "material_gravel", 500 ], [ "pebble", 200 ] ], [ [ "material_sand", 400 ] ], [ [ "rock", 30 ], [ "brick", 30 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_pavement"
@@ -1274,7 +1274,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "180 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ], [ { "id": "SMOOTH", "level": 1 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "material_gravel", 500 ], [ "pebble", 200 ] ], [ [ "material_sand", 400 ] ], [ [ "rock", 30 ], [ "brick", 30 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_sidewalk"
