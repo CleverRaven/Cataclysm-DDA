@@ -800,5 +800,52 @@
     "id": "mess_tin",
     "type": "MIGRATION",
     "replace": "mess_kit"
+  },
+  {
+    "id": "ar15",
+    "type": "MIGRATION",
+    "replace": "ar15_migration"
+  },
+  {
+    "id": "h&k416a5",
+    "type": "MIGRATION",
+    "replace": "m27_assault_rifle_migration",
+    "variant": "h&k416a5_migration"
+  },
+  {
+    "id": "m27iar",
+    "type": "MIGRATION",
+    "replace": "m27_assault_rifle_migration",
+    "variant": "m27iar_migration"
+  },
+  {
+    "id": "m38dmr",
+    "type": "MIGRATION",
+    "replace": "m27_assault_rifle_migration",
+    "variant": "m38dmr_migration"
+  },
+  {
+    "id": "m4_carbine",
+    "type": "MIGRATION",
+    "replace": "m4_carbine_migration",
+    "variant": "m4a1_migration"
+  },
+  {
+    "id": "m16a4",
+    "type": "MIGRATION",
+    "replace": "m16a4_migration",
+    "variant": "m16a4_migration"
+  },
+  {
+    "id": "m16_auto_rifle",
+    "type": "MIGRATION",
+    "replace": "m16_auto_rifle_migration",
+    "variant": "m16a3_migration"
+  },
+  {
+    "id": "m16_auto_rifle",
+    "type": "MIGRATION",
+    "replace": "m16_auto_rifle_migration",
+    "variant": "acr_migration"
   }
 ]
