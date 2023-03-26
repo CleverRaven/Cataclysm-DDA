@@ -2925,11 +2925,11 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix, bool 
         return true;
     }
 
-    if( fix.damage() > fix.damage_floor( false ) ) {
+    if( fix.damage() > fix.degradation() ) {
         return true;
     }
 
-    if( fix.damage() <= fix.damage_floor( true ) ) {
+    if( fix.damage() <= fix.degradation() ) {
         if( print_msg ) {
             pl.add_msg_if_player( m_info, _( "Your %s is already enhanced to its maximum potential." ),
                                   fix.tname() );
@@ -2998,7 +2998,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
-    if( fix.damage() > fix.damage_floor( false ) ) {
+    if( fix.damage() > fix.degradation() ) {
         return RT_REPAIR;
     }
 
@@ -3025,7 +3025,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
         return RT_UPSIZING;
     }
 
-    if( fix.damage() > fix.damage_floor( true ) && fix.damage_floor( true ) < 0 ) {
+    if( fix.damage() > fix.degradation() && fix.degradation() < 0 ) {
         return RT_REINFORCE;
     }
 

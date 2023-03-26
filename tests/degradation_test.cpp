@@ -120,7 +120,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
             THEN( "Item gains 10 percent as degradation, -1 damage level" ) {
                 CHECK( it.degradation() == 200 );
                 CHECK( it.damage_level() == -1 );
-                CHECK( it.damage() == it.degradation() + it.min_damage() );
+                CHECK( it.damage() == it.degradation() );
             }
         }
 
@@ -129,7 +129,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
             THEN( "Item gains 10 percent as degradation, 0 damage level" ) {
                 CHECK( it.degradation() == 1000 );
                 CHECK( it.damage_level() == 0 );
-                CHECK( it.damage() == it.degradation() + it.min_damage() );
+                CHECK( it.damage() == it.degradation() );
             }
         }
 
@@ -138,7 +138,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
             THEN( "Item gains 10 percent as degradation, 1 damage level" ) {
                 CHECK( it.degradation() == 2000 );
                 CHECK( it.damage_level() == 1 );
-                CHECK( it.damage() == it.degradation() + it.min_damage() );
+                CHECK( it.damage() == it.degradation() );
             }
         }
     }
@@ -156,7 +156,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
             THEN( "Item gains 5 percent as degradation, -1 damage level" ) {
                 CHECK( it.degradation() == 100 );
                 CHECK( it.damage_level() == -1 );
-                CHECK( it.damage() == it.degradation() + it.min_damage() );
+                CHECK( it.damage() == it.degradation() );
             }
         }
 
@@ -165,7 +165,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
             THEN( "Item gains 5 percent as degradation, -1 damage level" ) {
                 CHECK( it.degradation() == 500 );
                 CHECK( it.damage_level() == -1 );
-                CHECK( it.damage() == it.degradation() + it.min_damage() );
+                CHECK( it.damage() == it.degradation() );
             }
         }
 
@@ -174,7 +174,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
             THEN( "Item gains 5 percent as degradation, 0 damage level" ) {
                 CHECK( it.degradation() == 1000 );
                 CHECK( it.damage_level() == 0 );
-                CHECK( it.damage() == it.degradation() + it.min_damage() );
+                CHECK( it.damage() == it.degradation() );
             }
         }
     }
@@ -192,7 +192,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
             THEN( "Item gains 20 percent as degradation, -1 damage level" ) {
                 CHECK( it.degradation() == 400 );
                 CHECK( it.damage_level() == -1 );
-                CHECK( it.damage() == it.degradation() + it.min_damage() );
+                CHECK( it.damage() == it.degradation() );
             }
         }
 
@@ -201,7 +201,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
             THEN( "Item gains 20 percent as degradation, 1 damage level" ) {
                 CHECK( it.degradation() == 2000 );
                 CHECK( it.damage_level() == 1 );
-                CHECK( it.damage() == it.degradation() + it.min_damage() );
+                CHECK( it.damage() == it.degradation() );
             }
         }
 
@@ -210,7 +210,7 @@ TEST_CASE( "Items that get damaged gain degradation", "[item][degradation]" )
             THEN( "Item gains 20 percent as degradation, 3 damage level" ) {
                 CHECK( it.degradation() == 4000 );
                 CHECK( it.damage_level() == 3 );
-                CHECK( it.damage() == it.degradation() + it.min_damage() );
+                CHECK( it.damage() == it.degradation() );
             }
         }
     }

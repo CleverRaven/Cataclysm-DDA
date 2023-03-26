@@ -3089,7 +3089,7 @@ void veh_interact::count_durability()
     const vehicle_part_range vpr = veh->get_all_parts();
     int qty = std::accumulate( vpr.begin(), vpr.end(), 0,
     []( int lhs, const vpart_reference & rhs ) {
-        return lhs + std::max( rhs.part().base.damage(), rhs.part().base.damage_floor( false ) );
+        return lhs + std::max( rhs.part().base.damage(), rhs.part().base.degradation() );
     } );
 
     int total = std::accumulate( vpr.begin(), vpr.end(), 0,

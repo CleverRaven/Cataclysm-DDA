@@ -3225,6 +3225,7 @@ void item::deserialize( const JsonObject &data )
 
     update_inherited_flags();
     on_damage_changed();
+    damage_ = std::clamp( damage_, 0, max_damage() );
 }
 
 void item::serialize( JsonOut &json ) const

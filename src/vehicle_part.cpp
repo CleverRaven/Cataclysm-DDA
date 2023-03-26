@@ -154,18 +154,13 @@ int vehicle_part::max_damage() const
     return base.max_damage();
 }
 
-int vehicle_part::damage_floor( bool allow_negative ) const
-{
-    return base.damage_floor( allow_negative );
-}
-
 int vehicle_part::repairable_levels() const
 {
-    int levels = damage_level() - damage_level( damage_floor( false ) );
+    int levels = damage_level() - damage_level( degradation() );
 
     return levels > 0
-           ? levels                            // full integer levels of damage
-           : damage() > damage_floor( false ); // partial level of damage can still be repaired
+           ? levels                    // full integer levels of damage
+           : damage() > degradation(); // partial level of damage can still be repaired
 }
 
 bool vehicle_part::is_repairable() const
@@ -633,14 +628,14 @@ void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_
 {
     int dur = pt.info().durability;
     if( qty == dur || dur <= 0 ) {
-        pt.base.set_damage( keep_degradation ? pt.base.damage_floor( false ) : 0 );
+        pt.base.set_damage( keep_degradation ? pt.base.degradation() : 0 );
 
     } else if( qty == 0 ) {
         pt.base.set_damage( pt.base.max_damage() );
 
     } else {
         int amt = pt.base.max_damage() - pt.base.max_damage() * qty / dur;
-        amt = std::max( amt, pt.base.damage_floor( false ) );
+        amt = std::max( amt, pt.base.degradation() );
         pt.base.set_damage( amt );
     }
     if( !keep_degradation ) {

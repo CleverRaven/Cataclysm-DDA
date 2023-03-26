@@ -2259,7 +2259,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
             ( repeat == repeat_type::ONCE ) ||
             ( repeat == repeat_type::EVENT && event_happened ) ||
             ( repeat == repeat_type::FULL && ( cannot_continue_repair ||
-                                               fix_location->damage() <= fix_location->damage_floor( false ) ) ) ||
+                                               fix_location->damage() <= fix_location->degradation() ) ) ||
             ( repeat == repeat_type::REFIT_ONCE ) ||
             ( repeat == repeat_type::REFIT_FULL && !can_refit );
         if( need_input ) {
@@ -2377,7 +2377,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                 return;
             }
             if( repeat == repeat_type::FULL &&
-                fix.damage() <= fix.damage_floor( false ) ) {
+                fix.damage() <= fix.degradation() ) {
                 const char *msg = fix.damage_level() > 0 ?
                                   _( "Your %s is repaired as much as possible, considering the degradation." ) :
                                   _( "Your %s is already fully repaired." );

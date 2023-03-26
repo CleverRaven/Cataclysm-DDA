@@ -5515,14 +5515,14 @@ std::optional<int> gun_repair( Character *p, item *, item_location &loc )
         p->add_msg_if_player( m_info, _( "You can't see to do that!" ) );
         return std::nullopt;
     }
-    if( fix.damage() <= fix.damage_floor( true ) ) {
+    if( fix.damage() <= fix.degradation() ) {
         const char *msg = fix.damage_level() > 0 ?
                           _( "You can't improve your %s any more, considering the degradation." ) :
                           _( "You can't improve your %s any more this way." );
         p->add_msg_if_player( m_info, msg, fix.tname() );
         return std::nullopt;
     }
-    if( fix.damage() <= fix.damage_floor( false ) && fix.damage_floor( true ) < 0 &&
+    if( fix.damage() <= fix.degradation() && fix.degradation() < 0 &&
         p->get_skill_level( skill_mechanics ) < 8 ) {
         const char *msg = fix.damage_level() > 0 ?
                           _( "Your %s is in its best condition, considering the degradation." ) :

@@ -855,15 +855,10 @@ float item::damage_scaling( bool to_self ) const
     return to_self ? scale : std::min( scale, 1.0f );
 }
 
-int item::damage_floor( bool allow_negative ) const
-{
-    return std::max( min_damage() + degradation(), allow_negative ? min_damage() : 0 );
-}
-
 item &item::set_damage( int qty )
 {
-    damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
-    degradation_ = std::max( std::min( damage_ - min_damage(), degradation_ ), 0 );
+    damage_ = std::max( std::min( qty, max_damage() ), 0 );
+    degradation_ = std::max( std::min( damage_, degradation_ ), 0 );
     on_damage_changed();
     return *this;
 }
@@ -871,7 +866,7 @@ item &item::set_damage( int qty )
 item &item::set_degradation( int qty )
 {
     degradation_ = std::max( std::min( qty, max_damage() ), 0 );
-    damage_ = std::min( std::max( damage_, damage_floor( false ) ), max_damage() );
+    damage_ = std::min( std::max( damage_, degradation() ), max_damage() );
     return *this;
 }
 
@@ -8623,11 +8618,6 @@ int item::chip_resistance( bool worst, const bodypart_id &bp ) const
     return res;
 }
 
-int item::min_damage() const
-{
-    return type->damage_min();
-}
-
 int item::max_damage() const
 {
     return type->damage_max();
@@ -8652,7 +8642,7 @@ bool item::mod_damage( int qty, damage_type dt )
     }
 
     bool destroy = false;
-    int dmg_lvl = get_dmg_lvl_internal( damage_, min_damage(), max_damage() );
+    int dmg_lvl = get_dmg_lvl_internal( damage_, 0, max_damage() );
 
     if( count_by_charges() ) {
         charges -= std::min( type->stack_size * qty / itype::damage_scale, charges );
@@ -8666,14 +8656,14 @@ bool item::mod_damage( int qty, damage_type dt )
     if( !count_by_charges() ) {
         destroy |= damage_ + qty > max_damage();
 
-        damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() + degradation_ );
+        damage_ = std::max( std::min( damage_ + qty, max_damage() ), degradation_ );
     }
 
     if( qty > 0 && !destroy ) {
-        int degrade = std::max( get_dmg_lvl_internal( damage_, min_damage(), max_damage() ) - dmg_lvl, 0 );
+        int degrade = std::max( get_dmg_lvl_internal( damage_, 0, max_damage() ) - dmg_lvl, 0 );
         int incr = type->degrade_increments();
         if( incr > 0 ) {
-            degradation_ += degrade * ( max_damage() - min_damage() ) / incr;
+            degradation_ += degrade * max_damage() / incr;
         }
     }
 
@@ -8776,7 +8766,7 @@ nc_color item::damage_color() const
     switch( damage_level() ) {
         default:
             // reinforced
-            if( damage() <= min_damage() ) {
+            if( damage() <= 0 ) {
                 // fully reinforced
                 return c_green;
             } else {
