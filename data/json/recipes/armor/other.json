@@ -339,6 +339,7 @@
       [ "emergency_book", 3 ],
       [ "textbook_gaswarfare", 4 ]
     ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [

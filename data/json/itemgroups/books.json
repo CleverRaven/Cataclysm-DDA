@@ -92,6 +92,7 @@
       { "item": "manual_stabbing", "prob": 40 },
       { "item": "manual_swimming", "prob": 30 },
       { "item": "manual_traps_mil", "prob": 30 },
+      { "item": "manual_traps_mil_basic", "prob": 30 },
       { "item": "pocket_firearms", "prob": 10 },
       { "item": "textbook_firstaid", "prob": 30 }
     ]

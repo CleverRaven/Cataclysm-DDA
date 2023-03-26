@@ -28,6 +28,7 @@
     "batch_time_factors": [ 80, 1 ],
     "charges": 12,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [ [ [ "acetylene_machine", -1 ] ] ],
     "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "chem_carbide", 326 ] ] ]
   },
@@ -76,7 +77,7 @@
       [ [ "forge", 30 ] ],
       [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 10 ] ]
     ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_intro_chemistry" } ],
     "components": [
       [ [ "scrap", 1 ] ],
       [ [ "flour_any", 1, "LIST" ], [ "paper", 3 ] ],
@@ -116,7 +117,11 @@
       [ [ "forge", 350 ] ],
       [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "mortar_pestle", -1 ], [ "food_processor", 25 ] ]
     ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "components": [
       [ [ "material_aluminium_ingot", 1 ], [ "scrap_aluminum", 15 ] ],
       [ [ "chem_sulphuric_acid", 1 ], [ "chem_aluminium_sulphate", 6 ], [ "chem_sulphur", 50 ] ],
@@ -144,7 +149,11 @@
       [ [ "electrolysis_kit", 100 ] ],
       [ [ "jar_glass_sealed", -1 ], [ "jar_3l_glass_sealed", -1 ] ]
     ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" }
+    ],
     "components": [
       [ [ "wire", 4 ] ],
       [ [ "copper", 1 ] ],
@@ -190,7 +199,11 @@
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "forge", 50 ] ]
     ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_redsmithing" },
+      { "proficiency": "prof_intro_chemistry" }
+    ],
     "components": [ [ [ "scrap_bronze", 1 ] ], [ [ "detergent", 7 ] ] ]
   },
   {
