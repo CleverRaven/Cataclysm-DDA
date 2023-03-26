@@ -118,7 +118,6 @@ class profession
         std::vector<bionic_id> CBMs() const;
         std::vector<proficiency_id> proficiencies() const;
         StartingSkillList skills() const;
-        const difficulty_impact &difficulty() const;
         const std::vector<mission_type_id> &missions() const;
 
         std::optional<achievement_id> get_requirement() const;
