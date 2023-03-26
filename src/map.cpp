@@ -4933,8 +4933,8 @@ item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overf
 
 float map::item_category_spawn_rate( const item &itm )
 {
-    const item_category_id &cat = itm.get_category_of_contents().id;
-    const float spawn_rate = cat.obj().get_spawn_rate();
+    const std::string &cat = itm.get_category_of_contents().id.c_str();
+    const float spawn_rate = get_option<float>( "SPAWN_RATE_" + cat );
 
     return spawn_rate > 1.0f ? roll_remainder( spawn_rate ) : spawn_rate;
 }
