@@ -6029,7 +6029,7 @@ bool mattack::dodge_check( monster *z, Creature *target, bodypart_id bp, damage_
     if( dmg_ratio >= 0.5f ) {
         guy_target->on_try_dodge();
         float attack_roll = z->get_hit() + rng_normal( 0, 5 );
-        const float dodge_ability = target->get_dodge();
+        const float dodge_ability = guy_target->get_dodge();
         return dodge_ability > attack_roll;
     } else if( dmg_ratio > 0.0f ) { // else apply usual rules
         return dodge_check( z, guy_target );
