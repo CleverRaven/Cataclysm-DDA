@@ -928,24 +928,23 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "protective lenses" },
-    "description": "Highly protective lenses made of aluminized polycarbonate which surgically seal off your eyes from danger, routing your tear ducts to your mouth.  They make you look intimidating too!",
+    "description": "Highly protective lenses made of photochromic polycarbonate which surgically seal off your eyes from danger, routing your tear ducts to your mouth.  They make you look intimidating too!",
     "weight": "180 g",
     "volume": "250 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -2,
-    "material": [ "plastic", "lvl4ballisticglass", "aluminum" ],
+    "material": [ "plastic", "lvl4ballisticglass" ],
     "symbol": "[",
     "color": "dark_gray",
     "warmth": 0,
-    "material_thickness": 1.25,
+    "material_thickness": 1.5,
     "environmental_protection": 10,
     "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "SWIM_GOGGLES" ],
     "armor": [
       {
         "material": [
-          { "type": "aluminum", "covered_by_mat": 100, "thickness": 0.05 },
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.2 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 0.5 },
           { "type": "lvl4ballisticglass", "covered_by_mat": 100, "thickness": 1.0 }
         ],
         "covers": [ "eyes" ],
