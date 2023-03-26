@@ -66,6 +66,12 @@ else
     # CI detects issues that will affect releases.  It doesn't affect builds on
     # other platforms.
     make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 OSX_MIN=10.13 FRAMEWORK=1
+
+    # For CI on macOS, patch the test binary so it can find SDL2 libraries.
+    if [[ ! -z "$OS" && "$OS" = "macos-12" ]]
+    then
+        install_name_tool -add_rpath $HOME/Library/Frameworks tests/cata_test
+    fi
 fi
 
 # vim:tw=0
