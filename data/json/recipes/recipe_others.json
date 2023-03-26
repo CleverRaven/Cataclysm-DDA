@@ -1187,7 +1187,11 @@
     "using": [ [ "blacksmithing_standard", 64 ], [ "steel_standard", 60 ] ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_toolsmithing" } ]
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ]
   },
   {
     "type": "recipe",
@@ -1233,7 +1237,11 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "ANVIL", "level": 2 } ],
     "tools": [ [ [ "forge", 150 ], [ "oxy_torch", 30 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" }, { "proficiency": "prof_toolsmithing" } ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing" }
+    ],
     "components": [ [ [ "steel_chunk", 16 ], [ "steel_lump", 4 ] ] ]
   },
   {

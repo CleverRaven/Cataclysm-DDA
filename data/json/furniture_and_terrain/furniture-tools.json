@@ -292,7 +292,13 @@
     "crafting_pseudo_item": "fake_anvil_track",
     "deconstruct": { "items": [ { "item": "anvil_track", "count": 1 }, { "item": "log", "count": 1 }, { "item": "spike", "count": 4 } ] },
     "flags": [ "TRANSPARENT", "NOITEM" ],
-    "bash": { "str_min": 60, "str_max": 120, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "anvil_track", "count": 1 }, { "item": "log", "count": 1 } ] }
+    "bash": {
+      "str_min": 60,
+      "str_max": 120,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "anvil_track", "count": 1 }, { "item": "log", "count": 1 } ]
+    }
   },
   {
     "type": "furniture",
@@ -308,7 +314,13 @@
     "crafting_pseudo_item": "fake_anvil_stake",
     "deconstruct": { "items": [ { "item": "anvil_track", "count": 1 }, { "item": "log", "count": 1 }, { "item": "spike", "count": 4 } ] },
     "flags": [ "TRANSPARENT", "NOITEM", "EASY_DECONSTRUCT" ],
-    "bash": { "str_min": 4, "str_max": 8, "sound": "crunch!", "sound_fail": "whump.", "items": [ { "item": "anvil_stake", "count": 1 }, { "item": "log", "count": 1 } ] }
+    "bash": {
+      "str_min": 4,
+      "str_max": 8,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "anvil_stake", "count": 1 }, { "item": "log", "count": 1 } ]
+    }
   },
   {
     "type": "furniture",

@@ -70,10 +70,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] }
-      ]
+      "items": [ { "item": "mc_steel_lump", "count": [ 10, 20 ] }, { "item": "mc_steel_chunk", "count": [ 20, 40 ] } ]
     },
     "hacksaw": {
       "result": "t_rock_floor",
@@ -99,10 +96,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] }
-      ]
+      "items": [ { "item": "mc_steel_lump", "count": [ 10, 20 ] }, { "item": "mc_steel_chunk", "count": [ 20, 40 ] } ]
     },
     "hacksaw": {
       "result": "t_rock_floor",
@@ -128,10 +122,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] }
-      ]
+      "items": [ { "item": "mc_steel_lump", "count": [ 10, 20 ] }, { "item": "mc_steel_chunk", "count": [ 20, 40 ] } ]
     },
     "hacksaw": {
       "result": "t_rock_floor",
@@ -157,10 +148,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] }
-      ]
+      "items": [ { "item": "mc_steel_lump", "count": [ 10, 20 ] }, { "item": "mc_steel_chunk", "count": [ 20, 40 ] } ]
     },
     "hacksaw": {
       "result": "t_rock_floor",
@@ -186,10 +174,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_rock_floor",
-      "items": [
-        { "item": "mc_steel_lump", "count": [ 10, 20 ] },
-        { "item": "mc_steel_chunk", "count": [ 20, 40 ] }
-      ]
+      "items": [ { "item": "mc_steel_lump", "count": [ 10, 20 ] }, { "item": "mc_steel_chunk", "count": [ 20, 40 ] } ]
     },
     "hacksaw": {
       "result": "t_rock_floor",
