@@ -306,7 +306,7 @@ enum class player_display_tab : int {
 } // namespace
 
 static void draw_proficiencies_tab( ui_adaptor &ui, const catacurses::window &win,
-                                    const unsigned line, const Character &guy,
+                                    const int line, const Character &guy,
                                     const player_display_tab curtab, const input_context &ctxt )
 {
     werase( win );
@@ -334,7 +334,7 @@ static void draw_proficiencies_tab( ui_adaptor &ui, const catacurses::window &wi
         } else {
             name = trim_by_length( cur.id->name(), width );
         }
-        const bool highlight_line = focused && i == line;
+        const bool highlight_line = focused && ( static_cast<int>( i ) == line );
         const nc_color col = highlight_line ? hilite( cur.color ) : cur.color;
         nc_color col_cur = col;  // make non const copy
         const point pos( 1, 1 + i - i_start );
@@ -349,12 +349,12 @@ static void draw_proficiencies_tab( ui_adaptor &ui, const catacurses::window &wi
     wnoutrefresh( win );
 }
 
-static void draw_proficiencies_info( const catacurses::window &w_info, const unsigned line,
+static void draw_proficiencies_info( const catacurses::window &w_info, const int line,
                                      const Character &guy )
 {
     werase( w_info );
     const std::vector<display_proficiency> profs = guy.display_proficiencies();
-    if( line < profs.size() ) {
+    if( line < static_cast<int>( profs.size() ) ) {
         const display_proficiency &cur = profs[line];
         std::string progress;
         if( cur.known ) {
@@ -376,7 +376,7 @@ static void draw_proficiencies_info( const catacurses::window &w_info, const uns
 }
 
 static void draw_stats_tab( ui_adaptor &ui, const catacurses::window &w_stats, const Character &you,
-                            const unsigned line, const player_display_tab curtab, const input_context &ctxt )
+                            const int line, const player_display_tab curtab, const input_context &ctxt )
 {
     werase( w_stats );
     const bool is_current_tab = curtab == player_display_tab::stats;
@@ -388,11 +388,11 @@ static void draw_stats_tab( ui_adaptor &ui, const catacurses::window &w_stats, c
                   string_format( "[<color_yellow>%s</color>] %s",
                                  ctxt.get_desc( "VIEW_BODYSTAT" ), _( title_STATS ) ) );
 
-    const auto highlight_line = [is_current_tab, line]( const unsigned line_to_draw ) {
+    const auto highlight_line = [is_current_tab, line]( const int line_to_draw ) {
         return is_current_tab && line == line_to_draw;
     };
 
-    const auto line_color = [&highlight_line]( const unsigned line_to_draw ) {
+    const auto line_color = [&highlight_line]( const int line_to_draw ) {
         if( highlight_line( line_to_draw ) ) {
             return h_light_gray;
         } else {
@@ -401,7 +401,7 @@ static void draw_stats_tab( ui_adaptor &ui, const catacurses::window &w_stats, c
     };
 
     const auto set_highlight_cursor = [&highlight_line, &ui, &w_stats]
-    ( const unsigned line_to_draw ) {
+    ( const int line_to_draw ) {
         if( highlight_line( line_to_draw ) ) {
             ui.set_cursor( w_stats, point( 1, line_to_draw + 1 ) );
         }
@@ -409,7 +409,7 @@ static void draw_stats_tab( ui_adaptor &ui, const catacurses::window &w_stats, c
 
     // Stats
     const auto display_stat = [&line_color, &set_highlight_cursor, &w_stats]
-    ( const char *name, const int cur, const int max, const unsigned line_to_draw ) {
+    ( const char *name, const int cur, const int max, const int line_to_draw ) {
         nc_color cstatus;
         if( cur <= 0 ) {
             cstatus = c_dark_gray;
@@ -465,7 +465,7 @@ static void draw_stats_tab( ui_adaptor &ui, const catacurses::window &w_stats, c
 }
 
 static void draw_stats_info( const catacurses::window &w_info, const Character &you,
-                             const unsigned line )
+                             const int line )
 {
     werase( w_info );
     nc_color col_temp = c_light_gray;
@@ -554,7 +554,7 @@ static void draw_stats_info( const catacurses::window &w_info, const Character &
 }
 
 static void draw_encumbrance_tab( ui_adaptor &ui, const catacurses::window &w_encumb,
-                                  const Character &you, const unsigned line,
+                                  const Character &you, const int line,
                                   const player_display_tab curtab )
 {
     werase( w_encumb );
@@ -571,20 +571,20 @@ static void draw_encumbrance_tab( ui_adaptor &ui, const catacurses::window &w_en
 }
 
 static void draw_encumbrance_info( const catacurses::window &w_info, const Character &you,
-                                   const unsigned line, const unsigned info_line )
+                                   const int line, const int info_line )
 {
     const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
 
     werase( w_info );
     bodypart_id bp;
-    if( line < bps.size() ) {
+    if( line < static_cast<int>( bps.size() ) ) {
         bp = bps[line].first;
     }
     const std::vector<std::string> s = get_encumbrance_description( you, bp );
     const int winh = catacurses::getmaxy( w_info );
-    const bool do_scroll = s.size() > static_cast<unsigned>( std::abs( winh ) );
+    const bool do_scroll = static_cast<int>( s.size() ) > std::abs( winh );
     const int winw = FULL_SCREEN_WIDTH - ( do_scroll ? 3 : 2 );
-    const int fline = do_scroll ? info_line % ( s.size() + 1 - winh ) : 0;
+    const int fline = do_scroll ? info_line % static_cast<int>( s.size() + 1 - winh ) : 0;
     const int lline = do_scroll ? fline + winh : s.size();
     for( int i = fline; i < lline; i++ ) {
         trim_and_print( w_info, point( 1, i - fline ), winw, c_light_gray, s[i] );
@@ -596,7 +596,7 @@ static void draw_encumbrance_info( const catacurses::window &w_info, const Chara
 }
 
 static void draw_traits_tab( ui_adaptor &ui, const catacurses::window &w_traits,
-                             const unsigned line, const player_display_tab curtab,
+                             const int line, const player_display_tab curtab,
                              const std::vector<trait_and_var> &traitslist )
 {
     werase( w_traits );
@@ -631,11 +631,11 @@ static void draw_traits_tab( ui_adaptor &ui, const catacurses::window &w_traits,
     wnoutrefresh( w_traits );
 }
 
-static void draw_traits_info( const catacurses::window &w_info, const unsigned line,
+static void draw_traits_info( const catacurses::window &w_info, const int line,
                               const std::vector<trait_and_var> &traitslist )
 {
     werase( w_info );
-    if( line < traitslist.size() ) {
+    if( line < static_cast<int>( traitslist.size() ) ) {
         const trait_and_var &cur = traitslist[line];
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, string_format( "%s: %s",
@@ -651,7 +651,7 @@ struct bionic_grouping {
 };
 
 static void draw_bionics_tab( ui_adaptor &ui, const catacurses::window &w_bionics,
-                              const Character &you, const unsigned line,
+                              const Character &you, const int line,
                               const player_display_tab curtab,
                               const std::vector<bionic_grouping> &bionicslist )
 {
@@ -687,7 +687,7 @@ static void draw_bionics_tab( ui_adaptor &ui, const catacurses::window &w_bionic
                                    is_current_tab );
 
     for( size_t i = i_start; i < static_cast<size_t>( i_end ); ++i ) {
-        const bool highlight_line = is_current_tab && i == line;
+        const bool highlight_line = is_current_tab && ( static_cast<int>( i ) == line );
         const point pos( 1, 2 + i - i_start );
         if( highlight_line ) {
             ui.set_cursor( w_bionics, pos );
@@ -711,11 +711,11 @@ static void draw_bionics_tab( ui_adaptor &ui, const catacurses::window &w_bionic
     wnoutrefresh( w_bionics );
 }
 
-static void draw_bionics_info( const catacurses::window &w_info, const unsigned line,
+static void draw_bionics_info( const catacurses::window &w_info, const int line,
                                const std::vector<bionic_grouping> &bionicslist )
 {
     werase( w_info );
-    if( line < bionicslist.size() ) {
+    if( line < static_cast<int>( bionicslist.size() ) ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, "%s",
                         bionicslist[line].description );
@@ -724,7 +724,7 @@ static void draw_bionics_info( const catacurses::window &w_info, const unsigned 
 }
 
 static void draw_effects_tab( ui_adaptor &ui, const catacurses::window &w_effects,
-                              const unsigned line, const player_display_tab curtab,
+                              const int line, const player_display_tab curtab,
                               const std::vector<std::pair<std::string, std::string>> &effect_name_and_text )
 {
     werase( w_effects );
@@ -742,7 +742,7 @@ static void draw_effects_tab( ui_adaptor &ui, const catacurses::window &w_effect
                                    is_current_tab );
 
     for( size_t i = i_start; i < static_cast<size_t>( i_end ); ++i ) {
-        const bool highlight_line = is_current_tab && i == line;
+        const bool highlight_line = is_current_tab && ( static_cast<int>( i ) == line );
         const point pos( 1, 1 + i - i_start );
         if( highlight_line ) {
             ui.set_cursor( w_effects, pos );
@@ -757,12 +757,11 @@ static void draw_effects_tab( ui_adaptor &ui, const catacurses::window &w_effect
     wnoutrefresh( w_effects );
 }
 
-static void draw_effects_info( const catacurses::window &w_info, const unsigned line,
+static void draw_effects_info( const catacurses::window &w_info, const int line,
                                const std::vector<std::pair<std::string, std::string>> &effect_name_and_text )
 {
     werase( w_info );
-    const size_t actual_size = effect_name_and_text.size();
-    if( line < actual_size ) {
+    if( line < static_cast<int>( effect_name_and_text.size() ) ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         effect_name_and_text[line].second );
@@ -778,7 +777,7 @@ struct HeaderSkill {
 };
 
 static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
-                             Character &you, unsigned int line, const player_display_tab curtab,
+                             Character &you, int line, const player_display_tab curtab,
                              std::vector<HeaderSkill> &skillslist,
                              const size_t skill_win_size_y )
 {
@@ -797,13 +796,13 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
 
     const size_t half_y = ( skill_win_size_y - 1 ) / 2;
 
-    if( !is_current_tab || line <= half_y ) {
+    if( !is_current_tab || line <= static_cast<int>( half_y ) ) {
         min = 0;
-    } else if( line >= skillslist.size() - half_y ) {
+    } else if( line >= static_cast<int>( skillslist.size() - half_y ) ) {
         min = ( skillslist.size() < skill_win_size_y - 1 ? 0 : skillslist.size() -
                 skill_win_size_y + 1 );
     } else {
-        min = line - half_y;
+        min = line - static_cast<int>( half_y );
     }
     max = std::min( min + skill_win_size_y - 1, skillslist.size() );
 
@@ -829,7 +828,7 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                 locked = true;
             }
             level_num = you.enchantment_cache->modify_value( aSkill->ident(), level_num );
-            if( is_current_tab && i == line ) {
+            if( is_current_tab && static_cast<int>( i ) == line ) {
                 ui.set_cursor( w_skills, point( 1, y_pos ) );
                 if( locked ) {
                     cstatus = h_yellow;
@@ -878,13 +877,12 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
 }
 
 static void draw_skills_info( const catacurses::window &w_info, const Character &you,
-                              unsigned int line,
-                              const std::vector<HeaderSkill> &skillslist )
+                              const int line, const std::vector<HeaderSkill> &skillslist )
 {
     werase( w_info );
 
     const Skill *selectedSkill = nullptr;
-    if( line < skillslist.size() && !skillslist[line].is_header ) {
+    if( line < static_cast<int>( skillslist.size() ) && !skillslist[line].is_header ) {
         selectedSkill = skillslist[line].skill;
     }
 
@@ -1003,7 +1001,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
 }
 
 static void draw_info_window( const catacurses::window &w_info, const Character &you,
-                              const unsigned line, const unsigned info_line, const player_display_tab curtab,
+                              const int line, const int info_line, const player_display_tab curtab,
                               const std::vector<trait_and_var> &traitslist,
                               const std::vector<bionic_grouping> &bionicslist,
                               const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
@@ -1082,10 +1080,10 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
     wnoutrefresh( w_tip );
 }
 
-static void skip_skill_headers( const std::vector<HeaderSkill> &skillslist, unsigned int &line,
-                                bool inc, unsigned int line_count )
+static void skip_skill_headers( const std::vector<HeaderSkill> &skillslist, int &line,
+                                bool inc, int line_count )
 {
-    const unsigned int prev_line = line;
+    const int prev_line = line;
     while( skillslist[line].is_header ) {
         line = increment_and_wrap( line, inc, line_count );
         if( line == prev_line ) {
@@ -1094,8 +1092,7 @@ static void skip_skill_headers( const std::vector<HeaderSkill> &skillslist, unsi
     }
 }
 
-static bool handle_player_display_action( Character &you, unsigned int &line,
-        unsigned int &info_line,
+static bool handle_player_display_action( Character &you, int &line, int &info_line,
         player_display_tab &curtab, input_context &ctxt, const ui_adaptor &ui_tip,
         const ui_adaptor &ui_info, const ui_adaptor &ui_stats, const ui_adaptor &ui_encumb,
         const ui_adaptor &ui_traits, const ui_adaptor &ui_bionics, const ui_adaptor &ui_effects,
@@ -1133,36 +1130,36 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         }
     };
 
-    unsigned int line_count = 0;
+    int line_count = 0;
     switch( curtab ) {
         case player_display_tab::stats:
             line_count = 9;
             break;
         case player_display_tab::encumbrance: {
             const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
-            line_count = bps.size();
+            line_count = static_cast<int>( bps.size() );
             break;
         }
         case player_display_tab::traits:
-            line_count = traitslist.size();
+            line_count = static_cast<int>( traitslist.size() );
             break;
         case player_display_tab::bionics:
-            line_count = bionicslist.size();
+            line_count = static_cast<int>( bionicslist.size() );
             break;
         case player_display_tab::effects:
-            line_count = effect_name_and_text.size();
+            line_count = static_cast<int>( effect_name_and_text.size() );
             break;
         case player_display_tab::skills:
-            line_count = skillslist.size();
+            line_count = static_cast<int>( skillslist.size() );
             break;
         case player_display_tab::proficiencies:
-            line_count = you.display_proficiencies().size();
+            line_count = static_cast<int>( you.display_proficiencies().size() );
             break;
         case player_display_tab::num_tabs:
             cata_fatal( "Invalid curtab" );
     }
     if( line_count > 0 ) {
-        line = std::clamp( line, 0U, line_count - 1 );
+        line = std::clamp( line, 0, line_count - 1 );
         if( curtab == player_display_tab::skills ) {
             skip_skill_headers( skillslist, line, true, line_count );
         }
@@ -1505,8 +1502,8 @@ void Character::disp_info( bool customize_character )
     border_helper borders;
 
     player_display_tab curtab = player_display_tab::stats;
-    unsigned int line = 0;
-    unsigned int info_line = 0;
+    int line = 0;
+    int info_line = 0;
 
     catacurses::window w_tip;
     ui_adaptor ui_tip;

@@ -1290,9 +1290,6 @@ template bool navigate_ui_list<int, size_t>( const std::string &action, int &val
         size_t size, bool wrap );
 template bool navigate_ui_list<size_t, size_t>( const std::string &action, size_t &val,
         int page_delta, size_t size, bool wrap );
-template bool navigate_ui_list<unsigned int, unsigned int>( const std::string &action,
-        unsigned int &val,
-        int page_delta, unsigned int size, bool wrap );
 template bool navigate_ui_list<defense_style, defense_style>( const std::string &action,
         defense_style &val,
         int page_delta, defense_style size, bool wrap );
