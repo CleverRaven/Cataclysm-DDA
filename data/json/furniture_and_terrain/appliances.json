@@ -1032,9 +1032,10 @@
     "flags": [ "OBSTACLE", "COVERED", "APPLIANCE" ],
     "pseudo_tools": [ { "id": "pseudo_app_hd_compressor_unit", "hotkey": "h" } ],
     "breaks_into": [
-      { "item": "plastic_chunk", "count": [ 4, 8 ] },
-      { "item": "scrap", "count": [ 4, 8 ] },
-      { "item": "steel_chunk", "coutnt": [ 5, 10 ] }
+      { "item": "plastic_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 6, 12 ] },
+      { "item": "steel_chunk", "coutnt": [ 8, 16 ] },
+      { "item": "sheet_metal_small", "count": [ 1, 4 ] }
     ],
     "damage_reduction": { "all": 50 }
   }
