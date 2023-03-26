@@ -1424,7 +1424,7 @@
     "acid_resist": 6,
     "fire_resist": 1,
     "chip_resist": 10,
-    "breathability": "POOR",
+    "breathability": "AVERAGE",
     "wind_resist": 90,
     "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
