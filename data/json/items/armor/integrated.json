@@ -925,10 +925,11 @@
   },
   {
     "id": "armor_bio_eyes",
+    "//": "These do not preclude wearing glasses, but you'll get double-up penalties.  If you really needed to you could likely still situate the lenses in front of them.  You should probably just augment your eyes though.",
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "protective lenses" },
-    "description": "Highly protective lenses made of photochromic polycarbonate which surgically seal off your eyes from danger, routing your tear ducts to your mouth.  They make you look intimidating too!",
+    "description": "Highly protective lenses which seal off your eyes from danger, routing your tear ducts to your mouth.",
     "weight": "180 g",
     "volume": "250 ml",
     "price": 0,
@@ -943,7 +944,7 @@
     "flags": [
       "INTEGRATED",
       "UNBREAKABLE",
-      "PERSONAL",
+      "SKINTIGHT",
       "SOFT",
       "WATER_FRIENDLY",
       "SUN_GLASSES",
