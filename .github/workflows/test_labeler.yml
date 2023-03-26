@@ -46,7 +46,7 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-            if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length() == 0) {
+            if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length == 0) {
               console.log("The PR ID artifact does not contain a pull request number.")
             } else {
               github.rest.issues.addLabels({
@@ -61,7 +61,7 @@ jobs:
       uses: actions/github-script@v5
       with:
         script: |
-            if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length() == 0) {
+            if ('${{ steps.set-pr-id.outputs.pr-id }}'.trim().length == 0) {
               console.log("The PR ID artifact does not contain a pull request number.")
             } else {
               try {
