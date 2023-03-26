@@ -2545,8 +2545,8 @@
     "ammo": 100,
     "entries": [
       { "item": "mrad_smr", "charges-min": 0, "charges-max": 10 },
-      { "item": "barrett_338lapua_mag" },
-      { "item": "barrett_338lapua_mag", "prob": 50 },
+      { "item": "mrad_338lapua_mag" },
+      { "item": "mrad_338lapua_mag", "prob": 50 },
       { "group": "on_hand_338lapua" }
     ]
   },

@@ -429,7 +429,7 @@
       [ "usc10mag", 5 ],
       [ "usc15mag", 7 ],
       [ "usc20mag", 20 ],
-      [ "barrett_338lapua_mag", 5 ],
+      [ "mrad_338lapua_mag", 5 ],
       [ "ai_338mag", 15 ],
       [ "ai_338mag_10", 10 ],
       [ "ai_308mag_10", 15 ],

@@ -29,7 +29,7 @@
     "durability": 10,
     "blackpowder_tolerance": 24,
     "default_mods": [ "cheek_pad", "butt_hook", "bipod", "rifle_scope", "muzzle_brake" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10" ] } ]
   },
   {
     "id": "savage112",
@@ -63,7 +63,6 @@
     "durability": 8,
     "blackpowder_tolerance": 24,
     "clip_size": 1,
-    "flags": [ "RELOAD_ONE" ],
     "default_mods": [ "match_trigger", "muzzle_brake" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -76,10 +75,9 @@
       [ "sling", 1 ],
       [ "grip mount", 1 ],
       [ "rail mount", 1 ],
-      [ "stock mount", 1 ],
-      [ "underbarrel mount", 1 ]
+      [ "stock mount", 1 ]
     ],
-    "flags": [ "RELOAD_EJECT" ],
+    "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "338lapua": 1 } } ]
   },
   {
@@ -126,7 +124,7 @@
       [ "underbarrel", 1 ],
       [ "stock accessory", 2 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "barrett_338lapua_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mrad_338lapua_mag" ] } ]
   },
   {
     "id": "axmc",
@@ -171,6 +169,6 @@
       [ "stock accessory", 2 ],
       [ "stock", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "barrett_338lapua_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ai_338mag", "ai_338mag_10" ] } ]
   }
 ]

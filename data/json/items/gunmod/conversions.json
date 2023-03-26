@@ -333,7 +333,7 @@
     "location": "bore",
     "mod_targets": [ "axmc" ],
     "install_time": "2 m",
-    "ammo_modifier": [ "300lapua" ],
+    "ammo_modifier": [ "338lapua" ],
     "min_skills": [ [ "weapon", 1 ] ],
     "add_mod": [ [ "muzzle", 1 ] ]
   },
