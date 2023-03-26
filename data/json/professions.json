@@ -4637,11 +4637,11 @@
           { "group": "us_ballistic_vest_pristine" },
           { "item": "water_clean", "container-item": "canteen" },          
           { "item": "mossberg_500", "ammo-item": "shot_00", "charges": 8, "contents-item": [ "shoulder_strap" ] },
-          { "item": "heavy_load_bearing_vest_breacher", "contents-tem": ["remington_870_breacher" ] },
+          { "item": "heavy_load_bearing_vest_breacher", "contents-item": [ "remington_870_breacher" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "grenadebandolier", "contents-item": [ "flashbang", "flashbang" ] },
           { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
-          { "item": "shot_he", "charges": 12, "container-item": "bandolier_shotgun" },
+          { "item": "shot_he", "charges": 16, "container-item": "bandolier_shotgun" },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m17", "ammo-item": "9mm", "charges": 17, "container-item": "holster" }
         ]
