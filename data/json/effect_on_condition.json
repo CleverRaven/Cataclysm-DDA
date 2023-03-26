@@ -611,22 +611,6 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_EXODII_ASSASSIN",
-    "recurrence": [ "7 days", "14 days" ],
-    "condition": { "and": [ { "compare_int": [ { "faction_like": "exodii" }, "<", { "const": -35 } ] }, { "days_since_cataclysm": 5 } ] },
-    "effect": [ { "mapgen_update": "exodii_bomb_add" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ROBOFAC_ASSASSIN",
-    "recurrence": [ "7 days", "14 days" ],
-    "condition": {
-      "and": [ { "compare_int": [ { "faction_like": "robofac" }, "<", { "const": -230 } ] }, { "days_since_cataclysm": 5 } ]
-    },
-    "effect": [ { "mapgen_update": "exodii_bomb_add" } ]
-  },
-  {
-    "type": "effect_on_condition",
     "id": "EOC_MISSION_GODCO_TROPHY2_done",
     "global": true,
     "condition": {

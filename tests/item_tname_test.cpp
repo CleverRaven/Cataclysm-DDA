@@ -495,6 +495,16 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
     }
 }
 
+// make sure ordering still works with pockets
+TEST_CASE( "molle_vest_additional_pockets", "[item][tname]" )
+{
+    item addition_vest( "test_load_bearing_vest" );
+    addition_vest.get_contents().add_pocket( item( "holster" ) );
+
+    CHECK( addition_vest.tname( 1 ) ==
+           "<color_c_light_green>||</color>\u00A0load bearing vest+1" );
+}
+
 TEST_CASE( "nested_items_tname", "[item][tname]" )
 {
     item backpack_hiking( itype_backpack_hiking );

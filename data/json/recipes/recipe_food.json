@@ -4367,27 +4367,6 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "succotash",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "book_learn": [ [ "cookbook_native", 1 ] ],
-    "batch_time_factors": [ 82, 4 ],
-    "qualities": [ { "id": "COOK", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
-    "//": "4u for beans, 2u for the corn",
-    "components": [
-      [ [ "can_beans", 1 ], [ "dry_beans", 1 ], [ "raw_beans", 1 ] ],
-      [ [ "hominy", 1 ], [ "corn_kernels", 1 ], [ "can_corn", 1 ] ],
-      [ [ "water_clean", 1 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
     "result": "beansnrice",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",

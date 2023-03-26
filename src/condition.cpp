@@ -1286,9 +1286,9 @@ template<class T>
 static tripoint_abs_ms get_tripoint_from_string( const std::string &type, T &d )
 {
     if( type == "u" ) {
-        return get_map().getglobal( d.actor( false )->pos() );
+        return d.actor( false )->global_pos();
     } else if( type == "npc" ) {
-        return get_map().getglobal( d.actor( true )->pos() );
+        return d.actor( true )->global_pos();
     } else if( type.find( "u_" ) == 0 ) {
         var_info var = var_info( var_type::u, type.substr( 2, type.size() - 2 ) );
         return get_tripoint_from_var( var, d );

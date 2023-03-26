@@ -579,15 +579,16 @@ inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_an
         return 0;
     }
     // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
-    // NOLINTBEGIN(cata-no-long)
+    // NOLINTNEXTLINE(cata-no-long)
     if( ( delta < 0 && val < static_cast<V>( -delta ) ) || ( delta > 0 &&
+            // NOLINTNEXTLINE(cata-no-long)
             static_cast<S>( val + delta ) >= size ) ) {
+        // NOLINTNEXTLINE(cata-no-long)
         if( val == 0 || ( val < static_cast<V>( size ) - 1 && delta > 0 ) ) {
             return size - 1;
         } else {
             return 0;
         }
-        // NOLINTEND(cata-no-long)
     } else {
         return val + delta;
     }
@@ -619,13 +620,12 @@ inline typename std::enable_if < !std::is_enum<V>::value, V >::type increment_an
         int delta, S max )
 {
     // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
-    // NOLINTBEGIN(cata-no-long)
     if constexpr( std::is_unsigned_v<V> ) {
+        // NOLINTNEXTLINE(cata-no-long)
         if( delta < 0 && val <= static_cast<V>( -delta ) ) {
             return 0;
         }
     }
-    // NOLINTEND(cata-no-long)
     return std::clamp<V>( val + delta, 0, max );
 }
 
