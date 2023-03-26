@@ -1122,7 +1122,7 @@
         "max_radius": 5,
         "lifespan": [ "1 minutes", "3 minutes" ],
         "spawn_message": "A person steps nearby from somewhere else.",
-        "spawn_message_plural": "Several people walk nearby from nowhere."
+        "spawn_message_plural": "Several identical people walk nearby from nowhere."
       }
     ]
   }
