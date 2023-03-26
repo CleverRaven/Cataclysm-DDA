@@ -3012,13 +3012,6 @@ void item::io( Archive &archive )
 
     load_legacy_craft_data( archive, craft_data_ );
 
-    double float_damage = 0;
-    if( archive.read( "damage", float_damage ) ) {
-        damage_ = std::min( std::max( min_damage(),
-                                      static_cast<int>( float_damage * itype::damage_scale ) ),
-                            max_damage() );
-    }
-
     int note = 0;
     const bool note_read = archive.read( "note", note );
 
