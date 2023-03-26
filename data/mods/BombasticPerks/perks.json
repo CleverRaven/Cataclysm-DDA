@@ -119,7 +119,7 @@
     "id": "perk_tuck_and_roll",
     "name": { "str": "Tuck and Roll" },
     "points": 0,
-    "description": "At some point you got really good at falling off rooftops. Take 40% less fall damage.",
+    "description": "At some point you got really good at falling off rooftops.  Take 40% less fall damage.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -0.4 } ] } ]
   }
