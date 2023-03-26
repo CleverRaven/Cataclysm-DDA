@@ -546,20 +546,17 @@ increment_and_wrap( V val, int delta, S size )
     if( size == 0 ) {
         return 0;
     }
+    // wrap to last
+    if( val <= 0 && delta < 0 ) {
+        return size - 1;
+    }
+    // wrap to first
     // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
     // NOLINTNEXTLINE(cata-no-long)
-    if( ( delta < 0 && val < static_cast<V>( -delta ) ) || ( delta > 0 &&
-            // NOLINTNEXTLINE(cata-no-long)
-            static_cast<S>( val + delta ) >= size ) ) {
-        // NOLINTNEXTLINE(cata-no-long)
-        if( val == 0 || ( val < static_cast<V>( size ) - 1 && delta > 0 ) ) {
-            return size - 1;
-        } else {
-            return 0;
-        }
-    } else {
-        return val + delta;
+    if( val >= static_cast<V>( size ) - 1 && delta > 0 ) {
+        return 0;
     }
+    return std::clamp<V>( val + delta, 0, size - 1 );
 }
 
 /**
@@ -570,15 +567,7 @@ template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
 increment_and_wrap( V val, bool inc, S size )
 {
-    if( size == 0 ) {
-        return 0;
-    }
-    if constexpr( std::is_unsigned_v<V> ) {
-        if( !inc && val == 0 ) {
-            return size ? size - 1 : 0;
-        }
-    }
-    return modulo( val + ( inc ? 1 : -1 ), size );
+    return increment_and_wrap( val, static_cast<int>( inc ? 1 : -1 ), size );
 }
 
 /**
@@ -603,9 +592,11 @@ template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
 increment_and_clamp( V val, int delta, S min, S max )
 {
+    // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
     if constexpr( std::is_unsigned_v<V> ) {
+        // NOLINTNEXTLINE(cata-no-long)
         if( delta < 0 && val <= static_cast<V>( -delta ) ) {
-            return 0;
+            return min;
         }
     }
     return std::clamp<V>( val + delta, min, max );
@@ -619,12 +610,9 @@ template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
 increment_and_clamp( V val, bool inc, S max )
 {
-    if constexpr( std::is_unsigned_v<V> ) {
-        if( !inc && val == 0 ) {
-            return 0;
-        }
-    }
-    return std::clamp<V>( val + ( inc ? 1 : -1 ), 0, max );
+    return increment_and_clamp( val, static_cast<int>( val + ( inc ? 1 : -1 ) ),
+                                // NOLINTNEXTLINE(cata-no-long)
+                                static_cast<S>( 0 ), max );
 }
 
 /**
@@ -635,14 +623,8 @@ template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
 increment_and_clamp( V val, int delta, S max )
 {
-    // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
-    if constexpr( std::is_unsigned_v<V> ) {
-        // NOLINTNEXTLINE(cata-no-long)
-        if( delta < 0 && val <= static_cast<V>( -delta ) ) {
-            return 0;
-        }
-    }
-    return std::clamp<V>( val + delta, 0, max );
+    // NOLINTNEXTLINE(cata-no-long)
+    return increment_and_clamp( val, delta, static_cast<S>( 0 ), max );
 }
 
 /**
@@ -653,12 +635,7 @@ template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
 increment_and_clamp( V val, bool inc, S min, S max )
 {
-    if constexpr( std::is_unsigned_v<V> ) {
-        if( !inc && val == 0 ) {
-            return 0;
-        }
-    }
-    return std::clamp<V>( val + ( inc ? 1 : -1 ), min, max );
+    return increment_and_clamp( val, val + ( inc ? 1 : -1 ), min, max );
 }
 
 /**
