@@ -1987,7 +1987,8 @@ class exosuit_interact
 
     private:
         explicit exosuit_interact( item *it ) : suit( it ), ctxt( "", keyboard_mode::keycode ) {
-            ctxt.register_directions();
+            ctxt.register_navigate_ui_list();
+            ctxt.register_leftright();
             ctxt.register_action( "SCROLL_INFOBOX_UP" );
             ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
             ctxt.register_action( "CONFIRM" );
@@ -2160,18 +2161,7 @@ class exosuit_interact
                     if( !get_player_character().activity.is_null() ) {
                         done = true;
                     }
-                } else if( action == "UP" ) {
-                    cur_pocket--;
-                    if( cur_pocket < 0 ) {
-                        cur_pocket = pocket_count - 1;
-                    }
-                    scroll_pos = 0;
-                    sel_frame = 0;
-                } else if( action == "DOWN" ) {
-                    cur_pocket++;
-                    if( cur_pocket >= pocket_count ) {
-                        cur_pocket = 0;
-                    }
+                } else if( navigate_ui_list( action, cur_pocket, 5, pocket_count, true ) ) {
                     scroll_pos = 0;
                     sel_frame = 0;
                 } else if( action == "SCROLL_INFOBOX_UP" ) {

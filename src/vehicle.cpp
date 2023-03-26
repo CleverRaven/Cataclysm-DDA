@@ -5196,9 +5196,16 @@ int64_t vehicle::battery_left( bool apply_loss ) const
 
 int vehicle::charge_battery( int amount, bool apply_loss )
 {
+    if( amount < 0 ) {
+        debugmsg( "called vehicle::charge_battery(%d), potential bug", amount );
+        return amount;
+    }
+    if( amount == 0 ) {
+        return 0;
+    }
     const std::map<vpart_reference, float> batteries = search_connected_batteries();
-    if( amount == 0 || batteries.empty() ) {
-        return amount; // nothing to do
+    if( batteries.empty() ) {
+        return amount;
     }
     const double loss = apply_loss ? weighted_power_loss( batteries ) : 0.0;
     int64_t total_charge = 0; // sum of current charge of all batteries
@@ -5232,9 +5239,16 @@ int vehicle::charge_battery( int amount, bool apply_loss )
 
 int vehicle::discharge_battery( int amount, bool apply_loss )
 {
+    if( amount < 0 ) {
+        debugmsg( "called vehicle::discharge_battery(%d), potential bug", amount );
+        return amount;
+    }
+    if( amount == 0 ) {
+        return 0;
+    }
     const std::map<vpart_reference, float> batteries = search_connected_batteries();
-    if( amount == 0 || batteries.empty() ) {
-        return amount; // nothing to do
+    if( batteries.empty() ) {
+        return amount;
     }
     const double loss = apply_loss ? weighted_power_loss( batteries ) : 0.0;
     int64_t total_charge = 0; // sum of current charge of all batteries
@@ -7388,14 +7402,18 @@ static bool is_sm_tile_outside( const tripoint &real_global_pos )
 
 void vehicle::update_time( const time_point &update_to )
 {
-    double muffle;
-    int exhaust_part;
-    std::tie( exhaust_part, muffle ) = get_exhaust_part();
+    const time_point update_from = last_update;
+    if( update_to < update_from || update_from == time_point( 0 ) ) {
+        // Special case going backwards in time - that happens
+        last_update = update_to;
+        return;
+    }
 
     map &here = get_map();
     // Parts emitting fields
-    for( int idx : emitters ) {
-        const vehicle_part &pt = parts[idx];
+    const std::pair<int, double> exhaust_and_muffle = get_exhaust_part();
+    for( const int emitter_idx : emitters ) {
+        const vehicle_part &pt = parts[emitter_idx];
         if( pt.is_unavailable() || !pt.enabled ) {
             continue;
         }
@@ -7403,22 +7421,25 @@ void vehicle::update_time( const time_point &update_to )
             here.emit_field( global_part_pos3( pt ), e );
         }
         for( const emit_id &e : pt.info().exhaust ) {
-            if( exhaust_part == -1 ) {
+            if( exhaust_and_muffle.first == -1 ) {
                 here.emit_field( global_part_pos3( pt ), e );
             } else {
-                here.emit_field( exhaust_dest( exhaust_part ), e );
+                here.emit_field( exhaust_dest( exhaust_and_muffle.first ), e );
             }
         }
-        discharge_battery( power_to_energy_bat( pt.info().epower, update_to - last_update ) );
+        // reduce interval of parts with VPFLAG_ENABLED_DRAINS_EPOWER, otherwise their epower
+        // get charged twice - once by power_parts in vehicle::idle and once here
+        const time_duration interval = pt.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER )
+                                       ? update_to - last_update - 1_seconds
+                                       : update_to - last_update;
+        if( interval < 0_seconds ) {
+            debugmsg( "emitter simulating negative time interval, something is fishy / buggy" );
+            break;
+        }
+        discharge_battery( power_to_energy_bat( -pt.info().epower, interval ) );
     }
 
     if( sm_pos.z < 0 ) {
-        return;
-    }
-
-    const time_point update_from = last_update;
-    if( update_to < update_from || update_from == time_point( 0 ) ) {
-        // Special case going backwards in time - that happens
         last_update = update_to;
         return;
     }

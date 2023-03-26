@@ -172,6 +172,8 @@ class item_contents
         int get_total_holsters() const;
         units::volume get_total_holster_volume() const;
         units::volume get_used_holster_volume() const;
+        units::mass get_total_holster_weight() const;
+        units::mass get_used_holster_weight() const;
 
         // gets all CONTAINER pockets contained in this item
         std::vector<const item_pocket *> get_all_contained_pockets() const;

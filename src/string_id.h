@@ -9,8 +9,8 @@
 #include <string>
 #include <type_traits>
 
-static constexpr int64_t INVALID_VERSION = -1;
-static constexpr int INVALID_CID = -1;
+constexpr int64_t INVALID_VERSION = -1;
+constexpr int INVALID_CID = -1;
 
 template<typename T>
 class generic_factory;

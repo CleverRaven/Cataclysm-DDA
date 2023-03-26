@@ -954,7 +954,8 @@ static void change_spells( Character &character )
     ctxt.register_action( "UNLEARN_SPELL" ); // Quickly unlearn a spell
     ctxt.register_action( "TOGGLE_ALL_SPELL" ); // Cycle level on all spells in spells_relative
     ctxt.register_action( "SHOW_ONLY_LEARNED" ); // Removes all unlearned spells in spells_relative
-    ctxt.register_cardinal(); // left and right change spell level
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright(); // left and right change spell level
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" ); // set a spell to a level
     ctxt.register_action( "FILTER" );
@@ -1019,8 +1020,8 @@ static void change_spells( Character &character )
 
             mvwprintz( w_name.window, point( 2, line_number ),
                        spell_color, splt.name.translated() );
-            mvwprintz( w_level.window, point( 2, line_number++ ), spell_color,
-                       _( "%1$-3d/%2$3d" ), spell_level, static_cast<int>( splt.max_level.evaluate( d ) ) );
+            mvwprintz( w_level.window, point( 1, line_number++ ), spell_color,
+                       _( "%1$3d /%2$3d" ), spell_level, static_cast<int>( splt.max_level.evaluate( d ) ) );
         }
 
         nc_color gray = c_light_gray;
@@ -1142,19 +1143,7 @@ static void change_spells( Character &character )
             filterstring.clear();
             filter_spells();
 
-        } else if( action == "UP" ) {
-            if( !spell_selected ) {
-                spell_selected = spells_relative.size() - 1;
-            } else {
-                spell_selected--;
-            }
-
-        } else if( action == "DOWN" ) {
-            spell_selected++;
-            if( static_cast<size_t>( spell_selected ) == spells_relative.size() ) {
-                spell_selected = 0;
-            }
-
+        } else if( navigate_ui_list( action, spell_selected, 10, spells_relative.size(), true ) ) {
         } else if( action == "LEFT" ) {
             int &spell_level = std::get<1>( *spells_relative[spell_selected] );
             spell_level = std::max( -1, spell_level - 1 );

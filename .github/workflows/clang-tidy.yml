@@ -51,7 +51,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install libncursesw5-dev clang-12 libclang-12-dev llvm-12-dev llvm-12-tools \
             libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
-            gettext
+            gettext jq
     - name: prepare
       run: bash ./build-scripts/requirements.sh
     - name: determine changed files

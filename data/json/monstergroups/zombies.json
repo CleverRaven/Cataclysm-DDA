@@ -70,6 +70,14 @@
     ]
   },
   {
+    "name": "GROUP_DOGS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_dog", "weight": 135, "cost_multiplier": 0, "pack_size": [ 5, 8 ] },
+      { "monster": "mon_dog_zombie_rot", "weight": 135, "cost_multiplier": 1, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
     "name": "GROUP_ZOMBIE_SCORCHED",
     "type": "monstergroup",
     "monsters": [

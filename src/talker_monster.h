@@ -26,7 +26,7 @@ class monster;
 class talker_monster_const: public talker
 {
     public:
-        explicit talker_monster_const( const monster *new_me ): me_mon( new_me ) {
+        explicit talker_monster_const( const monster *new_me ): me_mon_const( new_me ) {
         }
         ~talker_monster_const() override = default;
 
@@ -57,28 +57,27 @@ class talker_monster_const: public talker
         int get_cur_hp( const bodypart_id & ) const override;
     protected:
         talker_monster_const() = default;
-        const monster *me_mon;
+        const monster *me_mon_const;
 };
 
 class talker_monster: public talker_monster_const
 {
     public:
-        explicit talker_monster( monster *new_me ): me_mon( new_me ) {
-        }
+        explicit talker_monster( monster *new_me );
         ~talker_monster() override = default;
 
         // underlying element accessor functions
         monster *get_monster() override {
             return me_mon;
         }
-        monster *get_monster() const override {
-            return me_mon;
+        const monster *get_monster() const override {
+            return me_mon_const;
         }
         Creature *get_creature() override {
             return me_mon;
         }
-        Creature *get_creature() const override {
-            return me_mon;
+        const Creature *get_creature() const override {
+            return me_mon_const;
         }
 
         // effects and values
