@@ -851,6 +851,16 @@
   },
   {
     "type": "construction_group",
+    "id": "build_pavement",
+    "name": "Build Pavement"
+  },
+  {
+    "type": "construction_group",
+    "id": "build_sidewalk",
+    "name": "Build Sidewalk"
+  },
+  {
+    "type": "construction_group",
     "id": "build_wooden_keg",
     "name": "Build Wooden Keg"
   },
