@@ -77,6 +77,13 @@
     "default_mods": [ "retool_ar15_450_short" ]
   },
   {
+    "id": "ar15_762",
+    "copy-from": "ar15",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "default_mods": [ "retool_ar15_762" ]
+  },
+  {
     "id": "mdrx_223",
     "copy-from": "mdrx",
     "type": "GUN",

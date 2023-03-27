@@ -58,6 +58,10 @@
           "stanag30ranger_beowulf",
           "50beowulf_ar15mag",
           "450_ar15mag",
+          "762_ar15mag_5rd",
+          "762_ar15mag_10rd",
+          "762_ar15mag_20rd",
+          "762_ar15mag_30rd",
           "survivor223mag"
         ]
       }
@@ -282,6 +286,10 @@
           "stanag30ranger_beowulf",
           "50beowulf_ar15mag",
           "450_ar15mag",
+          "762_ar15mag_5rd",
+          "762_ar15mag_10rd",
+          "762_ar15mag_20rd",
+          "762_ar15mag_30rd",
           "survivor223mag"
         ]
       }
@@ -468,6 +476,10 @@
           "stanag30ranger_beowulf",
           "50beowulf_ar15mag",
           "450_ar15mag",
+          "762_ar15mag_5rd",
+          "762_ar15mag_10rd",
+          "762_ar15mag_20rd",
+          "762_ar15mag_30rd",
           "survivor223mag"
         ]
       }
@@ -533,6 +545,10 @@
           "stanag30ranger_beowulf",
           "50beowulf_ar15mag",
           "450_ar15mag",
+          "762_ar15mag_5rd",
+          "762_ar15mag_10rd",
+          "762_ar15mag_20rd",
+          "762_ar15mag_30rd",
           "survivor223mag"
         ]
       }
@@ -607,6 +623,10 @@
           "stanag30ranger_beowulf",
           "50beowulf_ar15mag",
           "450_ar15mag",
+          "762_ar15mag_5rd",
+          "762_ar15mag_10rd",
+          "762_ar15mag_20rd",
+          "762_ar15mag_30rd",
           "survivor223mag"
         ]
       }
