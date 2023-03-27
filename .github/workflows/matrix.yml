@@ -266,10 +266,18 @@ jobs:
         sudo ln -s /usr/bin /opt/mock-gcc-11/bin
         sudo mkdir -p /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu
         sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11 /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu/11
-    - name: install dependencies (mac)
+    - name: install runtime dependencies (mac)
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
+      uses: BrettDong/setup-sdl2-frameworks@v1
+      with:
+        sdl2: latest
+        sdl2-ttf: latest
+        sdl2-image: latest
+        sdl2-mixer: latest
+    - name: install build dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
-          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
     - name: prepare
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh
