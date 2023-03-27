@@ -76,23 +76,21 @@ void print_list_scrollable( catacurses::window *win, const std::vector<std::stri
                            color_error );
 }
 
-void print_list_scrollable( catacurses::window *win, const std::string &text, int *selection,
-                            int entries_per_page, int xoffset, int width, bool active, bool border,
-                            const report_color_error color_error )
+std::vector<std::string>
+text_to_list_scrollable( catacurses::window &win, const std::string &text, const bool border )
 {
-    int borderspace = border ? 1 : 0;
+    const int width = getmaxx( win );
+    const int borderspace = border ? 1 : 0;
     // -1 on the left for scroll bar and another -1 on the right reserved for cursor
-    std::vector<std::string> list = foldstring( text, width - 2 - borderspace * 2 );
-    print_list_scrollable( win, list, selection, entries_per_page, xoffset, width, active, border,
-                           color_error );
+    return foldstring( text, width - 2 - borderspace * 2 );
 }
 
 void print_list_scrollable( catacurses::window *win, const std::string &text, int *selection,
                             bool active,
                             bool border, const report_color_error color_error )
 {
-    print_list_scrollable( win, text, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border,
-                           color_error );
+    std::vector<std::string> list = text_to_list_scrollable( *win, text, border );
+    print_list_scrollable( win, list, selection, active, border, color_error );
 }
 
 void draw_diary_border( catacurses::window *win, const nc_color &color = c_white )
@@ -323,7 +321,7 @@ void diary::show_diary_ui( diary *c_diary )
         } else if( navigate_ui_list( action, selected[currwin], 10,
                                      currwin == window_mode::PAGE_WIN ? c_diary->pages.size()
                                      : currwin == window_mode::CHANGE_WIN ? c_diary->change_list.size()
-                                     : c_diary->get_page_text().size(), true ) ) {
+                                     : text_to_list_scrollable( w_text, c_diary->get_page_text(), false ).size(), true ) ) {
             // size in navigate_ui_list above is redundant with print_list_scrollable's wrapping effect during redraw
             if( currwin == window_mode::PAGE_WIN ) {
                 selected[window_mode::CHANGE_WIN] = 0;
