@@ -193,7 +193,7 @@
       }
     ]
   },
-    {
+  {
     "id": "5x50dart",
     "type": "AMMO",
     "name": { "str": "RA110 5x50mm flechette" },
