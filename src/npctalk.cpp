@@ -108,6 +108,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_speech( "speech" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
@@ -4108,8 +4109,8 @@ void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::strin
         int hallucination_count = dov_hallucination_count.evaluate( d );
         string_id<npc_template> cur_npc_class( sov_npc_class.evaluate( d ) );
         std::string cur_unique_id = unique_id.evaluate( d );
-        std::vector<trait_id> cur_traits;
-        for( str_or_var<T> cur_trait : traits ) {
+        std::vector<trait_id> cur_traits( traits.size() );
+        for( const str_or_var<T> &cur_trait : traits ) {
             cur_traits.emplace_back( trait_id( cur_trait.evaluate( d ) ) );
         }
         std::optional<time_duration> lifespan;
@@ -4138,7 +4139,7 @@ void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::strin
                 }
             }
         }
-        cur_traits.emplace_back( trait_id( "HALLUCINATION" ) );
+        cur_traits.emplace_back( trait_HALLUCINATION );
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( target_pos, min_radius,

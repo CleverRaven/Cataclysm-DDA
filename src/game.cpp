@@ -5114,7 +5114,7 @@ bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt,
 }
 
 bool game::spawn_npc( const tripoint &p, const string_id<npc_template> &npc_class,
-                      std::string unique_id,
+                      std::string &unique_id,
                       std::vector<trait_id> &traits, std::optional<time_duration> lifespan )
 {
     if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
