@@ -48,6 +48,46 @@ static float get_avg_degradation( const itype_id &it, int count, int damage )
     return deg / count;
 }
 
+TEST_CASE( "Damage level thresholds", "[item][damage_level]" )
+{
+    struct damage_level_threshold {
+        int min_damage;
+        int max_damage;
+        std::string expect_symbol;
+        nc_color expect_color;
+    };
+    const std::vector<damage_level_threshold> thresholds {
+        {    0,    0, R"(++)", c_green       },
+        {    1,  999, R"(||)", c_light_green },
+        { 1000, 1999, R"(|\)", c_yellow      },
+        { 2000, 2999, R"(|.)", c_light_red   },
+        { 3000, 3999, R"(\.)", c_red         },
+        { 4000, 4000, R"(XX)", c_dark_gray   },
+    };
+    item it( itype_test_baseball );
+    CHECK( it.damage() == 0 );
+    CHECK( it.degradation() == 0 );
+    for( int dmg = 0; dmg <= it.type->damage_max(); dmg++ ) {
+        it.set_damage( dmg );
+        CHECK( it.damage() == dmg );
+        CAPTURE( it.damage() );
+        CAPTURE( it.damage_level() );
+        CAPTURE( it.damage_symbol() );
+        bool matched_threshold = false;
+        for( size_t i = 0; i < thresholds.size(); i++ ) {
+            const damage_level_threshold &threshold = thresholds[i];
+            if( threshold.min_damage <= dmg && dmg <= threshold.max_damage ) {
+                CHECK( it.damage_symbol() == threshold.expect_symbol );
+                CHECK( it.damage_color() == threshold.expect_color );
+                CHECK( it.damage_level() == static_cast<int>( i ) );
+                matched_threshold = true;
+                break;
+            }
+        }
+        CHECK( matched_threshold );
+    }
+}
+
 TEST_CASE( "Degradation on spawned items", "[item][degradation]" )
 {
     SECTION( "Non-spawned items have no degradation" ) {
