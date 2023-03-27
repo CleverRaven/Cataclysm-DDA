@@ -98,6 +98,19 @@ jobs:
             ccache_limit: 2G
             ccache_key: linux-llvm-10
 
+          - compiler: clang++
+            os: macos-12
+            release: 1
+            cmake: 0
+            native: osx
+            tiles: 1
+            sound: 1
+            localize: 1
+            title: Clang 14, macOS 12, Tiles, Sound, x64 and arm64 Universal Binary
+            # cache size ??? to be observed
+            ccache_limit: 4G
+            ccache_key: macos-llvm-14-universal
+
           - compiler: g++-9
             os: ubuntu-latest
             release: 1
@@ -150,22 +163,6 @@ jobs:
             # observed usage: 4.4GB -> 400MB
             ccache_limit: 4G
             ccache_key: linux-gcc-11-asan
-
-          - compiler: clang++
-            os: macos-12
-            release: 0
-            cmake: 0
-            native: osx
-            sanitize: undefined
-            tiles: 1
-            sound: 1
-            localize: 1
-            title: Clang 14, macOS 12, Tiles, Sound, UBSan
-            # ~880MB ccache-compressed in a clean build
-            # ~100 compressed
-            # observed usage: 3.85GB -> 500MB
-            ccache_limit: 4G
-            ccache_key: macos-llvm-14
 
           - compiler: g++
             os: ubuntu-latest

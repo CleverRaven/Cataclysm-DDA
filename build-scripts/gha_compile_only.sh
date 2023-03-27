@@ -62,11 +62,12 @@ then
         ..
     make -j$num_jobs
 else
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 FRAMEWORK=1
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 FRAMEWORK=1 UNIVERSAL_BINARY=1
 
     # For CI on macOS, patch the test binary so it can find SDL2 libraries.
     if [[ ! -z "$OS" && "$OS" = "macos-12" ]]
     then
+        file tests/cata_test
         install_name_tool -add_rpath $HOME/Library/Frameworks tests/cata_test
     fi
 fi
