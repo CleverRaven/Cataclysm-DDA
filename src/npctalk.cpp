@@ -4148,7 +4148,7 @@ void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::strin
                 if( lifespan.value() == 0_seconds ) {
                     lifespan.reset();
                 }
-                std::string empty = "";
+                std::string empty;
                 if( g->spawn_npc( spawn_point, cur_npc_class, empty, cur_traits, lifespan ) ) {
                     Creature *guy = get_creature_tracker().creature_at( spawn_point );
                     if( guy ) {
