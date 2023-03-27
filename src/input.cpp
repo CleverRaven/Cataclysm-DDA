@@ -1178,6 +1178,11 @@ std::string input_context::colorize_inline_format( const keybinding_hint_state s
     }
     return string_format( fmt, left_text, colored_key, right_text, left_separator, right_separator );
 }
+std::string input_context::get_hint_basic( const std::string &key,
+        const keybinding_hint_state state )
+{
+    return input_context::get_hint_basic( key, "", state );
+}
 
 std::string input_context::get_hint_basic( const std::string &key,
         const std::string &text,
@@ -2087,9 +2092,7 @@ std::string input_context::press_x( const std::string &action_id,
     const std::string separator = _( " or " );
     std::string keyed = key_bound_pre;
     for( size_t j = 0; j < events.size(); j++ ) {
-        keyed += string_format( "%s%s%s", colorize( "[", get_hint_color_for_separator() ),
-                                colorize( events[j].long_description(), get_hint_color_for_key() ), colorize( "]",
-                                        get_hint_color_for_separator() ) );
+        keyed += get_hint_basic( events[j].long_description() );
 
         if( j + 1 < events.size() ) {
             keyed += separator;

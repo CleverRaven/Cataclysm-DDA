@@ -782,11 +782,9 @@ void uilist::show( ui_adaptor &ui )
                                                         keybinding_hint_state::ENABLED;
                 const keybinding_hint_state hstate = entries[ ei ].enabled ? hotkey_co :
                                                      keybinding_hint_state::DISABLED;
-                print_colored_text( window, point( pad_left + 1, estart + si ), string_format( "%s%s%s",
-                                    colorize( "[", input_context::get_hint_color_for_separator( hstate ) ),
-                                    colorize( right_justify( entries[ei].hotkey.value().short_description(), 1 ),
-                                              input_context::get_hint_color_for_key( hstate ) ), colorize( "]",
-                                                      input_context::get_hint_color_for_separator( hstate ) ) ) );
+                std::string hint = input_context::get_hint_basic( entries[ei].hotkey.value().short_description(),
+                                   hstate );
+                print_colored_text( window, point( pad_left + 1, estart + si ), hint );
             }
             if( pad_size > 3 ) {
                 // pad_size indicates the maximal width of the entry, it is used above to

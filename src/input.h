@@ -913,11 +913,9 @@ class input_context
          *
          * @param text The base text for action description
          *
+         * @param state Determines the colour-tagging of the resulting string
+         * @param show_separators Should the key be surrounded by separator chars?
          * @param evt_filter Only keys satisfying this function will be considered
-         * @param inline_fmt Action description format when a key is found in the
-         *                   text (for example "(a)ctive")
-         * @param separate_fmt Action description format when a key is not found
-         *                     in the text (for example "[X] active" or "[N/A] active")
          */
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
@@ -942,6 +940,8 @@ class input_context
                                            const std::string &text,
                                            const keybinding_hint_state state = keybinding_hint_state::ENABLED
                                          );
+        static std::string get_hint_basic( const std::string &key,
+                                           const keybinding_hint_state state = keybinding_hint_state::ENABLED );
         const std::string &input_to_action( const input_event &inp ) const;
         bool is_event_type_enabled( input_event_t type ) const;
         bool is_registered_action( const std::string &action_name ) const;

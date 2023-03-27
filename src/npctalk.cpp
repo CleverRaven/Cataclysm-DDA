@@ -1818,7 +1818,7 @@ talk_data talk_response::create_option_line( const dialogue &d, const input_even
     }
     talk_data results;
     results.color = color;
-    results.hotkey_desc = right_justify( hotkey.short_description(), 2 );
+    results.hotkey_desc = hotkey.short_description();
     results.text = ftext;
     return results;
 }
