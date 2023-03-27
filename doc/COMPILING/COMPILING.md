@@ -530,6 +530,7 @@ The Cataclysm source is compiled using `make`.
 ### Make options
 
 * `NATIVE=osx` build for OS X. Required for all Mac builds. This is automatically set if compiling natively on macOS.
+* `UNIVERSAL_BINARY=1` build `x86_64` and `arm64` dual-architecture Universal Binary; omit to build for host architecture only.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.

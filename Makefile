@@ -526,6 +526,10 @@ ifeq ($(NATIVE), osx)
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=10.13
   LDFLAGS += -mmacosx-version-min=10.13 -framework CoreFoundation -Wl,-headerpad_max_install_names
+  ifeq ($(UNIVERSAL_BINARY), 1)
+    CXXFLAGS += -arch x86_64 -arch arm64
+    LDFLAGS += -arch x86_64 -arch arm64
+  endif
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
