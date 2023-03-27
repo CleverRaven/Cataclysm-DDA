@@ -2007,35 +2007,36 @@ int related_menu_fill( uilist &rmenu,
         recipe_name_prev = recipe_name;
 
         std::vector<const recipe *> current_part = available.recipes_that_produce( p.first );
-        if( !current_part.empty() ) {
+        if( current_part.empty() ) {
+            continue;
+        }
 
-            bool different_recipes = false;
+        bool different_recipes = false;
 
-            // 1st pass: check if we need to add group
-            for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
-                if( current_part[recipe_n]->result_name( /*decorated=*/true ) != recipe_name ) {
-                    // add group
-                    rmenu.addentry( ++np_last, false, -1, recipe_name );
-                    different_recipes = true;
-                    break;
-                } else if( recipe_n == current_part.size() - 1 ) {
-                    // only one result
-                    rmenu.addentry( ++np_last, true, -1, "─ " + recipe_name );
-                }
+        // 1st pass: check if we need to add group
+        for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
+            if( current_part[recipe_n]->result_name( /*decorated=*/true ) != recipe_name ) {
+                // add group
+                rmenu.addentry( ++np_last, false, -1, recipe_name );
+                different_recipes = true;
+                break;
+            } else if( recipe_n == current_part.size() - 1 ) {
+                // only one result
+                rmenu.addentry( ++np_last, true, -1, "─ " + recipe_name );
             }
-
-            if( different_recipes ) {
-                std::string prev_item_name;
-                // 2nd pass: add different recipes
-                for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
-                    std::string cur_item_name = current_part[recipe_n]->result_name( /*decorated=*/true );
-                    if( cur_item_name != prev_item_name ) {
-                        std::string sym = recipe_n == current_part.size() - 1 ? "└ " : "├ ";
-                        rmenu.addentry( ++np_last, true, -1, sym + cur_item_name );
-                    }
-                    prev_item_name = cur_item_name;
-                }
+        }
+        if( !different_recipes ) {
+            continue;
+        }
+        std::string prev_item_name;
+        // 2nd pass: add different recipes
+        for( size_t recipe_n = 0; recipe_n < current_part.size(); recipe_n++ ) {
+            std::string cur_item_name = current_part[recipe_n]->result_name( /*decorated=*/true );
+            if( cur_item_name != prev_item_name ) {
+                std::string sym = recipe_n == current_part.size() - 1 ? "└ " : "├ ";
+                rmenu.addentry( ++np_last, true, -1, sym + cur_item_name );
             }
+            prev_item_name = cur_item_name;
         }
     }
 
