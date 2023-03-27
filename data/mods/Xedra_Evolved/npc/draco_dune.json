@@ -14,9 +14,10 @@
     "id": "TALK_REFUGEE_Draco_changeling_breadcrumb1",
     "type": "talk_topic",
     "dynamic_line": "So I get the boat and it moves smooth as silk across the lake, no sound or vibration but the waves against the hull.  I never see anyone or anything guiding the boat or making it move.  Anyway we arrived at an island in the lake and as we approached I can hear laughter and music.   Once we landed, they had me sign a contract which I'd figured would just be an NDA not to talk about the rich peoples party island.  Turns out I signed a contract to play music every night for three months for the price of room and board.",
-    "responses": [ { "text": "You've got to be kidding.", "topic": "TALK_REFUGEE_Draco_changeling_breadcrumb2" },
+    "responses": [
+      { "text": "You've got to be kidding.", "topic": "TALK_REFUGEE_Draco_changeling_breadcrumb2" },
       { "text": "I can't believe this story. Goodbye.", "topic": "TALK_DONE" }
-     ]
+    ]
   },
   {
     "id": "TALK_REFUGEE_Draco_changeling_breadcrumb2",
