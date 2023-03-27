@@ -2486,7 +2486,9 @@ input_context get_default_mode_input_context()
 #if !defined(__ANDROID__)
     ctxt.register_action( "toggle_fullscreen" );
 #endif
+#if defined(TILES)
     ctxt.register_action( "toggle_pixel_minimap" );
+#endif
     ctxt.register_action( "toggle_panel_adm" );
     ctxt.register_action( "reload_tileset" );
     ctxt.register_action( "toggle_auto_features" );
@@ -7300,7 +7302,9 @@ look_around_result game::look_around(
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
+#if defined(TILES)
     ctxt.register_action( "toggle_pixel_minimap" );
+#endif
 
     const int old_levz = m.get_abs_sub().z();
     const int min_levz = std::max( old_levz - fov_3d_z_range, -OVERMAP_DEPTH );
