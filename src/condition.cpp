@@ -34,6 +34,7 @@
 #include "map.h"
 #include "mapdata.h"
 #include "math_parser.h"
+#include "math_parser_shim.h"
 #include "mission.h"
 #include "mtype.h"
 #include "npc.h"
@@ -1406,7 +1407,9 @@ void conditional_t<T>::set_math( const JsonObject &jo, const std::string &member
 }
 
 template<class T>
-std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObject &jo )
+template<class J>
+// NOLINTNEXTLINE(readability-function-cognitive-complexity): not my problem!!
+std::function<double( const T & )> conditional_t<T>::get_get_dbl( J const &jo )
 {
     if( jo.has_member( "const" ) ) {
         const double const_value = jo.get_float( "const" );
@@ -1421,7 +1424,9 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObje
         };
     } else if( jo.has_member( "power" ) ) {
         units::energy power;
-        assign( jo, "power", power, false, 0_kJ );
+        if constexpr( std::is_same_v<JsonObject, J> ) {
+            assign( jo, "power", power, false, 0_kJ );
+        }
         const int power_value = units::to_millijoule( power );
         return [power_value]( const T & ) {
             return power_value;
@@ -1545,14 +1550,18 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObje
             };
         } else if( checked_value == "hp" ) {
             std::optional<bodypart_id> bp;
-            optional( jo, false, "bodypart", bp );
+            if constexpr( std::is_same_v<JsonObject, J> ) {
+                optional( jo, false, "bodypart", bp );
+            }
             return [is_npc, bp]( const T & d ) {
                 bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
                 return d.actor( is_npc )->get_cur_hp( bid );
             };
         } else if( checked_value == "warmth" ) {
             std::optional<bodypart_id> bp;
-            optional( jo, false, "bodypart", bp );
+            if constexpr( std::is_same_v<JsonObject, J> ) {
+                optional( jo, false, "bodypart", bp );
+            }
             return [is_npc, bp]( const T & d ) {
                 bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
                 return d.actor( is_npc )->get_cur_part_temp( bid );
@@ -1560,14 +1569,19 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObje
         } else if( checked_value == "effect_intensity" ) {
             const std::string &effect_id = jo.get_string( "effect" );
             std::optional<bodypart_id> bp;
-            optional( jo, false, "bodypart", bp );
+            if constexpr( std::is_same_v<JsonObject, J> ) {
+                optional( jo, false, "bodypart", bp );
+            }
             return [effect_id, bp, is_npc]( const T & d ) {
                 bodypart_id bid = bp.value_or( get_bp_from_str( d.reason ) );
                 effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id ), bid );
                 return target.is_null() ? -1 : target.get_intensity();
             };
         } else if( checked_value == "var" ) {
-            var_info info = read_var_info( jo );
+            var_info info( {}, {} );
+            if constexpr( std::is_same_v<JsonObject, J> ) {
+                info = read_var_info( jo );
+            }
             return [info]( const T & d ) {
                 std::string var = read_var_value( info, d );
                 if( !var.empty() ) {
@@ -1581,7 +1595,10 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObje
             };
         } else if( checked_value == "time_since_var" ) {
             dbl_or_var<dialogue> empty;
-            const std::string var_name = get_talk_varname( jo, "var_name", false, empty );
+            std::string var_name;
+            if constexpr( std::is_same_v<JsonObject, J> ) {
+                var_name = get_talk_varname( jo, "var_name", false, empty );
+            }
             return [is_npc, var_name]( const T & d ) {
                 int stored_value = 0;
                 const std::string &var = d.actor( is_npc )->get_value( var_name );
@@ -1759,11 +1776,14 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObje
                 return d.actor( is_npc )->get_rad();
             };
         } else if( checked_value == "item_rad" ) {
-            const std::string flag = jo.get_string( "flag" );
-            const aggregate_type agg = jo.get_enum_value<aggregate_type>( "aggregate", aggregate_type::FIRST );
-            return [is_npc, flag, agg]( const T & d ) {
-                return d.actor( is_npc )->item_rads( flag_id( flag ), agg );
-            };
+            if constexpr( std::is_same_v<JsonObject, J> ) {
+                const std::string flag = jo.get_string( "flag" );
+                const aggregate_type agg = jo.template get_enum_value<aggregate_type>( "aggregate",
+                                           aggregate_type::FIRST );
+                return [is_npc, flag, agg]( const T & d ) {
+                    return d.actor( is_npc )->item_rads( flag_id( flag ), agg );
+                };
+            }
         } else if( checked_value == "focus" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->focus_cur();
@@ -1857,8 +1877,12 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObje
             } else {
                 id.str_val = "";
             }
-            dbl_or_var<T> radius_dov = get_dbl_or_var<T>( jo, "radius", false, 10000 );
-            dbl_or_var<T> number_dov = get_dbl_or_var<T>( jo, "number", false, 1 );
+            dbl_or_var<T> radius_dov;
+            dbl_or_var<T> number_dov;
+            if constexpr( std::is_same_v<JsonObject, J> ) {
+                radius_dov = get_dbl_or_var<T>( jo, "radius", false, 10000 );
+                number_dov = get_dbl_or_var<T>( jo, "number", false, 1 );
+            }
             return [target_var, radius_dov, id, number_dov, is_npc]( const T & d ) {
                 tripoint_abs_ms loc;
                 if( target_var.has_value() ) {
@@ -1982,7 +2006,9 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObje
         };
     } else if( jo.has_array( "arithmetic" ) ) {
         talk_effect_fun_t<T> arith;
-        arith.set_arithmetic( jo, "arithmetic", true );
+        if constexpr( std::is_same_v<JsonObject, J> ) {
+            arith.set_arithmetic( jo, "arithmetic", true );
+        }
         return [arith]( const T & d ) {
             arith( d );
             var_info info = var_info( var_type::global, "temp_var" );
@@ -1994,6 +2020,15 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObje
                 return 0.0f;
             }
         };
+    } else if( jo.has_array( "math" ) ) {
+        // no recursive math through shim
+        if constexpr( std::is_same_v<JsonObject, J> ) {
+            eoc_math<T> math;
+            math.from_json( jo, "math" );
+            return [math = std::move( math )]( const T & d ) {
+                return math.act( d );
+            };
+        }
     }
     jo.throw_error( "unrecognized number source in " + jo.str() );
     return []( const T & ) {
@@ -2035,10 +2070,12 @@ static double handle_min_max( const T &d, double input, std::optional<dbl_or_var
     return input;
 }
 
-template<class T>
-static std::function<void( const T &, double )> get_set_dbl( const JsonObject &jo,
-        const std::optional<dbl_or_var_part<T>> &min, const std::optional<dbl_or_var_part<T>> &max,
-        bool temp_var )
+template <class T>
+template <class J>
+std::function<void( const T &, double )>
+// NOLINTNEXTLINE(readability-function-cognitive-complexity): not my problem!!
+conditional_t<T>::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part<T>> &min,
+                               const std::optional<dbl_or_var_part<T>> &max, bool temp_var )
 {
     if( temp_var ) {
         jo.allow_omitted_members();
@@ -2177,7 +2214,10 @@ static std::function<void( const T &, double )> get_set_dbl( const JsonObject &j
             };
         } else if( checked_value == "var" ) {
             dbl_or_var<dialogue> empty;
-            const std::string var_name = get_talk_varname( jo, "var_name", false, empty );
+            std::string var_name;
+            if constexpr( std::is_same_v<JsonObject, J> ) {
+                var_name = get_talk_varname( jo, "var_name", false, empty );
+            }
             return [is_npc, var_name, type, min, max]( const T & d, double input ) {
                 write_var_value( type, var_name, d.actor( is_npc ), std::to_string( handle_min_max<T>( d, input,
                                  min,
@@ -2186,7 +2226,10 @@ static std::function<void( const T &, double )> get_set_dbl( const JsonObject &j
         } else if( checked_value == "time_since_var" ) {
             // This is a strange thing to want to adjust. But we allow it nevertheless.
             dbl_or_var<dialogue> empty;
-            const std::string var_name = get_talk_varname( jo, "var_name", false, empty );
+            std::string var_name;
+            if constexpr( std::is_same_v<JsonObject, J> ) {
+                var_name = get_talk_varname( jo, "var_name", false, empty );
+            }
             return [is_npc, var_name, min, max]( const T & d, double input ) {
                 int storing_value = to_turn<int>( calendar::turn ) - handle_min_max<T>( d, input, min, max );
                 d.actor( is_npc )->set_value( var_name, std::to_string( storing_value ) );
@@ -2450,8 +2493,9 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
     }
     std::string op = "none";
     std::string result = "none";
-    std::function<void( const T &, double )> set_dbl = get_set_dbl( objects.get_object( 0 ), min,
-            max, no_result );
+    std::function<void( const T &, double )> set_dbl = conditional_t<T>::get_set_dbl(
+                objects.get_object( 0 ), min,
+                max, no_result );
     int no_result_mod = no_result ? 2 : 0; //In the case of a no result we have fewer terms.
     // Normal full version
     if( static_cast<int>( objects.size() ) == 5 - no_result_mod ) {
@@ -3306,3 +3350,18 @@ template void read_condition<mission_goal_condition_context>( const JsonObject &
         const std::string &member_name,
         std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );
 template struct talk_effect_fun_t<dialogue>;
+
+template std::function<double( const dialogue & )>
+conditional_t<dialogue>::get_get_dbl<>( kwargs_shim const & );
+template std::function<double( const mission_goal_condition_context & )>
+conditional_t<mission_goal_condition_context>::get_get_dbl<>( kwargs_shim const & );
+
+template std::function<void( const dialogue &, double )>
+conditional_t<dialogue>::get_set_dbl<>( const kwargs_shim &,
+                                        const std::optional<dbl_or_var_part<dialogue>> &,
+                                        const std::optional<dbl_or_var_part<dialogue>> &, bool );
+template std::function<void( const mission_goal_condition_context &, double )>
+conditional_t<mission_goal_condition_context>::get_set_dbl<>( const kwargs_shim &,
+        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
+        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
+        bool );

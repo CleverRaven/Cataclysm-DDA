@@ -9,6 +9,7 @@
 
 #include "dialogue.h"
 #include "dialogue_helpers.h"
+#include "math_parser_shim.h"
 #include "mission.h"
 
 class JsonObject;
@@ -213,9 +214,14 @@ struct conditional_t {
         void set_compare_string( const JsonObject &jo, const std::string &member );
         void set_compare_num( const JsonObject &jo, const std::string &member );
         void set_math( const JsonObject &jo, const std::string &member );
-        static std::function<double( const T & )> get_get_dbl( const JsonObject &jo );
+        template<class J>
+        static std::function<double( const T & )> get_get_dbl( J const &jo );
         static std::function<double( const T & )> get_get_dbl( const std::string &value,
                 const JsonObject &jo );
+        template <class J>
+        std::function<void( const T &, double )>
+        static get_set_dbl( const J &jo, const std::optional<dbl_or_var_part<T>> &min,
+                            const std::optional<dbl_or_var_part<T>> &max, bool temp_var );
         bool operator()( const T &d ) const {
             if( !condition ) {
                 return false;
@@ -223,6 +229,21 @@ struct conditional_t {
             return condition( d );
         }
 };
+
+extern template std::function<double( const dialogue & )>
+conditional_t<dialogue>::get_get_dbl<>( kwargs_shim const & );
+extern template std::function<double( const mission_goal_condition_context & )>
+conditional_t<mission_goal_condition_context>::get_get_dbl<>( kwargs_shim const & );
+
+extern template std::function<void( const dialogue &, double )>
+conditional_t<dialogue>::get_set_dbl<>( const kwargs_shim &,
+                                        const std::optional<dbl_or_var_part<dialogue>> &,
+                                        const std::optional<dbl_or_var_part<dialogue>> &, bool );
+extern template std::function<void( const mission_goal_condition_context &, double )>
+conditional_t<mission_goal_condition_context>::get_set_dbl<>( const kwargs_shim &,
+        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
+        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
+        bool );
 
 #if !defined(MACOSX)
 extern template struct conditional_t<dialogue>;
