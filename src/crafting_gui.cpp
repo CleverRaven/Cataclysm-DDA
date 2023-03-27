@@ -280,19 +280,12 @@ struct availability {
 
         static bool check_can_craft_nested( const recipe &r ) {
             // recursively check if you can craft anything in the nest
-            bool can_craft = false;
             for( const recipe_id &nested_r : r.nested_category_data ) {
-                // if nested recur
-                availability av = availability( &nested_r.obj() );
-                can_craft |= av.can_craft;
-
-                // early return if we can craft anything
-                if( can_craft ) {
-                    break;
+                if( availability( &nested_r.obj() ).can_craft ) {
+                    return true;
                 }
             }
-
-            return can_craft;
+            return false;
         }
 };
 } // namespace
@@ -2013,7 +2006,7 @@ int related_menu_fill( uilist &rmenu,
         }
         recipe_name_prev = recipe_name;
 
-        std::vector<const recipe *> current_part = available.search_result( p.first );
+        std::vector<const recipe *> current_part = available.recipes_that_produce( p.first );
         if( !current_part.empty() ) {
 
             bool different_recipes = false;
