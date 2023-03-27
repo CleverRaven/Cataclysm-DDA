@@ -350,7 +350,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
-        menu_length += utf8_width_notags( vMenuItems[i].c_str() ) + 2;
+        menu_length += utf8_width_notags( vMenuItems[i].c_str() ) + 3;
         if( !vMenuHotkeys[i].empty() ) {
             menu_length += utf8_width( vMenuHotkeys[i][0] );
         }

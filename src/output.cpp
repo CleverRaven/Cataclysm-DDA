@@ -2607,18 +2607,23 @@ void print_global_and_character_mode_headers( const catacurses::window &w, const
 }
 
 //generate colorcoded shortcut text
-std::string shortcut_text( const std::string &fmt, keybinding_hint_state state )
+std::string shortcut_text( const std::string &fmt, keybinding_hint_state state,
+                           const bool shortcut_only )
 {
     size_t pos = fmt.find_first_of( '<' );
     size_t pos_end = fmt.find_first_of( '>' );
     if( pos_end != std::string::npos && pos < pos_end ) {
         size_t sep = std::min( fmt.find_first_of( '|', pos ), pos_end );
+        std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
+        if( shortcut_only ) {
+            return shortcut;
+        }
         std::string prestring = fmt.substr( 0, pos );
         std::string poststring = fmt.substr( pos_end + 1, std::string::npos );
-        std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
 
-        return input_context::get_hint_basic( shortcut, string_format( "%s%s%s", prestring, shortcut,
-                                              poststring ), state );
+        std::string hint_text = string_format( "%s%s%s", prestring, shortcut,
+                                               poststring );
+        return input_context::get_hint_basic( shortcut, hint_text, state );
     }
 
     // no shortcut?

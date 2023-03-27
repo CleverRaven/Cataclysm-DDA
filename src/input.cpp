@@ -1029,7 +1029,7 @@ std::vector<input_event> input_context::keys_bound_to( const std::string &action
     return result;
 }
 
-std::string input_context::get_available_single_char_hotkeys( std::string requested_keys )
+std::string input_context::get_available_single_char_hotkeys( std::string requested_keys ) const
 {
     for( const auto &registered_action : registered_actions ) {
 
@@ -1183,18 +1183,18 @@ std::string input_context::get_hint_basic( const std::string &key,
         const std::string &text,
         const keybinding_hint_state state )
 {
-    // If the given k is the same as the text itself, we'd want to surround
-    //   the key with the proper separators.
     const int pos = ci_find_substr( text, key );
     if( pos >= 0 ) {
-        if( key.size() == text.size() ) {
-            return input_context::colorize_separate_format( state, key, text, true );
+        // If the given k is the same as the text itself, we'd want to surround
+        //   the key with the proper separators.
+        if( get_option<bool>( "KEYBINDINGS_INLINE" ) ) {
+            return input_context::colorize_inline_format( state, key, text.substr( 0, pos ),
+                    text.substr( pos + key.size() ), true );
         }
-        return input_context::colorize_inline_format( state, key, text.substr( 0, pos ),
-                text.substr( pos + key.size() ), true );
+        return input_context::colorize_separate_format( state, key, text, true );
     }
-    // Fallback to this if no string in keys is present in the text.
-    return input_context::colorize_separate_format( state, "", text, false );
+    // Fallback to this if key is not present in the text.
+    return input_context::colorize_separate_format( state, key, text, true );
 }
 std::string input_context::get_desc(
     const std::string &action_descriptor,

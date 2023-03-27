@@ -700,7 +700,8 @@ class input_context
          */
         std::string get_available_single_char_hotkeys(
             std::string requested_keys =
-                "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=:;'\",./<>?!@#$%^&*()_+[]\\{}|`~" );
+                "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=:;'\",./<>?!@#$%^&*()_+[]\\{}|`~" )
+        const;
 
         using input_event_filter = std::function<bool( const input_event & )>;
 
@@ -939,7 +940,8 @@ class input_context
          */
         static std::string get_hint_basic( const std::string &key,
                                            const std::string &text,
-                                           const keybinding_hint_state state = keybinding_hint_state::ENABLED );
+                                           const keybinding_hint_state state = keybinding_hint_state::ENABLED
+                                         );
         const std::string &input_to_action( const input_event &inp ) const;
         bool is_event_type_enabled( input_event_t type ) const;
         bool is_registered_action( const std::string &action_name ) const;
