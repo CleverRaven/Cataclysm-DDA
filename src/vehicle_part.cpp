@@ -635,14 +635,13 @@ void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_
     }
 }
 
-bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
+bool vehicle::mod_hp( vehicle_part &pt, int qty )
 {
-    int dur = pt.info().durability;
-    if( dur > 0 ) {
-        return pt.base.mod_damage( -( pt.base.max_damage() * qty / dur ), dt );
-    } else {
+    const int dur = pt.info().durability;
+    if( dur <= 0 ) {
         return false;
     }
+    return pt.base.mod_damage( -qty * pt.base.max_damage() / dur );
 }
 
 bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const

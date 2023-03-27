@@ -1605,7 +1605,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
         while( corpse.damage() < corpse.max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
-                corpse.inc_damage( damage_type::BASH );
+                corpse.inc_damage();
                 if( corpse.damage() == corpse.max_damage() ) {
                     num_corpses++;
                 }

@@ -92,7 +92,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
     //Must not be broken yet
     REQUIRE( !cargo_part->is_broken() );
     //For some reason (0 - cargo_part->hp()) is just not enough to destroy a part
-    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ), damage_type::BASH ) );
+    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ) ) );
     //Now it must be broken
     REQUIRE( cargo_part->is_broken() );
     //Now part is really broken, adding an item should fail

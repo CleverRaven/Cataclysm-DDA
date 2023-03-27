@@ -1328,16 +1328,12 @@ class item : public visitable
          * @param qty maximum amount by which to adjust damage (negative permissible)
          * @return whether item should be destroyed
          */
-        bool mod_damage( int qty, damage_type dt );
-        /// same as other mod_damage, but uses @ref damage_type::NONE as damage type.
         bool mod_damage( int qty );
 
         /**
-         * Increment item damage by @ref itype::damage_scale constrained by @ref max_damage
+         * Same as mod_damage( itype::damage_scale ), advances item to next damage level
          * @return whether item should be destroyed
          */
-        bool inc_damage( damage_type dt );
-        /// same as other inc_damage, but uses @ref damage_type::NONE as damage type.
         bool inc_damage();
 
         enum class armor_status {

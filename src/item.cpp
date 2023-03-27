@@ -8596,7 +8596,7 @@ static int get_degrade_amount( const item &it, int dmgNow_, int dmgPrev )
     return std::max( facNow_ - facPrev, 0 ) * max_dmg / degrade_increments;
 }
 
-bool item::mod_damage( int qty, damage_type dt )
+bool item::mod_damage( int qty )
 {
     if( has_flag( flag_UNBREAKABLE ) ) {
         return false;
@@ -8616,19 +8616,9 @@ bool item::mod_damage( int qty, damage_type dt )
     }
 }
 
-bool item::mod_damage( const int qty )
-{
-    return mod_damage( qty, damage_type::NONE );
-}
-
-bool item::inc_damage( const damage_type dt )
-{
-    return mod_damage( itype::damage_scale, dt );
-}
-
 bool item::inc_damage()
 {
-    return inc_damage( damage_type::NONE );
+    return mod_damage( itype::damage_scale );
 }
 
 int item::repairable_levels() const
@@ -8682,11 +8672,11 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         }
     }
 
-    if( mod_damage( has_flag( flag_FRAGILE ) ?
-                    rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type ) ) {
-        return armor_status::DESTROYED;
-    }
-    return armor_status::DAMAGED;
+    const int damage = has_flag( flag_FRAGILE )
+                       ? rng( 2 * itype::damage_scale, 3 * itype::damage_scale )
+                       : itype::damage_scale;
+
+    return mod_damage( damage ) ? armor_status::DESTROYED : armor_status::DAMAGED;
 }
 
 item::armor_status item::damage_armor_transforms( damage_unit &du ) const
@@ -12844,7 +12834,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 bool item::process_blackpowder_fouling( Character *carrier )
 {
     if( damage() < max_damage() && one_in( 2000 ) ) {
-        inc_damage( damage_type::ACID );
+        inc_damage();
         if( carrier ) {
             carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
         }
