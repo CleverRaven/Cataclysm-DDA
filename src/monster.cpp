@@ -404,7 +404,7 @@ void monster::try_upgrade( bool pin_time )
                         for( int i = 0; i < mgr.pack_size; i++ ) {
                             tripoint spawn_pos;
                             if( g->find_nearby_spawn_point( pos(), mgr.name, 1, *type->upgrade_multi_range,
-                                                            spawn_pos, false ) ) {
+                                                            spawn_pos, false, false ) ) {
                                 monster *spawned = g->place_critter_at( mgr.name, spawn_pos );
                                 if( spawned ) {
                                     spawned->friendly = friendly;

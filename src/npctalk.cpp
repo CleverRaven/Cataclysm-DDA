@@ -3952,6 +3952,10 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     dbl_or_var<T> dov_max_radius = get_dbl_or_var<T>( jo, "max_radius", false, 10 );
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool indoor_only = jo.get_bool( "indoor_only", false );
+    if( indoor_only && outdoor_only ) {
+        jo.throw_error( "Cannot be outdoor_only and indoor_only at the same time." );
+    }
     const bool open_air_allowed = jo.get_bool( "open_air_allowed", false );
     const bool friendly = jo.get_bool( "friendly", false );
 
@@ -3964,8 +3968,8 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [new_monster, dov_target_range, dov_hallucination_count, dov_real_count,
-                             dov_min_radius, dov_max_radius, outdoor_only, group_id, dov_lifespan, target_var,
+    function = [new_monster, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
+                             dov_max_radius, outdoor_only, indoor_only, group_id, dov_lifespan, target_var,
                              spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
                  friendly, is_npc]( const T & d ) {
         monster target_monster;
@@ -4003,7 +4007,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
-                                            max_radius, spawn_point, outdoor_only, open_air_allowed ) ) {
+                                            max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {
                     lifespan.reset();
@@ -4025,7 +4029,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
-                                            max_radius, spawn_point, outdoor_only, open_air_allowed ) ) {
+                                            max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
                 if( spawned ) {
                     if( friendly ) {
@@ -4077,8 +4081,13 @@ void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::strin
     dbl_or_var<T> dov_min_radius = get_dbl_or_var<T>( jo, "min_radius", false, 1 );
     dbl_or_var<T> dov_max_radius = get_dbl_or_var<T>( jo, "max_radius", false, 10 );
 
-    const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool open_air_allowed = jo.get_bool( "open_air_allowed", false );
+    const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool indoor_only = jo.get_bool( "indoor_only", false );
+    if( indoor_only && outdoor_only ) {
+        jo.throw_error( "Cannot be outdoor_only and indoor_only at the same time." );
+    }
+
 
     duration_or_var<T> dov_lifespan = get_duration_or_var<T>( jo, "lifespan", false, 0_seconds );
     std::optional<var_info> target_var;
@@ -4090,7 +4099,8 @@ void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::strin
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
     function = [sov_npc_class, unique_id, traits, dov_hallucination_count, dov_real_count,
-                               dov_min_radius, dov_max_radius, outdoor_only, dov_lifespan, target_var, spawn_message,
+                               dov_min_radius,
+                               dov_max_radius, outdoor_only, indoor_only, dov_lifespan, target_var, spawn_message,
                    spawn_message_plural, true_eocs, false_eocs, open_air_allowed, is_npc]( const T & d ) {
         int min_radius = dov_min_radius.evaluate( d );
         int max_radius = dov_max_radius.evaluate( d );
@@ -4112,7 +4122,7 @@ void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::strin
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( target_pos, min_radius,
-                                            max_radius, spawn_point, outdoor_only, open_air_allowed ) ) {
+                                            max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {
                     lifespan.reset();
@@ -4132,7 +4142,7 @@ void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::strin
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( target_pos, min_radius,
-                                            max_radius, spawn_point, outdoor_only, open_air_allowed ) ) {
+                                            max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
                 if( lifespan.value() == 0_seconds ) {
                     lifespan.reset();

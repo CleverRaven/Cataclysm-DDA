@@ -5003,7 +5003,7 @@ void game::clear_zombies()
 }
 
 bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                    int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed )
+                                    int max_radius, tripoint &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
 {
     tripoint target_point;
     //find a legal outdoor place to spawn based on the specified radius,
@@ -5014,6 +5014,7 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
         if( can_place_monster( monster( mt->id ), target_point ) &&
             ( open_air_allowed || get_map().has_floor( target_point ) ) &&
             ( !outdoor_only || get_map().is_outside( target_point ) ) &&
+            ( !indoor_only || !get_map().is_outside( target_point ) ) &&
             rl_dist( target_point, target ) >= min_radius ) {
             point = target_point;
             return true;
@@ -5024,7 +5025,7 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
 
 
 bool game::find_nearby_spawn_point( const tripoint &target, int min_radius,
-                                    int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed )
+                                    int max_radius, tripoint &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
 {
     tripoint target_point;
     //find a legal outdoor place to spawn based on the specified radius,
@@ -5035,6 +5036,7 @@ bool game::find_nearby_spawn_point( const tripoint &target, int min_radius,
         if( can_place_npc( target_point ) &&
             ( open_air_allowed || get_map().has_floor( target_point ) ) &&
             ( !outdoor_only || get_map().is_outside( target_point ) ) &&
+            ( !indoor_only || !get_map().is_outside( target_point ) ) &&
             rl_dist( target_point, target ) >= min_radius ) {
             point = target_point;
             return true;
