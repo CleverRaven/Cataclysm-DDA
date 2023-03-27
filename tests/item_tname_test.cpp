@@ -281,7 +281,7 @@ TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
     REQUIRE( turbine.engine_displacement() == 2700 );
 
     CHECK( vtwin.tname() == "0.6L V2 engine" );
-    CHECK( v12diesel.tname() == "7.0L V12 diesel engine" );
+    CHECK( v12diesel.tname() == "7L V12 diesel engine" );
     CHECK( turbine.tname() == "27L 1,350 HP gas turbine engine" );
 }
 
