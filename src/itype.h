@@ -1317,7 +1317,7 @@ struct itype {
 
     private:
         /** maximum amount of damage to a non- count_by_charges item */
-        static constexpr int damage_max_ = +4000;
+        static constexpr int damage_max_ = 4000;
         int degrade_increments_ = 50;
 
     public:
@@ -1353,6 +1353,17 @@ struct itype {
         int degrade_increments() const {
             return count_by_charges() ? 0 : degrade_increments_;
         }
+
+        /**
+        * Quantizes item damage numbers into levels (for example for display).
+        * item damage [    0 -    0 ] returns 0
+        * item damage [    1 -  999 ] returns 1
+        * item damage [ 1000 - 1999 ] returns 2
+        * item damage [ 2000 - 2999 ] returns 3
+        * item damage [ 3000 - 3999 ] returns 4
+        * item damage [ 4000 - 4000 ] returns 5
+        */
+        int damage_level( int damage ) const;
 
         std::string get_item_type_string() const;
 

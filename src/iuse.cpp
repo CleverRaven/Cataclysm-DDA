@@ -5527,11 +5527,7 @@ std::optional<int> gun_repair( Character *p, item *, item_location &loc )
     p->practice( skill_mechanics, 10 );
     p->moves -= to_moves<int>( 20_seconds );
 
-    int dmg = fix.damage() + 1;
-    for( const int lvl = fix.damage_level(); lvl == fix.damage_level() && dmg != fix.damage(); ) {
-        dmg = fix.damage(); // break loop if clamped by degradation or no more repair needed
-        fix.mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
-    }
+    fix.mod_damage( -itype::damage_scale );
 
     const std::string msg = fix.damage_level() == 0
                             ? _( "You repair your %s completely!  ( %s-> %s)" )

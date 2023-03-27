@@ -828,16 +828,9 @@ void item::rand_degradation()
     set_degradation( rng( 0, damage() ) * 50.0f / type->degrade_increments() );
 }
 
-int item::damage_level( int dmg ) const
+int item::damage_level() const
 {
-    dmg = dmg == INT_MIN ? damage_ : dmg;
-    if( dmg == 0 ) {
-        return 0;
-    } else if( max_damage() <= 1 ) {
-        return dmg > 0 ? 4 : dmg;
-    } else {
-        return 3 * ( dmg - 1 ) / ( max_damage() - 1 ) + 1;
-    }
+    return type->damage_level( damage_ );
 }
 
 void item::set_damage( int qty )
@@ -8640,7 +8633,7 @@ bool item::inc_damage()
 
 int item::repairable_levels() const
 {
-    const int levels = damage_level( damage_ ) - damage_level( degradation_ );
+    const int levels = type->damage_level( damage_ ) - type->damage_level( degradation_ );
 
     return levels > 0
            ? levels                    // full integer levels of damage
@@ -8724,19 +8717,17 @@ nc_color item::damage_color() const
 {
     switch( damage_level() ) {
         case 0:
-            return c_light_green;
+            return c_green;
         case 1:
-            return c_yellow;
+            return c_light_green;
         case 2:
-            return c_light_red;
+            return c_yellow;
         case 3:
-            return c_magenta;
+            return c_light_red;
         case 4:
-            if( damage() >= max_damage() ) {
-                return c_dark_gray;
-            } else {
-                return c_red;
-            }
+            return c_red;
+        case 5:
+            return c_dark_gray;
         default:
             debugmsg( "damage_level returned unexpected value %d", damage_level() );
             return c_dark_gray;
@@ -8747,19 +8738,17 @@ std::string item::damage_symbol() const
 {
     switch( damage_level() ) {
         case 0:
-            return _( R"(||)" );
+            return _( R"(++)" );
         case 1:
-            return _( R"(|\)" );
+            return _( R"(||)" );
         case 2:
-            return _( R"(|.)" );
+            return _( R"(|\)" );
         case 3:
-            return _( R"(\.)" );
+            return _( R"(|.)" );
         case 4:
-            if( damage() >= max_damage() ) {
-                return _( R"(XX)" );
-            } else {
-                return _( R"(..)" );
-            }
+            return _( R"(\.)" );
+        case 5:
+            return _( R"(XX)" );
         default:
             debugmsg( "damage_level returned unexpected value %d", damage_level() );
             return _( R"(??)" ); // negative damage is invalid

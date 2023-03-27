@@ -1304,41 +1304,23 @@ class item : public visitable
         /** How much degradation has the item accumulated? */
         int degradation() const;
 
-        /** Used when spawning the item. Sets a random degradation within [0, damage]. */
+        // Sets a random degradation within [0, damage), used when spawning the item
         void rand_degradation();
 
-        /**
-         * Scale item damage to the given number of levels. This function is
-         * here mostly for back-compatibility. It should not be used when
-         * doing continuous math with the damage value: use damage() instead.
-         *
-         * For example, for min_damage = 0, max_damage = 4000
-         *   damage       level
-         *              0     0
-         *       1 ~ 1333     1
-         *    1334 ~ 2666     2
-         *    2667 ~ 3999     3
-         *           4000     4
-         *
-         * @param dmg If specified, get the damage level of "dmg" instead of
-         * this item's current damage.
-         */
-        int damage_level( int dmg = INT_MIN ) const;
+        // @see itype::damage_level()
+        int damage_level() const;
 
-        /** Maximum amount of damage to an item (state before destroyed) */
+        // @return 0 if item is count_by_charges() or 4000 ( value of itype::damage_max_ )
         int max_damage() const;
 
         /**
-        * Returns how many damage levels can be repaired on this item rounded up
-        * Example: item with 100 damage returns 1 ( 100 -> 0 )
-        * Example: item with 2000 damage returns 2 ( 2000 -> 1333 -> 0 )
+        * Returns how many damage levels can be repaired on this item
+        * Example: item with  100 damage returns 1 (  100 -> 0 )
+        * Example: item with 2100 damage returns 3 ( 2100 -> 1100 -> 100 -> 0 )
         */
         int repairable_levels() const;
 
-        /**
-         * Relative item health.
-         * Returns 1 for undamaged items, values in the range (0, 1) for damaged items
-         */
+        // @return 1 for undamaged items or remaining hp divided by max hp in range [0, 1)
         float get_relative_health() const;
 
         /**

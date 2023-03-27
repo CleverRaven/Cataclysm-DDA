@@ -2475,11 +2475,7 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     const std::string start_durability = target->durability_indicator( true );
     item &fix = *target.get_item();
     for( int i = 0; i < method->heal_stages.value_or( 0 ); i++ ) {
-        int dmg = fix.damage() + 1;
-        for( const int lvl = fix.damage_level(); lvl == fix.damage_level() && dmg != fix.damage(); ) {
-            dmg = fix.damage(); // break loop if clamped by degradation or no more repair needed
-            fix.mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
-        }
+        fix.mod_damage( -itype::damage_scale );
     }
 
     //get skill list from mending method, iterate through and give xp
