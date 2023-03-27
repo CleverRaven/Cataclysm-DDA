@@ -89,6 +89,7 @@ jobs:
             localize: 1
             test-stage: 1
             native: linux64
+            pch: 1
             archive-success: basic-build
             dont_skip_data_only_changes: 1
             title: Basic Build and Test (Clang 10, Ubuntu, Curses)
@@ -103,6 +104,7 @@ jobs:
             release: 1
             cmake: 0
             native: osx
+            pch: 0
             tiles: 1
             sound: 1
             localize: 1
@@ -122,6 +124,7 @@ jobs:
             lto: 1
             libbacktrace: 1
             native: linux64
+            pch: 1
             title: GCC 9, Curses, LTO
             # ~850MB in a clean build
             # ~370MB compressed
@@ -137,6 +140,7 @@ jobs:
             sound: 0
             localize: 1
             native: linux64
+            pch: 1
             sanitize: address
             cxxflags: --gcc-toolchain=/opt/mock-gcc-11
             mods: --mods=magiclysm
@@ -156,6 +160,7 @@ jobs:
             sound: 0
             localize: 1
             native: linux64
+            pch: 1
             sanitize: address
             title: GCC 11, Ubuntu, Curses, ASan
             # ~480MB in a clean build
@@ -169,6 +174,7 @@ jobs:
             release: 0
             cmake: 0
             native:
+            pch: 1
             tiles: 1
             sound: 1
             localize: 1
@@ -191,6 +197,7 @@ jobs:
             sound: 1
             localize: 0
             native: linux64
+            pch: 1
             title: GCC 9, Ubuntu, Tiles, Sound, CMake
             # ~180MB in a clean build
             # ~25MB compressed
@@ -223,6 +230,7 @@ jobs:
         EXTRA_TEST_OPTS: --error-format=github-action
         NUM_TEST_JOBS: ${{ matrix.num_test_jobs }}
         NATIVE: ${{ matrix.native }}
+        PCH: ${{ matrix.pch }}
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
         LIBBACKTRACE: ${{ matrix.libbacktrace }}
