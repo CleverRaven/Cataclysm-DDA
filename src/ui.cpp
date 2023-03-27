@@ -277,7 +277,8 @@ void uilist::init()
     text_color = c_light_gray;  // text color
     title_color = c_white;  // title color
     hilight_color = h_white; // highlight for up/down selection bar
-    hotkey_color = c_yellow; // hotkey text to the right of menu entry's text
+    hotkey_color =
+        input_context::get_hint_color_for_key(); // hotkey text to the right of menu entry's text
     disabled_color = c_dark_gray; // disabled menu entry
     allow_disabled = false;  // disallow selecting disabled options
     allow_anykey = false;    // do not return on unbound keys

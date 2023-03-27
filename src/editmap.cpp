@@ -393,12 +393,10 @@ std::optional<tripoint> editmap::edit()
         }
 
         // \u00A0 is the non-breaking space
-        info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "%s %s [%s,%s]\u00A0fast scroll %s %s %s %s %s %s" ),
+        info_txt_curr = string_format( "%s %s %s %s %s %s %s %s %s",
                                        ctxt.get_hint( "EDIT_TRAPS" ),
                                        ctxt.get_hint( "EDIT_FIELDS" ),
-                                       ctxt.get_hint_pair( "LEFT_WIDE", "RIGHT_WIDE" ),
-                                       ctxt.get_hint_pair( "UP_WIDE", "DOWN_WIDE" ),
+                                       ctxt.get_hint_quad( "LEFT_WIDE", "RIGHT_WIDE", "UP_WIDE", "DOWN_WIDE", _( "fast scroll" ) ),
                                        ctxt.get_hint( "EDITMAP_SHOW_ALL" ),
                                        ctxt.get_hint( "EDIT_TERRAIN" ),
                                        ctxt.get_hint( "EDIT_FURNITURE" ),
