@@ -108,5 +108,62 @@
         { "item": "leaves", "count": [ 50, 150 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_hawthorn",
+    "name": "hawthorn tree",
+    "looks_like": "t_tree",
+    "description": "Crataegus monogyna, known as common hawthorn, one-seed hawthorn, or single-seeded hawthorn, is a species of flowering plant in the rose family Rosaceae.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "i_light_green", "brown" ],
+    "//": "berries in autum and in winter, harvestable petals in spring",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "examine_action": "tree_hawthorn",
+    "harvest_by_season": [
+      { "seasons": [ "spring" ], "id": "hawthorn_petal_harv" },
+      { "seasons": [ "autumn", "winter" ], "id": "hawthorn_berry_harv" }
+    ],
+    "transforms_into": "t_tree_hawthorn_harvested",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_hawthorn_harvested",
+    "looks_like": "t_tree_harvested",
+    "description": "Crataegus monogyna, known as common hawthorn, one-seed hawthorn, or single-seeded hawthorn, is a species of flowering plant in the rose family Rosaceae.  It looks like the tree has been picked clean of hawthorns.",
+    "name": "hawthorn tree",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "tree_hawthorn",
+    "transforms_into": "t_tree_hawthorn",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [
+        { "item": "stick_long", "count": [ 3, 10 ] },
+        { "item": "splinter", "count": [ 10, 25 ] },
+        { "item": "leaves", "count": [ 50, 150 ] }
+      ]
+    }
   }
 ]
