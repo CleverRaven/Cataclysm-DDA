@@ -283,7 +283,14 @@
     "id": "escape_pod",
     "name": "Escape Pod Launch",
     "description": "You're slammed back against the seat as the pod launches at incredible speed from the ship!",
-    "effect": "EOC_afs_escape_pod_launch",
-    "valid_targets": "ground"
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_afs_escape_pod_launch",
+    "valid_targets": "ground",
+    "max_level": 1,
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "shape": "blast",
+    "min_range": 0,
+    "min_aoe": 1,
+    "max_aoe": 1
   }
 ]
