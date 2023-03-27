@@ -212,6 +212,7 @@ struct conditional_t {
         void set_can_see( bool is_npc = false );
         void set_compare_string( const JsonObject &jo, const std::string &member );
         void set_compare_num( const JsonObject &jo, const std::string &member );
+        void set_math( const JsonObject &jo, const std::string &member );
         static std::function<double( const T & )> get_get_dbl( const JsonObject &jo );
         static std::function<double( const T & )> get_get_dbl( const std::string &value,
                 const JsonObject &jo );

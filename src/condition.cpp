@@ -18,6 +18,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "dialogue.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "field.h"
@@ -32,6 +33,7 @@
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
+#include "math_parser.h"
 #include "mission.h"
 #include "mtype.h"
 #include "npc.h"
@@ -71,7 +73,7 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member,
         time_duration max_time;
         mandatory( jo, false, "default_time", max_time );
         value.min.dbl_val = to_turns<int>( max_time );
-        default_val = value;
+        default_val = std::move( value );
     }
     return "npctalk_var" + ( type_var.empty() ? "" : "_" + type_var ) + ( var_context.empty() ? "" : "_"
             + var_context ) + "_" + var_basename;
@@ -103,6 +105,9 @@ dbl_or_var_part<T> get_dbl_or_var_part( const JsonValue &jv, const std::string &
             talk_effect_fun_t<T> arith;
             arith.set_arithmetic( jo, "arithmetic", true );
             ret_val.arithmetic_val = arith;
+        } else if( jo.has_array( "math" ) ) {
+            ret_val.math_val.emplace();
+            ret_val.math_val->from_json( jo, "math" );
         } else {
             ret_val.var_val = read_var_info( jo );
         }
@@ -156,6 +161,9 @@ duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, const std
             talk_effect_fun_t<T> arith;
             arith.set_arithmetic( jo, "arithmetic", true );
             ret_val.arithmetic_val = arith;
+        } else if( jo.has_array( "math" ) ) {
+            ret_val.math_val.emplace();
+            ret_val.math_val->from_json( jo, "math" );
         } else {
             ret_val.var_val = read_var_info( jo );
         }
@@ -1388,6 +1396,16 @@ void conditional_t<T>::set_compare_num( const JsonObject &jo, const std::string 
 }
 
 template<class T>
+void conditional_t<T>::set_math( const JsonObject &jo, const std::string &member )
+{
+    eoc_math<T> math;
+    math.from_json( jo, member );
+    condition = [math = std::move( math )]( const T & d ) {
+        return math.act( d );
+    };
+}
+
+template<class T>
 std::function<double( const T & )> conditional_t<T>::get_get_dbl( const JsonObject &jo )
 {
     if( jo.has_member( "const" ) ) {
@@ -2579,6 +2597,122 @@ void talk_effect_fun_t<T>::set_arithmetic( const JsonObject &jo, const std::stri
 #endif
 
 template<class T>
+void talk_effect_fun_t<T>::set_math( const JsonObject &jo, const std::string &member )
+{
+    eoc_math<T> math;
+    math.from_json( jo, member );
+    function = [math = std::move( math )]( const T & d ) {
+        return math.act( d );
+    };
+}
+
+template<class T>
+void eoc_math<T>::from_json( const JsonObject &jo, std::string const &member )
+{
+    JsonArray const objects = jo.get_array( member );
+    if( objects.size() > 3 ) {
+        jo.throw_error( "Invalid number of args in " + jo.str() );
+        return;
+    }
+
+    std::string const oper = objects.size() >= 2 ? objects.get_string( 1 ) : std::string{};
+
+    if( objects.size() == 1 ) {
+        action = oper::ret;
+    }
+
+    if( objects.size() == 2 ) {
+        if( oper == "++" ) {
+            action = oper::increase;
+        } else if( oper == "--" ) {
+            action = oper::decrease;
+        } else {
+            jo.throw_error( "Invalid unary operator in " + jo.str() );
+        }
+    } else if( objects.size() == 3 ) {
+        rhs.parse( objects.get_string( 2 ), false );
+        if( oper == "=" ) {
+            action = oper::assign;
+        } else if( oper == "+=" ) {
+            action = oper::plus_assign;
+        } else if( oper == "-=" ) {
+            action = oper::minus_assign;
+        } else if( oper == "*=" ) {
+            action = oper::mult_assign;
+        } else if( oper == "/=" ) {
+            action = oper::div_assign;
+        } else if( oper == "%=" ) {
+            action = oper::mod_assign;
+        } else if( oper == "==" ) {
+            action = oper::equal;
+        } else if( oper == "<" ) {
+            action = oper::less;
+        } else if( oper == "<=" ) {
+            action = oper::equal_or_less;
+        } else if( oper == ">" ) {
+            action = oper::greater;
+        } else if( oper == ">=" ) {
+            action = oper::equal_or_greater;
+        } else {
+            jo.throw_error( "Invalid binary operator in " + jo.str() );
+        }
+    }
+    bool const lhs_assign = action >= oper::assign && action <= oper::decrease;
+    lhs.parse( objects.get_string( 0 ), lhs_assign );
+    if( action >= oper::plus_assign && action <= oper::decrease ) {
+        mhs.parse( objects.get_string( 0 ), false );
+    }
+}
+
+template<class T>
+double eoc_math<T>::act( T const &d ) const
+{
+    switch( action ) {
+        case oper::ret:
+            return lhs.eval( d );
+        case oper::assign:
+            lhs.assign( d, rhs.eval( d ) );
+            break;
+        case oper::plus_assign:
+            lhs.assign( d, mhs.eval( d ) + rhs.eval( d ) );
+            break;
+        case oper::minus_assign:
+            lhs.assign( d, mhs.eval( d ) - rhs.eval( d ) );
+            break;
+        case oper::mult_assign:
+            lhs.assign( d, mhs.eval( d ) * rhs.eval( d ) );
+            break;
+        case oper::div_assign:
+            lhs.assign( d, mhs.eval( d ) / rhs.eval( d ) );
+            break;
+        case oper::mod_assign:
+            lhs.assign( d, std::fmod( mhs.eval( d ), rhs.eval( d ) ) );
+            break;
+        case oper::increase:
+            lhs.assign( d, mhs.eval( d ) + 1 );
+            break;
+        case oper::decrease:
+            lhs.assign( d, mhs.eval( d ) - 1 );
+            break;
+        case oper::equal:
+            // FIXME: float comparison
+            return lhs.eval( d ) == rhs.eval( d );
+        case oper::less:
+            return lhs.eval( d ) < rhs.eval( d );
+        case oper::equal_or_less:
+            return lhs.eval( d ) <= rhs.eval( d );
+        case oper::greater:
+            return lhs.eval( d ) > rhs.eval( d );
+        case oper::equal_or_greater:
+            return lhs.eval( d ) >= rhs.eval( d );
+        default:
+            debugmsg( "unknown eoc math operator %d", action );
+    }
+
+    return 0;
+}
+
+template<class T>
 void conditional_t<T>::set_u_has_camp()
 {
     condition = []( const T & ) {
@@ -3002,6 +3136,9 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_compare_num( jo, "compare_int" );
     } else if( jo.has_member( "compare_num" ) ) {
         set_compare_num( jo, "compare_num" );
+    } else if( jo.has_member( "math" ) ) {
+        set_math( jo, "math" );
+        found_sub_member = true;
     } else if( jo.has_member( "compare_string" ) ) {
         set_compare_string( jo, "compare_string" );
     } else {
