@@ -21,8 +21,7 @@
 # Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
-#   Run: make NATIVE=osx OSX_MIN=10.13
-#     The minimum OSX_MIN version supported is 10.13
+#   Run: make NATIVE=osx
 
 # Build types:
 # Debug (no optimizations)
@@ -524,30 +523,9 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  ifeq ($(OSX_MIN),)
-    ifneq ($(findstring Darwin,$(OS)),)
-      OSX_MIN = $(shell sw_vers -productVersion | awk -F '.' '{print $$1 "." $$2}')
-    else
-      ifneq ($(CLANG), 0)
-        ifneq ($(SANITIZE),)
-          # sanitizers does not function properly (e.g. false positive errors) if OSX_MIN < 10.9
-          # https://github.com/llvm/llvm-project/blob/release/11.x/compiler-rt/CMakeLists.txt#L183
-          OSX_MIN = 10.9
-        else
-          OSX_MIN = 10.7
-        endif
-      else
-        OSX_MIN = 10.5
-      endif
-    endif
-  endif
   DEFINES += -DMACOSX
-  CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
-  LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation -Wl,-headerpad_max_install_names
-  ifeq ($(ARCH),arm64)
-    CXXFLAGS += -arch arm64
-    LDFLAGS += -arch arm64
-  endif
+  CXXFLAGS += -mmacosx-version-min=10.13
+  LDFLAGS += -mmacosx-version-min=10.13 -framework CoreFoundation -Wl,-headerpad_max_install_names
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
