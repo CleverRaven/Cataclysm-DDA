@@ -5235,9 +5235,7 @@
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "speech" }, { "level": 3, "name": "swimming" } ],
     "items": {
       "both": {
-        "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
-      },
+        "items": [ "pom_poms", "cheerleader_top", "socks_ankle", "sneakers" ] },
       "male": [ "briefs", "shorts", "tank_top" ],
       "female": [ "sports_bra", "panties", "cheerleader_skirt" ]
     },
