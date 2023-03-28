@@ -1184,23 +1184,29 @@ std::string input_context::get_hint_basic( const std::string &key,
     return input_context::get_hint_basic( key, "", state );
 }
 
+bool should_inline( const int pos, const std::string &text )
+{
+    return pos >= 0 && text.find_first_of( ' ' ) == std::string::npos &&
+           text.find_first_of( "\u00A0" ) == std::string::npos;
+}
+
 std::string input_context::get_hint_basic( const std::string &key,
         const std::string &text,
         const keybinding_hint_state state )
 {
     const int pos = ci_find_substr( text, key );
-    if( pos >= 0 ) {
+    if( should_inline( pos, text ) ) {
         // If the given k is the same as the text itself, we'd want to surround
         //   the key with the proper separators.
         if( get_option<bool>( "KEYBINDINGS_INLINE" ) ) {
             return input_context::colorize_inline_format( state, key, text.substr( 0, pos ),
                     text.substr( pos + key.size() ), true );
         }
-        return input_context::colorize_separate_format( state, key, text, true );
     }
     // Fallback to this if key is not present in the text.
     return input_context::colorize_separate_format( state, key, text, true );
 }
+
 std::string input_context::get_desc(
     const std::string &action_descriptor,
     const std::string &text,
@@ -1217,14 +1223,13 @@ std::string input_context::get_desc(
 
     const int n_text = utf8_width( text, true );
     const bool should_inline_if_possible = get_option<bool>( "KEYBINDINGS_INLINE" );
-    const int n_max_inline = get_option<int>( "KEYBINDINGS_INLINE_UP_TO_X" );
-    const bool can_inline = n_max_inline == 0 || n_text < n_max_inline;
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
     bool na = true;
     for( const input_event &evt : events ) {
         if( is_event_type_enabled( evt.type ) && evt_filter( evt ) ) {
+            // We found at least one key bound to this event, so we can display it!
             na = false;
-            if( n_text == 0 || !should_inline_if_possible || !can_inline ) {
+            if( n_text == 0 || !should_inline_if_possible ) {
                 break;
             }
             if( ( evt.type == input_event_t::keyboard_char || evt.type == input_event_t::keyboard_code ) &&
@@ -1233,7 +1238,7 @@ std::string input_context::get_desc(
                 if( ch > ' ' && ch <= '~' ) {
                     const std::string k = utf32_to_utf8( ch );
                     const int pos = ci_find_substr( text, k );
-                    if( pos >= 0 ) {
+                    if( should_inline( pos, text ) ) {
                         return input_context::get_hint_basic( k, text, state );
                     }
                 }
@@ -1292,7 +1297,7 @@ const nc_color input_context::get_hint_color_for_key( keybinding_hint_state stat
     }
 }
 
-std::string replace_spaces_with_non_breaking( const std::string s )
+std::string replace_spaces_with_non_breaking( const std::string &s )
 {
     std::string o = s;
     std::string old( " " );

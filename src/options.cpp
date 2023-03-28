@@ -1700,10 +1700,6 @@ void options_manager::add_options_interface()
            );
 
 
-        add( "KEYBINDINGS_INLINE_UP_TO_X", page_id, to_translation( "Limit inlining of keybinding hints" ),
-             to_translation( "Inline keybindings in hints (like 'E(x)amine') if the length of the hint text is smaller than X characters. Disable this limit by setting this to 0." ),
-             0, 999, 20
-           );
         add( "KEYBINDINGS_INLINE_SEPARATOR_LEFT", page_id,
              to_translation( "Inline left separator character" ),
              to_translation( "Character to insert to the left of the inlined key." ),
@@ -1741,7 +1737,6 @@ void options_manager::add_options_interface()
            );
     } );
 
-    get_option( "KEYBINDINGS_INLINE_UP_TO_X" ).setPrerequisite( "KEYBINDINGS_INLINE" );
     get_option( "KEYBINDINGS_INLINE_SEPARATOR_LEFT" ).setPrerequisite( "KEYBINDINGS_INLINE" );
     get_option( "KEYBINDINGS_INLINE_SEPARATOR_RIGHT" ).setPrerequisite( "KEYBINDINGS_INLINE" );
 

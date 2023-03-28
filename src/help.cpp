@@ -110,8 +110,8 @@ std::map<int, inclusive_rectangle<point>> help::draw_menu( const catacurses::win
         std::string shortcut_only = shortcut_text( cat_name, state, true );
 
         size_t pos = cat_name.find_first_of( ':' );
-        if( pos != std::string::npos && pos + 2 < cat_name.size() ) {
-            cat_name = cat_name.substr( pos + 2 );
+        if( pos != std::string::npos && pos + 1 < cat_name.size() ) {
+            cat_name = cat_name.substr( pos + 1 );
         }
         std::string shortcut = ctxt.get_hint_basic( shortcut_only, cat_name, state );
         const int cat_width = utf8_width( shortcut, true );

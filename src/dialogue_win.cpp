@@ -19,7 +19,8 @@ multiline_list_entry talk_data::get_entry() const
 {
     multiline_list_entry entry;
     entry.entry_text = colorize( text, color );
-    entry.prefix = input_context::get_hint_basic( hotkey_desc, keybinding_hint_state::ENABLED );
+    entry.prefix = string_format( "%s\u00A0", input_context::get_hint_basic( hotkey_desc,
+                                  keybinding_hint_state::ENABLED ) );
     return entry;
 }
 
