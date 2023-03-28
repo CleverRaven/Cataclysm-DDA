@@ -2662,8 +2662,8 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     item_name_cache_users++;
     tp_start =
         std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::steady_clock::now() );
-    ctxt.register_action( "COORDINATE");
-    ctxt.register_action("MOUSE_MOVE");
+    ctxt.register_action( "COORDINATE" );
+    ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Page down" ) );
