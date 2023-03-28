@@ -491,20 +491,11 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
         ui_manager::redraw();
 
         action = ctxt.handle_input();
-        if( action == "UP" || action == "SCROLL_UP" ) {
-            if( beg_line > 0 ) {
-                --beg_line;
-            }
-        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
-            if( beg_line < max_beg_line ) {
-                ++beg_line;
-            }
+        if( action == "UP" || action == "SCROLL_UP" || action == "DOWN" || action == "SCROLL_DOWN" ) {
+            beg_line = increment_and_clamp( beg_line, action == "DOWN" ||
+                                            action == "SCROLL_DOWN", max_beg_line );
         } else if( action == "PAGE_UP" ) {
-            if( beg_line > text_h ) {
-                beg_line -= text_h;
-            } else {
-                beg_line = 0;
-            }
+            beg_line = std::max( beg_line - text_h, 0 );
         } else if( action == "PAGE_DOWN" ) {
             // always scroll an entire page's length
             if( beg_line < max_beg_line ) {

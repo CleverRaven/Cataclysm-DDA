@@ -18,6 +18,7 @@
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "bionics.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -2302,7 +2303,7 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
     }
     if( container_name.empty() ) {
         if( new_item.count_by_charges() ) {
-            new_item.mod_charges( count - 1 );
+            new_item.charges = count;
             d.actor( false )->i_add_or_drop( new_item );
         } else {
             for( int i_cnt = 0; i_cnt < count; i_cnt++ ) {
@@ -2324,7 +2325,7 @@ static void receive_item( itype_id &item_name, int count, const std::string &con
         }
     } else {
         item container( container_name, calendar::turn );
-        new_item.mod_charges( count - 1 );
+        new_item.charges = count;
         container.put_in( new_item,
                           item_pocket::pocket_type::CONTAINER );
         d.actor( false )->i_add_or_drop( container );
@@ -3762,10 +3763,16 @@ void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
         list.emplace_back( get_str_or_var<T>( jv, member ) );
     }
     str_or_var<T> type = get_str_or_var<T>( jo.get_member( "type" ), "type", true );
+    str_or_var<T> message;
+    if( jo.has_member( "message" ) ) {
+        message = get_str_or_var<T>( jo.get_member( "message" ), "message", true );
+    } else {
+        message.str_val = "";
+    }
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
 
-    function = [list, type, is_npc, true_eocs, false_eocs]( const T & d ) {
+    function = [list, type, is_npc, true_eocs, false_eocs, message]( const T & d ) {
         std::vector<std::string> not_had;
         for( const str_or_var<T> &cur_string : list ) {
             if( type.evaluate( d ) == "bionic" ) {
@@ -3791,16 +3798,32 @@ void talk_effect_fun_t<T>::set_roll_remainder( const JsonObject &jo,
         if( !not_had.empty() ) {
             int index = rng( 0, not_had.size() - 1 );
             std::string cur_choice = not_had[index];
+            std::string name;
             if( type.evaluate( d ) == "bionic" ) {
-                d.actor( is_npc )->add_bionic( bionic_id( cur_choice ) );
+                bionic_id bionic( cur_choice );
+                d.actor( is_npc )->add_bionic( bionic );
+                name = bionic->name.translated();
             } else if( type.evaluate( d ) == "mutation" ) {
-                d.actor( is_npc )->set_mutation( trait_id( cur_choice ) );
+                trait_id trait( cur_choice );
+                d.actor( is_npc )->set_mutation( trait );
+                name = trait->name();
             } else if( type.evaluate( d ) == "spell" ) {
-                d.actor( is_npc )->set_spell_level( spell_id( cur_choice ), 1 );
+                spell_id spell( cur_choice );
+                d.actor( is_npc )->set_spell_level( spell, 1 );
+                name = spell->name.translated();
             } else if( type.evaluate( d ) == "recipe" ) {
-                d.actor( is_npc )->learn_recipe( recipe_id( cur_choice ) );
+                recipe_id recipe( cur_choice );
+                d.actor( is_npc )->learn_recipe( recipe );
+                name = recipe->result_name();
             } else {
                 debugmsg( "Invalid roll remainder type." );
+            }
+            std::string cur_message = message.evaluate( d );
+            if( !cur_message.empty() ) {
+                Character *target = d.actor( is_npc )->get_character();
+                if( target ) {
+                    target->add_msg_if_player( _( cur_message ), name );
+                }
             }
             run_eoc_vector( true_eocs, d );
         } else {
@@ -4718,6 +4741,9 @@ void json_talk_response::load_condition( const JsonObject &jo )
     is_switch = jo.get_bool( "switch", false );
     is_default = jo.get_bool( "default", false );
     read_condition<dialogue>( jo, "condition", condition, true );
+
+    optional( jo, true, "failure_explanation", failure_explanation );
+    optional( jo, true, "failure_topic", failure_topic );
 }
 
 bool json_talk_response::test_condition( const dialogue &d ) const
@@ -4739,6 +4765,16 @@ bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
         if( test_condition( d ) ) {
             d.responses.emplace_back( actual_response );
             return is_switch && !is_default;
+        } else if( !failure_explanation.empty() || !failure_topic.empty() ) {
+            // build additional talk responses for failed options with an explanation if details are given
+            talk_response tr = talk_response();
+            tr.truetext = to_translation( string_format( "*%s: %s", failure_explanation.translated(),
+                                          actual_response.truetext.translated() ) );
+            if( !failure_topic.empty() ) {
+                // Default is TALK_NONE otherwise go to the failure topic provided
+                tr.success.next_topic = talk_topic( failure_topic );
+            }
+            d.responses.emplace_back( tr );
         }
     }
     return false;

@@ -1981,7 +1981,7 @@
     "durability": 400,
     "description": "A military ASRG covered in heavy plating.  Provides constant albeit low power to your car.",
     "//": "40cm of weld per damage quadrant",
-    "epower": 130,
+    "epower": "130 W",
     "location": "center",
     "item": "compact_ASRG_containment",
     "requirements": {

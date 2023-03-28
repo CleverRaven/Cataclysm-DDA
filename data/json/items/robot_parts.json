@@ -212,6 +212,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "spidery_legs_big",
+    "name": { "str": "set of spidery legs", "str_pl": "sets of spidery legs" },
+    "description": "A set of big pointy legs, like the ones found under a tripod.",
+    "symbol": "W",
+    "color": "light_gray",
+    "weight": "40000 g",
+    "volume": "20 L",
+    "price": 200000,
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
     "id": "android_chassis",
     "name": { "str": "android skeleton" },
     "description": "What's left when you strip an android body from its components.",
