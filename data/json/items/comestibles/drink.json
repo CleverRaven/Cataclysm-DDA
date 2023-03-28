@@ -98,6 +98,7 @@
     "description": "Some wild sarsaparilla root steeped in boiling water.  Energizing.",
     "price": 100,
     "price_postapoc": 25,
+    "vitamins": [ [ "calcium", 10 ], [ "iron", 8 ] ],
     "fun": 1,
     "flags": [ "EATEN_HOT", "NO_AUTO_CONSUME", "NUTRIENT_OVERRIDE" ]
   },
@@ -461,6 +462,7 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ],
     "fun": 2
   },
   {
@@ -570,6 +572,7 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
+    "vitamins": [ "vitC", 10 ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4
   },
@@ -919,6 +922,7 @@
     "description": "A healthy beverage made from lotus flowers steeped in boiling water.",
     "price": 100,
     "price_postapoc": 25,
+    "vitamins": [ "vitC", 10 ],
     "fun": 1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
@@ -1251,6 +1255,7 @@
     "quench": 34,
     "calories": 1,
     "comestible_type": "MED",
+    "vitamins": [ [ "vitC", 10 ] ],
     "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
     "price": 100,
     "price_postapoc": 25,
@@ -1330,6 +1335,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea_willowbark",
+    "vitamins": [ [ "vitC", 10 ] ],
     "copy-from": "tea",
     "name": { "str_sp": "willowbark tea" },
     "comestible_type": "MED",
@@ -1437,6 +1443,7 @@
     "type": "COMESTIBLE",
     "id": "tea_green",
     "name": { "str": "green tea" },
+    "vitamins": [ [ "vitC", 10 ] ],
     "copy-from": "tea",
     "color": "green",
     "fatigue_mod": 7,
@@ -1470,6 +1477,7 @@
     "type": "COMESTIBLE",
     "id": "tea_sweetened",
     "copy-from": "tea",
+    "vitamins": [ [ "vitC", 10 ] ],
     "name": { "str": "sweetened tea" },
     "calories": 21,
     "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant \"Camellia sinensis\".  With added sweetener for a better taste.",
