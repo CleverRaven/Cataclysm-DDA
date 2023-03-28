@@ -1328,7 +1328,7 @@
     "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant \"Camellia sinensis\".",
     "price": 90,
     "price_postapoc": 25,
-    "vitamins":[ [ "vitC", 10 ] ],
+    "vitamins": [ [ "vitC", 10 ] ],
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
