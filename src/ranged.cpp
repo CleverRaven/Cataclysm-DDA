@@ -1778,8 +1778,9 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
         for( const aim_type_prediction &out : sorted ) {
             std::string col_hl = out.is_default ? "light_green" : "light_gray";
             std::string desc =
-                string_format( "<color_white>[</color><color_yellow>%s</color><color_white>]</color> <color_%s>%s %s</color> | %s: <color_light_blue>%3d</color>",
-                               out.hotkey, col_hl, out.name, _( "Aim" ), _( "Moves to fire" ), out.moves );
+                string_format( "%s <color_%s>%s %s</color> | %s: <color_light_blue>%3d</color>",
+                               input_context::get_hint_basic( out.hotkey ), col_hl, out.name, _( "Aim" ), _( "Moves to fire" ),
+                               out.moves );
 
             print_colored_text( w, point( 1, line_number++ ), col, col, desc );
 
@@ -3494,10 +3495,9 @@ void target_ui::draw_help_notice()
 {
     int text_y = getmaxy( w_target ) - 1;
     int width = getmaxx( w_target );
-    const std::string label_help = string_format(
-                                       narrow ? _( "%s show help" ) : _( "%s show all controls" ),
-                                       ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ) );
-    int label_width = std::min( utf8_width( label_help ), width - 6 ); // 6 for borders and "< " + " >"
+    const std::string label_help = ctxt.get_hint( "HELP_KEYBINDINGS" );
+    int label_width = std::min( utf8_width( label_help, true ),
+                                width - 6 ); // 6 for borders and "< " + " >"
     int text_x = width - label_width - 6;
     mvwprintz( w_target, point( text_x + 1, text_y ), c_white, "< " );
     trim_and_print( w_target, point( text_x + 3, text_y ), label_width, c_white, label_help );
@@ -3521,12 +3521,12 @@ void target_ui::draw_controls_list( int text_y )
     // Compile full list
     std::string movement_text = shifting_view ? _( "Shift view" ) : _( "Move cursor" );
     movement_text = colorize( movement_text, input_context::get_hint_color( move_hint_state ) );
-    lines.push_back( {8, string_format( "%s %s", ctxt.get_hint_directions( move_hint_state ), movement_text )} );
+    lines.push_back( {9, string_format( "%s %s", ctxt.get_hint_directions( move_hint_state ), movement_text )} );
     if( is_mouse_enabled() ) {
         std::string move = string_format( _( "%s %s" ), ctxt.get_hint_mouse( "SELECT", _( "Target" ),
                                           move_hint_state ), ctxt.get_hint_mouse( "SCROLL_UP", _( "Cycle" ), move_hint_state ) );
         std::string fire = ctxt.get_hint_mouse( "FIRE", fire_hint_state );
-        lines.push_back( {7, string_format( "%s %s", move, fire )} );
+        lines.push_back( {8, string_format( "%s %s", move, fire )} );
     }
     {
         lines.push_back( {0, string_format( "%s %s", ctxt.get_hint( "NEXT_TARGET", _( "Cycle targets" ), move_hint_state ), ctxt.get_hint( "FIRE", uitext_fire(), fire_hint_state ) )} );
@@ -3544,9 +3544,6 @@ void target_ui::draw_controls_list( int text_y )
                 aim_and_fire.push_back( ctxt.get_hint( e.action, fire_hint_state ) );
             }
         }
-
-
-
         lines.push_back( {2, ctxt.get_hint( "AIM", _( "Steady your aim (10 moves)" ), fire_hint_state )} );
         lines.push_back( {2, ctxt.get_hint( "STOPAIM", _( "Stop aiming" ), fire_hint_state )} );
         lines.push_back( {4, _( "Aim and fire with:" )} );
@@ -3554,9 +3551,9 @@ void target_ui::draw_controls_list( int text_y )
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual || ( mode == TargetMode::Reach &&
             relevant->is_gun() && you->get_aim_types( *relevant ).size() > 1 ) ) {
-        lines.push_back( {5, ctxt.get_hint( "SWITCH_MODE", _( "Switch firing modes" ) )} );
+        lines.push_back( {6, ctxt.get_hint( "SWITCH_MODE", _( "Switch firing modes" ) )} );
         if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
-            lines.push_back( { 6, ctxt.get_hint( "SWITCH_AMMO", _( "Reload/Switch ammo" ) ) } );
+            lines.push_back( { 7, ctxt.get_hint( "SWITCH_AMMO", _( "Reload/Switch ammo" ) ) } );
         }
     }
     if( mode == TargetMode::Turrets ) {
