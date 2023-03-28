@@ -875,14 +875,16 @@ item &item::set_degradation( int qty )
     return *this;
 }
 
-item item::split( int qty )
+item item::split( int qty, bool is_fake )
 {
     if( !count_by_charges() || qty <= 0 || qty >= charges ) {
         return item();
     }
     item res = *this;
     res.charges = qty;
-    charges -= qty;
+    if( !is_fake ) {
+        charges -= qty;
+    }
     return res;
 }
 
@@ -1639,7 +1641,7 @@ tripoint item::get_var( const std::string &name, const tripoint &default_value )
     }
     std::vector<std::string> values = string_split( it->second, ',' );
     cata_assert( values.size() == 3 );
-    auto convert_or_error = []( const std::string & s ) {
+    auto convert_or_error = []( const std::string &s ) {
         ret_val<int> result = try_parse_integer<int>( s, false );
         if( result.success() ) {
             return result.value();
@@ -4027,7 +4029,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( show_bodygraph ) {
         insert_separation_line( info );
 
-        auto bg_cb = [this]( const bodygraph_part * bgp, const std::string & sym ) {
+        auto bg_cb = [this]( const bodygraph_part * bgp, const std::string &sym ) {
             if( !bgp ) {
                 return colorize( sym, bodygraph_full_body_iteminfo->fill_color );
             }
@@ -5722,13 +5724,13 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         const auto print_parts = [&info, &player_character](
                                      const std::vector<vpart_info> &vparts,
-                                     const std::string & install_where,
+                                     const std::string &install_where,
                                      const std::function<bool( const vpart_info & )> &predicate
         ) {
             std::vector<std::string> result_parts;
             for( const vpart_info &vp : vparts ) {
                 const bool is_duplicate = std::any_of( result_parts.begin(), result_parts.end(),
-                [name = vp.name()]( const std::string & r ) {
+                [name = vp.name()]( const std::string &r ) {
                     return r == name;
                 } );
 
@@ -11463,7 +11465,7 @@ units::mass item::get_used_holster_weight() const
 int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
         std::string *err ) const
 {
-    const auto error = [ &err ]( const std::string & message ) {
+    const auto error = [ &err ]( const std::string &message ) {
         if( err != nullptr ) {
             *err = message;
         }

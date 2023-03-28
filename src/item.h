@@ -297,7 +297,7 @@ class item : public visitable
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed
          */
-        item split( int qty );
+        item split( int qty, bool is_fake = false );
 
         /**
          * Make a corpse of the given monster type.
