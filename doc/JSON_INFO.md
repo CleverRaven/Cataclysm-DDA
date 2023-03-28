@@ -1727,7 +1727,7 @@ Crafting recipes are defined as a JSON object with the following fields:
   "BLIND_EASY",
   "ANOTHERFLAG"
 ],
-"result_eocs": [ {"id": "TEST", "effect": { "u_message": "You feel Test" } } // List of inline effect_on_conditions or effect_on_condition ids that attempt to activate when this recipe is successfully finished.  If a value is provided a result becomes optional, though a name and id will be needed it it is missing.
+"result_eocs": [ {"id": "TEST", "effect": { "u_message": "You feel Test" } } // List of inline effect_on_conditions or effect_on_condition ids that attempt to activate when this recipe is successfully finished.  If a value is provided a result becomes optional, though a name and id will be needed it it is missing.  If no result is provided and a description is present, that will be displayed as the result on the crafting gui.
 ], 
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
