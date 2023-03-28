@@ -1261,11 +1261,10 @@ void editmap::edit_fld()
 
         input_context ctxt( fmenu.input_category, keyboard_mode::keycode );
         // \u00A0 is the non-breaking space
-        info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "%s %s %s\u00A0intensity %s %s %s" ),
+        info_txt_curr = string_format( "%s %s %s %s %s %s",
                                        ctxt.get_hint( "EDITMAP_TAB" ),
                                        ctxt.get_hint( "EDITMAP_MOVE" ),
-                                       ctxt.get_hint_pair( "LEFT", "RIGHT" ),
+                                       ctxt.get_hint_pair( "LEFT", "RIGHT", pgettext( "keybinding descriptions", "intensity" ) ),
                                        ctxt.get_hint( "CONFIRM" ),
                                        ctxt.get_hint( "QUIT" ),
                                        ctxt.get_hint( "EDITMAP_SHOW_ALL" ) );
@@ -1909,11 +1908,10 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             tmpmap_ptr = nullptr;
         }
         input_context ctxt( gpmenu.input_category, keyboard_mode::keycode );
-        // \u00A0 is the non-breaking space
-        info_txt_curr = string_format( pgettext( "keybinding descriptions",
-                                       "%s\u00A0prev/next other type %s\u00A0select %s %s" ),
-                                       ctxt.get_hint_pair( "LEFT", "RIGHT" ),
-                                       ctxt.get_hint_pair( "UP", "DOWN" ),
+        info_txt_curr = string_format( "%s %s %s %s",
+                                       ctxt.get_hint_pair( "LEFT", "RIGHT", pgettext( "keybinding descriptions",
+                                               "prev/next other type" ) ),
+                                       ctxt.get_hint_pair( "UP", "DOWN", pgettext( "keybinding descriptions", "select" ) ),
                                        ctxt.get_hint( "CONFIRM" ),
                                        ctxt.get_hint( "QUIT" ) );
         info_title_curr = string_format( pgettext( "map editor state", "Mapgen: %s" ),
