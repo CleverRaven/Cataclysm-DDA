@@ -255,7 +255,7 @@ class item_location::impl::item_on_map : public item_location::impl
             item *obj = target();
             item temp;
             if( target()->count_by_charges() ) {
-                temp = target()->split( qty,/*is_fake =*/true );
+                temp = item( *target() ).split( qty );
                 if( !temp.is_null() ) {
                     obj = &temp;
                 }
@@ -402,7 +402,7 @@ class item_location::impl::item_on_person : public item_location::impl
             item *obj = target();
             item temp;
             if( target()->count_by_charges() ) {
-                temp = target()->split( qty,/*is_fake =*/true );
+                temp = item( *target() ).split( qty );
                 if( !temp.is_null() ) {
                     obj = &temp;
                 }
@@ -526,7 +526,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             item *obj = target();
             item temp;
             if( target()->count_by_charges() ) {
-                temp = target()->split( qty,/*is_fake =*/true );
+                temp = item( *target() ).split( qty );
                 if( !temp.is_null() ) {
                     obj = &temp;
                 }

@@ -875,16 +875,14 @@ item &item::set_degradation( int qty )
     return *this;
 }
 
-item item::split( int qty, bool is_fake )
+item item::split( int qty )
 {
     if( !count_by_charges() || qty <= 0 || qty >= charges ) {
         return item();
     }
     item res = *this;
     res.charges = qty;
-    if( !is_fake ) {
-        charges -= qty;
-    }
+    charges -= qty;
     return res;
 }
 

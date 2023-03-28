@@ -295,10 +295,9 @@ class item : public visitable
         /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
          * @param qty number of required charges to split from source
-         * @param is_fake if the split action is just simulated
          * @return new instance containing exactly qty charges or null item if splitting failed
          */
-        item split( int qty, bool is_fake = false );
+        item split( int qty );
 
         /**
          * Make a corpse of the given monster type.
