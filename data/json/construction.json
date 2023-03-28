@@ -7840,11 +7840,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
     "byproducts": [
-      { "item": "scrap", "charges": [ 0, 4 ] },
-      { "item": "slag", "charges": [ 0, 10 ] },
-      { "item": "lead", "charges": [ 0, 8 ] },
-      { "item": "uranium", "count": [ 0, 6 ] },
-      { "item": "plutonium", "count": [ 0, 1 ] }
+      { "item": "slag", "charges": [ 100, 500 ], "custom-flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ] }
     ],
     "pre_flags": "RUBBLE",
     "pre_terrain": "f_reactor_meltdown",
