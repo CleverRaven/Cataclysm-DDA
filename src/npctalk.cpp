@@ -4741,6 +4741,9 @@ void json_talk_response::load_condition( const JsonObject &jo )
     is_switch = jo.get_bool( "switch", false );
     is_default = jo.get_bool( "default", false );
     read_condition<dialogue>( jo, "condition", condition, true );
+
+    optional( jo, true, "failure_explanation", failure_explanation );
+    optional( jo, true, "failure_topic", failure_topic );
 }
 
 bool json_talk_response::test_condition( const dialogue &d ) const
@@ -4762,6 +4765,16 @@ bool json_talk_response::gen_responses( dialogue &d, bool switch_done ) const
         if( test_condition( d ) ) {
             d.responses.emplace_back( actual_response );
             return is_switch && !is_default;
+        } else if( !failure_explanation.empty() || !failure_topic.empty() ) {
+            // build additional talk responses for failed options with an explanation if details are given
+            talk_response tr = talk_response();
+            tr.truetext = to_translation( string_format( "*%s: %s", failure_explanation.translated(),
+                                          actual_response.truetext.translated() ) );
+            if( !failure_topic.empty() ) {
+                // Default is TALK_NONE otherwise go to the failure topic provided
+                tr.success.next_topic = talk_topic( failure_topic );
+            }
+            d.responses.emplace_back( tr );
         }
     }
     return false;

@@ -614,6 +614,18 @@ The short format is equivalent to (an unconditional switching of the topic, `eff
 }
 ```
 
+When using a conditional you can specify the response to still appear but be marked as unavaiable. This can be done by adding a `failure_explanation` or `failure_topic` in the bellow example if the condition fails `*Didn't have enough: I, the player, say to you...` will be what appears in the responses, and if selected it will instead go to `TALK_EXPLAIN_FAILURE` and wont trigger the other effects:
+```json
+{
+    "condition": "...something...",
+    "failure_explanation": "Didn't have enough",
+    "failure_topic": "TALK_EXPLAIN_FAILURE",
+    "text": "I, the player, say to you...",
+    "effect": "...",
+    "topic": "TALK_WHATEVER"
+}
+```
+
 #### `text`
 Will be shown to the user, no further meaning.
 

@@ -680,7 +680,7 @@ std::string spell::damage_string( const Character &caster ) const
     dialogue d( get_talker_for( caster ), nullptr );
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         damage_string = string_format( "%d-%d", min_leveled_damage( caster ),
-                                       type->max_damage.evaluate( d ) );
+                                       static_cast<int>( type->max_damage.evaluate( d ) ) );
     } else {
         const int dmg = damage( caster );
         if( dmg >= 0 ) {
