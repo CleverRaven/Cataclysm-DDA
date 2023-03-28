@@ -253,15 +253,9 @@ class item_location::impl::item_on_map : public item_location::impl
             }
 
             item *obj = target();
-            item temp;
-            if( target()->count_by_charges() ) {
-                temp = item( *target() ).split( qty );
-                if( !temp.is_null() ) {
-                    obj = &temp;
-                }
-            }
-
-            int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY );
+            int handled_qty = obj->count_by_charges() ? ( qty <= 0 ||
+                              qty >= obj->charges ) ? obj->charges : qty : -1;
+            int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY, handled_qty );
             mv += 100 * rl_dist( ch.pos(), cur.pos() );
 
             // TODO: handle unpacking costs
@@ -398,22 +392,15 @@ class item_location::impl::item_on_person : public item_location::impl
             }
 
             int mv = 0;
-
-            item *obj = target();
-            item temp;
-            if( target()->count_by_charges() ) {
-                temp = item( *target() ).split( qty );
-                if( !temp.is_null() ) {
-                    obj = &temp;
-                }
-            }
-
             item &target_ref = *target();
+            item *obj = target();
+            int handled_qty = target_ref.count_by_charges() ? ( qty <= 0 ||
+                              qty >= target_ref.charges ) ? target_ref.charges : qty : -1;
             if( who->is_wielding( target_ref ) ) {
-                mv = who->item_handling_cost( *obj, false, 0 );
+                mv = who->item_handling_cost( *obj, false, handled_qty );
             } else {
                 // then we are wearing it
-                mv = who->item_handling_cost( *obj, true, INVENTORY_HANDLING_PENALTY / 2 );
+                mv = who->item_handling_cost( *obj, true, INVENTORY_HANDLING_PENALTY / 2, handled_qty );
                 mv += 250;
             }
 
@@ -524,15 +511,10 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             }
 
             item *obj = target();
-            item temp;
-            if( target()->count_by_charges() ) {
-                temp = item( *target() ).split( qty );
-                if( !temp.is_null() ) {
-                    obj = &temp;
-                }
-            }
+            int handled_qty = obj->count_by_charges() ? ( qty <= 0 ||
+                              qty >= obj->charges ) ? obj->charges : qty : -1;
 
-            int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY );
+            int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY, handled_qty );
             mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
             // TODO: handle unpacking costs

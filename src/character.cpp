@@ -3080,7 +3080,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 {
     std::vector<std::string> unmet_reqs;
 
-    const auto check_req = [ &unmet_reqs ]( const std::string & name, int cur, int req ) {
+    const auto check_req = [ &unmet_reqs ]( const std::string &name, int cur, int req ) {
         if( cur < req ) {
             unmet_reqs.push_back( string_format( "%s %d", name, req ) );
         }
@@ -6706,12 +6706,13 @@ bool Character::consume_charges( item &used, int qty )
     return false;
 }
 
-int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
+int Character::item_handling_cost( const item &it, bool penalties, int base_cost,
+                                   int charges_in_it ) const
 {
     int mv = base_cost;
     if( penalties ) {
         // 40 moves per liter, up to 200 at 5 liters
-        mv += std::min( 200, it.volume() / 20_ml );
+        mv += std::min( 200, it.volume( false, false, charges_in_it ) / 20_ml );
     }
 
     if( weapon.typeId() == itype_e_handcuffs ) {
@@ -9604,7 +9605,7 @@ void Character::process_one_effect( effect &it, bool is_new )
     int_bonus_hardcoded += get_int_bonus() - intl;
     per_bonus_hardcoded += get_per_bonus() - per;
 
-    const auto get_effect = [&it, is_new]( const std::string & arg, bool reduced ) {
+    const auto get_effect = [&it, is_new]( const std::string &arg, bool reduced ) {
         if( is_new ) {
             return it.get_amount( arg, reduced );
         }

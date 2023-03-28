@@ -444,14 +444,11 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
     }
 
     // If necessary create duplicate with appropriate number of charges
-    item obj = ammo;
-    obj = obj.split( qty );
-    if( obj.is_null() ) {
-        obj = ammo;
-    }
+    int handled_qty = ammo.count_by_charges() ? ( qty <= 0 ||
+                      qty >= ammo.charges ) ? ammo.charges : qty : -1;
     // No base cost for handling ammo - that's already included in obtain cost
     // We have the ammo in our hands right now
-    int mv = item_handling_cost( obj, true, 0 );
+    int mv = item_handling_cost( ammo, true, 0, handled_qty );
 
     if( ammo.has_flag( flag_MAG_BULKY ) ) {
         mv *= 1.5; // bulky magazines take longer to insert
