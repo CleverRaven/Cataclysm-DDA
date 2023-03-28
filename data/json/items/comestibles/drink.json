@@ -1260,7 +1260,7 @@
     "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
     "price": 100,
     "price_postapoc": 25,
-    "vitamins":[ [ "vitC", 10 ] ],
+    "vitamins": [ [ "vitC", 10 ] ],
     "fun": 1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "use_action": {
