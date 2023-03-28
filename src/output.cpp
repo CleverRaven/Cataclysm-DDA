@@ -2529,16 +2529,15 @@ void replace_keybind_tag( std::string &input )
         std::string keybind_desc;
         std::vector<input_event> keys = ctxt.keys_bound_to( keybind, -1, false, false );
         if( keys.empty() ) { // Display description for unbound keys
-            keybind_desc = string_format( "<%s>", colorize( pgettext( "keybinding", "None applicable" ),
-                                          c_red ) );
+            keybind_desc = colorize( input_context::get_hint_basic( pgettext( "keybinding", "None applicable" ),
+                                     keybinding_hint_state::NONE_AT_ALL ), c_red );
 
             if( !ctxt.is_registered_action( keybind ) ) {
                 debugmsg( "Invalid/Missing <keybind>: '%s'", keybind_full );
             }
         } else {
             keybind_desc = enumerate_as_string( keys.begin(), keys.end(), []( const input_event & k ) {
-                return string_format( "[%s]", colorize( k.long_description(),
-                                                        input_context::get_hint_color_for_key() ) );
+                return input_context::get_hint_basic( k.long_description() );
             }, enumeration_conjunction::or_ );
         }
         std::string to_replace = string_format( "%s%s%s", keybind_tag_start, keybind_full,
