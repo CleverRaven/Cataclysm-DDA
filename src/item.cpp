@@ -3018,7 +3018,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
 
     if( mod->get_gun_energy_drain() > 0_kJ && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
-        info.emplace_back( "AMMO", string_format( "Uses <stat>%s</stat> of energy per shot",
+        info.emplace_back( "AMMO", _( "Energy per shot: " ), string_format( "<stat>%s</stat>",
                            units::display( mod->get_gun_energy_drain() ) ) );
     }
 
