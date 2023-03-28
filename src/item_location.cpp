@@ -397,7 +397,7 @@ class item_location::impl::item_on_person : public item_location::impl
             int handled_qty = target_ref.count_by_charges() ? ( qty <= 0 ||
                               qty >= target_ref.charges ) ? target_ref.charges : qty : -1;
             if( who->is_wielding( target_ref ) ) {
-                mv = who->item_handling_cost( *obj, false, handled_qty );
+                mv = who->item_handling_cost( *obj, false, 0, handled_qty );
             } else {
                 // then we are wearing it
                 mv = who->item_handling_cost( *obj, true, INVENTORY_HANDLING_PENALTY / 2, handled_qty );
