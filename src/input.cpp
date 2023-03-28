@@ -1292,9 +1292,18 @@ const nc_color input_context::get_hint_color_for_key( keybinding_hint_state stat
     }
 }
 
-std::string replace_spaces_with_non_breaking( std::string s )
+std::string replace_spaces_with_non_breaking( const std::string s )
 {
-    return std::regex_replace( s, std::regex( " " ), "\u00A0" );
+    std::string o = s;
+    std::string old( " " );
+    std::string rep( "\u00A0" );
+
+    for( std::size_t pos = 0;
+         ( pos = o.find( old, pos ) ) != std::string::npos;
+         pos += rep.length() ) {
+        o.replace( pos, old.length(), rep );
+    }
+    return o;
 }
 
 std::string input_context::_get_hint( const std::string &action_descriptor, bool show_suffix,
