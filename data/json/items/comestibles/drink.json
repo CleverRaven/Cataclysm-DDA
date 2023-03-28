@@ -572,7 +572,7 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "vitamins": [ "vitC", 10 ],
+    "vitamins":[ [ "vitC", 10 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4
   },
@@ -922,7 +922,7 @@
     "description": "A healthy beverage made from lotus flowers steeped in boiling water.",
     "price": 100,
     "price_postapoc": 25,
-    "vitamins": [ "vitC", 10 ],
+    "vitamins":[ [ "vitC", 10 ] ],
     "fun": 1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
