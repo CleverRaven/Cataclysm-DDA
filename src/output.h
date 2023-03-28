@@ -610,8 +610,8 @@ std::string lowercase_first_letter( const std::string &str );
 void print_global_and_character_mode_headers( const catacurses::window &w, const point &p,
         bool globalSelected, bool show_character = true );
 std::string shortcut_text( const std::string &fmt,
-                           const keybinding_hint_state state = keybinding_hint_state::ENABLED,
-                           const bool shortcut_only = false );
+                           keybinding_hint_state state = keybinding_hint_state::ENABLED,
+                           bool shortcut_only = false );
 
 /**
  * @return Pair of a string containing the bar, and its color

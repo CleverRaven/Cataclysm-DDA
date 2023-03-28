@@ -709,12 +709,12 @@ class input_context
         static bool disallow_lower_case_or_non_modified_letters( const input_event &evt );
         static bool allow_all_keys( const input_event &evt );
 
-        static std::string colorize_separate_format( const keybinding_hint_state state,
+        static std::string colorize_separate_format( keybinding_hint_state state,
                 const std::string &key, const std::string &text,
-                const bool show_separators, const bool key_not_found = false );
-        static std::string colorize_inline_format( const keybinding_hint_state state,
+                bool show_separators, bool key_not_found = false );
+        static std::string colorize_inline_format( keybinding_hint_state state,
                 const std::string &key, const std::string &left_text,
-                const std::string &right_text, const bool show_separators );
+                const std::string &right_text, bool show_separators );
         static const nc_color get_hint_color( keybinding_hint_state state =
                 keybinding_hint_state::ENABLED );
         static const nc_color get_hint_color_for_separator( keybinding_hint_state state =
@@ -919,8 +919,8 @@ class input_context
          */
         std::string get_desc( const std::string &action_descriptor,
                               const std::string &text,
-                              const keybinding_hint_state state,
-                              const bool show_separators,
+                              keybinding_hint_state state,
+                              bool show_separators,
                               const input_event_filter &evt_filter = allow_all_keys ) const;
 
 
@@ -938,10 +938,10 @@ class input_context
          */
         static std::string get_hint_basic( const std::string &key,
                                            const std::string &text,
-                                           const keybinding_hint_state state = keybinding_hint_state::ENABLED
+                                           keybinding_hint_state state = keybinding_hint_state::ENABLED
                                          );
         static std::string get_hint_basic( const std::string &key,
-                                           const keybinding_hint_state state = keybinding_hint_state::ENABLED );
+                                           keybinding_hint_state state = keybinding_hint_state::ENABLED );
         const std::string &input_to_action( const input_event &inp ) const;
         bool is_event_type_enabled( input_event_t type ) const;
         bool is_registered_action( const std::string &action_name ) const;
