@@ -276,7 +276,7 @@ optional.
 
 Value: `"string"`: Valid terrain id from data/json/terrain.json
 
-Example: `"fill_ter": "t_grass"`
+Example: `"fill_ter": "t_region_groundcover"`
 
 
 ## ASCII map using "rows" array
@@ -312,24 +312,24 @@ Example:
 
 ```json
 "rows": [
-  ",_____ssssssssssss_____,",
-  ",__,__#### ss ####__,__,",
+  ",_____####ssss####_____,",
+  ",__,__#ssssssssss#__,__,",
   ",_,,,_#ssssssssss#__,__,",
-  ",__,__#hthsssshth#__,__,",
+  ",__,__#HTHssssHTH#__,__,",
   ",__,__#ssssssssss#_,,,_,",
-  ",__,__|-555++555-|__,__,",
-  ",_____|.hh....hh.%_____,",
-  ",_____%.tt....tt.%_____,",
-  ",_____%.tt....tt.%_____,",
-  ",_____%.hh....hh.|_____,",
-  ",_____|..........%_____,",
-  ",,,,,,|..........+_____,",
-  ",_____|ccccxcc|..%_____,",
-  ",_____w.......+..|_____,",
-  ",_____|e.ccl.c|+-|_____,",
-  ",_____|O.....S|.S|_____,",
-  ",_____||erle.x|T||_____,",
-  ",_____#|----w-|-|#_____,",
+  ",__,__||---++---||__,__,",
+  ",_____|.HH....HH.-_____,",
+  ",_____-.TT....TT.-_____,",
+  ",_____-.TT....TT.-_____,",
+  ",_____-.HH....HH.|_____,",
+  ",_____|..........-_____,",
+  ",,,,,,|g.........+_____,",
+  ",_____|ccxcxcc|..-_____,",
+  ",_____ow=w=w=w+..|_____,",
+  ",_____|ewccOwc|t||_____,",
+  ",_____|l=w=w=S|=S|_____,",
+  ",_____||eercwx|P||_____,",
+  ",_____#|||||o||||4_____,",
   ",________,_____________,",
   ",________,_____________,",
   ",________,_____________,",
@@ -351,34 +351,23 @@ Example:
 
 ```json
 "terrain": {
-  " ": "t_grass",
-  "d": "t_floor",
-  "5": "t_wall_glass_h",
-  "%": "t_wall_glass_v",
-  "O": "t_floor",
-  ",": "t_pavement_y",
+  " ": "t_region_groundcover_urban",
+  "d": "t_region_groundcover_barren",
+  "#": "t_region_shrub_decorative",
   "_": "t_pavement",
-  "r": "t_floor",
-  "6": "t_console",
-  "x": "t_console_broken",
-  "$": "t_shrub",
-  "^": "t_floor",
-  ".": "t_floor",
-  "-": "t_wall_h",
-  "|": "t_wall_v",
-  "#": "t_shrub",
-  "t": "t_floor",
+  ",": "t_pavement_y",
+  "s": "t_sidewalk",
+  "-": "t_wall_glass",
   "+": "t_door_glass_c",
-  "=": "t_door_locked_alarm",
-  "D": "t_door_locked",
-  "w": "t_window_domestic",
-  "T": "t_floor",
-  "S": "t_floor",
-  "e": "t_floor",
-  "h": "t_floor",
-  "c": "t_floor",
-  "l": "t_floor",
-  "s": "t_sidewalk"
+  "o": "t_window_open",
+  "|": "t_wall_w",
+  "t": [ [ "t_door_c", 2 ], "t_door_c" ],
+  ".": "t_floor",
+  "=": "t_linoleum_gray",
+  "P": "t_linoleum_gray",
+  "r": "t_linoleum_gray",
+  "O": "t_linoleum_white",
+  "4": "t_gutter_downspout"
 },
 ```
 
@@ -392,19 +381,17 @@ Example:
 
 ```json
 "furniture": {
-  "d": "f_dumpster",
-  "5": "f_null",
-  "%": "f_null",
-  "O": "f_oven",
-  "r": "f_rack",
-  "^": "f_indoor_plant",
-  "t": "f_table",
-  "T": "f_toilet",
+  "H": "f_chair",
+  "T": "f_table",
   "S": "f_sink",
-  "e": "f_fridge",
-  "h": "f_chair",
+  "x": "f_counter",
   "c": "f_counter",
-  "l": "f_locker"
+  "l": "f_locker",
+  "e": "f_fridge",
+  "r": "f_oven",
+  "O": "f_oven",
+  "g": "f_trashcan",
+  "d": "f_dumpster"
 },
 ```
 
@@ -678,7 +665,7 @@ Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
 
 ```json
 "terrain" : {
-    ".": [ "t_grass", "t_grass", "t_dirt" ]
+    ".": [ "t_region_grass", "t_region_grass", "t_region_soil" ]
 }
 ```
 
@@ -687,7 +674,7 @@ useful for rare occurrences (rather than repeating the common value many times):
 
 ```json
 "terrain" : {
-    ".": [ [ "t_grass", 2 ], "t_dirt" ]
+    ".": [ [ "t_region_grass", 2 ], "t_region_soil" ]
 }
 ```
 
@@ -707,7 +694,7 @@ Or define the mappings for one character at once:
         "traps": "tr_beartrap",
         "field": { "field": "fd_blood" },
         "item": { "item": "corpse" },
-        "terrain": { "t_dirt" }
+        "terrain": { "t_region_soil" }
     }
 }
 ```

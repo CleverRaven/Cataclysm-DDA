@@ -882,6 +882,9 @@ class item : public visitable
         units::volume get_total_holster_volume() const;
         units::volume get_used_holster_volume() const;
 
+        units::mass get_total_holster_weight() const;
+        units::mass get_used_holster_weight() const;
+
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
@@ -3057,7 +3060,7 @@ enum class hint_rating {
 };
 
 // Weight per level of LIFT/JACK tool quality
-static constexpr units::mass TOOL_LIFT_FACTOR = 500_kilogram;
+constexpr units::mass TOOL_LIFT_FACTOR = 500_kilogram;
 
 inline units::mass lifting_quality_to_mass( int quality_level )
 {

@@ -2089,8 +2089,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 std::vector<std::string> &weaps = weaps_by_cat[weapon_category_OTHER_INVALID_WEAP_CAT];
                 weaps.erase( std::unique( weaps.begin(), weaps.end() ), weaps.end() );
                 buffer += std::string( "<header>" ) + _( "OTHER" ) + std::string( ":</header> " );
-                buffer += enumerate_as_string( weaps );
+                buffer += enumerate_as_string( weaps ) + "\n";
             }
+            buffer += "--\n";
         }
 
         catacurses::window w;
@@ -2124,14 +2125,11 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         scrollbar sb;
 
-        input_context ict;
-        sb.set_draggable( ict );
-        ict.register_action( "UP" );
-        ict.register_action( "DOWN" );
-        ict.register_action( "PAGE_UP" );
-        ict.register_action( "PAGE_DOWN" );
-        ict.register_action( "QUIT" );
-        ict.register_action( "HELP_KEYBINDINGS" );
+        input_context ctxt;
+        sb.set_draggable( ctxt );
+        ctxt.register_navigate_ui_list();
+        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
 
         ui.on_redraw( [&]( const ui_adaptor & ) {
             werase( w );
@@ -2149,29 +2147,16 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         } );
 
         do {
-            if( selected < 0 || iLines < height ) {
-                selected = 0;
-            } else if( selected >= iLines - height ) {
-                selected = iLines - height;
-            }
-
             ui_manager::redraw();
-            const int scroll_lines = catacurses::getmaxy( w ) - 4;
-            std::string action = ict.handle_input();
+            const size_t scroll_lines = catacurses::getmaxy( w ) - 3;
+            std::string action = ctxt.handle_input();
 
             if( action == "QUIT" ) {
                 break;
-            } else if( sb.handle_dragging( action, ict.get_coordinates_text( catacurses::stdscr ),
-                                           selected ) ) {
-                // Scrollbar has handled action
-            } else if( action == "DOWN" ) {
-                selected++;
-            } else if( action == "UP" ) {
-                selected--;
-            } else if( action == "PAGE_DOWN" ) {
-                selected += scroll_lines;
-            } else if( action == "PAGE_UP" ) {
-                selected -= scroll_lines;
+            } else if( sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                           selected )
+                       || navigate_ui_list( action, selected, scroll_lines, iLines - height + 1, false ) ) {
+                // NO FURTHER ACTION REQUIRED
             }
         } while( true );
     }

@@ -876,7 +876,7 @@ void npc::randomize( const npc_class_id &type )
     for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
         this->magic->learn_spell( spell_pair.first, *this, true );
         spell &sp = this->magic->get_spell( spell_pair.first );
-        while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
+        while( sp.get_level() < spell_pair.second && !sp.is_max_level( *this ) ) {
             sp.gain_level( *this );
         }
     }
@@ -1864,7 +1864,7 @@ std::vector<spell_id> npc::spells_offered_to( Character &you )
         if( you.magic->can_learn_spell( you, sp ) ) {
             if( you.magic->knows_spell( sp ) ) {
                 const spell &student_spell = you.magic->get_spell( sp );
-                if( student_spell.is_max_level() ||
+                if( student_spell.is_max_level( you ) ||
                     student_spell.get_level() >= teacher_spell.get_level() ) {
                     continue;
                 }

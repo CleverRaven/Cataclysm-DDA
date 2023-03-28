@@ -451,8 +451,11 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
                     const std::string pre_damage_name = ablative_armor.tname();
 
                     // TODO: add balistic and shattering verbs for ablative materials instead of hard coded
-                    std::string format_string = _( "Your %1$s is %2$s!" );
-                    std::string damage_verb = "shattered";
+                    std::string format_string = _( "Your %1$s %2$s!" );
+                    std::string damage_verb = "is shattered";
+                    if( !ablative_armor.find_armor_data()->damage_verb.empty() ) {
+                        damage_verb = ablative_armor.find_armor_data()->damage_verb.translated();
+                    }
                     add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
 
                     if( is_avatar() ) {

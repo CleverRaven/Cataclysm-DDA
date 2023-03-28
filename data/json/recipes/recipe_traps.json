@@ -192,7 +192,7 @@
     "skill_used": "traps",
     "difficulty": 3,
     "time": "25 m",
-    "book_learn": [ [ "manual_traps_mil", 3 ] ],
+    "book_learn": [ [ "manual_traps_mil_basic", 3 ], [ "manual_traps_mil", 3 ] ],
     "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_traps" }, { "proficiency": "prof_trapsetting" } ],

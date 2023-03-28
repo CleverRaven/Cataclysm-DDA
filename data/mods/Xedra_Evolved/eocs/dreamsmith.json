@@ -65,8 +65,8 @@
     "effect": [
       {
         "u_roll_remainder": [
-          "dreamforged_ballistic_plate_ench",
-          "dreamforged_ballistic_plate_small_ench",
+          "dreamforged_ballistic_plate",
+          "dreamforged_ballistic_plate_small",
           "dreamforged_q_staff_ench",
           "dreamforged_longsword_ench",
           "dreamforged_warhammer_ench",

@@ -374,6 +374,10 @@ struct islot_armor {
          */
         itype_id non_functional;
         /**
+         * The verb for what happens when the item transforms to non-functional
+         */
+        translation damage_verb;
+        /**
          * How much warmth this item provides.
          */
         int warmth = 0;

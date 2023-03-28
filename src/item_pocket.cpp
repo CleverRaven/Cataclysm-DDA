@@ -1982,7 +1982,7 @@ std::list<item> &item_pocket::edit_contents()
 }
 
 ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
-        const bool into_bottom )
+        const bool into_bottom, bool restack_charges )
 {
     ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
@@ -1993,7 +1993,9 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
         } else {
             contents.push_back( it );
         }
-        restack();
+        if( restack_charges ) {
+            restack();
+        }
     }
     return ret;
 }

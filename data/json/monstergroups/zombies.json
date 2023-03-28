@@ -70,6 +70,14 @@
     ]
   },
   {
+    "name": "GROUP_DOGS",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie_dog", "weight": 135, "cost_multiplier": 0, "pack_size": [ 5, 8 ] },
+      { "monster": "mon_dog_zombie_rot", "weight": 135, "cost_multiplier": 1, "pack_size": [ 1, 4 ] }
+    ]
+  },
+  {
     "name": "GROUP_ZOMBIE_SCORCHED",
     "type": "monstergroup",
     "monsters": [
@@ -100,6 +108,7 @@
       { "monster": "mon_dog_zombie_rot", "weight": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_soldier", "weight": 100, "cost_multiplier": 2 },
       { "monster": "mon_zombie_cop", "weight": 200, "cost_multiplier": 3 },
+      { "monster": "mon_feral_cop", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fursuit", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_zombie_swat", "weight": 100, "cost_multiplier": 3 },
       { "monster": "mon_zombie_medical", "weight": 100, "cost_multiplier": 2 },
@@ -143,6 +152,7 @@
       { "monster": "mon_dog_zombie_rot", "weight": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_soldier", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_cop", "weight": 20, "cost_multiplier": 3 },
+      { "monster": "mon_feral_cop", "weight": 1, "cost_multiplier": 5 },
       { "monster": "mon_zombie_swat", "weight": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_medical", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 3 },
@@ -217,6 +227,7 @@
       { "monster": "mon_zombie_rot", "weight": 20, "cost_multiplier": 2 },
       { "monster": "mon_zombie_crawler", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_cop", "weight": 280, "cost_multiplier": 3 },
+      { "monster": "mon_feral_cop", "weight": 1, "cost_multiplier": 4 },
       { "monster": "mon_zombie_swat", "weight": 140, "cost_multiplier": 3 },
       { "monster": "mon_zombie_medical", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 2 },
@@ -242,6 +253,7 @@
       { "monster": "mon_zombie_crawler", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_child", "weight": 150, "cost_multiplier": 2 },
       { "monster": "mon_zombie_cop", "weight": 20, "cost_multiplier": 2 },
+      { "monster": "mon_feral_cop", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_zombie_swat", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_medical", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 2 },
@@ -290,6 +302,7 @@
       { "monster": "mon_zombie_rot", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_crawler", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_cop", "weight": 20, "cost_multiplier": 2 },
+      { "monster": "mon_feral_cop", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_zombie_swat", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_medical", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 2 },
@@ -341,6 +354,7 @@
       { "monster": "mon_zombie_rot", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_crawler", "weight": 5, "cost_multiplier": 2 },
       { "monster": "mon_zombie_cop", "weight": 20, "cost_multiplier": 2 },
+      { "monster": "mon_feral_cop", "weight": 1, "cost_multiplier": 3 },
       { "monster": "mon_zombie_swat", "weight": 2, "cost_multiplier": 2 },
       { "monster": "mon_zombie_medical", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 2 },
@@ -460,6 +474,7 @@
     "name": "GROUP_ZOMBIE_COP",
     "monsters": [
       { "monster": "mon_zombie_cop", "weight": 900, "cost_multiplier": 0 },
+      { "monster": "mon_feral_cop", "weight": 1, "cost_multiplier": 1 },
       { "monster": "mon_zombie_swat", "weight": 20, "cost_multiplier": 0 },
       { "monster": "mon_dog_zombie_cop", "weight": 50, "cost_multiplier": 2, "pack_size": [ 1, 2 ] }
     ]
@@ -573,6 +588,7 @@
       { "monster": "mon_zombie_crawler", "weight": 25, "cost_multiplier": 3 },
       { "monster": "mon_zombie_soldier", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_cop", "weight": 30, "cost_multiplier": 3 },
+      { "monster": "mon_feral_cop", "weight": 1, "cost_multiplier": 7 },
       { "monster": "mon_zombie_hazmat", "weight": 10, "cost_multiplier": 3 },
       { "monster": "mon_zombie_fireman", "weight": 10, "cost_multiplier": 2 },
       { "monster": "mon_zombie_swimmer_base", "weight": 10, "cost_multiplier": 5 },
@@ -631,6 +647,7 @@
     "name": "GROUP_ZOMBIE_SEXSHOP_A",
     "monsters": [
       { "monster": "mon_zombie_cop", "weight": 250, "cost_multiplier": 2 },
+      { "monster": "mon_feral_cop", "weight": 2, "cost_multiplier": 3 },
       { "monster": "mon_zombie_swat", "weight": 25, "cost_multiplier": 2 },
       { "monster": "mon_zombie_medical", "weight": 50, "cost_multiplier": 2 },
       { "monster": "mon_zombie", "weight": 325 },

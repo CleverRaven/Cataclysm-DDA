@@ -52,7 +52,7 @@ class talker
         virtual monster *get_monster() {
             return nullptr;
         }
-        virtual monster *get_monster() const {
+        virtual const monster *get_monster() const {
             return nullptr;
         }
         virtual Creature *get_creature() {

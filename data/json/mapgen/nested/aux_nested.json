@@ -261,14 +261,6 @@
   },
   {
     "type": "mapgen",
-    "update_mapgen_id": "exodii_bomb_add",
-    "method": "json",
-    "object": {
-      "place_item": [ { "item": "exodii_bomb", "x": [ 4, 19 ], "y": [ 4, 19 ], "amount": 1, "custom-flags": [ "ACTIVATE_ON_PLACE" ] } ]
-    }
-  },
-  {
-    "type": "mapgen",
     "update_mapgen_id": "government_killteam_add",
     "method": "json",
     "object": {
