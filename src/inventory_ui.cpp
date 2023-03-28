@@ -3529,8 +3529,8 @@ void inventory_multiselector::on_input( const inventory_input &input )
 
     if( input.entry != nullptr ) { // Single Item from mouse
         highlight( input.entry->any_item() );
-        if (input.action == "SELECT") {
-            toggle_entries(count);
+        if( input.action == "SELECT" ) {
+            toggle_entries( count );
         }
     } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
         toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
