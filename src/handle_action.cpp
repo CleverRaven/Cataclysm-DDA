@@ -2959,8 +2959,9 @@ bool game::handle_action()
                 std::string msg = string_format( _( "Unknown command: \"%s\" (%ld)" ), evt.long_description(), ch );
                 if( !ctxt.keys_bound_to( action_ident( ACTION_KEYBINDINGS ), /*maximum_modifier_count=*/ -1,
                                          /*restrict_to_printable=*/false ).empty() ) {
-                    msg = string_format( "%s\n%s", msg, ctxt.get_hint( action_ident( ACTION_KEYBINDINGS ),
-                                         _( "at any time to see and edit keybindings relevant to the current context." ) ) );
+                    msg = string_format(
+                              _( "Press %s at any time to see and edit keybindings relevant to the current context." ),
+                              ctxt.get_hint_key_only( action_ident( ACTION_KEYBINDINGS ) ) );
                 }
                 add_msg( m_info, msg );
             }
