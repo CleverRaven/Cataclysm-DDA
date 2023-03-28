@@ -7839,9 +7839,7 @@
     "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 100 ], [ "elec_jackhammer", 1320 ] ] ],
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "10 m",
-    "byproducts": [
-      { "item": "slag", "charges": [ 100, 500 ], "custom-flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ] }
-    ],
+    "byproducts": [ { "item": "slag", "charges": [ 100, 500 ], "custom-flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ] } ],
     "pre_flags": "RUBBLE",
     "pre_terrain": "f_reactor_meltdown",
     "post_terrain": "f_null",
