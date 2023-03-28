@@ -1013,7 +1013,7 @@
     "type": "material",
     "id": "gold",
     "name": "Gold",
-    "density": 19.3,
+    "density": 19.32,
     "specific_heat_liquid": 0.15,
     "specific_heat_solid": 0.13,
     "latent_heat": 63,
