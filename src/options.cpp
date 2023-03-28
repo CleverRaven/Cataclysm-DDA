@@ -1691,7 +1691,7 @@ void options_manager::add_options_interface()
     [&]( const std::string & page_id ) {
         add( "KEYBINDINGS_ALTERNATE_COLOR_THEME", page_id,
              to_translation( "Use an alternate keybindings color theme?" ),
-             to_translation( "Use an alternate keybindings color theme? Blue keys instead of yellow keys?" ),
+             to_translation( "Use an alternate keybindings color theme?  Blue keys instead of yellow keys?" ),
              false
            );
         add( "KEYBINDINGS_INLINE", page_id, to_translation( "Inline keybindings in hints" ),

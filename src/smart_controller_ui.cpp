@@ -36,6 +36,7 @@ smart_controller_ui::smart_controller_ui( smart_controller_settings initial_sett
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 }
 
@@ -116,7 +117,7 @@ void smart_controller_ui::refresh()
                                 _( "%s\n%s\n%s\n%s\n%s\n%s" ),
                                 ctxt.get_hint_pair( "UP", "DOWN", _( "Select option" ) ),
                                 ctxt.get_hint( "CONFIRM", _( "Change value" ) ),
-                                ctxt.get_hint_pair( "NEXT_TAB", "CONFIRM", _( "Switch between sliders" ) ),
+                                ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB", _( "Switch between sliders" ) ),
                                 ctxt.get_hint_pair( "LEFT", "RIGHT", _( "Move sliders" ) ),
                                 ctxt.get_hint( "QUIT", _( "Apply changes and quit" ) ),
                                 ctxt.get_hint( "HELP_KEYBINDINGS" ) );
@@ -146,14 +147,10 @@ void smart_controller_ui::control()
         ui_manager::redraw();
         action = ctxt.handle_input();
 
-        if( action == "CONFIRM" || ( action == "NEXT_TAB" &&
-                                     selection == smart_controller_ui_selection::lo_and_hi_slider ) ) {
+        if( action == "CONFIRM" ) {
             switch( selection ) {
                 case smart_controller_ui_selection::enabled:
                     settings.enabled = !settings.enabled;
-                    break;
-                case smart_controller_ui_selection::lo_and_hi_slider:
-                    slider = 1 - slider;
                     break;
                 case smart_controller_ui_selection::manual:
                     const translation manual =
@@ -166,6 +163,9 @@ void smart_controller_ui::control()
 
                     break;
             }
+        } else if( selection == smart_controller_ui_selection::lo_and_hi_slider && ( action == "PREV_TAB" ||
+                   action == "NEXT_TAB" ) ) {
+            slider = 1 - slider;
         } else if( action == "UP" || action == "DOWN" ) {
             selection = increment_and_wrap( selection, action == "DOWN", MENU_ITEMS_N );
         } else if( selection == smart_controller_ui_selection::lo_and_hi_slider && ( action == "LEFT" ||

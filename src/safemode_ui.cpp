@@ -137,13 +137,6 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
         wnoutrefresh( w_border );
 
-        static const std::vector<std::string> hotkeys = {{
-                translate_marker( "<A>dd" ), translate_marker( "<R>emove" ),
-                translate_marker( "<C>opy" ), translate_marker( "<M>ove" ),
-                translate_marker( "<E>nable" ), translate_marker( "<D>isable" ),
-                translate_marker( "<T>est" )
-            }
-        };
         std::vector<std::string> hints;
         hints.push_back( ctxt.get_hint( "SWITCH_SAFEMODE_OPTION",
                                         get_option<bool>( "SAFEMODE" ) ? keybinding_hint_state::TOGGLED_ON :
