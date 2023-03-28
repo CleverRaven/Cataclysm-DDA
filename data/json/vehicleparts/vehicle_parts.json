@@ -3362,8 +3362,16 @@
     "location": "under",
     "//": "240cm weld to install, 60cm of weld per quadrant of damage",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "120 m", "using": [ [ "welding_alloys", 240 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "120 m",
+        "using": [ [ "welding_alloys", 240 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "repair_welding_alloys", 6 ] ] }
     },
     "flags": [ "FLOATS" ],
