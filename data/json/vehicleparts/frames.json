@@ -58,8 +58,16 @@
     "breaks_into": "ig_vp_frame",
     "//": "assuming about 50 cm square for a frame's welds (200cm total) plus 50cm per damage quadrant for repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "15 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
@@ -121,8 +129,16 @@
     "breaks_into": "ig_vp_hdframe",
     "//": "doubled weld costs and bolts over standard frames for redundant fail points",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "200 m", "using": [ [ "welding_standard", 400 ], [ "vehicle_bolt_install", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "200 m",
+        "using": [ [ "welding_standard", 400 ], [ "vehicle_bolt_install", 4 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "50 m", "using": [ [ "repair_welding_standard", 10 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
@@ -142,8 +158,16 @@
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 5, 30 ] } ],
     "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_alloys", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_alloys", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "10 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "repair_welding_alloys", 5 ] ] }
     },
     "flags": [ "MOUNTABLE", "INITIAL_PART" ],
@@ -164,8 +188,16 @@
     "breaks_into": [ { "item": "scrap_aluminum", "count": [ 5, 30 ] } ],
     "//": "assuming about 50 cm square for a frame's welds",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_alloys", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_alloys", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "10 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "repair_welding_alloys", 5 ] ] }
     },
     "flags": [ "INITIAL_PART", "MOUNTABLE" ],
