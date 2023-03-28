@@ -172,6 +172,8 @@ class item_contents
         int get_total_holsters() const;
         units::volume get_total_holster_volume() const;
         units::volume get_used_holster_volume() const;
+        units::mass get_total_holster_weight() const;
+        units::mass get_used_holster_weight() const;
 
         // gets all CONTAINER pockets contained in this item
         std::vector<const item_pocket *> get_all_contained_pockets() const;
@@ -342,7 +344,8 @@ class item_contents
 
         // reads the items in the MOD pocket first
         void read_mods( const item_contents &read_input );
-        void combine( const item_contents &read_input, bool convert = false, bool into_bottom = false );
+        void combine( const item_contents &read_input, bool convert = false, bool into_bottom = false,
+                      bool restack_charges = true );
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );

@@ -435,7 +435,7 @@ void play_music( const std::string &playlist )
         // affects audio, not game logic.
         // NOLINTNEXTLINE(cata-determinism)
         static cata_default_random_engine eng = cata_default_random_engine(
-                std::chrono::system_clock::now().time_since_epoch().count() );
+                std::chrono::steady_clock::now().time_since_epoch().count() );
         std::shuffle( playlist_indexes.begin(), playlist_indexes.end(), eng );
     }
 

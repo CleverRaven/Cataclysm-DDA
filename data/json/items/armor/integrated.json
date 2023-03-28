@@ -9,7 +9,7 @@
     "volume": "300 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "wood", "veggy" ],
+    "material": [ "mut_wood", "veggy" ],
     "symbol": "x",
     "color": "light_green",
     "warmth": 1,
@@ -38,7 +38,7 @@
     "volume": "7500 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "wood" ],
+    "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
     "warmth": 1,
@@ -63,7 +63,7 @@
     "volume": "15 L",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "wood" ],
+    "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
     "warmth": 2,
@@ -88,7 +88,7 @@
     "volume": "15 L",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "wood" ],
+    "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
     "warmth": 2,
@@ -128,7 +128,7 @@
     "volume": "15 L",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "wood" ],
+    "material": [ "mut_wood" ],
     "symbol": "x",
     "color": "brown",
     "warmth": 2,
@@ -365,12 +365,12 @@
     "volume": "1 L",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "fur", "leather_arthropod", "wool", "hflesh" ],
+    "material": [ "leather", "mut_fur", "leather_arthropod", "wool", "hflesh" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 7,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "SOFT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "SOFT", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -396,12 +396,21 @@
     "volume": "500 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "bone", "fur", "acidchitin", "leather_arthropod", "wool", "flesh" ],
+    "material": [ "leather", "bone", "mut_fur", "acidchitin", "leather_arthropod", "wool", "flesh" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 12,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "SOFT", "TOUGH_FEET" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "WATER_FRIENDLY",
+      "SOFT",
+      "TOUGH_FEET",
+      "NO_SALVAGE"
+    ],
     "armor": [
       {
         "material": [
@@ -429,12 +438,12 @@
     "volume": "800 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "alien_carapace", "bone", "fur", "kevlar", "acidchitin", "leather_arthropod", "wool", "flesh" ],
+    "material": [ "leather", "alien_carapace", "mut_bone", "mut_fur", "kevlar", "acidchitin", "leather_arthropod", "wool", "flesh" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 15,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "PADDED", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -468,7 +477,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "warmth": 2,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "PADDED", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 3 } ],
@@ -542,7 +551,7 @@
     "color": "dark_gray",
     "warmth": 8,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "BLOCK_WHILE_WORN", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [ { "type": "chitin", "covered_by_mat": 100, "thickness": 2.8 } ],
@@ -764,7 +773,7 @@
     "volume": "15 L",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "bone" ],
+    "material": [ "mut_bone" ],
     "symbol": "x",
     "color": "magenta",
     "pocket_data": [
@@ -799,12 +808,12 @@
     "volume": "900 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "hflesh", "bone", "chitin" ],
+    "material": [ "hflesh", "mut_bone", "chitin" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 1,
     "environmental_protection": 1,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "PERSONAL", "WATER_FRIENDLY", "PADDED", "SOFT", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -829,12 +838,22 @@
     "volume": "1800 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "flesh", "bone", "chitin" ],
+    "material": [ "flesh", "mut_bone", "chitin" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 3,
     "environmental_protection": 4,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "SKINTIGHT", "WATER_FRIENDLY", "PADDED", "SOFT", "TOUGH_FEET" ],
+    "flags": [
+      "INTEGRATED",
+      "ALLOWS_NATURAL_ATTACKS",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "WATER_FRIENDLY",
+      "PADDED",
+      "SOFT",
+      "TOUGH_FEET",
+      "NO_SALVAGE"
+    ],
     "armor": [
       {
         "material": [
@@ -870,12 +889,12 @@
     "volume": "3600 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "leather", "flesh", "bone", "chitin" ],
+    "material": [ "leather", "flesh", "mut_bone", "chitin" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 5,
     "environmental_protection": 3,
-    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "PADDED", "SOFT" ],
+    "flags": [ "INTEGRATED", "ALLOWS_NATURAL_ATTACKS", "UNBREAKABLE", "NORMAL", "WATER_FRIENDLY", "PADDED", "SOFT", "NO_SALVAGE" ],
     "armor": [
       {
         "material": [
@@ -922,7 +941,17 @@
     "warmth": 5,
     "material_thickness": 1.5,
     "environmental_protection": 10,
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "SOFT", "WATER_FRIENDLY", "SUN_GLASSES", "NO_REPAIR", "SWIM_GOGGLES" ],
+    "flags": [
+      "INTEGRATED",
+      "UNBREAKABLE",
+      "SKINTIGHT",
+      "SOFT",
+      "WATER_FRIENDLY",
+      "SUN_GLASSES",
+      "NO_REPAIR",
+      "SWIM_GOGGLES",
+      "NO_SALVAGE"
+    ],
     "armor": [
       {
         "material": [

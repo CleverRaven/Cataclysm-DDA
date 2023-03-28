@@ -56,7 +56,7 @@
     "object": {
       "place_monsters": [ { "monster": "GROUP_Exodii_Jotunn", "x": [ 3, 17 ], "y": [ 13, 15 ] } ],
       "place_vehicles": [ { "vehicle": "bearcub", "chance": 30, "status": -3, "x": [ 11 ], "y": [ 12 ] } ],
-      "place_corpses": [ { "group": "FERAL_AGENTS", "x": [ 7, 14 ], "y": [ 6, 18 ] } ]
+      "place_corpses": [ { "group": "GROUP_FERAL_AGENTS", "x": [ 7, 14 ], "y": [ 6, 18 ] } ]
     }
   },
   {

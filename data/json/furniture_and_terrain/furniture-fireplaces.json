@@ -199,7 +199,7 @@
     "move_cost_mod": -1,
     "coverage": 50,
     "required_str": -1,
-    "crafting_pseudo_item": "fake_oven",
+    "crafting_pseudo_item": "clay_dutch_oven",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "PLACE_ITEM", "MINEABLE" ],
     "deconstruct": { "items": [ { "item": "rock", "count": 30 }, { "item": "fire_brick", "count": 10 } ] },
     "examine_action": "fireplace",

@@ -148,6 +148,10 @@ static const itype_id itype_usb_drive( "usb_drive" );
 
 static const matype_id style_none( "style_none" );
 
+static const mfaction_str_id monfaction_factionless( "factionless" );
+
+static const mtype_id mon_breather( "mon_breather" );
+
 static const skill_id skill_chemistry( "chemistry" );
 
 static const ter_str_id ter_t_ash( "t_ash" );
@@ -510,9 +514,9 @@ void effect_source::deserialize( const JsonObject &data )
     data.allow_omitted_members();
     data.read( "character_id", this->character );
     data.read( "faction_id", this->fac );
-    const std::string mfac_id = data.get_string( "mfaction_id", "" );
-    this->mfac = !mfac_id.empty()
-                 ? std::optional<mfaction_id>( mfaction_str_id( mfac_id ).id() )
+    const mfaction_str_id mfac_id( data.get_string( "mfaction_id", "invalid*faction" ) );
+    this->mfac = mfac_id.is_valid()
+                 ? std::optional<mfaction_id>( mfac_id.id() )
                  : std::optional<mfaction_id>();
 }
 
@@ -1041,6 +1045,7 @@ void Character::load( const JsonObject &data )
     on_stat_change( "sleep_deprivation", sleep_deprivation );
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
+    on_stat_change( "radiation", get_rad() );
     recalc_sight_limits();
     calc_encumbrance();
 
@@ -2570,10 +2575,13 @@ void monster::load( const JsonObject &data )
         }
     }
 
-    std::string sidtmp;
-    // load->str->int
-    data.read( "typeid", sidtmp );
-    type = &mtype_id( sidtmp ).obj();
+    const mtype_id montype( data.get_string( "typeid", "invalid*type" ) );
+    if( montype.is_valid() ) {
+        type = &montype.obj();
+    } else { // type is invalid (monster deleted from data - replace with something neutral)
+        type = &mon_breather.obj();
+        DebugLog( D_WARNING, DC_ALL ) << "mtype '" << montype.str() << "' is invalid, set to mon_breather";
+    }
 
     data.read( "unique_name", unique_name );
     data.read( "nickname", nickname );
@@ -2706,9 +2714,14 @@ void monster::load( const JsonObject &data )
 
     data.read( "ammo", ammo );
 
-    // TODO: Remove blob migration after 0.F
-    const std::string faction_string = data.get_string( "faction", "" );
-    faction = mfaction_str_id( faction_string == "blob" ? "slime" : faction_string );
+    const mfaction_str_id mfac( data.get_string( "faction", "invalid*faction" ) );
+    if( mfac.is_valid() ) {
+        faction = mfac;
+    } else {
+        faction = monfaction_factionless;
+        DebugLog( D_WARNING, DC_ALL ) << "mfaction " << mfac.str() << "' is invalid, set to factionless";
+    }
+
     data.read( "mounted_player_id", mounted_player_id );
     data.read( "path", path );
 }
@@ -3184,7 +3197,7 @@ void item::deserialize( const JsonObject &data )
 
         contents.read_mods( read_contents );
         update_modified_pockets();
-        contents.combine( read_contents, false, true );
+        contents.combine( read_contents, false, true, false );
 
         if( data.has_object( "contents" ) ) {
             JsonObject tested = data.get_object( "contents" );
@@ -4998,10 +5011,22 @@ void submap::load( const JsonValue &jv, const std::string &member_name, int vers
                     if( !remaining ) {
                         JsonValue terrain_entry = terrain_json.next_value();
                         if( terrain_entry.test_string() ) {
-                            iid = ter_str_id( terrain_entry.get_string() ).id();
+                            const ter_str_id terstr( terrain_entry.get_string() );
+                            if( terstr.is_valid() ) {
+                                iid = terstr.id();
+                            } else {
+                                debugmsg( "invalid ter_str_id '%s'", terstr.str() );
+                                iid = t_dirt;
+                            }
                         } else if( terrain_entry.test_array() ) {
                             JsonArray terrain_rle = terrain_entry;
-                            iid = ter_str_id( terrain_rle.next_string() ).id();
+                            const ter_str_id terstr( terrain_rle.next_string() );
+                            if( terstr.is_valid() ) {
+                                iid = terstr.id();
+                            } else {
+                                debugmsg( "invalid ter_str_id '%s'", terstr.str() );
+                                iid = t_dirt;
+                            }
                             remaining = terrain_rle.next_int() - 1;
                             if( terrain_rle.size() > 2 ) {
                                 terrain_rle.throw_error( "Too many values for terrain RLE" );

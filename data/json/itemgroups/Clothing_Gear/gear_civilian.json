@@ -349,7 +349,6 @@
       [ "hobo_stove", 1 ],
       [ "tinder", 1 ],
       { "item": "tinderbox", "prob": 1, "charges": [ 0, 100 ] },
-      { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
       [ "flint_steel", 5 ],
       [ "bottle_metal", 5 ],
       [ "wallet_travel", 10 ]

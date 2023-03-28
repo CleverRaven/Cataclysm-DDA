@@ -218,7 +218,7 @@ int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
 int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
-static constexpr float accel_g = 9.81f;
+constexpr float accel_g = 9.81f;
 
 enum class vp_flag : uint32_t {
     none = 0,
@@ -1097,14 +1097,43 @@ class vehicle
         std::vector<int> parts_at_relative( const point &dp, bool use_cache,
                                             bool include_fake = false ) const;
 
-        // returns index of part, inner to given, with certain flag, or -1
-        int part_with_feature( int p, const std::string &f, bool unbroken ) const;
+        /**
+        *  Returns index of part at mount point \p pt which has given \p f flag
+        *  @note does not use relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken
+        *  @returns part index or -1
+        */
         int part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
+        /**
+        *  Returns \p p or part index at mount point \p pt which has given \p f flag
+        *  @note uses relative_parts cache
+        *  @param p index of part to start searching from
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken()
+        *  @returns part index or -1
+        */
         int part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
-
-        // returns index of part, inner to given, with certain flag, or -1
-        int avail_part_with_feature( int p, const std::string &f ) const;
+        /**
+        *  Returns index of part at mount point \p pt which has given \p f flag
+        *  and is_available(), or -1 if no such part or it's not is_available()
+        *  @note does not use relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken
+        *  @returns part index or -1
+        */
         int avail_part_with_feature( const point &pt, const std::string &f ) const;
+        /**
+        *  Returns \p p or part index at mount point \p pt which has given \p f flag
+        *  and is_available(), or -1 if no such part or it's not is_available()
+        *  @note uses relative_parts cache
+        *  @param p index of part to start searching from
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken()
+        *  @returns part index or -1
+        */
         int avail_part_with_feature( int p, vpart_bitflags f ) const;
 
         /**
@@ -1624,6 +1653,17 @@ class vehicle
         units::volume max_volume( int part ) const;
         units::volume free_volume( int part ) const;
         units::volume stored_volume( int part ) const;
+
+        /**
+        * Flags item \p tool with PSEUDO, if it needs battery and has MOD pocket then a
+        * magazine_battery_pseudo_mod is installed and a pseudo battery with high capacity
+        * is inserted into the magazine well pocket with however many battery charges are
+        * available to this vehicle.
+        * @param tool the tool item to modify
+        * @return amount of energy the pseudo battery is set to or 0 joules
+        */
+        units::energy prepare_vehicle_tool( item &tool ) const;
+
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.

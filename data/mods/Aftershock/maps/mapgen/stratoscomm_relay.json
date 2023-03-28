@@ -120,8 +120,8 @@
         "                        "
       ],
       "palettes": [ "afs_habitat_structure" ],
-      "terrain": { " ": "t_open_air", "'": "t_door_glass_o", ".": "t_strconc_floor", ",": "t_sidewalk", "E": "t_machinery_electronic" },
-      "furniture": { "4": "f_mil_comms_sat" }
+      "terrain": { " ": "t_open_air", "'": "t_door_glass_o", ".": "t_strconc_floor", ",": "t_sidewalk" },
+      "furniture": { "4": "f_mil_comms_sat", "E": "f_machinery_electronic" }
     }
   }
 ]

@@ -32,27 +32,27 @@ class window;
 } // namespace catacurses
 
 // Curses key constants
-static constexpr int KEY_ESCAPE     = 27;
-static constexpr int KEY_MIN        =
+constexpr int KEY_ESCAPE     = 27;
+constexpr int KEY_MIN        =
     0x101;    /* minimum extended key value */ //<---------not used
-static constexpr int KEY_BREAK      =
+constexpr int KEY_BREAK      =
     0x101;    /* break key */                  //<---------not used
-static constexpr int KEY_DOWN       = 0x102;    /* down arrow */
-static constexpr int KEY_UP         = 0x103;    /* up arrow */
-static constexpr int KEY_LEFT       = 0x104;    /* left arrow */
-static constexpr int KEY_RIGHT      = 0x105;    /* right arrow*/
-static constexpr int KEY_HOME       =
+constexpr int KEY_DOWN       = 0x102;    /* down arrow */
+constexpr int KEY_UP         = 0x103;    /* up arrow */
+constexpr int KEY_LEFT       = 0x104;    /* left arrow */
+constexpr int KEY_RIGHT      = 0x105;    /* right arrow*/
+constexpr int KEY_HOME       =
     0x106;    /* home key */
-static constexpr int KEY_BACKSPACE  =
+constexpr int KEY_BACKSPACE  =
     0x107;    /* Backspace */                  //<---------not used
-static constexpr int KEY_DC         = 0x14A;    /* Delete Character */
-static constexpr int KEY_F0         = 0x108;
+constexpr int KEY_DC         = 0x14A;    /* Delete Character */
+constexpr int KEY_F0         = 0x108;
 inline constexpr int KEY_F( const int n )
 {
     return KEY_F0 + n;    /* F1, F2, etc*/
 }
-static constexpr int F_KEY_NUM_BEG  = 0;
-static constexpr int F_KEY_NUM_END  = 63;
+constexpr int F_KEY_NUM_BEG  = 0;
+constexpr int F_KEY_NUM_END  = 63;
 inline constexpr int F_KEY_NUM( const int key )
 {
     return key - KEY_F0;
@@ -76,11 +76,11 @@ inline constexpr int KEY_NUM( const int n )
 {
     return 0x30 + n;     /* Numbers 0, 1, ..., 9 */
 }
-static constexpr int KEY_NPAGE      = 0x152;    /* page down */
-static constexpr int KEY_PPAGE      = 0x153;    /* page up */
-static constexpr int KEY_ENTER      = 0x157;    /* enter */
-static constexpr int KEY_BTAB       = 0x161;    /* back-tab = shift + tab */
-static constexpr int KEY_END        = 0x168;    /* End */
+constexpr int KEY_NPAGE      = 0x152;    /* page down */
+constexpr int KEY_PPAGE      = 0x153;    /* page up */
+constexpr int KEY_ENTER      = 0x157;    /* enter */
+constexpr int KEY_BTAB       = 0x161;    /* back-tab = shift + tab */
+constexpr int KEY_END        = 0x168;    /* End */
 
 // Platform independent key code (though largely based on SDL key code)
 //
@@ -148,8 +148,8 @@ enum : int {
 };
 } // namespace keycode
 
-static constexpr int LEGEND_HEIGHT = 11;
-static constexpr int BORDER_SPACE = 2;
+constexpr int LEGEND_HEIGHT = 11;
+constexpr int BORDER_SPACE = 2;
 
 bool is_mouse_enabled();
 bool is_keycode_mode_supported();
@@ -792,6 +792,7 @@ class input_context
         void register_updown();
         void register_leftright();
         void register_cardinal();
+        void register_navigate_ui_list();
 
         /**
          * Displays the possible actions in the current context and their
