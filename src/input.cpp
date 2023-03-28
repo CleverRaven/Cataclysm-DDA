@@ -1186,8 +1186,8 @@ std::string input_context::get_hint_basic( const std::string &key,
 
 bool should_inline( const int pos, const std::string &text )
 {
-    return pos >= 0 && text.find_first_of( ' ' ) == std::string::npos &&
-           text.find_first_of( "\u00A0" ) == std::string::npos;
+    return pos == 0 || ( pos >> 0 && text.find_first_of( ' ' ) == std::string::npos &&
+                         text.find_first_of( "\u00A0" ) == std::string::npos );
 }
 
 std::string input_context::get_hint_basic( const std::string &key,
