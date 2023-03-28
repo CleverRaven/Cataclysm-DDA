@@ -187,6 +187,7 @@
     "description": "A healthy beverage made from chamomile flowers steeped in boiling water.  Can be used to treat insomnia.",
     "price": 100,
     "price_postapoc": 25,
+    "vitamins": [ [ "vitC", 10 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "fun": 1
   },
@@ -1259,6 +1260,7 @@
     "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
     "price": 100,
     "price_postapoc": 25,
+    "vitamins":[ [ "vitC", 10 ] ],
     "fun": 1,
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE", "NO_AUTO_CONSUME" ],
     "use_action": {
@@ -1326,6 +1328,7 @@
     "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant \"Camellia sinensis\".",
     "price": 90,
     "price_postapoc": 25,
+    "vitamins":[ [ "vitC", 10 ] ],
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
