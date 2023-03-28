@@ -483,6 +483,7 @@
     "material": [ "water" ],
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
+    "vitamins": [ [ "vitC", 23 ], [ "calcium", 23 ], [ "iron", 10 ] ],
     "fun": 3
   },
   {
