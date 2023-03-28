@@ -276,8 +276,16 @@
     "location": "center",
     "//": "1m square sheet of metal, likely affixed with bolts in places, assume 200cm weld to install and 50cm weld to repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
     "flags": [ "AISLE", "BOARDABLE" ],
@@ -337,8 +345,16 @@
     "location": "center",
     "//": "same requirements as aisle to install but higher repair costs due to more mass",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED" ],
@@ -381,8 +397,16 @@
     "location": "roof",
     "//": "same requirements as aisle",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "25 m", "using": [ [ "repair_welding_standard", 5 ] ] }
     },
     "flags": [ "ROOF" ],
@@ -404,8 +428,16 @@
     "item": "steel_plate",
     "location": "roof",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 m", "using": [ [ "welding_standard", 300 ], [ "vehicle_bolt_install", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "150 m",
+        "using": [ [ "welding_standard", 300 ], [ "vehicle_bolt_install", 3 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "ROOF" ],
@@ -430,8 +462,16 @@
     "location": "structure",
     "//": "10cm weld to affix to a vehicle",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "welding_standard", 10 ], [ "vehicle_bolt_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "5 m",
+        "using": [ [ "welding_standard", 10 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "SHARP", "PROTRUSION" ],
@@ -510,8 +550,16 @@
     "//": "40cm weld to affix",
     "location": "fuel_source",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "welding_standard", 40 ], [ "vehicle_bolt_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "20 m",
+        "using": [ [ "welding_standard", 40 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "flags": [ "BATTERY_MOUNT" ],
@@ -589,8 +637,16 @@
     "item": "minireactor",
     "location": "fuel_source",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ], [ "vehicle_bolt_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 6 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 5 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": {
         "skills": [ [ "mechanics", 7 ] ],
         "time": "60 m",
@@ -801,8 +857,16 @@
     "//1": "120cm weld to install, 30cm per damage quadrant for repair",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "CARGO", "LOCKABLE_CARGO", "COVERED", "BOARDABLE", "SIMPLE_PART" ],
@@ -1121,8 +1185,16 @@
     "location": "under",
     "//": "240cm weld to install, 60cm of weld per quadrant of damage",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 30 ] ] }
     },
     "flags": [ "FLOATS" ],
@@ -1302,8 +1374,16 @@
     "//": "120 cm of weld to install the whole assembly",
     "item": "vehicle_controls",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 15 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "15 m",
+        "using": [ [ "vehicle_weld_removal", 15 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": {
         "skills": [ [ "mechanics", 3 ] ],
         "time": "60 m",
@@ -1451,8 +1531,16 @@
     "//": "80 cm of weld at various affix points (presuming the muffler includes the exhaust point",
     "item": "muffler",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "45 m", "using": [ [ "welding_standard", 80 ], [ "vehicle_bolt_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "45 m",
+        "using": [ [ "welding_standard", 80 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "MUFFLER" ],
@@ -1995,8 +2083,16 @@
     "location": "armor",
     "//": "240cm weld to install, 60cm weld per damage quadrant",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "120 m", "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "120 m",
+        "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 3 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "ARMOR" ],
@@ -2017,8 +2113,16 @@
     "location": "armor",
     "//": "240cm weld to install, 60cm weld per damage quadrant",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "120 m", "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "120 m",
+        "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 3 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "ARMOR" ],
@@ -2045,8 +2149,16 @@
     "location": "armor",
     "//": "240cm weld to install, 60cm weld per damage quadrant",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "120 m", "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 3 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "120 m",
+        "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 3 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "ARMOR", "SHARP" ],
@@ -2072,8 +2184,16 @@
     "location": "armor",
     "//": "300cm weld to install, 80cm weld per damage quadrant",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "150 m", "using": [ [ "welding_standard", 300 ], [ "vehicle_bolt_install", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal_cut_resistant", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "150 m",
+        "using": [ [ "welding_standard", 300 ], [ "vehicle_bolt_install", 4 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal_cut_resistant", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "40 m", "using": [ [ "repair_welding_standard", 8 ] ] }
     },
     "flags": [ "ARMOR" ],
@@ -2098,8 +2218,16 @@
     "location": "armor",
     "//": "300cm weld to install",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "150 m", "using": [ [ "welding_standard", 300 ], [ "vehicle_bolt_install", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal_cut_resistant", 1 ], [ "vehicle_wrench_2", 1 ] ] }
+      "install": {
+        "skills": [ [ "mechanics", 6 ] ],
+        "time": "150 m",
+        "using": [ [ "welding_standard", 300 ], [ "vehicle_bolt_install", 4 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal_cut_resistant", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      }
     },
     "flags": [ "ARMOR", "NO_REPAIR" ],
     "breaks_into": [
@@ -2327,8 +2455,16 @@
     "item": "cargo_rack",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "120 m", "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "120 m",
+        "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 4 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 12 ] ] }
     },
     "flags": [ "BOARDABLE", "CARGO", "COVERED" ],
@@ -2356,8 +2492,16 @@
     "item": "livestock_carrier",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 4 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 240 ], [ "vehicle_bolt_install", 4 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 12 ] ] }
     },
     "flags": [ "BOARDABLE", "CARGO", "COVERED", "CAPTURE_MONSTER_VEH" ],
@@ -2813,8 +2957,16 @@
     "folded_volume": "2500 ml",
     "item": "drive_by_wire_controls",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": {
         "skills": [ [ "mechanics", 4 ] ],
         "time": "60 m",
@@ -2917,8 +3069,16 @@
     "//1": "120cm weld to install the whole assembly, 30cm weld per damage quadrant for repair",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": {
         "skills": [ [ "mechanics", 5 ] ],
         "time": "30 m",
@@ -3095,8 +3255,16 @@
     "item": "v_scoop_item",
     "//1": "100cm weld to install, 30cm weld per damage quadrant to repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "50 m", "using": [ [ "welding_standard", 100 ], [ "vehicle_bolt_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_1", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "50 m",
+        "using": [ [ "welding_standard", 100 ], [ "vehicle_bolt_install", 1 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_1", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "12 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "SCOOP", "CARGO", "ENABLED_DRAINS_EPOWER" ],
@@ -3146,8 +3314,16 @@
     "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
     "transform_terrain": { "pre_flags": [ "PLOWABLE" ], "post_terrain": "t_dirtmound" },
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "TRANSFORM_TERRAIN", "PLOW", "EXTRA_DRAG" ],
@@ -3172,8 +3348,16 @@
     "power": "-700 W",
     "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "PLANTER", "PROTRUSION", "CARGO", "EXTRA_DRAG" ],
@@ -3198,8 +3382,16 @@
     "size": "17500 ml",
     "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "PLANTER", "PROTRUSION", "CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG" ],
@@ -3229,8 +3421,16 @@
     "location": "structure",
     "//1": "200cm weld to install and 60cm weld per damage quadrant to repair",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 2 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "REAPER", "PROTRUSION", "EXTRA_DRAG" ],
@@ -3257,8 +3457,16 @@
     "location": "under",
     "size": "87500 ml",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ] ], "time": "100 m", "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 5 ] ],
+        "time": "100 m",
+        "using": [ [ "welding_standard", 200 ], [ "vehicle_bolt_install", 2 ] ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "30 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 6 ] ] }
     },
     "flags": [ "REAPER", "CARGO", "EXTRA_DRAG" ],
@@ -3310,7 +3518,11 @@
     "//1": "60cm weld to install and 15cm weld per damage quadrant to repair",
     "item": "turret_mount",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 30 ], [ "vehicle_bolt_install", 1 ] ] },
+      "install": {
+        "skills": [ [ "mechanics", 1 ] ],
+        "time": "20 m",
+        "using": [ [ "welding_standard", 30 ], [ "vehicle_bolt_install", 1 ] ]
+      },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
