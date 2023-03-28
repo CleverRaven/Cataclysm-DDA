@@ -4197,6 +4197,7 @@
     "id": "FAV_CONTEXT_MENU",
     "category": "INVENTORY",
     "name": "Open context menu",
+    "short_name": "Context menu",
     "bindings": [
       { "input_method": "keyboard_any", "key": "RETURN" },
       { "input_method": "keyboard_any", "key": "KEYPAD_ENTER" },

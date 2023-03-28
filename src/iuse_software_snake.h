@@ -3,7 +3,7 @@
 #define CATA_SRC_IUSE_SOFTWARE_SNAKE_H
 
 
-#include "input.h"
+class input_context;
 
 namespace catacurses
 {

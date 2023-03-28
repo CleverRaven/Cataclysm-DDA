@@ -81,7 +81,7 @@ void snake_game::snake_over( const catacurses::window &w_snake, int iScore,
     }
 
     center_print( w_snake, 17, c_yellow, string_format( _( "TOTAL SCORE: %d" ), iScore ) );
-    center_print( w_snake, 21, c_white, ctxt.get_hint( "QUIT", _( "to quit" ) ) );
+    center_print( w_snake, 21, c_white, ctxt.get_hint( "QUIT" ) );
     wnoutrefresh( w_snake );
 }
 

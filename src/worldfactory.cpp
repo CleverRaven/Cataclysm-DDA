@@ -1196,7 +1196,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             if( num_lines > window_height ) {
                 // The description didn't fit in the window, so provide a
                 // hint for how to see the whole thing
-                std::string message = std::string( "..." ).append(
+                std::string message = std::string( "…" ).append(
                                           ctxt.get_hint( "VIEW_MOD_DESCRIPTION" ) );
                 print_colored_text( w_description, point( window_width - utf8_width( message, true ),
                                     window_height - 1 ), message );
@@ -1852,11 +1852,11 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     // Add tips & hints
 
     fold_and_print( win, point( 2, TERMY - 10 ), getmaxx( win ) - 4, c_light_gray,
-                    _( "%s | %s | %s | %s | %s" ),
+                    _( "%s %s %s %s %s" ),
                     ctxtp.get_hint( "SAVE_DEFAULT_MODS" ),
-                    ctxtp.get_hint_pair( "PREV_TAB", "NEXT_TAB", _( "switch Main Tab" ) ),
-                    ctxtp.get_hint_pair( "LEFT", "RIGHT", _( "switch Mod List and Mod Load Order" ) ),
-                    ctxtp.get_hint_pair( "PREV_CATEGORY_TAB", "NEXT_CATEGORY_TAB", _( "switch Mod List Tab" ) ),
+                    ctxtp.get_hint_pair( "PREV_TAB", "NEXT_TAB", _( "Switch Main Tab" ) ),
+                    ctxtp.get_hint_pair( "LEFT", "RIGHT", _( "Switch Mod List and Mod Load Order" ) ),
+                    ctxtp.get_hint_pair( "PREV_CATEGORY_TAB", "NEXT_CATEGORY_TAB", _( "Switch Mod List Tab" ) ),
                     ctxtp.get_hint( "HELP_KEYBINDINGS" )
                   );
     wnoutrefresh( win );

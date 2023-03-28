@@ -1002,7 +1002,7 @@ void debug_menu::wishitem( Character *you, const tripoint &pos )
                 if( amount > 0 ) {
                     input_context ctxt( wmenu.input_category, keyboard_mode::keycode );
                     cb.msg = string_format( _( "Wish granted.  Wish for more or hit %s to quit" ),
-                                            ctxt.get_hint( "QUIT" ) );
+                                            ctxt.get_hint_key_only( "QUIT" ) );
                 }
             }
             uistate.wishitem_selected = wmenu.selected;

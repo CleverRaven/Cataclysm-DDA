@@ -1203,7 +1203,7 @@ std::string input_context::get_hint_basic( const std::string &key,
                     text.substr( pos + key.size() ), true );
         }
     }
-    // Fallback to this if key is not present in the text.
+    // Fallback here if we don't want to or can't inline the key within the text.
     return input_context::colorize_separate_format( state, key, text, true );
 }
 
@@ -1658,9 +1658,9 @@ action_id input_context::display_menu( const bool permit_execute_action )
     } ), org_registered_actions.end() );
 
     // colors of the keybindings
-    static const nc_color global_key = c_light_gray;
-    static const nc_color local_key = c_light_green;
-    static const nc_color unbound_key = c_light_red;
+    static const nc_color global_key = get_hint_color( keybinding_hint_state::ENABLED );
+    static const nc_color local_key = get_hint_color( keybinding_hint_state::TOGGLED_ON );
+    static const nc_color unbound_key = get_hint_color( keybinding_hint_state::TOGGLED_OFF );
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // keybindings help
