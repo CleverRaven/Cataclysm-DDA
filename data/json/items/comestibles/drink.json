@@ -573,7 +573,7 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "vitamins":[ [ "vitC", 10 ] ],
+    "vitamins": [ [ "vitC", 10 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
     "fun": 4
   },
