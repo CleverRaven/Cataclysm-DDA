@@ -2582,5 +2582,17 @@
       { "item": "stanag10", "prob": 50 },
       { "group": "on_hand_223" }
     ]
+  },
+  {
+    "id": "nested_ruger_arr",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "ruger_arr", "charges-min": 0, "charges-max": 3 },
+      { "item": "ruger_arr_mag" },
+      { "item": "ruger_arr_mag", "prob": 50 },
+      { "group": "on_hand_450" }
+    ]
   }
 ]
