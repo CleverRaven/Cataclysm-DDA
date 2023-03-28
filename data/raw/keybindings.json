@@ -3561,7 +3561,7 @@
     "type": "keybinding",
     "id": "AUTO_BALANCE",
     "category": "INVENTORY",
-    "name": "Auto balance trade using highlighted item",
+    "name": "Auto balance with highlighted item",
     "bindings": [ { "input_method": "keyboard_any", "key": "F1" } ]
   },
   {
@@ -4108,7 +4108,7 @@
     "type": "keybinding",
     "id": "SWITCH_LISTS",
     "category": "INVENTORY",
-    "name": "Switch lists",
+    "name": "Switch panes",
     "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
   },
   {

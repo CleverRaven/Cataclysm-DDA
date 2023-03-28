@@ -299,8 +299,7 @@ void trade_ui::_draw_header()
     mvwprintz( _header_w, { 1, 3 }, c_white, _parties[_trader]->get_name() );
     right_print( _header_w, 3, 1, c_white, _( "You" ) );
     center_print( _header_w, header_size - 1, c_white,
-                  _panes[_you]->get_ctxt()->get_hint( trade_selector::ACTION_SWITCH_PANES, _( "to switch panes" ) ) );
+                  _panes[_you]->get_ctxt()->get_hint( trade_selector::ACTION_SWITCH_PANES ) );
     center_print( _header_w, header_size - 2, c_white,
-                  _panes[_you]->get_ctxt()->get_hint( trade_selector::ACTION_AUTOBALANCE,
-                          _( "to auto balance with highlighted item" ) ) );
+                  _panes[_you]->get_ctxt()->get_hint( trade_selector::ACTION_AUTOBALANCE ) );
 }
