@@ -680,7 +680,7 @@ std::string spell::damage_string( const Character &caster ) const
     dialogue d( get_talker_for( caster ), nullptr );
     if( has_flag( spell_flag::RANDOM_DAMAGE ) ) {
         damage_string = string_format( "%d-%d", min_leveled_damage( caster ),
-                                       type->max_damage.evaluate( d ) );
+                                       static_cast<int>( type->max_damage.evaluate( d ) ) );
     } else {
         const int dmg = damage( caster );
         if( dmg >= 0 ) {
@@ -2503,11 +2503,10 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
     line += fold_and_print( w, point( start_x, line ), width, gray, "%s", sp.description );
     line++;
 
-    mvwprintz( w, point( start_x, line ), c_light_gray, string_format( "%s: %d", _( "Difficulty" ),
-               sp.difficulty.evaluate( d ) ) );
-    mvwprintz( w, point( start_x + width / 2, line++ ), c_light_gray, string_format( "%s: %d",
-               _( "Max Level" ),
-               sp.max_level.evaluate( d ) ) );
+    mvwprintz( w, point( start_x, line ), c_light_gray,
+               string_format( "%s: %d", _( "Difficulty" ), static_cast<int>( sp.difficulty.evaluate( d ) ) ) );
+    mvwprintz( w, point( start_x + width / 2, line++ ), c_light_gray,
+               string_format( "%s: %d", _( "Max Level" ), static_cast<int>( sp.max_level.evaluate( d ) ) ) );
 
     const std::string fx = sp.effect_name;
     std::string damage_string;
@@ -2546,47 +2545,36 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
                                        left_justify( _( "per lvl" ), 7 ),
                                        //~ translation should not exceed 7 console cells
                                        left_justify( _( "max lvl" ), 7 ) ) );
-    std::vector<std::tuple<std::string, int, float, int>> rows;
 
-    if( sp.max_damage.evaluate( d ) != 0 && sp.min_damage.evaluate( d ) != 0 &&
-        !damage_string.empty() ) {
-        rows.emplace_back( damage_string, sp.min_damage.evaluate( d ), sp.damage_increment.evaluate( d ),
-                           sp.max_damage.evaluate( d ) );
-    }
-
-    if( sp.max_range.evaluate( d ) != 0 && sp.min_range.evaluate( d ) != 0 ) {
-        rows.emplace_back( _( "Range" ), sp.min_range.evaluate( d ), sp.range_increment.evaluate( d ),
-                           sp.max_range.evaluate( d ) );
-    }
-
-    if( sp.min_aoe.evaluate( d ) != 0 && sp.max_aoe.evaluate( d ) != 0 && !aoe_string.empty() ) {
-        rows.emplace_back( aoe_string, sp.min_aoe.evaluate( d ), sp.aoe_increment.evaluate( d ),
-                           sp.max_aoe.evaluate( d ) );
-    }
-
-    if( sp.min_duration.evaluate( d ) != 0 && sp.max_duration.evaluate( d ) != 0 ) {
-        rows.emplace_back( _( "Duration" ), sp.min_duration.evaluate( d ),
-                           static_cast<float>( sp.duration_increment.evaluate( d ) ),
-                           sp.max_duration.evaluate( d ) );
-    }
-
-    rows.emplace_back( _( "Cast Cost" ), sp.base_energy_cost.evaluate( d ),
-                       sp.energy_increment.evaluate( d ),
-                       sp.final_energy_cost.evaluate( d ) );
-    rows.emplace_back( _( "Cast Time" ), sp.base_casting_time.evaluate( d ),
-                       sp.casting_time_increment.evaluate( d ),
-                       sp.final_casting_time.evaluate( d ) );
-
-    for( std::tuple<std::string, int, float, int> &row : rows ) {
-        mvwprintz( w, point( start_x, line ), c_light_gray, std::get<0>( row ) );
-        print_colored_text( w, point( start_x + 11, line ), gray, gray,
-                            color_number( std::get<1>( row ) ) );
-        print_colored_text( w, point( start_x + 19, line ), gray, gray,
-                            color_number( std::get<2>( row ) ) );
-        print_colored_text( w, point( start_x + 27, line ), gray, gray,
-                            color_number( std::get<3>( row ) ) );
+    const auto row = [&]( const std::string & label, const dbl_or_var<dialogue> &min_d,
+    const dbl_or_var<dialogue> &inc_d, const dbl_or_var<dialogue> &max_d, bool check_minmax = false ) {
+        const int min = static_cast<int>( min_d.evaluate( d ) );
+        const float inc = static_cast<float>( inc_d.evaluate( d ) );
+        const int max = static_cast<int>( max_d.evaluate( d ) );
+        if( check_minmax && ( min == 0 || max == 0 ) ) {
+            return;
+        }
+        mvwprintz( w, point( start_x, line ), c_light_gray, label );
+        print_colored_text( w, point( start_x + 11, line ), gray, gray, color_number( min ) );
+        print_colored_text( w, point( start_x + 19, line ), gray, gray, color_number( inc ) );
+        print_colored_text( w, point( start_x + 27, line ), gray, gray, color_number( max ) );
         line++;
+    };
+
+    if( !damage_string.empty() ) {
+        row( damage_string, sp.min_damage, sp.damage_increment, sp.max_damage, true );
     }
+
+    row( _( "Range" ), sp.min_range, sp.range_increment, sp.max_range, true );
+
+    if( !aoe_string.empty() ) {
+        row( aoe_string, sp.min_aoe, sp.aoe_increment, sp.max_aoe, true );
+    }
+
+    row( _( "Duration" ), sp.min_duration, sp.duration_increment, sp.max_duration, true );
+    row( _( "Cast Cost" ), sp.base_energy_cost, sp.energy_increment, sp.final_energy_cost, false );
+    row( _( "Cast Time" ), sp.base_casting_time, sp.casting_time_increment, sp.final_casting_time,
+         false );
 }
 
 void spellbook_callback::refresh( uilist *menu )

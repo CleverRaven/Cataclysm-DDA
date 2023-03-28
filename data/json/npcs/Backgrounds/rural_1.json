@@ -106,7 +106,7 @@
     "difficulty": 3,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Farm", "om_terrain": "farm_3", "reveal_radius": 3, "search_range": 400 },
+      "assign_mission_target": { "om_special": "Farm Mutable", "om_terrain": "farm_3", "reveal_radius": 3, "search_range": 400 },
       "effect": { "u_add_var": "rural_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

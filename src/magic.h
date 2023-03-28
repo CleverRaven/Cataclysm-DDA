@@ -750,14 +750,14 @@ void effect_on_condition( const spell &sp, Creature &caster, const tripoint &tar
 void none( const spell &sp, Creature &, const tripoint &target );
 void slime_split_on_death( const spell &sp, Creature &, const tripoint &target );
 
-static const std::map<spell_shape, std::function<std::set<tripoint>
+inline const std::map<spell_shape, std::function<std::set<tripoint>
 ( const override_parameters &, const tripoint &, const tripoint & )>> shape_map = {
     { spell_shape::blast, spell_effect_blast },
     { spell_shape::line, spell_effect_line },
     { spell_shape::cone, spell_effect_cone }
 };
 
-static const
+inline const
 std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
 effect_map{
     { "pain_split", spell_effect::pain_split },

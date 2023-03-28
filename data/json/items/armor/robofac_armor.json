@@ -592,7 +592,7 @@
     "description": "3D printed armor for the upper body, sporting a professional finish and stellar ergonomics.  Made of extremely tough UHMW polyethylene combined with treated aramid fabric, it provides military-grade defense against zombies, bullets, zombies with bullets, and plenty of other things that the Cataclysm can throw at you.  Designed to clip to the chest and shoulders, its interior reads \"ATTACH TO MODULAR DEFENSE SYSTEM\".",
     "material": [
       { "type": "thermo_resin", "portion": 2 },
-      { "type": "steel", "portion": 1 },
+      { "type": "qt_steel", "portion": 1 },
       { "type": "kevlar_rigid", "portion": 4 }
     ],
     "extend": { "flags": [ "STURDY" ] },

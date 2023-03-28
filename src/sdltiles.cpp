@@ -2818,20 +2818,19 @@ static void CheckMessages()
                             const optional_vpart_position vp = here.veh_at( pos );
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
-                                const int veh_part = vp ? vp->part_index() : -1;
-                                if( veh->part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
+                                if( veh->part_with_feature( vp->mount(), "CONTROLS", true ) >= 0 ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
-                                const int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
+                                const int openablepart = veh->part_with_feature( vp->mount(), "OPENABLE", true );
                                 if( openablepart >= 0 && veh->part( openablepart ).open && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
+                                const int curtainpart = veh->part_with_feature( vp->mount(), "CURTAIN", true );
                                 if( curtainpart >= 0 && veh->part( curtainpart ).open && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
+                                const int cargopart = veh->part_with_feature( vp->mount(), "CARGO", true );
                                 if( cargopart >= 0 && ( !veh->get_items( cargopart ).empty() ) ) {
                                     actions.insert( ACTION_PICKUP );
                                 }

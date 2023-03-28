@@ -311,7 +311,7 @@ Frameworks were obtained from the SDL official website as described in the next 
 To build the full feature tiles and sound enabled version with localizations enabled:
 
 ```bash
-make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
+make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1
   RELEASE=1 LOCALIZE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1
   OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 ```
@@ -323,7 +323,7 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 To build the full curses version with localizations enabled:
 
 ```bash
-make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
+make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1
   RELEASE=1 LOCALIZE=1 LANGUAGES=all OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 ```
 
@@ -530,7 +530,7 @@ The Cataclysm source is compiled using `make`.
 ### Make options
 
 * `NATIVE=osx` build for OS X. Required for all Mac builds. This is automatically set if compiling natively on macOS.
-* `OSX_MIN=version` sets `-mmacosx-version-min=version`, 10.13 or higher is required. The default value is current system version.
+* `UNIVERSAL_BINARY=1` build `x86_64` and `arm64` dual-architecture Universal Binary; omit to build for host architecture only.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
@@ -591,7 +591,7 @@ sudo pip install dmgbuild pyobjc-framework-Quartz
 
 Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like this. The use of `USE_HOME_DIR=1` is important here because it will allow for an easy upgrade of the game while keeping the user config and his saves in his home directory.
 
-    `make dmgdist NATIVE=osx OSX_MIN=10.13 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1 USE_HOME_DIR=1`
+    `make dmgdist NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1 USE_HOME_DIR=1`
 
 You should see a `Cataclysm.dmg` file.
 

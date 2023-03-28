@@ -1956,7 +1956,7 @@ void basecamp::worker_assignment_ui()
     size_t selection = 0;
     input_context ctxt( "FACTION_MANAGER" );
     ctxt.register_action( "INSPECT_NPC" );
-    ctxt.register_updown();
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -2018,17 +2018,7 @@ void basecamp::worker_assignment_ui()
             if( cur_npc ) {
                 cur_npc->disp_info();
             }
-        } else if( action == "DOWN" ) {
-            selection++;
-            if( selection >= followers.size() ) {
-                selection = 0;
-            }
-        } else if( action == "UP" ) {
-            if( selection == 0 ) {
-                selection = followers.empty() ? 0 : followers.size() - 1;
-            } else {
-                selection--;
-            }
+        } else if( navigate_ui_list( action, selection, 5, followers.size(), true ) ) {
         } else if( action == "CONFIRM" ) {
             if( !followers.empty() && cur_npc ) {
                 talk_function::assign_camp( *cur_npc );
@@ -2061,7 +2051,7 @@ void basecamp::job_assignment_ui()
     size_t selection = 0;
     input_context ctxt( "FACTION_MANAGER" );
     ctxt.register_action( "INSPECT_NPC" );
-    ctxt.register_updown();
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -2137,17 +2127,7 @@ void basecamp::job_assignment_ui()
             if( cur_npc ) {
                 cur_npc->disp_info();
             }
-        } else if( action == "DOWN" ) {
-            selection++;
-            if( selection >= stationed_npcs.size() ) {
-                selection = 0;
-            }
-        } else if( action == "UP" ) {
-            if( selection == 0 ) {
-                selection = stationed_npcs.empty() ? 0 : stationed_npcs.size() - 1;
-            } else {
-                selection--;
-            }
+        } else if( navigate_ui_list( action, selection, 5, stationed_npcs.size(), true ) ) {
         } else if( action == "CONFIRM" ) {
             if( cur_npc ) {
                 while( true ) {

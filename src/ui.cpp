@@ -14,6 +14,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "game.h"
+#include "gamemode_defense.h"
 #include "input.h"
 #include "memory_fast.h"
 #include "output.h"
@@ -1281,4 +1282,52 @@ pointmenu_cb::~pointmenu_cb() = default;
 void pointmenu_cb::select( uilist *const menu )
 {
     impl->select( menu );
+}
+
+template bool navigate_ui_list<int, int>( const std::string &action, int &val, int page_delta,
+        int size, bool wrap );
+template bool navigate_ui_list<int, size_t>( const std::string &action, int &val, int page_delta,
+        size_t size, bool wrap );
+template bool navigate_ui_list<size_t, size_t>( const std::string &action, size_t &val,
+        int page_delta, size_t size, bool wrap );
+template bool navigate_ui_list<unsigned int, unsigned int>( const std::string &action,
+        unsigned int &val,
+        int page_delta, unsigned int size, bool wrap );
+template bool navigate_ui_list<defense_style, defense_style>( const std::string &action,
+        defense_style &val,
+        int page_delta, defense_style size, bool wrap );
+template bool navigate_ui_list<defense_location, defense_location>( const std::string &action,
+        defense_location &val,
+        int page_delta, defense_location size, bool wrap );
+
+// Templating of existing `unsigned int` triggers linter rules against `unsigned long`
+// NOLINTs below are to address
+template<typename V, typename S>
+bool navigate_ui_list( const std::string &action, V &val, int page_delta, S size, bool wrap )
+{
+    if( action == "UP" || action == "SCROLL_UP" || action == "DOWN" || action == "SCROLL_DOWN" ) {
+        if( wrap ) {
+            val = increment_and_wrap( val, action == "DOWN" ||
+                                      // NOLINTNEXTLINE(cata-no-long)
+                                      action == "SCROLL_DOWN", static_cast<V>( size ) );
+        } else {
+            val = increment_and_clamp( val, action == "DOWN" ||
+                                       // NOLINTNEXTLINE(cata-no-long)
+                                       action == "SCROLL_DOWN", static_cast<V>( size ? size - 1 : 0 ) );
+        }
+    } else if( ( action == "PAGE_UP" || action == "PAGE_DOWN" ) && page_delta ) {
+        // page navigation never wraps
+        val = increment_and_clamp( val, action == "PAGE_UP" ? -page_delta : page_delta,
+                                   // NOLINTNEXTLINE(cata-no-long)
+                                   static_cast<V>( size ? size - 1 : 0 ) );
+    } else if( action == "HOME" ) {
+        // NOLINTNEXTLINE(cata-no-long)
+        val = static_cast<V>( 0 );
+    } else if( action == "END" ) {
+        // NOLINTNEXTLINE(cata-no-long)
+        val = static_cast<V>( size ? size - 1 : 0 );
+    } else {
+        return false;
+    }
+    return true;
 }
