@@ -3080,7 +3080,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 {
     std::vector<std::string> unmet_reqs;
 
-    const auto check_req = [ &unmet_reqs ]( const std::string &name, int cur, int req ) {
+    const auto check_req = [ &unmet_reqs ]( const std::string & name, int cur, int req ) {
         if( cur < req ) {
             unmet_reqs.push_back( string_format( "%s %d", name, req ) );
         }
