@@ -708,6 +708,7 @@ class input_context
         // Helper functions to be used as @ref input_event_filter
         static bool disallow_lower_case_or_non_modified_letters( const input_event &evt );
         static bool allow_all_keys( const input_event &evt );
+        static bool allow_only_mouse( const input_event &evt );
 
         static std::string colorize_separate_format( keybinding_hint_state state,
                 const std::string &key, const std::string &text,
@@ -726,6 +727,11 @@ class input_context
         std::string get_hint_key_only( const std::string &action_descriptor,
                                        keybinding_hint_state state = keybinding_hint_state::ENABLED,
                                        const input_event_filter &evt_filter = allow_all_keys ) const;
+        std::string get_hint_mouse( const std::string &action_descriptor,
+                                    keybinding_hint_state state = keybinding_hint_state::ENABLED ) const;
+        std::string get_hint_mouse( const std::string &action_descriptor,
+                                    const std::string &suffix_override,
+                                    keybinding_hint_state state = keybinding_hint_state::ENABLED ) const;
         std::string get_hint( const std::string &action_descriptor,
                               keybinding_hint_state state = keybinding_hint_state::ENABLED,
                               const input_event_filter &evt_filter = allow_all_keys ) const;
@@ -752,6 +758,13 @@ class input_context
                                    const std::string &fourth_action_descriptor, const std::string &suffix_override,
                                    keybinding_hint_state state = keybinding_hint_state::ENABLED,
                                    const input_event_filter &evt_filter = allow_all_keys ) const;
+        std::string get_hint_directions(
+            keybinding_hint_state state = keybinding_hint_state::ENABLED,
+            const input_event_filter &evt_filter = allow_all_keys ) const;
+        std::string get_hint_directions(
+            const std::string &suffix_override,
+            keybinding_hint_state state = keybinding_hint_state::ENABLED,
+            const input_event_filter &evt_filter = allow_all_keys ) const;
 
         /**
          * Handles input and returns the next action in the queue.

@@ -1650,10 +1650,11 @@ int worldfactory::show_worldgen_basic( WORLD *world )
         // Hint text
         std::string hint_txt =
             string_format( _( "Press %s to pick a random name for your world.\n"
-                              "Navigate options with directional keys "
+                              "Navigate options with %s "
                               "and confirm with %s.\n"
                               "Press %s to see additional control information." ),
-                           ctxt.get_hint_key_only( "PICK_RANDOM_WORLDNAME" ), ctxt.get_hint_key_only( "CONFIRM" ),
+                           ctxt.get_hint_key_only( "PICK_RANDOM_WORLDNAME" ), ctxt.get_hint_directions(),
+                           ctxt.get_hint_key_only( "CONFIRM" ),
                            ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ) );
         if( !custom_opts && sel_opt > 0 && sel_opt <= static_cast<int>( wg_sliders.size() ) ) {
             hint_txt = wg_sliders[sel_opt - 1]->level_desc( wg_slevels[sel_opt - 1] ).translated();

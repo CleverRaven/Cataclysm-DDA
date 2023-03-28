@@ -3519,15 +3519,14 @@ void target_ui::draw_controls_list( int text_y )
     std::vector<line> lines;
 
     // Compile full list
-    if( shifting_view ) {
-        lines.push_back( {8, colorize( _( "Shift view with directional keys" ), input_context::get_hint_color( move_hint_state ) )} );
-    } else {
-        lines.push_back( {8, colorize( _( "Move cursor with directional keys" ), input_context::get_hint_color( move_hint_state ) ) } );
-    }
+    std::string movement_text = shifting_view ? _( "Shift view" ) : _( "Move cursor" );
+    movement_text = colorize( movement_text, input_context::get_hint_color( move_hint_state ) );
+    lines.push_back( {8, string_format( "%s %s", ctxt.get_hint_directions( move_hint_state ), movement_text )} );
     if( is_mouse_enabled() ) {
-        std::string move = _( "Mouse: LMB: Target, Wheel: Cycle," );
-        std::string fire = _( "RMB: Fire" );
-        lines.push_back( {7, string_format( "%s %s", colorize( move, input_context::get_hint_color( move_hint_state ) ), colorize( fire, input_context::get_hint_color( fire_hint_state ) ) )} );
+        std::string move = string_format( _( "%s %s" ), ctxt.get_hint_mouse( "SELECT", _( "Target" ),
+                                          move_hint_state ), ctxt.get_hint_mouse( "SCROLL_UP", _( "Cycle" ), move_hint_state ) );
+        std::string fire = ctxt.get_hint_mouse( "FIRE", fire_hint_state );
+        lines.push_back( {7, string_format( "%s %s", move, fire )} );
     }
     {
         lines.push_back( {0, string_format( "%s %s", ctxt.get_hint( "NEXT_TARGET", _( "Cycle targets" ), move_hint_state ), ctxt.get_hint( "FIRE", uitext_fire(), fire_hint_state ) )} );

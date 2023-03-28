@@ -1069,6 +1069,11 @@ bool input_context::allow_all_keys( const input_event & )
     return true;
 }
 
+bool input_context::allow_only_mouse( const input_event &evt )
+{
+    return evt.type == input_event_t::mouse;
+}
+
 std::string input_context::get_desc( const std::string &action_descriptor,
                                      const unsigned int max_limit,
                                      const input_context::input_event_filter &evt_filter ) const
@@ -1105,7 +1110,20 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     const std::string separator = inputs_to_show.size() > 2 ? _( ", or " ) : _( " or " );
     std::string rval;
     for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
-        rval += inputs_to_show[i].long_description();
+        const input_event &event = inputs_to_show[i];
+        std::string description  = event.long_description();
+        if( event.type == input_event_t::mouse ) {
+            if( description  == "MOUSE_LEFT" ) {
+                description  = "LMB";
+            } else if( description  == "MOUSE_RIGHT" ) {
+                description  = "RMB";
+            } else if( description == "SCROLL_UP" ) {
+                description = "SCROLL\u2191";
+            } else if( description == "SCROLL_DOWN" ) {
+                description = "SCROLL\u2193";
+            }
+        }
+        rval += description;
 
         // We're generating a list separated by "," and "or"
         if( i + 2 == inputs_to_show.size() ) {
@@ -1186,7 +1204,7 @@ std::string input_context::get_hint_basic( const std::string &key,
 
 bool should_inline( const int pos, const std::string &text )
 {
-    return pos == 0 || ( pos >> 0 && text.find_first_of( ' ' ) == std::string::npos &&
+    return pos == 0 || ( pos > 0 && text.find_first_of( ' ' ) == std::string::npos &&
                          text.find_first_of( "\u00A0" ) == std::string::npos );
 }
 
@@ -1212,7 +1230,7 @@ std::string input_context::get_desc(
     const std::string &text,
     const keybinding_hint_state state,
     const bool show_separators,
-    const input_context::input_event_filter &evt_filter ) const
+    const input_event_filter &evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
         //~ keybinding description for anykey
@@ -1330,6 +1348,17 @@ std::string input_context::get_hint_key_only( const std::string &action_descript
     return _get_hint( action_descriptor, false, true, state, evt_filter );
 }
 
+std::string input_context::get_hint_mouse( const std::string &action_descriptor,
+        keybinding_hint_state state ) const
+{
+    return get_hint( action_descriptor, state, allow_only_mouse );
+}
+std::string input_context::get_hint_mouse( const std::string &action_descriptor,
+        const std::string &suffix_override,
+        keybinding_hint_state state ) const
+{
+    return get_hint( action_descriptor, suffix_override, state, allow_only_mouse );
+}
 std::string input_context::get_hint( const std::string &action_descriptor,
                                      keybinding_hint_state state, const input_event_filter &evt_filter ) const
 {
@@ -1367,8 +1396,26 @@ std::string input_context::get_hint_pair( const std::string &left_action_descrip
 {
 
     std::string suffix = replace_spaces_with_non_breaking( suffix_override );
-    return string_format( "%s\u00A0%s", get_hint_pair( left_action_descriptor, right_action_descriptor,
+    if( !suffix.empty() ) {
+        suffix = string_format( "\u00A0%s", suffix );
+    }
+    return string_format( "%s%s", get_hint_pair( left_action_descriptor, right_action_descriptor,
                           state, evt_filter ), scolorize( suffix, get_hint_color( state ) ) );
+}
+std::string input_context::get_hint_directions(
+    keybinding_hint_state state,
+    const input_event_filter &evt_filter ) const
+{
+    return get_hint_directions( "", state, evt_filter );
+
+}
+std::string input_context::get_hint_directions(
+    const std::string &suffix_override,
+    keybinding_hint_state state,
+    const input_event_filter &evt_filter ) const
+{
+    return get_hint_quad( "UP", "DOWN", "LEFT", "RIGHT", suffix_override, state, evt_filter );
+
 }
 std::string input_context::get_hint_quad( const std::string &first_action_descriptor,
         const std::string &second_action_descriptor,
@@ -1401,7 +1448,10 @@ std::string input_context::get_hint_quad( const std::string &first_action_descri
         const input_event_filter &evt_filter ) const
 {
     std::string suffix = replace_spaces_with_non_breaking( suffix_override );
-    return string_format( "%s\u00A0%s", get_hint_quad( first_action_descriptor,
+    if( !suffix.empty() ) {
+        suffix = string_format( "\u00A0%s", suffix );
+    }
+    return string_format( "%s%s", get_hint_quad( first_action_descriptor,
                           second_action_descriptor, third_action_descriptor, fourth_action_descriptor, state, evt_filter ),
                           scolorize( suffix, get_hint_color( state ) ) );
 }
