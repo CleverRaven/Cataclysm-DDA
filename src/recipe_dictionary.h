@@ -175,6 +175,7 @@ class recipe_subset
         recipe_subset intersection( const recipe_subset &subset ) const;
         /** Set difference between recipe_subsets */
         recipe_subset difference( const recipe_subset &subset ) const;
+        recipe_subset difference( const std::set<const recipe *> &recipe_set ) const;
         /** Find recipes producing the item */
         std::vector<const recipe *> recipes_that_produce( const itype_id &item ) const;
 
