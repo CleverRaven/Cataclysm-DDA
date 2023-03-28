@@ -905,6 +905,7 @@
         "breathability": "POOR",
         "layers": [ "PERSONAL" ]
       }
+    ]
   },
   {
     "id": "integrated_fishscales",
@@ -1021,7 +1022,8 @@
         ],
         "covers": [ "mouth" ],
         "coverage": 100,
-        "encumbrance": 2
+        "encumbrance": 2,
+        "layers": [ "SKINTIGHT" ]
       }
     ]
   },
