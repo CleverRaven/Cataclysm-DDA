@@ -727,6 +727,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "luciferin",
+    "name": "luciferin",
+    "default": "luciferin"
+  },
+  {
+    "type": "ammunition_type",
     "id": "cannon",
     "name": "cannon",
     "default": "cannon_shot"

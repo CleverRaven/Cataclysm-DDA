@@ -1032,6 +1032,19 @@
     "to_hit": -1
   },
   {
+    "id": "bioluminescent_sack_empty",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "empty bioluminescent sack" },
+    "description": "A small sack from a body of a giant insect. It has no luciferin left.",
+    "weight": "25 g",
+    "volume": "250 ml",
+    "material": [ "iflesh" ],
+    "symbol": "o",
+    "color": "dark_gray",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "type": "GENERIC",
     "id": "spring",
     "symbol": ",",

@@ -89,6 +89,44 @@
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
+    "id": "bioluminescent_sack",
+    "type": "TOOL",
+    "name": { "str": "bioluminescent sack" },
+    "description": "A small sack from a body of a giant insect, containing a bioluminescent substance. Tear it lo let the air in and start the reaction.",
+    "weight": "25 g",
+    "volume": "250 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": [ "iflesh" ],
+    "symbol": "o",
+    "color": "green",
+    "use_action": {
+      "target": "bioluminescent_sack_lit",
+      "target_ammo": "luciferin",
+      "target_charges": 300,
+      "msg": "You tear the sack, letting the air in.",
+      "active": true,
+      "menu_text": "Tear",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "bioluminescent_sack_lit",
+    "type": "TOOL",
+    "name": { "str": "bioluminescent sack" },
+    "description": "A small sack from a body of a giant insect, containing a bioluminescent substance. It glows in the dark.",
+    "weight": "25 g",
+    "volume": "250 ml",
+    "material": [ "iflesh" ],
+    "symbol": "o",
+    "color": "light_green",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "luciferin": 300 }, "rigid": true } ],
+    "turns_per_charge": 1,
+    "revert_to": "bioluminescent_sack_empty",
+    "revert_msg": "The sack fades out.",
+    "flags": [ "LIGHT_10", "TRADER_AVOID", "SLEEP_IGNORE", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
     "id": "candle",
     "type": "TOOL",
     "name": { "str": "candle" },

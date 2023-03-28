@@ -1476,6 +1476,18 @@
     "ammo_type": "glowstick_juice"
   },
   {
+    "id": "luciferin",
+    "type": "AMMO",
+    "name": { "str_sp": "luciferin" },
+    "symbol": "~",
+    "description": "A chemical used by fireflies to glow in the dark. Reacts with oxygen, producing light.",
+    "volume": "1 ml",
+    "weight": "1 mg",
+    "color": "green",
+    "flags": [ "TRADER_AVOID" ],
+    "ammo_type": "luciferin"
+  },
+  {
     "type": "AMMO",
     "id": "graphite",
     "name": { "str_sp": "graphite" },

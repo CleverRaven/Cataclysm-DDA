@@ -1298,7 +1298,8 @@
       { "drop": "mutant_bug_lungs", "type": "flesh", "mass_ratio": 0.0035 },
       { "drop": "mutant_bug_organs", "type": "offal", "mass_ratio": 0.015 },
       { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.01 },
-      { "drop": "egg_firefly", "type": "offal", "base_num": [ 0, 3 ] }
+      { "drop": "egg_firefly", "type": "offal", "base_num": [ 0, 3 ] },
+      { "drop": "bioluminescent_sack", "type": "offal", "base_num": [ 0, 3 ] }
     ]
   },
   {
