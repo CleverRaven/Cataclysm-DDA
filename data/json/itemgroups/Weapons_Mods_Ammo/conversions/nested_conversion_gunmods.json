@@ -211,6 +211,23 @@
   },
   {
     "type": "item_group",
+    "id": "boxed_223rem_cz600kit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool",
+    "on_overflow": "spill",
+    "entries": [ { "item": "retool_cz600_223rem" }, { "item": "stanag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
+    "id": "boxed_762_cz600kit",
+    "//": "a conversion kit packed along with an appropriate empty magazine and miscellaneous items.",
+    "subtype": "collection",
+    "container-item": "box_retool",
+    "entries": [ { "item": "retool_cz600_762" }, { "item": "bren2_762mag10", "charges": 0 }, { "group": "nested_retool_extras" } ]
+  },
+  {
+    "type": "item_group",
     "subtype": "collection",
     "id": "boxed_ar15kits",
     "//": "An item group for a specific weapon platform’s possible conversion kits .",
@@ -269,6 +286,18 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "boxed_cz600kits",
+    "//": "An item group for a specific weapon platform’s possible conversion kits .",
+    "entries": [
+      {
+        "distribution": [ { "group": "boxed_223rem_cz600kit", "prob": 30 }, { "group": "boxed_762_cz600kit", "prob": 25 } ],
+        "prob": 100
+      }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "nested_ar15_with_kits",
     "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
     "entries": [ { "group": "boxed_ar15kits" }, { "item": "ar15", "charges-min": 0, "charges-max": 0 } ]
@@ -290,6 +319,13 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "nested_cz600_with_kits",
+    "//": "An item group for an empty rifle to spawn alongside one of a number of compatible conversion kits. Intended for use in gun store racks and adjacent locations.",
+    "entries": [ { "group": "boxed_cz600kits" }, { "item": "cz600", "charges-min": 0, "charges-max": 0 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "conversion_kits",
     "//": "An item group for a randomly selected conversion kit to spawn, regardless of type. Intended for use in gun stores and other sensible locations.",
     "entries": [
@@ -297,7 +333,8 @@
         "distribution": [
           { "group": "boxed_ar15kits", "prob": 30 },
           { "group": "boxed_mdrxkits", "prob": 15 },
-          { "group": "boxed_axmckits", "prob": 5 }
+          { "group": "boxed_axmckits", "prob": 5 },
+          { "group": "boxed_cz600kits", "prob": 15 }
         ],
         "prob": 100
       }

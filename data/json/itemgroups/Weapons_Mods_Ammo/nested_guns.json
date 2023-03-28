@@ -2570,5 +2570,17 @@
     "subtype": "collection",
     "ammo": 100,
     "entries": [ { "item": "remington_870", "variant": "ithaca37", "charges-min": 0, "charges-max": 5 }, { "group": "on_hand_shot" } ]
+  },
+  {
+    "id": "nested_cz600",
+    "type": "item_group",
+    "//": "this is a distribution for the gun, reasonable number of backup mags, and some ammo to repack",
+    "subtype": "collection",
+    "entries": [
+      { "item": "cz600", "charges-min": 0, "charges-max": 10 },
+      { "item": "stanag10" },
+      { "item": "stanag10", "prob": 50 },
+      { "group": "on_hand_223" }
+    ]
   }
 ]

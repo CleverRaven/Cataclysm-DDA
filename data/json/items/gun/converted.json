@@ -201,5 +201,22 @@
         "weight": 1
       }
     ]
+  },
+  {
+    "id": "cz600_762",
+    "copy-from": "cz600",
+    "type": "GUN",
+    "name": { "str": "bolt-action trail carbine" },
+    "description": "Compact, svelte, and lightweight, this Leen bolt-action rifle packs the same features of larger sporting weapons into a backpack-sized package.  Possessing an adjustable buttstock, a detachable magazine-based system, and a quick-swap barrel that can be exchanged to accommodate the firing of .223 Remington or 7.62x39mm Soviet ammunition, the weapon is a commendable backpacker or prepper rifle.",
+    "default_mods": [ "retool_cz600_762" ],
+    "variant_type": "gun",
+    "variants": [
+      {
+        "id": "cz600_762",
+        "name": { "str": "CZ 600 TRAIL" },
+        "description": "A handy bolt-action offering from CZ, the 600 Trail is a box magazine-fed ranch rifle that utilizes an aluminum chassis to keep its overall heft to a minimum.  Possessing an extendable buttstock, extensive modularity, and a quick-swap barrel assembly switchable to accommodate the firing of either .223 or 7.62x39mm ammunition, the rifle was intended for use by backpackers, trail hikers, and preppers.",
+        "weight": 1
+      }
+    ]
   }
 ]

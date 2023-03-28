@@ -429,9 +429,11 @@
       { "group": "nested_bren2_762", "prob": 1 },
       { "group": "nested_bren2_556", "prob": 1 },
       { "group": "nested_mdrx", "prob": 1 },
+      { "group": "nested_cz600", "prob": 1 },
       { "group": "nested_zpapm90", "prob": 1 },
       { "group": "nested_converted_ar15", "prob": 6 },
-      { "group": "nested_converted_mdrx", "prob": 1 }
+      { "group": "nested_converted_mdrx", "prob": 1 },
+      { "group": "nested_converted_cz600", "prob": 1 }
     ]
   },
   {
@@ -469,6 +471,7 @@
       { "item": "bren2_762", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "bren2_556", "prob": 1, "charges-min": 0, "charges-max": 30 },
       { "item": "mdrx", "prob": 1, "charges-min": 0, "charges-max": 30 },
+      { "item": "cz600", "prob": 1, "charges-min": 0, "charges-max": 10 },
       { "item": "ak556", "variant": "zpapm90", "prob": 1, "charges-min": 0, "charges-max": 30 }
     ]
   },
@@ -498,13 +501,15 @@
       { "item": "aksemi", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "mk47", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mdrx", "prob": 10, "charges-min": 0, "charges-max": 0 },
+      { "item": "cz600", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "ak556", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "bren2_762", "prob": 6, "charges-min": 0, "charges-max": 0 },
       { "item": "bren2_556", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "ak556", "variant": "zpapm90", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "savage112", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "group": "nested_ar15_with_kits", "prob": 15 },
-      { "group": "nested_mdrx_with_kits", "prob": 10 }
+      { "group": "nested_mdrx_with_kits", "prob": 10 },
+      { "group": "nested_cz600_with_kits", "prob": 10 }
     ]
   },
   {
@@ -1202,6 +1207,7 @@
       { "item": "mossberg_500", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "remington_870", "prob": 11, "charges-min": 0, "charges-max": 5 },
       { "item": "remington_870", "variant": "ithaca37", "prob": 4, "charges-min": 0, "charges-max": 5 },
+      { "item": "cz600", "prob": 5, "charges-min": 0, "charges-max": 10 },
       { "item": "ruger_1022", "prob": 7, "charges-min": 0, "charges-max": 10 },
       { "item": "shotgun_410", "prob": 1, "charges-min": 0, "charges-max": 1 },
       { "item": "shotgun_s", "prob": 10 },
