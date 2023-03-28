@@ -841,8 +841,8 @@ void advanced_inventory::redraw_pane( side p )
         wattroff( w, c_white );
     }
     if( !filter_edit && !pane.filter.empty() ) {
-        std::string fsuffix = string_format( " %s", ctxt.get_hint( "RESET_FILTER" ) );
-        print_colored_text( w, point( getmaxx( w ) - utf8_width( fsuffix ) - 2, getmaxy( w ) - 1 ),
+        std::string fsuffix = ctxt.get_hint( "RESET_FILTER" );
+        print_colored_text( w, point( getmaxx( w ) - utf8_width( fsuffix, true ) - 2, getmaxy( w ) - 1 ),
                             fsuffix );
     }
     wnoutrefresh( w );

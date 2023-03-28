@@ -169,8 +169,8 @@ void robot_finds_kitten::show() const
             break;
         case ui_state::invalid_input:
             print_colored_text( w, point_zero,
-                                string_format( _( "Invalid command: Use direction keys or press %s to quit." ),
-                                               ctxt.get_hint_key_only( "QUIT" ) ) );
+                                string_format( _( "Invalid command: Use %s or press %s to quit." ),
+                                               ctxt.get_hint_directions(), ctxt.get_hint_key_only( "QUIT" ) ) );
             break;
         case ui_state::bogus_message: {
             std::vector<std::string> bogusvstr = foldstring( this_bogus_message, rfkCOLS );

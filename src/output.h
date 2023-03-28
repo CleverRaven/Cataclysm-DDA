@@ -207,10 +207,10 @@ std::vector<std::string> foldstring( const std::string &str, int width, char spl
  * change to a color according to the color tags that are in the text.
  * @param base_color Base color that is used outside of any color tag.
  **/
-void print_colored_text( const catacurses::window &w, const point &p, const nc_color &cur_color,
+void print_colored_text( const catacurses::window &w, const point &p, nc_color &cur_color,
                          const nc_color &base_color, const std::string &text,
                          report_color_error color_error = report_color_error::yes );
-void print_colored_text( const catacurses::window &w, const nc_color &cur_color,
+void print_colored_text( const catacurses::window &w, nc_color &cur_color,
                          const nc_color &base_color, const std::string &text,
                          report_color_error color_error = report_color_error::yes );
 void print_colored_text( const catacurses::window &w, const std::string &text,

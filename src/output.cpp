@@ -241,14 +241,16 @@ color_tag_parse_result::tag_type update_color_stack(
 void print_colored_text( const catacurses::window &w, const point &p, const std::string &text,
                          report_color_error color_error )
 {
-    print_colored_text( w, p, c_white, c_white, text, color_error );
+    nc_color c = c_white;
+    print_colored_text( w, p, c, c, text, color_error );
 }
 void print_colored_text( const catacurses::window &w, const std::string &text,
                          const report_color_error color_error )
 {
-    print_colored_text( w, c_white, c_white, text, color_error );
+    nc_color c = c_white;
+    print_colored_text( w, c, c, text, color_error );
 }
-void print_colored_text( const catacurses::window &w, const point &p, const nc_color &color,
+void print_colored_text( const catacurses::window &w, const point &p, nc_color &color,
                          const nc_color &base_color, const std::string &text,
                          const report_color_error color_error )
 {
@@ -257,14 +259,13 @@ void print_colored_text( const catacurses::window &w, const point &p, const nc_c
     }
     print_colored_text( w, color, base_color, text, color_error );
 }
-void print_colored_text( const catacurses::window &w, const nc_color &color,
+void print_colored_text( const catacurses::window &w, nc_color &color,
                          const nc_color &base_color, const std::string &text,
                          const report_color_error color_error )
 {
     const auto color_segments = split_by_color( text );
     std::stack<nc_color> color_stack;
-    nc_color c = color;
-    color_stack.push( c );
+    color_stack.push( color );
 
     for( auto seg : color_segments ) {
         if( seg.empty() ) {
@@ -279,8 +280,8 @@ void print_colored_text( const catacurses::window &w, const nc_color &color,
             }
         }
 
-        c = color_stack.empty() ? base_color : color_stack.top();
-        wprintz( w, c, seg );
+        color = color_stack.empty() ? base_color : color_stack.top();
+        wprintz( w, color, seg );
     }
 }
 

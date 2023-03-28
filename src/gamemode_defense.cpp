@@ -672,8 +672,8 @@ void defense_game::refresh_setup( const catacurses::window &w, int selection,
     werase( w );
     draw_border( w, c_light_gray, _( "DEFENSE MODE" ), c_light_red );
 
-    print_colored_text( w, point( 2, 1 ), string_format( _( "Press direction keys to cycle %s %s" ),
-                        ctxt.get_hint( "CONFIRM" ), ctxt.get_hint( "START" ) ) );
+    print_colored_text( w, point( 2, 1 ), string_format( _( "Press %s to cycle %s %s" ),
+                        ctxt.get_hint_directions(), ctxt.get_hint( "CONFIRM" ), ctxt.get_hint( "START" ) ) );
     mvwprintz( w, point( 2, 2 ), c_white, _( "Scenario:" ) );
     mvwprintz( w, point( 2, 3 ), SELCOL( 1 ), defense_style_name( style ) );
     mvwprintz( w, point( 28, 3 ), c_light_gray, defense_style_description( style ) );

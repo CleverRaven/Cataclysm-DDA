@@ -7864,7 +7864,8 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     mvwputch( window, point( width - 1, TERMY - height - 1 ), c_light_gray,
               LINE_XOXX ); // -|
 
-    print_colored_text( window, point( 2, 0 ), ctxt.get_hint( "NEXT_TAB", _( "Items" ) ) );
+    print_colored_text( window, point( 2, 0 ), ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB",
+                        _( "Items" ) ) );
 
     std::string sSort = string_format( "%s %s", ctxt.get_hint( "SORT" ),
                                        bRadiusSort ? _( "dist" ) : _( "cat" ) );
@@ -7884,17 +7885,7 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
     tokens.emplace_back( ctxt.get_hint_pair( "PRIORITY_INCREASE", "PRIORITY_DECREASE",
                          _( "Priority" ) ) );
 
-    int gaps = tokens.size() + 1;
-    letters = 0;
-    int n = tokens.size();
-    for( int i = 0; i < n; i++ ) {
-        letters += utf8_width( tokens[i], true ) - 1; //length ignores < >
-    }
-
-    int usedwidth = letters;
-    const int gap_spaces = ( width - usedwidth ) / gaps;
-    usedwidth += gap_spaces * gaps;
-    point pos( gap_spaces + ( width - usedwidth ) / 2, TERMY - height - 1 );
+    point pos( 2, TERMY - height - 1 );
     fold_and_print( window, pos, width, c_light_gray, enumerate_as_string( tokens,
                     enumeration_conjunction::space ) );
 }
@@ -8520,7 +8511,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             draw_custom_border( w_monsters_border, 1, 1, 1, 1, 1, 1, LINE_XOXO, LINE_XOXO );
             draw_custom_border( w_monster_info_border, 1, 1, 1, 1, LINE_XXXO, LINE_XOXX, 1, 1 );
 
-            print_colored_text( w_monsters_border, point( 2, 0 ), ctxt.get_hint( "NEXT_TAB",
+            print_colored_text( w_monsters_border, point( 2, 0 ), ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB",
                                 _( "Monsters" ) ) );
 
             if( monster_list.empty() ) {

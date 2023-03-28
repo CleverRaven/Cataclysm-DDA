@@ -64,7 +64,7 @@ static void show_mutations_titlebar( const catacurses::window &window,
     std::vector<std::string> hints;
     if( menu_mode == mutation_menu_mode::reassigning ) {
         hints.push_back( string_format(
-                             _( "Reassigning. Select a mutation to reassign or press %s to cancel." ),
+                             _( "Reassigning.  Select a mutation to reassign or press %s to cancel." ),
                              ctxt.get_hint_key_only( "CONFIRM" ) ) );
     }
     if( menu_mode == mutation_menu_mode::activating ) {

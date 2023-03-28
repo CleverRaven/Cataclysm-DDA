@@ -2638,7 +2638,8 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
     } else {
         int filter_offset = 0;
         if( has_available_choices() || !filter.empty() ) {
-            std::string text = ctxt.get_hint( "INVENTORY_FILTER" );
+            std::string text = string_format( "%s%s", ctxt.get_hint( "INVENTORY_FILTER" ),
+                                              filter.empty() ? "" : ": " );
             filter_offset = utf8_width( text + filter ) + 6;
 
             mvwprintz( w, point( 2, getmaxy( w ) - border ), c_light_gray, "< " );
@@ -2648,8 +2649,8 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
         }
 
         right_print( w, getmaxy( w ) - border, border + 1, c_light_gray,
-                     string_format( "< %s %s >", ctxt.get_hint_key_only( "VIEW_CATEGORY_MODE" ),
-                                    io::enum_to_string( _uimode ) ) );
+                     string_format( "< %s >", ctxt.get_hint( "VIEW_CATEGORY_MODE",
+                                    io::enum_to_string( _uimode ) ) ) );
         const auto footer = get_footer( mode );
         if( !footer.first.empty() ) {
             const int string_width = utf8_width( footer.first );
