@@ -1726,6 +1726,7 @@ class Character : public Creature, public visitable
          * @param it Item to calculate handling cost for
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
+         * @param charges_in_it the amount of charges to be handled (default is whole)
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
         int item_handling_cost( const item &it, bool penalties = true,
