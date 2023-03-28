@@ -27,6 +27,7 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "localized_comparator.h"
@@ -891,6 +892,19 @@ static recipe_subset filter_recipes( const recipe_subset &available_recipes,
                                        recipe_subset::search_type::difficulty, progress_callback );
                     break;
 
+                case 'r': {
+                    recipe_subset result;
+                    for( const itype *e : item_controller->all() ) {
+                        if( wildcard_match( e->nname( 1 ), qry_filter_str.substr( 2 ) ) ) {
+                            result.include( recipe_subset( available_recipes,
+                                                           available_recipes.recipes_that_produce( e->get_id() ) ) );
+                        }
+                    }
+                    filtered_recipes = result;
+
+                    break;
+                }
+
                 default:
                     break;
             }
@@ -927,6 +941,7 @@ static const std::vector<SearchPrefix> prefixes = {
     { 'm', to_translation( "yes" ), to_translation( "recipes which are <color_cyan>memorized</color> or not (hides nested)" ) },
     { 'P', to_translation( "Blacksmithing" ), to_translation( "<color_cyan>proficiency</color> used to craft" ) },
     { 'l', to_translation( "5" ), to_translation( "<color_cyan>difficulty</color> of the recipe as a number or range" ) },
+    { 'r', to_translation( "buttermilk" ), to_translation( "recipe's (<color_cyan>by</color>)<color_cyan>products</color>; use * as wildcard" ) },
 };
 
 static const translation filter_help_start = to_translation(
