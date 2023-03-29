@@ -496,16 +496,11 @@ void main_menu::init_strings()
     }
 
     vWorldSubItems.clear();
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Sh<o|O>w World Mods" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Copy World Sett<i|I>ngs" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Tem<p|P>late" ) );
-
-    vWorldHotkeys.clear();
-    for( const std::string &item : vWorldSubItems ) {
-        vWorldHotkeys.push_back( get_hotkeys( item ) );
-    }
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Delete World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Reset World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Show World Mods" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Copy World Settings" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Template" ) );
 
     vSettingsSubItems.clear();
     vSettingsSubItems.emplace_back( pgettext( "Main Menu|Settings", "<O|o>ptions" ) );
@@ -1081,8 +1076,7 @@ void main_menu::world_tab( const std::string &worldname )
     int opt_val = 0;
     std::array<char, 5> hotkeys = { 'd', 'r', 'm', 's', 't' };
     for( const std::string &it : vWorldSubItems ) {
-        mmenu.entries.emplace_back( opt_val, true, hotkeys[opt_val],
-                                    remove_color_tags( shortcut_text( it ) ) );
+        mmenu.entries.emplace_back( opt_val, true, hotkeys[opt_val], remove_color_tags( it ) );
         ++opt_val;
     }
     mmenu.entries.emplace_back( opt_val, true, 'q', _( "<- Back to Main Menu" ), c_yellow, c_yellow );
