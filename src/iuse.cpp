@@ -8142,7 +8142,6 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
     const std::string dont_have_solar = _( "You don't have any solar panels." );
 
     const auto set_cable_active = []( Character * p, item * it, const cable_state state ) {
-        const cable_state prev_state = it->link.state;
         it->link.state = state;
         it->active = true;
         it->process( get_map(), p, p->pos() );
@@ -8383,7 +8382,6 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
     item_location loc;
 
     const auto set_cable_active = []( Character * p, item * it, cable_state state ) {
-        const cable_state prev_state = it->link.state;
         it->link.state = state;
         it->active = true;
         it->process( get_map(), p, p->pos() );
