@@ -1441,8 +1441,8 @@ class item : public visitable
          * Helper to bring a cable back to its initial state.
          * @return True if the cable should be deleted.
          */
-        const bool reset_cable( Character *p = nullptr, item *parent_item = nullptr,
-                                const bool loose_message = false, const tripoint sees_point = tripoint_zero );
+        bool reset_cable( Character *p = nullptr, item *parent_item = nullptr,
+                          const bool loose_message = false, const tripoint sees_point = tripoint_zero );
         void reset_cables( Character *p );
 
         /**
@@ -1455,7 +1455,7 @@ class item : public visitable
         * @param turns_elapsed The number of turns the link has spent outside the reality bubble. Default 1.
         * @return The amount of power given or taken to be displayed; ignores turns_elapsed and inefficiency.
         */
-        const int charge_linked_batteries( item &linked_item, vehicle &linked_veh, int turns_elapsed = 1 );
+        int charge_linked_batteries( item &linked_item, vehicle &linked_veh, int turns_elapsed = 1 );
 
         /**
          * Whether the item should be processed (by calling @ref process).
@@ -2330,8 +2330,6 @@ class item : public visitable
          */
         bool ammo_sufficient( const Character *carrier, int qty = 1 ) const;
         bool ammo_sufficient( const Character *carrier, const std::string &method, int qty = 1 ) const;
-        bool ammo_sufficient( const Character *carrier, const std::string &method,
-                              tripoint pos, int qty = 1 ) const;
 
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed

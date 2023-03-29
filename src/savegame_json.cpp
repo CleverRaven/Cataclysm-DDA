@@ -3027,6 +3027,12 @@ void item::io( Archive &archive )
     archive.io( "relic_data", relic_data, null_relic_ptr );
     static const cata::value_ptr<link_data> null_link_ptr = nullptr;
     archive.io( "link_data", link, null_link_ptr );
+    if( link ) {
+        const optional_vpart_position vp = get_map().veh_at( link->t_abs_pos );
+        if( vp ) {
+            link->t_veh_safe = vp.value().vehicle().get_safe_reference();
+        }
+    }
 
     item_controller->migrate_item( orig, *this );
 

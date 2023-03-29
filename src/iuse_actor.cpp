@@ -4454,7 +4454,7 @@ std::optional<int> link_up_actor::use( Character &p, item &it, bool t, const tri
         // Convert wattage to how long it takes to charge 1 kW, the unit batteries use.
         // -1 means batteries won't be charged, but it can still provide epower to devices.
         cable.link->charge_interval = charge_rate == 0_W ? -1 :
-                                     std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( charge_rate.value() ) + 0.5 ) ) );
+                                      std::max( 1, static_cast<int>( std::floor( 1000000.0 / abs( charge_rate.value() ) + 0.5 ) ) );
         cable.link->state = cable_state::hanging_from_vehicle;
 
         cable.link->max_length = cable_length != -1 ? cable_length : type->maximum_charges();
