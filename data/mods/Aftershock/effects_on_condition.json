@@ -45,20 +45,13 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_afs_escape_pod_launch",
-    "effect_on_conditions": [
+    "effect": [
       {
-        "effect": [
-          {
-            "u_location_variable": { "global_val": "new_map" },
-            "target_params": { "om_terrain": "afs_crashed_escape_pod_o", "z": 0, "random": true, "search_range": 40, "min_distance": 10 }
-          },
-          {
-            "u_message": "You are slammed back into the chair as the escape pod launches from the ship.",
-            "popup": true
-          },
-          { "u_teleport": { "global_val": "new_map" }, "force": true }
-        ]
-      }
+        "u_location_variable": { "global_val": "new_map" },
+        "target_params": { "om_terrain": "afs_crashed_escape_pod_o", "z": 0, "random": true, "search_range": 40, "min_distance": 10 }
+      },
+      { "u_message": "You are slammed back into the chair as the escape pod launches from the ship.", "popup": true },
+      { "u_teleport": { "global_val": "new_map" }, "force": true }
     ]
   }
 ]
