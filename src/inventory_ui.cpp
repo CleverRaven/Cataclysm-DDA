@@ -3371,8 +3371,8 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
 
         if( input.entry != nullptr ) {
             highlight( input.entry->any_item() );
-            if ( input.action == "SELECT" ) {
-                toggle_entry(input.entry);
+            if( input.action == "SELECT" ) {
+                toggle_entry( input.entry );
                 just_selected = input.entry;
             }
         } else if( input.action == "TOGGLE_ENTRY" ) {
