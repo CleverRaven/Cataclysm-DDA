@@ -47,7 +47,6 @@
     "id": "EOC_afs_escape_pod_launch",
     "effect_on_conditions": [
       {
-        "id": "EOC_ISO_ELEVATOR",
         "effect": [
           {
             "u_location_variable": { "global_val": "new_map" },
