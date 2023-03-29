@@ -2,15 +2,15 @@
   {
     "type": "palette",
     "id": "domestic_general_and_variant_palette",
-    "//": "Standard variant distribution for homes: General: 90%, Abandoned: 3.33%, Survivor: 3.33%, Hoarder: 3.33%",
+    "//": "Standard variant distribution for homes: General: 95%, Abandoned: 2.80%, Survivor: 1.80%, Hoarder: 0.40%",
     "//2": "Please don't forget to apply your changes to each house palette.",
     "palettes": [
       {
         "distribution": [
-          [ "standard_domestic_palette", 9000 ],
-          [ "standard_domestic_palette_abandoned", 333 ],
-          [ "house_hoarder_palette", 333 ],
-          [ "house_survivor_palette", 333 ]
+          [ "standard_domestic_palette", 9500 ],
+          [ "standard_domestic_palette_abandoned", 280 ],
+          [ "house_hoarder_palette", 40 ],
+          [ "house_survivor_palette", 180 ]
         ]
       }
     ]
@@ -18,7 +18,8 @@
   {
     "type": "palette",
     "id": "standard_domestic_palette",
-    "//": "Intended as a palette for non-nested houses.  Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
+    "//": "Intended as a palette for non-nested houses.  The default option for domestic buildings.",
+    "2//": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
       "interior_wall_type": {
         "type": "ter_str_id",

@@ -2,7 +2,8 @@
   {
     "type": "palette",
     "id": "house_hoarder_palette",
-    "//": "Based on the standard_domestic_palette. Changes furniture and item spawns to give a choatic and cluttered interior. ! is used for placing random indoor storage furniture and associated random item spawns, ~ for indoor floor spawns. ? is used for outdoor storage furniture, = for outdoor floor spawns. Symbols still open for use: 0 $ % & / , ` and some symbols that conflict with json (like brackets).",
+    "//": "Intended as a palette for non-nested hoarder houses.  Changes furniture and item spawns to give a choatic and cluttered interior, adds roach spawns.",
+    "2//": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
       "interior_wall_type": {
         "type": "ter_str_id",
