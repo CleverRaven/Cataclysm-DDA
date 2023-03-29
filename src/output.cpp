@@ -2703,6 +2703,56 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
     return get_labeled_bar( val, width, label, ratings.begin(), ratings.end() );
 }
 
+template<typename BarIterator>
+inline std::string get_labeled_bar( const double val, const int width, const std::string &label,
+                                    BarIterator begin, BarIterator end )
+{
+    return get_labeled_bar<BarIterator>( val, width, label, begin, end, []( BarIterator it,
+    int seg_width ) -> std::string {
+        return std::string( seg_width, std::get<1>( *it ) );} );
+}
+
+using RatingVector = std::vector<std::tuple<double, char, std::string>>;
+
+template std::string get_labeled_bar<RatingVector::iterator>( const double val, const int width,
+        const std::string &label,
+        RatingVector::iterator begin, RatingVector::iterator end,
+        std::function<std::string( RatingVector::iterator, int )> printer );
+
+template<typename BarIterator>
+std::string get_labeled_bar( const double val, const int width, const std::string &label,
+                             BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer )
+{
+    std::string result;
+
+    result.reserve( width );
+    if( !label.empty() ) {
+        result += label;
+        result += ' ';
+    }
+    const int bar_width = width - utf8_width( result ) - 2; // - 2 for the brackets
+
+    result += '[';
+    if( bar_width > 0 ) {
+        int used_width = 0;
+        for( BarIterator it( begin ); it != end; ++it ) {
+            const double factor = std::min( 1.0, std::max( 0.0, std::get<0>( *it ) * val ) );
+            const int seg_width = static_cast<int>( factor * bar_width ) - used_width;
+
+            if( seg_width <= 0 ) {
+                continue;
+            }
+            used_width += seg_width;
+
+            result += printer( it, seg_width );
+        }
+        result.insert( result.end(), bar_width - used_width, ' ' );
+    }
+    result += ']';
+
+    return result;
+}
+
 /**
  * Inserts a table into a window, with data right-aligned.
  * @param pad Reduce table width by padding left side.
