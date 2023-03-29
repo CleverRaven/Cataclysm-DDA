@@ -3972,7 +3972,7 @@ int inventory_examiner::execute()
             if( highlight( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-            if ( input.action == "SELECT" ) {
+            if( input.action == "SELECT" ) {
                 return cleanup();
             }
         }
