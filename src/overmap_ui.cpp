@@ -1158,8 +1158,7 @@ static void draw_om_sidebar(
         }
     }
 
-    mvwprintz( wbar, point( 1, 12 ), input_context::get_hint_color(),
-               _( "Use movement keys to pan." ) );
+    print_colored_text( wbar, point( 1, 12 ), inp_ctxt->get_hint_directions( _( "Pan view" ) ) );
     if( inp_ctxt != nullptr ) {
         print_colored_text( wbar, point( 1, 13 ), inp_ctxt->get_hint( "CHOOSE_DESTINATION",
                             _( "Preview route" ) ) );
