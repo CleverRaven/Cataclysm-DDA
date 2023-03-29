@@ -90,7 +90,7 @@ std::string help::get_dir_grid()
 }
 
 std::map<int, inclusive_rectangle<point>> help::draw_menu( const catacurses::window &win,
-                                       int selected, const input_context &ctxt ) const
+                                       int selected ) const
 {
     std::map<int, inclusive_rectangle<point>> opt_map;
 
@@ -107,13 +107,8 @@ std::map<int, inclusive_rectangle<point>> help::draw_menu( const catacurses::win
         const keybinding_hint_state state = selected == text.first ? keybinding_hint_state::HIGHLIGHTED :
                                             keybinding_hint_state::ENABLED ;
         std::string cat_name = text.second.first.translated();
-        std::string shortcut_only = shortcut_text( cat_name, state, true );
+        std::string shortcut = shortcut_text( cat_name, state, true );
 
-        size_t pos = cat_name.find_first_of( ' ' );
-        if( pos != std::string::npos && pos + 1 < cat_name.size() ) {
-            cat_name = cat_name.substr( pos + 1 );
-        }
-        std::string shortcut = ctxt.get_hint_basic( shortcut_only, cat_name, state );
         const int cat_width = utf8_width( shortcut, true );
         if( i < half_size ) {
             second_column = std::max( second_column, cat_width + 4 );
@@ -184,7 +179,7 @@ void help::display_help() const
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_help_border, BORDER_COLOR, _( "Help" ) );
         wnoutrefresh( w_help_border );
-        opt_map = draw_menu( w_help, sel, ctxt );
+        opt_map = draw_menu( w_help, sel );
     } );
 
     std::map<int, std::vector<std::string>> hotkeys;

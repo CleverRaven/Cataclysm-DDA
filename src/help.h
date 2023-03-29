@@ -27,7 +27,7 @@ class help
     private:
         void deserialize( const JsonArray &ja );
         std::map<int, inclusive_rectangle<point>> draw_menu( const catacurses::window &win,
-                                               int selected, const input_context &ctxt ) const;
+                                               int selected ) const;
         static std::string get_note_colors();
         static std::string get_dir_grid();
 
