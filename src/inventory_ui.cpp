@@ -3371,8 +3371,10 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
 
         if( input.entry != nullptr ) {
             highlight( input.entry->any_item() );
-            toggle_entry( input.entry );
-            just_selected = input.entry;
+            if ( input.action == "SELECT" ) {
+                toggle_entry(input.entry);
+                just_selected = input.entry;
+            }
         } else if( input.action == "TOGGLE_ENTRY" ) {
             const auto selection( get_active_column().get_all_selected() );
 
@@ -3970,7 +3972,9 @@ int inventory_examiner::execute()
             if( highlight( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-            return cleanup();
+            if ( input.action == "SELECT" ) {
+                return cleanup();
+            }
         }
 
         if( input.action == "QUIT" || input.action == "CONFIRM" ) {
