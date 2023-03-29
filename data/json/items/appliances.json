@@ -352,5 +352,35 @@
     "symbol": "O",
     "color": "green_white",
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "oxygen_concentrator",
+    "name": { "str_sp": "oxygen concentrator" },
+    "description": "A machine capable of generating pure oxygen from the air.  Can be placed and plugged into a power source.",
+    "weight": "29 kg",
+    "material": [ "plastic", "steel" ],
+    "volume": "110 L",
+    "longest_side": "70 cm",
+    "price": 200000,
+    "price_postapoc": 2000,
+    "symbol": "&",
+    "color": "light_gray"
+  },
+  {
+    "type": "GENERIC",
+    "category": "other",
+    "id": "hd_compressor_unit",
+    "name": { "str_sp": "high pressure compressor unit" },
+    "description": "A machine designed to compress an input gas to a very high pressure.  Can be placed and plugged into a power source.",
+    "weight": "52500 g",
+    "material": [ "steel" ],
+    "volume": "150 L",
+    "longest_side": "63 cm",
+    "price": 200000,
+    "price_postapoc": 2000,
+    "symbol": "&",
+    "color": "light_gray"
   }
 ]
