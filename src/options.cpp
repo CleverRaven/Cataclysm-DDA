@@ -1687,7 +1687,8 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
-    add_option_group( "interface", Group( "measurement_unit", to_translation( "Measurement Units" ), to_translation( "Options regarding measurement units." )  ),
+    add_option_group( "interface", Group( "measurement_unit", to_translation( "Measurement Units" ),
+                                          to_translation( "Options regarding measurement units." ) ),
     [&]( const std::string & page_id ) {
         add( "USE_CELSIUS", page_id, to_translation( "Temperature units" ),
              to_translation( "Switch between Fahrenheit, Celsius, and Kelvin." ),
