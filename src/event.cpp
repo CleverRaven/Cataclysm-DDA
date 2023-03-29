@@ -74,6 +74,8 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::gains_addiction: return "gains_addiction";
         case event_type::gains_mutation: return "gains_mutation";
         case event_type::gains_skill_level: return "gains_skill_level";
+        case event_type::game_avatar_death: return "game_avatar_death";
+        case event_type::game_avatar_new: return "game_avatar_new";
         case event_type::game_load: return "game_load";
         case event_type::game_over: return "game_over";
         case event_type::game_save: return "game_save";
@@ -124,7 +126,7 @@ DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character_item )
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 87,
+static_assert( static_cast<int>( event_type::num_event_types ) == 89,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -165,6 +167,8 @@ DEFINE_EVENT_FIELDS( fuel_tank_explodes )
 DEFINE_EVENT_FIELDS( gains_addiction )
 DEFINE_EVENT_FIELDS( gains_mutation )
 DEFINE_EVENT_FIELDS( gains_skill_level )
+DEFINE_EVENT_FIELDS( game_avatar_death )
+DEFINE_EVENT_FIELDS( game_avatar_new )
 DEFINE_EVENT_FIELDS( game_load )
 DEFINE_EVENT_FIELDS( game_over )
 DEFINE_EVENT_FIELDS( game_save )

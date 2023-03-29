@@ -17,7 +17,7 @@
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_LIMB_UPPER( "LIMB_UPPER" );
 
-static const mtype_id mon_fish_trout( "mon_fish_trout" );
+static const mtype_id mon_fish_rainbow_trout( "mon_fish_rainbow_trout" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
 
@@ -131,6 +131,6 @@ TEST_CASE( "mtype_species_test", "[monster]" )
     CHECK( mon_zombie->same_species( *mon_zombie_cop ) );
     CHECK( mon_zombie_cop->same_species( *mon_zombie ) );
 
-    CHECK_FALSE( mon_zombie->same_species( *mon_fish_trout ) );
-    CHECK_FALSE( mon_fish_trout->same_species( *mon_zombie ) );
+    CHECK_FALSE( mon_zombie->same_species( *mon_fish_rainbow_trout ) );
+    CHECK_FALSE( mon_fish_rainbow_trout->same_species( *mon_zombie ) );
 }

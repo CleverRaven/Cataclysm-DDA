@@ -724,7 +724,7 @@ struct event_statistic_count : event_statistic::impl {
     }
 
     monotonically monotonicity() const override {
-        return source->monotonicity();
+        return monotonically::increasing;
     }
 
     std::unique_ptr<impl> clone() const override {

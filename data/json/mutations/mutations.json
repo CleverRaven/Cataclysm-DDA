@@ -154,6 +154,8 @@
     "cancels": [
       "ALBINO",
       "BOMBADIER_BLAST",
+      "CAMO1",
+      "CAMO2",
       "MUCUS_SECRETION",
       "MUCUS_SECRETION2",
       "PALE",
@@ -205,6 +207,7 @@
       "POISONOUS",
       "POISONOUS2",
       "RADIOGENIC",
+      "RADIOPHILE",
       "RESISTCHILL",
       "RESISTWARM",
       "ROBUST",
@@ -1060,7 +1063,7 @@
     "name": { "str": "Scout" },
     "points": 1,
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
-    "category": [ "BIRD", "MOUSE" ],
+    "category": [ "BIRD", "MOUSE", "CEPHALOPOD" ],
     "cancels": [ "UNOBSERVANT" ],
     "overmap_sight": 5
   },
@@ -3355,6 +3358,17 @@
   },
   {
     "type": "mutation",
+    "id": "RADIOPHILE",
+    "name": { "str": "Radiophile" },
+    "points": 1,
+    "description": "Your flesh has developed a unique reaction to radiation that lets you sense when ambient radiation is abnormally high.  Turn off to ignore messages.",
+    "prereqs": [ "RADIOGENIC" ],
+    "category": [ "SLIME", "MEDICAL" ],
+    "active": true,
+    "starts_active": true
+  },
+  {
+    "type": "mutation",
     "id": "MARLOSS",
     "name": { "str": "Marloss Carrier" },
     "points": 4,
@@ -4462,6 +4476,7 @@
     "types": [ "PAIN" ],
     "//": "The MORE_PAIN mutations will always increase the pain you receive by at least 1.",
     "changes_to": [ "MORE_PAIN2" ],
+    "category": [ "CEPHALOPOD" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": 0.25 } ] } ]
   },
   {
@@ -8401,5 +8416,49 @@
     "starting_trait": true,
     "category": [ "FISH", "CEPHALOPOD", "GASTROPOD", "LIZARD", "BATRACHIAN", "PLANT" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "CAMO1",
+    "name": { "str": "Colorful Skin" },
+    "points": -3,
+    "visibility": 10,
+    "ugliness": 2,
+    "description": "Your skin is covered in shifting patterns of dots, lines, and swirls.  This is outside of your control and does not help your stealth.  In fact, it makes you more noticeable.",
+    "types": [ "SKIN" ],
+    "changes_to": [ "CAMO2" ],
+    "category": [ "CEPHALOPOD" ],
+    "stealth_modifier": -20
+  },
+  {
+    "type": "mutation",
+    "id": "CAMO2",
+    "name": { "str": "Camouflage Skin" },
+    "points": 2,
+    "visibility": 7,
+    "ugliness": 1,
+    "description": "Your can change your skin patterns to match your environment, somewhat increasing your stealthiness.",
+    "types": [ "SKIN" ],
+    "purifiable": false,
+    "category": [ "CEPHALOPOD" ],
+    "prereqs": [ "CAMO1" ],
+    "threshreq": [ "THRESH_CEPHALOPOD" ],
+    "stealth_modifier": 20
+  },
+  {
+    "type": "mutation",
+    "id": "CEPH_MIND",
+    "name": { "str": "Cephalopod Mind" },
+    "points": 5,
+    "description": "Your mind has been altered in such a way that you now find it very difficult to understand humans.  Your capability to persuade and lie to them suffers slightly, even if it is mitigated by your intelligence.  In addition, while you find it much easier to learn by doing now, the plasticity of your psyche means you forget skills much faster.",
+    "cancels": [ "TRUTHTELLER", "LIAR", "SLOWLEARNER", "FASTLEARNER" ],
+    "purifiable": false,
+    "types": [ "HUMAN_EMPATHY" ],
+    "social_modifiers": { "lie": -5, "persuade": -5 },
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 17 } ] } ],
+    "skill_rust_multiplier": 1.5,
+    "category": [ "CEPHALOPOD" ],
+    "prereqs": [ "INT_UP_4" ],
+    "threshreq": [ "THRESH_CEPHALOPOD" ]
   }
 ]

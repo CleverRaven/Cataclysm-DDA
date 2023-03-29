@@ -6,7 +6,7 @@
 #include "regional_settings.h"
 #include "string_id.h"
 
-static constexpr int RANDOM_CITY_ENTRY = INT_MIN;
+constexpr int RANDOM_CITY_ENTRY = INT_MIN;
 
 class uilist;
 

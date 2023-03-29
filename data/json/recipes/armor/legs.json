@@ -36,6 +36,22 @@
     "using": [ [ "armor_chitin", 6 ], [ "tailoring_leather_small", 4 ] ]
   },
   {
+    "result": "xs_legguard_chitin",
+    "type": "recipe",
+    "copy-from": "legguard_chitin",
+    "time": "520 m",
+    "byproducts": [ [ "scrap_leather", 4 ] ],
+    "using": [ [ "armor_chitin", 5 ], [ "tailoring_leather_small", 3 ] ]
+  },
+  {
+    "result": "xl_legguard_chitin",
+    "type": "recipe",
+    "copy-from": "legguard_chitin",
+    "time": "580 m",
+    "byproducts": [ [ "scrap_leather", 4 ] ],
+    "using": [ [ "armor_chitin", 7 ], [ "tailoring_leather_small", 5 ] ]
+  },
+  {
     "result": "legguard_acidchitin",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -55,6 +71,22 @@
       { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_articulation" }
     ]
+  },
+  {
+    "result": "xs_legguard_acidchitin",
+    "type": "recipe",
+    "copy-from": "legguard_acidchitin",
+    "time": "520 m",
+    "byproducts": [ [ "scrap_leather", 4 ] ],
+    "using": [ [ "armor_acidchitin", 5 ], [ "tailoring_leather_small", 3 ] ]
+  },
+  {
+    "result": "xl_legguard_acidchitin",
+    "type": "recipe",
+    "copy-from": "legguard_acidchitin",
+    "time": "580 m",
+    "byproducts": [ [ "scrap_leather", 4 ] ],
+    "using": [ [ "armor_acidchitin", 7 ], [ "tailoring_leather_small", 5 ] ]
   },
   {
     "result": "bikini_bottom",
@@ -662,6 +694,7 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
     "difficulty": 3,
+    "reversible": { "time": "20 m" },
     "time": "40 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],

@@ -250,6 +250,9 @@ static const itype_id fuel_type_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_grapnel( "grapnel" );
+static const itype_id itype_holybook_bible1( "holybook_bible1" );
+static const itype_id itype_holybook_bible2( "holybook_bible2" );
+static const itype_id itype_holybook_bible3( "holybook_bible3" );
 static const itype_id itype_manhole_cover( "manhole_cover" );
 static const itype_id itype_remotevehcontrol( "remotevehcontrol" );
 static const itype_id itype_rope_30( "rope_30" );
@@ -291,6 +294,7 @@ static const species_id species_PLANT( "PLANT" );
 static const string_id<npc_template> npc_template_cyborg_rescued( "cyborg_rescued" );
 
 static const trait_id trait_BADKNEES( "BADKNEES" );
+static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INATTENTIVE( "INATTENTIVE" );
@@ -303,6 +307,7 @@ static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
+static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
@@ -409,6 +414,7 @@ game::game() :
     events().subscribe( &*memorial_logger_ptr );
     events().subscribe( &*achievements_tracker_ptr );
     events().subscribe( &*spell_events_ptr );
+    events().subscribe( &*eoc_events_ptr );
     world_generator = std::make_unique<worldfactory>();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
     // The reason for this move is so that g is not uninitialized when it gets to installing the parts into vehicles.
@@ -955,12 +961,47 @@ bool game::start_game()
         }
     }
     if( scen->has_flag( "BORDERED" ) ) {
+        const point_abs_omt p_player = get_player_character().global_omt_location().xy();
+        point_abs_om om;
+        point_om_omt omt;
+        std::tie( om, omt ) = project_remain<coords::om>( p_player );
+
+        // The Wall is supposed to be a 100x100 rectangle centered on player,
+        // but if player is spawned next to edges of the overmap we need to make it smaller so it doesn't overlap the overmap's borders
+        int left_x = omt.x() < 50 ? 1 : omt.x() - 50;
+        int right_x = omt.x() > 129 ? 179 : omt.x() + 50;
+        int up_y = omt.y() < 50 ? 1 : omt.y() - 50;
+        int down_y = omt.y() > 129 ? 179 : omt.y() + 50;
+
         overmap &starting_om = get_cur_om();
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            starting_om.place_special_forced( overmap_special_world, { 0, 0, z },
-                                              om_direction::type::north );
+
+        for( int x = left_x; x <= right_x; x++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { x, up_y, z },
+                                                  om_direction::type::north );
+            }
         }
 
+        for( int x = left_x; x <= right_x; x++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { x, down_y, z },
+                                                  om_direction::type::north );
+            }
+        }
+
+        for( int y = up_y; y <= down_y; y++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { left_x, y, z },
+                                                  om_direction::type::north );
+            }
+        }
+
+        for( int y = up_y; y <= down_y; y++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { right_x, y, z },
+                                                  om_direction::type::north );
+            }
+        }
     }
     for( item *&e : u.inv_dump() ) {
         e->set_owner( get_player_character() );
@@ -1004,8 +1045,9 @@ bool game::start_game()
         }
     }
 
-    get_event_bus().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
-            u.custom_profession, getVersionString() );
+    get_event_bus().send<event_type::game_start>( getVersionString() );
+    get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/true, /*is_debug=*/false,
+            u.getID(), u.name, u.male, u.prof->ident(), u.custom_profession );
     time_played_at_last_load = std::chrono::seconds( 0 );
     time_of_last_load = std::chrono::steady_clock::now();
     tripoint_abs_omt abs_omt = u.global_omt_location();
@@ -2419,7 +2461,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "sky" );
     ctxt.register_action( "missions" );
     ctxt.register_action( "factions" );
-    ctxt.register_action( "scores" );
     ctxt.register_action( "morale" );
     ctxt.register_action( "messages" );
     ctxt.register_action( "help" );
@@ -2610,6 +2651,7 @@ bool game::is_game_over()
         return true;
     }
     if( uquit == QUIT_SUICIDE ) {
+        bury_screen();
         if( u.in_vehicle ) {
             m.unboard_vehicle( u.pos() );
         }
@@ -2624,6 +2666,7 @@ bool game::is_game_over()
         if( !u.is_dead_state() ) {
             return false;
         }
+        bury_screen();
         effect_on_conditions::avatar_death();
         if( !u.is_dead_state() ) {
             return false;
@@ -2644,6 +2687,194 @@ bool game::is_game_over()
         return is_game_over();
     }
     return false;
+}
+
+void game::bury_screen() const
+{
+    avatar &u = get_avatar();
+
+    std::vector<std::string> vRip;
+
+    int iMaxWidth = 0;
+    int iNameLine = 0;
+    int iInfoLine = 0;
+
+    if( u.has_amount( itype_holybook_bible1, 1 ) || u.has_amount( itype_holybook_bible2, 1 ) ||
+        u.has_amount( itype_holybook_bible3, 1 ) ) {
+        if( !( u.has_trait( trait_CANNIBAL ) || u.has_trait( trait_PSYCHOPATH ) ) ) {
+            vRip.emplace_back( "               _______  ___" );
+            vRip.emplace_back( "              <       `/   |" );
+            vRip.emplace_back( "               >  _     _ (" );
+            vRip.emplace_back( "              |  |_) | |_) |" );
+            vRip.emplace_back( "              |  | \\ | |   |" );
+            vRip.emplace_back( "   ______.__%_|            |_________  __" );
+            vRip.emplace_back( " _/                                  \\|  |" );
+            iNameLine = vRip.size();
+            vRip.emplace_back( "|                                        <" );
+            vRip.emplace_back( "|                                        |" );
+            iMaxWidth = utf8_width( vRip.back() );
+            vRip.emplace_back( "|                                        |" );
+            vRip.emplace_back( "|_____.-._____              __/|_________|" );
+            vRip.emplace_back( "              |            |" );
+            iInfoLine = vRip.size();
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |           <" );
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |   _        |" );
+            vRip.emplace_back( "              |__/         |" );
+            vRip.emplace_back( "             % / `--.      |%" );
+            vRip.emplace_back( "         * .%%|          -< @%%%" ); // NOLINT(cata-text-style)
+            vRip.emplace_back( "         `\\%`@|            |@@%@%%" );
+            vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
+            vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
+
+        } else {
+            vRip.emplace_back( "               _______  ___" );
+            vRip.emplace_back( "              |       \\/   |" );
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |            |" );
+            iInfoLine = vRip.size();
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |            |" );
+            vRip.emplace_back( "              |           <" );
+            vRip.emplace_back( "              |   _        |" );
+            vRip.emplace_back( "              |__/         |" );
+            vRip.emplace_back( "   ______.__%_|            |__________  _" );
+            vRip.emplace_back( " _/                                   \\| \\" );
+            iNameLine = vRip.size();
+            vRip.emplace_back( "|                                         <" );
+            vRip.emplace_back( "|                                         |" );
+            iMaxWidth = utf8_width( vRip.back() );
+            vRip.emplace_back( "|                                         |" );
+            vRip.emplace_back( "|_____.-._______            __/|__________|" );
+            vRip.emplace_back( "             % / `_-.   _  |%" );
+            vRip.emplace_back( "         * .%%|  |_) | |_)< @%%%" ); // NOLINT(cata-text-style)
+            vRip.emplace_back( "         `\\%`@|  | \\ | |   |@@%@%%" );
+            vRip.emplace_back( "       .%%%@@@|%     `   % @@@%%@%%%%" );
+            vRip.emplace_back( "  _.%%%%%%@@@@@@%%%__/\\%@@%%@@@@@@@%%%%%%" );
+        }
+    } else {
+        vRip.emplace_back( R"(           _________  ____           )" );
+        vRip.emplace_back( R"(         _/         `/    \_         )" );
+        vRip.emplace_back( R"(       _/      _     _      \_.      )" );
+        vRip.emplace_back( R"(     _%\      |_) | |_)       \_     )" );
+        vRip.emplace_back( R"(   _/ \/      | \ | |           \_   )" );
+        vRip.emplace_back( R"( _/                               \_ )" );
+        vRip.emplace_back( R"(|                                   |)" );
+        iNameLine = vRip.size();
+        vRip.emplace_back( R"( )                                 < )" );
+        vRip.emplace_back( R"(|                                   |)" );
+        vRip.emplace_back( R"(|                                   |)" );
+        vRip.emplace_back( R"(|   _                               |)" );
+        vRip.emplace_back( R"(|__/                                |)" );
+        iMaxWidth = utf8_width( vRip.back() );
+        vRip.emplace_back( R"( / `--.                             |)" );
+        vRip.emplace_back( R"(|                                  ( )" );
+        iInfoLine = vRip.size();
+        vRip.emplace_back( R"(|                                   |)" );
+        vRip.emplace_back( R"(|                                   |)" );
+        vRip.emplace_back( R"(|     %                         .   |)" );
+        vRip.emplace_back( R"(|  @`                            %% |)" );
+        vRip.emplace_back( R"(| %@%@%\                *      %`%@%|)" );
+        vRip.emplace_back( R"(%%@@@.%@%\%%            `\  %%.%%@@%@)" );
+        vRip.emplace_back( R"(@%@@%%%%%@@@@@@%%%%%%%%@@%%@@@%%%@%%@)" );
+    }
+
+    const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
+
+    catacurses::window w_rip = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                               iOffset );
+    draw_border( w_rip );
+
+    sfx::do_player_death_hurt( get_player_character(), true );
+    sfx::fade_audio_group( sfx::group::weather, 2000 );
+    sfx::fade_audio_group( sfx::group::time_of_day, 2000 );
+    sfx::fade_audio_group( sfx::group::context_themes, 2000 );
+    sfx::fade_audio_group( sfx::group::fatigue, 2000 );
+
+    for( size_t iY = 0; iY < vRip.size(); ++iY ) {
+        size_t iX = 0;
+        const char *str = vRip[iY].data();
+        for( int slen = vRip[iY].size(); slen > 0; ) {
+            const uint32_t cTemp = UTF8_getch( &str, &slen );
+            if( cTemp != U' ' ) {
+                nc_color ncColor = c_light_gray;
+
+                if( cTemp == U'%' ) {
+                    ncColor = c_green;
+
+                } else if( cTemp == U'_' || cTemp == U'|' ) {
+                    ncColor = c_white;
+
+                } else if( cTemp == U'@' ) {
+                    ncColor = c_brown;
+
+                } else if( cTemp == U'*' ) {
+                    ncColor = c_red;
+                }
+
+                mvwputch( w_rip, point( iX + FULL_SCREEN_WIDTH / 2 - ( iMaxWidth / 2 ), iY + 1 ), ncColor,
+                          cTemp );
+            }
+            iX += mk_wcwidth( cTemp );
+        }
+    }
+
+    std::string sTemp;
+
+    center_print( w_rip, iInfoLine++, c_white, _( "Survived:" ) );
+
+    const time_duration survived = calendar::turn - calendar::start_of_game;
+    const int minutes = to_minutes<int>( survived ) % 60;
+    const int hours = to_hours<int>( survived ) % 24;
+    const int days = to_days<int>( survived );
+
+    if( days > 0 ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        sTemp = string_format( "%dd %dh %dm", days, hours, minutes );
+    } else if( hours > 0 ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        sTemp = string_format( "%dh %dm", hours, minutes );
+    } else {
+        // NOLINTNEXTLINE(cata-translate-string-literal)
+        sTemp = string_format( "%dm", minutes );
+    }
+
+    center_print( w_rip, iInfoLine++, c_white, sTemp );
+
+    const int iTotalKills = g->get_kill_tracker().monster_kill_count();
+
+    sTemp = _( "Kills:" );
+    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - 5, 1 + iInfoLine++ ), c_light_gray,
+               ( sTemp + " " ) );
+    wprintz( w_rip, c_magenta, "%d", iTotalKills );
+
+    sTemp = _( "In memory of:" );
+    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
+               c_light_gray,
+               sTemp );
+
+    sTemp = u.get_name();
+    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
+               sTemp );
+
+    sTemp = _( "Last Words:" );
+    mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ),
+               c_light_gray,
+               sTemp );
+
+    int iStartX = FULL_SCREEN_WIDTH / 2 - ( ( iMaxWidth - 4 ) / 2 );
+    std::string sLastWords = string_input_popup()
+                             .window( w_rip, point( iStartX, iNameLine ), iStartX + iMaxWidth - 4 - 1 )
+                             .max_length( iMaxWidth - 4 - 1 )
+                             .query_string();
+
+    const bool is_suicide = uquit == QUIT_SUICIDE;
+    get_event_bus().send<event_type::game_avatar_death>( u.getID(), u.name, u.male, is_suicide,
+            sLastWords );
 }
 
 void game::death_screen()
@@ -5238,48 +5469,47 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
 
 void game::control_vehicle()
 {
-    int veh_part = -1;
-    vehicle *veh = remoteveh();
-    if( veh != nullptr ) {
-        for( const vpart_reference &vpr : veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
-            veh->interact_with( vpr.pos() );
+    if( vehicle *remote_veh = remoteveh() ) { // remote controls have priority
+        for( const vpart_reference &vpr : remote_veh->get_avail_parts( "REMOTE_CONTROLS" ) ) {
+            remote_veh->interact_with( vpr.pos() );
             return;
         }
     }
-    if( veh == nullptr ) {
-        if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
-            veh = &vp->vehicle();
-            veh_part = vp->part_index();
+    vehicle *veh = nullptr;
+    if( const optional_vpart_position vp = m.veh_at( u.pos() ) ) {
+        veh = &vp->vehicle();
+        const int controls_idx = veh->avail_part_with_feature( vp->mount(), "CONTROLS" );
+        const int reins_idx = veh->avail_part_with_feature( vp->mount(), "CONTROL_ANIMAL" );
+        const bool controls_ok = controls_idx >= 0; // controls available to "drive"
+        const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
+                              && veh->has_engine_type( fuel_type_animal, false )
+                              && veh->has_harnessed_animal();
+        if( veh->player_in_control( u ) ) {
+            // player already "driving" - offer ways to leave
+            if( controls_ok ) {
+                veh->interact_with( u.pos() );
+            } else if( reins_idx >= 0 ) {
+                u.controlling_vehicle = false;
+                add_msg( m_info, _( "You let go of the reins." ) );
+            }
+        } else if( u.in_vehicle && ( controls_ok || reins_ok ) ) {
+            // player not driving but has controls or reins on tile
+            if( veh->is_locked ) {
+                veh->interact_with( u.pos() );
+                return; // interact_with offers to hotwire
+            }
+            if( !veh->handle_potential_theft( u ) ) {
+                return; // player not owner and refused to steal
+            }
+            if( veh->engine_on ) {
+                u.controlling_vehicle = true;
+                add_msg( _( "You take control of the %s." ), veh->name );
+            } else {
+                veh->start_engines( true );
+            }
         }
     }
-    if( veh != nullptr && veh->player_in_control( u ) &&
-        veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ) {
-        veh->interact_with( u.pos() );
-    } else if( veh && veh->player_in_control( u ) &&
-               veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 ) {
-        u.controlling_vehicle = false;
-        add_msg( m_info, _( "You let go of the reins." ) );
-    } else if( veh && ( veh->avail_part_with_feature( veh_part, "CONTROLS" ) >= 0 ||
-                        ( veh->avail_part_with_feature( veh_part, "CONTROL_ANIMAL" ) >= 0 &&
-                          veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
-               u.in_vehicle ) {
-        if( veh->is_locked ) {
-            veh->interact_with( u.pos() );
-            return;
-        }
-        if( veh->engine_on ) {
-            if( !veh->handle_potential_theft( u ) ) {
-                return;
-            }
-            u.controlling_vehicle = true;
-            add_msg( _( "You take control of the %s." ), veh->name );
-        } else {
-            if( !veh->handle_potential_theft( u ) ) {
-                return;
-            }
-            veh->start_engines( true );
-        }
-    } else {    // Start looking for nearby vehicle controls.
+    if( !veh ) { // no controls or animal reins under player position, search nearby
         int num_valid_controls = 0;
         std::optional<tripoint> vehicle_position;
         std::optional<vpart_reference> vehicle_controls;
@@ -6385,9 +6615,7 @@ void game::zones_manager()
 
     std::string action;
     input_context ctxt( "ZONES_MANAGER" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ADD_ZONE" );
@@ -6713,35 +6941,7 @@ void game::zones_manager()
             zones_faction = faction_id( facname );
             zones = get_zones();
         } else if( zone_cnt > 0 ) {
-            if( action == "UP" ) {
-                active_index--;
-                if( active_index < 0 ) {
-                    active_index = zone_cnt - 1;
-                }
-                blink = false;
-            } else if( action == "DOWN" ) {
-                active_index++;
-                if( active_index >= zone_cnt ) {
-                    active_index = 0;
-                }
-                blink = false;
-            } else if( action == "PAGE_DOWN" ) {
-                if( active_index == zone_cnt - 1 ) {
-                    active_index = 0;
-                } else if( active_index + scroll_rate >= zone_cnt ) {
-                    active_index = zone_cnt - 1;
-                } else {
-                    active_index += +scroll_rate;
-                }
-                blink = false;
-            } else if( action == "PAGE_UP" ) {
-                if( active_index == 0 ) {
-                    active_index = zone_cnt - 1;
-                } else if( active_index <= scroll_rate ) {
-                    active_index = 0;
-                } else {
-                    active_index += -scroll_rate;
-                }
+            if( navigate_ui_list( action, active_index, scroll_rate, zone_cnt, true ) ) {
                 blink = false;
             } else if( action == "REMOVE_ZONE" ) {
                 if( active_index < zone_cnt ) {
@@ -7917,7 +8117,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     low = false;
                 }
 
-                if( iNum >= iStartPos && iNum < iStartPos + ( iMaxRows > iItemNum ? iItemNum : iMaxRows ) ) {
+                if( iNum >= iStartPos && iNum < iStartPos + std::min( iMaxRows, iItemNum ) ) {
                     int iThisPage = 0;
                     if( !mSortCategory[iNum].empty() ) {
                         iCatSortOffset++;
@@ -8309,10 +8509,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     std::string action;
     input_context ctxt( "LIST_MONSTERS" );
-    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "zoom_in" );
@@ -8532,36 +8729,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     const int scroll_rate = recmax > 20 ? 10 : 3;
 
     do {
-        if( action == "UP" ) {
-            iActive--;
-            if( iActive < 0 ) {
-                if( monster_list.empty() ) {
-                    iActive = 0;
-                } else {
-                    iActive = recmax - 1;
-                }
-            }
-        } else if( action == "DOWN" ) {
-            iActive++;
-            if( iActive >= recmax ) {
-                iActive = 0;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( iActive == 0 ) {
-                iActive = recmax - 1;
-            } else if( iActive <= scroll_rate ) {
-                iActive = 0;
-            } else {
-                iActive += -scroll_rate;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( iActive == recmax - 1 ) {
-                iActive = 0;
-            } else if( iActive + scroll_rate >= recmax ) {
-                iActive = recmax - 1;
-            } else {
-                iActive += +scroll_rate;
-            }
+        if( navigate_ui_list( action, iActive, scroll_rate, recmax, true ) ) {
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
             return game::vmenu_ret::CHANGE_TAB;
@@ -12060,7 +12228,7 @@ void game::debug_hour_timer::print_time()
     if( enabled ) {
         if( calendar::once_every( time_duration::from_hours( 1 ) ) ) {
             const IRLTimeMs now = std::chrono::time_point_cast<std::chrono::milliseconds>(
-                                      std::chrono::system_clock::now() );
+                                      std::chrono::steady_clock::now() );
             if( start_time ) {
                 add_msg( "in-game hour took: %d ms", ( now - *start_time ).count() );
             } else {

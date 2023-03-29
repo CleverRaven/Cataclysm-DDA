@@ -41,10 +41,11 @@ class creature_tracker;
 class JsonValue;
 class item;
 class location;
+class eoc_events;
 class spell_events;
 class viewer;
 
-static constexpr int DEFAULT_TILESET_ZOOM = 16;
+constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 // The reference to the one and only game instance.
 class game;
@@ -525,6 +526,8 @@ class game
         void reload_npcs();
         void remove_npc( character_id const &id );
         const kill_tracker &get_kill_tracker() const;
+        stats_tracker &stats();
+        achievements_tracker &achievements();
         /** Add follower id to set of followers. */
         void add_npc_follower( const character_id &id );
         /** Remove follower id from follower set. */
@@ -951,6 +954,7 @@ class game
         void item_action_menu( item_location loc = item_location() ); // Displays item action menu
 
         bool is_game_over();     // Returns true if the player quit or died
+        void bury_screen() const;// Bury a dead character (record their last words)
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
         void draw_minimap();     // Draw the 5x5 minimap
     public:
@@ -998,7 +1002,7 @@ class game
         class debug_hour_timer
         {
             public:
-                using IRLTimeMs = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+                using IRLTimeMs = std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>;
                 void toggle();
                 void print_time();
             private:
@@ -1030,6 +1034,8 @@ class game
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr; // NOLINT(cata-serialize)
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
+        pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
+
 
         map &m;
         avatar &u;
@@ -1038,9 +1044,7 @@ class game
         const scenario *scen = nullptr; // NOLINT(cata-serialize)
 
         event_bus &events();
-        stats_tracker &stats();
         timed_event_manager &timed_events; // NOLINT(cata-serialize)
-        achievements_tracker &achievements();
         memorial_logger &memorial();
 
         global_variables global_variables_instance;

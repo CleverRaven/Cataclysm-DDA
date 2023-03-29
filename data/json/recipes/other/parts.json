@@ -361,7 +361,7 @@
     "difficulty": 1,
     "time": "8 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 6 ] ],
+    "using": [ [ "welding_alloys", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },

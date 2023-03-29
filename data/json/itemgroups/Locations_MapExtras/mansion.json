@@ -1024,6 +1024,7 @@
       [ "towel", 40 ],
       [ "can_drink", 30 ],
       [ "pride_flag", 5 ],
+      [ "national_flag", 3 ],
       [ "state_flag", 3 ],
       [ "shark_plushie", 10 ],
       [ "bottle_plastic", 30 ],
@@ -1330,7 +1331,7 @@
       [ "glass", 20 ],
       { "group": "tobacco_products", "prob": 75 },
       { "group": "cigar_box_opened", "prob": 50 },
-      [ "money_bundle", 10 ],
+      [ "money_bundle_ten", 10 ],
       [ "pretzels", 5 ],
       [ "chips", 5 ],
       { "group": "wallet_stylish_full", "prob": 1 }

@@ -2611,17 +2611,9 @@
   },
   {
     "type": "keybinding",
-    "name": "View achievements, scores, and kills",
+    "name": "View character's morale",
     "category": "DEFAULTMODE",
-    "id": "scores",
-    "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "View morale",
-    "category": "DEFAULTMODE",
-    "id": "morale",
-    "bindings": [ { "input_method": "keyboard_any", "key": "v" } ]
+    "id": "morale"
   },
   {
     "type": "keybinding",
@@ -2745,8 +2737,7 @@
     "type": "keybinding",
     "name": "Sidebar options",
     "category": "DEFAULTMODE",
-    "id": "toggle_panel_adm",
-    "bindings": [ { "input_method": "keyboard_char", "key": "}" }, { "input_method": "keyboard_code", "key": "]", "mod": [ "shift" ] } ]
+    "id": "toggle_panel_adm"
   },
   {
     "type": "keybinding",
@@ -2986,7 +2977,8 @@
     "type": "keybinding",
     "id": "diary",
     "name": "Open diary",
-    "category": "DEFAULTMODE"
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -4190,6 +4182,13 @@
   },
   {
     "type": "keybinding",
+    "name": "View character's morale",
+    "category": "PLAYER_INFO",
+    "id": "morale",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
+  },
+  {
+    "type": "keybinding",
     "category": "WISH_ITEM",
     "id": "CONTAINER",
     "name": "Toggle spawning item with container",
@@ -4284,6 +4283,13 @@
     "name": "Add new page",
     "category": "DIARY",
     "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "n" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "View achievements, scores, and kills",
+    "category": "DIARY",
+    "id": "VIEW_SCORES",
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "v" ] } ]
   },
   {
     "type": "keybinding",

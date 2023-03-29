@@ -89,6 +89,7 @@ jobs:
             localize: 1
             test-stage: 1
             native: linux64
+            pch: 1
             archive-success: basic-build
             dont_skip_data_only_changes: 1
             title: Basic Build and Test (Clang 10, Ubuntu, Curses)
@@ -96,6 +97,21 @@ jobs:
             # ~30MB compressed
             # observed usage: 3.0GB -> 300MB
             ccache_limit: 2G
+            ccache_key: linux-llvm-10
+
+          - compiler: clang++
+            os: macos-12
+            release: 1
+            cmake: 0
+            native: osx
+            pch: 0
+            tiles: 1
+            sound: 1
+            localize: 1
+            title: Clang 14, macOS 12, Tiles, Sound, x64 and arm64 Universal Binary
+            # cache size ??? to be observed
+            ccache_limit: 4G
+            ccache_key: macos-llvm-14-universal
 
           - compiler: g++-9
             os: ubuntu-latest
@@ -108,11 +124,13 @@ jobs:
             lto: 1
             libbacktrace: 1
             native: linux64
+            pch: 1
             title: GCC 9, Curses, LTO
             # ~850MB in a clean build
             # ~370MB compressed
             # observed usage: 4.0GB -> 1.5GB
             ccache_limit: 3G
+            ccache_key: linux-gcc-9-lto
 
           - compiler: clang++-12
             os: ubuntu-22.04
@@ -122,6 +140,7 @@ jobs:
             sound: 0
             localize: 1
             native: linux64
+            pch: 1
             sanitize: address
             cxxflags: --gcc-toolchain=/opt/mock-gcc-11
             mods: --mods=magiclysm
@@ -131,6 +150,7 @@ jobs:
             # ~50MB compressed
             # observed usage: 4.0GB -> 400MB
             ccache_limit: 3G
+            ccache_key: linux-llvm-12-asan
 
           - compiler: g++-11
             os: ubuntu-latest
@@ -140,33 +160,21 @@ jobs:
             sound: 0
             localize: 1
             native: linux64
+            pch: 1
             sanitize: address
             title: GCC 11, Ubuntu, Curses, ASan
             # ~480MB in a clean build
             # ~50MB compressed
             # observed usage: 4.4GB -> 400MB
             ccache_limit: 4G
-
-          - compiler: clang++
-            os: macos-10.15
-            release: 0
-            cmake: 0
-            native: osx
-            sanitize: undefined
-            tiles: 1
-            sound: 1
-            localize: 1
-            title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
-            # ~880MB ccache-compressed in a clean build
-            # ~100 compressed
-            # observed usage: 3.85GB -> 500MB
-            ccache_limit: 4G
+            ccache_key: linux-gcc-11-asan
 
           - compiler: g++
             os: ubuntu-latest
             release: 0
             cmake: 0
             native:
+            pch: 1
             tiles: 1
             sound: 1
             localize: 1
@@ -179,20 +187,23 @@ jobs:
             # ~36MB compressed
             # observed usage: 3.0GB -> 350MB
             ccache_limit: 2G
+            ccache_key: mingw-gcc-12
 
           - compiler: g++-9
-            os: ubuntu-20.04
+            os: ubuntu-latest
             release: 1
             cmake: 1
             tiles: 1
             sound: 1
             localize: 0
             native: linux64
+            pch: 1
             title: GCC 9, Ubuntu, Tiles, Sound, CMake
             # ~180MB in a clean build
             # ~25MB compressed
             # observed usage: 3.0GB -> 300MB
             ccache_limit: 2G
+            ccache_key: linux-gcc-9-cmake
 
           # Reserving space for msvc ccache & vcpkg cache
             # observed usage:
@@ -219,6 +230,7 @@ jobs:
         EXTRA_TEST_OPTS: --error-format=github-action
         NUM_TEST_JOBS: ${{ matrix.num_test_jobs }}
         NATIVE: ${{ matrix.native }}
+        PCH: ${{ matrix.pch }}
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
         LIBBACKTRACE: ${{ matrix.libbacktrace }}
@@ -245,12 +257,12 @@ jobs:
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.tiles == 1 }}
       run: |
           sudo apt-get install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev
-    - name: install new GCC (Ubuntu)
-      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'g++-11') }}
+    - name: install recent ccache on ubuntu 20.04
+      if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && matrix.os == 'ubuntu-20.04' }}
       run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-          sudo apt-get update
-          sudo apt-get install g++-11
+          sudo apt-get remove --purge -y ccache
+          curl -sL https://github.com/ccache/ccache/releases/download/v4.8/ccache-4.8-linux-x86_64.tar.xz | sudo tar Jxvf - --strip-components 1 -C /usr/bin ccache-4.8-linux-x86_64/ccache
+          ccache --version
     - name: set up a mock GCC toolchain root for Clang (Ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' && (matrix.compiler == 'clang++-12') }}
       run: |
@@ -259,10 +271,18 @@ jobs:
         sudo ln -s /usr/bin /opt/mock-gcc-11/bin
         sudo mkdir -p /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu
         sudo ln -s /usr/lib/gcc/x86_64-linux-gnu/11 /opt/mock-gcc-11/lib/gcc/x86_64-linux-gnu/11
-    - name: install dependencies (mac)
+    - name: install runtime dependencies (mac)
+      if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
+      uses: BrettDong/setup-sdl2-frameworks@v1
+      with:
+        sdl2: latest
+        sdl2-ttf: latest
+        sdl2-image: latest
+        sdl2-mixer: latest
+    - name: install build dependencies (mac)
       if: ${{ env.SKIP == 'false' && runner.os == 'macOS' }}
       run: |
-          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ccache parallel
+          HOMEBREW_NO_AUTO_UPDATE=yes HOMEBREW_NO_INSTALL_CLEANUP=yes brew install gettext ccache parallel
     - name: prepare
       if: ${{ env.SKIP == 'false' }}
       run: bash ./build-scripts/requirements.sh
@@ -271,7 +291,7 @@ jobs:
       if: ${{ env.SKIP == 'false' }}
       run: |
         echo "datetime=$(/bin/date -u "+%Y%m%d%H%M")" >> $GITHUB_OUTPUT
-        echo "ccache-path=$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.ccache')" >> $GITHUB_OUTPUT
+        echo "ccache-path=$([ "$RUNNER_OS" = "macOS" ] && echo '/Users/runner/Library/Caches/ccache' || echo '~/.cache/ccache')" >> $GITHUB_OUTPUT
       shell: bash
     - name: ccache cache files
       if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
@@ -279,9 +299,9 @@ jobs:
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
-        key: ccache-${{ github.ref_name }}-${{ runner.os }}-${{ matrix.compiler }}--${{ steps.get-vars.outputs.datetime }}
+        key: ccache-${{ github.ref_name }}-${{ matrix.ccache_key }}--${{ steps.get-vars.outputs.datetime }}
         restore-keys: |
-          ccache-master-${{ runner.os }}-${{ matrix.compiler }}--
+          ccache-master-${{ matrix.ccache_key }}--
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: build
       if: ${{ env.SKIP == 'false' }}
@@ -289,10 +309,10 @@ jobs:
     - name: post-build ccache manipulation
       if: ${{ env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
       run: |
-        ccache --show-stats
+        ccache --show-stats --verbose
         ccache -M ${{ env.CCACHE_LIMIT }}
         ccache -c
-        ccache --show-stats
+        ccache --show-stats --verbose
     - name: clear ccache on PRs
       if: ${{ github.ref_name != 'master' && env.SKIP == 'false' && !failure() && (runner.os == 'Linux' || runner.os == 'macOS') }}
       run: |

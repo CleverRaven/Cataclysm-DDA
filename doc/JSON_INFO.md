@@ -249,6 +249,7 @@ Use the `Home` key to return to the top.
   - [`compatibility`](#compatibility)
   - [`tiles-new`](#tiles-new)
 - [Obsoletion and migration](#obsoletion-and-migration)
+  - [Charge and temperature removal](#charge-and-temperature-removal)
 - [Field types](#field-types)
 - [Option sliders](#option-sliders)
   - [Option sliders - Fields](#option-sliders---fields)
@@ -557,9 +558,7 @@ See below for specifics on the various items
 | `grenades.json`      | grenades and throwable explosives
 | `handloaded_bullets.json` | random ammo
 | `melee.json`         | melee weapons
-| `migration.json`     | conversions of obsolete items from older save games to current items
 | `newspaper.json`     | flyers, newspapers, and survivor notes. `snippets.json` for messages
-| `obsolete.json`      | items being removed from the game
 | `ranged.json`        | guns
 | `software.json`      | software for SD-cards and USB sticks
 | `tool_armor.json`    | clothes and armor that can be (a)ctivated
@@ -1728,7 +1727,7 @@ Crafting recipes are defined as a JSON object with the following fields:
   "BLIND_EASY",
   "ANOTHERFLAG"
 ],
-"result_eocs": [ {"id": "TEST", "effect": { "u_message": "You feel Test" } } // List of inline effect_on_conditions or effect_on_condition ids that attempt to activate when this recipe is successfully finished.  If a value is provided a result becomes optional, though a name and id will be needed it it is missing.
+"result_eocs": [ {"id": "TEST", "effect": { "u_message": "You feel Test" } } // List of inline effect_on_conditions or effect_on_condition ids that attempt to activate when this recipe is successfully finished.  If a value is provided a result becomes optional, though a name and id will be needed it it is missing.  If no result is provided and a description is present, that will be displayed as the result on the crafting gui.
 ], 
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
@@ -3067,6 +3066,7 @@ Armor can be defined like this:
 "material_thickness" : 1,           // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1-2mm, and armor or protective equipment can range as high as 10 or rarely more.
 "power_armor" : false,              // If this is a power armor item (those are special).
 "non_functional" : "destroyed",     //this is the itype_id of an item that this turns into when destroyed. Currently only works for ablative armor.
+"damage_verb": "makes a crunch, something has shifted", // if an item uses non-functional this will be the description when it turns into its non functional variant.
 "valid_mods" : ["steel_padded"],    // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
 "armor": [ ... ]
 ```
@@ -5153,7 +5153,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 If you want to remove some item, never do it with straightforward "remove the item json and call it a day", you **never remove the id from the game**. Primarily because it will cause a harmless, but annoying error, and someone else should spend their time and energy, explaining it was an intended change. To not cause this, everything, that get saved in the game require obsoletion: items, monsters, maps, monster factions, but not, for example, loot groups. Basically there is two ways to remove some entity (except replacing old item with new, while left the old id - this one do not require any additional manipulations) from the game - obsoletion and migration.
 
-Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids, and happen in `data/json/items/migration.json`
+Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids, and happen in `data/json/obsoletion/migration_items.json`
 
 ```C++
 
@@ -5197,11 +5197,56 @@ Obsoletion is used, when we want to remove the item entirely from the game, with
 
 For items, monsters, furniture, terrain, factions, loot groups and lot of similar stuff, you remove all places, where the entity can spawn (maps, palettes, NPCs etc), mark the item with "OBSOLETE" flag (optional), and move into `data/json/obsoletion/` or inside  - they will stay here till the next developement cycle, to make fluent transfer between one stable and another
 
-For maps, you also remove it from all the places it can occur, add the map into `data/json/obsoletion/`, and also add the location into `data/json/obsolete_terrains.json` list
+For maps, you remove the item from all the places it can spawn, remove the mapgen entries, and add the overmap terrain id into `data/json/obsoletion/migration_oter_ids.json`, to migrate oter_id `hive` and `hive2` into `omt_obsolete` add an entry similar to this, note that if mapgen has already generated this area this will only alter the tile shown on the overmap:
+```json
+  {
+    "type": "oter_id_migration",
+    "//": "obsoleted in 0.H",
+    "oter_ids": {
+      "hive": "omt_obsolete",
+      "hive2": "omt_obsolete"
+    }
+  }
+```
+
+For overmap specials add an entry to `data/json/obsoletion/migration_overmap_specials.json`:
+```json
+  {
+    "type": "overmap_special_migration",
+    "id": "Farm with silo",
+    "//": "Removed in 0.G - no new id, this will remove it"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "FakeSpecial_cs_open_sewer",
+    "new_id": "cs_open_sewer",
+    "//": "Removed <when> - this will migrate to 'new_id'"
+  },
+```
 
 For recipes, deleting the recipe is enough.
 
 For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevent the mod from showing into the mod list.
+
+## Charge and temperature removal
+
+If an item that used to have charges (e.g. `AMMO` or `COMESTIBLE` types) is changed to another type that does not use charges, migration is needed to ensure correct behavior when loading from existing save files, and prevent spurious error messages from being shown to the player.  Migration lists for this are found in `data/json/obsoletion/charge_removal.json`.
+
+Such items may be added to one of the following:
+
+`data/json/obsoletion/blacklist_charge_migration.json` a `charge_migration_blacklist` list:
+Items in existing save files with `n` charges will be converted to `n` items with no charges.  This will preserve item count.
+
+`data/json/obsoletion/blacklist_charge_removal.json` a `charge_removal_blacklist` list
+* `charge_removal_blacklist`: items will simply have charges removed.
+
+Additionally, `COMESTIBLE` items have temperature and rot processing, and are thus set as always activated.  When an item is changed from `COMESTIBLE` to a different type, migration is needed to check and unset this if applicable:
+
+`data/json/obsoletion/blacklist_temperature_removal.json` a `temperature_removal_blacklist` list:
+
+* In most cases, the item has no other features that require it to remain activated, in which case it can be simply added to `temperature_removal_blacklist`.  Items in this list will be deactivated and have temperature-related data cleared *without any further checks performed*.
+* In case of an item that may be active for additional reasons other than temperature/rot tracking, an instance of the item loaded from existing save file cannot be blindly deactivated -- additional checks are required to see if it should remain active.  Instead of adding to the above list, a separate special case should be added in `src/savegame_json.cpp` to implement the necessary item-specific deactivation logic.
+
 
 # Field types
 

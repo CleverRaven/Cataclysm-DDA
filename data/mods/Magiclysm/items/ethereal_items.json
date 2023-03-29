@@ -885,39 +885,42 @@
     "category": "armor",
     "copy-from": "armor_lightplate",
     "name": { "str_sp": "mage armor" },
-    "description": "A summoned magic armor.  It glows shiny and get sturdier with each spell and your intelligence level.",
+    "description": "A summoned magic armor.  It gets shinier and sturdier with each spell level.",
+    "weight": "1 g",
     "material": [ "concentrated_mana" ],
     "warmth": 0,
     "material_thickness": 0,
     "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY", "NO_REPAIR", "NO_SALVAGE", "TRADER_AVOID", "PADDED" ],
-    "passive_effects": [
-      {
-        "has": "WORN",
-        "condition": "ALWAYS",
-        "values": [
-          {
-            "value": "ARMOR_BASH",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
-          },
-          {
-            "value": "ARMOR_CUT",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
-          },
-          {
-            "value": "ARMOR_STAB",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
-          },
-          {
-            "value": "ARMOR_BULLET",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
-          },
-          {
-            "value": "LUMINATION",
-            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "+", { "u_val": "intelligence" } ] }
-          }
-        ]
-      }
-    ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            {
+              "value": "ARMOR_BASH",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+            },
+            {
+              "value": "ARMOR_CUT",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+            },
+            {
+              "value": "ARMOR_STAB",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+            },
+            {
+              "value": "ARMOR_BULLET",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+            },
+            {
+              "value": "LUMINATION",
+              "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": 3 } ] }
+            }
+          ]
+        }
+      ]
+    },
     "armor": [
       {
         "encumbrance": 0,
@@ -1317,5 +1320,23 @@
       "PSYSHIELD_PARTIAL",
       "PORTAL_PROOF"
     ]
+  },
+  {
+    "id": "druid_bandages",
+    "type": "GENERIC",
+    "category": "drugs",
+    "name": { "str": "Vegetative Poultice" },
+    "looks_like": "leaves",
+    "description": "A mixture of bark, moss, and leaves, glowing softly with verdant energy.",
+    "weight": "70 g",
+    "volume": "250 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "wood" ],
+    "symbol": "!",
+    "color": "green",
+    "stack_size": 10,
+    "flags": [ "TRADER_AVOID", "SINGLE_USE" ],
+    "use_action": { "type": "heal", "bandages_power": 3, "bleed": 12, "move_cost": 300 }
   }
 ]

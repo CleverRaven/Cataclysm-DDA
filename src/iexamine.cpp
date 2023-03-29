@@ -195,9 +195,6 @@ static const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_prototype_cyborg( "mon_prototype_cyborg" );
-static const mtype_id mon_spider_cellar_giant_s( "mon_spider_cellar_giant_s" );
-static const mtype_id mon_spider_web_s( "mon_spider_web_s" );
-static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 
 static const npc_class_id NC_ROBOFAC_INTERCOM( "NC_ROBOFAC_INTERCOM" );
 
@@ -1024,7 +1021,7 @@ void iexamine::vending( Character &you, const tripoint &examp )
 
     bool used_machine = false;
     input_context ctxt( "VENDING_MACHINE" );
-    ctxt.register_updown();
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1114,10 +1111,7 @@ void iexamine::vending( Character &you, const tripoint &examp )
         auto &cur_item  = cur_items.back();
 
         const std::string &action = ctxt.handle_input();
-        if( action == "DOWN" ) {
-            cur_pos = ( cur_pos + 1 ) % num_items;
-        } else if( action == "UP" ) {
-            cur_pos = ( cur_pos + num_items - 1 ) % num_items;
+        if( navigate_ui_list( action, cur_pos, 3, num_items, true ) ) {
         } else if( action == "CONFIRM" ) {
             const int iprice = cur_item->price( false );
 
@@ -2402,61 +2396,6 @@ void iexamine::flower_marloss( Character &you, const tripoint &examp )
     here.furn_set( examp, f_null );
     here.spawn_item( you.pos(), itype_marloss_seed, 1, 3, calendar::turn );
     iexamine_helper::handle_harvest( you, "withered", false );
-}
-
-/**
- * Spawn spiders from a spider egg sack in radius 1 around the egg sack.
- * Transforms the egg sack furniture into a ruptured egg sack (f_egg_sacke).
- * Also spawns eggs.
- * @param you The player
- * @param examp Location of egg sack
- * @param montype The monster type of the created spiders.
- */
-void iexamine::egg_sack_generic( Character &you, const tripoint &examp,
-                                 const mtype_id &montype )
-{
-    map &here = get_map();
-    const std::string old_furn_name = here.furnname( examp );
-    if( !query_yn( _( "Harvest the %s?" ), old_furn_name ) ) {
-        none( you, examp );
-        return;
-    }
-    here.furn_set( examp, f_egg_sacke );
-    int monster_count = 0;
-    if( one_in( 2 ) ) {
-        for( const tripoint &nearby_pos : closest_points_first( examp, 1 ) ) {
-            if( !one_in( 3 ) ) {
-                continue;
-            } else if( g->place_critter_at( montype, nearby_pos ) ) {
-                monster_count++;
-            }
-        }
-    }
-    int roll = rng( 1, 5 );
-    bool drop_eggs = monster_count >= 1;
-    for( int i = 0; i < roll; i++ ) {
-        iexamine_helper::handle_harvest( you, "spider_egg", drop_eggs );
-    }
-    if( monster_count == 1 ) {
-        add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name );
-    } else if( monster_count >= 1 ) {
-        add_msg( m_warning, _( "Spiderlings burst from the %s!" ), old_furn_name );
-    }
-}
-
-void iexamine::egg_sackbw( Character &you, const tripoint &examp )
-{
-    egg_sack_generic( you, examp, mon_spider_widow_giant_s );
-}
-
-void iexamine::egg_sackcs( Character &you, const tripoint &examp )
-{
-    egg_sack_generic( you, examp, mon_spider_cellar_giant_s );
-}
-
-void iexamine::egg_sackws( Character &you, const tripoint &examp )
-{
-    egg_sack_generic( you, examp, mon_spider_web_s );
 }
 
 /**
@@ -4229,7 +4168,7 @@ const itype *furn_t::crafting_pseudo_item_type() const
 const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
-    if( pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
+    if( pseudo && pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
         return item::find_type( ammotype( *pseudo->tool->ammo_id.begin() )->default_ammotype() );
     }
     return nullptr;
@@ -6620,9 +6559,6 @@ iexamine_functions iexamine_functions_from_string( const std::string &function_n
             { "fungus", &iexamine::fungus },
             { "flower_dahlia", &iexamine::flower_dahlia },
             { "flower_marloss", &iexamine::flower_marloss },
-            { "egg_sackbw", &iexamine::egg_sackbw },
-            { "egg_sackcs", &iexamine::egg_sackcs },
-            { "egg_sackws", &iexamine::egg_sackws },
             { "dirtmound", &iexamine::dirtmound },
             { "aggie_plant", &iexamine::aggie_plant },
             { "fvat_empty", &iexamine::fvat_empty },

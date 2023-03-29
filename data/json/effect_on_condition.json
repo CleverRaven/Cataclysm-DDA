@@ -611,18 +611,53 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_EXODII_ASSASSIN",
-    "recurrence": [ "7 days", "14 days" ],
-    "condition": { "and": [ { "compare_int": [ { "faction_like": "exodii" }, "<", { "const": -35 } ] }, { "days_since_cataclysm": 5 } ] },
-    "effect": [ { "mapgen_update": "exodii_bomb_add" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_ROBOFAC_ASSASSIN",
-    "recurrence": [ "7 days", "14 days" ],
+    "id": "EOC_MISSION_GODCO_TROPHY2_done",
+    "global": true,
     "condition": {
-      "and": [ { "compare_int": [ { "faction_like": "robofac" }, "<", { "const": -230 } ] }, { "days_since_cataclysm": 5 } ]
+      "or": [
+        { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } }
+      ]
     },
-    "effect": [ { "mapgen_update": "exodii_bomb_add" } ]
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "sell_egg_spider_cellar",
+            "condition": { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_cellar", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_jumping",
+            "condition": { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_jumping", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_trapdoor",
+            "condition": { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_trapdoor", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_web",
+            "condition": { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_web", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_widow",
+            "condition": { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_widow", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_wolf",
+            "condition": { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_wolf", "count": 1 }
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -1966,7 +1966,7 @@
     "type": "ARMOR",
     "copy-from": "qt_chainmail_suit",
     "name": { "str": "faraday chainmail suit" },
-    "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected, protecting against electricity.",
+    "description": "A fully customized chainmail suit that can be worn over your normal clothing.  The suit is conductively interconnected with a cage covering the face, protecting against electricity.",
     "armor": [
       {
         "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
@@ -1981,16 +1981,26 @@
         "encumbrance": 30
       },
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.001 }
+        ],
         "covers": [ "eyes" ],
         "coverage": 95,
-        "encumbrance": 7
+        "cover_ranged": 10,
+        "encumbrance": 2,
+        "breathability": "GOOD"
       },
       {
-        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "cotton", "covered_by_mat": 100, "thickness": 0.001 }
+        ],
         "covers": [ "mouth" ],
         "coverage": 95,
-        "encumbrance": 1
+        "cover_ranged": 10,
+        "encumbrance": 0,
+        "breathability": "GOOD"
       },
       {
         "covers": [ "foot_l", "foot_r" ],
@@ -2004,7 +2014,7 @@
           "foot_arch_r",
           "foot_arch_l"
         ],
-        "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.2 } ],
+        "material": [ { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 } ],
         "encumbrance": 10,
         "coverage": 100
       }
@@ -2243,6 +2253,66 @@
         "coverage": 100,
         "encumbrance": 0,
         "//": "skip second entry for arm encumbrance"
+      }
+    ]
+  },
+  {
+    "id": "bite_suit",
+    "type": "ARMOR",
+    "name": { "str": "canine bite suit" },
+    "description": "Designed to stop the injuries of dog bites, this thick, one piece suit is often used in the rehabilitation of abused animals and in training dogs by the police and military.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting, and to soften the blunt of animals jumping, slashing, or pouncing on the wearer.",
+    "weight": "11556 g",
+    "volume": "8255 ml",
+    "price": 20000,
+    "price_postapoc": 10000,
+    "to_hit": -5,
+    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "light_gray",
+    "warmth": 50,
+    "material_thickness": 4,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 30
+      },
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 30
+      },
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 70, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "//": "skip second entry for arm encumbrance"
+      },
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 4 }
+        ],
+        "covers": [ "leg_l", "leg_r" ],
+        "coverage": 100,
+        "encumbrance": 30
       }
     ]
   },

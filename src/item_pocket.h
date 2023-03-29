@@ -318,7 +318,8 @@ class item_pocket
         }
 
         // tries to put an item in the pocket. returns false if failure
-        ret_val<contain_code> insert_item( const item &it, bool into_bottom = false );
+        ret_val<contain_code> insert_item( const item &it, bool into_bottom = false,
+                                           bool restack_charges = true );
         /**
           * adds an item to the pocket with no checks
           * may create a new pocket

@@ -113,6 +113,11 @@
     "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
@@ -139,6 +144,11 @@
       [ "textbook_survival", 2 ],
       [ "survival_book", 3 ],
       [ "isherwood_herbal_remedies", 2 ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_pharmaceutical" }
     ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
@@ -207,6 +217,11 @@
       [ "survival_book", 3 ],
       [ "isherwood_herbal_remedies", 2 ]
     ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "poppy_bud", 2 ] ] ]
@@ -232,6 +247,11 @@
       [ "survival_book", 3 ],
       [ "recipe_labchem", 2 ]
     ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "disinfectant", 20 ], [ "oxy_powder", 100 ] ], [ [ "bleach", 5 ] ] ]
@@ -250,6 +270,12 @@
     "autolearn": true,
     "charges": 10,
     "batch_time_factors": [ 90, 2 ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_biochemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "triffid_fungicide", 1 ] ], [ [ "charcoal", 5 ] ], [ [ "bleach", 1 ] ] ]
@@ -273,6 +299,12 @@
       [ "recipe_labchem", 4 ],
       [ "isherwood_herbal_remedies", 3 ]
     ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [ [ [ "fungicide", 10 ] ], [ [ "ammonia_liquid", 2 ], [ "lye_powder", 200 ] ], [ [ "salt", 10 ] ] ]
@@ -288,6 +320,12 @@
     "time": "1 h",
     "batch_time_factors": [ 80, 1 ],
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [
       [ [ "surface_heat", 50, "LIST" ] ],
@@ -312,6 +350,11 @@
     "difficulty": 4,
     "time": "30 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "colander_steel", -1 ], [ "sieve_steel", -1 ], [ "sieve_primitive", -1 ], [ "rag", -1 ] ] ],
     "components": [
@@ -338,6 +381,11 @@
     "skills_required": [ [ "firstaid", 6 ] ],
     "time": "30 m",
     "book_learn": [ [ "textbook_chemistry", 8 ], [ "textbook_toxicology", 7 ], [ "recipe_labchem", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "ANALYSIS", "level": 1 }, { "id": "SEPARATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "syringe", 1 ] ], [ [ "chem_ethanol", 100 ] ], [ [ "conc_venom", 4 ] ], [ [ "salt_water", 1 ], [ "saline", 5 ] ] ]
@@ -354,6 +402,13 @@
     "charges": 3,
     "time": "2 h",
     "book_learn": [ [ "textbook_chemistry", 7 ], [ "adv_chemistry", 7 ], [ "atomic_survival", 6 ], [ "recipe_labchem", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "acetic_anhydride", 2 ] ], [ [ "morphine", 3 ] ] ]
@@ -369,6 +424,13 @@
     "time": "45 m",
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "book_learn": [ [ "textbook_chemistry", 6 ], [ "adv_chemistry", 6 ], [ "atomic_survival", 5 ], [ "recipe_labchem", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "tools": [ [ [ "electrolysis_kit", 50 ] ], [ [ "lye", -1 ], [ "lye_potassium", -1 ] ], [ [ "platinum_grille", -1 ] ] ],
     "components": [ [ [ "codeine", 10 ] ], [ [ "water_clean", 1 ] ] ]
   },
@@ -384,6 +446,15 @@
     "time": "12 h",
     "batch_time_factors": [ 80, 1 ],
     "book_learn": [ [ "textbook_chemistry", 7 ], [ "adv_chemistry", 7 ], [ "atomic_survival", 6 ], [ "recipe_labchem", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_distilling" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "charges": 200,
     "qualities": [
       { "id": "CHEM", "level": 2 },
@@ -430,6 +501,12 @@
     "time": "1 h",
     "batch_time_factors": [ 80, 1 ],
     "book_learn": [ [ "emergency_book", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "charges": 20,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ], [ [ "electrolysis_kit", 20 ] ] ],
@@ -467,12 +544,18 @@
     "time": "24 m",
     "charges": 996,
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "recipe_labchem", 4 ], [ "atomic_survival", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "iodine_crystal", 218 ] ],
       [ [ "chem_potassium_hydroxide", 600 ], [ "lye_potassium", 15 ] ],
-      [ [ "ammonia", 1 ] ]
+      [ [ "ammonia_hydroxide", 1 ] ]
     ]
   },
   {
@@ -487,6 +570,12 @@
     "time": "36 m",
     "batch_time_factors": [ 80, 2 ],
     "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 6 ], [ "recipe_labchem", 5 ], [ "atomic_survival", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_biochemistry" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "BOIL", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
@@ -515,6 +604,12 @@
       [ "isherwood_herbal_remedies", 2 ],
       [ "basic_chemistry", 2 ]
     ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "water_clean", 1 ] ], [ [ "acetic_anhydride", 1 ] ], [ [ "willowbark", 10 ] ] ]
@@ -535,6 +630,11 @@
       [ "atomic_survival", 4 ],
       [ "textbook_survival", 4 ]
     ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "iodine", 10 ] ], [ [ "aspirin", 10 ] ], [ [ "bleach", 1 ], [ "oxy_powder", 50 ] ] ]
@@ -552,6 +652,11 @@
     "batch_time_factors": [ 90, 4 ],
     "//": "another variation of chloralkali process, now used to produce bleach (sodium hypochlorite - or rather rough, technical grade hypochlorite/hydroxide/chloride mix), note we will not be heating anything and that the (mostly) electrochemical reaction easily scales in size, some hydrogen gas could be recoverable (optional byproduct)",
     "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "electrolysis_kit", 250 ] ] ],
     "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ] ] ]
@@ -570,6 +675,11 @@
     "batch_time_factors": [ 60, 4 ],
     "//": "abstracting using chloralkali process (hot solution, unpartitioned cell) to produce sodium chlorate, then perchlorate by anodic oxidation on platinum, then ammonia perchlorate by double decomposition from sodium perchlorate and ammonium chloride; while we can't directly use bleach here but we do end up recovering some brine",
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "electrolysis_kit", 750 ] ], [ [ "surface_heat", 25, "LIST" ] ], [ [ "platinum_small", -1 ] ] ],
     "components": [ [ [ "salt_water", 4 ], [ "saline", 20 ] ], [ [ "ammonia_liquid", 1 ] ], [ [ "chem_muriatic_acid", 1 ] ] ]
@@ -585,6 +695,11 @@
     "difficulty": 2,
     "time": "1 h 30 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 120, "LIST" ] ] ],
@@ -603,6 +718,10 @@
     "autolearn": true,
     "batch_time_factors": [ 90, 4 ],
     "//": "reversal of the recipe above",
+    "//1": [
+      "Not gonna add proficiencies to _reverse_ recipes. ",
+      "We shall avoid grinding; besides, pouring some powder into water is too simple."
+    ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "lye_powder", 100 ] ] ],
     "charges": 3
   },
@@ -616,6 +735,7 @@
     "difficulty": 3,
     "time": "6 m",
     "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "atomic_survival", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "using": [ [ "sewing_standard", 1 ] ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
@@ -632,6 +752,8 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
+    "//": "Too simple. Just mixing feces and chitin with water. Basic chemistry shall be enough for this.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "batch_time_factors": [ 80, 4 ],
     "flags": [ "BLIND_HARD", "ALLOW_ROTTEN" ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
@@ -668,6 +790,7 @@
     "time": "20 m",
     "autolearn": true,
     "book_learn": [ [ "adv_chemistry", 2 ], [ "textbook_chemistry", 2 ], [ "recipe_labchem", 3 ], [ "atomic_survival", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "flags": [ "ALLOW_ROTTEN" ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
@@ -708,6 +831,7 @@
     "time": "45 m",
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "components": [
       [ [ "edible_tallow_lard", 4, "LIST" ], [ "cooking_oil", 14 ], [ "cooking_oil2", 14 ] ],
@@ -729,6 +853,7 @@
     "time": "45 m",
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "components": [
       [ [ "edible_tallow_lard", 4, "LIST" ], [ "cooking_oil", 14 ], [ "cooking_oil2", 14 ] ],
@@ -749,6 +874,7 @@
     "time": "45 m",
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "charges": 10,
     "components": [
@@ -766,6 +892,7 @@
     "subcategory": "CSC_CHEM_CHEMICALS",
     "time": "15 m",
     "autolearn": true,
+    "//": "Too simple to learn any chemistry.",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "soap", 1 ] ] ]
   },
@@ -788,6 +915,7 @@
       [ "survival_book", 3 ],
       [ "isherwood_herbal_remedies", 2 ]
     ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_pharmaceutical" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
     "components": [ [ [ "poppy_bud", 2 ] ] ]
@@ -802,6 +930,11 @@
     "difficulty": 4,
     "time": "25 m",
     "book_learn": [ [ "recipe_labchem", 4 ], [ "textbook_chemistry", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "chem_hydrogen_peroxide", 50 ] ] ]
@@ -818,6 +951,7 @@
     "difficulty": 3,
     "time": "6 m",
     "autolearn": true,
+    "//": "A reverse recipe. Not adding chemical proficiencies.",
     "book_learn": [ [ "recipe_labchem", 3 ], [ "textbook_chemistry", 3 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
@@ -833,6 +967,11 @@
     "difficulty": 4,
     "time": "15 m",
     "book_learn": [ [ "recipe_labchem", 3 ], [ "textbook_chemistry", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "salt", 210 ] ], [ [ "chem_sulphuric_acid", 1 ] ], [ [ "water_clean", 1 ] ] ]
@@ -852,6 +991,11 @@
     "batch_time_factors": [ 50, 5 ],
     "//": "abstracted chloralkali process, followed by 'burning' resulting chlorine and hydrogen with electric arc as uv source and crucible serving as reaction furnace, then dissolving resulting hydrogen chloride gas in water",
     "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [
       [ [ "electrolysis_kit", 500 ] ],
@@ -870,6 +1014,11 @@
     "difficulty": 5,
     "time": "15 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "chem_hydrogen_peroxide_conc", 1 ] ], [ [ "chem_sulphur", 375 ] ] ]
@@ -885,6 +1034,11 @@
     "difficulty": 5,
     "time": "15 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "//": "burning sulfur with platinum catalyst to create SO3, dissolving in water to create H2SO4",
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "platinum_small", -1 ] ] ],
@@ -901,6 +1055,11 @@
     "difficulty": 4,
     "time": "10 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [ [ [ "chem_sulphuric_acid", 1 ] ], [ [ "chem_saltpetre", 25 ] ] ]
@@ -916,6 +1075,12 @@
     "difficulty": 5,
     "time": "40 m",
     "book_learn": [ [ "adv_chemistry", 5 ], [ "textbook_chemistry", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_distilling" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ], [ [ "pressure_cooker", -1 ] ], [ [ "platinum_grille", -1 ] ] ],
@@ -933,6 +1098,11 @@
     "difficulty": 4,
     "time": "10 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [ [ [ "chem_muriatic_acid", 1 ] ], [ [ "chem_saltpetre", 25 ] ] ]
@@ -947,6 +1117,11 @@
     "difficulty": 4,
     "time": "2 m 30 s",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "chem_sulphuric_acid", 1 ] ], [ [ "chem_hydrogen_peroxide", 10 ] ], [ [ "chem_aluminium_powder", 25 ] ] ]
@@ -962,6 +1137,11 @@
     "difficulty": 4,
     "time": "3 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "chem_nitric_acid", 5 ] ], [ [ "ammonia_liquid", 5 ] ] ]
@@ -1004,6 +1184,11 @@
     "charges": 680,
     "time": "45 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "platinum_small", -1 ] ], [ [ "silver_small", -1 ] ], [ [ "salt", -1 ] ] ],
     "components": [ [ [ "water_clean", 3 ] ], [ [ "chem_potassium_chloride", 25 ] ] ]
@@ -1019,6 +1204,11 @@
     "difficulty": 2,
     "time": "1 h 30 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 120, "LIST" ] ] ],
@@ -1035,6 +1225,7 @@
     "difficulty": 1,
     "time": "1 m",
     "autolearn": true,
+    "//": "A reverse recipe. Not adding chemical proficiencies,",
     "batch_time_factors": [ 90, 4 ],
     "components": [ [ [ "water", 3 ], [ "water_clean", 3 ] ], [ [ "chem_potassium_hydroxide", 125 ] ] ],
     "charges": 3
@@ -1050,6 +1241,11 @@
     "difficulty": 4,
     "time": "25 m",
     "book_learn": [ [ "textbook_anarch", 7 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "chem_ammonium_nitrate", 225 ] ], [ [ "lye_powder", 150 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ]
@@ -1067,6 +1263,11 @@
     "time": "40 m",
     "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "material_niter", 1 ] ], [ [ "water_clean", 3 ], [ "water", 3 ] ] ]
@@ -1081,6 +1282,7 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "charges": 470,
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [ [ [ "chem_saltpetre", 10 ] ], [ [ "chem_sulphur", 23 ] ], [ [ "charcoal", 1 ] ] ]
@@ -1096,6 +1298,11 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ], [ "textbook_armschina", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "charges": 421,
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "components": [
@@ -1136,6 +1343,7 @@
     "charges": 100,
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 6 ], [ "recipe_labchem", 5 ], [ "textbook_chemistry", 7 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 } ],
     "using": [ [ "fuel_liquid", 6 ] ],
     "components": [ [ [ "chem_ammonium_nitrate", 94 ], [ "chem_ammonium_nitrate_pellets", 94 ] ] ]
@@ -1150,6 +1358,12 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_distilling" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "FINE_DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "vinegar", 320 ] ] ]
@@ -1165,6 +1379,13 @@
     "time": "30 m",
     "batch_time_factors": [ 67, 5 ],
     "book_learn": [ [ "recipe_labchem", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 3 } ],
     "components": [ [ [ "ammonia_liquid", 4 ] ], [ [ "chem_formaldehyde", 6 ] ] ]
   },
@@ -1179,6 +1400,11 @@
     "time": "15 m",
     "batch_time_factors": [ 80, 4 ],
     "book_learn": [ [ "textbook_chemistry", 5 ], [ "adv_chemistry", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [ [ [ "chem_methanol", 50 ] ] ]
@@ -1195,6 +1421,11 @@
     "time": "10 m",
     "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_distilling" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "methed_alcohol", 1000 ] ] ]
@@ -1211,6 +1442,11 @@
     "time": "1 h",
     "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_distilling" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "splinter", 55 ] ], [ [ "water", 50 ], [ "water_clean", 50 ] ] ]
@@ -1225,6 +1461,11 @@
     "difficulty": 5,
     "time": "1 h 15 m",
     "book_learn": [ [ "recipe_labchem", 8 ], [ "textbook_anarch", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [ [ [ "chem_hexamine", 624 ] ], [ [ "chem_nitric_acid", 5 ] ], [ [ "chem_sulphuric_acid", 2 ] ] ]
@@ -1239,6 +1480,7 @@
     "difficulty": 4,
     "time": "2 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "components": [ [ [ "chem_aluminium_powder", 50 ] ], [ [ "chem_chromium_oxide", 430 ] ] ]
   },
@@ -1253,6 +1495,11 @@
     "difficulty": 5,
     "time": "55 m",
     "book_learn": [ [ "recipe_labchem", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "components": [ [ [ "chem_hexamine", 312 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_acetic_acid", 2 ] ] ]
   },
@@ -1268,6 +1515,11 @@
     "time": "55 m",
     "charges": 2,
     "book_learn": [ [ "recipe_labchem", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "components": [ [ [ "chem_hexamine", 312 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_citric_acid", 2 ] ] ]
   },
@@ -1281,6 +1533,11 @@
     "difficulty": 4,
     "time": "75 m",
     "book_learn": [ [ "recipe_labchem", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_organic_chemistry" }
+    ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "components": [ [ [ "chem_acetone", 5 ] ], [ [ "chem_hydrogen_peroxide_conc", 5 ] ], [ [ "chem_muriatic_acid", 2 ] ] ]
   },
@@ -1294,6 +1551,7 @@
     "difficulty": 4,
     "time": "5 m",
     "book_learn": [ [ "textbook_anarch", 5 ], [ "recipe_labchem", 4 ], [ "textbook_chemistry", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "components": [ [ [ "chem_zinc_powder", 645 ] ], [ [ "chem_sulphur", 750 ] ], [ [ "superglue", 2 ] ] ]
   },
@@ -1307,6 +1565,11 @@
     "difficulty": 3,
     "time": "30 m",
     "book_learn": [ [ "textbook_anarch", 4 ], [ "recipe_labchem", 3 ], [ "textbook_chemistry", 5 ] ],
+    "//": [
+      "Well, technically sugar IS organic. But it is so common and besides, it is used as ",
+      "a fuel, not as a reagent. I doubt Organic Chemistry is suitable here."
+    ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_inorganic_chemistry" } ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "hotplate", 50 ], [ "toolset", 50 ] ] ],
     "components": [ [ [ "chem_saltpetre", 50 ] ], [ [ "sugar", 50 ] ] ]
@@ -1322,6 +1585,11 @@
     "time": "1 h",
     "batch_time_factors": [ 99, 1 ],
     "book_learn": [ [ "adv_chemistry", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "chem_slaked_lime", 34 ] ], [ [ "chem_washing_soda", 42 ] ] ]
@@ -1338,6 +1606,11 @@
     "time": "1 h",
     "batch_time_factors": [ 99, 1 ],
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "ash", 500 ] ] ]
@@ -1356,6 +1629,11 @@
     "batch_time_factors": [ 80, 4 ],
     "//": "chloralkali process, same as with bleach except we wont be washing gases",
     "book_learn": [ [ "adv_chemistry", 3 ], [ "textbook_chemistry", 3 ], [ "recipe_labchem", 3 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_inorganic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "electrolysis_kit", 250 ] ] ],
     "components": [ [ [ "salt_water", 2 ], [ "saline", 10 ] ] ]
@@ -1372,6 +1650,11 @@
     "batch_time_factors": [ 75, 1 ],
     "time": "40 m",
     "book_learn": [ [ "textbook_firstaid", 6 ], [ "textbook_toxicology", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "syringe", -1 ] ] ],
     "//": "This makes 5 charges for an average-sized survivor, morphine assumed as 1 ch=5mg, heroin as 50% pure.",
@@ -1393,6 +1676,11 @@
     "difficulty": 4,
     "time": "1 h 20 m",
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "adv_chemistry", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "charges": 250,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "chem_sulphuric_acid", -1 ] ], [ [ "surface_heat", 20, "LIST" ] ] ],
@@ -1410,6 +1698,7 @@
     "charges": 375,
     "time": "2 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metallurgy" } ],
     "qualities": [ { "id": "CHISEL", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "using": [ [ "forging_standard", 6 ] ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
@@ -1433,6 +1722,7 @@
     "charges": 500,
     "time": "2 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_metallurgy" } ],
     "//1": "unlike smelting zinc_metal from material_zincite above, we want to guarantee complete reduction here",
     "//2": "ZnO + C -> Zn + CO | being extremely conservative; basically doubled carbon input + allow excess for wastage",
     "//3": "80×931mg anthracite coal @ ~90% carbon ~ 5.5809 mol C",
@@ -1468,6 +1758,8 @@
     "time": "225 m",
     "batch_time_factors": [ 100, 1 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
+    "//": "Extraction only. No chemical reactions = no proficiencies.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "tools": [
       [ [ "pointy_stick", -1 ], [ "pipe", -1 ] ],
@@ -1492,6 +1784,8 @@
     "time": "60 m",
     "batch_time_factors": [ 100, 1 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
+    "//": "Extraction only. No chemical reactions = no proficiencies.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "BOIL", "level": 1 } ],
     "tools": [
       [ [ "pipe", -1 ] ],
@@ -1514,6 +1808,8 @@
     "time": "76 h",
     "batch_time_factors": [ 100, 1 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
+    "//": "Extraction only. No chemical reactions = no proficiencies.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [
       [ [ "closed_loop_extractor_small", 50 ] ],
       [ [ "vac_oven_small", 200 ] ],
@@ -1536,6 +1832,8 @@
     "time": "74 h",
     "batch_time_factors": [ 100, 1 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
+    "//": "Extraction only. No chemical reactions = no proficiencies.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "tools": [
       [ [ "pipe", -1 ] ],
       [ [ "butane_tank", 1 ], [ "butane_can", 1 ] ],
@@ -1559,6 +1857,7 @@
     "time": "16 h",
     "batch_time_factors": [ 90, 1 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_distilling" } ],
     "qualities": [
       { "id": "CONTAIN", "level": 1 },
       { "id": "BOIL", "level": 1 },
@@ -1592,6 +1891,7 @@
     "time": "13 h",
     "batch_time_factors": [ 90, 1 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_distilling" } ],
     "qualities": [
       { "id": "CONTAIN", "level": 1 },
       { "id": "BOIL", "level": 1 },
@@ -1624,6 +1924,7 @@
     "time": "14 h",
     "batch_time_factors": [ 99, 1 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_distilling" } ],
     "qualities": [
       { "id": "CONTAIN", "level": 1 },
       { "id": "BOIL", "level": 1 },
@@ -1657,6 +1958,7 @@
     "time": "15 h",
     "batch_time_factors": [ 90, 1 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_distilling" } ],
     "qualities": [
       { "id": "CONTAIN", "level": 1 },
       { "id": "BOIL", "level": 1 },
@@ -1694,7 +1996,13 @@
     "time": "20 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
     "autolearn": true,
-    "//": "Should likely come from an entomology text, or something similar, in the future; but still relatively basic.",
+    "//": "Biochemistry is added because one needs to know where to look.",
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_biochemistry" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
+    "//1": "Should likely come from an entomology text, or something similar, in the future; but still relatively basic. ",
     "tools": [ [ [ "funnel", -1 ] ] ],
     "components": [ [ [ "wasp_sting", 1 ], [ "bee_sting", 1 ] ] ]
   },
@@ -1705,6 +2013,7 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "difficulty": 2,
     "time": "3 m",
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "FINE_GRIND", "level": 1 } ],
@@ -1717,6 +2026,7 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_OTHER",
     "skill_used": "chemistry",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" }, { "proficiency": "prof_organic_chemistry" } ],
     "difficulty": 3,
     "time": "30 m",
     "//": "This is not actually accurate; producing rubber from formic acid and latex generally takes around 12 hours. However, it will be better if we simply create some kind of curing rubber, and let it naturally evolve into rubber chunks from there. Nobody has twelve hours to watch rubber form in a zombie apocalypse.",
@@ -1734,6 +2044,11 @@
     "charges": 50,
     "batch_time_factors": [ 80, 1 ],
     "book_learn": [ [ "reference_cooking", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_organic_chemistry" },
+      { "proficiency": "prof_pharmaceutical" }
+    ],
     "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "chem_citric_acid", 9 ] ], [ [ "coke", 1 ] ], [ [ "water_clean", 1 ] ] ]
@@ -1750,6 +2065,11 @@
     "time": "60 m",
     "batch_time_factors": [ 50, 3 ],
     "autolearn": false,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [ [ [ "venom_wasp", 1 ], [ "venom_bee", 1 ] ] ],
@@ -1767,6 +2087,11 @@
     "time": "60 m",
     "batch_time_factors": [ 50, 3 ],
     "autolearn": false,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_intro_chem_synth" },
+      { "proficiency": "prof_chem_synth" }
+    ],
     "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [ [ [ "venom_paralytic", 1 ] ] ],
@@ -1785,6 +2110,11 @@
     "time": "1 h",
     "batch_time_factors": [ 80, 4 ],
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_intro_chemistry" },
+      { "proficiency": "prof_distilling" },
+      { "proficiency": "prof_intro_chem_synth" }
+    ],
     "book_learn": [
       [ "pocket_survival", 1 ],
       [ "survival_book", 1 ],
@@ -1814,6 +2144,8 @@
       [ "manual_survival", 1 ],
       [ "survival_book", 1 ]
     ],
+    "//": "It is just a blend; no chemical reactions.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "components": [ [ [ "chem_turpentine", 50 ] ], [ [ "chem_ethanol", 150 ] ] ]
   },
@@ -1827,6 +2159,8 @@
     "difficulty": 2,
     "time": "60 m",
     "autolearn": true,
+    "//": "At least some knowledge on chemicals handling is required.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
     "//0": "Ultimately, cac2powder premix feeds into CaO + 3 C -> CaC2 + CO",
     "//1": "7×15g quicklime = 1.8724 moles of CaO",
@@ -1850,8 +2184,10 @@
     "//2": "some loss/waste, e.g. imperfect smelting; powder escaping",
     "charges": 95,
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_gaswarfare", 4 ], [ "atomic_survival", 3 ] ],
+    "//3": "At least some knowledge on chemicals handling is required.",
+    "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "qualities": [ { "id": "FINE_GRIND", "level": 1 } ],
-    "//3": "460kJ per mole @ 70% energy efficiency",
+    "//4": "460kJ per mole @ 70% energy efficiency",
     "tools": [ [ [ "fake_arc_furnace", 650 ] ] ],
     "components": [ [ [ "cac2powder", 100 ] ] ]
   }

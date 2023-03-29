@@ -3275,7 +3275,7 @@
     "items": {
       "both": {
         "items": [ "pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol", "holybook_bible1" ],
-        "entries": [ { "group": "charged_smart_phone" } ]
+        "entries": [ { "group": "charged_smart_phone" }, { "item": "holy_symbol", "variant": "catholic_necklace" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -3372,7 +3372,11 @@
     "items": {
       "both": {
         "items": [ "dress_shirt", "pants", "socks", "dress_shoes", "wristwatch", "backpack", "flyer", "flyer", "flyer", "holy_symbol" ],
-        "entries": [ { "group": "charged_smart_phone" }, { "group": "charged_laptop" } ]
+        "entries": [
+          { "group": "charged_smart_phone" },
+          { "group": "charged_laptop" },
+          { "item": "holy_symbol", "variant": "general_necklace" }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -3650,19 +3654,14 @@
           "tac_helmet",
           "canteen",
           "wristwatch",
-          "quikclot"
+          "quikclot",
+          "mess_kit"
         ],
         "entries": [
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "m4_carbine", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
-          {
-            "item": "medium_plus_battery_cell",
-            "ammo-item": "battery",
-            "charges": 600,
-            "container-item": "mil_mess_kit"
-          },
           { "group": "charged_two_way_radio" },
           { "item": "chestrig", "contents-group": "army_mags_m4" }
         ]
