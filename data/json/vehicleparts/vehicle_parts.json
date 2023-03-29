@@ -679,7 +679,7 @@
     "size": "75 L",
     "item": "minifridge",
     "location": "center",
-    "//": "20cm weld per quadrant of damage",
+    "//1": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -716,7 +716,7 @@
     "size": "75 L",
     "item": "minifreezer",
     "location": "center",
-    "//": "20cm weld per quadrant of damage",
+    "//1": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -754,7 +754,7 @@
     "item": "washing_machine",
     "size": "40 L",
     "location": "center",
-    "//": "20cm weld per quadrant of damage",
+    "//1": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -790,7 +790,7 @@
     "size": "40 L",
     "location": "center",
     "looks_like": "washing_machine",
-    "//": "20cm weld per quadrant of damage",
+    "//1": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -825,7 +825,7 @@
     "item": "vh_autoclave",
     "size": "76 L",
     "location": "center",
-    "//": "20cm weld per quadrant of damage",
+    "//1": "20cm weld per quadrant of damage",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
