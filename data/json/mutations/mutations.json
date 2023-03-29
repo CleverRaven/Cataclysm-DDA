@@ -2405,7 +2405,7 @@
   {
     "type": "mutation",
     "id": "SPARSE_SCALES",
-    "name": { "str": "Scales" },
+    "name": { "str": "Sparse Scales" },
     "points": 2,
     "visibility": 5,
     "ugliness": 1,
