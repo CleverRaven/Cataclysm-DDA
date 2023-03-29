@@ -32,7 +32,7 @@
 
 
 // -2 for borders, -4 for padding
-static const int WIDTH_BUFFER = 6;
+static const int OPTION_WIDTH_BUFFER = 6;
 
 
 catacurses::window new_centered_win( int nlines, int ncols )
@@ -432,7 +432,7 @@ void uilist::inputfilter()
     filter_popup = std::make_unique<string_input_popup>();
     filter_popup->context( ctxt ).text( filter )
     .max_length( 256 )
-    .window( window, point( WIDTH_BUFFER, w_height - 1 ), w_width - WIDTH_BUFFER );
+    .window( window, point( 4, w_height - 1 ), w_width - 4 );
     bool loop = true;
     do {
         ui_manager::redraw();
@@ -500,14 +500,14 @@ void uilist::calc_data()
     // Space for a line between text and entries. Only needed if there is actually text.
     const int text_separator_line = text.empty() ? 0 : 1;
     if( w_auto ) {
-        w_width = WIDTH_BUFFER;
+        w_width = 4;
         if( !title.empty() ) {
             w_width = utf8_width( title ) + 5;
         }
     } else {
         w_width = w_width_setup.fun();
     }
-    const int max_desc_width = w_auto ? TERMX - WIDTH_BUFFER : w_width - WIDTH_BUFFER;
+    const int max_desc_width = w_auto ? TERMX - 4 : w_width - 4;
 
     bool h_auto = !w_height_setup.fun;
     if( h_auto ) {
@@ -543,21 +543,21 @@ void uilist::calc_data()
             if( entries[ i ].retval == -1 ) {
                 entries[ i ].retval = i;
             }
-            if( w_auto && w_width < txtwidth + pad + WIDTH_BUFFER + clen ) {
-                w_width = txtwidth + pad + WIDTH_BUFFER + clen;
+            if( w_auto && w_width < txtwidth + pad + OPTION_WIDTH_BUFFER + clen ) {
+                w_width = txtwidth + pad + OPTION_WIDTH_BUFFER + clen;
             }
         } else {
-            if( w_auto && w_width < txtwidth + pad + WIDTH_BUFFER + clen ) {
+            if( w_auto && w_width < txtwidth + pad + OPTION_WIDTH_BUFFER + clen ) {
                 // TODO: or +5 if header
-                w_width = txtwidth + pad + WIDTH_BUFFER + clen;
+                w_width = txtwidth + pad + OPTION_WIDTH_BUFFER + clen;
             }
         }
         if( desc_enabled ) {
             const int min_desc_width = std::min( max_desc_width, std::max( w_width,
-                                                 descwidth_final ) - WIDTH_BUFFER );
+                                                 descwidth_final ) - 4 );
             int descwidth = find_minimum_fold_width( footer_text.empty() ? entries[i].desc : footer_text,
                             desc_lines, min_desc_width, max_desc_width );
-            descwidth += WIDTH_BUFFER; // 2x border + 4x ' ' pad
+            descwidth += 4; // 2x border + 2x ' ' pad
             if( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
             }
@@ -597,12 +597,12 @@ void uilist::calc_data()
         int realtextwidth = 0;
         if( textwidth == -1 ) {
             if( !w_auto ) {
-                realtextwidth = w_width - WIDTH_BUFFER;
+                realtextwidth = w_width - 4;
             } else {
                 realtextwidth = twidth;
-                if( twidth + WIDTH_BUFFER > w_width ) {
-                    if( realtextwidth + WIDTH_BUFFER > TERMX ) {
-                        realtextwidth = TERMX - WIDTH_BUFFER;
+                if( twidth + 4 > w_width ) {
+                    if( realtextwidth + 4 > TERMX ) {
+                        realtextwidth = TERMX - 4;
                     }
                     textformatted = foldstring( text, realtextwidth );
                     formattxt = false;
@@ -613,15 +613,15 @@ void uilist::calc_data()
                             realtextwidth = w;
                         }
                     }
-                    if( realtextwidth + WIDTH_BUFFER > w_width ) {
-                        w_width = realtextwidth + WIDTH_BUFFER;
+                    if( realtextwidth + 4 > w_width ) {
+                        w_width = realtextwidth + 4;
                     }
                 }
             }
         } else if( textwidth != -1 ) {
             realtextwidth = textwidth;
-            if( realtextwidth + WIDTH_BUFFER > w_width ) {
-                w_width = realtextwidth + WIDTH_BUFFER;
+            if( realtextwidth + 4 > w_width ) {
+                w_width = realtextwidth + 4;
             }
         }
         if( formattxt ) {
@@ -634,7 +634,7 @@ void uilist::calc_data()
         desc_lines = 0;
         for( const uilist_entry &ent : entries ) {
             desc_lines = std::max<int>( desc_lines, foldstring( footer_text.empty() ? ent.desc : footer_text,
-                                        w_width - WIDTH_BUFFER ).size() );
+                                        w_width - 4 ).size() );
         }
         if( desc_lines <= 0 ) {
             desc_enabled = false;
@@ -697,7 +697,7 @@ void uilist::reposition( ui_adaptor &ui )
 {
     setup();
     if( filter_popup ) {
-        filter_popup->window( window, point( WIDTH_BUFFER, w_height - 1 ), w_width - WIDTH_BUFFER );
+        filter_popup->window( window, point( 4, w_height - 1 ), w_width - 4 );
     }
     ui.position_from_window( window );
 }
@@ -747,7 +747,7 @@ void uilist::show( ui_adaptor &ui )
     int estart = 1;
     if( !textformatted.empty() ) {
         for( int i = 0; i < text_lines; i++ ) {
-            trim_and_print( window, point( 2, 1 + i ), getmaxx( window ) - WIDTH_BUFFER,
+            trim_and_print( window, point( 2, 1 + i ), getmaxx( window ) - 4,
                             text_color, _color_error, "%s", textformatted[i] );
         }
 
@@ -796,13 +796,13 @@ void uilist::show( ui_adaptor &ui )
             if( pad_size > 3 ) {
                 // pad_size indicates the maximal width of the entry, it is used above to
                 // activate the highlighting, it is used to override previous text there, but in both
-                // cases printing starts at pad_left+1, here it starts at pad_left+WIDTH_BUFFER, so 3 cells less
+                // cases printing starts at pad_left+1, here it starts at pad_left+4 , so 3 cells less
                 // to be used.
                 const std::string &entry = ei == selected ? remove_color_tags( entries[ ei ].txt ) :
                                            entries[ ei ].txt;
                 point p( pad_left + 6, estart + si );
                 entries[ei].drawn_rect =
-                    inclusive_rectangle<point>( p + point( -WIDTH_BUFFER, 0 ), p + point( -WIDTH_BUFFER + pad_size,
+                    inclusive_rectangle<point>( p + point( -4, 0 ), p + point( -4 + pad_size,
                                                 0 ) );
                 trim_and_print( window, p, entry_space, co, _color_error, "%s", entry );
 
@@ -843,7 +843,7 @@ void uilist::show( ui_adaptor &ui )
         }
 
         if( static_cast<size_t>( selected ) < entries.size() ) {
-            fold_and_print( window, point( 2, w_height - desc_lines - 1 ), w_width - WIDTH_BUFFER, text_color,
+            fold_and_print( window, point( 2, w_height - desc_lines - 1 ), w_width - 4, text_color,
                             footer_text.empty() ? entries[selected].desc : footer_text );
         }
     }
@@ -857,7 +857,7 @@ void uilist::show( ui_adaptor &ui )
     } else {
         if( !filter.empty() ) {
             mvwprintz( window, point( 2, w_height - 1 ), border_color, "< %s >", filter );
-            mvwprintz( window, point( WIDTH_BUFFER, w_height - 1 ), text_color, filter );
+            mvwprintz( window, point( 4, w_height - 1 ), text_color, filter );
         }
     }
     apply_scrollbar();
