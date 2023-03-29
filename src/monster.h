@@ -33,6 +33,7 @@ class JsonOut;
 class effect;
 class effect_source;
 class item;
+struct monster_plan;
 namespace catacurses
 {
 class window;
@@ -231,7 +232,13 @@ class monster : public Creature
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
+        // is it mating season?
+        bool mating_angry() const;
         void plan();
+        void anger_hostile_seen( const monster_plan &mon_plan );
+        void anger_mating_season( const monster_plan &mon_plan );
+        // will change mon_plan::dist
+        void anger_cub_threatened( monster_plan &mon_plan );
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
