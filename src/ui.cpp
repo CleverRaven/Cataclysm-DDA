@@ -790,7 +790,7 @@ void uilist::show( ui_adaptor &ui )
                                                      keybinding_hint_state::DISABLED;
                 std::string hint = right_justify( input_context::get_hint_basic(
                                                       entries[ei].hotkey.value().short_description(),
-                                                      hstate ), 2 );
+                                                      hstate ), 4 );
                 print_colored_text( window, point( pad_left + 2, estart + si ), hint );
             }
             if( pad_size > 3 ) {
