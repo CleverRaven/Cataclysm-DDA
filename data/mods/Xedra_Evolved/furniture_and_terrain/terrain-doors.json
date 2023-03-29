@@ -45,7 +45,7 @@
     "type": "terrain",
     "id": "t_door_elocked",
     "name": "closed wood door with an electronic lock",
-    "description": "A standard wooden door that doesn't look very resilient.  It'd probably burn easily, too.  This one has a deadbolt electronic lock, so it's likely locked.  You could pry it open or guess the code, or unlock the deadbolt from the inside.",
+    "description": "A standard wooden door that doesn't look very resilient.  It'd probably burn easily, too.  This one has a deadbolt electronic lock, so it's likely locked.  You could pry it open or guess the code; if you were able to deduce it, or unlock the deadbolt from the inside.",
     "symbol": "+",
     "looks_like": "t_door_c",
     "color": "brown",
@@ -81,6 +81,9 @@
               "ter_furn_transform": "unlock_elock",
               "target_var": { "global_val": "door_transform" },
               "time_in_future": [ "2 seconds", "10 seconds" ]
+            },
+            {
+              "u_message": "The numpad glows green and emits a happy chirp as the door unlocks.", "popup": true 
             }
           ],
           "false_effect": { "u_message": "The numpad flashes while beeping angrily at you.", "popup": true }
@@ -114,7 +117,7 @@
     "type": "terrain",
     "id": "t_door_elocked_peep",
     "name": "closed wood door",
-    "description": "A regular door made of ordinary wood, except this one has a peephole.  If you examined it more closely, you'd be able to peek through the hole.  This one has a deadbolt numpad, so it's likely locked.  You could pry it open or possibly guess the code, or unlock the deadbolt from the inside.",
+    "description": "A regular door made of ordinary wood, except this one has a peephole.  If you examined it more closely, you'd be able to peek through the hole.  This one has a deadbolt numpad, so it's likely locked.  You could pry it open or possibly guess the code; if you were able to deduce it, or unlock the deadbolt from the inside.",
     "symbol": "+",
     "looks_like": "t_door_c_peep",
     "color": "brown",
@@ -133,30 +136,7 @@
       "SUPPORTS_ROOF"
     ],
     "open": "t_door_o_peep",
-    "examine_action": {
-      "type": "effect_on_condition",
-      "effect_on_conditions": [
-        {
-          "id": "eoc_unlock_elock",
-          "condition": { "roll_contested": { "u_val": "skill_level", "skill": "deduction" }, "difficulty": 12 },
-          "effect": [
-            { "u_location_variable": { "global_val": "door_transform" }, "min_radius": 1, "max_radius": 2 },
-            {
-              "u_transform_radius": 2,
-              "ter_furn_transform": "unlock_elock",
-              "target_var": { "global_val": "door_transform" }
-            },
-            {
-              "u_transform_radius": 2,
-              "ter_furn_transform": "unlock_elock",
-              "target_var": { "global_val": "door_transform" },
-              "time_in_future": [ "2 seconds", "10 seconds" ]
-            }
-          ],
-          "false_effect": { "u_message": "The numpad flashes while beeping angrily at you.", "popup": true }
-        }
-      ]
-    },
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "eoc_unlock_elock" ] },
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -183,7 +163,7 @@
     "type": "terrain",
     "id": "t_door_elocked_alarm",
     "name": "closed wood door",
-    "description": "A standard wooden door that doesn't look very resilient.  It'd probably burn easily, too.  This one has an electronic keypad, so it's likely locked.  You could pry it open or try to guess the code.",
+    "description": "A standard wooden door that doesn't look very resilient.  It'd probably burn easily, too.  This one has an electronic keypad, so it's likely locked.  You could pry it open or try to guess the code; if you were able to deduce it.",
     "symbol": "+",
     "looks_like": "t_door_locked",
     "color": "brown",
@@ -201,30 +181,7 @@
       "BLOCK_WIND",
       "SUPPORTS_ROOF"
     ],
-    "examine_action": {
-      "type": "effect_on_condition",
-      "effect_on_conditions": [
-        {
-          "id": "eoc_unlock_elock",
-          "condition": { "roll_contested": { "u_val": "skill_level", "skill": "deduction" }, "difficulty": 12 },
-          "effect": [
-            { "u_location_variable": { "global_val": "door_transform" }, "min_radius": 1, "max_radius": 2 },
-            {
-              "u_transform_radius": 2,
-              "ter_furn_transform": "unlock_elock",
-              "target_var": { "global_val": "door_transform" }
-            },
-            {
-              "u_transform_radius": 2,
-              "ter_furn_transform": "unlock_elock",
-              "target_var": { "global_val": "door_transform" },
-              "time_in_future": [ "2 seconds", "10 seconds" ]
-            }
-          ],
-          "false_effect": { "u_message": "The numpad flashes while beeping angrily at you.", "popup": true }
-        }
-      ]
-    },
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "eoc_unlock_elock" ] },
     "bash": {
       "str_min": 8,
       "str_max": 80,
