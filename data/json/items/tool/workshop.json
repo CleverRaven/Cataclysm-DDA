@@ -1283,7 +1283,7 @@
           "medium_storage_battery",
           "large_storage_battery",
           "storage_battery"
-        ]
+        ],
         "default_magazine": "heavy_plus_battery_cell"
       }
     ]
@@ -1353,7 +1353,7 @@
           "medium_storage_battery",
           "large_storage_battery",
           "storage_battery"
-        ]
+        ],
         "default_magazine": "heavy_battery_cell"
       }
     ]
@@ -1425,7 +1425,7 @@
           "medium_storage_battery",
           "large_storage_battery",
           "storage_battery"
-        ]
+        ],
         "default_magazine": "heavy_plus_battery_cell"
       }
     ]
