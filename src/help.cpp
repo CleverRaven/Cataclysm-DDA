@@ -109,7 +109,7 @@ std::map<int, inclusive_rectangle<point>> help::draw_menu( const catacurses::win
         std::string cat_name = text.second.first.translated();
         std::string shortcut_only = shortcut_text( cat_name, state, true );
 
-        size_t pos = cat_name.find_first_of( ':' );
+        size_t pos = cat_name.find_first_of( ' ' );
         if( pos != std::string::npos && pos + 1 < cat_name.size() ) {
             cat_name = cat_name.substr( pos + 1 );
         }

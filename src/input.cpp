@@ -96,6 +96,12 @@ static std::string replace_spaces_with_non_breaking( const std::string &s )
     return o;
 }
 
+static bool should_inline( const int pos, const std::string &text )
+{
+    return pos >= 0 && text.find_first_of( ' ' ) == std::string::npos &&
+           text.find_first_of( "\u00A0" ) == std::string::npos ;
+}
+
 bool is_mouse_enabled()
 {
 #if defined(_WIN32) && !defined(TILES)
@@ -1170,6 +1176,7 @@ std::string input_context::colorize_separate_format( const keybinding_hint_state
         right_separator = get_option<std::string>( "KEYBINDINGS_SEPARATE_SEPARATOR_RIGHT" );
     }
 
+    std::string padded_text = get_padded_suffix( text );
     std::string colored_key = key;
     if( state != keybinding_hint_state::NONE_AT_ALL ) {
         colored_key = colorize( key, key_not_found ? c_red : input_context::get_hint_color_for_key(
@@ -1178,10 +1185,10 @@ std::string input_context::colorize_separate_format( const keybinding_hint_state
     if( state != keybinding_hint_state::NONE && state != keybinding_hint_state::NONE_AT_ALL ) {
         nc_color color_separator = input_context::get_hint_color_for_separator( state );
         nc_color color = input_context::get_hint_color( state );
-        return string_format( fmt, colored_key, colorize( text, color ), colorize( left_separator,
+        return string_format( fmt, colored_key, colorize( padded_text, color ), colorize( left_separator,
                               color_separator ), colorize( right_separator, color_separator ) );
     }
-    return string_format( fmt, colored_key, text, left_separator, right_separator );
+    return string_format( fmt, colored_key, padded_text, left_separator, right_separator );
 }
 
 std::string input_context::colorize_inline_format( const keybinding_hint_state state,
@@ -1217,12 +1224,6 @@ std::string input_context::get_hint_basic( const std::string &key,
         const keybinding_hint_state state )
 {
     return input_context::get_hint_basic( key, "", state );
-}
-
-bool should_inline( const int pos, const std::string &text )
-{
-    return pos == 0 || ( pos > 0 && text.find_first_of( ' ' ) == std::string::npos &&
-                         text.find_first_of( "\u00A0" ) == std::string::npos );
 }
 
 std::string input_context::get_hint_basic( const std::string &key,
@@ -1280,14 +1281,13 @@ std::string input_context::get_desc(
             }
         }
     }
-    std::string padded_text = get_padded_suffix( text );
     if( na ) {
         //~ keybinding description for unbound or non-applicable keys
         return input_context::colorize_separate_format( state, pgettext( "keybinding",
-                "n/a" ), padded_text, show_separators, true );
+                "n/a" ), text, show_separators, true );
     }
     return input_context::colorize_separate_format( state, get_desc( action_descriptor, 1,
-            evt_filter ), padded_text, show_separators );
+            evt_filter ), text, show_separators );
 }
 
 const nc_color input_context::get_hint_color( keybinding_hint_state state )
