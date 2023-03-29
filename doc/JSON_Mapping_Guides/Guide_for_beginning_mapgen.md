@@ -10,11 +10,11 @@ CDDA mapgen is surprisingly powerful once you get used to working with it.  You 
 
 #### Specials vs. city buildings:
 
-A special is a building that spawns outside the city and requires additional information to spawn, like its distance from cities and valid OMT terrain types.  They also used to be the only multi-tile buildings in the game until recent changes allowed special type buildings to spawn inside cities.  Examples of specials are: farms, cabins, LMOE, etc.
+A special is a building that spawns outside the city and requires additional information to spawn, like its distance from cities and valid OMT terrain types.  They also used to be the only multi-tile buildings in the game until recent changes allowed special type buildings to spawn inside cities.  Examples of specials are: evac shelters, cabins, LMOE, etc.
 
 City buildings can be single or multi-tile in size and have their spawns limited to the city boundaries. A building can be both a city building and a special but would require both sets of entries to spawn for both types.  Some motels are examples of this (see: 2fmotel_city & 2fmotel).
 
-Important policy: since the roof project, all buildings are now multi-tile across z levels.  All new buildings should always get a JSON roof added.  Soon, all basements will also be custom fit to the ground floor mapgen, so it is good practice to include dedicated downstairs if you want a basement.
+Important policy: since the roof project, all buildings are now multi-tile across z levels.  All new buildings should always get a JSON roof added.  Basements are also custom fit to the ground floor mapgen, so it is good practice to include dedicated downstairs if you want a basement.
 
 #### The Files & their purpose:
 
@@ -42,7 +42,7 @@ Before beginning you’ll want to make some decisions:
 
 1. What size will it be overall (how many OMTs?)
 2. Where will it spawn?
-3. Will I use a palette or put everything in the mapgen file.
+3. Will I use a palette or put everything in the mapgen file?
     * If you use a palette, define as much of it as possible from the outset.
 
 4. Advanced questions:
@@ -83,20 +83,20 @@ Sample:
       "fill_ter": "t_floor",
       "rows": [
         "S___________SSTzzzzzzzTS",
-        "S_____,_____SSzMbMbMbMzS",
-        "S_____,_____SSSSSSSS/MzS",
-        "S_____,_____SSSSSSSS/MzS",
-        "S_____,_____SSzzzSSS/MzS",
+        "S_____,_____SSzMMMMMMMzS",
+        "S_____,_____SSSSSSSSSMzS",
+        "S_____,_____SSSSSSSSSMzS",
+        "S_____,_____SSSSSSSSSMzS",
         "S_____,_____SS||V{{{V||S",
         "S_____,_____SS|D     <|S",
         "SSSSSSSSSSSSSS|r      OS",
         "SSSSSSSSSSSSSS|r      |S",
-        "SVVVVVVVz./Mzz|   #W##|S",
-        "SVD>>>>Vz./bMzV   #ww%|S",
-        "SV BBB>Vz.b/..{   xwwF|S",
-        "SV   B>Vz.Mb..{   flwl|S",
-        "SV   B>Vz....zV   flwU|S",
-        "SV   B>Vzbbbzz|X  #wwG|S",
+        "SVVVVVVVzMSSzz|   #W##|S",
+        "SVD>>>>VzMSSMzV   #ww%|S",
+        "SV BBB>VzMSSSS{   xwwF|S",
+        "SV   B>VzMSSSS{   flwl|S",
+        "SV   B>VzMMMMzV   flwU|S",
+        "SV   B>Vzzzzzz|X  #wwG|S",
         "S|B ^||||||||||^  ||I||S",
         "SO6  B|=;|;=|99  r|FwC|S",
         "S|B  6|=A|A=|9   r|Fwc|S",
@@ -108,37 +108,34 @@ Sample:
         "S4SSSSSSSSSSSSSSSSSSSSSS"
       ],
       "terrain": {
+        ".": "t_region_groundcover_urban",
+        "M": "t_region_groundcover_urban",
+        "z": "t_region_shrub_decorative",
+        "_": "t_pavement",
+        ",": "t_pavement_y",
+        "S": "t_sidewalk",
         " ": "t_floor",
         "!": "t_linoleum_white",
         "#": "t_linoleum_white",
         "%": "t_linoleum_white",
-        "+": "t_door_c",
-        ",": "t_pavement_y",
-        ".": "t_grass",
-        "/": "t_dirt",
-        "3": [ "t_door_locked", "t_door_locked_alarm" ],
         ";": "t_linoleum_white",
         "=": "t_linoleum_white",
         "A": "t_linoleum_white",
         "C": "t_linoleum_white",
         "F": "t_linoleum_white",
         "G": "t_linoleum_white",
-        "I": "t_door_locked_interior",
         "L": "t_linoleum_white",
-        "M": "t_dirt",
-        "O": "t_window",
-        "S": "t_sidewalk",
         "U": "t_linoleum_white",
-        "V": "t_wall_glass",
-        "W": "t_fencegate_c",
-        "_": "t_pavement",
-        "b": "t_dirt",
+        "W": "t_linoleum_white",
         "c": "t_linoleum_white",
         "f": "t_linoleum_white",
         "l": "t_linoleum_white",
         "w": "t_linoleum_white",
-        "x": "t_console_broken",
-        "z": "t_shrub",
+        "+": "t_door_c",
+        "3": [ "t_door_locked", "t_door_locked_alarm" ],
+        "I": "t_door_locked_interior",
+        "O": "t_window",
+        "V": "t_wall_glass",
         "{": "t_door_glass_c",
         "|": "t_wall_b",
         "<": "t_stairs_up",
@@ -146,31 +143,32 @@ Sample:
         "T": "t_tree_coffee"
       },
       "furniture": {
+        "M": "f_region_flower",
+        "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
+        "x": "f_counter",
         "#": "f_counter",
-        "%": "f_trashcan",
-        "/": "f_bluebell",
-        "6": "f_table",
-        "9": "f_rack",
         ">": "f_counter",
+        "W": "f_counter_gate_c",
+        "%": "f_trashcan",
+        "D": "f_trashcan",
+        "6": "f_table",
         "?": "f_sofa",
-        "A": "f_sink",
         "B": "f_chair",
         "C": "f_desk",
-        "D": "f_trashcan",
+        "L": "f_locker",
+        "A": "f_sink",
+        "U": "f_sink",
+        "f": "f_glass_fridge",
         "F": "f_fridge",
         "G": "f_oven",
-        "L": "f_locker",
-        "M": "f_dahlia",
-        "U": "f_sink",
         "X": "f_rack",
-        "^": "f_indoor_plant",
-        "b": "f_dandelion",
-        "f": "f_glass_fridge",
+        "9": "f_rack",
         "l": "f_rack",
         "r": "f_rack"
       },
       "toilets": { ";": {  } },
       "items": {
+        "x": { "item": "cash_register_random", "chance": 100 },
         "#": { "item": "coffee_counter", "chance": 10 },
         "6": { "item": "coffee_table", "chance": 35 },
         "9": { "item": "coffee_display_2", "chance": 85, "repeat": [ 1, 8 ] },
@@ -178,7 +176,7 @@ Sample:
         "=": { "item": "coffee_bathroom", "chance": 35 },
         ">": { "item": "coffee_table", "chance": 25 },
         "A": { "item": "coffee_bathroom", "chance": 35 },
-        "C": { "item": "office", "chance": 70 },
+        "C": { "item": "SUS_office_desk", "chance": 33 },
         "D": { "item": "coffee_trash", "chance": 75 },
         "F": { "item": "coffee_fridge", "chance": 80, "repeat": [ 1, 8 ] },
         "G": { "item": "oven", "chance": 35 },
@@ -189,9 +187,9 @@ Sample:
         "l": { "item": "coffee_prep", "chance": 50 },
         "r": { "item": "coffee_condiments", "chance": 80, "repeat": [ 1, 8 ] }
       },
-      "monsters": { "!": { "monster": "GROUP_COFFEE_SHOP_ZOMBIE", "chance": 1 } },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 18 ], "chance": 1 } ],
-      "vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100, "status": 1 } }
+      "monster": { "!": { "monster": "mon_zombie", "chance": 10 } },
+      "place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 18 ], "chance": 80, "repeat": [ 1, 2 ] } ],
+      "vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100 } }
     }
 ```
 
@@ -248,15 +246,15 @@ You can add as many item_groups to the array as you'd like.  This is one of my r
 
 7. Monster spawns:  our example has two types of monster spawns listed.
 ```
-"monsters": { "!": { "monster": "GROUP_COFFEE_SHOP_ZOMBIE", "chance": 1 } },
-"place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 18 ], "chance": 1 } ],
+"monster": { "!": { "monster": "mon_zombie", "chance": 10 } },
+"place_monster": [ { "group": "GROUP_ZOMBIE", "x": [ 3, 17 ], "y": [ 13, 18 ], "chance": 80, "repeat": [ 1, 2 ] } ],
 ```
 
-The first entry is using  that explicit symbol placement technique.  The end entry is using a range x,y coordinates to place monsters.  *Note: We are moving away from putting monsters in the mapgen file in favor of overmap_terrain entries, so only use this if you want a specific monster group to spawn for specific reasons.  See overmap_terrain section for more information.*
+The first entry is using  that explicit symbol placement technique.  The end entry is using a range x,y coordinates to place a monster.  *Note: We are moving away from putting monsters in the mapgen file in favor of overmap_terrain entries, so only use this if you want a specific monster group to spawn for specific reasons.  See overmap_terrain section for more information.*
 
 8. Vehicle spawns:
 ```
-"vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100, "status": 1 } }
+"vehicles": { "c": { "vehicle": "swivel_chair", "chance": 100 } }
 ```
 Our vehicle happens to be a swivel chair using explicit symbol placement.
 
@@ -312,20 +310,20 @@ Since the planter is a "sealed item" you define what's going into that container
 
 ```
  ".": "t_region_groundcover_urban",
- "A": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
- "Z": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+ "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+ "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
 ```
 
 finally for flowers (which are furniture):
 ```
-"p": "f_region_flower"
+"!": "f_region_flower"
 ```
 
 #### Adding the roof!
 
 Almost all CDDA buildings are now roof-capable and we'd love to keep it that way.  Make sure to submit a roof map with your building.  This can go into the same file as your ground floor and any other floors that share the same building shape/foundation.
 
-So, this is super easy compared to the building we just went over.  It has all the same basic components.  I recommend you start by using the rows from your ground floor map and converting it to the `"roof_palette"` symbol set.  Basically your just going to trace the outline in gutters, add a t_gutter_drop next to your t_gutter_spout below and toss some infrastructure up there.  I used nests extensively in commercial building roofs and we'll cover that in advanced mapgen.
+So, this is super easy compared to the building we just went over.  It has all the same basic components.  I recommend you start by using the rows from your ground floor map and converting it to the `"roof_palette"` symbol set.  Basically your just going to trace the outline in gutters, add a t_gutter_drop next to your t_gutter_downspout below and toss some infrastructure up there.  I used nests extensively in commercial building roofs and we'll cover that in advanced mapgen.
 
 sample roof:
 ```
@@ -339,18 +337,18 @@ sample roof:
         "                        ",
         "                        ",
         "                        ",
-        "  |222222222222222223   ",
-        "  |.................3   ",
-        "  |.................3   ",
-        "  |.............N...3   ",
-        "  5.................3   ",
-        "  |.................3   ",
-        "  |.................3   ",
-        "  |........&........3   ",
-        "  |.................3   ",
-        "  |......=..........3   ",
-        "  |.................3   ",
-        "  |----------------53   ",
+        "  -------------------   ",
+        "  -.................-   ",
+        "  -.................-   ",
+        "  -.............N...-   ",
+        "  5.................-   ",
+        "  -.................-   ",
+        "  -.................-   ",
+        "  -........&........-   ",
+        "  -.................-   ",
+        "  -......=..........-   ",
+        "  -.................-   ",
+        "  -----------------5-   ",
         "                        ",
         "                        ",
         "                        ",
@@ -389,7 +387,7 @@ I have a separate roof document at: [doc/JSON_Mapping_Guides/JSON_ROOF_MAPGEN.md
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "house_dogs_north" },
       { "point": [ 0, 0, 1 ], "overmap": "house_dogs_roof_north" },
-      { "point": [ 0, 0, -1 ], "overmap": "basement" }
+      { "point": [ 0, 0, -1 ], "overmap": "house_08_basement_north" }
     ]
   },
   ```
@@ -521,15 +519,14 @@ Everything else will look like a series of object entries, for example the roof_
     "type": "palette",
     "id": "roof_palette",
     "terrain": {
+      ">": "t_stairs_down",
+      "v": "t_ladder_down",
       ".": "t_flat_roof",
       " ": "t_open_air",
       "o": "t_glass_roof",
       "_": "t_floor",
-      "2": "t_gutter_north",
-      "-": "t_gutter_south",
-      "3": "t_gutter_east",
+      "-": "t_gutter",
       "4": "t_gutter_downspout",
-      "|": "t_gutter_west",
       "5": "t_gutter_drop",
       "#": "t_grate",
       "&": "t_null",
@@ -554,6 +551,7 @@ Everything else will look like a series of object entries, for example the roof_
       "~": "f_chimney",
       "=": "f_vent_pipe",
       "A": "f_air_conditioner",
+      "M": "f_solar_unit",
       "b": "f_bench",
       "c": "f_counter",
       "t": "f_table",
@@ -565,7 +563,13 @@ Everything else will look like a series of object entries, for example the roof_
       "S": "f_sink",
       "e": "f_oven",
       "F": "f_fridge",
+      "Я": "f_standing_tank",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ]
+    },
+    "liquids": { "Я": { "liquid": "water_clean", "amount": [ 0, 300 ] } },
+    "nested": {
+      "5": { "chunks": [ [ "null", 90 ], [ "roof_1x1_birdnest", 10 ] ] },
+      "-": { "chunks": [ [ "null", 1000 ], [ "roof_1x1_birdnest", 5 ] ] }
     },
     "toilets": { "T": {  } }
   }

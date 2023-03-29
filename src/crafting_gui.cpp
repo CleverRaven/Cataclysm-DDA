@@ -584,9 +584,11 @@ class recipe_result_info_cache
         void get_byproducts_data( const recipe *rec, std::vector<iteminfo> &summary_info,
                                   std::vector<iteminfo> &details_info );
         void get_item_details( item &dummy_item, int quantity_per_batch,
-                               std::vector<iteminfo> &details_info, const std::string &classification, bool uses_charges );
+                               std::vector<iteminfo> &details_info, const std::string &classification, bool uses_charges,
+                               const std::string &description = std::string() );
         void get_item_header( item &dummy_item, int quantity_per_batch, std::vector<iteminfo> &info,
-                              const std::string &classification, bool uses_charges );
+                              const std::string &classification, bool uses_charges,
+                              const std::string &description = std::string() );
         void insert_iteminfo_block_separator( std::vector<iteminfo> &info_vec,
                                               const std::string &title ) const;
     public:
@@ -609,12 +611,13 @@ void recipe_result_info_cache::get_byproducts_data( const recipe *rec,
 }
 
 void recipe_result_info_cache::get_item_details( item &dummy_item,
-        const int quantity_per_batch,
-        std::vector<iteminfo> &details_info, const std::string &classification, const bool uses_charges )
+        const int quantity_per_batch, std::vector<iteminfo> &details_info,
+        const std::string &classification, const bool uses_charges, const std::string &description )
 {
     std::vector<iteminfo> temp_info;
     int total_quantity = quantity_per_batch * cached_batch_size;
-    get_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges );
+    get_item_header( dummy_item, quantity_per_batch, details_info, classification, uses_charges,
+                     description );
     if( uses_charges ) {
         dummy_item.charges *= total_quantity;
         dummy_item.info( true, temp_info );
@@ -626,20 +629,24 @@ void recipe_result_info_cache::get_item_details( item &dummy_item,
 }
 
 void recipe_result_info_cache::get_item_header( item &dummy_item, const int quantity_per_batch,
-        std::vector<iteminfo> &info, const std::string &classification, const bool uses_charges )
+        std::vector<iteminfo> &info, const std::string &classification, const bool uses_charges,
+        const std::string &description )
 {
     int total_quantity = quantity_per_batch * cached_batch_size;
     //Handle multiple charges and multiple discrete items separately
     if( uses_charges ) {
+        std::string display_name = ( description.empty() ? dummy_item.display_name() : description );
         dummy_item.charges = total_quantity;
         info.emplace_back( "DESCRIPTION",
-                           "<bold>" + classification + ": </bold>" + dummy_item.display_name() );
+                           "<bold>" + classification + ": </bold>" + display_name );
         //Reset charges so that multiple calls to this function don't produce unexpected results
         dummy_item.charges /= total_quantity;
     } else {
+        std::string display_name = ( description.empty() ? dummy_item.display_name(
+                                         total_quantity ) : description );
         //Add summary line.  Don't need to indicate count if there's only 1
         info.emplace_back( "DESCRIPTION",
-                           "<bold>" + classification + ": </bold>" + dummy_item.display_name( total_quantity ) +
+                           "<bold>" + classification + ": </bold>" + display_name +
                            ( total_quantity == 1 ? "" : string_format( " (%d)", total_quantity ) ) );
     }
     if( dummy_item.has_flag( flag_VARSIZE ) &&
@@ -694,6 +701,10 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
 
     //Make a temporary item for the result.  NOTE: If the result would normally be in a container, this is not.
     item dummy_result = item( rec->result(), calendar::turn, item::default_charges_tag{} );
+    std::string result_description;
+    if( dummy_result.is_null() ) {
+        result_description = rec->description.translated();
+    }
     //Check if recipe result is a clothing item that can be properly fitted
     if( dummy_result.has_flag( flag_VARSIZE ) && !dummy_result.has_flag( flag_FIT ) ) {
         //Check if it can actually fit.  If so, list the fitted info
@@ -726,7 +737,8 @@ item_info_data recipe_result_info_cache::get_result_data( const recipe *rec, con
     if( rec->container_id() == itype_id::NULL_ID() && !rec->has_byproducts() ) {
         //We don't need a summary for a single item, just give us the details
         insert_iteminfo_block_separator( details_info, recipe_result_string );
-        get_item_details( dummy_result, makes_amount, details_info, result_string, result_uses_charges );
+        get_item_details( dummy_result, makes_amount, details_info, result_string, result_uses_charges,
+                          result_description );
 
     } else { //We do need a summary
         //Top of the header
@@ -1711,22 +1723,8 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
             user_moved_line = highlight_unread_recipes;
         } else if( action == "SCROLL_UP" && mouse_in_list ) {
             line = std::max( 0, line - 1 );
-        } else if( action == "PAGE_DOWN" ) {
-            if( line == recmax - 1 ) {
-                line = 0;
-            } else if( line + scroll_rate >= recmax ) {
-                line = recmax - 1;
-            } else {
-                line += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( line == 0 ) {
-                line = recmax - 1;
-            } else if( line <= scroll_rate ) {
-                line = 0;
-            } else {
-                line += -scroll_rate;
-            }
+        } else if( action == "PAGE_UP" || action == "PAGE_DOWN" ) {
+            line = increment_and_clamp( line, action == "PAGE_UP" ? -scroll_rate : scroll_rate, recmax );
         } else if( action == "HOME" ) {
             line = 0;
             user_moved_line = highlight_unread_recipes;

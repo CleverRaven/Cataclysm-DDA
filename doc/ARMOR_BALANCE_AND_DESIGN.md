@@ -407,6 +407,7 @@ plate definition:
   "color": "dark_gray",
   "material_thickness": 25,
   "non_functional": "destroyed_large_ceramic_plate",
+  "damage_verb": "makes a crunch, something has shifted",
   "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
   "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
 }
@@ -418,6 +419,8 @@ Look at the Plates and Vests and ballistic armor or anything with ABLATIVE_LARGE
 ### Transform vs Durability
 #### Explanation
 Normally armor degrades with use. This degradation is incremental and decreases the armors effectiveness and protection. However not all armor degrades, some instead will become completely compromised. For these items ```"non_functional": "ITEM_ID"``` can be added. Instead of the normal degradation rules, armor with non_functional will have a chance to transform into its non_functional version when struck. Specifically transform items are concerned with how much damage they take before reduction, rather than after reduction and as the damage scales towards their total resistance (and beyond) scales to a 33% chance to transform (and beyond). Example a 50 damage bullet hitting a 50 damage plate has a 33% chance to transform, a 25 damage bullet would only have a 16.5% chance to cause a transform, 100 damage a 66% chance.
+
+Transforming items can also specify a custom destruction message with ```"damage_verb"``` which is what will be said when it is damaged.
 
 #### Example
 ```json
@@ -436,6 +439,7 @@ Normally armor degrades with use. This degradation is incremental and decreases 
   "color": "dark_gray",
   "material_thickness": 25,
   "non_functional": "destroyed_large_ceramic_plate",
+  "damage_verb": "makes a crunch, something has shifted",
   "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
   "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
 }

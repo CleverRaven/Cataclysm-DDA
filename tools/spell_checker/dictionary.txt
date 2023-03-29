@@ -15,6 +15,7 @@ achelousaurus
 acho
 acidball
 acrocanthosaurus
+acrostic
 acrylamide
 activatable
 actuated
@@ -44,6 +45,7 @@ agape
 agelessness
 agender
 aggregates
+ahimsa
 airgun
 airhorn
 airjack
@@ -445,6 +447,7 @@ cdda
 cegamente
 centric
 centrosaurus
+centrum
 cepa
 cephalopod
 cephalothorax
@@ -553,6 +556,7 @@ compsognathus
 concavities
 concealability
 concealable
+concentrator
 concentrically
 concerningly
 condensor
@@ -583,6 +587,7 @@ corporality
 corporeality
 corvid
 corythosaurus
+cosplayers
 countermine
 countertime
 couters
@@ -599,6 +604,7 @@ creped
 criniere
 cripplingly
 crispier
+crossbeams
 crossbuck
 crossfit
 crossguard
@@ -669,6 +675,7 @@ debugged
 decap
 decelerates
 deceptived
+dedicational
 defatted
 deforming
 dehydrator
@@ -710,6 +717,7 @@ devourer
 devs
 dewlap
 dextrous
+dharmachakra
 dieselpunk
 diffract
 diffracting
@@ -721,6 +729,7 @@ dimestore
 diminute
 dimorphism
 dimorphodon
+dioceses
 diodes
 dioicus
 dionaea
@@ -867,6 +876,7 @@ envenomed
 eocs
 eolocanth
 eoraptor
+eou
 epicuticle
 epistemology
 eppies
@@ -881,6 +891,7 @@ erythrocytes
 erzeugen
 escalier
 eset
+esous
 espatier
 espatiers
 esque
@@ -894,6 +905,7 @@ euoplocephalus
 eusocial
 evacs
 evacuee
+evangelized
 everburning
 everfrost
 eviscerations
@@ -970,6 +982,7 @@ fightin
 filenames
 fileset
 filmstrip
+finial
 finned
 fireboots
 firebrick
@@ -1033,6 +1046,7 @@ foodborne
 foodburger
 foodcart
 footgear
+footrest
 forager
 foregrip
 foregrips
@@ -1328,6 +1342,7 @@ hypno
 hypochlorite
 hypogaea
 ichor
+ichthys
 idkont
 ifoundramsesthecat
 ignitable
@@ -1391,6 +1406,7 @@ intoxicative
 inulin
 inverts
 invlets
+ios
 ironshod
 irradiance
 irremovable
@@ -1473,6 +1489,7 @@ knapping
 knifehand
 knifemaker
 knockback
+knockin
 knotweed
 knowium
 knuckleduster
@@ -1665,6 +1682,7 @@ megalith
 megastore
 membranous
 mendacium
+menorah
 mesenterium
 meshwork
 messily
@@ -1832,6 +1850,7 @@ nearsightedness
 necco
 neckbeard
 neckin
+neckwear
 necro
 necrowolf
 nectivore
@@ -2113,6 +2132,7 @@ polymorph
 polymorphed
 polypous
 polysexual
+polytheistic
 pomelos
 pomes
 ponderously
@@ -2399,6 +2419,7 @@ saltworks
 salvager
 salved
 samghati
+samsara
 sandleather
 sapience
 saproling
@@ -2557,6 +2578,7 @@ sommat
 somniferum
 soother
 sorrowfully
+soteriological
 soundpack
 sourness
 sp
@@ -2829,6 +2851,7 @@ travelogue
 travelpack
 traversal
 travois
+treatin
 treelines
 trenchcoat
 trenchcoats
@@ -3179,4 +3202,5 @@ zuul
 zweitimber
 zygomaticus
 zzz
+zzzzchzzzzchurzzzpileus
 zzzzchzzzzchurzzz
