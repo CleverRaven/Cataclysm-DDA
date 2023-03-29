@@ -493,12 +493,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "5x50",
-    "name": "5x50mm flechette",
-    "default": "5x50dart"
-  },
-  {
-    "type": "ammunition_type",
     "id": "signal_flare",
     "name": "signal flare",
     "default": "signal_flare"

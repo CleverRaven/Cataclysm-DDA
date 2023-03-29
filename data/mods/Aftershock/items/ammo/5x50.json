@@ -1,6 +1,6 @@
 [
   {
-    "id": "5x50dart",
+    "id": "afs_5x50dart",
     "type": "AMMO",
     "name": { "str": "RA110 5x50mm flechette" },
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm flechette round features a biodegradable sabot and a single, fin-stabilized penetrator.",
@@ -12,8 +12,8 @@
     "color": "green",
     "count": 100,
     "stack_size": 45,
-    "ammo_type": "5x50",
-    "casing": "5x50_hull",
+    "ammo_type": "afs_5x50",
+    "casing": "afs_5x50_hull",
     "range": 60,
     "damage": { "damage_type": "bullet", "amount": 20, "armor_penetration": 30 },
     "dispersion": 60,
@@ -23,8 +23,8 @@
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
   },
   {
-    "id": "5x50heavy",
-    "copy-from": "5x50dart",
+    "id": "afs_5x50heavy",
+    "copy-from": "afs_5x50dart",
     "type": "AMMO",
     "name": { "str": "RA119 5x50mm penetrator" },
     "description": "Designed to defeat modern body armor, the Rivtech 5x50mm RA119 penetrator round features a biodegradable sabot and a single, fin-stabilized tungsten alloy projectile.",
@@ -35,8 +35,8 @@
     "proportional": { "recoil": 1.1 }
   },
   {
-    "id": "reloaded_5x50dart",
-    "copy-from": "5x50dart",
+    "id": "afs_reloaded_5x50dart",
+    "copy-from": "afs_5x50dart",
     "type": "AMMO",
     "name": { "str": "5x50mm flechette, reloaded", "str_pl": "5x50mm flechettes, reloaded" },
     "price_postapoc": 1200,

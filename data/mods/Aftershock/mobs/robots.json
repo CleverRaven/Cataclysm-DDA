@@ -514,14 +514,14 @@
     "description": "The Hashashiyyin is unorthodox in its design as a military humaniform.  While it keeps the strength of most Wraitheon humaniforms, it also prioritizes stealth.  It comes equipped with an integrated 5x50mm flechette gun.",
     "diff": 15,
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
-    "starting_ammo": { "5x50dart": 1000 },
+    "starting_ammo": { "afs_5x50dart": 1000 },
     "special_attacks": [
       {
         "type": "gun",
         "move_cost": 150,
         "cooldown": 2,
-        "gun_type": "needlegun",
-        "ammo_type": "5x50dart",
+        "gun_type": "afs_needlegun",
+        "ammo_type": "afs_5x50dart",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,
         "no_ammo_sound": "click!",
