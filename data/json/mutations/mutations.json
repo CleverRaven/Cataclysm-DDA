@@ -1911,7 +1911,7 @@
     "ugliness": 1,
     "description": "Your skin is slightly rough.  This has no gameplay effect.",
     "types": [ "SKIN" ],
-    "changes_to": [ "SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN", "PATCHSKIN1" ],
+    "changes_to": [ "SPARSE_SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN", "PATCHSKIN1" ],
     "category": [
       "LIZARD",
       "RAPTOR",
