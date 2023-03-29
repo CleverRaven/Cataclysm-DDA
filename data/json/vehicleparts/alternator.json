@@ -90,7 +90,7 @@
       }
     },
     "damage_reduction": { "all": 20 }
-  },5
+  },
   {
     "id": "alternator_truck",
     "copy-from": "vehicle_alternator",
