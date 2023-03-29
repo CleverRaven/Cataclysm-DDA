@@ -78,6 +78,24 @@ static std::string int_to_str( int number )
     return buffer.str();
 }
 
+
+static std::string get_padded_suffix( const std::string &s )
+{
+    // \u00A0 is the non-breaking space
+    if( !s.empty() && s.find_first_of( "\u00A0" ) != 0 ) {
+        return string_format( "\u00A0%s", s );
+    }
+    return s;
+}
+
+static std::string replace_spaces_with_non_breaking( const std::string &s )
+{
+    std::string o = s;
+    // \u00A0 is the non-breaking space
+    replace_substring( o, " ", "\u00A0", true );
+    return o;
+}
+
 bool is_mouse_enabled()
 {
 #if defined(_WIN32) && !defined(TILES)
@@ -1140,7 +1158,6 @@ std::string input_context::colorize_separate_format( const keybinding_hint_state
         const bool show_separators, const bool key_not_found )
 {
     const translation fmt = to_translation(
-                                // \u00A0 is the non-breaking space
                                 //~ %1$s: key description,
                                 //~ %2$s: action description.
                                 //~ %3$s: separated left separator
@@ -1263,10 +1280,7 @@ std::string input_context::get_desc(
             }
         }
     }
-    std::string padded_text = text;
-    if( n_text > 0 ) {
-        padded_text = string_format( "\u00A0%s", padded_text );
-    }
+    std::string padded_text = get_padded_suffix( text );
     if( na ) {
         //~ keybinding description for unbound or non-applicable keys
         return input_context::colorize_separate_format( state, pgettext( "keybinding",
@@ -1313,13 +1327,6 @@ const nc_color input_context::get_hint_color_for_key( keybinding_hint_state stat
         default:
             return get_option<bool>( "KEYBINDINGS_ALTERNATE_COLOR_THEME" ) ? c_cyan : c_yellow;
     }
-}
-
-std::string replace_spaces_with_non_breaking( const std::string &s )
-{
-    std::string o = s;
-    replace_substring( o, " ", "\u00A0", true );
-    return o;
 }
 
 std::string input_context::_get_hint( const std::string &action_descriptor, bool show_suffix,
@@ -1388,10 +1395,7 @@ std::string input_context::get_hint_pair( const std::string &left_action_descrip
         keybinding_hint_state state, const input_event_filter &evt_filter ) const
 {
 
-    std::string suffix = replace_spaces_with_non_breaking( suffix_override );
-    if( !suffix.empty() ) {
-        suffix = string_format( "\u00A0%s", suffix );
-    }
+    std::string suffix = get_padded_suffix( replace_spaces_with_non_breaking( suffix_override ) );
     return string_format( "%s%s", get_hint_pair( left_action_descriptor, right_action_descriptor,
                           state, evt_filter ), scolorize( suffix, get_hint_color( state ) ) );
 }
@@ -1440,10 +1444,7 @@ std::string input_context::get_hint_quad( const std::string &first_action_descri
         keybinding_hint_state state,
         const input_event_filter &evt_filter ) const
 {
-    std::string suffix = replace_spaces_with_non_breaking( suffix_override );
-    if( !suffix.empty() ) {
-        suffix = string_format( "\u00A0%s", suffix );
-    }
+    std::string suffix = get_padded_suffix( replace_spaces_with_non_breaking( suffix_override ) );
     return string_format( "%s%s", get_hint_quad( first_action_descriptor,
                           second_action_descriptor, third_action_descriptor, fourth_action_descriptor, state, evt_filter ),
                           scolorize( suffix, get_hint_color( state ) ) );
