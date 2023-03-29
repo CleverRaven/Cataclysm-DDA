@@ -138,6 +138,7 @@
         "encumbrance": 0
       }
     ],
+    "charges_per_use": 20,
     "qualities": [
       [ "SAW_W", 1 ],
       [ "SAW_M", 1 ],
