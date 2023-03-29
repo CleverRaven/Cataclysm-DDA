@@ -1586,11 +1586,11 @@ drop_locations game_menus::inv::holster( avatar &you, const item_location &holst
 
     inventory_holster_preset holster_preset( holster, &get_avatar() );
 
-    inventory_drop_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
-                                         /*warn_liquid=*/false );
+    inventory_insert_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
+                                           /*warn_liquid=*/false );
     insert_menu.add_character_items( you );
     insert_menu.add_nearby_items( 1 );
-    insert_menu.set_display_stats( false );
+    insert_menu.set_display_stats( true );
 
     insert_menu.set_title( title );
     insert_menu.set_hint( hint );

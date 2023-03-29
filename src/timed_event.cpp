@@ -289,7 +289,7 @@ void timed_event::actualize()
                 const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
                 monster dispatcher( mon_dsa_alien_dispatch );
                 fake_spell summoning( spell_dks_summon_alrp, true, 12 );
-                summoning.get_spell().cast_all_effects( dispatcher, spot );
+                summoning.get_spell( player_character ).cast_all_effects( dispatcher, spot );
             } else {
                 tinymap mx_map;
                 mx_map.load( map_point, false );
