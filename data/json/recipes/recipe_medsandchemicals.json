@@ -2200,7 +2200,7 @@
     "time": "20 m",
     "batch_time_factors": [ 30, 2 ],
     "autolearn": true,
-	  "proficiencies": [
+    "proficiencies": [
       { "proficiency": "prof_intro_chemistry" },
       { "proficiency": "prof_organic_chemistry" },
       { "proficiency": "prof_intro_chem_synth" }
