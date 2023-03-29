@@ -2033,7 +2033,7 @@
     "symbol": "~",
     "color": "red",
     "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals.",
-    "weight": "262 g"
+    "weight": "460 g"
   },
   {
     "type": "COMESTIBLE",
@@ -2046,7 +2046,7 @@
     "color": "red",
     "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals.",
     "volume": "250 ml",
-    "weight": "262 g",
+    "weight": "305 g",
     "stack_size": 1,
     "container": "bottle_glass",
     "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
@@ -2063,7 +2063,7 @@
     "color": "green",
     "description": "Blood mixed with acidic compounds, smells putrid, a means of refining this could net some useful chemicals.",
     "comestible_type": "INVALID",
-    "weight": "262 g",
+    "weight": "300 g",
     "delete": { "ammo_type": "components" },
     "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
@@ -2078,6 +2078,6 @@
     "symbol": "~",
     "color": "red",
     "description": "Blood mixed with acidic compounds, foul-smelling and extremely corrosive, a means of refining this could net some useful chemicals.",
-    "weight": "262 g"
+    "weight": "460 g"
   }
 ]
