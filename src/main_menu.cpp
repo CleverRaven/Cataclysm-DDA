@@ -138,6 +138,7 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
             y_off++;
             continue;
         }
+        // todo(strat) this code adds clickable button to each printed menu item, this code is broken now
         std::vector<std::string> tmp_chars = utf8_display_split( remove_color_tags( txt ) );
         for( int x = 0; static_cast<size_t>( x ) < tmp_chars.size(); x++ ) {
             if( tmp_chars[x] == "[" ) {
