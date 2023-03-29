@@ -3,6 +3,7 @@
 #define CATA_SRC_BODYPART_H
 
 #include <array>
+#include <climits>
 #include <cstddef>
 #include <initializer_list>
 #include <iosfwd>
@@ -140,6 +141,37 @@ struct bp_limb_score {
     float max = 0.0f;
 };
 
+struct bp_onhit_effect {
+    // ID of the effect to apply
+    efftype_id id;
+    // Apply the effect to the given bodypart, or to the whole character?
+    bool global = false;
+    // Type of damage that causes the effect - NONE always applies
+    damage_type dtype = damage_type::NONE;
+    // Percent of the limb's max HP required for the effect to trigger (or absolute DMG for minor limbs)
+    int dmg_threshold = 100;
+    // Percent HP / absolute damage triggering a scale tick
+    float scale_increment = 0.0f;
+    // Percent chance (at damage threshold)
+    int chance = 100;
+    // Chance scaling for damage above the threshold
+    float chance_dmg_scaling = 0.0f;
+    // Intensity applied at the damage threshold.
+    int intensity = 1;
+    // Intensity scaling for damage above the threshold.
+    float intensity_dmg_scaling = 0.0f;
+    // Duration in turns at the damage threshold.
+    int duration = 1;
+    // Duration scaling for damage above the threshold.
+    float duration_dmg_scaling = 0.0f;
+    // Max intensity applied via damage (direct effect addition is exempt)
+    int max_intensity = INT_MAX;
+    // Max duration applied via damage (direct effect addition is exempt)
+    int max_duration = INT_MAX;
+
+    void load( const JsonObject &jo );
+};
+
 struct body_part_type {
     public:
         /**
@@ -206,6 +238,9 @@ struct body_part_type {
         // Limb-specific attacks
         std::set<matec_id> techniques;
 
+        // Effects to trigger on getting hit
+        std::vector<bp_onhit_effect> effects_on_hit;
+
         // Those are stored untranslated
         translation name;
         translation name_multiple;
@@ -238,6 +273,10 @@ struct body_part_type {
         // Health at which the limb stops contributing its conditional flags / techs
         int health_limit = 0;
 
+        // Minimum BMI to start adding extra encumbrance (only counts the points of BMI that came from fat, ignoring muscle and bone)
+        int bmi_encumbrance_threshold = 999;
+        // Amount of encumbrance per point of BMI over the threshold
+        float bmi_encumbrance_scalar = 0;
         float smash_efficiency = 0.5f;
 
         //Morale parameters
@@ -435,6 +474,9 @@ class bodypart
         // Get our limb attacks
         std::set<matec_id> get_limb_techs() const;
 
+        // Get onhit effects
+        std::vector<bp_onhit_effect> get_onhit_effects( damage_type dtype ) const;
+
         // Get modified limb score as defined in limb_scores.json.
         // override forces the limb score to be affected by encumbrance/wounds (-1 == no override).
         float get_limb_score( const limb_score_id &score, int skill = -1, int override_encumb = -1,
@@ -451,6 +493,8 @@ class bodypart
         int get_frostbite_timer() const;
         int get_temp_cur() const;
         int get_temp_conv() const;
+        int get_bmi_encumbrance_threshold() const;
+        float get_bmi_encumbrance_scalar() const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
 

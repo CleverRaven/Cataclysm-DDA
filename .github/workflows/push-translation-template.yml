@@ -9,6 +9,9 @@ on:
       - completed
 
 
+permissions:
+  contents: read
+
 jobs:
   push-template:
     runs-on: ubuntu-latest

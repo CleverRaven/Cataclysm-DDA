@@ -7,6 +7,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -39,7 +40,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "npctrade.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -315,23 +315,23 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "WARMTH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->bash_resist() );
+                return get_decimal_string( loc->resist( damage_type::BASH ) );
             }, _( "BASH" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->cut_resist() );
+                return get_decimal_string( loc->resist( damage_type::CUT ) );
             }, _( "CUT" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->bullet_resist() );
+                return get_decimal_string( loc->resist( damage_type::BULLET ) );
             }, _( "BULLET" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->acid_resist() );
+                return get_decimal_string( loc->resist( damage_type::ACID ) );
             }, _( "ACID" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return get_decimal_string( loc->fire_resist() );
+                return get_decimal_string( loc->resist( damage_type::HEAT ) );
             }, _( "FIRE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -707,7 +707,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 item_location temp = loc;
                 // check if at least one parent container is sealed
                 while( temp.has_parent() ) {
-                    item_pocket *pocket = temp.parent_item()->contained_where( *temp.get_item() );
+                    item_pocket *pocket = temp.parent_pocket();
                     if( pocket->sealed() ) {
                         sealed = _( "sealed" );
                         break;
@@ -795,7 +795,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             } else if( time == 0_turns ) {
                 return 4;
             } else if( loc.has_parent() &&
-                       loc.parent_item()->contained_where( *loc )->spoil_multiplier() == 0.0f ) {
+                       loc.parent_pocket()->spoil_multiplier() == 0.0f ) {
                 return 3;
             } else {
                 return 2;
@@ -866,7 +866,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
 static std::string get_consume_needs_hint( Character &you )
 {
-    auto hint = std::string();
+    std::string hint = std::string();
     auto desc = display::hunger_text_color( you );
     hint.append( string_format( "%s %s", _( "Food:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
@@ -1088,7 +1088,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             const use_function *smoking = it.type->get_use( "SMOKING" );
             if( smoking != nullptr ) {
-                cata::optional<std::string> litcig = iuse::can_smoke( you );
+                std::optional<std::string> litcig = iuse::can_smoke( you );
                 if( litcig.has_value() ) {
                     return _( litcig.value_or( "" ) );
                 }
@@ -1585,11 +1585,11 @@ drop_locations game_menus::inv::holster( avatar &you, const item_location &holst
 
     inventory_holster_preset holster_preset( holster, &get_avatar() );
 
-    inventory_drop_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
-                                         /*warn_liquid=*/false );
+    inventory_insert_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
+                                           /*warn_liquid=*/false );
     insert_menu.add_character_items( you );
     insert_menu.add_nearby_items( 1 );
-    insert_menu.set_display_stats( false );
+    insert_menu.set_display_stats( true );
 
     insert_menu.set_title( title );
     insert_menu.set_hint( hint );
@@ -1809,7 +1809,7 @@ class repair_inventory_preset: public inventory_selector_preset
                                                            num_comp ), num_comp < comp_needed ? c_red : c_unset ) );
                     }
                 }
-                std::string ret = join( material_list, ", " );
+                std::string ret = string_join( material_list, ", " );
                 if( ret.empty() ) {
                     ret = _( "<color_red>NONE</color>" );
                 }
@@ -1850,7 +1850,7 @@ class repair_inventory_preset: public inventory_selector_preset
 static std::string get_repair_hint( const Character &you, const repair_item_actor *actor,
                                     const item *main_tool )
 {
-    auto hint = std::string();
+    std::string hint = std::string();
     hint.append( string_format( _( "Tool: <color_cyan>%s</color>" ), main_tool->display_name() ) );
     hint.append( string_format( " | " ) );
     hint.append( string_format( _( "Skill used: <color_cyan>%s (%d)</color>" ),
@@ -1955,7 +1955,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 }
 
 drop_locations game_menus::inv::pickup( avatar &you,
-                                        const cata::optional<tripoint> &target, const std::vector<drop_location> &selection )
+                                        const std::optional<tripoint> &target, const std::vector<drop_location> &selection )
 {
     pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
     preset.save_state = &pickup_ui_default_state;
@@ -2123,7 +2123,7 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
     return action == "CONFIRM";
 }
 
-void game_menus::inv::compare( avatar &you, const cata::optional<tripoint> &offset )
+void game_menus::inv::compare( avatar &you, const std::optional<tripoint> &offset )
 {
     you.inv->restack( you );
 

@@ -62,6 +62,7 @@
       - [Flags](#flags-11)
     - [Camp building recipes](#camp-building-recipes)
       - [Flags](#flags-12)
+      - [Blueprint reorientation flags](#blueprint-reorientation-flags)
   - [Scenarios](#scenarios)
     - [Flags](#flags-13)
       - [Profession Flags](#profession-flags)
@@ -338,7 +339,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BLOCK_WHILE_WORN``` Allows worn armor or shields to be used for blocking attacks.
 - ```BULLET_IMMUNE``` Wearing an item with this flag makes you immune to bullet damage
 - ```CANT_WEAR``` This item can't be worn directly.
-- ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
+- ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm when it is mostly unencumbered.
 - ```COMBAT_TOGGLEABLE``` This item is meant to be toggled during combat. Used by NPCs to determine if they will toggle it on during combat. This only supports simple "transform" actions.
 - ```DECAY_EXPOSED_ATMOSPHERE``` Consumable will go bad once exposed to the atmosphere (such as MREs).
 - ```DEAF``` Makes the player deaf.
@@ -427,6 +428,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```COLDBLOOD``` For heat dependent mutations.
 - ```COLDBLOOD2``` For very heat dependent mutations.
 - ```COLDBLOOD3``` For cold-blooded mutations.
+- ```DOWNED_RECOVERY``` Always has 50% chance to recover from downing, regardless of limb scores / stats.
 - ```ECTOTHERM``` For ectothermic mutations, like `COLDBLOOD4` and `DRAGONBLOOD3` (Black Dragon from Magiclysm).
 - ```HEAT_IMMUNE``` Immune to very hot temperatures.
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
@@ -598,6 +600,7 @@ Effect flags. These are checked by hardcode for monsters (introducing new flags 
 
 - ```DISABLE_FLIGHT``` Monsters affected by an effect with this flag will never count as flying (even if they have the `FLIES` flag).
 - ```EFFECT_IMPEDING``` Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( STR * limb lifting score * limb grip score, 6 * get_effect_int( eff_id )`
+- ```EFFECT_LIMB_SCORE_MOD``` Effect with a limb score component to be used in Character::get_limb_score. See [EFFECTS_JSON.md](EFFECTS_JSON.md) for the exact function of limb score modifiers and [JSON_INFO.md](JSON_INFO.md#limb-scores) for the effects of the scores.
 
 ## Furniture and Terrain
 
@@ -1262,7 +1265,6 @@ These flags apply to crafting recipes, i.e. those that fall within the following
 - ```BLIND_EASY``` Easy to craft with little to no light.
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult.
 - ```SECRET``` Not automatically learned at character creation time based on high skill levels.
-- ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```NEED_FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.
 - ```FULL_MAGAZINE``` Crafted or deconstructed items from this recipe will have fully-charged magazines.
 
@@ -1270,6 +1272,10 @@ These flags apply to crafting recipes, i.e. those that fall within the following
 These flags apply only to camp building recipes (hubs and expansions), i.e. those that have category `CC_BUILDING`.
 
 #### Flags
+
+- ```NO_FOOD_REQ``` Food requirements are waived for this camp building recipe.
+
+#### Blueprint reorientation flags
 The purpose of these flags is to allow reuse of blueprints to create the "same" facility oriented differently. Mirroring takes place before
 rotation, and it is an error to try to apply mirroring multiple times with the same orientation, as well as to try to apply multiple
 rotations. It is permitted to apply different versions of the flags if they apply to different directions (and it is indeed the primary

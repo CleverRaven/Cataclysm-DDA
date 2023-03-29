@@ -4,7 +4,6 @@
 #include <array>
 #include <bitset>
 #include <cassert>
-#include <ccomplex>
 #include <cctype>
 #include <cerrno>
 #include <cfenv>
@@ -19,13 +18,11 @@
 #include <csetjmp>
 #include <csignal>
 #include <cstdarg>
-#include <cstdbool>
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include <ctgmath>
 #include <ctime>
 #include <cuchar>
 #include <cwchar>
@@ -50,6 +47,7 @@
 #include <mutex>
 #include <new>
 #include <numeric>
+#include <optional>
 #include <ostream>
 #include <queue>
 #include <random>
@@ -62,7 +60,6 @@
 #include <stdexcept>
 #include <streambuf>
 #include <string>
-#include <strstream>
 #include <system_error>
 #include <tuple>
 #include <type_traits>

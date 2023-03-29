@@ -376,6 +376,7 @@
       { "id": "sheet_metal", "description": " Craft: Sheet Metal" },
       { "id": "chain", "description": " Craft: Chain" },
       { "id": "shovel", "description": " Craft: Shovel" },
+      { "id": "welding_rod_steel", "description": " Craft: Steel Welding Rod" },
       { "id": "rebar", "description": " Craft: Rebar" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
       { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" },

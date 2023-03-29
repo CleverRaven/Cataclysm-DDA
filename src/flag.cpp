@@ -90,6 +90,8 @@ const flag_id flag_EATEN_COLD( "EATEN_COLD" );
 const flag_id flag_EATEN_HOT( "EATEN_HOT" );
 const flag_id flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
 const flag_id flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
+const flag_id flag_EFFECT_LIMB_SCORE_MOD( "EFFECT_LIMB_SCORE_MOD" );
+const flag_id flag_EFFECT_LIMB_SCORE_MOD_LOCAL( "EFFECT_LIMB_SCORE_MOD_LOCAL" );
 const flag_id flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 const flag_id flag_ELECTRONIC( "ELECTRONIC" );
 const flag_id flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );

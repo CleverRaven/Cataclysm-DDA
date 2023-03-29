@@ -182,6 +182,7 @@
     "id": "valhallist_worn",
     "subtype": "collection",
     "entries": [
+      { "group": "valhallist_necklace", "prob": 70 },
       { "item": "armguard_metal", "prob": 100 },
       { "item": "boots_steel", "prob": 100 },
       { "item": "helmet_skull", "prob": 100 },
@@ -189,6 +190,15 @@
       { "item": "armor_lamellar", "prob": 100 },
       { "item": "pants", "prob": 100 },
       { "item": "tshirt", "prob": 100 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "valhallist_necklace",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "holy_symbol", "variant": "odin_necklace1", "prob": 50 },
+      { "item": "holy_symbol", "variant": "odin_necklace2", "prob": 50 }
     ]
   },
   {
@@ -214,7 +224,9 @@
       { "group": "tools_common", "count": [ 4, 5 ], "prob": 100 },
       { "group": "tools_workshop", "count": [ 4, 5 ], "prob": 100 },
       { "group": "tools_home", "count": [ 4, 5 ], "prob": 100 },
-      { "item": "hnefatafl", "count": [ 4, 5 ], "prob": 80 }
+      { "item": "hnefatafl", "count": [ 4, 5 ], "prob": 80 },
+      { "item": "holy_symbol", "variant": "odin_necklace1", "prob": 50 },
+      { "item": "holy_symbol", "variant": "odin_necklace2", "prob": 50 }
     ]
   },
   {

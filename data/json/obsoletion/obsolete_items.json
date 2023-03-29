@@ -1,0 +1,196 @@
+[
+  {
+    "id": "toolset_extended",
+    "type": "TOOL",
+    "name": { "str": "extended multitool" },
+    "description": "Your multitool, extended.  Ready to do repair work.",
+    "symbol": "#",
+    "color": "white",
+    "weight": "226 g",
+    "bashing": 3,
+    "cutting": 1,
+    "flags": [ "NO_UNWIELD", "BIONIC_WEAPON", "UNBREAKABLE_MELEE", "TRADER_AVOID" ]
+  },
+  {
+    "id": "lobotomizer",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": { "str": "lobotomizer" },
+    "description": "A hand-forged collapsible tool with two axe heads and a sharp shovel-like tip on one end.  It can be used as a shovel, or you could chop some zombies with it instead.",
+    "weight": "2722 g",
+    "volume": "1750 ml",
+    "price": 25000,
+    "price_postapoc": 1250,
+    "bashing": 18,
+    "cutting": 37,
+    "to_hit": { "grip": "none", "length": "long", "surface": "line", "balance": "neutral" },
+    "material": [ "steel" ],
+    "symbol": "/",
+    "color": "dark_gray",
+    "qualities": [ [ "DIG", 2 ], [ "AXE", 1 ], [ "CUT", 1 ], [ "BUTCHER", -11 ], [ "COOK", 1 ] ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
+    "flags": [ "NEEDS_UNFOLD", "BELT_CLIP", "SHEATH_AXE" ],
+    "weapon_category": [ "HOOKING_WEAPONRY" ]
+  },
+  {
+    "id": "mold_plastic",
+    "type": "TOOL",
+    "name": { "str": "plastic mold" },
+    "description": "A mold that can be used to form plastic chunks.",
+    "weight": "320 g",
+    "volume": "2500 ml",
+    "longest_side": "36 cm",
+    "price": 1000,
+    "price_postapoc": 50,
+    "to_hit": 1,
+    "bashing": 3,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_blue",
+    "qualities": [ [ "CONTAIN", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_lady_bug_giant",
+    "name": { "str": "giant ladybug egg" },
+    "description": "A giant ladybug egg.  It looks like a huge yellow rice grain.  You can see an enormous, translucent, and very hungry larva inside.",
+    "copy-from": "egg_insect",
+    "color": "red"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "spider_egg",
+    "name": { "str": "spider egg" },
+    "description": "A fist-sized egg from a giant spider.  Incredibly gross.",
+    "copy-from": "egg_insect",
+    "color": "white"
+  },
+  {
+    "type": "PET_ARMOR",
+    "id": "superalloy_harness_dog",
+    "copy-from": "kevlar_harness",
+    "color": "light_cyan",
+    "name": { "str": "superalloy tactical dog outfit" },
+    "description": "A thin mesh interwoven with superalloy plates and pouches, for military working dogs.  Covers from the dewlap to the croup, down to the elbows.  You could put this on a friendly dog.",
+    "price": 130000,
+    "price_postapoc": 5000,
+    "material": [ "superalloy" ],
+    "weight": "3125 g",
+    "min_pet_vol": "20000 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "80 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "80 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "30 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "30 cm",
+        "moves": 200
+      }
+    ]
+  },
+  {
+    "id": "l-stick",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "L-stick (off)", "str_pl": "L-sticks (off)" },
+    "description": "Produced by the Light corporation, this stylish staff functions not just as a light source, but also a lightweight weapon thanks to its superalloy construction.  Due to proprietary efficiency improvements over standard light sources, batteries last longer in the L-stick.",
+    "weight": "1000 g",
+    "volume": "3 L",
+    "longest_side": "180 cm",
+    "price": 5000,
+    "price_postapoc": 3000,
+    "bashing": 24,
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
+    "material": [ "superalloy", "steel" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "techniques": [ "WBLOCK_1", "RAPID" ],
+    "use_action": {
+      "target": "l-stick_on",
+      "msg": "The L-stick™ lights up.",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The L-stick's™ batteries are empty.",
+      "type": "transform"
+    },
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_plus_battery_cell"
+      }
+    ]
+  },
+  {
+    "id": "l-stick_on",
+    "copy-from": "l-stick",
+    "type": "TOOL",
+    "name": { "str": "L-stick (on)", "str_pl": "L-sticks (on)" },
+    "description": "Produced by the Light corporation, this stylish staff functions not just as a light source, but also a lightweight weapon thanks to its superalloy construction.  Due to proprietary efficiency improvements over standard light sources, batteries last longer in the L-stick.  The staff is glowing brightly, which is slowly draining the batteries.",
+    "material": [ "superalloy", "steel" ],
+    "revert_to": "l-stick",
+    "power_draw": "5 W",
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "l-stick",
+      "msg": "The L-stick's™ light fades away.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
+    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
+  },
+  {
+    "id": "mil_mess_kit",
+    "type": "TOOL",
+    "name": { "str": "military mess kit" },
+    "description": "A military mess kit designed for long-range reconnaissance patrols deployed behind enemy lines.  All of its parts are made from thin sheets of aluminum-superalloy composite and are insulated with ceramic coating.  Relies on a battery-operated hotplate, rather than the smoke-producing chemical-fueled hexamine stove.  Compact, durable and lightweight.",
+    "weight": "900 g",
+    "volume": "1 L",
+    "longest_side": "10 cm",
+    "price": 6000,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "bashing": 4,
+    "material": [ "superalloy", "ceramic" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "sub": "hotplate_induction",
+    "charges_per_use": 25,
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
+    "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_plus_battery_cell"
+      }
+    ]
+  }
+]

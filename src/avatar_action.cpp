@@ -476,7 +476,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !veh1->handle_potential_theft( you ) ) {
             return true;
         } else {
             door_name = veh1->part( dpart ).name();
@@ -634,7 +634,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         return;
     }
     if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
         }
     }
@@ -965,7 +965,7 @@ void avatar_action::eat_or_use( avatar &you, item_location loc )
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
-                             const cata::optional<tripoint> &blind_throw_from_pos )
+                             const std::optional<tripoint> &blind_throw_from_pos )
 {
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
@@ -1142,15 +1142,15 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
         item_location::type loc_where = loc.where_recursive();
+        std::string const name = loc->display_name();
         if( loc_where != item_location::type::character ) {
-            you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
             pre_obtain_moves = -1;
             on_person = false;
         }
 
         // Get the parent pocket before the item is obtained.
         if( loc.has_parent() ) {
-            parent_pocket = loc.parent_item().get_item()->contained_where( *loc );
+            parent_pocket = loc.parent_pocket();
         }
 
         loc = loc.obtain( you, 1 );
@@ -1162,8 +1162,11 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
             pre_obtain_moves = you.moves;
         }
         if( !loc ) {
-            debugmsg( "Failed to obtain target item" );
+            you.add_msg_if_player( _( "Couldn't pick up the %s." ), name );
             return;
+        }
+        if( loc_where != item_location::type::character ) {
+            you.add_msg_if_player( _( "You pick up the %s." ), name );
         }
     }
 
@@ -1177,7 +1180,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         you.use( loc, pre_obtain_moves, method );
 
         if( parent_pocket && on_person && parent_pocket->will_spill() ) {
-            parent_pocket->handle_liquid_or_spill( you );
+            parent_pocket->handle_liquid_or_spill( you, loc.parent_item().get_item() );
         }
     }
 

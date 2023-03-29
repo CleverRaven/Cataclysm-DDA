@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -53,7 +54,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "pimpl.h"
 #include "point.h"
@@ -89,12 +89,10 @@ character_modifier_melee_thrown_move_lift_mod( "melee_thrown_move_lift_mod" );
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_beartrap( "beartrap" );
-static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_incorporeal( "incorporeal" );
@@ -236,16 +234,19 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
         // Items that should have no bearing on durability
         const std::set<itype_id> blacklist = { itype_rag, itype_leather, itype_fur };
 
-        for( item &comp : shield->components ) {
-            if( blacklist.count( comp.typeId() ) <= 0 ) {
+        for( item_components::type_vector_pair &tvp : shield->components ) {
+            if( blacklist.count( tvp.first ) > 0 ) {
+                continue;
+            }
+            for( item &comp : tvp.second ) {
                 if( weak_chip > comp.chip_resistance() ) {
                     weak_chip = comp.chip_resistance();
                     weak_comp = comp.typeId();
                 }
-            }
-            if( comp.volume() > big_vol ) {
-                big_vol = comp.volume();
-                big_comp = comp.typeId();
+                if( comp.volume() > big_vol ) {
+                    big_vol = comp.volume();
+                    big_comp = comp.typeId();
+                }
             }
         }
         material_factor = ( weak_chip < INT_MAX ? weak_chip : shield->chip_resistance() ) / fragile_factor;
@@ -263,7 +264,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
         return false;
     }
 
-    auto str = shield->tname(); // save name before we apply damage
+    std::string str = shield->tname(); // save name before we apply damage
 
     if( !shield->inc_damage() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the force of the blow!" ),
@@ -294,18 +295,20 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
                                _( "<npcname>'s %s breaks apart!" ),
                                str );
 
-        for( item &comp : temp.components ) {
-            int break_chance = comp.typeId() == weak_comp ? 2 : 8;
+        for( item_components::type_vector_pair &tvp : temp.components ) {
+            for( item &comp : tvp.second ) {
+                int break_chance = comp.typeId() == weak_comp ? 2 : 8;
 
-            if( one_in( break_chance ) ) {
-                add_msg_if_player( m_bad, _( "The %s is destroyed!" ), comp.tname() );
-                continue;
-            }
+                if( one_in( break_chance ) ) {
+                    add_msg_if_player( m_bad, _( "The %s is destroyed!" ), comp.tname() );
+                    continue;
+                }
 
-            if( comp.typeId() == big_comp && !has_wield_conflicts( comp ) ) {
-                wield( comp );
-            } else {
-                get_map().add_item_or_charges( pos(), comp );
+                if( comp.typeId() == big_comp && !has_wield_conflicts( comp ) ) {
+                    wield( comp );
+                } else {
+                    get_map().add_item_or_charges( pos(), comp );
+                }
             }
         }
     } else {
@@ -315,7 +318,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
     }
 
     if( is_using_bionic_weapon() && temp.has_flag( flag_NO_UNWIELD ) ) {
-        if( cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
+        if( std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
             bionic &bio = **bio_opt;
             if( bio.get_weapon().typeId() == temp.typeId() ) {
                 weapon_bionic_uid = 0;
@@ -374,11 +377,6 @@ float Character::hit_roll() const
         hit -= 8.0f;
     } else if( is_crouching() ) {
         hit -= 2.0f;
-    }
-
-    //Unstable ground chance of failure
-    if( has_effect( effect_bouldering ) ) {
-        hit *= 0.75f;
     }
 
     hit *= get_modifier( character_modifier_melee_attack_roll_mod );
@@ -554,7 +552,7 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
     // Max out recoil & reset aim point
     recoil = MAX_RECOIL;
-    last_target_pos = cata::nullopt;
+    last_target_pos = std::nullopt;
 
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );
 }
@@ -953,7 +951,7 @@ void Character::reach_attack( const tripoint &p )
     // Original target size, used when there are monsters in front of our target
     const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() ) : 2;
     // Reset last target pos
-    last_target_pos = cata::nullopt;
+    last_target_pos = std::nullopt;
     // Max out recoil
     recoil = MAX_RECOIL;
 
@@ -1139,29 +1137,10 @@ float Character::get_dodge() const
         ret /= 2;
     }
 
-    creature_tracker &creatures = get_creature_tracker();
-    if( has_effect( effect_grabbed ) ) {
-        int zed_number = 0;
-        for( const tripoint &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
-            const monster *const mon = creatures.creature_at<monster>( dest );
-            if( mon && mon->has_effect( effect_grabbing ) ) {
-                zed_number++;
-            }
-        }
-        if( zed_number > 0 ) {
-            ret /= zed_number + 1;
-            add_msg_debug( debugmode::DF_MELEE, "%d grabbing monsters found, modified dodge %.1f", ret );
-        }
-    }
-
     if( worn_with_flag( flag_ROLLER_INLINE ) ||
         worn_with_flag( flag_ROLLER_QUAD ) ||
         worn_with_flag( flag_ROLLER_ONE ) ) {
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
-    }
-
-    if( has_effect( effect_bouldering ) ) {
-        ret /= 4;
     }
 
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts

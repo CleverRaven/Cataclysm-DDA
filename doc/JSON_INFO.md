@@ -29,6 +29,7 @@ Use the `Home` key to return to the top.
     - [Body Graphs](#body-graphs)
       - [Graph Parts](#graph-parts)
     - [Body_parts](#body_parts)
+- [On-hit Effects](#on-hit-effects)
     - [Limb scores](#limb-scores)
     - [Character Modifiers](#character-modifiers)
       - [Character Modifiers - Value](#character-modifiers---value)
@@ -105,6 +106,7 @@ Use the `Home` key to return to the top.
     - [Generic Items](#generic-items)
       - [To hit object](#to-hit-object)
     - [Ammo](#ammo)
+    - [Ammo Effects](#ammo-effects)
     - [Magazine](#magazine)
     - [Armor](#armor)
       - [Armor Portion Data](#armor-portion-data)
@@ -247,6 +249,7 @@ Use the `Home` key to return to the top.
   - [`compatibility`](#compatibility)
   - [`tiles-new`](#tiles-new)
 - [Obsoletion and migration](#obsoletion-and-migration)
+  - [Charge and temperature removal](#charge-and-temperature-removal)
 - [Field types](#field-types)
 - [Option sliders](#option-sliders)
   - [Option sliders - Fields](#option-sliders---fields)
@@ -555,9 +558,7 @@ See below for specifics on the various items
 | `grenades.json`      | grenades and throwable explosives
 | `handloaded_bullets.json` | random ammo
 | `melee.json`         | melee weapons
-| `migration.json`     | conversions of obsolete items from older save games to current items
 | `newspaper.json`     | flyers, newspapers, and survivor notes. `snippets.json` for messages
-| `obsolete.json`      | items being removed from the game
 | `ranged.json`        | guns
 | `software.json`      | software for SD-cards and USB sticks
 | `tool_armor.json`    | clothes and armor that can be (a)ctivated
@@ -822,6 +823,7 @@ reference at least one body part or sub body part.
 | `techniques`           | (_optional_) List of melee techniques granted by this limb as long as it's above its `health_limit` HP.  The chance for the technique to be included in each attack's tech list is dependent on limb encumbrance. ( `!x_in_y(current encumbrance / technique_encumbrance_limit`)
 | `technique_encumbrance_limit` | (_optional_) Level of encumbrance that disables the given techniques for this limb completely, lower encumbrance still reduces the chances of the technique being chosen (see above).
 | `limb_scores`          | (_optional_) List of arrays defining limb scores. Each array contains 2 mandatory values and 1 optional value. Value 1 is a reference to a `limb_score` id. Value 2 is a float defining the limb score's value. (optional) Value 3 is a float defining the limb score's maximum value (mostly just used for manipulator score).
+| `effects_on_hit`       | (_optional_) Array of effects that can apply whenever the limb is damaged.  For details see below.
 | `unarmed_damage`       | (_optional_) An array of objects, each detailing the amount of unarmed damage the bodypart contributes to unarmed attacks and their armor penetration. The unarmed damages of each limb are summed and added to the base unarmed damage. Should be used for limbs the character is expected to *always* attack with, for special attacks use a dedicated technique.
 | `armor`                | (_optional_) An object containing damage resistance values. Ex: `"armor": { "bash": 2, "cut": 1 }`. See [Part Resistance](#part-resistance) for details.
 
@@ -858,6 +860,55 @@ reference at least one body part or sub body part.
   "smash_message": "You elbow-smash the %s.",
   "bionic_slots": 20,
   "sub_parts": [ "arm_shoulder_l", "arm_upper_l", "arm_elbow_l", "arm_lower_l" ]
+}
+```
+
+# On-hit Effects
+
+An array of effects to add whenever the limb in question takes damage. Variables for each entry:
+
+| `Identifier`           | Description
+|---                     |---
+| `id`                   | (_mandatory_) ID of the effect to apply.
+| `global`               | (_optional_) Bool, if true the effect won't apply to the bodypart but to the whole character. Default false.
+| `dmg_type`             | (_optional_) String id of the damage type eligible to apply the effect. Defaults to all damage.
+| `dmg_threshold`        | (_optional_) Integer, amount of damage to trigger the effect. For main parts used as percent of limb max health, for minor parts as absolute damage amount. Default 1.
+| `dmg_scale_increment`  | (_optional_) Float, steps of scaling based on damage above `damage_threshold`. Default 1.
+| `chance`               | (_optional_) Integer, percent chance to trigger the effect. Default 100.
+| `chance_dmg_scaling`   | (_optional_) Float, chance is increased by this value for every `dmg_scale_increment` above `dmg_threshold`. Default 0.
+| `intensity`            | (_optional_) Integer, intensity of effect to apply. Default 1.
+| `intensity_dmg_scaling`| (_optional_) Float, intensity is increased by this value for every `dmg_scale_increment` above `dmg_threshold`. Default 0.
+| `max_intensity`        | (_optional_) Integer, max intensity the limb can gain as part of the onhit effect - other sources of effects like spells or explicit special attack effects can still apply higher intensities. Default INT_MAX.
+| `duration`             | (_optional_) Integer, duration of effect to apply in seconds. Default 1.
+| `duration_dmg_scaling` | (_optional_) Float, duration is increased by this value for every `dmg_scale_increment` above `dmg_threshold`. Default 0.
+| `max_duration`         | (_optional_) Integer, max seconds duration the limb can gain as part of the onhit effect - see `max_intensity`. Default INT_MAX.
+
+
+```json
+{
+"effects_on_hit": [
+    {
+      "id": "staggered",
+      "dmg_type": "bash",
+      "dmg_threshold": 5,
+      "dmg_scale_increment": 5,
+      "chance": 10,
+      "chance_dmg_scaling": 10,
+      "duration": 5,
+      "duration_dmg_scaling": 2,
+      "max_duration": 15
+    },
+    {
+      "id": "downed",
+      "global": true,
+      "dmg_threshold": 20,
+      "dmg_scale_increment": 10,
+      "chance": 5,
+      "chance_dmg_scaling": 20,
+      "duration": 2,
+      "duration_dmg_scaling": 0.5
+    }
+  ]
 }
 ```
 
@@ -1166,7 +1217,7 @@ When you sort your inventory by category, these are the categories that are disp
 | zone            | The corresponding loot_zone (see loot_zones.json)
 | sort_rank       | Used to sort categories when displaying.  Lower values are shown first
 | priority_zones  | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
-|spawn_rate       | Sets amount of items from item category that might spawn.  Checks for `spawn_rate` value for item category.  If `spawn_chance` is less than 1.0, it will make a random roll (0.1-1.0) to check if the item will have a chance to spawn.  If `spawn_chance` is more than or equal to 1.0, it will add a chance to spawn additional items from the same category.  Items will be taken from item group which original item was located in.  Therefore this parameter won't affect chance to spawn additional items for items set to spawn solitary in mapgen (e.g. through use of `item` or `place_item`).
+|spawn_rate       | Sets amount of items from item category that might spawn.  Checks for `spawn_rate` value for item category.  If `spawn_chance` is 0.0, the item will not spawn. If `spawn_chance` is greater than 0.0 and less than 1.0, it will make a random roll (0.0-1.0) to check if the item will have a chance to spawn.  If `spawn_chance` is more than or equal to 1.0, it will add a chance to spawn additional items from the same category.  Items will be taken from item group which original item was located in.  Therefore this parameter won't affect chance to spawn additional items for items set to spawn solitary in mapgen (e.g. through use of `item` or `place_item`).
 
 ```C++
 {
@@ -1663,7 +1714,7 @@ Crafting recipes are defined as a JSON object with the following fields:
       "proficiency": "prof_knapping", // The id of a proficiency
       "required": false, // Whether or not you must have the proficiency to craft it. Incompatible with `time_multiplier`
       "time_multiplier": 2.0 // The multiplier on time taken to craft this recipe if you do not have this proficiency
-      "fail_multiplier": 2.5 // The multiplier on failure chance when crafting without this proficiency. Defaults to 2.5. Multiple proficiencies will multiply this value. (if all have the default, it's fail_multiplier ^ n, where n is the number of proficiencies that are lacked)
+      "skill_penalty": 1.5 // The effective skill penalty when crafting without this proficiency. Defaults to 1.0. Multiple proficiencies will add to this value.
       "learning_time_multiplier": 1.2 // The multiplier on learning speed for this proficiency. By default, it's the time of the recipe, divided by the time multiplier, and by the number of proficiencies that can also be learned from it.
       "max_experience": "15 m" // This recipe cannot raise your experience for that proficiency above 15 minutes worth.
     }
@@ -1671,12 +1722,12 @@ Crafting recipes are defined as a JSON object with the following fields:
 "contained": true, // Boolean value which defines if the resulting item comes in its designated container. Automatically set to true if any container is defined in the recipe. 
 "container": "jar_glass_sealed", //The resulting item will be contained by the item set here, overrides default container.
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
-"result_mult": 2, //Create this many stacks of the resulting item per craft.
+"result_mult": 2,            // Multiplier for resulting items. Also multiplies container items.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
   "ANOTHERFLAG"
 ],
-"result_eocs": [ {"id": "TEST", "effect": { "u_message": "You feel Test" } } // List of inline effect_on_conditions or effect_on_condition ids that attempt to activate when this recipe is successfully finished.  If a value is provided a result becomes optional, though a name and id will be needed it it is missing.
+"result_eocs": [ {"id": "TEST", "effect": { "u_message": "You feel Test" } } // List of inline effect_on_conditions or effect_on_condition ids that attempt to activate when this recipe is successfully finished.  If a value is provided a result becomes optional, though a name and id will be needed it it is missing.  If no result is provided and a description is present, that will be displayed as the result on the crafting gui.
 ], 
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
@@ -2120,6 +2171,7 @@ Here are examples of each modification:
     // Each key is the field to which the constraint applies
     // The value specifies the constraint.
     // "equals" can be used to specify a constant cata_variant value the field must take.
+    // "lt", "lteq", "gteq" and "gt" can be used with int type to compare against a constant cata_variant value.
     // "equals_any" can be used to check for a value in a set of values
     // "equals_statistic" specifies that the value must match the value of some statistic (see below)
     "mount" : { "equals": [ "mtype_id", "mon_horse" ] }
@@ -2129,10 +2181,10 @@ Here are examples of each modification:
 "drop_fields" : [ "mount" ]
 ```
 
-The parameter to `"equals"` is normally a length-two array specifying a
-`cata_variant_type` and a value.  As a short cut, you can simply specify an
-`int` or `bool` (e.g. `"equals": 7` or `"equals": true`) for fields which have
-those types.
+The parameter to `"equals"` (and other single-value comparators) is normally a
+length-two array specifying a `cata_variant_type` and a value.  As a short cut,
+you can simply specify an `int` or `bool` (e.g. `"equals": 7` or `"equals": true`)
+for fields which have those types.
 
 The parameter to `"equals_any"` will be a pair where the first element is a
 string `cata_variant_type` and the second is an array of values.  For example:
@@ -2243,6 +2295,10 @@ an `event_statistic`.  For example:
   // Description is optional and can provide extra details if you wish.
   "name": "One down, billions to go\u2026",
   "description": "Kill a zombie",
+  // if you don't specify requirements because the achievement is given by an EOC
+  // you should set manually_given to true, this will avoid errors.
+  // this value defaults to false
+  "manually_given": false,
   "requirements": [
     // Each requirement must specify the statistic being constrained, and the
     // constraint in terms of a comparison against some target value.
@@ -2959,6 +3015,20 @@ See [GAME_BALANCE.md](GAME_BALANCE.md)'s `MELEE_WEAPONS` section for the criteri
 "effects" : ["COOKOFF", "SHOT"]
 ```
 
+### Ammo Effects
+
+```C++
+    "id": "TACTICAL_LASER_EXPLOSION",   // Defines this as some generic item
+    "type": "ammo_effect",              // Defines this as an ammo_effect 
+    "trigger_chance": 5,                // Option one in X chances for the rest of json defined ammo_effect properties to trigger at the hit location. Defaults to 1
+    "explosion": {  }                   // (Optional) Creates an explosion at the hit location. See "explosion" for details.
+    "aoe": {  },                        // (Optional) Spawn a square of specified fields on the hit location.
+    "trail": {  }                       // (Optional) Spawn a line of fields on the projectiles path.  Not affected by trigger_chance.
+    "foamcrete_build": true             // (Optional) Creates foamcrete fields and walls on the hit location.
+    "do_flashbang": true                // (Optional) Creates a hardcoded Flashbang explosion.
+    "do_emp_blast": true                // (Optional) Creates a one tile radious EMP explosion at the hit location.
+```
+
 ### Magazine
 
 ```C++
@@ -2996,6 +3066,7 @@ Armor can be defined like this:
 "material_thickness" : 1,           // Thickness of material, in millimeter units (approximately).  Ordinary clothes range from 0.1 to 0.5. Particularly rugged cloth may reach as high as 1-2mm, and armor or protective equipment can range as high as 10 or rarely more.
 "power_armor" : false,              // If this is a power armor item (those are special).
 "non_functional" : "destroyed",     //this is the itype_id of an item that this turns into when destroyed. Currently only works for ablative armor.
+"damage_verb": "makes a crunch, something has shifted", // if an item uses non-functional this will be the description when it turns into its non functional variant.
 "valid_mods" : ["steel_padded"],    // List of valid clothing mods. Note that if the clothing mod doesn't have "restricted" listed, this isn't needed.
 "armor": [ ... ]
 ```
@@ -5082,7 +5153,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
 
 If you want to remove some item, never do it with straightforward "remove the item json and call it a day", you **never remove the id from the game**. Primarily because it will cause a harmless, but annoying error, and someone else should spend their time and energy, explaining it was an intended change. To not cause this, everything, that get saved in the game require obsoletion: items, monsters, maps, monster factions, but not, for example, loot groups. Basically there is two ways to remove some entity (except replacing old item with new, while left the old id - this one do not require any additional manipulations) from the game - obsoletion and migration.
 
-Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids, and happen in `data/json/items/migration.json`
+Migration is used, when we want to remove one item by replacing it with another item, that do exist in the game, or to maintain a consistent list of item type ids, and happen in `data/json/obsoletion/migration_items.json`
 
 ```C++
 
@@ -5126,22 +5197,56 @@ Obsoletion is used, when we want to remove the item entirely from the game, with
 
 For items, monsters, furniture, terrain, factions, loot groups and lot of similar stuff, you remove all places, where the entity can spawn (maps, palettes, NPCs etc), mark the item with "OBSOLETE" flag (optional), and move into `data/json/obsoletion/` or inside  - they will stay here till the next developement cycle, to make fluent transfer between one stable and another
 
-For maps, you also remove it from all the places it can occur, add the map into `data/json/obsoletion/`, and also add the location into `data/json/obsolete_terrains.json` list
-
-For recipes, you overwrite the existed recipe like the json below, and add it into `data/json/recipes/recipe_obsolete.json`
-
+For maps, you remove the item from all the places it can spawn, remove the mapgen entries, and add the overmap terrain id into `data/json/obsoletion/migration_oter_ids.json`, to migrate oter_id `hive` and `hive2` into `omt_obsolete` add an entry similar to this, note that if mapgen has already generated this area this will only alter the tile shown on the overmap:
 ```json
-
-{
-  "type": "recipe",
-  "result": "blindfold",
-  "id_suffix": "from_tape",
-  "obsolete": true
-},
-
+  {
+    "type": "oter_id_migration",
+    "//": "obsoleted in 0.H",
+    "oter_ids": {
+      "hive": "omt_obsolete",
+      "hive2": "omt_obsolete"
+    }
+  }
 ```
 
+For overmap specials add an entry to `data/json/obsoletion/migration_overmap_specials.json`:
+```json
+  {
+    "type": "overmap_special_migration",
+    "id": "Farm with silo",
+    "//": "Removed in 0.G - no new id, this will remove it"
+  },
+  {
+    "type": "overmap_special_migration",
+    "id": "FakeSpecial_cs_open_sewer",
+    "new_id": "cs_open_sewer",
+    "//": "Removed <when> - this will migrate to 'new_id'"
+  },
+```
+
+For recipes, deleting the recipe is enough.
+
 For mods, you need to add an `"obsolete": true,` boolean into MOD_INFO, which prevent the mod from showing into the mod list.
+
+## Charge and temperature removal
+
+If an item that used to have charges (e.g. `AMMO` or `COMESTIBLE` types) is changed to another type that does not use charges, migration is needed to ensure correct behavior when loading from existing save files, and prevent spurious error messages from being shown to the player.  Migration lists for this are found in `data/json/obsoletion/charge_removal.json`.
+
+Such items may be added to one of the following:
+
+`data/json/obsoletion/blacklist_charge_migration.json` a `charge_migration_blacklist` list:
+Items in existing save files with `n` charges will be converted to `n` items with no charges.  This will preserve item count.
+
+`data/json/obsoletion/blacklist_charge_removal.json` a `charge_removal_blacklist` list
+* `charge_removal_blacklist`: items will simply have charges removed.
+
+Additionally, `COMESTIBLE` items have temperature and rot processing, and are thus set as always activated.  When an item is changed from `COMESTIBLE` to a different type, migration is needed to check and unset this if applicable:
+
+`data/json/obsoletion/blacklist_temperature_removal.json` a `temperature_removal_blacklist` list:
+
+* In most cases, the item has no other features that require it to remain activated, in which case it can be simply added to `temperature_removal_blacklist`.  Items in this list will be deactivated and have temperature-related data cleared *without any further checks performed*.
+* In case of an item that may be active for additional reasons other than temperature/rot tracking, an instance of the item loaded from existing save file cannot be blindly deactivated -- additional checks are required to see if it should remain active.  Instead of adding to the above list, a separate special case should be added in `src/savegame_json.cpp` to implement the necessary item-specific deactivation logic.
+
 
 # Field types
 
