@@ -4168,6 +4168,20 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_MISSION_INFO_UP",
+    "category": "FACTIONS",
+    "name": "Scroll camp mission info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "[" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_MISSION_INFO_DOWN",
+    "category": "FACTIONS",
+    "name": "Scroll camp mission info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": "]" } ]
+  },
+  {
+    "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "VIEW_PROFICIENCIES",
     "name": "View character proficiencies",
