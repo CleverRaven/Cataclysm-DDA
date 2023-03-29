@@ -2681,6 +2681,13 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
+    add( "DEBUG_DIFFICULTIES", "debug", to_translation( "Show values for character creation" ),
+         to_translation( "In character creation will show the underlying value that is used to determine difficulty." ),
+         false
+       );
+
+    add_empty_line();
+
     add( "SKILL_TRAINING_SPEED", "debug", to_translation( "Skill training speed" ),
          to_translation( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
          0.0, 100.0, 1.0, 0.1

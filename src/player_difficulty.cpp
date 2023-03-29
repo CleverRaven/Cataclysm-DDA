@@ -2,6 +2,7 @@
 #include "character_martial_arts.h"
 #include "martialarts.h"
 #include "mutation.h"
+#include "options.h"
 #include "player_difficulty.h"
 #include "profession.h"
 #include "skill.h"
@@ -358,7 +359,7 @@ std::string player_difficulty::format_output( float percent_band, float per, boo
         }
     }
 
-    if( debug ) {
+    if( get_option<bool>( "DEBUG_DIFFICULTIES" ) ) {
         output = string_format( "%2f: %s", per, output );
     }
     return output;
