@@ -962,7 +962,8 @@ bool main_menu::new_character_tab()
         // First load the mods, this is done by
         // loading the world.
         // Pick a world, suppressing prompts if it's "play now" mode.
-        WORLD *world = world_generator->pick_world( true, sel2 == 3 || sel2 == 4 );
+        const bool is_play_now = sel2 == 3 || sel2 == 4;
+        WORLD *world = world_generator->pick_world( !is_play_now, is_play_now );
         if( world == nullptr ) {
             return false;
         }
