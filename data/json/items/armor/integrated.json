@@ -917,7 +917,7 @@
     "volume": "1800 ml",
     "price": 0,
     "price_postapoc": 0,
-    "material": [ "flesh", "mut_bone", "chitin" ],
+    "material": [ "flesh", "mut_scales" ],
     "symbol": "x",
     "color": "light_red",
     "warmth": 3,
