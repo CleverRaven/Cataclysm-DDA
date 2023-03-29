@@ -1728,7 +1728,7 @@ void options_manager::add_options_interface()
             { "24h", to_translation( "24h" ) }
         },
         "12h" );
-    });
+    } );
 
     add_empty_line();
 
