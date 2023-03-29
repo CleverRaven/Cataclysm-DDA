@@ -1687,44 +1687,49 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
-    add( "USE_CELSIUS", "interface", to_translation( "Temperature units" ),
-         to_translation( "Switch between Fahrenheit, Celsius, and Kelvin." ),
-    { { "fahrenheit", to_translation( "Fahrenheit" ) }, { "celsius", to_translation( "Celsius" ) }, { "kelvin", to_translation( "Kelvin" ) } },
-    "fahrenheit"
-       );
+    add_option_group( "interface", Group("measurement_unit"),
+                      to_translation("Measurement Units"),
+                      to_translation("Options regarding measurement units.") )
+    [&]( const std::string & page_id ){
+        add( "USE_CELSIUS", "interface", to_translation( "Temperature units" ),
+             to_translation( "Switch between Fahrenheit, Celsius, and Kelvin." ),
+        { { "fahrenheit", to_translation( "Fahrenheit" ) }, { "celsius", to_translation( "Celsius" ) }, { "kelvin", to_translation( "Kelvin" ) } },
+        "fahrenheit"
+           );
 
-    add( "USE_METRIC_SPEEDS", "interface", to_translation( "Speed units" ),
-         to_translation( "Switch between mph, km/h, and tiles/turn." ),
-    { { "mph", to_translation( "mph" ) }, { "km/h", to_translation( "km/h" ) }, { "t/t", to_translation( "tiles/turn" ) } },
-    ( SystemLocale::UseMetricSystem().value_or( false ) ? "km/h" : "mph" )
-       );
+        add( "USE_METRIC_SPEEDS", "interface", to_translation( "Speed units" ),
+             to_translation( "Switch between mph, km/h, and tiles/turn." ),
+        { { "mph", to_translation( "mph" ) }, { "km/h", to_translation( "km/h" ) }, { "t/t", to_translation( "tiles/turn" ) } },
+        ( SystemLocale::UseMetricSystem().value_or( false ) ? "km/h" : "mph" )
+           );
 
-    add( "USE_METRIC_WEIGHTS", "interface", to_translation( "Mass units" ),
-         to_translation( "Switch between lbs and kg." ),
-    { { "lbs", to_translation( "lbs" ) }, { "kg", to_translation( "kg" ) } },
-    ( SystemLocale::UseMetricSystem().value_or( false ) ? "kg" : "lbs" )
-       );
+        add( "USE_METRIC_WEIGHTS", "interface", to_translation( "Mass units" ),
+             to_translation( "Switch between lbs and kg." ),
+        { { "lbs", to_translation( "lbs" ) }, { "kg", to_translation( "kg" ) } },
+        ( SystemLocale::UseMetricSystem().value_or( false ) ? "kg" : "lbs" )
+           );
 
-    add( "VOLUME_UNITS", "interface", to_translation( "Volume units" ),
-         to_translation( "Switch between the cups (c), liters (L), and quarts (qt)." ),
-    { { "c", to_translation( "Cup" ) }, { "l", to_translation( "Liter" ) }, { "qt", to_translation( "Quart" ) } },
-    "l"
-       );
-    add( "DISTANCE_UNITS", "interface", to_translation( "Distance units" ),
-         to_translation( "Switch between metric and imperial distance units." ),
-    { { "metric", to_translation( "Metric" ) }, { "imperial", to_translation( "Imperial" ) } },
-    ( SystemLocale::UseMetricSystem().value_or( false ) ? "metric" : "imperial" ) );
+        add( "VOLUME_UNITS", "interface", to_translation( "Volume units" ),
+             to_translation( "Switch between the cups (c), liters (L), and quarts (qt)." ),
+        { { "c", to_translation( "Cup" ) }, { "l", to_translation( "Liter" ) }, { "qt", to_translation( "Quart" ) } },
+        "l"
+           );
+        add( "DISTANCE_UNITS", "interface", to_translation( "Distance units" ),
+             to_translation( "Switch between metric and imperial distance units." ),
+        { { "metric", to_translation( "Metric" ) }, { "imperial", to_translation( "Imperial" ) } },
+        ( SystemLocale::UseMetricSystem().value_or( false ) ? "metric" : "imperial" ) );
 
-    add( "24_HOUR", "interface", to_translation( "Time format" ),
-         to_translation( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
-         //~ 12h time, e.g.  11:59pm
-    {   { "12h", to_translation( "12h" ) },
-        //~ Military time, e.g.  2359
-        { "military", to_translation( "Military" ) },
-        //~ 24h time, e.g.  23:59
-        { "24h", to_translation( "24h" ) }
-    },
+        add( "24_HOUR", "interface", to_translation( "Time format" ),
+             to_translation( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
+             //~ 12h time, e.g.  11:59pm
+        {   { "12h", to_translation( "12h" ) },
+            //~ Military time, e.g.  2359
+            { "military", to_translation( "Military" ) },
+            //~ 24h time, e.g.  23:59
+            { "24h", to_translation( "24h" ) }
+        },
     "12h" );
+    }
 
     add_empty_line();
 
