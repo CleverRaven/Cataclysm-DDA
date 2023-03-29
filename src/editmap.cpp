@@ -392,7 +392,6 @@ std::optional<tripoint> editmap::edit()
             origin = target;               // 'editmap.origin' only makes sense if we have a list of target points.
         }
 
-        // \u00A0 is the non-breaking space
         info_txt_curr = string_format( "%s %s %s %s %s %s %s %s %s",
                                        ctxt.get_hint( "EDIT_TRAPS" ),
                                        ctxt.get_hint( "EDIT_FIELDS" ),
