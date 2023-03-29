@@ -1233,9 +1233,9 @@ std::string input_context::get_desc(
     const input_event_filter &evt_filter ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
-        //~ keybinding description for anykey
-        return input_context::colorize_separate_format( state, pgettext( "keybinding",
-                "any" ), text, show_separators );
+        return input_context::colorize_separate_format( state,
+                //~ keybinding description for anykey
+                pgettext( "keybinding", "any" ), text, show_separators );
     }
 
 
@@ -1318,14 +1318,7 @@ const nc_color input_context::get_hint_color_for_key( keybinding_hint_state stat
 std::string replace_spaces_with_non_breaking( const std::string &s )
 {
     std::string o = s;
-    std::string old( " " );
-    std::string rep( "\u00A0" );
-
-    for( std::size_t pos = 0;
-         ( pos = o.find( old, pos ) ) != std::string::npos;
-         pos += rep.length() ) {
-        o.replace( pos, old.length(), rep );
-    }
+    replace_substring( o, " ", "\u00A0", true );
     return o;
 }
 
