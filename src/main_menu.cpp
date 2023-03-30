@@ -128,7 +128,7 @@ std::vector<int> main_menu::print_menu_items( const catacurses::window &w_in,
         offset.y -= std::ceil( text_width / getmaxx( w_in ) );
     }
 
-    std::vector<std::string> menu_txt = foldstring( text, getmaxx( w_in ), ']' );
+    std::vector<std::string> menu_txt = foldstring( text, getmaxx( w_in ) );
 
     int y_off = 0;
     int sel_opt = 0;
