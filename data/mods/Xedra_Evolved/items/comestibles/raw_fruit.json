@@ -2,6 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hawthorn_petals",
+    "name": { "str": "hawthorn petals" },
     "weight": "90 g",
     "color": "light_green",
     "spoils_in": "10 days",
