@@ -41,8 +41,7 @@ class player_difficulty
         // per is the actual percent as a decimal
         // difficulty is true for things going from Very Easy to Very Hard
         // difficutly is false for things going from Very Weak to Very Powerful
-        static std::string format_output( float percent_band, float per, bool difficulty,
-                                          bool debug = false );
+        static std::string format_output( float percent_band, float per, bool difficulty );
 
 
         npc average;

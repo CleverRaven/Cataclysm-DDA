@@ -40,7 +40,7 @@ void player_difficulty::npc_from_avatar( const avatar &u, npc &dummy )
         dummy.set_mutation( t );
     }
 
-    dummy.initialize( character_type::FULL_RANDOM );
+    dummy.initialize();
 }
 
 void player_difficulty::reset_npc( Character &dummy )
@@ -241,7 +241,7 @@ std::string player_difficulty::get_genetics_difficulty( const Character &u ) con
     float per = static_cast<float>( genetics_total - average_stats ) / static_cast<float>
                 ( average_stats );
 
-    return format_output( percent_band, per, false, true );
+    return format_output( percent_band, per, false );
 }
 
 std::string player_difficulty::get_expertise_difficulty( const Character &u ) const
@@ -270,9 +270,7 @@ std::string player_difficulty::get_expertise_difficulty( const Character &u ) co
         }
     }
     // every proficiency is worth about the value of 2 skill points
-    for( const proficiency_id &t : u._proficiencies->known_profs() ) {
-        player_skills += proficiency_value;
-    }
+    player_skills += proficiency_value * u._proficiencies->known_profs().size();
 
     // skills and professions
     float per = skill_weighting * static_cast<float>( player_skills - average_skill_ranks ) /
@@ -329,8 +327,7 @@ std::string player_difficulty::get_social_difficulty( const Character &u ) const
     return format_output( percent_band, per, true );
 }
 
-std::string player_difficulty::format_output( float percent_band, float per, bool difficulty,
-        bool debug )
+std::string player_difficulty::format_output( float percent_band, float per, bool difficulty )
 {
     std::string output;
     if( difficulty ) {
