@@ -1114,7 +1114,7 @@ size_t item_contents::num_item_stacks() const
     return num;
 }
 
-void item_contents::on_pickup( Character &guy, item* avoid )
+void item_contents::on_pickup( Character &guy, item *avoid )
 {
     for( item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
