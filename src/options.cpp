@@ -196,10 +196,7 @@ static const std::map<std::string, std::pair<std::string, std::map<std::string, 
 &get_migrated_options()
 {
     static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>> opt
-    = {
-        {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } },
-        {"SKILL_RUST", { "SKILL_RUST", { {"int", "vanilla" }, {"intcap", "capped"} } } }
-    };
+    = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } }
     return opt;
 }
 
@@ -2685,18 +2682,6 @@ void options_manager::add_options_debug()
          to_translation( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
          0.0, 100.0, 1.0, 0.1
        );
-
-    add_empty_line();
-
-    add( "SKILL_RUST", "debug", to_translation( "Skill rust" ),
-         to_translation( "Set the type of skill rust.  Vanilla: Skill rust can decrease levels.  - Capped: Skill rust cannot decrease levels.  - Off: None at all." ),
-         //~ plain, default, normal
-    {   { "vanilla", to_translation( "Vanilla" ) },
-        //~ capped at a value
-        { "capped", to_translation( "Capped" ) },
-        { "off", to_translation( "Off" ) }
-    },
-    "vanilla" );
 
     add_empty_line();
 
