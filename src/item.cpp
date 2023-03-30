@@ -11786,7 +11786,7 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                     item temp( *e );
                     used.push_back( temp );
                     qty -= n;
-					return VisitResponse::SKIP;
+                    return VisitResponse::SKIP;
                 }
             }
             return VisitResponse::NEXT;
