@@ -885,7 +885,7 @@ void Character::initialize()
 
 void avatar::initialize( character_type type )
 {
-    this->as_character()->initialize( type );
+    this->as_character()->initialize();
 
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
