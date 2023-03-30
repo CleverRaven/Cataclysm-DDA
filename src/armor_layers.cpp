@@ -1172,10 +1172,10 @@ void outfit::sort_armor( Character &guy )
             }
         } else if( action == "USAGE_HELP" ) {
             const std::vector<std::string> help_strings = {
-                ctxt.get_hint_pair( "UP", "DOWN", _( "to scroll the left pane (list of items)." ) ),
-                ctxt.get_hint_pair( "SCROLL_ITEM_INFO_UP", "SCROLL_ITEM_INFO_DOWN", _( "to scroll the middle pane (item information)." ) ),
-                ctxt.get_hint_pair( "PREV_TAB", "NEXT_TAB", _( "to scroll the right pane (items grouped by body part)." ) ),
-                ctxt.get_hint_pair( "LEFT", "RIGHT", _( "to limit the left pane to a particular body part." ) ),
+                ctxt.get_hints( { "UP", "DOWN"}, _( "to scroll the left pane (list of items)." ) ),
+                ctxt.get_hints( { "SCROLL_ITEM_INFO_UP", "SCROLL_ITEM_INFO_DOWN"}, _( "to scroll the middle pane (item information)." ) ),
+                ctxt.get_hints( { "PREV_TAB", "NEXT_TAB"}, _( "to scroll the right pane (items grouped by body part)." ) ),
+                ctxt.get_hints( { "LEFT", "RIGHT"}, _( "to limit the left pane to a particular body part." ) ),
                 ctxt.get_hint( "MOVE_ARMOR", _( "to select an item for reordering." ) ),
                 ctxt.get_hint( "ASSIGN_INVLETS", _( "to assign special inventory letters to clothing." ) ),
                 ctxt.get_hint( "CHANGE_SIDE", _( "to change the side on which item is worn." ) ),

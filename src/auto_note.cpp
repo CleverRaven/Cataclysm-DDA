@@ -364,7 +364,7 @@ void auto_note_manager_gui::show()
         hints.push_back( ctxt.get_hint( "CONFIRM", _( "Toggle" ) ) );
         // TODO: Show info about custom symbols (hotkey, hint, state)
         hints.push_back( ctxt.get_hint( "CHANGE_MAPEXTRA_CHARACTER" ) );
-        hints.push_back( ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB", _( "Switch Page" ) ) );
+        hints.push_back( ctxt.get_hints( { "NEXT_TAB", "PREV_TAB"}, _( "Switch Page" ) ) );
         fold_and_print( w_header, point( 0, 0 ), getmaxx( w_header ) - 1, c_light_gray,
                         enumerate_as_string( hints, enumeration_conjunction::space ) );
 

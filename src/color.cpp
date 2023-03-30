@@ -796,7 +796,7 @@ static void draw_header( const catacurses::window &w, const input_context &ctxt 
 {
     std::vector<std::string> hints;
     hints.push_back( ctxt.get_hint( "REMOVE_CUSTOM" ) );
-    hints.push_back( ctxt.get_hint_quad( "LEFT", "RIGHT", "UP", "DOWN", _( "To navigate" ) ) );
+    hints.push_back( ctxt.get_hint_directions( _( "To navigate" ) ) );
     hints.push_back( ctxt.get_hint( "CONFIRM", _( "Edit" ) ) );
     hints.push_back( string_format( "\n%s", ctxt.get_hint( "LOAD_BASE_COLORS" ) ) );
     hints.push_back( ctxt.get_hint( "LOAD_TEMPLATE" ) );

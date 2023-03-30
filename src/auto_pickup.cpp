@@ -372,10 +372,10 @@ void user_interface::show()
         if( !player_character.name.empty() ) {
             hints.push_back( ctxt.get_hint( "TEST_RULE" ) );
         }
-        hints.push_back( ctxt.get_hint_pair( "MOVE_RULE_UP", "MOVE_RULE_DOWN", _( "Move up/down" ) ) );
+        hints.push_back( ctxt.get_hints( { "MOVE_RULE_UP", "MOVE_RULE_DOWN"}, _( "Move up/down" ) ) );
         hints.push_back( ctxt.get_hint( "CONFIRM", _( "Edit" ) ) );
         if( has_more_than_one_tab ) {
-            hints.push_back( ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB", _( "Switch Page" ) ) );
+            hints.push_back( ctxt.get_hints( { "NEXT_TAB", "PREV_TAB"}, _( "Switch Page" ) ) );
         }
         const int i_hints = fold_and_print( w_header, point( 0, 0 ), getmaxx( w_header ) - 1, c_light_gray,
                                             enumerate_as_string( hints, enumeration_conjunction::space ) );

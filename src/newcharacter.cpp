@@ -1030,7 +1030,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
                                "%s to confirm selection.\n"
                                "Press %s to go to the next tab or "
                                "%s to return to main menu." ),
-                            ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ), ctxt.get_hint_pair( "UP", "DOWN" ),
+                            ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ), ctxt.get_hints( { "UP", "DOWN" } ),
                             ctxt.get_hint_key_only( "CONFIRM" ), ctxt.get_hint_key_only( "NEXT_TAB" ),
                             ctxt.get_hint_key_only( "QUIT" ) );
         } else {
@@ -1091,9 +1091,9 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                            "Press %s to select stat.\n"
                            "Press %s to increase or decrease stat.\n"
                            "Press %s to go to the next tab or return to the previous tab." ),
-                        ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ), ctxt.get_hint_pair( "UP", "DOWN" ),
-                        ctxt.get_hint_pair( "RIGHT", "LEFT" ),
-                        ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB" ) );
+                        ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ), ctxt.get_hints( { "UP", "DOWN" } ),
+                        ctxt.get_hints( { "RIGHT", "LEFT" } ),
+                        ctxt.get_hints( { "NEXT_TAB", "PREV_TAB"} ) );
 
         // This is description line, meaning its length excludes first column and border
         const std::string clear_line( getmaxx( w ) - iSecondColumn - 1, ' ' );
@@ -2589,9 +2589,9 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                                              "Press %s to select skill.\n"
                                              "Press %s to increase or decrease skill.\n"
                                              "Press %s to go to the next tab or return to the previous tab." ),
-                                          ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ), ctxt.get_hint_pair( "UP", "DOWN" ),
-                                          ctxt.get_hint_pair( "RIGHT", "LEFT" ),
-                                          ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB" ) ), TERMX - 2 );
+                                          ctxt.get_hint_key_only( "HELP_KEYBINDINGS" ), ctxt.get_hints( { "UP", "DOWN" } ),
+                                          ctxt.get_hints( { "RIGHT", "LEFT" } ),
+                                          ctxt.get_hints( { "NEXT_TAB", "PREV_TAB" } ) ), TERMX - 2 );
         iContentHeight = TERMY - static_cast<int>( keybinding_hint.size() ) - iHeaderHeight - 1;
         w = catacurses::newwin( TERMY, TERMX, point_zero );
         w_list = catacurses::newwin( iContentHeight, 35, point( 1, iHeaderHeight ) );
@@ -3611,11 +3611,11 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 4 ), TERMX, c_light_gray,
                             _( "Press %s to cycle through editable values." ),
-                            ctxt.get_hint_pair( "UP", "DOWN" ) );
+                            ctxt.get_hints( { "UP", "DOWN"} ) );
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 3 ), TERMX, c_light_gray,
                             _( "Press %s to change gender, height, age, and blood type." ),
-                            ctxt.get_hint_pair( "LEFT", "RIGHT" ) );
+                            ctxt.get_hints( { "LEFT", "RIGHT" } ) );
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 2 ), TERMX, c_light_gray,
                             _( "Press %s to edit value via popup input." ),
@@ -3623,7 +3623,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
 
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), TERMX, c_light_gray,
                             _( "Press %s to finish character creation or to return to the previous TAB." ),
-                            ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB" ) );
+                            ctxt.get_hints( { "NEXT_TAB", "PREV_TAB" } ) );
         } else {
             fold_and_print( w_guide, point( 0, getmaxy( w_guide ) - 1 ), TERMX, c_light_gray,
                             _( "Press %s to view and alter keybindings." ),

@@ -728,7 +728,7 @@ construction_id construction_menu( const bool blueprint )
                                                 ctxt.get_hint_key_only( "RESET_FILTER" ) ) );
             }
             notes.push_back( string_format( _( "Press %s to tab." ),
-                                            ctxt.get_hint_pair( "LEFT", "RIGHT" ) ) );
+                                            ctxt.get_hints( { "LEFT", "RIGHT" } ) ) );
             notes.push_back( string_format( _( "Press %s to search." ),
                                             ctxt.get_hint_key_only( "FILTER" ) ) );
             if( !hide_unconstructable ) {

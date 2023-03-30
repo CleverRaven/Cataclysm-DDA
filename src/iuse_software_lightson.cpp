@@ -154,7 +154,7 @@ int lightson_game::start_game()
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         std::vector<std::string> shortcuts;
-        shortcuts.emplace_back( ctxt.get_hint_pair( "TOGGLE_SPACE", "TOGGLE_5", _( "toggle lights" ) ) );
+        shortcuts.emplace_back( ctxt.get_hints( { "TOGGLE_SPACE", "TOGGLE_5"}, _( "toggle lights" ) ) );
         shortcuts.emplace_back( ctxt.get_hint( "RESET" ) );
         shortcuts.emplace_back( ctxt.get_hint( "QUIT" ) );
 

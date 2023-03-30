@@ -3746,17 +3746,14 @@ pickup_selector::pickup_selector( Character &p, const inventory_selector_preset 
 #endif
 
     set_hint( string_format(
-                  _( "%s %s \n%s %s \n%s %s/%s/%s quantity (or type number then %s)" ),
+                  _( "%s %s \n%s %s \n%s %s (or type number then %s)" ),
                   ctxt.get_hint( "WIELD" ),
                   ctxt.get_hint( "WEAR" ),
                   ctxt.get_hint( "SHOW_HIDE_CONTENTS" ),
                   ctxt.get_hint( "SHOW_HIDE_CONTENTS_ALL" ),
                   ctxt.get_hint( "EXAMINE" ),
-                  // todo(strat) replace get_hint_pair and get_hint_quad with a function that takes a list (get_hints)
-                  ctxt.get_hint_key_only( "MARK_WITH_COUNT" ),
-                  ctxt.get_hint_key_only( "INCREASE_COUNT" ),
-                  ctxt.get_hint_key_only( "DECREASE_COUNT" ),
-                  ctxt.get_hint_key_only( "TOGGLE_ENTRY" )));
+                  ctxt.get_hints( {"MARK_WITH_COUNT", "INCREASE_COUNT", "DECREASE_COUNT"}, _( "quantity" ) ),
+                  ctxt.get_hint_key_only( "TOGGLE_ENTRY" ) ) );
 }
 
 void pickup_selector::apply_selection( std::vector<drop_location> selection )

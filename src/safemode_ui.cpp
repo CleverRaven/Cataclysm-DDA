@@ -150,9 +150,9 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         hints.push_back( ctxt.get_hint( "ENABLE_RULE" ) );
         hints.push_back( ctxt.get_hint( "DISABLE_RULE" ) );
         hints.push_back( ctxt.get_hint( "TEST_RULE" ) );
-        hints.push_back( ctxt.get_hint_pair( "MOVE_RULE_UP", "MOVE_RULE_DOWN", _( "Move up/down" ) ) );
+        hints.push_back( ctxt.get_hints( { "MOVE_RULE_UP", "MOVE_RULE_DOWN"}, _( "Move up/down" ) ) );
         hints.push_back( ctxt.get_hint( "CONFIRM", _( "Edit" ) ) );
-        hints.push_back( ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB", _( "Switch page" ) ) );
+        hints.push_back( ctxt.get_hints( { "NEXT_TAB", "PREV_TAB"}, _( "Switch page" ) ) );
 
         const int i_hints = fold_and_print( w_header, point( 0, 0 ), getmaxx( w_header ) - 1, c_light_gray,
                                             enumerate_as_string( hints, enumeration_conjunction::space ) );

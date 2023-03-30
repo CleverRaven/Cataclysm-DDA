@@ -1855,9 +1855,9 @@ void worldfactory::draw_modselection_borders( const catacurses::window &win,
     fold_and_print( win, point( 2, TERMY - 10 ), getmaxx( win ) - 4, c_light_gray,
                     _( "%s %s %s %s %s" ),
                     ctxtp.get_hint( "SAVE_DEFAULT_MODS" ),
-                    ctxtp.get_hint_pair( "PREV_TAB", "NEXT_TAB", _( "Switch Main Tab" ) ),
-                    ctxtp.get_hint_pair( "LEFT", "RIGHT", _( "Switch Mod List and Mod Load Order" ) ),
-                    ctxtp.get_hint_pair( "PREV_CATEGORY_TAB", "NEXT_CATEGORY_TAB", _( "Switch Mod List Tab" ) ),
+                    ctxtp.get_hints( { "PREV_TAB", "NEXT_TAB"}, _( "Switch Main Tab" ) ),
+                    ctxtp.get_hints( { "LEFT", "RIGHT"}, _( "Switch Mod List and Mod Load Order" ) ),
+                    ctxtp.get_hints( { "PREV_CATEGORY_TAB", "NEXT_CATEGORY_TAB"}, _( "Switch Mod List Tab" ) ),
                     ctxtp.get_hint( "HELP_KEYBINDINGS" )
                   );
     wnoutrefresh( win );

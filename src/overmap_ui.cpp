@@ -1431,8 +1431,8 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
                    direction_name_short( direction_from( orig, tripoint_abs_omt( locations[i], orig.z() ) ) ) );
 
         if( locations.size() > 1 ) {
-            fold_and_print( w_search, point( 1, 6 ), search_width, c_white, ctxt.get_hint_pair( "NEXT_TAB",
-                            "PREV_TAB",  _( "Cycle through search results" ) ) );
+            fold_and_print( w_search, point( 1, 6 ), search_width, c_white, ctxt.get_hints( { "NEXT_TAB",
+                            "PREV_TAB"},  _( "Cycle through search results" ) ) );
         }
         fold_and_print( w_search, point( 1, 10 ), search_width, c_white, ctxt.get_hint( "CONFIRM" ) );
         fold_and_print( w_search, point( 1, 11 ), search_width, c_white, ctxt.get_hint( "QUIT" ) );

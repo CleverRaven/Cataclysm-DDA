@@ -115,10 +115,10 @@ void smart_controller_ui::refresh()
     // key descriptions
     std::string keys_text = string_format(
                                 _( "%s\n%s\n%s\n%s\n%s\n%s" ),
-                                ctxt.get_hint_pair( "UP", "DOWN", _( "Select option" ) ),
+                                ctxt.get_hints( { "UP", "DOWN"}, _( "Select option" ) ),
                                 ctxt.get_hint( "CONFIRM", _( "Change value" ) ),
-                                ctxt.get_hint_pair( "NEXT_TAB", "PREV_TAB", _( "Switch between sliders" ) ),
-                                ctxt.get_hint_pair( "LEFT", "RIGHT", _( "Move sliders" ) ),
+                                ctxt.get_hints( { "NEXT_TAB", "PREV_TAB"}, _( "Switch between sliders" ) ),
+                                ctxt.get_hints( { "LEFT", "RIGHT"}, _( "Move sliders" ) ),
                                 ctxt.get_hint( "QUIT", _( "Apply changes and quit" ) ),
                                 ctxt.get_hint( "HELP_KEYBINDINGS" ) );
 

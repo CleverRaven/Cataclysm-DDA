@@ -708,6 +708,7 @@ class input_context
         // Helper functions to be used as @ref input_event_filter
         static bool disallow_lower_case_or_non_modified_letters( const input_event &evt );
         static bool allow_all_keys( const input_event &evt );
+        static bool allow_only_arrows( const input_event &evt );
         static bool allow_only_mouse( const input_event &evt );
 
         static std::string colorize_separate_format( keybinding_hint_state state,
@@ -738,26 +739,12 @@ class input_context
         std::string get_hint( const std::string &action_descriptor, const std::string &suffix_override,
                               keybinding_hint_state state = keybinding_hint_state::ENABLED,
                               const input_event_filter &evt_filter = allow_all_keys ) const;
-        std::string get_hint_pair( const std::string &left_action_descriptor,
-                                   const std::string &right_action_descriptor,
-                                   keybinding_hint_state state = keybinding_hint_state::ENABLED,
-                                   const input_event_filter &evt_filter = allow_all_keys ) const;
-        std::string get_hint_pair( const std::string &left_action_descriptor,
-                                   const std::string &right_action_descriptor, const std::string &suffix_override,
-                                   keybinding_hint_state state = keybinding_hint_state::ENABLED,
-                                   const input_event_filter &evt_filter = allow_all_keys ) const;
-        std::string get_hint_quad( const std::string &first_action_descriptor,
-                                   const std::string &second_action_descriptor,
-                                   const std::string &third_action_descriptor,
-                                   const std::string &fourth_action_descriptor,
-                                   keybinding_hint_state state = keybinding_hint_state::ENABLED,
-                                   const input_event_filter &evt_filter = allow_all_keys ) const;
-        std::string get_hint_quad( const std::string &first_action_descriptor,
-                                   const std::string &second_action_descriptor,
-                                   const std::string &third_action_descriptor,
-                                   const std::string &fourth_action_descriptor, const std::string &suffix_override,
-                                   keybinding_hint_state state = keybinding_hint_state::ENABLED,
-                                   const input_event_filter &evt_filter = allow_all_keys ) const;
+        std::string get_hints( std::vector<std::string> action_descriptors,
+                               keybinding_hint_state state = keybinding_hint_state::ENABLED,
+                               const input_event_filter &evt_filter  = allow_all_keys ) const;
+        std::string get_hints( std::vector<std::string> action_descriptors,
+                               const std::string &suffix_override, keybinding_hint_state state = keybinding_hint_state::ENABLED,
+                               const input_event_filter &evt_filter  = allow_all_keys ) const;
         std::string get_hint_directions(
             keybinding_hint_state state = keybinding_hint_state::ENABLED,
             const input_event_filter &evt_filter = allow_all_keys ) const;

@@ -395,7 +395,7 @@ std::optional<tripoint> editmap::edit()
         info_txt_curr = string_format( "%s %s %s %s %s %s %s %s %s",
                                        ctxt.get_hint( "EDIT_TRAPS" ),
                                        ctxt.get_hint( "EDIT_FIELDS" ),
-                                       ctxt.get_hint_quad( "LEFT_WIDE", "RIGHT_WIDE", "UP_WIDE", "DOWN_WIDE", _( "fast scroll" ) ),
+                                       ctxt.get_hints( {"LEFT_WIDE", "RIGHT_WIDE", "UP_WIDE", "DOWN_WIDE"}, _( "fast scroll" ) ),
                                        ctxt.get_hint( "EDITMAP_SHOW_ALL" ),
                                        ctxt.get_hint( "EDIT_TERRAIN" ),
                                        ctxt.get_hint( "EDIT_FURNITURE" ),
@@ -1263,7 +1263,7 @@ void editmap::edit_fld()
         info_txt_curr = string_format( "%s %s %s %s %s %s",
                                        ctxt.get_hint( "EDITMAP_TAB" ),
                                        ctxt.get_hint( "EDITMAP_MOVE" ),
-                                       ctxt.get_hint_pair( "LEFT", "RIGHT", pgettext( "keybinding descriptions", "intensity" ) ),
+                                       ctxt.get_hints( {"LEFT", "RIGHT"}, pgettext( "keybinding descriptions", "intensity" ) ),
                                        ctxt.get_hint( "CONFIRM" ),
                                        ctxt.get_hint( "QUIT" ),
                                        ctxt.get_hint( "EDITMAP_SHOW_ALL" ) );
@@ -1908,9 +1908,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         }
         input_context ctxt( gpmenu.input_category, keyboard_mode::keycode );
         info_txt_curr = string_format( "%s %s %s %s",
-                                       ctxt.get_hint_pair( "LEFT", "RIGHT", pgettext( "keybinding descriptions",
+                                       ctxt.get_hints( { "LEFT", "RIGHT"}, pgettext( "keybinding descriptions",
                                                "prev/next other type" ) ),
-                                       ctxt.get_hint_pair( "UP", "DOWN", pgettext( "keybinding descriptions", "select" ) ),
+                                       ctxt.get_hints( { "UP", "DOWN"}, pgettext( "keybinding descriptions", "select" ) ),
                                        ctxt.get_hint( "CONFIRM" ),
                                        ctxt.get_hint( "QUIT" ) );
         info_title_curr = string_format( pgettext( "map editor state", "Mapgen: %s" ),

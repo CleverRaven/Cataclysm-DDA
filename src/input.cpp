@@ -78,6 +78,24 @@ static std::string int_to_str( int number )
     return buffer.str();
 }
 
+// TODO move all string manipulation functions from input and output files to their own file
+template <typename Range, typename Value = typename Range::value_type>
+static std::string join( Range const &elements, const std::string delimiter )
+{
+    std::ostringstream os;
+    auto b = begin( elements ), e = end( elements );
+
+    if( b != e ) {
+        std::copy( b, prev( e ), std::ostream_iterator<Value>( os, delimiter.c_str() ) );
+        b = prev( e );
+    }
+    if( b != e ) {
+        os << *b;
+    }
+
+    return os.str();
+}
+
 
 static std::string get_padded_suffix( const std::string &s )
 {
@@ -1098,6 +1116,11 @@ bool input_context::allow_only_mouse( const input_event &evt )
     return evt.type == input_event_t::mouse;
 }
 
+bool input_context::allow_only_arrows( const input_event &evt )
+{
+    return evt.type == input_event_t::mouse;
+}
+
 std::string input_context::get_desc( const std::string &action_descriptor,
                                      const unsigned int max_limit,
                                      const input_context::input_event_filter &evt_filter ) const
@@ -1136,17 +1159,6 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
         const input_event &event = inputs_to_show[i];
         std::string description  = event.long_description();
-        if( event.type == input_event_t::mouse ) {
-            if( description  == "MOUSE_LEFT" ) {
-                description  = "LMB";
-            } else if( description  == "MOUSE_RIGHT" ) {
-                description  = "RMB";
-            } else if( description == "SCROLL_UP" ) {
-                description = "SCROLL\u2191";
-            } else if( description == "SCROLL_DOWN" ) {
-                description = "SCROLL\u2193";
-            }
-        }
         rval += description;
 
         // We're generating a list separated by "," and "or"
@@ -1372,37 +1384,42 @@ std::string input_context::get_hint( const std::string &action_descriptor,
     return _get_hint( action_descriptor, true, true, state, evt_filter, suffix_override );
 }
 
-
-std::string input_context::get_hint_pair( const std::string &left_action_descriptor,
-        const std::string &right_action_descriptor, keybinding_hint_state state,
-        const input_event_filter &evt_filter ) const
+std::string input_context::get_hints( std::vector<std::string> action_descriptors,
+                                      keybinding_hint_state state,
+                                      const input_event_filter &evt_filter ) const
 {
+    return get_hints( action_descriptors, "", state, evt_filter );
+}
 
+std::string input_context::get_hints( std::vector<std::string> action_descriptors,
+                                      const std::string &suffix_override, keybinding_hint_state state,
+                                      const input_event_filter &evt_filter ) const
+{
+    std::transform( action_descriptors.cbegin(), action_descriptors.cend(), action_descriptors.begin(),
+    [this, &state, &evt_filter]( std::string d ) {
+        return _get_hint( d, false, false, state, evt_filter );
+    } );
+    std::string m = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_MIDDLE" );
+    nc_color separator_color = get_hint_color_for_separator( state );
+    std::string action_keys = join( action_descriptors, colorize( m, separator_color ) );
     std::string l = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_LEFT" );
     std::string r = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_RIGHT" );
-    std::string m = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_MIDDLE" );
-    return string_format( "%s%s%s%s%s",
-                          colorize( l, get_hint_color_for_separator( state ) ),
-                          _get_hint( left_action_descriptor, false, false, state, evt_filter ),
-                          colorize( m, get_hint_color_for_separator( state ) ),
-                          _get_hint( right_action_descriptor, false, false, state, evt_filter ),
-                          colorize( r, get_hint_color_for_separator( state ) ) );
+    std::string suffix = suffix_override.empty() ? "" : get_padded_suffix(
+                             replace_spaces_with_non_breaking( suffix_override ) );
+    return string_format( "%s%s%s%s",
+                          colorize( l, separator_color ),
+                          action_keys,
+                          colorize( r, separator_color ),
+                          suffix );
 
 }
 
-std::string input_context::get_hint_pair( const std::string &left_action_descriptor,
-        const std::string &right_action_descriptor, const std::string &suffix_override,
-        keybinding_hint_state state, const input_event_filter &evt_filter ) const
-{
 
-    std::string suffix = get_padded_suffix( replace_spaces_with_non_breaking( suffix_override ) );
-    return string_format( "%s%s", get_hint_pair( left_action_descriptor, right_action_descriptor,
-                          state, evt_filter ), scolorize( suffix, get_hint_color( state ) ) );
-}
 std::string input_context::get_hint_directions(
     keybinding_hint_state state,
     const input_event_filter &evt_filter ) const
 {
+    // todo(strat) only show arrow keys?
     return get_hint_directions( "", state, evt_filter );
 
 }
@@ -1411,45 +1428,9 @@ std::string input_context::get_hint_directions(
     keybinding_hint_state state,
     const input_event_filter &evt_filter ) const
 {
-    return get_hint_quad( "UP", "DOWN", "LEFT", "RIGHT", suffix_override, state, evt_filter );
+    return get_hints( {"UP", "DOWN", "LEFT", "RIGHT"}, suffix_override, state, evt_filter );
 
 }
-std::string input_context::get_hint_quad( const std::string &first_action_descriptor,
-        const std::string &second_action_descriptor,
-        const std::string &third_action_descriptor,
-        const std::string &fourth_action_descriptor,
-        keybinding_hint_state state,
-        const input_event_filter &evt_filter ) const
-{
-    std::string l = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_LEFT" );
-    std::string r = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_RIGHT" );
-    std::string m = get_option<std::string>( "KEYBINDINGS_GROUP_SEPARATOR_MIDDLE" );
-    std::string sep = scolorize( m, get_hint_color_for_separator( state ) );
-    return string_format( "%s%s%s%s%s%s%s%s%s",
-                          scolorize( l, get_hint_color_for_separator( state ) ),
-                          _get_hint( first_action_descriptor, false, false, state, evt_filter ),
-                          sep,
-                          _get_hint( second_action_descriptor, false, false, state, evt_filter ),
-                          sep,
-                          _get_hint( third_action_descriptor, false, false, state, evt_filter ),
-                          sep,
-                          _get_hint( fourth_action_descriptor, false, false, state, evt_filter ),
-                          scolorize( r, get_hint_color_for_separator( state ) ) );
-}
-
-std::string input_context::get_hint_quad( const std::string &first_action_descriptor,
-        const std::string &second_action_descriptor,
-        const std::string &third_action_descriptor,
-        const std::string &fourth_action_descriptor, const std::string &suffix_override,
-        keybinding_hint_state state,
-        const input_event_filter &evt_filter ) const
-{
-    std::string suffix = get_padded_suffix( replace_spaces_with_non_breaking( suffix_override ) );
-    return string_format( "%s%s", get_hint_quad( first_action_descriptor,
-                          second_action_descriptor, third_action_descriptor, fourth_action_descriptor, state, evt_filter ),
-                          scolorize( suffix, get_hint_color( state ) ) );
-}
-
 
 const std::string &input_context::handle_input()
 {
