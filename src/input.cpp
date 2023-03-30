@@ -1301,7 +1301,7 @@ std::string input_context::get_desc(
             evt_filter ), text, show_separators );
 }
 
-std::string input_context::replace_keybinding_hint_colors( const std::string s,
+std::string input_context::replace_keybinding_hint_colors( const std::string &s,
         keybinding_hint_state before_state, keybinding_hint_state after_state )
 {
     // HACK This might break depending on what colours we're switching to/from
