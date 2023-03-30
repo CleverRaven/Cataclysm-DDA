@@ -196,7 +196,7 @@ static const std::map<std::string, std::pair<std::string, std::map<std::string, 
 &get_migrated_options()
 {
     static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>> opt
-    = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } }
+    = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
     return opt;
 }
 
