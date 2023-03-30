@@ -407,7 +407,7 @@ class Character : public Creature, public visitable
         ~Character() override;
 
         // initialize avatar and avatar mocks
-        void initialize( character_type type );
+        void initialize();
 
 
         Character *as_character() override {
