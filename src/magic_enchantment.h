@@ -117,6 +117,7 @@ enum class mod : int {
     CLIMATE_CONTROL_HEAT,
     CLIMATE_CONTROL_CHILL,
     FALL_DAMAGE,
+    OVERKILL_DAMAGE,
     NUM_MOD
 };
 } // namespace enchant_vals

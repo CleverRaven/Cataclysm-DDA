@@ -122,5 +122,52 @@
     "description": "At some point you got really good at falling off rooftops.  Take 40% less fall damage.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -0.4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_bloody_mess",
+    "name": { "str": "Bloody Mess" },
+    "points": 0,
+    "description": "For whatever reason you seem to always make a real mess of things.  Enemies you kill tend to explode into a mess of viscera.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": -1000.0 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_tingly",
+    "name": { "str": "Tingly" },
+    "points": 0,
+    "description": "Ever since the apocalyse you get a funny feeling during storms and have trouble trusting small appliances.  You usually have a pretty good idea where they are though.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 4.0 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_jumpy",
+    "name": { "str": "Jumpy" },
+    "points": 0,
+    "description": "You've not been the same since the apocalypse, almost everything makes you jump.  You are just a bit quicker to act though.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.03 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_hobyist",
+    "name": { "str": "Hobyist" },
+    "points": 0,
+    "description": "No work, no social obligations, lots of time to focus on your hobies.  You feel like you've been picking up skills faster recently.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 5.0 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_recycler",
+    "name": { "str": "Recycler" },
+    "points": 0,
+    "description": "Even with no one around you feel obligated to clean up the streets.  You find full cans of soda in the weirdest places.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_queue_can_finder" ],
+    "deactivated_eocs": [ "EOC_deque_can_finder" ]
   }
 ]
