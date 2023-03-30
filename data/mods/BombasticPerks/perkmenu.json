@@ -81,10 +81,7 @@
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_FAIL",
     "dynamic_line": "You don't have a perk point, or meet the prerequisites for this perk.",
-    "responses": [
-      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-      { "text": "Quit.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" }, { "text": "Quit.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
