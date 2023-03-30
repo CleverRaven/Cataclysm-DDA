@@ -70,9 +70,9 @@
         "topic": "TALK_PERK_MENU_JUMPY"
       },
       {
-        "condition": { "not": { "u_has_trait": "perk_hobyist" } },
-        "text": "Gain [<trait_name:perk_hobyist>]",
-        "topic": "TALK_PERK_MENU_HOBYIST"
+        "condition": { "not": { "u_has_trait": "perk_hobbyist" } },
+        "text": "Gain [<trait_name:perk_hobbyist>]",
+        "topic": "TALK_PERK_MENU_HOBBYIST"
       },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
@@ -358,8 +358,8 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_PERK_MENU_HOBYIST",
-    "dynamic_line": "<trait_name:perk_hobyist>: \"<trait_description:perk_hobyist>\"",
+    "id": "TALK_PERK_MENU_HOBBYIST",
+    "dynamic_line": "<trait_name:perk_hobbyist>: \"<trait_description:perk_hobbyist>\"",
     "responses": [
       {
         "text": "Select Perk.",
@@ -367,7 +367,7 @@
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
-          { "u_add_trait": "perk_hobyist" },
+          { "u_add_trait": "perk_hobbyist" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }

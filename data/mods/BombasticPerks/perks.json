@@ -152,7 +152,7 @@
   },
   {
     "type": "mutation",
-    "id": "perk_hobyist",
+    "id": "perk_hobbyist",
     "name": { "str": "Hobyist" },
     "points": 0,
     "description": "No work, no social obligations, lots of time to focus on your hobbies.  You feel like you've been picking up skills faster recently.",
