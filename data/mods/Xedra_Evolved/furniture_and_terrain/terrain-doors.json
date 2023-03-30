@@ -82,9 +82,7 @@
               "target_var": { "global_val": "door_transform" },
               "time_in_future": [ "2 seconds", "10 seconds" ]
             },
-            {
-              "u_message": "The numpad glows green and emits a happy chirp as the door unlocks.", "popup": true 
-            }
+            { "u_message": "The numpad glows green and emits a happy chirp as the door unlocks.", "popup": true }
           ],
           "false_effect": { "u_message": "The numpad flashes while beeping angrily at you.", "popup": true }
         }
