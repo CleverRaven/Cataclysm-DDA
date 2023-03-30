@@ -1751,6 +1751,30 @@ class attach_molle_inventory_preset : public inventory_selector_preset
         const item *vest;
 };
 
+class attach_veh_tool_inventory_preset : public inventory_selector_preset
+{
+    public:
+        explicit attach_veh_tool_inventory_preset( const std::set<itype_id> &allowed_types )
+            : allowed_types( allowed_types ) { }
+
+        bool is_shown( const item_location &loc ) const override {
+            return allowed_types.count( loc->typeId() );
+        }
+
+        std::string get_denial( const item_location &loc ) const override {
+            const item &it = *loc.get_item();
+
+            if( !it.empty() || !it.toolmods().empty() ) {
+                return "item needs to be empty.";
+            }
+
+            return std::string();
+        }
+
+    private:
+        const std::set<itype_id> allowed_types;
+};
+
 class salvage_inventory_preset: public inventory_selector_preset
 {
     public:
@@ -1930,6 +1954,16 @@ item_location game_menus::inv::molle_attach( Character &you, item &tool )
                                                 "There is space for %d small items",
                                                 vacancies ), vacancies )
                                       )
+                       );
+}
+
+item_location game_menus::inv::veh_tool_attach( Character &you, const std::string &vp_name,
+        const std::set<itype_id> &allowed_types )
+{
+    return inv_internal( you, attach_veh_tool_inventory_preset( allowed_types ),
+                         string_format( _( "Attach an item to the %s" ), vp_name ), 1,
+                         string_format( _( "You don't have any items compatible with %s." ), vp_name ),
+                         string_format( _( "Choose a tool to attach to %s" ), vp_name )
                        );
 }
 

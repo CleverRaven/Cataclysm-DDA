@@ -3305,6 +3305,7 @@ void vehicle_part::deserialize( const JsonObject &data )
 
     data.read( "crew_id", crew_id );
     data.read( "items", items );
+    data.read( "tools", tools );
     data.read( "target_first_x", target.first.x );
     data.read( "target_first_y", target.first.y );
     data.read( "target_first_z", target.first.z );
@@ -3360,6 +3361,7 @@ void vehicle_part::serialize( JsonOut &json ) const
         json.member( "z_offset", precalc[0].z );
     }
     json.member( "items", items );
+    json.member( "tools", tools );
     if( target.first != tripoint_min ) {
         json.member( "target_first_x", target.first.x );
         json.member( "target_first_y", target.first.y );

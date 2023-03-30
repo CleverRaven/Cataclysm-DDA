@@ -1,0 +1,36 @@
+[
+  {
+    "id": "modular_tool_station",
+    "breaks_into": [
+      { "count": [ 4, 6 ], "item": "steel_lump" },
+      { "count": [ 4, 6 ], "item": "steel_chunk" },
+      { "count": [ 4, 6 ], "item": "scrap" }
+    ],
+    "broken_color": "light_cyan",
+    "broken_symbol": "x",
+    "categories": [ "utility" ],
+    "color": "light_cyan",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "description": "A table rig with a faucet for water tank access, drawers and hooks for storing tools, a few electric connectors and valves for for fuel tank connections.",
+    "durability": 80,
+    "size": "50 L",
+    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "VEH_TOOLS" ],
+    "pseudo_tools": [ { "id": "water_faucet" } ],
+    "veh_tools": { "allowed_tool_types": [ "hotplate", "hotplate_induction", "propane_cooker", "welder" ] },
+    "item": "pipe",
+    "location": "center",
+    "name": { "str": "tool station" },
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "repair": {
+        "skills": [ [ "mechanics", 4 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 10 ] ]
+      }
+    },
+    "symbol": "&",
+    "type": "vehicle_part"
+  }
+]

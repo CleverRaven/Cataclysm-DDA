@@ -235,19 +235,25 @@ static std::optional<input_event> veh_keybind( const std::optional<std::string> 
 
 veh_menu_item &veh_menu_item::hotkey( const char hotkey_char )
 {
-    if( this->_hotkey_action.has_value() ) {
-        debugmsg( "veh_menu_item::set_hotkey(hotkey_char) called when hotkey action is already set" );
-    }
+    this->_hotkey_action = std::nullopt;
     this->_hotkey_char = hotkey_char;
+    this->_hotkey_event = std::nullopt;
     return *this;
 }
 
 veh_menu_item &veh_menu_item::hotkey( const std::string &action )
 {
-    if( this->_hotkey_char.has_value() ) {
-        debugmsg( "veh_menu_item::set_hotkey(action) called when hotkey char is already set" );
-    }
     this->_hotkey_action = action;
+    this->_hotkey_char = std::nullopt;
+    this->_hotkey_event = std::nullopt;
+    return *this;
+}
+
+veh_menu_item &veh_menu_item::hotkey( const input_event &ev )
+{
+    this->_hotkey_action = std::nullopt;
+    this->_hotkey_char = std::nullopt;
+    this->_hotkey_event = ev;
     return *this;
 }
 
@@ -255,6 +261,7 @@ veh_menu_item &veh_menu_item::hotkey_auto()
 {
     this->_hotkey_char = MENU_AUTOASSIGN;
     this->_hotkey_action = std::nullopt;
+    this->_hotkey_event = std::nullopt;
     return *this;
 }
 
