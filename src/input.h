@@ -78,6 +78,7 @@ inline constexpr int KEY_NUM( const int n )
 {
     return 0x30 + n;     /* Numbers 0, 1, ..., 9 */
 }
+
 constexpr int KEY_NPAGE      = 0x152;    /* page down */
 constexpr int KEY_PPAGE      = 0x153;    /* page up */
 constexpr int KEY_ENTER      = 0x157;    /* enter */
@@ -717,6 +718,8 @@ class input_context
         static std::string colorize_inline_format( keybinding_hint_state state,
                 const std::string &key, const std::string &left_text,
                 const std::string &right_text, bool show_separators );
+        static std::string replace_keybinding_hint_colors( const std::string s,
+                keybinding_hint_state before_state, keybinding_hint_state after_state );
         static const nc_color get_hint_color( keybinding_hint_state state =
                 keybinding_hint_state::ENABLED );
         static const nc_color get_hint_color_for_separator( keybinding_hint_state state =

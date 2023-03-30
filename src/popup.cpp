@@ -108,7 +108,7 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
         //   being highlighted when selected)... This isn't a too much of
         //   problem with the default settings because the key is separated
         //   by parens but still...
-        const std::string &desc = ctxt.get_hint( opt.action, keybinding_hint_state::NONE_AT_ALL,
+        const std::string &desc = ctxt.get_hint( opt.action, keybinding_hint_state::ENABLED,
                                   opt.filter );
         const int this_query_width = utf8_width( desc, true ) + horz_padding;
         ++query_cnt;
@@ -242,10 +242,10 @@ void query_popup::show() const
     }
 
     for( size_t ind = 0; ind < buttons.size(); ++ind ) {
-        nc_color col = ind == cur ? hilite( c_white ) : c_white;
         const query_popup::button &btn = buttons[ind];
-        print_colored_text( win, btn.pos + point( border_width, border_width ),
-                            col, col, btn.text );
+        std::string text = ind != cur ? btn.text : input_context::replace_keybinding_hint_colors( btn.text,
+                           keybinding_hint_state::ENABLED, keybinding_hint_state::HIGHLIGHTED );
+        print_colored_text( win, btn.pos + point( border_width, border_width ), text );
     }
 
     wnoutrefresh( win );

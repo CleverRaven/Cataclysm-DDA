@@ -1301,6 +1301,23 @@ std::string input_context::get_desc(
             evt_filter ), text, show_separators );
 }
 
+std::string input_context::replace_keybinding_hint_colors( const std::string s,
+        keybinding_hint_state before_state, keybinding_hint_state after_state )
+{
+    // HACK This might break depending on what colours we're switching to/from
+    std::string o = s;
+    nc_color old_key_color = input_context::get_hint_color_for_key( before_state );
+    nc_color new_key_color = input_context::get_hint_color_for_key( after_state );
+    nc_color old_hint_color = input_context::get_hint_color( before_state );
+    nc_color new_hint_color = input_context::get_hint_color( after_state );
+    nc_color old_sep_color = input_context::get_hint_color_for_separator( before_state );
+    nc_color new_sep_color = input_context::get_hint_color_for_separator( after_state );
+    o = string_replace( o, get_tag_from_color( old_key_color ), get_tag_from_color( new_key_color ) );
+    o = string_replace( o, get_tag_from_color( old_hint_color ), get_tag_from_color( new_hint_color ) );
+    o = string_replace( o, get_tag_from_color( old_sep_color ), get_tag_from_color( new_sep_color ) );
+    return o;
+}
+
 const nc_color input_context::get_hint_color( keybinding_hint_state state )
 {
     switch( state ) {
