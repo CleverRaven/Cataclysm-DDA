@@ -3874,17 +3874,12 @@ std::optional<int> iuse::tazer( Character *p, item *it, bool, const tripoint &po
         return std::nullopt;
     }
 
-    /** @EFFECT_DEX slightly increases chance of successfully using tazer */
-    /** @EFFECT_MELEE increases chance of successfully using a tazer */
-    int numdice = round( 3 + ( static_cast<float>( p->dex_cur ) / 2.5 ) + p->get_skill_level(
-                             skill_melee ) * 2 );
+    const float hit_roll = p->hit_roll();
     p->moves -= to_moves<int>( 1_seconds );
 
-    /** @EFFECT_DODGE increases chance of dodging a tazer attack */
-    const bool tazer_was_dodged = dice( numdice, 10 ) < dice( target->get_dodge(), 10 );
-    const int tazer_resistance = target->get_armor_type( STATIC( damage_type_id( "bash" ) ),
-                                 bodypart_id( "torso" ) );
-    const bool tazer_was_armored = dice( numdice, 10 ) < dice( tazer_resistance, 10 );
+    const bool tazer_was_dodged = target->dodge_check( p->hit_roll() );
+    const bool tazer_was_armored = hit_roll < target->get_armor_type( STATIC(damage_type_id("bash"),
+                                   bodypart_id( "torso" ) );
     if( tazer_was_dodged ) {
         p->add_msg_player_or_npc( _( "You attempt to shock %s, but miss." ),
                                   _( "<npcname> attempts to shock %s, but misses." ),
