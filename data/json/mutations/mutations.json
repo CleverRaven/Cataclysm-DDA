@@ -8034,6 +8034,16 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_CS",
+    "name": { "str": "Debug Crafting Speed" },
+    "points": 99,
+    "valid": false,
+    "description": "Craft the bug out 50 times faster.",
+    "crafting_speed_multiplier": 50,
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_MIND_CONTROL",
     "name": { "str": "Debug Mind Control" },
     "points": 99,

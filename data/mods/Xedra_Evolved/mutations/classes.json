@@ -10,6 +10,13 @@
     "valid": false,
     "mana_modifier": 500,
     "cancels": [ "EATER" ],
+    "moncams": [
+      [ "mon_shifter", 100 ],
+      [ "mon_duplicator", 100 ],
+      [ "mon_duplicator_pawn", 100 ],
+      [ "mon_ophanim", 100 ],
+      [ "mon_sapient_light", 100 ]
+    ],
     "vitamin_rates": [ [ "dreamer_vit", -1080 ] ],
     "//": "1 vit each 18 minutes, 80 per day, 12,5 days to full",
     "spells_learned": [ [ "create_dream_dross", 0 ], [ "dreamer_artifact", 0 ] ]
