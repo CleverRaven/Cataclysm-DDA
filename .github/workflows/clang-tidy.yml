@@ -1,4 +1,4 @@
-name: Clang-tidy (clang-12, tiles)
+name: Clang-tidy 16
 
 on:
   push:
@@ -27,56 +27,109 @@ jobs:
         with:
           cancel_others: 'true'
           paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", ".github/workflows/clang-tidy.yml" ]'
-  build:
+  build-plugin:
     needs: skip-duplicates
     if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
-    runs-on: ubuntu-20.04
+    name: "Build clang-tidy plugin"
+    runs-on: ubuntu-22.04
     env:
-        CMAKE: 1
-        CLANG: clang++-12
-        COMPILER: clang++-12
-        CATA_CLANG_TIDY: plugin
-        TILES: 1
-        SOUND: 1
-        RELEASE: 1
+        CC: clang-16
+        CXX: clang++-16
+        CLANG_DIR: '/usr/lib/llvm-16/lib/cmake/clang'
+        LLVM_DIR: '/usr/lib/llvm-16/lib/cmake/llvm'
     steps:
-    - name: checkout repository
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
-    - name: install dependencies
+    - name: install LLVM 16
       run: |
           wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo apt-add-repository "deb http://apt.llvm.org/focal/ llvm-toolchain-focal-12 main"
-          sudo apt-get update
-          sudo apt-get install libncursesw5-dev clang-12 libclang-12-dev llvm-12-dev llvm-12-tools \
-            libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
-            gettext jq
-    - name: prepare
-      run: bash ./build-scripts/requirements.sh
-    - name: determine changed files
-      if: ${{ github.event_name == 'pull_request' }}
-      uses: actions/github-script@v5
-      with:
-        script: |
-          var fs = require('fs');
-          const response = await github.paginate(github.rest.pulls.listFiles,
-            {
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number,
-            }
-          );
-          const files = response.map(x => x.filename);
-          for (const path of files) {
-            console.log(path);
-          }
-          fs.writeFileSync("files_changed", files.join('\n'));
-    - uses: ammaraskar/gcc-problem-matcher@master
-    - name: run clang-tidy
-      run: bash ./build-scripts/clang-tidy.sh
-    - name: show most time consuming checks
-      if: always()
+          sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main"
+          sudo apt update
+          sudo apt install llvm-16 llvm-16-dev llvm-16-tools clang-16 clang-tidy-16 clang-tools-16 libclang-16-dev
+    - name: install dependencies
       run: |
-        jq -n 'reduce(inputs.profile | to_entries[]) as {$key,$value} ({}; .[$key] += $value) | with_entries(select(.key|contains(".wall"))) | to_entries | sort_by(.value) | reverse | .[0:10] | from_entries' clang-tidy-trace/*.json
+          sudo apt install python3-pip libncursesw5-dev ninja-build cmake gettext
+          pip3 install --user lit
+    - name: ensure clang-tidy and FileCheck commands point to LLVM 16
+      run: |
+          mkdir ~/llvm-command-override
+          ln -s /usr/bin/clang-tidy-16 ~/llvm-command-override/clang-tidy
+          ln -s /usr/bin/FileCheck-16 ~/llvm-command-override/FileCheck
+          echo "$HOME/llvm-command-override" >> $GITHUB_PATH
+    - name: checkout repository
+      uses: actions/checkout@v3
+    - name: build clang-tidy plugin
+      run: |
+          cmake -B build -D CMAKE_BUILD_TYPE=Release \
+                         -D CATA_CLANG_TIDY_PLUGIN=ON \
+                         -D LLVM_DIR="${LLVM_DIR}" \
+                         -D Clang_DIR="${CLANG_DIR}" \
+                         -G Ninja
+          ninja -C build libCataAnalyzerPlugin.so
+    - name: test clang-tidy plugin
+      run: |
+          lit -v build/tools/clang-tidy-plugin/test
+    - name: cache clang-tidy plugin
+      uses: actions/cache@v3
+      with:
+        path: ~/cata-clang-tidy-plugin
+        key: cata-clang-tidy-plugin
+    - name: copy clang-tidy plugin
+      run: |
+        cp build/tools/clang-tidy-plugin/libCataAnalyzerPlugin.so ~/cata-clang-tidy-plugin
+
+  check:
+    needs: build-plugin
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - title: Check main
+            filter: "/src/"
+          - title: Check tests
+            filter: "/tests/"
+    name: "Run clang-tidy checks"
+    runs-on: ubuntu-22.04
+    env:
+        CC: clang-16
+        CXX: clang++-16
+    steps:
+    - name: install LLVM 16
+      run: |
+          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+          sudo apt-add-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main"
+          sudo apt update
+          sudo apt install llvm-16 llvm-16-dev llvm-16-tools clang-16 clang-tidy-16 clang-tools-16 libclang-16-dev
+    - name: install dependencies
+      run: |
+          sudo apt update
+          sudo apt install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev gettext \
+                           cmake ninja-build parallel jq
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: configure cmake
+      run: |
+          cmake -B build -D CMAKE_BUILD_TYPE=Release \
+                         -D CMAKE_EXPORT_COMPILE_COMMANDS=ON \
+                         -D TILES=ON \
+                         -D SOUND=ON \
+                         -G Ninja
+    - name: determine scope of files to be checked
+      run: |
+          jq --arg pwd $(pwd) --arg filter "/src/" \
+             '[.[].file] | map(sub($pwd; ".")) | map(select(. | contains($filter))) | join(" ")' \
+             build/compile_commands.json > files
+    - name: cache clang-tidy plugin
+      uses: actions/cache@v3
+      with:
+        path: ~/cata-clang-tidy-plugin
+        key: cata-clang-tidy-plugin
+    - name: ensure clang-tidy plugin exists
+      run: |
+        file ~/cata-clang-tidy-plugin/libCataAnalyzerPlugin.so
+    - name: run clang-tidy in src
+      run: |
+          parallel --linebuffer --keep-order \
+            clang-tidy -p build --checks="-*,cata-*" --use-color --quiet \
+            --load=~/cata-clang-tidy-plugin/libCataAnalyzerPlugin.so \
+             ::: $(cat files)
