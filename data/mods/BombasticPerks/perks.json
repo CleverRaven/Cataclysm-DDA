@@ -63,21 +63,21 @@
     "id": "perk_built_tough",
     "name": { "str": "Built Tough" },
     "points": 0,
-    "description": "You're like a walking tank!  Take 10% less damage from all sources.",
+    "description": "You're like a walking tank!  Take 5% less damage from all sources.",
     "category": [ "perk" ],
     "enchantments": [
       {
         "condition": "ALWAYS",
         "values": [
-          { "value": "ARMOR_ACID", "multiply": -0.1 },
-          { "value": "ARMOR_BASH", "multiply": -0.1 },
-          { "value": "ARMOR_BIO", "multiply": -0.1 },
-          { "value": "ARMOR_BULLET", "multiply": -0.1 },
-          { "value": "ARMOR_COLD", "multiply": -0.1 },
-          { "value": "ARMOR_CUT", "multiply": -0.1 },
-          { "value": "ARMOR_ELEC", "multiply": -0.1 },
-          { "value": "ARMOR_HEAT", "multiply": -0.1 },
-          { "value": "ARMOR_STAB", "multiply": -0.1 }
+          { "value": "ARMOR_ACID", "multiply": -0.05 },
+          { "value": "ARMOR_BASH", "multiply": -0.05 },
+          { "value": "ARMOR_BIO", "multiply": -0.05 },
+          { "value": "ARMOR_BULLET", "multiply": -0.05 },
+          { "value": "ARMOR_COLD", "multiply": -0.05 },
+          { "value": "ARMOR_CUT", "multiply": -0.05 },
+          { "value": "ARMOR_ELEC", "multiply": -0.05 },
+          { "value": "ARMOR_HEAT", "multiply": -0.05 },
+          { "value": "ARMOR_STAB", "multiply": -0.05 }
         ]
       }
     ]
@@ -137,7 +137,7 @@
     "id": "perk_tingly",
     "name": { "str": "Tingly" },
     "points": 0,
-    "description": "Ever since the apocalyse you get a funny feeling during storms and have trouble trusting small appliances.  You usually have a pretty good idea where they are though.",
+    "description": "Ever since the apocalypse you get a funny feeling during storms and have trouble trusting small appliances.  You usually have a pretty good idea where they are though.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 4.0 } ] } ]
   },
@@ -155,7 +155,7 @@
     "id": "perk_hobyist",
     "name": { "str": "Hobyist" },
     "points": 0,
-    "description": "No work, no social obligations, lots of time to focus on your hobies.  You feel like you've been picking up skills faster recently.",
+    "description": "No work, no social obligations, lots of time to focus on your hobbies.  You feel like you've been picking up skills faster recently.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 5.0 } ] } ]
   },
