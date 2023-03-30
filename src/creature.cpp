@@ -1376,40 +1376,7 @@ bool Creature::attack_air( const tripoint &p )
         explosion_handler::draw_custom_explosion( p, area_color, "animation_hit" );
     }
 
-bool Creature::dodge_check( monster *z, bodypart_id bp, damage_instance dam_inst )
-{
-
-    if( is_monster() ) {
-        return dodge_check( z );
-    }
-
-    Character *guy_target = as_character();
-    // If successfully uncanny dodged, no need to calculate dodge chance
-    if( guy_target->uncanny_dodge() ) {
-        return true;
-    }
-
-    float potential_damage = 0.0f;
-    for( damage_unit dmg : dam_inst.damage_units ) {
-        potential_damage += dmg.amount - guy_target->worn.damage_resist( dmg.type, bp );
-
-    }
-    float dmg_ratio = potential_damage / guy_target->get_part_hp_cur( bp );
-
-    //If attack might remove more than half hp of the part dodge no matter the odds
-    if( dmg_ratio >= 0.5f ) {
-        guy_target->on_try_dodge();
-        float attack_roll = z->get_hit() + rng_normal( 0, 5 );
-        const float dodge_ability = guy_target->get_dodge();
-        return dodge_ability > attack_roll;
-    } else if( dmg_ratio > 0.0f ) { // else apply usual rules
-        return dodge_check( z );
-    }
-
-    return false;
-}
-
-bool Creature::dodge_check( monster *z )
+bool Creature::dodge_check( float hit_roll, bool force_try )
 {
     // If successfully uncanny dodged, no need to calculate dodge chance
     if( uncanny_dodge() ) {
@@ -1419,11 +1386,42 @@ bool Creature::dodge_check( monster *z )
     const float dodge_ability = get_dodge();
     // center is 5 - 0 / 2
     // stddev is 5 - 0 / 4
-    const float dodge_chance = 1 - normal_roll_chance( 2.5f, 1.25f, dodge_ability - z->get_hit() );
-    if( dodge_chance >= 0.8f ) {
+    const float dodge_chance = 1 - normal_roll_chance( 2.5f, 1.25f, dodge_ability - hit_roll );
+    if( dodge_chance >= 0.8f || force_try ) {
         on_try_dodge();
-        float attack_roll = z->get_hit() + rng_normal( 0, 5 );
+        float attack_roll = hit_roll + rng_normal( 0, 5 );
         return dodge_ability > attack_roll;
+    }
+
+    return false;
+}
+
+bool Creature::dodge_check( monster *z )
+{
+    return dodge_check( z->get_hit() );
+}
+
+bool Creature::dodge_check( monster *z, bodypart_id bp, damage_instance dam_inst )
+{
+
+    if( is_monster() ) {
+        return dodge_check( z );
+    }
+
+    Character *guy_target = as_character();
+
+    float potential_damage = 0.0f;
+    for( damage_unit dmg : dam_inst.damage_units ) {
+        potential_damage += dmg.amount - guy_target->worn.damage_resist( dmg.type, bp );
+
+    }
+    float dmg_ratio = potential_damage / guy_target->get_part_hp_cur( bp );
+
+    //If attack might remove more than half of the part's hp, dodge no matter the odds
+    if( dmg_ratio >= 0.5f ) {
+        return dodge_check( z->get_hit(), true );
+    } else if( dmg_ratio > 0.0f ) { // else apply usual rules
+        return dodge_check( z->get_hit() );
     }
 
     return false;
