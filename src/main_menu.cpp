@@ -352,12 +352,12 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
         const std::string shortcut = remove_color_tags( shortcut_text( vMenuItems[i] ) );
-        const int shortcut_width = utf8_width_notags( shortcut.c_str() ) + 1;
+        const int shortcut_width = utf8_width_notags( shortcut.c_str() );
         menu_length += shortcut_width;
     }
     const int free_space = std::max( 0, window_width - menu_length - offset.x );
-    const int spacing = free_space / static_cast<int>( vMenuItems.size() );
-    const int width_of_spacing = spacing * vMenuItems.size();
+    const int spacing = std::max( 1, free_space / static_cast<int>( vMenuItems.size() + 1 ) );
+    const int width_of_spacing = spacing * ( vMenuItems.size() + 1 );
     const int adj_offset = std::max( 0, ( free_space - width_of_spacing ) / 2 );
     const int final_offset = offset.x + adj_offset + spacing;
 
