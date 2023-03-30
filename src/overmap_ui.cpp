@@ -1,6 +1,5 @@
 #include "overmap_ui.h"
 
-#include <functional>
 #include <algorithm>
 #include <array>
 #include <chrono>

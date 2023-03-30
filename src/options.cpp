@@ -1,6 +1,5 @@
 #include "options.h"
 
-#include <clocale>
 #include <cfloat>
 #include <climits>
 #include <clocale>

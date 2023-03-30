@@ -14,7 +14,6 @@
 
 #include "cached_options.h"
 #include "catacharset.h"
-#include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "filesystem.h"
