@@ -5,7 +5,7 @@
 #include <npc.h>
 
 // The point after which stats cost double
-static constexpr int HIGH_STAT = 12;
+constexpr int HIGH_STAT = 12;
 
 enum class pool_type {
     FREEFORM = 0,
