@@ -6289,7 +6289,7 @@ void item::on_pickup( Character &p )
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
     }
-    contents.on_pickup( p );
+    contents.on_pickup( p, this );
 
     p.flag_encumbrance();
     p.invalidate_weight_carried_cache();
