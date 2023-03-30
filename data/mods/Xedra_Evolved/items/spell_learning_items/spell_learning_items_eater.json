@@ -285,7 +285,7 @@
     "id": "artifact_unbreakable",
     "type": "GENERIC",
     "category": "artifacts",
-    "name": { "str": "two spheres" },
+    "name": { "str": "pair of spheres", "str_pl": "pairs of spheres" },
     "description": "Two perfect spheres, where the first do not move at all, and second constantly rotates around.  You feel the connection to both of them.",
     "//": "unstoppable and immovable",
     "weight": "240 g",
