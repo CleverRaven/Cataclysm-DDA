@@ -295,7 +295,7 @@ std::string trim_by_length( const std::string &text, int width )
 
         const std::vector<std::string> color_segments = split_by_color( text );
         for( size_t i = 0; i < color_segments.size() ; ++i ) {
-            std::string seg = color_segments[i];
+            const std::string &seg = color_segments[i];
             if( seg.empty() ) {
                 // TODO: Check is required right now because, for a fully-color-tagged string, split_by_color
                 // returns an empty string first
