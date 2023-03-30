@@ -362,10 +362,7 @@
     "//": "Must limit the player's sight to 2-3 tiles (maybe real blind would be cool, but I don't really think it's a good idea (and also I don't know how it interacts with melee (and also the effect is pretty weak for total blindness))), but it's hardcoded atm",
     "apply_message": "AAAAARGH!!",
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "limb_score_mods": [
-      { "limb_score": "vision", "modifier": 0.1 },
-      { "limb_score": "night_vis", "modifier": 0.1 }
-    ],
+    "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.1 }, { "limb_score": "night_vis", "modifier": 0.1 } ],
     "base_mods": { "str_mod": [ 4 ], "dex_mod": [ 4 ], "per_mod": [ -8 ] }
   },
   {
