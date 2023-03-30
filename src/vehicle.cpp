@@ -5610,14 +5610,16 @@ std::map<item, input_event> vehicle::prepare_tools( const vehicle_part &vp ) con
 {
     std::map<item, input_event> res;
     for( const std::pair<itype_id, int> &pair : vp.info().get_pseudo_tools() ) {
-        const input_event ev( pair.second, input_event_t::keyboard_char );
         item it( pair.first, calendar::turn );
+        const input_event ev( pair.second, input_event_t::keyboard_char );
         prepare_tool( it );
-        res.emplace( it, ev );
+        res.emplace( it, pair.second > 0 ? ev : input_event( -1, input_event_t::error ) );
     }
     for( const item &it_src : vp.tools ) {
-        const input_event ev( -1, input_event_t::keyboard_char );
         item it( it_src ); // make a copy
+        const input_event ev = it.invlet > 0
+                               ? input_event( it.invlet, input_event_t::keyboard_char )
+                               : input_event();
         prepare_tool( it );
         res.emplace( it, ev );
     }

@@ -230,7 +230,7 @@ static std::optional<input_event> veh_keybind( const std::optional<std::string> 
         return hk_keychar.front(); // fallback to keychar hotkey
     }
 
-    return std::nullopt;
+    return input_event();
 }
 
 veh_menu_item &veh_menu_item::hotkey( const char hotkey_char )
@@ -259,7 +259,7 @@ veh_menu_item &veh_menu_item::hotkey( const input_event &ev )
 
 veh_menu_item &veh_menu_item::hotkey_auto()
 {
-    this->_hotkey_char = MENU_AUTOASSIGN;
+    this->_hotkey_char = std::nullopt;
     this->_hotkey_action = std::nullopt;
     this->_hotkey_event = std::nullopt;
     return *this;
@@ -336,10 +336,15 @@ std::vector<uilist_entry> veh_menu::get_uilist_entries() const
 
     for( size_t i = 0; i < items.size(); i++ ) {
         const veh_menu_item &it = items[i];
-        const std::optional<input_event> hotkey_event = veh_keybind( it._hotkey_action );
-        uilist_entry entry = hotkey_event.has_value()
-                             ? uilist_entry( it._text, hotkey_event )
-                             : uilist_entry( it._text, it._hotkey_char.value_or( 0 ) );
+        std::optional<input_event> hotkey_event = std::nullopt;
+        if( it._hotkey_event.has_value() ) {
+            hotkey_event = it._hotkey_event.value();
+        } else if( it._hotkey_action.has_value() ) {
+            hotkey_event = veh_keybind( it._hotkey_action );
+        } else if( it._hotkey_char.has_value() ) {
+            hotkey_event = input_event( it._hotkey_char.value(), input_event_t::keyboard_char );
+        }
+        uilist_entry entry = uilist_entry( it._text, hotkey_event );
 
         entry.retval = static_cast<int>( i );
         entry.desc = it._desc;

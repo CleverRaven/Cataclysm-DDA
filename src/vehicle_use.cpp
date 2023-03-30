@@ -1963,6 +1963,9 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         if( !tool_type->has_use() ) {
             continue; // passive tool
         }
+        if( !hotkey_event.sequence.empty() && hotkey_event.sequence.front() == -1 ) {
+            continue; // skip old passive tools
+        }
         const auto &[tool_ammo, ammo_amount] = tool_ammo_available( tool_type );
         menu.add( string_format( _( "Use %s" ), tool_type->nname( 1 ) ) )
         .enable( ammo_amount >= tool_item.typeId()->charges_to_use() )
