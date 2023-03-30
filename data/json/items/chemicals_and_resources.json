@@ -2032,8 +2032,7 @@
     "name": { "str_sp": "toxic acidic blood" },
     "symbol": "~",
     "color": "red",
-    "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals.",
-    "weight": "460 g"
+    "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals."
   },
   {
     "type": "COMESTIBLE",
@@ -2063,7 +2062,6 @@
     "color": "green",
     "description": "Blood mixed with acidic compounds, smells putrid, a means of refining this could net some useful chemicals.",
     "comestible_type": "INVALID",
-    "weight": "300 g",
     "delete": { "ammo_type": "components" },
     "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
     "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
@@ -2077,7 +2075,6 @@
     "name": { "str_sp": "foul acidic blood" },
     "symbol": "~",
     "color": "red",
-    "description": "Blood mixed with acidic compounds, foul-smelling and extremely corrosive, a means of refining this could net some useful chemicals.",
-    "weight": "460 g"
+    "description": "Blood mixed with acidic compounds, foul-smelling and extremely corrosive, a means of refining this could net some useful chemicals."
   }
 ]
