@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-no-long %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-no-long %t -- --load=%cata_plugin --
 
 #include <stdint.h>
 

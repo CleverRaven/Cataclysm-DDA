@@ -1,4 +1,4 @@
-// RUN: %check_clang_tidy %s cata-assert %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-assert %t -- --load=%cata_plugin --
 
 #include <assert.h>
 #include <stdlib.h>
