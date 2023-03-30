@@ -7280,23 +7280,17 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const std::optional<vpart_reference> tool_vp = vp.part_with_tool( veh_tool_type );
     const std::optional<vpart_reference> cargo_vp = vp.part_with_feature( "CARGO", true );
 
-    const auto tool_wants_battery = []( const itype_id & type ) {
-        item tool( type, calendar::turn_zero );
-        item mag( tool.magazine_default() );
-        mag.clear_items();
-
-        return tool.can_contain( mag ).success() &&
-               tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
-               tool.ammo_capacity( ammo_battery ) > 0;
-    };
-
     if( tool_vp ) { // handle vehicle tools
-        itype_id fuel_type = tool_wants_battery( type ) ? itype_battery : type;
+        const itype_id &tool_fuel_type = type->tool_slot_first_ammo();
+        // use the tool's ammo charges
+        const itype_id &fuel_type = tool_fuel_type.is_null() ? type : tool_fuel_type;
         item tmp( type, calendar::turn_zero ); // TODO: add a sane birthday arg
         // TODO: Handle water poison when crafting starts respecting it
         tmp.charges = tool_vp->vehicle().drain( fuel_type, quantity );
         quantity -= tmp.charges;
         ret.push_back( tmp );
+        add_msg_debug( debugmode::DF_VEHICLE, "drained %d %s from %s",
+                       tmp.charges, fuel_type.str(), tool_vp->vehicle().name );
 
         if( quantity == 0 ) {
             return ret;

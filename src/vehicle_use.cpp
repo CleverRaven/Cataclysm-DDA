@@ -14,6 +14,7 @@
 #include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
+#include "ammo.h"
 #include "avatar.h"
 #include "character.h"
 #include "clzones.h"
@@ -1636,7 +1637,7 @@ void vpart_position::form_inventory( inventory &inv ) const
         }
 
         if( item *tool = inv.provide_pseudo_item( tool_type ) ) {
-            vehicle().prepare_vehicle_tool( *tool ); // sets up battery charges from vehicle
+            vehicle().tool_prepare( *tool ); // sets up battery charges from vehicle
         }
     }
 }
@@ -1652,45 +1653,68 @@ static bool tool_wants_battery( const itype_id &type )
            tool.ammo_capacity( ammo_battery ) > 0;
 }
 
-units::energy vehicle::prepare_vehicle_tool( item &tool ) const
+std::pair<const itype_id &, int> vehicle::tool_ammo_available( const itype_id &tool_type ) const
+{
+    if( !tool_type->tool ) {
+        return { itype_id::NULL_ID(), 0 };
+    }
+    const itype_id &ft = tool_type->tool_slot_first_ammo();
+    if( ft.is_null() ) {
+        return { itype_id::NULL_ID(), 0 };
+    }
+    // 2 bil ought to be enough for everyone, and hopefully not overflow int
+    const int64_t max = 2'000'000'000;
+    if( ft->ammo->type == ammo_battery ) {
+        return { ft, static_cast<int>( std::min<int64_t>( battery_left(), max ) ) };
+    } else {
+        return { ft, static_cast<int>( std::min<int64_t>( fuel_left( ft ), max ) ) };
+    }
+}
+
+int64_t vehicle::tool_prepare( item &tool ) const
 {
     tool.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
-    if( !tool_wants_battery( tool.typeId() ) ) {
-        add_msg_debug( debugmode::DF_VEHICLE, "prepared tool %s with no battery", tool.typeId().str() );
-        return 0_J; // tool doesn't need battery, bail early
+
+    const auto &[ammo_itype_id, ammo_amount] = tool_ammo_available( tool.typeId() );
+    if( ammo_itype_id.is_null() ) {
+        return 0; // likely tool needs no ammo
     }
-    if( tool.has_pocket_type( item_pocket::pocket_type::MOD ) ) {
-        item bat_mod( "magazine_battery_pseudo_mod" );
-        bat_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
-        tool.put_in( bat_mod, item_pocket::pocket_type::MOD );
-    } else {
-        debugmsg( "tool %s uses batteries but has no space for a "
-                  "magazine_battery_pseudo_mod, this is likely a bug", tool.typeId().str() );
+    item mag_mod( "pseudo_magazine_mod" );
+    mag_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+    if( !tool.put_in( mag_mod, item_pocket::pocket_type::MOD ).success() ) {
+        debugmsg( "tool %s has no space for a %s, this is likely a bug",
+                  tool.typeId().str(), mag_mod.type->nname( 1 ) );
     }
     item mag( tool.magazine_default() );
     mag.clear_items(); // no initial ammo
     if( !tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() ) {
-        debugmsg( "%s uses batteries but inserting %s into MAGAZINE_WELL pocket failed",
-                  tool.typeId().str(), mag.typeId().str() );
-        return 0_J;
+        debugmsg( "inserting %s into %s's MAGAZINE_WELL pocket failed",
+                  mag.typeId().str(), tool.typeId().str() );
+        return 0;
     }
-    const int64_t tool_capacity = tool.ammo_capacity( ammo_battery );
-    const int64_t tool_battery = std::min( tool_capacity, battery_left() );
-    tool.ammo_set( itype_battery, tool_battery );
 
-    add_msg_debug( debugmode::DF_VEHICLE, "prepared vehtool %s with %s",
-                   tool.typeId().str(), tool.magazine_current()->tname() );
+    const int ammo_capacity = tool.ammo_capacity( ammo_itype_id->ammo->type );
+    const int ammo_count = std::min( ammo_amount, ammo_capacity );
 
-    return units::from_kilojoule( tool_battery );
+    tool.ammo_set( ammo_itype_id, ammo_count );
+
+    add_msg_debug( debugmode::DF_VEHICLE, "prepared vehtool %s with %d %s",
+                   tool.typeId().str(), ammo_count, ammo_itype_id.str() );
+
+    return ammo_count;
 }
 
 static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type )
 {
     item tool( tool_type, calendar::turn );
-    const units::energy tool_battery = veh.prepare_vehicle_tool( tool );
-    if( tool.ammo_capacity( ammo_battery ) > 0 &&
-        tool.ammo_required() > veh.fuel_left( itype_battery ) ) {
-        return false; // tool uses battery but vehicle doesn't have enough for 1 "use"
+    const int64_t ammo_in_tool = veh.tool_prepare( tool );
+    const bool is_battery_tool = tool_wants_battery( tool_type );
+    if( tool.ammo_required() > 0 ) {
+        if( is_battery_tool && tool.ammo_required() > veh.battery_left() ) {
+            return false; // tool uses battery but vehicle doesn't have enough for 1 "use"
+        } else if( tool.ammo_required() > veh.fuel_left( tool.ammo_current() ) ) {
+            return false; // not enough ammo charges
+        }
     }
     get_player_character().invoke_item( &tool );
 
@@ -1703,9 +1727,15 @@ static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
     }
 
-    // if tool has less battery charges than it started with - discharge from vehicle batteries
-    const int used_charges = units::to_kilojoule( tool_battery ) - tool.ammo_remaining();
-    veh.discharge_battery( used_charges );
+    const int used_charges = ammo_in_tool - tool.ammo_remaining();
+    if( used_charges > 0 ) {
+        if( is_battery_tool ) {
+            // if tool has less battery charges than it started with - discharge from vehicle batteries
+            veh.discharge_battery( used_charges );
+        } else {
+            veh.drain( tool.ammo_current(), used_charges );
+        }
+    }
     return true;
 }
 
@@ -1956,9 +1986,9 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         if( hotkey == -1 || !tool->has_use() ) {
             continue; // passive tool
         }
-
+        const auto &[tool_ammo, ammo_amount] = tool_ammo_available( pair.first );
         menu.add( _( "Use " ) + tool->nname( 1 ) )
-        .enable( fuel_left( itype_battery ) >= tool->charges_to_use() )
+        .enable( ammo_amount >= tool->charges_to_use() ) // tools which don't use ammo (== 0) also enable
         .hotkey( hotkey )
         .skip_locked_check( !tool_wants_battery( tool ) )
         .on_submit( [this, vppos, tool] { use_vehicle_tool( *this, vppos, tool ); } );

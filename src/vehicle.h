@@ -1652,14 +1652,19 @@ class vehicle
         units::volume stored_volume( int part ) const;
 
         /**
-        * Flags item \p tool with PSEUDO, if it needs battery and has MOD pocket then a
-        * magazine_battery_pseudo_mod is installed and a pseudo battery with high capacity
-        * is inserted into the magazine well pocket with however many battery charges are
-        * available to this vehicle.
+        * Flags item \p tool with PSEUDO, if it has MOD pocket then a `pseudo_magazine_mod` is
+        * installed and a `pseudo_magazine` is inserted into the magazine well pocket with however
+        * many ammo charges of the first ammo type required by the tool are available to this vehicle.
         * @param tool the tool item to modify
-        * @return amount of energy the pseudo battery is set to or 0 joules
+        * @return amount of ammo in the `pseudo_magazine` or 0
         */
-        units::energy prepare_vehicle_tool( item &tool ) const;
+        int64_t tool_prepare( item &tool ) const;
+        /**
+        * if \p tool is not an itype with tool != nullptr this returns { itype::NULL_ID(), 0 } pair
+        * @param tool the item to examine
+        * @return a pair of tool's first ammo type and the amount of it available from tanks / batteries
+        */
+        std::pair<const itype_id &, int> tool_ammo_available( const itype_id &tool_type ) const;
 
         /**
          * Update an item's active status, for example when adding
