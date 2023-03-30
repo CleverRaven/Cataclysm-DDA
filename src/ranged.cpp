@@ -3521,7 +3521,7 @@ void target_ui::draw_controls_list( int text_y )
     // Compile full list
     std::string movement_text = shifting_view ? _( "Shift view" ) : _( "Move cursor" );
     movement_text = colorize( movement_text, input_context::get_hint_color( move_hint_state ) );
-    lines.push_back( {9, string_format( "%s %s", ctxt.get_hint_directions( move_hint_state ), movement_text )} );
+    lines.push_back( {9, ctxt.get_hint_directions( movement_text, move_hint_state )} );
     if( is_mouse_enabled() ) {
         std::string move = string_format( _( "%s %s" ), ctxt.get_hint_mouse( "SELECT", _( "Target" ),
                                           move_hint_state ), ctxt.get_hint_mouse( "SCROLL_UP", _( "Cycle" ), move_hint_state ) );
