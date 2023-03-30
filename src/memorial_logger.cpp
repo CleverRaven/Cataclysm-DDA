@@ -482,6 +482,9 @@ void memorial_logger::notify( const cata::event &e )
                  pgettext( "memorial_female", "Angered a group of amigara horrors!" ) );
             break;
         }
+        case event_type::avatar_dies: {
+            add( pgettext( "memorial_male", "Died" ), pgettext( "memorial_female", "Died" ) );
+        }
         case event_type::awakes_dark_wyrms: {
             add( pgettext( "memorial_male", "Awoke a group of dark wyrms!" ),
                  pgettext( "memorial_female", "Awoke a group of dark wyrms!" ) );
