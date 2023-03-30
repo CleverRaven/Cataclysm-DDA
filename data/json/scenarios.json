@@ -643,7 +643,10 @@
       "major-general",
       "nco",
       "combat-mechanic",
-      "combat-engineer"
+      "combat-engineer",
+      "marine",
+      "seal",
+      "seal_sniper"
     ],
     "map_extra": "mx_helicopter",
     "flags": [ "HELI_CRASH", "LONE_START" ],
@@ -837,6 +840,7 @@
       "sailor",
       "marine",
       "seal",
+      "seal_sniper",
       "diver_navy",
       "medic",
       "mili_pilot",
