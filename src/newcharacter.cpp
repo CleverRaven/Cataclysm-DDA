@@ -339,7 +339,7 @@ static std::string pools_to_string( const avatar &u, pool_type pool )
         case pool_type::TRANSFER:
             return _( "Character Transfer: No changes can be made." );
         case pool_type::FREEFORM:
-            return _( "Story Teller" );
+            return _( "Survivor" );
     }
     return "If you see this, this is a bug";
 }
@@ -989,14 +989,14 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
                                          _( "Legacy: Multiple pools" ),
                                          _( "Stats, traits and skills have separate point pools.\n"
                                             "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
-                                            "Scenarios and professions affect skill points.\n"
+                                            "Scenarios and professions affect skill points.\n\n"
                                             "This is a legacy mode point totals are no longer balanced." ) );
 
     const point_limit_tuple one_pool = std::make_tuple( pool_type::ONE_POOL, _( "Legacy: Single pool" ),
-                                       _( "Stats, traits and skills share a single point pool.\n"
+                                       _( "Stats, traits and skills share a single point pool.\n\n"
                                           "This is a legacy mode point totals are no longer balanced." ) );
 
-    const point_limit_tuple freeform = std::make_tuple( pool_type::FREEFORM, _( "Storyteller" ),
+    const point_limit_tuple freeform = std::make_tuple( pool_type::FREEFORM, _( "Survivor" ),
                                        _( "No point limits are enforced, create a character with the intention of telling a story or challenging yourself." ) );
 
     if( point_pool == "multi_pool" ) {
@@ -2750,34 +2750,31 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
             const int y = i - cur_offset;
             const skill_displayType_id &display_type = skill_list[i].first;
             const Skill *thisSkill = skill_list[i].second;
+            int prof_skill_level = 0;
+            if( !!thisSkill ) {
+                for( auto &prof_skill : u.prof->skills() ) {
+                    if( prof_skill.first == thisSkill->ident() ) {
+                        prof_skill_level += prof_skill.second;
+                        break;
+                    }
+                }
+            }
             if( !thisSkill ) {
                 mvwprintz( w_list, point( 1, y ), c_yellow, display_type->display_string() );
-            } else if( u.get_skill_level( thisSkill->ident() ) == 0 ) {
+            } else if( u.get_skill_level( thisSkill->ident() ) + prof_skill_level == 0 ) {
                 mvwprintz( w_list, point( 1, y ),
                            ( i == cur_pos ? COL_SELECT : c_light_gray ), thisSkill->name() );
             } else {
                 mvwprintz( w_list, point( 1, y ),
                            ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
                            thisSkill->name() );
-                wprintz( w_list, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
-                         " ( %d )", u.get_skill_level( thisSkill->ident() ) );
-            }
-
-            int skill_level = 0;
-
-            // Grab skills from profession
-            if( !!thisSkill ) {
-                for( auto &prof_skill : u.prof->skills() ) {
-                    if( prof_skill.first == thisSkill->ident() ) {
-                        skill_level += prof_skill.second;
-                        break;
-                    }
+                if( prof_skill_level > 0 ) {
+                    wprintz( w_list, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
+                             " ( %d + %d )", prof_skill_level, u.get_skill_level( thisSkill->ident() ) );
+                } else {
+                    wprintz( w_list, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
+                             " ( %d )", prof_skill_level, u.get_skill_level( thisSkill->ident() ) );
                 }
-            }
-
-            // Only show bonus if we are above 0
-            if( skill_level > 0 ) {
-                wprintz( w, ( i == cur_pos ? h_white : c_white ), " (+%d)", skill_level );
             }
         }
 
