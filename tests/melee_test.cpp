@@ -47,7 +47,7 @@ static float brute_special_probability( monster &attacker, Creature &target, con
 {
     size_t hits = 0;
     for( size_t i = 0; i < iters; i++ ) {
-        if( !mattack::dodge_check( &attacker, &target ) ) {
+        if( !target.dodge_check( &attacker ) ) {
             hits++;
         }
     }
