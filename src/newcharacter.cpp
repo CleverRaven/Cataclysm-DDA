@@ -778,7 +778,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     return true;
 }
 
-void Character::initialize( character_type type )
+void Character::initialize()
 {
     recalc_hp();
 
@@ -2773,7 +2773,7 @@ void set_skills( tab_manager &tabs, avatar &u, pool_type pool )
                              " ( %d + %d )", prof_skill_level, u.get_skill_level( thisSkill->ident() ) );
                 } else {
                     wprintz( w_list, ( i == cur_pos ? hilite( COL_SKILL_USED ) : COL_SKILL_USED ),
-                             " ( %d )", prof_skill_level, u.get_skill_level( thisSkill->ident() ) );
+                             " ( %d )", u.get_skill_level( thisSkill->ident() ) );
                 }
             }
         }
