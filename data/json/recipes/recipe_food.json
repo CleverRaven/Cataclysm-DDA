@@ -7397,7 +7397,7 @@
     "book_learn": [ [ "baking_book", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
-    "components": [ [ [ "flour_any", 12, "LIST" ] ], [ [ "eggs_bird", 1, "LIST" ] ], [ [ "jam_fruit", 9 ] ], [ [ "cornmeal", 1 ] ] ]
+    "components": [ [ [ "flour_any", 12, "LIST" ] ], [ [ "eggs_any_shape", 1, "LIST" ] ], [ [ "jam_fruit", 9 ] ], [ [ "cornmeal", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7584,6 +7584,21 @@
   },
   {
     "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "rehydrated_eggs",
+    "id_suffix": "from_egg",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "time": "10 s",
+    "charges": 1,
+    "batch_time_factors": [ 80, 2 ],
+    "//": "mixed eggs like mixed alcohol.",
+    "autolearn": true,
+    "flags": [ "BLIND_EASY" ],
+    "components": [ [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "sauerkraut_onions",
     "category": "CC_FOOD",
@@ -7724,7 +7739,7 @@
         [ "milk_powder", 1 ],
         [ "con_milk", 1 ]
       ],
-      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "powder_eggs", 2 ], [ "eggs_any_shape", 2, "LIST" ] ],
       [ [ "sugar", 2 ], [ "artificial_sweetener", 2 ] ],
       [ [ "any_butter_or_oil", 8, "LIST" ] ],
       [ [ "water_clean", 1 ] ]
@@ -8840,7 +8855,7 @@
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "//": "3u for egg, 2u for milk",
     "components": [
-      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "powder_eggs", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "milk_standard_raw", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ], [ "con_milk", 2 ] ],
       [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "cinnamon", 2 ] ]
@@ -8861,7 +8876,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "//": "3u for egg, 2u for milk, 1u for alcohol/sugar",
     "components": [
-      [ [ "eggs_bird", 1, "LIST" ], [ "egg_reptile", 1 ], [ "powder_eggs", 1 ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "milk_standard_raw", 2, "LIST" ], [ "lf_milk_standard", 2, "LIST" ], [ "con_milk", 2 ] ],
       [ [ "sugar", 4 ], [ "artificial_sweetener", 4 ] ],
       [ [ "hard_liquor_chem", 1, "LIST" ] ],
