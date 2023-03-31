@@ -745,7 +745,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
 }
 
 npc::~npc() = default;
-#pragma optimize ("",off)
+
 void npc::randomize( const npc_class_id &type )
 {
     if( !getID().is_valid() ) {
@@ -891,7 +891,7 @@ void npc::randomize( const npc_class_id &type )
     // Add eocs
     effect_on_conditions::load_new_character( *this );
 }
-#pragma optimize ("",on)
+
 void npc::learn_ma_styles_from_traits()
 {
     for( const trait_id &iter : get_mutations() ) {
