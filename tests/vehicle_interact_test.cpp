@@ -70,7 +70,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 {
     SECTION( "welder" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 2500 ) );
+        tools.push_back( tool_with_ammo( "welder", 10000 ) );
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
         tools.insert( tools.end(), 100, item( "scrap" ) );
@@ -87,7 +87,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         item ups( "UPS_off" );
         item ups_mag( ups.magazine_default() );
-        ups_mag.ammo_set( ups_mag.ammo_default(), 1250 );
+        ups_mag.ammo_set( ups_mag.ammo_default(), 10000 );
         ups.put_in( ups_mag, item_pocket::pocket_type::MAGAZINE_WELL );
         tools.push_back( ups );
 
@@ -101,7 +101,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
     }
     SECTION( "welder_missing_goggles" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 1250 ) );
+        tools.push_back( tool_with_ammo( "welder", 10000 ) );
         test_repair( tools, false );
     }
     SECTION( "welder_missing_charge" ) {
@@ -127,7 +127,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
     }
     SECTION( "welder_missing_consumables" ) {
         std::vector<item> tools;
-        tools.push_back( tool_with_ammo( "welder", 1250 ) );
+        tools.push_back( tool_with_ammo( "welder", 10000 ) );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, false );
     }
