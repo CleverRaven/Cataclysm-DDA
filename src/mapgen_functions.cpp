@@ -2185,8 +2185,10 @@ void mapgen_forest( mapgendata &dat )
         if( p.x < SEEX ) {
             if( p.y < SEEY ) {
                 unify_continuous_border( adjacent_biomes[3], adjacent_biomes[7], adjacent_biomes[0],
+                                         // NOLINTNEXTLINE(readability-container-data-pointer)
                                          &cardinal_four_weights[3], &cardinal_four_weights[0], self_weight );
             } else {
+                // NOLINTNEXTLINE(readability-container-data-pointer)
                 unify_continuous_border( adjacent_biomes[0], adjacent_biomes[4], adjacent_biomes[1],
                                          &cardinal_four_weights[0], &cardinal_four_weights[1], self_weight );
             }

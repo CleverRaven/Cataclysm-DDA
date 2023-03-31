@@ -1492,7 +1492,7 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
         return;
     }
 
-    const item base = components.front();
+    const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
     // TODO: fix point types

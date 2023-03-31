@@ -160,7 +160,7 @@ This determines the spawn frequency and location of non-special buildings.
 Find the appropriate category for your building and add either the overmap_special ID or the city_building ID and include a spawn weight.
 
 ````json
-""abandonedwarehouse": 200,
+"abandonedwarehouse": 200,
 ````
 When testing you can increase the spawn rate if you want to survey your work using natural spawns.
 

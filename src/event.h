@@ -29,6 +29,7 @@ enum class event_type : int {
     angers_amigara_horrors,
     avatar_enters_omt,
     avatar_moves,
+    avatar_dies,
     awakes_dark_wyrms,
     becomes_wanted,
     broken_bone,
@@ -174,7 +175,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 89,
+static_assert( static_cast<int>( event_type::num_event_types ) == 90,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -222,6 +223,9 @@ struct event_spec<event_type::avatar_moves> {
         }
     };
 };
+
+template<>
+struct event_spec<event_type::avatar_dies> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::awakes_dark_wyrms> : event_spec_empty {};
