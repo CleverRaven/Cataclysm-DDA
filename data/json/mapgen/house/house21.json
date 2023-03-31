@@ -188,9 +188,9 @@
       ],
       "place_items": [
         { "chance": 20, "item": "tools_toolbox", "x": 14, "y": 10 },
-        { "chance": 30, "item": "building_rubble", "x": 4, "y": 10 },
-        { "chance": 30, "item": "building_rubble", "x": [ 13, 14 ], "y": 4 },
-        { "chance": 30, "item": "building_rubble", "x": [ 12, 13 ], "y": 3 },
+        { "chance": 30, "item": "collapsed_building_rubble", "x": 4, "y": 10 },
+        { "chance": 30, "item": "collapsed_building_rubble", "x": [ 13, 14 ], "y": 4 },
+        { "chance": 30, "item": "collapsed_building_rubble", "x": [ 12, 13 ], "y": 3 },
         { "chance": 10, "item": "hardware_plumbing", "x": 16, "y": 15 },
         { "chance": 20, "item": "hardware_plumbing", "x": [ 11, 12 ], "y": 13 },
         { "chance": 10, "item": "tools_construction", "x": 10, "y": 10 },

@@ -91,7 +91,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 {
     if( !assure_dir_exist( user_dir ) ) {
         // NOLINTNEXTLINE(misc-static-assert,cert-dcl03-c)
-        cata_fatal( "Unable to make user_dir directory.  Check permissions." );
+        cata_fatal( "Unable to make user_dir directory '%s'.  Check permissions.", user_dir );
     }
 
     PATH_INFO::init_base_path( "" );

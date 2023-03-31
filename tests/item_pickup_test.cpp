@@ -48,7 +48,7 @@ TEST_CASE( "putting items into inventory with put_in or i_add", "[pickup][invent
         they.worn.clear();
         // Get the backpack from the iterator returned by wear_item,
         // for the reference to the backpack that the avatar is wearing now
-        cata::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
+        std::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
         item &backpack = **worn;
 
         THEN( "they have a copy of the backpack" ) {
@@ -163,7 +163,7 @@ TEST_CASE( "pickup m4 with a rope in a hiking backpack", "[pickup][container]" )
         // What happens to the stuff on the ground?
         CAPTURE( here.i_at( ground ).size() );
         // Wear backpack from map and get the new item reference
-        cata::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
+        std::optional<std::list<item>::iterator> worn = they.wear_item( backpack_map );
         item &backpack = **worn;
         REQUIRE( they.has_item( backpack ) );
         // Put the rope in

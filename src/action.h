@@ -5,6 +5,7 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -254,11 +255,9 @@ enum action_id : int {
     ACTION_SKY,
     /** Display missions screen */
     ACTION_MISSIONS,
-    /** Display scores screen */
-    ACTION_SCORES,
     /** Display factions screen */
     ACTION_FACTIONS,
-    /** Display morale effects screen */
+    /** Displays morale menu */
     ACTION_MORALE,
     /** Displays medical menu */
     ACTION_MEDICAL,
@@ -340,8 +339,8 @@ enum action_id : int {
     ACTION_DISPLAY_RADIATION,
     /** Toggle transparency map */
     ACTION_DISPLAY_TRANSPARENCY,
-    /** Toggle retracted ISO walls */
-    ACTION_DISPLAY_ISO_WALLS,
+    /** Toggle retracted/transparent high sprites */
+    ACTION_TOGGLE_PREVENT_OCCLUSION,
     /** Toggle reachability zones map */
     ACTION_DISPLAY_REACHABILITY_ZONES,
     ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
@@ -409,9 +408,9 @@ std::vector<input_event> keys_bound_to( action_id act,
  *        keys only if they are printable (space counts as non-printable
  *        here). If `false`, all keys (whether they are printable or not)
  *        are returned.
- * @returns the input event for the hotkey or cata::nullopt if no key is associated with the given action.
+ * @returns the input event for the hotkey or std::nullopt if no key is associated with the given action.
  */
-cata::optional<input_event> hotkey_for_action( action_id action,
+std::optional<input_event> hotkey_for_action( action_id action,
         int maximum_modifier_count = -1, bool restrict_to_printable = true );
 
 /**
@@ -465,7 +464,7 @@ bool can_action_change_worldstate( action_id act );
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows player to select tiles above/below them if true
  */
-cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
+std::optional<tripoint> choose_adjacent( const std::string &message, bool allow_vertical = false );
 
 /**
  * Request player input of a direction, possibly including vertical component
@@ -478,7 +477,7 @@ cata::optional<tripoint> choose_adjacent( const std::string &message, bool allow
  * @param[in] message Message used in assembling the prompt to the player
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_direction( const std::string &message,
+std::optional<tripoint> choose_direction( const std::string &message,
         bool allow_vertical = false );
 
 /**
@@ -496,7 +495,7 @@ cata::optional<tripoint> choose_direction( const std::string &message,
  * @param[in] action An action ID to drive the highlighting output
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, action_id action, bool allow_vertical = false );
 
 /**
@@ -515,7 +514,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * @param[in] allowed A function that will be called to determine if a given location is allowed for selection
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
-cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+std::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const std::string &failure_message, const std::function<bool( const tripoint & )> &allowed,
         bool allow_vertical = false );
 
@@ -528,7 +527,7 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
 // ('Z'ing|zing) (X( or Y)))
 std::string press_x( action_id act, const std::string &act_desc );
 // Return "Press X" or nullopt if not bound
-cata::optional<std::string> press_x_if_bound( action_id act );
+std::optional<std::string> press_x_if_bound( action_id act );
 
 // only has effect in iso mode
 enum class iso_rotate : int {

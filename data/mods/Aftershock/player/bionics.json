@@ -136,7 +136,7 @@
         "values": [
           { "value": "ARMOR_BIO", "add": 7 },
           { "value": "ARMOR_COLD", "add": 5 },
-          { "value": "PAIN", "add": 450 },
+          { "value": "PAIN_REMOVE", "add": 45 },
           { "value": "METABOLISM", "multiply": 1.5 },
           { "value": "REGEN_HP", "multiply": 2 }
         ]

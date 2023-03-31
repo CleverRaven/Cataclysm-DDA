@@ -112,5 +112,44 @@
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762R": 5 }, "allowed_speedloaders": [ "762R_clip" ] }
     ]
+  },
+  {
+    "id": "psl",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "//": "Mom can we have a McDragunov? Mom: we have McDragunov at home. The McDragunov at home:",
+    "type": "GUN",
+    "name": { "str": "PSL" },
+    "description": "The Romanian PSL is a designated marksman's rifle developed by Romania after political tensions with Soviet Russia forced them to develop their own alternative to the SVD.",
+    "weight": "4100 g",
+    "volume": "7339 ml",
+    "longest_side": "1150 mm",
+    "price": 290000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "color": "brown",
+    "ammo": [ "762R" ],
+    "dispersion": 150,
+    "durability": 9,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "stock mount", 1 ],
+      [ "stock accessory", 2 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "default_mods": [ "sights_mount" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "pslmag5", "pslmag10" ] } ]
   }
 ]

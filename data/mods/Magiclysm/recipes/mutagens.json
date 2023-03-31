@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "manatouched_serum",
     "qualities": [ { "id": "MAGIC_MUTAGEN", "level": 1 }, { "id": "MANA_INFUSE", "level": 2 }, { "id": "CONCENTRATE", "level": 1 } ],
     "components": [ [ [ "mana_dust", 20 ] ], [ [ "mana_potion", 4 ], [ "mana_potion_greater", 1 ], [ "mana_infused_blood", 6 ] ] ],
@@ -17,7 +17,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "result": "manatouched_mutagen",
     "qualities": [
       { "id": "MAGIC_MUTAGEN", "level": 1 },

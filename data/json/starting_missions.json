@@ -628,6 +628,68 @@
     "origins": [ "ORIGIN_GAME_START" ]
   },
   {
+    "id": "MISSION_HELICOPTER_CRASH",
+    "type": "mission_definition",
+    "name": { "str": "Return to base" },
+    "description": "Your helicopter was crashed to the ground, communications were lost with ground base, and the rest of your team died while landing, at least you still know the way back to the base.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "helipad_nw",
+    "difficulty": 4,
+    "value": 0,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "helipad_nw",
+        "reveal_radius": 10,
+        "om_special": "military helipad",
+        "search_range": 70,
+        "min_distance": 25,
+        "z": 0
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
+    "id": "MISSION_HELICOPTER_PILOT",
+    "type": "mission_definition",
+    "name": { "str": "Go to the refueling stop" },
+    "description": "Your bird is now on the ground, never again able to fly, you could search for a new one in the closest refueling stop requisitioned by the military.",
+    "goal": "MGOAL_GO_TO_TYPE",
+    "difficulty": 3,
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "s_air_helicopter_pad",
+        "om_special": "o_airport",
+        "reveal_radius": 6,
+        "random": true,
+        "search_range": 65,
+        "min_distance": 15,
+        "z": 0
+      },
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_zombie_military_pilot", "x": 1, "y": 1 },
+          { "monster": "mon_feral_soldier", "x": 3, "y": 3 },
+          { "monster": "mon_zombie_soldier", "x": 7, "y": 3 },
+          { "monster": "mon_zombie_soldier", "x": 8, "y": 2 },
+          { "monster": "mon_zombie_soldier", "x": 7, "y": 6 }
+        ]
+      }
+    },
+    "origins": [ "ORIGIN_GAME_START" ],
+    "value": 0,
+    "end": {
+      "effect": [
+        {
+          "u_add_morale": "morale_feeling_good",
+          "bonus": 10,
+          "max_bonus": 50,
+          "duration": "120 minutes",
+          "decay_start": "60 minutes"
+        }
+      ]
+    }
+  },
+  {
     "id": "MISSION_LAST_DELIVERY",
     "type": "mission_definition",
     "name": { "str": "Reach The Mansion And Finish This Delivery" },

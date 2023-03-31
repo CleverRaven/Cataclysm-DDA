@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <queue>
 #include <set>
@@ -72,7 +73,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -166,12 +166,12 @@ static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
-static const activity_id ACT_WASH( "ACT_WASH" );
 
 static const ammotype ammo_battery( "battery" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -198,6 +198,7 @@ static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
+static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -307,7 +308,6 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_VIEW_RECIPE, view_recipe_finish },
-    { ACT_WASH, washing_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
@@ -1339,11 +1339,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                     veh = &vp->vehicle();
                     part = act_ref.values[4];
                     if( source_veh &&
-                        source_veh->fuel_left( liquid.typeId(), false, ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
+                        source_veh->fuel_left( liquid.typeId(), ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
                 {
                     return &veh->part( part ) != &pa;
                     }
-                                                                                                                           } : return_true<const vehicle_part &> ) ) <= 0 ) {
+                                                                                                                    } : return_true<const vehicle_part &> ) ) <= 0 ) {
                         act_ref.set_to_null();
                         return;
                     }
@@ -2004,17 +2004,18 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
     int non_combustion_started = 0;
     const bool take_control = act->values[0];
 
-    for( size_t e = 0; e < veh->engines.size(); ++e ) {
-        if( veh->is_engine_on( e ) ) {
+    for( const int p : veh->engines ) {
+        vehicle_part &vp = veh->part( p );
+        if( veh->is_engine_on( vp ) ) {
             attempted++;
-            if( !veh->is_engine_type( e, itype_muscle ) &&
-                !veh->is_engine_type( e, itype_animal ) ) {
+            if( !veh->is_engine_type( vp, itype_muscle ) &&
+                !veh->is_engine_type( vp, itype_animal ) ) {
                 non_muscle_attempted++;
             }
-            if( veh->start_engine( e ) ) {
+            if( veh->start_engine( vp ) ) {
                 started++;
-                if( !veh->is_engine_type( e, itype_muscle ) &&
-                    !veh->is_engine_type( e, itype_animal ) ) {
+                if( !veh->is_engine_type( vp, itype_muscle ) &&
+                    !veh->is_engine_type( vp, itype_animal ) ) {
                     non_muscle_started++;
                 } else {
                     non_combustion_started++;
@@ -2117,10 +2118,10 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
 // Note: similar hack could be used to implement all sorts of vehicle pseudo-items
 //  and possibly CBM pseudo-items too.
 struct weldrig_hack {
-    cata::optional<vpart_reference> part;
+    std::optional<vpart_reference> part;
     item pseudo;
 
-    weldrig_hack() : part( cata::nullopt ) { }
+    weldrig_hack() : part( std::nullopt ) { }
 
     bool init( const player_activity &act ) {
         if( act.coords.empty() || act.str_values.size() < 2 ) {
@@ -2178,7 +2179,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
     item_location *ploc = nullptr;
 
     if( !act->targets.empty() ) {
-        ploc = &act->targets[0];
+        ploc = act->targets.data();
     }
 
     item &main_tool = !w_hack.init( *act ) ?
@@ -2351,7 +2352,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                                 ammo_remaining, used_tool->ammo_capacity( current_ammo ),
                                 ammo_name,
                                 used_tool->ammo_required() );
-        title += string_format( _( "Materials available: %s\n" ), join( material_list, ", " ) );
+        title += string_format( _( "Materials available: %s\n" ), string_join( material_list, ", " ) );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
                                 actor->used_skill.obj().name(), level );
         title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
@@ -2514,7 +2515,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
 void activity_handlers::eat_menu_do_turn( player_activity *, Character * )
 {
     avatar &player_character = get_avatar();
-    avatar_action::eat( player_character, game_menus::inv::consume( player_character ) );
+    avatar_action::eat_or_use( player_character, game_menus::inv::consume( player_character ) );
 }
 
 void activity_handlers::consume_food_menu_do_turn( player_activity *, Character * )
@@ -2532,7 +2533,7 @@ void activity_handlers::consume_drink_menu_do_turn( player_activity *, Character
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, Character * )
 {
     avatar &player_character = get_avatar();
-    avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
+    avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds( player_character ) );
 }
 
 void activity_handlers::view_recipe_do_turn( player_activity *act, Character *you )
@@ -2563,7 +2564,7 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
         return;
     }
 
-    you->craft( cata::nullopt, id );
+    you->craft( std::nullopt, id );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )
@@ -2670,12 +2671,18 @@ void activity_handlers::fish_do_turn( player_activity *act, Character *you )
     item &it = *act->targets.front();
     int fish_chance = 1;
     int survival_skill = you->get_skill_level( skill_survival );
-    if( it.has_flag( flag_FISH_POOR ) ) {
-        survival_skill += dice( 1, 6 );
-    } else if( it.has_flag( flag_FISH_GOOD ) ) {
-        // Much better chances with a good fishing implement.
-        survival_skill += dice( 4, 9 );
-        survival_skill *= 2;
+    switch( it.get_quality( qual_FISHING_ROD ) ) {
+        case 1:
+            survival_skill += dice( 1, 6 );
+            break;
+        case 2:
+            // Much better chances with a good fishing implement.
+            survival_skill += dice( 4, 9 );
+            survival_skill *= 2;
+            break;
+        default:
+            debugmsg( "ERROR: Invalid FISHING_ROD tool quality on %s", item::nname( it.typeId() ) );
+            break;
     }
     std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
     // Fish are always there, even if it doesn't seem like they are visible!
@@ -2881,7 +2888,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
             }
             if( !bps.empty() ) {
                 for( const bodypart_id &bp : bps ) {
-                    you->make_bleed( effect_source::empty(), bp, 1_turns, difficulty, true );
+                    you->add_effect( effect_bleed,  1_minutes * difficulty, bp, false, true );
                     you->apply_damage( nullptr, bp, 20 * difficulty );
 
                     if( u_see ) {
@@ -2894,7 +2901,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                     }
                 }
             } else {
-                you->make_bleed( effect_source::empty(), bodypart_id( "bp_null" ), 1_turns, difficulty, true );
+                you->add_effect( effect_bleed,  1_minutes * difficulty, bodypart_str_id::NULL_ID(), false, true );
                 you->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }
@@ -2923,7 +2930,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
-            if( cata::optional<bionic *> bio = you->find_bionic_by_uid( act->values[2] ) ) {
+            if( std::optional<bionic *> bio = you->find_bionic_by_uid( act->values[2] ) ) {
                 you->perform_uninstall( **bio, act->values[0], act->values[1], act->values[3] );
             } else {
                 debugmsg( _( "Tried to uninstall bionic with UID %s, but you don't have this bionic installed." ),
@@ -2940,7 +2947,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 const bionic_id upbid = bid->upgraded_bionic;
                 // TODO: Let the user pick bionic to upgrade if multiple candidates exist
                 bionic_uid upbio_uid = 0;
-                if( cata::optional<bionic *> bio = you->find_bionic_by_type( upbid ) ) {
+                if( std::optional<bionic *> bio = you->find_bionic_by_type( upbid ) ) {
                     upbio_uid = ( *bio )->get_uid();
                 }
 
@@ -3540,7 +3547,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
     }
 
     // choose target for spell before continuing
-    const cata::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
+    const std::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
             you ) : get_map().getlocal( act->coords.front() );
     if( target ) {
         // npcs check for target viability
@@ -3552,7 +3559,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             if( !success ) {
                 you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
                                         _( "You lose your concentration!" ) );
-                if( !spell_being_cast.is_max_level() && level_override == -1 ) {
+                if( !spell_being_cast.is_max_level( *you ) && level_override == -1 ) {
                     // still get some experience for trying
                     spell_being_cast.gain_exp( *you, exp_gained / 5 );
                     you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
@@ -3598,7 +3605,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
 
             }
             if( level_override == -1 ) {
-                if( !spell_being_cast.is_max_level() ) {
+                if( !spell_being_cast.is_max_level( *you ) ) {
                     // reap the reward
                     int old_level = spell_being_cast.get_level();
                     if( old_level == 0 ) {
@@ -3646,8 +3653,8 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
         const int xp = roll_remainder( studying.exp_modifier( *you ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( *you, xp );
-        bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty(), true );
-        if( leveled_up && studying.get_difficulty() < you->get_skill_level( studying.skill() ) ) {
+        bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty( *you ), true );
+        if( leveled_up && studying.get_difficulty( *you ) < you->get_skill_level( studying.skill() ) ) {
             you->handle_skill_warning( studying.skill(),
                                        true ); // show the skill warning on level up, since we suppress it in practice() above
         }

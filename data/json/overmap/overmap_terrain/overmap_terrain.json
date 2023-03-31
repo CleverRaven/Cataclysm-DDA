@@ -17,6 +17,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "omt_obsolete",
+    "//": "this omt is used for replacing obsoleted overmap terrain",
+    "name": "nether-chewed field",
+    "sym": "%",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_city_building_no_sidewalk",
     "name": "city building",
     "sym": "^",
@@ -606,6 +615,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "drug_lab",
+    "name": "drug lab",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "drug_lab_roof",
+    "name": "drug lab roof",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "campground_1a", "campground_1b", "campground_2a", "campground_2b" ],
     "name": "campground",
     "sym": "+",
@@ -940,33 +965,29 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "pagan_cult_enter",
-      "pagan_cult_right_corner",
-      "pagan_cult_right_corner_up",
-      "pagan_cult_left_corner",
-      "pagan_cult_left_corner_up",
-      "pagan_cult_long_wall"
+      "hive_edge_00",
+      "hive_edge_10",
+      "hive_edge_20",
+      "hive_edge_01",
+      "hive",
+      "hive_edge_21",
+      "hive_edge_02",
+      "hive_edge_12",
+      "hive_edge_22",
+      "hive_edge_00_roof",
+      "hive_edge_10_roof",
+      "hive_edge_20_roof",
+      "hive_edge_01_roof",
+      "hive_roof",
+      "hive_edge_21_roof",
+      "hive_edge_02_roof",
+      "hive_edge_12_roof",
+      "hive_edge_22_roof"
     ],
-    "name": "wall",
-    "sym": "W",
-    "color": "brown",
-    "see_cost": 5,
-    "flags": [ "RISK_LOW", "SOURCE_SAFETY", "SOURCE_FOOD" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pagan_cult_longhouse",
-    "name": "longhouse",
-    "sym": "O",
-    "color": "brown",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "pagan_cult_henge",
-    "name": "henge",
-    "sym": "^",
-    "color": "brown",
-    "see_cost": 5
+    "name": "bee hive",
+    "sym": "8",
+    "color": "yellow",
+    "see_cost": 3,
+    "flags": [ "RISK_HIGH" ]
   }
 ]

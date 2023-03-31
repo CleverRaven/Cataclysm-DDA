@@ -1748,5 +1748,89 @@
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_qt_helm_close", "menu_text": "Lower" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "airsoft_helmet",
+    "repairs_like": "xlkevlar",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "airsoft helmet" },
+    "description": "A lightweight helmet that is fashioned to look like a real military helmet, but is made of plastic and only protects against BB's and other light threats.  It has a military rail system for attachments.",
+    "weight": "455 g",
+    "volume": "1850 ml",
+    "price": 6000,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "plastic", "plastic_pad" ],
+    "symbol": "[",
+    "looks_like": "helmet_army",
+    "color": "dark_gray",
+    "warmth": 15,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "WATERPROOF", "PADDED" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 85,
+        "covers": [ "head" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.5 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "moves": 250,
+        "description": "Pocket for a face shield or a shield visor.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a rail-mounted mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD", "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      }
+    ]
   }
 ]

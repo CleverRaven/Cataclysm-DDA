@@ -133,19 +133,19 @@
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_TEAMSTER_DIRECTIONS",
     "dynamic_line": {
-      "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 0 } ],
+      "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 0 } ],
       "yes": "No, sorry.  Nothin' much worth notin' out there these days, just the odd scattered survivor and they usually don't want random visitors.",
       "no": {
-        "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ],
+        "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ],
         "yes": "Matter of fact, yeah.  Ran into a bunch of farmers.  They don't want much to do with our caravans, but someone like you they might be OK with.",
         "no": {
-          "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ],
+          "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ],
           "yes": "There's been rumors.  Folks talkin' about some kind of secret lab, out in the wilds, with survivors in it.  I haven't seen it myself, mind you.",
           "no": {
-            "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ],
+            "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ],
             "yes": "Well, a few of my caravans have come back now talkin' about this giant metal castle on top of a rock, in the middle of nowhere.  They ain't been crazy enough to check it out, but you could if you want.",
             "no": {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ],
+              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ],
               "yes": "A few of my people have come back now talkin' about some yuppie trying to start a bank that uses bullets for money.  Silly idea but the lad lives on a homestead with a woman who wouldn't let my guys leave without a full belly.",
               "no": "ERROR: out of bounds on randomize_directions."
             }
@@ -160,7 +160,7 @@
         "condition": {
           "and": [
             {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
+              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
             },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "isherwood" } }
           ]
@@ -174,7 +174,7 @@
         "condition": {
           "and": [
             {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ]
+              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 2 } ]
             },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "hub01" } }
           ]
@@ -188,7 +188,7 @@
         "condition": {
           "and": [
             {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ]
+              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 3 } ]
             },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "exodii" } }
           ]
@@ -202,7 +202,7 @@
         "condition": {
           "and": [
             {
-              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ]
+              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 4 } ]
             },
             { "not": { "u_has_var": "directions", "type": "teamster", "context": "mission", "value": "artisans" } }
           ]

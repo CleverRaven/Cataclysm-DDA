@@ -276,13 +276,15 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
             // Avoid division by zero
             return tally;
         }
-        for( const item &component : comest.components ) {
-            nutrients component_value =
-                compute_effective_nutrients( component ) * component.charges;
-            if( component.has_flag( flag_BYPRODUCT ) ) {
-                tally -= component_value;
-            } else {
-                tally += component_value;
+        for( const item_components::type_vector_pair &tvp : comest.components ) {
+            for( const item &component : tvp.second ) {
+                nutrients component_value =
+                    compute_effective_nutrients( component ) * component.charges;
+                if( component.has_flag( flag_BYPRODUCT ) ) {
+                    tally -= component_value;
+                } else {
+                    tally += component_value;
+                }
             }
         }
         return tally / comest.recipe_charges;
@@ -318,7 +320,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         our_extra_flags.insert( flag_COOKED );
     }
 
-    const requirement_data requirements = rec.simple_requirements();
+    const requirement_data &requirements = rec.simple_requirements();
     const requirement_data::alter_item_comp_vector &component_requirements =
         requirements.get_components();
 
@@ -380,11 +382,19 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_min;
         nutrients this_max;
 
-        item result_it = rec->create_result();
-        if( result_it.num_item_stacks() == 1 ) {
-            const item alt_result = result_it.legacy_front();
-            if( alt_result.typeId() == comest_it.typeId() ) {
-                result_it = alt_result;
+        std::vector<item> results = rec->create_results();
+        item result_it = results.front();
+        for( item &it : results ) {
+            if( it.typeId() == comest_it.typeId() ) {
+                result_it = it;
+                break;
+            }
+            if( !it.is_container_empty() ) {
+                const item alt_result = it.legacy_front();
+                if( alt_result.typeId() == comest_it.typeId() ) {
+                    result_it = alt_result;
+                    break;
+                }
             }
         }
         if( result_it.typeId() != comest_it.typeId() ) {
@@ -777,7 +787,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     const use_function *smoking = food.type->get_use( "SMOKING" );
     if( smoking != nullptr ) {
-        cata::optional<std::string> litcig = iuse::can_smoke( *this );
+        std::optional<std::string> litcig = iuse::can_smoke( *this );
         if( litcig.has_value() ) {
             return ret_val<edible_rating>::make_failure( NO_TOOL, _( litcig.value_or( "" ) ) );
         }
@@ -1539,6 +1549,7 @@ bool Character::consume_effects( item &food )
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
     }
+    // to do: reduce nutrition by a factor of the amount of muscle to be rebuilt?
     activate_consume_eocs( *this, food );
 
     // GET IN MAH BELLY!
@@ -1610,11 +1621,13 @@ time_duration Character::get_consume_time( const item &it ) const
     } else if( !eat_verb && comest_type == "DRINK" ) {
         time = time_duration::from_seconds( volume / 15 ); //Drink 15 mL (1 tablespoon) per second
         consume_time_modifier = mutation_value( "consume_time_modifier" );
+    } else if( use_function const *fun = it.type->get_use( "heal" ) ) {
+        time = time_duration::from_moves( dynamic_cast<heal_actor const *>
+                                          ( fun->get_actor_ptr() )->move_cost );
     } else if( it.is_medication() ) {
         const use_function *consume_drug = it.type->get_use( "consume_drug" );
         const use_function *smoking = it.type->get_use( "SMOKING" );
         const use_function *adrenaline_injector = it.type->get_use( "ADRENALINE_INJECTOR" );
-        const use_function *heal = it.type->get_use( "heal" );
         if( consume_drug != nullptr ) { //its a drug
             const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
                     ( consume_drug->get_actor_ptr() );
@@ -1629,8 +1642,8 @@ time_duration Character::get_consume_time( const item &it ) const
             }
         } else if( smoking != nullptr ) {
             time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
-        } else if( adrenaline_injector != nullptr || heal != nullptr ) {
-            //epi-pens, bandages and disinfectant are fairly quick
+        } else if( adrenaline_injector != nullptr ) {
+            //epi-pens, and disinfectant are fairly quick
             time = time_duration::from_seconds( 15 );
         } else {
             time = time_duration::from_seconds( 5 ); //probably pills so quick

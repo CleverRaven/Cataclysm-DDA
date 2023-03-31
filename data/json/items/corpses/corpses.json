@@ -79,8 +79,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body of a little boy.",
     "looks_like": "corpse_generic_human",
-    "volume": "30 L",
-    "weight": "30 kg",
+    "source_monster": "mon_child",
     "material": [ "hflesh" ]
   },
   {
@@ -90,8 +89,7 @@
     "name": { "str": "corpse" },
     "description": "A dead body of a little girl.",
     "looks_like": "corpse_generic_human",
-    "volume": "30 L",
-    "weight": "30 kg",
+    "source_monster": "mon_child",
     "material": [ "hflesh" ]
   },
   {
@@ -101,8 +99,7 @@
     "name": { "str": "corpse" },
     "description": "The dead body of a small child.  Their corpse bears a calm facial expression, as if they died instantly.",
     "looks_like": "corpse_generic_human",
-    "volume": "30 L",
-    "weight": "30 kg",
+    "source_monster": "mon_child",
     "material": [ "hflesh" ]
   },
   {
@@ -112,8 +109,7 @@
     "name": { "str": "corpse" },
     "description": "The dead body of a child, riddled by bullets to the extent that you can no longer tell their gender.",
     "looks_like": "corpse_generic_human",
-    "volume": "30 L",
-    "weight": "30 kg",
+    "source_monster": "mon_child",
     "material": [ "hflesh" ],
     "snippet_category": [
       {

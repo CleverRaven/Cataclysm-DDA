@@ -160,7 +160,7 @@ The bonuses arrays contain any number of bonus entries like this:
 Bonuses must be written in the correct order.
 
 Tokens of `useless` type will not cause an error, but will not have any effect.
-For example, `speed` in a technique will have no effect (`movecost` should be used for techniques).
+For example, `speed` in a technique will have no effect (`movecost` should be used for techniques). Multiplicative bonuses are only for `damage` and `movecost`.
 
 Flat bonuses are applied after multiplicative bonuses.
 

@@ -118,6 +118,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE",
       "ACIDPROOF",
       "TOXICFLESH",
       "FRESHWATEROSMOSIS",
@@ -148,7 +149,7 @@
     "name": { "str": "Protective Lenses" },
     "description": "Your eye sockets have been surgically sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
-    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "EYESTALKS1", "EYESTALKS2" ],
+    "mutation_conflicts": [ "COMPOUND_EYES", "CEPH_VISION", "CEPH_EYES", "EYEBULGE", "MEMBRANE", "EYESTALKS1", "EYESTALKS2" ],
     "social_modifiers": { "intimidate": 10 },
     "passive_pseudo_items": [ "armor_bio_eyes" ]
   },
@@ -217,7 +218,6 @@
       "TOXICFLESH",
       "FRESHWATEROSMOSIS",
       "BIOLUM0",
-      "BIOLUM0_active",
       "BIOLUM1",
       "BIOLUM1_active",
       "BIOLUM2",
@@ -239,7 +239,7 @@
       "MUZZLE_BEAR",
       "MUZZLE_RAT",
       "MUZZLE_LONG",
-      "PROBISCIS",
+      "PROBOSCIS",
       "MOUTH_FLAPS",
       "MOUTH_TENTACLES",
       "MANDIBLES",
@@ -544,7 +544,43 @@
       [ "mouth", 1 ]
     ],
     "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
-    "passive_pseudo_items": [ "armor_bio_carbon_filament" ]
+    "bash_protec": [
+      [ "torso", 2 ],
+      [ "head", 2 ],
+      [ "mouth", 2 ],
+      [ "arm_r", 2 ],
+      [ "leg_l", 2 ],
+      [ "leg_r", 2 ],
+      [ "foot_l", 2 ],
+      [ "foot_r", 2 ],
+      [ "hand_l", 2 ],
+      [ "hand_r", 2 ]
+    ],
+    "cut_protec": [
+      [ "torso", 4 ],
+      [ "head", 4 ],
+      [ "mouth", 4 ],
+      [ "arm_l", 4 ],
+      [ "arm_r", 4 ],
+      [ "leg_l", 4 ],
+      [ "leg_r", 4 ],
+      [ "foot_l", 4 ],
+      [ "foot_r", 4 ],
+      [ "hand_l", 4 ],
+      [ "hand_r", 4 ]
+    ],
+    "bullet_protec": [
+      [ "torso", 4 ],
+      [ "head", 4 ],
+      [ "mouth", 4 ],
+      [ "arm_r", 4 ],
+      [ "leg_l", 4 ],
+      [ "leg_r", 4 ],
+      [ "foot_l", 4 ],
+      [ "foot_r", 4 ],
+      [ "hand_l", 4 ],
+      [ "hand_r", 4 ]
+    ]
   },
   {
     "id": "bio_chain_lightning",
@@ -571,6 +607,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE",
       "TALONS",
       "CLAWS",
       "CLAWS_RETRACT",
@@ -714,7 +751,8 @@
       "ALCMET",
       "SAPROVORE",
       "LACTOSE",
-      "GRAZER"
+      "GRAZER",
+      "VEGETARIAN"
     ]
   },
   {
@@ -899,6 +937,13 @@
     "occupied_bodyparts": [ [ "hand_l", 1 ] ],
     "toggled_pseudo_items": [ "electrohack" ],
     "flags": [ "BIONIC_TOGGLED", "USES_BIONIC_POWER" ]
+  },
+  {
+    "id": "bio_fitnessband",
+    "type": "bionic",
+    "name": { "str": "Calorie Tracker" },
+    "description": "A module implanted in your body measures your calorie intake and expenditure at all times.",
+    "occupied_bodyparts": [ [ "torso", 1 ] ]
   },
   {
     "id": "bio_flashbang",
@@ -1231,9 +1276,9 @@
     "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect attacks, but rather delivers a strong shock, damaging unarmed attackers and those with a conductive weapon.",
     "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
-    "act_cost": "10 kJ",
-    "react_cost": "10 kJ",
-    "trigger_cost": "1 kJ",
+    "act_cost": "10 J",
+    "react_cost": "10 J",
+    "trigger_cost": "400 J",
     "time": "1 s"
   },
   {
@@ -1555,20 +1600,9 @@
     "type": "bionic",
     "name": { "str": "Integrated Multitool" },
     "description": "Surgically implanted in your hands and forearms is a set of compact tools and a welder that runs off your internal power banks.",
-    "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "toggled_pseudo_items": [ "toolset" ],
-    "included_bionics": [ "bio_tools_extend" ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ],
-    "activated_on_install": true
-  },
-  {
-    "id": "bio_tools_extend",
-    "type": "bionic",
-    "name": { "str": "Extended Multitool" },
-    "description": "Extend or withdraw your integrated multitool to access its functions.  This takes up your hands.",
-    "fake_weapon": "toolset_extended",
-    "included": true,
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "USES_BIONIC_POWER" ]
+    "occupied_bodyparts": [ [ "hand_l", 2 ], [ "hand_r", 2 ], [ "arm_l", 2 ], [ "arm_r", 2 ] ],
+    "passive_pseudo_items": [ "toolset" ],
+    "flags": [ "BIO_SHOCKPROOF", "BIONIC_NPC_USABLE" ]
   },
   {
     "id": "bio_torsionratchet",
@@ -1587,6 +1621,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE",
       "GASTROPOD_FOOT",
       "GASTROPOD_BALANCE",
       "LEG_TENTACLES",
@@ -1706,6 +1741,7 @@
       "ARM_TENTACLES",
       "ARM_TENTACLES_4",
       "ARM_TENTACLES_8",
+      "CLAWS_TENTACLE",
       "GASTROPOD_FOOT",
       "GASTROPOD_BALANCE",
       "LEG_TENTACLES",

@@ -52,6 +52,27 @@
     "copy-from": "holybook_abstract"
   },
   {
+    "id": "holybook_bible4",
+    "type": "BOOK",
+    "name": { "str": "New American Bible", "str_pl": "copies of the New Bible" },
+    "description": "An English translation of the Bible first published in 1970.  It is accepted by the Catholic dioceses of the United States of America and the Philippines.",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
+    "id": "holybook_bible5",
+    "type": "BOOK",
+    "name": {
+      "str": "The New World Translation of the Holy Scriptures",
+      "str_pl": "copies of the New World Translation of the Holy Scriptures"
+    },
+    "description": "An English translation of the Bible published by the Watch Tower Bible and Tract Society, used and distributed by Jehovah's Witnesses",
+    "weight": "368 g",
+    "volume": "1 L",
+    "copy-from": "holybook_abstract"
+  },
+  {
     "id": "holybook_granth",
     "type": "BOOK",
     "name": { "str": "The Guru Granth Sahib", "str_pl": "copies of The Guru Granth Sahib" },
