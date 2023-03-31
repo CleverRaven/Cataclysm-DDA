@@ -484,7 +484,6 @@
     "id": "ap_heater_small",
     "name": { "str": "small heater" },
     "item": "small_space_heater",
-    "folded_volume": null,
     "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "APPLIANCE" ],
     "copy-from": "mountable_heater_small",
     "requirements": { "removal": { "time": "6 m" } }
@@ -653,7 +652,6 @@
     "item": "standing_floodlight",
     "description": "A large, heavy light that illuminates a wide area around it when switched on.",
     "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "folded_volume": null,
     "copy-from": "floodlight",
     "requirements": { "removal": { "time": "6 m" } }
   },
