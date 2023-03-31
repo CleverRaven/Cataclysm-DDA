@@ -883,6 +883,7 @@ void npc::randomize( const npc_class_id &type )
 
     set_base_age( rng( 18, 55 ) );
     randomize_height();
+    set_stored_kcal( get_healthy_kcal() );
 
     // Add eocs
     effect_on_conditions::load_new_character( *this );
