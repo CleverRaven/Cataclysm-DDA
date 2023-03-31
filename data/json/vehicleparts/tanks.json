@@ -21,7 +21,7 @@
         "using": [ [ "vehicle_wrench_1", 1 ], [ "drilling_standard", 10 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 26, "stab": 8 }
@@ -76,7 +76,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 40 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "22 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 28, "stab": 10 }
@@ -106,7 +106,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 28, "stab": 12 }
@@ -137,7 +137,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK", "FRIDGE", "ENABLED_DRAINS_EPOWER" ],
     "damage_reduction": { "all": 28, "stab": 12 }
@@ -169,7 +169,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 45 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FLUIDTANK" ],
     "damage_reduction": { "all": 30, "stab": 12 }
@@ -248,7 +248,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 50 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 30, "stab": 12 }
@@ -290,7 +290,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "40 m", "using": [ [ "welding_standard", 80 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "16 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "damage_reduction": { "all": 24, "stab": 18 }
   },
@@ -320,7 +320,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "GASTANK" ],
     "damage_reduction": { "all": 28, "stab": 12 }
@@ -350,7 +350,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "FLUIDTANK" ],
     "damage_reduction": { "all": 28, "stab": 12 }
@@ -380,7 +380,7 @@
         "using": [ [ "vehicle_wrench_2", 1 ], [ "drilling_standard", 50 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "45 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
-      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "GASTANK" ],
     "damage_reduction": { "all": 28, "stab": 12 }
@@ -391,7 +391,12 @@
     "type": "vehicle_part",
     "name": { "str": "aluminum tank (200L)" },
     "item": "55gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   },
   {
     "id": "tank_30gal_drum_aluminum",
@@ -399,7 +404,12 @@
     "type": "vehicle_part",
     "name": { "str": "aluminum tank (100L)" },
     "item": "30gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   },
   {
     "id": "external_tank_small_aluminum",
@@ -408,7 +418,12 @@
     "name": { "str": "external aluminum tank (100L)" },
     "looks_like": "afs_roof_external_tank",
     "item": "30gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   },
   {
     "id": "afs_small_roof_external_tank_aluminum",
@@ -416,7 +431,12 @@
     "type": "vehicle_part",
     "name": { "str": "roof-mounted external aluminum tank (100L)" },
     "item": "30gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 13 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   },
   {
     "id": "external_tank_aluminum",
@@ -424,7 +444,12 @@
     "type": "vehicle_part",
     "name": { "str": "external aluminum tank (200L)" },
     "item": "55gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   },
   {
     "id": "afs_roof_external_tank_aluminum",
@@ -432,6 +457,11 @@
     "type": "vehicle_part",
     "name": { "str": "roof-mounted external aluminum tank (200L)" },
     "item": "55gal_drum_aluminum",
-    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ]
+    "breaks_into": [ { "item": "scrap_aluminum", "count": [ 4, 25 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_alloys", 50 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "8 m", "using": [ [ "repair_welding_alloys", 4 ] ] }
+    }
   }
 ]
