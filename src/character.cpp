@@ -3080,7 +3080,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 {
     std::vector<std::string> unmet_reqs;
 
-    const auto check_req = [ &unmet_reqs ]( const std::string &name, int cur, int req ) {
+    const auto check_req = [ &unmet_reqs ]( const std::string & name, int cur, int req ) {
         if( cur < req ) {
             unmet_reqs.push_back( string_format( "%s %d", name, req ) );
         }
@@ -9605,7 +9605,7 @@ void Character::process_one_effect( effect &it, bool is_new )
     int_bonus_hardcoded += get_int_bonus() - intl;
     per_bonus_hardcoded += get_per_bonus() - per;
 
-    const auto get_effect = [&it, is_new]( const std::string &arg, bool reduced ) {
+    const auto get_effect = [&it, is_new]( const std::string & arg, bool reduced ) {
         if( is_new ) {
             return it.get_amount( arg, reduced );
         }
