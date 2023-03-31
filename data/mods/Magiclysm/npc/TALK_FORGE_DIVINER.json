@@ -928,11 +928,8 @@
     "id": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN",
     "type": "talk_topic",
     "dynamic_line": "There are these city-sized creatures called Void Leviathans that lives in the vast nether regions between realities.  Sometimes they used to was up onto Earths that had recently had a cataclysm.  Caused all kinds of trouble, they did, so Valzain made it so they would spawn underground instead.  But I haven't seen any of them in quite a while.  Perhaps they retreated deeper into the empty parts of the nehter?  Sorry, I haven't seen any in this reality yet.  I can't help you.",
-    "//":  "This is for if nether_monster_corpse gets implemented.",
-    "responses": [
-      { "text": "About something else…", "topic": "TALK_NONE" },
-      { "text": "Nevermind.", "topic": "TALK_DONE" }
-    ]
+    "//": "This is for if nether_monster_corpse gets implemented.",
+    "responses": [ { "text": "About something else…", "topic": "TALK_NONE" }, { "text": "Nevermind.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "TALK_FORGE_LORD_DIVINER_MALIGNANCE",
