@@ -44,7 +44,7 @@ Cataclysm is targeting the C++17 standard and that means you'll need a compiler 
 
 If you get a line like:
 
-    g++: error: unrecognized command line option ‘--std=c++14’
+    g++: error: unrecognized command line option ‘--std=c++17’
 
 This means you'll need a newer version of GCC (`g++`).
 
@@ -632,7 +632,7 @@ There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (
 
 ### Building on FreeBSD/amd64 13.0 with the system compiler
 
-FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14 support out of the box.
+FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++17 support out of the box.
 
 Install the following with pkg (or from Ports):
 
