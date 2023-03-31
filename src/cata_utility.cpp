@@ -14,7 +14,6 @@
 
 #include "cached_options.h"
 #include "catacharset.h"
-#include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "filesystem.h"
@@ -511,7 +510,7 @@ std::optional<std::string> read_whole_file( const fs::path &path )
             fin.seekg( 0 );
 
             outstring.resize( size );
-            fin.read( &outstring[0], size );
+            fin.read( outstring.data(), size );
         }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );

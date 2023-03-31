@@ -74,18 +74,13 @@
       "I": { "item": "SUS_office_filing_cabinet", "chance": 80 }
     },
     "item": { "]": { "item": "american_flag" }, "[": { "item": "american_flag" } },
-    "vendingmachines": { "4": { "item_group": "vending_drink", "lootable": true }, "5": { "item_group": "vending_food", "lootable": true } }
+    "vendingmachines": { "4": { "item_group": "vending_drink", "lootable": true }, "5": { "item_group": "vending_food", "lootable": true } },
+    "monster": { " ": { "group": "GROUP_CIVILIAN", "chance": 1 } }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [
-      [ "town_hall_0_0_0", "town_hall_1_0_0" ],
-      [ "town_hall_0_1_0", "town_hall_1_1_0" ],
-      [ "town_hall_0_0_1", "town_hall_1_0_1" ],
-      [ "town_hall_0_1_1", "town_hall_1_1_1" ]
-    ],
-    "weight": 100,
+    "om_terrain": [ [ "town_hall_0_0_0", "town_hall_1_0_0" ], [ "town_hall_0_1_0", "town_hall_1_1_0" ] ],
     "object": {
       "fill_ter": "t_floor",
       "rows": [
@@ -136,7 +131,19 @@
         ".ss....|||vv|||||||--|||||||||||||||vv|||....ss.",
         "..ss...............ss.......................ss..",
         "...ssssssssssssssssssssssssssssssssssssssssss...",
-        "................................................",
+        "................................................"
+      ],
+      "palettes": [ "town_hall_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "town_hall_0_0_1", "town_hall_1_0_1" ], [ "town_hall_0_1_1", "town_hall_1_1_1" ] ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
         "************************************************",
         "************************************************",
         "*******||vvvv||******************||vvvv||*******",
@@ -186,13 +193,7 @@
         "************************************************",
         "************************************************"
       ],
-      "palettes": [ "town_hall_palette" ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 4, 23 ], "density": 0.35 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 24, 47 ], "density": 0.35 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 48, 71 ], "density": 0.35 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 24, 47 ], "y": [ 72, 95 ], "density": 0.3 }
-      ]
+      "palettes": [ "town_hall_palette" ]
     }
   },
   {
@@ -228,8 +229,7 @@
         "   <<| hd !    ! d hv***",
         "+|||||  d =    = d  v***"
       ],
-      "palettes": [ "town_hall_palette" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 19 ], "y": [ 4, 23 ], "density": 0.35 } ]
+      "palettes": [ "town_hall_palette" ]
     }
   },
   {
@@ -278,7 +278,7 @@
         "   -.....oooo...............................-   ",
         "   -.....oooo.....-----------##+##........A.-   ",
         "   -.....oooo.....-   ....   #___#..........-   ",
-        "   -.....oooo.....-   ....   #_<_#........A.-   ",
+        "   -.....oooo.....-   ....   #_>_#........A.-   ",
         "   -..............-   ....   #___#..........-   ",
         "   ----5......-----          #####......5----   ",
         "       -......-                  -......-       ",
@@ -289,7 +289,7 @@
         "                                                "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { "#": "t_brick_wall", "_": "t_thconc_floor", "+": "t_door_locked", "<": "t_stairs_down" }
+      "terrain": { "#": "t_brick_wall", "_": "t_thconc_floor", "+": "t_door_locked" }
     }
   }
 ]

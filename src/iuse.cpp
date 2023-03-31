@@ -3585,7 +3585,7 @@ std::optional<int> iuse::granade_act( Character *p, item *it, bool t, const trip
         return std::nullopt;
     } else { // When that timer runs down...
         int explosion_radius = 3;
-        int effect_roll = rng( 1, 5 );
+        int effect_roll = rng( 1, 4 );
         auto buff_stat = [&]( int &current_stat, int modify_by ) {
             int modified_stat = current_stat + modify_by;
             current_stat = std::max( current_stat, std::min( 15, modified_stat ) );
@@ -3701,16 +3701,6 @@ std::optional<int> iuse::granade_act( Character *p, item *it, bool t, const trip
                     } else if( player_character.pos() == dest ) {
                         player_character.environmental_revert_effect();
                         do_purify( player_character );
-                    }
-                }
-                break;
-            case 5:
-                sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BEES!" ),
-                               true, "speech", it->typeId().str() );
-                explosion_handler::draw_explosion( pos, explosion_radius, c_yellow );
-                for( const tripoint &dest : here.points_in_radius( pos, explosion_radius ) ) {
-                    if( one_in( 5 ) && !creatures.creature_at( dest ) ) {
-                        here.add_field( dest, fd_bees, rng( 1, 3 ) );
                     }
                 }
                 break;

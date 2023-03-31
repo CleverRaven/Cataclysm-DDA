@@ -2179,7 +2179,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
     item_location *ploc = nullptr;
 
     if( !act->targets.empty() ) {
-        ploc = &act->targets[0];
+        ploc = act->targets.data();
     }
 
     item &main_tool = !w_hack.init( *act ) ?
