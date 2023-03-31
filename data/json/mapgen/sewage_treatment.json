@@ -271,9 +271,9 @@
         { "vehicle": "pump_station_vehicles", "x": 11, "y": 13, "rotation": 90, "chance": 40 },
         { "vehicle": "pump_station_vehicles", "x": 19, "y": 13, "rotation": 90, "chance": 40 }
       ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 33, 40 ], "y": [ 3, 11 ], "density": 0.2 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 25, 44 ], "y": [ 32, 36 ], "density": 0.2 }
+      "place_monster": [
+        { "group": "GROUP_CIVILIAN", "x": [ 33, 40 ], "y": [ 3, 11 ], "repeat": [ 1, 3 ] },
+        { "group": "GROUP_SMALL_STATION", "x": [ 25, 44 ], "y": [ 32, 36 ], "repeat": [ 1, 3 ] }
       ]
     }
   },

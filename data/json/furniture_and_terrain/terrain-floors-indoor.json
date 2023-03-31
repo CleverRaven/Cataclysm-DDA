@@ -89,7 +89,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_y",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -131,17 +132,16 @@
     "looks_like": "t_floor",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
-      "sound": "SMASH!",
-      "ter_set": "t_null",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "items": [
-        { "item": "splinter", "count": [ 2, 8 ] },
-        { "item": "nail", "charges": [ 5, 10 ] },
-        { "item": "glass_shard", "count": [ 8, 16 ] }
-      ]
-    }
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_floor",
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -158,17 +158,16 @@
     "looks_like": "t_dirtfloor",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
     "bash": {
-      "sound": "SMASH!",
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
       "ter_set": "t_dirtfloor",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "items": [
-        { "item": "splinter", "count": [ 2, 8 ] },
-        { "item": "nail", "charges": [ 5, 10 ] },
-        { "item": "glass_shard", "count": [ 8, 16 ] }
-      ]
-    }
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -184,18 +183,16 @@
     "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
-      "sound": "thump",
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
       "ter_set": "t_metal_floor",
-      "str_min": 200,
-      "str_max": 500,
-      "str_min_supported": 200,
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
-        { "item": "scrap", "count": [ 9, 36 ] },
-        { "item": "glass_shard", "count": [ 8, 16 ] }
-      ]
-    }
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -220,7 +217,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_strconc_floor",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -245,7 +243,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_linoleum_gray",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -270,7 +269,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_linoleum_white",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",

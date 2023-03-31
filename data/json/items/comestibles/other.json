@@ -589,12 +589,11 @@
     "color": "light_gray",
     "spoils_in": "5 days",
     "quench": 1,
-    "description": "Some delicious cooked lentils.  Humble but nutrient-rich.",
+    "description": "Wet, cooked lentils.  Humble and nutrient-rich, but pretty bland.",
     "price": 0,
     "price_postapoc": 100,
     "volume": "250 ml",
-    "fun": 1,
-    "flags": [ "EATEN_HOT" ]
+    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
