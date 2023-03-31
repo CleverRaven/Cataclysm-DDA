@@ -53,6 +53,18 @@
   },
   {
     "type": "item_group",
+    "id": "guns_smg_milspec",
+    "copy-from": "guns_smg_milspec",
+    "extend": { "items": [ { "item": "afs_needlegun", "prob": 30, "charges-min": 0, "charges-max": 100 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "guns_pistol_milspec",
+    "copy-from": "guns_pistol_milspec",
+    "extend": { "items": [ { "item": "afs_needlepistol", "prob": 30, "charges-min": 0, "charges-max": 50 } ] }
+  },
+  {
+    "type": "item_group",
     "id": "guns_shotgun_milspec",
     "copy-from": "guns_shotgun_milspec",
     "extend": { "items": [ { "item": "afs_gibs_shotgun", "prob": 20, "charges-min": 0, "charges-max": 40 } ] }
@@ -61,7 +73,7 @@
     "type": "item_group",
     "id": "mags_pistol_rare",
     "copy-from": "mags_pistol_rare",
-    "extend": { "items": [ [ "afs_84k_20mag", 15 ] ] }
+    "extend": { "items": [ [ "afs_5x50_50_mag", 5 ], [ "afs_5x50_100_mag", 5 ], [ "afs_84k_20mag", 15 ] ] }
   },
   {
     "type": "item_group",
@@ -79,6 +91,13 @@
     "id": "mags_shotgun_rare",
     "copy-from": "mags_shotgun_rare",
     "extend": { "items": [ [ "afs_25mm_mag", 50 ] ] }
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_milspec",
+    "subtype": "distribution",
+    "copy-from": "ammo_pistol_milspec",
+    "extend": { "entries": [ { "item": "afs_5x50dart", "prob": 30 }, { "item": "afs_5x50heavy", "prob": 20 } ] }
   },
   {
     "type": "item_group",
@@ -117,5 +136,19 @@
     "subtype": "distribution",
     "copy-from": "ammo_shotgun_milspec",
     "extend": { "entries": [ { "item": "afs_25mm_shot", "prob": 10 } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_casings_milspec",
+    "subtype": "distribution",
+    "copy-from": "ammo_casings_milspec",
+    "extend": { "entries": [ { "item": "afs_5x50_hull", "prob": 10, "count": [ 1, 30 ] } ] }
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_casings",
+    "subtype": "distribution",
+    "copy-from": "ammo_casings",
+    "extend": { "entries": [ { "item": "afs_5x50_hull", "prob": 60 } ] }
   }
 ]

@@ -6,10 +6,10 @@
 #include <cstddef>
 #include <iterator>
 #include <new>
+#include <optional>
 #include <type_traits>
 
 #include "cata_assert.h"
-#include "optional.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 
@@ -27,7 +27,7 @@ class vehicle_part_iterator
 {
     private:
         std::reference_wrapper<const range_type> range_;
-        cata::optional<vpart_reference> vp_;
+        std::optional<vpart_reference> vp_;
 
         const range_type &range() const {
             return range_.get();
@@ -113,9 +113,9 @@ class generic_vehicle_part_range
         template<typename T = ::vehicle>
         size_t part_count() const {
             if( with_fake_ ) {
-                return static_cast<const T &>( vehicle_.get() ).num_parts();
+                return static_cast<const T &>( vehicle_.get() ).part_count();
             } else {
-                return static_cast<const T &>( vehicle_.get() ).num_true_parts();
+                return static_cast<const T &>( vehicle_.get() ).part_count_real_cached();
             }
 
         }

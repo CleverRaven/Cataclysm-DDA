@@ -2,9 +2,9 @@
   {
     "id": "bottle_metal",
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "name": { "str": "steel bottle" },
-    "description": "A stainless steel water bottle, holds 750ml of liquid.",
+    "description": "A stainless steel water bottle, holds 750 ml of liquid.",
     "weight": "200 g",
     "volume": "787 ml",
     "price": 0,
@@ -28,7 +28,7 @@
   {
     "id": "bottle_folding",
     "type": "GENERIC",
-    "category": "other",
+    "category": "container",
     "name": { "str": "foldable plastic bottle" },
     "description": "A non-rigid plastic bottle for easy storage, holds 500 ml of liquid.",
     "weight": "13 g",

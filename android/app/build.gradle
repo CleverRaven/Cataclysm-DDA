@@ -99,6 +99,11 @@ if (localProperties.getProperty('override_ndkBuildAppPlatform') != null) {
     override_ndkBuildAppPlatform = localProperties.getProperty("override_ndkBuildAppPlatform")
 }
 
+def override_ndkVersion = getProperty("override_ndkVersion")
+if (localProperties.getProperty('override_ndkVersion') != null) {
+    override_ndkVersion = localProperties.getProperty('override_ndkVersion')
+}
+
 println("Using [              njobs]: $njobs")
 println("Using [           localize]: $localize")
 println("Using [               deps]: $deps")
@@ -108,6 +113,7 @@ println("Using [  compileSdkVersion]: $override_compileSdkVersion")
 println("Using [      minSdkVersion]: $override_minSdkVersion")
 println("Using [   targetSdkVersion]: $override_targetSdkVersion")
 println("Using [ndkBuildAppPlatform]: $override_ndkBuildAppPlatform")
+println("Using [         ndkVersion]: $override_ndkVersion")
 println("Using [         abi_arm_32]: $abi_arm_32")
 println("Using [         abi_arm_64]: $abi_arm_64")
 println("Using [         abi_x86_32]: $abi_x86_32")
@@ -232,7 +238,9 @@ preBuild.dependsOn createWindowsJunctionLinks
 createWindowsJunctionLinks.dependsOn makeLocalization
 
 android {
+    namespace "com.cleverraven.cataclysmdda"
     compileSdkVersion override_compileSdkVersion
+    ndkVersion override_ndkVersion
 
     defaultConfig {
         minSdkVersion override_minSdkVersion

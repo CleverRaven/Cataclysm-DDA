@@ -6,6 +6,9 @@ on:
       - 'lang/po/*.po'
       - 'tools/check_po_printf_format.py'
 
+permissions:
+  contents: read
+
 jobs:
   check-po-printf:
     runs-on: ubuntu-20.04

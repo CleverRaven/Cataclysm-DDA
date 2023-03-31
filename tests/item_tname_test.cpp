@@ -495,6 +495,16 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
     }
 }
 
+// make sure ordering still works with pockets
+TEST_CASE( "molle_vest_additional_pockets", "[item][tname]" )
+{
+    item addition_vest( "test_load_bearing_vest" );
+    addition_vest.get_contents().add_pocket( item( "holster" ) );
+
+    CHECK( addition_vest.tname( 1 ) ==
+           "<color_c_light_green>||</color>\u00A0load bearing vest+1" );
+}
+
 TEST_CASE( "nested_items_tname", "[item][tname]" )
 {
     item backpack_hiking( itype_backpack_hiking );
@@ -510,13 +520,17 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
 
         backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
 
+        std::string const rock_nested_tname = colorize( rock.tname(), rock.color_in_inventory() );
+        std::string const rocks_nested_tname = colorize( rock.tname( 2 ), rock.color_in_inventory() );
+        REQUIRE( rock_nested_tname == "<color_c_light_gray>TEST rock</color>" );
         SECTION( "single rock" ) {
-            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " TEST rock" );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " " +
+                   rock_nested_tname );
         }
         SECTION( "several rocks" ) {
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
-                   " TEST rocks (2)" );
+                   " " + rocks_nested_tname + " (2)" );
         }
         SECTION( "several stacks" ) {
             backpack_hiking.put_in( rock, item_pocket::pocket_type::CONTAINER );
@@ -525,14 +539,18 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
         }
     }
 
+    std::string const purse_color = get_tag_from_color( purse.color_in_inventory() );
+    std::string const color_end_tag = "</color>";
     SECTION( "multi-level nesting" ) {
         purse.put_in( rock, item_pocket::pocket_type::CONTAINER );
 
         SECTION( "single rock" ) {
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
             CHECK( backpack_hiking.tname( 1 ) ==
-                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
-                   " 1 item" );
+                   color_pref + "hiking backpack " +
+                   nesting_sym + " " + purse_color + color_pref + "purse " +
+                   nesting_sym + " 1 item" +
+                   color_end_tag );
         }
 
         SECTION( "several rocks" ) {
@@ -541,15 +559,30 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
 
             CHECK( backpack_hiking.tname( 1 ) ==
-                   color_pref + "hiking backpack " + nesting_sym + " " + color_pref + "purse " + nesting_sym +
-                   " 2 items" );
+                   color_pref + "hiking backpack " +
+                   nesting_sym + " " + purse_color + color_pref + "purse " +
+                   nesting_sym + " 2 items" +
+                   color_end_tag );
         }
 
         SECTION( "several purses" ) {
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
             backpack_hiking.put_in( purse, item_pocket::pocket_type::CONTAINER );
 
-            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym + " 2 items" );
+            CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
+                   " " + purse_color + color_pref + "purses" + color_end_tag + " (2)" );
         }
+    }
+
+    SECTION( "non-standard pocket: software" ) {
+        item usb_drive( "usb_drive" );
+        item medisoft( "software_medical" );
+        std::string const medisoft_nested_tname = colorize( medisoft.tname(),
+                medisoft.color_in_inventory() );
+        REQUIRE( usb_drive.is_software_storage() );
+        REQUIRE( medisoft.is_software() );
+        REQUIRE( medisoft_nested_tname == "<color_c_light_gray>MediSoft</color>" );
+        usb_drive.put_in( medisoft, item_pocket::pocket_type::SOFTWARE );
+        CHECK( usb_drive.tname( 1 ) == "USB drive " + nesting_sym + " " + medisoft_nested_tname );
     }
 }

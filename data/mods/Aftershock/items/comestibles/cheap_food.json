@@ -194,5 +194,17 @@
     "fun": 6,
     "freezing_point": -9999,
     "vitamins": [ [ "bad_food", 1 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "afs_ruined_food",
+    "copy-from": "ruined_chunks",
+    "name": { "str_sp": "organic sludge" },
+    "charges": 5,
+    "volume": "500 ml",
+    "weight": "50 g",
+    "description": "Time and the elements have reverted this heavily processed meal to its original form.  Eating it isn't even worth thinking about.",
+    "material": [ "flesh", "veggy" ]
   }
 ]

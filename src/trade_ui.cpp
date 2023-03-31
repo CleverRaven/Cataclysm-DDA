@@ -59,11 +59,10 @@ bool trade_preset::is_shown( item_location const &loc ) const
 std::string trade_preset::get_denial( const item_location &loc ) const
 {
     int const price = npc_trading::trading_price( _trader, _u, { loc, 1 } );
-    int const market_price = loc->price( true );
 
     if( _u.is_npc() ) {
         npc const &np = *_u.as_npc();
-        ret_val<void> const ret = np.wants_to_sell( loc, price, market_price );
+        ret_val<void> const ret = np.wants_to_sell( loc, price );
         if( !ret.success() ) {
             if( ret.str().empty() ) {
                 return string_format( _( "%s does not want to sell this" ), np.get_name() );
@@ -72,12 +71,19 @@ std::string trade_preset::get_denial( const item_location &loc ) const
         }
     } else if( _trader.is_npc() ) {
         npc const &np = *_trader.as_npc();
-        ret_val<void> const ret = np.wants_to_buy( *loc, price, market_price );
+        ret_val<void> const ret = np.wants_to_buy( *loc, price );
         if( !ret.success() ) {
             if( ret.str().empty() ) {
                 return string_format( _( "%s does not want to buy this" ), np.get_name() );
             }
             return np.replace_with_npc_name( ret.str() );
+        }
+    }
+
+    if( _u.is_worn( *loc ) ) {
+        ret_val<void> const ret = const_cast<Character &>( _u ).can_takeoff( *loc );
+        if( !ret.success() ) {
+            return _u.replace_with_npc_name( ret.str() );
         }
     }
 

@@ -101,9 +101,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     int start_pos = 0;
     bool changes_made = false;
     input_context ctxt( "SAFEMODE" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_TAB" );
@@ -167,7 +166,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             mvwputch( w_header, point( pos.second, 3 ), c_light_gray, LINE_XOXO );
         }
 
-        mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
+        mvwprintz( w_header, point( 1, 3 ), c_white, " #" );
         mvwprintz( w_header, point( column_pos[COLUMN_RULE] + 4, 3 ), c_white, _( "Rules" ) );
         mvwprintz( w_header, point( column_pos[COLUMN_ATTITUDE] + 2, 3 ), c_white, _( "Attitude" ) );
         mvwprintz( w_header, point( column_pos[COLUMN_PROXIMITY] + 2, 3 ), c_white, _( "Dist" ) );
@@ -229,7 +228,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
                 nc_color line_color = ( rule.active ) ? c_white : c_light_gray;
 
-                mvwprintz( w, point( 1, i - start_pos ), line_color, "%d", i + 1 );
+                mvwprintz( w, point( 0, i - start_pos ), line_color, "%3d", i + 1 );
                 mvwprintz( w, point( 5, i - start_pos ), c_yellow, ( line == i ) ? ">> " : "   " );
 
                 auto draw_column = [&]( Columns column_in, const std::string & text_in ) {
@@ -279,34 +278,9 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             line = 0;
         } else if( action == "QUIT" ) {
             break;
-        } else if( tab == CHARACTER_TAB && player_character.name.empty() ) {
-            //Only allow loaded games to use the char sheet
-        } else if( action == "DOWN" ) {
-            line++;
-            if( line >= recmax ) {
-                line = 0;
-            }
-        } else if( action == "UP" ) {
-            line--;
-            if( line < 0 ) {
-                line = recmax - 1;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( line == recmax - 1 ) {
-                line = 0;
-            } else if( line + scroll_rate >= recmax ) {
-                line = recmax - 1;
-            } else {
-                line += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( line == 0 ) {
-                line = recmax - 1;
-            } else if( line <= scroll_rate ) {
-                line = 0;
-            } else {
-                line += -scroll_rate;
-            }
+        } else if( ( tab == CHARACTER_TAB && player_character.name.empty() )
+                   || navigate_ui_list( action, line, scroll_rate, recmax, true ) ) {
+            // NO FURTHER ACTION REQUIRED
         } else if( action == "ADD_DEFAULT_RULESET" ) {
             changes_made = true;
             current_tab.emplace_back( "*", true, false, Creature::Attitude::HOSTILE,
@@ -468,16 +442,8 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         } else if( action == "DISABLE_RULE" && !current_tab.empty() ) {
             changes_made = true;
             current_tab[line].active = false;
-        } else if( action == "LEFT" ) {
-            column--;
-            if( column < 0 ) {
-                column = num_columns - 1;
-            }
-        } else if( action == "RIGHT" ) {
-            column++;
-            if( column >= num_columns ) {
-                column = 0;
-            }
+        } else if( action == "LEFT" || action == "RIGHT" ) {
+            column = increment_and_wrap( column, action == "RIGHT", num_columns );
         } else if( action == "MOVE_RULE_UP" && !current_tab.empty() ) {
             changes_made = true;
             if( line < static_cast<int>( current_tab.size() ) - 1 ) {
@@ -577,9 +543,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
     int line = 0;
 
     input_context ctxt( "SAFEMODE_TEST" );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
@@ -624,32 +588,7 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         const int recmax = static_cast<int>( creature_list.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
         const std::string action = ctxt.handle_input();
-        if( action == "DOWN" ) {
-            line++;
-            if( line >= recmax ) {
-                line = 0;
-            }
-        } else if( action == "UP" ) {
-            line--;
-            if( line < 0 ) {
-                line = recmax - 1;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( line == recmax - 1 ) {
-                line = 0;
-            } else if( line + scroll_rate >= recmax ) {
-                line = recmax - 1;
-            } else {
-                line += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( line == 0 ) {
-                line = recmax - 1;
-            } else if( line <= scroll_rate ) {
-                line = 0;
-            } else {
-                line += -scroll_rate;
-            }
+        if( navigate_ui_list( action, line, scroll_rate, recmax, true ) ) {
         } else if( action == "QUIT" ) {
             break;
         }

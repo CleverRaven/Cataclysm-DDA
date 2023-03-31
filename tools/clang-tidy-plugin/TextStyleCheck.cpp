@@ -23,11 +23,7 @@ class TargetInfo;
 
 using namespace clang::ast_matchers;
 
-namespace clang
-{
-namespace tidy
-{
-namespace cata
+namespace clang::tidy::cata
 {
 
 TextStyleCheck::TextStyleCheck( StringRef Name, ClangTidyContext *Context )
@@ -158,6 +154,4 @@ void TextStyleCheck::check( const MatchFinder::MatchResult &Result )
             text_style_check_callback );
 }
 
-} // namespace cata
-} // namespace tidy
-} // namespace clang
+} // namespace clang::tidy::cata

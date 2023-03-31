@@ -212,12 +212,12 @@ void auto_note_settings::set_auto_note_status( const map_extra_id &mapExtId,
     }
 }
 
-cata::optional<custom_symbol> auto_note_settings::get_custom_symbol(
+std::optional<custom_symbol> auto_note_settings::get_custom_symbol(
     const map_extra_id &mapExtId ) const
 {
     auto entry = character_custom_symbols.find( mapExtId );
-    return entry == character_custom_symbols.end() ? cata::nullopt
-           : cata::optional<custom_symbol>( entry->second );
+    return entry == character_custom_symbols.end() ? std::nullopt
+           : std::optional<custom_symbol>( entry->second );
 }
 
 void auto_note_settings::set_custom_symbol( const map_extra_id &mapExtId,
@@ -330,20 +330,18 @@ void auto_note_manager_gui::show()
     int startPosition = 0;
     int endPosition = 0;
 
-    input_context ctx{ "AUTO_NOTES" };
-    ctx.register_action( "QUIT" );
-    ctx.register_action( "SWITCH_AUTO_NOTE_OPTION" );
-    ctx.register_action( "HELP_KEYBINDINGS" );
-    ctx.register_action( "NEXT_TAB" );
+    input_context ctxt{ "AUTO_NOTES" };
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "SWITCH_AUTO_NOTE_OPTION" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
+    ctxt.register_action( "NEXT_TAB" );
     if( !char_emptyMode || !global_emptyMode ) {
-        ctx.register_cardinal();
-        ctx.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-        ctx.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-        ctx.register_action( "CONFIRM" );
-        ctx.register_action( "QUIT" );
-        ctx.register_action( "ENABLE_MAPEXTRA_NOTE" );
-        ctx.register_action( "DISABLE_MAPEXTRA_NOTE" );
-        ctx.register_action( "CHANGE_MAPEXTRA_CHARACTER" );
+        ctxt.register_navigate_ui_list();
+        ctxt.register_action( "CONFIRM" );
+        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "ENABLE_MAPEXTRA_NOTE" );
+        ctxt.register_action( "DISABLE_MAPEXTRA_NOTE" );
+        ctxt.register_action( "CHANGE_MAPEXTRA_CHARACTER" );
     }
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
@@ -384,7 +382,7 @@ void auto_note_manager_gui::show()
 
         // TODO: Show info about custom symbols (hotkey, hint, state)
         std::string header_info_custom_symbols = string_format( _( "<color_light_green>%1$s</color> %2$s" ),
-                ctx.get_desc( "CHANGE_MAPEXTRA_CHARACTER" ), _( "Change a symbol for map extra" ) );
+                ctxt.get_desc( "CHANGE_MAPEXTRA_CHARACTER" ), _( "Change a symbol for map extra" ) );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_header, point( 0, 1 ), FULL_SCREEN_WIDTH - 2, c_white,
                         header_info_custom_symbols );
@@ -480,15 +478,15 @@ void auto_note_manager_gui::show()
     while( true ) {
         ui_manager::redraw();
 
-        const std::string currentAction = ctx.handle_input();
+        const std::string action = ctxt.handle_input();
 
         // Actions that also work with no items to display
-        if( currentAction == "SWITCH_AUTO_NOTE_OPTION" ) {
+        if( action == "SWITCH_AUTO_NOTE_OPTION" ) {
             get_options().get_option( "AUTO_NOTES_MAP_EXTRAS" ).setNext();
             get_options().save();
-        } else if( currentAction == "QUIT" ) {
+        } else if( action == "QUIT" ) {
             break;
-        } else if( currentAction == "NEXT_TAB" ) {
+        } else if( action == "NEXT_TAB" ) {
             bCharacter = !bCharacter;
         }
 
@@ -503,41 +501,14 @@ void auto_note_manager_gui::show()
                 global_mapExtraCache )[currentItem];
         const int scroll_rate = cacheSize > 20 ? 10 : 3;
 
-        if( currentAction == "UP" ) {
-            if( currentLine > 0 ) {
-                --currentLine;
-            } else {
-                currentLine = cacheSize - 1;
-            }
-        } else if( currentAction == "DOWN" ) {
-            if( currentLine == cacheSize - 1 ) {
-                currentLine = 0;
-            } else {
-                ++currentLine;
-            }
-        } else if( currentAction == "PAGE_DOWN" ) {
-            if( currentLine == cacheSize - 1 ) {
-                currentLine = 0;
-            } else if( currentLine + scroll_rate >= cacheSize ) {
-                currentLine = cacheSize - 1;
-            } else {
-                currentLine += +scroll_rate;
-            }
-        } else if( currentAction == "PAGE_UP" ) {
-            if( currentLine == 0 ) {
-                currentLine = cacheSize - 1;
-            } else if( currentLine <= scroll_rate ) {
-                currentLine = 0;
-            } else {
-                currentLine += -scroll_rate;
-            }
-        }  else if( currentAction == "ENABLE_MAPEXTRA_NOTE" ) {
+        if( navigate_ui_list( action, currentLine, scroll_rate, cacheSize, true ) ) {
+        } else if( action == "ENABLE_MAPEXTRA_NOTE" ) {
             entry.second = true;
             ( bCharacter ? charwasChanged : globalwasChanged ) = true;
-        } else if( currentAction == "DISABLE_MAPEXTRA_NOTE" ) {
+        } else if( action == "DISABLE_MAPEXTRA_NOTE" ) {
             entry.second = false;
             ( bCharacter ? charwasChanged : globalwasChanged ) = true;
-        } else if( currentAction == "CHANGE_MAPEXTRA_CHARACTER" ) {
+        } else if( action == "CHANGE_MAPEXTRA_CHARACTER" ) {
             string_input_popup custom_symbol_popup;
             custom_symbol_popup
             .title( _( "Enter a map extra custom symbol (empty to unset):" ) )
@@ -587,7 +558,7 @@ void auto_note_manager_gui::show()
                 }
                 ( bCharacter ? charwasChanged : globalwasChanged ) = true;
             }
-        } else if( currentAction == "CONFIRM" ) {
+        } else if( action == "CONFIRM" ) {
             entry.second = !entry.second;
             ( bCharacter ? charwasChanged : globalwasChanged ) = true;
         }

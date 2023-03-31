@@ -73,27 +73,31 @@ float monster::weakpoint_skill() const
     return type->melee_skill;
 }
 
+float Character::generic_weakpoint_skill( skill_id skill_1, skill_id skill_2,
+        limb_score_id limb_score_1, limb_score_id limb_score_2 ) const
+{
+    float skill = ( get_skill_level( skill_1 ) + get_skill_level( skill_2 ) ) / 2.0;
+    float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
+    float mul = ( get_limb_score( limb_score_1 ) + get_limb_score( limb_score_2 ) ) / 2.0;
+    return ( skill + stat ) * mul;
+}
+
+
 float Character::melee_weakpoint_skill( const item &weapon ) const
 {
-    skill_id melee_skill = weapon.is_null() ? skill_unarmed : weapon.melee_skill();
-    float skill = ( get_skill_level( skill_melee ) + get_skill_level( melee_skill ) ) / 2.0;
-    float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    float mul = ( get_limb_score( limb_score_vision ) + get_limb_score( limb_score_reaction ) ) / 2;
-    return ( skill + stat ) * mul;
+    return generic_weakpoint_skill( weapon.is_null() ? skill_unarmed : weapon.melee_skill(),
+                                    skill_melee, limb_score_vision, limb_score_reaction );
 }
 
 float Character::ranged_weakpoint_skill( const item &weapon ) const
 {
-    float skill = ( get_skill_level( skill_gun ) + get_skill_level( weapon.gun_skill() ) ) / 2.0;
-    float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    return ( skill + stat ) * get_limb_score( limb_score_vision );
+    return generic_weakpoint_skill( weapon.gun_skill(), skill_gun, limb_score_vision,
+                                    limb_score_vision );
 }
 
 float Character::throw_weakpoint_skill() const
 {
-    float skill = get_skill_level( skill_throw );
-    float stat = ( get_dex() - 8 ) / 8.0 + ( get_per() - 8 ) / 8.0;
-    return ( skill + stat ) * get_limb_score( limb_score_vision );
+    return generic_weakpoint_skill( skill_throw, skill_throw, limb_score_vision, limb_score_vision );
 }
 
 float weakpoint_family::modifier( const Character &attacker ) const

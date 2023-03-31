@@ -271,6 +271,7 @@
     "name": "Concentrated Mana",
     "density": 2,
     "reinforces": false,
+    "soft": true,
     "bash_resist": 8,
     "cut_resist": 13,
     "bullet_resist": 7,
