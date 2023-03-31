@@ -161,6 +161,7 @@
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
+      [ "bore", 1 ],
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
