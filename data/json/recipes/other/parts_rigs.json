@@ -12,15 +12,18 @@
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "//": "120cm weld",
+    "using": [ [ "welding_standard", 120 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
     "components": [
       [ [ "frame", 1 ] ],
       [ [ "hotplate", 1 ] ],
       [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
       [ [ "pan", 1 ] ],
       [ [ "water_faucet", 1 ] ],
-      [ [ "cable", 5 ] ]
+      [ [ "cable", 5 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "nut_bolt", 30 ] ]
     ]
   },
   {
@@ -70,8 +73,9 @@
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "//": "40cm weld",
+    "using": [ [ "welding_standard", 40 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
     "components": [ [ [ "frame", 1 ] ], [ [ "welding_components", 1 ] ], [ [ "cable", 5 ] ] ]
   },
   {
@@ -87,8 +91,9 @@
     "reversible": true,
     "decomp_learn": 3,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_fabrication", 3 ], [ "manual_electronics", 3 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "using": [ [ "welding_standard", 100 ] ],
+    "//": "100cm weld",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
     "components": [
       [ [ "frame", 1 ] ],
       [ [ "vac_sealer", 1 ], [ "makeshift_sealer", 1 ] ],
@@ -96,7 +101,8 @@
       [ [ "water_purifier", 1 ] ],
       [ [ "food_processor", 1 ] ],
       [ [ "press", 1 ] ],
-      [ [ "cable", 5 ] ]
+      [ [ "cable", 5 ] ],
+      [ [ "nut_bolt", 30 ] ]
     ]
   },
   {
@@ -112,15 +118,18 @@
     "reversible": true,
     "decomp_learn": 3,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "manual_fabrication", 3 ], [ "manual_electronics", 3 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "using": [ [ "welding_standard", 100 ] ],
+    "//": "100cm weld",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
     "components": [
       [ [ "frame", 1 ] ],
       [ [ "chemistry_set", 1 ] ],
       [ [ "electrolysis_kit", 1 ] ],
       [ [ "water_faucet", 1 ] ],
       [ [ "power_supply", 1 ] ],
-      [ [ "cable", 5 ] ]
+      [ [ "cable", 5 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "nut_bolt", 30 ] ]
     ]
   },
   {
@@ -134,14 +143,15 @@
     "time": "20 m",
     "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
-    "using": [ [ "welding_standard", 5 ] ],
+    "using": [ [ "welding_standard", 50 ] ],
+    "//": "50cm weld",
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "processor", 1 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "processor", 1 ] ], [ [ "nut_bolt", 16 ] ] ]
   },
   {
     "type": "recipe",
@@ -154,14 +164,15 @@
     "time": "20 m",
     "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
-    "using": [ [ "welding_standard", 5 ] ],
+    "using": [ [ "welding_standard", 50 ] ],
+    "//": "50cm weld",
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "wheel", 1 ] ], [ [ "processor", 1 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "wheel", 1 ] ], [ [ "processor", 1 ] ], [ [ "nut_bolt", 16 ] ] ]
   },
   {
     "type": "recipe",
@@ -174,14 +185,15 @@
     "time": "2 h",
     "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
-    "using": [ [ "welding_standard", 5 ] ],
+    "using": [ [ "welding_standard", 50 ] ],
+    "//": "50cm weld",
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 1 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 1 ] ], [ [ "nut_bolt", 16 ] ] ]
   },
   {
     "type": "recipe",
@@ -194,20 +206,22 @@
     "time": "2 h",
     "book_learn": [ [ "textbook_mechanics", 4 ] ],
     "reversible": true,
-    "using": [ [ "welding_standard", 5 ] ],
+    "using": [ [ "welding_standard", 80 ] ],
+    "//": "80cm weld",
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 }, { "id": "WRENCH", "level": 2 } ],
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "steel_plate", 2 ] ],
       [ [ "frame", 1 ] ],
       [ [ "wheel", 1 ] ],
       [ [ "motor", 1 ] ],
-      [ [ "pipe_fittings", 2 ] ]
+      [ [ "pipe_fittings", 2 ] ],
+      [ [ "nut_bolt", 50 ] ]
     ]
   }
 ]
