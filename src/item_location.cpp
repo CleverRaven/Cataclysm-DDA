@@ -392,11 +392,10 @@ class item_location::impl::item_on_person : public item_location::impl
             }
 
             int mv = 0;
-            item &target_ref = *target();
             item *obj = target();
-            int handled_qty = target_ref.count_by_charges() ? ( qty <= 0 ||
-                              qty >= target_ref.charges ) ? target_ref.charges : qty : -1;
-            if( who->is_wielding( target_ref ) ) {
+            int handled_qty = obj->count_by_charges() ? ( qty <= 0 ||
+                              qty >= obj->charges ) ? obj->charges : qty : -1;
+            if( who->is_wielding( *obj ) ) {
                 mv = who->item_handling_cost( *obj, false, 0, handled_qty );
             } else {
                 // then we are wearing it
