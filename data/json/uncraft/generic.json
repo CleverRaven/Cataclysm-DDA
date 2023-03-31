@@ -422,6 +422,22 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "parachute_mil",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "6 h",
+    "components": [ [ [ "sheet_nylon_patchwork", 1972 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ]
+  },
+  {
+    "result": "432gal_drum_rubber",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "7 h",
+    "components": [ [ [ "rubber_tire_chunk", 65 ] ], [ [ "scrap", 89 ] ], [ [ "water_faucet", 2 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 2 } ]
+  },
+  {
     "result": "earthbag",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

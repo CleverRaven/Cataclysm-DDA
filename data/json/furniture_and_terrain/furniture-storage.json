@@ -1439,5 +1439,32 @@
         { "item": "hinge", "charges": 2 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_432gal_drum_rubber",
+    "name": "big collapsible drum",
+    "looks_like": "f_standing_tank",
+    "description": "Black collapsible drum with valve and D-Rings.  The yellow text on the top clearly says \"FLAMMABLE\".",
+    "symbol": "0",
+    "bgcolor": "black",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "required_str": -1,
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT" ],
+    "examine_action": "keg",
+    "keg_capacity": 6540,
+    "deconstruct": { "items": [ { "item": "432gal_drum_rubber", "count": 1 } ] },
+    "bash": {
+      "str_min": 90,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "rubber_tire_chunk", "count": [ 40, 60 ] },
+        { "item": "scrap", "count": [ 50, 80 ] },
+        { "item": "water_faucet", "count": [ 0, 2 ] }
+      ]
+    }
   }
 ]

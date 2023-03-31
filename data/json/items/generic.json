@@ -4180,6 +4180,20 @@
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
+    "id": "parachute_mil",
+    "type": "GENERIC",
+    "name": { "str": "military parachute" },
+    "description": "Big, bulky military level parachute, designed to slow down the fall of a thousand kilo cargo, falling off from the plane.  You have no clue how to put all this straps back.",
+    "weight": "113400 g",
+    "volume": "136080 ml",
+    "price": 200000,
+    "price_postapoc": 1000,
+    "material": [ "nylon" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "green"
+  },
+  {
     "type": "TOOL",
     "id": "training_dummy_light",
     "symbol": "@",
