@@ -91,6 +91,7 @@ static void CheckDecl( AlmostNeverAutoCheck &Check,
     }
 
     QualType AutoTp = Initializer->getType();
+    QualType DesugaredAutoTp = AutoTp.getDesugaredType( *Result.Context );
     bool WasRRef = VarDeclType.getTypePtr()->isRValueReferenceType();
     bool WasLRef = VarDeclType.getTypePtr()->isLValueReferenceType();
     VarDeclType = VarDeclType.getNonReferenceType();
@@ -107,6 +108,7 @@ static void CheckDecl( AlmostNeverAutoCheck &Check,
     PrintingPolicy Policy( LangOptions{} );
     Policy.adjustForCPlusPlus();
     std::string TypeStr = AutoTp.getAsString( Policy );
+    const std::string DesugaredTypeStr = DesugaredAutoTp.getAsString( Policy );
 
     // In the case of 'const auto' we need to bring the beginning forwards
     // to the start of the 'const'.
@@ -139,10 +141,14 @@ static void CheckDecl( AlmostNeverAutoCheck &Check,
     // details) based on their names.  Skipping the first character of each
     // word to avoid worrying about capitalization.
     for( std::string Fragment : {
-             "terator", "nternal", "__"
+             "terator", "element_type", "mapped_type", "value_type", "nternal", "__"
          } ) {
         if( std::search( TypeStr.begin(), TypeStr.end(), Fragment.begin(), Fragment.end() ) !=
             TypeStr.end() ) {
+            return;
+        }
+        if( std::search( DesugaredTypeStr.begin(), DesugaredTypeStr.end(), Fragment.begin(),
+                         Fragment.end() ) != DesugaredTypeStr.end() ) {
             return;
         }
     }
