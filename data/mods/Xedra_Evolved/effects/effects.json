@@ -80,7 +80,17 @@
     "miss_messages": [ [ "The flames distract you.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
-    "//": "Needs to emit light once someone unites traits, effects etc 'light_emitted: 3'.",
+    "max_intensity": 3,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LUMINATION",
+            "add": { "arithmetic": [ { "u_val": "effect_intensity", "effect": "foxfire_imbibed" }, "*", { "const": 50 } ] }
+          }
+        ]
+      }
+    ],
     "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] },
     "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] }
   },
@@ -104,6 +114,7 @@
       "You've got a few theories you'd like to explore.",
       "Your brain can't hold any more brilliance."
     ],
+    "max_intensity": 3,
     "rating": "good"
   },
   {
