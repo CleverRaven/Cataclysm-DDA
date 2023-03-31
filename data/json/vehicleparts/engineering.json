@@ -24,7 +24,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "PROTRUSION" ],
     "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
@@ -60,7 +60,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "PROTRUSION" ],
     "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
@@ -86,7 +86,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt_install", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "PROTRUSION" ],
     "damage_reduction": { "all": 40 }
@@ -125,7 +125,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "CARGO", "PROTRUSION" ],
     "pseudo_tools": [ { "id": "crane_pseudo_item" } ],
@@ -165,7 +165,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "20 m", "using": [ [ "repair_welding_standard", 4 ] ] }
+      "repair": { "skills": [ [ "mechanics", 6 ] ], "time": "8 m", "using": [ [ "repair_welding_standard", 4 ] ] }
     },
     "flags": [ "PROTRUSION", "EXTRA_DRAG", "ROCKWHEEL", "TRANSFORM_TERRAIN" ],
     "damage_reduction": { "all": 132 }
@@ -202,7 +202,7 @@
         "time": "30 m",
         "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
       },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "PROTRUSION", "SELF_JACK" ],
     "damage_reduction": { "all": 36 }
@@ -225,7 +225,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 30 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "10 m", "using": [ [ "repair_welding_standard", 2 ] ] }
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "4 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
     "flags": [ "SELF_JACK" ],
     "damage_reduction": { "all": 5 }
