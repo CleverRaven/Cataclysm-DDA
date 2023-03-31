@@ -1779,6 +1779,7 @@
     "id": "FUEL_LIST_UP",
     "category": "VEH_INTERACT",
     "name": "Scroll up through fuel list",
+    "short_name": "For more",
     "bindings": [ { "input_method": "keyboard_any", "key": "[" } ]
   },
   {
@@ -1786,6 +1787,7 @@
     "id": "FUEL_LIST_DOWN",
     "category": "VEH_INTERACT",
     "name": "Scroll down through fuel list",
+    "short_name": "For more",
     "bindings": [ { "input_method": "keyboard_any", "key": "]" } ]
   },
   {
@@ -1793,6 +1795,7 @@
     "id": "DESC_LIST_UP",
     "category": "VEH_INTERACT",
     "name": "Scroll up through vehicle part descriptions",
+    "short_name": "For more",
     "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
   },
   {
@@ -1800,6 +1803,7 @@
     "id": "DESC_LIST_DOWN",
     "category": "VEH_INTERACT",
     "name": "Scroll down through vehicle part descriptions",
+    "short_name": "For more",
     "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
   },
   {
@@ -1807,6 +1811,7 @@
     "id": "OVERVIEW_UP",
     "category": "VEH_INTERACT",
     "name": "Scroll up through vehicle overview",
+    "short_name": "For more",
     "bindings": [ { "input_method": "keyboard_char", "key": "{" }, { "input_method": "keyboard_code", "key": "[", "mod": [ "shift" ] } ]
   },
   {
@@ -1814,6 +1819,7 @@
     "id": "OVERVIEW_DOWN",
     "category": "VEH_INTERACT",
     "name": "Scroll down through vehicle overview",
+    "short_name": "For more",
     "bindings": [ { "input_method": "keyboard_char", "key": "}" }, { "input_method": "keyboard_code", "key": "]", "mod": [ "shift" ] } ]
   },
   {

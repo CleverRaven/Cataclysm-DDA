@@ -286,9 +286,10 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
      * important! the calling function needs to track p, start_at, and start_limit, and set
      *    start_limit to 0 if p changes.
      */
+    input_context ctxt = input_context( "VEH_INTERACT", keyboard_mode::keycode );
     start_at = std::max( 0, std::min( start_at, start_limit ) );
     if( start_at ) {
-        msg += std::string( "<color_yellow>" ) + "<  " + _( "More parts here…" ) + "</color>\n";
+        msg += ctxt.get_hint( "DESC_LIST_UP" );
         lines += 1;
     }
     for( size_t i = start_at; i < pl.size(); i++ ) {
@@ -315,7 +316,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
             lines += new_lines;
             start_limit = start_at;
         } else {
-            msg += std::string( "<color_yellow>" ) + _( "More parts here…" ) + "  >" + "</color>\n";
+            msg += ctxt.get_hint( "DESC_LIST_DOWN" );
             start_limit = i;
             break;
         }
@@ -386,6 +387,12 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
     int max_gauge = ( isHorizontal ? 12 : 5 ) + start_index;
     int max_size = std::min( static_cast<int>( fuels.size() ), max_gauge );
 
+    input_context ctxt = input_context( "VEH_INTERACT", keyboard_mode::keycode );
+    if( start_index > 0 ) {
+        print_colored_text( win, p + point( 0, yofs ), ctxt.get_hint( "FUEL_LIST_UP" ) );
+        yofs++;
+    }
+
     for( int i = start_index; i < max_size; i++ ) {
         const itype_id &f = fuels[i];
         print_fuel_indicator( win, p + point( 0, yofs ), f, fuel_used_last_turn, verbose, desc );
@@ -394,8 +401,7 @@ void vehicle::print_fuel_indicators( const catacurses::window &win, const point 
 
     // check if the current index is less than the max size minus 12 or 5, to indicate that there's more
     if( start_index < static_cast<int>( fuels.size() ) - ( isHorizontal ? 12 : 5 ) ) {
-        mvwprintz( win, p + point( 0, yofs ), c_light_green, ">" );
-        wprintz( win, c_light_gray, " for more" );
+        print_colored_text( win, p + point( 0, yofs ), ctxt.get_hint( "FUEL_LIST_DOWN" ) );
     }
 }
 

@@ -1644,7 +1644,7 @@ void veh_interact::display_overview()
     int y = 0;
     if( overview_offset ) {
         trim_and_print( w_list, point( 1, y ), getmaxx( w_list ) - 1,
-                        c_yellow, _( "'{' to scroll up" ) );
+                        main_context.get_hint( "OVERVIEW_UP" ) );
         y++;
     }
     for( int idx = overview_offset; idx != static_cast<int>( overview_opts.size() ); ++idx ) {
@@ -1681,7 +1681,7 @@ void veh_interact::display_overview()
         } else {
             overview_limit = idx;
             trim_and_print( w_list, point( 1, y ), getmaxx( w_list ) - 1,
-                            c_yellow, _( "'}' to scroll down" ) );
+                            main_context.get_hint( "OVERVIEW_DOWN" ) );
             break;
         }
     }
