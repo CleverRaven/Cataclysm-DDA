@@ -891,5 +891,56 @@
       { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_GOD",
+    "type": "talk_topic",
+    "dynamic_line": "Valzain is over at the entrance of the forge, selling overpriced magical knick-knacks.  Or perhaps there was something else you had in mind?",
+    "responses": [
+      { "text": "Another forge?", "topic": "TALK_FORGE_LORD_DIVINER_OTHER_FORGE" },
+      { "text": "A lovecraftinan horror.", "topic": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN" },
+      { "text": "The Malignance.", "topic": "TALK_FORGE_LORD_DIVINER_MALIGNANCE" },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_OTHER_FORGE",
+    "type": "talk_topic",
+    "dynamic_line": "Valzain is powerful, all right?  He has built his forge in every country in every reality.  Or at least the realities we have access to.  If you travel far enough in either direction, you are bound to run into another forge somewhere else.  Except in reality, it's the same forge.  There would even be a 'me' there.  If you go there, feel free to give my regards to myself.  Confusing?  I agree.  It's all part of Valzain's master plan, I think.  He needs a near infinity of something do do something about something.  I haven't been able to pry much details out of him.  You know it wasn't that long ago that I was not part of any of the forges.  And now I have suddenly always been part of all of them.  Yeah, I don't fully understand it either, but if you want me to point you to another instance of the forge, I can do so for one denarius.",
+    "responses": [
+      {
+        "text": "It's a deal?",
+        "topic": "TALK_DONE",
+        "condition": { "u_has_item": "denarius" },
+        "effect": [ { "assign_mission": "MISSION_FORGE_DIVINER_OTHER_FORGE" }, { "u_consume_item": "denarius" } ]
+      },
+      {
+        "text": "I can't afford that right now.",
+        "topic": "TALK_FORGE_LORD_DIVINER_GET_MONEY",
+        "condition": { "not": { "u_has_item": "denarius" } }
+      },
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN",
+    "type": "talk_topic",
+    "dynamic_line": "There are these city-sized creatures called Void Leviathans that lives in the vast nether regions between realities.  Sometimes they used to was up onto Earths that had recently had a cataclysm.  Caused all kinds of trouble, they did, so Valzain made it so they would spawn underground instead.  But I haven't seen any of them in quite a while.  Perhaps they retreated deeper into the empty parts of the nehter?  Sorry, I haven't seen any in this reality yet.  I can't help you.",
+    "//":  "This is for if nether_monster_corpse gets implemented.",
+    "responses": [
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FORGE_LORD_DIVINER_MALIGNANCE",
+    "type": "talk_topic",
+    "dynamic_line": "The Malignance is the cause for much of our woes.  It is the force animating the zombies.  It is responsible for the portal storms, and it seems to be absolutely bursting with hate.  Valzain theorize that it used to be a fundamental force of nature or perhaos a school of magic that somehow grew concious, or perhaps had a conciousness imposed on it. Allegedly, the Mi-Go speak of a time before it existed, or perhaps a time in which it wasn't so dangerous.  By now, it is everywhere on Earth.  As far as I can tell, it builds no structures and has no bases of opperation, so there is no place I can point you towards.  Sorry.",
+    "responses": [
+      { "text": "About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind.", "topic": "TALK_DONE" }
+    ]
   }
 ]
