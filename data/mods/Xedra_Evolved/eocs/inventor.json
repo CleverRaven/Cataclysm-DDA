@@ -1,0 +1,37 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_RESEARCH_SMALL_ARMS_1",
+    "//": "Gives you a recipe from the list of small arms. TODO replace const with var",
+    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "creative_spark_research" }, ">=", { "const": 15 } ] },
+    "effect": [
+      { "arithmetic": [ { "u_val": "vitamin", "name": "creative_spark_research" }, "-=", { "const": 15 } ] },
+      { "u_roll_remainder": [ "battery_gun" ], "type": "recipe" },
+      { "u_message": "You spend blablabla (now <u_val:creative_spark_research>).", "type": "info" }
+    ],
+    "false_effect": [
+      { "u_message": "You did lot of research and calculations, but the result do not satisfy you.", "type": "bad" },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "creative_spark_research" }, "+=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_INVENTOR_TRANSFER",
+    "//": "Add some points into processed vitamin",
+    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "creative_spark" }, ">=", { "const": 1 } ] },
+    "effect": [
+      {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "creative_spark_research" },
+          "+=",
+          { "u_val": "vitamin", "name": "creative_spark" }
+        ]
+      },
+      {
+        "u_message": "Transferred some creative_spark to creative_spark_research (now <u_val:creative_spark_research>).",
+        "type": "info"
+      }
+    ],
+    "false_effect": [ { "u_message": "You don't have enough creative juice to enter an inspired state.", "type": "bad" } ]
+  }
+]

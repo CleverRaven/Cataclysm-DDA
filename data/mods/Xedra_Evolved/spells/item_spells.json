@@ -59,8 +59,8 @@
     "max_damage": 35,
     "min_aoe": 2,
     "max_aoe": 2,
-    "min_range": 15,
-    "max_range": 15,
+    "min_range": 9,
+    "max_range": 9,
     "damage_type": "cut"
   },
   {
@@ -93,5 +93,34 @@
     "min_range": 4,
     "max_range": 4,
     "damage_type": "electric"
+  },
+  {
+    "id": "heat_expl_gun",
+    "type": "SPELL",
+    "name": "Instant Ignition",
+    "description": "Explode the small area.",
+    "effect": "explosion",
+    "shape": "blast",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "LOUD", "RANDOM_DAMAGE", "IGNORE_WALLS", "NO_PROJECTILE" ],
+    "min_damage": 120,
+    "max_damage": 180,
+    "min_range": 30,
+    "max_range": 30,
+    "min_aoe": 1,
+    "max_aoe": 1
+  },
+  {
+    "type": "SPELL",
+    "id": "jump_boots_leap",
+    "name": "Jump Boots Leap",
+    "description": "Makes you jump.",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SILENT", "NO_EXPLOSION_SFX" ],
+    "effect": "dash",
+    "shape": "cone",
+    "damage_type": "bash",
+    "min_range": 11,
+    "max_range": 11
   }
 ]
