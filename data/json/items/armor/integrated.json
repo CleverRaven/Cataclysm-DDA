@@ -991,7 +991,7 @@
       {
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
-          { "type": "mut_scales", "covered_by_mat": 86, "thickness": 5.0 }
+          { "type": "mut_scales", "covered_by_mat": 87, "thickness": 5.0 }
         ],
         "covers": [ "head" ],
         "coverage": 100,
@@ -1011,7 +1011,7 @@
         "material": [
           { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
           { "type": "mut_scales", "covered_by_mat": 91, "thickness": 6.0 },
-          { "type": "mut_bone", "covered_by_mat": 75, "thickness": 3.0 }
+          { "type": "mut_bone", "covered_by_mat": 82, "thickness": 4.0 }
         ],
         "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
         "coverage": 100,
