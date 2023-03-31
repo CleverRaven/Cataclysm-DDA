@@ -6,10 +6,10 @@
   },
   {
     "type": "item_group",
-	"id": "paint_tutorial",
-	"subtype": "collection",
-    "items": [ 
-	  { "item": "paint_red", "prob": 100, "container-group": "paintcans" },
+    "id": "paint_tutorial",
+    "subtype": "collection",
+    "items": [
+      { "item": "paint_red", "prob": 100, "container-group": "paintcans" },
       { "item": "paint_blue", "prob": 100, "container-group": "paintcans" },
       { "item": "paint_yellow", "prob": 100, "container-group": "paintcans" },
       { "item": "paint_green", "prob": 100, "container-group": "paintcans" },
