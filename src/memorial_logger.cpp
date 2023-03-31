@@ -484,6 +484,7 @@ void memorial_logger::notify( const cata::event &e )
         }
         case event_type::avatar_dies: {
             add( pgettext( "memorial_male", "Died" ), pgettext( "memorial_female", "Died" ) );
+            break;
         }
         case event_type::awakes_dark_wyrms: {
             add( pgettext( "memorial_male", "Awoke a group of dark wyrms!" ),
