@@ -2,9 +2,8 @@
 #ifndef CATA_SRC_OUTPUT_H
 #define CATA_SRC_OUTPUT_H
 
-#include <functional>
-#include <clocale>
 #include <algorithm>
+#include <clocale>
 #include <cstddef>
 #include <cstdint>
 #include <forward_list>

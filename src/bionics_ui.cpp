@@ -882,7 +882,7 @@ void avatar::power_bionics()
             const bionic_data &bio_data = bio_id.obj();
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
-                    int b = tmp - &( *my_bionics )[0];
+                    int b = tmp - my_bionics->data();
                     bionic &bio = ( *my_bionics )[b];
                     hide = true;
                     ui.mark_resize();

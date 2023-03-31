@@ -84,7 +84,7 @@
       ".": { "item": "office_mess", "chance": 1 }
     },
     "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
-    "monster": { "_": { "group": "GROUP_ZOMBIE", "chance": 1 }, ".": { "group": "GROUP_ZOMBIE", "chance": 1 } },
+    "monster": { "_": { "group": "GROUP_CIVILIAN", "chance": 1 }, ".": { "group": "GROUP_CIVILIAN", "chance": 1 } },
     "toilets": { "T": {  } },
     "vehicles": {
       "Á": { "vehicle": "parking_garage", "chance": 50, "rotation": 270 },
