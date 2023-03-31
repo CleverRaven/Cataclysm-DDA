@@ -4,7 +4,6 @@
     "id": "fully_loaded_lighter",
     "items": [ { "item": "lighter", "prob": 100, "charges": 100 } ]
   },
-  
   {
     "type": "item_group",
 	"id": "paint_tutorial",
