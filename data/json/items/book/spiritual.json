@@ -219,6 +219,12 @@
         "name": { "str": "Talmud, Vol. 3, Tractate Pe'ah" },
         "description": "This is volume 3 of 51, containing Tractate Pe'ah. It is concerned with agriculture, of harvesting, and providing food for the poor.",
         "append": true
+      },
+      {
+        "id": "holybook_talmud_04",
+        "name": { "str": "Talmud, Vol. 4, Tractate Demai" },
+        "description": "This is volume 4 of 51, containing Tractate Demai. It is concerned with rules for dubiously-tithed produce.",
+        "append": true
       }
     ]
   },
