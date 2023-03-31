@@ -1598,25 +1598,25 @@ double item::get_var( const std::string &name, const double default_value ) cons
     const std::string &val = it->second;
     char *end;
     errno = 0;
-    double result = strtod( &val[0], &end );
+    double result = strtod( val.data(), &end );
     if( errno != 0 ) {
         debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
                   val, strerror( errno ) );
         return default_value;
     }
-    if( end != &val[0] + val.size() ) {
+    if( end != val.data() + val.size() ) {
         if( *end == ',' ) {
             // likely legacy format with localized ',' for fraction separator instead of '.'
             std::string converted_val = val;
-            converted_val[end - &val[0]] = '.';
+            converted_val[end - val.data()] = '.';
             errno = 0;
-            double result = strtod( &converted_val[0], &end );
+            double result = strtod( converted_val.data(), &end );
             if( errno != 0 ) {
                 debugmsg( "Error parsing floating point value from %s in item::get_var: %s",
                           val, strerror( errno ) );
                 return default_value;
             }
-            if( end != &converted_val[0] + converted_val.size() ) {
+            if( end != converted_val.data() + converted_val.size() ) {
                 debugmsg( "Stray characters at end of floating point value %s in item::get_var", val );
             }
             return result;
