@@ -1701,8 +1701,6 @@
     "description": "A human body, swaying awkwardly in a torn cloth suit of an anthropomorphized animal.  Black goo and blood cakes the suit, and it gives off a foul, rotting odor.",
     "copy-from": "mon_zombie",
     "default_faction": "zombie",
-    "volume": "62500 ml",
-    "weight": "81500 g",
     "hp": 70,
     "speed": 50,
     "symbol": "Z",
