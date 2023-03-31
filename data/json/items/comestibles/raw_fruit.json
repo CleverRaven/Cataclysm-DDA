@@ -562,7 +562,8 @@
     "material": [ "fruit" ],
     "volume": "1850 ml",
     "bashing": 2,
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 4 ], [ "iron", 36 ] ]
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 4 ], [ "iron", 36 ] ],
+    "comestible_type": "INVALID"
   },
   {
     "type": "COMESTIBLE",
@@ -625,7 +626,6 @@
     "volume": "7150 ml",
     "bashing": 2,
     "flags": [ "EATEN_COLD", "FREEZERBURN", "SMOKABLE" ],
-    "fun": 0,
     "smoking_result": "dry_fruit",
     "vitamins": [ [ "vitC", 406 ], [ "calcium", 24 ], [ "iron", 60 ] ]
   },

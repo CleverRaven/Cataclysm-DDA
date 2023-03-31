@@ -35,7 +35,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "cotton_patchwork", -1 ] ] ],
-    "components": [ [ [ "pineapple", 1 ], [ "irradiated_pineapple", 1 ] ] ]
+    "components": [ [ [ "pineapple_chunks", 1 ] ] ]
   },
   {
     "type": "recipe",
