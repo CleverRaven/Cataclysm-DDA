@@ -4,9 +4,9 @@ Monsters include not just zombies, but fish, dogs, moose, Mi-gos, manhacks, and 
 
 ```JSON
 {
-    "type": "MONSTER",
-    "id": "mon_foo",
-    ...
+  "type": "MONSTER",
+  "id": "mon_foo",
+  ...
 }
 ```
 
@@ -514,8 +514,8 @@ Example:
 
 ```JSON
 "upgrades": {
-    "into_group": "GROUP_ZOMBIE_UPGRADE",
-    "half_life": 28
+  "into_group": "GROUP_ZOMBIE_UPGRADE",
+  "half_life": 28
 }
 ```
 
@@ -616,11 +616,11 @@ A set of effects that may get applied to the attacked creature when the monster 
 
 ```JSON
 "attack_effs": [
-    {
-        "id": "paralyzepoison",
-        "duration": 33,
-        "chance": 50
-    }
+  {
+    "id": "paralyzepoison",
+    "duration": 33,
+    "chance": 50
+  }
 ]
 ```
 
@@ -665,14 +665,14 @@ The new style object can contain a "type" member (string) - "cooldown" member (i
 
 ```JSON
 "special_attacks": [
-    { "type": "leap", "cooldown": 10, "max_range": 4 }
+  { "type": "leap", "cooldown": 10, "max_range": 4 }
 ]
 ```
 In the case of separately defined attacks the object has to contain at least an "id" member. In this case the attack will use the default attack data defined in monster_attacks.json, if a field is additionally defined it will overwrite those defaults. These attacks have the common "type": "monster_attack", see below for possible fields. Example:
 
 ```JSON
 "special_attacks": [
-    { "id": "impale" }
+  { "id": "impale" }
 ]
 ```
 
@@ -680,9 +680,9 @@ In the case of separately defined attacks the object has to contain at least an 
 
 ```JSON
 "special_attacks": [
-    [ "GRAB", 10 ],
-    { "type": "leap", "cooldown": 8, "max_range": 4 },
-    { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
+  [ "GRAB", 10 ],
+  { "type": "leap", "cooldown": 8, "max_range": 4 },
+  { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
 ]
 ```
 This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
