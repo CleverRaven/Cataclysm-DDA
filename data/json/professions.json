@@ -190,9 +190,9 @@
     "subtype": "collection",
     "id": "mags_50beowulf_ar15",
     "entries": [
-      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_fmjbt", "charges": 10 },
-      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_fmjbt", "charges": 10 },
-      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_fmjbt", "charges": 10 }
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 },
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 },
+      { "item": "50beowulf_ar15mag", "ammo-item": "50beowulf_xtp", "charges": 10 }
     ]
   },
   {

@@ -740,12 +740,6 @@
     "variant": "m4a1_migration"
   },
   {
-    "id": "m4_cqbr",
-    "type": "MIGRATION",
-    "replace": "m4_cqbr_migration",
-    "variant": "m4_cqbr_migration"
-  },
-  {
     "id": "m16a4",
     "type": "MIGRATION",
     "replace": "m16a4_migration",

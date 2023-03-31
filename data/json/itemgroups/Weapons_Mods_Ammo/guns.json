@@ -401,7 +401,7 @@
     "items": [
       { "group": "nested_browning_blr", "prob": 1 },
       { "group": "nested_ruger_pr", "prob": 1 },
-      { "group": "nested_ruger_aar", "prob": 1 },
+      { "group": "nested_ruger_arr", "prob": 1 },
       { "group": "nested_ar_pistol", "prob": 1 },
       { "group": "nested_garand", "prob": 1 },
       { "group": "nested_ar10", "prob": 1 },
@@ -455,7 +455,7 @@
       { "item": "mosin91_30", "variant": "mosin91_30", "prob": 1, "charges-min": 0, "charges-max": 5 },
       { "item": "remington700_270", "prob": 1, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_m77", "prob": 1, "charges-min": 0, "charges-max": 4 },
-      { "item": "ruger_aar", "prob": 1, "charges-min": 0, "charges-max": 3 },
+      { "item": "ruger_arr", "prob": 1, "charges-min": 0, "charges-max": 3 },
       { "item": "remington_700", "prob": 4, "charges-min": 0, "charges-max": 4 },
       { "item": "ruger_1022", "prob": 7, "charges-min": 0, "charges-max": 10 },
       { "item": "ruger_mini", "prob": 1, "charges-min": 0, "charges-max": 5 },
