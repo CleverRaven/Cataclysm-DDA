@@ -2,9 +2,8 @@
 #ifndef CATA_SRC_OUTPUT_H
 #define CATA_SRC_OUTPUT_H
 
-#include <functional>
-#include <clocale>
 #include <algorithm>
+#include <clocale>
 #include <cstddef>
 #include <cstdint>
 #include <forward_list>
@@ -622,53 +621,6 @@ std::pair<std::string, nc_color> get_light_level( float light );
 
 std::pair<std::string, nc_color> rad_badge_color( int rad );
 
-/**
- * @return String containing the bar. Example: "Label [********    ]".
- * @param val Value to display. Can be unclipped.
- * @param width Width of the entire string.
- * @param label Label before the bar. Can be empty.
- * @param begin Iterator over pairs <double p, char c> (see below).
- * @param end Iterator over pairs <double p, char c> (see below).
- * Where:
- *    p - percentage of the entire bar which can be filled with c.
- *    c - character to fill the segment of the bar with
- */
-
-// MSVC has problem dealing with template functions.
-// Implementing this function in cpp file results link error.
-template<typename RatingIterator>
-inline std::string get_labeled_bar( const double val, const int width, const std::string &label,
-                                    RatingIterator begin, RatingIterator end )
-{
-    std::string result;
-
-    result.reserve( width );
-    if( !label.empty() ) {
-        result += label;
-        result += ' ';
-    }
-    const int bar_width = width - utf8_width( result ) - 2; // - 2 for the brackets
-
-    result += '[';
-    if( bar_width > 0 ) {
-        int used_width = 0;
-        for( RatingIterator it( begin ); it != end; ++it ) {
-            const double factor = std::min( 1.0, std::max( 0.0, it->first * val ) );
-            const int seg_width = static_cast<int>( factor * bar_width ) - used_width;
-
-            if( seg_width <= 0 ) {
-                continue;
-            }
-            used_width += seg_width;
-            result.insert( result.end(), seg_width, it->second );
-        }
-        result.insert( result.end(), bar_width - used_width, ' ' );
-    }
-    result += ']';
-
-    return result;
-}
-
 enum class enumeration_conjunction : int {
     none,
     and_,
@@ -762,7 +714,40 @@ std::string enumerate_as_string( const Container &cont, F &&string_for,
 std::string formatted_hotkey( const std::string &hotkey, nc_color text_color );
 
 /**
- * @return String containing the bar. Example: "Label [********    ]".
+ * @return String containing the bar. Example: "Label [****--...    ]".
+ * @param val Value to display. Can be unclipped.
+ * @param width Width of the entire string.
+ * @param label Label before the bar. Can be empty.
+ * @param begin Iterator over pairs <double p, char c> (see below).
+ * @param end Iterator over pairs <double p, char c> (see below).
+ * Where:
+ *    p - percentage of the entire bar which can be filled with c.
+ *    c - character to fill the segment of the bar with
+ */
+template<typename BarIterator>
+std::string get_labeled_bar( double val, int width, const std::string &label,
+                             BarIterator begin, BarIterator end );
+
+/**
+ * @return String containing the bar. Example: "Label [****--...    ]".
+ * @param val Value to display. Can be unclipped.
+ * @param width Width of the entire string.
+ * @param label Label before the bar. Can be empty.
+ * @param begin Iterator over collections with at least first two members [double p, char c] (see below).
+ * @param end Iterator over collections with at least first two members [double p, char c] (see below).
+ * Where:
+ *    p - percentage of the entire bar which can be filled with c.
+ *    c - character to fill the segment of the bar with
+ *    and the collection may have additional elements used by the following function parameter
+ * @param printer Function that takes Iterator described above and number of copies of the character to repeat.
+ */
+template<typename BarIterator>
+std::string get_labeled_bar( double val, int width, const std::string &label,
+                             BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer );
+
+
+/**
+ * @return String containing the bar. Example: "Label [************]".
  * @param val Value to display. Can be unclipped.
  * @param width Width of the entire string.
  * @param label Label before the bar. Can be empty.

@@ -1,18 +1,5 @@
 [
   {
-    "type": "GENERIC",
-    "id": "spidery_legs_big",
-    "name": { "str": "set of spidery legs", "str_pl": "sets of spidery legs" },
-    "description": "A set of big pointy legs, like the ones found under a tripod.",
-    "symbol": "W",
-    "color": "light_gray",
-    "weight": "40000 g",
-    "volume": "20 L",
-    "price": 200000,
-    "material": [ "steel" ],
-    "category": "spare_parts"
-  },
-  {
     "id": "chainmail_hauberk",
     "type": "ARMOR",
     "category": "armor",
@@ -275,21 +262,5 @@
         "encumbrance": 20
       }
     ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "egg_lady_bug_giant",
-    "name": { "str": "giant ladybug egg" },
-    "description": "A giant ladybug egg.  It looks like a huge yellow rice grain.  You can see an enormous, translucent, and very hungry larva inside.",
-    "copy-from": "egg_insect",
-    "color": "red"
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "spider_egg",
-    "name": { "str": "spider egg" },
-    "description": "A fist-sized egg from a giant spider.  Incredibly gross.",
-    "copy-from": "egg_insect",
-    "color": "white"
   }
 ]

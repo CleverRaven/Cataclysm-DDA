@@ -173,6 +173,35 @@
   },
   {
     "type": "npc",
+    "id": "NPC_gun_store_survivor",
+    "class": "NC_SCAVENGER",
+    "name_suffix": "marksman",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_NPC_GUN_STORE_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_animal_shelter_survivor",
+    "class": "NC_DOCTOR",
+    "name_suffix": "veterinarian",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_park_survivor",
+    "class": "NC_SCAVENGER",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_STRANGER_NEUTRAL",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
     "id": "NPC_evac_shelter_survivor",
     "class": "NC_SCAVENGER",
     "name_suffix": "scavenger",

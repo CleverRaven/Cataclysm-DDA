@@ -311,8 +311,6 @@ std::string action_ident( action_id act )
             return "missions";
         case ACTION_FACTIONS:
             return "factions";
-        case ACTION_SCORES:
-            return "scores";
         case ACTION_MEDICAL:
             return "medical";
         case ACTION_BODYSTATUS:
@@ -442,7 +440,6 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_MAP:
         case ACTION_SKY:
         case ACTION_MISSIONS:
-        case ACTION_SCORES:
         case ACTION_FACTIONS:
         case ACTION_MORALE:
         case ACTION_MEDICAL:
@@ -700,7 +697,7 @@ static bool can_pickup_at( const tripoint &p )
     map &here = get_map();
     const optional_vpart_position vp = here.veh_at( p );
     if( vp ) {
-        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
+        const int cargo_part = vp->vehicle().part_with_feature( vp->mount(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
 
@@ -973,7 +970,6 @@ action_id handle_action_menu()
         } else if( category == _( "Info" ) ) {
             REGISTER_ACTION( ACTION_PL_INFO );
             REGISTER_ACTION( ACTION_MISSIONS );
-            REGISTER_ACTION( ACTION_SCORES );
             REGISTER_ACTION( ACTION_FACTIONS );
             REGISTER_ACTION( ACTION_MORALE );
             REGISTER_ACTION( ACTION_MEDICAL );
@@ -1052,6 +1048,7 @@ action_id handle_main_menu()
                           ctxt.get_action_name( action_ident( ACTION_KEYBINDINGS ) ) );
 
     REGISTER_ACTION( ACTION_OPTIONS );
+    REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
     REGISTER_ACTION( ACTION_AUTOPICKUP );
     REGISTER_ACTION( ACTION_AUTONOTES );
     REGISTER_ACTION( ACTION_SAFEMODE );

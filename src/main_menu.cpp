@@ -51,17 +51,16 @@
 
 enum class main_menu_opts : int {
     MOTD = 0,
-    NEWCHAR = 1,
-    LOADCHAR = 2,
-    WORLD = 3,
-    SPECIAL = 4,
-    SETTINGS = 5,
-    HELP = 6,
-    CREDITS = 7,
-    QUIT = 8
+    NEWCHAR,
+    LOADCHAR,
+    WORLD,
+    SPECIAL,
+    SETTINGS,
+    HELP,
+    CREDITS,
+    QUIT,
+    NUM_MENU_OPTS,
 };
-
-static constexpr int max_menu_opts = 8;
 
 std::string main_menu::queued_world_to_load;
 std::string main_menu::queued_save_id_to_load;
@@ -728,22 +727,10 @@ bool main_menu::opening_screen()
             if( query_yn( _( "Really quit?" ) ) ) {
                 return false;
             }
-        } else if( action == "LEFT" || action == "PREV_TAB" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             sel_line = 0;
-            if( sel1 > 0 ) {
-                sel1--;
-            } else {
-                sel1 = max_menu_opts;
-            }
-            sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
-            on_move();
-        } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
-            sel_line = 0;
-            if( sel1 < max_menu_opts ) {
-                sel1++;
-            } else {
-                sel1 = 0;
-            }
+            sel1 = increment_and_wrap( sel1, action == "RIGHT" ||
+                                       action == "NEXT_TAB", static_cast<int>( main_menu_opts::NUM_MENU_OPTS ) );
             sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
             on_move();
         } else if( action == "UP" || action == "DOWN" ||
@@ -975,7 +962,8 @@ bool main_menu::new_character_tab()
         // First load the mods, this is done by
         // loading the world.
         // Pick a world, suppressing prompts if it's "play now" mode.
-        WORLD *world = world_generator->pick_world( true, sel2 == 3 || sel2 == 4 );
+        const bool is_play_now = sel2 == 3 || sel2 == 4;
+        WORLD *world = world_generator->pick_world( !is_play_now, is_play_now );
         if( world == nullptr ) {
             return false;
         }

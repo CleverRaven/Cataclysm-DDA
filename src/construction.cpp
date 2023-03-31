@@ -391,12 +391,10 @@ construction_id construction_menu( const bool blueprint )
     const inventory &total_inv = player_character.crafting_inventory();
 
     input_context ctxt( "CONSTRUCTION" );
-    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
-    ctxt.register_action( "RIGHT", to_translation( "Move tab right" ) );
-    ctxt.register_action( "LEFT", to_translation( "Move tab left" ) );
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SCROLL_STAGE_UP" );
     ctxt.register_action( "SCROLL_STAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
@@ -778,63 +776,17 @@ construction_id construction_menu( const bool blueprint )
                 update_info = true;
                 update_cat = true;
             }
-        } else if( action == "DOWN" ) {
+        } else if( navigate_ui_list( action, select, scroll_rate, recmax, true ) ) {
             update_info = true;
-            if( select < recmax - 1 ) {
-                select++;
-            } else {
-                select = 0;
-            }
-        } else if( action == "UP" ) {
-            update_info = true;
-            if( select > 0 ) {
-                select--;
-            } else {
-                select = recmax - 1;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            update_info = true;
-            if( select == recmax - 1 ) {
-                select = 0;
-            } else if( select + scroll_rate >= recmax ) {
-                select = recmax - 1;
-            } else {
-                select += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            update_info = true;
-            if( select == 0 ) {
-                select = recmax - 1;
-            } else if( select <= scroll_rate ) {
-                select = 0;
-            } else {
-                select += -scroll_rate;
-            }
-        } else if( action == "LEFT" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             update_info = true;
             update_cat = true;
-            tabindex--;
-            if( tabindex < 0 ) {
-                tabindex = tabcount - 1;
-            }
-        } else if( action == "RIGHT" ) {
-            update_info = true;
-            update_cat = true;
-            tabindex = ( tabindex + 1 ) % tabcount;
-        } else if( action == "SCROLL_STAGE_UP" ) {
-            if( current_construct_breakpoint > 0 ) {
-                current_construct_breakpoint--;
-            }
-            if( current_construct_breakpoint < 0 ) {
-                current_construct_breakpoint = 0;
-            }
-        } else if( action == "SCROLL_STAGE_DOWN" ) {
-            if( current_construct_breakpoint < total_project_breakpoints - 1 ) {
-                current_construct_breakpoint++;
-            }
-            if( current_construct_breakpoint >= total_project_breakpoints ) {
-                current_construct_breakpoint = total_project_breakpoints - 1;
-            }
+            tabindex = increment_and_wrap( tabindex, action == "RIGHT" ||
+                                           action == "NEXT_TAB", tabcount );
+        } else if( action == "SCROLL_STAGE_UP" || action == "SCROLL_STAGE_DOWN" ) {
+            current_construct_breakpoint = increment_and_clamp( current_construct_breakpoint,
+                                           action == "SCROLL_STAGE_DOWN",
+                                           total_project_breakpoints - 1 );
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
@@ -1540,7 +1492,7 @@ void construct::done_appliance( const tripoint_bub_ms &p, Character & )
         return;
     }
 
-    const item base = components.front();
+    const item &base = components.front();
     const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
 
     // TODO: fix point types
@@ -1613,16 +1565,6 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
                 return;
             }
             done_deconstruct( top, player_character );
-        }
-        if( t.id.id() == t_console_broken )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 20, 4 );
-            }
-        }
-        if( t.id.id() == t_console )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 40, 8 );
-            }
         }
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );

@@ -347,7 +347,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         }
     } else {
         limbtypes.clear();
-        body_part_type::type limb_type;
+        body_part_type::type limb_type = {};
         mandatory( jo, was_loaded, "limb_type", limb_type );
         limbtypes.emplace( limb_type, 1.0f );
     }

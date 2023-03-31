@@ -1,6 +1,6 @@
 [
   {
-    "id": "5x50_100_mag",
+    "id": "afs_5x50_100_mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": { "str": "5x50mm 100-round magazine" },
@@ -12,13 +12,13 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": [ "5x50" ],
+    "ammo_type": [ "afs_5x50" ],
     "reload_time": 60,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "5x50": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_5x50": 100 } } ]
   },
   {
-    "id": "5x50_50_mag",
+    "id": "afs_5x50_50_mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
     "name": { "str": "5x50mm 50-round magazine" },
@@ -30,9 +30,9 @@
     "material": [ "superalloy", "plastic" ],
     "symbol": "#",
     "color": "dark_gray",
-    "ammo_type": [ "5x50" ],
+    "ammo_type": [ "afs_5x50" ],
     "reload_time": 50,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "5x50": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "afs_5x50": 50 } } ]
   }
 ]
