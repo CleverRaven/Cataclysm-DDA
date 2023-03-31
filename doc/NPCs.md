@@ -59,7 +59,7 @@ Format:
   "shopkeeper_consumption_rates": "basic_shop_rates",
   "shopkeeper_price_rules": [
     { "item": "scrap", "price": 10000 },
-  ]
+  ],
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
@@ -733,7 +733,7 @@ Example:
   { "text": "You know what, never mind.", "topic": "TALK_NONE" },
   { "text": "How does 5 Ben Franklins sound?",
     "topic": "TALK_BIG_BRIBE", "condition": { "u_has_cash": 500 }, "switch": true },
-   { "text": "I could give you a big Grant.",
+  { "text": "I could give you a big Grant.",
     "topic": "TALK_BRIBE", "condition": { "u_has_cash": 50 }, "switch": true },
   { "text": "Lincoln liberated the slaves, what can he do for me?",
     "topic": "TALK_TINY_BRIBE", "condition": { "u_has_cash": 5 }, "switch": true, "default": true },

@@ -179,12 +179,12 @@ For example, here are two simple definitions.
 {
     "type": "overmap_location",
     "id": "forest",
-    "terrains": ["forest"]
+    "terrains": [ "forest" ]
 },
 {
     "type": "overmap_location",
     "id": "wilderness",
-    "terrains": ["forest", "field"]
+    "terrains": [ "forest", "field" ]
 }
 ```
 
@@ -201,12 +201,12 @@ update these definitions as follows:
 {
     "type": "overmap_location",
     "id": "forest",
-    "terrains": ["forest", "forest_thick"]
+    "terrains": [ "forest", "forest_thick" ]
 },
 {
     "type": "overmap_location",
     "id": "wilderness",
-    "terrains": ["forest", "forest_thick", "field"]
+    "terrains": [ "forest", "forest_thick", "field" ]
 }
 ```
 

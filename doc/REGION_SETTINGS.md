@@ -36,8 +36,8 @@ Note that for the default region, all attributes and sections are required.
 	"id": "default",
 	"default_oter": "field",
 	"default_groundcover": [
-		["t_grass", 4],
-		["t_dirt", 1]
+		[ "t_grass", 4 ],
+		[ "t_dirt", 1 ]
 	]
 }
 ```
@@ -511,8 +511,8 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_wind_season_variation": 64,
 		"weather_black_list": [
 			"snowstorm"
-      	]
-    },
+    ]
+  }
 }
 ```
 
@@ -561,14 +561,16 @@ All additional fields and sections are as defined for a `region_overlay`.
 
 ### Example
 ```json
-[{
-	"type": "region_overlay",
-	"id": "example_overlay",
-	"regions": ["all"],
-	"city": {
-		"parks": {
-			"examplepark": 1
+[
+	{
+		"type": "region_overlay",
+		"id": "example_overlay",
+		"regions": [ "all" ],
+		"city": {
+			"parks": {
+				"examplepark": 1
+			}
 		}
 	}
-}]
+]
 ```

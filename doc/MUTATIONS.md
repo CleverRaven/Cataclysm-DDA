@@ -98,7 +98,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "butchering_quality": 4,                    // Butchering quality of this mutations (default: 0).
   "rand_cut_bonus": { "min": 2, "max": 3 },   // Random bonus to unarmed cut damage between min and max.
   "rand_bash_bonus": { "min": 2, "max": 3 },  // Random bonus to unarmed bash damage between min and max.
-  "bodytemp_modifiers": [100, 150],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
+  "bodytemp_modifiers": [ 100, 150 ],           // Range of additional bodytemp units (these units are described in 'weather.h'.  First value is used if the person is already overheated, second one if it's not.
   "bodytemp_sleep": 50,                       // Additional units of bodytemp which are applied when sleeping.
   "initial_ma_styles": [ "style_crane" ],     // (optional) A list of IDs of martial art styles of which the player can choose one when starting a game.
   "mixed_effect": false,                      // Whether the trait has both positive and negative effects.  This is purely declarative and is only used for the user interface (default: false).
@@ -118,7 +118,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
       "apped_desc": false,                                // If true, append the description, instead of replacing.
       "weight": 1                                         // Used to randomly select variant when this is mutated.  Chance of being selected is weight/sum-of-all-weights.  If no weight is specified or weight is 0, variant will not be selected.
     }
-  ]
+  ],
   "category": [ "MUTCAT_BIRD", "MUTCAT_INSECT" ],         // Categories containing this mutation.
       // prereqs and prereqs2 specify prerequisites of the current mutation.
       // Both are optional, but if prereqs2 is specified prereqs must also be specified.
@@ -206,7 +206,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "movecost_flatground_modifier": 0.9,        // Movement speed cost modifier on flat terrain, free from obstacles (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_obstacle_modifier": 0.9,          // Movement speed cost modifier on rough, uneven terrain (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_swim_modifier": 0.9,              // Swimming speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
-  "weight_capacity_modifier": 0.9             // Carrying capacity modifier (0.9 is 10% less, 1.1 is 10% more).
+  "weight_capacity_modifier": 0.9,            // Carrying capacity modifier (0.9 is 10% less, 1.1 is 10% more).
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.
   "spells_learned": [ [ "spell_slime_spray", 1 ] ], // Spells learned and the level they're at after gaining the trait/mutation.
   "transform": { "target": "BIOLUM1",         // Trait_id of the mutation this one will transform into.
@@ -225,11 +225,11 @@ Note that **all new traits that can be obtained through mutation must be purifia
       {
         "condition": {                        // Dialog condition (see NPCs.md).
           "or": [
-            { "compare_num": [ { "hour", "<", { "const": 2 } } ] },
-            { "compare_num": [ { "hour", ">", { "const": 20 } } ] }
+            { "compare_num": [ "hour", "<", { "const": 2 } ] },
+            { "compare_num": [ "hour", ">", { "const": 20 } ] }
           ]
         },
-        "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // Message displayed when the trigger activates.
+        "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" },// Message displayed when the trigger activates.
         "msg_off": { "text": "Your glow fades." }                                                      // Message displayed when the trigger deactivates the trait.
       }
     ]

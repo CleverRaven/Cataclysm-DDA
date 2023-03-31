@@ -129,7 +129,7 @@ The procgen_id relates directly to a `relic_procgen_data` object's id. The `rule
 "damage-min": 0,
 "damage-max": 3,
 "count": 4
-"charges": [10, 100]
+"charges": [ 10, 100 ]
 ```
 
 This will create 4 items; they can have different damage levels as the damage value is rolled separately for each of these items.  Each item has charges (AKA ammo) in the range of 10 to 100 (inclusive); if the item needs a magazine before it can have charges, that will be taken care of for you.  Using an array (which must have 2 entries) for charges/count/damage is equivalent to writing explicit min and max values.  In other words, `"count": [a,b]` is the same as `"count-min": a, "count-max": b`.

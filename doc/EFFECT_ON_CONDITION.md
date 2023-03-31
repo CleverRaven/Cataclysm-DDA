@@ -23,7 +23,7 @@ An effect_on_condition is an object allowing the combination of dialog condition
     "id": "test_deactivate",
     "recurrence": 1,
     "condition": { "u_has_trait": "SPIRITUAL" },
-    "deactivate_condition": {"not":{ "u_has_trait": "SPIRITUAL" } },
+    "deactivate_condition": { "not":{ "u_has_trait": "SPIRITUAL" } },
     "effect": { "u_add_effect": "infection", "duration": 1 }
   },
   {
