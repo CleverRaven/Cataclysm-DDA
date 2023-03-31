@@ -148,7 +148,7 @@ for lacking the proficiency when crafting a recipe that involves it.
 The keys of the `bonuses` object correspond to what bonuses are - e.g. the `archery` key marks
 bonuses used for `archery`.  The general format is:
 
-```
+```json
   "bonuses": {
     "key": [ { "type": "string", "value": float } ]
   }
