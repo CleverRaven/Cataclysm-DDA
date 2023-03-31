@@ -990,11 +990,11 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
                                          _( "Stats, traits and skills have separate point pools.\n"
                                             "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
                                             "Scenarios and professions affect skill points.\n\n"
-                                            "This is a legacy mode point totals are no longer balanced." ) );
+                                            "This is a legacy mode.  Point totals are no longer balanced." ) );
 
     const point_limit_tuple one_pool = std::make_tuple( pool_type::ONE_POOL, _( "Legacy: Single pool" ),
                                        _( "Stats, traits and skills share a single point pool.\n\n"
-                                          "This is a legacy mode point totals are no longer balanced." ) );
+                                          "This is a legacy mode.  Point totals are no longer balanced." ) );
 
     const point_limit_tuple freeform = std::make_tuple( pool_type::FREEFORM, _( "Survivor" ),
                                        _( "No point limits are enforced, create a character with the intention of telling a story or challenging yourself." ) );

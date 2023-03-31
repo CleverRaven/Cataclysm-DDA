@@ -165,7 +165,7 @@ std::string player_difficulty::get_defense_difficulty( const Character &u ) cons
     // calculate dodge
     per += dodge * ( u.get_dodge() - average.get_dodge() ) / average.get_dodge();
 
-    return format_output( percent_band, per, true );
+    return format_output( percent_band, per );
 }
 
 double player_difficulty::calc_dps_value( const Character &u )
@@ -206,7 +206,7 @@ std::string player_difficulty::get_combat_difficulty( const Character &u ) const
 
     float per = ( player_dps - npc_dps ) / npc_dps;
 
-    return format_output( percent_band, per, true );
+    return format_output( percent_band, per );
 }
 
 std::string player_difficulty::get_genetics_difficulty( const Character &u ) const
@@ -241,7 +241,7 @@ std::string player_difficulty::get_genetics_difficulty( const Character &u ) con
     float per = static_cast<float>( genetics_total - average_stats ) / static_cast<float>
                 ( average_stats );
 
-    return format_output( percent_band, per, false );
+    return format_output( percent_band, per );
 }
 
 std::string player_difficulty::get_expertise_difficulty( const Character &u ) const
@@ -291,7 +291,7 @@ std::string player_difficulty::get_expertise_difficulty( const Character &u ) co
 
 
 
-    return format_output( percent_band, per, false );
+    return format_output( percent_band, per );
 }
 
 
@@ -324,36 +324,24 @@ std::string player_difficulty::get_social_difficulty( const Character &u ) const
     float per = static_cast<float>( player_val - average_val ) / static_cast<float>
                 ( average_val );
 
-    return format_output( percent_band, per, true );
+    return format_output( percent_band, per );
 }
 
-std::string player_difficulty::format_output( float percent_band, float per, bool difficulty )
+std::string player_difficulty::format_output( float percent_band, float per )
 {
     std::string output;
-    if( difficulty ) {
-        if( per < -1 * percent_band ) {
-            output = string_format( "<color_%s>%s</color>", "light_red", _( "impossible" ) );
-        } else if( per < 0.0f ) {
-            output = string_format( "<color_%s>%s</color>", "light_red", _( "hard" ) );
-        } else if( per < percent_band ) {
-            output = string_format( "<color_%s>%s</color>", "yellow", _( "average" ) );
-        } else if( per < 2 * percent_band ) {
-            output = string_format( "<color_%s>%s</color>", "light_green", _( "easy" ) );
-        } else {
-            output = string_format( "<color_%s>%s</color>", "light_green", _( "trivial" ) );
-        }
+    if( per < -1 * percent_band ) {
+        output = string_format( "<color_%s>%s</color>", "light_red", _( "underpowered" ) );
+    } else if( per < 0.0f ) {
+        output = string_format( "<color_%s>%s</color>", "light_red", _( "weak" ) );
+    } else if( per < percent_band ) {
+        output = string_format( "<color_%s>%s</color>", "yellow", _( "average" ) );
+    } else if( per < 2 * percent_band ) {
+        output = string_format( "<color_%s>%s</color>", "light_green", _( "strong" ) );
+    } else if( per < 3 * percent_band ) {
+        output = string_format( "<color_%s>%s</color>", "light_green", _( "powerful" ) );
     } else {
-        if( per < -1 * percent_band ) {
-            output = string_format( "<color_%s>%s</color>", "light_red", _( "underpowered" ) );
-        } else if( per < 0.0f ) {
-            output = string_format( "<color_%s>%s</color>", "light_red", _( "weak" ) );
-        } else if( per < percent_band ) {
-            output = string_format( "<color_%s>%s</color>", "yellow", _( "average" ) );
-        } else if( per < 2 * percent_band ) {
-            output = string_format( "<color_%s>%s</color>", "light_green", _( "powerful" ) );
-        } else {
-            output = string_format( "<color_%s>%s</color>", "light_green", _( "overpowered" ) );
-        }
+        output = string_format( "<color_%s>%s</color>", "light_green", _( "overpowered" ) );
     }
 
     if( get_option<bool>( "DEBUG_DIFFICULTIES" ) ) {
@@ -378,7 +366,7 @@ std::string player_difficulty::difficulty_to_string( const avatar &u ) const
 
     return string_format( "%s |  %s: %s  %s: %s  %s: %s  %s: %s  %s: %s",
                           _( "Summary" ),
-                          _( "Genetics" ), genetics,
+                          _( "Lifestyle" ), genetics,
                           _( "Knowledge" ), expertise,
                           _( "Offense" ), combat,
                           _( "Defense" ), defense,
