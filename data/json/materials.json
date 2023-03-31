@@ -3118,6 +3118,7 @@
       { "fuel": 0, "smoke": 1, "burn": 1, "volume_per_turn": "250 ml" },
       { "fuel": 1, "smoke": 1, "burn": 2 }
     ],
-    "burn_products": [ [ "corpse_ash", 0.035 ] ]
+    "burn_products": [ [ "corpse_ash", 0.035 ] ],
+    "soft": true
   }
 ]
