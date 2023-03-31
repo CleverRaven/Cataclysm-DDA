@@ -97,9 +97,7 @@
         "_": { "item": "codeine", "chance": 100 },
         "C": [ { "item": "peanutbutter", "chance": 100 }, { "item": "crackers", "chance": 100 } ]
       },
-	  "items": {
-		  "(": { "item": "paint_tutorial", "chance": 100 }
-	  },
+      "items": { "(": { "item": "paint_tutorial", "chance": 100 } },
       "monster": { "d": { "monster": "mon_dummy_tutorial" } },
       "traps": {
         "1": "tr_tutorial_1",
