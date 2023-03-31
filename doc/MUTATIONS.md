@@ -130,8 +130,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "changes_to": [ "FASTHEALER2" ],            // Can change into these mutations when mutating further.
   "leads_to": [ ],                            // Mutations that add to this one.
   "passive_mods": {                           // Increases stats with the listed value.  Negative means a stat reduction.
-              "per_mod": 1,                   // Possible values: per_mod, str_mod, dex_mod, int_mod
-              "str_mod": 2
+    "per_mod": 1,                             // Possible values: per_mod, str_mod, dex_mod, int_mod
+    "str_mod": 2
   },
   "wet_protection": [ { "part": "head", "good": 1 } ],    // Wet Protection on specific bodyparts.  Possible values: "neutral/good/ignored".  Good increases pos and cancels neg, neut cancels neg, ignored cancels both.
   "vitamin_rates": [ [ "vitC", -1200 ] ],     // How much extra vitamins do you consume, one point per this many seconds.  Negative values mean production.
@@ -145,12 +145,12 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "allow_soft_gear": true,                    // If there is a list of 'restricts_gear', this sets if the location still allows items made out of soft materials (only one of the types need to be soft for it to be considered soft) (default: false).
   "destroys_gear": true,                      // If true, destroys the gear in the 'restricts_gear' location when mutated into (default: false).
   "encumbrance_always": [                     // Adds this much encumbrance to selected body parts.
-      [ "arm_l", 20 ],
-      [ "arm_r", 20 ]
+    [ "arm_l", 20 ],
+    [ "arm_r", 20 ]
   ],
   "encumbrance_covered": [                    // Adds this much encumbrance to selected body parts, but only if the part is covered by not-OVERSIZE worn equipment.
-      [ "hand_l", 50 ],
-      [ "hand_r", 50 ]
+    [ "hand_l", 50 ],
+    [ "hand_r", 50 ]
   ],
   "encumbrance_multiplier_always": {          // If the bodypart has encumbrance caused by a mutation, multiplies that encumbrance penalty by this multiplier.
     "arm_l": 0.75,                            // Note: Does not affect clothing encumbrance.
@@ -209,17 +209,18 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "weight_capacity_modifier": 0.9,            // Carrying capacity modifier (0.9 is 10% less, 1.1 is 10% more).
   "social_modifiers": { "persuade": -10 },    // Social modifiers.  Can be: intimidate, lie, persuade.
   "spells_learned": [ [ "spell_slime_spray", 1 ] ], // Spells learned and the level they're at after gaining the trait/mutation.
-  "transform": { "target": "BIOLUM1",         // Trait_id of the mutation this one will transform into.
-                 "msg_transform": "You turn your photophore OFF.", // Message displayed upon transformation.
-                 "active": false,             // If true, mutation will start powered when activated (turn ON).
-                 "moves": 100                 // Moves cost per activation (default: 0).
+  "transform": { 
+    "target": "BIOLUM1",                      // Trait_id of the mutation this one will transform into.
+    "msg_transform": "You turn your photophore OFF.", // Message displayed upon transformation.
+    "active": false,                          // If true, mutation will start powered when activated (turn ON).
+    "moves": 100                              // Moves cost per activation (default: 0).
   },
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
-        {
-          "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
-          "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
-        }
+      {
+        "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
+        "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
+      }
     ],
     [
       {
