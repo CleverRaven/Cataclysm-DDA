@@ -1317,9 +1317,6 @@ void Character::disp_info( bool customize_character )
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const std::string name = _effect_it.second.disp_name();
-            if( name.empty() ) {
-                continue;
-            }
             effect_name_and_text.emplace_back( name, _effect_it.second.disp_desc() );
         }
     }
@@ -1407,6 +1404,13 @@ void Character::disp_info( bool customize_character )
     for( const std::pair<std::string, std::string> &detail : enchantment_cache->details ) {
         effect_name_and_text.emplace_back( detail );
     }
+
+    // If any effects with no names have cropped up, let's remove them.
+    //   NB: This can happen if an effect no longer exists.
+    effect_name_and_text.erase( std::remove_if( effect_name_and_text.begin(),
+    effect_name_and_text.end(), []( const std::pair<std::string, std::string> &e ) {
+        return e.first.empty();
+    } ), effect_name_and_text.end() );
 
     const unsigned int effect_win_size_y_max = 1 + effect_name_and_text.size();
     const unsigned int proficiency_win_size_y_max = 1 + display_proficiencies().size();

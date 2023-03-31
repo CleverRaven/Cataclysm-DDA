@@ -160,7 +160,7 @@ void memorial_logger::load( std::istream &fin )
         size_t size = fin.tellg();
         fin.seekg( 0, std::ios_base::beg );
         memorial_data.resize( size );
-        fin.read( &memorial_data[0], size );
+        fin.read( memorial_data.data(), size );
         JsonValue jsin = json_loader::from_string( memorial_data );
         if( !jsin.read( log ) ) {
             debugmsg( "Error reading JSON memorial log" );
