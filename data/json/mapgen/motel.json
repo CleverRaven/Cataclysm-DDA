@@ -62,7 +62,7 @@
       "É": { "vehicle": "parking_garage", "chance": 33, "rotation": 90 }
     },
     "items": {
-      "@": { "item": "bed", "chance": 33 },
+      "@": { "item": "bed", "chance": 50 },
       "L": { "item": "unisex_coat_rack", "chance": 33 },
       "a": { "item": "trash", "repeat": [ 0, 2 ], "chance": 45 },
       "{": { "item": "trash", "repeat": [ 0, 5 ] },
