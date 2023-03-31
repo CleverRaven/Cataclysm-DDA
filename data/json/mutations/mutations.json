@@ -2464,7 +2464,7 @@
     "visibility": 10,
     "ugliness": 4,
     "mixed_effect": true,
-    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
+    "description": "Your skin has grown thick and leathery and a set of heavy green scales has grown to cover most of your body, acting as natural armor.  Further, bony scutes cover your extremities, offering additional protection there.  While difficult to penetrate, it also limits your flexibility.  Greatly reduces wet effects.",
     "types": [ "SKIN" ],
     "prereqs": [ "SCALES" ],
     "threshreq": [ "THRESH_LIZARD" ],
