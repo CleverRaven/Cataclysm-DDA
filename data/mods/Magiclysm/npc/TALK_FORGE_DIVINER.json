@@ -935,9 +935,6 @@
     "id": "TALK_FORGE_LORD_DIVINER_MALIGNANCE",
     "type": "talk_topic",
     "dynamic_line": "The Malignance is the cause for much of our woes.  It is the force animating the zombies.  It is responsible for the portal storms, and it seems to be absolutely bursting with hate.  Valzain theorize that it used to be a fundamental force of nature or perhaos a school of magic that somehow grew concious, or perhaps had a conciousness imposed on it. Allegedly, the Mi-Go speak of a time before it existed, or perhaps a time in which it wasn't so dangerous.  By now, it is everywhere on Earth.  As far as I can tell, it builds no structures and has no bases of opperation, so there is no place I can point you towards.  Sorry.",
-    "responses": [
-      { "text": "About something else…", "topic": "TALK_NONE" },
-      { "text": "Nevermind.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "About something else…", "topic": "TALK_NONE" }, { "text": "Nevermind.", "topic": "TALK_DONE" } ]
   }
 ]
