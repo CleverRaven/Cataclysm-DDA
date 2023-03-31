@@ -21,6 +21,7 @@
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character_id.h"
+#include "city.h"
 #include "clzones.h"
 #include "colony.h"
 #include "common_types.h"
