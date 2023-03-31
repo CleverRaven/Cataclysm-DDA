@@ -552,7 +552,7 @@
     "weight": "680 g",
     "color": "brown",
     "spoils_in": "360 days",
-    "comestible_type": "FOOD",
+    "comestible_type": "INVALID",
     "symbol": "%",
     "quench": 10,
     "calories": 1940,
@@ -562,8 +562,7 @@
     "material": [ "fruit" ],
     "volume": "1850 ml",
     "bashing": 2,
-    "vitamins": [ [ "vitC", 15 ], [ "calcium", 4 ], [ "iron", 36 ] ],
-    "comestible_type": "INVALID"
+    "vitamins": [ [ "vitC", 15 ], [ "calcium", 4 ], [ "iron", 36 ] ]
   },
   {
     "type": "COMESTIBLE",
