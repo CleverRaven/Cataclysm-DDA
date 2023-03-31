@@ -257,7 +257,8 @@
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ], [ "steel_standard", 2 ] ],
+    "//": "75 cm weld",
+    "using": [ [ "welding_standard", 75 ], [ "steel_standard", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -288,7 +289,8 @@
     "reversible": true,
     "decomp_learn": 3,
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 4 ] ],
+    "//": "200 cm weld",
+    "using": [ [ "welding_standard", 200 ], [ "steel_standard", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -609,7 +611,8 @@
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ] ],
+    "//": "220 cm weld",
+    "using": [ [ "welding_standard", 220 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -1427,8 +1430,9 @@
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
+    "//": "60 cm weld",
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
-    "using": [ [ "welding_standard", 15 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "welding_standard", 60 ], [ "steel_standard", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -1454,8 +1458,9 @@
     "reversible": true,
     "decomp_learn": 4,
     "autolearn": true,
+    "//": "100 cm weld",
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "manual_fabrication", 4 ] ],
-    "using": [ [ "welding_standard", 15 ], [ "steel_standard", 6 ] ],
+    "using": [ [ "welding_standard", 100 ], [ "steel_standard", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -1488,8 +1493,9 @@
     "time": "4 h 30 m",
     "reversible": true,
     "autolearn": true,
+    "//": "80 cm weld",
     "book_learn": [ [ "textbook_fabrication", 7 ], [ "manual_fabrication", 7 ] ],
-    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 25 ], [ "welding_standard", 80 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -1824,10 +1830,11 @@
     "skill_used": "fabrication",
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 3,
-    "time": "20 m",
+    "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ] ],
+    "//": "180 cm weld",
+    "using": [ [ "welding_standard", 180 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_welding_basic" }, { "proficiency": "prof_welding" } ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 32 ] ] ]
@@ -1972,7 +1979,8 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 3 ] ],
+    "//": "10 cm weld",
+    "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
@@ -3210,9 +3218,10 @@
       { "proficiency": "prof_welding" },
       { "proficiency": "prof_blacksmithing" }
     ],
+    "//": "80 cm weld",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "using": [ [ "steel_standard", 2 ], [ "welding_standard", 3, "LIST" ], [ "blacksmithing_standard", 8 ] ],
+    "using": [ [ "steel_standard", 2 ], [ "welding_standard", 80, "LIST" ], [ "blacksmithing_standard", 8 ] ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "grip_hook", 1 ] ], [ [ "sheet_metal_small", 8 ] ] ]
   },
   {
