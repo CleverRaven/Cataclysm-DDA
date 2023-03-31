@@ -1591,23 +1591,9 @@
     "requirements": [  ]
   },
   {
-    "id": "achievement_reach_fema_camp",
-    "type": "achievement",
-    "name": "Federal Emergency",
-    "requirements": [
-      {
-        "event_statistic": "last_overmap_special_avatar_entered",
-        "is": "==",
-        "target": [ "overmap_special_id", "FEMA Camp" ],
-        "visible": "when_achievement_completed",
-        "description": "Reach a FEMA camp"
-      }
-    ]
-  },
-  {
     "id": "achievement_reach_exodii_base",
     "type": "achievement",
-    "name": "Strange Fortress",
+    "name": "Strange Neighbors",
     "requirements": [
       {
         "event_statistic": "last_overmap_special_avatar_entered",
@@ -1633,34 +1619,6 @@
     ]
   },
   {
-    "id": "achievement_reach_prison",
-    "type": "achievement",
-    "name": "Concrete Hell",
-    "requirements": [
-      {
-        "event_statistic": "last_overmap_special_avatar_entered",
-        "is": "==",
-        "target": [ "overmap_special_id", "Prison" ],
-        "visible": "when_achievement_completed",
-        "description": "Reach a Prison"
-      }
-    ]
-  },
-  {
-    "id": "achievement_reach_alcatraz",
-    "type": "achievement",
-    "name": "The Rock",
-    "requirements": [
-      {
-        "event_statistic": "last_overmap_special_avatar_entered",
-        "is": "==",
-        "target": [ "overmap_special_id", "Alcatraz Prison" ],
-        "visible": "when_achievement_completed",
-        "description": "Reach the Toughest prison on earth"
-      }
-    ]
-  },
-  {
     "id": "achievement_reach_new_england_church_retreat",
     "type": "achievement",
     "name": "Bible Study",
@@ -1671,20 +1629,6 @@
         "target": [ "overmap_special_id", "New England Church Retreat" ],
         "visible": "when_achievement_completed",
         "description": "Do you have a few minutes to talk about our lord and saviour Jesus Christ?"
-      }
-    ]
-  },
-  {
-    "id": "achievement_reach_regional_airport",
-    "type": "achievement",
-    "name": "Connecting Flight",
-    "requirements": [
-      {
-        "event_statistic": "last_overmap_special_avatar_entered",
-        "is": "==",
-        "target": [ "overmap_special_id", "regional_airport" ],
-        "visible": "when_achievement_completed",
-        "description": "All flights have been delayed due to the apocalypse."
       }
     ]
   },
