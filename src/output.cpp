@@ -2607,19 +2607,24 @@ void print_global_and_character_mode_headers( const catacurses::window &w, const
 }
 
 //generate colorcoded shortcut text
-std::string shortcut_text( const std::string &fmt, keybinding_hint_state state,
-                           const bool remove_shortcut_from_text )
+std::string shortcut_text( const std::string &fmt, keybinding_hint_state state )
 {
     size_t pos = fmt.find_first_of( '<' );
     size_t pos_end = fmt.find_first_of( '>' );
     if( pos_end != std::string::npos && pos < pos_end ) {
+        // If the hotkey definition is present at the start of the string
+        //   (like "<W|w> Test") and has a space after it, this means that
+        //   we should remove the hotkey from the string and handle any
+        //   inlining (or not) in the code dynamically in a way that works
+        //   and respects the options set by the player.
+        const bool remove_hotkey_from_text  = pos == 0 and fmt[pos_end + 1] == ' ';
         size_t sep = std::min( fmt.find_first_of( '|', pos ), pos_end );
         std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
         std::string prestring = fmt.substr( 0, pos );
-        std::string poststring = fmt.substr( pos_end + 1, std::string::npos );
+        std::string poststring = trim( fmt.substr( pos_end + 1, std::string::npos ) );
 
         std::string hint_text = string_format( "%s%s%s", prestring,
-                                               remove_shortcut_from_text ? "" : shortcut,
+                                               remove_hotkey_from_text  ? "" : shortcut,
                                                poststring );
         return input_context::get_hint_basic( shortcut, hint_text, state );
     }

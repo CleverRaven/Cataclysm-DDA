@@ -107,7 +107,7 @@ std::map<int, inclusive_rectangle<point>> help::draw_menu( const catacurses::win
         const keybinding_hint_state state = selected == text.first ? keybinding_hint_state::HIGHLIGHTED :
                                             keybinding_hint_state::ENABLED ;
         std::string cat_name = text.second.first.translated();
-        std::string shortcut = shortcut_text( cat_name, state, true );
+        std::string shortcut = shortcut_text( cat_name, state );
 
         const int cat_width = utf8_width( shortcut, true );
         if( i < half_size ) {
