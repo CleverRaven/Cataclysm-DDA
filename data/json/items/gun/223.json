@@ -308,6 +308,7 @@
     "price_postapoc": 2250,
     "to_hit": -1,
     "bashing": 12,
+    "skill": "rifle",
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
