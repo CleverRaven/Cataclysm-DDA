@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "active_item_cache.h"
+#include "basecamp.h"
 #include "calendar.h"
 #include "cata_type_traits.h"
 #include "colony.h"
@@ -25,15 +26,15 @@
 #include "mapgen.h"
 #include "mdarray.h"
 #include "point.h"
+#include "trap.h"
 #include "type_id.h"
+#include "vehicle.h"
 
 class JsonOut;
-class basecamp;
 class map;
 class vehicle;
 struct furn_t;
 struct ter_t;
-struct trap;
 
 struct spawn_point {
     point pos;
@@ -65,124 +66,115 @@ struct maptile_soa {
     void swap_soa_tile( const point &p1, const point &p2 );
 };
 
-struct maptile_revert {
-    cata::mdarray<ter_id, point_sm_ms>             ter; // Terrain on each square
-    cata::mdarray<furn_id, point_sm_ms>            frn; // Furniture on each square
-    cata::mdarray<trap_id, point_sm_ms>            trp; // Trap on each square
-    cata::mdarray<cata::colony<item>, point_sm_ms> itm; // Items on each square
-};
-
-class submap_revert : maptile_revert
-{
-
-    public:
-        furn_id get_furn( const point &p ) const {
-            return frn[p.x][p.y];
-        }
-
-        void set_furn( const point &p, furn_id furn ) {
-            frn[p.x][p.y] = furn;
-        }
-
-        ter_id get_ter( const point &p ) const {
-            return ter[p.x][p.y];
-        }
-
-        void set_ter( const point &p, ter_id terr ) {
-            ter[p.x][p.y] = terr;
-        }
-
-        trap_id get_trap( const point &p ) const {
-            return trp[p.x][p.y];
-        }
-
-        void set_trap( const point &p, trap_id trap ) {
-            trp[p.x][p.y] = trap;
-        }
-
-        cata::colony<item> get_items( const point &p ) const {
-            return itm[p.x][p.y];
-        }
-
-        void set_items( const point &p, cata::colony<item> revert_item ) {
-            itm[p.x][p.y] = std::move( revert_item );
-        }
-};
-
-class submap : maptile_soa
+class submap
 {
     public:
-        submap();
+        submap() = default;
         submap( submap && ) noexcept( map_is_noexcept );
         ~submap();
 
         submap &operator=( submap && ) noexcept;
 
-        void revert_submap( submap_revert &sr );
+        void ensure_nonuniform() {
+            if( is_uniform() ) {
+                m = std::make_unique<maptile_soa>();
+                std::uninitialized_fill_n( &m->ter[0][0], elements, uniform_ter );
+                std::uninitialized_fill_n( &m->frn[0][0], elements, f_null );
+                std::uninitialized_fill_n( &m->lum[0][0], elements, 0 );
+                std::uninitialized_fill_n( &m->trp[0][0], elements, tr_null );
+                std::uninitialized_fill_n( &m->rad[0][0], elements, 0 );
+            }
+        }
 
-        submap_revert get_revert_submap() const;
+        void revert_submap( submap &sr );
+
+        submap get_revert_submap() const;
 
         trap_id get_trap( const point &p ) const {
-            return trp[p.x][p.y];
+            if( is_uniform() ) {
+                return tr_null;
+            }
+            return m->trp[p.x][p.y];
         }
 
         void set_trap( const point &p, trap_id trap ) {
-            is_uniform = false;
-            trp[p.x][p.y] = trap;
+            ensure_nonuniform();
+            m->trp[p.x][p.y] = trap;
         }
 
         void set_all_traps( const trap_id &trap ) {
-            std::uninitialized_fill_n( &trp[0][0], elements, trap );
+            ensure_nonuniform();
+            std::uninitialized_fill_n( &m->trp[0][0], elements, trap );
         }
 
         furn_id get_furn( const point &p ) const {
-            return frn[p.x][p.y];
+            if( is_uniform() ) {
+                return f_null;
+            }
+            return m->frn[p.x][p.y];
         }
 
         void set_furn( const point &p, furn_id furn ) {
-            is_uniform = false;
-            frn[p.x][p.y] = furn;
+            ensure_nonuniform();
+            m->frn[p.x][p.y] = furn;
         }
 
         void set_all_furn( const furn_id &furn ) {
-            std::uninitialized_fill_n( &frn[0][0], elements, furn );
+            ensure_nonuniform();
+            std::uninitialized_fill_n( &m->frn[0][0], elements, furn );
         }
 
         ter_id get_ter( const point &p ) const {
-            return ter[p.x][p.y];
+            if( is_uniform() ) {
+                return uniform_ter;
+            }
+            return m->ter[p.x][p.y];
         }
 
         void set_ter( const point &p, ter_id terr ) {
-            is_uniform = false;
-            ter[p.x][p.y] = terr;
+            ensure_nonuniform();
+            m->ter[p.x][p.y] = terr;
         }
 
-        void set_all_ter( const ter_id &terr ) {
-            std::uninitialized_fill_n( &ter[0][0], elements, terr );
+        void set_all_ter( const ter_id &terr, bool uniform_ok = false ) {
+            if( !uniform_ok ) {
+                ensure_nonuniform();
+            }
+            if( is_uniform() ) {
+                uniform_ter = terr;
+            } else {
+                std::uninitialized_fill_n( &m->ter[0][0], elements, terr );
+            }
         }
 
         int get_radiation( const point &p ) const {
-            return rad[p.x][p.y];
+            if( is_uniform() ) {
+                return 0;
+            }
+            return m->rad[p.x][p.y];
         }
 
         void set_radiation( const point &p, const int radiation ) {
-            is_uniform = false;
-            rad[p.x][p.y] = radiation;
+            ensure_nonuniform();
+            m->rad[p.x][p.y] = radiation;
         }
 
         uint8_t get_lum( const point &p ) const {
-            return lum[p.x][p.y];
+            if( is_uniform() ) {
+                return 0;
+            }
+            return m->lum[p.x][p.y];
         }
 
         void set_lum( const point &p, uint8_t luminance ) {
-            is_uniform = false;
-            lum[p.x][p.y] = luminance;
+            ensure_nonuniform();
+            m->lum[p.x][p.y] = luminance;
         }
 
         void update_lum_add( const point &p, const item &i ) {
-            is_uniform = false;
-            if( i.is_emissive() && lum[p.x][p.y] < 255 ) {
-                lum[p.x][p.y]++;
+            ensure_nonuniform();
+            if( i.is_emissive() && m->lum[p.x][p.y] < 255 ) {
+                m->lum[p.x][p.y]++;
             }
         }
 
@@ -190,20 +182,36 @@ class submap : maptile_soa
 
         // TODO: Replace this as it essentially makes itm public
         cata::colony<item> &get_items( const point &p ) {
-            return itm[p.x][p.y];
+            if( is_uniform() ) {
+                cata::colony<item> static noitems;
+                return noitems;
+            }
+            return m->itm[p.x][p.y];
         }
 
         const cata::colony<item> &get_items( const point &p ) const {
-            return itm[p.x][p.y];
+            if( is_uniform() ) {
+                cata::colony<item> static noitems;
+                return noitems;
+            }
+            return m->itm[p.x][p.y];
         }
 
         // TODO: Replace this as it essentially makes fld public
         field &get_field( const point &p ) {
-            return fld[p.x][p.y];
+            if( is_uniform() ) {
+                field static nofield;
+                return nofield;
+            }
+            return m->fld[p.x][p.y];
         }
 
         const field &get_field( const point &p ) const {
-            return fld[p.x][p.y];
+            if( is_uniform() ) {
+                field static nofield;
+                return nofield;
+            }
+            return m->fld[p.x][p.y];
         }
 
         void clear_fields( const point &p );
@@ -266,7 +274,9 @@ class submap : maptile_soa
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
-        bool is_uniform = false;
+        bool is_uniform() const {
+            return !static_cast<bool>( m );
+        }
 
         std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
 
@@ -287,6 +297,8 @@ class submap : maptile_soa
     private:
         std::map<point, computer> computers;
         std::unique_ptr<computer> legacy_computer;
+        std::unique_ptr<maptile_soa> m;
+        ter_id uniform_ter = t_null;
         int temperature_mod = 0; // delta in F
 
         void update_legacy_computer();

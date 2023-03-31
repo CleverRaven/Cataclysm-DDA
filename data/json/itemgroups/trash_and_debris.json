@@ -75,6 +75,25 @@
     ]
   },
   {
+    "id": "vehicle_scrapped",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "chain", "prob": 10 },
+      { "item": "steel_chunk", "prob": 30 },
+      { "item": "spring", "prob": 5 },
+      { "item": "steel_lump", "prob": 30 },
+      { "item": "steel_plate", "prob": 30 },
+      { "item": "hard_plate", "prob": 30 },
+      { "item": "frame", "prob": 20 },
+      { "item": "bearing", "prob": 5 },
+      { "item": "cu_pipe", "prob": 5 },
+      { "item": "scrap", "prob": 20 },
+      { "item": "glass_shard", "prob": 10, "count": [ 1, 8 ] },
+      { "item": "wire", "prob": 5 }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "trash_forest",
     "items": [
@@ -164,7 +183,7 @@
       [ "string_6", 2 ],
       [ "chain", 20 ],
       [ "glass_sheet", 5 ],
-      { "item": "glass_shard", "prob": 20, "count": [ 1, 8 ] },
+      { "item": "glass_shard", "prob": 20, "count": [ 5, 60 ] },
       [ "ceramic_shard", 15 ],
       [ "stick", 95 ],
       [ "seed_wheat", 5 ],

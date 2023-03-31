@@ -134,7 +134,7 @@ class tileset
     private:
         struct season_tile_value {
             tile_type *default_tile = nullptr;
-            cata::optional<tile_lookup_res> season_tile = cata::nullopt;
+            std::optional<tile_lookup_res> season_tile = std::nullopt;
         };
 
         std::string tileset_id;
@@ -143,8 +143,8 @@ class tileset
         int tile_width = 0;
         int tile_height = 0;
 
-        float retract_dist_min = 0.0;
-        float retract_dist_max = 0.0;
+        float prevent_occlusion_min_dist = 0.0;
+        float prevent_occlusion_max_dist = 0.0;
 
         // multiplier for pixel-doubling tilesets
         float tile_pixelscale = 1.0f;
@@ -189,11 +189,11 @@ class tileset
         float get_tile_pixelscale() const {
             return tile_pixelscale;
         }
-        float get_retract_dist_min() const {
-            return retract_dist_min;
+        float get_prevent_occlusion_min_dist() const {
+            return prevent_occlusion_min_dist;
         }
-        float get_retract_dist_max() const {
-            return retract_dist_max;
+        float get_prevent_occlusion_max_dist() const {
+            return prevent_occlusion_max_dist;
         }
         const std::string &get_tileset_id() const {
             return tileset_id;
@@ -227,17 +227,17 @@ class tileset
          * Example: if id == "t_tree_apple" and season == SPRING
          *    will first look up "t_tree_apple_season_spring"
          *    if not found, will look up "t_tree_apple"
-         *    if still nothing is found, will return cata::nullopt
+         *    if still nothing is found, will return std::nullopt
          * @param id : "raw" tile id (without season suffix)
          * @param season : season suffix encoded as season_type enum
-         * @return cata::nullopt if no tile is found,
+         * @return std::nullopt if no tile is found,
          *    cata::optional with found id (e.g. "t_tree_apple_season_spring" or "t_tree_apple) and found tile.
          *
          * Note: this method is guaranteed to return pointers to the keys and values stored inside the
          * `tileset::tile_ids` collection. I.e. result of this method call is invalidated when
          *  the corresponding `tileset` is invalidated.
          */
-        cata::optional<tile_lookup_res> find_tile_type_by_season( const std::string &id,
+        std::optional<tile_lookup_res> find_tile_type_by_season( const std::string &id,
                 season_type season ) const;
 };
 
@@ -408,15 +408,15 @@ class cata_tiles
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts( int width, int height, int &columns, int &rows ) const;
 
-        cata::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
+        std::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
 
-        cata::optional<tile_lookup_res>
+        std::optional<tile_lookup_res>
         find_tile_looks_like( const std::string &id, TILE_CATEGORY category, const std::string &variant,
                               int looks_like_jumps_limit = 10 ) const;
 
         // this templated method is used only from it's own cpp file, so it's ok to declare it here
         template<typename T>
-        cata::optional<tile_lookup_res>
+        std::optional<tile_lookup_res>
         find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
                                            int looks_like_jumps_limit ) const;
 
@@ -446,6 +446,13 @@ class cata_tiles
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
                                   const std::string &variant, const point &offset );
+        bool draw_from_id_string_internal( const std::string &id, const tripoint &pos, int subtile,
+                                           int rota,
+                                           lit_level ll, int retract, bool apply_night_vision_goggles );
+        bool draw_from_id_string_internal( const std::string &id, TILE_CATEGORY category,
+                                           const std::string &subcategory, const tripoint &pos, int subtile, int rota,
+                                           lit_level ll, int retract, bool apply_night_vision_goggles, int &height_3d, int intensity_level,
+                                           const std::string &variant, const point &offset );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,

@@ -7,6 +7,7 @@
 #include <iosfwd>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <unordered_map>
 #include <unordered_set>
@@ -18,7 +19,6 @@
 #include "json.h"
 #include "memory_fast.h"
 #include "omdata.h"
-#include "optional.h"
 #include "overmap_types.h"
 #include "type_id.h"
 
@@ -137,7 +137,9 @@ struct omt_find_params {
     bool must_see = false;
     bool cant_see = false;
     bool existing_only = false;
-    cata::optional<overmap_special_id> om_special = cata::nullopt;
+    int min_z = -OVERMAP_DEPTH;
+    int max_z = OVERMAP_HEIGHT;
+    std::optional<overmap_special_id> om_special = std::nullopt;
 };
 
 class overmapbuffer
@@ -168,7 +170,7 @@ class overmapbuffer
          */
         const oter_id &ter_existing( const tripoint_abs_omt &p );
         void ter_set( const tripoint_abs_omt &p, const oter_id &id );
-        cata::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
+        std::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
         std::string *join_used_at( const std::pair<tripoint_abs_omt, cube_direction> & );
         std::vector<oter_id> predecessors( const tripoint_abs_omt & );
         /**
@@ -249,7 +251,7 @@ class overmapbuffer
          */
         void add_camp( const basecamp &camp );
 
-        cata::optional<basecamp *> find_camp( const point_abs_omt &p );
+        std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /**
          * Get all npcs in a area with given radius around given central point.
          * All z-levels are considered.
@@ -316,7 +318,7 @@ class overmapbuffer
             const tripoint_abs_omt &origin, const std::string &type,
             int dist, bool must_be_seen, ot_match_type match_type = ot_match_type::type,
             bool existing_overmaps_only = false,
-            const cata::optional<overmap_special_id> &om_special = cata::nullopt );
+            const std::optional<overmap_special_id> &om_special = std::nullopt );
 
         /**
          * Returns a random point of specific terrain type among those found in certain search
@@ -331,7 +333,7 @@ class overmapbuffer
             const tripoint_abs_omt &origin, const std::string &type, int dist,
             bool must_be_seen, ot_match_type match_type = ot_match_type::type,
             bool existing_overmaps_only = false,
-            const cata::optional<overmap_special_id> &om_special = cata::nullopt );
+            const std::optional<overmap_special_id> &om_special = std::nullopt );
         /**
          * Mark a square area around center on Z-level z
          * as seen.
@@ -360,7 +362,7 @@ class overmapbuffer
         tripoint_abs_omt find_closest(
             const tripoint_abs_omt &origin, const std::string &type, int radius, bool must_be_seen,
             ot_match_type match_type = ot_match_type::type, bool existing_overmaps_only = false,
-            const cata::optional<overmap_special_id> &om_special = cata::nullopt );
+            const std::optional<overmap_special_id> &om_special = std::nullopt );
 
         /* These functions return the overmap that contains the given
          * overmap terrain coordinate, and the local coordinates of that point
@@ -505,7 +507,7 @@ class overmapbuffer
          * @param force If true, placement will bypass the checks for valid placement.
          * @returns If the special was placed, a vector of the points used, else nullopt.
          */
-        cata::optional<std::vector<tripoint_abs_omt>> place_special(
+        std::optional<std::vector<tripoint_abs_omt>> place_special(
                     const overmap_special &special, const tripoint_abs_omt &origin,
                     om_direction::type dir, bool must_be_unexplored, bool force );
         /**
@@ -564,7 +566,7 @@ class overmapbuffer
         bool check_ot( const std::string &otype, ot_match_type match_type,
                        const tripoint_abs_omt &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint_abs_omt &loc );
-        cata::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
+        std::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
 
         /**
         * These versions of the check_* methods will only check existing overmaps, and

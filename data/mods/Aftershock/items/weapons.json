@@ -1,12 +1,5 @@
 [
   {
-    "type": "enchantment",
-    "id": "afs_ench_esab",
-    "has": "WIELD",
-    "condition": "ACTIVE",
-    "values": [ { "value": "ITEM_DAMAGE_CUT", "add": 18 }, { "value": "ITEM_DAMAGE_HEAT", "add": 35 } ]
-  },
-  {
     "id": "afs_energy_saber_off",
     "type": "TOOL",
     "name": { "str": "CE-4 \"The Claw\" (Non-Lethal)", "str_pl": "CE-4 \"The Claws\" (Non-Lethal)" },
@@ -152,7 +145,15 @@
     "color": "light_cyan",
     "bashing": 3,
     "relic_data": {
-      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 17 } ] } ]
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 17 } ],
+          "name": { "str": "Ice Fists" },
+          "description": "Strikes from this weapon can freeze targets solid."
+        }
+      ]
     },
     "to_hit": 0,
     "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE" ],

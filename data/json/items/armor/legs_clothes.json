@@ -283,7 +283,7 @@
     "price": 5000,
     "price_postapoc": 150,
     "to_hit": 1,
-    "material": [ "cotton" ],
+    "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "pants",
     "color": "blue",
@@ -318,7 +318,8 @@
       }
     ],
     "warmth": 10,
-    "material_thickness": 0.25,
+    "material_thickness": 0.65,
+    "//": "Lightweight 10 oz denim jeans.",
     "flags": [ "VARSIZE", "POCKETS" ],
     "snippet_category": [
       { "id": "jeans1", "text": "A pair of black jeans with two deep pockets." },
@@ -343,7 +344,7 @@
     "price": 5000,
     "price_postapoc": 150,
     "to_hit": 1,
-    "material": [ "cotton" ],
+    "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "jeans",
     "color": "red",
@@ -378,7 +379,8 @@
       }
     ],
     "warmth": 10,
-    "material_thickness": 0.25,
+    "material_thickness": 0.65,
+    "//": "Lightweight 10 oz denim jeans.",
     "flags": [ "VARSIZE", "POCKETS" ],
     "armor": [ { "encumbrance": [ 7, 11 ], "coverage": 95, "covers": [ "leg_l", "leg_r" ] } ]
   },
@@ -1268,14 +1270,14 @@
   {
     "id": "shorts_denim",
     "type": "ARMOR",
-    "name": { "str_sp": "denim shorts" },
+    "name": { "str_sp": "jorts" },
     "description": "A pair of denim shorts.",
     "weight": "260 g",
     "volume": "1250 ml",
     "price": 2000,
     "price_postapoc": 50,
     "to_hit": 1,
-    "material": [ "cotton" ],
+    "material": [ "denim" ],
     "symbol": "[",
     "looks_like": "shorts",
     "color": "light_blue",
@@ -1301,7 +1303,8 @@
       { "id": "denim_shorts3", "text": "A pair of brand-name black denim shorts." }
     ],
     "warmth": 5,
-    "material_thickness": 0.25,
+    "material_thickness": 0.65,
+    "//": "Lightweight 10 oz denim jean shorts.",
     "flags": [ "VARSIZE" ],
     "armor": [
       {

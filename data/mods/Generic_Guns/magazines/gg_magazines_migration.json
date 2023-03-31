@@ -6,15 +6,11 @@
   },
   {
     "id": [
-      "20x66_10_mag",
-      "20x66_20_mag",
       "af2011a1mag",
       "ppkmag",
       "sigp230mag",
       "p226mag_12rd_357sig",
-      "p226mag_15rd_357sig",
       "p320mag_13rd_357sig",
-      "p320mag_14rd_357sig",
       "kp3atmag",
       "fn1910mag",
       "rugerlcpmag",
@@ -110,7 +106,6 @@
   },
   {
     "id": [
-      "20x66_40_mag",
       "skorpion61mag",
       "mac11mag",
       "glock40bigmag",
@@ -284,6 +279,7 @@
       "8x40_50_mag",
       "famasmag",
       "robofac40",
+      "xedra40",
       "robofac100",
       "robofac50",
       "usc10mag",
@@ -320,6 +316,8 @@
       "hk417_makeshiftmag",
       "ar10_makeshiftmag",
       "762x39_clip",
+      "pslmag5",
+      "pslmag10",
       "762R_clip",
       "borealmosin_clip",
       "robofac20"
@@ -356,7 +354,11 @@
       "USAS10mag",
       "USAS20mag",
       "shotbelt_20",
+      "20x66_10_mag",
+      "20x66_20_mag",
+      "20x66_40_mag",
       "robofac10",
+      "xedra10",
       "robofac30",
       "aa12_box_mag",
       "aa12_drum_mag",

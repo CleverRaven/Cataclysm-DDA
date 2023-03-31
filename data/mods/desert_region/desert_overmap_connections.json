@@ -8,8 +8,7 @@
       { "terrain": "road", "locations": [ "forest_trail" ], "basic_cost": 25 },
       { "terrain": "road", "locations": [ "swamp" ], "basic_cost": 40 },
       { "terrain": "road_nesw_manhole", "locations": [  ] },
-      { "terrain": "road", "locations": [ "mesa" ], "basic_cost": 120 },
-      { "terrain": "bridge", "locations": [ "canyon" ], "basic_cost": 120 }
+      { "terrain": "bridge", "locations": [ "water" ], "basic_cost": 120 }
     ]
   }
 ]

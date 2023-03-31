@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <queue>
 #include <set>
 #include <utility>
@@ -17,7 +18,6 @@
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "point.h"
 #include "submap.h"
 #include "trap.h"
@@ -425,8 +425,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const ter_t &parent_terrain = parent_tile.get_ter_t();
         if( settings.allow_climb_stairs && cur.z > min.z &&
             parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) {
-            cata::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
-                                                cur.z - 1, rope_ladder, false, cur );
+            std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
+                                               cur.z - 1, rope_ladder, false, cur );
             if( !opt_dest ) {
                 continue;
             }
@@ -443,8 +443,8 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
         if( settings.allow_climb_stairs && cur.z < max.z &&
             parent_terrain.has_flag( ter_furn_flag::TFLAG_GOES_UP ) ) {
-            cata::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
-                                                cur.z + 1, rope_ladder, false, cur );
+            std::optional<tripoint> opt_dest = g->find_or_make_stairs( get_map(),
+                                               cur.z + 1, rope_ladder, false, cur );
             if( !opt_dest ) {
                 continue;
             }

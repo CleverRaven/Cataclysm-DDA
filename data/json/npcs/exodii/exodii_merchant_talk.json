@@ -142,7 +142,7 @@
       {
         "//": "Check to see if you've sold enough for Rubik's trust in you to increase a bit",
         "condition": {
-          "and": [ { "compare_int": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 20 } } ]
+          "and": [ { "compare_num": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 20 } } ]
         },
         "effect": [ { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] }, { "u_add_faction_trust": 1 } ]
       },
@@ -239,7 +239,7 @@
     "//~": "For a card an' a wink, eh? --> That was a good exchange",
     "speaker_effect": {
       "condition": {
-        "and": [ { "compare_int": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 21 } } ]
+        "and": [ { "compare_num": [ { "u_val": "sold" }, ">=", { "const": 20 } ] }, { "not": { "u_has_faction_trust": 21 } } ]
       },
       "effect": [ { "arithmetic": [ { "u_val": "sold" }, "-=", { "const": 20 } ] }, { "u_add_faction_trust": 1 } ]
     },

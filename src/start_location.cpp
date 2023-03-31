@@ -30,6 +30,8 @@
 
 class item;
 
+static const efftype_id effect_bleed( "bleed" );
+
 static const zone_type_id zone_type_ZONE_START_POINT( "ZONE_START_POINT" );
 
 namespace
@@ -295,15 +297,19 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
  * Maybe TODO: Allow "picking up" items or parts of bashable furniture
  *             and using them to help with bash attempts.
  */
-static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
+static int rate_location( map &m, const tripoint &p,
+                          const bool must_be_inside, const bool accommodate_npc,
                           const int bash_str, const int attempt,
                           cata::mdarray<int, point_bub_ms> &checked )
 {
-    if( ( must_be_inside && m.is_outside( p ) ) ||
-        m.impassable( p ) ||
-        m.is_divable( p ) ||
-        checked[p.x][p.y] > 0 ||
-        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
+    const auto invalid_char_pos = [&]( const tripoint & tp ) -> bool {
+        return ( must_be_inside && m.is_outside( tp ) ) ||
+        m.impassable( tp ) || m.is_divable( tp ) ||
+        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, tp );
+    };
+
+    if( checked[p.x][p.y] > 0 || invalid_char_pos( p ) ||
+        ( accommodate_npc && invalid_char_pos( p + point_north_west ) ) ) {
         return 0;
     }
 
@@ -362,6 +368,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     here.invalidate_map_cache( here.get_abs_sub().z() );
     here.build_map_cache( here.get_abs_sub().z() );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
+    const bool accommodate_npc = flags().count( "LONE_START" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
     const int bash = you.get_str();
@@ -395,7 +402,7 @@ void start_location::place_player( avatar &you, const tripoint_abs_omt &omtstart
     int tries = 0;
     const auto check_spot = [&]( const tripoint & pt ) {
         ++tries;
-        const int rate = rate_location( here, pt, must_be_inside, bash, tries, checked );
+        const int rate = rate_location( here, pt, must_be_inside, accommodate_npc, bash, tries, checked );
         if( best_rate < rate ) {
             best_rate = rate;
             best_spot = pt;
@@ -483,7 +490,7 @@ void start_location::handle_heli_crash( avatar &you ) const
             // Damage + Bleed
             case 1:
             case 2:
-                you.make_bleed( effect_source::empty(), bp, 6_minutes );
+                you.add_effect( effect_bleed, 6_minutes, bp );
             /* fallthrough */
             case 3:
             case 4:

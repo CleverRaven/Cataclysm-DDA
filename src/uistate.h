@@ -4,13 +4,13 @@
 
 #include <list>
 #include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "enums.h"
 #include "flat_set.h"
 #include "json.h"
-#include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
 
@@ -24,6 +24,7 @@ struct advanced_inv_pane_save_state {
         int selected_idx = 0;
 
         bool in_vehicle = false;
+        item_location container;
 
         void serialize( JsonOut &json, const std::string &prefix ) const {
             json.member( prefix + "sort_idx", sort_idx );
@@ -31,6 +32,7 @@ struct advanced_inv_pane_save_state {
             json.member( prefix + "area_idx", area_idx );
             json.member( prefix + "selected_idx", selected_idx );
             json.member( prefix + "in_vehicle", in_vehicle );
+            json.member( prefix + "container", container );
         }
 
         void deserialize( const JsonObject &jo, const std::string &prefix ) {
@@ -39,6 +41,7 @@ struct advanced_inv_pane_save_state {
             jo.read( prefix + "area_idx", area_idx );
             jo.read( prefix + "selected_idx", selected_idx );
             jo.read( prefix + "in_vehicle", in_vehicle );
+            jo.read( prefix + "container", container );
         }
 };
 
@@ -145,6 +148,7 @@ class uistatedata
         bool distraction_thirst = true;
         bool distraction_temperature = true;
         bool distraction_mutation = true;
+        bool numpad_navigation = false;
 
         // V Menu Stuff
         int list_item_sort = 0;

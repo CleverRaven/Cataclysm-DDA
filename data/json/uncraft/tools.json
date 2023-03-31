@@ -208,6 +208,76 @@
     ]
   },
   {
+    "result": "fishing_rod_2pc_packed",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "string_36", 6 ] ],
+      [ [ "fishing_hook_basic", 1 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "bismuth", 200 ] ]
+    ]
+  },
+  {
+    "result": "fishing_rod_2pc",
+    "type": "uncraft",
+    "//": "copy-from: fishing_rod_2pc_packed",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "string_36", 6 ] ],
+      [ [ "fishing_hook_basic", 1 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "bismuth", 200 ] ]
+    ]
+  },
+  {
+    "result": "fishing_rod_tele_packed",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "string_36", 6 ] ],
+      [ [ "fishing_hook_basic", 1 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "bismuth", 200 ] ]
+    ]
+  },
+  {
+    "result": "fishing_rod_tele",
+    "type": "uncraft",
+    "//": "copy-from: fishing_rod_tele_packed",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "string_36", 6 ] ],
+      [ [ "fishing_hook_basic", 1 ] ],
+      [ [ "wire", 1 ] ],
+      [ [ "scrap", 2 ] ],
+      [ [ "bismuth", 200 ] ]
+    ]
+  },
+  {
     "result": "plastichoboreel",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

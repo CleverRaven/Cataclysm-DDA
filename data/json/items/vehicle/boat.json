@@ -53,7 +53,7 @@
     "symbol": "o",
     "color": "brown",
     "name": { "str": "carbon fiber boat hull" },
-    "description": "A carbon fiber sheet that keeps the boat afloat.  Add boat hulls to a vehicle until it floats, then attach oars or a motor to get the boat to move.",
+    "description": "A rigid carbon fiber sheet that keeps the boat afloat.  Add boat hulls to a vehicle until it floats, then attach oars or a motor to get the boat to move.",
     "price": 40000,
     "price_postapoc": 500,
     "material": [ "kevlar_rigid" ],
