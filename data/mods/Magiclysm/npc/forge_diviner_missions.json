@@ -8,7 +8,9 @@
     "value": 0,
     "description": "The diviner told you there would be giant ants here.",
     "destination": "anthill",
-    "start": { "assign_mission_target": { "om_terrain": "anthill", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+    "start": {
+      "assign_mission_target": { "om_terrain": "anthill", "om_special": "anthill", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
   },
   {
     "id": "MISSION_FORGE_DIVINER_ACID_ANTS",
@@ -31,7 +33,13 @@
     "description": "The diviner told you there would be dermatiks here.",
     "destination": "nest_dermatik",
     "start": {
-      "assign_mission_target": { "om_terrain": "nest_dermatik", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "nest_dermatik",
+        "om_special": "Large Dermatik Nest",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
@@ -55,7 +63,9 @@
     "value": 0,
     "description": "The diviner told you there would be a pit full of spiders here.",
     "destination": "spider_pit",
-    "start": { "assign_mission_target": { "om_terrain": "spider_pit", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+    "start": {
+      "assign_mission_target": { "om_terrain": "spider_pit", "om_special": "Spider Pit", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
   },
   {
     "id": "MISSION_FORGE_DIVINER_SPIDER_DEMON",
@@ -67,7 +77,13 @@
     "description": "The diviner told you there would be demon spiders here.",
     "destination": "demon_spider_lair",
     "start": {
-      "assign_mission_target": { "om_terrain": "demon_spider_lair", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "demon_spider_lair",
+        "om_special": "demon_spider_lair",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
@@ -79,7 +95,15 @@
     "value": 0,
     "description": "The diviner told you there would be a fungal bloom here.",
     "destination": "fungal_bloom",
-    "start": { "assign_mission_target": { "om_terrain": "fungal_bloom", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "fungal_bloom",
+        "om_special": "Fungal Flowers",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
   },
   {
     "id": "MISSION_FORGE_DIVINER_FUNGAL_TOWER",
@@ -90,7 +114,15 @@
     "value": 0,
     "description": "The diviner told you there would be a fungal tower here.",
     "destination": "fungal_tower",
-    "start": { "assign_mission_target": { "om_terrain": "fungal_tower", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "fungal_tower",
+        "om_special": "Fungal Tower",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
   },
   {
     "id": "MISSION_FORGE_DIVINER_FUNGAL_FLOWERS",
@@ -114,7 +146,15 @@
     "value": 0,
     "description": "The diviner told you there would be a mi-go encampment here.",
     "destination": "mi-go_camp1",
-    "start": { "assign_mission_target": { "om_terrain": "mi-go_camp1", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "mi-go_camp1",
+        "om_special": "Mi-Go Encampment",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
   },
   {
     "id": "MISSION_FORGE_DIVINER_MI_GO_TOWER",
@@ -126,7 +166,13 @@
     "description": "The diviner told you there would be a mi-go tower here.",
     "destination": "mi-go_scout_tower_1",
     "start": {
-      "assign_mission_target": { "om_terrain": "mi-go_scout_tower_1", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "mi-go_scout_tower_1",
+        "om_special": "Mi-Go Scout Tower",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
@@ -139,7 +185,13 @@
     "description": "The diviner told you there would be triffids here.",
     "destination": "triffid_grove",
     "start": {
-      "assign_mission_target": { "om_terrain": "triffid_grove", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "triffid_grove",
+        "om_special": "Triffid Grove",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
@@ -162,7 +214,9 @@
     "value": 0,
     "description": "The diviner told you there would be a slime pit here.",
     "destination": "slimepit_top",
-    "start": { "assign_mission_target": { "om_terrain": "slimepit_top", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+    "start": {
+      "assign_mission_target": { "om_terrain": "slimepit_top", "om_special": "Slime Pit", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
   },
   {
     "id": "MISSION_FORGE_DIVINER_GOBLIN",
@@ -173,7 +227,15 @@
     "value": 0,
     "description": "The diviner told you there would be goblins here.",
     "destination": "goblin_1A",
-    "start": { "assign_mission_target": { "om_terrain": "goblin_1A", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "goblin_1A",
+        "om_special": "goblin_encampment",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
+    }
   },
   {
     "id": "MISSION_FORGE_DIVINER_ORC",
@@ -184,7 +246,9 @@
     "value": 0,
     "description": "The diviner told you there would be orcs here.",
     "destination": "orc_village",
-    "start": { "assign_mission_target": { "om_terrain": "orc_village", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+    "start": {
+      "assign_mission_target": { "om_terrain": "orc_village", "om_special": "orc_village", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
   },
   {
     "id": "MISSION_FORGE_DIVINER_SWAMP_DRAGON",
@@ -196,7 +260,13 @@
     "description": "The diviner told you that here be swamp dragons.",
     "destination": "black_dragon_lair_z-0_NW",
     "start": {
-      "assign_mission_target": { "om_terrain": "black_dragon_lair_z-0_NW", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "black_dragon_lair_z-0_NW",
+        "om_special": "black_dragon_lair",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
@@ -209,7 +279,13 @@
     "description": "The diviner told you that there would be a balrog here.",
     "destination": "mine_balrog_central",
     "start": {
-      "assign_mission_target": { "om_terrain": "mine_balrog_central", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "mine_balrog_central",
+        "om_special": "Balrog mine",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
@@ -221,7 +297,9 @@
     "value": 0,
     "description": "The diviner told you that there would be a lab here.",
     "destination": "lab_stairs",
-    "start": { "assign_mission_target": { "om_terrain": "lab_stairs", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+    "start": {
+      "assign_mission_target": { "om_terrain": "lab_stairs", "om_special": "Lab", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
   },
   {
     "id": "MISSION_FORGE_DIVINER_LAB_CENTRAL",
@@ -233,7 +311,13 @@
     "description": "The diviner told you that there would be a central lab here.",
     "destination": "central_lab_entrance",
     "start": {
-      "assign_mission_target": { "om_terrain": "central_lab_entrance", "reveal_radius": 3, "cant_see": true, "search_range": 400 }
+      "assign_mission_target": {
+        "om_terrain": "central_lab_entrance",
+        "om_special": "Central Lab",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 400
+      }
     }
   },
   {
@@ -246,7 +330,7 @@
     "description": "The diviner told you that there would be an ice lab here.",
     "destination": "ice_lab_stairs",
     "start": {
-      "assign_mission_target": { "om_terrain": "ice_lab_stairs", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": { "om_terrain": "ice_lab_stairs", "om_special": "Ice Lab", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
     }
   },
   {
@@ -272,7 +356,13 @@
     "description": "The diviner told you that there would be exodii here.",
     "destination": "exodii_base_x0y0z0",
     "start": {
-      "assign_mission_target": { "om_terrain": "exodii_base_x0y0z0", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "exodii_base_x0y0z0",
+        "om_special": "exodii_base",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
@@ -285,7 +375,13 @@
     "description": "The diviner told you that there would be a strange temple.",
     "destination": "temple_stairs",
     "start": {
-      "assign_mission_target": { "om_terrain": "temple_stairs", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "temple_stairs",
+        "om_special": "Strangle Temple",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
@@ -298,7 +394,13 @@
     "description": "The diviner told you that there would be an attunement altar here.",
     "destination": "attunement_altar_NW",
     "start": {
-      "assign_mission_target": { "om_terrain": "attunement_altar_NW", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "attunement_altar_NW",
+        "om_special": "attunement altar",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
@@ -384,7 +486,9 @@
     "value": 0,
     "description": "The diviner told you that there would be a hot spring here.",
     "destination": "hot_springs",
-    "start": { "assign_mission_target": { "om_terrain": "hot_springs", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+    "start": {
+      "assign_mission_target": { "om_terrain": "hot_springs", "om_special": "Hot Springs", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
   },
   {
     "id": "MISSION_FORGE_DIVINER_CAVE",
@@ -395,7 +499,9 @@
     "value": 0,
     "description": "The diviner told you that there would be a cave here.",
     "destination": "cave",
-    "start": { "assign_mission_target": { "om_terrain": "cave", "reveal_radius": 3, "cant_see": true, "search_range": 180 } }
+    "start": {
+      "assign_mission_target": { "om_terrain": "cave", "om_special": "Cave", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+    }
   },
   {
     "id": "MISSION_FORGE_DIVINER_CAVE_INNAWOOD",
@@ -421,7 +527,13 @@
     "description": "The diviner told you that there would be a field of magical flowers here.",
     "destination": "magic_field_a1",
     "start": {
-      "assign_mission_target": { "om_terrain": "magic_field_a1", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "magic_field_a1",
+        "om_special": "magic_field",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
