@@ -52,10 +52,10 @@ The mutation system works in several steps. All time references are in game time
 The odds of a mutation being good or bad is directly determined by Instability, which is a stat tracked using a vitamin. It represents long-term genetic damage; a character will begin the game with 0 Instability and obtain only positive or neutral mutations, but with enough Instability, they will become almost exclusively negative ones.
 
 These chances are determined on a curve, ranging from 0 Instability (default) to 8000 Instability (the maximum):
-* There is always a flat 10% chance to obtain a neutral mutation that is neither positive or negative.
-* From roughly 0 to 800 Instability, there is a 90% chance for a positive mutation and a 0% chance for a negative one.
-* Positive and negative chances then quickly slope to meet each other at roughly 2800 Instability. At this point, there is a 45% chance for a positive mutation and a 45% chance for a negative mutation. As before, the remaining 10% is taken up by neutral mutations.
-* Chances then gradually continue their current trends until reaching the limit. At the maximum of 8000 Instability, there is roughly a 65% chance for a negative mutation and a 25% chance for a positive one.
+* Neutral mutations (those which are neither negative nor positive) are always eligible.
+* From roughly 0 to 800 Instability, there is a 100% chance for a positive or neutral mutation and a 0% chance for a negative one.
+* Positive and negative chances then quickly slope to meet each other at roughly 2800 Instability. At this point, there are equal chances for positive and negative mutations.
+* Chances then gradually continue their current trends until reaching the limit. At the maximum of 8000 Instability, there is roughly a 70% chance for a negative mutation to be selected and a 30% chance for a positive one. As before, regardless of whether a positive or negative mutation is selected, a neutral mutation is also possible.
 
 Instability very slowly decreases on its own, at a rate of 1 per day. Traits can influence this; for instance, the Robust Genetics trait vastly speeds this up by removing a further 1 Instability per hour, for a total of 25 per day. The Genetic Downward Spiral trait does the opposite, *increasing* Instability at the extremely fast rate of 1 per minute.
 
@@ -89,6 +89,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "id": "LIGHTEATER",                         // Unique ID.
   "name": "Optimist",                         // In-game name displayed.
   "points": 2,                                // Point cost of the trait.  Positive values cost points and negative values give points.
+  "vitamin_cost"                              // Category vitamin cost of gaining this trait (default: 100)
   "visibility": 0,                            // Visibility of the trait for purposes of NPC interaction (default: 0).
   "ugliness": 0,                              // Ugliness of the trait for purposes of NPC interaction (default: 0).
   "cut_dmg_bonus": 3,                         // Bonus to unarmed cut damage (default: 0).
@@ -197,8 +198,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "fatigue_regen_modifier": 0.333,            // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
   "stamina_regen_modifier": 0.1,              // Increase stamina regen by this proportion (1.0 being 100% of normal regen).
   "cardio_multiplier": 1.5,                   // Multiplies total cardio fitness by this amount.
-  "healing_awake": 1.0,                       // Healing rate per turn while awake.
-  "healing_resting": 0.5,                     // Healing rate per turn while resting.
+  "healing_multiplier": 0.5,                  // Multiplier to PLAYER/NPC_HEALING_RATE.
+  "healing_awake": 1.0,                       // Percentage of healing rate used while awake.
   "mending_modifier": 1.2,                    // Multiplier on how fast your limbs mend (1.2 is 20% faster).
   "attackcost_modifier": 0.9,                 // Attack cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
   "movecost_modifier": 0.9,                   // Overall movement speed cost modifier (0.9 is 10% faster, 1.1 is 10% slower).
@@ -216,7 +217,7 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "triggers": [                               // List of sublist of triggers, all sublists must be True for the mutation to activate.
     [                                         // Sublist of trigger: at least one trigger must be true for the sublist to be true.
         {
-          "condition": { "compare_int": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
+          "condition": { "compare_num": [ { "u_val": "morale" }, "<", { "const": -50 } ] },               // Dialog condition (see NPCs.md).
           "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }  // Message displayed when the trigger activates.
         }
     ],
@@ -224,8 +225,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
       {
         "condition": {                        // Dialog condition (see NPCs.md).
           "or": [
-            { "compare_int": [ { "hour", "<", { "const": 2 } } ] },
-            { "compare_int": [ { "hour", ">", { "const": 20 } } ] }
+            { "compare_num": [ { "hour", "<", { "const": 2 } } ] },
+            { "compare_num": [ { "hour", ">", { "const": 20 } } ] }
           ]
         },
         "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // Message displayed when the trigger activates.
@@ -238,7 +239,8 @@ Note that **all new traits that can be obtained through mutation must be purifia
   "enchantments": [ "ench_id_1" ],            // List of enchantments granted by this mutation.  Can be either IDs or an inline definition of the enchantment (see MAGIC.md)
   "temperature_speed_modifier": 0.5,          // If nonzero, become slower when cold, and faster when hot (1.0 gives +/-1% speed for each degree above or below 65 F).
   "mana_modifier": 100,                       // Positive or negative change to total mana pool.
-  "flags": [ "UNARMED_BONUS" ]                // List of flag_IDs and json_flag_IDs granted by the mutation.  Note: trait_IDs can be set and generate no errors, but they're not actually "active".
+  "flags": [ "UNARMED_BONUS" ],               // List of flag_IDs and json_flag_IDs granted by the mutation.  Note: trait_IDs can be set and generate no errors, but they're not actually "active".
+  "moncams": [ [ "mon_player_blob", 16 ] ]    // Monster cameras, ability to use friendly monster's from the list as additional source of vision. Max view distance is equal to monster's daytime vision. The number specifies the range at which it can "transmit" vision to the avatar.
 }
 
 ```
@@ -316,8 +318,12 @@ A Mutation Category identifies a set of interrelated mutations that as a whole e
 | `id`               | Unique ID. Must be one continuous word, use underscores when necessary.
 | `name`             | Human readable name for the category of mutations.
 | `threshold_mut`    | A special mutation that marks the point at which the identity of the character is changed by the extent of mutation they have experienced.
+| `threshold_min`    | Amount of primer the character needs to have in their body to attempt breaking the threshold.  Default 2200.
 | `mutagen_message`  | A message displayed to the player when they mutate in this category.
 | `memorial_message` | The memorial message to display when a character crosses the associated mutation threshold.
+| `vitamin`          | The vitamin id of the primer of this category. The character's vitamin level will act as the weight of this category when selecting which category to try and mutate towards, and gets decreased on successful mutation by the trait's mutagen cost.
+| `base_removal_chance`| Int, percent chance for a mutation of this category removing a conflicting base (starting) trait, rolled per `Character::mutate_towards` attempts.  Default 100%.  Removed base traits will **NOT** be considered base traits from here on, even if you regain them later. 
+| `base_removal_cost_mul` | Float, multiplier on the primer cost of the trait that removed a canceled starting trait, down to 0.0 for free mutations as long as a starting trait was given up.  Default 3.0, used for human-like categories and lower as categories become more inhuman.
 | `wip`              | A flag indicating that a mutation category is unfinished and shouldn't have consistency tests run on it. See tests/mutation_test.cpp.
 | `skip_test`        | If true, this mutation category will be skipped in consistency tests; this should only be used if you know what you're doing. See tests/mutation_test.cpp.
 

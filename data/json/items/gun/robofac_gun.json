@@ -55,6 +55,45 @@
     ]
   },
   {
+    "id": "xedra_gun",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "prototype gun" },
+    "description": "A weapons platform you don't recognize.  With its combination of black-finished steel, brown polymer furniture, and a number of proprietary bolts and fasteners to hold the pieces in place, this weapon looks like it belongs in a science fiction movie.  The body has \"XE\" inlaid in the steel.",
+    "weight": "2500 g",
+    "volume": "4000 ml",
+    "longest_side": "50 cm",
+    "price": 125000,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "blue",
+    "ammo": [ "NULL" ],
+    "extend": { "flags": [ "NO_TURRET" ] },
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "modes": [  ],
+    "dispersion": 150,
+    "durability": 9,
+    "min_cycle_recoil": 1350,
+    "default_mods": [ "robofac_handguard", "hybrid_sight_4x", "holo_sight", "robofac_laser_sight", "robofac_stock" ],
+    "//": "Forward ejection port would require a different brass catcher design",
+    "valid_mod_locations": [
+      [ "underbarrel", 1 ],
+      [ "rail", 1 ],
+      [ "accessories", 2 ],
+      [ "sling", 1 ],
+      [ "grip", 1 ],
+      [ "bore", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "stock accessory", 1 ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "xedra40", "xedra10" ] } ]
+  },
+  {
     "id": "robofac_gun_ar",
     "looks_like": "retool_ar15_300blk",
     "//": "based off attributes of an m4 with integrated muzzle break",
@@ -82,6 +121,15 @@
     "loudness_modifier": 14,
     "overwrite_min_cycle_recoil": 1350,
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"5.56 NATO ASSAULT\" stamped into the metal and an integrated muzzle brake."
+  },
+  {
+    "id": "xedra_gun_ar",
+    "copy-from": "robofac_gun_ar",
+    "type": "GUNMOD",
+    "mod_targets": [ "xedra_gun" ],
+    "name": { "str_sp": "rifled barrel" },
+    "flags": [ "IRREMOVABLE" ],
+    "description": "This weapon is fitted with a long barrel with \"5.56 NATO ASSAULT\" stamped into the metal and an integrated muzzle brake."
   },
   {
     "id": "robofac_gun_smg",
@@ -236,6 +284,15 @@
     "description": "A Hub 01 Hybrid Weapons Platform quick swap conversion kit.  This version has a long barrel with \"00 CQC\" stamped into the metal and an integrated choke."
   },
   {
+    "id": "xedra_gun_shotgun",
+    "copy-from": "robofac_gun_shotgun",
+    "type": "GUNMOD",
+    "mod_targets": [ "xedra_gun" ],
+    "name": { "str_sp": "unrifled barrel" },
+    "flags": [ "IRREMOVABLE" ],
+    "description": "This weapon is fitted with long barrel with \"00 CQC\" stamped into the metal."
+  },
+  {
     "id": "robofac_gun_exodii",
     "looks_like": "retool_ar15_300blk",
     "//": "based off attributes of the EXODII BR",
@@ -300,6 +357,14 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40 } } ]
   },
   {
+    "id": "xedra40",
+    "type": "MAGAZINE",
+    "name": { "str": "prototype 40-round 5.56 magazine" },
+    "description": "A high-capacity 40-round box magazine.",
+    "copy-from": "robofac40",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "223": 40 } } ]
+  },
+  {
     "id": "robofacmultimag",
     "type": "MAGAZINE",
     "name": { "str": "HWP 40/50-round 4.6/5.7 magazine" },
@@ -351,6 +416,15 @@
     "color": "dark_gray",
     "ammo_type": [ "shot" ],
     "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 10 } } ]
+  },
+  {
+    "id": "xedra10",
+    "looks_like": "shotbelt_20",
+    "type": "MAGAZINE",
+    "name": { "str": "prototype 10-round shotgun magazine" },
+    "description": "A 10-round shotgun magazine.",
+    "copy-from": "robofac10",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 10 } } ]
   },
   {

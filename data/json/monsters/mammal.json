@@ -3,11 +3,23 @@
     "id": "mon_human",
     "type": "MONSTER",
     "name": { "str": "human" },
-    "description": "Place holder for human corpses.  If you see this, it's a bug.",
+    "description": "Placeholder for human corpses.  If you see this, it's a bug.",
     "bodytype": "human",
     "copy-from": "mon_zombie",
     "symbol": "h",
     "zombify_into": "mon_zombie",
+    "extend": { "flags": [ "NOT_HALLUCINATION" ] }
+  },
+  {
+    "id": "mon_child",
+    "type": "MONSTER",
+    "name": { "str": "child" },
+    "description": "Placeholder for children corpses.  If you see this, it's a bug.",
+    "bodytype": "human",
+    "copy-from": "mon_zombie_child",
+    "symbol": "h",
+    "zombify_into": "mon_zombie_child",
+    "weight": "30 kg",
     "extend": { "flags": [ "NOT_HALLUCINATION" ] }
   },
   {
@@ -96,7 +108,7 @@
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_zombear",
-    "harvest": "mammal_large_fur",
+    "harvest": "bear_with_skull",
     "dissect": "dissect_ursine_sample_small",
     "families": [ "prof_intro_biology" ],
     "reproduction": { "baby_monster": "mon_bear_cub", "baby_count": 1, "baby_timer": 700 },
@@ -128,7 +140,7 @@
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 6 } ],
     "dodge": 2,
-    "harvest": "mammal_small_fur",
+    "harvest": "beaver_with_skull",
     "dissect": "dissect_mouse_sample_small",
     "families": [ "prof_intro_biology" ],
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
@@ -309,7 +321,7 @@
     "dodge": 8,
     "vision_night": 20,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "harvest": "mammal_small_fur",
+    "harvest": "cat_medium_with_skull",
     "families": [ "prof_intro_biology" ],
     "dissect": "dissect_feline_sample_single",
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
@@ -324,6 +336,7 @@
     "weight": "400 g",
     "hp": 6,
     "//": "Kittens do not have their full fur yet and are really sensitive to cold temperature",
+    "harvest": "mammal_tiny",
     "armor_cold": 0,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 14,
@@ -660,7 +673,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "SOUND" ],
     "zombify_into": "mon_zougar",
-    "harvest": "mammal_fur",
+    "harvest": "cougar_with_skull",
     "dissect": "dissect_feline_sample_small",
     "families": [ "prof_intro_biology" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
@@ -719,7 +732,7 @@
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_cow",
@@ -761,7 +774,18 @@
     "biosignature": { "biosig_item": "feces_cow", "biosig_timer": 1 },
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "PET_MOUNTABLE",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "PET_WONT_FOLLOW",
+      "MILKABLE",
+      "CAN_BE_CULLED"
+    ]
   },
   {
     "id": "mon_coyote",
@@ -2173,8 +2197,6 @@
     "upgrades": { "age_grow": 180, "into": "mon_moose" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "//": "Totally unexpected I learned that Sweden domesticated Moose for pulling sleighs and Russia for livestock and moose milk.",
-    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
   },
   {
@@ -2254,8 +2276,6 @@
     "//": "Baby mutant moose need to grow quicker to be able to survive in the world after the cataclysm.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "//2": "Totally unexpected I learned that Sweden domesticated Moose for pulling sleighs and Russia for livestock and moose milk.",
-    "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW" ]
   },
   {
@@ -2306,7 +2326,7 @@
     "color": "pink",
     "aggression": -5,
     "morale": 40,
-    "melee_skill": 8,
+    "melee_skill": 4,
     "melee_dice": 4,
     "melee_dice_sides": 6,
     "melee_damage": [ { "damage_type": "cut", "amount": 10 } ],
@@ -2360,7 +2380,7 @@
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 2,
     "vision_night": 5,
-    "harvest": "mammal_small_fur",
+    "harvest": "opossum_with_skull",
     "families": [ "prof_intro_biology" ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
@@ -2425,7 +2445,7 @@
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_WONT_FOLLOW", "WARM", "KEENNOSE", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_pig",
@@ -2462,7 +2482,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "zombify_into": "mon_zombie_pig",
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_rabbit",
@@ -2515,7 +2535,7 @@
     "melee_dice_sides": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
     "dodge": 3,
-    "harvest": "mammal_small_fur",
+    "harvest": "raccoon_with_skull",
     "families": [ "prof_intro_biology" ],
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
@@ -2648,7 +2668,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE", "CAN_BE_CULLED" ]
   },
   {
     "id": "mon_goat_kid",
@@ -2945,7 +2965,7 @@
     "starting_ammo": { "milk_raw": 5 },
     "anger_triggers": [  ],
     "shearing": [ { "result": "wool_staple", "amount": 22 } ],
-    "harvest": "mammal_large_wool",
+    "harvest": "llama_with_skull",
     "families": [ "prof_intro_biology" ],
     "reproduction": { "baby_monster": "mon_llama_calf", "baby_count": 1, "baby_timer": 275 },
     "//": "Llamas produce offspring between summer and fall according to internet sources, makes sense due to the southern hemisphere seasons.",
@@ -2955,6 +2975,56 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
     "petfood": { "food": [ "CATTLEFOOD" ], "feed": "The %s seems to like you!  It lets you pat its head and seems friendly." },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_WONT_FOLLOW", "MILKABLE", "CAN_BE_CULLED" ]
+  },
+  {
+    "id": "mon_ferret",
+    "type": "MONSTER",
+    "name": { "str": "ferret" },
+    "description": "Domesticated from the European polecat, this sleek and energetic mammal was commonly kept as a pet before the Cataclysm.",
+    "bodytype": "pig",
+    "default_faction": "small_animal",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "MAMMAL" ],
+    "volume": "120 ml",
+    "weight": "120 g",
+    "hp": 12,
+    "speed": 110,
+    "material": [ "flesh" ],
+    "symbol": "f",
+    "color": "light_gray",
+    "morale": 40,
+    "melee_skill": 3,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_damage": [ { "damage_type": "cut", "amount": 2 } ],
+    "dodge": 14,
+    "vision_night": 5,
+    "harvest": "mammal_tiny",
+    "petfood": {
+      "food": [ "CATFOOD" ],
+      "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
+      "pet": "The %s lets out a happy squeak as you give its head a small scritch."
+    },
+    "families": [ "prof_intro_biology" ],
+    "reproduction": { "baby_monster": "mon_ferret_kit", "baby_count": 5, "baby_timer": 100 },
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM", "CANPLAY" ]
+  },
+  {
+    "id": "mon_ferret_kit",
+    "type": "MONSTER",
+    "copy-from": "mon_ferret",
+    "name": { "str": "ferret kit" },
+    "description": "A young domesticated ferret, known as a kit.",
+    "volume": "10 ml",
+    "weight": "10 g",
+    "hp": 5,
+    "//": "Kits do not have their full fur yet and are really sensitive to cold temperature",
+    "armor_cold": 0,
+    "melee_damage": [ { "damage_type": "cut", "amount": 1 } ],
+    "dodge": 9,
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CANPLAY", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "NO_BREED" ],
+    "upgrades": { "age_grow": 90, "into": "mon_ferret" }
   }
 ]

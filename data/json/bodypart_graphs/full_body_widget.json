@@ -105,5 +105,22 @@
       "9": { "body_parts": [ "leg_l" ] },
       "0": { "body_parts": [ "foot_l" ] }
     }
+  },
+  {
+    "//1": "Only used for displaying as a widget in the sidebar.  Not to be included with other bodygraphs.",
+    "//2": "Note: The code assumes the graph is at most 15x13 (WxH)",
+    "type": "body_graph",
+    "id": "tiny_full_body_side_widget",
+    "copy-from": "tiny_full_body_widget",
+    "rows": [
+      " 1em                                    ",
+      "43256                                   ",
+      "87 90                                   "
+    ],
+    "fill_rows": [
+      " (⁰◀                                    ",
+      "₀/∀\\₀                                   ",
+      "_╱ ╲_                                   "
+    ]
   }
 ]

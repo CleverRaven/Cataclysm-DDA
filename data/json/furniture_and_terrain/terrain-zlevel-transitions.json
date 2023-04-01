@@ -120,6 +120,17 @@
   },
   {
     "type": "terrain",
+    "id": "t_stairs_down_no_roof",
+    "name": "stairs",
+    "description": "A flight of stairs leading down.",
+    "symbol": ">",
+    "looks_like": "t_stairs_down",
+    "color": "yellow",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_stairs_up",
     "name": "stairs",
     "description": "A flight of stairs leading up.",
@@ -132,7 +143,7 @@
     "type": "terrain",
     "id": "t_manhole",
     "name": "manhole",
-    "description": "This is a manhole.  The heavy iron cover lies over an entrance to the underworld of hidden tunnels beneath the streets where sewage and rain water frolic freely.  Or just leads to the lower floor.",
+    "description": "A manhole.  The heavy iron cover has been removed, revealing an entrance to the underworld of hidden tunnels beneath the streets where sewage and rainwater frolic freely.  Or maybe it just leads to a lower floor.",
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
@@ -142,7 +153,7 @@
     "type": "terrain",
     "id": "t_manhole_cover",
     "name": "manhole cover",
-    "description": "Just a manhole cover.",
+    "description": "A heavy iron manhole cover, zealously blocking the entrance to a sewer or other underground area.  Impossible to lift by hand, you'll need some kind of heavy-duty prying tool.",
     "symbol": "0",
     "color": "dark_gray",
     "move_cost": 2,
@@ -163,7 +174,15 @@
     "looks_like": "t_ladder_up_down",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ]
+    "flags": [ "TRANSPARENT", "GOES_UP", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_floor",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -174,7 +193,15 @@
     "looks_like": "t_ladder_up_down",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_open_air_rooved",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -184,7 +211,15 @@
     "symbol": "H",
     "color": "dark_gray",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ]
+    "flags": [ "TRANSPARENT", "GOES_UP", "GOES_DOWN", "PLACE_ITEM", "DIFFICULT_Z" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_ladder_down",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 6 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
   },
   {
     "type": "terrain",
@@ -330,7 +365,7 @@
     "name": "downward slope",
     "connect_groups": "PAVEMENT",
     "connects_to": "PAVEMENT",
-    "description": "A downward facing slope.",
+    "description": "A downward-facing slope.",
     "symbol": ">",
     "color": "brown",
     "move_cost": 2,
@@ -342,7 +377,7 @@
     "name": "upward slope",
     "connect_groups": "WALL",
     "connects_to": "WALL",
-    "description": "An upward facing slope.",
+    "description": "An upward-facing slope.",
     "symbol": "<",
     "color": "brown",
     "move_cost": 2,
@@ -352,7 +387,7 @@
     "type": "terrain",
     "id": "t_rope_up",
     "name": "rope leading up",
-    "description": "A rope.  You could climb up it.",
+    "description": "A dangling end of rope, the other end tied securely to something above you.  You could climb up it.",
     "symbol": "<",
     "color": "white",
     "move_cost": 2,

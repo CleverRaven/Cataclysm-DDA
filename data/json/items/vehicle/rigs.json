@@ -58,7 +58,7 @@
     "id": "weldkit",
     "copy-from": "vehicle_rig",
     "type": "GENERIC",
-    "name": { "str": "vehicle welding kit" },
+    "name": { "str": "vehicle high-temperature welding kit" },
     "description": "A welder combined with a fireproof insulating blanket, allowing for advanced welds and repairs to tempered steels."
   }
 ]

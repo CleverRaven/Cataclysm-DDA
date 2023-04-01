@@ -59,7 +59,7 @@
     "type": "item_group",
     "id": "REFUGEE_Dana_carried",
     "subtype": "collection",
-    "entries": [ { "item": "emer_blanket" }, { "item": "lighter" }, { "item": "bandages" } ]
+    "entries": [ { "item": "emer_blanket" }, { "item": "lighter" }, { "item": "bandages", "count": 3 } ]
   },
   {
     "type": "item_group",

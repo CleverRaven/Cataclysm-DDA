@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_EYEGLEAM_activated",
-    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
+    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
@@ -26,7 +26,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_STAMINAFORBLOOD_activated",
-    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
+    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 100 } ] },
@@ -50,7 +50,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_COAGULANTWEAVE_activated",
-    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": 500 } ] },
+    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": 500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 500 } ] },
@@ -74,7 +74,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOODHEAL_activated",
-    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -9500 } ] },
+    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -9500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 750 } ] },
@@ -95,7 +95,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_HYPNOTIC_GAZE_activated",
-    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
+    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 150 } ] },
@@ -116,7 +116,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_BLOODHASTE_activated",
-    "condition": { "compare_int": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -1500 } ] },
+    "condition": { "compare_num": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, ">=", { "const": -1500 } ] },
     "effect": [
       { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "1 seconds" },
       { "arithmetic": [ { "u_val": "vitamin", "name": "human_blood_vitamin" }, "-=", { "const": 750 } ] },

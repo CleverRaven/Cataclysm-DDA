@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -53,7 +54,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "pimpl.h"
 #include "point.h"
@@ -77,6 +77,9 @@ static const bionic_id bio_heat_absorb( "bio_heat_absorb" );
 static const bionic_id bio_razors( "bio_razors" );
 static const bionic_id bio_shock( "bio_shock" );
 
+
+static const character_modifier_id
+character_modifier_limb_dodge_mod( "limb_dodge_mod" );
 static const character_modifier_id
 character_modifier_melee_attack_roll_mod( "melee_attack_roll_mod" );
 static const character_modifier_id
@@ -86,12 +89,10 @@ character_modifier_melee_thrown_move_lift_mod( "melee_thrown_move_lift_mod" );
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_beartrap( "beartrap" );
-static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_grabbed( "grabbed" );
-static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_incorporeal( "incorporeal" );
@@ -233,16 +234,19 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
         // Items that should have no bearing on durability
         const std::set<itype_id> blacklist = { itype_rag, itype_leather, itype_fur };
 
-        for( item &comp : shield->components ) {
-            if( blacklist.count( comp.typeId() ) <= 0 ) {
+        for( item_components::type_vector_pair &tvp : shield->components ) {
+            if( blacklist.count( tvp.first ) > 0 ) {
+                continue;
+            }
+            for( item &comp : tvp.second ) {
                 if( weak_chip > comp.chip_resistance() ) {
                     weak_chip = comp.chip_resistance();
                     weak_comp = comp.typeId();
                 }
-            }
-            if( comp.volume() > big_vol ) {
-                big_vol = comp.volume();
-                big_comp = comp.typeId();
+                if( comp.volume() > big_vol ) {
+                    big_vol = comp.volume();
+                    big_comp = comp.typeId();
+                }
             }
         }
         material_factor = ( weak_chip < INT_MAX ? weak_chip : shield->chip_resistance() ) / fragile_factor;
@@ -260,7 +264,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
         return false;
     }
 
-    auto str = shield->tname(); // save name before we apply damage
+    std::string str = shield->tname(); // save name before we apply damage
 
     if( !shield->inc_damage() ) {
         add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the force of the blow!" ),
@@ -291,18 +295,20 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
                                _( "<npcname>'s %s breaks apart!" ),
                                str );
 
-        for( item &comp : temp.components ) {
-            int break_chance = comp.typeId() == weak_comp ? 2 : 8;
+        for( item_components::type_vector_pair &tvp : temp.components ) {
+            for( item &comp : tvp.second ) {
+                int break_chance = comp.typeId() == weak_comp ? 2 : 8;
 
-            if( one_in( break_chance ) ) {
-                add_msg_if_player( m_bad, _( "The %s is destroyed!" ), comp.tname() );
-                continue;
-            }
+                if( one_in( break_chance ) ) {
+                    add_msg_if_player( m_bad, _( "The %s is destroyed!" ), comp.tname() );
+                    continue;
+                }
 
-            if( comp.typeId() == big_comp && !has_wield_conflicts( comp ) ) {
-                wield( comp );
-            } else {
-                get_map().add_item_or_charges( pos(), comp );
+                if( comp.typeId() == big_comp && !has_wield_conflicts( comp ) ) {
+                    wield( comp );
+                } else {
+                    get_map().add_item_or_charges( pos(), comp );
+                }
             }
         }
     } else {
@@ -312,7 +318,7 @@ bool Character::handle_melee_wear( item_location shield, float wear_multiplier )
     }
 
     if( is_using_bionic_weapon() && temp.has_flag( flag_NO_UNWIELD ) ) {
-        if( cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
+        if( std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
             bionic &bio = **bio_opt;
             if( bio.get_weapon().typeId() == temp.typeId() ) {
                 weapon_bionic_uid = 0;
@@ -371,11 +377,6 @@ float Character::hit_roll() const
         hit -= 8.0f;
     } else if( is_crouching() ) {
         hit -= 2.0f;
-    }
-
-    //Unstable ground chance of failure
-    if( has_effect( effect_bouldering ) ) {
-        hit *= 0.75f;
     }
 
     hit *= get_modifier( character_modifier_melee_attack_roll_mod );
@@ -551,7 +552,7 @@ bool Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
     // Max out recoil & reset aim point
     recoil = MAX_RECOIL;
-    last_target_pos = cata::nullopt;
+    last_target_pos = std::nullopt;
 
     return melee_attack_abstract( t, allow_special, force_technique, allow_unarmed );
 }
@@ -845,7 +846,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             // Make a rather quiet sound, to alert any nearby monsters
             if( !is_quiet() ) { // check martial arts silence
                 //sound generated later
-                sounds::sound( pos(), 8, sounds::sound_t::combat, _( "whack!" ) );
+                int volume = enchantment_cache->modify_value( enchant_vals::mod::ATTACK_NOISE, 8 );
+                sounds::sound( pos(), volume, sounds::sound_t::combat, _( "whack!" ) );
             }
             std::string material = "flesh";
             if( t.is_monster() ) {
@@ -949,7 +951,7 @@ void Character::reach_attack( const tripoint &p )
     // Original target size, used when there are monsters in front of our target
     const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() ) : 2;
     // Reset last target pos
-    last_target_pos = cata::nullopt;
+    last_target_pos = std::nullopt;
     // Max out recoil
     recoil = MAX_RECOIL;
 
@@ -1123,28 +1125,16 @@ float Character::get_dodge() const
     //If we're asleep or busy we can't dodge
     if( in_sleep_state() || has_effect( effect_narcosis ) ||
         has_effect( effect_winded ) || is_driving() ) {
+        add_msg_debug( debugmode::DF_MELEE, "Unable to dodge (sleeping, winded, or driving)" );
         return 0.0f;
     }
 
     float ret = Creature::get_dodge();
+    add_msg_debug( debugmode::DF_MELEE, "Base dodge %.1f", ret );
     // Chop in half if we are unable to move
     if( has_effect( effect_beartrap ) || has_effect( effect_lightsnare ) ||
         has_effect( effect_heavysnare ) ) {
         ret /= 2;
-    }
-
-    creature_tracker &creatures = get_creature_tracker();
-    if( has_effect( effect_grabbed ) ) {
-        int zed_number = 0;
-        for( const tripoint &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
-            const monster *const mon = creatures.creature_at<monster>( dest );
-            if( mon && mon->has_effect( effect_grabbing ) ) {
-                zed_number++;
-            }
-        }
-        if( zed_number > 0 ) {
-            ret /= zed_number + 1;
-        }
     }
 
     if( worn_with_flag( flag_ROLLER_INLINE ) ||
@@ -1153,12 +1143,9 @@ float Character::get_dodge() const
         ret /= has_trait( trait_PROF_SKATER ) ? 2 : 5;
     }
 
-    if( has_effect( effect_bouldering ) ) {
-        ret /= 4;
-    }
-
     // Ensure no attempt to dodge without sources of extra dodges, eg martial arts
     if( dodges_left <= 0 ) {
+        add_msg_debug( debugmode::DF_MELEE, "No remaining dodge attempts" );
         return 0.0f;
     }
 
@@ -1166,19 +1153,27 @@ float Character::get_dodge() const
     int speed_stat = get_speed();
     if( speed_stat < 100 ) {
         ret *= speed_stat / 100.0f;
+        add_msg_debug( debugmode::DF_MELEE, "Dodge after speed penalty %.1f", ret );
     }
 
     //Dodge decreases linearly to 0 when below 50% stamina.
     const float stamina_ratio = static_cast<float>( get_stamina() ) / get_stamina_max();
     if( stamina_ratio <= .5 ) {
         ret *= 2 * stamina_ratio;
+        add_msg_debug( debugmode::DF_MELEE, "Dodge after stamina penalty %.1f", ret );
     }
 
     // Reaction score of limbs influences dodge chances
     ret *= get_limb_score( limb_score_reaction );
+    add_msg_debug( debugmode::DF_MELEE, "Dodge after reaction score %.1f", ret );
+
+    // Somatic limb dodge multiplier is applied after reaction score
+    ret *= get_modifier( character_modifier_limb_dodge_mod );
+    add_msg_debug( debugmode::DF_MELEE, "Dodge after limb score modifier %.1f", ret );
 
     // Modify by how much bigger/smaller we got from our limbs
     ret /= anatomy( get_all_body_parts() ).get_size_ratio( anatomy_human_anatomy );
+    add_msg_debug( debugmode::DF_MELEE, "Dodge after bodysize modifier %.1f", ret );
 
     return std::max( 0.0f, ret );
 }
@@ -2186,9 +2181,10 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     bool unarmed = !is_armed();
     bool force_unarmed = martial_arts_data->is_force_unarmed();
     bool allow_weapon_blocking = martial_arts_data->can_weapon_block();
+    bool armed_body_block = weapon.has_flag( flag_ALLOWS_BODY_BLOCK );
 
     // boolean check if blocking is being done with unarmed or not
-    const bool item_blocking = allow_weapon_blocking && has_shield && !unarmed;
+    const bool item_blocking = allow_weapon_blocking && has_shield && !unarmed && !armed_body_block;
 
     bool arm_block = false;
     bool leg_block = false;
@@ -2205,7 +2201,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
 
     /** @ARM_STR increases attack blocking effectiveness with a limb or worn/wielded item */
     /** @EFFECT_UNARMED increases attack blocking effectiveness with a limb or worn item */
-    if( unarmed || force_unarmed || worn_shield || ( has_shield && !allow_weapon_blocking ) ) {
+    if( unarmed || force_unarmed || worn_shield || armed_body_block || ( has_shield &&
+            !allow_weapon_blocking ) ) {
         arm_block = martial_arts_data->can_arm_block( *this );
         leg_block = martial_arts_data->can_leg_block( *this );
         nonstandard_block = martial_arts_data->can_nonstandard_block( *this );
@@ -2231,7 +2228,7 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
     // Do we block with a weapon? Handle melee wear but leave bp the same
-    if( !( unarmed || force_unarmed || worn_shield ) && allow_weapon_blocking ) {
+    if( !( unarmed || force_unarmed || worn_shield || armed_body_block ) && allow_weapon_blocking ) {
         thing_blocked_with = shield->tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;

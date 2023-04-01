@@ -44,6 +44,7 @@
 #include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "scent_map.h"
@@ -284,7 +285,7 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
     } else {
         input_context ctxt( "EGET_DIRECTION" );
         ctxt.set_iso( true );
-        const cata::optional<tripoint> vec = ctxt.get_direction( action );
+        const std::optional<tripoint> vec = ctxt.get_direction( action );
         if( !vec ) {
             return false;
         }
@@ -343,7 +344,7 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
     return current_ui;
 }
 
-cata::optional<tripoint> editmap::edit()
+std::optional<tripoint> editmap::edit()
 {
     avatar &player_character = get_avatar();
     restore_on_out_of_scope<tripoint> view_offset_prev( player_character.view_offset );
@@ -409,7 +410,7 @@ cata::optional<tripoint> editmap::edit()
 
         ui_manager::redraw();
 
-        action = ctxt.handle_input( BLINK_SPEED );
+        action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
 
         if( action == "EDIT_TERRAIN" ) {
             edit_feature<ter_t>();
@@ -446,7 +447,7 @@ cata::optional<tripoint> editmap::edit()
     if( action == "CONFIRM" ) {
         return target;
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 /*
@@ -655,7 +656,7 @@ void editmap::draw_main_ui_overlay()
                         char part_mod = 0;
                         const vpart_id &vp_id = vpart_id( veh.part_id_string( veh_part,
                                                           part_mod, true, true ) );
-                        const cata::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
+                        const std::optional<vpart_reference> cargopart = vp.part_with_feature( "CARGO", true );
                         bool draw_highlight = cargopart && !veh.get_items( cargopart->part_index() ).empty();
                         units::angle veh_dir = veh.face.dir();
                         g->draw_vpart_override( map_p, vp_id, part_mod, veh_dir, draw_highlight, vp->mount() );
@@ -1152,7 +1153,7 @@ void editmap::edit_feature()
         info_title_curr = info_title<T_t>();
         do_ui_invalidation();
 
-        emenu.query( false, BLINK_SPEED );
+        emenu.query( false, get_option<int>( "BLINK_SPEED" ) );
         if( emenu.ret == UILIST_CANCEL ) {
             quit = true;
         } else if( ( emenu.ret >= 0 && static_cast<size_t>( emenu.ret ) < T_t::count() ) ||
@@ -1273,7 +1274,7 @@ void editmap::edit_fld()
         info_title_curr = pgettext( "Map editor: Editing field effects", "Field effects" );
         do_ui_invalidation();
 
-        fmenu.query( false, BLINK_SPEED );
+        fmenu.query( false, get_option<int>( "BLINK_SPEED" ) );
         if( ( fmenu.ret > 0 && static_cast<size_t>( fmenu.ret ) < field_type::count() ) ||
             ( fmenu.ret == UILIST_ADDITIONAL && ( fmenu.ret_act == "LEFT" || fmenu.ret_act == "RIGHT" ) ) ) {
 
@@ -1745,7 +1746,7 @@ int editmap::select_shape( shapetype shape, int mode )
         }
         do_ui_invalidation();
         ui_manager::redraw();
-        action = ctxt.handle_input( BLINK_SPEED );
+        action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
         if( action == "RESIZE" ) {
             if( !moveall ) {
                 const int offset = 16;
@@ -1921,7 +1922,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                                          oter_id( gmenu.selected ).id().str() );
         do_ui_invalidation();
 
-        gpmenu.query( false, BLINK_SPEED * 3 );
+        gpmenu.query( false, get_option<int>( "BLINK_SPEED" ) * 3 );
 
         if( gpmenu.ret == 0 ) {
             cleartmpmap( tmpmap );
@@ -2108,8 +2109,8 @@ void editmap::mapgen_retarget()
         do_ui_invalidation();
 
         ui_manager::redraw();
-        action = ctxt.handle_input( BLINK_SPEED );
-        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        action = ctxt.handle_input( get_option<int>( "BLINK_SPEED" ) );
+        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             point vec_ms = omt_to_ms_copy( vec->xy() );
             tripoint ptarget = target + vec_ms;
             if( editmap_boundaries.contains( ptarget ) &&

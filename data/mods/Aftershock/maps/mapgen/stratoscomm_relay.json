@@ -74,6 +74,7 @@
       "terrain": { "5": "t_ramp_up_high", "6": "t_ramp_up_low", "#": "t_rock" },
       "furniture": {
         "@": "f_sleep_pod",
+        "~": "f_shower",
         "1": [ "f_mil_comms_power", "f_mil_comms_power_broken" ],
         "2": "f_mil_comms_terminal",
         "3": "f_mil_comms_heatsink",
@@ -81,10 +82,7 @@
         "o": "f_habitat_kitchenette",
         "F": "f_fridge"
       },
-      "items": {
-        "o": { "item": "afs_kitchenette", "chance": 100 },
-        "F": { "item": "afs_cheap_food", "chance": 80, "repeat": [ 1, 10 ] }
-      },
+      "items": { "o": { "item": "afs_kitchenette", "chance": 100 }, "F": { "item": "afs_old_food_storage", "chance": 80 } },
       "monster": { "ö": { "monster": "mon_skitterbot" } }
     }
   },
@@ -122,8 +120,8 @@
         "                        "
       ],
       "palettes": [ "afs_habitat_structure" ],
-      "terrain": { " ": "t_open_air", "'": "t_door_glass_o", ".": "t_strconc_floor", ",": "t_sidewalk", "E": "t_machinery_electronic" },
-      "furniture": { "4": "f_mil_comms_sat" }
+      "terrain": { " ": "t_open_air", "'": "t_door_glass_o", ".": "t_strconc_floor", ",": "t_sidewalk" },
+      "furniture": { "4": "f_mil_comms_sat", "E": "f_machinery_electronic" }
     }
   }
 ]

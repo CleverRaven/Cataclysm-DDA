@@ -40,8 +40,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-static const item_group_id Item_spawn_data_forest( "forest" );
-
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 
 const std::map<point, base_camps::direction_data> base_camps::all_directions = {
@@ -207,14 +205,32 @@ void basecamp::define_camp( const tripoint_abs_omt &p, const std::string &camp_t
 }
 
 /// Returns the description for the recipe of the next building @ref bldg
-std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc ) const
+std::string basecamp::om_upgrade_description( const std::string &bldg, const mapgen_arguments &args,
+        bool trunc ) const
 {
     const recipe &making = recipe_id( bldg ).obj();
 
+    const requirement_data *reqs;
+    time_duration base_time;
+    const std::map<skill_id, int> *skills;
+
+    if( making.is_blueprint() ) {
+        auto req_it = making.blueprint_build_reqs().reqs_by_parameters.find( args );
+        cata_assert( req_it != making.blueprint_build_reqs().reqs_by_parameters.end() );
+        const build_reqs &bld_reqs = req_it->second;
+        reqs = &bld_reqs.consolidated_reqs;
+        base_time = time_duration::from_moves( bld_reqs.time );
+        skills = &bld_reqs.skills;
+    } else {
+        reqs = &making.simple_requirements();
+        base_time = making.batch_duration( get_player_character() );
+        skills = &making.required_skills;
+    }
+
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
-    const auto tools = making.simple_requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
-    const auto comps = making.simple_requirements().get_folded_components_list( pane, c_white, _inv,
+    const auto tools = reqs->get_folded_tools_list( pane, c_white, _inv, 1 );
+    const auto comps = reqs->get_folded_components_list( pane, c_white, _inv,
                        making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
@@ -224,9 +240,9 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
         str_append( comp, elem, "\n" );
     }
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
-                          making.description, making.required_all_skills_string(), comp );
+                          making.description, making.required_all_skills_string( *skills ),
+                          comp );
     if( !trunc ) {
-        time_duration base_time = making.batch_duration( get_player_character() );
         comp += string_format( _( "Risk: None\nTime: %s\n" ),
                                to_string( base_camps::to_workdays( base_time ) ) );
     }
@@ -268,7 +284,7 @@ bool basecamp::has_provides( const std::string &req, const expansion_data &e_dat
     return false;
 }
 
-bool basecamp::has_provides( const std::string &req, const cata::optional<point> &dir,
+bool basecamp::has_provides( const std::string &req, const std::optional<point> &dir,
                              int level ) const
 {
     if( !dir ) {
@@ -293,9 +309,8 @@ bool basecamp::can_expand() const
 
 bool basecamp::has_water() const
 {
-    return has_provides( "water_well" ) || has_provides( "fbmh_well_north" ) ||
-           has_provides( "faction_base_camp_12" ) || has_provides( "faction_base_kitchen_6" ) ||
-           has_provides( "faction_base_blacksmith_11" );
+    // special case required for fbmh_well_north constructed between b9162 (Jun 16, 2019) and b9644 (Sep 20, 2019)
+    return has_provides( "water_well" ) || has_provides( "fbmh_well_north" );
 }
 
 std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
@@ -347,13 +362,17 @@ std::vector<basecamp_upgrade> basecamp::available_upgrades( const point &dir )
             if( !should_display ) {
                 continue;
             }
-            basecamp_upgrade data;
-            data.bldg = bldg;
-            data.name = recp.blueprint_name();
-            const deduped_requirement_data &reqs = recp.deduped_requirements();
-            data.avail = reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
-            data.in_progress = in_progress;
-            ret_data.emplace_back( data );
+            if( recp.blueprint_build_reqs().reqs_by_parameters.empty() ) {
+                debugmsg( "blueprint recipe %s lacked any blueprint_build_reqs", recp.result().str() );
+            }
+            for( const std::pair<const mapgen_arguments, build_reqs> &args_and_reqs :
+                 recp.blueprint_build_reqs().reqs_by_parameters ) {
+                const mapgen_arguments &args = args_and_reqs.first;
+                const requirement_data &reqs = args_and_reqs.second.consolidated_reqs;
+                bool can_make =
+                    reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
+                ret_data.push_back( { bldg, args, recp.blueprint_name(), can_make, in_progress } );
+            }
         }
     }
     return ret_data;
@@ -377,19 +396,6 @@ std::map<recipe_id, translation> basecamp::recipe_deck( const point &dir ) const
 std::map<recipe_id, translation> basecamp::recipe_deck( const std::string &bldg ) const
 {
     return recipe_group::get_recipes_by_bldg( bldg );
-}
-
-item_group_id basecamp::get_gatherlist() const
-{
-    const auto &e = expansions.find( base_camps::base_dir );
-    if( e != expansions.end() ) {
-        item_group_id gatherlist(
-            "gathering_" + base_camps::faction_encode_abs( e->second, 4 ) );
-        if( item_group::group_is_defined( gatherlist ) ) {
-            return gatherlist;
-        }
-    }
-    return Item_spawn_data_forest;
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )
@@ -502,7 +508,7 @@ void basecamp::remove_assignee( character_id id )
         debugmsg( "cant find npc to remove from basecamp, on the overmap_buffer" );
         return;
     }
-    npc_to_remove->assigned_camp = cata::nullopt;
+    npc_to_remove->assigned_camp = std::nullopt;
     assigned_npcs.erase( std::remove( assigned_npcs.begin(), assigned_npcs.end(), npc_to_remove ),
                          assigned_npcs.end() );
 }
@@ -782,8 +788,9 @@ void basecamp::load_data( const std::string &data )
 }
 
 basecamp_action_components::basecamp_action_components(
-    const recipe &making, int batch_size, basecamp &base ) :
+    const recipe &making, const mapgen_arguments &args, int batch_size, basecamp &base ) :
     making_( making ),
+    args_( args ),
     batch_size_( batch_size ),
     base_( base )
 {
@@ -793,9 +800,20 @@ bool basecamp_action_components::choose_components()
 {
     const auto filter = is_crafting_component;
     avatar &player_character = get_avatar();
-    const requirement_data *req =
-        making_.deduped_requirements().select_alternative( player_character, base_._inv, filter,
-                batch_size_ );
+    const requirement_data *req;
+    if( making_.is_blueprint() ) {
+        const std::unordered_map<mapgen_arguments, build_reqs> &reqs_map =
+            making_.blueprint_build_reqs().reqs_by_parameters;
+        auto req_it = reqs_map.find( args_ );
+        if( req_it == reqs_map.end() ) {
+            debugmsg( "invalid argument selection for recipe" );
+            return false;
+        }
+        req = &req_it->second.consolidated_reqs;
+    } else {
+        req = making_.deduped_requirements().select_alternative(
+                  player_character, base_._inv, filter, batch_size_ );
+    }
     if( !req ) {
         return false;
     }

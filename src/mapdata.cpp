@@ -673,7 +673,7 @@ void map_data_common_t::extraprocess_flags( const ter_furn_flag flag )
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
-    cata::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
+    std::optional<ter_furn_flag> f = io::string_to_enum_optional<ter_furn_flag>( flag );
     if( f.has_value() ) {
         bitflags.set( f.value() );
         extraprocess_flags( f.value() );
@@ -814,20 +814,18 @@ ter_id t_null,
        t_gas_pump, t_gas_pump_smashed,
        t_diesel_pump, t_diesel_pump_smashed,
        t_atm,
-       t_generator_broken,
        t_missile, t_missile_exploded,
        t_radio_tower, t_radio_controls,
-       t_console_broken, t_console, t_gates_mech_control, t_gates_control_concrete, t_gates_control_brick,
+       t_gates_mech_control, t_gates_control_concrete, t_gates_control_brick,
        t_barndoor, t_palisade_pulley,
        t_gates_control_metal,
        t_sewage_pipe, t_sewage_pump,
-       t_centrifuge,
        t_column,
        t_vat,
        t_rootcellar,
        t_cvdbody, t_cvdmachine,
        t_water_pump,
-       t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
+       t_conveyor,
        t_improvised_shelter,
        // Staircases etc.
        t_stairs_down, t_stairs_up, t_manhole, t_ladder_up, t_ladder_down, t_slope_down,
@@ -839,7 +837,7 @@ ter_id t_null,
        t_pedestal_temple,
        // Temple tiles
        t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
-       t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
+       t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air,
        t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
        t_rad_platform,
        // Railroad and subway
@@ -1072,13 +1070,10 @@ void set_ter_ids()
     t_diesel_pump = ter_id( "t_diesel_pump" );
     t_diesel_pump_smashed = ter_id( "t_diesel_pump_smashed" );
     t_atm = ter_id( "t_atm" );
-    t_generator_broken = ter_id( "t_generator_broken" );
     t_missile = ter_id( "t_missile" );
     t_missile_exploded = ter_id( "t_missile_exploded" );
     t_radio_tower = ter_id( "t_radio_tower" );
     t_radio_controls = ter_id( "t_radio_controls" );
-    t_console_broken = ter_id( "t_console_broken" );
-    t_console = ter_id( "t_console" );
     t_gates_mech_control = ter_id( "t_gates_mech_control" );
     t_gates_control_brick = ter_id( "t_gates_control_brick" );
     t_gates_control_concrete = ter_id( "t_gates_control_concrete" );
@@ -1087,7 +1082,6 @@ void set_ter_ids()
     t_gates_control_metal = ter_id( "t_gates_control_metal" );
     t_sewage_pipe = ter_id( "t_sewage_pipe" );
     t_sewage_pump = ter_id( "t_sewage_pump" );
-    t_centrifuge = ter_id( "t_centrifuge" );
     t_column = ter_id( "t_column" );
     t_vat = ter_id( "t_vat" );
     t_rootcellar = ter_id( "t_rootcellar" );
@@ -1125,12 +1119,7 @@ void set_ter_ids()
     t_covered_well = ter_id( "t_covered_well" );
     t_water_pump = ter_id( "t_water_pump" );
     t_conveyor = ter_id( "t_conveyor" );
-    t_machinery_light = ter_id( "t_machinery_light" );
-    t_machinery_heavy = ter_id( "t_machinery_heavy" );
-    t_machinery_old = ter_id( "t_machinery_old" );
-    t_machinery_electronic = ter_id( "t_machinery_electronic" );
     t_open_air = ter_id( "t_open_air" );
-    t_plut_generator = ter_id( "t_plut_generator" );
     t_pavement_bg_dp = ter_id( "t_pavement_bg_dp" );
     t_pavement_y_bg_dp = ter_id( "t_pavement_y_bg_dp" );
     t_sidewalk_bg_dp = ter_id( "t_sidewalk_bg_dp" );

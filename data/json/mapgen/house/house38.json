@@ -155,8 +155,7 @@
         { "item": "stereo", "x": 15, "y": 18, "chance": 35 }
       ],
       "place_monster": [
-        { "monster": "mon_large_cockroach", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 100, "repeat": 8 },
-        { "monster": "mon_giant_cockroach", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 50, "repeat": 2 },
+        { "monster": "mon_large_cockroach", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 100, "repeat": [ 2, 6 ] },
         { "monster": "mon_plague_vector", "x": [ 3, 21 ], "y": [ 6, 15 ], "chance": 20 }
       ]
     }

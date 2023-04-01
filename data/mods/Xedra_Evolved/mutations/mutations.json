@@ -72,7 +72,8 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": "Your dreams can change reality."
+    "description": "Your dreams can change reality.",
+    "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
     "type": "mutation",
@@ -83,7 +84,8 @@
     "purifiable": false,
     "valid": false,
     "player_display": false,
-    "description": "Your dreams can change reality."
+    "description": "Your dreams can change reality.",
+    "vitamin_rates": [ [ "dream", -8640000 ] ]
   },
   {
     "type": "mutation",
@@ -153,7 +155,7 @@
     "purifiable": false,
     "valid": false,
     "name": { "str": "Coagulant Weave" },
-    "description": "Your body prepares to prevent the lose of any blood to combat damage.",
+    "description": "Your body prepares to prevent the loss of any blood to combat damage.",
     "active": true,
     "activated_eocs": [ "EOC_COAGULANTWEAVE_activated" ]
   },
@@ -174,7 +176,7 @@
     "id": "VAMPIRE3",
     "name": { "str": "Mortal hungers are replaced with immortal hungers." },
     "points": 0,
-    "description": "You have developed a thirst for the blood of your fellow humans.",
+    "description": "You replace some of your regular caloric intake with blood and begin to see some of the more esoteric abilities inherent to vampirism.",
     "starting_trait": false,
     "purifiable": false,
     "valid": false,

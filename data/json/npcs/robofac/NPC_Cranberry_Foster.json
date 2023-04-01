@@ -332,7 +332,7 @@
         "condition": {
           "and": [
             { "not": { "u_has_var": "asked_gender", "type": "dialogue", "context": "robofac_merc_1", "value": "yes" } },
-            { "compare_int": [ { "npc_val": "npc_trust" }, ">=", { "const": 3 } ] }
+            { "compare_num": [ { "npc_val": "npc_trust" }, ">=", { "const": 3 } ] }
           ]
         },
         "topic": "TALK_ROBOFAC_MERC_1_GENDER"

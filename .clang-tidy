@@ -7,12 +7,19 @@
 #
 # Comments on the checks we have decided are not worthwhile:
 #
+# * bugprone-throw-keyword-missing
+# This check is too time consuming.  Disable it for now to save CI time.
+#
 # * cert-dcl21-cpp (postfix operator++ and operator-- should return const objects)
 # This is an unconventional code style, and conflicts with
 # readability-const-return-type.
 #
 # * cert-env33-c (calls to system, popen)
 # Unlikely to catch bugs, and using system is convenient for portability.
+#
+# * cert-dcl37-c and cert-dcl-51-cpp (reserved identifiers)
+# These two checks are aliases for bugprone-reserved-identifier.
+# Don't repeatedly run the same check for three times.
 #
 # * cert-err58-cpp (exceptions from static variable declarations)
 # We have lots of memory allocations in static variable declarations, and
@@ -27,6 +34,10 @@
 # * readability-braces-around-statements
 # Covered by astyle and buggy in clang-tidy 8.  Can enable once we have a newer
 # clang-tidy.
+#
+# * readability-identifier-naming
+# We are not enforcing a standard identifier naming scheme in the code base.
+# This check does not bring much value at the moment and consumes a lot of CPU time.
 
 Checks: "\
 bugprone-*,\
@@ -34,6 +45,8 @@ cata-*,\
 cert-*,\
 -cert-dcl21-cpp,\
 -cert-env33-c,\
+-cert-dcl37-c,\
+-cert-dcl51-cpp,\
 -cert-err58-cpp,\
 clang-diagnostic-*,\
 cppcoreguidelines-slicing,\
@@ -47,14 +60,17 @@ performance-*,\
 readability-*,\
 -readability-braces-around-statements,\
 -bugprone-narrowing-conversions,\
+-bugprone-throw-keyword-missing,\
 -misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
+-modernize-use-nodiscard,\
 -readability-convert-member-functions-to-static,\
 -readability-else-after-return,\
 -readability-function-cognitive-complexity,\
+-readability-identifier-naming,\
 -readability-implicit-bool-conversion,\
 -readability-magic-numbers,\
 -readability-named-parameter,\
