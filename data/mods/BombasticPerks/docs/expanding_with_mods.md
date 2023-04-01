@@ -4,6 +4,8 @@
 ## Adding the perk
 To add a perk in another mod you need to add the following JSON
 
+*you don't need to worry about Bombastic Perks being in a mod list to include the following code. Without it included the perks just will not be available*
+
 
 This adds the option to the Perk Menu. Add one object to responses per perk. Replace [YOUR_PERK_ID] with your perks id, and  TALK_PERK_MENU_[YOUR_MENU_ENTRY] with the name of the menu entry for your confirm screen.
 ``` json
