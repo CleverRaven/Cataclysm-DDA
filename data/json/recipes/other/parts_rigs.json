@@ -172,7 +172,14 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "wheel", 1 ] ], [ [ "processor", 1 ] ], [ [ "nut_bolt", 16 ] ] ]
+    "components": [
+      [ [ "pipe", 2 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "motor", 2 ] ],
+      [ [ "wheel", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "nut_bolt", 16 ] ]
+    ]
   },
   {
     "type": "recipe",

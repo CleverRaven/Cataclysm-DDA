@@ -536,7 +536,7 @@
     "time": "15 m",
     "decomp_learn": 4,
     "book_learn": [ [ "manual_pistol", 3 ], [ "manual_fabrication", 4 ], [ "textbook_fabrication", 4 ] ],
-    "//": "15cm weld", 
+    "//": "15cm weld",
     "using": [ [ "welding_standard", 15 ], [ "plastic_molding", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
@@ -783,7 +783,7 @@
       [ "manual_rifle", 4 ],
       [ "manual_launcher", 4 ]
     ],
-    "//": "25cm weld", 
+    "//": "25cm weld",
     "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "using": [ [ "welding_standard", 25 ] ],
     "proficiencies": [
@@ -806,7 +806,7 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "//": "25cm weld", 
+    "//": "25cm weld",
     "using": [ [ "welding_standard", 25 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "spring", 1 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -846,7 +846,7 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "//": "20cm weld", 
+    "//": "20cm weld",
     "using": [ [ "welding_standard", 20 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -956,7 +956,7 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "//": "15cm weld", 
+    "//": "15cm weld",
     "using": [ [ "welding_standard", 15 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 3 ] ], [ [ "plastic_chunk", 3 ] ] ]
   },
@@ -981,7 +981,7 @@
     "proficiencies": [
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.25, "learning_time_multiplier": 0.1 }
     ],
-    "//": "25cm weld", 
+    "//": "25cm weld",
     "using": [ [ "welding_standard", 25 ] ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 2 ] ], [ [ "plastic_chunk", 3 ] ], [ [ "spring", 2 ] ] ]
   },
@@ -1033,7 +1033,7 @@
       ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
-    "//": "30cm weld", 
+    "//": "30cm weld",
     "using": [ [ "welding_standard", 30 ] ],
     "components": [ [ [ "steel_plate", 1 ], [ "steel_lump", 2 ] ], [ [ "pipe", 1 ], [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -1080,7 +1080,7 @@
       ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
-    "//": "5cm weld", 
+    "//": "5cm weld",
     "using": [ [ "welding_standard", 5 ] ],
     "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
@@ -1215,7 +1215,7 @@
     "time": "5 h",
     "book_learn": [ [ "manual_rifle", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "//": "20cm weld", 
+    "//": "20cm weld",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "tools": [ [ [ "m249", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "sheet_metal_small", 6 ] ] ]
@@ -1233,7 +1233,7 @@
     "time": "5 h",
     "book_learn": [ [ "manual_rifle", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "//": "20cm weld", 
+    "//": "20cm weld",
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 20 ] ],
     "tools": [ [ [ "m240", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "sheet_metal_small", 5 ] ] ]

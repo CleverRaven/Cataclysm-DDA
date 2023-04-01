@@ -613,7 +613,7 @@
       [ "advanced_electronics", 5 ],
       [ "textbook_electronics", 5 ]
     ],
-    "//": "130cm weld", 
+    "//": "130cm weld",
     "using": [ [ "welding_standard", 130 ] ],
     "proficiencies": [
       { "proficiency": "prof_welding_basic" },
@@ -642,7 +642,7 @@
     "time": "40 m",
     "reversible": true,
     "decomp_learn": 4,
-    "//": "100cm weld", 
+    "//": "100cm weld",
     "book_learn": [
       [ "textbook_mechanics", 4 ],
       [ "textbook_carpentry", 4 ],
@@ -837,7 +837,7 @@
     "difficulty": 4,
     "time": "1 h",
     "autolearn": true,
-    "//": "30cm weld", 
+    "//": "30cm weld",
     "using": [ [ "welding_standard", 30 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_welding_basic" } ],

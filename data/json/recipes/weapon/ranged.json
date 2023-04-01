@@ -12,7 +12,7 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "//": "50cm weld", 
+    "//": "50cm weld",
     "using": [ [ "welding_standard", 50 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -328,7 +328,7 @@
     "time": "4 h",
     "book_learn": [ [ "manual_shotgun", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "FILE", "level": 1 } ],
-    "//": "40cm weld", 
+    "//": "40cm weld",
     "using": [ [ "welding_standard", 40 ] ],
     "tools": [
       [
@@ -433,7 +433,7 @@
     "time": "5 h",
     "book_learn": [ [ "manual_shotgun", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "FILE", "level": 1 } ],
-    "//": "80cm weld", 
+    "//": "80cm weld",
     "using": [ [ "welding_standard", 80 ] ],
     "tools": [
       [
@@ -479,7 +479,7 @@
     "time": "2 h",
     "book_learn": [ [ "manual_shotgun", 1 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "FILE", "level": 1 } ],
-    "//": "20cm weld", 
+    "//": "20cm weld",
     "using": [ [ "welding_standard", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -506,7 +506,7 @@
       { "id": "WRENCH", "level": 1 },
       { "id": "DRILL", "level": 2 }
     ],
-    "//": "80cm weld", 
+    "//": "80cm weld",
     "using": [ [ "welding_standard", 80 ] ],
     "tools": [
       [
@@ -786,7 +786,7 @@
     "time": "5 h",
     "book_learn": [ [ "manual_shotgun", 2 ], [ "manual_pistol", 2 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "//": "80cm weld", 
+    "//": "80cm weld",
     "using": [ [ "welding_standard", 80 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -813,7 +813,7 @@
     "time": "8 h",
     "book_learn": [ [ "manual_pistol", 3 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "//": "60cm weld", 
+    "//": "60cm weld",
     "using": [ [ "welding_standard", 60 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -835,7 +835,7 @@
     "time": "8 h",
     "book_learn": [ [ "manual_pistol", 5 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 } ],
-    "//": "60cm weld", 
+    "//": "60cm weld",
     "using": [ [ "welding_standard", 60 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1043,7 +1043,7 @@
     "time": "4 h",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "//": "90cm weld", 
+    "//": "90cm weld",
     "using": [ [ "welding_standard", 90 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1106,7 +1106,7 @@
     "difficulty": 7,
     "time": "12 h",
     "book_learn": [ [ "manual_shotgun", 2 ] ],
-    "//": "160cm weld", 
+    "//": "160cm weld",
     "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 160 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1145,7 +1145,7 @@
     "time": "3 h",
     "book_learn": [ [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "//": "50cm weld", 
+    "//": "50cm weld",
     "using": [ [ "welding_standard", 50 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1281,7 +1281,7 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "tools": [ [ [ "small_repairkit", 150 ], [ "large_repairkit", 30 ] ] ],
-    "//": "20cm weld", 
+    "//": "20cm weld",
     "using": [ [ "welding_standard", 20 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1302,7 +1302,7 @@
     "difficulty": 6,
     "time": "3 h 30 m",
     "book_learn": [ [ "manual_launcher", 7 ] ],
-    "//": "200cm weld", 
+    "//": "200cm weld",
     "using": [ [ "welding_standard", 200 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
@@ -1369,7 +1369,7 @@
     "skills_required": [ [ "mechanics", 2 ], [ "rifle", 3 ] ],
     "difficulty": 3,
     "time": "25 m",
-    "//": "20cm weld", 
+    "//": "20cm weld",
     "using": [ [ "welding_standard", 20 ] ],
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
