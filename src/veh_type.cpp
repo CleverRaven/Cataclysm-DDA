@@ -1099,10 +1099,17 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
     }
 
     if( !get_pseudo_tools().empty() ) {
-        append_desc( std::string( "\n" ) + _( "Provides:" ) + " <color_cyan>" +
+        append_desc( string_format( "\n%s<color_cyan>%s</color>", _( "Provides: " ),
         enumerate_as_string( get_pseudo_tools(), []( const std::pair<itype_id, int> &p ) {
             return p.first.obj().nname( 1 );
-        } ) + "</color>" );
+        } ) ) );
+    }
+
+    if( get_toolkit_info() && !get_toolkit_info()->allowed_types.empty() ) {
+        append_desc( string_format( "\n%s<color_cyan>%s</color>", _( "Allows connecting: " ),
+        enumerate_as_string( get_toolkit_info()->allowed_types, []( const itype_id & it ) {
+            return it->nname( 1 );
+        } ) ) );
     }
 
     if( !long_descrip.empty() ) {

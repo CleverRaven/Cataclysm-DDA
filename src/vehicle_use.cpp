@@ -2173,8 +2173,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             you.invalidate_crafting_inventory();
         } );
 
+        const bool detach_ok = !get_tools( part( vp_idx ) ).empty();
         menu.add( string_format( _( "Detach a tool from %s" ), vp_name ) )
-        .enable( !get_tools( part( vp_idx ) ).empty() )
+        .enable( detach_ok )
+        .desc( string_format( detach_ok ? "" : _( "There are no tools attached to %s" ), vp_name ) )
         .skip_locked_check( true )
         .on_submit( [this, vp_idx, vp_name] {
             veh_menu detach_menu( this, string_format( _( "Detach a tool from %s" ), vp_name ) );

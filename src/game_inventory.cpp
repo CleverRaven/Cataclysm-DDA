@@ -1962,9 +1962,11 @@ item_location game_menus::inv::veh_tool_attach( Character &you, const std::strin
 {
     return inv_internal( you, attach_veh_tool_inventory_preset( allowed_types ),
                          string_format( _( "Attach an item to the %s" ), vp_name ), 1,
-                         string_format( _( "You don't have any items compatible with %s." ), vp_name ),
-                         string_format( _( "Choose a tool to attach to %s" ), vp_name )
-                       );
+                         string_format( _( "You don't have any items compatible with %s.\n\nAllowed equipment:\n%s" ),
+    vp_name, enumerate_as_string( allowed_types, []( const itype_id & it ) {
+        return it->nname( 1 );
+    } ) ),
+    string_format( _( "Choose a tool to attach to %s" ), vp_name ) );
 }
 
 drop_locations game_menus::inv::multidrop( Character &you )
