@@ -137,7 +137,6 @@ static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
 static const map_extra_id map_extra_mx_reed( "mx_reed" );
 static const map_extra_id map_extra_mx_roadblock( "mx_roadblock" );
 static const map_extra_id map_extra_mx_roadworks( "mx_roadworks" );
-static const map_extra_id map_extra_mx_shia( "mx_shia" );
 static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 
@@ -158,7 +157,6 @@ static const mtype_id mon_turret_riot( "mon_turret_riot" );
 static const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
 static const mtype_id mon_wolf( "mon_wolf" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-static const mtype_id mon_shia( "mon_shia" );
 
 static const oter_type_str_id oter_type_bridge( "bridge" );
 static const oter_type_str_id oter_type_bridgehead_ground( "bridgehead_ground" );
@@ -1509,20 +1507,6 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
     }
 
     return true;
-}
-
-static bool mx_shia( map &m, const tripoint &/*loc*/ )
-{
-    // A rare chance to spawn Shia. This was extracted from the hardcoded forest mapgen
-    // and moved into a map extra, but it still has a one_in chance of spawning because
-    // otherwise the extreme rarity of this event wildly skewed the values for all of the
-    // other extras.
-    if( mon_shia.is_valid() && one_in( 5000 ) ) {
-        m.place_spawns( mon_shia, 1, point_zero, { SEEX * 2, SEEY * 2 }, 1, true );
-        return true;
-    }
-
-    return false;
 }
 
 static bool mx_jabberwock( map &m, const tripoint &/*loc*/ )

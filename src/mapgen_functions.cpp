@@ -45,8 +45,6 @@ static const item_group_id Item_spawn_data_wreckage( "wreckage" );
 
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
-static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
-
 static const oter_str_id oter_crater( "crater" );
 static const oter_str_id oter_crater_core( "crater_core" );
 static const oter_str_id oter_forest_thick( "forest_thick" );
@@ -795,10 +793,6 @@ void mapgen_road( mapgendata &dat )
     if( neighbor_sidewalks ) {
         m->place_spawns( GROUP_ZOMBIE, 2, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
                          dat.monster_density() );
-        // 1 per 10 overmaps
-        if( mon_zombie_jackson.is_valid() && one_in( 10000 ) ) {
-            m->place_spawns( mon_zombie_jackson, 1, point_zero, point( SEEX, SEEY ), 1, true );
-        }
     }
 
     // add some items
