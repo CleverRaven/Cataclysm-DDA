@@ -202,7 +202,7 @@
     "copy-from": "rifle_manual",
     "type": "GUN",
     "name": { "str": "Ruger Guide rifle" },
-    "description": "This is a popular and sturdy long-range rifle that has been in production by the Ruger gun company for several decades.  Using a bolt-action feed system, the rifle features a 4-round capacity of.30-06 cartridges and has the capability to dispatch said rounds with a level of accuracy that would make comparable hunting rifles blush.",
+    "description": "This is a popular and sturdy long-range rifle that has been in production by the Ruger gun company for several decades.  Using a bolt-action feed system, the rifle features a four round capacity of .30-06 cartridges and has the capability to dispatch said rounds with a level of accuracy that would make comparable hunting rifles blush.",
     "variant_type": "gun",
     "variants": [
       {
