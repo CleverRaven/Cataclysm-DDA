@@ -98,7 +98,7 @@
     "start": {
       "assign_mission_target": {
         "om_terrain": "fungal_bloom",
-        "om_special": "Fungal Flowers",
+        "om_special": "Fungal Bloom",
         "reveal_radius": 3,
         "cant_see": true,
         "search_range": 180
@@ -134,7 +134,13 @@
     "description": "The diviner told you there would be fungal flowers here.",
     "destination": "fungal_flowers",
     "start": {
-      "assign_mission_target": { "om_terrain": "fungal_flowers", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "fungal_flowers",
+        "om_special": "Fungal Flowers",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
@@ -501,26 +507,6 @@
     "destination": "cave",
     "start": {
       "assign_mission_target": { "om_terrain": "cave", "om_special": "Cave", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
-    }
-  },
-  {
-    "id": "MISSION_FORGE_DIVINER_CAVE_INNAWOOD",
-    "//": "Innawood uses a different terrain ID for caves",
-    "type": "mission_definition",
-    "name": { "str": "Visit the cave" },
-    "goal": "MGOAL_GO_TO_TYPE",
-    "difficulty": 0,
-    "value": 0,
-    "description": "The diviner told you that there would be a cave here.",
-    "destination": "cave_innawood",
-    "start": {
-      "assign_mission_target": {
-        "om_terrain": "cave_innawood",
-        "om_special": "cave_innawood",
-        "reveal_radius": 3,
-        "cant_see": true,
-        "search_range": 180
-      }
     }
   },
   {
