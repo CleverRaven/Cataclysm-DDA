@@ -2635,6 +2635,17 @@ void monster::die( Creature *nkiller )
         }
     }
 
+    // scale overkill damage by enchantments
+    if( nkiller && ( nkiller->is_npc() || nkiller->is_avatar() ) ) {
+        int current_hp = get_hp();
+        current_hp = nkiller->as_character()->enchantment_cache->modify_value(
+                         enchant_vals::mod::OVERKILL_DAMAGE, current_hp );
+        set_hp( current_hp );
+    }
+
+
+
+
     item_location corpse;
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     switch( type->mdeath_effect.corpse_type ) {

@@ -142,7 +142,6 @@ static const itype_id itype_120mm_HEAT( "120mm_HEAT" );
 static const itype_id itype_40x46mm_m433( "40x46mm_m433" );
 static const itype_id itype_556( "556" );
 static const itype_id itype_anesthetic( "anesthetic" );
-static const itype_id itype_badge_cybercop( "badge_cybercop" );
 static const itype_id itype_badge_deputy( "badge_deputy" );
 static const itype_id itype_badge_detective( "badge_detective" );
 static const itype_id itype_badge_doctor( "badge_doctor" );
@@ -226,7 +225,6 @@ static const trait_id trait_MARLOSS( "MARLOSS" );
 static const trait_id trait_MARLOSS_BLUE( "MARLOSS_BLUE" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
-static const trait_id trait_PROF_CYBERCO( "PROF_CYBERCO" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_PD_DET( "PROF_PD_DET" );
 static const trait_id trait_PROF_POLICE( "PROF_POLICE" );
@@ -3382,24 +3380,6 @@ bool mattack::photograph( monster *z )
                 add_msg( m_info, _( "The %s acknowledges you as SWAT onsite, but hangs around to watch." ),
                          z->name() );
                 add_msg( m_info, _( "Probably some now-obsolete Internal Affairs subroutine…" ) );
-                return true;
-            }
-        }
-    } else if( player_character.has_trait( trait_PROF_CYBERCO ) ) {
-        // And you're wearing your badge
-        if( player_character.is_wearing( itype_badge_cybercop ) ) {
-            if( one_in( 3 ) ) {
-                add_msg( m_info, _( "The %s winks a LED and departs.  One machine to another?" ),
-                         z->name() );
-                z->no_corpse_quiet = true;
-                z->no_extra_death_drops = true;
-                z->die( nullptr );
-                return false;
-            } else {
-                add_msg( m_info,
-                         _( "The %s acknowledges you as an officer responding, but hangs around to watch." ),
-                         z->name() );
-                add_msg( m_info, _( "Apparently yours aren't the only systems kept alive post-apocalypse." ) );
                 return true;
             }
         }

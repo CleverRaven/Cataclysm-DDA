@@ -1589,5 +1589,61 @@
     "//": "this is the achievement that lets you forever have meta progression disabled",
     "description": "STOP HAND-HOLDING ME!!!",
     "requirements": [  ]
+  },
+  {
+    "id": "achievement_reach_exodii_base",
+    "type": "achievement",
+    "name": "Strange Neighbors",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "exodii_base" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach the strange fortress"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_hub01",
+    "type": "achievement",
+    "name": "Is this thing on?",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "hub_01" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach Hub-01"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_new_england_church_retreat",
+    "type": "achievement",
+    "name": "Bible Study",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "New England Church Retreat" ],
+        "visible": "when_achievement_completed",
+        "description": "Do you have a few minutes to talk about our lord and saviour Jesus Christ?"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_isherwood_farms",
+    "type": "achievement",
+    "name": "Open Fields",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Isherwood Farms" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach Isherwood Farms"
+      }
+    ]
   }
 ]

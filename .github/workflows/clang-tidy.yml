@@ -39,6 +39,7 @@ jobs:
         CATA_CLANG_TIDY: plugin
         TILES: 1
         SOUND: 1
+        RELEASE: 1
     steps:
     - name: checkout repository
       uses: actions/checkout@v2
@@ -75,3 +76,7 @@ jobs:
     - uses: ammaraskar/gcc-problem-matcher@master
     - name: run clang-tidy
       run: bash ./build-scripts/clang-tidy.sh
+    - name: show most time consuming checks
+      if: always()
+      run: |
+        jq -n 'reduce(inputs.profile | to_entries[]) as {$key,$value} ({}; .[$key] += $value) | with_entries(select(.key|contains(".wall"))) | to_entries | sort_by(.value) | reverse | .[0:10] | from_entries' clang-tidy-trace/*.json

@@ -45,7 +45,7 @@
     "id": "copper_scrap_equivalent",
     "type": "requirement",
     "//": "Material used for equivalence between one unit of scrap copper and corresponding amount of elemental copper.",
-    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 32 ] ] ]
+    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 50 ] ] ]
   },
   {
     "id": "plant_cordage",
@@ -416,7 +416,7 @@
     "id": "weights",
     "type": "requirement",
     "//": "Materials used for adding weight to weapons and to other items. The materials should be malleable, ductile and dense.",
-    "components": [ [ [ "lead", 5 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
+    "components": [ [ [ "lead", 3 ], [ "silver_small", 3 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
   },
   {
     "id": "plastics",

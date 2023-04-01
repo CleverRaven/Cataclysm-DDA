@@ -96,9 +96,89 @@
     "result": "5l_lead",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
-    "time": "1 h",
-    "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "lead", 18900 ] ] ]
+    "time": "25 m",
+    "tools": [ [ [ "angle_grinder", 20 ] ] ],
+    "components": [ [ [ "1l_lead", 5 ] ] ]
+  },
+  {
+    "result": "1l_lead",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "lead", 2155 ] ] ]
+  },
+  {
+    "result": "10l_silver",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_silver", 2 ] ] ]
+  },
+  {
+    "result": "5l_silver",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "25 m",
+    "tools": [ [ [ "angle_grinder", 20 ] ] ],
+    "components": [ [ [ "1l_silver", 5 ] ] ]
+  },
+  {
+    "result": "1l_silver",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "silver_small", 1993 ] ] ]
+  },
+  {
+    "result": "10l_gold",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_gold", 2 ] ] ]
+  },
+  {
+    "result": "5l_gold",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "25 m",
+    "tools": [ [ [ "angle_grinder", 20 ] ] ],
+    "components": [ [ [ "1l_gold", 5 ] ] ]
+  },
+  {
+    "result": "1l_gold",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "gold_small", 3670 ] ] ]
+  },
+  {
+    "result": "10l_platinum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_platinum", 2 ] ] ]
+  },
+  {
+    "result": "5l_platinum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "25 m",
+    "tools": [ [ [ "angle_grinder", 20 ] ] ],
+    "components": [ [ [ "1l_platinum", 5 ] ] ]
+  },
+  {
+    "result": "1l_platinum",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "platinum_small", 4075 ] ] ]
   },
   {
     "result": "exodii_ingot_zinc",
@@ -171,7 +251,23 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "scrap_copper", 175 ] ] ]
+    "components": [ [ [ "scrap_copper", 170 ] ] ]
+  },
+  {
+    "result": "10l_bronze",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "10 m",
+    "tools": [ [ [ "angle_grinder", 10 ] ] ],
+    "components": [ [ [ "5l_bronze", 2 ] ] ]
+  },
+  {
+    "result": "5l_bronze",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "1 h",
+    "tools": [ [ [ "angle_grinder", 50 ] ] ],
+    "components": [ [ [ "scrap_bronze", 121 ] ] ]
   },
   {
     "result": "exodii_ingot_aluminum",

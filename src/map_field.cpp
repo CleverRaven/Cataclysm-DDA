@@ -72,7 +72,6 @@ static const efftype_id effect_corroding( "corroding" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_poison( "poison" );
-static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_teargas( "teargas" );
 
@@ -869,61 +868,6 @@ static void field_processor_fd_acid_vent( const tripoint &p, field_entry &cur, f
     }
 }
 
-void field_processor_fd_bees( const tripoint &p, field_entry &cur, field_proc_data &pd )
-{
-    // Poor bees are vulnerable to so many other fields.
-    // TODO: maybe adjust effects based on different fields.
-    // FIXME replace this insanity with a bool flag in the field_type
-    const field &curfield = pd.here.field_at( p );
-    if( curfield.find_field( fd_web ) ||
-        curfield.find_field( fd_fire ) ||
-        curfield.find_field( fd_smoke ) ||
-        curfield.find_field( fd_toxic_gas ) ||
-        curfield.find_field( fd_tear_gas ) ||
-        curfield.find_field( fd_relax_gas ) ||
-        curfield.find_field( fd_nuke_gas ) ||
-        curfield.find_field( fd_gas_vent ) ||
-        curfield.find_field( fd_smoke_vent ) ||
-        curfield.find_field( fd_fungicidal_gas ) ||
-        curfield.find_field( fd_insecticidal_gas ) ||
-        curfield.find_field( fd_fire_vent ) ||
-        curfield.find_field( fd_flame_burst ) ||
-        curfield.find_field( fd_electricity ) ||
-        curfield.find_field( fd_fatigue ) ||
-        curfield.find_field( fd_shock_vent ) ||
-        curfield.find_field( fd_plasma ) ||
-        curfield.find_field( fd_laser ) ||
-        curfield.find_field( fd_dazzling ) ||
-        curfield.find_field( fd_incendiary ) ) {
-        // Kill them at the end of processing.
-        cur.set_field_intensity( 0 );
-    } else {
-        // Bees chase the player if in range, wander randomly otherwise.
-        if( !pd.player_character.is_underwater() &&
-            rl_dist( p, pd.player_character.pos() ) < 10 &&
-            pd.here.clear_path( p, pd.player_character.pos(), 10, 1, 100 ) ) {
-
-            std::vector<point> candidate_positions =
-                squares_in_direction( p.xy(), pd.player_character.pos().xy() );
-            for( const point &candidate_position : candidate_positions ) {
-                field &target_field = pd.here.get_field( tripoint( candidate_position, p.z ) );
-                // Only shift if there are no bees already there.
-                // TODO: Figure out a way to merge bee fields without allowing
-                // Them to effectively move several times in a turn depending
-                // on iteration direction.
-                if( !target_field.find_field( fd_bees ) ) {
-                    pd.here.add_field( tripoint( candidate_position, p.z ), fd_bees,
-                                       cur.get_field_intensity(), cur.get_field_age() );
-                    cur.set_field_intensity( 0 );
-                    break;
-                }
-            }
-        } else {
-            pd.here.spread_gas( cur, p, 5, 0_turns, pd.sblk, pd.om_ter );
-        }
-    }
-}
-
 void field_processor_fd_incendiary( const tripoint &p, field_entry &cur, field_proc_data &pd )
 {
     // Needed for variable scope
@@ -1710,24 +1654,6 @@ void map::player_in_field( Character &you )
         if( ft == fd_shock_vent || ft == fd_acid_vent ) {
             cur.set_field_intensity( 0 );
         }
-        if( ft == fd_bees ) {
-            // Player is immune to bees while underwater.
-            if( !you.is_underwater() ) {
-                const int intensity = cur.get_field_intensity();
-                // Bees will try to sting you in random body parts, up to 8 times.
-                for( int i = 0; i < rng( 1, 7 ); i++ ) {
-                    bodypart_id bp = you.get_random_body_part();
-                    int sum_cover = you.worn.get_coverage( bp );
-                    // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
-                    // AND clothing on affected body part has low environmental protection value
-                    if( ( you.get_armor_cut( bp ) <= 1 || ( sum_cover < 100 && x_in_y( 100 - sum_cover, 100 ) ) ) &&
-                        you.add_env_effect( effect_stung, bp, intensity, 9_minutes ) ) {
-                        you.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ),
-                                               body_part_name_accusative( bp ) );
-                    }
-                }
-            }
-        }
         if( ft == fd_incendiary ) {
             // Mysterious incendiary substance melts you horribly.
             if( you.has_trait( trait_M_SKIN2 ) ||
@@ -2300,9 +2226,6 @@ std::vector<FieldProcessorPtr> map_field_processing::processors_for_type( const 
     }
     if( ft.id == fd_acid_vent ) {
         processors.push_back( &field_processor_fd_acid_vent );
-    }
-    if( ft.id == fd_bees ) {
-        processors.push_back( &field_processor_fd_bees );
     }
     if( ft.id == fd_incendiary ) {
         processors.push_back( &field_processor_fd_incendiary );

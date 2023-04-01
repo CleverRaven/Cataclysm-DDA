@@ -81,7 +81,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "gold_small", 3 ] ] ]
+    "components": [ [ [ "gold_small", 2 ] ] ]
   },
   {
     "result": "gold_bracelet",
@@ -97,7 +97,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "gold_small", 12 ] ] ]
+    "components": [ [ [ "gold_small", 8 ] ] ]
   },
   {
     "result": "copper_bracelet",
@@ -129,7 +129,7 @@
     "proficiencies": [ { "proficiency": "prof_fine_metalsmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "silver_small", 15 ] ] ]
+    "components": [ [ [ "silver_small", 6 ] ] ]
   },
   {
     "type": "recipe",
