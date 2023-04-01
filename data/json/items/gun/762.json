@@ -316,7 +316,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "Bren 7.62mm carbine" },
-    "description": "A semi-automatic clone of the Check Republic’s standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
+    "description": "A semi-automatic clone of the Czech Republic’s standard infantry carbine, sold for civilian sport shooting and recreational use, this modular rifle makes use of the 7.62x39mm Soviet cartridge and uses proprietary magazines.",
     "variant_type": "gun",
     "variants": [
       {
