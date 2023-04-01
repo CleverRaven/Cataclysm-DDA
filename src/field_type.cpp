@@ -11,7 +11,6 @@
 const field_type_str_id fd_null = field_type_str_id::NULL_ID();
 const field_type_str_id fd_acid( "fd_acid" );
 const field_type_str_id fd_acid_vent( "fd_acid_vent" );
-const field_type_str_id fd_bees( "fd_bees" );
 const field_type_str_id fd_bile( "fd_bile" );
 const field_type_str_id fd_blood( "fd_blood" );
 const field_type_str_id fd_blood_insect( "fd_blood_insect" );

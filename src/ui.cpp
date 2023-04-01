@@ -1313,17 +1313,17 @@ bool navigate_ui_list( const std::string &action, V &val, int page_delta, S size
         } else {
             val = increment_and_clamp( val, action == "DOWN" ||
                                        // NOLINTNEXTLINE(cata-no-long)
-                                       action == "SCROLL_DOWN", static_cast<V>( size - 1 ) );
+                                       action == "SCROLL_DOWN", static_cast<V>( size ? size - 1 : 0 ) );
         }
     } else if( ( action == "PAGE_UP" || action == "PAGE_DOWN" ) && page_delta ) {
         // page navigation never wraps
         val = increment_and_clamp( val, action == "PAGE_UP" ? -page_delta : page_delta,
                                    // NOLINTNEXTLINE(cata-no-long)
-                                   static_cast<V>( size - 1 ) );
+                                   static_cast<V>( size ? size - 1 : 0 ) );
     } else if( action == "HOME" ) {
         // NOLINTNEXTLINE(cata-no-long)
         val = static_cast<V>( 0 );
-    } else if( action == "END" && size ) {
+    } else if( action == "END" ) {
         // NOLINTNEXTLINE(cata-no-long)
         val = static_cast<V>( size ? size - 1 : 0 );
     } else {

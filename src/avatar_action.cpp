@@ -1180,7 +1180,7 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         you.use( loc, pre_obtain_moves, method );
 
         if( parent_pocket && on_person && parent_pocket->will_spill() ) {
-            parent_pocket->handle_liquid_or_spill( you );
+            parent_pocket->handle_liquid_or_spill( you, loc.parent_item().get_item() );
         }
     }
 

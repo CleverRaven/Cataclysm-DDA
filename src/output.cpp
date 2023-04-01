@@ -295,7 +295,7 @@ std::string trim_by_length( const std::string &text, int width )
 
         const std::vector<std::string> color_segments = split_by_color( text );
         for( size_t i = 0; i < color_segments.size() ; ++i ) {
-            std::string seg = color_segments[i];
+            const std::string &seg = color_segments[i];
             if( seg.empty() ) {
                 // TODO: Check is required right now because, for a fully-color-tagged string, split_by_color
                 // returns an empty string first
@@ -1346,7 +1346,7 @@ std::string to_upper_case( const std::string &s )
 {
     const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
     std::wstring wstr = utf8_to_wstr( s );
-    f.toupper( &wstr[0], &wstr[0] + wstr.size() );
+    f.toupper( wstr.data(), wstr.data() + wstr.size() );
     return wstr_to_utf8( wstr );
 }
 
@@ -2415,7 +2415,7 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
 
         va_list args_copy;
         va_copy( args_copy, args );
-        const int result = vsnprintf( &buffer[0], buffer_size, format, args_copy );
+        const int result = vsnprintf( buffer.data(), buffer_size, format, args_copy );
         va_end( args_copy );
 
         // No error, and the buffer is big enough; we're done.
@@ -2435,7 +2435,7 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
     }
 
     va_end( args );
-    return std::string( &buffer[0] );
+    return std::string( buffer.data() );
 #endif
 }
 #endif
@@ -2701,6 +2701,56 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
     const std::array<std::pair<double, char>, 1> ratings =
     {{ std::make_pair( 1.0, c ) }};
     return get_labeled_bar( val, width, label, ratings.begin(), ratings.end() );
+}
+
+template<typename BarIterator>
+inline std::string get_labeled_bar( const double val, const int width, const std::string &label,
+                                    BarIterator begin, BarIterator end )
+{
+    return get_labeled_bar<BarIterator>( val, width, label, begin, end, []( BarIterator it,
+    int seg_width ) -> std::string {
+        return std::string( seg_width, std::get<1>( *it ) );} );
+}
+
+using RatingVector = std::vector<std::tuple<double, char, std::string>>;
+
+template std::string get_labeled_bar<RatingVector::iterator>( const double val, const int width,
+        const std::string &label,
+        RatingVector::iterator begin, RatingVector::iterator end,
+        std::function<std::string( RatingVector::iterator, int )> printer );
+
+template<typename BarIterator>
+std::string get_labeled_bar( const double val, const int width, const std::string &label,
+                             BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer )
+{
+    std::string result;
+
+    result.reserve( width );
+    if( !label.empty() ) {
+        result += label;
+        result += ' ';
+    }
+    const int bar_width = width - utf8_width( result ) - 2; // - 2 for the brackets
+
+    result += '[';
+    if( bar_width > 0 ) {
+        int used_width = 0;
+        for( BarIterator it( begin ); it != end; ++it ) {
+            const double factor = std::min( 1.0, std::max( 0.0, std::get<0>( *it ) * val ) );
+            const int seg_width = static_cast<int>( factor * bar_width ) - used_width;
+
+            if( seg_width <= 0 ) {
+                continue;
+            }
+            used_width += seg_width;
+
+            result += printer( it, seg_width );
+        }
+        result.insert( result.end(), bar_width - used_width, ' ' );
+    }
+    result += ']';
+
+    return result;
 }
 
 /**

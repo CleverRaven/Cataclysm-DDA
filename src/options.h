@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <functional>
-#include <functional>
 #include <iosfwd>
 #include <map>
 #include <optional>

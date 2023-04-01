@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CHARACTER_H
 #define CATA_SRC_CHARACTER_H
 
-#include <functional>
 #include <algorithm>
 #include <bitset>
 #include <climits>

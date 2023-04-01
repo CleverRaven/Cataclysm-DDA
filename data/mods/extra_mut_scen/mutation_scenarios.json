@@ -88,6 +88,7 @@
       "HAIRROOTS",
       "HAS_NEMESIS",
       "HATES_BOOKS",
+      "HATES_WATER",
       "HEADBUMPS",
       "HEAVYSLEEPER2",
       "HERBIVORE",
@@ -377,7 +378,7 @@
     "name": "Mutant - Feline Threshold",
     "description": "Start as a post-threshold Feline Mutant",
     "forced_traits": "THRESH_FELINE",
-    "extend": { "traits": [ "PRED1", "PRED2", "PRED3", "SABER_TEETH" ] }
+    "extend": { "traits": [ "FELINE_FLEXIBILITY", "FELINE_LEAP", "PRED1", "PRED2", "PRED3", "SABER_TEETH" ] }
   },
   {
     "type": "scenario",

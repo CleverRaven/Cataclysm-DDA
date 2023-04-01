@@ -42,8 +42,6 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-using std::min; // from <algorithm>
-
 static const std::string default_context_id( "default" );
 
 template <class T1, class T2>

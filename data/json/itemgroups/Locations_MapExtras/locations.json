@@ -275,6 +275,16 @@
   },
   {
     "type": "item_group",
+    "id": "hospital_oxygen",
+    "items": [
+      { "item": "smoxygen_tank", "charges": 0, "count": [ 0, 4 ] },
+      { "item": "smoxygen_tank", "prob": 60, "charges": [ 0, 12 ] },
+      { "item": "oxygen_tank", "charges": 0, "count": [ 0, 2 ] },
+      { "item": "oxygen_tank", "prob": 40, "charges": [ 0, 24 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "cave_minerals",
     "subtype": "distribution",
     "entries": [ { "item": "material_niter", "prob": 20 }, { "item": "material_limestone", "prob": 5 } ]

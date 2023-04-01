@@ -177,7 +177,7 @@ parsers = {
     "nested_category": parse_nested_category,
     "npc": parse_npc,
     "npc_class": parse_npc_class,
-    "obsolete_terrain": dummy_parser,
+    "oter_id_migration": dummy_parser,
     "option_slider": parse_option_slider,
     "overlay_order": dummy_parser,
     "overmap_connection": dummy_parser,

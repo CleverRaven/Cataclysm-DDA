@@ -160,7 +160,7 @@ void memorial_logger::load( std::istream &fin )
         size_t size = fin.tellg();
         fin.seekg( 0, std::ios_base::beg );
         memorial_data.resize( size );
-        fin.read( &memorial_data[0], size );
+        fin.read( memorial_data.data(), size );
         JsonValue jsin = json_loader::from_string( memorial_data );
         if( !jsin.read( log ) ) {
             debugmsg( "Error reading JSON memorial log" );
@@ -480,6 +480,10 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::angers_amigara_horrors: {
             add( pgettext( "memorial_male", "Angered a group of amigara horrors!" ),
                  pgettext( "memorial_female", "Angered a group of amigara horrors!" ) );
+            break;
+        }
+        case event_type::avatar_dies: {
+            add( pgettext( "memorial_male", "Died" ), pgettext( "memorial_female", "Died" ) );
             break;
         }
         case event_type::awakes_dark_wyrms: {
