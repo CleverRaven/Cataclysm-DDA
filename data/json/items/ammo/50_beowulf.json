@@ -3,7 +3,7 @@
     "id": "50beowulf_xtp",
     "type": "AMMO",
     "name": { "str_sp": ".50 Beowulf XTP" },
-    "description": ".50-caliber Beowulf ammunition, loaded with a copper-jacketed 350-grain Extreme Terminal Performance bullet.  Developed in 2001 as a powerful short- to medium-range chambering for AR-15 style rifles, this stout cartridge had gained some popularity as a hunting round before the Cataclysm.  This particular version of the cartridge is coated in a layer of polymer, encouraging commendable terminal ballistics, penetrative capabilities, and overall expansion from its 12.7x42mm projectile.",
+    "description": ".50-caliber Beowulf ammunition, loaded with a copper-jacketed 350-grain eXtreme Terminal Performance bullet.  Developed in 2001 as a powerful short- to medium-range chambering for AR-15 style rifles, this stout cartridge had gained some popularity as a hunting round before the Cataclysm.  This particular version of the cartridge is coated in a layer of polymer, encouraging commendable terminal ballistics, penetrative capabilities, and overall expansion from its 12.7x42mm projectile.",
     "weight": "22 g",
     "volume": "360 ml",
     "price": 224,
