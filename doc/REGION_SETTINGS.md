@@ -24,7 +24,7 @@ Note that for the default region, all attributes and sections are required.
 |       Identifier        |                            Description                             |
 | ----------------------- | ------------------------------------------------------------------ |
 | `type`                  | Type identifier. Must be "region_settings".                        |
-| `id`                    | Unique identifier for this region.                                  |
+| `id`                    | Unique identifier for this region.                                 |
 | `default_oter`          | Default overmap terrain for this region.                           |
 | `default_groundcover`   | List of terrain types and weights applied as default ground cover. |
 

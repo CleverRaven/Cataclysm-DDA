@@ -445,7 +445,7 @@ Depending on the subtype, there are further relevant fields:
 
 ### Connections
 
-|  Identifier  |                                           Description                                              |
+| Identifier   |                                           Description                                              |
 | ------------ | -------------------------------------------------------------------------------------------------- |
 | `point`      | `[ x, y, z]` of the connection end point. Cannot overlap an overmap terrain entry for the special. |
 | `terrain`    | Will go away in favor of `connection` eventually. Use `road`, `subway`, `sewer`, etc.              |

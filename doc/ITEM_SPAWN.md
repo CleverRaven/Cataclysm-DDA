@@ -12,7 +12,7 @@ An example: Suppose item A has a probability of 30 and item B has a probability 
 
 
 | Combination     | Collection | Distribution |
-| ----------------|------------|------------- |
+| --------------- | ---------- | ------------ |
 | Neither A nor B | 56%        | 0%           |
 | Only A          | 24%        | 60%          |
 | Only B          | 14%        | 40%          |

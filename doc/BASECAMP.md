@@ -262,17 +262,17 @@ The modular basecamp is a structure for designing basecamp upgrade paths.  You d
 ### Layout
 A modular camp is laid out on a 24x24 overmap tile.  The outer 3 map squares on each side are reserved for fortifications and movement corridors, and the inner 18x18 map squares are divided into a 3x3 grid of 6x6 areas.
 
-Area | upper left position | lower right position
--- | -- | --
-northwest | 3, 3 | 8, 8
-north | 9, 3 | 14, 8
-northeast | 15, 3 | 20, 8
-west | 3, 9 | 8, 14
-center | 9, 9 | 14, 14
-east | 15, 9, | 20, 14
-southwest | 3, 15 | 8, 20
-south | 9, 15 | 14, 20
-southeast | 15, 15 | 20, 20
+| Area      | upper left position | lower right position |
+| --------- | ------------------- | -------------------- |
+| northwest |                3, 3 |                 8, 8 |
+| north     |                9, 3 |                14, 8 |
+| northeast |               15, 3 |                20, 8 |
+| west      |                3, 9 |                8, 14 |
+| center    |                9, 9 |               14, 14 |
+| east      |              15, 9, |               20, 14 |
+| southwest |               3, 15 |                8, 20 |
+| south     |               9, 15 |               14, 20 |
+| southeast |              15, 15 |               20, 20 |
 
 Ideally, nested mapgen chunks should fit entirely into a 6x6 area.
 

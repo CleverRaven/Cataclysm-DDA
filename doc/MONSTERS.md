@@ -40,8 +40,8 @@ Monsters may also have any of these optional properties:
 | `copy-from`              | (string) Inherit monster attributes from another. See [JSON_INHERITANCE.md](JSON_INHERITANCE.md)
 | `categories`             | (array of strings) Monster categories (NULL, CLASSIC, or WILDLIFE)
 | `species`                | (array of strings) Species IDs, ex. HUMAN, ROBOT, ZOMBIE, BIRD, MUTANT, etc.
-| `scents_tracked`          | (array of strings) Monster tracks these scents
-| `scents_ignored`          | (array of strings) Monster ignores these scents
+| `scents_tracked`         | (array of strings) Monster tracks these scents
+| `scents_ignored`         | (array of strings) Monster ignores these scents
 | `material`               | (array of strings) Materials the monster is made of
 | `phase`                  | (string) Monster's body matter state, ex. SOLID, LIQUID, GAS, PLASMA, NULL
 | `attack_cost`            | (integer) Number of moves per regular attack (??)

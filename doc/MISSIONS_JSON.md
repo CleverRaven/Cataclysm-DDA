@@ -288,20 +288,20 @@ This is an example of how a custom mission inquiry might appear.  This will only
 options if the player has already been assigned a mission.
 ```JSON
 {
-    "type": "talk_topic",
-    "//": "Generic responses for Old Guard Necropolis NPCs that can have missions",
-    "id": [ "TALK_OLD_GUARD_NEC_CPT", "TALK_OLD_GUARD_NEC_COMMO" ],
-    "responses": [
-      {
-        "text": "About the mission...",
-        "topic": "TALK_MISSION_INQUIRE",
-        "condition": { "and": [ "has_assigned_mission", { "u_is_wearing": "badge_marshal" } ] }
-      },
-      {
-        "text": "About one of those missions...",
-        "topic": "TALK_MISSION_LIST_ASSIGNED",
-        "condition": { "and": [ "has_many_assigned_missions", { "u_is_wearing": "badge_marshal" } ] }
-      }
-    ]
+  "type": "talk_topic",
+  "//": "Generic responses for Old Guard Necropolis NPCs that can have missions",
+  "id": [ "TALK_OLD_GUARD_NEC_CPT", "TALK_OLD_GUARD_NEC_COMMO" ],
+  "responses": [
+    {
+      "text": "About the mission...",
+      "topic": "TALK_MISSION_INQUIRE",
+      "condition": { "and": [ "has_assigned_mission", { "u_is_wearing": "badge_marshal" } ] }
+    },
+    {
+      "text": "About one of those missions...",
+      "topic": "TALK_MISSION_LIST_ASSIGNED",
+      "condition": { "and": [ "has_many_assigned_missions", { "u_is_wearing": "badge_marshal" } ] }
+    }
+  ]
 },
 ```
