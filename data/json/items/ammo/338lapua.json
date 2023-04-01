@@ -59,7 +59,7 @@
     "copy-from": "338lapua_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".338 Lapua AP485, black powder" },
-    "description": ".338 Lapua ammunition, loaded with a 248-grain armour piercing bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  This specialized loading of .338 Lapua features a highly penetrative full-metal jacketed bullet, which comes at the cost of negligible expansion once the round thunders into, and likely straight through, the target.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder: expect lower velocities, muzzle smoke, and a dirtier barrel if you shoot it.",
+    "description": ".338 Lapua ammunition, loaded with a 248-grain armor-piercing bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  This specialized loading of .338 Lapua features a highly penetrative full-metal jacketed bullet, which comes at the cost of negligible expansion once the round thunders into, and likely straight through, the target.  Someone was down on their luck when they hand-reloaded this one - it's filled with black powder instead of smokeless powder: expect lower velocities, muzzle smoke, and a dirtier barrel if you shoot it.",
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.7, "armor_penetration": 0.5 },
