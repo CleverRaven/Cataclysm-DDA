@@ -1042,7 +1042,7 @@
     "symbol": "~",
     "quench": 35,
     "calories": 126,
-	"//": "Calories shouldn't matter since it won't spawn - should only be craftable.",
+    "//": "Calories shouldn't matter since it won't spawn - should only be craftable.",
     "description": "Freshly-squeezed from real oranges!  Tasty and nutritious.",
     "price": 14,
     "price_postapoc": 50,
