@@ -98,7 +98,7 @@
     "copy-from": "338lapua_fmjbt",
     "type": "AMMO",
     "name": { "str_sp": ".338 Lapua AP485, reloaded" },
-    "description": ".338 Lapua ammunition, loaded with a 248-grain armour piercing bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  This specialized loading of .338 Lapua features a highly penetrative full-metal jacketed bullet, which comes at the cost of negligible expansion once the round thunders into, and likely straight through, the target.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
+    "description": ".338 Lapua ammunition, loaded with a 248-grain armor-piercing bullet.  Developed as a joint venture between Accuracy International, SAKO, and Lapua, the .338 round is a long-range sniping cartridge that boasts impressive accuracy and devastating terminal ballistics.  This specialized loading of .338 Lapua features a highly penetrative full-metal jacketed bullet, which comes at the cost of negligible expansion once the round thunders into, and likely straight through, the target.  This one has been hand-reloaded by a survivor or perhaps a pre-Cataclysm hobbyist, leading to slightly inferior performance compared to factory-produced ammo.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
