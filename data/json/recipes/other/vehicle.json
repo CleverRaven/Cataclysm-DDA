@@ -10,9 +10,10 @@
     "difficulty": 5,
     "time": "360 m",
     "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
-    "using": [ [ "welding_standard", 10 ], [ "steel_standard", 2 ] ],
+    "//": "100cm weld",
+    "using": [ [ "welding_standard", 100 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
-    "components": [ [ [ "pipe", 32 ] ], [ [ "chain", 1 ] ] ]
+    "components": [ [ [ "pipe", 32 ] ], [ [ "chain", 1 ] ], [ [ "pipe_fittings", 16 ] ] ]
   },
   {
     "result": "cantilever_small",
@@ -24,10 +25,11 @@
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 2,
     "time": "60 m",
+    "//": "50cm weld",
     "book_learn": [ [ "textbook_fabrication", 4 ], [ "textbook_mechanics", 2 ], [ "manual_mechanics", 2 ] ],
-    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
+    "using": [ [ "welding_standard", 50 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 8 ] ], [ [ "wire", 8 ] ] ]
+    "components": [ [ [ "pipe", 8 ] ], [ [ "wire", 8 ] ], [ [ "pipe_fittings", 4 ] ] ]
   },
   {
     "result": "pallet_lifter",
@@ -40,9 +42,10 @@
     "difficulty": 2,
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
+    "//": "40cm weld",
+    "using": [ [ "welding_standard", 40 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "jack", 1 ] ], [ [ "pipe", 4 ] ] ]
+    "components": [ [ [ "jack", 1 ] ], [ [ "pipe", 4 ] ], [ [ "pipe_fittings", 2 ] ] ]
   },
   {
     "result": "drivebelt_makeshift",
@@ -106,9 +109,10 @@
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
-    "time": "60 m",
+    "time": "80 m",
     "autolearn": true,
-    "using": [ [ "rope_natural", 4 ], [ "welding_standard", 12 ], [ "steel_standard", 2 ] ],
+    "//": "300cm weld",
+    "using": [ [ "rope_natural", 4 ], [ "welding_standard", 300 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "frame", 4 ] ], [ [ "pipe", 11 ] ] ]
   },
@@ -124,9 +128,10 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ], [ "steel_standard", 1 ] ],
+    "//": "80cm weld",
+    "using": [ [ "welding_standard", 80 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 12 ] ], [ [ "cargo_rack", 1 ] ] ]
+    "components": [ [ [ "pipe", 12 ] ], [ [ "cargo_rack", 1 ] ], [ [ "pipe_fittings", 6 ] ] ]
   },
   {
     "type": "recipe",
@@ -139,9 +144,10 @@
     "difficulty": 4,
     "time": "60 m",
     "autolearn": true,
-    "using": [ [ "rope_natural", 2 ], [ "welding_standard", 6 ] ],
+    "//": "60cm weld",
+    "using": [ [ "rope_natural", 2 ], [ "welding_standard", 60 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "wire", 40 ] ], [ [ "pipe", 6 ] ] ]
+    "components": [ [ [ "wire", 40 ] ], [ [ "pipe", 6 ] ], [ [ "pipe_fittings", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -155,9 +161,10 @@
     "id_suffix": "repurpose_wire_basket",
     "time": "25 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 2 ] ],
+    "//": "30cm weld",
+    "using": [ [ "welding_standard", 30 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 6 ] ], [ [ "basket", 1 ] ] ]
+    "components": [ [ [ "pipe", 6 ] ], [ [ "basket", 1 ] ], [ [ "pipe_fittings", 3 ] ] ]
   },
   {
     "type": "recipe",
