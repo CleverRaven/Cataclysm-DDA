@@ -632,7 +632,7 @@ There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (
 
 ### Building on FreeBSD/amd64 13.0 with the system compiler
 
-FreeBSD uses clang as the default compiler, which provides C++17 support out of the box since 12.0.
+FreeBSD uses clang as the default compiler, which provides C++17 support out of the box since FreeBSD 12.0.
 
 Install the following with pkg (or from Ports):
 
