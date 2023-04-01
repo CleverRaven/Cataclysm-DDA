@@ -304,6 +304,13 @@ struct aim_type {
     std::string help;
     bool has_threshold;
     int threshold;
+    bool operator==( const aim_type &other ) const {
+        return has_threshold == other.has_threshold &&
+               threshold == other.threshold &&
+               name == other.name &&
+               action == other.action &&
+               help == other.help;
+    }
 };
 
 struct special_attack {
