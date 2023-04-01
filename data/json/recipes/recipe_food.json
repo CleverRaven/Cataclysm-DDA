@@ -4942,8 +4942,7 @@
     "batch_time_factors": [ 80, 2 ],
     "charges": 1,
     "//": "no energy is spent cooking anything, that's already done.",
-    "components": [
-      [ [ "fried_eggs", 1 ] ], [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "condiment", 1, "LIST" ] ] ]
+    "components": [ [ [ "fried_eggs", 1 ] ], [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "condiment", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4970,8 +4969,7 @@
     "batch_time_factors": [ 80, 2 ],
     "charges": 1,
     "//": "no energy is spent cooking anything, that's already done.",
-    "components": [
-      [ [ "fried_eggs", 1 ] ], [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ], [ [ "condiment", 1, "LIST" ] ] ]
+    "components": [ [ [ "fried_eggs", 1 ] ], [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ], [ [ "condiment", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
