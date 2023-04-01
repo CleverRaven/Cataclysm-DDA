@@ -2,8 +2,8 @@
   {
     "id": "450_ar15mag",
     "type": "MAGAZINE",
-    "name": { "str": ".450 Bushmaster 4-roung conversion magazine" },
-    "description": "an aluminum box magazine containing a single 4-round stack of.450 Bushmaster cartridges, engineered to fit and feed appropriately converted AR-platform rifles.",
+    "name": { "str": ".450 Bushmaster 4-round conversion magazine" },
+    "description": "An aluminum box magazine containing a single four round stack of .450 Bushmaster cartridges, engineered to fit and feed appropriately converted AR-platform rifles.",
     "weight": "226 g",
     "volume": "290 ml",
     "longest_side": "190 mm",
