@@ -78,7 +78,7 @@
       {
         "id": "manual_rifle_3",
         "name": { "str": "Precision Long Range Shooting And Hunting", "str_pl": "copies of Precision Long Range Shooting And Hunting" },
-        "description": "a book about the basics of long-range shooting, written in fairly simple language.",
+        "description": "A book about the basics of long-range shooting, written in fairly simple language.",
         "//": "978-1979598699",
         "weight": 1
       },
