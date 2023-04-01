@@ -1,0 +1,16 @@
+[
+	{
+    "id": "spell_strength_of_spinach",
+    "type": "SPELL",
+    "name": "Strength in Spinach",
+    "description": "You gain the strength of a sailor.",
+    "valid_targets": [ "self" ],
+    "min_duration": 6000,
+    "max_duration": 6000,
+    "max_level": 1,
+    "flags": [ "SILENT", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "spinach_strength"
+  }
+]
