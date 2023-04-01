@@ -515,7 +515,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_ORC",
     "type": "talk_topic",
-    "dynamic_line": "Militaristic xenophobes, that bunch.  They are fairly good weapon smiths, and quite strong, so be careful.  Oh, and something about their physiology makes them extra super dangerous when raised as undeads.  So you should probably try to not let that happen.  I'll mark one of their camps on your map for one denarius.",
+    "dynamic_line": "Militaristic xenophobes, that bunch.  They are fairly good weapon smiths, and quite strong, so be careful.  Oh, and something about their physiology makes them extra super dangerous when raised as undead.  So you should probably try to not let that happen.  I'll mark one of their camps on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -668,7 +668,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_EXODII",
     "type": "talk_topic",
-    "dynamic_line": "Fellow travelers between realities, those ones.  At first I thought they would be competition, but they seem to have little interest in the things we at the forge value.  Nowadays we barely interract with them, except in the rare occations when we find a group of them marooned in between the worlds.  Poor things are almost always driven completely insane by the time we can mount a rescue.  Nevertheless, it's the law of the sea out there, as far as Valzain is concerned.  They seem to have set up shop not too far from here.  I'll mark it on your map for one denarius.  You might wanna check the magic item store for an Amulet of Comprehend Languages before you go.  Then again, we might be out of that right now.",
+    "dynamic_line": "Fellow travelers between realities, those ones.  At first I thought they would be competition, but they seem to have little interest in the things we at the forge value.  Nowadays we barely interact with them, except in the rare occasions when we find a group of them marooned in between the worlds.  Poor things are almost always driven completely insane by the time we can mount a rescue.  Nevertheless, it's the law of the sea out there, as far as Valzain is concerned.  They seem to have set up shop not too far from here.  I'll mark it on your map for one denarius.  You might wanna check the magic item store for an Amulet of Comprehend Languages before you go.  Then again, we might be out of that right now.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -688,7 +688,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_TEMPLE",
     "type": "talk_topic",
-    "dynamic_line": "Yes, a strange location indeed, burried mostly underground.  Was it really built by humans?  I find that rather unlikely.  I can't see very deep into the structure, but there is a strange power somewhere below the entrance.  I'll mark it on your map for one denarius.",
+    "dynamic_line": "Yes, a strange location indeed, buried mostly underground.  Was it really built by humans?  I find that rather unlikely.  I can't see very deep into the structure, but there is a strange power somewhere below the entrance.  I'll mark it on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -728,7 +728,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_ACADEMY",
     "type": "talk_topic",
-    "dynamic_line": "This place used to teach magic before the whole Malignance bussnies.  There is probably still spell scrolls and magical items to find there.  And golems.  I'll mark one on your map for one denarius.",
+    "dynamic_line": "This place used to teach magic before the whole Malignance business.  There is probably still spell scrolls and magical items to find there.  And golems.  I'll mark one on your map for one denarius.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -789,7 +789,7 @@
   {
     "id": "TALK_FORGE_LORD_DIVINER_CLAY",
     "type": "talk_topic",
-    "dynamic_line": "Digging clay is quintessential of the Earthshaper.  Forming it into useful tools is quintessential of the Technomancer.  I'll a large caly patch on your map for one denarius, if you want.",
+    "dynamic_line": "Digging clay is quintessential of the Earthshaper.  Forming it into useful tools is quintessential of the Technomancer.  I'll a place a mark on your map for one denarius, if you want.",
     "responses": [
       {
         "text": "It's a deal.",
@@ -898,7 +898,7 @@
     "dynamic_line": "Valzain is over at the entrance of the forge, selling overpriced magical knick-knacks.  Or perhaps there was something else you had in mind?",
     "responses": [
       { "text": "Another forge?", "topic": "TALK_FORGE_LORD_DIVINER_OTHER_FORGE" },
-      { "text": "A lovecraftinan horror.", "topic": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN" },
+      { "text": "A Lovecraftian horror.", "topic": "TALK_FORGE_LORD_DIVINER_LOVECRAFTIAN" },
       { "text": "The Malignance.", "topic": "TALK_FORGE_LORD_DIVINER_MALIGNANCE" },
       { "text": "About something else…", "topic": "TALK_NONE" },
       { "text": "Nevermind.", "topic": "TALK_DONE" }
