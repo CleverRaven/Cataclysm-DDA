@@ -7536,7 +7536,6 @@
   {
     "type": "construction",
     "id": "hang_heavy_punching_bag",
-    "description": "A hefty leather bag in an oblong shape, suspended from a ceiling mount with a steel chain.  It can be used for exercise and combat training, with the notable advantage that it doesn't fight back.",
     "group": "hang_heavy_punching_bag",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],

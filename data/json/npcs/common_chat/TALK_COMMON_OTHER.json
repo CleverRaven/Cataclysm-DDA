@@ -105,9 +105,13 @@
         "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "FEAR", 8 ], [ "VALUE", 2 ], [ "TRUST", 2 ], [ "BRAVERY", -2 ] ] },
         "success": {
           "topic": "TALK_AGREE_FOLLOW",
-          "effect": "follow",
-          "opinion": { "trust": 1, "value": 1 },
-          "npc_lose_trait": [ "RETURN_TO_START_POS", "NO_BASH", "IGNORE_SOUND" ]
+          "effect": [
+            "follow",
+            { "npc_lose_trait": "RETURN_TO_START_POS" },
+            { "npc_lose_trait": "NO_BASH" },
+            { "npc_lose_trait": "IGNORE_SOUND" }
+          ],
+          "opinion": { "trust": 1, "value": 1 }
         },
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "value": -1, "anger": 1 } }
       },
