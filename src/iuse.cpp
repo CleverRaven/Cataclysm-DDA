@@ -7996,7 +7996,9 @@ std::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoin
         return std::nullopt;
     }
 
+    if( !it->link ) {
     it->link = cata::make_value<item::link_data>();
+    }
 
     const auto set_cable_active = []( Character * p, item * it, cable_state state ) {
         it->link->state = state;
@@ -8144,7 +8146,9 @@ std::optional<int> iuse::cable_attach( Character *p, item *it, bool, const tripo
     const std::string choose_solar = _( "Choose solar panel:" );
     const std::string dont_have_solar = _( "You don't have any solar panels." );
 
+    if( !it->link ) {
     it->link = cata::make_value<item::link_data>();
+    }
 
     const auto set_cable_active = []( Character * p, item * it, const cable_state state ) {
         it->link->state = state;
@@ -8386,7 +8390,9 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
 {
     item_location loc;
 
+    if( !it->link ) {
     it->link = cata::make_value<item::link_data>();
+    }
 
     const auto set_cable_active = []( Character * p, item * it, cable_state state ) {
         it->link->state = state;
