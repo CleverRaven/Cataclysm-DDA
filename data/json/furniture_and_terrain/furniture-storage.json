@@ -1447,7 +1447,7 @@
     "looks_like": "f_standing_tank",
     "description": "Black collapsible drum with valve and D-Rings.  The yellow text on the top clearly says \"FLAMMABLE\".",
     "symbol": "0",
-    "bgcolor": "black",
+    "bgcolor": "white",
     "move_cost_mod": -1,
     "coverage": 100,
     "required_str": -1,

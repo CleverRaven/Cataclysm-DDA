@@ -49,15 +49,15 @@
     "nested_mapgen_id": "supply_fuel_jp8",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_liquids": [
-        { "liquid": "jp8", "x": 0, "y": 0, "amount": [ 1300000, 1635000 ] },
-        { "liquid": "jp8", "x": 1, "y": 1, "amount": [ 1300000, 1635000 ] }
-      ],
+      "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ],
       "place_item": [
         { "item": "parachute_mil", "x": 0, "y": 1, "repeat": [ 1, 2 ] },
         { "item": "parachute_mil", "x": 1, "y": 0, "repeat": [ 1, 2 ] }
       ],
-      "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ]
+      "place_liquids": [
+        { "liquid": "jp8", "x": 0, "y": 0, "amount": [ 900000, 1000000 ] },
+        { "liquid": "jp8", "x": 1, "y": 1, "amount": [ 900000, 1000000 ] }
+      ]
     }
   },
   {
@@ -66,15 +66,15 @@
     "nested_mapgen_id": "supply_fuel_gas",
     "object": {
       "mapgensize": [ 2, 2 ],
-      "place_liquids": [
-        { "liquid": "gasoline", "x": 0, "y": 0, "amount": [ 1300000, 1635000 ] },
-        { "liquid": "gasoline", "x": 1, "y": 1, "amount": [ 1300000, 1635000 ] }
-      ],
+      "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ],
       "place_item": [
         { "item": "parachute_mil", "x": 0, "y": 1, "repeat": [ 1, 2 ] },
         { "item": "parachute_mil", "x": 1, "y": 0, "repeat": [ 1, 2 ] }
       ],
-      "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ]
+      "place_liquids": [
+        { "liquid": "gasoline", "x": 0, "y": 0, "amount": [ 900000, 1000000 ] },
+        { "liquid": "gasoline", "x": 1, "y": 1, "amount": [ 900000, 1000000 ] }
+      ]
     }
   },
   {
@@ -83,15 +83,15 @@
     "nested_mapgen_id": "supply_fuel_diesel",
     "object": {
       "mapgensize": [ 2, 2 ],
+      "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ],
       "place_liquids": [
-        { "liquid": "diesel", "x": 0, "y": 0, "amount": [ 1300000, 1635000 ] },
-        { "liquid": "diesel", "x": 1, "y": 1, "amount": [ 1300000, 1635000 ] }
+        { "liquid": "diesel", "x": 0, "y": 0, "amount": [ 900000, 1000000 ] },
+        { "liquid": "diesel", "x": 1, "y": 1, "amount": [ 900000, 1000000 ] }
       ],
       "place_item": [
         { "item": "parachute_mil", "x": 0, "y": 1, "repeat": [ 1, 2 ] },
         { "item": "parachute_mil", "x": 1, "y": 0, "repeat": [ 1, 2 ] }
-      ],
-      "place_furniture": [ { "furn": "f_432gal_drum_rubber", "x": 0, "y": 0 }, { "furn": "f_432gal_drum_rubber", "x": 1, "y": 1 } ]
+      ]
     }
   },
   {
