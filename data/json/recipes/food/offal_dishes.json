@@ -214,7 +214,6 @@
         [ "veggy_any", 2, "LIST" ],
         [ "powder_eggs", 2 ],
         [ "eggs_any_shape", 2, "LIST" ],
-        [ "egg_reptile", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "morel_cooked", 2 ],
         [ "mushroom", 2 ],
