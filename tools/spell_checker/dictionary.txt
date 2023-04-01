@@ -1435,6 +1435,7 @@ jointer
 jointing
 jort
 jorts
+jpg
 jtest
 junglefowl
 junipers
@@ -1718,6 +1719,7 @@ midden
 mideast
 mideastern
 midgame
+midground 
 midrange
 midsentence
 migo
@@ -2459,8 +2461,8 @@ scutcher
 scutellosaurus
 scuttles
 sealab
-sealabs
 sealable
+sealabs
 seater
 secretively
 secubot
@@ -3200,5 +3202,5 @@ zuul
 zweitimber
 zygomaticus
 zzz
-zzzzchzzzzchurzzzpileus
 zzzzchzzzzchurzzz
+zzzzchzzzzchurzzzpileus
