@@ -142,7 +142,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "Bren 2 30-round magazine" },
-    "description": "a proprietary polymer box magazine, capable of containing 30 7.62x39mm rounds and compatible with the Check Bren 2 carbine.  Unlike conventional 7.62mm magazines, this one is inserted straight up into the magazine well rather than rocked in, in order to facilitate a bolt-hold open mechanism.",
+    "description": "A proprietary polymer box magazine, capable of containing 30 7.62x39mm rounds and compatible with the Czech Bren 2 carbine.  Unlike conventional 7.62x39mm magazines, this one is inserted straight up into the magazine well rather than rocked in, in order to facilitate a bolt-hold open mechanism.",
     "weight": "190 g",
     "volume": "370 ml",
     "price": 3199,
