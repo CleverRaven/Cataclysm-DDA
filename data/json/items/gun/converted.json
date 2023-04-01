@@ -139,7 +139,7 @@
     "copy-from": "mdrx",
     "type": "GUN",
     "name": { "str": "Desert Tech bullpup carbine" },
-    "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for 223 Remington, 308 Winchester, and 300 AAC Blackout being available.",
+    "description": "Produced by the Desert Tech gun company, this is a highly modular, semi-automatic rifle of remarkably modest dimensions.  The weapon is notable for the simplicity of converting it to fire a wide number of different cartridges, with retool kits for .223 Remington, .308 Winchester, and .300 AAC Blackout being available.",
     "default_mods": [ "retool_mdrx_308win" ],
     "variant_type": "gun",
     "variants": [
