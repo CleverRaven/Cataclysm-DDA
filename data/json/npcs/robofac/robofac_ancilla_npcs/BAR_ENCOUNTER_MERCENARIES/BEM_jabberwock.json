@@ -90,7 +90,7 @@
   {
     "id": "BEM_JABBERWOCK_4",
     "type": "talk_topic",
-    "dynamic_line": "&<mypronoun> silently points a in your maps with a trembling hand.",
+    "dynamic_line": "&<mypronoun> silently points at your maps with a trembling hand.",
     "speaker_effect": { "effect": { "assign_mission": "BEM_jabberwock_mission" } },
     "responses": [ { "text": "Thank you.", "topic": "TALK_DONE", "effect": "end_conversation" } ]
   }
