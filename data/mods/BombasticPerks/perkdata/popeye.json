@@ -2,7 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_spinach_consumption",
-    "condition": { "u_has_items": "spinach" },
+    "condition": { "u_has_items": { "item": "spinach", "count": 1 } },
     "effect": [
       { "u_consume_item": "spinach" },
       {
@@ -12,7 +12,8 @@
         },
         "targeted": true
       }
-    ]
+    ],
+    "false_effect": [ { "u_message": "You don't have any spinach!" } ]
   },
   {
     "id": "spell_strength_of_spinach",
