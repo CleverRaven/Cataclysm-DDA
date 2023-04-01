@@ -673,6 +673,8 @@ void outfit::sort_armor( Character &guy )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "MOVE_ARMOR" );
     ctxt.register_action( "CHANGE_SIDE" );
     ctxt.register_action( "TOGGLE_CLOTH" );
@@ -996,24 +998,16 @@ void outfit::sort_armor( Character &guy )
                     popup( _( "Can't sort this under your integrated armor!" ) );
                 }
             }
-        } else if( action == "LEFT" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             mid_pane.offset = 0;
-            tabindex--;
-            if( tabindex < 0 ) {
-                tabindex = tabcount - 1;
-            }
+            tabindex = increment_and_wrap( tabindex, action == "RIGHT" || action == "NEXT_TAB", tabcount );
             leftListIndex = leftListOffset = 0;
             selected = -1;
-        } else if( action == "RIGHT" ) {
-            mid_pane.offset = 0;
-            tabindex = ( tabindex + 1 ) % tabcount;
-            leftListIndex = leftListOffset = 0;
-            selected = -1;
-        } else if( action == "NEXT_TAB" ) {
+        } else if( action == "PAGE_DOWN" ) {
             if( rightListOffset + rightListLines < rightListSize ) {
                 rightListOffset++;
             }
-        } else if( action == "PREV_TAB" ) {
+        } else if( action == "PAGE_UP" ) {
             if( rightListOffset > 0 ) {
                 rightListOffset--;
             }
@@ -1072,7 +1066,7 @@ void outfit::sort_armor( Character &guy )
                 item_location obtained = loc.obtain( guy );
                 if( obtained ) {
                     // wear the item
-                    cata::optional<std::list<item>::iterator> new_equip_it =
+                    std::optional<std::list<item>::iterator> new_equip_it =
                         guy.wear( obtained );
                     if( new_equip_it ) {
                         const bodypart_id &bp = armor_cat[tabindex];
@@ -1106,7 +1100,7 @@ void outfit::sort_armor( Character &guy )
                 item_location obtained = loc.obtain( guy );
                 if( obtained ) {
                     // wear the item
-                    cata::optional<std::list<item>::iterator> new_equip_it =
+                    std::optional<std::list<item>::iterator> new_equip_it =
                         guy.wear( obtained );
                     if( new_equip_it ) {
                         // save iterator to cursor's position

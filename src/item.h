@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <type_traits>
 #include <utility>
@@ -26,7 +27,6 @@
 #include "item_location.h"
 #include "item_pocket.h"
 #include "material.h"
-#include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
 #include "type_id.h"
@@ -392,7 +392,7 @@ class item : public visitable
                            unsigned int truncate = 0, bool with_contents_full = true,
                            bool with_collapsed = true, bool with_contents_abbrev = true ) const;
         std::string display_money( unsigned int quantity, unsigned int total,
-                                   const cata::optional<unsigned int> &selected = cata::nullopt ) const;
+                                   const std::optional<unsigned int> &selected = std::nullopt ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
          * charges at all). Calls @ref tname with given quantity and with_prefix being true.
@@ -488,6 +488,8 @@ class item : public visitable
                            bool debug ) const;
         void component_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                              bool debug ) const;
+        void enchantment_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
+                               bool debug ) const;
         void repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
                           bool debug ) const;
         void disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *parts, int batch,
@@ -582,7 +584,7 @@ class item : public visitable
          * If `practical` is false, returns pre-Cataclysm market value,
          * otherwise returns approximate post-cataclysm value.
          */
-        int price_no_contents( bool practical, cata::optional<int> price_override = cata::nullopt ) const;
+        int price_no_contents( bool practical, std::optional<int> price_override = std::nullopt ) const;
 
         /**
          * Whether two items should stack when displayed in a inventory menu.
@@ -639,8 +641,6 @@ class item : public visitable
                               int charges_in_vol = -1 ) const;
 
         units::length length() const;
-
-        units::length integral_length() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
@@ -882,6 +882,9 @@ class item : public visitable
         units::volume get_total_holster_volume() const;
         units::volume get_used_holster_volume() const;
 
+        units::mass get_total_holster_weight() const;
+        units::mass get_used_holster_weight() const;
+
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
@@ -932,7 +935,7 @@ class item : public visitable
          * Funnel related functions. See weather.cpp for their usage.
          */
         bool is_funnel_container( units::volume &bigger_than ) const;
-        void add_rain_to_container( bool acid, int charges = 1 );
+        void add_rain_to_container( int charges = 1 );
         /*@}*/
 
         /**
@@ -1048,6 +1051,12 @@ class item : public visitable
         void set_rot( time_duration val );
 
         /**
+         * Set item @ref rot to a random value. If the item is a container
+         * (such as MRE) - processes its contents recursively.
+         */
+        void randomize_rot();
+
+        /**
          * Get minimum time for this item or any of its contents to rot, ignoring
          * fridge. If this item is a container, its spoil multiplier is taken into
          * account, but the spoil multiplier of the parent container of this item,
@@ -1151,10 +1160,6 @@ class item : public visitable
          */
         std::vector<const part_material *> armor_made_of( const bodypart_id &bp ) const;
         std::vector<const part_material *> armor_made_of( const sub_bodypart_id &bp ) const;
-        /**
-        * The ids of all the qualities this contains.
-        */
-        const std::map<quality_id, int> &quality_of() const;
         /**
          * Same as @ref made_of(), but returns the @ref material_type directly.
          */
@@ -1347,9 +1352,6 @@ class item : public visitable
         /** Maximum amount of damage to an item (state before destroyed) */
         int max_damage() const;
 
-        /** Number of degradation increments before the item is destroyed */
-        int degrade_increments() const;
-
         /**
          * Relative item health.
          * Returns 1 for undamaged ||items, values in the range (0, 1) for damaged items
@@ -1453,7 +1455,7 @@ class item : public visitable
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
          */
-        cata::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
+        std::optional<tripoint> get_cable_target( Character *p, const tripoint &pos ) const;
         /**
          * Helper to bring a cable back to its initial state.
          */
@@ -1502,7 +1504,6 @@ class item : public visitable
         bool is_salvageable() const;
         bool is_disassemblable() const;
         bool is_craft() const;
-        bool is_scannable() const;
 
         bool is_deployable() const;
         bool is_tool() const;
@@ -1932,7 +1933,7 @@ class item : public visitable
          */
         bool covers( const sub_bodypart_id &bp ) const;
         // do both items overlap a bodypart at all? returns the side that conflicts via rhs
-        cata::optional<side> covers_overlaps( const item &rhs ) const;
+        std::optional<side> covers_overlaps( const item &rhs ) const;
         /**
          * Bitset of all covered body parts.
          *
@@ -2912,8 +2913,8 @@ class item : public visitable
                 bool tools_to_continue = false;
                 int batch_size = -1;
                 std::vector<comp_selection<tool_comp>> cached_tool_selections;
-                cata::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
-                cata::optional<units::volume> cached_volume; // NOLINT(cata-serialize)
+                std::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
+                std::optional<units::volume> cached_volume; // NOLINT(cata-serialize)
 
                 // if this is an in progress disassembly as opposed to craft
                 bool disassembly = false;
@@ -2922,10 +2923,9 @@ class item : public visitable
         };
 
         cata::value_ptr<craft_data> craft_data_;
-
+    public:
         // any relic data specific to this item
         cata::value_ptr<relic> relic_data;
-    public:
         int charges = 0;
         units::energy energy = 0_mJ; // Amount of energy currently stored in a battery
 
@@ -2987,7 +2987,7 @@ class item : public visitable
         int damage_ = 0;
         int degradation_ = 0;
         light_emission light = nolight;
-        mutable cata::optional<float> cached_relative_encumbrance;
+        mutable std::optional<float> cached_relative_encumbrance;
 
         // additional encumbrance this specific item has
         units::volume additional_encumbrance = 0_ml;
@@ -3033,7 +3033,7 @@ enum class hint_rating {
 };
 
 // Weight per level of LIFT/JACK tool quality
-static constexpr units::mass TOOL_LIFT_FACTOR = 500_kilogram;
+constexpr units::mass TOOL_LIFT_FACTOR = 500_kilogram;
 
 inline units::mass lifting_quality_to_mass( int quality_level )
 {

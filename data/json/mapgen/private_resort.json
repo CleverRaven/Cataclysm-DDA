@@ -218,7 +218,7 @@
       "place_fields": [ { "field": "fd_bile", "x": [ 5, 23 ], "y": [ 0, 6 ], "repeat": [ 10, 20 ] } ],
       "place_monster": [
         { "group": "GROUP_ZOMBIE_COP", "x": [ 24, 47 ], "y": [ 10, 23 ], "repeat": [ 4, 8 ] },
-        { "group": "GROUP_RESORT_MIXED_STAFF", "x": [ 48, 66 ], "y": [ 0, 7 ], "density": 0.25 }
+        { "group": "GROUP_RESORT_MIXED_STAFF", "x": [ 48, 66 ], "y": [ 0, 7 ] }
       ],
       "place_vehicles": [
         { "vehicle": "police_pileup", "x": 28, "y": 15, "chance": 100, "rotation": 270 },

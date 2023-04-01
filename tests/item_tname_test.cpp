@@ -495,6 +495,16 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
     }
 }
 
+// make sure ordering still works with pockets
+TEST_CASE( "molle_vest_additional_pockets", "[item][tname]" )
+{
+    item addition_vest( "test_load_bearing_vest" );
+    addition_vest.get_contents().add_pocket( item( "holster" ) );
+
+    CHECK( addition_vest.tname( 1 ) ==
+           "<color_c_light_green>||</color>\u00A0load bearing vest+1" );
+}
+
 TEST_CASE( "nested_items_tname", "[item][tname]" )
 {
     item backpack_hiking( itype_backpack_hiking );
@@ -562,5 +572,17 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
             CHECK( backpack_hiking.tname( 1 ) == color_pref + "hiking backpack " + nesting_sym +
                    " " + purse_color + color_pref + "purses" + color_end_tag + " (2)" );
         }
+    }
+
+    SECTION( "non-standard pocket: software" ) {
+        item usb_drive( "usb_drive" );
+        item medisoft( "software_medical" );
+        std::string const medisoft_nested_tname = colorize( medisoft.tname(),
+                medisoft.color_in_inventory() );
+        REQUIRE( usb_drive.is_software_storage() );
+        REQUIRE( medisoft.is_software() );
+        REQUIRE( medisoft_nested_tname == "<color_c_light_gray>MediSoft</color>" );
+        usb_drive.put_in( medisoft, item_pocket::pocket_type::SOFTWARE );
+        CHECK( usb_drive.tname( 1 ) == "USB drive " + nesting_sym + " " + medisoft_nested_tname );
     }
 }

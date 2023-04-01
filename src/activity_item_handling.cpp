@@ -7,6 +7,7 @@
 #include <iosfwd>
 #include <list>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <tuple>
@@ -47,7 +48,6 @@
 #include "messages.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
@@ -427,7 +427,7 @@ void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
                                const tripoint_bub_ms &where, bool force_ground )
 {
     map &here = get_map();
-    const cata::optional<vpart_reference> vp = here.veh_at( where ).part_with_feature( "CARGO", false );
+    const std::optional<vpart_reference> vp = here.veh_at( where ).part_with_feature( "CARGO", false );
     if( vp && !force_ground ) {
         put_into_vehicle( you, reason, items, vp->vehicle(), vp->part_index() );
         return;
@@ -519,7 +519,7 @@ int activity_handlers::move_cost( const item &it, const tripoint_bub_ms &src,
     if( player_character.get_grab_type() == object_type::VEHICLE ) {
         tripoint cart_position = player_character.pos() + player_character.grab_point;
 
-        if( const cata::optional<vpart_reference> vp = get_map().veh_at(
+        if( const std::optional<vpart_reference> vp = get_map().veh_at(
                     cart_position ).part_with_feature( "CARGO", false ) ) {
             const vehicle &veh = vp->vehicle();
             size_t vstor = vp->part_index();
@@ -697,9 +697,9 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
                 if( wb->multiplier > best_bench_multi_a ) {
                     best_bench_multi_a = wb->multiplier;
                 }
-            } else if( const cata::optional<vpart_reference> vp = here.veh_at(
+            } else if( const std::optional<vpart_reference> vp = here.veh_at(
                            adj ).part_with_feature( "WORKBENCH", true ) ) {
-                if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
                     if( wb_info->multiplier > best_bench_multi_a ) {
                         best_bench_multi_a = wb_info->multiplier;
                     }
@@ -716,9 +716,9 @@ static std::vector<tripoint_bub_ms> route_best_workbench(
                 if( wb->multiplier > best_bench_multi_b ) {
                     best_bench_multi_b = wb->multiplier;
                 }
-            } else if( const cata::optional<vpart_reference> vp = here.veh_at(
+            } else if( const std::optional<vpart_reference> vp = here.veh_at(
                            adj ).part_with_feature( "WORKBENCH", true ) ) {
-                if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( const std::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
                     if( wb_info->multiplier > best_bench_multi_b ) {
                         best_bench_multi_b = wb_info->multiplier;
                     }
@@ -752,7 +752,7 @@ namespace
 
 bool _can_construct(
     tripoint_bub_ms const &loc, construction_id const &idx, construction const &check,
-    cata::optional<construction_id> const &part_con_idx )
+    std::optional<construction_id> const &part_con_idx )
 {
     return ( part_con_idx && *part_con_idx == check.id ) ||
            ( check.pre_terrain != idx->post_terrain && can_construct( check, loc ) );
@@ -760,7 +760,7 @@ bool _can_construct(
 
 construction const *
 _find_alt_construction( tripoint_bub_ms const &loc, construction_id const &idx,
-                        cata::optional<construction_id> const &part_con_idx,
+                        std::optional<construction_id> const &part_con_idx,
                         std::function<bool( construction const & )> const &filter )
 {
     std::vector<construction *> cons = constructions_by_filter( filter );
@@ -781,7 +781,7 @@ ID _get_id( construction_id const &idx )
 using checked_cache_t = std::vector<construction_id>;
 construction const *_find_prereq( tripoint_bub_ms const &loc, construction_id const &idx,
                                   construction_id const &top_idx,
-                                  cata::optional<construction_id> const &part_con_idx, checked_cache_t &checked_cache )
+                                  std::optional<construction_id> const &part_con_idx, checked_cache_t &checked_cache )
 {
     construction const *con = nullptr;
     std::vector<construction *> cons = constructions_by_filter( [&idx, &top_idx](
@@ -831,7 +831,7 @@ static activity_reason_info find_base_construction(
     Character &you,
     const inventory &inv,
     const tripoint_bub_ms &loc,
-    const cata::optional<construction_id> &part_con_idx,
+    const std::optional<construction_id> &part_con_idx,
     const construction_id &idx )
 {
     if( already_done( idx.obj(), loc ) ) {
@@ -956,7 +956,7 @@ static bool are_requirements_nearby(
         }
 
         if( !in_loot_zones ) {
-            if( const cata::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
+            if( const std::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
                     false ) ) {
                 vehicle &src_veh = vp->vehicle();
                 int src_part = vp->part_index();
@@ -969,10 +969,10 @@ static bool are_requirements_nearby(
     // use nearby welding rig without needing to drag it or position yourself on the right side of the vehicle.
     if( !found_welder ) {
         for( const tripoint_bub_ms &elem : here.points_in_radius( src_loc, PICKUP_RANGE - 1 ) ) {
-            const cata::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
+            const std::optional<vpart_reference> &vp = here.veh_at( elem ).part_with_tool( itype_welder );
 
             if( vp ) {
-                const int veh_battery = vp->vehicle().fuel_left( itype_battery, true );
+                const int veh_battery = vp->vehicle().fuel_left( itype_battery );
 
                 item welder( itype_welder, calendar::turn_zero );
                 welder.charges = veh_battery;
@@ -1248,7 +1248,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                                here.getglobal( src_loc ), _fac_id( you ) );
         // TODO: fix point types
         const partial_con *part_con = here.partial_con_at( tripoint_bub_ms( src_loc ) );
-        cata::optional<construction_id> part_con_idx;
+        std::optional<construction_id> part_con_idx;
         if( part_con ) {
             part_con_idx = part_con->id;
         }
@@ -1769,7 +1769,7 @@ static bool tidy_activity( Character &you, const tripoint_bub_ms &src_loc,
     if( loot_src_lot == tripoint_bub_ms() ) {
         return false;
     }
-    if( const cata::optional<vpart_reference> vp = here.veh_at(
+    if( const std::optional<vpart_reference> vp = here.veh_at(
                 src_loc ).part_with_feature( "CARGO",
                         false ) ) {
         vehicle *const src_veh = &vp->vehicle();
@@ -1808,7 +1808,7 @@ static bool fetch_activity(
     map_stack items_there = here.i_at( src_loc );
     vehicle *src_veh = nullptr;
     int src_part = 0;
-    if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+    if( const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
             false ) ) {
         src_veh = &vp->vehicle();
         src_part = vp->part_index();
@@ -2026,7 +2026,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
             }
 
             //nothing to sort?
-            const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+            const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
                     false );
             if( ( !vp || vp->vehicle().get_items( vp->part_index() ).empty() )
                 && here.i_at( src_loc ).empty() ) {
@@ -2098,7 +2098,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
         // TODO: use one for loop
-        if( const cata::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
+        if( const std::optional<vpart_reference> vp = here.veh_at( src_loc ).part_with_feature( "CARGO",
                 false ) ) {
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
@@ -2261,7 +2261,7 @@ void activity_on_turn_move_loot( player_activity &act, Character &you )
                 int dest_part;
 
                 //Check destination for cargo part
-                if( const cata::optional<vpart_reference> vp =
+                if( const std::optional<vpart_reference> vp =
                         here.veh_at( dest_loc ).part_with_feature( "CARGO", false ) ) {
                     dest_veh = &vp->vehicle();
                     dest_part = vp->part_index();
@@ -3121,10 +3121,10 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     return false;
 }
 
-static cata::optional<tripoint_bub_ms> find_best_fire( const std::vector<tripoint_bub_ms> &from,
+static std::optional<tripoint_bub_ms> find_best_fire( const std::vector<tripoint_bub_ms> &from,
         const tripoint_bub_ms &center )
 {
-    cata::optional<tripoint_bub_ms> best_fire;
+    std::optional<tripoint_bub_ms> best_fire;
     time_duration best_fire_age = 1_days;
     map &here = get_map();
     for( const tripoint_bub_ms &pt : from ) {
@@ -3157,7 +3157,7 @@ static bool has_clear_path_to_pickup_items(
            here.clear_path( from, to, PICKUP_RANGE, 1, 100 );
 }
 
-static cata::optional<tripoint_bub_ms> find_refuel_spot_zone( const tripoint_bub_ms &center,
+static std::optional<tripoint_bub_ms> find_refuel_spot_zone( const tripoint_bub_ms &center,
         const faction_id &fac )
 {
     const zone_manager &mgr = zone_manager::get_manager();
@@ -3179,7 +3179,7 @@ static cata::optional<tripoint_bub_ms> find_refuel_spot_zone( const tripoint_bub
     return {};
 }
 
-static cata::optional<tripoint_bub_ms> find_refuel_spot_trap(
+static std::optional<tripoint_bub_ms> find_refuel_spot_trap(
     const std::vector<tripoint_bub_ms> &from, const tripoint_bub_ms &center )
 {
     const auto tile = std::find_if( from.begin(), from.end(),
@@ -3226,7 +3226,7 @@ int get_auto_consume_moves( Character &you, const bool food )
         std::vector<item *> items_here;
         if( vp ) {
             vehicle &veh = vp->vehicle();
-            int index = veh.part_with_feature( vp->part_index(), "CARGO", false );
+            int index = veh.part_with_feature( vp->mount(), "CARGO", false );
             if( index >= 0 ) {
                 vehicle_stack vehitems = veh.get_items( index );
                 for( item &it : vehitems ) {
@@ -3313,14 +3313,14 @@ bool try_fuel_fire( player_activity &act, Character &you, const bool starting_fi
     adjacent.erase( adjacent.begin() );
 
     map &here = get_map();
-    cata::optional<tripoint_bub_ms> best_fire =
+    std::optional<tripoint_bub_ms> best_fire =
         starting_fire ? here.bub_from_abs( act.placement ) : find_best_fire( adjacent, pos );
 
     if( !best_fire || !here.accessible_items( *best_fire ) ) {
         return false;
     }
 
-    cata::optional<tripoint_bub_ms> refuel_spot = find_refuel_spot_zone( pos, _fac_id( you ) );
+    std::optional<tripoint_bub_ms> refuel_spot = find_refuel_spot_zone( pos, _fac_id( you ) );
     if( !refuel_spot ) {
         refuel_spot = find_refuel_spot_trap( adjacent, pos );
         if( !refuel_spot ) {

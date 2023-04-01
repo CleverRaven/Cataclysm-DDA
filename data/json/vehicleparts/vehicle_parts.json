@@ -1869,7 +1869,7 @@
     "damage_modifier": 80,
     "durability": 400,
     "description": "A military ASRG covered in heavy plating.  Provides constant albeit low power to your car.",
-    "epower": 130,
+    "epower": "130 W",
     "location": "center",
     "item": "compact_ASRG_containment",
     "requirements": {
@@ -2455,7 +2455,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": "1 W",
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "Thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
@@ -2474,7 +2474,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": "1 W",
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "A long orange extension cord for connecting appliances.  Currently plugged in.",
@@ -2493,7 +2493,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": "1 W",
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "An extra long 30m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
@@ -2514,7 +2514,7 @@
     "damage_modifier": 10,
     "durability": 120,
     "description": "Very thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
-    "epower": "5 W",
+    "epower": "5 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "item": "jumper_cable_heavy",
     "requirements": { "removal": { "time": "5 s" } },
@@ -2837,6 +2837,33 @@
   },
   {
     "type": "vehicle_part",
+    "id": "omnicamera_reinforced",
+    "copy-from": "omnicam",
+    "looks_like": "omnicam",
+    "name": { "str": "reinforced security camera" },
+    "symbol": "o",
+    "categories": [ "operations" ],
+    "color": "light_red",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "durability": 300,
+    "description": "A small camera encased in a protective metal cage.  Will relay what it can see to a camera control station.",
+    "folded_volume": "2 L",
+    "bonus": 24,
+    "item": "omnicamera_reinforced",
+    "epower": "-10 W",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
+    },
+    "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ],
+    "breaks_into": [ { "item": "e_scrap", "count": [ 6, 20 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "robot_controls",
     "name": { "str": "robot controls" },
     "symbol": "&",
@@ -3057,7 +3084,7 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 2 ] ] }
     },
     "flags": [  ],
-    "pseudo_tools": [ { "id": "pseudo_water_purifier", "hotkey": "p" } ],
+    "pseudo_tools": [ { "id": "water_purifier", "hotkey": "p" } ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 26 }
   },
@@ -3343,7 +3370,7 @@
       { "item": "motor_tiny", "prob": 25 }
     ],
     "damage_reduction": { "all": 32 },
-    "flag": "EXTRA_DRAG"
+    "flags": [ "EXTRA_DRAG" ]
   },
   {
     "type": "vehicle_part",
@@ -3376,6 +3403,6 @@
       { "item": "scrap_copper", "count": [ 1, 2 ] }
     ],
     "damage_reduction": { "all": 32 },
-    "flag": "EXTRA_DRAG"
+    "flags": [ "EXTRA_DRAG" ]
   }
 ]

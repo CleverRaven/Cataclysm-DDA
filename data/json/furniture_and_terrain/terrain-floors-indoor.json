@@ -89,7 +89,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_thconc_y",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -131,23 +132,22 @@
     "looks_like": "t_floor",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
-      "sound": "SMASH!",
-      "ter_set": "t_null",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "items": [
-        { "item": "splinter", "count": [ 2, 8 ] },
-        { "item": "nail", "charges": [ 5, 10 ] },
-        { "item": "glass_shard", "count": [ 8, 16 ] }
-      ]
-    }
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_floor",
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
     "id": "t_dirtfloor_olight",
     "name": "dirt floor, overhead light",
-    "description": "Floor consisting of finely mixed earth that has been tamped down, with a still-functioning light attached to the ceiling above.",
+    "description": "A floor consisting of finely mixed earth that has been tamped down, with a still-functioning light attached to the ceiling above.",
     "symbol": ".",
     "color": "brown",
     "connect_groups": "DIRT",
@@ -158,23 +158,22 @@
     "looks_like": "t_dirtfloor",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "DIGGABLE" ],
     "bash": {
-      "sound": "SMASH!",
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
       "ter_set": "t_dirtfloor",
-      "str_min": 50,
-      "str_max": 400,
-      "str_min_supported": 100,
-      "items": [
-        { "item": "splinter", "count": [ 2, 8 ] },
-        { "item": "nail", "charges": [ 5, 10 ] },
-        { "item": "glass_shard", "count": [ 8, 16 ] }
-      ]
-    }
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
     "id": "t_metal_floor_olight",
     "name": "metal floor, with overhead light",
-    "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a still-functioning light attached to the ceiling above.",
+    "description": "High-quality and tough checkered metal flooring to reduce the risk of slips and falls, with a still-functioning light attached to the ceiling above.",
     "symbol": ".",
     "color": "light_cyan",
     "connect_groups": "METALFLOOR",
@@ -184,24 +183,22 @@
     "roof": "t_metal_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
-      "sound": "thump",
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
       "ter_set": "t_metal_floor",
-      "str_min": 200,
-      "str_max": 500,
-      "str_min_supported": 200,
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 3, 12 ] },
-        { "item": "scrap", "count": [ 9, 36 ] },
-        { "item": "glass_shard", "count": [ 8, 16 ] }
-      ]
-    }
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
     "id": "t_strconc_floor_olight",
     "name": "strong concrete floor, overhead light",
-    "description": "Extremely resilient floor made from carefully placed rebar and poured concrete with a still-functioning light attached to the ceiling above.",
+    "description": "An extremely resilient floor made from carefully placed rebar and poured concrete, with a still-functioning light attached to the ceiling above.",
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
@@ -220,7 +217,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_strconc_floor",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -245,7 +243,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_linoleum_gray",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
@@ -270,13 +269,14 @@
       "sound_fail_vol": 10,
       "ter_set": "t_linoleum_white",
       "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 0, "reduce_damage": [ 0, 0 ], "reduce_damage_laser": [ 0, 0 ], "destroy_damage": [ 2, 8 ] }
   },
   {
     "type": "terrain",
     "id": "t_ov_smreb_cage",
     "name": "small rebar roof cage",
-    "description": "A series of structural support crafted from rebar in order to allow the pouring of concrete for a more stable floor and roof.",
+    "description": "A series of structural supports crafted from rebar in order to allow the pouring of concrete for a more stable floor and roof.",
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 4,
@@ -294,7 +294,7 @@
     "type": "terrain",
     "id": "t_strconc_floor",
     "name": "reinforced concrete floor",
-    "description": "Extremely resilient floor made from carefully placed rebar and poured concrete, capable of providing protection from the elements.  As for the matching roof, it still requires supporting walls, otherwise it may very well cave in.",
+    "description": "An extremely resilient floor made from carefully placed rebar and poured concrete, capable of providing protection from the elements.  As for the matching roof, it still requires supporting walls, otherwise it may very well cave in.",
     "symbol": ".",
     "color": "cyan",
     "connect_groups": "CONCRETE",
@@ -365,7 +365,7 @@
     "type": "terrain",
     "id": "t_strconc_floor_halfway",
     "name": "half-built reinforced concrete floor",
-    "description": "Unfinished series of rebar and poured concrete; the floor hasn't been smoothed and the roof isn't quite filled in yet.",
+    "description": "An unfinished construction of rebar and poured concrete; the floor hasn't been smoothed and the roof isn't quite filled in yet.",
     "symbol": ".",
     "color": "cyan",
     "move_cost": 2,
@@ -414,7 +414,7 @@
     "type": "terrain",
     "id": "t_metal_floor",
     "name": "metal floor",
-    "description": "High-quality and tough checkered flooring to reduce risk of slips and falls, with a matching roof.",
+    "description": "High-quality and tough checkered metal flooring to reduce the risk of slips and falls, with a matching roof.",
     "symbol": ".",
     "color": "light_cyan",
     "connect_groups": "METALFLOOR",
@@ -484,7 +484,7 @@
     "type": "terrain",
     "id": "t_floor_primitive",
     "name": "primitive floor",
-    "description": "Timber floor and supports, holding up a sod roof.",
+    "description": "A timber floor and supports, holding up a sod roof.",
     "symbol": ".",
     "color": "brown",
     "looks_like": "t_dirtfloor",
@@ -508,7 +508,7 @@
     "type": "terrain",
     "id": "t_scrap_floor",
     "name": "simple metal floor",
-    "description": "A crudely welded together floor of metal with steel trusses and supporting girders.",
+    "description": "A crudely welded-together metal floor with steel trusses and supporting girders.",
     "symbol": ".",
     "color": "cyan",
     "move_cost": 2,
@@ -549,7 +549,7 @@
     "type": "terrain",
     "id": "t_dirtfloor",
     "name": "dirt floor",
-    "description": "Floor consisting of finely mixed earth that has been tamped down, with a wooden ceiling above it.",
+    "description": "A floor consisting of finely mixed earth that has been tamped down, with a wooden ceiling above it.",
     "symbol": ".",
     "color": "brown",
     "connect_groups": "DIRT",
@@ -570,7 +570,7 @@
     "type": "terrain",
     "id": "t_dirtfloor_thatchroof",
     "name": "dirt floor",
-    "description": "Floor consisting of finely mixed earth that has been tamped down, with thatched roof above it.",
+    "description": "A floor consisting of finely mixed earth that has been tamped down, with a thatched roof above it.",
     "symbol": ".",
     "color": "brown",
     "looks_like": "t_dirtfloor",
@@ -592,7 +592,7 @@
     "type": "terrain",
     "id": "t_grate",
     "name": "metal grate",
-    "description": "A type of walkway that can be used as protective covering over drains or even used as a filter.",
+    "description": "A walkway that can be used as a protective covering over drains, or even as a filter.",
     "symbol": "#",
     "color": "dark_gray",
     "move_cost": 2,
@@ -602,7 +602,7 @@
     "type": "terrain",
     "id": "t_utility_light",
     "name": "utility light",
-    "description": "An industrial flood light set up to illuminate the surroundings.  Smashing it doesn't seem like it'd produce any worthwhile salvage.",
+    "description": "An industrial floodlight set up to illuminate the surroundings.  Smashing it doesn't seem like it'd produce any worthwhile salvage.",
     "symbol": ".",
     "color": "white",
     "connect_groups": "WOODFLOOR",
@@ -1395,7 +1395,7 @@
     "id": "t_rad_platform",
     "looks_like": "t_blue_floor",
     "name": "radiation platform",
-    "description": "A dual purpose platform that serves as a containment, and as a device that exposes items places on in to the radioactive source, by temporarily hoisting the radioactive material stored within.  Operated from external console.",
+    "description": "A dual-purpose platform that exposes items placed on it to a radioactive source by temporarily hoisting the radioactive material stored within, while also safely containing all objects to avoid contaminating its surroundings.  Operated from an external console.",
     "symbol": "0",
     "color": "light_blue",
     "move_cost": 100,
@@ -1496,7 +1496,7 @@
     "//": "for caverns and other natural underground formations.",
     "looks_like": "t_grass",
     "roof": "t_rock_roof",
-    "description": "Moist spongy moss.",
+    "description": "A patch of moist, spongy moss.",
     "symbol": ".",
     "color": "light_green",
     "move_cost": 2,
@@ -1508,7 +1508,7 @@
     "id": "t_clay_underground",
     "name": "clay",
     "//": "for caverns and other natural underground formations.",
-    "description": "A field full of malleable clay, suitable for kiln firing if it was extracted properly.",
+    "description": "A large area of malleable clay, suitable for kiln firing if it was extracted properly.",
     "symbol": ".",
     "color": "light_red",
     "connect_groups": "CLAY",
@@ -1544,7 +1544,7 @@
     "type": "terrain",
     "id": "t_floor_paper",
     "name": "paper floor",
-    "description": "Floor made of pulpy mass, covered in sticky wasp saliva.",
+    "description": "A floor made of ambiguous pulpy matter, covered in sticky wasp saliva.",
     "symbol": ".",
     "looks_like": "t_dirt",
     "color": "white",
@@ -1565,7 +1565,7 @@
     "type": "terrain",
     "id": "t_floor_paper_noroof",
     "name": "paper floor",
-    "description": "Floor made of pulpy mass, covered in sticky wasp saliva.",
+    "description": "A floor made of ambiguous pulpy matter, covered in sticky wasp saliva.",
     "symbol": ".",
     "looks_like": "t_dirt",
     "color": "white",
@@ -1585,7 +1585,7 @@
     "type": "terrain",
     "id": "t_floor_paper_hard",
     "name": "hard paper floor",
-    "description": "Hardened cardboard floor made of chewed up trees and resin mixed with wasp saliva.",
+    "description": "A hardened cardboard floor made of chewed-up trees and resin mixed with wasp saliva.",
     "symbol": ".",
     "looks_like": "t_floor_paper",
     "color": "light_gray",
@@ -1626,7 +1626,7 @@
     "type": "terrain",
     "id": "t_floor_brood_fake",
     "name": "open air",
-    "description": "This is open air.",
+    "description": "An area of open air.",
     "//": "Actually, this is a thin membrane of bullshit to keep wasp eggs levitating.",
     "symbol": " ",
     "looks_like": "t_open_air",

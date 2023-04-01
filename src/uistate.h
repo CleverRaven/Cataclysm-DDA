@@ -4,13 +4,13 @@
 
 #include <list>
 #include <map>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "enums.h"
 #include "flat_set.h"
 #include "json.h"
-#include "optional.h"
 #include "omdata.h"
 #include "type_id.h"
 
@@ -148,6 +148,7 @@ class uistatedata
         bool distraction_thirst = true;
         bool distraction_temperature = true;
         bool distraction_mutation = true;
+        bool numpad_navigation = false;
 
         // V Menu Stuff
         int list_item_sort = 0;

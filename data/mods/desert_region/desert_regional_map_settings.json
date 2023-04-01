@@ -832,20 +832,7 @@
       "summer_humidity_manual_mod": 0,
       "autumn_humidity_manual_mod": 10,
       "winter_humidity_manual_mod": 15,
-      "weather_types": [
-        "clear",
-        "sunny",
-        "cloudy",
-        "light_drizzle",
-        "drizzle",
-        "rain",
-        "thunder",
-        "lightning",
-        "early_dust_storm",
-        "dust_storm",
-        "early_portal_storm",
-        "portal_storm"
-      ]
+      "weather_black_list": [ "flurries", "snowing", "snowstorm" ]
     }
   }
 ]

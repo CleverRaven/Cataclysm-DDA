@@ -768,62 +768,6 @@
     "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
-    "id": "l-stick",
-    "type": "TOOL",
-    "category": "weapons",
-    "name": { "str": "L-stick (off)", "str_pl": "L-sticks (off)" },
-    "description": "Produced by the Light corporation, this stylish staff functions not just as a light source, but also a lightweight weapon thanks to its superalloy construction.  Due to proprietary efficiency improvements over standard light sources, batteries last longer in the L-stick.",
-    "weight": "1000 g",
-    "volume": "3 L",
-    "longest_side": "180 cm",
-    "price": 5000,
-    "price_postapoc": 3000,
-    "bashing": 24,
-    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
-    "material": [ "superalloy", "steel" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "ammo": [ "battery" ],
-    "charges_per_use": 1,
-    "techniques": [ "WBLOCK_1", "RAPID" ],
-    "use_action": {
-      "target": "l-stick_on",
-      "msg": "The L-stick™ lights up.",
-      "active": true,
-      "need_charges": 1,
-      "need_charges_msg": "The L-stick's™ batteries are empty.",
-      "type": "transform"
-    },
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
-    "weapon_category": [ "QUARTERSTAVES" ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_plus_battery_cell"
-      }
-    ]
-  },
-  {
-    "id": "l-stick_on",
-    "copy-from": "l-stick",
-    "type": "TOOL",
-    "name": { "str": "L-stick (on)", "str_pl": "L-sticks (on)" },
-    "description": "Produced by the Light corporation, this stylish staff functions not just as a light source, but also a lightweight weapon thanks to its superalloy construction.  Due to proprietary efficiency improvements over standard light sources, batteries last longer in the L-stick.  The staff is glowing brightly, which is slowly draining the batteries.",
-    "material": [ "superalloy", "steel" ],
-    "revert_to": "l-stick",
-    "power_draw": "5 W",
-    "use_action": {
-      "ammo_scale": 0,
-      "target": "l-stick",
-      "msg": "The L-stick's™ light fades away.",
-      "menu_text": "Turn off",
-      "type": "transform"
-    },
-    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
-  },
-  {
     "id": "lucern_hammer",
     "type": "GENERIC",
     "symbol": "/",

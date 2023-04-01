@@ -9,6 +9,7 @@
 #include <limits>
 #include <memory>
 #include <new>
+#include <optional>
 #include <stdexcept>
 #include <type_traits>
 #include <unordered_set>
@@ -42,7 +43,6 @@
 #include "iuse_actor.h"
 #include "json.h"
 #include "material.h"
-#include "optional.h"
 #include "options.h"
 #include "proficiency.h"
 #include "recipe.h"
@@ -186,7 +186,7 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
 }
 
 static bool assign_coverage_from_json( const JsonObject &jo, const std::string &key,
-                                       cata::optional<body_part_set> &parts )
+                                       std::optional<body_part_set> &parts )
 {
     body_part_set temp;
     if( assign_coverage_from_json( jo, key, temp ) ) {
@@ -211,6 +211,11 @@ static bool is_physical( const itype &type )
 
 void Item_factory::finalize_pre( itype &obj )
 {
+    // Add relic data by ID we defered
+    if( obj.relic_data ) {
+        obj.relic_data->finalize();
+    }
+
     // TODO: separate repairing from reinforcing/enhancement
     if( obj.damage_max() == obj.damage_min() ) {
         obj.item_tags.insert( flag_NO_REPAIR );
@@ -1509,7 +1514,7 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        cata::optional<int> use( Character &p, item &it, bool a, const tripoint &pos ) const override {
+        std::optional<int> use( Character &p, item &it, bool a, const tripoint &pos ) const override {
             return cpp_function( &p, &it, a, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
@@ -2488,7 +2493,7 @@ void islot_ammo::load( const JsonObject &jo )
     bool strict = false;
 
     mandatory( jo, was_loaded, "ammo_type", type );
-    optional( jo, was_loaded, "casing", casing, cata::nullopt );
+    optional( jo, was_loaded, "casing", casing, std::nullopt );
     optional( jo, was_loaded, "drop", drop, itype_id::NULL_ID() );
     assign( jo, "drop_chance", drop_chance, strict, 0.0f, 1.0f );
     optional( jo, was_loaded, "drop_active", drop_active, true );
@@ -2603,7 +2608,7 @@ void itype_variant_data::load( const JsonObject &jo )
     mandatory( jo, false, "id", id );
     mandatory( jo, false, "name", alt_name );
     mandatory( jo, false, "description", alt_description );
-    optional( jo, false, "symbol", alt_sym, cata::nullopt );
+    optional( jo, false, "symbol", alt_sym, std::nullopt );
     if( jo.has_string( "color" ) ) {
         alt_color = color_from_string( jo.get_string( "color" ) );
     }
@@ -2801,7 +2806,7 @@ void armor_portion_data::deserialize( const JsonObject &jo )
 }
 
 template<typename T>
-static void apply_optional( T &value, const cata::optional<T> &applied )
+static void apply_optional( T &value, const std::optional<T> &applied )
 {
     if( applied ) {
         value = *applied;
@@ -2812,7 +2817,7 @@ static void apply_optional( T &value, const cata::optional<T> &applied )
 // the *= and += operators required for "proportional" and "relative".
 template<typename T>
 static void get_optional( const JsonObject &jo, bool was_loaded, const std::string &member,
-                          cata::optional<T> &value )
+                          std::optional<T> &value )
 {
     T tmp;
     if( value ) {
@@ -2825,20 +2830,20 @@ static void get_optional( const JsonObject &jo, bool was_loaded, const std::stri
 }
 
 template<typename T>
-static void get_relative( const JsonObject &jo, const std::string &member, cata::optional<T> &value,
+static void get_relative( const JsonObject &jo, const std::string &member, std::optional<T> &value,
                           T default_val )
 {
     if( jo.has_member( member ) ) {
-        value = value.value_or( default_val ) + jo.get_float( member );
+        value = static_cast<T>( value.value_or( default_val ) + jo.get_float( member ) );
     }
 }
 
 template<typename T>
 static void get_proportional( const JsonObject &jo, const std::string &member,
-                              cata::optional<T> &value, T default_val )
+                              std::optional<T> &value, T default_val )
 {
     if( jo.has_member( member ) ) {
-        value = value.value_or( default_val ) * jo.get_float( member );
+        value = static_cast<T>( value.value_or( default_val ) * jo.get_float( member ) );
     }
 }
 
@@ -2846,7 +2851,7 @@ void islot_armor::load( const JsonObject &jo )
 {
     optional( jo, was_loaded, "armor", sub_data );
 
-    cata::optional<body_part_set> covers;
+    std::optional<body_part_set> covers;
 
     assign_coverage_from_json( jo, "covers", covers );
     get_optional( jo, was_loaded, "material_thickness", _material_thickness );
@@ -2877,7 +2882,8 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "sided", sided, false );
 
     optional( jo, was_loaded, "warmth", warmth, 0 );
-    optional( jo, false, "non_functional", non_functional, itype_id() );
+    optional( jo, was_loaded, "non_functional", non_functional, itype_id() );
+    optional( jo, was_loaded, "damage_verb", damage_verb );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0 );
     optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
     optional( jo, was_loaded, "power_armor", power_armor, false );
@@ -4798,7 +4804,7 @@ void Item_factory::emplace_usage( std::map<std::string, use_function> &container
 
 std::pair<std::string, use_function> Item_factory::usage_from_object( const JsonObject &obj )
 {
-    auto type = obj.get_string( "type" );
+    std::string type = obj.get_string( "type" );
 
     if( type == "repair_item" ) {
         type = obj.get_string( "item_action_type" );

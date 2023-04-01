@@ -211,6 +211,42 @@
   },
   {
     "type": "city_building",
+    "id": "bungalow19",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow19_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow19_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "bungalow20",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow20_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow20_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "bungalow21",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow21_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow21_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "bungalow22",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "bungalow22_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "bungalow22_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "urban_1_house",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "urban_1_1_south" },
@@ -2652,7 +2688,23 @@
       { "point": [ 2, 0, 0 ], "overmap": "office_tower_2_a3_north" },
       { "point": [ 0, 1, 0 ], "overmap": "office_tower_2_b1_north" },
       { "point": [ 1, 1, 0 ], "overmap": "office_tower_2_b2_north" },
-      { "point": [ 2, 1, 0 ], "overmap": "office_tower_2_b3_north" }
+      { "point": [ 2, 1, 0 ], "overmap": "office_tower_2_b3_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "office_tower_2_a1_1_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "office_tower_2_a2_1_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "office_tower_2_a3_1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "office_tower_2_b1_1_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "office_tower_2_b2_1_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "office_tower_2_b3_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "office_tower_2_a1_2_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "office_tower_2_a2_2_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "office_tower_2_b1_2_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "office_tower_2_b2_2_north" },
+      { "point": [ 2, 1, 2 ], "overmap": "office_tower_2_b3_2_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "office_tower_2_a1_roof_north" },
+      { "point": [ 1, 0, 3 ], "overmap": "office_tower_2_a2_roof_north" },
+      { "point": [ 0, 1, 3 ], "overmap": "office_tower_2_b1_roof_north" },
+      { "point": [ 1, 1, 3 ], "overmap": "office_tower_2_b2_roof_north" },
+      { "point": [ 2, 1, 3 ], "overmap": "office_tower_2_b3_roof_north" }
     ]
   },
   {
@@ -4252,6 +4304,35 @@
   },
   {
     "type": "city_building",
+    "id": "parking_garage2x2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, -1 ], "overmap": "parking_garage2x2_down_0_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "parking_garage2x2_down_1_north" },
+      { "point": [ 0, 1, -1 ], "overmap": "parking_garage2x2_down_2_north" },
+      { "point": [ 1, 1, -1 ], "overmap": "parking_garage2x2_down_3_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "parking_garage2x2_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "parking_garage2x2_0_1_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "parking_garage2x2_0_2_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "parking_garage2x2_0_3_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "parking_garage2x2_1_0_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "parking_garage2x2_1_1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "parking_garage2x2_1_2_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "parking_garage2x2_1_3_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "parking_garage2x2_2_0_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "parking_garage2x2_2_1_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "parking_garage2x2_2_2_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "parking_garage2x2_2_3_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "parking_garage2x2_3_0_north" },
+      { "point": [ 1, 0, 3 ], "overmap": "parking_garage2x2_3_1_north" },
+      { "point": [ 0, 1, 3 ], "overmap": "parking_garage2x2_3_2_north" },
+      { "point": [ 1, 1, 3 ], "overmap": "parking_garage2x2_3_3_north" },
+      { "point": [ 0, 1, 4 ], "overmap": "parking_garage2x2_4_2_north" },
+      { "point": [ 1, 1, 4 ], "overmap": "parking_garage2x2_4_3_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "s_music",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_music_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_music_roof_north" } ]
@@ -4852,5 +4933,11 @@
     "id": "orchard_1",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "orchard_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "orchard_roof_1_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "warehouse",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "warehouse_north" }, { "point": [ 0, 0, 1 ], "overmap": "warehouse_roof_north" } ]
   }
 ]

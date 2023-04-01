@@ -291,5 +291,10 @@
       { "monster": "mon_moth_giant", "weight": 45 },
       { "monster": "mon_moth_titan", "weight": 5, "cost_multiplier": 2 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTIPEDE_MOM_SUMMON",
+    "monsters": [ { "monster": "mon_centipede_small", "weight": 67 }, { "monster": "mon_centipede_larva", "weight": 33 } ]
   }
 ]

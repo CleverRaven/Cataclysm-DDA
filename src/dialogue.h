@@ -330,6 +330,11 @@ class json_talk_response
         bool is_switch = false;
         bool is_default = false;
 
+        // this text appears if the conditions fail explaining why
+        translation failure_explanation;
+        // the topic to move to on failure
+        std::string failure_topic;
+
         void load_condition( const JsonObject &jo );
         bool test_condition( const dialogue &d ) const;
 

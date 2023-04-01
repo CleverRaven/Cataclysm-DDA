@@ -36,11 +36,12 @@
     "material": [ "wood" ],
     "symbol": ",",
     "color": "brown",
-    "initial_charges": 50,
-    "max_charges": 50,
+    "ammo": [ "notch" ],
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 500, "moves_slow": 25000 },
-    "flags": [ "FIRESTARTER", "BURNOUT" ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "notched_plank", "notched_stick" ] } ],
+    "use_action": { "type": "firestarter", "moves": 30000, "moves_slow": 60000 },
+    "qualities": [ [ "DRILL_ROCK", 1 ] ],
+    "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
   },
   {
     "id": "fire_drill_large",
@@ -54,11 +55,12 @@
     "material": [ "wood", "stone" ],
     "symbol": ",",
     "color": "brown",
-    "initial_charges": 50,
-    "max_charges": 50,
+    "ammo": [ "notch" ],
     "charges_per_use": 1,
-    "use_action": { "type": "firestarter", "moves": 200, "moves_slow": 10000 },
-    "flags": [ "FIRESTARTER", "BURNOUT" ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "notched_plank", "notched_stick" ] } ],
+    "use_action": { "type": "firestarter", "moves": 6000, "moves_slow": 15000 },
+    "qualities": [ [ "DRILL_ROCK", 1 ] ],
+    "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
   },
   {
     "id": "flint_steel",

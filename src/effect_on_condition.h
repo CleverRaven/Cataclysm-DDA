@@ -4,12 +4,13 @@
 
 #include <string>
 #include <climits>
+#include <optional>
 
 #include "calendar.h"
 #include "condition.h"
 #include "dialogue.h"
+#include "event.h"
 #include "json.h"
-#include "optional.h"
 #include "type_id.h"
 
 template<typename T>
@@ -22,8 +23,20 @@ enum eoc_type {
     NPC_DEATH,
     OM_MOVE,
     PREVENT_DEATH,
+    EVENT,
     NUM_EOC_TYPES
 };
+
+class eoc_events : public event_subscriber
+{
+    public:
+        void notify( const cata::event &e ) override;
+
+    private:
+        std::map<event_type, std::vector<effect_on_condition>> event_EOCs;
+        bool has_cached = false;
+};
+
 struct effect_on_condition {
     public:
         friend class generic_factory<effect_on_condition>;
@@ -42,6 +55,7 @@ struct effect_on_condition {
         bool has_deactivate_condition = false;
         bool has_condition = false;
         bool has_false_effect = false;
+        event_type required_event;
         duration_or_var<dialogue> recurrence;
         bool activate( dialogue &d ) const;
         bool check_deactivate( dialogue &d ) const;

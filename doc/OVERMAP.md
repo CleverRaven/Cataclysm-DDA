@@ -179,12 +179,12 @@ For example, here are two simple definitions.
 {
     "type": "overmap_location",
     "id": "forest",
-    "terrains": ["forest"]
+    "terrains": [ "forest" ]
 },
 {
     "type": "overmap_location",
     "id": "wilderness",
-    "terrains": ["forest", "field"]
+    "terrains": [ "forest", "field" ]
 }
 ```
 
@@ -201,12 +201,12 @@ update these definitions as follows:
 {
     "type": "overmap_location",
     "id": "forest",
-    "terrains": ["forest", "forest_thick"]
+    "terrains": [ "forest", "forest_thick" ]
 },
 {
     "type": "overmap_location",
     "id": "wilderness",
-    "terrains": ["forest", "forest_thick", "field"]
+    "terrains": [ "forest", "forest_thick", "field" ]
 }
 ```
 
@@ -246,7 +246,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `mapgen_four_way` | Specify a C++ mapgen function for a LINEAR feature variation. Prefer JSON instead.               |
 | `eoc`             | Supply an effect_on_condition id or an inline effect_on_condition.  The condition of the eoc will be tested to see if the special can be placed.  The effect of the eoc will be run when the special is placed.  See [effect_on_condition.md](effect_on_condition.md). |
 | `entry_eoc`       | An effect on condition ID that will run when you enter this location.                            |
-| `exit_eoc`        | An effect on condition ID that will run when you exit this location.                            |
+| `exit_eoc`        | An effect on condition ID that will run when you exit this location.                             |
 
 ### Example
 
@@ -403,13 +403,13 @@ Depending on the subtype, there are further relevant fields:
 
 #### Further fields for mutable overmap specials
 
-|   Identifier          |                                              Description                                              |
-| --------------------- | ----------------------------------------------------------------------------------------------------- |
-| `check_for_locations`      | List of pairs `[ [ x, y, z ], [ locations, ... ] ]` defining the locations that must exist for initial placement. |
+|        Identifier          |                                                    Description                                                     |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `check_for_locations`      | List of pairs `[ [ x, y, z ], [ locations, ... ] ]` defining the locations that must exist for initial placement.  |
 | `check_for_locations_area` | List of check_for_locations area objects to be considered in addition to the explicit `check_for_locations` pairs. |
-| `overmaps`                 | Definitions of the various overmaps and how they join to one another. |
-| `root`                     | The initial overmap from which the mutable overmap will be grown. |
-| `phases`                   | A specification of how to grow the overmap special from the root OMT. |
+| `overmaps`                 | Definitions of the various overmaps and how they join to one another.                                              |
+| `root`                     | The initial overmap from which the mutable overmap will be grown.                                                  |
+| `phases`                   | A specification of how to grow the overmap special from the root OMT.                                              |
 
 ### Example fixed special
 
@@ -445,13 +445,13 @@ Depending on the subtype, there are further relevant fields:
 
 ### Connections
 
-|  Identifier  |                                           Description                                              |
+| Identifier   |                                           Description                                              |
 | ------------ | -------------------------------------------------------------------------------------------------- |
 | `point`      | `[ x, y, z]` of the connection end point. Cannot overlap an overmap terrain entry for the special. |
 | `terrain`    | Will go away in favor of `connection` eventually. Use `road`, `subway`, `sewer`, etc.              |
 | `connection` | Id of the `overmap_connection` to build. Optional for now, but you should specify it explicitly.   |
 | `from`       | Optional point `[ x, y, z]` within the special to treat as the origin of the connection.           |
-| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.					|
+| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.				          	|
 
 ### Example mutable special
 
@@ -855,9 +855,9 @@ it can be a dictionary with some of these keys:
 
 | Identifier  |                                Description                                 |
 | ----------- | -------------------------------------------------------------------------- |
-| `id`        | Id of the join being defined. |
-| `opposite`  | Id of the join which must match this one from the adjacent terrain. |
-| `into_locations` | List of `overmap_location` ids that this join may point towards. |
+| `id`        | Id of the join being defined.                                              |
+| `opposite`  | Id of the join which must match this one from the adjacent terrain.        |
+| `into_locations` | List of `overmap_location` ids that this join may point towards.      |
 
 ### Mutable special overmaps
 
@@ -867,31 +867,31 @@ value may be:
 
 | Identifier  |                                Description                                 |
 | ----------- | -------------------------------------------------------------------------- |
-| `overmap`   | Id of the `overmap_terrain` to place at the location. |
+| `overmap`   | Id of the `overmap_terrain` to place at the location.                      |
 | `locations` | List of `overmap_location` ids that this overmap terrain may be placed on.  If not specified, defaults to the `locations` value from the special definition. |
-| `north`     | Join which must align with the north edge of this OMT |
-| `east`      | Join which must align with the east edge of this OMT |
-| `south`     | Join which must align with the south edge of this OMT |
-| `west`      | Join which must align with the west edge of this OMT |
-| `above`     | Join which must link this to the OMT above |
-| `below`     | Join which must link this to the OMT below |
+| `north`     | Join which must align with the north edge of this OMT                      |
+| `east`      | Join which must align with the east edge of this OMT                       |
+| `south`     | Join which must align with the south edge of this OMT                      |
+| `west`      | Join which must align with the west edge of this OMT                       |
+| `above`     | Join which must link this to the OMT above                                 |
+| `below`     | Join which must link this to the OMT below                                 |
 
 Each join associated with a direction can be a simple string, interpreted as a
 join id.  Alternatively it can be a JSON object with the following keys:
 
-| Identifier  |                                Description                                 |
-| ----------- | -------------------------------------------------------------------------- |
-| `id`        | Id of the join used here. |
-| `type`      | Either `"mandatory"` or `"available"`.  Default: `"mandatory"`. |
+| Identifier     |                                Description                                 |
+| -------------- | -------------------------------------------------------------------------- |
+| `id`           | Id of the join used here.                                                  |
+| `type`         | Either `"mandatory"` or `"available"`.  Default: `"mandatory"`.            |
 | `alternatives` | List of join ids that may be used instead of the one listed under `id`, but only when placing this overmap.  Unresolved joins created by its placement will only be the primary join `id`. |
 
 ### Generation rules
 
 | Identifier  |                                Description                                 |
 | ----------- | -------------------------------------------------------------------------- |
-| `overmap`   | Id of the `overmap` to place. |
-| `max`       | Maximum number of times this rule should be used. |
-| `weight`    | Weight with which to select this rule. |
+| `overmap`   | Id of the `overmap` to place.                                              |
+| `max`       | Maximum number of times this rule should be used.                          |
+| `weight`    | Weight with which to select this rule.                                     |
 
 One of `max` and `weight` must be specified.  `max` will be used as the weight
 when `weight` is not specified.

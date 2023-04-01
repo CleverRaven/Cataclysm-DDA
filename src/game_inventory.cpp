@@ -7,6 +7,7 @@
 #include <iterator>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -39,7 +40,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "npctrade.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
@@ -707,7 +707,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 item_location temp = loc;
                 // check if at least one parent container is sealed
                 while( temp.has_parent() ) {
-                    item_pocket *pocket = temp.parent_item()->contained_where( *temp.get_item() );
+                    item_pocket *pocket = temp.parent_pocket();
                     if( pocket->sealed() ) {
                         sealed = _( "sealed" );
                         break;
@@ -795,7 +795,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             } else if( time == 0_turns ) {
                 return 4;
             } else if( loc.has_parent() &&
-                       loc.parent_item()->contained_where( *loc )->spoil_multiplier() == 0.0f ) {
+                       loc.parent_pocket()->spoil_multiplier() == 0.0f ) {
                 return 3;
             } else {
                 return 2;
@@ -866,7 +866,7 @@ class comestible_inventory_preset : public inventory_selector_preset
 
 static std::string get_consume_needs_hint( Character &you )
 {
-    auto hint = std::string();
+    std::string hint = std::string();
     auto desc = display::hunger_text_color( you );
     hint.append( string_format( "%s %s", _( "Food:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
@@ -1088,7 +1088,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             const use_function *smoking = it.type->get_use( "SMOKING" );
             if( smoking != nullptr ) {
-                cata::optional<std::string> litcig = iuse::can_smoke( you );
+                std::optional<std::string> litcig = iuse::can_smoke( you );
                 if( litcig.has_value() ) {
                     return _( litcig.value_or( "" ) );
                 }
@@ -1134,7 +1134,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             if( uses.size() == 1 ) {
                 return uses.begin()->second.get_name();
-            } else if( uses.size() > 1 ) {
+            } else if( uses.size() == 2 ) {
+                return string_format( _( "%1$s</color> <color_dark_gray>or</color> <color_light_green>%2$s" ),
+                                      uses.begin()->second.get_name(), std::next( uses.begin() )->second.get_name() );
+            } else if( uses.size() > 2 ) {
                 return _( "…" );
             }
 
@@ -1585,11 +1588,11 @@ drop_locations game_menus::inv::holster( avatar &you, const item_location &holst
 
     inventory_holster_preset holster_preset( holster, &get_avatar() );
 
-    inventory_drop_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
-                                         /*warn_liquid=*/false );
+    inventory_insert_selector insert_menu( you, holster_preset, _( "ITEMS TO INSERT" ),
+                                           /*warn_liquid=*/false );
     insert_menu.add_character_items( you );
     insert_menu.add_nearby_items( 1 );
-    insert_menu.set_display_stats( false );
+    insert_menu.set_display_stats( true );
 
     insert_menu.set_title( title );
     insert_menu.set_hint( hint );
@@ -1850,7 +1853,7 @@ class repair_inventory_preset: public inventory_selector_preset
 static std::string get_repair_hint( const Character &you, const repair_item_actor *actor,
                                     const item *main_tool )
 {
-    auto hint = std::string();
+    std::string hint = std::string();
     hint.append( string_format( _( "Tool: <color_cyan>%s</color>" ), main_tool->display_name() ) );
     hint.append( string_format( " | " ) );
     hint.append( string_format( _( "Skill used: <color_cyan>%s (%d)</color>" ),
@@ -1955,7 +1958,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 }
 
 drop_locations game_menus::inv::pickup( avatar &you,
-                                        const cata::optional<tripoint> &target, const std::vector<drop_location> &selection )
+                                        const std::optional<tripoint> &target, const std::vector<drop_location> &selection )
 {
     pickup_inventory_preset preset( you, /*skip_wield_check=*/true, /*ignore_liquidcont=*/true );
     preset.save_state = &pickup_ui_default_state;
@@ -2123,7 +2126,7 @@ bool game_menus::inv::compare_items( const item &first, const item &second,
     return action == "CONFIRM";
 }
 
-void game_menus::inv::compare( avatar &you, const cata::optional<tripoint> &offset )
+void game_menus::inv::compare( avatar &you, const std::optional<tripoint> &offset )
 {
     you.inv->restack( you );
 

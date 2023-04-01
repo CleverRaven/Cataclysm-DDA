@@ -262,6 +262,7 @@ enum debug_filter : int {
     DF_MATTACK, // monster attack generic
     DF_MELEE, // melee generic
     DF_MONSTER, // monster generic
+    DF_MUTATION, // mutation/purification logic
     DF_NPC, // npc generic
     DF_OVERMAP, // overmap generic
     DF_RADIO, // radio stuff

@@ -827,7 +827,7 @@
     "price": 3900,
     "symbol": "/",
     "color": "light_gray",
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "CONSTRUCTED_SWORDS" ],
     "techniques": [ "WBLOCK_2", "BRUTAL" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ],
     "use_action": [ "WEATHER_TOOL" ],
@@ -850,7 +850,7 @@
     "techniques": [ "WBLOCK_2", "WIDE" ],
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS" ],
+    "weapon_category": [ "MEDIEVAL_SWORDS", "MEDIUM_SWORDS", "CONSTRUCTED_SWORDS" ],
     "use_action": [
       { "type": "cast_spell", "spell_id": "frost_spray", "no_fail": true, "level": 10, "need_wielding": true },
       "WEATHER_TOOL"
