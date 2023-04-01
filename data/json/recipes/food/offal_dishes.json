@@ -213,7 +213,7 @@
       [
         [ "veggy_any", 2, "LIST" ],
         [ "powder_eggs", 2 ],
-        [ "eggs_bird", 2, "LIST" ],
+        [ "eggs_any_shape", 2, "LIST" ],
         [ "egg_reptile", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "morel_cooked", 2 ],
@@ -270,7 +270,7 @@
     "components": [
       [ [ "meat_liver", 8, "LIST" ] ],
       [ [ "edible_fat", 1, "LIST" ], [ "edible_lard", 3, "LIST" ], [ "bacon_uncut", 1 ], [ "bacon", 3 ] ],
-      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ] ],
+      [ [ "powder_eggs", 2 ], [ "eggs_any_shape", 2, "LIST" ] ],
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
       [ [ "flour_any", 2, "LIST" ] ],
       [ [ "salt", 3 ] ],
@@ -298,7 +298,7 @@
     "//": "brains: 8u heat, egg: 3u heat, batter: 6u heat",
     "components": [
       [ [ "meat_brain", 2, "LIST" ] ],
-      [ [ "eggs_bird", 1, "LIST" ] ],
+      [ [ "eggs_any_shape", 1, "LIST" ] ],
       [ [ "batter", 3, "LIST" ] ],
       [ [ "salt", 1 ] ],
       [ [ "seasoning_mild", 4, "LIST" ] ],
