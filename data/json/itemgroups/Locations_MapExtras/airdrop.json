@@ -55,7 +55,7 @@
     "subtype": "collection",
     "container-item": "box_medium",
     "on_overflow": "spill",
-    "entries": [ { "item": "bandages", "charges": [ 250, 270 ] } ]
+    "entries": [ { "item": "bandages", "count": [ 250, 270 ] } ]
   },
   {
     "id": "disinfectant_bottle",

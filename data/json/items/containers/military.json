@@ -240,7 +240,6 @@
     "price_postapoc": 250,
     "//": "todo: replace with some better rubber material",
     "material": [ "rubber" ],
-    "//": "todo: replace with some better rubber material",
     "symbol": "0",
     "color": "yellow",
     "qualities": [ [ "CONTAIN", 1 ] ],
