@@ -213,7 +213,7 @@
     "variants": [
       {
         "id": "cz600_762",
-        "name": { "str": "CZ 600 TRAIL" },
+        "name": { "str": "CZ 600 Trail" },
         "description": "A handy bolt-action offering from CZ, the 600 Trail is a box magazine-fed ranch rifle that utilizes an aluminum chassis to keep its overall heft to a minimum.  Possessing an extendable buttstock, extensive modularity, and a quick-swap barrel assembly switchable to accommodate the firing of either .223 or 7.62x39mm ammunition, the rifle was intended for use by backpackers, trail hikers, and preppers.",
         "weight": 1
       }
