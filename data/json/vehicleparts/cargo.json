@@ -45,11 +45,7 @@
         "using": [ [ "welding_standard", 120 ], [ "vehicle_bolt_install", 1 ] ]
       },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
-        "time": "5 m",
-        "using": [ [ "repair_welding_standard", 3 ] ]
-      }
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE" ],
     "damage_reduction": { "all": 6 }
@@ -111,11 +107,7 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "20 m", "using": [ [ "welding_standard", 120 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
-      "repair": {
-        "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ],
-        "time": "5 m",
-        "using": [ [ "repair_welding_standard", 3 ] ]
-      }
+      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 2 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE" ],
     "damage_reduction": { "all": 4 }
