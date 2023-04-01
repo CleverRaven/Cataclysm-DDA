@@ -12877,11 +12877,11 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
         }
     }
 
+    // Extra behaviors for the cabled item.
+    if( parent_item != nullptr ) {
     int turns_elapsed = to_turns<int>( calendar::turn - link->last_processed );
     link->last_processed = calendar::turn;
 
-    // Extra behaviors for the cabled item.
-    if( parent_item != nullptr ) {
         int power_draw = 0;
 
         // Recharge or charge linked batteries
