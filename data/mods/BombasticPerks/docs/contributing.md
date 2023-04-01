@@ -7,14 +7,13 @@
 * Perks should try to be funny and lean into the absurdity.
 
 ## Naming Convention
-* Perks should have an ID of: `perk_name_of_perk`
-* Confirmation menu IDs should be in the format `TALK_PERK_MENU_NAME_OF_PERK`
+* Perks should have an ID of: `perk_[name_of_perk]`
+* Confirmation menu IDs should be in the format `TALK_PERK_MENU_[NAME_OF_PERK]`
 
 ## Adding
 When adding stuff to the mod you should organize your files as follows:
 * the perks (which are implemented as mutations) go in the `perks.json` file.
-* any items they provide or need go in the `items.json` file.
-* any EOCs required for any specific perk should go in their own file in the `eocs` folder with a name scheme of `perk_name.json`.
+* any additional things for your perk: items, effects, spells, EOCs should be gathered in a single file called `[name_of_perk].json` in the `perkdata` folder.
 * perk menu expects a `menu entry` and a `confirmation menu`. These are explained bellow.
 
 ### Menu Entry
