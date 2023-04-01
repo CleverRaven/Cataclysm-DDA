@@ -12736,7 +12736,6 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
 {
     // Active cables need link data to process.
     if( !link ) {
-        debugmsg( "Active cable %s lost its link data!", tname() );
         return reset_cable( carrier, parent_item );
     }
 
@@ -12963,7 +12962,19 @@ int item::charge_linked_batteries( item &linked_item, vehicle &linked_veh, int t
 bool item::reset_cable( Character *p, item *parent_item, const bool loose_message,
                         const tripoint sees_point )
 {
-    charges = get_var( "cable_length", type->maximum_charges() );
+    if( !link ) {
+        if( parent_item != nullptr ) {
+            debugmsg( "%s's active cable lost its cable data!", parent_item->tname() );
+            parent_item->plugged_in = false;
+        } else {
+            debugmsg( "Active cable %s lost its cable data!", tname() );
+        }
+        active = false;
+        charges = type->maximum_charges();
+        return has_flag( flag_AUTO_DELETE_CABLE );
+    }
+
+    charges = link->max_length;
 
     if( p != nullptr || !link ) {
         active = false;
