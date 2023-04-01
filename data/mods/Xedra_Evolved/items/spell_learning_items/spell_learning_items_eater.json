@@ -280,5 +280,22 @@
     "color": "red",
     "scannable": false,
     "use_action": { "type": "learn_spell", "spells": [ "spell_weak" ] }
+  },
+  {
+    "id": "artifact_unbreakable",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "pair of spheres", "str_pl": "pairs of spheres" },
+    "description": "Two perfect spheres, where the first does not move at all, and second constantly rotates around.  You feel the connection to both of them.",
+    "//": "unstoppable and immovable",
+    "weight": "240 g",
+    "volume": "1150 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "0",
+    "color": "dark_gray",
+    "scannable": false,
+    "use_action": { "type": "learn_spell", "spells": [ "spell_unbreakable" ] }
   }
 ]
