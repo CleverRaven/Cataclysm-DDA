@@ -5383,7 +5383,7 @@
     "type": "profession",
     "id": "prepped_patriot",
     "name": "Prepped Patriot",
-    "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you’ve readied yourself to go toe to toe with the cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun... and nothing more.  God bless America, soldier.",
+    "description": "Does the American dream still exist?  Well, recent events have put that to the test.  Does it still proudly live in your beating heart?  Yes.  Yes, it does.  A patriot to the bitter end, you’ve readied yourself to go toe to toe with the Cataclysm that would seek to do harm to your darling USA.  That is to say, you grabbed your gun... and nothing more.  God bless America, soldier.",
     "points": 1,
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
     "items": {
