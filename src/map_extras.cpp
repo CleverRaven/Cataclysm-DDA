@@ -2665,7 +2665,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_helicopter, mx_helicopter },
     { map_extra_mx_portal_in, mx_portal_in },
     { map_extra_mx_house_wasp, mx_house_wasp },
-    { map_extra_mx_shia, mx_shia },
     { map_extra_mx_jabberwock, mx_jabberwock },
     { map_extra_mx_grove, mx_grove },
     { map_extra_mx_shrubbery, mx_shrubbery },
