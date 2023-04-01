@@ -196,7 +196,7 @@
   {
     "id": "retool_ar15_762",
     "type": "GUNMOD",
-    "name": { "str": "7.62mm upper receiver" },
+    "name": { "str": "7.62x39mm upper receiver" },
     "description": "This is a complete upper receiver assembly containing a 16-inch barrel, handguard, and bolt carrier group that, given the right knowledge, is installable upon an AR-15-style rifle’s lower frame.  Swappable uppers allow compatible firearms to be retooled for different cartridges and barrel lengths, with this kit bringing to life the dreams of users wishing to feed capitalism’s rifle with communist lead.  Necessitating a proprietary magazine to cycle the hefty munitions, you’re honestly unsure if this constitutes a brilliant idea, a bastard, or just a paradox.",
     "weight": "2268 g",
     "volume": "1550 ml",
