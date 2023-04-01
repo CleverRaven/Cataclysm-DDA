@@ -20,7 +20,7 @@
     "id": "ruger_arr_mag",
     "type": "MAGAZINE",
     "name": { "str": "Ruger American Rifle 3-round magazine" },
-    "description": "This is a detachable polymer box magazine, capable of containing 3 rounds of .450 Bushmaster and compatible with appropriately chambered American Ranch Rifles.",
+    "description": "A detachable polymer box magazine, capable of containing three rounds of .450 Bushmaster and compatible with appropriately chambered American Ranch Rifles.",
     "weight": "78 g",
     "volume": "220 ml",
     "longest_side": "100 mm",
