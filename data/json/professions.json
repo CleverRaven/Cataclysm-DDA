@@ -1450,7 +1450,7 @@
     "type": "profession",
     "id": "seal_sniper",
     "name": "Navy SEAL Marksmen",
-    "description": "Recruited into the ranks of the US Navy’s special warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the cataclysm.",
+    "description": "Recruited into the ranks of the US Navy’s Special Warfare forces as a designated sniper, your training in precision marksmanship and maritime operations was extensive.  As a proficient soldier and combative in all respects, you provided overwatch and long-range elimination services in the line of duty.  Now, with naval command imploding and your spotter MIA, your skills with a rifle and covert operations are the only things standing between you and the Cataclysm.",
     "points": 8,
     "proficiencies": [ "prof_gunsmithing_basic", "prof_spotting", "prof_wound_care" ],
     "skills": [
