@@ -158,17 +158,12 @@
   },
   {
     "id": "TALK_FORGE_LORD_DIVINER_ANIMAL",
+    "//": "TODO: make missions that spawns animals and put them here",
     "type": "talk_topic",
-    "dynamic_line": "Right.  What kind?",
+    "dynamic_line": "I'm afraid I can't do that right now.  Sorry.",
     "responses": [
-      { "text": "A cow.", "topic": "TALK_FORGE_LORD_DIVINER_COW" },
-      { "text": "A horse.", "topic": "TALK_FORGE_LORD_DIVINER_HORSE" },
-      { "text": "A sheep.", "topic": "TALK_FORGE_LORD_DIVINER_SHEEP" },
-      { "text": "A dog.", "topic": "TALK_FORGE_LORD_DIVINER_DOG" },
-      { "text": "A cat.", "topic": "TALK_FORGE_LORD_DIVINER_CAT" },
-      { "text": "A hunllef ram.", "topic": "TALK_FORGE_LORD_DIVINER_HULLEF" },
-      { "text": "About something else…", "topic": "TALK_NONE" },
-      { "text": "Nevermind.", "topic": "TALK_DONE" }
+      { "text": "Fair enough.  About something else…", "topic": "TALK_NONE" },
+      { "text": "Nevermind then.", "topic": "TALK_DONE" }
     ]
   },
   {
