@@ -157,7 +157,7 @@
       {
         "id": "manual_gun_13",
         "name": { "str": "The Gun", "str_pl": "copies of The Gun" },
-        "description": "a giant, 500-page history about the AK-47—the most popular firearm in the world—and the information around it: the mechanics of the weapon, its usage, maintenance, modifications, and its impact on global conflicts.",
+        "description": "A giant, 500-page history about the AK-47—the most popular firearm in the world—and the information around it: the mechanics of the weapon, its usage, maintenance, modifications, and its impact on global conflicts.",
         "//": "978-0743270762",
         "weight": 1
       }
