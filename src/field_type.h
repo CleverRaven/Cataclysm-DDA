@@ -150,7 +150,6 @@ extern const field_type_str_id fd_blood_insect;
 extern const field_type_str_id fd_blood_invertebrate;
 extern const field_type_str_id fd_gibs_insect;
 extern const field_type_str_id fd_gibs_invertebrate;
-extern const field_type_str_id fd_bees;
 extern const field_type_str_id fd_incendiary;
 extern const field_type_str_id fd_relax_gas;
 extern const field_type_str_id fd_fungal_haze;

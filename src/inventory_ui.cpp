@@ -1234,9 +1234,9 @@ void inventory_column::on_change( const inventory_entry &/* entry */ )
 inventory_entry *inventory_column::add_entry( const inventory_entry &entry )
 {
     entries_t &dest = entry.is_hidden( hide_entries_override ) ? entries_hidden : entries;
-    if( std::find( dest.begin(), dest.end(), entry ) != dest.end() ) {
+    if( auto it = std::find( dest.begin(), dest.end(), entry ); it != dest.end() ) {
         debugmsg( "Tried to add a duplicate entry." );
-        return nullptr;
+        return &*it;
     }
     paging_is_valid = false;
     if( entry.is_item() ) {
@@ -1738,7 +1738,10 @@ size_t inventory_column::visible_cells() const
 
 selection_column::selection_column( const std::string &id, const std::string &name ) :
     inventory_column( selection_preset ),
-    selected_cat( id, no_translation( name ), 0 ) {}
+    selected_cat( id, no_translation( name ), 0 )
+{
+    hide_entries_override = { false };
+}
 
 selection_column::~selection_column() = default;
 
@@ -2782,6 +2785,11 @@ void inventory_column::cycle_hide_override()
     } else {
         hide_entries_override = false;
     }
+}
+
+void selection_column::cycle_hide_override()
+{
+    // never hide entries
 }
 
 void inventory_selector::on_input( const inventory_input &input )

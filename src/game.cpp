@@ -2634,6 +2634,9 @@ bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mo
 
 bool game::is_game_over()
 {
+    if( uquit == QUIT_DIED || uquit == QUIT_WATCH ) {
+        events().send<event_type::avatar_dies>();
+    }
     if( uquit == QUIT_WATCH ) {
         // deny player movement and dodging
         u.moves = 0;

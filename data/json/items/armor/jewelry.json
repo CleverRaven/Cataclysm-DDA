@@ -1895,13 +1895,6 @@
     "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
-    "id": "badge_cybercop",
-    "copy-from": "badge_abstract",
-    "type": "ARMOR",
-    "name": { "str": "cybercop badge" },
-    "description": "A chromed silver shield identifies the wearer as an authority even the cop-killers couldn't kill."
-  },
-  {
     "id": "badge_deputy",
     "copy-from": "badge_abstract",
     "type": "ARMOR",
