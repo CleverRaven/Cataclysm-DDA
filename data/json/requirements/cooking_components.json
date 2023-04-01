@@ -1269,6 +1269,7 @@
     "components": [
       [
         [ "oj", 1 ],
+        [ "oj_fresh", 1 ],
         [ "lemonade", 1 ],
         [ "apple_cider", 1 ],
         [ "cranberry_juice", 1 ],

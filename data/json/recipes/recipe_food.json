@@ -3012,7 +3012,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "oj",
+    "result": "oj_fresh",
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -3158,7 +3158,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "oj", 1 ], [ "cranberry_juice", 1 ] ], [ [ "vodka", 1 ] ] ]
+    "components": [ [ [ "oj", 1 ], [ "oj_fresh", 1 ], [ "cranberry_juice", 1 ] ], [ [ "vodka", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -8623,11 +8623,7 @@
     "charges": 15,
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [
-      [ [ "oj", 1 ], [ "lemonade", 1 ], [ "apple_cider", 1 ], [ "cranberry_juice", 1 ], [ "juice", 1 ] ],
-      [ [ "weak_liquor", 1, "LIST" ] ],
-      [ [ "hard_liquor_chem", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "sweet_juice", 1, "LIST" ] ], [ [ "weak_liquor", 1, "LIST" ] ], [ [ "hard_liquor_chem", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
