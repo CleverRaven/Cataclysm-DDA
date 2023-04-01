@@ -514,7 +514,13 @@
     "description": "The diviner told you that there would be a cave here.",
     "destination": "cave_innawood",
     "start": {
-      "assign_mission_target": { "om_terrain": "cave_innawood", "om_special": "cave_innawood", "reveal_radius": 3, "cant_see": true, "search_range": 180 }
+      "assign_mission_target": {
+        "om_terrain": "cave_innawood",
+        "om_special": "cave_innawood",
+        "reveal_radius": 3,
+        "cant_see": true,
+        "search_range": 180
+      }
     }
   },
   {
