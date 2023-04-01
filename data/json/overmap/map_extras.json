@@ -254,17 +254,6 @@
     "min_max_zlevel": [ -2, 0 ]
   },
   {
-    "id": "mx_shia",
-    "type": "map_extra",
-    "name": { "str": "Shia LaBeouf" },
-    "description": "Cannibal is nearby.",
-    "generator": { "generator_method": "map_extra_function", "generator_id": "mx_shia" },
-    "min_max_zlevel": [ 0, 0 ],
-    "sym": "c",
-    "color": "red",
-    "autonote": true
-  },
-  {
     "id": "mx_jabberwock",
     "type": "map_extra",
     "name": { "str": "Jabberwock" },
