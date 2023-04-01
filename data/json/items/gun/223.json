@@ -539,7 +539,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "special duty carbine" },
-    "description": "a rugged military carbine that has been outfitted with various accessories, such as an adjustable buttstock, suppressor, and shortened barrel, to improve its close-quarter battle effectiveness.  Most commonly deployed with special forces units and marines before the Cataclysm, its handy size lends itself well to room clearing and fighting within tight spaces.",
+    "description": "A rugged military carbine that has been outfitted with various accessories, such as an adjustable buttstock, suppressor, and shortened barrel, to improve its close-quarter battle effectiveness.  Most commonly deployed with special forces units and marines before the Cataclysm, its handy size lends itself well to room clearing and fighting within tight spaces.",
     "weight": "1316 g",
     "volume": "1650 ml",
     "longest_side": "486 mm",
