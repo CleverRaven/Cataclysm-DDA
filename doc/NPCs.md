@@ -790,12 +790,12 @@ The `effect` field of `speaker_effect` or a `response` can be any of the followi
 | `lesser_give_aid`     | Removes bleeding from your character's body and heals 5-15 HP of injury on each of your character's body parts. |
 | `lesser_give_aid_all` | Performs `lesser_give_aid` on each of your character's NPC allies in range. |
 | `give_aid`            | Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts. |
-| `give_aid_all`        | Performs `give_aid` on each of your character's NPC allies in range. |
-| `buy_haircut`         | Gives your character a haircut morale boost for 12 hours. |
-| `buy_shave`           | Gives your character a shave morale boost for 6 hours. |
-| `morale_chat`         | Gives your character a pleasant conversation morale boost for 6 hours. |
-| `player_weapon_away`  | Makes your character put away (unwield) their weapon. |
-| `player_weapon_drop`  | Makes your character drop their weapon. |
+| `give_aid_all`        | Performs `give_aid` on each of your character's NPC allies in range.        |
+| `buy_haircut`         | Gives your character a haircut morale boost for 12 hours.                   |
+| `buy_shave`           | Gives your character a shave morale boost for 6 hours.                      |
+| `morale_chat`         | Gives your character a pleasant conversation morale boost for 6 hours.      |
+| `player_weapon_away`  | Makes your character put away (unwield) their weapon.                       |
+| `player_weapon_drop`  | Makes your character drop their weapon.                                     |
 
 #### Character effects / Mutations
 
