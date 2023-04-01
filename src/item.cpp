@@ -12740,7 +12740,7 @@ bool item::process_cable( map &here, Character *carrier, const tripoint &pos, it
     }
 
     // Loose, unspooled cables shouldn't do anything but wait to be picked up.
-    if( link->state == cable_state::needs_reeling ) {
+    if( link->state == cable_state::needs_reeling || link->state == cable_state::no_attachments ) {
         if( carrier != nullptr ) {
             return reset_cable( carrier, parent_item );
         }
