@@ -3197,22 +3197,22 @@ According to <https://leathersupreme.com/leather-hide-thickness-in-leather-jacke
 
 From [this site](https://cci.one/site/marine/design-tips-fabrication-overview/tables-of-weights-and-measures/), an equivalency guideline for fabric weight to mm:
 
-| Cloth | oz/yd2 | g/m2 | Inches | mm |
-| ----- | ------- | ----- | ------- | ---- |
-|  Fiberglass (plain weave)  | 2.3 |  78  | 0.004 | 0.10 |
-|  Fiberglass (plain weave)  | 6.0 | 203 | 0.007 | 0.17 |
-| Kevlar (TM) (plain weave) | 5.0 | 170 | 0.010 | 0.25 |
-| Carbon Fiber (plain weave) | 5.8 | 197 | 0.009 | 0.23 |
-| Carbon Fiber (unidirectional) | 9.0 | 305 | 0.011 | 0.28 |
+| Cloth                         | oz/yd2 | g/m2  | Inches | mm   |
+| -----                         | ------ | ----- | ------ | ---- |
+| Fiberglass (plain weave)      |    2.3 |    78 |  0.004 | 0.10 |
+| Fiberglass (plain weave)      |    6.0 |   203 |  0.007 | 0.17 |
+| Kevlar (TM) (plain weave)     |    5.0 |   170 |  0.010 | 0.25 |
+| Carbon Fiber (plain weave)    |    5.8 |   197 |  0.009 | 0.23 |
+| Carbon Fiber (unidirectional) |    9.0 |   305 |  0.011 | 0.28 |
 
 Chart cobbled together from several sources for more general materials:
 
-|  Fabric  | oz/yd2 | Max g/m2 | Inches | mm to use |
-| ------- | --------| ---------- | ------- | ---------- |
-| Very light | 0-4 | 136 | 0.006-0.007 | 0.15 |
-|   Light   | 4-7 | 237 |    0.008    |  0.2  |
-|  Medium  | 7-11 | 373 | 0.009-0.011 | 0.25 |
-|   Heavy   | 11-14 | 475 | 0.012-0.014 | 0.3 |
+| Fabric     | oz/yd2  | Max g/m2   | Inches      | mm to use  |
+| ---------- | ------- | ---------- | ----------- | ---------- |
+| Very light |     0-4 |        136 | 0.006-0.007 |       0.15 |
+| Light      |     4-7 |        237 |       0.008 |        0.2 |
+| Medium     |    7-11 |        373 | 0.009-0.011 |       0.25 |
+| Heavy      |   11-14 |        475 | 0.012-0.014 |        0.3 |
 
 Shoe thicknesses are outlined at <https://secretcobbler.com/choosing-leather/>; TL;DR: upper 1.2 - 2.0mm, lining 0.8 - 1.2mm, for a total of 2.0 - 3.2mm.
 
