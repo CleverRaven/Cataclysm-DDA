@@ -74,6 +74,11 @@
         "text": "Gain [<trait_name:perk_hobbyist>]",
         "topic": "TALK_PERK_MENU_HOBBYIST"
       },
+      {
+        "condition": { "not": { "u_has_trait": "perk_popeye" } },
+        "text": "Gain [<trait_name:perk_popeye>]",
+        "topic": "TALK_PERK_MENU_POPEYE"
+      },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
   },
@@ -368,6 +373,27 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_hobbyist" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_POPEYE",
+    "dynamic_line": "<trait_name:perk_popeye>: \"<trait_description:perk_popeye>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_popeye" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }
