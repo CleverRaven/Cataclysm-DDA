@@ -4770,6 +4770,30 @@
   },
   {
     "type": "construction",
+    "id": "app_veh_tools_kitchen",
+    "group": "place_veh_tools_kitchen",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "veh_tools_kitchen", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_veh_tools_workshop",
+    "group": "place_veh_tools_workshop",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "veh_tools_workshop", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "BRISK_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_fridge",
     "group": "place_fridge",
     "category": "APPLIANCE",
