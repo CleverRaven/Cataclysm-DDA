@@ -1070,14 +1070,6 @@ bool talk_function::display_and_choose_opts(
         if( action == "UP" || action == "SCROLL_UP" || action == "DOWN" || action == "SCROLL_DOWN" ) {
             sel = increment_and_wrap( sel, action == "DOWN" || action == "SCROLL_DOWN", cur_key_list.size() );
             info_offset = 0;
-            /*
-            } else if( action == "PAGE_UP" ) {
-            if( info_offset > 0 ) {
-                info_offset--;
-            }
-            } else if( action == "PAGE_DOWN" ) {
-            info_offset++;
-            */
         } else if( action == "SCROLL_MISSION_INFO_UP" ) {
             if( info_offset > 0 ) {
                 info_offset--;
