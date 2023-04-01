@@ -4945,10 +4945,7 @@
     "charges": 1,
     "//": "no energy is spent cooking anything, that's already done.",
     "components": [
-      [ [ "fried_eggs", 1 ] ],
-      [ [ "bread_sandwich", 2, "LIST" ] ],
-      [ [ "condiment", 1, "LIST" ] ]
-    ]
+      [ [ "fried_eggs", 1 ] ], [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "condiment", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4978,10 +4975,7 @@
     "charges": 1,
     "//": "no energy is spent cooking anything, that's already done.",
     "components": [
-      [ [ "fried_eggs", 1 ] ],
-      [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ],
-      [ [ "condiment", 1, "LIST" ] ]
-    ]
+      [ [ "fried_eggs", 1 ] ], [ [ "bread_sandwich_wheat_free", 2, "LIST" ] ], [ [ "condiment", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
