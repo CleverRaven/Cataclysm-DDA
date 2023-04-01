@@ -436,7 +436,7 @@
   {
     "id": "retool_cz600_762",
     "type": "GUNMOD",
-    "name": { "str": "CZ 7.62mm barrel-assembly" },
+    "name": { "str": "CZ 7.62x39mm barrel-assembly" },
     "description": "This is a quick-detach 7.62mm barrel assembly and bolt head, installable within the frame of a CZ 600 rifle, and secured with three fasteners.  With this assembly installed, a rifle is rendered compatible with 7.62x39mm CZ Bren 2 magazines.",
     "weight": "1000 g",
     "volume": "500 ml",
