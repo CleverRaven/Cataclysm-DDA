@@ -742,7 +742,7 @@
   {
     "type": "COMESTIBLE",
     "id": "rehydrated_eggs",
-    "name": { "str": "egg pulp" },
+    "name": { "str_sp": "liquid eggs" },
     "weight": "50 g",
     "spoils_in": "4 days",
     "comestible_type": "FOOD",
@@ -750,7 +750,7 @@
     "symbol": "~",
     "quench": 4,
     "calories": 80,
-    "description": "Egg liquid that contains almost all the nutrients of eggs. If you accidentally drop the eggshell fragments into it, it may be able to add a little extra calcium.",
+    "description": "Liquid eggs that contains almost all the nutrients of eggs.  If you accidentally drop the eggshell fragments into it, it may be able to add a little extra calcium.",
     "material": [ "egg" ],
     "volume": "50 ml",
     "stack_size": 1,
