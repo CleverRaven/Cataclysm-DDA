@@ -437,7 +437,7 @@
     "type": "GENERIC",
     "id": "dreamforged_tsurugi_speed",
     "copy-from": "dreamforged_broadsword",
-    "name": { "str_sp": "tsurugi of speed", "str_pl": "tsurugis of speed" },
+    "name": { "str_sp": "tsurugi of speed" },
     "description": "Classic japanese tsurugi sword with razor sharp blade.  You start to think you need to move faster, and effect intensifies when you are surrounded.",
     "relic_data": { "passive_effects": [ { "id": "MON_NEARBY_SPEED" } ] }
   },
