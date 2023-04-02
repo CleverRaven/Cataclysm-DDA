@@ -1971,7 +1971,7 @@ class Character : public Creature, public visitable
         std::vector<item *> inv_dump();
         std::vector<const item *> inv_dump() const;
         units::mass weight_carried() const;
-        units::volume volume_carried() const;
+        units::volume volume_carried( bool for_display = false ) const;
 
         units::length max_single_item_length() const;
         units::volume max_single_item_volume() const;
@@ -2002,7 +2002,7 @@ class Character : public Creature, public visitable
         units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
-        units::volume free_space() const;
+        units::volume free_space( bool for_display = false ) const;
         /**
          * Returns the total volume of all worn holsters.
         */

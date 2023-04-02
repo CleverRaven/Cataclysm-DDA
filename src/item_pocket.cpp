@@ -2088,11 +2088,11 @@ units::length item_pocket::min_containable_length() const
     return 0_mm;
 }
 
-units::volume item_pocket::contains_volume() const
+units::volume item_pocket::contains_volume( bool for_display ) const
 {
     units::volume vol = 0_ml;
     for( const item &it : contents ) {
-        vol += it.volume();
+        vol += it.volume( for_display );
     }
     return vol;
 }

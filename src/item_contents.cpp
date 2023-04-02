@@ -2336,10 +2336,14 @@ bool item_contents::all_pockets_rigid() const
     return true;
 }
 
-units::volume item_contents::item_size_modifier() const
+units::volume item_contents::item_size_modifier( bool for_display ) const
 {
     units::volume total_vol = 0_ml;
     for( const item_pocket &pocket : contents ) {
+        // if a pocket is disabled, rigid and for display then show it as full
+        if( for_display && pocket.settings.is_disabled() && pocket.rigid() ) {
+            total_vol += pocket.volume_capacity() - pocket.contains_volume();
+        }
         total_vol += pocket.item_size_modifier();
     }
     return total_vol;

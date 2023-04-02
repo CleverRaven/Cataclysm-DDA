@@ -1454,7 +1454,7 @@ bool outfit::covered_with_flag( const flag_id &f, const body_part_set &parts ) c
     return to_cover.none();
 }
 
-units::volume outfit::free_space() const
+units::volume outfit::free_space( bool for_display ) const
 {
     units::volume volume_capacity = 0_ml;
     for( const item &w : worn ) {
@@ -1462,7 +1462,7 @@ units::volume outfit::free_space() const
         for( const item_pocket *pocket : w.get_all_contained_pockets() ) {
             if( pocket->contains_phase( phase_id::SOLID ) ) {
                 for( const item *it : pocket->all_items_top() ) {
-                    volume_capacity -= it->volume();
+                    volume_capacity -= it->volume( false, false, -1, for_display );
                 }
             } else if( !pocket->empty() ) {
                 volume_capacity -= pocket->volume_capacity();

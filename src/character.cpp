@@ -8053,21 +8053,21 @@ bool Character::is_waterproof( const body_part_set &parts ) const
     return covered_with_flag( flag_WATERPROOF, parts );
 }
 
-units::volume Character::free_space() const
+units::volume Character::free_space( bool for_display ) const
 {
     units::volume volume_capacity = 0_ml;
     volume_capacity += weapon.get_total_capacity();
     for( const item_pocket *pocket : weapon.get_all_contained_pockets() ) {
         if( pocket->contains_phase( phase_id::SOLID ) ) {
             for( const item *it : pocket->all_items_top() ) {
-                volume_capacity -= it->volume();
+                volume_capacity -= it->volume( false, false, -1, for_display );
             }
         } else if( !pocket->empty() ) {
             volume_capacity -= pocket->volume_capacity();
         }
     }
     volume_capacity += weapon.check_for_free_space();
-    volume_capacity += worn.free_space();
+    volume_capacity += worn.free_space( for_display );
     return volume_capacity;
 }
 
@@ -8167,9 +8167,9 @@ units::volume Character::volume_capacity_with_tweaks( const item_tweaks &tweaks 
     return volume_capacity;
 }
 
-units::volume Character::volume_carried() const
+units::volume Character::volume_carried( bool for_display ) const
 {
-    return volume_capacity() - free_space();
+    return volume_capacity() - free_space( for_display );
 }
 
 void Character::start_hauling()

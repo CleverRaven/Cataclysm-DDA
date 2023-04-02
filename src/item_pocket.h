@@ -208,7 +208,7 @@ class item_pocket
         units::length min_containable_length() const;
 
         // combined volume of contained items
-        units::volume contains_volume() const;
+        units::volume contains_volume( bool for_display = false ) const;
         units::volume remaining_volume() const;
         // how many more of @it can this pocket hold?
         int remaining_capacity_for_item( const item &it ) const;

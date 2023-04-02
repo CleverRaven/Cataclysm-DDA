@@ -638,7 +638,7 @@ class item : public visitable
          * @param charges_in_vol if specified, get the volume for this many charges instead of current charges
          */
         units::volume volume( bool integral = false, bool ignore_contents = false,
-                              int charges_in_vol = -1 ) const;
+                              int charges_in_vol = -1, bool for_display = false ) const;
 
         units::length length() const;
 

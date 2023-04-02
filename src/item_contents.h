@@ -143,7 +143,7 @@ class item_contents
         item &legacy_front();
         const item &legacy_front() const;
 
-        units::volume item_size_modifier() const;
+        units::volume item_size_modifier( bool for_display = false ) const;
         units::mass item_weight_modifier() const;
         units::length item_length_modifier() const;
 

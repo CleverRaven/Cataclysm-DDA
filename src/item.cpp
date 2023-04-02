@@ -7179,7 +7179,8 @@ units::volume item::base_volume() const
     return type->volume;
 }
 
-units::volume item::volume( bool integral, bool ignore_contents, int charges_in_vol ) const
+units::volume item::volume( bool integral, bool ignore_contents, int charges_in_vol,
+                            bool for_display ) const
 {
     charges_in_vol = charges_in_vol < 0 || charges_in_vol > charges ? charges : charges_in_vol;
     if( is_null() ) {
@@ -7229,7 +7230,7 @@ units::volume item::volume( bool integral, bool ignore_contents, int charges_in_
     }
 
     if( !ignore_contents ) {
-        ret += contents.item_size_modifier();
+        ret += contents.item_size_modifier( for_display );
     }
 
     // if it has additional pockets include the volume of those

@@ -109,7 +109,7 @@ class outfit
         units::volume free_holster_volume() const;
         units::volume contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
         units::volume volume_capacity_with_tweaks( const std::map<const item *, int> &without ) const;
-        units::volume free_space() const;
+        units::volume free_space( bool for_display = false ) const;
         units::volume max_single_item_volume() const;
         units::length max_single_item_length() const;
         // total volume

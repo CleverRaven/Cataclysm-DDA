@@ -2426,7 +2426,7 @@ inventory_selector::stats inventory_selector::get_weight_and_volume_and_holster_
 inventory_selector::stats inventory_selector::get_raw_stats() const
 {
     return get_weight_and_volume_and_holster_stats( u.weight_carried(), u.weight_capacity(),
-            u.volume_carried(), u.volume_capacity(),
+            u.volume_carried( true ), u.volume_capacity(),
             u.max_single_item_length(), u.max_single_item_volume(),
             u.free_holster_volume(), u.used_holsters(), u.total_holsters() );
 }
