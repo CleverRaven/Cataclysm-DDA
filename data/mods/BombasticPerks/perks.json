@@ -116,6 +116,33 @@
   },
   {
     "type": "mutation",
+    "id": "perk_way_openpalm",
+    "name": { "str": "Way of the Open Palm" },
+    "points": 0,
+    "description": "You've dealt enough blows that your hands have callused, and your knifehand strikes are sharp enough to draw blood.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_hand_openpalm" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_way_closedfist",
+    "name": { "str": "Way of the Closed Fist" },
+    "points": 0,
+    "description": "You've dealt enough blows that your hands have callused, and your hammerfist strikes are as strong as a real hammer.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_hand_closedfist" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_way_pinchedfingers",
+    "name": { "str": "Way of the Pinched Fingers" },
+    "points": 0,
+    "description": "You've dealt enough blows that your hands have callused, your spearhand strikes can pierce armor, and your grip can turn bolts barehanded.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_hand_pinchedfingers" ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_tuck_and_roll",
     "name": { "str": "Tuck and Roll" },
     "points": 0,
