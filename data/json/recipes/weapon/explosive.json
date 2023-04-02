@@ -14,7 +14,7 @@
       [
         [ "any_strong_acid", 2, "LIST" ],
         [ "blood_acid", 2 ],
-        [ "blood_acid_ground", 2 ],
+        [ "blood_acid_underground", 2 ],
         [ "blood_acid_plant", 2 ],
         [ "blood_acid_insect", 2 ]
       ],

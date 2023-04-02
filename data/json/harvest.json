@@ -1712,11 +1712,11 @@
     ]
   },
   {
-    "id": "ground_acid",
+    "id": "underground_acid",
     "//": "acid blood type for underground or digging based creaturs.",
     "type": "harvest",
     "entries": [
-      { "drop": "blood_acid_ground", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "blood_acid_underground", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }

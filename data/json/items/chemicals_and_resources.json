@@ -2068,7 +2068,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "blood_acid_ground",
+    "id": "blood_acid_underground",
     "copy-from": "chem_sulphuric_acid",
     "price": 0,
     "price_postapoc": 0,

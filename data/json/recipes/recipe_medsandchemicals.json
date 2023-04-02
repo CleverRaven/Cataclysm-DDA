@@ -2149,7 +2149,7 @@
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "tools": [
       [ [ "water_boiling_heat", 3, "LIST" ] ],
-      [ [ "ppe_gas", 10, "LIST" ] ],
+      [ [ "ppe_gas", 5, "LIST" ] ],
       [ [ "ppe_gloves", 1, "LIST" ] ],
       [ [ "ppe_skin", 1, "LIST" ] ]
     ],
@@ -2215,7 +2215,12 @@
     ],
     "book_learn": [ [ "textbook_chemistry", 2 ], [ "adv_chemistry", 2 ], [ "atomic_survival", 1 ], [ "recipe_labchem", 1 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "ppe_eyes", 1, "LIST" ] ], [ [ "ppe_gloves", 1, "LIST" ] ] ],
+    "tools": [
+      [ [ "water_boiling_heat", 3, "LIST" ] ],
+      [ [ "ppe_gas", 4, "LIST" ] ],
+      [ [ "ppe_gloves", 1, "LIST" ] ],
+      [ [ "ppe_skin", 1, "LIST" ] ]
+    ],
     "components": [
       [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
       [ [ "blood_acid_insect", 2 ] ]
@@ -2252,7 +2257,12 @@
       { "id": "DISTILL", "level": 1 },
       { "id": "FINE_DISTILL", "level": 1 }
     ],
-    "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ], [ [ "ppe_eyes", 1, "LIST" ] ], [ [ "ppe_gloves", 1, "LIST" ] ] ],
+    "tools": [
+      [ [ "water_boiling_heat", 4, "LIST" ] ],
+      [ [ "ppe_gas", 8, "LIST" ] ],
+      [ [ "ppe_gloves", 1, "LIST" ] ],
+      [ [ "ppe_skin", 1, "LIST" ] ]
+    ],
     "components": [
       [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ],
       [ [ "blood_acid_insect", 2 ] ]
@@ -2278,7 +2288,12 @@
     ],
     "book_learn": [ [ "textbook_chemistry", 2 ], [ "adv_chemistry", 2 ], [ "atomic_survival", 1 ], [ "recipe_labchem", 1 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ], [ [ "ppe_eyes", 1, "LIST" ] ], [ [ "ppe_gloves", 1, "LIST" ] ] ],
+    "tools": [
+      [ [ "water_boiling_heat", 3, "LIST" ] ],
+      [ [ "ppe_gas", 2, "LIST" ] ],
+      [ [ "ppe_gloves", 1, "LIST" ] ],
+      [ [ "ppe_skin", 1, "LIST" ] ]
+    ],
     "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ], [ [ "blood_acid_plant", 2 ] ] ]
   },
   {
@@ -2311,7 +2326,12 @@
       { "id": "DISTILL", "level": 1 },
       { "id": "FINE_DISTILL", "level": 1 }
     ],
-    "tools": [ [ [ "water_boiling_heat", 4, "LIST" ] ], [ [ "ppe_eyes", 1, "LIST" ] ], [ [ "ppe_gloves", 1, "LIST" ] ] ],
+    "tools": [
+      [ [ "water_boiling_heat", 4, "LIST" ] ],
+      [ [ "ppe_gas", 4, "LIST" ] ],
+      [ [ "ppe_gloves", 1, "LIST" ] ],
+      [ [ "ppe_skin", 1, "LIST" ] ]
+    ],
     "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ], [ "mixed_alcohol_strong", 14 ] ], [ [ "blood_acid_plant", 2 ] ] ]
   },
   {
@@ -2340,7 +2360,7 @@
       [ [ "ppe_gloves", 1, "LIST" ] ],
       [ [ "ppe_skin", 1, "LIST" ] ]
     ],
-    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "blood_acid_ground", 2 ] ] ]
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "blood_acid_underground", 2 ] ] ]
   },
   {
     "type": "recipe",
