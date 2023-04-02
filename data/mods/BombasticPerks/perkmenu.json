@@ -51,60 +51,16 @@
       },
       {
         "condition": {
-          "and": [
-            {
-              "not": {
-                "or": [
-                  { "u_has_trait": "perk_way_openpalm" },
-                  { "u_has_trait": "perk_way_closedfist" },
-                  { "u_has_trait": "perk_way_pinchedfingers" }
-                ]
-              }
-            },
-            { "u_has_skill": { "skill": "unarmed", "level": 2 } },
-            { "u_has_skill": { "skill": "cutting", "level": 1 } }
-          ]
+          "not": {
+            "or": [
+              { "u_has_trait": "perk_way_openpalm" },
+              { "u_has_trait": "perk_way_closedfist" },
+              { "u_has_trait": "perk_way_pinchedfingers" }
+            ]
+          }
         },
-        "text": "Gain [<trait_name:perk_way_openpalm>]",
+        "text": "Gain [Way Of The Fist]",
         "topic": "TALK_PERK_MENU_OPENPALM"
-      },
-      {
-        "condition": {
-          "and": [
-            {
-              "not": {
-                "or": [
-                  { "u_has_trait": "perk_way_openpalm" },
-                  { "u_has_trait": "perk_way_closedfist" },
-                  { "u_has_trait": "perk_way_pinchedfingers" }
-                ]
-              }
-            },
-            { "u_has_skill": { "skill": "unarmed", "level": 2 } },
-            { "u_has_skill": { "skill": "bashing", "level": 1 } }
-          ]
-        },
-        "text": "Gain [<trait_name:perk_way_closedfist>]",
-        "topic": "TALK_PERK_MENU_CLOSEDFIST"
-      },
-      {
-        "condition": {
-          "and": [
-            {
-              "not": {
-                "or": [
-                  { "u_has_trait": "perk_way_openpalm" },
-                  { "u_has_trait": "perk_way_closedfist" },
-                  { "u_has_trait": "perk_way_pinchedfingers" }
-                ]
-              }
-            },
-            { "u_has_skill": { "skill": "unarmed", "level": 2 } },
-            { "u_has_skill": { "skill": "stabbing", "level": 1 } }
-          ]
-        },
-        "text": "Gain [<trait_name:perk_way_pinchedfingers>]",
-        "topic": "TALK_PERK_MENU_PINCHEDFINGERS"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
@@ -154,6 +110,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_STR_UP" },
@@ -175,6 +132,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_DEX_UP" },
@@ -196,6 +154,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_INT_UP" },
@@ -217,6 +176,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_PER_UP" },
@@ -238,6 +198,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_holdout_pocket" },
@@ -259,6 +220,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_built_tough" },
@@ -280,6 +242,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_hauler" },
@@ -301,6 +264,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_vacationer" },
@@ -322,6 +286,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_thick_skull" },
@@ -337,12 +302,25 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_OPENPALM",
-    "dynamic_line": "<trait_name:perk_way_openpalm>: \"<trait_description:perk_way_openpalm>\"\n\nRequires unarmed 2 and cutting 1, mutually exclusive with Way of the Closed Fist or Pinched Fingers.",
+    "dynamic_line": "<trait_name:perk_way_openpalm>: \"<trait_description:perk_way_openpalm>\"\nRequires unarmed 2 and cutting 1.\n\n<trait_name:perk_way_closedfist>: \"<trait_description:perk_way_closedfist>\"\nRequires unarmed 2 and bashing 1.\n\n<trait_name:perk_way_pinchedfingers>: \"<trait_description:perk_way_pinchedfingers>\"\nRequires unarmed 2 and piercing 1.",
     "responses": [
       {
-        "text": "Select Perk.",
+        "text": "Select Perk Variant <trait_name:perk_way_openpalm>.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                {
+                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "cutting", "level": 1 } } ]
+                }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_way_openpalm" },
@@ -351,19 +329,23 @@
           }
         ]
       },
-      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-      { "text": "Quit.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_PERK_MENU_CLOSEDFIST",
-    "dynamic_line": "\"<trait_name:perk_way_closedfist>: \"<trait_description:perk_way_closedfist>\"\n\nRequires unarmed 2 and bashing 1, mutually exclusive with Way of the Open Palm or Pinched Fingers.",
-    "responses": [
       {
-        "text": "Select Perk.",
+        "text": "Select Perk Variant <trait_name:perk_way_closedfist>.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                {
+                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "bashing", "level": 1 } } ]
+                }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_way_closedfist" },
@@ -372,19 +354,23 @@
           }
         ]
       },
-      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
-      { "text": "Quit.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_PERK_MENU_PINCHEDFINGERS",
-    "dynamic_line": "\"<trait_name:perk_way_pinchedfingers>: \"<trait_description:perk_way_pinchedfingers>\"\n\nRequires unarmed 2 and piercing 1, mutually exclusive with Way of the Open Palm or Closed Fist.",
-    "responses": [
       {
-        "text": "Select Perk.",
+        "text": "Select Perk Variant <trait_name:perk_way_pinchedfingers>.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                {
+                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "stabbing", "level": 1 } } ]
+                }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_way_pinchedfingers" },
@@ -406,6 +392,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_bloody_mess" },
@@ -427,6 +414,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_tuck_and_roll" },
@@ -448,6 +436,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_tingly" },
@@ -469,6 +458,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_jumpy" },
@@ -490,6 +480,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_hobbyist" },
@@ -511,6 +502,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_popeye" },
