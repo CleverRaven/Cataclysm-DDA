@@ -1283,13 +1283,12 @@
     "looks_like": "leaves",
     "description": "A mixture of bark, moss, and leaves, glowing softly with verdant energy.",
     "weight": "70 g",
-    "volume": "250 ml",
+    "volume": "60 ml",
     "price": 1,
     "price_postapoc": 1,
     "material": [ "wood" ],
     "symbol": "!",
     "color": "green",
-    "stack_size": 10,
     "flags": [ "TRADER_AVOID", "SINGLE_USE" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 12, "move_cost": 300 }
   }
