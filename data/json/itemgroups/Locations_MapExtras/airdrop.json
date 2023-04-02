@@ -40,9 +40,7 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "shrink_wrap",
-    "entries": [
-      { "item": "water_clean", "container-item": "bottle_twoliter", "charges": 8, "count": 6 }
-    ]
+    "entries": [ { "item": "water_clean", "container-item": "bottle_twoliter", "charges": 8, "count": 6 } ]
   },
   {
     "id": "disinfectant_bottle",
