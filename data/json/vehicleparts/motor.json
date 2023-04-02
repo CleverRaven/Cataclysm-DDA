@@ -72,7 +72,7 @@
     "copy-from": "engine_motor",
     "type": "vehicle_part",
     "name": { "str": "electric motor" },
-    "description": "A medium-duty electrical motor, suitable for ultra-light vehicles, or as part of a hybrid gas-electric drivetrain.",
+    "description": "A medium-duty electrical motor, suitable for powering ultra-light vehicles, or as part of a hybrid gas-electric drivetrain.",
     "item": "motor",
     "durability": 200,
     "power": "36000 W",
