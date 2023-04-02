@@ -1018,7 +1018,7 @@
     "symbol": "~",
     "quench": 35,
     "calories": 117,
-    "description": "Commercially sold orange juice.",
+    "description": "Store-bought orange juice.  Refreshing, tasty, and a great source of Vitamin C.",
     "price": 14,
     "price_postapoc": 50,
     "material": [ "fruit" ],
