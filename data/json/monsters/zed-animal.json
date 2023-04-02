@@ -536,6 +536,7 @@
         "fake_dex": 4,
         "fake_per": 4,
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The vicious vicuña spits a glob of acid!",
         "ranges": [ [ 2, 10, "DEFAULT" ] ]
       },
