@@ -26,7 +26,7 @@
       { "group": "airdrop_tent", "repeat": [ 1, 1 ] },
       { "group": "emer_blanket_box", "repeat": [ 1, 1 ] },
       { "group": "bandages_box", "repeat": [ 1, 1 ] },
-      { "item": "cardboard", "charges": [ 1200, 1700 ] }
+      { "item": "cardboard", "count": [ 1200, 1700 ] }
     ]
   },
   {
@@ -97,7 +97,7 @@
       { "item": "jp8", "charges": [ 10000, 15000 ], "container-item": "jerrycan_big" },
       { "item": "i4_diesel" },
       { "item": "bearing", "charges": [ 5, 40 ] },
-      { "item": "cardboard", "charges": [ 1200, 1700 ] }
+      { "item": "cardboard", "count": [ 1200, 1700 ] }
     ]
   }
 ]

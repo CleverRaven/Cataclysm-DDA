@@ -93,7 +93,7 @@
     "object": {
       "mapgensize": [ 2, 2 ],
       "place_item": [ { "item": "parachute_mil", "x": [ 0, 1 ], "y": 1 }, { "item": "parachute_mil", "x": 1, "y": [ 0, 1 ] } ],
-      "place_items": [ { "item": "airdrop_generator", "x": 0, "y": 0, "chance": 100, "repeat": [ 2, 5 ] } ],
+      "place_items": [ { "item": "airdrop_generator", "x": 0, "y": 0, "chance": 100 } ],
       "place_furniture": [ { "furn": "f_paltte_belted", "x": 0, "y": 0 } ]
     }
   }

@@ -1489,7 +1489,7 @@
       "str_max": 50,
       "sound": "rip!",
       "sound_fail": "wham!",
-      "ter_set": "f_paltte_belted_open",
+      "furn_set": "f_paltte_belted_open",
       "items": [ { "item": "rope_6", "count": [ 1, 2 ] }, { "item": "plastic_sheet", "charges": [ 1, 2 ] } ]
     }
   },
