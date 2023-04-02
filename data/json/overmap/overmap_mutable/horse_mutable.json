@@ -1,0 +1,68 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "Horse Mutable",
+    "subtype": "mutable",
+    "locations": [ "land", "open_air" ],
+    "city_distance": [ 5, 40 ],
+    "city_sizes": [ 1, -1 ],
+    "occurrences": [ 67, 100 ],
+    "flags": [ "WILDERNESS", "UNIQUE" ],
+    "check_for_locations_area": [ { "type": [ "land" ], "from": [ -2, -1, 0 ], "to": [ 2, 14, 0 ] } ],
+    "joins": [ "root_to_road", "road_to_house", "road_to_extra", "house_to_extension", "farm_to_farm" ],
+    "overmaps": {
+	}
+	"root": "dirt_road_ns_root_s",
+	"phases": [
+      [
+        {
+          "name": "horse_entrance",
+		  "//" : "Yard from which dirt road branches"
+          "chunk": [
+		    
+          ],
+          "max": 1
+        }
+      ],
+	  [
+	    {
+          "name": "farm_home_horse",
+		  "//" : "Always one house, comes with dirt road"
+          "chunk": [
+		    
+          ],
+          "max": 1
+        }
+      ],
+	  [
+	    {
+          "name": "stables",
+		  "//" : "Always one stables, comes with dirt road"
+          "chunk": [
+		    
+          ],
+          "max": 1
+        }
+	  ]
+	  [
+	    {
+          "name": "paddocks", 
+		  "//" : "Paddocks adjacent to dirt road or each other, some spawn with dirt road, also includes potential track, gravel ring, hay fields, silo, carriage house"
+          "chunk": [
+		    
+          ],
+          "max": 1
+        }
+      ]
+	  [
+	    {
+          "name": "trail",
+		  "//" : "Trail bordered by forest"
+          "chunk": [
+		    
+          ],
+          "max": 1
+        }
+      ]
+  }
+]
