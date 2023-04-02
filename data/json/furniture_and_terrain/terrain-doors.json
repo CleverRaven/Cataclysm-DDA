@@ -259,6 +259,140 @@
   },
   {
     "type": "terrain",
+    "id": "t_door_elocked",
+    "name": "closed wood door with an electronic lock",
+    "description": "A standard wooden door that doesn't look very resilient.  It'd probably burn easily, too.  This one has a deadbolt electronic lock, so it's likely locked.  You could pry it open, guessing the code is out of the question, or unlock the deadbolt from the inside.",
+    "symbol": "+",
+    "looks_like": "t_door_c",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_wood_roof",
+    "flags": [
+      "FLAMMABLE_ASH",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "REDUCE_SCENT",
+      "CONNECT_WITH_WALL",
+      "BARRICADABLE_DOOR",
+      "LOCKED",
+      "BLOCK_WIND",
+      "SUPPORTS_ROOF"
+    ],
+    "open": "t_door_o",
+    "bash": {
+      "str_min": 8,
+      "str_max": 80,
+      "str_min_blocked": 15,
+      "str_max_blocked": 100,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_door_b",
+      "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
+    },
+    "prying": {
+      "result": "t_door_o",
+      "message": "You pry open the door.",
+      "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "failure": "You pry, but can't pry open the door." }
+    },
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_elocked_peep",
+    "name": "closed wood door",
+    "description": "A regular door made of ordinary wood, except this one has a peephole.  If you examined it more closely, you'd be able to peek through the hole.  This one has a deadbolt numpad, so it's likely locked.  You could pry it open, guessing the code is out of the question, or unlock the deadbolt from the inside.",
+    "symbol": "+",
+    "looks_like": "t_door_c_peep",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_wood_roof",
+    "flags": [
+      "FLAMMABLE_ASH",
+      "NOITEM",
+      "OPENCLOSE_INSIDE",
+      "REDUCE_SCENT",
+      "CONNECT_WITH_WALL",
+      "BARRICADABLE_DOOR",
+      "LOCKED",
+      "BLOCK_WIND",
+      "SUPPORTS_ROOF"
+    ],
+    "open": "t_door_o_peep",
+    "bash": {
+      "str_min": 8,
+      "str_max": 80,
+      "str_min_blocked": 15,
+      "str_max_blocked": 100,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_door_b_peep",
+      "items": [
+        { "item": "peephole", "prob": 75 },
+        { "item": "2x4", "prob": 25 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
+    },
+    "prying": {
+      "result": "t_door_o_peep",
+      "message": "You pry open the door.",
+      "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "failure": "You pry, but can't pry open the door." }
+    },
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_elocked_alarm",
+    "name": "closed wood door",
+    "description": "A standard wooden door that doesn't look very resilient.  It'd probably burn easily, too.  This one has an electronic keypad, so it's likely locked.  You could pry it open, guessing the code is out of the question.",
+    "symbol": "+",
+    "looks_like": "t_door_locked",
+    "color": "brown",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_wood_roof",
+    "flags": [
+      "FLAMMABLE_ASH",
+      "ALARMED",
+      "NOITEM",
+      "REDUCE_SCENT",
+      "CONNECT_WITH_WALL",
+      "BARRICADABLE_DOOR",
+      "LOCKED",
+      "BLOCK_WIND",
+      "SUPPORTS_ROOF"
+    ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 80,
+      "str_min_blocked": 15,
+      "str_max_blocked": 100,
+      "sound": "smash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_door_b",
+      "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
+    },
+    "prying": {
+      "result": "t_door_o",
+      "message": "You pry open the door.",
+      "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "alarm": true, "failure": "You pry, but can't pry open the door." }
+    },
+    "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
+  },
+  {
+    "type": "terrain",
     "id": "t_door_lab_c",
     "name": "closed wood door",
     "description": "A standard wooden door that doesn't look very resilient.  It'd probably burn easily, too.",
@@ -2307,6 +2441,36 @@
     "roof": "t_metal_roof",
     "flags": [ "NOITEM", "DOOR", "CONNECT_WITH_WALL", "SUPPORTS_ROOF" ],
     "open": "t_door_metal_lab_o",
+    "bash": {
+      "str_min": 80,
+      "str_max": 250,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_lab_frame",
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_metal_elocked",
+    "name": "electronic locked metal door",
+    "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  It is locked by an electronic keypad.",
+    "symbol": "+",
+    "looks_like": "t_door_metal_c",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_metal_roof",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_WITH_WALL", "LOCKED", "SUPPORTS_ROOF" ],
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,

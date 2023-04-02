@@ -127,7 +127,7 @@
         ":": "t_wall_glass",
         ")": "t_door_glass_c",
         "+": "t_door_c",
-        "b": "t_door_metal_locked",
+        "b": [ [ "t_door_metal_locked", 2 ], "t_door_metal_elocked" ],
         "c": "t_gates_mech_control",
         "d": "t_chainfence_h",
         "&": "t_chaingate_l",
