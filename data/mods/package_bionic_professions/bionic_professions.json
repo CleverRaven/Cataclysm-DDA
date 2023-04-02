@@ -50,12 +50,12 @@
       "bio_power_storage_mkII",
       "bio_recoil"
     ],
-    "traits": [ "PROF_CYBERCOP" ],
+    "traits": [ "PROF_FED" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "pistol" } ],
     "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
-        "items": [ "tac_fullhelmet", "police_belt", "pants_cargo", "under_armor", "socks", "boots", "badge_cybercop", "wristwatch" ],
+        "items": [ "tac_fullhelmet", "police_belt", "pants_cargo", "under_armor", "socks", "boots", "badge_marshal", "wristwatch" ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "charged_smart_phone" },

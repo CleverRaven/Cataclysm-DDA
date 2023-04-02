@@ -1,6 +1,5 @@
 #include "overmap_ui.h"
 
-#include <functional>
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -35,6 +34,7 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
+#include "city.h"
 #include "clzones.h"
 #include "color.h"
 #include "coordinates.h"

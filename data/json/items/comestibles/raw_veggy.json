@@ -452,8 +452,6 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": -2,
-    "//2": "They contain inulin, which is tough to digest. Nothing fatal but should be avoided if possible.",
-    "healthy": -1,
     "smoking_result": "dry_veggy",
     "flags": [ "RAW" ],
     "vitamins": [ [ "vitC", 18 ], [ "iron", 5 ], [ "calcium", 8 ] ]

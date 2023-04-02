@@ -541,7 +541,6 @@
     "id": "xedra_kill_team_set",
     "type": "item_group",
     "subtype": "collection",
-    "container_item": "xedra_corpse",
     "items": [
       { "group": "clothing_military" },
       { "item": "elbow_pads", "prob": 80 },
@@ -724,10 +723,6 @@
       { "item": "improve_sights", "prob": 10 },
       { "item": "waterproof_gunmod", "prob": 4 },
       { "item": "cleansuit", "prob": 5 },
-      { "item": "needlegun", "prob": 4 },
-      { "item": "needlepistol", "prob": 6 },
-      { "item": "5x50dart", "prob": 8 },
-      { "item": "5x50heavy", "prob": 4 },
       { "item": "hazmat_suit", "prob": 5 },
       { "item": "e_tool", "prob": 20 },
       { "item": "knife_trench", "prob": 14 },

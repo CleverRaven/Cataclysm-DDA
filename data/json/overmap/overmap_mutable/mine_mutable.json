@@ -3,10 +3,10 @@
     "type": "overmap_special",
     "id": "Generic mine",
     "subtype": "mutable",
-    "locations": [ "subterranean_empty", "land" ],
+    "locations": [ "subterranean_empty", "land", "open_air" ],
     "city_distance": [ 10, 40 ],
     "occurrences": [ 0, 2 ],
-    "flags": [ "WILDERNESS" ],
+    "flags": [ "WILDERNESS", "MAN_MADE" ],
     "check_for_locations": [
       [ [ 0, 0, 0 ], [ "land" ] ],
       [ [ 1, 0, 0 ], [ "land" ] ],
@@ -39,7 +39,9 @@
         "connections": { "north": { "connection": "local_road" } }
       },
       "mine_entrance": { "overmap": "mine_entrance_north", "below": "surface_to_shaft" },
+      "mine_entrance_roof": { "overmap": "mine_entrance_roof_north" },
       "loading_zone": { "overmap": "mine_entrance_loading_zone_north", "below": "surface_to_shaft" },
+      "loading_zone_roof": { "overmap": "mine_entrance_loading_zone_roof_north" },
       "shaft_west": { "overmap": "mine_shaft_middle_north", "above": "surface_to_shaft", "below": "shaft_lower_to_shaft_middle" },
       "shaft_east": { "overmap": "mine_shaft_middle_east_north", "above": "surface_to_shaft", "below": "shaft_lower_to_shaft_middle" },
       "tunnels_west": { "overmap": "mine_shaft_lower_north", "above": "shaft_lower_to_shaft_middle", "west": "tunnel_entrance_to_tunnels" },
@@ -103,7 +105,9 @@
           "chunk": [
             { "overmap": "road_east", "pos": [ 1, 0, 0 ] },
             { "overmap": "mine_entrance", "pos": [ 0, 1, 0 ] },
+            { "overmap": "mine_entrance_roof", "pos": [ 0, 1, 1 ] },
             { "overmap": "loading_zone", "pos": [ 1, 1, 0 ] },
+            { "overmap": "loading_zone_roof", "pos": [ 1, 1, 1 ] },
             { "overmap": "shaft_west", "pos": [ 0, 1, -1 ] },
             { "overmap": "shaft_east", "pos": [ 1, 1, -1 ] },
             { "overmap": "tunnels_west", "pos": [ 0, 1, -2 ] },

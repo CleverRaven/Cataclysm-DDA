@@ -253,7 +253,6 @@
     "name": "Hammering",
     "description": "Using your energy you construct an oddly shaped hammer.  You can use it to smash your enemies, or breach different obstacles.",
     "valid_targets": [ "self" ],
-    "components": "spell_components_constructed_hammer",
     "skill": "deduction",
     "min_damage": 1,
     "max_damage": 1,

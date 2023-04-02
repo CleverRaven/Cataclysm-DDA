@@ -1,0 +1,29 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_queue_can_finder",
+    "effect": [
+      { "queue_eocs": "EOC_can_hunting", "time_in_future": [ "35 minutes", "120 minutes" ] },
+      { "u_message": "You start hunting for cans" },
+      { "arithmetic": [ { "u_val": "var", "var_name": "looking_for_cans" }, "=", { "const": 1 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_deque_can_finder",
+    "effect": [
+      { "u_message": "You stop looking for cans" },
+      { "arithmetic": [ { "u_val": "var", "var_name": "looking_for_cans" }, "=", { "const": 0 } ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_can_hunting",
+    "condition": { "compare_num": [ { "u_val": "var", "var_name": "looking_for_cans" }, ">", { "const": 0 } ] },
+    "effect": [
+      { "queue_eocs": "EOC_can_hunting", "time_in_future": [ "35 minutes", "120 minutes" ] },
+      { "u_message": "Someone left a perfectly good can of soda on the ground!" },
+      { "u_spawn_item": "groce_softdrink", "use_item_group": true }
+    ]
+  }
+]

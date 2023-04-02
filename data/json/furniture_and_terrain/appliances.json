@@ -484,7 +484,6 @@
     "id": "ap_heater_small",
     "name": { "str": "small heater" },
     "item": "small_space_heater",
-    "folded_volume": null,
     "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "APPLIANCE" ],
     "copy-from": "mountable_heater_small",
     "requirements": { "removal": { "time": "6 m" } }
@@ -653,7 +652,6 @@
     "item": "standing_floodlight",
     "description": "A large, heavy light that illuminates a wide area around it when switched on.",
     "flags": [ "CIRCLE_LIGHT", "ENABLED_DRAINS_EPOWER", "APPLIANCE", "CTRL_ELECTRONIC" ],
-    "folded_volume": null,
     "copy-from": "floodlight",
     "requirements": { "removal": { "time": "6 m" } }
   },
@@ -1010,7 +1008,7 @@
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 4, 8 ] },
-      { "item": "steel_chunk", "coutnt": [ 5, 10 ] }
+      { "item": "steel_chunk", "count": [ 5, 10 ] }
     ],
     "damage_reduction": { "all": 40 }
   },
@@ -1032,7 +1030,7 @@
     "breaks_into": [
       { "item": "plastic_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 6, 12 ] },
-      { "item": "steel_chunk", "coutnt": [ 8, 16 ] },
+      { "item": "steel_chunk", "count": [ 8, 16 ] },
       { "item": "sheet_metal_small", "count": [ 1, 4 ] }
     ],
     "damage_reduction": { "all": 50 }

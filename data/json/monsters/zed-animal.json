@@ -227,7 +227,7 @@
     "weight": "81500 g",
     "hp": 55,
     "speed": 70,
-    "attack_cost ": 70,
+    "attack_cost": 70,
     "material": [ "flesh" ],
     "symbol": "p",
     "color": "green",

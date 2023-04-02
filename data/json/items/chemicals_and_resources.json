@@ -1269,9 +1269,10 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "butternut",
     "category": "food",
+    "comestible_type": "FOOD",
     "symbol": "%",
     "color": "yellow",
     "name": { "str_sp": "butternuts" },
