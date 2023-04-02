@@ -91,6 +91,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding.
 - ```BIO_OP_TAKEDOWN``` Takedown attack, bashes either the target's head or torso and inflicts `downed`.
 - ```BITE``` Bite attack that can cause deep infected wounds.  If the attacker is humanoid, the target must be `GRAB`bed before `BITE` can trigger.  See also `bite` below.
+- ```BLOW_WHISTLE``` Blow a whistle creating a sound of volume 40 from the position of the monster.
 - ```BOOMER_GLOW``` Spits glowing bile.
 - ```BOOMER``` Spits bile.
 - ```BRANDISH``` Brandishes a knife at the player.
