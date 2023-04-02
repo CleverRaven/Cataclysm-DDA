@@ -13,7 +13,7 @@
       ".": "t_metal_floor",
       "r": "t_metal_floor",
       "~": "t_sewage",
-      "_": [ [ "t_moss", 2 ], [ "t_region_soil", 3 ], [ "t_dirtmound", 1 ], [ "t_sewage", 4 ] ],
+      "_": [ [ "t_moss", 2 ], [ "t_dirtmound", 4 ], [ "t_sewage", 4 ] ],
       "-": "t_bridge",
       "#": "t_grate",
       "<": "t_ladder_up",
