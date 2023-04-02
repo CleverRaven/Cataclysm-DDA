@@ -671,8 +671,7 @@ static float rate_critter( const Creature &c )
         item_location wielded = np->get_wielded_item();
         if( wielded ) {
             return np->weapon_value( *wielded );
-        }
-        else {
+        } else {
             return np->unarmed_value();
         }
     }
