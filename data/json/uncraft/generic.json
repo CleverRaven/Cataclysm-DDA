@@ -543,6 +543,15 @@
     "qualities": [ { "id": "CUT", "level": 2 } ]
   },
   {
+    "result": "shrink_wrap",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "fabrication",
+    "time": "5 s",
+    "components": [ [ [ "plastic_sheet_small", 10 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "earthbag",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
