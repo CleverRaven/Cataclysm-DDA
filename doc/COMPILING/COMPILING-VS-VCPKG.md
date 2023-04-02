@@ -112,8 +112,6 @@ It is possible to use ccache with Visual Studio and gain the same benefits as ot
 
 1. Download the "Windows x86_64 (binary release)" of ccache from https://ccache.dev/download.html.
 
-    - Note: Version 4.6.2 has a bug which causes a spammy warning on build. As of now, version 4.6.1 is known to work and not cause spam on build. You can download version 4.6.1 from https://github.com/ccache/ccache/releases/tag/v4.6.1, it is the "ccache-4.6.1-windows-x86_64.zip" option under Assets.
-
 2. Extract the contents of the zip file somewhere convenient but not on $PATH.
 
     - For example, if Cataclysm is checked out at `C:/dev/Cataclysm-DDA/`, then extract the folder and move the contents to `C:/dev/ccache/`. Verify the binary exists at `C:/dev/ccache/ccache.exe`.

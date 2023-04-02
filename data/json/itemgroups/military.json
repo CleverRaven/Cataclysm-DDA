@@ -541,7 +541,6 @@
     "id": "xedra_kill_team_set",
     "type": "item_group",
     "subtype": "collection",
-    "container_item": "xedra_corpse",
     "items": [
       { "group": "clothing_military" },
       { "item": "elbow_pads", "prob": 80 },

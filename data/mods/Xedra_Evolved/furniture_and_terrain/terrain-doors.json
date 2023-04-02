@@ -201,5 +201,36 @@
       "prying_data": { "difficulty": 6, "prying_level": 2, "noisy": true, "alarm": true, "failure": "You pry, but can't pry open the door." }
     },
     "shoot": { "reduce_damage": [ 15, 30 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 20, 90 ] }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_metal_elocked",
+    "name": "electronic locked metal door",
+    "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  It is locked by an electronic keypad.  You could try to guess the code.",
+    "symbol": "+",
+    "looks_like": "t_door_metal_c",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_metal_roof",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_WITH_WALL", "LOCKED", "SUPPORTS_ROOF" ],
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "eoc_unlock_elock" ] },
+    "bash": {
+      "str_min": 80,
+      "str_max": 250,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_lab_frame",
+      "items": [
+        { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
+    }
   }
 ]
