@@ -933,16 +933,15 @@ bool mattack::boomer( monster *z )
             return true;
         }
     }
-    if( !target->uncanny_dodge() ) {
-        ///\EFFECT_DODGE increases chance to avoid boomer effect
-        if( rng( 0, 10 ) > target->get_dodge() || one_in( target->get_dodge() ) ) {
-            target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
-        } else if( u_see ) {
-            target->add_msg_player_or_npc( _( "You dodge it!" ),
-                                           _( "<npcname> dodges it!" ) );
-        }
-        target->on_dodge( z, 5 );
+
+    if( !target->dodge_check( z ) ) {
+        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 3, 12_turns );
+    } else if( u_see ) {
+        target->add_msg_player_or_npc( _( "You dodge it!" ),
+                                       _( "<npcname> dodges it!" ) );
     }
+    target->on_dodge( z, 5 );
+
 
     return true;
 }
@@ -975,23 +974,22 @@ bool mattack::boomer_glow( monster *z )
             return true;
         }
     }
-    if( !target->uncanny_dodge() ) {
-        ///\EFFECT_DODGE increases chance to avoid glowing boomer effect
-        if( rng( 0, 10 ) > target->get_dodge() || one_in( target->get_dodge() ) ) {
-            target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
-            target->on_dodge( z, 5 );
-            for( int i = 0; i < rng( 2, 4 ); i++ ) {
-                const bodypart_id &bp = target->random_body_part();
-                target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
-                if( target->has_effect( effect_glowing ) ) {
-                    break;
-                }
+
+    if( !target->dodge_check( z ) ) {
+        target->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
+        target->on_dodge( z, 5 );
+        for( int i = 0; i < rng( 2, 4 ); i++ ) {
+            const bodypart_id &bp = target->random_body_part();
+            target->add_env_effect( effect_glowing, bp, 4, 4_minutes );
+            if( target->has_effect( effect_glowing ) ) {
+                break;
             }
-        } else {
-            target->add_msg_player_or_npc( _( "You dodge it!" ),
-                                           _( "<npcname> dodges it!" ) );
         }
+    } else {
+        target->add_msg_player_or_npc( _( "You dodge it!" ),
+                                       _( "<npcname> dodges it!" ) );
     }
+
 
     return true;
 }
@@ -3473,8 +3471,9 @@ void mattack::taze( monster *z, Creature *target )
     };
 
     /** @EFFECT_DODGE increases chance of dodging a tazer attack */
-    const bool tazer_was_dodged = dice( 10, 10 ) < dice( target->get_dodge(), 10 );
-    const int tazer_resistance = target->get_armor_type( damage_bash, bodypart_id( "torso" ) );
+    const bool tazer_was_dodged = target->dodge_check( z );
+    const int tazer_resistance = target->get_armor_type( damage_bash,
+                                 bodypart_id( "torso" ) );
     const bool tazer_was_armored = dice( 15, 10 ) < dice( tazer_resistance, 10 );
 
     if( tazer_was_dodged || target->uncanny_dodge() ) {
