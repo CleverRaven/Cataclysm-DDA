@@ -120,6 +120,7 @@
           ]
         },
         { "id": "fd_acid_vent", "fg": 119, "rotates": false },
+        { "id": "fd_bees", "fg": 100, "rotates": false },
         {
           "id": [ "fd_bile", "fd_gibs_veggy", "fd_sap" ],
           "fg": 126,
