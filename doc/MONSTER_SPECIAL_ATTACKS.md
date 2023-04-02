@@ -198,7 +198,7 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `target_required_effects_all`  | |
 | `target_forbidden_effects_any` | |
 | `target_forbidden_effects_all` | |
-| `attack_upper`                 | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted). |
+| `attack_upper`                 | Boolean, default true. If false the attack can't target any bodyparts with the `LIMB_UPPER` flag with the regular attack rolls (provided the bodypart is not explicitly targeted). |
 | `range`                        | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths. |
 | `hitsize_min`                  | Integer, lower bound of limb size this attack can target (if no bodypart targets are explicitly defined).                      |
 | `hitsize_max`                  | Integer, upper bound of limb size this attack can target.                                                                      |
