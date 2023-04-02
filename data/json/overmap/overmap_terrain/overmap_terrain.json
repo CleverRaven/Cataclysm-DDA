@@ -17,6 +17,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "omt_obsolete",
+    "//": "this omt is used for replacing obsoleted overmap terrain",
+    "name": "nether-chewed field",
+    "sym": "%",
+    "color": "dark_gray",
+    "flags": [ "NO_ROTATE", "SHOULD_NOT_SPAWN" ]
+  },
+  {
+    "type": "overmap_terrain",
     "abstract": "generic_city_building_no_sidewalk",
     "name": "city building",
     "sym": "^",
@@ -608,6 +617,14 @@
     "type": "overmap_terrain",
     "id": "drug_lab",
     "name": "drug lab",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "drug_lab_roof",
+    "name": "drug lab roof",
     "sym": "^",
     "color": "brown",
     "see_cost": 5

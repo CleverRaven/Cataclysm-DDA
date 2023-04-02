@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "basecamp.h"
+#include "city.h"
 #include "coordinates.h"
 #include "cube_direction.h"
 #include "enums.h"
@@ -25,8 +26,6 @@
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "mongroup.h"
-#include "monster.h"
-#include "omdata.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "rng.h"
@@ -37,7 +36,6 @@ class JsonObject;
 class JsonOut;
 class cata_path;
 class character_id;
-class map_extra;
 class npc;
 class overmap_connection;
 struct regional_settings;
@@ -47,45 +45,6 @@ namespace pf
 template<typename Point>
 struct directed_path;
 } // namespace pf
-
-generic_factory<city> &get_city_factory();
-
-struct city {
-    void load( const JsonObject &, const std::string & );
-    void check() const;
-    static void load_city( const JsonObject &, const std::string & );
-    static void finalize();
-    static void check_consistency();
-    static const std::vector<city> &get_all();
-    static void reset();
-
-    city_id id;
-    bool was_loaded = false;
-
-    int database_id = 0;
-    // location of the city (in overmap coordinates)
-    point_abs_om pos_om;
-    // location of the city (in overmap terrain coordinates)
-    point_om_omt pos;
-    // original population
-    int population = 0;
-    int size = -1;
-    std::string name;
-
-    explicit city( const point_om_omt &P = point_om_omt(), int S = -1 );
-
-    explicit operator bool() const {
-        return size >= 0;
-    }
-
-    bool operator==( const city &rhs ) const {
-        return id == rhs.id ||
-               database_id == rhs.database_id ||
-               ( pos_om == rhs.pos_om && pos == rhs.pos ) ;
-    }
-
-    int get_distance_from( const tripoint_om_omt &p ) const;
-};
 
 struct om_note {
     std::string text;
@@ -111,8 +70,8 @@ enum class radio_type : int {
 
 extern std::map<radio_type, std::string> radio_type_names;
 
-static constexpr int RADIO_MIN_STRENGTH = 120;
-static constexpr int RADIO_MAX_STRENGTH = 360;
+constexpr int RADIO_MIN_STRENGTH = 120;
+constexpr int RADIO_MAX_STRENGTH = 360;
 
 struct radio_tower {
     // local (to the containing overmap) submap coordinates
@@ -462,10 +421,6 @@ class overmap
         void place_nemesis( const tripoint_abs_omt & );
         bool remove_nemesis(); // returns true if nemesis found and removed
 
-        static bool obsolete_terrain( const std::string &ter );
-        void convert_terrain(
-            const std::unordered_map<tripoint_om_omt, std::string> &needs_conversion );
-
         // Overall terrain
         void place_river( const point_om_omt &pa, const point_om_omt &pb );
         void place_forests();
@@ -570,7 +525,10 @@ class overmap
         void load_legacy_monstergroups( const JsonArray &jsin );
         void save_monster_groups( JsonOut &jo ) const;
     public:
-        static void load_obsolete_terrains( const JsonObject &jo );
+        static void load_oter_id_migration( const JsonObject &jo );
+        static void reset_oter_id_migrations();
+        static bool is_oter_id_obsolete( const std::string &oterid );
+        void migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::string> &points );
 };
 
 bool is_river( const oter_id &ter );

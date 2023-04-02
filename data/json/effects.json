@@ -595,16 +595,6 @@
   },
   {
     "type": "effect_type",
-    "id": "stung",
-    "name": [ "Stung" ],
-    "desc": [ "You have been stung!" ],
-    "rating": "bad",
-    "base_mods": { "pain_min": [ 1 ] },
-    "show_in_info": true,
-    "blood_analysis_description": "Stung"
-  },
-  {
-    "type": "effect_type",
     "id": "staggered_character",
     "name": [ "Staggered" ],
     "desc": [ "You've been knocked off-balance by an attack." ],

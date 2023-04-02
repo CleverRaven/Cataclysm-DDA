@@ -24,7 +24,6 @@
         "name": { "str": "The Art of Computer Programming, Vol. 1", "str_pl": "copies of The Art of Computer Programming, Vol. 1" },
         "description": "A huge reference manual about fundamental algorithms, with a lot of examples and math.",
         "//": "978-0137935109",
-        "fun": -2,
         "weight": 1
       },
       {
@@ -32,7 +31,6 @@
         "name": { "str": "The Art of Computer Programming, Vol. 3", "str_pl": "copies of The Art of Computer Programming, Vol. 3" },
         "description": "A huge reference manual about sorting and searching algorithms, with a lot of examples and math.",
         "//": "978-0137935109",
-        "fun": -2,
         "weight": 1
       }
     ],
@@ -148,8 +146,6 @@
         },
         "description": "This workbook is designed to help non-native English speakers improve their knowledge and understanding of core computing and IT terminology, with definitions and some examples.",
         "//": "978-0713679175",
-        "max_level": 1,
-        "intelligence": 6,
         "weight": 1
       }
     ],
@@ -189,27 +185,18 @@
         "id": "mag_computer_2",
         "name": { "str": "ACM Computing Reviews", "str_pl": "issues of ACM Computing Reviews" },
         "description": "A shiny scientific journal that reviews fresh literature in the computer science field.",
-        "required_level": 4,
-        "max_level": 6,
-        "intelligence": 8,
         "weight": 1
       },
       {
         "id": "mag_computer_3",
         "name": { "str": "IEEE Software", "str_pl": "issues of IEEE Software" },
         "description": "Journal that cover lot of aspects of software engineering, processes, and practices.",
-        "required_level": 4,
-        "max_level": 6,
-        "intelligence": 8,
         "weight": 1
       },
       {
         "id": "mag_computer_4",
         "name": { "str": "\"Computer\"", "str_pl": "issues of \"Computer\"" },
         "description": "A practitioner-oriented magazine issued to all members of the society, containing articles and columns about different computing-related issues.",
-        "required_level": 3,
-        "max_level": 5,
-        "intelligence": 8,
         "weight": 1
       }
     ],
@@ -313,9 +300,6 @@
         "name": { "str": "Advanced Game Design: A Systems Approach", "str_pl": "copies of Advanced Game Design: A Systems Approach" },
         "description": "Author research how computer game works, how they build, and how to make proper gameplay parts and prototypes, with examples of real code.",
         "//": "978-0134667607",
-        "max_level": 5,
-        "fun": 0,
-        "required_level": 3,
         "weight": 1
       },
       {
@@ -375,7 +359,6 @@
         "name": { "str": "Get Coding!", "str_pl": "copies of Get Coding!" },
         "description": "A comics-like manual explaining how to perform simple code tasks, targeted at kids.",
         "//": "978-0763692766",
-        "required_level": 0,
         "weight": 1
       },
       {
@@ -450,9 +433,6 @@
         },
         "description": "A tiny book with childish images of a robot, that explains what functional decomposition is, and how to use it properly.",
         "//": "978-1526315779",
-        "fun": 2,
-        "max_level": 1,
-        "intelligence": 6,
         "weight": 1
       },
       {
@@ -460,9 +440,6 @@
         "name": { "str": "Let's Get Coding", "str_pl": "copies of Let's Get Coding" },
         "description": "A shiny book with lot of useful information about using code for different tasks inside the computer.  Sadly some big chunks of information are hidden behind QR code links, which you can't open.",
         "//": "978-1913565541",
-        "max_level": 2,
-        "intelligence": 8,
-        "fun": -1,
         "weight": 1
       },
       {
@@ -470,9 +447,6 @@
         "name": { "str": "Grokking Algorithms", "str_pl": "copies of Grokking Algorithms" },
         "description": "A fully illustrated, friendly guide describing how different algorithms are used to solve practical problems - both in real life and in programming.",
         "//": "978-1617292231",
-        "fun": 1,
-        "max_level": 2,
-        "intelligence": 7,
         "weight": 1
       },
       {
@@ -480,9 +454,6 @@
         "name": { "str": "Get Coding 2!", "str_pl": "copies of Get Coding 2!" },
         "description": "A tiny book that describe how games are created, alongside simple projects to make your own simple games, with lot of illustrations and funny facts.",
         "//": "978-1536205411",
-        "fun": 1,
-        "max_level": 2,
-        "intelligence": 6,
         "weight": 1
       }
     ],

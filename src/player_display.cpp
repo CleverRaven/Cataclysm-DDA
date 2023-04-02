@@ -305,24 +305,6 @@ enum class player_display_tab : int {
 };
 } // namespace
 
-static player_display_tab next_tab( const player_display_tab tab )
-{
-    if( static_cast<int>( tab ) + 1 < static_cast<int>( player_display_tab::num_tabs ) ) {
-        return static_cast<player_display_tab>( static_cast<int>( tab ) + 1 );
-    } else {
-        return static_cast<player_display_tab>( 0 );
-    }
-}
-
-static player_display_tab prev_tab( const player_display_tab tab )
-{
-    if( static_cast<int>( tab ) > 0 ) {
-        return static_cast<player_display_tab>( static_cast<int>( tab ) - 1 );
-    } else {
-        return static_cast<player_display_tab>( static_cast<int>( player_display_tab::num_tabs ) - 1 );
-    }
-}
-
 static void draw_proficiencies_tab( ui_adaptor &ui, const catacurses::window &win,
                                     const unsigned line, const Character &guy,
                                     const player_display_tab curtab, const input_context &ctxt )
@@ -801,9 +783,6 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
                              const size_t skill_win_size_y )
 {
     const int col_width = getmaxx( w_skills ) - 1;
-    if( line == 0 ) { //can't point to a header;
-        line = 1;
-    }
 
     werase( w_skills );
     const bool is_current_tab = curtab == player_display_tab::skills;
@@ -831,14 +810,13 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
     int y_pos = 1;
     for( size_t i = min; i < max; ++i, ++y_pos ) {
         const Skill *aSkill = skillslist[i].skill;
-        const SkillLevel &level = you.get_skill_level_object( aSkill->ident() );
-
         if( skillslist[i].is_header ) {
             const SkillDisplayType t = SkillDisplayType::get_skill_type( aSkill->display_category() );
             std::string type_name = t.display_string();
             mvwprintz( w_skills, point( 0, y_pos ), c_light_gray, std::string( grid_width, ' ' ) );
             center_print( w_skills, y_pos, c_yellow, type_name );
         } else {
+            const SkillLevel &level = you.get_skill_level_object( aSkill->ident() );
             const bool can_train = level.can_train();
             const bool training = level.isTraining();
             const bool rusty = level.isRusty();
@@ -904,9 +882,7 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
                               const std::vector<HeaderSkill> &skillslist )
 {
     werase( w_info );
-    if( line < 1 ) {
-        line = 1;
-    }
+
     const Skill *selectedSkill = nullptr;
     if( line < skillslist.size() && !skillslist[line].is_header ) {
         selectedSkill = skillslist[line].skill;
@@ -1086,11 +1062,16 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
                    you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
     }
 
+
     if( customize_character ) {
-        right_print( w_tip, 0, 8, c_light_gray, string_format(
-                         _( "[<color_yellow>%s</color>] Customize character" ),
+        right_print( w_tip, 0, 16, c_light_gray, string_format(
+                         _( "[<color_yellow>%s</color>] Customize " ),
                          ctxt.get_desc( "SWITCH_GENDER" ) ) );
     }
+
+    right_print( w_tip, 0, 6, c_light_gray, string_format(
+                     _( "[<color_yellow>%s</color>] Morale" ),
+                     ctxt.get_desc( "morale" ) ) );
 
     right_print( w_tip, 0, 1, c_light_gray, string_format(
                      _( "[<color_yellow>%s</color>]" ),
@@ -1099,6 +1080,18 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
     right_print( w_tip, 0, 0, c_light_gray, string_format( "%s", LINE_XOXO_S ) );
 
     wnoutrefresh( w_tip );
+}
+
+static void skip_skill_headers( const std::vector<HeaderSkill> &skillslist, unsigned int &line,
+                                bool inc, unsigned int line_count )
+{
+    const unsigned int prev_line = line;
+    while( skillslist[line].is_header ) {
+        line = increment_and_wrap( line, inc, line_count );
+        if( line == prev_line ) {
+            break;
+        }
+    }
 }
 
 static bool handle_player_display_action( Character &you, unsigned int &line,
@@ -1140,74 +1133,61 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         }
     };
 
-    unsigned int line_beg = 0;
-    unsigned int line_end = 0;
+    unsigned int line_count = 0;
     switch( curtab ) {
         case player_display_tab::stats:
-            line_end = 8;
+            line_count = 9;
             break;
         case player_display_tab::encumbrance: {
             const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
-            line_end = bps.size();
+            line_count = bps.size();
             break;
         }
         case player_display_tab::traits:
-            line_end = traitslist.size();
+            line_count = traitslist.size();
             break;
         case player_display_tab::bionics:
-            line_end = bionicslist.size();
+            line_count = bionicslist.size();
             break;
         case player_display_tab::effects:
-            line_end = effect_name_and_text.size();
+            line_count = effect_name_and_text.size();
             break;
         case player_display_tab::skills:
-            line_beg = 1; // skip first header
-            line_end = skillslist.size();
+            line_count = skillslist.size();
             break;
         case player_display_tab::proficiencies:
-            line_end = you.display_proficiencies().size();
+            line_count = you.display_proficiencies().size();
             break;
         case player_display_tab::num_tabs:
             cata_fatal( "Invalid curtab" );
     }
-    if( line_beg >= line_end || line < line_beg ) {
-        line = line_beg;
-    } else if( line > line_end - 1 ) {
-        line = line_end - 1;
+    if( line_count > 0 ) {
+        line = std::clamp( line, 0U, line_count - 1 );
+        if( curtab == player_display_tab::skills ) {
+            skip_skill_headers( skillslist, line, true, line_count );
+        }
+    } else {
+        line = 0;
     }
 
     bool done = false;
-    std::string action = ctxt.handle_input();
+    const std::string action = ctxt.handle_input();
 
-    if( action == "UP" ) {
-        if( line > line_beg ) {
-            --line;
-        } else {
-            line = line_end - 1;
-        }
-        if( curtab == player_display_tab::skills && skillslist[line].is_header ) {
-            --line;
+    if( navigate_ui_list( action, line, 3, line_count, true ) ) {
+        if( curtab == player_display_tab::skills ) {
+            const bool inc = action == "DOWN" || action == "PAGE_DOWN" || action == "SCROLL_DOWN" ||
+                             action == "HOME";
+            skip_skill_headers( skillslist, line, inc, line_count );
         }
         info_line = 0;
         invalidate_tab( curtab );
         ui_info.invalidate_ui();
-    } else if( action == "DOWN" ) {
-        if( line + 1 < line_end ) {
-            ++line;
-        } else {
-            line = line_beg;
-        }
-        if( curtab == player_display_tab::skills && skillslist[line].is_header ) {
-            ++line;
-        }
-        info_line = 0;
+    } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
         invalidate_tab( curtab );
-        ui_info.invalidate_ui();
-    } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
-        line = 0;
+        curtab = increment_and_wrap( curtab, ( action == "RIGHT" ||
+                                               action == "NEXT_TAB" ), player_display_tab::num_tabs );
         invalidate_tab( curtab );
-        curtab = action == "NEXT_TAB" ? next_tab( curtab ) : prev_tab( curtab );
-        invalidate_tab( curtab );
+        line = curtab == player_display_tab::skills ? 1 : 0; // avoid a call to skip_skill_headers
         info_line = 0;
         ui_info.invalidate_ui();
     } else if( action == "SELECT_TRAIT_VARIANT" ) {
@@ -1256,6 +1236,11 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ui_tip.invalidate_ui();
     } else if( action == "VIEW_PROFICIENCIES" ) {
         show_proficiencies_window( you );
+
+    } else if( action == "morale" ) {
+        if( you.is_avatar() ) {
+            you.as_avatar()->disp_morale( );
+        }
     } else if( action == "VIEW_BODYSTAT" ) {
         display_bodygraph( you );
     } else if( customize_character && action == "SWITCH_GENDER" ) {
@@ -1332,9 +1317,6 @@ void Character::disp_info( bool customize_character )
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const std::string name = _effect_it.second.disp_name();
-            if( name.empty() ) {
-                continue;
-            }
             effect_name_and_text.emplace_back( name, _effect_it.second.disp_desc() );
         }
     }
@@ -1423,6 +1405,13 @@ void Character::disp_info( bool customize_character )
         effect_name_and_text.emplace_back( detail );
     }
 
+    // If any effects with no names have cropped up, let's remove them.
+    //   NB: This can happen if an effect no longer exists.
+    effect_name_and_text.erase( std::remove_if( effect_name_and_text.begin(),
+    effect_name_and_text.end(), []( const std::pair<std::string, std::string> &e ) {
+        return e.first.empty();
+    } ), effect_name_and_text.end() );
+
     const unsigned int effect_win_size_y_max = 1 + effect_name_and_text.size();
     const unsigned int proficiency_win_size_y_max = 1 + display_proficiencies().size();
 
@@ -1486,7 +1475,9 @@ void Character::disp_info( bool customize_character )
     }
 
     input_context ctxt( "PLAYER_INFO" );
-    ctxt.register_updown();
+    ctxt.register_navigate_ui_list();
+    ctxt.register_action( "LEFT", to_translation( "Cycle to next category" ) );
+    ctxt.register_action( "RIGHT", to_translation( "Cycle to previous category" ) );
     ctxt.register_action( "NEXT_TAB", to_translation( "Cycle to next category" ) );
     ctxt.register_action( "PREV_TAB", to_translation( "Cycle to previous category" ) );
     ctxt.register_action( "QUIT" );
@@ -1495,6 +1486,7 @@ void Character::disp_info( bool customize_character )
     ctxt.register_action( "SWITCH_GENDER", to_translation( "Customize base appearance and name" ) );
     ctxt.register_action( "VIEW_PROFICIENCIES", to_translation( "View character proficiencies" ) );
     ctxt.register_action( "VIEW_BODYSTAT", to_translation( "View character's body status" ) );
+    ctxt.register_action( "morale" );
     ctxt.register_action( "SCROLL_INFOBOX_UP", to_translation( "Scroll information box up" ) );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN", to_translation( "Scroll information box down" ) );
     ctxt.register_action( "SELECT_TRAIT_VARIANT" );

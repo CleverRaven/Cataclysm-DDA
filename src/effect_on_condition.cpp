@@ -399,6 +399,7 @@ void effect_on_conditions::prevent_death()
             eoc.activate( d );
         }
         if( !player_character.is_dead_state() ) {
+            player_character.clear_killer();
             break;
         }
     }

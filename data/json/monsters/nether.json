@@ -1317,7 +1317,6 @@
       {
         "type": "spell",
         "spell_data": { "id": "spell_conjure_memories" },
-        "max_range": 3,
         "cooldown": 30,
         "monster_message": "The creature screams \"SOMEONE HELP ME, ANYONE!\"."
       }

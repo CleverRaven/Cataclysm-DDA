@@ -1,5 +1,4 @@
 #include "cube_direction.h" // IWYU pragma: associated
-#include "enum_conversions.h"
 #include "omdata.h" // IWYU pragma: associated
 #include "overmap.h" // IWYU pragma: associated
 
@@ -7,13 +6,11 @@
 #include <cmath>
 #include <cstring>
 #include <exception>
-#include <istream>
 #include <memory>
 #include <numeric>
 #include <optional>
 #include <ostream>
 #include <set>
-#include <type_traits>
 #include <unordered_set>
 #include <vector>
 
@@ -41,12 +38,10 @@
 #include "mapbuffer.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
-#include "name.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -343,92 +338,6 @@ template<>
 bool overmap_special_id::is_valid() const
 {
     return specials.is_valid( *this );
-}
-
-generic_factory<city> &get_city_factory()
-{
-    static generic_factory<city> city_factory( "city" );
-    return city_factory;
-}
-
-/** @relates string_id */
-template<>
-const city &string_id<city>::obj() const
-{
-    return get_city_factory().obj( *this );
-}
-
-/** @relates string_id */
-template<>
-bool string_id<city>::is_valid() const
-{
-    return get_city_factory().is_valid( *this );
-}
-
-void city::load_city( const JsonObject &jo, const std::string &src )
-{
-    get_city_factory().load( jo, src );
-}
-
-void city::finalize()
-{
-    for( city &c : const_cast<std::vector<city>&>( city::get_all() ) ) {
-        if( c.name.empty() ) {
-            c.name = Name::get( nameFlags::IsTownName );
-        }
-        if( c.population == 0 ) {
-            c.population = rng( 1, INT_MAX );
-        }
-        if( c.size == -1 ) {
-            c.size = rng( 1, 16 );
-        }
-    }
-}
-
-void city::check_consistency()
-{
-    get_city_factory().check();
-}
-
-const std::vector<city> &city::get_all()
-{
-    return get_city_factory().get_all();
-}
-
-void city::reset()
-{
-    get_city_factory().reset();
-}
-
-void city::load( const JsonObject &jo, const std::string & )
-{
-
-    mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "database_id", database_id );
-    optional( jo, was_loaded, "name", name );
-    optional( jo, was_loaded, "population", population );
-    optional( jo, was_loaded, "size", size );
-    mandatory( jo, was_loaded, "pos_om", pos_om );
-    mandatory( jo, was_loaded, "pos", pos );
-}
-
-void city::check() const
-{
-    if( get_option<bool>( "SELECT_STARTING_CITY" ) && city::get_all().empty() ) {
-        debugmsg( "Overmap cities need to be defined when `SELECT_STARTING_CITY` option is set to `true`!" );
-    }
-}
-
-city::city( const point_om_omt &P, int const S )
-    : pos( P )
-    , size( S )
-    , name( Name::get( nameFlags::IsTownName ) )
-{
-}
-
-int city::get_distance_from( const tripoint_om_omt &p ) const
-{
-    return std::max( static_cast<int>( trig_dist( p, tripoint_om_omt{ pos, 0 } ) ) - size, 0 );
 }
 
 std::map<radio_type, std::string> radio_type_names =
@@ -3905,6 +3814,42 @@ void overmap::clear_cities()
 void overmap::clear_connections_out()
 {
     connections_out.clear();
+}
+
+static std::map<std::string, std::string> oter_id_migrations;
+
+void overmap::load_oter_id_migration( const JsonObject &jo )
+{
+    for( const JsonMember &kv : jo.get_object( "oter_ids" ) ) {
+        oter_id_migrations.emplace( kv.name(), kv.get_string() );
+    }
+}
+
+void overmap::reset_oter_id_migrations()
+{
+    oter_id_migrations.clear();
+}
+
+bool overmap::is_oter_id_obsolete( const std::string &oterid )
+{
+    return oter_id_migrations.count( oterid ) > 0;
+}
+
+void overmap::migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::string> &points )
+{
+    for( const auto&[pos, old_id] : points ) {
+        const oter_str_id new_id = oter_str_id( oter_id_migrations.at( old_id ) );
+        const tripoint_abs_sm pos_abs = project_to<coords::sm>( project_combine( this->pos(), pos ) );
+
+        if( new_id.is_valid() ) {
+            DebugLog( D_WARNING, DC_ALL ) << "migrated oter_id '" << old_id << "' at " << pos_abs
+                                          << " to '" << new_id.str() << "'";
+
+            ter_set( pos, new_id );
+        } else {
+            debugmsg( "oter_id migration defined from '%s' to invalid ter_id '%s'", old_id, new_id.str() );
+        }
+    }
 }
 
 void overmap::place_special_forced( const overmap_special_id &special_id,

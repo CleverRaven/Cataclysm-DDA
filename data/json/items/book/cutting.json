@@ -27,9 +27,6 @@
         "name": { "str": "The Beginner's Guide to the Long Sword", "str_pl": "copies of The Beginner's Guide to the Long Sword" },
         "description": "Based on different Europeans' martial arts, this book describes the main principles of swordsmanship.",
         "//": "978-0897501781",
-        "max_level": 3,
-        "intelligence": 7,
-        "fun": 0,
         "weight": 1
       },
       {
@@ -37,9 +34,6 @@
         "name": { "str": "Basics Of Stage Combat", "str_pl": "copies of Basics Of Stage Combat" },
         "description": "Foundation of using single handed sword on stage and on screen, with different tricks how to make a good show of it.",
         "//": "978-1612331720",
-        "max_level": 2,
-        "intelligence": 6,
-        "fun": 1,
         "weight": 1
       },
       {
@@ -47,9 +41,6 @@
         "name": { "str": "Medieval Combat in Colour", "str_pl": "copies of Medieval Combat in Colour" },
         "description": "An ancient fencing manual with updated illustrations of techniques.  Sometimes it just looks silly, describing how to fight if you have sword in one hand and a spear in another.",
         "//": "978-1784382858",
-        "max_level": 3,
-        "intelligence": 7,
-        "fun": 0,
         "weight": 1
       }
     ],
@@ -113,8 +104,6 @@
         "name": { "str": "Knife Anatomy", "str_pl": "copies of Knife Anatomy" },
         "description": "Lots of knife training methods and techniques for experienced martial artists.",
         "//": "978-1480259638",
-        "required_level": 1,
-        "max_level": 4,
         "weight": 1
       }
     ],
@@ -142,8 +131,6 @@
         "id": "manual_swords",
         "name": { "str": "USMC Sword Manual Procedure", "str_pl": "copies of USMC Sword Manual Procedure" },
         "description": "A text on stationary sword drills in US Marine Corps.  Contains lots of information about how to draw and pose with a sword, but nothing about using it.",
-        "required_level": 0,
-        "max_level": 1,
         "weight": 1
       },
       {

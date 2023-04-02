@@ -209,7 +209,6 @@
       { "group": "nested_usp_45_mk23", "prob": 5 },
       { "group": "nested_m1911_MEU", "prob": 5 },
       { "group": "nested_glock_19", "prob": 30 },
-      { "group": "nested_needlepistol", "prob": 30 },
       { "group": "nested_rm103a_pistol", "prob": 30 }
     ]
   },
@@ -348,7 +347,6 @@
     "//": "Military specification SMGs only ever found at military sites.",
     "items": [
       { "group": "nested_hk_mp7", "prob": 100 },
-      { "group": "nested_needlegun", "prob": 30 },
       { "group": "nested_rm2000_smg", "prob": 50 },
       { "group": "nested_hk_mp5", "prob": 100 },
       { "group": "nested_hk_mp5k", "prob": 10 },

@@ -595,7 +595,7 @@
         [ "dandelion_cooked", 1 ],
         [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
-        [ "acorns_cooked", 1 ],
+        [ "acorns_processed_any", 1, "LIST" ],
         [ "dry_lentils", 1 ],
         [ "raw_lentils", 1 ]
       ],
@@ -648,7 +648,7 @@
         [ "dry_mushroom", 1 ],
         [ "mushroom_cooked", 1 ],
         [ "morel_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
+        [ "acorns_processed_any", 1, "LIST" ]
       ],
       [
         [ "fish", 2 ],
@@ -709,7 +709,7 @@
         [ "dry_mushroom", 1 ],
         [ "mushroom_cooked", 1 ],
         [ "morel_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
+        [ "acorns_processed_any", 1, "LIST" ]
       ],
       [ [ "lobster", 2 ], [ "dry_lobster", 2 ], [ "lobster_smoked", 2 ], [ "lobster_canned", 2 ] ]
     ]
@@ -767,7 +767,7 @@
         [ "dry_mushroom", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "morel_cooked", 2 ],
-        [ "acorns_cooked", 2 ]
+        [ "acorns_processed_any", 2, "LIST" ]
       ]
     ]
   },
@@ -799,7 +799,7 @@
         [ "dry_mushroom", 1 ],
         [ "mushroom_cooked", 1 ],
         [ "morel_cooked", 1 ],
-        [ "acorns_cooked", 1 ]
+        [ "acorns_processed_any", 1, "LIST" ]
       ]
     ]
   },
@@ -1132,6 +1132,12 @@
     ]
   },
   {
+    "id": "acorns_processed_any",
+    "type": "requirement",
+    "//": "Any acorns processed to remove tannins and are now palatable, either wet or dry",
+    "components": [ [ [ "acorns_cooked", 1 ], [ "acorn_roasted", 1 ], [ "acorns_blanched", 1 ] ] ]
+  },
+  {
     "id": "mushroom_soup_ingredients",
     "type": "requirement",
     "components": [
@@ -1194,7 +1200,7 @@
         [ "dandelion_cooked", 1 ],
         [ "burdock_cooked", 1 ],
         [ "bamboo_cooked", 1 ],
-        [ "acorns_cooked", 1 ],
+        [ "acorns_processed_any", 1, "LIST" ],
         [ "tofu", 1 ],
         [ "dry_tofu", 1 ],
         [ "raw_edamame", 1 ],
@@ -1228,6 +1234,9 @@
         [ "imperial_stout", 1 ],
         [ "india_pale_ale", 1 ],
         [ "mead", 1 ],
+        [ "hopped_mead", 1 ],
+        [ "plain_mead", 1 ],
+        [ "spiced_mead", 1 ],
         [ "pale_ale", 1 ],
         [ "stout", 1 ]
       ]

@@ -17,6 +17,7 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "magic_teleporter_list.h"
+#include "mdarray.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"

@@ -76,23 +76,21 @@ void print_list_scrollable( catacurses::window *win, const std::vector<std::stri
                            color_error );
 }
 
-void print_list_scrollable( catacurses::window *win, const std::string &text, int *selection,
-                            int entries_per_page, int xoffset, int width, bool active, bool border,
-                            const report_color_error color_error )
+std::vector<std::string>
+text_to_list_scrollable( catacurses::window &win, const std::string &text, const bool border )
 {
-    int borderspace = border ? 1 : 0;
+    const int width = getmaxx( win );
+    const int borderspace = border ? 1 : 0;
     // -1 on the left for scroll bar and another -1 on the right reserved for cursor
-    std::vector<std::string> list = foldstring( text, width - 2 - borderspace * 2 );
-    print_list_scrollable( win, list, selection, entries_per_page, xoffset, width, active, border,
-                           color_error );
+    return foldstring( text, width - 2 - borderspace * 2 );
 }
 
 void print_list_scrollable( catacurses::window *win, const std::string &text, int *selection,
                             bool active,
                             bool border, const report_color_error color_error )
 {
-    print_list_scrollable( win, text, selection, getmaxy( *win ), 0, getmaxx( *win ), active, border,
-                           color_error );
+    std::vector<std::string> list = text_to_list_scrollable( *win, text, border );
+    print_list_scrollable( win, list, selection, active, border, color_error );
 }
 
 void draw_diary_border( catacurses::window *win, const nc_color &color = c_white )
@@ -169,10 +167,14 @@ void diary::show_diary_ui( diary *c_diary )
     enum class window_mode : int {PAGE_WIN = 0, CHANGE_WIN, TEXT_WIN, NUM_WIN, FIRST_WIN = 0, LAST_WIN = NUM_WIN - 1};
     window_mode currwin = window_mode::PAGE_WIN;
 
-    std::map<window_mode, int> selected = { {window_mode::PAGE_WIN, 0}, {window_mode::CHANGE_WIN, 0}, {window_mode::TEXT_WIN, 0} };
+    const int diary_last_page = c_diary->pages.empty() ? 0 : ( c_diary->pages.size() - 1 );
+    std::map<window_mode, int> selected = { {window_mode::PAGE_WIN, diary_last_page}, {window_mode::CHANGE_WIN, 0}, {window_mode::TEXT_WIN, 0} };
 
     input_context ctxt( "DIARY" );
-    ctxt.register_cardinal();
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEW_PAGE" );
@@ -310,29 +312,21 @@ void diary::show_diary_ui( diary *c_diary )
         ui_info.invalidate_ui();
         ui_manager::redraw_invalidated();
         const std::string action = ctxt.handle_input();
-        if( action == "RIGHT" ) {
-            currwin = static_cast<window_mode>( static_cast<int>( currwin ) + 1 );
-            if( currwin >= window_mode::NUM_WIN ) {
-                currwin = window_mode::FIRST_WIN;
-            }
+        if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
+            // necessary to use increment_and_wrap()
+            static_assert( static_cast<int>( window_mode::FIRST_WIN ) == 0 );
+            currwin = increment_and_wrap( currwin, action == "RIGHT" ||
+                                          action == "NEXT_TAB", window_mode::NUM_WIN );
             selected[window_mode::TEXT_WIN] = 0;
-        } else if( action == "LEFT" ) {
-            currwin = static_cast<window_mode>( static_cast<int>( currwin ) - 1 );
-            if( currwin < window_mode::FIRST_WIN ) {
-                currwin = window_mode::LAST_WIN;
+        } else if( navigate_ui_list( action, selected[currwin], 10,
+                                     currwin == window_mode::PAGE_WIN ? c_diary->pages.size()
+                                     : currwin == window_mode::CHANGE_WIN ? c_diary->change_list.size()
+                                     : text_to_list_scrollable( w_text, c_diary->get_page_text(), false ).size(), true ) ) {
+            // size in navigate_ui_list above is redundant with print_list_scrollable's wrapping effect during redraw
+            if( currwin == window_mode::PAGE_WIN ) {
+                selected[window_mode::CHANGE_WIN] = 0;
+                selected[window_mode::TEXT_WIN] = 0;
             }
-            selected[window_mode::TEXT_WIN] = 0;
-        } else if( action == "DOWN" ) {
-            selected[currwin]++;
-            if( selected[window_mode::PAGE_WIN] >= static_cast<int>( c_diary->pages.size() ) ) {
-                selected[window_mode::PAGE_WIN] = 0;
-            }
-        } else if( action == "UP" ) {
-            selected[currwin]--;
-            if( selected[window_mode::PAGE_WIN] < 0 ) {
-                selected[window_mode::PAGE_WIN] = c_diary->pages.empty() ? 0 : c_diary->pages.size() - 1;
-            }
-
         } else if( action == "CONFIRM" ) {
             if( !c_diary->pages.empty() ) {
                 c_diary->edit_page_ui( [&]() {
@@ -342,7 +336,7 @@ void diary::show_diary_ui( diary *c_diary )
         } else if( action == "NEW_PAGE" ) {
             c_diary->new_page();
             selected[window_mode::PAGE_WIN] = c_diary->pages.size() - 1;
-
+            currwin = window_mode::PAGE_WIN;
         } else if( action == "VIEW_SCORES" ) {
             show_scores_ui( g->achievements(), g->stats(), g->get_kill_tracker() );
         } else if( action == "DELETE PAGE" ) {

@@ -704,5 +704,58 @@
         { "item": "steel_chunk", "count": 3 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_oxygen_concentrator",
+    "name": "oxygen concentrator",
+    "description": "A machine capable of generating pure oxygen from the air.  It needs power to function.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 12,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "oxygen_concentrator" },
+    "flags": [ "OBSTACLE" ],
+    "deconstruct": { "items": [ { "item": "oxygen_concentrator", "count": 1 } ] },
+    "bash": {
+      "str_min": 35,
+      "str_max": 140,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 4, 7 ] },
+        { "item": "steel_chunk", "count": [ 3, 6 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 4, 7 ] },
+        { "item": "element", "count": [ 0, 2 ] },
+        { "item": "glass_shard", "prob": 50 },
+        { "item": "motor_small", "prob": 25 }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_hd_compressor_unit",
+    "name": "high pressure compressor unit",
+    "description": "A machine designed to compress an input gas to a very high pressure.  It needs large amounts of power to function.",
+    "symbol": "&",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "required_str": 16,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "hd_compressor_unit" },
+    "flags": [ "OBSTACLE" ],
+    "deconstruct": { "items": [ { "item": "hd_compressor_unit", "count": 1 } ] },
+    "bash": {
+      "str_min": 45,
+      "str_max": 180,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 6, 12 ] },
+        { "item": "steel_chunk", "count": [ 8, 16 ] },
+        { "item": "sheet_metal_small", "count": [ 1, 4 ] }
+      ]
+    }
   }
 ]

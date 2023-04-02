@@ -5,6 +5,25 @@
     "items": [ { "item": "lighter", "prob": 100, "charges": 100 } ]
   },
   {
+    "type": "item_group",
+    "id": "paint_tutorial",
+    "subtype": "collection",
+    "items": [
+      { "item": "paint_red", "prob": 100, "container-group": "paintcans" },
+      { "item": "paint_blue", "prob": 100, "container-group": "paintcans" },
+      { "item": "paint_yellow", "prob": 100, "container-group": "paintcans" },
+      { "item": "paint_green", "prob": 100, "container-group": "paintcans" },
+      { "item": "paint_purple", "prob": 100, "container-group": "paintcans" },
+      { "item": "paint_orange", "prob": 100, "container-group": "paintcans" },
+      { "item": "paint_pink", "prob": 100, "container-group": "paintcans" },
+      { "item": "paint_cyan", "prob": 100, "container-group": "paintcans" },
+      { "item": "paint_brown", "prob": 100, "container-group": "paintcans" },
+      { "item": "paint_white", "prob": 100, "container-group": "paintcans" },
+      { "item": "paint_black", "prob": 100, "container-group": "paintcans" },
+      { "item": "paint_gray", "prob": 100, "container-group": "paintcans" }
+    ]
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": "tutorial",
@@ -74,18 +93,11 @@
         "%": { "item": "helmet_ball", "chance": 100 },
         "^": { "item": "mask_dust", "chance": 100 },
         "*": { "item": "paint_brush", "chance": 100 },
-        "(": [
-          { "item": "paint_red", "chance": 100 },
-          { "item": "paint_blue", "chance": 100 },
-          { "item": "paint_white", "chance": 100 },
-          { "item": "paint_green", "chance": 100 },
-          { "item": "paint_purple", "chance": 100 },
-          { "item": "paint_yellow", "chance": 100 }
-        ],
         ")": { "item": "baseball", "chance": 100, "amount": 10 },
         "_": { "item": "codeine", "chance": 100 },
         "C": [ { "item": "peanutbutter", "chance": 100 }, { "item": "crackers", "chance": 100 } ]
       },
+      "items": { "(": { "item": "paint_tutorial", "chance": 100 } },
       "monster": { "d": { "monster": "mon_dummy_tutorial" } },
       "traps": {
         "1": "tr_tutorial_1",

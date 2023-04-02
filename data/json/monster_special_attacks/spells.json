@@ -984,6 +984,7 @@
     "name": { "str": "Life Flashing" },
     "description": "Brings back memories.",
     "copy-from": "base_portal",
+    "max_range": 3,
     "effect_str": "EOC_conjure_memories"
   },
   {

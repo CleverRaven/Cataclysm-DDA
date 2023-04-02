@@ -55,6 +55,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
+#include "city.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
@@ -961,12 +962,47 @@ bool game::start_game()
         }
     }
     if( scen->has_flag( "BORDERED" ) ) {
+        const point_abs_omt p_player = get_player_character().global_omt_location().xy();
+        point_abs_om om;
+        point_om_omt omt;
+        std::tie( om, omt ) = project_remain<coords::om>( p_player );
+
+        // The Wall is supposed to be a 100x100 rectangle centered on player,
+        // but if player is spawned next to edges of the overmap we need to make it smaller so it doesn't overlap the overmap's borders
+        int left_x = omt.x() < 50 ? 1 : omt.x() - 50;
+        int right_x = omt.x() > 129 ? 179 : omt.x() + 50;
+        int up_y = omt.y() < 50 ? 1 : omt.y() - 50;
+        int down_y = omt.y() > 129 ? 179 : omt.y() + 50;
+
         overmap &starting_om = get_cur_om();
-        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            starting_om.place_special_forced( overmap_special_world, { 0, 0, z },
-                                              om_direction::type::north );
+
+        for( int x = left_x; x <= right_x; x++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { x, up_y, z },
+                                                  om_direction::type::north );
+            }
         }
 
+        for( int x = left_x; x <= right_x; x++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { x, down_y, z },
+                                                  om_direction::type::north );
+            }
+        }
+
+        for( int y = up_y; y <= down_y; y++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { left_x, y, z },
+                                                  om_direction::type::north );
+            }
+        }
+
+        for( int y = up_y; y <= down_y; y++ ) {
+            for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+                starting_om.place_special_forced( overmap_special_world, { right_x, y, z },
+                                                  om_direction::type::north );
+            }
+        }
     }
     for( item *&e : u.inv_dump() ) {
         e->set_owner( get_player_character() );
@@ -2599,6 +2635,9 @@ bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mo
 
 bool game::is_game_over()
 {
+    if( uquit == QUIT_DIED || uquit == QUIT_WATCH ) {
+        events().send<event_type::avatar_dies>();
+    }
     if( uquit == QUIT_WATCH ) {
         // deny player movement and dodging
         u.moves = 0;
@@ -6580,9 +6619,7 @@ void game::zones_manager()
 
     std::string action;
     input_context ctxt( "ZONES_MANAGER" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ADD_ZONE" );
@@ -6908,35 +6945,7 @@ void game::zones_manager()
             zones_faction = faction_id( facname );
             zones = get_zones();
         } else if( zone_cnt > 0 ) {
-            if( action == "UP" ) {
-                active_index--;
-                if( active_index < 0 ) {
-                    active_index = zone_cnt - 1;
-                }
-                blink = false;
-            } else if( action == "DOWN" ) {
-                active_index++;
-                if( active_index >= zone_cnt ) {
-                    active_index = 0;
-                }
-                blink = false;
-            } else if( action == "PAGE_DOWN" ) {
-                if( active_index == zone_cnt - 1 ) {
-                    active_index = 0;
-                } else if( active_index + scroll_rate >= zone_cnt ) {
-                    active_index = zone_cnt - 1;
-                } else {
-                    active_index += +scroll_rate;
-                }
-                blink = false;
-            } else if( action == "PAGE_UP" ) {
-                if( active_index == 0 ) {
-                    active_index = zone_cnt - 1;
-                } else if( active_index <= scroll_rate ) {
-                    active_index = 0;
-                } else {
-                    active_index += -scroll_rate;
-                }
+            if( navigate_ui_list( action, active_index, scroll_rate, zone_cnt, true ) ) {
                 blink = false;
             } else if( action == "REMOVE_ZONE" ) {
                 if( active_index < zone_cnt ) {
@@ -8112,7 +8121,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                     low = false;
                 }
 
-                if( iNum >= iStartPos && iNum < iStartPos + ( iMaxRows > iItemNum ? iItemNum : iMaxRows ) ) {
+                if( iNum >= iStartPos && iNum < iStartPos + std::min( iMaxRows, iItemNum ) ) {
                     int iThisPage = 0;
                     if( !mSortCategory[iNum].empty() ) {
                         iCatSortOffset++;
@@ -8504,10 +8513,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     std::string action;
     input_context ctxt( "LIST_MONSTERS" );
-    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "zoom_in" );
@@ -8727,36 +8733,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     const int scroll_rate = recmax > 20 ? 10 : 3;
 
     do {
-        if( action == "UP" ) {
-            iActive--;
-            if( iActive < 0 ) {
-                if( monster_list.empty() ) {
-                    iActive = 0;
-                } else {
-                    iActive = recmax - 1;
-                }
-            }
-        } else if( action == "DOWN" ) {
-            iActive++;
-            if( iActive >= recmax ) {
-                iActive = 0;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( iActive == 0 ) {
-                iActive = recmax - 1;
-            } else if( iActive <= scroll_rate ) {
-                iActive = 0;
-            } else {
-                iActive += -scroll_rate;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( iActive == recmax - 1 ) {
-                iActive = 0;
-            } else if( iActive + scroll_rate >= recmax ) {
-                iActive = recmax - 1;
-            } else {
-                iActive += +scroll_rate;
-            }
+        if( navigate_ui_list( action, iActive, scroll_rate, recmax, true ) ) {
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
             return game::vmenu_ret::CHANGE_TAB;

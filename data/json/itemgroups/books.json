@@ -92,6 +92,7 @@
       { "item": "manual_stabbing", "prob": 40 },
       { "item": "manual_swimming", "prob": 30 },
       { "item": "manual_traps_mil", "prob": 30 },
+      { "item": "manual_traps_mil_basic", "prob": 30 },
       { "item": "pocket_firearms", "prob": 10 },
       { "item": "textbook_firstaid", "prob": 30 }
     ]
@@ -164,6 +165,8 @@
       { "item": "holybook_bible1", "prob": 1 },
       { "item": "holybook_bible2", "prob": 1 },
       { "item": "holybook_bible3", "prob": 1 },
+      { "item": "holybook_bible4", "prob": 1 },
+      { "item": "holybook_bible5", "prob": 1 },
       { "item": "holybook_quran", "prob": 1 },
       { "item": "holybook_hadith", "prob": 1 },
       { "item": "holybook_havamal", "prob": 1 },

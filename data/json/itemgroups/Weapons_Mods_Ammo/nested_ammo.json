@@ -116,18 +116,6 @@
     ]
   },
   {
-    "id": "on_hand_5x50",
-    "type": "item_group",
-    "//": "a collection of ammo that would be found with a loaded gun.",
-    "subtype": "distribution",
-    "entries": [
-      { "item": "5x50dart", "prob": 100, "charges": [ 1, 100 ] },
-      { "item": "5x50dart", "prob": 75, "charges": [ 110, 200 ] },
-      { "item": "5x50dart", "prob": 30, "charges": [ 220, 400 ] },
-      { "item": "5x50heavy", "prob": 30, "charges": [ 1, 100 ] }
-    ]
-  },
-  {
     "id": "on_hand_46",
     "type": "item_group",
     "//": "a collection of ammo that would be found with a loaded gun.",

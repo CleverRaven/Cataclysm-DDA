@@ -3,6 +3,7 @@
 #include "creature_tracker.h"
 #include "game.h"
 #include "item_group.h"
+#include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
 #include "npc_class.h"

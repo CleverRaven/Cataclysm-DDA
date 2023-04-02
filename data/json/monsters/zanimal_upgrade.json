@@ -376,7 +376,7 @@
     "description": "with plates of asymmetrical bone tissue overlapping its body, this ignoble steed needs no rider for you to fear its approach.  Completing its ghoulish look is an overgrown skull which, judging by the flattened and battered forehead, has become its main weapon.",
     "diff": 5,
     "hp": 90,
-    "colour": "white",
+    "color": "white",
     "melee_dice": 4,
     "melee_damage": [ { "damage_type": "cut", "amount": 8 } ],
     "armor_cut": 16,
