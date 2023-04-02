@@ -88,7 +88,6 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_dripping_mechanical_fluid( "dripping_mechanical_fluid" );
 static const efftype_id effect_emp( "emp" );
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_has_bag( "has_bag" );
 static const efftype_id effect_heavysnare( "heavysnare" );
@@ -121,6 +120,8 @@ static const emit_id emit_emit_shock_cloud( "emit_shock_cloud" );
 static const emit_id emit_emit_shock_cloud_big( "emit_shock_cloud_big" );
 
 static const flag_id json_flag_DISABLE_FLIGHT( "DISABLE_FLIGHT" );
+static const flag_id json_flag_GRAB( "GRAB" );
+static const flag_id json_flag_GRAB_FILTER( "GRAB_FILTER" );
 
 static const itype_id itype_milk( "milk" );
 static const itype_id itype_milk_raw( "milk_raw" );
@@ -2146,15 +2147,21 @@ bool monster::move_effects( bool )
             remove_effect( effect_in_pit );
         }
     }
-    if( has_effect( effect_grabbed ) ) {
-        if( dice( type->melee_dice + type->melee_sides, 3 ) < get_effect_int( effect_grabbed ) ||
-            !one_in( 4 ) ) {
-            return false;
-        } else {
-            if( u_see_me ) {
-                add_msg( _( "The %s breaks free from the grab!" ), name() );
+    if( has_effect_with_flag( json_flag_GRAB ) ) {
+        // Pretty hacky, but monsters have no stats
+        for( const effect grab : get_effects_with_flag( json_flag_GRAB ) ) {
+            int monster = type->melee_skill + type->melee_damage.total_damage();
+            int grabber = get_effect_int( grab.get_id() );
+            add_msg_debug( debugmode::DF_MONSTER, "%s attempting to break grab %s, success %d in intensity %d",
+                           get_name(), grab.get_id().c_str(), monster, grabber );
+            if( !x_in_y( monster, grabber ) ) {
+                return false;
+            } else {
+                if( u_see_me ) {
+                    add_msg( _( "The %s breaks free from the grab!" ), name() );
+                }
+                remove_effect( grab.get_id() );
             }
-            remove_effect( effect_grabbed );
         }
     }
     return true;
@@ -2429,10 +2436,21 @@ void monster::process_turn()
     creature_tracker &creatures = get_creature_tracker();
     // Persist grabs as long as there's an adjacent target.
     if( has_effect( effect_grabbing ) ) {
+        bool remove = true;
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const Character *const you = creatures.creature_at<Character>( dest );
-            if( you && you->has_effect( effect_grabbed ) ) {
-                add_effect( effect_grabbing, 2_turns );
+            const Creature *const you = creatures.creature_at<Creature>( dest );
+            if( you && you->has_effect_with_flag( json_flag_GRAB ) ) {
+                remove = false;
+            }
+        }
+        if( remove ) {
+            add_msg_debug( debugmode::DF_MATTACK, "No grabbed targets found, removing grabbing effect." );
+            remove_effect( effect_grabbing );
+            // Clean the filter effects as well
+            for( const effect &eff : get_effects_with_flag( json_flag_GRAB_FILTER ) ) {
+                const efftype_id effid = eff.get_id();
+                remove_effect( effid );
+                add_msg_debug( debugmode::DF_MATTACK, "Grab filter effect %s removed.", effid.c_str() );
             }
         }
     }
@@ -2525,11 +2543,13 @@ void monster::die( Creature *nkiller )
     creature_tracker &creatures = get_creature_tracker();
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
+        // Need to filter out which limb we were grabbing before death
         for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
-            Character *you = creatures.creature_at<Character>( player_pos );
-            if( !you || !you->has_effect( effect_grabbed ) ) {
+            Creature *you = creatures.creature_at( player_pos );
+            if( !you || !you->has_effect_with_flag( json_flag_GRAB ) ) {
                 continue;
             }
+            // ...but if there are no grabbers around we can just skip to the end
             bool grabbed = false;
             for( const tripoint &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
                 const monster *const mon = creatures.creature_at<monster>( mon_pos );
@@ -2541,7 +2561,19 @@ void monster::die( Creature *nkiller )
             if( !grabbed ) {
                 you->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
                                             _( "The last enemy holding <npcname> collapses!" ) );
-                you->remove_effect( effect_grabbed );
+                // A loop for safety
+                for( const effect &grab : you->get_effects_with_flag( json_flag_GRAB ) ) {
+                    const effect_type effid = *grab.get_effect_type();
+                    you->remove_effect( effid.id );
+                }
+                continue;
+            }
+            // Iterate through all your grabs to figure out which one this critter held
+            for( const effect grab : you->get_effects_with_flag( json_flag_GRAB ) ) {
+                if( has_effect( grab.get_bp()->grabbing_effect ) ) {
+                    const effect_type effid = *grab.get_effect_type();
+                    you->remove_effect( effid.id, grab.get_bp() );
+                }
             }
         }
     }

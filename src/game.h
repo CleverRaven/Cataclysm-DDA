@@ -570,7 +570,7 @@ class game
         void water_affect_items( Character &ch ) const;
 
         /** Flings the input creature in the given direction. */
-        void fling_creature( Creature *c, const units::angle &dir, float flvel,
+        bool fling_creature( Creature *c, const units::angle &dir, float flvel,
                              bool controlled = false );
 
         float natural_light_level( int zlev ) const;

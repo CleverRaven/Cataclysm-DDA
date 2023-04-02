@@ -24,10 +24,10 @@
 #include "viewer.h"
 #include "map_iterator.h"
 
-static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_teleglow( "teleglow" );
 
 static const flag_id json_flag_DIMENSIONAL_ANCHOR( "DIMENSIONAL_ANCHOR" );
+static const flag_id json_flag_GRAB( "GRAB" );
 
 bool teleport::teleport( Creature &critter, int min_distance, int max_distance, bool safe,
                          bool add_teleglow )
@@ -141,7 +141,6 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             if( c_is_u ) {
                 g->update_map( *p );
             }
-            critter.remove_effect( effect_grabbed );
             return true;
         }
         //Character *const poor_player = dynamic_cast<Character *>( poor_soul );
@@ -182,7 +181,6 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             collision_angle = rng( 0, 360 );
             g->fling_creature( poor_soul, units::from_degrees( collision_angle - 180 ), 50 );
             explosion_handler::explosion( &critter, target, 25 );
-            poor_soul->remove_effect( effect_grabbed );
             poor_soul->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
             poor_soul->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
             poor_soul->apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
@@ -213,7 +211,9 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     if( c_is_u ) {
         g->update_map( *p );
     }
-    critter.remove_effect( effect_grabbed );
+    for( const effect &grab : critter.get_effects_with_flag( json_flag_GRAB ) ) {
+        critter.remove_effect( grab.get_id() );
+    }
     return true;
 }
 
