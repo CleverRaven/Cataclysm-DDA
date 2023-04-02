@@ -651,7 +651,8 @@ bool main_menu::opening_screen()
         input_event sInput = ctxt.get_raw_input();
 
         // check automatic menu shortcuts
-        for( int i = 0; static_cast<size_t>( i ) < vMenuHotkeys.size(); ++i ) {
+        bool match = false;
+        for( int i = 0; static_cast<size_t>( i ) < vMenuHotkeys.size() && !match; ++i ) {
             for( const std::string &hotkey : vMenuHotkeys[i] ) {
                 if( sInput.text == hotkey && sel1 != i ) {
                     sel1 = i;
@@ -662,25 +663,31 @@ bool main_menu::opening_screen()
                     } else if( i == getopt( main_menu_opts::QUIT ) ) {
                         action = "QUIT";
                     }
+                    match = true;
+                    break;
                 }
             }
         }
         if( sel1 == getopt( main_menu_opts::SETTINGS ) ) {
-            for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
+            for( int i = 0; !match && static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
                 for( const std::string &hotkey : vSettingsHotkeys[i] ) {
                     if( sInput.text == hotkey ) {
                         sel2 = i;
                         action = "CONFIRM";
+                        match = true;
+                        break;
                     }
                 }
             }
         }
         if( sel1 == getopt( main_menu_opts::NEWCHAR ) ) {
-            for( int i = 0; static_cast<size_t>( i ) < vNewGameSubItems.size(); ++i ) {
+            for( int i = 0; !match && static_cast<size_t>( i ) < vNewGameSubItems.size(); ++i ) {
                 for( const std::string &hotkey : vNewGameHotkeys[i] ) {
                     if( sInput.text == hotkey ) {
                         sel2 = i;
                         action = "CONFIRM";
+                        match = true;
+                        break;
                     }
                 }
             }
@@ -702,22 +709,25 @@ bool main_menu::opening_screen()
                         action = "CONFIRM";
                     }
                     ui_manager::redraw();
+                    match = true;
                     break;
                 }
             }
-            for( const auto &it : main_menu_sub_button_map ) {
-                if( coord.has_value() && it.first.contains( coord.value() ) ) {
-                    if( sel1 != it.second.first || sel2 != it.second.second ) {
-                        on_move();
+            if( !match ) {
+                for( const auto &it : main_menu_sub_button_map ) {
+                    if( coord.has_value() && it.first.contains( coord.value() ) ) {
+                        if( sel1 != it.second.first || sel2 != it.second.second ) {
+                            on_move();
+                        }
+                        sel1 = it.second.first;
+                        sel2 = it.second.second;
+                        sel_line = 0;
+                        if( action == "SELECT" ) {
+                            action = "CONFIRM";
+                        }
+                        ui_manager::redraw();
+                        break;
                     }
-                    sel1 = it.second.first;
-                    sel2 = it.second.second;
-                    sel_line = 0;
-                    if( action == "SELECT" ) {
-                        action = "CONFIRM";
-                    }
-                    ui_manager::redraw();
-                    break;
                 }
             }
         }
