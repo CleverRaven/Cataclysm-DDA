@@ -169,5 +169,15 @@
     "active": true,
     "activated_eocs": [ "EOC_queue_can_finder" ],
     "deactivated_eocs": [ "EOC_deque_can_finder" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_popeye",
+    "name": { "str": "Of sailors and spinach" },
+    "points": 0,
+    "description": "You spent several years on the high sea and now your muscles visibly swell and clench when you eat raw spinach.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_spinach_consumption" ]
   }
 ]
