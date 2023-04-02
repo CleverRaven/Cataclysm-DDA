@@ -2497,7 +2497,7 @@ std::optional<int> holster_actor::use( Character &you, item &it, bool, const tri
             internal_item = *iter;
         }
     } else {
-        if (!all_items.empty())
+        if( !all_items.empty() )
             internal_item = all_items.front();
     }
 
