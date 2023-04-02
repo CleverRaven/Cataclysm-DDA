@@ -609,7 +609,6 @@ bool main_menu::opening_screen()
     player_character = avatar();
 
     int sel_line = 0;
-    size_t last_world_pos = 0;
 
     // Make [Load Game] the default cursor position if there's game save available
     if( !world_generator->get_all_worlds().empty() ) {
@@ -1072,7 +1071,11 @@ void main_menu::world_tab( const std::string &worldname )
 {
     // Create world
     if( sel2 == 0 ) {
-        world_generator->make_new_world();
+        WORLD *world = world_generator->make_new_world();
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        if( world->world_name < world_generator->all_worldnames()[last_world_pos] ) {
+            last_world_pos++;
+        }
         return;
     }
 
@@ -1094,6 +1097,10 @@ void main_menu::world_tab( const std::string &worldname )
 
     auto clear_world = [this, &worldname]( bool do_delete ) {
         world_generator->delete_world( worldname, do_delete );
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        if( last_world_pos > 0 && worldname <= world_generator->all_worldnames()[last_world_pos] ) {
+            last_world_pos--;
+        }
         savegames.clear();
         MAPBUFFER.clear();
         overmap_buffer.clear();
