@@ -6,10 +6,7 @@
     "entries": [
       { "group": "protein_bar_wrapped_box", "prob": 100 },
       {
-        "distribution": [
-          { "group": "bottle_pur_tablets" },
-          { "group": "twoliter_water_batch", "count": [ 3, 8 ] }
-        ]
+        "distribution": [ { "group": "bottle_pur_tablets" }, { "group": "twoliter_water_batch", "count": [ 3, 8 ] } ]
       },
       { "group": "disinfectant_bottle", "prob": 100 },
       { "group": "toilet_paper_packed", "repeat": [ 3, 4 ], "prob": 100 },
