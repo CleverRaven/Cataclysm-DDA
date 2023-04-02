@@ -32,7 +32,10 @@
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
+#include "vehicle.h"
 #include "viewer.h"
+#include "vpart_range.h"
+
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
@@ -809,6 +812,8 @@ void gun_actor::load_internal( const JsonObject &obj, const std::string & )
 
     laser_lock = obj.get_bool( "laser_lock", false );
 
+    obj.read( "target_moving_vehicles", target_moving_vehicles );
+
     obj.read( "require_sunlight", require_sunlight );
 }
 
@@ -828,9 +833,29 @@ int gun_actor::get_max_range()  const
     return max_range;
 }
 
+static vehicle *find_target_vehicle( monster &z, int range )
+{
+    map &here = get_map();
+    vehicle *chosen = nullptr;
+    for( wrapped_vehicle &v : here.get_vehicles() ) {
+        if( !fov_3d && v.pos.z != z.pos().z ) {
+            continue;
+        }
+        int new_dist = rl_dist( z.pos(), v.pos );
+        if( v.v->velocity != 0 && new_dist < range ) {
+            chosen = v.v;
+            range = new_dist;
+        }
+    }
+    return chosen;
+}
+
+
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
+    tripoint aim_at;
+    bool untargeted = false;
 
     if( z.friendly ) {
         int max_range = get_max_range();
@@ -847,20 +872,43 @@ bool gun_actor::call( monster &z ) const
             }
             return false;
         }
-
+        aim_at = target->pos();
     } else {
         target = z.attack_target();
         if( !target || !z.sees( *target ) || ( !target->is_monster() && !z.aggro_character ) ) {
-            return false;
+            //return false;
+            if( !target_moving_vehicles ) {
+                return false;
+            }
+            //No living targets, try to find a moving car
+            vehicle *veh = find_target_vehicle( z, get_max_range() );
+            if( !veh ) {
+                return false;
+            }
+            for( const vpart_reference &vp : veh->get_avail_parts( "CONTROLS" ) ) {
+                if( z.sees( vp.pos() ) ) {
+                    aim_at = vp.pos();
+                    untargeted = true;
+                }
+            }
+            if( !untargeted ) {
+                untargeted = true;
+                aim_at = veh->global_pos3();
+            }
+        } else {
+            aim_at = target->pos();
         }
     }
 
-    int dist = rl_dist( z.pos(), target->pos() );
-    add_msg_debug( debugmode::DF_MATTACK, "Target %s at range %d", target->disp_name(), dist );
-    for( const auto &e : ranges ) {
+    int dist = rl_dist( z.pos(), aim_at );
+    if( target ) {
+        add_msg_debug( debugmode::DF_MATTACK, "Target %s at range %d", target->disp_name(), dist );
+    }
+
+        for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
-            if( try_target( z, *target ) ) {
-                shoot( z, target->pos(), e.second );
+            if( untargeted || try_target( z, *target ) ) {
+                shoot( z, aim_at, e.second );
             }
             return true;
         }
