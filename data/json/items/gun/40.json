@@ -48,6 +48,7 @@
     "durability": 6,
     "blackpowder_tolerance": 48,
     "min_cycle_recoil": 425,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -167,6 +168,7 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "sig40mag" ] } ]
   },
@@ -271,6 +273,7 @@
     "dispersion": 480,
     "durability": 8,
     "min_cycle_recoil": 504,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "185 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "bhp40mag" ] } ]
   },
@@ -293,6 +296,7 @@
     "dispersion": 480,
     "durability": 9,
     "min_cycle_recoil": 504,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [
       {
@@ -322,6 +326,7 @@
     "dispersion": 480,
     "durability": 7,
     "min_cycle_recoil": 504,
+    "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
     "pocket_data": [ { "magazine_well": "312 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjcpmag" ] } ]
   }

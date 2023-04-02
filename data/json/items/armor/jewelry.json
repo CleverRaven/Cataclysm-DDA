@@ -83,12 +83,12 @@
     "id": "bronze_medal",
     "type": "ARMOR",
     "name": { "str": "bronze medal" },
-    "description": "A medal awarded for achieving third place in some event.  It might be worth something if it was made of bronze; this one is made from iron.",
+    "description": "A medal awarded for achieving third place in some event.  It might be worth something if it was made of bronze; this one is made from brass.",
     "weight": "25 g",
     "volume": "10 ml",
     "price": 1000,
     "price_postapoc": 10,
-    "material": [ "iron" ],
+    "material": [ "brass" ],
     "symbol": "[",
     "looks_like": "copper_locket",
     "color": "brown",
@@ -242,10 +242,11 @@
         "encumbrance": 0,
         "coverage": 0,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
       }
     ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "diving_watch",
@@ -287,7 +288,7 @@
     "name": { "str": "copper bracelet" },
     "description": "An old-fashioned copper bracelet.",
     "weight": "45 g",
-    "volume": "5 ml",
+    "volume": "10 ml",
     "price": 2500,
     "price_postapoc": 10,
     "material": [ "copper" ],
@@ -310,7 +311,7 @@
     "type": "ARMOR",
     "name": { "str": "pair of copper earrings", "str_pl": "pairs of copper earrings" },
     "description": "A pair of copper earrings.  They're pretty heavy.",
-    "weight": "9 g",
+    "weight": "8 g",
     "volume": "1 ml",
     "price": 2900,
     "price_postapoc": 10,
@@ -369,7 +370,7 @@
     "type": "ARMOR",
     "name": { "str": "copper ring" },
     "description": "A plain, copper ring.  Not very shiny, and not very popular.",
-    "weight": "9 g",
+    "weight": "8 g",
     "volume": "1 ml",
     "price": 2000,
     "price_postapoc": 10,
@@ -383,10 +384,11 @@
         "encumbrance": 0,
         "coverage": 0,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
       }
     ],
-    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "cufflinks",
@@ -978,7 +980,7 @@
     "color": "yellow",
     "sided": true,
     "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "gold_watch",
@@ -1111,7 +1113,381 @@
     "symbol": ",",
     "color": "yellow",
     "use_action": [ "MEDITATE" ],
-    "flags": [ "NO_WEAR_EFFECT" ]
+    "flags": [ "NO_WEAR_EFFECT" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "lutheran_necklace",
+        "name": { "str": "Lutherian Seal necklace" },
+        "description": "A necklace made of a fine gold chain with the Luther Seal symbol as a pendant.  It is a symbol of the Lutheran Christian faith: The cross mean that humanity was saved from sin because Jesus died on the cross, the heart means that humanity lives because Jesus shed his blood for it, and the flower means that humanity has peace from its faith, and the background means that they have hope that they will be with Jesus in heaven one day.",
+        "color": "yellow",
+        "weight": 30
+      },
+      {
+        "id": "calvinist_necklace",
+        "name": { "str": "Calvinist Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Calvinist Cross symbol as a pendant.  It is a symbol of the Calvinist Christian faith.  While Calvin rejected the images of saints and the crucifix (that is, the image of the body of Christ upon the cross), it allowed a plain Calvinist cross.  The pendant is a plain cross with the symbol of a tulip, denoting the TULIP Calvinist acronym for the five essential doctrines of Total depravity, Unconditional election, Limited atonement, Irresistible grace, and Perseverance of the saints.",
+        "color": "yellow",
+        "weight": 25
+      },
+      {
+        "id": "baptist_necklace",
+        "name": { "str": "Baptist necklace" },
+        "description": "A necklace made of a fine gold chain with the Baptist symbol as a pendant.  It is a symbol of the Baptist Christian faith.  It doesn't display any idol or symbol, instead, in the oval pendant, it reads: 'All Scripture is God-breathed and is useful for teaching.  Timothy 3:16-17', in a water-like background, denoting the Waters of Baptism.",
+        "color": "yellow",
+        "weight": 30
+      },
+      {
+        "id": "methodist_necklace",
+        "name": { "str": "Cross and Flame necklace" },
+        "description": "A necklace made of a fine gold chain with the Cross and Flame symbol as a pendant.  It is a symbol of the Methodist Christian faith.  The cross and flame is the official symbol of the Methodist Church since 1968.  The symbol relates the Methodist church to God through Christ (cross) and the Holy Spirit (flame).  The flame is a reminder of Pentecost when witnesses were unified by the power of the Holy Spirit and saw 'tongues of fire'.",
+        "color": "yellow",
+        "weight": 20
+      },
+      {
+        "id": "catholic_necklace",
+        "name": { "str": "Catholic Crucifix necklace" },
+        "description": "A necklace made of a fine gold chain with the Catholic Crucifix symbol as a pendant.  It is a symbol of the Roman Catholic Christian faith.  The main difference between the Catholic Crucifix and a Protestant Cross is that the Catholic Crucifix has a central figure hanging on them, but Protestant crosses do not depict such images.",
+        "color": "yellow",
+        "weight": 25
+      },
+      {
+        "id": "virginmary_necklace",
+        "name": { "str": "St. Virgin Mary necklace" },
+        "description": "A necklace made of a fine gold chain with the figure of Saint Virgin Mary as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Virgin Mary, mother of Jesus Christ, surrounded by light.",
+        "color": "yellow",
+        "weight": 20
+      },
+      {
+        "id": "joseph_necklace",
+        "name": { "str": "St. Joseph necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of Saint Joseph as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Joseph holding the infant Jesus, surrounded by light, with the following text inscribed in the pendant: 'Saint Joseph, Pray for Us'.",
+        "color": "yellow",
+        "weight": 18
+      },
+      {
+        "id": "paul_necklace",
+        "name": { "str": "St. Paul necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of Saint Paul as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Paul holding a sword, surrounded by flowers, with the following text inscribed in the pendant: 'Saint Paul, Pray for Us'.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "john_necklace",
+        "name": { "str": "St. John necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of Saint John the Baptist as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint John the Baptist performing a baptism, with the following text inscribed in the pendant: 'Saint John the Baptist, Pray for Us'.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "peter_necklace",
+        "name": { "str": "St. Peter necklace" },
+        "description": "A necklace made of a fine gold chain with the figuring of Saint Peter as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Peter observing the Earth, with the following text inscribed in the pendant: 'Saint Peter, Pray for Us'.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "cyprian_necklace",
+        "name": { "str": "St. Cyprian necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of both Saint Cyprian of Antioch and Saint Justina as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Cyprian and Saint Justina reading a book, with the following text inscribed in the pendant: 'Saint Cyprian of Antioch and Saint Justina, Pray for Us'.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "nick_necklace",
+        "name": { "str": "St. Nicholas necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of Saint Nicholas as a pendant.  It is a symbol of the Roman Catholic Church and also of the Orthodox Church, displaying the figure of Saint Nicholas taking care of children, with the following text inscribed in the pendant: 'Saint Nicholas, Pray for Us'.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "justo_necklace",
+        "name": { "str": "Justo Takayama necklace" },
+        "description": "A necklace made of a fine gold chain with the figurine of Blessed Justo Takayama dressed like a samurai as a pendant.  It is a symbol of the Roman Catholic Church, displaying the figure of the Blessed Justo Takayama dressed as a samurai, with some text inscribed in Japanese and English at the back.  It reads: 'Blessed Justus Takayama Ukon, Holy Daimyo, Pray for Us'.",
+        "color": "yellow",
+        "weight": 6
+      },
+      {
+        "id": "quaker_necklace",
+        "name": { "str": "Quaker Star necklace" },
+        "description": "A necklace made of a fine gold chain with the Quaker Star symbol as a pendant.  It is a symbol of the Quaker Christian faith, but also a symbolic neckwear of hard work and peace.  The star was first worn by British Quakers during the Franco-Prussian War in 1870.  Quaker relief workers at the time wanted an identification to differentiate themselves and their supplies from other groups who were carrying out similar efforts.  This symbols carries the meaning of Quaker work for peace and the relief of suffering caused by war at the time.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "adventist_necklace",
+        "name": { "str": "Adventist Bible necklace" },
+        "description": "A necklace made of a fine gold chain with the Adventist Bible symbol as a pendant.  It is a symbol of the Adventist Christian faith.  The cross means the Sacrifice of Christ for humanity and also the Gospel of Salvation, the open book means the Holy Bible, placed prominently at the bottom to represent how God’s word is fundamental to Adventism, and the flame is the symbolic meaning of the Holy Spirit, the Messenger of Truth.",
+        "color": "yellow",
+        "weight": 15
+      },
+      {
+        "id": "celticcross_necklace",
+        "name": { "str": "Celtic Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Celtic Cross symbol as a pendant.  It is a symbol a variety of Christian faith denominations, such as the Anglicans or Presbyterians.  Featuring a nimbus or ring that emerged in Ireland, France and Great Britain in the Early Middle Ages, it is a type of ringed cross.  It became widespread through its use in the stone high crosses erected across the islands, especially in regions evangelized by Irish missionaries, from the ninth through the 12th centuries.",
+        "color": "yellow",
+        "weight": 20
+      },
+      {
+        "id": "presbyterian_necklace",
+        "name": { "str": "Presbyterian Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Presbyterian Cross symbol as a pendant.  It is a symbol of the Presbyterian Christian faith.  The Presbyterian Cross emphasize the resurrection and that Christ is not continually dying, but died once and is alive for all eternity, alongside the flames, which represent the Holy Spirit.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "anglican_necklace",
+        "name": { "str": "Compass Rose necklace" },
+        "description": "A necklace made of a fine gold chain with the Golden Compass Rose symbol as a pendant.  It is a symbol of the Anglican Christian faith.  Anglicanism was the State Religion of the United Kingdom before the Cataclysm.  The compass symbolizes the worldwide spread of the Anglican Faith.  Surmounting the shield, at the North, is a mitre, the symbol of apostolic order essential to all Churches and Provinces constituting the Anglican Communion.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "general_necklace",
+        "name": { "str": "cross necklace" },
+        "description": "A necklace made of a fine gold chain with a plain cross symbol as a pendant.  It is a symbol of Christian faith, no matter the denomination.",
+        "color": "yellow",
+        "weight": 75
+      },
+      {
+        "id": "episcopal_necklace",
+        "name": { "str": "Episcopal Shield necklace" },
+        "description": "A necklace made of a fine gold chain with the Episcopalian Shield symbol as a pendant.  It is a symbol of the Episcopalian Christian faith.  The shield of the Episcopal Church was adopted by its General Convention in 1940 and depicts the red cross of St. George, patron saint of England, dividing the silver field of the English flag into four rectangles.  The colors red, white, and blue are also, coincidentally, the colors of the flags of both the United States and the United Kingdom of Great Britain and Northern Ireland.",
+        "color": "yellow",
+        "weight": 20
+      },
+      {
+        "id": "brethren_necklace",
+        "name": { "str": "Brethren Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Brethren Cross symbol as a pendant.  It is a symbol of the Plymouth Brethren Christian faith, which displays the symbols of the Cross (representing the Resurrection of Christ), the Circle (which represents the Earth and Union), and the wave (which denotes The Waters of Baptist).",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "moravian_necklace",
+        "name": { "str": "Unity of the Brethren necklace" },
+        "description": "A necklace made of a fine gold chain with the Agnus Dei symbol of the Unity of the Brethren as a pendant.  It is a symbol of the Moravian Church Christian faith, where the round pendant displays the image of the 'Lamb of God', and reads: 'Our Lamb has Conquered, Let Us Follow Him'.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "orthodox_necklace",
+        "name": { "str": "Orthodox Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Orthodox Cross symbol as a pendant.  It is a symbol of the Eastern and Oriental Orthodox Christian faith.  The topmost of the three crossbeams represents Pilate's inscription which in the older Greek tradition is 'The King of Glory', based on John's Gospel.  The middle crossbeam is the main bar to which the victim's hands are fixed, while the bottom crossbeam represents the footrest which prolongs the torture.",
+        "color": "yellow",
+        "weight": 12
+      },
+      {
+        "id": "coptic_necklace",
+        "name": { "str": "Coptic Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Coptic Cross symbol as a pendant.  It is a symbol of the Coptic Christian faith.  The typical form of the 'Coptic cross' used in the Coptic Church is made up of two bold lines of equal length that intersect at the middle at right angles.  Each line terminates in three points, representing the Trinity of the Father, the Son, and the Holy Spirit.  Altogether, the cross has 12 points symbolizing the Apostles, whose mission was to spread the Gospel message throughout the world.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "jehovah_necklace",
+        "name": { "str": "Jehovah's Witnesses necklace" },
+        "description": "A necklace made of a fine gold chain with a Jehovah's Witnesses Bible symbol as a pendant.  It is a symbol of the faith of the Jehovah's Witnesses.  The pendant is shaped like a small black Bible, and reads: 'Jehovah's Witnesses, Proclaimers of God's Kingdom', and on the other side, 'No Blood Transfusion!  See medical directive in wallet or purse'.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "tau_necklace",
+        "name": { "str": "Tau Cross necklace" },
+        "description": "A necklace made of a fine gold chain with the Tau Cross symbol as a pendant.  It is a general symbol for Christian faith.  The Tau Cross is representative of salvation and of life, due in part to its association with the sparing of believers in the Bible.  As Tau is the last letter in the Hebrew alphabet, it symbolizes the revealed Word of God, its completion and perfection.  It also can be said to symbolize the Last Day…",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "jewish_necklace1",
+        "name": { "str": "Star of David necklace" },
+        "description": "A necklace made of a fine gold chain with the Star of David symbol as a pendant.  It is a symbol of the Jewish faith.  The Star of David became officially associated with Judaism when it was chosen as the symbol to appear on a flag at the First Zionist Congress in 1897.  At that time, it became the symbol of the Jewish people, Zionism, and the Jewish communities throughout the world.",
+        "color": "yellow",
+        "weight": 12
+      },
+      {
+        "id": "jewish_necklace2",
+        "name": { "str": "Menorah necklace" },
+        "description": "A necklace made of a fine gold chain with the Menorah symbol as a pendant, where each branch is equivalent to each seven days of The Creation.  It is a symbol of the Jewish faith.  The symbol of the menorah dates to Jewish tradition: After the Maccabees' victory over the Greeks, there was only enough oil to burn a menorah (lamp) for one day in the Temple of Judea.  Miraculously, the oil burned for eight days, and lighting the Hanukkah menorah commemorates this miracle and Jewish Holliday.",
+        "color": "yellow",
+        "weight": 9
+      },
+      {
+        "id": "odin_necklace1",
+        "name": { "str": "Horn of Odin necklace" },
+        "description": "A necklace made of a fine gold chain with the Horn of Odin symbol as a pendant.  It is a symbol of the Asatru faith.  The Horn of Odin is one of the most recognizable Norse symbols, consisting of three interlocking drinking horns and symbolizing poetic inspiration and wisdom.  It is also a nod to Viking drinking customs and the camaraderie derived from them.",
+        "color": "yellow",
+        "weight": 6
+      },
+      {
+        "id": "odin_necklace2",
+        "name": { "str": "Valknut necklace" },
+        "description": "A necklace made of a fine gold chain with the Valknut symbol as a pendant.  It is a symbol of the Asatru faith.  Also known as Hrungnir's Heart, the Valknot or 'knot of the slain' is an old Norse symbol that often represented the afterlife in carvings and designs.  It is often considered a symbol of the Norse god Odin.",
+        "color": "yellow",
+        "weight": 6
+      },
+      {
+        "id": "buddhist_necklace",
+        "name": { "str": "Lotus of Buddha necklace" },
+        "description": "A necklace made of a fine gold chain with the Lotus of Buddha symbol as a pendant.  It is a symbol of the Buddhist faith, representing a figure of Siddhartha Gautama, the Buddha, meditating on top of a lotus flower.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "dharma_necklace",
+        "name": { "str": "Dharmachakra necklace" },
+        "description": "A necklace made of a fine gold chain with the Dharmachakra symbol as a pendant.  It is a symbol of the Hindu, Jain and Buddhist faiths.  Also known as Dharma Wheel, the circle, the round shape of the wheel, represents the perfection of the Dharma, the Buddha's teaching.  The rim of the wheel represents meditative concentration and mindfulness, which hold practice together.  The hub represents moral discipline.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "zoroastrianist_necklace",
+        "name": { "str": "Faravahar necklace" },
+        "description": "A necklace made of a fine gold chain with the Faravahar symbol as a pendant.  It is a symbol of the Zoroastrianism faith.  While there is no total understanding of the meanings of that ancient symbol, it depicts a bearded man with one hand reaching forward.  He stands above a pair of wings that are outstretched from a circle which are believer to represent eternity.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "sikh_necklace",
+        "name": { "str": "Khanda necklace" },
+        "description": "A necklace made of a fine gold chain with the Khanda symbol as a pendant.  It is a symbol of the Sikh faith.  The Khanda symbol depicts the Sikh doctrine of Deg Tegh Fateh in emblematic form.  It is also part of the design of the 'Sikh national flag', the Nishan Sahib.  A double edged sword (also called Khanda) is placed at the top of a Nishan Sahib flag as an ornament or finial.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "bahai_necklace",
+        "name": { "str": "Baha'i Star necklace" },
+        "description": "A necklace made of a fine gold chain with the Baha'i Star symbol as a pendant.  It is a symbol of the Baha'i faith.  The Baha'i nine-pointed star reflects the importance of the number for the Faith.  The number nine is the highest single digit number, which symbolizes wholeness and the fulfillment of the expectations of all prior religions.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "christian_necklace",
+        "name": { "str": "Ichthys necklace" },
+        "description": "A necklace made of a fine gold chain with the Ichthys symbol as a pendant.  It is a symbol of many Christian faith, and also the symbol of adherents of the Primitivist Christianism, a denomination that believed that Christianism had been too separated from its original meaning and they should return to the initial, pure form of Christianism.  In general, it is a representation of a fish used in ancient times as a pagan fertility talisman or amulet or as a Christian symbol for the Greek word ichthys interpreted as an acrostic in which the Greek letters are the initials of the words 'I esous Christos th eou hy ios s oter', meaning 'Jesus Christ Son of God Savior'.",
+        "color": "yellow",
+        "weight": 15
+      },
+      {
+        "id": "muslim_necklace",
+        "name": { "str": "Crescent Moon and Star necklace" },
+        "description": "A necklace made of a fine gold chain with the Crescent Moon and Star symbol as a pendant.  It is a symbol of both the Sunni and Shia Islam faith.  The crescent of the new moon signifies the beginning and end of fasting during Ramadan.",
+        "color": "yellow",
+        "weight": 15
+      },
+      {
+        "id": "shinto_necklace",
+        "name": { "str": "Torii necklace" },
+        "description": "A necklace made of a fine gold chain with the Torii symbol as a pendant.  It is a symbol of Shinto faith, where the Torii denotes the entrance to Shinto Shrines and the respect towards the Shinto beliefs and culture.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "confucian_necklace",
+        "name": { "str": "Confucius necklace" },
+        "description": "A necklace made of a fine gold chain with the Confucius symbol as a pendant.  It is a symbol of the Confucianism faith and philosophical system.  The Confucius symbol represents the man who began the religion, as he is one of, if not the most important person to come from Confucianism.  Popular among martial artists and young people because of anime.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "taoist_necklace",
+        "name": { "str": "Ying Yang necklace" },
+        "description": "A necklace made of a fine gold chain with the Ying Yang symbol as a pendant.  It is a symbol of both Confucian and Taoist faiths and philosophical systems.  Yin is a symbol of earth, femininity, darkness, passivity, and absorption.  It is present in even numbers, in valleys and streams, and is represented by the tiger, the color orange, and a broken line.  Yang is conceived of as heaven, maleness, light, activity, and penetration, and together, they represent balance between opposites.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "illuminati_necklace",
+        "name": { "str": "The All Seeing Eye necklace" },
+        "description": "A necklace made of a fine gold chain with the threatening Eye and Pyramid symbol as a pendant.  It is apparently a symbol of the once famous New World Order, the Illuminati, but you can't tell if it is just a joke, or something real…",
+        "color": "yellow",
+        "weight": 3
+      },
+      {
+        "id": "pentagram_necklace",
+        "name": { "str": "Pentagram necklace" },
+        "description": "A necklace made of a fine gold chain with the Pentagram symbol as a pendant.  It is a symbol of mysticism and magic, often believed to be related to dark magic and Satanism.  Popular among temperamental teens, Wiccas, witches, modern wizards, cosplayers, goths and emos.",
+        "color": "yellow",
+        "weight": 15
+      },
+      {
+        "id": "abadcross_necklace",
+        "name": { "str": "Cross of Leviathan necklace" },
+        "description": "A necklace made of a fine gold chain with the Cross of Leviathan symbol as a pendant.  The Leviathan Cross is sometimes referred to the Cross of Satan.  Depicted on the bottom is an infinity sign, and above is a double cross.  The Double cross symbolizes protection and balance between persons.  The infinity sign underlines the constant and infinite nature and most likely symbolizes the eternal universe, this may have been used by Anton LaVey in The Satanic Bible to as a mockery of the cross, to show that humans are their own centrum of balance.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "satanist_necklace",
+        "name": { "str": "Sigil of Baphomet necklace" },
+        "description": "A necklace made of a fine gold chain with the Sigil of Baphomet symbol as a pendant.  The Sigil of Baphomet is the official insignia of the Church of Satan.  It first appeared on the cover of The Satanic Mass L.P in 1968 and later on the cover of The Satanic Bible in 1969.  The sigil has been called a 'material pentagram', representational of carnality and earthly principles.  The Church described the symbol as the 'preeminent visual distillation of the iconoclastic philosophy of Satanism'.",
+        "color": "yellow",
+        "weight": 10
+      },
+      {
+        "id": "greek_necklace",
+        "name": { "str": "Dodecagram necklace" },
+        "description": "A necklace made of a fine gold chain with the Dodecagram symbol as a pendant.  It is a symbol of the Greek Hellenist faith.  The Dodecagram, or twelve pointed star, is one of the more widespread symbols of Hellenism.  The twelve points represent the twelve Olympic Gods and thus the symbol serves its purpose as a dedicational symbol well.",
+        "color": "yellow",
+        "weight": 8
+      },
+      {
+        "id": "jain_necklace",
+        "name": { "str": "Hand of Ahimsa necklace" },
+        "description": "A necklace made of a fine gold chain with the Hand of Ahimsa symbol as a pendant.  It is a symbol of the Jainist faith and philosophical system.  The hand with a wheel on the palm symbolizes Ahimsa in Jainism.  The word in the middle is 'ahimsa' (non-injury).  The wheel represents the dharmachakra, which stands for the resolve to halt the samsara through the relentless pursuit of Ahimsa.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "eckankar_necklace",
+        "name": { "str": "Eckankar necklace" },
+        "description": "A necklace made of a fine gold chain with the Eckhankar symbol as a pendant.  It is a symbol of the Eckankar faith.  Eckankar teaches that 'spiritual liberation' in one's lifetime is available to all and that it is possible to achieve Self-Realization (the realization of oneself as Soul) and God-Realization (the realization of oneself as a spark of God) in one's lifetime though a series of Eckankar teachings.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "caodaism_necklace",
+        "name": { "str": "Cao Dai necklace" },
+        "description": "A necklace made of a fine gold chain with the Cao Dai symbol as a pendant.  It is a symbol of Caodaism faith.  In Vietnamese, 'Cao' literally means 'high', while 'Dai' means 'tower', 'palace' or 'abode'. The combined verbal image is used to represent both a heavenly place and a Supreme Being envisioned as creating all religions and beings on the earth.  The visual symbol used by Caodaism followers for this Supreme Being is an all-seeing eye, the Cao Dai.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "nativeamerican_necklace",
+        "name": { "str": "Zia Sun necklace" },
+        "description": "A necklace made of a fine gold chain with the Zia Sun symbol as a pendant.  It is a symbol of the strength and union of the Zia Native Americans.  The Zia Sun symbol represent the four cardinal directions, the four seasons of the year, the four period of each day (morning, noon, evening, and night), and the four seasons of life (childhood, youth, middle age, and old age).",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "freemason_necklace",
+        "name": { "str": "Square and Compass necklace" },
+        "description": "A necklace made of a fine gold chain with the Square and Compass symbol as a pendant.  It is a symbol of the Freemasonry Orders of builders and merchants.  The Square and Compass is the single and most identifiable symbol of Freemasonry.  Both the square and compasses are architect's tools and are used in masonry as emblems to teach symbolic lessons.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "pastafarian_necklace",
+        "name": { "str": "Flying Spaghetti Monster necklace" },
+        "description": "A necklace made of a fine gold chain with the figure of the Giant Spaghetti Flying Monster as a pendant.  It is a symbol of the Pastafarian faith, a religion like any other.  It has the figure of the Giant Spaghetti Flying Monster in the center, with the following text: 'Pasta be Upon Us'.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "pharaoh_necklace",
+        "name": { "str": "Ankh necklace" },
+        "description": "A necklace made of a fine gold chain with the Ankh Cross symbol as a pendant.  It is a symbol of the Kemetist faith.  While the Coptic Church of Egypt inherited the ankh as a form of the Christian cross, symbolizing eternal life through Christ, it's major use in modern times was of a try to revive the ancient polytheistic beliefs of Ancient Egypt.  It means 'eternal life'.",
+        "color": "yellow",
+        "weight": 5
+      },
+      {
+        "id": "hinduist_necklace",
+        "name": { "str": "Om necklace" },
+        "description": "A necklace made of a fine gold chain with the Om symbol as a pendant.  It is a symbol of the Hindu faith, as Om is a sacred sound, syllable, mantra, or an invocation in Hinduism.  Om is the prime symbol of Hinduism, variously said to be the essence of the supreme Absolute, consciousness, Atman, Brahman, or the Cosmic world.  In Indian traditions, Om serves as a sonic representation of the divine, a standard of Vedic authority and a central aspect of soteriological doctrines and practices.",
+        "color": "yellow",
+        "weight": 10
+      }
+    ]
   },
   {
     "id": "holy_symbol_wood",
@@ -1275,8 +1651,15 @@
     "symbol": "[",
     "color": "white",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_engagement",
@@ -1291,8 +1674,15 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_purity",
@@ -1307,8 +1697,15 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_signet",
@@ -1323,8 +1720,15 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "ring_wedding",
@@ -1339,8 +1743,15 @@
     "symbol": "[",
     "color": "yellow",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "SUPER_FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "silver_necklace",
@@ -1410,8 +1821,15 @@
     "symbol": "[",
     "color": "light_gray",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "leather_collar",
@@ -1475,13 +1893,6 @@
     "//": "should cover TORSO but give no encumbrance penalties",
     "material_thickness": 2,
     "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
-  },
-  {
-    "id": "badge_cybercop",
-    "copy-from": "badge_abstract",
-    "type": "ARMOR",
-    "name": { "str": "cybercop badge" },
-    "description": "A chromed silver shield identifies the wearer as an authority even the cop-killers couldn't kill."
   },
   {
     "id": "badge_deputy",
@@ -2066,8 +2477,15 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ],
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ]
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ]
   },
   {
     "id": "amethyst_gold_ring",
@@ -2197,8 +2615,15 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "ALLOWS_TALONS" ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "id": "amethyst_silver_ring",
@@ -2358,8 +2783,15 @@
     "symbol": "[",
     "color": "red",
     "sided": true,
-    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT" ],
-    "armor": [ { "coverage": 0, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ] } ]
+    "flags": [ "FANCY", "NO_WEAR_EFFECT", "SKINTIGHT", "ALLOWS_TALONS" ],
+    "armor": [
+      {
+        "coverage": 0,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "rigid_layer_only": true
+      }
+    ]
   },
   {
     "id": "amethyst_platinum_ring",

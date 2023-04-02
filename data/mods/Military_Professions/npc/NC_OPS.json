@@ -135,7 +135,7 @@
   {
     "type": "item_group",
     "id": "NC_OPS_rifle",
-    "items": [ [ "m4a1", 50 ], [ "m14ebr", 35 ], [ "m249", 20 ], [ "h&k416a5", 50 ], [ "M24", 35 ] ]
+    "items": [ [ "m4_carbine", 50 ], [ "m14ebr", 35 ], [ "m249", 20 ], [ "m27_assault_rifle", 50 ], [ "M24", 35 ] ]
   },
   {
     "type": "item_group",

@@ -57,7 +57,7 @@
     "looks_like": "minifridge",
     "durability": 400,
     "description": "A medium-sized household refrigerator, converted to utilize vehicle power.  When turned on, food inside will be cooled, extending the time it has before spoiling.",
-    "epower": -100,
+    "epower": "-100 W",
     "size": "300 L",
     "item": "afs_fridge"
   },
@@ -73,7 +73,7 @@
     "looks_like": "minifridge",
     "durability": 400,
     "description": "A household fridge, converted to run at a much lower temperature and on vehicle power.  When turned on, food inside will be frozen, completely stopping it from spoiling.",
-    "epower": -120,
+    "epower": "-120 W",
     "size": "300 L",
     "item": "afs_freezer"
   },

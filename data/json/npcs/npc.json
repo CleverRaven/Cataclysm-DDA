@@ -23,6 +23,17 @@
   },
   {
     "type": "npc",
+    "id": "hells_raiders_assassin",
+    "//": "EOC-specific, should not spawn outside of trigger events.",
+    "name_suffix": "assassin",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 10,
+    "mission": 0,
+    "chat": "TALK_DONE",
+    "faction": "hells_raiders"
+  },
+  {
+    "type": "npc",
     "id": "marloss_voice",
     "//": "Generic Marloss Priest who leads pilgrim bands.",
     "name_suffix": "Marloss Voice",
@@ -136,28 +147,49 @@
     "type": "npc",
     "id": "prepper_survivor",
     "name_suffix": "prepper",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_PREPPER",
     "attitude": 1,
     "mission": 7,
     "chat": "TALK_NPC_PREPPER_SURVIVOR",
-    "shopkeeper_item_group": [
-      { "group": "homeguns", "rigid": true },
-      { "group": "lmoe_guns", "rigid": true },
-      { "group": "ammo_reloaded", "rigid": true },
-      { "group": "magazines", "rigid": true },
-      { "group": "gear_survival", "rigid": true }
-    ],
     "faction": "no_faction"
   },
   {
     "type": "npc",
     "id": "survivor_moonshiner",
     "name_suffix": "moonshiner",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_MOONSHINER",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_NPC_MOONSHINER",
-    "shopkeeper_item_group": [ { "group": "still_alcohol", "rigid": true }, { "group": "keg_wine_intact", "rigid": true } ],
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_gun_store_survivor",
+    "class": "NC_SCAVENGER",
+    "name_suffix": "marksman",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_NPC_GUN_STORE_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_animal_shelter_survivor",
+    "class": "NC_DOCTOR",
+    "name_suffix": "veterinarian",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_NPC_ANIMAL_SHELTER_SURVIVOR",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "NPC_park_survivor",
+    "class": "NC_SCAVENGER",
+    "attitude": 1,
+    "mission": 7,
+    "chat": "TALK_STRANGER_NEUTRAL",
     "faction": "no_faction"
   },
   {

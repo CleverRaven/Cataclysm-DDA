@@ -15,7 +15,7 @@
       "and": [
         { "u_near_om_location": "robofachq_surface_road1", "range": 30 },
         { "not": { "u_near_om_location": "robofachq_surface_road1", "range": 4 } },
-        { "compare_int": [ { "global_val": "var", "var_name": "robofac_destroyed" }, "!=", { "const": 1 } ] }
+        { "compare_num": [ { "global_val": "var", "var_name": "robofac_destroyed" }, "!=", { "const": 1 } ] }
       ]
     },
     "effect": {
@@ -33,7 +33,7 @@
           "id": "EOC_ROBOFAC_HQ_PLACE_ANCILLA_FORTRESS",
           "condition": {
             "and": [
-              { "compare_int": [ { "global_val": "var", "var_name": "ancilla_fortress_placed" }, "!=", { "const": 1 } ] },
+              { "compare_num": [ { "global_val": "var", "var_name": "ancilla_fortress_placed" }, "!=", { "const": 1 } ] },
               { "days_since_cataclysm": 45 }
             ]
           },
@@ -46,7 +46,7 @@
           "id": "EOC_ROBOFAC_HQ_PLACE_ANCILLA_BAR",
           "condition": {
             "and": [
-              { "compare_int": [ { "global_val": "var", "var_name": "ancilla_bar_placed" }, "!=", { "const": 1 } ] },
+              { "compare_num": [ { "global_val": "var", "var_name": "ancilla_bar_placed" }, "!=", { "const": 1 } ] },
               { "days_since_cataclysm": 60 }
             ]
           },

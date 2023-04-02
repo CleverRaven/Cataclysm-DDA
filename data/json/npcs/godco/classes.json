@@ -116,8 +116,7 @@
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
       { "trait": "FACIAL_HAIR_BEARD" },
-      { "trait": "NO_BASH" },
-      { "trait": "RETURN_TO_START_POS" }
+      { "trait": "NO_BASH" }
     ],
     "skills": [
       { "bonus": 1, "skill": "melee" },
@@ -256,7 +255,7 @@
       {
         "group": "GODCO_russell_carried",
         "rigid": true,
-        "condition": { "compare_int": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
+        "condition": { "compare_num": [ { "npc_val": "var", "var_name": "NEVER" }, "==", { "const": 1 } ] },
         "refusal": "<npcname> will never sell this"
       }
     ],
@@ -366,12 +365,7 @@
     "worn_override": "GODCO_jane_worn",
     "carry_override": "GODCO_jane_carried",
     "weapon_override": "GODCO_jane_wield",
-    "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
-      { "trait": "NO_BASH" },
-      { "trait": "RETURN_TO_START_POS" }
-    ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" }, { "trait": "NO_BASH" } ],
     "skills": [ { "bonus": { "rng": [ 4, 5 ] }, "skill": "firstaid" } ]
   },
   {
@@ -547,6 +541,29 @@
     ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 5 }, { "sum": [ { "dice": [ 1, 3 ] }, { "rng": [ 0, -5 ] } ] } ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_EVAC_GODCO_TRADER",
+    "name": { "str": "Merchant" },
+    "job_description": "I'm a local shopkeeper.",
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_GODCO_MERCHANT_sell",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      }
     ]
   },
   {
@@ -981,13 +998,13 @@
     "type": "item_group",
     "id": "GODCO_tom_carried",
     "subtype": "collection",
-    "entries": [ { "group": "full_survival_kit" }, { "item": "mre_hotdog_box" } ]
+    "entries": [ { "group": "full_survival_kit" } ]
   },
   {
     "type": "item_group",
     "id": "GODCO_kostas_carried",
     "subtype": "collection",
-    "//": "camping itemgroup modified to remove junk/common/lenghty items.",
+    "//": "camping itemgroup modified to remove junk/common/lengthy items.",
     "items": [
       { "item": "rebreather", "prob": 3, "charges-min": 30 },
       { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
@@ -1002,15 +1019,14 @@
       { "item": "oil_lamp", "prob": 7, "charges-min": 100 },
       { "item": "lamp_oil", "prob": 5, "charges-min": 100 },
       { "item": "pur_tablets", "prob": 10, "charges": [ 5, 15 ] },
-      { "item": "mess_kit", "prob": 33, "charges": [ 100, 500 ] },
-      { "item": "mess_tin", "prob": 33, "charges": [ 100, 500 ] },
+      { "item": "mess_kit", "prob": 33 },
       { "item": "popcan_stove", "prob": 33, "charges": [ 100, 500 ] },
       {
         "distribution": [ { "group": "premium_contents" }, { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ],
         "prob": 66
       },
       [ "hatchet", 15 ],
-      [ "inflatable_boat", 25 ],
+      [ "folded_inflatable_boat", 25 ],
       [ "hand_pump", 5 ],
       [ "binoculars", 33 ],
       [ "firecracker_pack", 5 ],
@@ -1043,7 +1059,6 @@
       [ "trappers_companion", 2 ],
       [ "textbook_traps", 8 ],
       [ "beartrap", 25 ],
-      [ "adv_UPS_off", 5 ],
       [ "bolt_steel", 15 ],
       [ "bolt_cf", 10 ],
       [ "hand_crossbow", 1 ],
@@ -1062,8 +1077,8 @@
       [ "large_tent_kit", 15 ],
       [ "camelbak", 5 ],
       [ "sleeping_bag", 10 ],
+      { "group": "tools_fishingrods_portable", "prob": 20 },
       [ "fishing_waders", 12 ],
-      [ "plastichoboreel", 10 ],
       [ "boots_hiking", 20 ],
       [ "e_tool", 10 ],
       [ "flaregun", 20 ],
@@ -1266,5 +1281,10 @@
     "id": "GODCO_russell_sell",
     "subtype": "collection",
     "entries": [ { "item": "tanned_hide", "count": [ 10, 12 ] }, { "item": "tanned_pelt", "count": [ 8, 10 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_GODCO_MERCHANT_sell",
+    "items": [ { "group": "NC_EVAC_SHOPKEEP_misc", "prob": 100 } ]
   }
 ]

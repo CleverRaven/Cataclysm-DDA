@@ -123,6 +123,11 @@
         "q": { "item": "trash", "chance": 30, "repeat": [ 2, 3 ] },
         "I": { "item": "office", "chance": 30, "repeat": [ 2, 3 ] }
       },
+      "place_monster": [
+        { "group": "GROUP_ZOMBIE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 35, "repeat": [ 2, 8 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 24, 46 ], "y": [ 0, 23 ], "chance": 65, "repeat": [ 8, 15 ] },
+        { "group": "GROUP_SMALL_STATION", "x": [ 76, 92 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 1, 4 ] }
+      ],
       "place_vehicles": [
         { "vehicle": "dealership", "x": 3, "y": 4, "chance": 50, "rotation": 180 },
         { "vehicle": "dealership", "x": 3, "y": 8, "chance": 50, "rotation": 180 },

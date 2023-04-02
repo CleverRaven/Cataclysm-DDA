@@ -19,7 +19,8 @@
     "base_energy_cost": 100,
     "min_duration": 24000,
     "max_duration": 360000,
-    "duration_increment": 24000
+    "duration_increment": 24000,
+    "learn_spells": { "stonefist_plus": 15 }
   },
   {
     "id": "stonefist_plus",
@@ -636,5 +637,145 @@
     "max_level": 10,
     "min_range": 1,
     "max_range": 1
+  },
+  {
+    "id": "earthshaper_reveal_world_map",
+    "type": "SPELL",
+    "name": "Reading the Earthbones",
+    "description": "You extend your senses into the ground, becoming aware of every hill and valley within a large area.  It will only work when in contact with the earth.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_EARTHSHAPER_MAP",
+    "shape": "blast",
+    "max_level": 15,
+    "spell_class": "EARTHSHAPER",
+    "base_casting_time": 6000,
+    "energy_source": "MANA",
+    "base_energy_cost": 1000,
+    "difficulty": 8
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_EARTHSHAPER_MAP",
+    "condition": { "compare_int": [ { "u_val": "pos_z" }, "<=", { "const": 0 } ] },
+    "effect": {
+      "switch": { "u_val": "spell_level", "spell": "earthshaper_reveal_world_map" },
+      "cases": [
+        { "case": 0, "effect": { "u_cast_spell": { "id": "earthshaper_map_1" } } },
+        { "case": 2, "effect": { "u_cast_spell": { "id": "earthshaper_map_2" } } },
+        { "case": 4, "effect": { "u_cast_spell": { "id": "earthshaper_map_3" } } },
+        { "case": 6, "effect": { "u_cast_spell": { "id": "earthshaper_map_4" } } },
+        { "case": 8, "effect": { "u_cast_spell": { "id": "earthshaper_map_5" } } },
+        { "case": 10, "effect": { "u_cast_spell": { "id": "earthshaper_map_6" } } },
+        { "case": 12, "effect": { "u_cast_spell": { "id": "earthshaper_map_7" } } },
+        { "case": 14, "effect": { "u_cast_spell": { "id": "earthshaper_map_8" } } }
+      ]
+    },
+    "false_effect": [ { "u_message": "Without a direct connection to the living earth, the spell fails." } ]
+  },
+  {
+    "id": "earthshaper_map_1",
+    "type": "SPELL",
+    "name": "Earthshape EOC cast #1",
+    "description": "This is one of the spells that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
+    "valid_targets": [ "none" ],
+    "message": "The secrets of the living earth are revealed to you.",
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "effect": "map",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": 10
+  },
+  {
+    "id": "earthshaper_map_2",
+    "type": "SPELL",
+    "name": "Earthshape EOC cast #2",
+    "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
+    "valid_targets": [ "none" ],
+    "message": "The secrets of the living earth are revealed to you.",
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "effect": "map",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": 14
+  },
+  {
+    "id": "earthshaper_map_3",
+    "type": "SPELL",
+    "name": "Earthshape EOC cast #3",
+    "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
+    "valid_targets": [ "none" ],
+    "message": "The secrets of the living earth are revealed to you.",
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "effect": "map",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": 18
+  },
+  {
+    "id": "earthshaper_map_4",
+    "type": "SPELL",
+    "name": "Earthshape EOC cast #4",
+    "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
+    "valid_targets": [ "none" ],
+    "message": "The secrets of the living earth are revealed to you.",
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "effect": "map",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": 22
+  },
+  {
+    "id": "earthshaper_map_5",
+    "type": "SPELL",
+    "name": "Earthshape EOC cast #5",
+    "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
+    "valid_targets": [ "none" ],
+    "message": "The secrets of the living earth are revealed to you.",
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "effect": "map",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": 26
+  },
+  {
+    "id": "earthshaper_map_6",
+    "type": "SPELL",
+    "name": "Earthshape EOC cast #6",
+    "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
+    "valid_targets": [ "none" ],
+    "message": "The secrets of the living earth are revealed to you.",
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "effect": "map",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": 30
+  },
+  {
+    "id": "earthshaper_map_7",
+    "type": "SPELL",
+    "name": "Earthshape EOC cast #7",
+    "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
+    "valid_targets": [ "none" ],
+    "message": "The secrets of the living earth are revealed to you.",
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "effect": "map",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": 35
+  },
+  {
+    "id": "earthshaper_map_8",
+    "type": "SPELL",
+    "name": "Earthshape EOC cast #8",
+    "description": "This is the spell that actually fires when you cast Reading the Earthbones.  It's a bug if you have it.",
+    "valid_targets": [ "none" ],
+    "message": "The secrets of the living earth are revealed to you.",
+    "flags": [ "NO_HANDS", "CONCENTRATE", "SILENT" ],
+    "effect": "map",
+    "shape": "blast",
+    "max_level": 1,
+    "min_aoe": 40
   }
 ]

@@ -21,7 +21,8 @@
     "sub": "char_smoker",
     "extend": { "flags": [ "ALLOWS_REMOTE_USE" ] },
     "ammo": [ "charcoal" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
+    "//1": "holds 450 liters of charcoal. a full smoking rack cycle of 20L of stuff would consume 15,000 charcoal (75 liters, 15.6kg of charcoal)",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 90000 } } ]
   },
   {
     "id": "fake_forge",
@@ -29,7 +30,7 @@
     "type": "TOOL",
     "name": { "str": "basecamp forge" },
     "copy-from": "char_forge",
-    "description": "A fake forge used for basecamps.",
+    "description": "A fake charcoal forge used for basecamps.",
     "extend": { "flags": [ "ALLOWS_REMOTE_USE", "ZERO_WEIGHT" ] },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 2000 } } ]
   },

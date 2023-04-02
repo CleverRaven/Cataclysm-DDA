@@ -104,9 +104,9 @@
         "c": { "item": "treatment_chemicals", "chance": 50 },
         "o": { "item": "SUS_office_filing_cabinet", "chance": 66 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 5, 21 ], "y": [ 8, 23 ], "chance": 3 },
-        { "monster": "GROUP_ZOMBIE", "x": [ 4, 21 ], "y": [ 24, 37 ], "chance": 3 }
+      "place_monster": [
+        { "group": "GROUP_SMALL_STATION", "x": [ 5, 21 ], "y": [ 8, 23 ], "chance": 50 },
+        { "group": "GROUP_SMALL_STATION", "x": [ 4, 21 ], "y": [ 24, 37 ], "chance": 50, "repeat": [ 1, 2 ] }
       ],
       "place_vehicles": [ { "vehicle": "pump_station_vehicles", "x": [ 7, 9 ], "y": 8, "chance": 20, "rotation": 90 } ]
     }

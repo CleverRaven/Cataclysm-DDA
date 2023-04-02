@@ -64,6 +64,7 @@
   - "**/effect_on_condition**"
   - "**/**eocs**"
   - "**/eocs**"
+  - "**/condition**"
 
 "Fields / Furniture / Terrain / Traps":
   - "**/**furniture**"
@@ -208,6 +209,9 @@
   - "**/**translation**"
   - "**/translation**"
 
+"Mods: Bombastic Perks":
+  - data/mods/BombasticPerks/**/*
+
 "Mods: Aftershock":
   - data/mods/Aftershock/**/*
   - data/mods/aftershock_exoplanet/**/*
@@ -269,3 +273,4 @@
 "Vehicles":
   - "**/**vehicle**"
   - "**/vehicle**"
+  - "src/veh_**"

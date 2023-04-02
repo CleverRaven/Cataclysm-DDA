@@ -33,7 +33,8 @@
       { "item": "apple", "prob": 70 },
       { "item": "orange", "prob": 65 },
       { "item": "banana", "prob": 40 },
-      { "item": "mushroom", "prob": 4 },
+      { "item": "mushroom", "prob": 70 },
+      { "item": "mushroom_morel", "prob": 70 },
       { "item": "blueberries", "prob": 3 },
       { "item": "strawberries", "prob": 2 },
       { "item": "cucumber", "prob": 8 },
@@ -73,7 +74,7 @@
       { "item": "survivormap", "prob": 1 },
       { "item": "miner_hat", "prob": 10 },
       { "item": "honey_ant", "prob": 30 },
-      { "item": "tool_small_primitive_fragmentation_device", "prob": 1 }
+      { "item": "homemade_bomb_act", "prob": 1 }
     ]
   },
   {
@@ -92,7 +93,7 @@
       { "item": "survivormap", "prob": 1 },
       { "item": "wetsuit", "prob": 10, "damage": [ 2, 4 ] },
       { "item": "wetsuit_thick", "prob": 10, "damage": [ 2, 4 ] },
-      { "item": "tool_small_primitive_fragmentation_device", "prob": 1 }
+      { "item": "homemade_bomb_act", "prob": 1 }
     ]
   },
   {
@@ -131,7 +132,7 @@
       { "group": "ammo_pocket_batteries_full", "prob": 10 },
       { "item": "radio", "prob": 10, "charges-min": 10, "charges-max": 95 },
       { "item": "boots_combat", "prob": 20 },
-      { "item": "bandages", "prob": 10, "charges-min": 1, "charges-max": 3 },
+      { "item": "bandages", "prob": 10, "count": [ 1, 3 ] },
       { "item": "cig", "prob": 30, "charges-min": 1, "charges-max": 20 },
       { "item": "knife_combat", "prob": 10 },
       { "item": "vest", "prob": 15 },

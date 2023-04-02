@@ -7,16 +7,15 @@
 #include <iosfwd>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
 
 #include "enums.h"
 #include "item_pocket.h"
-#include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
-#include "ui.h"
 #include "units_fwd.h"
 #include "visitable.h"
 
@@ -95,14 +94,11 @@ class item_contents
         // number of pockets
         size_t size() const;
 
-    private:
         /** returns a list of pointers to all top-level items from pockets that match the predicate */
         std::list<item *> all_items_top( const std::function<bool( item_pocket & )> &filter );
         /** returns a list of pointers to all top-level items from pockets that match the predicate */
         std::list<const item *> all_items_top( const std::function<bool( const item_pocket & )> &filter )
         const;
-
-    public:
         /** returns a list of pointers to all top-level items */
         /** if unloading is true it ignores items in pockets that are flagged to not unload */
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type, bool unloading = false );
@@ -132,7 +128,7 @@ class item_contents
         std::vector<item *> ebooks();
         std::vector<const item *> ebooks() const;
 
-        void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
+        void update_modified_pockets( const std::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
         // this only checks MAGAZINE_WELL
@@ -176,6 +172,8 @@ class item_contents
         int get_total_holsters() const;
         units::volume get_total_holster_volume() const;
         units::volume get_used_holster_volume() const;
+        units::mass get_total_holster_weight() const;
+        units::mass get_used_holster_weight() const;
 
         // gets all CONTAINER pockets contained in this item
         std::vector<const item_pocket *> get_all_contained_pockets() const;
@@ -261,7 +259,7 @@ class item_contents
         void favorite_settings_menu( item *i );
 
         item_pocket *contained_where( const item &contained );
-        void on_pickup( Character &guy );
+        void on_pickup( Character &guy, item *avoid = nullptr );
         bool spill_contents( const tripoint &pos );
         // spill items that don't fit in the container
         void overflow( const tripoint &pos );
@@ -304,7 +302,9 @@ class item_contents
 
         // gets the item contained IFF one item is contained (CONTAINER pocket), otherwise a null item reference
         item &only_item();
+        item &first_item();
         const item &only_item() const;
+        const item &first_item() const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
         void remove_items_if( const std::function<bool( item & )> &filter );
 
@@ -324,7 +324,7 @@ class item_contents
         void leak( map &here, Character *carrier, const tripoint &pos, item_pocket *pocke = nullptr );
 
         bool item_has_uses_recursive() const;
-        bool stacks_with( const item_contents &rhs ) const;
+        bool stacks_with( const item_contents &rhs, int depth = 0, int maxdepth = 2 ) const;
         bool same_contents( const item_contents &rhs ) const;
         // can this item be used as a funnel?
         bool is_funnel_container( units::volume &bigger_than ) const;
@@ -344,7 +344,8 @@ class item_contents
 
         // reads the items in the MOD pocket first
         void read_mods( const item_contents &read_input );
-        void combine( const item_contents &read_input, bool convert = false, bool into_bottom = false );
+        void combine( const item_contents &read_input, bool convert = false, bool into_bottom = false,
+                      bool restack_charges = true );
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &data );
@@ -373,32 +374,6 @@ class item_contents
         friend struct item_contents_helper;
 };
 
-class pocket_favorite_callback : public uilist_callback
-{
-    private:
-        std::vector<std::tuple<item_pocket *, int, uilist_entry *>> saved_pockets;
-        // whitelist or blacklist, for interactions
-        bool whitelist = true;
-        std::pair<item *, item_pocket *> item_to_move = { nullptr, nullptr };
-
-        bool needs_to_refresh = false;
-
-        // items to create pockets for
-        std::vector<item *> to_organize;
-
-        void move_item( uilist *menu, item_pocket *selected_pocket );
-
-        void refresh_columns( uilist *menu );
-
-        void add_pockets( item &i, uilist &pocket_selector, const std::string &depth );
-    public:
-        explicit pocket_favorite_callback( const std::vector<item *> &to_organize,
-                                           uilist &pocket_selector );
-        void refresh( uilist *menu ) override;
-        bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override;
-
-        const std::string title =
-            _( "Modify pocket settings and move items between pockets.  [<color_yellow>RETURN</color>] Context menu\n" );
-};
+void pocket_management_menu( const std::string &title, const std::vector<item *> &to_organize );
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

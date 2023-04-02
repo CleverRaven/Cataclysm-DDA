@@ -10,16 +10,6 @@
     "components": [ [ [ "lc_link_sheet", 3 ] ], [ [ "leather", 3 ] ], [ [ "lc_chain_link", 70 ] ] ]
   },
   {
-    "result": "superalloy_harness_dog",
-    "type": "uncraft",
-    "activity_level": "MODERATE_EXERCISE",
-    "skill_used": "tailor",
-    "difficulty": 1,
-    "time": "15 m",
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "alloy_sheet", 6 ] ] ]
-  },
-  {
     "result": "leather_harness_dog",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

@@ -30,20 +30,7 @@
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 30, "into_group": "GROUP_FERROUS_UPGRADE" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_shell",
@@ -60,6 +47,7 @@
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "brown",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
@@ -79,7 +67,6 @@
     "attack_effs": [ { "id": "tetanus", "duration": 300, "chance": 10 } ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 42, "into_group": "GROUP_FERROUS_UPGRADE" },
     "flags": [
       "SEES",
       "HEARS",
@@ -111,6 +98,7 @@
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "brown",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
@@ -161,6 +149,7 @@
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "brown",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 3,
@@ -211,6 +200,7 @@
     "symbol": "Z",
     "looks_like": "mon_zombie_brute",
     "color": "brown",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,
