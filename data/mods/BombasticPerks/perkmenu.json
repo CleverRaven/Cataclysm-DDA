@@ -50,6 +50,63 @@
         "topic": "TALK_PERK_MENU_THICK_SKULL"
       },
       {
+        "condition": {
+          "and": [
+            {
+              "not": {
+                "or": [
+                  { "u_has_trait": "perk_way_openpalm" },
+                  { "u_has_trait": "perk_way_closedfist" },
+                  { "u_has_trait": "perk_way_pinchedfingers" }
+                ]
+              }
+            },
+            { "u_has_skill": { "skill": "unarmed", "level": 2 } },
+            { "u_has_skill": { "skill": "cutting", "level": 1 } }
+          ]
+        },
+        "text": "Gain [<trait_name:perk_way_openpalm>]",
+        "topic": "TALK_PERK_MENU_OPENPALM"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "not": {
+                "or": [
+                  { "u_has_trait": "perk_way_openpalm" },
+                  { "u_has_trait": "perk_way_closedfist" },
+                  { "u_has_trait": "perk_way_pinchedfingers" }
+                ]
+              }
+            },
+            { "u_has_skill": { "skill": "unarmed", "level": 2 } },
+            { "u_has_skill": { "skill": "bashing", "level": 1 } }
+          ]
+        },
+        "text": "Gain [<trait_name:perk_way_closedfist>]",
+        "topic": "TALK_PERK_MENU_CLOSEDFIST"
+      },
+      {
+        "condition": {
+          "and": [
+            {
+              "not": {
+                "or": [
+                  { "u_has_trait": "perk_way_openpalm" },
+                  { "u_has_trait": "perk_way_closedfist" },
+                  { "u_has_trait": "perk_way_pinchedfingers" }
+                ]
+              }
+            },
+            { "u_has_skill": { "skill": "unarmed", "level": 2 } },
+            { "u_has_skill": { "skill": "stabbing", "level": 1 } }
+          ]
+        },
+        "text": "Gain [<trait_name:perk_way_pinchedfingers>]",
+        "topic": "TALK_PERK_MENU_PINCHEDFINGERS"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
         "text": "Gain [<trait_name:perk_bloody_mess>]",
         "topic": "TALK_PERK_MENU_BLOODY_MESS"
@@ -268,6 +325,69 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_thick_skull" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_OPENPALM",
+    "dynamic_line": "<trait_name:perk_way_openpalm>: \"<trait_description:perk_way_openpalm>\"\n\nRequires unarmed 2 and cutting 1, mutually exclusive with Way of the Closed Fist or Pinched Fingers.",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_way_openpalm" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_CLOSEDFIST",
+    "dynamic_line": "\"<trait_name:perk_way_closedfist>: \"<trait_description:perk_way_closedfist>\"\n\nRequires unarmed 2 and bashing 1, mutually exclusive with Way of the Open Palm or Pinched Fingers.",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_way_closedfist" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_PINCHEDFINGERS",
+    "dynamic_line": "\"<trait_name:perk_way_pinchedfingers>: \"<trait_description:perk_way_pinchedfingers>\"\n\nRequires unarmed 2 and piercing 1, mutually exclusive with Way of the Open Palm or Closed Fist.",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_way_pinchedfingers" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }
