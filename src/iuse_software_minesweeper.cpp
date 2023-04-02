@@ -4,7 +4,6 @@
 #include <functional>
 #include <iosfwd>
 #include <new>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -12,6 +11,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
+#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "rng.h"
@@ -310,7 +310,7 @@ int minesweeper_game::start_game()
             action = ctxt.handle_input();
         }
 
-        if( const std::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             const point new_( vec->xy() + point( iPlayerX, iPlayerY ) );
             if( new_.x >= 0 && new_.x < level.x && new_.y >= 0 && new_.y < level.y ) {
                 iPlayerX = new_.x;

@@ -531,7 +531,7 @@ void plot_options::deserialize( const JsonObject &jo_zone )
     jo_zone.read( "seed", seed );
 }
 
-std::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
+cata::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
 {
     string_input_popup popup;
     popup
@@ -546,7 +546,7 @@ std::optional<std::string> zone_manager::query_name( const std::string &default_
     }
 }
 
-std::optional<zone_type_id> zone_manager::query_type( bool personal ) const
+cata::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 {
     const auto &types = get_manager().get_types();
 
@@ -951,11 +951,11 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
     return near_point_set;
 }
 
-std::optional<tripoint_abs_ms> zone_manager::get_nearest( const zone_type_id &type,
+cata::optional<tripoint_abs_ms> zone_manager::get_nearest( const zone_type_id &type,
         const tripoint_abs_ms &where, int range, const faction_id &fac ) const
 {
     if( range < 0 ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
 
     tripoint_abs_ms nearest_pos( INT_MIN, INT_MIN, INT_MIN );
@@ -984,7 +984,7 @@ std::optional<tripoint_abs_ms> zone_manager::get_nearest( const zone_type_id &ty
         }
     }
     if( nearest_dist > range ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
     return nearest_pos;
 }
@@ -1020,12 +1020,12 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         }
     }
 
-    std::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
+    cata::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
     if( zone_check_first && has_near( *zone_check_first, where, range, fac ) ) {
         return *zone_check_first;
     }
 
-    std::optional<zone_type_id> zone_cat = cat.zone();
+    cata::optional<zone_type_id> zone_cat = cat.zone();
     if( zone_cat && has_near( *zone_cat, where, range, fac ) ) {
         return *cat.zone();
     }
@@ -1537,7 +1537,7 @@ void zone_manager::revert_vzones()
     map &here = get_map();
     for( zone_data zone : removed_vzones ) {
         //Code is copied from add() to avoid yn query
-        if( const std::optional<vpart_reference> vp = here.veh_at( here.getlocal(
+        if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
                     zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
             zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), zone );

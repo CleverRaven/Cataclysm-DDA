@@ -9,7 +9,6 @@
 #include <iterator>
 #include <memory>
 #include <new>
-#include <optional>
 #include <set>
 #include <sstream>
 #include <stdexcept>
@@ -31,6 +30,7 @@
 #include "json.h"
 #include "json_loader.h"
 #include "map.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -41,6 +41,8 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
+
+using std::min; // from <algorithm>
 
 static const std::string default_context_id( "default" );
 
@@ -260,7 +262,7 @@ static constexpr int current_keybinding_version = 2;
 
 void input_manager::load( const cata_path &file_name, bool is_user_preferences )
 {
-    std::optional<JsonValue> jsin_opt = json_loader::from_path_opt( file_name );
+    cata::optional<JsonValue> jsin_opt = json_loader::from_path_opt( file_name );
 
     if( !jsin_opt.has_value() ) {
         // Only throw if this is the first file to load, that file _must_ exist,
@@ -1259,18 +1261,6 @@ void input_context::register_cardinal()
     register_leftright();
 }
 
-void input_context::register_navigate_ui_list()
-{
-    register_action( "UP", to_translation( "Move cursor up" ) );
-    register_action( "DOWN", to_translation( "Move cursor down" ) );
-    register_action( "SCROLL_UP", to_translation( "Move cursor up" ) );
-    register_action( "SCROLL_DOWN", to_translation( "Move cursor down" ) );
-    register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
-    register_action( "HOME", to_translation( "Scroll to top" ) );
-    register_action( "END", to_translation( "Scroll to bottom" ) );
-}
-
 // dx and dy are -1, 0, or +1. Rotate the indicated direction 1/8 turn clockwise.
 void rotate_direction_cw( int &dx, int &dy )
 {
@@ -1290,7 +1280,7 @@ void rotate_direction_cw( int &dx, int &dy )
     dy = dir_num / 3 - 1;
 }
 
-std::optional<tripoint> input_context::get_direction( const std::string &action ) const
+cata::optional<tripoint> input_context::get_direction( const std::string &action ) const
 {
     static const auto noop = static_cast<tripoint( * )( tripoint )>( []( tripoint p ) {
         return p;
@@ -1318,7 +1308,7 @@ std::optional<tripoint> input_context::get_direction( const std::string &action 
     } else if( action == "RIGHTDOWN" ) {
         return transform( tripoint_south_east );
     } else {
-        return std::nullopt;
+        return cata::nullopt;
     }
 }
 
@@ -1738,18 +1728,18 @@ bool gamepad_available()
     return false;
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win,
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win,
         const point &offset, const bool center_cursor ) const
 {
     if( !coordinate_input_received ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
     const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
     const point win_min( getbegx( capture_win ),
                          getbegy( capture_win ) );
     const half_open_rectangle<point> win_bounds( win_min, win_min + view_size );
     if( !win_bounds.contains( coordinate ) ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
 
     point p = coordinate + offset;
@@ -1765,19 +1755,19 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
 }
 #endif
 
-std::optional<point> input_context::get_coordinates_text( const catacurses::window
+cata::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
 #if !defined( TILES )
-    std::optional<tripoint> coord3d = get_coordinates( capture_win );
+    cata::optional<tripoint> coord3d = get_coordinates( capture_win );
     if( coord3d.has_value() ) {
         return get_coordinates( capture_win )->xy();
     } else {
-        return std::nullopt;
+        return cata::nullopt;
     }
 #else
     if( !coordinate_input_received ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
     const window_dimensions dim = get_window_dimensions( capture_win );
     const int &fw = dim.scaled_font_size.x;

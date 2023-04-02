@@ -84,7 +84,7 @@ class tripoint_range
 
         Tripoint endp;
 
-        std::optional<std::function<bool( const Tripoint & )>> predicate;
+        cata::optional<std::function<bool( const Tripoint & )>> predicate;
     public:
         using value_type = typename point_generator::value_type;
         using difference_type = typename point_generator::difference_type;

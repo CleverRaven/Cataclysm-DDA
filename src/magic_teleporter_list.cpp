@@ -61,7 +61,7 @@ void teleporter_list::deactivate_teleporter( const tripoint_abs_omt &omt_pt, con
 
 // returns the first valid teleport location near a teleporter
 // returns map square (global coordinates)
-static std::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_omt &omt_pt )
+static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_omt &omt_pt )
 {
     // this is the top left hand square of the global absolute coordinate
     // of the overmap terrain we want to try to teleport to.
@@ -74,7 +74,7 @@ static std::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_om
             return checker.getabs( p );
         }
     }
-    return std::nullopt;
+    return cata::nullopt;
 }
 
 bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const
@@ -82,7 +82,7 @@ bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_o
     tinymap omt_dest;
     tripoint_abs_sm sm_dest = project_to<coords::sm>( omt_pt );
     omt_dest.load( sm_dest, true );
-    std::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );
+    cata::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );
     if( !global_dest ) {
         return false;
     }
@@ -100,7 +100,7 @@ void teleporter_list::translocate( const std::set<tripoint> &targets )
         add_msg( m_bad, _( "No translocator target known." ) );
         return;
     }
-    std::optional<tripoint_abs_omt> omt_dest = choose_teleport_location();
+    cata::optional<tripoint_abs_omt> omt_dest = choose_teleport_location();
     if( !omt_dest ) {
         add_msg( _( "Teleport canceled." ) );
         return;
@@ -135,7 +135,7 @@ void teleporter_list::serialize( JsonOut &json ) const
 
     json.member( "known_teleporters" );
     json.start_array();
-    for( const std::pair<const tripoint_abs_omt, std::string> &pair : known_teleporters ) {
+    for( std::pair<tripoint_abs_omt, std::string> pair : known_teleporters ) {
         json.start_object();
         json.member( "position", pair.first );
         json.member( "name", pair.second );
@@ -187,9 +187,9 @@ class teleporter_callback : public uilist_callback
         }
 };
 
-std::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
+cata::optional<tripoint_abs_omt> teleporter_list::choose_teleport_location()
 {
-    std::optional<tripoint_abs_omt> ret = std::nullopt;
+    cata::optional<tripoint_abs_omt> ret = cata::nullopt;
 
     uilist teleport_selector;
     teleport_selector.w_height_setup = 24;

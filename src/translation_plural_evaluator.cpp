@@ -213,7 +213,7 @@ Token TranslationPluralRulesEvaluator::GetNextToken( const char *&p )
 std::vector<Token> TranslationPluralRulesEvaluator::Lexer( const std::string &expr )
 {
     std::vector<ExprToken> tokens;
-    const char *p = expr.data();
+    const char *p = &expr[0];
     ExprToken token;
     while( ( token = GetNextToken( p ) ).type != ExprTokenType::Termination ) {
         tokens.emplace_back( token );

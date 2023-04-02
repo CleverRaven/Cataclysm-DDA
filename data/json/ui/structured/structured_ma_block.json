@@ -1,10 +1,10 @@
 [
   {
-    "id": "structured_style_ma_buffs_layout",
+    "id": "structured_ma_buffs_style_layout",
     "type": "widget",
     "style": "layout",
     "label": "Martial arts buffs",
-    "description": "Shows current martial arts style and <color_yellow>buffs</color>.",
+    "description": "Shows current <color_yellow>martial arts</color> buffs and style.",
     "arrange": "columns",
     "widgets": [ "structured_style_layout", "structured_ma_buff_layout" ],
     "flags": [ "W_DISABLED_BY_DEFAULT" ]

@@ -4,7 +4,11 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 void StaticIntIdConstantsCheck::registerMatchers( MatchFinder *Finder )
@@ -78,4 +82,6 @@ void StaticIntIdConstantsCheck::check( const MatchFinder::MatchResult &Result )
     CheckConstructor( *this, Result );
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

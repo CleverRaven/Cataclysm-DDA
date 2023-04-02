@@ -5,10 +5,10 @@
 #include <iosfwd>
 #include <list>
 #include <memory>
-#include <optional>
 #include <tuple>
 #include <vector>
 
+#include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -99,6 +99,9 @@ void flower_cactus( Character &you, const tripoint &examp );
 void flower_bluebell( Character &you, const tripoint &examp );
 void flower_dahlia( Character &you, const tripoint &examp );
 void flower_marloss( Character &you, const tripoint &examp );
+void egg_sackbw( Character &you, const tripoint &examp );
+void egg_sackcs( Character &you, const tripoint &examp );
+void egg_sackws( Character &you, const tripoint &examp );
 void fungus( Character &you, const tripoint &examp );
 void dirtmound( Character &you, const tripoint &examp );
 void aggie_plant( Character &you, const tripoint &examp );
@@ -137,14 +140,14 @@ void smoker_options( Character &you, const tripoint &examp );
 void open_safe( Character &you, const tripoint &examp );
 void workbench( Character &you, const tripoint &examp );
 void workbench_internal( Character &you, const tripoint &examp,
-                         const std::optional<vpart_reference> &part );
+                         const cata::optional<vpart_reference> &part );
 void workout( Character &you, const tripoint &examp );
 void invalid( Character &you, const tripoint &examp );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
-std::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
+cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
 bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
-std::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &fuel_units,
+cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &fuel_units,
         fuel_station_fuel_type &fuel_type );
 
 bool has_keg( const tripoint &pos );

@@ -3,7 +3,6 @@
 #include <iosfwd>
 #include <memory>
 #include <new>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -25,6 +24,7 @@
 #include "material.h"
 #include "monster.h"
 #include "mtype.h"
+#include "optional.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"
@@ -142,7 +142,7 @@ static void cut_up_yields( const std::string &target )
                             cut_up_target.type->mat_portion_total;
     units::mass smallest_yield_mass = units::mass_max;
     for( const auto &mater : target_materials ) {
-        if( const std::optional<itype_id> item_id = mater.first->salvaged_into() ) {
+        if( const cata::optional<itype_id> item_id = mater.first->salvaged_into() ) {
             units::mass portioned_weight = item_id->obj().weight * ( mater.second / mat_total );
             smallest_yield_mass = std::min( smallest_yield_mass, portioned_weight );
         }

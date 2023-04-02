@@ -6,7 +6,6 @@
     "description": "Shows date, time and moon phase.",
     "style": "layout",
     "arrange": "columns",
-    "separator": ": ",
     "widgets": [ "date_desc_no_label", "structured_time_layout", "moon_phase_graph" ]
   },
   {
@@ -25,7 +24,6 @@
     "label": "Place/Sound",
     "description": "Shows the current location and sound emitted.",
     "arrange": "columns",
-    "separator": ": ",
     "widgets": [ "structured_place_layout", "structured_sound_layout" ]
   },
   {

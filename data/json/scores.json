@@ -40,86 +40,6 @@
     "statistic": "num_moves_swam_underwater"
   },
   {
-    "id": "score_min_move_z",
-    "type": "score",
-    "statistic": "min_move_z"
-  },
-  {
-    "id": "score_max_move_z",
-    "type": "score",
-    "statistic": "max_move_z"
-  },
-  {
-    "id": "score_distance_veh_onboard",
-    "type": "score",
-    "statistic": "num_moves_veh_onboard"
-  },
-  {
-    "id": "score_distance_gndv_onboard",
-    "type": "score",
-    "statistic": "num_moves_gndv_onboard"
-  },
-  {
-    "id": "score_distance_rail_onboard",
-    "type": "score",
-    "statistic": "num_moves_rail_onboard"
-  },
-  {
-    "id": "score_distance_boat_onboard",
-    "type": "score",
-    "statistic": "num_moves_boat_onboard"
-  },
-  {
-    "id": "score_distance_acft_onboard",
-    "type": "score",
-    "statistic": "num_moves_acft_onboard"
-  },
-  {
-    "id": "score_distance_veh_ctrl_remote",
-    "type": "score",
-    "statistic": "num_moves_veh_ctrl_remote"
-  },
-  {
-    "id": "score_max_velocity_gndv",
-    "type": "score",
-    "statistic": "max_velocity_gndv"
-  },
-  {
-    "id": "score_max_velocity_rail",
-    "type": "score",
-    "statistic": "max_velocity_rail"
-  },
-  {
-    "id": "score_max_velocity_boat",
-    "type": "score",
-    "statistic": "max_velocity_boat"
-  },
-  {
-    "id": "score_max_velocity_acft",
-    "type": "score",
-    "statistic": "max_velocity_acft"
-  },
-  {
-    "id": "score_min_veh_z",
-    "type": "score",
-    "statistic": "min_move_veh_onboard_z"
-  },
-  {
-    "id": "score_max_veh_z",
-    "type": "score",
-    "statistic": "max_move_veh_onboard_z"
-  },
-  {
-    "id": "score_max_gndv_z",
-    "type": "score",
-    "statistic": "max_move_gndv_ctrl_direct_z"
-  },
-  {
-    "id": "score_max_acft_z",
-    "type": "score",
-    "statistic": "max_move_acft_ctrl_direct_z"
-  },
-  {
     "id": "score_damage_taken",
     "type": "score",
     "statistic": "avatar_damage_taken"
@@ -133,6 +53,16 @@
     "id": "score_headshots",
     "type": "score",
     "statistic": "avatar_num_headshots"
+  },
+  {
+    "id": "score_min_move_z",
+    "type": "score",
+    "statistic": "min_move_z"
+  },
+  {
+    "id": "score_max_move_z",
+    "type": "score",
+    "statistic": "max_move_z"
   },
   {
     "id": "score_cut_trees",

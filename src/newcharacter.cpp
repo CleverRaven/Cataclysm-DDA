@@ -11,7 +11,6 @@
 #include <map>
 #include <memory>
 #include <new>
-#include <optional>
 #include <set>
 #include <tuple>
 #include <unordered_map>
@@ -42,6 +41,7 @@
 #include "monster.h"
 #include "mutation.h"
 #include "name.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -168,7 +168,7 @@ bool tab_manager::handle_input( const std::string &action, const input_context &
     } else if( action == "NEXT_TAB" ) {
         position.next();
     } else if( action == "SELECT" ) {
-        std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+        cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
         if( coord.has_value() ) {
             point local_coord = coord.value() + window_pos;
             for( const auto &entry : tab_map ) {
@@ -362,7 +362,7 @@ static void set_hobbies( tab_manager &tabs, avatar &u, pool_type );
 static void set_skills( tab_manager &tabs, avatar &u, pool_type );
 static void set_description( tab_manager &tabs, avatar &you, bool allow_reroll, pool_type );
 
-static std::optional<std::string> query_for_template_name();
+static cata::optional<std::string> query_for_template_name();
 static void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
@@ -451,8 +451,8 @@ void avatar::randomize( const bool random_scenario, bool play_now )
 
     prof = get_scenario()->weighted_random_profession();
     randomize_hobbies();
-    starting_city = std::nullopt;
-    world_origin = std::nullopt;
+    starting_city = cata::nullopt;
+    world_origin = cata::nullopt;
     random_start_location = true;
 
     str_max = rng( 6, HIGH_STAT - 2 );
@@ -628,11 +628,8 @@ void avatar::add_profession_items()
                 inv->push_back( it );
             }
         } else if( it.is_armor() ) {
-            if( can_wear( it ).success() ) {
-                wear_item( it, false, false );
-            } else {
-                inv->push_back( it );
-            }
+            // TODO: debugmsg if wearing fails
+            wear_item( it, false, false );
         } else {
             inv->push_back( it );
         }
@@ -812,14 +809,12 @@ bool avatar::create( character_type type, const std::string &tempname )
     cash = rng( -200000, 200000 );
     randomize_heartrate();
 
-    //set stored kcal to a normal amount for your height
-    set_stored_kcal( get_healthy_kcal() );
     if( has_trait( trait_XS ) ) {
-        set_stored_kcal( std::floor( get_stored_kcal() / 5 ) );
+        set_stored_kcal( 10000 );
         toggle_trait( trait_XS );
     }
     if( has_trait( trait_XXXL ) ) {
-        set_stored_kcal( std::floor( get_stored_kcal() * 5 ) );
+        set_stored_kcal( 125000 );
         toggle_trait( trait_XXXL );
     }
 
@@ -964,7 +959,7 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
 
     input_context ctxt( "NEW_CHAR_POINTS" );
     tabs.set_up_tab_navigation( ctxt );
-    ctxt.register_navigate_ui_list();
+    ctxt.register_cardinal();
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "CONFIRM" );
 
@@ -1043,11 +1038,19 @@ void set_points( tab_manager &tabs, avatar &u, pool_type &pool )
 
     const int opts_length = static_cast<int>( opts.size() );
     do {
+        if( highlighted < 0 ) {
+            highlighted = opts_length - 1;
+        } else if( highlighted >= opts_length ) {
+            highlighted = 0;
+        }
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
-        } else if( navigate_ui_list( action, highlighted, 1, opts_length, true ) ) {
+        } else if( action == "DOWN" ) {
+            highlighted++;
+        } else if( action == "UP" ) {
+            highlighted--;
         } else if( action == "CONFIRM" ) {
             const auto &cur_opt = opts[highlighted];
             pool = std::get<0>( cur_opt );
@@ -1116,8 +1119,6 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
 
         werase( w_description );
         u.reset_stats();
-        u.set_stored_kcal( u.get_healthy_kcal() );
-        u.reset_bonuses(); // Removes pollution of stats by modifications appearing inside reset_stats(). Is reset_stats() even necessary in this context?
         switch( sel ) {
             case 1:
                 mvwprintz( w, point( 2, 5 ), COL_SELECT, _( "Strength:" ) );
@@ -1127,7 +1128,6 @@ void set_stats( tab_manager &tabs, avatar &u, pool_type pool )
                                _( "Increasing Str further costs 2 points" ) );
                 }
                 u.recalc_hp();
-                u.set_stored_kcal( u.get_healthy_kcal() );
                 mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
                            u.get_part_hp_max( bodypart_id( "head" ) ) );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1405,8 +1405,11 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
     for( scrollbar &sb : trait_sbs ) {
         sb.set_draggable( ctxt );
     }
-    ctxt.register_navigate_ui_list();
-    ctxt.register_leftright();
+    ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
@@ -1613,12 +1616,45 @@ void set_traits( tab_manager &tabs, avatar &u, pool_type pool )
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
-        } else if( action == "LEFT" || action == "RIGHT" ) {
-            iCurWorkingPage = next_avail_page( action == "LEFT" );
-        } else if( scrollbar_handled
-                   || navigate_ui_list( action, iCurrentLine[iCurWorkingPage], 10,
-                                        traits_size[iCurWorkingPage], true ) ) {
-            // No additional action required
+        } else if( scrollbar_handled ) {
+            // No action required, scrollbar has handled it
+        } else if( action == "LEFT" ) {
+            iCurWorkingPage = next_avail_page( true );
+        } else if( action == "RIGHT" ) {
+            iCurWorkingPage = next_avail_page( false );
+        } else if( action == "UP" ) {
+            if( iCurrentLine[iCurWorkingPage] == 0 ) {
+                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            } else {
+                iCurrentLine[iCurWorkingPage]--;
+            }
+        } else if( action == "DOWN" ) {
+            iCurrentLine[iCurWorkingPage]++;
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) >= traits_size[iCurWorkingPage] ) {
+                iCurrentLine[iCurWorkingPage] = 0;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) == traits_size[iCurWorkingPage] - 1 ) {
+                iCurrentLine[iCurWorkingPage] = 0;
+            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] ) + 10 >=
+                       traits_size[iCurWorkingPage] ) {
+                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            } else {
+                iCurrentLine[iCurWorkingPage] += +10;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( iCurrentLine[iCurWorkingPage] == 0 ) {
+                iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
+            } else if( static_cast<size_t>( iCurrentLine[iCurWorkingPage] - 10 ) >=
+                       traits_size[iCurWorkingPage] ) {
+                iCurrentLine[iCurWorkingPage] = 0;
+            } else {
+                iCurrentLine[iCurWorkingPage] += -10;
+            }
+        } else if( action == "HOME" ) {
+            iCurrentLine[iCurWorkingPage] = 0;
+        } else if( action == "END" ) {
+            iCurrentLine[iCurWorkingPage] = traits_size[iCurWorkingPage] - 1;
         } else if( action == "CONFIRM" ) {
             int inc_type = 0;
             const trait_id cur_trait = sorted_traits[iCurWorkingPage][iCurrentLine[iCurWorkingPage]]->trait;
@@ -1900,66 +1936,11 @@ static std::string assemble_profession_details( const avatar &u, const input_con
     return assembled;
 }
 
-/** Helper to filter and move the cursor in the hobby/profession lists */
-template<typename T, typename S>
-size_t filter_entries( avatar &u, int &cur_id, std::vector<T> &old_entries,
-                       std::vector<T> &new_entries, T chosen_entry,
-                       std::string filterstring, S sorter )
-{
-    T previously_highlighted = old_entries.empty() ? T() : old_entries[cur_id];
-
-    old_entries = new_entries;
-
-    // Filter the list of entries
-    const auto new_end = std::remove_if( old_entries.begin(),
-    old_entries.end(), [&]( const T & arg ) {
-        return !lcmatch( arg->gender_appropriate_name( u.male ), filterstring );
-    } );
-    old_entries.erase( new_end, old_entries.end() );
-
-    if( old_entries.empty() ) {
-        popup( _( "Nothing found." ) ); // another case of black box in tiles
-        return 0; // tell caller to try again without a filterstring
-    }
-
-    int entries_length = old_entries.size();
-
-    std::stable_sort( old_entries.begin(), old_entries.end(), sorter );
-
-    bool match = false;
-
-    // Put the cursor on the previously highlighted entry, if possible.
-    for( int i = 0; i < entries_length; ++i ) {
-        if( old_entries[i] == previously_highlighted ) {
-            cur_id = i;
-            match = true;
-            break;
-        }
-    }
-
-    if( !match ) {
-        // Pur the cursor on the currently chosen entry, if possible.
-        for( int i = 0; i < entries_length; ++i ) {
-            if( old_entries[i] == chosen_entry ) {
-                cur_id = i;
-                match = true;
-                break;
-            }
-        }
-    }
-
-    if( !match ) {
-        cur_id = 0;
-    }
-
-    return old_entries.size();
-}
-
 /** Handle the profession tab of the character generation menu */
 void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 {
     int cur_id = 0;
-    size_t iContentHeight = 0;
+    int iContentHeight = 0;
     int iStartPos = 0;
 
     ui_adaptor ui;
@@ -1984,7 +1965,11 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     tabs.set_up_tab_navigation( ctxt );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     list_sb.set_draggable( ctxt );
-    ctxt.register_navigate_ui_list();
+    ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "SORT" );
@@ -1994,7 +1979,7 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "RANDOMIZE" );
 
     bool recalc_profs = true;
-    size_t profs_length = 0;
+    int profs_length = 0;
     std::string filterstring;
     std::vector<string_id<profession>> sorted_profs;
 
@@ -2044,7 +2029,8 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, profs_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, profs_length );
+        const int end_pos = iStartPos + ( ( iContentHeight > profs_length ) ?
+                                          profs_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -2080,14 +2066,38 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
     do {
         if( recalc_profs ) {
-            std::vector<profession_id> new_profs = get_scenario()->permitted_professions();
-            profession_sorter.male = u.male;
-            if( ( profs_length = filter_entries( u, cur_id, sorted_profs, new_profs, u.prof->ident(),
-                                                 filterstring,
-                                                 profession_sorter ) ) == 0 ) {
+            sorted_profs = get_scenario()->permitted_professions();
+
+            // Remove all hobbies and filter our list
+            const auto new_end = std::remove_if( sorted_profs.begin(),
+            sorted_profs.end(), [&]( const string_id<profession> &arg ) {
+                return !lcmatch( arg->gender_appropriate_name( u.male ), filterstring );
+            } );
+            sorted_profs.erase( new_end, sorted_profs.end() );
+
+            if( sorted_profs.empty() ) {
+                popup( _( "Nothing found." ) ); // another case of black box in tiles
                 filterstring.clear();
                 continue;
             }
+            profs_length = static_cast<int>( sorted_profs.size() );
+
+            // Sort professions by points.
+            // profession_display_sort() keeps "unemployed" at the top.
+            profession_sorter.male = u.male;
+            std::stable_sort( sorted_profs.begin(), sorted_profs.end(), profession_sorter );
+
+            // Select the current profession, if possible.
+            for( int i = 0; i < profs_length; ++i ) {
+                if( sorted_profs[i] == u.prof->ident() ) {
+                    cur_id = i;
+                    break;
+                }
+            }
+            if( cur_id > profs_length - 1 ) {
+                cur_id = 0;
+            }
+
             recalc_profs = false;
         }
 
@@ -2100,15 +2110,44 @@ void set_profession( tab_manager &tabs, avatar &u, pool_type pool )
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
-        } else if( details.handle_navigation( action, ctxt )
-                   || navigate_ui_list( action, cur_id, scroll_rate, recmax, true ) ) {
-            // NO FURTHER ACTION REQUIRED
+        } else if( details.handle_navigation( action, ctxt ) ) {
+            //NO FURTHER ACTION REQUIRED
         } else if( list_sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
                                             scrollbar_pos ) ) {
             if( scrollbar_pos != iStartPos ) {
                 iStartPos = scrollbar_pos;
                 cur_id = iStartPos + ( iContentHeight - 1 ) / 2;
             }
+        } else if( action == "DOWN" ) {
+            cur_id++;
+            if( cur_id > recmax - 1 ) {
+                cur_id = 0;
+            }
+        } else if( action == "UP" ) {
+            cur_id--;
+            if( cur_id < 0 ) {
+                cur_id = profs_length - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( cur_id == recmax - 1 ) {
+                cur_id = 0;
+            } else if( cur_id + scroll_rate >= recmax ) {
+                cur_id = recmax - 1;
+            } else {
+                cur_id += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( cur_id == 0 ) {
+                cur_id = recmax - 1;
+            } else if( cur_id <= scroll_rate ) {
+                cur_id = 0;
+            } else {
+                cur_id += -scroll_rate;
+            }
+        } else if( action == "HOME" ) {
+            cur_id = 0;
+        } else if( action == "END" ) {
+            cur_id = recmax - 1;
         } else if( action == "CONFIRM" ) {
             ret_val<void> can_pick = sorted_profs[cur_id]->can_pick();
 
@@ -2263,7 +2302,7 @@ static std::string assemble_hobby_details( const avatar &u, const input_context 
 void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 {
     int cur_id = 0;
-    size_t iContentHeight = 0;
+    int iContentHeight = 0;
     int iStartPos = 0;
 
     ui_adaptor ui;
@@ -2289,7 +2328,11 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
     tabs.set_up_tab_navigation( ctxt );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     list_sb.set_draggable( ctxt );
-    ctxt.register_navigate_ui_list();
+    ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CHANGE_GENDER" );
     ctxt.register_action( "SORT" );
@@ -2299,7 +2342,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "RANDOMIZE" );
 
     bool recalc_hobbies = true;
-    size_t hobbies_length = 0;
+    int profs_length = 0;
     std::string filterstring;
     std::vector<string_id<profession>> sorted_hobbies;
 
@@ -2345,8 +2388,9 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
         }
 
         //Draw options
-        calcStartPos( iStartPos, cur_id, iContentHeight, hobbies_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, hobbies_length );
+        calcStartPos( iStartPos, cur_id, iContentHeight, profs_length );
+        const int end_pos = iStartPos + ( ( iContentHeight > profs_length ) ?
+                                          profs_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -2364,7 +2408,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
         list_sb.offset_x( 0 )
         .offset_y( 5 )
-        .content_size( hobbies_length )
+        .content_size( profs_length )
         .viewport_pos( iStartPos )
         .viewport_size( iContentHeight )
         .apply( w );
@@ -2375,35 +2419,78 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
 
     do {
         if( recalc_hobbies ) {
-            std::vector<profession_id> new_hobbies = profession::get_all_hobbies();
-            profession_sorter.male = u.male;
-            if( ( hobbies_length = filter_entries( u, cur_id, sorted_hobbies, new_hobbies,
-                                                   u.hobbies.empty() ? string_id<profession>() : ( *u.hobbies.begin() )->ident(), filterstring,
-                                                   profession_sorter ) ) == 0 ) {
+            sorted_hobbies = profession::get_all_hobbies();
+
+            // Remove items based on filter
+            const auto new_end = std::remove_if( sorted_hobbies.begin(),
+            sorted_hobbies.end(), [&]( const string_id<profession> &arg ) {
+                return !lcmatch( arg->gender_appropriate_name( u.male ), filterstring );
+            } );
+            sorted_hobbies.erase( new_end, sorted_hobbies.end() );
+
+            if( sorted_hobbies.empty() ) {
+                popup( _( "Nothing found." ) );
                 filterstring.clear();
                 continue;
             }
+            profs_length = static_cast<int>( sorted_hobbies.size() );
+
+            // Sort professions by points.
+            // profession_display_sort() keeps "unemployed" at the top.
+            profession_sorter.male = u.male;
+            std::stable_sort( sorted_hobbies.begin(), sorted_hobbies.end(), profession_sorter );
+
+            cur_id = 0;
             recalc_hobbies = false;
         }
 
         ui_manager::redraw();
         const int id_for_curr_description = cur_id;
         const std::string action = ctxt.handle_input();
-        const int recmax = hobbies_length;
+        const int recmax = profs_length;
         const int scroll_rate = recmax > 20 ? 10 : 2;
         int scrollbar_pos = iStartPos;
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
-        } else if( details.handle_navigation( action, ctxt )
-                   || navigate_ui_list( action, cur_id, scroll_rate, recmax, true ) ) {
-            // NO FURTHER ACTION REQUIRED
+        } else if( details.handle_navigation( action, ctxt ) ) {
+            //NO FURTHER ACTION REQUIRED
         } else if( list_sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
                                             scrollbar_pos ) ) {
             if( scrollbar_pos != iStartPos ) {
                 iStartPos = scrollbar_pos;
                 cur_id = iStartPos + ( iContentHeight - 1 ) / 2;
             }
+        } else if( action == "DOWN" ) {
+            cur_id++;
+            if( cur_id > recmax - 1 ) {
+                cur_id = 0;
+            }
+        } else if( action == "UP" ) {
+            cur_id--;
+            if( cur_id < 0 ) {
+                cur_id = profs_length - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( cur_id == recmax - 1 ) {
+                cur_id = 0;
+            } else if( cur_id + scroll_rate >= recmax ) {
+                cur_id = recmax - 1;
+            } else {
+                cur_id += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( cur_id == 0 ) {
+                cur_id = recmax - 1;
+            } else if( cur_id <= scroll_rate ) {
+                cur_id = 0;
+            } else {
+                cur_id += -scroll_rate;
+            }
+        } else if( action == "HOME" ) {
+            cur_id = 0;
+        } else if( action == "END" ) {
+            cur_id = recmax - 1;
         } else if( action == "CONFIRM" ) {
             // Do not allow selection of hobby if there's a trait conflict
             const profession *hobb = &sorted_hobbies[cur_id].obj();
@@ -2480,7 +2567,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
                 recalc_hobbies = true;
             }
         } else if( action == "RANDOMIZE" ) {
-            cur_id = rng( 0, hobbies_length - 1 );
+            cur_id = rng( 0, profs_length - 1 );
         }
 
         if( cur_id != id_for_curr_description || recalc_hobbies ) {
@@ -2875,7 +2962,7 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
 
     assembled += "\n" + colorize( _( "Scenario Story:" ), COL_HEADER ) + "\n";
     assembled += colorize( current_scenario->description( u.male ), c_green ) + "\n";
-    const std::optional<achievement_id> scenRequirement = current_scenario->get_requirement();
+    const cata::optional<achievement_id> scenRequirement = current_scenario->get_requirement();
 
     if( scenRequirement.has_value() ||
         ( current_scenario->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) ) {
@@ -2973,7 +3060,7 @@ static std::string assemble_scenario_details( const avatar &u, const input_conte
 void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 {
     int cur_id = 0;
-    size_t iContentHeight = 0;
+    int iContentHeight = 0;
     int iStartPos = 0;
 
     ui_adaptor ui;
@@ -3000,7 +3087,11 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     tabs.set_up_tab_navigation( ctxt );
     details.set_up_navigation( ctxt, scrolling_key_scheme::angle_bracket_scroll );
     list_sb.set_draggable( ctxt );
-    ctxt.register_navigate_ui_list();
+    ctxt.register_cardinal();
+    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
+    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_action( "HOME" );
+    ctxt.register_action( "END" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -3010,7 +3101,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
     ctxt.register_action( "RANDOMIZE" );
 
     bool recalc_scens = true;
-    size_t scens_length = 0;
+    int scens_length = 0;
     std::string filterstring;
     std::vector<const scenario *> sorted_scens;
 
@@ -3059,7 +3150,8 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         //Draw options
         calcStartPos( iStartPos, cur_id, iContentHeight, scens_length );
-        const int end_pos = iStartPos + std::min( iContentHeight, scens_length );
+        const int end_pos = iStartPos + ( ( iContentHeight > scens_length ) ?
+                                          scens_length : iContentHeight );
         int i;
         for( i = iStartPos; i < end_pos; i++ ) {
             nc_color col;
@@ -3097,22 +3189,46 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
     do {
         if( recalc_scens ) {
+            sorted_scens.clear();
             options_manager::options_container &wopts = world_generator->active_world->WORLD_OPTIONS;
-            std::vector<const scenario *> new_scens;
             for( const scenario &scen : scenario::get_all() ) {
                 if( scen.scen_is_blacklisted() ) {
                     continue;
                 }
-                new_scens.push_back( &scen );
+                if( !lcmatch( scen.gender_appropriate_name( u.male ), filterstring ) ) {
+                    continue;
+                }
+                sorted_scens.push_back( &scen );
             }
-            scenario_sorter.male = u.male;
-            scenario_sorter.cities_enabled = wopts["CITY_SIZE"].getValue() != "0";
-            if( ( scens_length = filter_entries( u, cur_id, sorted_scens, new_scens, get_scenario(),
-                                                 filterstring,
-                                                 scenario_sorter ) ) == 0 ) {
+            if( sorted_scens.empty() ) {
+                popup( _( "Nothing found." ) ); // another case of black box in tiles
                 filterstring.clear();
                 continue;
             }
+            scens_length = static_cast<int>( sorted_scens.size() );
+
+            // Sort scenarios by points.
+            // scenario_display_sort() keeps "Evacuee" at the top.
+            scenario_sorter.male = u.male;
+            scenario_sorter.cities_enabled = wopts["CITY_SIZE"].getValue() != "0";
+            std::stable_sort( sorted_scens.begin(), sorted_scens.end(), scenario_sorter );
+
+            bool need_reset = true;
+            // Select the current scenario, if possible.
+            for( int i = 0; i < scens_length; ++i ) {
+                if( sorted_scens[i]->ident() == get_scenario()->ident() ) {
+                    cur_id = i;
+                    need_reset = false;
+                    break;
+                }
+            }
+            if( cur_id > scens_length - 1 ) {
+                cur_id = 0;
+            }
+            if( need_reset ) {
+                reset_scenario( u, sorted_scens[0] );
+            }
+
             recalc_scens = false;
         }
 
@@ -3124,8 +3240,7 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
 
         if( tabs.handle_input( action, ctxt ) ) {
             break; // Tab has changed or user has quit the screen
-        } else if( details.handle_navigation( action, ctxt )
-                   || navigate_ui_list( action, cur_id, scroll_rate, scens_length, true ) ) {
+        } else if( details.handle_navigation( action, ctxt ) ) {
             // NO FURTHER ACTION REQUIRED
         } else if( list_sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
                                             scrollbar_pos ) ) {
@@ -3133,6 +3248,36 @@ void set_scenario( tab_manager &tabs, avatar &u, pool_type pool )
                 iStartPos = scrollbar_pos;
                 cur_id = iStartPos + ( iContentHeight - 1 ) / 2;
             }
+        } else if( action == "DOWN" ) {
+            cur_id++;
+            if( cur_id > scens_length - 1 ) {
+                cur_id = 0;
+            }
+        } else if( action == "UP" ) {
+            cur_id--;
+            if( cur_id < 0 ) {
+                cur_id = scens_length - 1;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            if( cur_id == scens_length - 1 ) {
+                cur_id = 0;
+            } else if( cur_id + scroll_rate >= scens_length ) {
+                cur_id = scens_length - 1;
+            } else {
+                cur_id += +scroll_rate;
+            }
+        } else if( action == "PAGE_UP" ) {
+            if( cur_id == 0 ) {
+                cur_id = scens_length - 1;
+            } else if( cur_id <= scroll_rate ) {
+                cur_id = 0;
+            } else {
+                cur_id += -scroll_rate;
+            }
+        } else if( action == "HOME" ) {
+            cur_id = 0;
+        } else if( action == "END" ) {
+            cur_id = scens_length - 1;
         } else if( action == "CONFIRM" ) {
             // set arbitrarily high points and check if we have the achievment
             ret_val<void> can_pick = sorted_scens[cur_id]->can_pick();
@@ -3846,7 +3991,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 case char_creation::HEIGHT:
                     if( you.base_height() < max_allowed_height ) {
                         you.mod_base_height( 1 );
-                        you.set_stored_kcal( you.get_healthy_kcal() );
                     }
                     break;
                 case char_creation::AGE:
@@ -3878,7 +4022,6 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
                 case char_creation::HEIGHT:
                     if( you.base_height() > min_allowed_height ) {
                         you.mod_base_height( -1 );
-                        you.set_stored_kcal( you.get_healthy_kcal() );
                     }
                     break;
                 case char_creation::AGE:
@@ -3942,7 +4085,7 @@ void set_description( tab_manager &tabs, avatar &you, const bool allow_reroll,
             std::sort( cities.begin(), cities.end(), cities_cmp_population );
             uilist cities_menu;
             ui::omap::setup_cities_menu( cities_menu, cities );
-            std::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
+            cata::optional<city> c = ui::omap::select_city( cities_menu, cities, false );
             if( c.has_value() ) {
                 you.starting_city = c;
                 you.world_origin = c->pos_om;
@@ -4191,7 +4334,7 @@ void Character::randomize_cosmetic_trait( const std::string &mutation_type )
     }
 }
 
-std::optional<std::string> query_for_template_name()
+cata::optional<std::string> query_for_template_name()
 {
     static const std::set<int> fname_char_blacklist = {
 #if defined(_WIN32)
@@ -4219,7 +4362,7 @@ std::optional<std::string> query_for_template_name()
 
     spop.query_string( true );
     if( spop.canceled() ) {
-        return std::nullopt;
+        return cata::nullopt;
     } else {
         return spop.text();
     }

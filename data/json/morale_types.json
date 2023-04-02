@@ -265,11 +265,6 @@
     "text": "Masochism"
   },
   {
-    "id": "morale_perm_radiophile",
-    "type": "morale_type",
-    "text": "Tingly feeling"
-  },
-  {
     "id": "morale_perm_noface",
     "type": "morale_type",
     "text": "You have no face!"

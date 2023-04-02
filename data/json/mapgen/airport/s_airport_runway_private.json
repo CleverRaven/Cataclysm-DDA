@@ -69,7 +69,7 @@
         "_______________________s"
       ],
       "terrain": { "_": "t_pavement", "b": "t_pavement_y", "s": "t_sidewalk" },
-      "place_vehicles": [ { "vehicle": "helicopters_no_wreck", "x": 12, "y": 10, "chance": 50, "rotation": 270 } ]
+      "place_vehicles": [ { "vehicle": "2seater2", "x": 10, "y": 10, "chance": 50, "rotation": 270 } ]
     }
   }
 ]

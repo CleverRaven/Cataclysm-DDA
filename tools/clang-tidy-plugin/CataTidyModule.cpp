@@ -43,7 +43,9 @@
 #include "tool/ClangTidyMain.h"
 #endif
 
-namespace clang::tidy
+namespace clang
+{
+namespace tidy
 {
 namespace cata
 {
@@ -117,7 +119,8 @@ class CataModule : public ClangTidyModule
 static ClangTidyModuleRegistry::Add<cata::CataModule>
 X( "cata-module", "Adds Cataclysm-DDA checks." );
 
-} // namespace clang::tidy
+} // namespace tidy
+} // namespace clang
 
 #if defined( CATA_CLANG_TIDY_EXECUTABLE )
 int main( int argc, const char **argv )

@@ -2,12 +2,11 @@
 #ifndef CATA_SRC_WEATHER_H
 #define CATA_SRC_WEATHER_H
 
-#include <optional>
-
 #include "calendar.h"
 #include "catacharset.h"
 #include "color.h"
 #include "coordinates.h"
+#include "optional.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
@@ -28,30 +27,30 @@ class translation;
  */
 ///@{
 //!< More aggressive cold effects.
-constexpr int BODYTEMP_FREEZING = 500;
+static constexpr int BODYTEMP_FREEZING = 500;
 //!< This value means frostbite occurs at the warmest temperature of 1C. If changed, the temp_conv calculation should be reexamined.
-constexpr int BODYTEMP_VERY_COLD = 2000;
+static constexpr int BODYTEMP_VERY_COLD = 2000;
 //!< Frostbite timer will not improve while below this point.
-constexpr int BODYTEMP_COLD = 3500;
+static constexpr int BODYTEMP_COLD = 3500;
 //!< Do not change this value, it is an arbitrary anchor on which other calculations are made.
-constexpr int BODYTEMP_NORM = 5000;
+static constexpr int BODYTEMP_NORM = 5000;
 //!< Level 1 hotness.
-constexpr int BODYTEMP_HOT = 6500;
+static constexpr int BODYTEMP_HOT = 6500;
 //!< Level 2 hotness.
-constexpr int BODYTEMP_VERY_HOT = 8000;
+static constexpr int BODYTEMP_VERY_HOT = 8000;
 //!< Level 3 hotness.
-constexpr int BODYTEMP_SCORCHING = 9500;
+static constexpr int BODYTEMP_SCORCHING = 9500;
 
 //!< Additional Threshold before speed is impacted by heat.
-constexpr int BODYTEMP_THRESHOLD = 500;
+static constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
 
 // Wetness percentage 0.0f is DRY
 // Level 1 wetness (DAMP) is between 0.0f and Level 2
 // Level 2 wetness percentage
-constexpr float BODYWET_PERCENT_WET = 0.3f;
+static constexpr float BODYWET_PERCENT_WET = 0.3f;
 // Level 3 wetness percentage
-constexpr float BODYWET_PERCENT_SOAKED = 0.6f;
+static constexpr float BODYWET_PERCENT_SOAKED = 0.6f;
 
 // Rough tresholds for sunlight intensity in W/m2.
 namespace irradiance
@@ -112,6 +111,7 @@ struct weather_printable {
 
 struct weather_sum {
     int rain_amount = 0;
+    int acid_amount = 0;
     float sunlight = 0.0f;
     float radiant_exposure = 0.0f; // J/m2
     int wind_amount = 0;
@@ -212,11 +212,11 @@ class weather_manager
         int windspeed = 0;
 
         // For debug menu option "Force temperature"
-        std::optional<units::temperature> forced_temperature;
+        cata::optional<units::temperature> forced_temperature;
         // Cached weather data
         pimpl<w_point> weather_precise;
-        std::optional<int> wind_direction_override;
-        std::optional<int> windspeed_override;
+        cata::optional<int> wind_direction_override;
+        cata::optional<int> windspeed_override;
         weather_type_id weather_override;
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );

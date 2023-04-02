@@ -1,0 +1,19 @@
+[
+  {
+    "type": "technique",
+    "id": "Pistol Whip",
+    "name": "HOOK",
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "melee_allowed": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.95 },
+      { "stat": "damage", "type": "bash", "scale": 0.88 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ],
+    "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "per", "scale": -0.25 } ],
+    "stun_dur": 2,
+    "messages": [ "Your pistol whip sends %s careening", "<npcname> smacks %s" ],
+    "description": "95% moves, 88% Bash, 66% Cut, 66% Stab, Down two turns, STR (C) greatly reduces action cost"
+  }
+]

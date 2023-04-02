@@ -2,35 +2,17 @@
   {
     "type": "overmap_location",
     "id": "mesa",
-    "terrains": [
-      "mesa",
-      "mesa_edge_v1",
-      "mesa_corner_v1",
-      "mesa_2way_v1",
-      "mesa_3way_v1",
-      "mesa_edge_top_v1",
-      "mesa_corner_top_v1",
-      "mesa_2way_top_v1",
-      "mesa_3way_top_v1",
-      "mesa_edge_v2",
-      "mesa_corner_v2",
-      "mesa_2way_v2",
-      "mesa_3way_v2",
-      "mesa_edge_top_v2",
-      "mesa_corner_top_v2",
-      "mesa_2way_top_v2",
-      "mesa_3way_top_v2"
-    ]
+    "terrains": [ "mesa", "mesa_edge", "mesa_corner", "mesa_air", "mesa_air_1", "mesa_2way", "mesa_3way" ]
   },
   {
     "type": "overmap_location",
     "id": "land",
-    "terrains": [ "forest", "forest_thick", "forest_water", "field", "forest_trail" ]
+    "terrains": [ "forest", "forest_thick", "forest_water", "field", "forest_trail", "desert" ]
   },
   {
     "type": "overmap_location",
     "id": "wilderness",
-    "terrains": [ "forest", "forest_thick", "field", "forest_trail" ]
+    "terrains": [ "forest", "forest_thick", "field", "forest_trail", "desert" ]
   },
   {
     "type": "overmap_location",
@@ -40,32 +22,7 @@
   {
     "type": "overmap_location",
     "id": "canyon",
-    "terrains": [
-      "canyon_2way_v1",
-      "canyon_3way_v1",
-      "canyon_edge_v1",
-      "canyon_corner_v1",
-      "canyon_2way_v2",
-      "canyon_3way_v2",
-      "canyon_edge_v2",
-      "canyon_corner_v2",
-      "canyon_2way_ground_v1",
-      "canyon_3way_ground_v1",
-      "canyon_edge_ground_v1",
-      "canyon_corner_ground_v1",
-      "canyon_2way_ground_v2",
-      "canyon_3way_ground_v2",
-      "canyon_edge_ground_v2",
-      "canyon_corner_ground_v2",
-      "canyon_2way_v1_bottom",
-      "canyon_3way_v1_bottom",
-      "canyon_edge_v1_bottom",
-      "canyon_corner_v1_bottom",
-      "canyon_2way_v2_bottom",
-      "canyon_3way_v2_bottom",
-      "canyon_edge_v2_bottom",
-      "canyon_corner_v2_bottom"
-    ]
+    "terrains": [ "canyon_edge", "canyon_corner", "canyon_2way", "canyon_3way", "canyon_air", "canyon_air_surface" ]
   },
   {
     "type": "overmap_location",

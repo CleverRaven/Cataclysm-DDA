@@ -191,7 +191,7 @@
           "place_nested": [ { "chunks": [ "tacoma_commune_junk_shop_shed_2" ], "x": 18, "y": 19 } ],
           "set": [
             { "square": "terrain", "id": "t_dirt", "x": 23, "y": 16, "x2": 23, "y2": 17 },
-            { "point": "furniture", "id": "f_machinery_light", "x": 23, "y": 16 },
+            { "point": "terrain", "id": "t_machinery_light", "x": 23, "y": 16 },
             { "point": "furniture", "id": "f_arcade_machine", "x": 23, "y": 17 }
           ],
           "place_item": [

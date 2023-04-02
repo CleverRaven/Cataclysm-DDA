@@ -5,9 +5,6 @@ on:
     paths:
       - '**.json'
 
-permissions:
-  contents: read
-
 jobs:
   run-the-tool:
     runs-on: ubuntu-latest

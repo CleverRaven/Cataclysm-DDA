@@ -10,7 +10,6 @@
 #include <functional>
 #include <istream>
 #include <memory>
-#include <optional>
 #include <string>
 
 #include "auto_pickup.h"
@@ -33,6 +32,7 @@
 #include "mapsharing.h"
 #include "messages.h"
 #include "music.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -51,16 +51,17 @@
 
 enum class main_menu_opts : int {
     MOTD = 0,
-    NEWCHAR,
-    LOADCHAR,
-    WORLD,
-    SPECIAL,
-    SETTINGS,
-    HELP,
-    CREDITS,
-    QUIT,
-    NUM_MENU_OPTS,
+    NEWCHAR = 1,
+    LOADCHAR = 2,
+    WORLD = 3,
+    SPECIAL = 4,
+    SETTINGS = 5,
+    HELP = 6,
+    CREDITS = 7,
+    QUIT = 8
 };
+
+static constexpr int max_menu_opts = 8;
 
 std::string main_menu::queued_world_to_load;
 std::string main_menu::queued_save_id_to_load;
@@ -688,7 +689,7 @@ bool main_menu::opening_screen()
 
         // handle mouse click
         if( action == "SELECT" || action == "MOUSE_MOVE" ) {
-            std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+            cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
             for( const auto &it : main_menu_button_map ) {
                 if( coord.has_value() && it.first.contains( coord.value() ) ) {
                     if( sel1 != it.second ) {
@@ -727,10 +728,22 @@ bool main_menu::opening_screen()
             if( query_yn( _( "Really quit?" ) ) ) {
                 return false;
             }
-        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" ) {
             sel_line = 0;
-            sel1 = increment_and_wrap( sel1, action == "RIGHT" ||
-                                       action == "NEXT_TAB", static_cast<int>( main_menu_opts::NUM_MENU_OPTS ) );
+            if( sel1 > 0 ) {
+                sel1--;
+            } else {
+                sel1 = max_menu_opts;
+            }
+            sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
+            on_move();
+        } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
+            sel_line = 0;
+            if( sel1 < max_menu_opts ) {
+                sel1++;
+            } else {
+                sel1 = 0;
+            }
             sel2 = sel1 == getopt( main_menu_opts::LOADCHAR ) ? last_world_pos : 0;
             on_move();
         } else if( action == "UP" || action == "DOWN" ||
@@ -962,8 +975,7 @@ bool main_menu::new_character_tab()
         // First load the mods, this is done by
         // loading the world.
         // Pick a world, suppressing prompts if it's "play now" mode.
-        const bool is_play_now = sel2 == 3 || sel2 == 4;
-        WORLD *world = world_generator->pick_world( !is_play_now, is_play_now );
+        WORLD *world = world_generator->pick_world( true, sel2 == 3 || sel2 == 4 );
         if( world == nullptr ) {
             return false;
         }

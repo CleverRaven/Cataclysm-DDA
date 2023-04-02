@@ -7,7 +7,6 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
-#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -22,6 +21,7 @@
 #include "game_constants.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
+#include "optional.h"
 #include "proficiency.h"
 #include "relic.h"
 #include "stomach.h"
@@ -97,7 +97,7 @@ class gunmod_location
 struct islot_tool {
     std::set<ammotype> ammo_id;
 
-    std::optional<itype_id> revert_to;
+    cata::optional<itype_id> revert_to;
     translation revert_msg;
 
     itype_id subtype;
@@ -302,7 +302,7 @@ struct armor_portion_data {
     std::vector<part_material> materials;
 
     // Where does this cover if any
-    std::optional<body_part_set> covers;
+    cata::optional<body_part_set> covers;
 
     std::set<sub_bodypart_str_id> sub_coverage;
 
@@ -373,10 +373,6 @@ struct islot_armor {
          * The Non-Functional variant of this item. Currently only applies to ablative plates
          */
         itype_id non_functional;
-        /**
-         * The verb for what happens when the item transforms to non-functional
-         */
-        translation damage_verb;
         /**
          * How much warmth this item provides.
          */
@@ -454,9 +450,9 @@ struct islot_armor {
 
     private:
         // Base material thickness, used to derive thickness in sub_data
-        std::optional<float> _material_thickness = 0.0f;
-        std::optional<int> _env_resist = 0;
-        std::optional<int> _env_resist_w_filter = 0;
+        cata::optional<float> _material_thickness = 0.0f;
+        cata::optional<int> _env_resist = 0;
+        cata::optional<int> _env_resist_w_filter = 0;
 };
 
 struct islot_pet_armor {
@@ -544,7 +540,7 @@ struct islot_book {
         /**
          * The name for the recipe as it appears in the book.
          */
-        std::optional<translation> optional_name;
+        cata::optional<translation> optional_name;
         /**
          * Hidden means it does not show up in the description of the book.
          */
@@ -562,7 +558,6 @@ struct islot_book {
     std::vector<book_proficiency_bonus> proficiencies;
 
     bool was_loaded = false;
-    bool is_scannable = false;
 
     void load( const JsonObject &jo );
     void deserialize( const JsonObject &jo );
@@ -659,8 +654,8 @@ struct itype_variant_data {
     translation alt_name;
     translation alt_description;
     ascii_art_id art;
-    std::optional<std::string> alt_sym;
-    std::optional<nc_color> alt_color = std::nullopt;
+    cata::optional<std::string> alt_sym;
+    cata::optional<nc_color> alt_color = cata::nullopt;
 
     bool append = false; // if the description should be appended to the base description.
 
@@ -755,8 +750,6 @@ struct islot_gun : common_ranged_data {
     int recoil = 0;
 
     int ammo_to_fire = 1;
-
-    std::map<ammotype, std::set<itype_id>> cached_ammos;
 };
 
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
@@ -890,9 +883,8 @@ struct islot_magazine {
     int reload_time = 100;
 
     /** For ammo belts one linkage (of given type) is dropped for each unit of ammo consumed */
-    std::optional<itype_id> linkage;
+    cata::optional<itype_id> linkage;
 
-    std::map<ammotype, std::set<itype_id>> cached_ammos;
     /** Map of [magazine type id] -> [set of gun itype_ids that accept the mag type ] */
     static std::map<itype_id, std::set<itype_id>> compatible_guns;
 };
@@ -915,7 +907,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Type id of casings, if any.
      */
-    std::optional<itype_id> casing;
+    cata::optional<itype_id> casing;
 
     /**
      * Control chance for and state of any items dropped at ranged target
@@ -1173,7 +1165,7 @@ struct itype {
 
     public:
         // The container it comes in
-        std::optional<itype_id> default_container;
+        cata::optional<itype_id> default_container;
 
         std::set<weapon_category_id> weapon_category;
 
@@ -1181,9 +1173,6 @@ struct itype {
         std::map<quality_id, int> qualities;
         // Tool qualities that work only when the tool has charges_to_use charges remaining
         std::map<quality_id, int> charged_qualities;
-
-        // True if this has given quality or charged_quality (regardless of current charge).
-        bool has_any_quality( const std::string &quality ) const;
 
         // Properties are assigned to the type (belong to the item definition)
         std::map<std::string, std::string> properties;
@@ -1232,8 +1221,6 @@ struct itype {
         // itemgroup used to generate the recipes within nanofabricator templates.
         item_group_id nanofab_template_group;
 
-        // used for corpses placed by mapgen
-        mtype_id source_monster = mtype_id::NULL_ID();
     private:
         FlagsSetType item_tags;
 
@@ -1356,7 +1343,6 @@ struct itype {
         int damage_max() const {
             return count_by_charges() ? 0 : damage_max_;
         }
-        /** Number of degradation increments before the item is destroyed */
         int degrade_increments() const {
             return count_by_charges() ? 0 : degrade_increments_;
         }
@@ -1410,10 +1396,10 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        std::optional<int> invoke( Character &p, item &it,
-                                   const tripoint &pos ) const; // Picks first method or returns 0
-        std::optional<int> invoke( Character &p, item &it, const tripoint &pos,
-                                   const std::string &iuse_name ) const;
+        cata::optional<int> invoke( Character &p, item &it,
+                                    const tripoint &pos ) const; // Picks first method or returns 0
+        cata::optional<int> invoke( Character &p, item &it, const tripoint &pos,
+                                    const std::string &iuse_name ) const;
         int tick( Character &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;
@@ -1424,6 +1410,5 @@ struct itype {
 
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
 void load_charge_migration_blacklist( const JsonObject &jo, const std::string &src );
-void load_temperature_removal_blacklist( const JsonObject &jo, const std::string &src );
 
 #endif // CATA_SRC_ITYPE_H

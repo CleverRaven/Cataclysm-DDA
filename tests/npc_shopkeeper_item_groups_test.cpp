@@ -50,8 +50,7 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
         backpack.set_owner( guy );
         REQUIRE( guy.wants_to_sell( { map_cursor{ tripoint_zero}, &backpack } ) );
         WHEN( "backpack is worn - not available for sale" ) {
-            auto backpack_iter = *guy.wear_item( backpack );
-            item &it = *backpack_iter;
+            item &it = **guy.wear_item( backpack );
             REQUIRE( !guy.wants_to_sell( { guy, &it } ) );
             item scrap( "scrap" );
             scrap.set_owner( guy );
@@ -114,16 +113,11 @@ TEST_CASE( "npc_shopkeeper_item_groups", "[npc][trade]" )
         }
     }
 
-    GIVEN( "containter with single item type and conditions only for contents" ) {
+    GIVEN( "containter with single item and conditions only for contents" ) {
         item multitool( "test_multitool" );
         item bag( "bag_plastic" );
-        int const num = GENERATE( 1, 2 );
-        bool ret = true;
-        for( int i = 0; i < num; i++ ) {
-            ret &= bag.put_in( multitool, item_pocket::pocket_type::CONTAINER ).success();
-        }
-        CAPTURE( num, bag.display_name() );
-        REQUIRE( ret );
+        ret_val<void> const ret = bag.put_in( multitool, item_pocket::pocket_type::CONTAINER );
+        REQUIRE( ret.success() );
         bag.set_owner( guy );
         item_location const loc( map_cursor{ tripoint_zero}, &bag );
         WHEN( "condition for contents not met" ) {

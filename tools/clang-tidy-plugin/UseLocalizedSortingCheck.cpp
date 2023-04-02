@@ -26,7 +26,11 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 static bool IsStringish( QualType T );
@@ -179,4 +183,6 @@ void UseLocalizedSortingCheck::check( const MatchFinder::MatchResult &Result )
     CheckSortCall( *this, Result );
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

@@ -1,8 +1,8 @@
 #include <functional>
-#include <optional>
 #include <vector>
 
 #include "cata_catch.h"
+#include "optional.h"
 #include "rng.h"
 #include "test_statistics.h"
 

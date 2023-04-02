@@ -67,8 +67,7 @@
       { "id": "hardtack", "description": " Cook: Hardtack" },
       { "id": "veggy_pickled_jarred", "description": " Cook: Veggy, Pickled" },
       { "id": "cheese_hard", "description": " Cook: Cheese, Hard" },
-      { "id": "pemmican", "description": " Cook: Pemmican, Meat + Berries" },
-      { "id": "pemmican_veggy", "description": " Cook: Pemmican, Meat + Veg" },
+      { "id": "pemmican", "description": " Cook: Pemmican" },
       { "id": "veggy_aspic", "description": " Cook: Veggy Aspic" },
       { "id": "meat_canned_jarred", "description": " Cook: Meat, Canned" },
       { "id": "meat_aspic", "description": " Cook: Meat Aspic" },
@@ -115,7 +114,6 @@
       { "id": "chain", "description": " Craft: Chain" },
       { "id": "shovel", "description": " Craft: Shovel" },
       { "id": "rebar", "description": " Craft: Rebar" },
-      { "id": "welding_rod_steel", "description": " Craft: Steel Welding Rod" },
       { "id": "gold_ring", "description": " Craft: Gold Ring" },
       { "id": "hammer_sledge", "description": " Craft: Hammer, Sledge" }
     ]

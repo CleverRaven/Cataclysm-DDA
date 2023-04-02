@@ -190,7 +190,7 @@ int run_for_point_in( const std::map<Index, inclusive_rectangle<Point>> &m, cons
     return cnt;
 }
 
-inline constexpr rectangle<point> rectangle_zero( point_zero, point_zero );
-inline constexpr cuboid<tripoint> cuboid_zero( tripoint_zero, tripoint_zero );
+static constexpr rectangle<point> rectangle_zero( point_zero, point_zero );
+static constexpr cuboid<tripoint> cuboid_zero( tripoint_zero, tripoint_zero );
 
 #endif // CATA_SRC_CUBOID_RECTANGLE_H

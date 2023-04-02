@@ -7,7 +7,6 @@
 #include "cata_utility.h"
 #include "item.h"
 #include "item_category.h"
-#include "itype.h"
 #include "material.h"
 #include "requirements.h"
 #include "type_id.h"
@@ -41,7 +40,10 @@ std::function<bool( const item & )> basic_item_filter( std::string filter )
         // qualities
         case 'q':
             return [filter]( const item & i ) {
-                return i.type->has_any_quality( filter );
+                return std::any_of( i.quality_of().begin(), i.quality_of().end(),
+                [&filter]( const std::pair<quality_id, int> &e ) {
+                    return lcmatch( e.first->name, filter );
+                } );
             };
         // both
         case 'b':

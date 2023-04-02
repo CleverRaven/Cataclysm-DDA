@@ -63,10 +63,10 @@
         { "item": "baseball", "x": [ 1, 21 ], "y": [ 31, 46 ], "chance": 90 }
       ],
       "place_monster": [
-        { "group": "GROUP_SEARCH_FITNESS", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 3, 7 ] },
-        { "group": "GROUP_SEARCH_FITNESS", "x": [ 26, 45 ], "y": [ 2, 21 ], "repeat": [ 3, 7 ] },
-        { "group": "GROUP_SEARCH_FITNESS", "x": [ 2, 21 ], "y": [ 26, 45 ], "repeat": [ 3, 7 ] },
-        { "group": "GROUP_SEARCH_FITNESS", "x": [ 26, 45 ], "y": [ 26, 45 ], "repeat": [ 3, 7 ] }
+        { "group": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "repeat": [ 3, 7 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 26, 45 ], "y": [ 2, 21 ], "repeat": [ 3, 7 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 26, 45 ], "repeat": [ 3, 7 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 26, 45 ], "y": [ 26, 45 ], "repeat": [ 3, 7 ] }
       ]
     }
   },

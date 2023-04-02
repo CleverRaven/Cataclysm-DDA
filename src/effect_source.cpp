@@ -15,7 +15,7 @@ effect_source::effect_source( const monster *mon )
         debugmsg( "effect_source constructor called with nullptr monster" );
         return;
     }
-    this->mfac = std::optional<mfaction_id>( mon->faction );
+    this->mfac = cata::optional<mfaction_id>( mon->faction );
 }
 
 effect_source::effect_source( const faction *fac )
@@ -24,7 +24,7 @@ effect_source::effect_source( const faction *fac )
         debugmsg( "effect_source constructor called with nullptr faction" );
         return;
     }
-    this->fac = std::optional<faction_id>( fac->id );
+    this->fac = cata::optional<faction_id>( fac->id );
 }
 
 effect_source::effect_source( const Character *character )
@@ -70,17 +70,17 @@ effect_source effect_source::empty()
     return effect_source();
 }
 
-std::optional<character_id> effect_source::get_character_id() const
+cata::optional<character_id> effect_source::get_character_id() const
 {
     return this->character;
 }
 
-std::optional<faction_id> effect_source::get_faction_id() const
+cata::optional<faction_id> effect_source::get_faction_id() const
 {
     return this->fac;
 }
 
-std::optional<mfaction_id> effect_source::get_mfaction_id() const
+cata::optional<mfaction_id> effect_source::get_mfaction_id() const
 {
     return this->mfac;
 }
@@ -88,7 +88,7 @@ std::optional<mfaction_id> effect_source::get_mfaction_id() const
 Creature *effect_source::resolve_creature() const
 {
     // if effect has source try figuring out who to credit
-    const std::optional<character_id> eff_source = get_character_id();
+    const cata::optional<character_id> eff_source = get_character_id();
     Creature *source_creature;
     if( !eff_source ) {
         source_creature = nullptr;

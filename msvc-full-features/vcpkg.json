@@ -12,10 +12,5 @@
           "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ]
         },
         "sdl2-ttf"
-    ],
-    "vcpkg-configuration": {
-        "overlay-ports": [
-            "../.github/vcpkg_ports"
-        ]
-    }
+    ]
 }

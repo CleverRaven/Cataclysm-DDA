@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <iosfwd>
 #include <memory>
-#include <optional>
 
 #include "action.h"
 #include "avatar.h"
@@ -20,6 +19,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"

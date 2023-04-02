@@ -73,6 +73,8 @@ static const std::vector<activity_id> consuming {
     ACT_CONSUME_DRINK_MENU,
     ACT_CONSUME_MEDS_MENU };
 
+constexpr tripoint_abs_ms player_activity::invalid_place;
+
 player_activity::player_activity() : type( activity_id::NULL_ID() ) { }
 
 player_activity::player_activity( activity_id t, int turns, int Index, int pos,
@@ -155,10 +157,10 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
+cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( type == ACT_NULL || get_verb().empty() ) {
-        return std::optional<std::string>();
+        return cata::optional<std::string>();
     }
 
     if( type == ACT_ADV_INVENTORY ||
@@ -171,7 +173,7 @@ std::optional<std::string> player_activity::get_progress_message( const avatar &
         type == ACT_EAT_MENU ||
         type == ACT_PICKUP_MENU ||
         type == ACT_VIEW_RECIPE ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
 
     std::string extra_info;

@@ -205,14 +205,17 @@ std::vector<const recipe *> recipe_subset::search(
                 return search_reqs( r->simple_requirements().get_qualities(), txt );
 
             case search_type::quality_result: {
-                return item::find_type( r->result() )->has_any_quality( txt );
+                const auto &quals = item::find_type( r->result() )->qualities;
+                return std::any_of( quals.begin(), quals.end(), [&]( const std::pair<quality_id, int> &e ) {
+                    return lcmatch( e.first->name, txt );
+                } );
             }
 
             case search_type::description_result: {
                 if( r->is_practice() ) {
                     return lcmatch( r->description.translated(), txt );
                 } else {
-                    const item result( r->result() );
+                    const item result = r->create_result();
                     return lcmatch( remove_color_tags( result.info( true ) ), txt );
                 }
             }
@@ -425,7 +428,7 @@ recipe &recipe_dictionary::load( const JsonObject &jo, const std::string &src,
 
     // defer entries dependent upon as-yet unparsed definitions
     if( jo.has_string( "copy-from" ) ) {
-        recipe_id base = recipe_id( jo.get_string( "copy-from" ) );
+        auto base = recipe_id( jo.get_string( "copy-from" ) );
         if( !out.count( base ) ) {
             deferred.emplace_back( jo, src );
             jo.allow_omitted_members();

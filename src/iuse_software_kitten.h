@@ -16,7 +16,7 @@ struct kobject {
     uint8_t character = 0;
 };
 
-constexpr int MAXMESSAGES = 1200;
+static constexpr int MAXMESSAGES = 1200;
 
 class robot_finds_kitten
 {

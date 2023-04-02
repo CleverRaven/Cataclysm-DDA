@@ -14,7 +14,7 @@
     "morale": 100,
     "luminance": 5,
     "death_function": { "message": "The %s's interior compartment sizzles with destructive energy.", "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "STUN_IMMUNE", "PACIFIST" ]
+    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_EMP_hack",
@@ -109,8 +109,7 @@
     "armor_bullet": 6,
     "revert_to_itype": "bot_manhack",
     "death_function": { "corpse_type": "BROKEN" },
-    "extend": { "flags": [ "HIT_AND_RUN" ] },
-    "delete": { "flags": [ "PACIFIST" ] }
+    "extend": { "flags": [ "HIT_AND_RUN" ] }
   },
   {
     "id": "mon_mininuke_hack",

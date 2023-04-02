@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_swamp_gas",
     "name": "swamp gas",
-    "description": "A pool of murky water that occasionally bubbles, releasing a mildly toxic gas.",
+    "description": "This is a pool of murky water, it occasionally bubbles, releasing a mildly toxic gas.",
     "looks_like": "t_water_sh",
     "symbol": "~",
     "color": "blue",
@@ -19,7 +19,7 @@
     "type": "furniture",
     "id": "f_fog",
     "name": "fog",
-    "description": "A misty cloud of fog.",
+    "description": "This is a misty cloud of fog.",
     "looks_like": "t_moss",
     "symbol": "^",
     "color": "light_gray",
@@ -33,7 +33,7 @@
     "type": "furniture",
     "id": "f_vent_cold_air2_stream",
     "name": "metal grate",
-    "description": "A metal vent.  You can feel cool air seeping out of it.",
+    "description": "This is a metal vent, you can feel cool air seeping out of it.",
     "looks_like": "t_grate",
     "symbol": "~",
     "color": "blue",
@@ -46,7 +46,7 @@
   {
     "type": "furniture",
     "id": "f_vent_cold_air2_blast",
-    "description": "A metal vent.  You can feel cold air blasting out of it.",
+    "description": "This is a metal vent, you can feel cold air blasting out of it.",
     "copy-from": "f_vent_cold_air2_stream",
     "symbol": "~",
     "color": "blue",
@@ -55,7 +55,7 @@
   {
     "type": "furniture",
     "id": "f_vent_hot_air2_stream",
-    "description": "A metal vent.  You can feel hot air seeping out of it.",
+    "description": "This is a metal vent, you can feel hot air seeping out of it.",
     "copy-from": "f_vent_cold_air2_stream",
     "symbol": "~",
     "color": "red",
@@ -65,7 +65,7 @@
     "type": "furniture",
     "id": "f_vent_hot_air2_blast",
     "copy-from": "f_vent_cold_air2_stream",
-    "description": "A metal vent.  You can feel hot air seeping out of it.",
+    "description": "This is a metal vent, you can feel hot air seeping out of it.",
     "symbol": "~",
     "color": "red",
     "emissions": [ "emit_hot_air2_blast" ]
@@ -73,7 +73,7 @@
   {
     "type": "furniture",
     "id": "f_vent_smoke_plume",
-    "description": "A metal vent.  You can see smoke seeping from it.",
+    "description": "This is a metal vent, you can see smoke seeping from it.",
     "copy-from": "f_vent_cold_air2_stream",
     "symbol": "~",
     "color": "white",
@@ -82,7 +82,7 @@
   {
     "type": "furniture",
     "id": "f_vent_smoke_stream",
-    "description": "A metal vent.  You can see smoke streaming out of it.",
+    "description": "This is a metal vent, you can see smoke streaming out of it.",
     "copy-from": "f_vent_cold_air2_stream",
     "symbol": "~",
     "color": "white",
@@ -91,7 +91,7 @@
   {
     "type": "furniture",
     "id": "f_vent_toxic_leak",
-    "description": "A metal vent.  Toxic-looking clouds seep from it.",
+    "description": "This is a metal vent, toxic looking clouds seep from it.",
     "copy-from": "f_vent_cold_air2_stream",
     "symbol": "~",
     "color": "green",
@@ -100,7 +100,7 @@
   {
     "type": "furniture",
     "id": "f_vent_toxic_belch",
-    "description": "A metal vent.  Toxic-looking clouds stream from it.",
+    "description": "This is a metal vent, toxic looking clouds emerge from it.",
     "copy-from": "f_vent_cold_air2_stream",
     "symbol": "~",
     "color": "green",
@@ -109,7 +109,7 @@
   {
     "type": "furniture",
     "id": "f_vent_rad_leak",
-    "description": "A metal vent.",
+    "description": "This is a metal vent.",
     "copy-from": "f_vent_cold_air2_stream",
     "symbol": "~",
     "color": "green",
@@ -118,7 +118,7 @@
   {
     "type": "furniture",
     "id": "f_vent_rad_cloud",
-    "description": "A metal vent.",
+    "description": "This is a metal vent.",
     "copy-from": "f_vent_cold_air2_stream",
     "symbol": "~",
     "color": "green",
@@ -127,7 +127,7 @@
   {
     "type": "furniture",
     "id": "f_fog_breather",
-    "description": "A misty cloud of water vapor.",
+    "description": "This is misty water vapor.",
     "copy-from": "f_fog",
     "looks_like": "t_gelatinous_groundcover",
     "symbol": "~",

@@ -44,9 +44,10 @@ TEST_CASE( "list basics", "[list]" )
         SECTION( "iterator count/access" ) {
             int count = 0;
             int sum = 0;
-            for( int *&it : test_list ) {
+            for( cata::list<int *>::iterator it = test_list.begin(); it != test_list.end();
+                 ++it ) {
                 ++count;
-                sum += *it;
+                sum += **it;
             }
 
             CHECK( count == 400 );
@@ -137,10 +138,9 @@ TEST_CASE( "list basics", "[list]" )
             CHECK( sum == 2000 );
         }
 
-        SECTION( "const iterator count/access" ) {
+        SECTION( "reverse iterator count/access" ) {
             int count = 0;
             int sum = 0;
-            // NOLINTNEXTLINE(modernize-loop-convert)
             for( cata::list<int *>::const_iterator it = test_list.cbegin();
                  it != test_list.cend(); ++it ) {
                 ++count;
@@ -359,8 +359,9 @@ TEST_CASE( "list insert and erase", "[list]" )
             }
 
             int sum = 0;
-            for( int &it : test_list ) {
-                sum += it;
+            for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end();
+                 ++it ) {
+                sum += *it;
             }
 
             CHECK( sum == 500000 );
@@ -383,8 +384,9 @@ TEST_CASE( "list insert and erase", "[list]" )
             }
 
             int sum = 0;
-            for( int &it : test_list ) {
-                sum += it;
+            for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end();
+                 ++it ) {
+                sum += *it;
             }
 
             CHECK( sum == 500000 );
@@ -463,8 +465,8 @@ TEST_CASE( "list merge", "[list]" )
 
     bool passed = true;
     int count = 0;
-    for( int &it : test_list ) {
-        if( ++count != it ) {
+    for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+        if( ++count != *it ) {
             passed = false;
             break;
         }
@@ -483,8 +485,8 @@ TEST_CASE( "list splice", "[list]" )
 
         bool passed = true;
         int count = 0;
-        for( int &it : test_list ) {
-            if( ++count != it ) {
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( ++count != *it ) {
                 passed = false;
                 break;
             }
@@ -497,8 +499,8 @@ TEST_CASE( "list splice", "[list]" )
         test_list.splice( test_list.begin(), test_list_2 );
 
         int count = 0;
-        for( int &it : test_list ) {
-            count += it;
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            count += *it;
         }
 
         CHECK( count == 55 );
@@ -511,8 +513,8 @@ TEST_CASE( "list splice", "[list]" )
         test_list.splice( it2, test_list_2 );
 
         int count = 0;
-        for( int &it : test_list ) {
-            count += it;
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            count += *it;
         }
 
         test_list.clear();
@@ -529,8 +531,8 @@ TEST_CASE( "list splice", "[list]" )
         test_list.splice( it3, test_list_2 );
 
         count = 0;
-        for( int &it : test_list ) {
-            count += it;
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            count += *it;
         }
 
         CHECK( count == 1200 );
@@ -548,8 +550,8 @@ TEST_CASE( "list splice", "[list]" )
         test_list.splice( test_list.begin(), test_list_2 );
 
         int count = 0;
-        for( int &it : test_list ) {
-            count += it;
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            count += *it;
         }
 
         CHECK( count == 1240 );
@@ -569,12 +571,12 @@ TEST_CASE( "list sort and reverse", "[list]" )
 
         bool passed = true;
         int previous = 0;
-        for( int &it : test_list ) {
-            if( it < previous ) {
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( *it < previous ) {
                 passed = false;
                 break;
             }
-            previous = it;
+            previous = *it;
         }
 
         CHECK( passed );
@@ -585,12 +587,12 @@ TEST_CASE( "list sort and reverse", "[list]" )
 
         bool passed = true;
         int previous = 65535;
-        for( int &it : test_list ) {
-            if( it > previous ) {
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( *it > previous ) {
                 passed = false;
                 break;
             }
-            previous = it;
+            previous = *it;
         }
 
         CHECK( passed );
@@ -600,14 +602,14 @@ TEST_CASE( "list sort and reverse", "[list]" )
 
             passed = true;
             previous = 0;
-            for( int &it : test_list ) {
+            for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
 
-                if( it < previous ) {
+                if( *it < previous ) {
                     passed = false;
                     break;
                 }
 
-                previous = it;
+                previous = *it;
             }
 
             CHECK( passed );
@@ -622,12 +624,12 @@ TEST_CASE( "list unique", "[list]" )
     SECTION( "control case" ) {
         bool passed = true;
         int previous = 0;
-        for( int &it : test_list ) {
-            if( it == previous ) {
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( *it == previous ) {
                 passed = false;
             }
 
-            previous = it;
+            previous = *it;
         }
 
         CHECK_FALSE( passed );
@@ -638,13 +640,13 @@ TEST_CASE( "list unique", "[list]" )
 
         bool passed = true;
         int previous = 0;
-        for( int &it : test_list ) {
-            if( it == previous ) {
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( *it == previous ) {
                 passed = false;
                 break;
             }
 
-            previous = it;
+            previous = *it;
         }
 
         CHECK( passed );
@@ -661,8 +663,8 @@ TEST_CASE( "list remove", "[list]" )
         } );
 
         bool passed = true;
-        for( int &it : test_list ) {
-            if( it > 15 ) {
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( *it > 15 ) {
                 passed = false;
                 break;
             }
@@ -675,8 +677,8 @@ TEST_CASE( "list remove", "[list]" )
         test_list.remove( 1 );
 
         bool passed = true;
-        for( int &it : test_list ) {
-            if( it == 1 ) {
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( *it == 1 ) {
                 passed = false;
                 break;
             }
@@ -757,8 +759,8 @@ TEST_CASE( "list assign", "[list]" )
 
         bool passed = true;
         int count = 0;
-        for( int &it : test_list ) {
-            if( ++count != it ) {
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( ++count != *it ) {
                 passed = false;
                 break;
             }
@@ -774,8 +776,8 @@ TEST_CASE( "list assign", "[list]" )
 
         bool passed = true;
         int count = 0;
-        for( int &it : test_list ) {
-            if( it != 1 ) {
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( *it != 1 ) {
                 passed = false;
                 break;
             }
@@ -794,8 +796,8 @@ TEST_CASE( "list assign", "[list]" )
 
         bool passed = true;
         int count = 11;
-        for( int &it : test_list ) {
-            if( --count != it ) {
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( --count != *it ) {
                 passed = false;
                 break;
             }
@@ -818,8 +820,8 @@ TEST_CASE( "list insert", "[list]" )
 
         bool passed = true;
         int count = 0;
-        for( int &it : test_list ) {
-            if( ++count != it ) {
+        for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( ++count != *it ) {
                 passed = false;
             }
         }
@@ -869,8 +871,8 @@ TEST_CASE( "list emplace, move, copy, and reverse iterate", "[list]" )
     SECTION( "emplace_back() success" ) {
         bool passed = true;
         int count = 0;
-        for( small_struct &it : test_list ) {
-            if( count++ != it.number ) {
+        for( cata::list<small_struct>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( count++ != it->number ) {
                 passed = false;
                 break;
             }
@@ -905,8 +907,8 @@ TEST_CASE( "list emplace, move, copy, and reverse iterate", "[list]" )
     SECTION( "emplace_front()" ) {
         bool passed = true;
         int count = -255;
-        for( small_struct &it : test_list ) {
-            if( ++count != it.number ) {
+        for( cata::list<small_struct>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+            if( ++count != it->number ) {
                 passed = false;
                 break;
             }
@@ -1021,8 +1023,8 @@ TEST_CASE( "list reorder", "[list]" )
 
     // Used for the post reorder data consistency test
     int original_sum = 0;
-    for( int &it : test_list ) {
-        original_sum += it;
+    for( cata::list<int>::iterator it = test_list.begin(); it != test_list.end(); ++it ) {
+        original_sum += *it;
     }
 
     cata::list<int>::iterator it1 = test_list.begin();

@@ -29,7 +29,6 @@ enum class event_type : int {
     angers_amigara_horrors,
     avatar_enters_omt,
     avatar_moves,
-    avatar_dies,
     awakes_dark_wyrms,
     becomes_wanted,
     broken_bone,
@@ -86,8 +85,6 @@ enum class event_type : int {
     gains_addiction,
     gains_mutation,
     gains_skill_level,
-    game_avatar_death,
-    game_avatar_new,
     game_load,
     game_over,
     game_save,
@@ -114,7 +111,6 @@ enum class event_type : int {
     triggers_alarm,
     uses_debug_menu,
     u_var_changed,
-    vehicle_moves,
     num_event_types // last
 };
 
@@ -175,7 +171,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 90,
+static_assert( static_cast<int>( event_type::num_event_types ) == 86,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -223,9 +219,6 @@ struct event_spec<event_type::avatar_moves> {
         }
     };
 };
-
-template<>
-struct event_spec<event_type::avatar_dies> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::awakes_dark_wyrms> : event_spec_empty {};
@@ -563,32 +556,6 @@ struct event_spec<event_type::gains_skill_level> {
 };
 
 template<>
-struct event_spec<event_type::game_avatar_death> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 5> fields = {{
-            { "avatar_id", cata_variant_type::character_id },
-            { "avatar_name", cata_variant_type::string },
-            { "avatar_is_male", cata_variant_type::bool_ },
-            { "is_suicide", cata_variant_type::bool_ },
-            { "last_words", cata_variant_type::string },
-        }
-    };
-};
-
-template<>
-struct event_spec<event_type::game_avatar_new> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 7> fields = {{
-            { "is_new_game", cata_variant_type::bool_ },
-            { "is_debug", cata_variant_type::bool_ },
-            { "avatar_id", cata_variant_type::character_id },
-            { "avatar_name", cata_variant_type::string },
-            { "avatar_is_male", cata_variant_type::bool_ },
-            { "avatar_profession", cata_variant_type::profession_id },
-            { "avatar_custom_profession", cata_variant_type::string },
-        }
-    };
-};
-
-template<>
 struct event_spec<event_type::game_load> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
             { "cdda_version", cata_variant_type::string },
@@ -598,7 +565,9 @@ struct event_spec<event_type::game_load> {
 
 template<>
 struct event_spec<event_type::game_over> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 3> fields = {{
+            { "is_suicide", cata_variant_type::bool_ },
+            { "last_words", cata_variant_type::string },
             { "total_time_played", cata_variant_type::chrono_seconds },
         }
     };
@@ -615,7 +584,12 @@ struct event_spec<event_type::game_save> {
 
 template<>
 struct event_spec<event_type::game_start> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 1> fields = {{
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 6> fields = {{
+            { "avatar_id", cata_variant_type::character_id },
+            { "avatar_name", cata_variant_type::string },
+            { "avatar_is_male", cata_variant_type::bool_ },
+            { "avatar_profession", cata_variant_type::profession_id },
+            { "avatar_custom_profession", cata_variant_type::string },
             { "game_version", cata_variant_type::string },
         }
     };
@@ -761,24 +735,6 @@ struct event_spec<event_type::u_var_changed> {
     static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = { {
             { "var", cata_variant_type::string },
             { "value", cata_variant_type::string },
-        }
-    };
-};
-
-template<>
-struct event_spec<event_type::vehicle_moves> {
-    static constexpr std::array<std::pair<const char *, cata_variant_type>, 11> fields = {{
-            { "avatar_on_board", cata_variant_type::bool_ },
-            { "avatar_is_driving", cata_variant_type::bool_ }, // non-remote-control
-            { "avatar_remote_control", cata_variant_type::bool_ },
-            { "is_flying_aircraft", cata_variant_type::bool_ }, // actual viable aircraft
-            { "is_floating_watercraft", cata_variant_type::bool_ }, // actual viable boat
-            { "is_on_rails", cata_variant_type::bool_ }, // railway vehicle on rails
-            { "is_falling", cata_variant_type::bool_ }, // not an aircraft, just getting air time
-            { "is_sinking", cata_variant_type::bool_ }, // sinking in water
-            { "is_skidding", cata_variant_type::bool_ },
-            { "velocity", cata_variant_type::int_ }, // vehicle current velocity, mph * 100
-            { "z", cata_variant_type::int_ },
         }
     };
 };

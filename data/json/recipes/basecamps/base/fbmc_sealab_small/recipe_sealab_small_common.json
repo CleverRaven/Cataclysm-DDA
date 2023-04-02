@@ -21,7 +21,7 @@
       { "id": "sorting" },
       { "id": "pantry" }
     ],
-    "blueprint_resources": [ "air_compressor_tool", "water_purifier" ],
+    "blueprint_resources": [ "air_compressor_tool", "water_purifier_tool" ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_name": "basic survey",
     "check_blueprint_needs": false

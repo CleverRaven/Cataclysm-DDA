@@ -21,7 +21,7 @@ jobs:
               await github.rest.git.deleteRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: "heads/i18n"
+                ref: "i18n"
               })
             } catch (error) {
               console.log(error)

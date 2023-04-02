@@ -39,24 +39,24 @@ struct enum_traits<aim_entry> {
 };
 
 using I = std::underlying_type_t<aim_entry>;
-inline constexpr aim_entry &operator++( aim_entry &lhs )
+static constexpr aim_entry &operator++( aim_entry &lhs )
 {
     lhs = static_cast<aim_entry>( static_cast<I>( lhs ) + 1 );
     return lhs;
 }
 
-inline constexpr aim_entry &operator--( aim_entry &lhs )
+static constexpr aim_entry &operator--( aim_entry &lhs )
 {
     lhs = static_cast<aim_entry>( static_cast<I>( lhs ) - 1 );
     return lhs;
 }
 
-inline constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
+static constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
 {
     return static_cast<aim_entry>( static_cast<I>( lhs ) + rhs );
 }
 
-inline constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
+static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
 {
     return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
 }

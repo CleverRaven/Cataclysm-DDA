@@ -42,8 +42,10 @@
       "≈": "t_door_metal_locked",
       "-": "t_bars",
       "↑": "t_gutter_downspout",
+      "O": "t_glass_roof",
       "~": "t_tar_flat_roof",
       "/": "t_ladder_up",
+      "˘": "t_ladder_down",
       "&": "t_gates_mech_control_lab"
     },
     "furniture": {
@@ -65,7 +67,6 @@
       "h": "f_chair",
       "H": "f_bench",
       "?": "f_sofa",
-      "[": "f_room_divider",
       "i": "f_filing_cabinet",
       "I": "f_filing_cabinet",
       "^": [ "f_indoor_plant", "f_indoor_plant_y" ],

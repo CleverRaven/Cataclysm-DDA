@@ -3,7 +3,7 @@
     "type": "effect_on_condition",
     "id": "EOC_CAFFEINE_ADDICTION",
     "condition": {
-      "compare_num": [
+      "compare_int": [
         { "rand": 2000 },
         "<=",
         { "u_val": "addiction_intensity", "addiction": "caffeine", "mod": { "val": 2000, "step": 20 } }
@@ -18,9 +18,9 @@
             "id": "EOC_CAFFEINE_ADDICTION_MODSTIM",
             "condition": {
               "and": [
-                { "compare_num": [ { "u_val": "stim" }, ">", { "u_val": "addiction_intensity", "addiction": "caffeine", "mod": -10 } ] },
+                { "compare_int": [ { "u_val": "stim" }, ">", { "u_val": "addiction_intensity", "addiction": "caffeine", "mod": -10 } ] },
                 {
-                  "compare_num": [ { "rand": 10 }, "<", { "u_val": "addiction_intensity", "addiction": "caffeine" } ]
+                  "compare_int": [ { "rand": 10 }, "<", { "u_val": "addiction_intensity", "addiction": "caffeine" } ]
                 }
               ]
             },
@@ -30,9 +30,9 @@
             "id": "EOC_CAFFEINE_ADDICTION_SHAKES",
             "condition": {
               "and": [
-                { "compare_num": [ { "u_val": "addiction_intensity", "addiction": "caffeine" }, ">=", { "const": 8 } ] },
+                { "compare_int": [ { "u_val": "addiction_intensity", "addiction": "caffeine" }, ">=", { "const": 8 } ] },
                 {
-                  "compare_num": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "caffeine" } ]
+                  "compare_int": [ { "rand": 392 }, "<", { "u_val": "addiction_intensity", "addiction": "caffeine" } ]
                 }
               ]
             },
@@ -51,8 +51,8 @@
     "//": "Actual effects processed in player::can_sleep().  Here, only prolong this addiction longer than usual.",
     "condition": {
       "and": [
-        { "compare_num": [ { "rand": 2 }, "==", { "const": 1 } ] },
-        { "compare_num": [ { "u_val": "addiction_turns", "addiction": "sleeping pill" }, "<", { "const": 0 } ] }
+        { "compare_int": [ { "rand": 2 }, "==", { "const": 1 } ] },
+        { "compare_int": [ { "u_val": "addiction_turns", "addiction": "sleeping pill" }, "<", { "const": 0 } ] }
       ]
     },
     "effect": { "arithmetic": [ { "u_val": "addiction_turns", "addiction": "sleeping pill" }, "+=", { "const": 1 } ] }
@@ -61,7 +61,7 @@
     "type": "effect_on_condition",
     "id": "EOC_MARLOSS_R_ADDICTION",
     "condition": {
-      "compare_num": [
+      "compare_int": [
         { "rand": 800 },
         "<=",
         { "u_val": "addiction_intensity", "addiction": "marloss_r", "mod": { "val": 800, "step": 20 } }
@@ -74,7 +74,7 @@
         "run_eocs": [
           {
             "id": "EOC_MARLOSS_R_ADDICTION_MODFOCUS",
-            "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
+            "condition": { "compare_int": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
             "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
           }
         ]
@@ -85,7 +85,7 @@
     "type": "effect_on_condition",
     "id": "EOC_MARLOSS_B_ADDICTION",
     "condition": {
-      "compare_num": [
+      "compare_int": [
         { "rand": 800 },
         "<=",
         { "u_val": "addiction_intensity", "addiction": "marloss_b", "mod": { "val": 800, "step": 20 } }
@@ -98,7 +98,7 @@
         "run_eocs": [
           {
             "id": "EOC_MARLOSS_B_ADDICTION_MODFOCUS",
-            "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
+            "condition": { "compare_int": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
             "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
           }
         ]
@@ -109,7 +109,7 @@
     "type": "effect_on_condition",
     "id": "EOC_MARLOSS_Y_ADDICTION",
     "condition": {
-      "compare_num": [
+      "compare_int": [
         { "rand": 800 },
         "<=",
         { "u_val": "addiction_intensity", "addiction": "marloss_y", "mod": { "val": 800, "step": 20 } }
@@ -122,7 +122,7 @@
         "run_eocs": [
           {
             "id": "EOC_MARLOSS_Y_ADDICTION_MODFOCUS",
-            "condition": { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
+            "condition": { "compare_int": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
             "effect": { "arithmetic": [ { "u_val": "focus" }, "-=", { "const": 1 } ] }
           }
         ]
@@ -139,14 +139,14 @@
           {
             "id": "EOC_MUTAGEN_ADDICTION_JUNKIE_MORALE",
             "condition": {
-              "compare_num": [ { "rand": 600 }, "<=", { "u_val": "addiction_intensity", "addiction": "mutagen", "mod": { "val": 600, "step": 50 } } ]
+              "compare_int": [ { "rand": 600 }, "<=", { "u_val": "addiction_intensity", "addiction": "mutagen", "mod": { "val": 600, "step": 50 } } ]
             },
             "effect": [
               {
                 "run_eocs": [
                   {
                     "id": "EOC_MUTAGEN_ADDICTION_JUNKIE_MORALE_MSG",
-                    "condition": { "compare_num": [ { "rand": 6 }, "<", { "u_val": "addiction_intensity", "addiction": "mutagen" } ] },
+                    "condition": { "compare_int": [ { "rand": 6 }, "<", { "u_val": "addiction_intensity", "addiction": "mutagen" } ] },
                     "effect": { "u_message": "You so miss the exquisite rainbow of post-humanity.", "type": "warning" },
                     "false_effect": { "u_message": "Your body is SOO booorrrring.  Just a little sip to liven things up?", "type": "warning" }
                   }
@@ -159,9 +159,9 @@
             "id": "EOC_MUTAGEN_ADDICTION_JUNKIE_FOCUS",
             "condition": {
               "and": [
-                { "compare_num": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
+                { "compare_int": [ { "u_val": "focus" }, ">", { "const": 40 } ] },
                 {
-                  "compare_num": [ { "rand": 800 }, "<=", { "u_val": "addiction_intensity", "addiction": "mutagen", "mod": { "val": 800, "step": 20 } } ]
+                  "compare_int": [ { "rand": 800 }, "<=", { "u_val": "addiction_intensity", "addiction": "mutagen", "mod": { "val": 800, "step": 20 } } ]
                 }
               ]
             },
@@ -181,14 +181,14 @@
         {
           "id": "EOC_MUTAGEN_ADDICTION_NOJUNKIE",
           "condition": {
-            "compare_num": [ { "rand": 500 }, "<=", { "u_val": "addiction_intensity", "addiction": "mutagen", "mod": { "val": 500, "step": 15 } } ]
+            "compare_int": [ { "rand": 500 }, "<=", { "u_val": "addiction_intensity", "addiction": "mutagen", "mod": { "val": 500, "step": 15 } } ]
           },
           "effect": [
             {
               "run_eocs": [
                 {
                   "id": "EOC_MUTAGEN_ADDICTION_NOJUNKIE_MSG",
-                  "condition": { "compare_num": [ { "rand": 6 }, "<", { "u_val": "addiction_intensity", "addiction": "mutagen" } ] },
+                  "condition": { "compare_int": [ { "rand": 6 }, "<", { "u_val": "addiction_intensity", "addiction": "mutagen" } ] },
                   "effect": { "u_message": "You haven't had any mutagen lately.", "type": "warning" },
                   "false_effect": { "u_message": "You could use some new parts…", "type": "warning" }
                 }

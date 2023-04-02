@@ -212,9 +212,6 @@ class relic
 
         // activating an artifact overrides all spell casting costs
         int moves = 0;
-
-        // passive enchantments to add by id in finalize once we can guarantee that they have loaded
-        std::vector<enchantment_id> passive_enchant_ids; // NOLINT(cata-serialize)
     public:
         std::string name() const;
         // returns number of charges that should be consumed
@@ -232,8 +229,6 @@ class relic
         bool can_recharge( item &parent, Character *carrier ) const;
 
         void load( const JsonObject &jo );
-
-        void finalize();
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( const JsonObject &jobj );

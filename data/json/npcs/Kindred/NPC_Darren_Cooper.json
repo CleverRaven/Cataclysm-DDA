@@ -15,10 +15,7 @@
       { "trait": "seer_mark" },
       { "group": "Appearance_Caucasian" },
       { "trait": "hair_brown_short" },
-      { "trait": "FACIAL_HAIR_3DAYSTUBBLE" },
-      { "trait": "IGNORE_SOUND" },
-      { "trait": "NO_BASH" },
-      { "trait": "RETURN_TO_START_POS" }
+      { "trait": "FACIAL_HAIR_3DAYSTUBBLE" }
     ],
     "common": false,
     "bonus_per": { "rng": [ 0, 2 ] },

@@ -3,7 +3,7 @@
     "id": "plastic_jack_o_lantern",
     "type": "TOOL",
     "name": { "str": "plastic jack o'lantern" },
-    "description": "A plastic lantern that is painted to look like a pumpkin with a face.  It has a tiny LED light inside, which is currently off.  It's mostly for seasonal decoration and doesn't provide very much light.",
+    "description": "This is a plastic lantern that is painted to look like a pumpkin with a face.  It has a tiny LED light in it.  It doesn't provide very much light.",
     "weight": "113 g",
     "volume": "3964 ml",
     "price": 100,
@@ -19,7 +19,7 @@
     "ammo": [ "battery" ],
     "use_action": {
       "target": "plastic_jack_o_lantern_lit",
-      "msg": "You flip the switch in the jack-o'-lantern.",
+      "msg": "You flip the switch in the jack o'lantern.",
       "active": true,
       "menu_text": "Light",
       "type": "transform"
@@ -28,8 +28,8 @@
   {
     "id": "plastic_jack_o_lantern_lit",
     "type": "TOOL",
-    "name": { "str": "spooky plastic jack o'lantern" },
-    "description": "A plastic lantern that is painted to look like a pumpkin with a face.  It has a tiny LED light inside which is currently on, to delightfully spooky effect.  It doesn't provide very much light, but it can stay lit for a very long time.",
+    "name": { "str": "spooky plastic jack o'lantern", "str_pl": "plastic jack o'lanterns" },
+    "description": "There is a thick LED candle inside the pumpkin face.  It doesn't provide very much light, but it can run for quite a long time.  This lantern is lit.  The face shifts.",
     "weight": "113 g",
     "volume": "3964 ml",
     "price": 0,
@@ -55,7 +55,7 @@
   {
     "id": "jackolantern",
     "type": "TOOL",
-    "name": { "str": "jack-o'-lantern" },
+    "name": { "str": "jack o' lantern" },
     "description": "A carved pumpkin with a candle inside it.  You could light it to really set the spooky mood.",
     "weight": "123 g",
     "color": "light_red",
@@ -68,7 +68,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
     "use_action": {
       "target": "jackolantern_lit",
-      "msg": "You light the jack-o'-lantern.",
+      "msg": "You light the jack o'lantern.",
       "active": true,
       "need_fire": 1,
       "menu_text": "Light",
@@ -80,14 +80,14 @@
     "id": "jackolantern_lit",
     "type": "TOOL",
     "copy-from": "jackolantern",
-    "name": { "str": "lit jack-o'-lantern" },
+    "name": { "str": "lit jack o' lantern" },
     "description": "A carved pumpkin with a lit candle inside.  Spooky and festive!",
     "turns_per_charge": 1350,
     "use_action": {
       "ammo_scale": 0,
       "type": "transform",
       "target": "jackolantern",
-      "msg": "You blow out the jack-o'-lantern.",
+      "msg": "You blow out the jack o' lantern.",
       "menu_text": "Extinguish"
     },
     "extend": { "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH" ] }
@@ -96,7 +96,7 @@
     "id": "decorative_wreath",
     "type": "TOOL",
     "name": { "str": "yule wreath" },
-    "description": "A decorative wreath that can be deployed as furniture to celebrate the winter holidays.",
+    "description": "This decorative wreath can be deployed as furniture to decorate for the winter holidays.",
     "weight": "1814 g",
     "volume": "4 L",
     "price": 100,
@@ -127,7 +127,7 @@
     "type": "TOOL",
     "copy-from": "inflatable_decoration",
     "name": { "str": "inflatable dragon" },
-    "description": "A battery-powered inflatable dragon from the Halloween before the end.  It might be fun to display it somewhere.",
+    "description": "A battery powered inflatable dragon from the Halloween before the end.  It might be fun to display it somewhere.",
     "ammo": "battery",
     "pocket_data": [
       {
@@ -144,7 +144,7 @@
     "type": "TOOL",
     "copy-from": "inflatable_decoration",
     "name": { "str": "inflatable ghost" },
-    "description": "A battery-powered inflatable ghost from the Halloween before the end.  It might be fun to display it somewhere.",
+    "description": "A battery powered inflatable ghost from the Halloween before the end.  It might be fun to display it somewhere.",
     "ammo": "battery",
     "pocket_data": [
       {
@@ -161,7 +161,7 @@
     "type": "TOOL",
     "copy-from": "inflatable_decoration",
     "name": { "str": "fog machine" },
-    "description": "A battery-powered fog machine.  It would be great for setting ambience.",
+    "description": "A battery powered fog machine.  It would be great for setting ambience.",
     "ammo": "battery",
     "pocket_data": [
       {

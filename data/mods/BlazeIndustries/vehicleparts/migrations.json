@@ -1,0 +1,322 @@
+[
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_TDI",
+    "to": "turret_TDI"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "m4_carbine",
+    "to": "turret_m4_carbine"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_ak47",
+    "to": "turret_ak47"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_ak74",
+    "to": "turret_ak74"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_american_180",
+    "to": "turret_american_180"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_ar15",
+    "to": "turret_ar15"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_blunderbuss",
+    "to": "turret_blunderbuss"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_browning_blr",
+    "to": "turret_browning_blr"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_calico",
+    "to": "turret_calico"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_carbine_flintlock",
+    "to": "turret_carbine_flintlock"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_cx4",
+    "to": "turret_cx4"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_flamethrower",
+    "to": "turret_flamethrower"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rm451_flamethrower",
+    "to": "turret_rm451_flamethrower"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_fn_fal",
+    "to": "turret_fn_fal"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_fn_p90",
+    "to": "turret_fn_p90"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_hk_g3",
+    "to": "turret_hk_g3"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_hk_g36",
+    "to": "turret_hk_g36"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_hk_g80",
+    "to": "turret_hk_g80"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_hk_mp5",
+    "to": "turret_hk_mp5"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_hk_mp7",
+    "to": "turret_hk_mp7"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_hk_ump45",
+    "to": "turret_hk_ump45"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_ksg",
+    "to": "turret_ksg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_tavor_12",
+    "to": "turret_tavor_12"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_launcher_simple",
+    "to": "turret_launcher_simple"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_mossberg_930",
+    "to": "turret_mossberg_930"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m107a1",
+    "to": "turret_m107a1"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m14ebr",
+    "to": "turret_m14ebr"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m1a",
+    "to": "turret_m1a"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m2010",
+    "to": "turret_m2010"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m2browning_sawn",
+    "to": "turret_m2browning_sawn"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m320",
+    "to": "turret_m320"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m60",
+    "to": "turret_m60"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_m79",
+    "to": "turret_m79"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_mac_10",
+    "to": "turret_mac_10"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_marlin_9a",
+    "to": "turret_blaze_marlin_9a"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_mgl",
+    "to": "turret_mgl"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_mossberg_500",
+    "to": "turret_mossberg_500"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_pipe_double_shotgun",
+    "to": "turret_pipe_double_shotgun"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_pipe_shotgun",
+    "to": "turret_pipe_shotgun"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_remington_700",
+    "to": "turret_remington_700"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_remington_870",
+    "to": "turret_remington_870"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_repeatingcrossbow",
+    "to": "turret_rep_crossbow"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_revolver_shotgun",
+    "to": "turret_revolver_shotgun"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rifle_22",
+    "to": "turret_rifle_22"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rifle_9mm",
+    "to": "turret_rifle_9mm"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rifle_flintlock",
+    "to": "turret_rifle_flintlock"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rm11b_sniper_rifle",
+    "to": "turret_rm11b_sniper_rifle"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rm2000_smg",
+    "to": "turret_rm2000_smg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rm51_assault_rifle",
+    "to": "turret_rm51_assault_rifle"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rm614_lmg",
+    "to": "turret_rm614_lmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rm802",
+    "to": "turret_rm802"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_rm88_battle_rifle",
+    "to": "turret_rm88_battle_rifle"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_ruger_1022",
+    "to": "turret_ruger_1022"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_ruger_mini",
+    "to": "turret_ruger_mini"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_saiga_12",
+    "to": "turret_saiga_12"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_savage_111f",
+    "to": "turret_savage_111f"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_scar_h",
+    "to": "turret_scar_h"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_shotgun_d",
+    "to": "turret_shotgun_d"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_shotgun_s",
+    "to": "turret_shotgun_s"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_sks",
+    "to": "turret_blaze_sks"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_steyr_aug",
+    "to": "turret_steyr_aug"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_tec9",
+    "to": "turret_tec9"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_uzi",
+    "to": "turret_uzi"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "mounted_v29",
+    "to": "turret_v29"
+  }
+]

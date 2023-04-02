@@ -55,9 +55,9 @@ int talker_avatar::trial_chance_mod( const std::string &trial_type ) const
     int chance = 0;
     const social_modifiers &me_mods = me_chr->get_mutation_bionic_social_mods();
     if( trial_type == "lie" ) {
-        chance += me_chr->lie_skill() + me_mods.lie;
+        chance += me_chr->talk_skill() + me_mods.lie;
     } else if( trial_type == "persuade" ) {
-        chance += me_chr->persuade_skill() + me_mods.persuade;
+        chance += me_chr->talk_skill() + me_mods.persuade;
     } else if( trial_type == "intimidate" ) {
         chance += me_chr->intimidation() + me_mods.intimidate;
     }

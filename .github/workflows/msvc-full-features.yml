@@ -36,8 +36,6 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Enable pretty backtraces
-  BACKTRACE: 1
   # Compressed size ~1GB based on observations
   CCACHE_LIMIT: 8GB
   CDDA_CCACHE_PATH: ${{ github.workspace }}\ccache\
@@ -72,20 +70,18 @@ jobs:
       shell: cmd
 
     - name: Restore artifacts, or run vcpkg, build and cache artifacts
-      uses: lukka/run-vcpkg@v10
+      uses: lukka/run-vcpkg@v10.4
       id: runvcpkg
       with:
         # run-vcpkg tries to hash vcpkg.json but complans if it finds more than one.
         # That said, we also have our custom vcpkg_triplets to hash, so we keep everything the same.
-        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', 'msvc-object_creator/vcpkg.json', '.github/vcpkg_triplets/**', '.github/vckg_ports/**' ) }}
-        # Rev this value to drop cache without changing vcpkg commit
-        prependedCacheKey: v1-x64-full
+        appendedCacheKey: ${{ hashFiles( 'msvc-full-features/vcpkg.json', '.github/vcpkg_triplets/**' ) }}-x64
         vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
         # We have to use at least this version of vcpkg to include fixes for yasm-tool's
         # availability only as an x86 host tool. Keep it in sync with the builtin-baseline
         # field in vcpkg.json. Caching happens as a post-action which runs at the end of
         # the whole workflow, after vcpkg install happens during msbuild run.
-        vcpkgGitCommitId: 'd08e708c2111893da3cc7e49b597ee4654c8076e'
+        vcpkgGitCommitId: '12b7cfe6109a9d68319334b56a01c44a302a13b6'
 
     - name: Integrate vcpkg
       run: |
@@ -171,20 +167,17 @@ jobs:
         }
 
     - name: Compile .mo files for localization
-      if: ${{ github.ref_name != 'master' }}
       run: |
           & "C:\msys64\mingw64\bin\mingw32-make" -C lang -j2
           mkdir -p ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES -ErrorAction SilentlyContinue
           msgfmt -f -o ./data/mods/TEST_DATA/lang/mo/ru/LC_MESSAGES/TEST_DATA.mo ./data/mods/TEST_DATA/lang/po/ru.po
 
     - name: Enable GitHub Actions problem matchers
-      if: ${{ github.ref_name != 'master' }}
       run: |
           Write-Output "::add-matcher::build-scripts/problem-matchers/catch2.json"
           Write-Output "::add-matcher::build-scripts/problem-matchers/debugmsg.json"
 
     - name: Run tests
-      if: ${{ github.ref_name != 'master' }}
       run: |
           .\Cataclysm-test-vcpkg-static-Release-x64.exe --min-duration 0.2 --rng-seed time
 

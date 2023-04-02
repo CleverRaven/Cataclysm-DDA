@@ -18,7 +18,6 @@
 #include <limits>
 #include <map>
 #include <memory>
-#include <optional>
 #include <set>
 #include <stack>
 #include <stdexcept>
@@ -42,6 +41,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
+#include "cuboid_rectangle.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -59,11 +59,13 @@
 #include "mapbuffer.h"
 #include "mission.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h"
+#include "point.h"
 #include "sdl_geometry.h"
 #include "sdl_wrappers.h"
 #include "sdl_font.h"
@@ -172,20 +174,7 @@ static void InitSDL()
     int ret;
 
 #if defined(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING)
-    // Requires SDL 2.0.5. Disables thread naming so that gdb works correctly
-    // with the game.
     SDL_SetHint( SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1" );
-#endif
-
-#if defined(_WIN32) && defined(SDL_HINT_IME_SHOW_UI)
-    // Requires SDL 2.0.20. Shows the native IME UI instead of using SDL's
-    // broken implementation on Windows which does not show.
-    SDL_SetHint( SDL_HINT_IME_SHOW_UI, "1" );
-#endif
-
-#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
-    // Requires SDL 2.0.22. Support long IME composition text.
-    SDL_SetHint( SDL_HINT_IME_SUPPORT_EXTENDED_TEXT, "1" );
 #endif
 
 #if defined(__linux__)
@@ -673,14 +662,14 @@ void clear_window_area( const catacurses::window &win_ )
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
 }
 
-static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
+static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
             const inclusive_cuboid<tripoint> &overmap_area, const tripoint_abs_omt &center )
 {
     if( get_avatar().get_active_mission() == nullptr ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
     if( !get_avatar().get_active_mission()->has_target() ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
     const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
 
@@ -707,7 +696,7 @@ static std::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow
     if( traj.empty() ) {
         debugmsg( "Failed to gen overmap mission trajectory %s %s",
                   center.to_string(), mission_target.to_string() );
-        return std::nullopt;
+        return cata::nullopt;
     }
 
     tripoint arr_pos = traj[0];
@@ -769,7 +758,7 @@ std::string cata_tiles::get_omt_id_rotation_and_subtile(
     oter_id ot_id = oter_at( omp );
     const oter_t &ot = *ot_id;
     oter_type_id ot_type_id = ot.get_type_id();
-    const oter_type_t &ot_type = *ot_type_id;
+    oter_type_t ot_type = *ot_type_id;
 
     if( ot_type.has_connections() ) {
         // This would be for connected terrain
@@ -1055,7 +1044,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         // reduce the area where the map cursor is drawn so it doesn't get cut off
         inclusive_cuboid<tripoint> map_cursor_area = overmap_area;
         map_cursor_area.p_max.y--;
-        const std::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
+        const cata::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
                     get_mission_arrow( map_cursor_area, center_abs_omt );
         if( mission_arrow ) {
             draw_from_id_string( mission_arrow->second, global_omt_to_draw_position( mission_arrow->first ), 0,
@@ -2228,7 +2217,7 @@ void remove_stale_inventory_quick_shortcuts()
                 in_inventory = player_character.inv->invlet_to_position( key ) != INT_MIN;
                 if( !in_inventory ) {
                     // We couldn't find this item in the inventory, let's check worn items
-                    std::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
+                    cata::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
                     if( item ) {
                         in_inventory = true;
                     }
@@ -2362,7 +2351,7 @@ void draw_quick_shortcuts()
                                 key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
-                    std::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
+                    cata::optional<const item *> item = player_character.worn.item_worn_with_inv_let( key );
                     if( item ) {
                         hint_text = item.value()->display_name();
                     }
@@ -2530,8 +2519,9 @@ bool is_string_input( input_context &ctx )
 {
     std::string &category = ctx.get_category();
     return category == "STRING_INPUT"
-           || category == "STRING_EDITOR"
-           || category == "HELP_KEYBINDINGS";
+           || category == "HELP_KEYBINDINGS"
+           || category == "NEW_CHAR_DESCRIPTION"
+           || category == "WORLDGEN_CONFIRM_DIALOG";
 }
 
 int get_key_event_from_string( const std::string &str )
@@ -2791,10 +2781,6 @@ static void CheckMessages()
                 if( player_character.is_crouching() ) {
                     actions.insert( ACTION_TOGGLE_CROUCH );
                 }
-                // If we're already prone, make it simple to toggle prone to off.
-                if( player_character.is_prone() ) {
-                    actions.insert( ACTION_TOGGLE_PRONE );
-                }
 
                 // We're not already running or in combat, so remove cycle walk/run
                 if( std::find( actions.begin(), actions.end(), ACTION_CYCLE_MOVE ) == actions.end() ) {
@@ -2816,19 +2802,20 @@ static void CheckMessages()
                             const optional_vpart_position vp = here.veh_at( pos );
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
-                                if( veh->part_with_feature( vp->mount(), "CONTROLS", true ) >= 0 ) {
+                                const int veh_part = vp ? vp->part_index() : -1;
+                                if( veh->part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
-                                const int openablepart = veh->part_with_feature( vp->mount(), "OPENABLE", true );
+                                const int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
                                 if( openablepart >= 0 && veh->part( openablepart ).open && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int curtainpart = veh->part_with_feature( vp->mount(), "CURTAIN", true );
+                                const int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
                                 if( curtainpart >= 0 && veh->part( curtainpart ).open && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                const int cargopart = veh->part_with_feature( vp->mount(), "CARGO", true );
+                                const int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
                                 if( cargopart >= 0 && ( !veh->get_items( cargopart ).empty() ) ) {
                                     actions.insert( ACTION_PICKUP );
                                 }
@@ -3004,7 +2991,7 @@ static void CheckMessages()
 
     last_input = input_event();
 
-    std::optional<point> resize_dims;
+    cata::optional<point> resize_dims;
     bool render_target_reset = false;
 
     while( SDL_PollEvent( &ev ) ) {
@@ -3217,35 +3204,11 @@ static void CheckMessages()
                     last_input = input_event();
                     last_input.type = input_event_t::keyboard_char;
                 }
-                // Convert to string explicitly to avoid accidentally using
-                // the array out of scope.
-                last_input.edit = std::string( ev.edit.text );
+                last_input.edit = ev.edit.text;
                 last_input.edit_refresh = true;
                 text_refresh = true;
-                break;
             }
-#if defined(SDL_HINT_IME_SUPPORT_EXTENDED_TEXT)
-            case SDL_TEXTEDITING_EXT: {
-                if( !ev.editExt.text ) {
-                    break;
-                }
-                if( strlen( ev.editExt.text ) > 0 ) {
-                    const unsigned lc = UTF8_getch( ev.editExt.text );
-                    last_input = input_event( lc, input_event_t::keyboard_char );
-                } else {
-                    // no key pressed in this event
-                    last_input = input_event();
-                    last_input.type = input_event_t::keyboard_char;
-                }
-                // Convert to string explicitly to avoid accidentally using
-                // a pointer that will be freed
-                last_input.edit = std::string( ev.editExt.text );
-                last_input.edit_refresh = true;
-                text_refresh = true;
-                SDL_free( ev.editExt.text );
-                break;
-            }
-#endif
+            break;
             case SDL_CONTROLLERBUTTONDOWN:
             case SDL_CONTROLLERBUTTONUP:
                 gamepad::handle_button_event( ev );
@@ -3934,14 +3897,14 @@ window_dimensions get_window_dimensions( const point &pos, const point &size )
     return get_window_dimensions( {}, pos, size );
 }
 
-std::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_,
+cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_,
         const point &offset, const bool center_cursor ) const
 {
     // This information is required by curses, but is not (currently) used in SDL
     ( void ) center_cursor;
 
     if( !coordinate_input_received ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
 
     const catacurses::window &capture_win = capture_win_ ? capture_win_ : g->w_terrain;
@@ -3957,7 +3920,7 @@ std::optional<tripoint> input_context::get_coordinates( const catacurses::window
     // Check if click is within bounds of the window we care about
     const inclusive_rectangle<point> win_bounds( win_min, win_max );
     if( !win_bounds.contains( coordinate ) ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
 
     const point screen_pos = coordinate - win_min;
@@ -4055,12 +4018,6 @@ void to_overmap_font_dimension( int &w, int &h )
 bool is_draw_tiles_mode()
 {
     return use_tiles;
-}
-
-bool catacurses::supports_256_colors()
-{
-    // trust SDL to do the right thing instead
-    return false;
 }
 
 /** Saves a screenshot of the current viewport, as a PNG file, to the given location.

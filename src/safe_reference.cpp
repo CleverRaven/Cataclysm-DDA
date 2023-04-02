@@ -1,7 +1,7 @@
 #include "safe_reference.h"
 
-static_assert( std::is_nothrow_move_constructible<safe_reference_anchor>::value );
-static_assert( std::is_nothrow_move_assignable<safe_reference_anchor>::value );
+static_assert( std::is_nothrow_move_constructible<safe_reference_anchor>::value, "" );
+static_assert( std::is_nothrow_move_assignable<safe_reference_anchor>::value, "" );
 
 safe_reference_anchor::safe_reference_anchor()
 {

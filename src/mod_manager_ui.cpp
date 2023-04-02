@@ -40,7 +40,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 
     if( !mod->dependencies.empty() ) {
         const auto &deps = mod->dependencies;
-        std::string str = enumerate_as_string( deps.begin(), deps.end(), [&]( const mod_id & e ) {
+        auto str = enumerate_as_string( deps.begin(), deps.end(), [&]( const mod_id & e ) {
             if( e.is_valid() ) {
                 return string_format( "[%s]", e->name() );
             } else {

@@ -2,9 +2,9 @@
 #ifndef CATA_SRC_TRANSLATION_H
 #define CATA_SRC_TRANSLATION_H
 
-#include <optional>
 #include <string>
 
+#include "optional.h"
 #include "translation_cache.h"
 #include "value_ptr.h"
 
@@ -131,7 +131,7 @@ class translation
         /**
          * Only used for migrating old snippet hashes into snippet ids.
          */
-        std::optional<int> legacy_hash() const;
+        cata::optional<int> legacy_hash() const;
     private:
         translation( const std::string &ctxt, const std::string &raw );
         explicit translation( const std::string &raw );

@@ -16,9 +16,6 @@ on:
     - '**.cmake'
     - '**.cmake.in'
 
-permissions:
-  contents: read
-
 jobs:
   check:
     runs-on: ubuntu-latest

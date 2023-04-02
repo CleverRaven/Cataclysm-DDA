@@ -21,7 +21,9 @@
 # Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
-#   Run: make NATIVE=osx
+#   Run: make NATIVE=osx OSX_MIN=10.12
+#     It is highly recommended to supply OSX_MIN > 10.11
+#     otherwise optimizations are automatically disabled with -O0
 
 # Build types:
 # Debug (no optimizations)
@@ -66,7 +68,7 @@
 #  make DYNAMIC_LINKING=1
 # Use MSYS2 as the build environment on Windows
 #  make MSYS2=1
-# Turn off all optimizations, even debug-friendly optimizations. Overridden by RELEASE=1
+# Turn off all optimizations, even debug-friendly optimizations
 #  make NOOPT=1
 # Astyle all source files.
 #  make astyle
@@ -81,13 +83,11 @@
 # Style all json files in parallel using all available CPU cores (don't make -jX on this, just make)
 #  make style-all-json-parallel
 # Disable astyle of source files.
-#  make ASTYLE=0
+# make ASTYLE=0
 # Disable format check of whitelisted json files.
-#  make LINTJSON=0
+# make LINTJSON=0
 # Disable building and running tests.
-#  make RUNTESTS=0
-# Build source files in order of how often the matching header is included
-#  make HEADERPOPULARITY=1
+# make RUNTESTS=0
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -430,9 +430,9 @@ else
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++17
+  OTHERS += -std=gnu++14
 else
-  OTHERS += -std=c++17
+  OTHERS += -std=c++14
 endif
 
 ifeq ($(CYGWIN),1)
@@ -523,13 +523,26 @@ endif
 
 # OSX
 ifeq ($(NATIVE), osx)
-  DEFINES += -DMACOSX
-  CXXFLAGS += -mmacosx-version-min=10.13
-  LDFLAGS += -mmacosx-version-min=10.13 -framework CoreFoundation -Wl,-headerpad_max_install_names
-  ifeq ($(UNIVERSAL_BINARY), 1)
-    CXXFLAGS += -arch x86_64 -arch arm64
-    LDFLAGS += -arch x86_64 -arch arm64
+  ifeq ($(OSX_MIN),)
+    ifneq ($(findstring Darwin,$(OS)),)
+      OSX_MIN = $(shell sw_vers -productVersion | awk -F '.' '{print $$1 "." $$2}')
+    else
+      ifneq ($(CLANG), 0)
+        ifneq ($(SANITIZE),)
+          # sanitizers does not function properly (e.g. false positive errors) if OSX_MIN < 10.9
+          # https://github.com/llvm/llvm-project/blob/release/11.x/compiler-rt/CMakeLists.txt#L183
+          OSX_MIN = 10.9
+        else
+          OSX_MIN = 10.7
+        endif
+      else
+        OSX_MIN = 10.5
+      endif
+    endif
   endif
+  DEFINES += -DMACOSX
+  CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  LDFLAGS += -mmacosx-version-min=$(OSX_MIN) -framework CoreFoundation -Wl,-headerpad_max_install_names
   ifdef FRAMEWORK
     ifeq ($(FRAMEWORKSDIR),)
       FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
@@ -624,7 +637,11 @@ ifeq ($(SOUND), 1)
     $(error "SOUND=1 only works with TILES=1")
   endif
   ifeq ($(NATIVE),osx)
-    ifndef FRAMEWORK # libsdl build
+    ifdef FRAMEWORK
+      CXXFLAGS += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
+      LDFLAGS += -F$(FRAMEWORKSDIR)/SDL2_mixer.framework/Frameworks \
+		 -framework SDL2_mixer -framework Vorbis -framework Ogg
+    else # libsdl build
       ifeq ($(MACPORTS), 1)
         LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
       else # homebrew
@@ -659,12 +676,12 @@ ifeq ($(TILES), 1)
 		-I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
 		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
-			ifeq ($(SOUND), 1)
+			ifdef SOUND
 				OSX_INC += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
 			endif
       LDFLAGS += -F$(FRAMEWORKSDIR) \
 		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
-		 ifeq ($(SOUND), 1)
+		 ifdef SOUND
 		 	LDFLAGS += -framework SDL2_mixer
 		 endif
       CXXFLAGS += $(OSX_INC)
@@ -675,7 +692,7 @@ ifeq ($(TILES), 1)
 		  -I$(shell dirname $(shell sdl2-config --cflags | sed 's/-I\(.[^ ]*\) .*/\1/'))
       LDFLAGS += -framework Cocoa $(shell sdl2-config --libs) -lSDL2_ttf
       LDFLAGS += -lSDL2_image
-      ifeq ($(SOUND), 1)
+      ifdef SOUND
         LDFLAGS += -lSDL2_mixer
       endif
     endif
@@ -810,12 +827,7 @@ ifeq ($(MSYS2),1)
 endif
 
 # Enumerations of all the source files and headers.
-ifeq ($(HEADERPOPULARITY), 1)
-  # Alternate source file enumeration sorted in order of how many times the matching header file is included in source files
-  SOURCES := $(shell echo "$$(echo $$(grep -oh "^#include \"[^\"]*.h\"" $(SRC_DIR)/*.cpp | sort | uniq -c | sort -rn | cut -d \" -f 2 | sed -e 's/\.h$$/.cpp/' | sed -e 's/^/$(SRC_DIR)\//') | xargs -n 1 ls 2> /dev/null; ls -1 $(SRC_DIR)/*.cpp)" | awk '!x[$$0]++')
-else
-  SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
-endif
+SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 THIRD_PARTY_SOURCES := $(wildcard $(SRC_DIR)/third-party/flatbuffers/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
@@ -847,11 +859,7 @@ ifeq ($(TARGETSYSTEM),WINDOWS)
   RSRC = $(wildcard $(SRC_DIR)/*.rc)
   _OBJS += $(RSRC:$(SRC_DIR)/%.rc=%.o)
 endif
-ifeq ($(HEADERPOPULARITY), 1)
-	OBJS = $(patsubst %,$(ODIR)/%,$(_OBJS))
-else
-	OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
-endif
+OBJS = $(sort $(patsubst %,$(ODIR)/%,$(_OBJS)))
 
 ifdef LANGUAGES
   export LOCALE_DIR
@@ -1129,7 +1137,7 @@ endif
 ifeq ($(TILES), 1)
 ifeq ($(SOUND), 1)
 	cp -R data/sound $(APPDATADIR)
-endif  # ifeq ($(SOUND), 1)
+endif  # ifdef SOUND
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
@@ -1137,7 +1145,10 @@ ifdef FRAMEWORK
 	cp -R $(FRAMEWORKSDIR)/SDL2_ttf.framework $(APPRESOURCESDIR)/
 ifeq ($(SOUND), 1)
 	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
-endif  # ifeq ($(SOUND), 1)
+	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
+	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
+	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -maxdepth 1 -type d -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
+endif  # ifdef SOUND
 endif  # ifdef FRAMEWORK
 endif  # ifdef TILES
 

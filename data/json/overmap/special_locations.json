@@ -83,7 +83,7 @@
   {
     "type": "overmap_location",
     "id": "road",
-    "terrains": [ "hiway_ns", "hiway_ew", "ranch_camp_77", "road", "road_nesw_manhole" ]
+    "terrains": [ "hiway_ns", "hiway_ew", "ranch_camp_77", "necropolis_a_11", "road", "road_nesw_manhole" ]
   },
   {
     "type": "overmap_location",

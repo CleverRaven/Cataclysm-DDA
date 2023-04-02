@@ -476,7 +476,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( you ) ) {
+        if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
             return true;
         } else {
             door_name = veh1->part( dpart ).name();
@@ -634,7 +634,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         return;
     }
     if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        if( !vp->vehicle().handle_potential_theft( you ) ) {
+        if( !vp->vehicle().handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
             return;
         }
     }
@@ -955,17 +955,8 @@ void avatar_action::eat( avatar &you, const item_location &loc,
     you.last_item = item( *loc ).typeId();
 }
 
-void avatar_action::eat_or_use( avatar &you, item_location loc )
-{
-    if( loc && loc->is_medical_tool() ) {
-        avatar_action::use_item( you, loc, "heal" );
-    } else {
-        avatar_action::eat( you, loc );
-    }
-}
-
 void avatar_action::plthrow( avatar &you, item_location loc,
-                             const std::optional<tripoint> &blind_throw_from_pos )
+                             const cata::optional<tripoint> &blind_throw_from_pos )
 {
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
@@ -1080,6 +1071,21 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     g->reenter_fullscreen();
 }
 
+static void make_active( item_location loc )
+{
+    map &here = get_map();
+    switch( loc.where() ) {
+        case item_location::type::map:
+            here.make_active( loc );
+            break;
+        case item_location::type::vehicle:
+            here.veh_at( loc.position() )->vehicle().make_active( loc );
+            break;
+        default:
+            break;
+    }
+}
+
 static void update_lum( item_location loc, bool add )
 {
     switch( loc.where() ) {
@@ -1097,7 +1103,7 @@ void avatar_action::use_item( avatar &you )
     avatar_action::use_item( you, loc );
 }
 
-void avatar_action::use_item( avatar &you, item_location &loc, std::string const &method )
+void avatar_action::use_item( avatar &you, item_location &loc )
 {
     if( you.has_effect( effect_incorporeal ) ) {
         you.add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
@@ -1142,15 +1148,15 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
         item_location::type loc_where = loc.where_recursive();
-        std::string const name = loc->display_name();
         if( loc_where != item_location::type::character ) {
+            you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
             pre_obtain_moves = -1;
             on_person = false;
         }
 
         // Get the parent pocket before the item is obtained.
         if( loc.has_parent() ) {
-            parent_pocket = loc.parent_pocket();
+            parent_pocket = loc.parent_item().get_item()->contained_where( *loc );
         }
 
         loc = loc.obtain( you, 1 );
@@ -1162,25 +1168,22 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
             pre_obtain_moves = you.moves;
         }
         if( !loc ) {
-            you.add_msg_if_player( _( "Couldn't pick up the %s." ), name );
+            debugmsg( "Failed to obtain target item" );
             return;
-        }
-        if( loc_where != item_location::type::character ) {
-            you.add_msg_if_player( _( "You pick up the %s." ), name );
         }
     }
 
     if( use_in_place ) {
         update_lum( loc, false );
-        you.use( loc, pre_obtain_moves, method );
+        you.use( loc, pre_obtain_moves );
         update_lum( loc, true );
 
-        loc.make_active();
+        make_active( loc );
     } else {
-        you.use( loc, pre_obtain_moves, method );
+        you.use( loc, pre_obtain_moves );
 
         if( parent_pocket && on_person && parent_pocket->will_spill() ) {
-            parent_pocket->handle_liquid_or_spill( you, loc.parent_item().get_item() );
+            parent_pocket->handle_liquid_or_spill( you );
         }
     }
 

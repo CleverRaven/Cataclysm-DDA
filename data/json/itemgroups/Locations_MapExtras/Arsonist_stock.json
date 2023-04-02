@@ -7,7 +7,7 @@
       { "item": "molotov", "count": 5 },
       { "item": "cotton_patchwork", "count": 25 },
       { "item": "gasoline", "count": 1 },
-      { "item": "pipebomb", "count": 25 },
+      { "item": "improvised_pipebomb", "count": 25 },
       { "item": "fuse", "count": 5 },
       { "item": "FMCNote", "count": 3 },
       { "item": "nail", "count": 5, "charges": [ 1, 100 ] },

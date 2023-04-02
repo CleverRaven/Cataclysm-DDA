@@ -13,7 +13,11 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 void PointInitializationCheck::registerMatchers( MatchFinder *Finder )
 {
@@ -93,4 +97,6 @@ void PointInitializationCheck::check( const MatchFinder::MatchResult &Result )
     CheckInit( *this, Result );
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

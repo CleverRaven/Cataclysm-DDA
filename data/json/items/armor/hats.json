@@ -17,14 +17,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "bandana_head",
@@ -49,14 +42,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "covers": [ "head" ] } ]
   },
   {
     "id": "beret",
@@ -75,14 +61,7 @@
     "warmth": 3,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "beret_wool",
@@ -100,14 +79,7 @@
     "warmth": 10,
     "material_thickness": 0.3,
     "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "bowhat",
@@ -127,14 +99,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "chaplet",
@@ -151,14 +116,7 @@
     "color": "dark_gray",
     "material_thickness": 0.1,
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "SOFT" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_forehead", "head_ear_r", "head_ear_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "cowboy_hat",
@@ -177,14 +135,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "drinking_hat",
@@ -202,9 +153,7 @@
     "material_thickness": 0.2,
     "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
     "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ],
-    "armor": [
-      { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 15, "covers": [ "head" ] } ]
   },
   {
     "id": "eboshi",
@@ -223,14 +172,7 @@
     "warmth": 4,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_navy",
@@ -249,14 +191,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_boonie",
@@ -275,14 +210,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_ball",
@@ -303,14 +231,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -350,14 +271,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ],
     "variant_type": "generic",
     "variants": [
       {
@@ -434,14 +348,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_fur",
@@ -459,14 +366,7 @@
     "warmth": 60,
     "material_thickness": 0.3,
     "environmental_protection": 2,
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_faux_fur",
@@ -497,15 +397,7 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "PADDED" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "cover_vitals": 90,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "cover_vitals": 90, "covers": [ "head" ] } ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -871,14 +763,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_knit",
@@ -897,14 +782,7 @@
     "material_thickness": 0.5,
     "environmental_protection": 2,
     "flags": [ "VARSIZE" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_newsboy",
@@ -924,14 +802,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 70, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_noise_cancelling",
@@ -949,14 +820,7 @@
     "warmth": 5,
     "material_thickness": 0.1,
     "flags": [ "DEAF" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "IMBALANCED" ],
-        "coverage": 25,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_ear_r", "head_ear_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 5, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_sombrero",
@@ -978,14 +842,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "OUTER", "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 65, "covers": [ "head" ] } ]
   },
   {
     "id": "kippah",
@@ -1003,9 +860,7 @@
     "color": "blue",
     "warmth": 2,
     "material_thickness": 0.1,
-    "armor": [
-      { "encumbrance_modifiers": [ "NONE" ], "coverage": 100, "covers": [ "head" ], "specifically_covers": [ "head_crown" ] }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 30, "covers": [ "head" ] } ]
   },
   {
     "id": "kufi",
@@ -1024,14 +879,7 @@
     "warmth": 6,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "maid_hat",
@@ -1050,14 +898,7 @@
     "warmth": 2,
     "material_thickness": 0.05,
     "flags": [ "VARSIZE" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 55,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_ear_r", "head_ear_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 25, "covers": [ "head" ] } ]
   },
   {
     "id": "porkpie",
@@ -1077,14 +918,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "FANCY", "VARSIZE" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "postman_hat",
@@ -1104,14 +938,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "santa_hat",
@@ -1130,14 +957,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 80, "covers": [ "head" ] } ]
   },
   {
     "id": "straw_hat",
@@ -1156,14 +976,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "tinfoil_hat",
@@ -1181,14 +994,7 @@
     "warmth": 5,
     "color": "yellow",
     "flags": [ "PSYSHIELD_PARTIAL", "SKINTIGHT", "TRADER_AVOID", "NO_REPAIR", "SOFT" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
   },
   {
     "id": "tophat",
@@ -1209,14 +1015,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SUPER_FANCY" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "tricorne",
@@ -1235,14 +1034,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "WATERPROOF", "WATER_FRIENDLY", "FANCY" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "turban",
@@ -1263,14 +1055,7 @@
     "material_thickness": 0.3,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "hat_golf",
@@ -1291,14 +1076,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 1,
     "flags": [ "SUN_GLASSES" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 100,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 40, "covers": [ "head" ] } ]
   },
   {
     "id": "wizard_hat_costume",
@@ -1316,14 +1094,7 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 80,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "pointed_hat",
@@ -1341,13 +1112,6 @@
     "material_thickness": 0.2,
     "environmental_protection": 1,
     "flags": [ "VARSIZE" ],
-    "armor": [
-      {
-        "encumbrance_modifiers": [ "NONE" ],
-        "coverage": 80,
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_crown", "head_forehead", "head_ear_r", "head_ear_l" ]
-      }
-    ]
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 50, "covers": [ "head" ] } ]
   }
 ]

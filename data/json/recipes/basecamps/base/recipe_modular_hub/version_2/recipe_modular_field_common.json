@@ -22,14 +22,29 @@
       { "id": "logging" }
     ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
-    "blueprint_name": "basic hub version 1 survey",
+    "blueprint_name": "basic hub version 2 survey",
     "check_blueprint_needs": false
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_fireplace_NE",
+    "description": "Now that we have some cover, we should build a fireplace in the northeast shack.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_fireplace_NE",
+    "blueprint_name": "northeast fireplace",
+    "blueprint_requires": [ { "id": "fbmh_2_room_NE" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_fire_NE" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_fire_NE" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_2_brazier_NE",
-    "description": "Now that we have some cover, we should build basic cooking facilities in the northeast shack.",
+    "description": "Now that we have some cover, we should set up a brazier in the northeast shack.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",
@@ -37,46 +52,38 @@
     "never_learn": true,
     "time": "5 m",
     "construction_blueprint": "fbmh_2_brazier_NE",
-    "blueprint_name": "northeast cooking (Brazier)",
+    "blueprint_name": "northeast brazier",
     "blueprint_requires": [ { "id": "fbmh_2_room_NE" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_cooking_NE" } ],
-    "blueprint_excludes": [ { "id": "fbmh_2_cooking_NE" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_fire_NE" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_fire_NE" } ],
     "components": [ [ [ "brazier", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "fbmh_2_cooking_NE",
-    "description": "Now that we have some cover, we should build basic cooking facilities in the northeast shack.",
+    "result": "fbmh_2_stove_NE",
+    "description": "Now that we have some cover, we should build a stove in the northeast shack.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "fbmh_2_cooking_NE",
-    "blueprint_name": "northeast cooking",
-    "blueprint_parameter_names": { "fbmh_2_cooking_palette": { "fbmh_2_fireplace_palette": "Fireplace", "fbmh_2_stove_palette": "Woodstove" } },
+    "construction_blueprint": "fbmh_2_stove_NE",
+    "blueprint_name": "northeast stove",
     "blueprint_requires": [ { "id": "fbmh_2_room_NE" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_cooking_NE" } ],
-    "blueprint_excludes": [ { "id": "fbmh_2_cooking_NE" } ]
+    "blueprint_provides": [ { "id": "fbmh_2_fire_NE" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_fire_NE" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "fbmh_2_bed_NE_1",
-    "description": "A bed in the northeast shack will make sleeping much easier.",
+    "result": "fbmh_2_strawbed_NE_1",
+    "description": "A straw bed in the northeast shack will make sleeping easier.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "fbmh_2_bed_NE_1",
-    "blueprint_name": "northeast bed",
-    "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": {
-        "fbmh_2_straw_bed_palette": "Straw bed",
-        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
-        "fbmh_2_bed_palette": "Bed"
-      }
-    },
+    "construction_blueprint": "fbmh_2_strawbed_NE_1",
+    "blueprint_name": "northeast straw bed",
     "blueprint_requires": [ { "id": "fbmh_2_room_NE" } ],
     "blueprint_provides": [ { "id": "fbmh_2_bed_NE_1" } ],
     "blueprint_excludes": [ { "id": "fbmh_2_bed_NE_1" } ]
@@ -84,178 +91,256 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "fbmh_2_bed_NE_2",
-    "description": "Another bed in the northeast shack will make sleeping much easier.",
+    "result": "fbmh_2_bed_NE_1",
+    "description": "A proper bed in the northeast shack will give one of us a place to sleep soundly.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
-    "construction_blueprint": "fbmh_2_bed_NE_2",
+    "construction_blueprint": "fbmh_2_bed_NE_1",
     "blueprint_name": "northeast bed",
-    "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": {
-        "fbmh_2_straw_bed_palette": "Straw bed",
-        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
-        "fbmh_2_bed_palette": "Bed"
-      }
-    },
-    "blueprint_requires": [ { "id": "fbmh_2_room_1_2" } ],
+    "blueprint_requires": [ { "id": "fbmh_2_room_NE" } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_NE_1" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_NE_1" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_strawbed_NE_2",
+    "description": "Another straw bed in the northeast shack will make sleeping easier.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_strawbed_NE_2",
+    "blueprint_name": "northeast straw bed",
+    "blueprint_requires": [ { "id": "fbmh_2_bed_NE_1" }, { "id": "fbmh_2_room_NE", "amount": 2 } ],
     "blueprint_provides": [ { "id": "fbmh_2_bed_NE_2" } ],
     "blueprint_excludes": [ { "id": "fbmh_2_bed_NE_2" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
-    "result": "fbmh_2_bed_ENE",
-    "description": "A pair of beds in the southern room to the northeast will allow us to house two more people.",
+    "result": "fbmh_2_bed_NE_2",
+    "description": "Another proper bed in the northeast shack will give one of us a second place to sleep soundly.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_bed_NE_2",
+    "blueprint_name": "northeast bed",
+    "blueprint_requires": [ { "id": "fbmh_2_bed_NE_1" }, { "id": "fbmh_2_room_NE", "amount": 2 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_NE_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_NE_2" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_strawbed_ENE",
+    "description": "A pair of straw beds in the southern room to the northeast will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_strawbed_ENE",
+    "blueprint_name": "east north east straw beds",
+    "blueprint_requires": [ { "id": "fbmh_2_room_ENE", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_ENE_1" }, { "id": "fbmh_2_bed_ENE_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_ENE_1" }, { "id": "fbmh_2_bed_ENE_2" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_room_bed_ENE",
+    "description": "A pair of proper beds in the southern room to the northeast will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmh_2_bed_ENE",
     "blueprint_name": "east north east beds",
-    "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": {
-        "fbmh_2_straw_bed_palette": "Straw bed",
-        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
-        "fbmh_2_bed_palette": "Bed"
-      }
-    },
-    "blueprint_requires": [ { "id": "fbmh_2_room_ENE" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_bed_ENE" } ],
-    "blueprint_excludes": [ { "id": "fbmh_2_bed_ENE" } ]
+    "blueprint_requires": [ { "id": "fbmh_2_room_ENE", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_ENE_1" }, { "id": "fbmh_2_bed_ENE_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_ENE_1" }, { "id": "fbmh_2_bed_ENE_2" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_strawbed_ESE",
+    "description": "A pair of straw beds in the east northern room to the southeast will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_strawbed_ESE",
+    "blueprint_name": "east south east straw beds",
+    "blueprint_requires": [ { "id": "fbmh_2_room_ESE", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_ESE_1" }, { "id": "fbmh_2_bed_ESE_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_ESE_1" }, { "id": "fbmh_2_bed_ESE_2" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_2_bed_ESE",
-    "description": "A pair of beds in the east northern room to the southeast will allow us to house two more people.",
+    "description": "A pair of proper beds in the northern room to the southeast will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmh_2_bed_ESE",
     "blueprint_name": "east south east beds",
-    "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": {
-        "fbmh_2_straw_bed_palette": "Straw bed",
-        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
-        "fbmh_2_bed_palette": "Bed"
-      }
-    },
-    "blueprint_requires": [ { "id": "fbmh_2_room_ESE" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_bed_ESE" } ],
-    "blueprint_excludes": [ { "id": "fbmh_2_bed_ESE" } ]
+    "blueprint_requires": [ { "id": "fbmh_2_room_ESE", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_ESE_1" }, { "id": "fbmh_2_bed_ESE_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_ESE_1" }, { "id": "fbmh_2_bed_ESE_2" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_strawbed_SE",
+    "description": "A pair of straw beds in the south eastern room will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_strawbed_SE",
+    "blueprint_name": "southeast straw beds",
+    "blueprint_requires": [ { "id": "fbmh_2_room_SE", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_SE_1" }, { "id": "fbmh_2_bed_SE_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_SE_1" }, { "id": "fbmh_2_bed_SE_2" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_2_bed_SE",
-    "description": "A pair of beds in the south eastern room will allow us to house two more people.",
+    "description": "A pair of proper beds in the south eastern room will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmh_2_bed_SE",
     "blueprint_name": "southeast beds",
-    "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": {
-        "fbmh_2_straw_bed_palette": "Straw bed",
-        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
-        "fbmh_2_bed_palette": "Bed"
-      }
-    },
-    "blueprint_requires": [ { "id": "fbmh_2_room_SE" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_bed_SE" } ],
-    "blueprint_excludes": [ { "id": "fbmh_2_bed_SE" } ]
+    "blueprint_requires": [ { "id": "fbmh_2_room_SE", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_SE_1" }, { "id": "fbmh_2_bed_SE_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_SE_1" }, { "id": "fbmh_2_bed_SE_2" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_strawbed_SW",
+    "description": "A pair of straw beds in the south western room will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_strawbed_SW",
+    "blueprint_name": "southwest straw beds",
+    "blueprint_requires": [ { "id": "fbmh_2_room_SW", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_SW_1" }, { "id": "fbmh_2_bed_SW_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_SW_1" }, { "id": "fbmh_2_bed_SW_2" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_2_bed_SW",
-    "description": "A pair of beds in the south western room will allow us to house two more people.",
+    "description": "A pair of proper beds in the south western room will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmh_2_bed_SW",
     "blueprint_name": "southwest beds",
-    "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": {
-        "fbmh_2_straw_bed_palette": "Straw bed",
-        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
-        "fbmh_2_bed_palette": "Bed"
-      }
-    },
-    "blueprint_requires": [ { "id": "fbmh_2_room_SW" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_bed_SW" } ],
-    "blueprint_excludes": [ { "id": "fbmh_2_bed_SW" } ]
+    "blueprint_requires": [ { "id": "fbmh_2_room_SW", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_SW_1" }, { "id": "fbmh_2_bed_SW_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_SW_1" }, { "id": "fbmh_2_bed_SW_2" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_strawbed_WSW",
+    "description": "A pair of straw beds in the northern room to the southwest will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_strawbed_WSW",
+    "blueprint_name": "west south west straw beds",
+    "blueprint_requires": [ { "id": "fbmh_2_room_WSW", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_WSW_1" }, { "id": "fbmh_2_bed_WSW_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_WSW_1" }, { "id": "fbmh_2_bed_WSW_2" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_2_bed_WSW",
-    "description": "A pair of beds in the northern room to the southwest will allow us to house two more people.",
+    "description": "A pair of proper beds in the northern room to the southwest will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmh_2_bed_WSW",
     "blueprint_name": "west south west beds",
-    "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": {
-        "fbmh_2_straw_bed_palette": "Straw bed",
-        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
-        "fbmh_2_bed_palette": "Bed"
-      }
-    },
-    "blueprint_requires": [ { "id": "fbmh_2_room_WSW" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_bed_WSW" } ],
-    "blueprint_excludes": [ { "id": "fbmh_2_bed_WSW" } ]
+    "blueprint_requires": [ { "id": "fbmh_2_room_WSW", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_WSW_1" }, { "id": "fbmh_2_bed_WSW_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_WSW_1" }, { "id": "fbmh_2_bed_WSW_2" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_strawbed_WNW",
+    "description": "A pair of straw beds in the southern room to the northwest will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_strawbed_WNW",
+    "blueprint_name": "west north west straw beds",
+    "blueprint_requires": [ { "id": "fbmh_2_room_WNW", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_WNW_1" }, { "id": "fbmh_2_bed_WNW_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_WNW_1" }, { "id": "fbmh_2_bed_WNW_2" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "fbmh_2_bed_WNW",
-    "description": "A pair of beds in the southern room to the northwest will allow us to house two more people.",
+    "description": "A pair of proper beds in the southern room to the northwest will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmh_2_bed_WNW",
     "blueprint_name": "west north west beds",
-    "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": {
-        "fbmh_2_straw_bed_palette": "Straw bed",
-        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
-        "fbmh_2_bed_palette": "Bed"
-      }
-    },
-    "blueprint_requires": [ { "id": "fbmh_2_room_WNW" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_bed_WNW" } ],
-    "blueprint_excludes": [ { "id": "fbmh_2_bed_WNW" } ]
+    "blueprint_requires": [ { "id": "fbmh_2_room_WNW", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_WNW_1" }, { "id": "fbmh_2_bed_WNW_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_WNW_1" }, { "id": "fbmh_2_bed_WNW_2" } ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "fbmh_2_strawbed_NW",
+    "description": "A pair of straw beds in the north western room will allow us to house two more people.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmh_2_strawbed_NW",
+    "blueprint_name": "northwest straw beds",
+    "blueprint_requires": [ { "id": "fbmh_2_room_NW", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_NW_1" }, { "id": "fbmh_2_bed_NW_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_NW_1" }, { "id": "fbmh_2_bed_NW_2" } ]
+  },
+  {
+    "type": "recipe",
     "result": "fbmh_2_bed_NW",
-    "description": "A pair of beds in the north western room will allow us to house two more people.",
+    "description": "A pair of proper beds in the north western room will allow us to house two more people.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "fbmh_2_bed_NW",
     "blueprint_name": "northwest beds",
-    "blueprint_parameter_names": {
-      "fbmh_2_bed_palette": {
-        "fbmh_2_straw_bed_palette": "Straw bed",
-        "fbmh_2_makeshift_bed_palette": "Makeshift bed",
-        "fbmh_2_bed_palette": "Bed"
-      }
-    },
-    "blueprint_requires": [ { "id": "fbmh_2_room_NW" } ],
-    "blueprint_provides": [ { "id": "fbmh_2_bed_NW" } ],
-    "blueprint_excludes": [ { "id": "fbmh_2_bed_NW" } ]
+    "blueprint_requires": [ { "id": "fbmh_2_room_NW", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmh_2_bed_NW_1" }, { "id": "fbmh_2_bed_NW_2" } ],
+    "blueprint_excludes": [ { "id": "fbmh_2_bed_NW_1" }, { "id": "fbmh_2_bed_NW_2" } ]
   },
   {
     "type": "recipe",

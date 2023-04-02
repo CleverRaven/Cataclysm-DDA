@@ -65,6 +65,6 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
         }
         chosen_genders.push_back( subject_genders.first + ":" + chosen_gender );
     }
-    std::string context = string_join( chosen_genders, " " );
+    std::string context = join( chosen_genders, " " );
     return pgettext( context.c_str(), msg.c_str() );
 }

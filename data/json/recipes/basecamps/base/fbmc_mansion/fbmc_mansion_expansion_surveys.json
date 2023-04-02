@@ -97,7 +97,7 @@
       { "id": "saltworks_recipes_2" },
       { "id": "saltworks_recipes_3" }
     ],
-    "blueprint_resources": [ "oven" ]
+    "blueprint_resources": [ "fake_oven" ]
   },
   {
     "type": "recipe",
@@ -233,6 +233,6 @@
       { "id": "saltworks_recipes_2" },
       { "id": "saltworks_recipes_3" }
     ],
-    "blueprint_resources": [ "oven" ]
+    "blueprint_resources": [ "fake_oven" ]
   }
 ]

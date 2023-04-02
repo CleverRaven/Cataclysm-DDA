@@ -40,7 +40,7 @@
     "autolearn": [ [ "swimming", 5 ] ],
     "time": "1 h",
     "practice_data": { "min_difficulty": 3, "max_difficulty": 6, "skill_limit": 5 },
-    "proficiencies": [ { "proficiency": "prof_parkour", "time_multiplier": 2, "skill_penalty": 2 } ],
+    "proficiencies": [ { "proficiency": "prof_parkour", "fail_multiplier": 3, "time_multiplier": 2 } ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ "parkour_practice" ] ]
   }

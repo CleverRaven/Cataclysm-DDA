@@ -55,7 +55,7 @@
   {
     "type": "item_group",
     "id": "NC_robofac_security_head_weapon",
-    "items": [ { "item": "rm20", "charges": 20, "ammo-item": "20x66_slug", "contents-group": "robofac_sec_weapon_mods" } ]
+    "items": [ { "item": "needlegun", "charges": 100, "ammo-item": "5x50heavy", "contents-group": "robofac_sec_weapon_mods" } ]
   },
   {
     "type": "item_group",
@@ -65,9 +65,8 @@
       { "item": "goggles_nv", "charges": [ 50, 100 ] },
       { "item": "flashbang", "count": 2 },
       { "item": "plut_cell", "count": 5 },
-      { "item": "20x66_40_mag", "count": 2, "charges": 40, "ammo-item": "20x66_shot" },
-      { "item": "20x66_beanbag", "count": 1 },
-      { "item": "20x66_frag", "count": 2 }
+      { "item": "5x50_100_mag", "count": 2, "charges": 100, "ammo-item": "5x50heavy" },
+      { "item": "5x50heavy", "count": 2 }
     ]
   }
 ]

@@ -39,7 +39,7 @@ fi
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
 ccache -M 5G
-ccache --show-stats --verbose
+ccache --show-stats
 
 function run_test
 {

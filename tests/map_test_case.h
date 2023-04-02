@@ -3,7 +3,6 @@
 
 #include <functional>
 #include <new>
-#include <optional>
 #include <set>
 #include <sstream>
 #include <vector>
@@ -11,6 +10,7 @@
 #include "cata_catch.h"
 #include "map.h"
 #include "mapdata.h"
+#include "optional.h"
 #include "point.h"
 
 /**
@@ -71,7 +71,7 @@ class map_test_case
          * When using any `for_each_tile` variant, calculated (map) coordinates (`tile::p`) are such that
          * `anchor_char` point within `setup` is aligned with the map coords stored in `anchor_map_pos`.
          */
-        std::optional<char> anchor_char = std::nullopt;
+        cata::optional<char> anchor_char = cata::nullopt;
 
         /**
          *  The 'anchor' coordinates on the map (in map coordinates).
@@ -143,7 +143,7 @@ class map_test_case
     private:
         // origin (0,0) of this `map_test_case` in `map` coordinates
         // based on `anchor_map_pos` and `anchor_char`, lazily calculated when needed, reset on transformations
-        std::optional<tripoint> origin = std::nullopt;
+        cata::optional<tripoint> origin = cata::nullopt;
 
         // flag that internal sanity checks are completed, resets on transformations
         bool checks_complete = false;
@@ -212,13 +212,13 @@ tile_predicate ter_set(
  * Function that prints encountered char and fails.
  * Use at the end of the chain of char handlers.
  */
-inline const tile_predicate fail = []( map_test_case::tile t )
+static const tile_predicate fail = []( map_test_case::tile t )
 {
     FAIL( "Setup char is not handled: " << t.setup_c );
     return false;
 };
 
-inline const tile_predicate noop = []( map_test_case::tile )
+static const tile_predicate noop = []( map_test_case::tile )
 {
     return true;
 };

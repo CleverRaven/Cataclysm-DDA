@@ -11,7 +11,11 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 void DeterminismCheck::registerMatchers( MatchFinder *Finder )
 {
@@ -91,4 +95,6 @@ void DeterminismCheck::check( const MatchFinder::MatchResult &Result )
     CheckInit( *this, Result );
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

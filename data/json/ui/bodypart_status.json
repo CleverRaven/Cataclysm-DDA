@@ -17,7 +17,7 @@
         "text": "broken",
         "sym": "%",
         "color": "magenta",
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
       },
       {
         "id": "splinted",
@@ -48,7 +48,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
           ]
         }
       },
@@ -60,7 +60,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
           ]
         }
       },

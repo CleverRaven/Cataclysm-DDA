@@ -11,7 +11,6 @@
     "batch_time_factors": [ 50, 4 ],
     "autolearn": [ [ "cooking", 8 ] ],
     "book_learn": [ [ "distilling_cookbook", 2 ], [ "winemaking_beginner", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_distilling" }, { "proficiency": "prof_beverage_distilling" } ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
     "components": [ [ [ "cheap_wine", 21, "LIST" ], [ "worthy_wine", 15, "LIST" ] ] ]
@@ -28,7 +27,6 @@
     "time": "5 m",
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "distilling_cookbook", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_distilling" }, { "proficiency": "prof_beverage_distilling" } ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
     "components": [ [ [ "gin_mash", 21 ] ] ]
@@ -45,7 +43,6 @@
     "time": "30 m",
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "distilling_cookbook", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_distilling" }, { "proficiency": "prof_beverage_distilling" } ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
     "components": [ [ [ "wash_vodka", 21 ] ] ]
@@ -61,7 +58,6 @@
     "time": "30 m",
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "distilling_cookbook", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_distilling" }, { "proficiency": "prof_beverage_distilling" } ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
     "components": [ [ [ "wash_rum", 21 ] ] ]
@@ -77,7 +73,6 @@
     "time": "30 m",
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "distilling_cookbook", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_distilling" }, { "proficiency": "prof_beverage_distilling" } ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
     "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
     "components": [ [ [ "wash_whiskey", 21 ] ] ]
@@ -93,11 +88,6 @@
     "time": "30 m",
     "batch_time_factors": [ 50, 4 ],
     "book_learn": [ [ "distilling_cookbook", 1 ] ],
-    "//": [
-      "Moonshine… I wouldn't call it exactly *tasty* but… ",
-      "Let it have Beverage Distillation anyways (at least someone drinks this)."
-    ],
-    "proficiencies": [ { "proficiency": "prof_distilling" }, { "proficiency": "prof_beverage_distilling" } ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 21, "LIST" ] ] ],
     "components": [ [ [ "wash_moonshine", 21 ] ] ]

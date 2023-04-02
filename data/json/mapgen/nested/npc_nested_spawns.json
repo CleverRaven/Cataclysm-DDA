@@ -10,15 +10,5 @@
     "method": "json",
     "nested_mapgen_id": "NPC_meteorologist_spawn",
     "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "NPC_meteorologist", "x": 0, "y": 0 } ] }
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "faction_start_add",
-    "method": "json",
-    "object": {
-      "faction_owner": [ { "id": "your_followers", "x": [ 1, 23 ], "y": [ 1, 23 ] } ],
-      "place_npcs": [ { "class": "your_follower_base_setup", "x": 10, "y": 10 }, { "class": "your_follower", "x": 1, "y": 5 } ],
-      "place_nested": [ { "chunks": [ "4x4_planksandtools" ], "x": [ 3 ], "y": [ 3 ] } ]
-    }
   }
 ]

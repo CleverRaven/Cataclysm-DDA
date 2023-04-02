@@ -53,7 +53,7 @@ TEST_CASE( "map_test_case_common", "[map_test_case]" )
             counter++;
             return true;
         };
-        map_test_case_common::tile_predicate f = inc + inc + inc;
+        auto f = inc + inc + inc;
         CHECK( counter == 0 );
         f( {} );
         CHECK( counter == 3 );

@@ -9,55 +9,55 @@
         "id": "new_moon",
         "text": "New moon",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 0 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 0 } ] }
       },
       {
         "id": "waxing_crescent",
         "text": "Waxing crescent",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 1 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 1 } ] }
       },
       {
         "id": "half_moon",
         "text": "Half moon",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 2 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 2 } ] }
       },
       {
         "id": "waxing_gibbous",
         "text": "Waxing gibbous",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 3 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
       },
       {
         "id": "full_moon",
         "text": "Full moon",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 4 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 4 } ] }
       },
       {
         "id": "waning_gibbous",
         "text": "Waning gibbous",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 5 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 5 } ] }
       },
       {
         "id": "half_moon",
         "text": "Half moon",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 6 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 6 } ] }
       },
       {
         "id": "waning_crescent",
         "text": "Waning crescent",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 7 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 7 } ] }
       },
       {
         "id": "dark_moon",
         "text": "Dark moon",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 8 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 8 } ] }
       }
     ]
   },
@@ -67,54 +67,54 @@
     "label": "Moon",
     "style": "text",
     "clauses": [
-      { "id": "new_moon", "text": " -- ", "color": "white", "condition": { "compare_num": [ "moon", "==", { "const": 0 } ] } },
+      { "id": "new_moon", "text": " -- ", "color": "white", "condition": { "compare_int": [ "moon", "==", { "const": 0 } ] } },
       {
         "id": "waxing_crescent",
         "text": "   ) ↑",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 1 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 1 } ] }
       },
       {
         "id": "half_moon",
         "text": "  |) ↑",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 2 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 2 } ] }
       },
       {
         "id": "waxing_gibbous",
         "text": " ||) ↑",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 3 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
       },
       {
         "id": "full_moon",
         "text": "(||)",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 4 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 4 } ] }
       },
       {
         "id": "waning_gibbous",
         "text": "(||  ↓",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 5 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 5 } ] }
       },
       {
         "id": "half_moon",
         "text": "(|   ↓",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 6 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 6 } ] }
       },
       {
         "id": "waning_crescent",
         "text": "(    ↓",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 7 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 7 } ] }
       },
       {
         "id": "dark_moon",
         "text": " -- ",
         "color": "white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 8 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 8 } ] }
       }
     ]
   }

@@ -10,7 +10,9 @@ namespace clang
 class LangOptions;
 class SourceManager;
 
-namespace tidy::cata
+namespace tidy
+{
+namespace cata
 {
 
 StringLiteralIterator::StringLiteralIterator( const StringLiteral &str, const size_t ind )
@@ -184,5 +186,6 @@ ptrdiff_t StringLiteralIterator::distance( const StringLiteralIterator &beg,
     }
 }
 
-} // namespace tidy::cata
+} // namespace cata
+} // namespace tidy
 } // namespace clang

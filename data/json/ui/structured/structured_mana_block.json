@@ -24,7 +24,6 @@
     "style": "graph",
     "var": "mana",
     "width": 26,
-    "separator": ": ",
     "symbols": ".\\|",
     "fill": "bucket",
     "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_blue" ]
@@ -59,6 +58,7 @@
     "id": "structured_max_mana_num",
     "type": "widget",
     "label": "/",
+    "separator": " ",
     "style": "number",
     "var": "max_mana",
     "colors": [ "c_light_blue" ]

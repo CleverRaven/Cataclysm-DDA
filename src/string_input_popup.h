@@ -261,9 +261,6 @@ class string_input_popup // NOLINT(cata-xy)
         bool confirmed() const {
             return _confirmed;
         }
-        void confirm() {
-            _confirmed = true;
-        }
         /**
          * Returns false if the last input was unhandled. Useful to avoid handling
          * input already handled by the popup itself.

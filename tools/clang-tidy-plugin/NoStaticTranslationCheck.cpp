@@ -7,7 +7,11 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 void NoStaticTranslationCheck::registerMatchers( MatchFinder *Finder )
@@ -55,4 +59,6 @@ void NoStaticTranslationCheck::check( const MatchFinder::MatchResult &Result )
     );
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

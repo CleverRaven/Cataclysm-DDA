@@ -171,7 +171,7 @@ bool reachability_cache<Horizontal, Types...>::has_potential_los(
         dirty_any = false;
     }
 
-    point dp = to - from;
+    point dp = ( to - from );
     int d = std::abs( dp.x ) + std::abs( dp.y );
 
     bool south = to.y > from.y;

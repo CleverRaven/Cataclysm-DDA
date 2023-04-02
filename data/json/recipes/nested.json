@@ -545,14 +545,7 @@
     "name": "chitinous leg guards",
     "description": "Recipes related to constructing durable leg guards from chitin.",
     "skill_used": "tailor",
-    "nested_category_data": [
-      "legguard_chitin",
-      "xs_legguard_chitin",
-      "xl_legguard_chitin",
-      "legguard_acidchitin",
-      "xs_legguard_acidchitin",
-      "xl_legguard_acidchitin"
-    ],
+    "nested_category_data": [ "legguard_chitin", "legguard_acidchitin" ],
     "difficulty": 5
   },
   {
@@ -2402,7 +2395,7 @@
       "steel_lump",
       "steel_lump_from_other_steel",
       "budget_steel_lump",
-      "budget_steel_lump_from_scrap",
+      "budget_steel_lump_scrap",
       "lc_steel_lump",
       "mc_steel_lump",
       "hc_steel_lump"
@@ -3660,7 +3653,6 @@
       "sheet_nomex_patchwork",
       "sheet_lycra_patchwork",
       "sheet_nylon_patchwork",
-      "sheet_denim_patchwork",
       "sheet_canvas_patchwork"
     ],
     "difficulty": 1
@@ -3678,7 +3670,6 @@
       "peanut_shelled",
       "hickory_nut_shelled",
       "walnut_shelled",
-      "butternut_shelled",
       "hazelnut_shelled",
       "chestnut_shelled",
       "pecan_shelled",
@@ -4272,17 +4263,6 @@
     "description": "Recipes related to creating scrap aluminum.",
     "skill_used": "fabrication",
     "nested_category_data": [ "scrap_aluminum_melted_foil", "scrap_aluminum_assorted_scrap" ]
-  },
-  {
-    "id": "nested_pemmican",
-    "type": "nested_category",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_MEAT",
-    "name": "pemmican",
-    "description": "Recipes related to making pemmican.",
-    "skill_used": "cooking",
-    "nested_category_data": [ "pemmican", "pemmican_veggy", "pemmican_meat" ]
   },
   {
     "id": "nested_chairs",

@@ -1,6 +1,5 @@
 #include <functional>
 #include <new>
-#include <optional>
 #include <ostream>
 #include <utility>
 #include <vector>
@@ -13,6 +12,7 @@
 #include "map_iterator.h"
 #include "map_test_case.h"
 #include "mapdata.h"
+#include "optional.h"
 #include "options_helpers.h"
 #include "point.h"
 

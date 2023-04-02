@@ -3,7 +3,7 @@
     "type": "furniture",
     "id": "f_flower_marloss",
     "name": "Marloss flower",
-    "description": "This flower looks mostly like the other flowers taken by the mushrooms, but its bulb is a brilliant cyan color.  It emits an aroma that is both overwhelming and strangely alluring.",
+    "description": "This flower is like the other flowers taken by the mushrooms, but its bulb is colored a brilliant cyan color.  It emits an aroma both overwhelming and strangely alluring.",
     "symbol": "f",
     "color": "cyan",
     "move_cost_mod": 1,

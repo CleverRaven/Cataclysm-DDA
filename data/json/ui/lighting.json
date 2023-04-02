@@ -9,31 +9,31 @@
         "id": "bright",
         "text": "bright",
         "color": "yellow",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "<=", { "const": 1 } ] }
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "<=", { "const": 1 } ] }
       },
       {
         "id": "cloudy",
         "text": "cloudy",
         "color": "white",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 2 } ] }
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 2 } ] }
       },
       {
         "id": "shady",
         "text": "shady",
         "color": "light_gray",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 3 } ] }
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 3 } ] }
       },
       {
         "id": "dark",
         "text": "dark",
         "color": "dark_gray",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 4 } ] }
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 4 } ] }
       },
       {
         "id": "very dark",
         "text": "very dark",
         "color": "black_white",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, ">=", { "const": 5 } ] }
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, ">=", { "const": 5 } ] }
       }
     ]
   },

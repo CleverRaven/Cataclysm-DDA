@@ -8,7 +8,6 @@
 #include <map>
 #include <memory>
 #include <new>
-#include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -35,6 +34,7 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"

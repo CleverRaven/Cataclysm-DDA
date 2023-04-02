@@ -19,14 +19,14 @@ const std::vector<skill_boost> &skill_boost::get_all()
     return all_skill_boosts.get_all();
 }
 
-std::optional<skill_boost> skill_boost::get( const std::string &stat_str )
+cata::optional<skill_boost> skill_boost::get( const std::string &stat_str )
 {
     for( const skill_boost &boost : get_all() ) {
         if( boost.stat() == stat_str ) {
-            return std::optional<skill_boost>( boost );
+            return cata::optional<skill_boost>( boost );
         }
     }
-    return std::nullopt;
+    return cata::nullopt;
 }
 
 void skill_boost::load_boost( const JsonObject &jo, const std::string &src )

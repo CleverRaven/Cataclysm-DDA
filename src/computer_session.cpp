@@ -5,7 +5,6 @@
 #include <functional>
 #include <memory>
 #include <new>
-#include <optional>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -43,6 +42,7 @@
 #include "mission.h"
 #include "monster.h"
 #include "mtype.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -580,7 +580,7 @@ void computer_session::action_research()
     // TODO: seed should probably be a member of the computer, or better: of the computer action.
     // It is here to ensure one computer reporting the same text on each invocation.
     const int seed = std::hash<tripoint_abs_sm> {}( here.get_abs_sub() ) + comp.alerts;
-    std::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
+    cata::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
     if( !log.has_value() ) {
         log = to_translation( "No data found." );
     } else {
@@ -1407,10 +1407,14 @@ void computer_session::action_deactivate_shock_vent()
     Character &player_character = get_player_character();
     player_character.moves -= 30;
     bool has_vent = false;
+    bool has_generator = false;
     map &here = get_map();
     for( const tripoint &dest : here.points_in_radius( player_character.pos(), 10 ) ) {
         if( here.get_field( dest, fd_shock_vent ) != nullptr ) {
             has_vent = true;
+        }
+        if( here.ter( dest ) == t_plut_generator ) {
+            has_generator = true;
         }
         here.remove_field( dest, fd_shock_vent );
     }
@@ -1425,7 +1429,11 @@ void computer_session::action_deactivate_shock_vent()
     }
     print_line(
         _( "External power lines status: 100%% OFFLINE.  Reason: NO EXTERNAL POWER DETECTED." ) );
-    print_line( _( "Backup power status: STANDBY MODE." ) );
+    if( has_generator ) {
+        print_line( _( "Backup power status: STANDBY MODE." ) );
+    } else {
+        print_error( _( "Backup power status: OFFLINE.  Reason: UNKNOWN" ) );
+    }
     query_any( _( "Press any key…" ) );
 }
 

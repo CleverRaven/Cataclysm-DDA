@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_NPC_ATTACK_H
 #define CATA_SRC_NPC_ATTACK_H
 
-#include <optional>
 #include <vector>
 
 #include "gun_mode.h"
 #include "item.h"
 #include "map_iterator.h"
+#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -18,14 +18,14 @@ class npc;
 class npc_attack_rating
 {
         // the total calculated effectiveness of this attack. no value means this attack is not possible.
-        std::optional<int> _value = std::nullopt;
+        cata::optional<int> _value = cata::nullopt;
         // the target tile of the attack
         tripoint _target;
     public:
         npc_attack_rating() = default;
-        npc_attack_rating( const std::optional<int> &_value,
+        npc_attack_rating( const cata::optional<int> &_value,
                            const tripoint &_target ) : _value( _value ), _target( _target ) {}
-        std::optional<int> value() const {
+        cata::optional<int> value() const {
             return _value;
         }
         tripoint target() const {

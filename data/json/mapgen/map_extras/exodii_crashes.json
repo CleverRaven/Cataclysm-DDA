@@ -167,7 +167,6 @@
         "||MM||",
         "||mm||"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
       "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
     }
@@ -186,7 +185,6 @@
         "||MM||",
         "||mm||"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
       "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ] }
     }
@@ -205,7 +203,6 @@
         "||MM||",
         " |mm| "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
       "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100 } ] }
     }
@@ -224,7 +221,6 @@
         "||||||",
         "||||||"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
       "items": { "_": [ { "item": "SUS_exodii_storage_medvalue", "chance": 100, "repeat": [ 1, 3 ] } ] }
     }
@@ -242,7 +238,6 @@
         "||M||",
         "||m||"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
       "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
     }
@@ -260,7 +255,6 @@
         "|||||",
         "|||||"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
       "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
     }
@@ -278,7 +272,6 @@
         "|||||",
         " ||| "
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
       "items": { "_": [ { "item": "SUS_exodii_storage_highvalue", "chance": 100 } ] }
     }
@@ -294,7 +287,6 @@
         "|_|",
         "|m|"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
       "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
     }
@@ -310,7 +302,6 @@
         "|_|",
         "|||"
       ],
-      "flags": [ "ERASE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "exodii_crash_palette" ],
       "items": { "_": [ { "item": "SUS_exodii_storage_lowvalue", "chance": 100 } ] }
     }

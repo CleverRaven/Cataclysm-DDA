@@ -92,7 +92,7 @@ flexbuffer_cache &cache_for_lexically_normal_path( const cata_path &path )
 }
 
 // The file pointed to by source_file must exist.
-std::optional<JsonValue> from_path_at_offset_opt_impl( const cata_path &source_file,
+cata::optional<JsonValue> from_path_at_offset_opt_impl( const cata_path &source_file,
         size_t offset )
 {
     cata_path lexically_normal_path = source_file.lexically_normal();
@@ -105,7 +105,7 @@ std::optional<JsonValue> from_path_at_offset_opt_impl( const cata_path &source_f
         buffer = flexbuffer_cache::parse( lexically_normal_path.get_unrelative_path(), offset );
     }
     if( !buffer ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
 
     flexbuffers::Reference buffer_root = flexbuffer_root_from_storage( buffer->get_storage() );
@@ -114,16 +114,16 @@ std::optional<JsonValue> from_path_at_offset_opt_impl( const cata_path &source_f
 
 } // namespace
 
-std::optional<JsonValue> json_loader::from_path_at_offset_opt( const cata_path &source_file,
+cata::optional<JsonValue> json_loader::from_path_at_offset_opt( const cata_path &source_file,
         size_t offset ) noexcept( false )
 {
     if( !file_exist( source_file.get_unrelative_path() ) ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
     return from_path_at_offset_opt_impl( source_file, offset );
 }
 
-std::optional<JsonValue> json_loader::from_path_opt( const cata_path &source_file ) noexcept(
+cata::optional<JsonValue> json_loader::from_path_opt( const cata_path &source_file ) noexcept(
     false )
 {
     return from_path_at_offset_opt( source_file, 0 );
@@ -161,13 +161,13 @@ JsonValue json_loader::from_string( std::string const &data ) noexcept( false )
     return JsonValue( std::move( buffer ), buffer_root, nullptr, 0 );
 }
 
-std::optional<JsonValue> json_loader::from_string_opt( std::string const &data ) noexcept( false )
+cata::optional<JsonValue> json_loader::from_string_opt( std::string const &data ) noexcept( false )
 {
-    std::optional<JsonValue> ret;
+    cata::optional<JsonValue> ret;
     try {
         ret = from_string( data );
     } catch( JsonError &e ) {
-        ret = std::nullopt;
+        ret = cata::nullopt;
     }
     return ret;
 }

@@ -5,7 +5,11 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 static constexpr unsigned DefaultMaxStatements = 2;
@@ -93,7 +97,10 @@ static void CheckDecl( LargeInlineFunctionCheck &Check,
     }
 
     // Source file uses should be banned entirely
-    if( !isInHeader( ThisDecl->getBeginLoc(), SM ) ) {
+    StringRef Filename = SM.getFilename( ThisDecl->getBeginLoc() );
+    // The .h.tmp.cpp catches the test case; that's the style of filename used
+    // by lit.
+    if( SM.isInMainFile( ThisDecl->getBeginLoc() ) && !Filename.endswith( ".h.tmp.cpp" ) ) {
         // ... but only when they are *really* inline
         if( ThisDecl->isInlineSpecified() ) {
             Check.diag(
@@ -131,4 +138,6 @@ void LargeInlineFunctionCheck::check( const MatchFinder::MatchResult &Result )
     CheckDecl( *this, Result );
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

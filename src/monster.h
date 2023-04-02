@@ -9,7 +9,6 @@
 #include <iosfwd>
 #include <map>
 #include <new>
-#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
@@ -21,6 +20,7 @@
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
+#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -327,8 +327,8 @@ class monster : public Creature
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
-        void make_bleed( const effect_source &source, time_duration duration,
-                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
+        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
                                      damage_instance &dam ) override;
@@ -541,7 +541,7 @@ class monster : public Creature
         short ignoring = 0;
         bool aggro_character = true;
 
-        std::optional<time_point> lastseen_turn;
+        cata::optional<time_point> lastseen_turn;
 
         // Stair data.
         int staircount = 0;
@@ -586,16 +586,16 @@ class monster : public Creature
 
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
-        std::optional<tripoint_abs_ms> goal;
+        cata::optional<tripoint_abs_ms> goal;
         bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades = false;
         int upgrade_time = 0;
         bool reproduces = false;
-        std::optional<time_point> baby_timer;
+        cata::optional<time_point> baby_timer;
         bool biosignatures = false;
-        std::optional<time_point> biosig_timer;
+        cata::optional<time_point> biosig_timer;
         time_point udder_timer;
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
@@ -605,7 +605,7 @@ class monster : public Creature
         int next_patrol_point = -1;
 
         std::bitset<NUM_MEFF> effect_cache;
-        std::optional<time_point> lifespan_end = std::nullopt;
+        cata::optional<time_point> lifespan_end = cata::nullopt;
         int turns_since_target = 0;
 
         Character *find_dragged_foe();

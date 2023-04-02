@@ -36,7 +36,6 @@
         "      ",
         "      "
       ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ],
       "palettes": [ "acidia_camp_palette" ]
     }
   },
@@ -44,15 +43,10 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "bc_prim_farm_short_fields",
-    "object": {
-      "mapgensize": [ 2, 2 ],
-      "rows": [
+    "object": { "mapgensize": [ 2, 2 ], "rows": [
         "mm",
         "mm"
-      ],
-      "flags": [ "DISMANTLE_ALL_BEFORE_PLACING_TERRAIN" ],
-      "palettes": [ "acidia_camp_palette" ]
-    }
+      ], "palettes": [ "acidia_camp_palette" ] }
   },
   {
     "type": "mapgen",

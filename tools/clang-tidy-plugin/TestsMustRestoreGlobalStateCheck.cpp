@@ -20,7 +20,11 @@ class MacroDefinition;
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 TestsMustRestoreGlobalStateCheck::TestsMustRestoreGlobalStateCheck(
@@ -138,4 +142,6 @@ void TestsMustRestoreGlobalStateCheck::onEndOfTranslationUnit()
     }
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

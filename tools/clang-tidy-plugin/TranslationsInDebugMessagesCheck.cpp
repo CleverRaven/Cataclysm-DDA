@@ -9,7 +9,11 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 void TranslationsInDebugMessagesCheck::registerMatchers( MatchFinder *Finder )
@@ -61,4 +65,6 @@ void TranslationsInDebugMessagesCheck::check( const MatchFinder::MatchResult &Re
     }
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

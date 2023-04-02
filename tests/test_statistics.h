@@ -34,7 +34,7 @@ struct upper_lower_threshold {
 
 // we cache the margin of error so when adding a new value we must invalidate
 // it so it gets calculated a again
-constexpr double invalid_err = -1;
+static constexpr double invalid_err = -1;
 
 template<typename T>
 class statistics

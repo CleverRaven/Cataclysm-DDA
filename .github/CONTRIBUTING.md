@@ -1,0 +1,1 @@
+../doc/CONTRIBUTING.md

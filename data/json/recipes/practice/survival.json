@@ -10,7 +10,7 @@
     "skill_used": "survival",
     "skills_required": [ [ "fabrication", 1 ] ],
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
-    "proficiencies": [ { "proficiency": "prof_knapping", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "proficiencies": [ { "proficiency": "prof_knapping", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "time": "1 h",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "HAMMER_SOFT", "level": 1 } ],
     "//": "You destroy the rocks with your practice, leaving you with some pebbles.",
@@ -32,7 +32,7 @@
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
     "proficiencies": [
       { "proficiency": "prof_knapping", "required": true },
-      { "proficiency": "prof_knapping_speed", "time_multiplier": 1, "skill_penalty": 0 }
+      { "proficiency": "prof_knapping_speed", "fail_multiplier": 1, "time_multiplier": 1 }
     ],
     "time": "1 h",
     "qualities": [

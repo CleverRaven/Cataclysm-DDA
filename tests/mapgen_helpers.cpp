@@ -20,7 +20,7 @@ void manual_update_mapgen( tripoint_abs_omt const &pos, update_mapgen_id const &
 {
     // make sure we don't rotate the update
     overmap_buffer.ter_set( pos, oter_field.id() );
-    run_mapgen_update_func( id, pos, {}, nullptr, false );
+    run_mapgen_update_func( id, pos, nullptr, false );
 }
 
 void manual_nested_mapgen( tripoint_abs_omt const &pos, nested_mapgen_id const &id )

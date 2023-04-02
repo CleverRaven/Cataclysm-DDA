@@ -3,46 +3,45 @@
     "type": "palette",
     "id": "campground_palette",
     "terrain": {
-      "#": [ [ "t_region_groundcover_forest", 40 ], [ "t_region_shrub", 5 ], [ "t_region_tree", 7 ] ],
-      " ": [ [ "t_region_groundcover_barren", 15 ], "t_region_groundcover" ],
-      ".": "t_region_groundcover",
+      "#": "t_region_groundcover",
+      "&": "t_thconc_floor",
+      "+": [ "t_door_c", "t_door_o" ],
+      "_": [ [ "t_region_groundcover_forest", 40 ], [ "t_region_shrub", 5 ], [ "t_region_tree", 7 ] ],
+      ";": "t_region_groundcover",
+      ",": "t_region_groundcover",
+      "B": "t_region_groundcover",
+      "H": [ "t_region_groundcover_barren", "t_region_groundcover" ],
+      "n": [ "t_region_groundcover_barren", "t_region_groundcover" ],
+      "S": "t_thconc_floor",
+      "T": "t_thconc_floor",
+      "f": "t_floor",
+      "D": "t_floor",
+      "h": "t_floor",
+      ".": [ [ "t_region_groundcover_barren", 15 ], "t_region_groundcover" ],
+      "b": "t_region_groundcover",
+      "c": "t_region_groundcover",
+      "s": "t_region_groundcover_urban",
+      "t": "t_region_groundcover",
       "|": "t_wall_w",
       "w": "t_window",
-      "&": "t_thconc_floor",
-      "s": "t_thconc_floor",
-      "_": "t_thconc_floor",
-      "+": [ "t_door_c", "t_door_o" ],
       "o": "t_pit_shallow",
       "O": "t_gutter_downspout"
     },
     "furniture": {
+      "D": "f_desk",
+      "h": "f_chair",
       "H": "f_camp_chair",
+      "#": "f_large_canvas_wall",
+      "&": "f_toilet",
+      ";": "f_large_groundsheet",
+      ",": "f_center_groundsheet",
       "B": "f_brazier",
-      "s": "f_sink",
+      "S": "f_sink",
       "b": "f_bench",
+      "c": [ "f_large_canvas_door", "f_large_canvas_door_o" ],
       "t": "f_table",
       "n": "f_tourist_table",
       "o": "f_firering"
-    },
-    "toilets": { "&": {  } },
-    "nested": {
-      "N": { "chunks": [ [ "tent_b_5x5_N", 2 ], [ "tent_5x5_N", 10 ] ] },
-      "S": { "chunks": [ [ "tent_b_5x5_S", 2 ], [ "tent_5x5_S", 10 ] ] },
-      "E": { "chunks": [ [ "tent_b_5x5_E", 2 ], [ "tent_5x5_E", 10 ] ] },
-      "W": { "chunks": [ [ "tent_b_5x5_W", 2 ], [ "tent_5x5_W", 10 ] ] }
-    },
-    "items": {
-      ";": [
-        { "item": "dresser", "chance": 5, "repeat": [ 1, 2 ] },
-        { "item": "creepy", "chance": 2 },
-        { "item": "camping", "chance": 5 },
-        { "item": "archery", "chance": 2 }
-      ],
-      "t": [
-        { "item": "barbecue", "chance": 5, "repeat": [ 1, 2 ] },
-        { "item": "misc_smoking", "chance": 2 },
-        { "item": "cannedfood", "chance": 2, "repeat": [ 1, 2 ] }
-      ]
     }
   }
 ]

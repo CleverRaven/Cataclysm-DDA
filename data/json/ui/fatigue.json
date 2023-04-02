@@ -10,8 +10,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "fatigue" }, ">=", { "const": 191 } ] },
-            { "compare_num": [ { "u_val": "fatigue" }, "<", { "const": 383 } ] }
+            { "compare_int": [ { "u_val": "fatigue" }, ">=", { "const": 191 } ] },
+            { "compare_int": [ { "u_val": "fatigue" }, "<", { "const": 383 } ] }
           ]
         }
       },
@@ -21,8 +21,8 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "fatigue" }, ">=", { "const": 383 } ] },
-            { "compare_num": [ { "u_val": "fatigue" }, "<", { "const": 575 } ] }
+            { "compare_int": [ { "u_val": "fatigue" }, ">=", { "const": 383 } ] },
+            { "compare_int": [ { "u_val": "fatigue" }, "<", { "const": 575 } ] }
           ]
         }
       },
@@ -30,7 +30,7 @@
         "id": "exhausted",
         "text": "Exhausted",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "fatigue" }, ">=", { "const": 575 } ] }
+        "condition": { "compare_int": [ { "u_val": "fatigue" }, ">=", { "const": 575 } ] }
       }
     ]
   },

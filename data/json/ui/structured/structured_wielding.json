@@ -3,26 +3,14 @@
     "id": "structured_wielding_layout",
     "type": "widget",
     "style": "layout",
-    "arrange": "minimum_columns",
-    "widgets": [ "wielding_simple_desc_no_label", "structured_mode_ammo_layout" ]
+    "arrange": "columns",
+    "widgets": [ "wielding_simple_desc_no_label", "structured_wielding_mode_ammo_layout" ]
   },
   {
-    "id": "structured_mode_ammo_layout",
+    "id": "structured_wielding_mode_ammo_layout",
     "type": "widget",
     "style": "layout",
     "arrange": "columns",
-    "widgets": [ "structured_wielding_mode", "structured_ammo" ]
-  },
-  {
-    "id": "structured_wielding_mode",
-    "type": "widget",
-    "copy-from": "wielding_mode_desc_no_label",
-    "text_align": "right"
-  },
-  {
-    "id": "structured_ammo",
-    "type": "widget",
-    "copy-from": "wielding_ammo_desc_no_label",
-    "text_align": "right"
+    "widgets": [ "wielding_mode_desc_no_label", "wielding_ammo_desc_no_label" ]
   }
 ]

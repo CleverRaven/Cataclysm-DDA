@@ -50,12 +50,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "feral_police",
-    "base_faction": "zombie",
-    "friendly": [ "cop_bot", "passive_machine" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "cult",
     "base_faction": "zombie",
     "neutral": [ "slime", "zombie", "nether", "vortex", "passive_machine" ],
@@ -139,7 +133,7 @@
     "type": "MONSTER_FACTION",
     "name": "fish",
     "base_faction": "animal",
-    "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider", "beetle_diving", "water_scorpion" ],
+    "hate": [ "aquatic_predator", "zombie_aquatic", "mutant_piscivores", "crayfish", "strider" ],
     "by_mood": [ "bear", "big_cat", "kraken" ],
     "neutral": [
       "zombie",
@@ -299,8 +293,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "cop_bot",
-    "base_faction": "bot",
-    "friendly": [ "feral_police" ]
+    "base_faction": "bot"
   },
   {
     "type": "MONSTER_FACTION",
@@ -518,19 +511,7 @@
     "type": "MONSTER_FACTION",
     "name": "strider",
     "base_faction": "insect",
-    "hate": [ "small_animal", "fish", "beetle_diving", "water_scorpion" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "beetle_diving",
-    "base_faction": "insect",
-    "hate": [ "small_animal", "fish", "strider", "water_scorpion" ]
-  },
-  {
-    "type": "MONSTER_FACTION",
-    "name": "water_scorpion",
-    "base_faction": "insect",
-    "hate": [ "small_animal", "fish", "strider", "beetle_diving" ]
+    "hate": [ "small_animal", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -627,5 +608,10 @@
     "name": "dark_wyrm",
     "base_faction": "mutant",
     "neutral": [ "dark_wyrm" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "beetle",
+    "//": "faction for non-stag beetles, ported from TropiCata"
   }
 ]

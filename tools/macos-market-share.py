@@ -38,7 +38,6 @@ replacement = {
     'mac OS X Lion': (10, 7),
     'OS X Mountain Lion': (10, 8),
     'mac OS X Leopard': (10, 6),
-    'mac OS X Tiger': (10, 4),
     'Other': (0,)
 }
 

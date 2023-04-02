@@ -25,13 +25,6 @@
     "body_graph": "tiny_full_body_widget"
   },
   {
-    "id": "tiny_body_graph_side_template",
-    "type": "widget",
-    "copy-from": "body_graph_template",
-    "height": 3,
-    "body_graph": "tiny_full_body_side_widget"
-  },
-  {
     "id": "body_graph",
     "type": "widget",
     "copy-from": "body_graph_template",
@@ -49,13 +42,6 @@
     "id": "tiny_body_graph",
     "type": "widget",
     "copy-from": "tiny_body_graph_template",
-    "label": "Body Graph",
-    "var": "body_graph"
-  },
-  {
-    "id": "tiny_body_graph_side",
-    "type": "widget",
-    "copy-from": "tiny_body_graph_side_template",
     "label": "Body Graph",
     "var": "body_graph"
   },
@@ -81,13 +67,6 @@
     "var": "body_graph_temp"
   },
   {
-    "id": "tiny_body_graph_side_temp",
-    "type": "widget",
-    "copy-from": "tiny_body_graph_side_template",
-    "label": "Body Graph (temperature)",
-    "var": "body_graph_temp"
-  },
-  {
     "id": "body_graph_encumb",
     "type": "widget",
     "copy-from": "body_graph_template",
@@ -109,13 +88,6 @@
     "var": "body_graph_encumb"
   },
   {
-    "id": "tiny_body_graph_side_encumb",
-    "type": "widget",
-    "copy-from": "tiny_body_graph_side_template",
-    "label": "Body Graph (encumbrance)",
-    "var": "body_graph_encumb"
-  },
-  {
     "id": "body_graph_status",
     "type": "widget",
     "copy-from": "body_graph_template",
@@ -133,13 +105,6 @@
     "id": "tiny_body_graph_status",
     "type": "widget",
     "copy-from": "tiny_body_graph_template",
-    "label": "Body Graph (status)",
-    "var": "body_graph_status"
-  },
-  {
-    "id": "tiny_body_graph_side_status",
-    "type": "widget",
-    "copy-from": "tiny_body_graph_side_template",
     "label": "Body Graph (status)",
     "var": "body_graph_status"
   }

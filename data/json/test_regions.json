@@ -149,7 +149,24 @@
         "s_lot": 6
       }
     },
-    "weather": { "base_temperature": 8.0, "base_humidity": 40.0, "base_pressure": 1015.0 },
+    "weather": {
+      "base_temperature": 8.0,
+      "base_humidity": 40.0,
+      "base_pressure": 1015.0,
+      "weather_types": [
+        "clear",
+        "sunny",
+        "cloudy",
+        "light_drizzle",
+        "drizzle",
+        "rain",
+        "thunder",
+        "lightning",
+        "flurries",
+        "snowing",
+        "snowstorm"
+      ]
+    },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   },
   {

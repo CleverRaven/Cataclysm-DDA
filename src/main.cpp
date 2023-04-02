@@ -2,6 +2,7 @@
  */
 
 // IWYU pragma: no_include <sys/signal.h>
+#include <clocale>
 #include <algorithm>
 #include <array>
 #include <clocale>

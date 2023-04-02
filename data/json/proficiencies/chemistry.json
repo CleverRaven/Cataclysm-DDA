@@ -7,7 +7,7 @@
     "description": "You are beginning to grasp a general idea of how elements and compounds react with each other.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_skill_penalty": 0.4,
+    "default_fail_multiplier": 1.4,
     "time_to_learn": "12 h"
   },
   {
@@ -18,7 +18,7 @@
     "description": "You are beginning to gain a general idea of how various living beings function.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_skill_penalty": 0.4,
+    "default_fail_multiplier": 1.4,
     "time_to_learn": "12 h"
   },
   {
@@ -29,7 +29,7 @@
     "description": "Knowledge of the branch of chemistry that studies and uses carbon-containing compounds.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_skill_penalty": 0.25,
+    "default_fail_multiplier": 1.25,
     "required_proficiencies": [ "prof_intro_chemistry" ],
     "time_to_learn": "8 h"
   },
@@ -41,7 +41,7 @@
     "description": "Knowledge of the branch of chemistry that studies and uses compounds not containing carbon.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_skill_penalty": 0.25,
+    "default_fail_multiplier": 1.25,
     "required_proficiencies": [ "prof_intro_chemistry" ],
     "time_to_learn": "8 h"
   },
@@ -53,7 +53,7 @@
     "description": "The understanding of the chemistry of living things.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_skill_penalty": 0.25,
+    "default_fail_multiplier": 1.25,
     "required_proficiencies": [ "prof_organic_chemistry", "prof_intro_biology" ],
     "time_to_learn": "8 h",
     "default_weakpoint_bonus": 2,
@@ -67,7 +67,7 @@
     "description": "An in-depth understanding of how humans and animals operate.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_skill_penalty": 0.25,
+    "default_fail_multiplier": 1.25,
     "required_proficiencies": [ "prof_intro_biology" ],
     "time_to_learn": "12 h",
     "default_weakpoint_bonus": 2,
@@ -81,7 +81,7 @@
     "description": "You are beginning to grasp a general idea of how alien and post-Cataclysm mutated creatures function and operate.",
     "can_learn": true,
     "default_time_multiplier": 2.0,
-    "default_skill_penalty": 0.3,
+    "default_fail_multiplier": 1.3,
     "required_proficiencies": [ "prof_intro_biology" ],
     "time_to_learn": "12 h",
     "default_weakpoint_bonus": 4,
@@ -95,7 +95,7 @@
     "description": "You're beginning to grasp the basics of chemical production.",
     "can_learn": true,
     "default_time_multiplier": 1.5,
-    "default_skill_penalty": 0.5,
+    "default_fail_multiplier": 1.5,
     "required_proficiencies": [ "prof_intro_chemistry" ],
     "time_to_learn": "12 h"
   },
@@ -107,7 +107,7 @@
     "description": "The proper understanding of safe chemical synthesization and how to clean your tools used for the next batch.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_skill_penalty": 0.25,
+    "default_fail_multiplier": 1.25,
     "required_proficiencies": [ "prof_intro_chem_synth" ],
     "time_to_learn": "16 h"
   },
@@ -119,7 +119,7 @@
     "description": "The process of separating two mixed liquids by their different boiling points.",
     "can_learn": true,
     "default_time_multiplier": 1.1,
-    "default_skill_penalty": 0.5,
+    "default_fail_multiplier": 1.5,
     "time_to_learn": "6 h"
   },
   {
@@ -130,7 +130,7 @@
     "description": "An understanding of the chemistry of metalworking and alloys.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_skill_penalty": 0.25,
+    "default_fail_multiplier": 1.25,
     "time_to_learn": "6 h"
   },
   {
@@ -141,7 +141,7 @@
     "description": "An understanding of how to produce various natural and chemical substances pure enough for human consumption.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_skill_penalty": 0.25,
+    "default_fail_multiplier": 1.25,
     "required_proficiencies": [ "prof_intro_chemistry", "prof_intro_biology" ],
     "time_to_learn": "8 h"
   }

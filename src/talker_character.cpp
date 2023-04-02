@@ -192,16 +192,6 @@ bool talker_character_const::has_trait( const trait_id &trait_to_check ) const
     return me_chr_const->has_trait( trait_to_check );
 }
 
-bool talker_character_const::has_recipe( const recipe_id &recipe_to_check ) const
-{
-    return me_chr_const->knows_recipe( &*recipe_to_check );
-}
-
-void talker_character::learn_recipe( const recipe_id &recipe_to_learn )
-{
-    me_chr->learn_recipe( &*recipe_to_learn );
-}
-
 bool talker_character_const::is_deaf() const
 {
     return me_chr_const->is_deaf();
@@ -476,8 +466,8 @@ bool talker_character_const::unarmed_attack() const
 
 bool talker_character_const::can_stash_weapon() const
 {
-    std::optional<bionic *> bionic_weapon = me_chr_const->find_bionic_by_uid(
-            me_chr_const->get_weapon_bionic_uid() );
+    cata::optional<bionic *> bionic_weapon = me_chr_const->find_bionic_by_uid(
+                me_chr_const->get_weapon_bionic_uid() );
     if( bionic_weapon && me_chr_const->can_deactivate_bionic( **bionic_weapon ).success() ) {
         return true;
     }
@@ -546,11 +536,6 @@ int talker_character_const::get_instant_thirst() const
 int talker_character_const::get_stored_kcal() const
 {
     return me_chr_const->get_stored_kcal();
-}
-
-int talker_character_const::get_healthy_kcal() const
-{
-    return me_chr_const->get_healthy_kcal();
 }
 
 void talker_character::set_stored_kcal( int value )
@@ -773,7 +758,7 @@ int talker_character_const::get_age() const
 
 int talker_character_const::get_bmi_permil() const
 {
-    return std::round( me_chr_const->get_bmi_fat() * 1000.0f );
+    return std::round( me_chr_const->get_bmi() * 1000.0f );
 }
 
 void talker_character::set_height( int amount )
@@ -836,7 +821,7 @@ void talker_character::add_bionic( const bionic_id &new_bionic )
 
 void talker_character::remove_bionic( const bionic_id &old_bionic )
 {
-    if( std::optional<bionic *> bio = me_chr->find_bionic_by_type( old_bionic ) ) {
+    if( cata::optional<bionic *> bio = me_chr->find_bionic_by_type( old_bionic ) ) {
         me_chr->remove_bionic( **bio );
     }
 }

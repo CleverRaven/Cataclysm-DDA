@@ -62,7 +62,7 @@
         "success": {
           "topic": "BGSS_RURAL_1_FARMSUCCESS",
           "effect": [
-            { "run_eocs": [ "EOC_RURAL_1_MAKE_MISSION" ] },
+            { "add_mission": "directions_rural_1_FARM" },
             { "u_message": "<npc_name> marks the location of the farm on your map.", "type": "good", "popup": true }
           ]
         },
@@ -82,20 +82,14 @@
   {
     "id": "BGSS_RURAL_1_FARMSUCCESS",
     "type": "talk_topic",
-    "dynamic_line": "I guess you look sturdy enough to take them on.  I marked the spot for you.",
-    "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_NONE" } ]
+    "dynamic_line": "I guess you look sturdy enough to take them on.  I marked the spot for you.  Take me with you so I can make sure you don't steal anything.  No offense… the farm is just all I've got.",
+    "responses": [ { "text": "Thanks for the directions.  Let's check it out.", "topic": "TALK_NONE" } ]
   },
   {
     "id": "BGSS_RURAL_1_FARMFAILURE",
     "type": "talk_topic",
     "dynamic_line": "I don't know if I trust you quite like that, just giving away so many personal details all at once.  Maybe later…",
     "responses": [ { "text": "Sorry, didn't mean to intrude.", "topic": "TALK_NONE" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_RURAL_1_MAKE_MISSION",
-    "//": "Assigns the mission through an EOC to avoid having to bring the NPC along with the player.",
-    "effect": [ { "assign_mission": "directions_rural_1_FARM" } ]
   },
   {
     "id": "directions_rural_1_FARM",
@@ -106,9 +100,10 @@
     "difficulty": 3,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Farm Mutable", "om_terrain": "farm_3", "reveal_radius": 3, "search_range": 400 },
+      "assign_mission_target": { "om_special": "Farm", "om_terrain": "farm_3", "reveal_radius": 3, "search_range": 400 },
       "effect": { "u_add_var": "rural_1_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
     },
+    "end": { "opinion": { "trust": 2, "value": 2 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "…",

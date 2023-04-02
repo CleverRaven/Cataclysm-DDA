@@ -6,7 +6,6 @@
 #include <iosfwd>
 #include <iterator>
 #include <list>
-#include <optional>
 #include <string>
 #include <vector>
 
@@ -23,6 +22,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_selector.h"
+#include "optional.h"
 #include "point.h"
 #include "ret_val.h"
 #include "safe_reference.h"
@@ -84,9 +84,6 @@ class item_location::impl
         }
         virtual item_location parent_item() const {
             return item_location();
-        }
-        virtual item_pocket *parent_pocket() const {
-            return nullptr;
         }
         virtual tripoint position() const = 0;
         virtual std::string describe( const Character * ) const = 0;
@@ -252,16 +249,13 @@ class item_location::impl::item_on_map : public item_location::impl
                 return 0;
             }
 
-            item *obj = target();
-            item temp;
-            if( target()->count_by_charges() ) {
-                temp = target()->split( qty );
-                if( !temp.is_null() ) {
-                    obj = &temp;
-                }
+            item obj = *target();
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *target();
             }
 
-            int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY );
+            int mv = ch.item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur.pos() );
 
             // TODO: handle unpacking costs
@@ -399,21 +393,18 @@ class item_location::impl::item_on_person : public item_location::impl
 
             int mv = 0;
 
-            item *obj = target();
-            item temp;
-            if( target()->count_by_charges() ) {
-                temp = target()->split( qty );
-                if( !temp.is_null() ) {
-                    obj = &temp;
-                }
+            item obj = *target();
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *target();
             }
 
             item &target_ref = *target();
             if( who->is_wielding( target_ref ) ) {
-                mv = who->item_handling_cost( *obj, false, 0 );
+                mv = who->item_handling_cost( obj, false, 0 );
             } else {
                 // then we are wearing it
-                mv = who->item_handling_cost( *obj, true, INVENTORY_HANDLING_PENALTY / 2 );
+                mv = who->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY / 2 );
                 mv += 250;
             }
 
@@ -523,16 +514,13 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 return 0;
             }
 
-            item *obj = target();
-            item temp;
-            if( target()->count_by_charges() ) {
-                temp = target()->split( qty );
-                if( !temp.is_null() ) {
-                    obj = &temp;
-                }
+            item obj = *target();
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *target();
             }
 
-            int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY );
+            int mv = ch.item_handling_cost( obj, true, VEHICLE_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
             // TODO: handle unpacking costs
@@ -555,10 +543,6 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             cur.veh.invalidate_mass();
         }
 
-        void make_active( item_location &head ) {
-            cur.veh.make_active( head );
-        }
-
         units::volume volume_capacity() const override {
             return cur.veh.free_volume( cur.part );
         }
@@ -576,7 +560,6 @@ class item_location::impl::item_in_container : public item_location::impl
 {
     private:
         item_location container;
-        mutable item_pocket *container_pkt = nullptr; // NOLINT(cata-serialize)
 
         // figures out the index for the item, which is where it is in the total list of contents
         // note: could be a better way of handling this?
@@ -599,18 +582,6 @@ class item_location::impl::item_in_container : public item_location::impl
     public:
         item_location parent_item() const override {
             return container;
-        }
-
-        item_pocket *parent_pocket() const override {
-            if( container_pkt == nullptr ) {
-                std::vector<item_pocket *> const pkts = parent_item()->get_all_standard_pockets();
-                if( pkts.size() == 1 ) {
-                    container_pkt = pkts.front();
-                } else {
-                    container_pkt = parent_item()->contained_where( *target() );
-                }
-            }
-            return container_pkt;
         }
 
         item_in_container( const item_location &container, item *which ) :
@@ -660,6 +631,13 @@ class item_location::impl::item_in_container : public item_location::impl
         void remove_item() override {
             on_contents_changed();
             container->remove_item( *target() );
+            item_location ancestor = parent_item();
+            while( ancestor.has_parent() ) {
+                ancestor = ancestor.parent_item();
+            }
+            if( !ancestor->needs_processing() ) {
+                get_map().remove_active_item( ancestor.position(), ancestor.get_item() );
+            }
         }
 
         void on_contents_changed() override {
@@ -677,19 +655,6 @@ class item_location::impl::item_in_container : public item_location::impl
                 // it's liable to end up back in the same pocket, where shenanigans ensue
                 return item_location( container, target() );
             }
-            if( target()->made_of( phase_id::LIQUID ) && container->num_item_stacks() == 1 ) {
-                item_location inv =
-                    ch.i_add( *container, should_stack, nullptr, &*container, false );
-                if( inv == item_location::nowhere ) {
-                    DebugLog( D_INFO, DC_ALL )
-                            << "failed to add item " << target()->tname()
-                            << " to character inventory while obtaining from container";
-                    return {};
-                }
-                container.remove_item();
-                return item_location{ inv, &inv->only_item() };
-            }
-
             const item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return ch.i_add( obj, should_stack,/*avoid=*/nullptr, nullptr,/*allow_drop=*/false );
@@ -697,10 +662,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 item_location inv = ch.i_add( *target(), should_stack,/*avoid=*/nullptr,
                                               target(), /*allow_drop=*/false );
                 if( inv == item_location::nowhere ) {
-                    DebugLog( D_INFO, DC_ALL )
-                            << "failed to add item " << target()->tname()
-                            << " to character inventory while obtaining from container";
-                    return {};
+                    debugmsg( "failed to add item to character inventory while obtaining from container" );
                 }
                 remove_item();
                 return inv;
@@ -712,7 +674,13 @@ class item_location::impl::item_in_container : public item_location::impl
                 return 0;
             }
 
-            const int container_mv = parent_pocket()->moves();
+            item obj = *target();
+            obj = obj.split( qty );
+            if( obj.is_null() ) {
+                obj = *target();
+            }
+
+            const int container_mv = container->obtain_cost( *target() );
             if( container_mv == 0 ) {
                 debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
                 return 0;
@@ -737,11 +705,11 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         units::volume volume_capacity() const override {
-            return parent_pocket()->remaining_volume();
+            return container->contained_where( *target() )->remaining_volume();
         }
 
         units::mass weight_capacity() const override {
-            return parent_pocket()->remaining_weight();
+            return container->contained_where( *target() )->remaining_weight();
         }
 
         bool check_parent_capacity_recursive() const override {
@@ -809,7 +777,7 @@ void item_location::serialize( JsonOut &js ) const
 
 void item_location::deserialize( const JsonObject &obj )
 {
-    std::string type = obj.get_string( "type" );
+    auto type = obj.get_string( "type" );
 
     int idx = -1;
     tripoint pos = tripoint_min;
@@ -862,15 +830,8 @@ item_location item_location::parent_item() const
     if( where() == type::container ) {
         return ptr->parent_item();
     }
+    debugmsg( "this item location type has no parent" );
     return item_location::nowhere;
-}
-
-item_pocket *item_location::parent_pocket() const
-{
-    if( where() == type::container ) {
-        return ptr->parent_pocket();
-    }
-    return nullptr;
 }
 
 bool item_location::has_parent() const
@@ -888,7 +849,7 @@ bool item_location::parents_can_contain_recursive( item *it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent_pocket();
+    item_pocket *pocket = parent->contained_where( *get_item() );
 
     if( pocket->can_contain( *it ).success() ) {
         return parent.parents_can_contain_recursive( it );
@@ -904,7 +865,7 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent_pocket();
+    item_pocket *pocket = parent->contained_where( *get_item() );
 
     return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
                        it.charges_per_weight( pocket->remaining_weight() ),
@@ -979,31 +940,6 @@ void item_location::on_contents_changed()
         return;
     }
     ptr->on_contents_changed();
-}
-
-void item_location::make_active()
-{
-    if( !ptr->valid() ) {
-        debugmsg( "item location does not point to valid item" );
-        return;
-    }
-    switch( where() ) {
-        case type::container: {
-            parent_item().make_active();
-            break;
-        }
-        case type::map: {
-            get_map().make_active( *this );
-            break;
-        }
-        case type::vehicle: {
-            dynamic_cast<impl::item_on_vehicle *>( ptr.get() )->make_active( *this );
-        }
-        case type::invalid:
-        case type::character: {
-            // NOOP: characters don't cache active items
-        }
-    }
 }
 
 item *item_location::get_item()

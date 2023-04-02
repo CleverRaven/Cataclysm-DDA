@@ -4,7 +4,11 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 void UnusedStaticsCheck::registerMatchers( MatchFinder *Finder )
@@ -73,4 +77,6 @@ void UnusedStaticsCheck::onEndOfTranslationUnit()
     }
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

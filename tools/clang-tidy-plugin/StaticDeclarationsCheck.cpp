@@ -4,7 +4,11 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 void StaticDeclarationsCheck::registerMatchers( MatchFinder *Finder )
@@ -30,6 +34,11 @@ static void CheckDecl( StaticDeclarationsCheck &Check,
 
     const SourceManager &SM = *Result.SourceManager;
 
+    // Ignore cases in header files for now
+    if( !SM.isInMainFile( ThisDecl->getBeginLoc() ) ) {
+        return;
+    }
+
     // Ignore cases that are not the first declaration
     if( ThisDecl->getPreviousDecl() ) {
         return;
@@ -41,32 +50,10 @@ static void CheckDecl( StaticDeclarationsCheck &Check,
     }
 
     bool IsStatic = false;
-    bool IsConst = false;
     if( const VarDecl *V = dyn_cast<VarDecl>( ThisDecl ) ) {
         IsStatic = V->getStorageClass() == SC_Static;
-        IsConst = V->getType().isConstQualified();
     } else if( const FunctionDecl *F = dyn_cast<FunctionDecl>( ThisDecl ) ) {
         IsStatic = F->getStorageClass() == SC_Static;
-    }
-
-    // In header files static is forbidden entirely
-    if( isInHeader( ThisDecl->getBeginLoc(), SM ) ) {
-        if( IsStatic ) {
-            if( IsConst ) {
-                Check.diag(
-                    ThisDecl->getBeginLoc(),
-                    "Declaration %0 should not be declared static in a header.  It is const, so "
-                    "implicitly has internal linkage and the static keyword can be removed."
-                ) << ThisDecl;
-            } else {
-                Check.diag(
-                    ThisDecl->getBeginLoc(),
-                    "Declaration %0 should not be declared static in a header.  Either move the "
-                    "definition to a cpp file or declare it inline instead."
-                ) << ThisDecl;
-            }
-        }
-        return;
     }
 
     // Ignore if already static.
@@ -103,4 +90,6 @@ void StaticDeclarationsCheck::check( const MatchFinder::MatchResult &Result )
     CheckDecl( *this, Result );
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

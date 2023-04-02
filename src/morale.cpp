@@ -43,7 +43,6 @@ static const trait_id trait_MASOCHIST( "MASOCHIST" );
 static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_NUMB( "NUMB" );
 static const trait_id trait_OPTIMISTIC( "OPTIMISTIC" );
-static const trait_id trait_RADIOPHILE( "RADIOPHILE" );
 static const trait_id trait_ROOTS1( "ROOTS1" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
@@ -62,8 +61,7 @@ bool is_permanent_morale( const morale_type &id )
             MORALE_PERM_MASOCHIST,
             MORALE_PERM_CONSTRAINED,
             MORALE_PERM_FILTHY,
-            MORALE_PERM_DEBUG,
-            MORALE_PERM_RADIOPHILE
+            MORALE_PERM_DEBUG
         }
     };
 
@@ -251,8 +249,7 @@ player_morale::player_morale() :
     took_prozac( false ),
     took_prozac_bad( false ),
     stylish( false ),
-    perceived_pain( 0 ),
-    radiation( 0 )
+    perceived_pain( 0 )
 {
     // Cannot use 'this' because the object is copyable
     const auto set_optimist = []( player_morale * pm, int bonus ) {
@@ -272,9 +269,6 @@ player_morale::player_morale() :
     };
     const auto update_masochist = []( player_morale * pm ) {
         pm->update_masochist_bonus();
-    };
-    const auto update_radiophile = []( player_morale * pm ) {
-        pm->update_radiophile_bonus();
     };
 
     mutations[trait_OPTIMISTIC] =
@@ -315,7 +309,6 @@ player_morale::player_morale() :
     mutations[trait_MASOCHIST]     = mutation_data( update_masochist );
     mutations[trait_MASOCHIST_MED] = mutation_data( update_masochist );
     mutations[trait_CENOBITE]      = mutation_data( update_masochist );
-    mutations[trait_RADIOPHILE]    = mutation_data( update_radiophile );
 }
 
 void player_morale::add( const morale_type &type, int bonus, int max_bonus,
@@ -853,9 +846,6 @@ bool player_morale::consistent_with( const player_morale &morale ) const
     } else if( perceived_pain != morale.perceived_pain ) {
         debugmsg( "player_morale::perceived_pain is inconsistent." );
         return false;
-    } else if( radiation != morale.radiation ) {
-        debugmsg( "player_morale::radiation is inconsistent." );
-        return false;
     }
 
     return test_points( *this, morale ) && test_points( morale, *this );
@@ -916,10 +906,6 @@ void player_morale::on_stat_change( const std::string &stat, int value )
     if( stat == "perceived_pain" ) {
         perceived_pain = value;
         update_masochist_bonus();
-    }
-    if( stat == "radiation" ) {
-        radiation = value;
-        update_radiophile_bonus();
     }
 }
 
@@ -1093,18 +1079,6 @@ void player_morale::update_masochist_bonus()
         }
     }
     set_permanent( MORALE_PERM_MASOCHIST, bonus );
-}
-
-void player_morale::update_radiophile_bonus()
-{
-    const bool is_radiophile = has_mutation( trait_RADIOPHILE );
-
-    int bonus = 0;
-
-    if( is_radiophile ) {
-        bonus = radiation / 20;
-    }
-    set_permanent( MORALE_PERM_RADIOPHILE, bonus );
 }
 
 void player_morale::update_bodytemp_penalty( const time_duration &ticks )

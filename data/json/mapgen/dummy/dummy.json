@@ -33,12 +33,5 @@
       ],
       "terrain": { " ": "t_null" }
     }
-  },
-  {
-    "type": "mapgen",
-    "om_terrain": [ "omt_obsolete" ],
-    "method": "json",
-    "//": "this mapgen is used for replacing obsoleted overmap terrain, normally it shouldn't spawn",
-    "object": { "fill_ter": "t_nether_glass_floor" }
   }
 ]

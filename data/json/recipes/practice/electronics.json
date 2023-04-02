@@ -10,7 +10,7 @@
     "skill_used": "electronics",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
-    "proficiencies": [ { "proficiency": "prof_elec_soldering", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "autolearn": [ [ "electronics", 1 ] ],
     "book_learn": [ [ "mag_electronics", 0 ], [ "manual_electronics", 0 ] ],
     "components": [ [ [ "cable", 5 ] ], [ [ "e_scrap", 2 ] ] ],
@@ -27,7 +27,7 @@
     "skill_used": "electronics",
     "time": "1 h",
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
-    "proficiencies": [ { "proficiency": "prof_elec_circuits", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "proficiencies": [ { "proficiency": "prof_elec_circuits", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "book_learn": [ [ "mag_electronics", 1 ], [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_electronics", 3 ] ],
     "//": "Some parts are listed as tools so they are not destroyed during crafting, while the components are consumed.",
     "tools": [
@@ -51,7 +51,7 @@
     "practice_data": { "min_difficulty": 1, "max_difficulty": 3, "skill_limit": 4 },
     "proficiencies": [
       { "proficiency": "prof_elec_circuits", "required": true },
-      { "proficiency": "prof_elec_semiconductors", "time_multiplier": 1, "skill_penalty": 0 }
+      { "proficiency": "prof_elec_semiconductors", "fail_multiplier": 1, "time_multiplier": 1 }
     ],
     "book_learn": [ [ "manual_electronics", 1 ], [ "advanced_electronics", 2 ], [ "textbook_electronics", 3 ] ],
     "tools": [
@@ -78,7 +78,7 @@
     "proficiencies": [
       { "proficiency": "prof_elec_circuits", "required": true },
       { "proficiency": "prof_elec_semiconductors", "required": true },
-      { "proficiency": "prof_elec_integrated_circuits", "time_multiplier": 1, "skill_penalty": 0 }
+      { "proficiency": "prof_elec_integrated_circuits", "fail_multiplier": 1, "time_multiplier": 1 }
     ],
     "book_learn": [ [ "advanced_electronics", 4 ], [ "textbook_electronics", 4 ], [ "ic_reference_electronics", 3 ] ],
     "tools": [

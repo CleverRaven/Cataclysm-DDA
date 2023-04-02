@@ -10,7 +10,7 @@
         "condition": {
           "and": [
             {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
             },
             { "npc_has_trait": "BOSS_NC_SURVIVOR_CHEF_01" },
             { "not": { "u_has_var": "directions", "type": "BOSS", "context": "mission", "value": "chef" } }

@@ -11,10 +11,10 @@
 
 static constexpr int num_trials = 5;
 
-static_assert( point::dimension == 2 );
-static_assert( tripoint::dimension == 3 );
-static_assert( point_abs_omt::dimension == 2 );
-static_assert( tripoint_abs_omt::dimension == 3 );
+static_assert( point::dimension == 2, "" );
+static_assert( tripoint::dimension == 3, "" );
+static_assert( point_abs_omt::dimension == 2, "" );
+static_assert( tripoint_abs_omt::dimension == 3, "" );
 
 TEST_CASE( "coordinate_strings", "[point][coords]" )
 {

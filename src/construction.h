@@ -7,7 +7,6 @@
 #include <list>
 #include <map>
 #include <new>
-#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -16,6 +15,7 @@
 #include "coordinates.h"
 #include "game_constants.h"
 #include "item.h"
+#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -56,7 +56,7 @@ struct construction {
         std::string post_terrain;
 
         // Item group of byproducts created by the construction on success.
-        std::optional<item_group_id> byproduct_item_group;
+        cata::optional<item_group_id> byproduct_item_group;
 
         // Flags beginning furniture/terrain must have
         // Second element forces flags to be evaluated on terrain
@@ -119,7 +119,7 @@ const std::vector<construction> &get_constructions();
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );
 
-void place_construction( std::vector<construction_group_str_id> const &groups );
+void place_construction( const construction_group_str_id &group );
 void load_construction( const JsonObject &jo );
 void reset_constructions();
 construction_id construction_menu( bool blueprint );

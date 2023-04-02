@@ -7,7 +7,6 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
-#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -17,8 +16,8 @@
 #include "input.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "mapdata.h"
 #include "memory_fast.h"
+#include "optional.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
@@ -65,6 +64,8 @@ class veh_interact
         explicit veh_interact( vehicle &veh, const point &p = point_zero );
         ~veh_interact();
 
+        item_location target;
+
         point dd = point_zero;
         /* starting offset for vehicle parts description display and max offset for scrolling */
         int start_at = 0;
@@ -72,23 +73,19 @@ class veh_interact
         /* starting offset for the overview and the max offset for scrolling */
         int overview_offset = 0;
         int overview_limit = 0;
-        /* starting offset for installation scrolling */
+        // starting offset for installation scrolling
         int w_msg_scroll_offset = 0;
-        /* starting offset for fuels scrolling */
-        int fuel_index = 0;
 
-        // target vehicle tank for refill with liquids
-        item_location refill_target;
-
-        const vehicle_part *sel_vehicle_part = nullptr;
         const vpart_info *sel_vpart_info = nullptr;
         std::string sel_vpart_variant;
-
-        // Command currently being run by the player
+        //Command currently being run by the player
         char sel_cmd = ' ';
+
+        const vehicle_part *sel_vehicle_part = nullptr;
 
         int cpart = -1;
         int page_size = 0;
+        int fuel_index = 0; /** Starting index of where to start printing fuels from */
         // height of the stats window
         const int stats_h = 8;
         catacurses::window w_border;
@@ -101,12 +98,11 @@ class veh_interact
         catacurses::window w_details;
         catacurses::window w_name;
 
+        bool ui_hidden = false;
         weak_ptr_fast<ui_adaptor> ui;
 
-        std::optional<std::string> title;
-        std::optional<std::string> msg;
-
-        bool ui_hidden = false;
+        cata::optional<std::string> title;
+        cata::optional<std::string> msg;
 
         int highlight_part = -1;
 
@@ -241,8 +237,8 @@ class veh_interact
 
         void count_durability();
 
-        nc_color total_durability_color;
         std::string total_durability_text;
+        nc_color total_durability_color;
 
         /** Returns the most damaged part's index, or -1 if they're all healthy. */
         vehicle_part *get_most_damaged_part() const;
@@ -284,10 +280,6 @@ class veh_interact
          * Can be converted to a vector<vehicle_part>.
          * Updated whenever the cursor moves. */
         std::vector<int> parts_here;
-
-        /* Terrain at current square.
-         * Updated whenever the cursor moves. */
-        ter_t terrain_here;
 
         /* called by exec() */
         void cache_tool_availability();

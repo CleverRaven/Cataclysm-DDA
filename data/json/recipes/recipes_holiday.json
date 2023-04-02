@@ -18,7 +18,7 @@
       [ [ "jug_plastic", 1 ], [ "bottle_plastic", 3 ], [ "bottle_bathroom", 3 ], [ "bottle_plastic_small", 6 ] ],
       [ [ "lightstrip_inactive", 1 ] ],
       [ [ "light_battery_cell", 1 ] ],
-      [ [ "paint_yellow", 1 ] ]
+      [ [ "y_paint", 1 ] ]
     ]
   },
   {

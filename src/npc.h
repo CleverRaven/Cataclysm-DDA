@@ -11,7 +11,6 @@
 #include <map>
 #include <memory>
 #include <new>
-#include <optional>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -38,6 +37,7 @@
 #include "memory_fast.h"
 #include "mission_companion.h"
 #include "npc_attack.h"
+#include "optional.h"
 #include "pimpl.h"
 #include "point.h"
 #include "sounds.h"
@@ -171,7 +171,7 @@ struct npc_companion_mission {
     mission_id miss_id;
     tripoint_abs_omt position;
     std::string role_id;
-    std::optional<tripoint_abs_omt> destination;
+    cata::optional<tripoint_abs_omt> destination;
 };
 
 std::string npc_class_name( const npc_class_id & );
@@ -540,7 +540,7 @@ struct npc_short_term_cache {
     // number of times we haven't moved when investigating a sound
     int stuck = 0;
     // Position to return to guarding
-    std::optional<tripoint> guard_pos;
+    cata::optional<tripoint> guard_pos;
     double my_weapon_value = 0;
 
     npc_attack_rating current_attack_evaluation;
@@ -558,7 +558,7 @@ struct npc_short_term_cache {
     // returns the value of the distance between a friendly creature and the closest enemy to that
     // friendly creature.
     // returns nullopt if not applicable
-    std::optional<int> closest_enemy_to_friendly_distance() const;
+    cata::optional<int> closest_enemy_to_friendly_distance() const;
 };
 
 struct npc_need_goal_cache {
@@ -950,9 +950,9 @@ class npc : public Character
         bool will_accept_from_player( const item &it ) const;
 
         bool wants_to_sell( const item_location &it ) const;
-        ret_val<void> wants_to_sell( const item_location &it, int at_price ) const;
+        ret_val<void> wants_to_sell( const item_location &it, int at_price, int market_price ) const;
         bool wants_to_buy( const item &it ) const;
-        ret_val<void> wants_to_buy( const item &/*it*/, int at_price ) const;
+        ret_val<void> wants_to_buy( const item &/*it*/, int at_price, int /*market_price*/ ) const;
 
         bool will_exchange_items_freely() const;
         int max_credit_extended() const;
@@ -1265,11 +1265,11 @@ class npc : public Character
         npc_class_id idz; // actual npc template used
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
-        std::optional<tripoint_abs_omt> assigned_camp = std::nullopt;
+        cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
 
         // accessors to ai_cache functions
         const std::vector<weak_ptr_fast<Creature>> &get_cached_friends() const;
-        std::optional<int> closest_enemy_to_friendly_distance() const;
+        cata::optional<int> closest_enemy_to_friendly_distance() const;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
@@ -1291,24 +1291,24 @@ class npc : public Character
         }
 
         // Where we last saw the player
-        std::optional<tripoint_abs_ms> last_player_seen_pos;
+        cata::optional<tripoint_abs_ms> last_player_seen_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         // These are the coordinates that a guard will return to inside of their goal tripoint
-        std::optional<tripoint_abs_ms> guard_pos;
+        cata::optional<tripoint_abs_ms> guard_pos;
         // This is the spot the NPC wants to move to to sit and relax.
-        std::optional<tripoint_abs_ms> chair_pos;
-        std::optional<tripoint_abs_omt> base_location; // our faction base location in OMT coords.
+        cata::optional<tripoint_abs_ms> chair_pos;
+        cata::optional<tripoint_abs_omt> base_location; // our faction base location in OMT coords.
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.
          */
         tripoint_abs_omt goal;
         // Spot to wander off to when idle.
-        std::optional<tripoint_abs_ms> wander_pos;
+        cata::optional<tripoint_abs_ms> wander_pos;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         // Location of the corpse we'd like to pulp (if any).
-        std::optional<tripoint_abs_ms> pulp_location;
+        cata::optional<tripoint_abs_ms> pulp_location;
         time_point restock;
         bool fetching_item = false;
         bool has_new_items = false; // If true, we have something new and should re-equip
@@ -1335,7 +1335,7 @@ class npc : public Character
         bool hit_by_player = false;
         bool hallucination = false; // If true, NPC is an hallucination
         std::vector<npc_need> needs;
-        std::optional<int> confident_range_cache;
+        cata::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint_abs_omt no_goal_point{ tripoint_min };
         job_data job;
@@ -1365,7 +1365,7 @@ class npc : public Character
             const mission_id &miss_id, const tripoint_abs_omt &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
-        std::optional<tripoint_abs_omt> get_mission_destination() const;
+        cata::optional<tripoint_abs_omt> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;

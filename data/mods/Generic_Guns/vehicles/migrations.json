@@ -1,0 +1,97 @@
+[
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_m2browning",
+    "to": "turret_rifle_huge_hmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_m249",
+    "to": "turret_rifle_lmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_m134",
+    "to": "turret_rifle_lmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_m240",
+    "to": "turret_rifle_lmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_m60",
+    "to": "turret_rifle_lmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_m60_semi",
+    "to": "turret_rifle_lmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_rm614_lmg",
+    "to": "turret_rifle_lmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_rm298",
+    "to": "turret_rifle_lmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_m249",
+    "to": "turret_rifle_lmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_m249_semi",
+    "to": "turret_rifle_lmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_mark19",
+    "to": "turret_grenade_hmg"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_m1918",
+    "to": "turret_rifle_assault"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_m231pfw",
+    "to": "turret_rifle_assault"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_pamd68",
+    "to": "turret_rifle_assault_foreign"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_pamd71z",
+    "to": "turret_rifle_assault_foreign"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_pamd68rubik",
+    "to": "turret_rifle_assault_foreign"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_pamd68mountable",
+    "to": "turret_rifle_assault_foreign"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_bigun",
+    "to": "turret_shot_tactical"
+  },
+  {
+    "type": "vehicle_part_migration",
+    "from": "turret_hk_g80",
+    "to": "turret_rifle_rail"
+  }
+]

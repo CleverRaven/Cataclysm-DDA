@@ -10,7 +10,7 @@
     "skill_used": "firstaid",
     "time": "1 h",
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 1 },
-    "proficiencies": [ { "proficiency": "prof_wound_care", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "proficiencies": [ { "proficiency": "prof_wound_care", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "autolearn": [ [ "firstaid", 0 ] ],
     "flags": [ "BLIND_HARD" ],
     "tools": [
@@ -35,7 +35,7 @@
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
     "proficiencies": [
       { "proficiency": "prof_wound_care", "required": true },
-      { "proficiency": "prof_wound_care_expert", "time_multiplier": 1, "skill_penalty": 0 }
+      { "proficiency": "prof_wound_care_expert", "fail_multiplier": 1, "time_multiplier": 1 }
     ],
     "autolearn": [ [ "firstaid", 1 ] ],
     "flags": [ "BLIND_HARD" ],

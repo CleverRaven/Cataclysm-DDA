@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <sstream>
 
+#include "computer.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "json.h"

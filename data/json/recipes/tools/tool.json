@@ -50,33 +50,6 @@
   {
     "type": "recipe",
     "activity_level": "ACTIVE_EXERCISE",
-    "result": "polesaw_off",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "mechanics",
-    "difficulty": 4,
-    "time": "5 h",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "book_icef", 3 ], [ "textbook_mechanics", 3 ], [ "textbook_carpentry", 3 ] ],
-    "using": [ [ "welding_standard", 10 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
-      { "proficiency": "prof_welding" }
-    ],
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [
-      [ [ "1cyl_combustion_small", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "chain", 1 ] ],
-      [ [ "scrap", 5 ] ],
-      [ [ "pipe", 2 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "ACTIVE_EXERCISE",
     "result": "chainsaw_off",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -89,11 +62,45 @@
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "1cyl_combustion_small", 1 ] ], [ [ "metal_tank_little", 1 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "mold_plastic",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "20 m",
+    "book_learn": [ [ "plastics_book", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
+    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "bowl_plastic", 4 ], [ "plastic_chunk", 12 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "steel_scissors",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "2 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_metalworking" },
+      { "proficiency": "prof_blacksmithing" },
+      { "proficiency": "prof_toolsmithing", "required": false, "time_multiplier": 1.5 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 1.5 }
+    ],
+    "qualities": [ { "id": "GRIND", "level": 2 } ],
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -110,7 +117,7 @@
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -215,7 +222,7 @@
   {
     "result": "butchering_kit",
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -244,8 +251,8 @@
         "proficiency": "prof_lockpicking",
         "required": false,
         "time_multiplier": 2,
-        "learning_time_multiplier": 0,
-        "skill_penalty": 0.5
+        "fail_multiplier": 1.5,
+        "learning_time_multiplier": 0
       }
     ],
     "qualities": [ [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ], { "id": "SAW_M", "level": 1 } ],
@@ -266,8 +273,8 @@
         "proficiency": "prof_lockpicking",
         "required": false,
         "time_multiplier": 2,
-        "learning_time_multiplier": 0,
-        "skill_penalty": 0.5
+        "fail_multiplier": 1.5,
+        "learning_time_multiplier": 0
       }
     ],
     "qualities": [ [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ] ],
@@ -287,8 +294,8 @@
         "proficiency": "prof_lockpicking",
         "required": false,
         "time_multiplier": 2,
-        "learning_time_multiplier": 0,
-        "skill_penalty": 0.5
+        "fail_multiplier": 1.5,
+        "learning_time_multiplier": 0
       }
     ],
     "//": "First item in the components list is serving as a torsion wrench. Many small flat items can be jammed in and turned to apply torsion.  Second item in the list is the pick itself which has to be a small, bent bit of wire or pin.",
@@ -957,7 +964,21 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ], [ "forge", 10 ], [ "oxy_torch", 2 ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 2, "LIST" ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 20, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "BRISK_EXERCISE",
+    "result": "mess_tin",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "3 h",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ]
   },
   {
     "type": "recipe",
@@ -1021,7 +1042,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
+    "activity_level": "fake",
     "result": "sieve_steel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -1034,7 +1055,7 @@
   {
     "result": "sieve_primitive",
     "type": "recipe",
-    "activity_level": "MODERATE_EXERCISE",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -1358,7 +1379,7 @@
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [
@@ -1392,12 +1413,13 @@
       [ "textbook_electronics", 4 ],
       [ "textbook_carpentry", 5 ]
     ],
-    "using": [ [ "surface_heat", 10 ], [ "soldering_standard", 10 ], [ "plastic_molding", 2 ] ],
+    "using": [ [ "surface_heat", 10 ], [ "soldering_standard", 10 ] ],
     "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_plasticworking", "required": false, "time_multiplier": 1.5 }
     ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "grinder_blade", 1 ] ],
@@ -1429,7 +1451,7 @@
   {
     "result": "mannequin_decoy",
     "type": "recipe",
-    "activity_level": "NO_EXERCISE",
+    "activity_level": "fake",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -1568,21 +1590,6 @@
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
     "tools": [ [ [ "hotcut", -1 ] ] ],
-    "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
-    "result": "makeshift_welding_blanket",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "tailor",
-    "difficulty": 2,
-    "time": "120 m",
-    "autolearn": [ [ "tailor", 3 ] ],
-    "book_learn": [ [ "welding_book", 1 ] ],
-    "using": [ [ "sewing_aramids", 50 ], [ "adhesive", 4 ] ],
-    "proficiencies": [ { "proficiency": "prof_polymerworking", "required": false, "time_multiplier": 1.5 } ],
-    "components": [ [ [ "rock_wool_bat", 22 ] ] ]
+    "components": [ [ [ "scrap_aluminum", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
   }
 ]

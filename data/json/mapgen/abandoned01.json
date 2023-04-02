@@ -66,7 +66,7 @@
       { "item": "water_clean", "prob": 10, "container-item": "canteen", "charges-min": 1, "charges-max": 5 },
       [ "3006", 25 ],
       [ "45_acp", 25 ],
-      { "item": "bandages", "prob": 15, "count": [ 1, 3 ] },
+      [ "bandages", 15 ],
       [ "bandana", 10 ],
       [ "cig", 5 ],
       { "item": "cell_phone", "prob": 3, "charges": [ 0, 150 ] },
@@ -407,7 +407,7 @@
         "H": "f_armchair"
       },
       "place_items": [ { "item": "trash_forest", "x": [ 2, 21 ], "y": [ 5, 19 ], "chance": 80, "repeat": [ 0, 2 ] } ],
-      "place_item": [ { "item": "teddy_bear", "x": 14, "y": 2 }, { "item": "silver_locket", "x": 14, "y": 2 } ],
+      "place_item": [ { "item": "teddy", "x": 14, "y": 2 }, { "item": "silver_locket", "x": 14, "y": 2 } ],
       "place_vehicles": [ { "vehicle": "car", "x": 5, "y": 7, "chance": 80, "fuel": 0, "status": 1, "rotation": 0 } ]
     }
   },

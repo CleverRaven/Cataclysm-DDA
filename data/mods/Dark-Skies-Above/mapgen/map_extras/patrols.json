@@ -1,0 +1,25 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_dsa_alrp",
+    "object": {
+      "place_monster": [
+        {
+          "monster": "dks_mon_skirmsoldier",
+          "x": 12,
+          "y": 12,
+          "repeat": [ 3, 4 ],
+          "spawn_data": { "patrol": [ { "x": -10, "y": -10 }, { "x": 33, "y": -10 }, { "x": 33, "y": 33 }, { "x": 33, "y": -10 } ] }
+        }
+      ]
+    }
+  },
+  {
+    "id": "mx_dsa_alrp",
+    "type": "map_extra",
+    "name": { "str": "DSA ALRP" },
+    "description": "Alien light reconnaissance patrol.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_dsa_alrp" }
+  }
+]

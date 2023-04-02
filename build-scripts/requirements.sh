@@ -67,7 +67,7 @@ if [ -n "${MXE_TARGET}" ]; then
   set +e
   retry=0
   until [[ "$retry" -ge 5 ]]; do
-    curl -L -o mxe-x86_64.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-x86_64.tar.xz && curl -L -o mxe-x86_64.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-sdl-2-0-20/mxe-x86_64.tar.xz.sha256 && shasum -a 256 -c ./mxe-x86_64.tar.xz.sha256 && break
+    curl -L -o mxe-x86_64.tar.xz https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-x86_64.tar.xz && curl -L -o mxe-x86_64.tar.xz.sha256 https://github.com/BrettDong/MXE-GCC/releases/download/mxe-gcc-11.2/mxe-x86_64.tar.xz.sha256 && shasum -a 256 -c ./mxe-x86_64.tar.xz.sha256 && break
     retry=$((retry+1))
     rm -f mxe-x86_64.tar.xz mxe-x86_64.tar.xz.sha256
     sleep 10
@@ -84,21 +84,6 @@ if [ -n "${MXE_TARGET}" ]; then
   # Need to overwrite CXX to make the Makefile $CROSS logic work right.
   export CXX="$COMPILER"
   export CCACHE=1
-
-  set +e
-  retry=0
-  until [[ "$retry" -ge 5 ]]; do
-    curl -L -o SDL2-devel-2.26.2-mingw.tar.gz https://github.com/libsdl-org/SDL/releases/download/release-2.26.2/SDL2-devel-2.26.2-mingw.tar.gz && shasum -a 256 -c ./build-scripts/SDL2-devel-2.26.2-mingw.tar.gz.sha256 && break
-    retry=$((retry+1))
-    rm -f SDL2-devel-2.26.2-mingw.tar.gz
-    sleep 10
-  done
-  if [[ "$retry" -ge 5 ]]; then
-    echo "Error downloading or checksum failed for SDL2-devel-2.26.2-mingw.tar.gz"
-    exit 1
-  fi
-  set -e
-  sudo tar -xzf SDL2-devel-2.26.2-mingw.tar.gz -C ${MXE_DIR}/usr/${MXE_TARGET} --strip-components=2 SDL2-2.26.2/x86_64-w64-mingw32
 
   set +e
   retry=0

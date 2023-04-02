@@ -31,6 +31,7 @@
       "~": "t_open_air_rooved",
       "ƨ": "t_water_pool_shallow",
       "%": "t_glass_railing",
+      "ɱ": "t_console_broken",
       "¥": "t_card_science",
       "±": "t_metal_ventilation_shutter",
       "ʔ": "t_reinforced_glass_shutter",
@@ -61,7 +62,6 @@
       "♣": "t_ramp_up_low"
     },
     "furniture": {
-      "ɱ": "f_console_broken",
       "a": "f_sample_freezer",
       "b": "f_scan_bed",
       "c": "f_lab_bench",

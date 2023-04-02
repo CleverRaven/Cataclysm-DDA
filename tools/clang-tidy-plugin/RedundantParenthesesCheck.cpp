@@ -26,7 +26,11 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 static auto isStmt()
@@ -138,4 +142,6 @@ void RedundantParenthesesCheck::check( const MatchFinder::MatchResult &Result )
     CheckExpr( *this, Result );
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

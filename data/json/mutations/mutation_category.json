@@ -13,9 +13,7 @@
     "threshold_mut": "",
     "skip_test": true,
     "mutagen_message": "You feel the aberrance fade.",
-    "vitamin": "mutagen_human",
-    "//": "Starting trait removal: Human-but categories: 20% chance 3x cost multiplier, vertebrates: 33% chance 2,5x cost, invertebrates: 50% chance 2x cost, non-Animalia: 75% chance 1.5x cost, extradimensional/generally a mess: 100% at base cost",
-    "base_removal_chance": 0
+    "vitamin": "mutagen_human"
   },
   {
     "type": "mutation_category",
@@ -24,9 +22,7 @@
     "threshold_mut": "THRESH_PLANT",
     "mutagen_message": "You feel much closer to nature.  Your breath and thoughts slow.",
     "memorial_message": "Bloomed forth.",
-    "vitamin": "mutagen_plant",
-    "base_removal_chance": 75,
-    "base_removal_cost_mul": 1.5
+    "vitamin": "mutagen_plant"
   },
   {
     "type": "mutation_category",
@@ -35,9 +31,7 @@
     "threshold_mut": "THRESH_INSECT",
     "mutagen_message": "You hear buzzing, and feel your body harden.",
     "memorial_message": "Metamorphosed.",
-    "vitamin": "mutagen_insect",
-    "base_removal_chance": 50,
-    "base_removal_cost_mul": 2.0
+    "vitamin": "mutagen_insect"
   },
   {
     "type": "mutation_category",
@@ -46,9 +40,7 @@
     "threshold_mut": "THRESH_SPIDER",
     "mutagen_message": "You feel insidious, and your vision fragments for a moment.",
     "memorial_message": "Found a place in the web of life.",
-    "vitamin": "mutagen_spider",
-    "base_removal_chance": 50,
-    "base_removal_cost_mul": 2.0
+    "vitamin": "mutagen_spider"
   },
   {
     "type": "mutation_category",
@@ -57,8 +49,7 @@
     "threshold_mut": "THRESH_SLIME",
     "mutagen_message": "Your body loses all rigidity for a moment.",
     "memorial_message": "Gave up on rigid human norms.",
-    "vitamin": "mutagen_slime",
-    "base_removal_cost_mul": 1.0
+    "vitamin": "mutagen_slime"
   },
   {
     "type": "mutation_category",
@@ -67,9 +58,7 @@
     "threshold_mut": "THRESH_FISH",
     "mutagen_message": "You are overcome by an overwhelming longing for the ocean.",
     "memorial_message": "Went deep.",
-    "vitamin": "mutagen_fish",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_fish"
   },
   {
     "type": "mutation_category",
@@ -78,9 +67,7 @@
     "threshold_mut": "THRESH_GASTROPOD",
     "mutagen_message": "Your split lower body starts to come back together.",
     "memorial_message": "Left a trail.",
-    "vitamin": "mutagen_gastropod",
-    "base_removal_chance": 75,
-    "base_removal_cost_mul": 1.5
+    "vitamin": "mutagen_gastropod"
   },
   {
     "type": "mutation_category",
@@ -89,9 +76,7 @@
     "threshold_mut": "THRESH_RAT",
     "mutagen_message": "You feel a momentary nausea.",
     "memorial_message": "Found that survival *is* everything.",
-    "vitamin": "mutagen_rat",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_rat"
   },
   {
     "type": "mutation_category",
@@ -100,9 +85,7 @@
     "threshold_mut": "THRESH_BEAST",
     "mutagen_message": "Your heart races and you see blood for a moment.",
     "memorial_message": "Embraced their bestial nature.",
-    "vitamin": "mutagen_beast",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_beast"
   },
   {
     "type": "mutation_category",
@@ -111,9 +94,7 @@
     "threshold_mut": "THRESH_URSINE",
     "mutagen_message": "You feel an urge to… patrol?  The forests?",
     "memorial_message": "Became one with the bears.",
-    "vitamin": "mutagen_ursine",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_ursine"
   },
   {
     "type": "mutation_category",
@@ -122,9 +103,7 @@
     "threshold_mut": "THRESH_FELINE",
     "mutagen_message": "Your back arches and the hair stands up on the back of your neck.",
     "memorial_message": "Realized the dream.",
-    "vitamin": "mutagen_feline",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_feline"
   },
   {
     "type": "mutation_category",
@@ -133,9 +112,7 @@
     "threshold_mut": "THRESH_LUPINE",
     "mutagen_message": "You feel an urge to mark your territory.  But then it passes.",
     "memorial_message": "Wolfed out.",
-    "vitamin": "mutagen_lupine",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_lupine"
   },
   {
     "type": "mutation_category",
@@ -144,9 +121,7 @@
     "threshold_mut": "THRESH_CATTLE",
     "mutagen_message": "Your mind and body slow down.  You feel peaceful.",
     "memorial_message": "Stopped worrying and learned to love the cowbell.",
-    "vitamin": "mutagen_cattle",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_cattle"
   },
   {
     "type": "mutation_category",
@@ -155,9 +130,7 @@
     "threshold_mut": "THRESH_CEPHALOPOD",
     "mutagen_message": "Your mind is overcome by images of eldritch horrors… and then they pass.",
     "memorial_message": "Began living the dreams.",
-    "vitamin": "mutagen_cephalopod",
-    "base_removal_chance": 50,
-    "base_removal_cost_mul": 2.0
+    "vitamin": "mutagen_cephalopod"
   },
   {
     "type": "mutation_category",
@@ -166,9 +139,7 @@
     "threshold_mut": "THRESH_BIRD",
     "mutagen_message": "Your body lightens and you long for the sky.",
     "memorial_message": "Broke free of humanity.",
-    "vitamin": "mutagen_bird",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_bird"
   },
   {
     "type": "mutation_category",
@@ -177,9 +148,7 @@
     "threshold_mut": "THRESH_LIZARD",
     "mutagen_message": "For a heartbeat, your blood cools down.",
     "memorial_message": "Shed the ugly human skin.",
-    "vitamin": "mutagen_lizard",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_lizard"
   },
   {
     "type": "mutation_category",
@@ -188,9 +157,7 @@
     "threshold_mut": "THRESH_BATRACHIAN",
     "mutagen_message": "Like a tadpole you must transform.",
     "memorial_message": "Found a bigger pond.",
-    "vitamin": "mutagen_batrachian",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_batrachian"
   },
   {
     "type": "mutation_category",
@@ -199,8 +166,7 @@
     "threshold_mut": "THRESH_TROGLOBITE",
     "mutagen_message": "You yearn for a cool, dark place to hide.",
     "memorial_message": "Adapted to underground living.",
-    "vitamin": "mutagen_troglobite",
-    "base_removal_chance": 20
+    "vitamin": "mutagen_troglobite"
   },
   {
     "type": "mutation_category",
@@ -209,8 +175,7 @@
     "threshold_mut": "THRESH_ALPHA",
     "mutagen_message": "You feel… better.  Somehow.",
     "memorial_message": "Started representing.",
-    "vitamin": "mutagen_alpha",
-    "base_removal_chance": 20
+    "vitamin": "mutagen_alpha"
   },
   {
     "type": "mutation_category",
@@ -219,8 +184,7 @@
     "threshold_mut": "THRESH_MEDICAL",
     "mutagen_message": "You can feel the blood rushing through your veins and a strange, medicated feeling washes over your senses.",
     "memorial_message": "Resumed clinical trials.",
-    "vitamin": "mutagen_medical",
-    "base_removal_chance": 20
+    "vitamin": "mutagen_medical"
   },
   {
     "type": "mutation_category",
@@ -229,8 +193,7 @@
     "threshold_mut": "THRESH_CHIMERA",
     "mutagen_message": "You need to roar, bask, bite, and flap.  NOW.",
     "memorial_message": "United disunity.",
-    "vitamin": "mutagen_chimera",
-    "base_removal_cost_mul": 1.0
+    "vitamin": "mutagen_chimera"
   },
   {
     "type": "mutation_category",
@@ -239,8 +202,7 @@
     "threshold_mut": "THRESH_ELFA",
     "mutagen_message": "Everything goes green for a second.  Nature is becoming one with you…",
     "memorial_message": "Accepted a more natural way of life.",
-    "vitamin": "mutagen_elfa",
-    "base_removal_chance": 20
+    "vitamin": "mutagen_elfa"
   },
   {
     "type": "mutation_category",
@@ -249,9 +211,7 @@
     "threshold_mut": "THRESH_RAPTOR",
     "mutagen_message": "You're struck by a primordial flashback… and then it passes.",
     "memorial_message": "Hatched.",
-    "vitamin": "mutagen_raptor",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_raptor"
   },
   {
     "type": "mutation_category",
@@ -260,9 +220,7 @@
     "threshold_mut": "THRESH_MOUSE",
     "mutagen_message": "You feel a desire to curl up in a nice, warm pile of… shredded paper.",
     "memorial_message": "Found the cheese.",
-    "vitamin": "mutagen_mouse",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_mouse"
   },
   {
     "type": "mutation_category",
@@ -271,9 +229,7 @@
     "threshold_mut": "THRESH_RABBIT",
     "mutagen_message": "Walking is overrated.  It's time to start hopping.",
     "memorial_message": "Acquired a taste for carrots.",
-    "vitamin": "mutagen_rabbit",
-    "base_removal_chance": 33,
-    "base_removal_cost_mul": 2.5
+    "vitamin": "mutagen_rabbit"
   },
   {
     "type": "mutation_category",

@@ -97,7 +97,9 @@ then
     TIDY="all"
 fi
 
-all_cpp_files="$(jq -r '.[].file' build/compile_commands.json)"
+all_cpp_files="$( \
+    grep '"file": "' build/compile_commands.json | \
+    sed "s+.*$PWD/++;s+\"$++")"
 if [ "$TIDY" == "all" ]
 then
     echo "Analyzing all files"

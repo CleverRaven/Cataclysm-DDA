@@ -53,6 +53,10 @@ TEST_CASE( "EOC_teleport", "[eoc]" )
 
 TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
 {
+    // FIXME: remove once the overlap warning in `map::load()` has been fully solved
+    restore_on_out_of_scope<bool> restore_test_mode( test_mode );
+    test_mode = false;
+
     // no introspection :(
     constexpr int eoc_range = 5;
     constexpr time_duration delay = 30_seconds;
@@ -77,10 +81,14 @@ TEST_CASE( "EOC_transform_radius", "[eoc][timed_event]" )
 
 TEST_CASE( "EOC_transform_line", "[eoc][timed_event]" )
 {
+    // FIXME: remove once the overlap warning in `map::load()` has been fully solved
+    restore_on_out_of_scope<bool> restore_test_mode( test_mode );
+    test_mode = false;
+
     clear_avatar();
     clear_map();
     standard_npc npc( "Mr. Testerman" );
-    std::optional<tripoint> const dest = random_point( get_map(), []( tripoint const & p ) {
+    cata::optional<tripoint> const dest = random_point( get_map(), []( tripoint const & p ) {
         return p.xy() != get_avatar().pos().xy();
     } );
     REQUIRE( dest.has_value() );

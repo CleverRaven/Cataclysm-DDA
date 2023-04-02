@@ -9,7 +9,7 @@
     "description": "Practice picking simple locks.",
     "skill_used": "traps",
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
-    "proficiencies": [ { "proficiency": "prof_lockpicking", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "proficiencies": [ { "proficiency": "prof_lockpicking", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "time": "1 h",
     "tools": [ [ "lock" ] ],
     "//": "Crude picks will eventually lose their shape",
@@ -29,57 +29,12 @@
     "description": "Practice picking simple locks.",
     "skill_used": "traps",
     "practice_data": { "min_difficulty": 1, "max_difficulty": 2, "skill_limit": 3 },
-    "proficiencies": [ { "proficiency": "prof_lockpicking", "time_multiplier": 1, "skill_penalty": 0 } ],
+    "proficiencies": [ { "proficiency": "prof_lockpicking", "fail_multiplier": 1, "time_multiplier": 1 } ],
     "time": "1 h",
     "qualities": [ { "id": "LOCKPICK", "level": 5 } ],
     "tools": [ [ "lock" ] ],
     "autolearn": [ [ "traps", 3 ] ],
     "book_learn": [ [ "book_lockpick", 1 ] ],
     "flags": [ "BLIND_EASY" ]
-  },
-  {
-    "id": "prac_traps_military",
-    "type": "practice",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_DEVICES",
-    "name": "military traps",
-    "description": "Practice setting booby traps safely.",
-    "skill_used": "traps",
-    "practice_data": { "min_difficulty": 0, "max_difficulty": 3, "skill_limit": 3 },
-    "proficiencies": [ { "proficiency": "prof_traps", "time_multiplier": 1, "skill_penalty": 0 } ],
-    "time": "1 h",
-    "using": [ [ "cordage_short", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 } ],
-    "components": [ [ [ "clay_canister", 1 ], [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ] ],
-    "autolearn": false,
-    "book_learn": [ [ "manual_traps_mil_basic", 1 ], [ "manual_traps_mil", 1 ] ],
-    "flags": [ "BLIND_HARD" ]
-  },
-  {
-    "id": "prac_traps_military_advanced",
-    "type": "practice",
-    "activity_level": "NO_EXERCISE",
-    "category": "CC_PRACTICE",
-    "subcategory": "CSC_PRACTICE_DEVICES",
-    "name": "military traps (advanced)",
-    "description": "Practice setting and disarming booby traps and mines safely.",
-    "skill_used": "traps",
-    "practice_data": { "min_difficulty": 3, "max_difficulty": 3, "skill_limit": 6 },
-    "proficiencies": [
-      { "proficiency": "prof_traps", "time_multiplier": 0.2, "skill_penalty": 0 },
-      { "proficiency": "prof_trapsetting", "time_multiplier": 1, "skill_penalty": 0 },
-      { "proficiency": "prof_disarming", "time_multiplier": 1, "skill_penalty": 0 }
-    ],
-    "time": "1 h",
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [
-      [ [ "superglue", 1 ], [ "duct_tape", 25 ] ],
-      [ [ "scrap", 3 ], [ "steel_chunk", 1 ], [ "canister_empty", 1 ], [ "clay_canister", 1 ], [ "can_food", 1 ] ],
-      [ [ "bb", 60 ], [ "nail", 30 ] ]
-    ],
-    "autolearn": false,
-    "book_learn": [ [ "manual_traps_mil", 3 ] ],
-    "flags": [ "BLIND_HARD" ]
   }
 ]

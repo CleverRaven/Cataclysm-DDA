@@ -15,7 +15,7 @@ tripoint map_test_case::get_origin()
         return *origin;
     }
 
-    std::optional<point> res = std::nullopt;
+    cata::optional<point> res = cata::nullopt;
 
     if( anchor_char ) {
         for_each_tile( tripoint_zero, [&]( map_test_case::tile & t ) {
@@ -113,7 +113,7 @@ void map_test_case::do_internal_checks()
 
 void map_test_case::transpose()
 {
-    origin = std::nullopt;
+    origin = cata::nullopt;
     checks_complete = false;
 
     auto transpose = []( std::vector<std::string> v ) {
@@ -137,7 +137,7 @@ void map_test_case::transpose()
 
 void map_test_case::reflect_x()
 {
-    origin = std::nullopt;
+    origin = cata::nullopt;
     checks_complete = false;
 
     for( std::string &s : setup ) {
@@ -150,7 +150,7 @@ void map_test_case::reflect_x()
 
 void map_test_case::reflect_y()
 {
-    origin = std::nullopt;
+    origin = cata::nullopt;
     checks_complete = false;
 
     std::reverse( setup.begin(), setup.end() );

@@ -2,11 +2,11 @@
 
 #include <cstring>
 #include <istream>
-#include <optional>
 
 #include "cata_unreachable.h"
 #include "filesystem.h"
 #include "json.h"
+#include "optional.h"
 
 const std::string &Json::flexbuffer_type_to_string( flexbuffers::Type t )
 {
@@ -335,7 +335,7 @@ void JsonObject::throw_error_at( const std::string &member, const std::string &e
 
 void JsonObject::throw_error_at( const char *member, const std::string &err ) const
 {
-    std::optional<JsonValue> member_opt = get_member_opt( member );
+    cata::optional<JsonValue> member_opt = get_member_opt( member );
     if( member_opt.has_value() ) {
         ( *member_opt ).throw_error( err );
     } else {

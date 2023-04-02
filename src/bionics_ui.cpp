@@ -882,7 +882,7 @@ void avatar::power_bionics()
             const bionic_data &bio_data = bio_id.obj();
             if( menu_mode == ACTIVATING ) {
                 if( bio_data.activated ) {
-                    int b = tmp - my_bionics->data();
+                    int b = tmp - &( *my_bionics )[0];
                     bionic &bio = ( *my_bionics )[b];
                     hide = true;
                     ui.mark_resize();
@@ -913,7 +913,7 @@ void avatar::power_bionics()
                                     break;
                                 case 1:
                                     // TODO: Move to function, create activity and add tool requirements
-                                    if( std::optional<item> weapon = bio.uninstall_weapon() ) {
+                                    if( cata::optional<item> weapon = bio.uninstall_weapon() ) {
                                         i_add_or_drop( *weapon );
                                     }
                                     break;

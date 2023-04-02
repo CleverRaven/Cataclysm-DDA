@@ -495,8 +495,7 @@ The **weather** section defines the base weather attributes used for the region.
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
 | `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
-| `weather_black_list`			 | Ids of weather types not allowed in this region. 					 |
-| `weather_white_list`			 | Ids of the only weather types allowed in this region. 			     |
+| `weather_types`				 | Ids of the weather types allowed in this region. When choosing weather they will be iterated over in the order they are listed and the last valid entry will be the weather. |
 
 ### Example
 
@@ -509,10 +508,21 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_wind": 5.7,
 		"base_wind_distrib_peaks": 30,
 		"base_wind_season_variation": 64,
-		"weather_black_list": [
+		"weather_types": [
+			"clear",
+			"sunny",
+			"cloudy",
+			"light_drizzle",
+			"drizzle",
+			"rain",
+			"thunder",
+			"lightning",
+			"flurries",
+			"snowing",
 			"snowstorm"
       	]
-    },
+    	},
+	}
 }
 ```
 

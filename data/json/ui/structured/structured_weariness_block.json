@@ -1,0 +1,59 @@
+[
+  {
+    "id": "structured_all_weariness_graph_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weariness alt",
+    "description": "Shows <color_yellow>weariness</color>, activity and malus, as well as relative <color_yellow>weight carried graph</color>.",
+    "arrange": "columns",
+    "widgets": [
+      "weariness_desc_no_label",
+      "structured_weariness_transition_graph",
+      "activity_desc_no_label",
+      "weary_malus_desc_no_label",
+      "structured_carry_weight_graph"
+    ],
+    "flags": [ "W_DISABLED_BY_DEFAULT" ]
+  },
+  {
+    "id": "structured_all_weariness_text_layout",
+    "type": "widget",
+    "style": "layout",
+    "label": "Weariness",
+    "description": "Shows <color_yellow>weariness</color>, activity and malus, as well as relative <color_yellow>weight carried percentage</color> text.",
+    "arrange": "columns",
+    "widgets": [
+      "weariness_desc_no_label",
+      "structured_weariness_transition_graph",
+      "activity_desc_no_label",
+      "weary_malus_desc_no_label",
+      "structured_carry_weight_text"
+    ]
+  },
+  {
+    "id": "structured_weariness_transition_graph",
+    "type": "widget",
+    "label": "Transition",
+    "style": "graph",
+    "var": "weary_transition_level",
+    "symbols": ".\\|",
+    "width": 9,
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ],
+    "flags": [ "W_LABEL_NONE" ]
+  },
+  {
+    "id": "structured_carry_weight_graph",
+    "type": "widget",
+    "copy-from": "carry_weight_graph_label",
+    "label": "Wt",
+    "separator": " "
+  },
+  {
+    "id": "structured_carry_weight_text",
+    "type": "widget",
+    "copy-from": "carry_weight_text_label",
+    "label": "Wt",
+    "text_align": "right",
+    "separator": " "
+  }
+]

@@ -8,7 +8,7 @@
         "id": "horrible",
         "text": "Horrible",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "health" }, "<", { "const": -100 } ] }
+        "condition": { "compare_int": [ { "u_val": "health" }, "<", { "const": -100 } ] }
       },
       {
         "id": "very_bad",
@@ -16,8 +16,8 @@
         "color": "light_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "health" }, ">=", { "const": -100 } ] },
-            { "compare_num": [ { "u_val": "health" }, "<", { "const": -50 } ] }
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -100 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": -50 } ] }
           ]
         }
       },
@@ -27,8 +27,8 @@
         "color": "yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "health" }, ">=", { "const": -50 } ] },
-            { "compare_num": [ { "u_val": "health" }, "<", { "const": -10 } ] }
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -50 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": -10 } ] }
           ]
         }
       },
@@ -38,8 +38,8 @@
         "color": "light_gray",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "health" }, ">=", { "const": -10 } ] },
-            { "compare_num": [ { "u_val": "health" }, "<", { "const": 10 } ] }
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": -10 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": 10 } ] }
           ]
         }
       },
@@ -49,8 +49,8 @@
         "color": "white",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "health" }, ">=", { "const": 10 } ] },
-            { "compare_num": [ { "u_val": "health" }, "<", { "const": 50 } ] }
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": 10 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": 50 } ] }
           ]
         }
       },
@@ -60,8 +60,8 @@
         "color": "green",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "health" }, ">=", { "const": 50 } ] },
-            { "compare_num": [ { "u_val": "health" }, "<", { "const": 100 } ] }
+            { "compare_int": [ { "u_val": "health" }, ">=", { "const": 50 } ] },
+            { "compare_int": [ { "u_val": "health" }, "<", { "const": 100 } ] }
           ]
         }
       },
@@ -69,7 +69,7 @@
         "id": "excellent",
         "text": "Excellent",
         "color": "light_green",
-        "condition": { "compare_num": [ { "u_val": "health" }, ">=", { "const": 100 } ] }
+        "condition": { "compare_int": [ { "u_val": "health" }, ">=", { "const": 100 } ] }
       }
     ]
   },

@@ -10,7 +10,7 @@
     "flags": [ "RISK_HIGH", "SOURCE_DRINK", "SOURCE_LUXURY" ]
   },
   {
-    "id": [ "p_resort_1nw", "p_resort_pm" ],
+    "id": "p_resort_1nw",
     "type": "overmap_terrain",
     "sym": "P",
     "copy-from": "generic_private_resort"
@@ -38,6 +38,7 @@
       "p_resort_2sw",
       "p_resort_2ww",
       "p_resort_pe",
+      "p_resort_pm",
       "p_resort_pw",
       "p_resort_ree",
       "p_resort_rmm",

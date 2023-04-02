@@ -9,7 +9,6 @@
 #include <iterator>
 #include <list>
 #include <memory>
-#include <optional>
 #include <string>
 #include <utility>
 
@@ -59,6 +58,7 @@
 #include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -138,6 +138,7 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_took_flumed( "took_flumed" );
@@ -474,17 +475,6 @@ void bionic_data::load_bionic( const JsonObject &jo, const std::string &src )
     bionic_factory.load( jo, src );
 }
 
-std::map<bionic_id, bionic_id> bionic_data::migrations;
-
-void bionic_data::load_bionic_migration( const JsonObject &jo, const std::string & )
-{
-    const bionic_id from( jo.get_string( "from" ) );
-    const bionic_id to = jo.has_string( "to" )
-                         ? bionic_id( jo.get_string( "to" ) )
-                         : bionic_id::NULL_ID();
-    migrations.emplace( from, to );
-}
-
 const std::vector<bionic_data> &bionic_data::get_all()
 {
     return bionic_factory.get_all();
@@ -530,14 +520,11 @@ void bionic_data::check_bionic_consistency()
                           bio.id.c_str(), pseudo.c_str() );
             }
         }
-        for( const trait_id &mid : bio.mutation_conflicts ) {
-            if( !mid.is_valid() ) {
-                debugmsg( "Bionic %s conflicts with undefined mutation %s", bio.id.c_str(), mid.c_str() );
-            }
-        }
+
         for( const trait_id &mid : bio.canceled_mutations ) {
             if( !mid.is_valid() ) {
-                debugmsg( "Bionic %s cancels undefined mutation %s", bio.id.c_str(), mid.c_str() );
+                debugmsg( "Bionic %s cancels undefined mutation %s",
+                          bio.id.c_str(), mid.c_str() );
             }
         }
         for( const enchantment_id &eid : bio.id->enchantments ) {
@@ -595,7 +582,7 @@ void npc::discharge_cbm_weapon()
         return;
     }
 
-    std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
+    cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() );
     if( !bio_opt ) {
         debugmsg( "NPC tried to use a non-existent gun bionic with UID %d", weapon_bionic_uid );
         return;
@@ -785,7 +772,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
 
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
             if( get_weapon_bionic_uid() ) {
-                if( std::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
+                if( cata::optional<bionic *> bio_opt = find_bionic_by_uid( get_weapon_bionic_uid() ) ) {
                     if( deactivate_bionic( **bio_opt, eff_only ) ) {
                         // restore state and try again
                         refund_power();
@@ -824,13 +811,6 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         get_wielded_item()->invlet = '#';
         weapon_bionic_uid = bio.get_uid();
     } else if( bio.id == bio_evap ) {
-        if( player_character.is_underwater() ) {
-            add_msg_if_player( m_info,
-                               _( "There's a lot of water around you already, no need to use your %s." ), bio.info().name );
-            bio.powered = false;
-            return false;
-        }
-
         add_msg_activate();
         const w_point weatherPoint = *get_weather().weather_precise;
         int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
@@ -907,7 +887,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_activate();
         static const std::vector<efftype_id> removable = {{
                 effect_fungus, effect_dermatik, effect_bloodworms,
-                effect_tetanus, effect_poison, effect_badpoison,
+                effect_tetanus, effect_poison, effect_badpoison, effect_stung,
                 effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
                 effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
                 effect_pblue, effect_iodine, effect_datura,
@@ -933,7 +913,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_activate();
         add_msg_if_player( m_info, _( "You can now run faster, assisted by joint servomotors." ) );
     } else if( bio.id == bio_lighter ) {
-        const std::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
+        const cata::optional<tripoint> pnt = choose_adjacent( _( "Start a fire where?" ) );
         if( pnt && here.is_flammable( *pnt ) ) {
             add_msg_activate();
             here.add_field( *pnt, fd_fire, 1 );
@@ -969,7 +949,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
             add_effect( effect_adrenaline, 20_minutes );
         }
     } else if( bio.id == bio_emp ) {
-        if( const std::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
+        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
             add_msg_activate();
             explosion_handler::emp_blast( *pnt );
             mod_moves( -100 );
@@ -1055,7 +1035,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         if( !is_avatar() ) {
             return false;
         }
-        std::optional<tripoint> target = lockpick_activity_actor::select_location( player_character );
+        cata::optional<tripoint> target = lockpick_activity_actor::select_location( player_character );
         if( target.has_value() ) {
             add_msg_activate();
             assign_activity(
@@ -1542,7 +1522,7 @@ void Character::heat_emission( const bionic &bio, units::energy fuel_energy )
 
 float Character::get_effective_efficiency( const bionic &bio, float fuel_efficiency ) const
 {
-    const std::optional<float> &coverage_penalty = bio.info().coverage_power_gen_penalty;
+    const cata::optional<float> &coverage_penalty = bio.info().coverage_power_gen_penalty;
     float effective_efficiency = fuel_efficiency;
     if( coverage_penalty ) {
         int coverage = 0;
@@ -1726,12 +1706,6 @@ void Character::process_bionic( bionic &bio )
             remove_effect( effect_asthma );
         }
     } else if( bio.id == bio_evap ) {
-        if( is_underwater() ) {
-            add_msg_if_player( m_info,
-                               _( "Your %s deactivates after it finds itself completely submerged in water." ), bio.info().name );
-            deactivate_bionic( bio );
-        }
-
         // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
@@ -2192,7 +2166,7 @@ bool Character::uninstall_bionic( const bionic &bio, Character &installer, bool 
 void Character::perform_uninstall( const bionic &bio, int difficulty, int success, int pl_skill )
 {
     map &here = get_map();
-    std::optional<bionic *> bio_opt = find_bionic_by_uid( bio.get_uid() );
+    cata::optional<bionic *> bio_opt = find_bionic_by_uid( bio.get_uid() );
     if( !bio_opt ) {
         debugmsg( "Tried to uninstall non-existent bionic with UID %d", bio.get_uid() );
         return;
@@ -2217,6 +2191,8 @@ void Character::perform_uninstall( const bionic &bio, int difficulty, int succes
         cbm.set_flag( flag_NO_PACKED );
         cbm.faults.emplace( fault_bionic_salvaged );
         here.add_item( pos(), cbm );
+
+        invalidate_pseudo_items();
     } else {
         get_event_bus().send<event_type::fails_to_remove_cbm>( getID(), bio.id );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
@@ -2282,11 +2258,11 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
             add_msg( m_mixed, _( "Successfully removed %s." ), bio.info().name );
         }
 
+        patient.remove_bionic( bio );
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( bio.info().itype() ) ) {
             cbm = bionic_to_uninstall;
         }
-        patient.remove_bionic( bio );
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
         cbm.set_flag( flag_NO_PACKED );
@@ -2299,8 +2275,9 @@ bool Character::uninstall_bionic( const bionic &bio, monster &installer, Charact
     return false;
 }
 
-ret_val<void> Character::is_installable( const item *it, const bool by_autodoc ) const
+ret_val<void> Character::is_installable( const item_location &loc, const bool by_autodoc ) const
 {
+    const item *it = loc.get_item();
     const itype *itemtype = it->type;
     const bionic_id &bid = itemtype->bionic->id;
 
@@ -2451,7 +2428,7 @@ bool Character::install_bionics( const itype &type, Character &installer, bool a
 
     bionic_uid upbio_uid = 0;
     // TODO: Let the player pick a bionic to upgrade (if dupes exist)
-    if( std::optional<bionic *> upbio = find_bionic_by_type( upbioid ) ) {
+    if( cata::optional<bionic *> upbio = find_bionic_by_type( upbioid ) ) {
         upbio_uid = ( *upbio )->get_uid();
     }
 
@@ -2493,7 +2470,7 @@ void Character::perform_install( const bionic_id &bid, bionic_uid upbio_uid, int
     if( success > 0 ) {
         get_event_bus().send<event_type::installs_cbm>( getID(), bid );
         if( upbio_uid ) {
-            if( std::optional<bionic *> upbio = find_bionic_by_uid( upbio_uid ) ) {
+            if( cata::optional<bionic *> upbio = find_bionic_by_uid( upbio_uid ) ) {
                 const std::string bio_name = ( *upbio )->id->name.translated();
                 remove_bionic( **upbio );
                 //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
@@ -2802,20 +2779,20 @@ bionic_uid Character::add_bionic( const bionic_id &b, bionic_uid parent_uid )
     return bio_uid;
 }
 
-std::optional<bionic *> Character::find_bionic_by_type( const bionic_id &b ) const
+cata::optional<bionic *> Character::find_bionic_by_type( const bionic_id &b ) const
 {
     for( bionic &bio : *my_bionics ) {
         if( bio.id == b ) {
             return &bio;
         }
     }
-    return std::nullopt;
+    return cata::nullopt;
 }
 
-std::optional<bionic *> Character::find_bionic_by_uid( bionic_uid bio_uid ) const
+cata::optional<bionic *> Character::find_bionic_by_uid( bionic_uid bio_uid ) const
 {
     if( !bio_uid ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
 
     for( bionic &bio : *my_bionics ) {
@@ -2823,13 +2800,13 @@ std::optional<bionic *> Character::find_bionic_by_uid( bionic_uid bio_uid ) cons
             return &bio;
         }
     }
-    return std::nullopt;
+    return cata::nullopt;
 }
 
 void Character::remove_bionic( const bionic &bio )
 {
     const bionic_uid bio_uid = bio.get_uid();
-    std::optional<bionic *> bio_opt = find_bionic_by_uid( bio_uid );
+    cata::optional<bionic *> bio_opt = find_bionic_by_uid( bio_uid );
     if( !bio_opt ) {
         debugmsg( "Tried to uninstall non-existent bionic with UID %d", bio_uid );
         return;
@@ -2870,7 +2847,6 @@ void Character::remove_bionic( const bionic &bio )
 
     const bool has_enchantments = !bio.id->enchantments.empty();
     *my_bionics = new_my_bionics;
-    invalidate_pseudo_items();
     update_bionic_power_capacity();
     calc_encumbrance();
     recalc_sight_limits();
@@ -2897,7 +2873,6 @@ void Character::clear_bionics()
 
 void reset_bionics()
 {
-    bionic_data::migrations.clear();
     faulty_bionics.clear();
     bionic_factory.reset();
 }
@@ -2980,20 +2955,20 @@ bool bionic::install_weapon( const item &new_weapon, bool skip_checks )
     return true;
 }
 
-std::optional<item> bionic::uninstall_weapon()
+cata::optional<item> bionic::uninstall_weapon()
 {
     if( !has_weapon() ) {
         debugmsg( "Tried to uninstall a weapon on bionic \"%s\" with UID %i that doesn't have a weapon installed.",
                   id.str(), uid );
-        return std::nullopt;
+        return cata::nullopt;
     }
 
     if( id->installable_weapon_flags.empty() ) {
         debugmsg( "Tried to uinstall a weapon from non-dynamic bionic \"%s\" with UID %i.", id.str(),
                   uid );
-        return std::nullopt;
+        return cata::nullopt;
     }
-    std::optional<item> old_item = get_weapon();
+    cata::optional<item> old_item = get_weapon();
     weapon = item();
 
     if( old_item && !old_item->is_null() ) {
@@ -3111,33 +3086,9 @@ void bionic::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-static bionic_id migrate_bionic_id( const bionic_id &original )
-{
-    bionic_id bid = original;
-
-    // limit up to 10 migrations per bionic (guard in case of accidental loops)
-    for( int i = 0; i < 10; i++ ) {
-        const auto &migration_it = bionic_data::migrations.find( bid );
-        if( migration_it == bionic_data::migrations.cend() ) {
-            break;
-        }
-        bid = migration_it->second;
-    }
-
-    if( bid != original ) {
-        DebugLog( D_WARNING, D_MAIN ) << "Migrating bionic with id " << original.str() << " to " <<
-                                      bid.str();
-    }
-
-    return bid;
-}
-
 void bionic::deserialize( const JsonObject &jo )
 {
-    id = migrate_bionic_id( bionic_id( jo.get_string( "id" ) ) );
-    if( id.is_null() ) {
-        return; // obsoleted bionic
-    }
+    id = bionic_id( jo.get_string( "id" ) );
     invlet = jo.get_int( "invlet" );
     powered = jo.get_bool( "powered" );
 
@@ -3401,7 +3352,7 @@ std::vector<vehicle *> Character::get_cable_vehicle()
     map &here = get_map();
 
     for( const item *cable : cables ) {
-        const std::optional<tripoint> target = cable->get_cable_target( this, pos() );
+        const cata::optional<tripoint> target = cable->get_cable_target( this, pos() );
         if( target ) {
             const optional_vpart_position vp = here.veh_at( *target );
             if( vp ) {

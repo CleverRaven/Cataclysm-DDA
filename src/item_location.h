@@ -14,7 +14,6 @@ class character_id;
 class JsonObject;
 class JsonOut;
 class item;
-class item_pocket;
 class map_cursor;
 class vehicle_cursor;
 class talker;
@@ -97,8 +96,6 @@ class item_location
         /** Handles updates to the item location, mostly for caching. */
         void on_contents_changed();
 
-        void make_active();
-
         /** Gets the selected item or nullptr */
         item *get_item();
         const item *get_item() const;
@@ -107,7 +104,6 @@ class item_location
 
         /** returns the parent item, or an invalid location if it has no parent */
         item_location parent_item() const;
-        item_pocket *parent_pocket() const;
 
         /** returns true if the item is in the inventory of the given character **/
         bool held_by( Character const &who ) const;

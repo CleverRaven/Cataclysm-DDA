@@ -18,27 +18,12 @@ static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_invisibility( "invisibility" );
 static const trait_id trait_TEST_ENCH_MUTATION( "TEST_ENCH_MUTATION" );
 
-struct enchant_test {
-    int dex_before;
-    int lie_before;
-    int persuade_before;
-    int intimidate_before;
-};
-
-static void test_generic_ench( avatar &p, enchant_test enc_test )
+static void test_generic_ench( avatar &p, int str_before )
 {
     // wait a turn for the effect to kick in
     p.process_turn();
 
-    CHECK( p.get_dex() == enc_test.dex_before + p.get_dex_base() * 2 + 25 );
-    CHECK( get_talker_for( p )->trial_chance_mod( "lie" ) == static_cast<int>( (
-                enc_test.lie_before + 15 ) * 1.5 ) );
-    CHECK( get_talker_for( p )->trial_chance_mod( "persuade" ) == static_cast<int>( (
-                enc_test.persuade_before + 15 ) *
-            1.5 ) );
-    CHECK( get_talker_for( p )->trial_chance_mod( "intimidate" ) == static_cast<int>( (
-                enc_test.intimidate_before + 1 )
-            * 1.5 ) );
+    CHECK( p.get_str() == str_before + p.get_str_base() * 2 + 25 );
 
     CHECK( p.has_effect( effect_invisibility ) );
 
@@ -53,16 +38,6 @@ static void test_generic_ench( avatar &p, enchant_test enc_test )
     p.on_hit( &zombie, bodypart_id( "torso" ), 0.0, nullptr );
 
     CHECK( zombie.has_effect( effect_blind ) );
-}
-
-static enchant_test set_enc_test( avatar &p )
-{
-    enchant_test enc_test;
-    enc_test.dex_before = p.get_str();
-    enc_test.lie_before = get_talker_for( p )->trial_chance_mod( "lie" );
-    enc_test.persuade_before = get_talker_for( p )->trial_chance_mod( "persuade" );
-    enc_test.intimidate_before = get_talker_for( p )->trial_chance_mod( "intimidate" );
-    return enc_test;
 }
 
 TEST_CASE( "worn enchantments", "[enchantments][worn][items]" )
@@ -89,26 +64,27 @@ TEST_CASE( "bionic enchantments", "[enchantments][bionics]" )
     avatar p;
     clear_character( p );
 
-    enchant_test enc_test = set_enc_test( p );
+    int str_before = p.get_str();
 
     p.set_max_power_level( 100_kJ );
     p.set_power_level( 100_kJ );
 
     give_and_activate_bionic( p, test_bio_ench );
 
-    test_generic_ench( p, enc_test );
+    test_generic_ench( p, str_before );
 }
 
 TEST_CASE( "mutation enchantments", "[enchantments][mutations]" )
 {
     avatar p;
     clear_character( p );
-    enchant_test enc_test = set_enc_test( p );
+
+    int str_before = p.get_str();
 
     p.toggle_trait( trait_TEST_ENCH_MUTATION );
     REQUIRE( p.has_trait( trait_TEST_ENCH_MUTATION ) );
 
     p.recalculate_enchantment_cache();
 
-    test_generic_ench( p, enc_test );
+    test_generic_ench( p, str_before );
 }

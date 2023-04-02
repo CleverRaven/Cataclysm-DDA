@@ -203,8 +203,7 @@ TEST_CASE( "auto pickup should recognize container content", "[autopickup][item]
     const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
-    auto backpack_iter = *they.wear_item( item( itype_backpack ) );
-    item &backpack = *backpack_iter;
+    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
     GIVEN( "avatar is about to walk over a tile filled with items" ) {
@@ -281,8 +280,7 @@ TEST_CASE( "auto pickup should improve your life", "[autopickup][item]" )
     const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
-    auto backpack_iter = *they.wear_item( item( itype_backpack ) );
-    item &backpack = *backpack_iter;
+    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
     // flashlight > light battery (WL)
@@ -322,8 +320,7 @@ TEST_CASE( "auto pickup should consider item rigidness and seal", "[autopickup][
     const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
-    auto backpack_iter = *they.wear_item( item( itype_backpack ) );
-    item &backpack = *backpack_iter;
+    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
     // leather wallet (WL) > one dollar bill, five dollar bill (WL), 1ten dollar bill
@@ -443,8 +440,7 @@ TEST_CASE( "auto pickup should respect volume and weight limits", "[autopickup][
     const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
-    auto backpack_iter = *they.wear_item( item( itype_backpack ) );
-    item &backpack = *backpack_iter;
+    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
     // backpack > lump of steel (5)(WL), cigrarette (3)(WL), paper (10)(WL)
@@ -519,8 +515,7 @@ TEST_CASE( "auto pickup should consider item ownership", "[autopickup][item]" )
     const map_cursor location = map_cursor( ground );
 
     // wear backpack and store item reference
-    auto backpack_iter = *they.wear_item( item( itype_backpack ) );
-    item &backpack = *backpack_iter;
+    item &backpack = **( they.wear_item( item( itype_backpack ) ) );
     REQUIRE( they.has_item( backpack ) );
 
     // candy cigarette(WL)

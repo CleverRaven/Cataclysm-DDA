@@ -17,13 +17,7 @@
     "id": "NC_OG_OFFICER",
     "name": { "str": "Officer" },
     "job_description": "I'm an officer for FOB Arabella",
-    "traits": [
-      { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" },
-      { "trait": "IGNORE_SOUND" },
-      { "trait": "NO_BASH" },
-      { "trait": "RETURN_TO_START_POS" }
-    ],
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },

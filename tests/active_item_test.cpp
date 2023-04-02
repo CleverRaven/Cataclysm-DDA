@@ -1,6 +1,5 @@
 #include <list>
 #include <new>
-#include <optional>
 
 #include "avatar.h"
 #include "calendar.h"
@@ -8,9 +7,10 @@
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "optional.h"
 #include "player_helpers.h"
 
-TEST_CASE( "active_items_processed_regularly", "[active_item]" )
+TEST_CASE( "active_items_processed_regularly", "[item]" )
 {
     clear_avatar();
     clear_map();
@@ -21,7 +21,7 @@ TEST_CASE( "active_items_processed_regularly", "[active_item]" )
     active_item.activate();
     const int active_item_ticks = active_item.charges;
     item storage( "backpack", calendar::turn_zero );
-    std::optional<std::list<item>::iterator> wear_success = player_character.wear_item( storage );
+    cata::optional<std::list<item>::iterator> wear_success = player_character.wear_item( storage );
     REQUIRE( wear_success );
 
     item_location inventory_item = player_character.try_add( active_item );

@@ -456,8 +456,7 @@
         "moves": 1,
         "holster": true,
         "weight_multiplier": 0.0,
-        "volume_multiplier": 0.0,
-        "volume_encumber_modifier": 0.0
+        "volume_multiplier": 0.0
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }
@@ -480,8 +479,7 @@
         "moves": 1,
         "holster": true,
         "weight_multiplier": 0.0,
-        "volume_multiplier": 0.0,
-        "volume_encumber_modifier": 0.0
+        "volume_multiplier": 0.0
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stick what into your ring", "holster_msg": "You tuck your %s into your %s" }

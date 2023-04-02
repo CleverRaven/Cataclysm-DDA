@@ -6,7 +6,7 @@
 #include "regional_settings.h"
 #include "string_id.h"
 
-constexpr int RANDOM_CITY_ENTRY = INT_MIN;
+static constexpr int RANDOM_CITY_ENTRY = INT_MIN;
 
 class uilist;
 
@@ -80,8 +80,8 @@ tripoint_abs_omt choose_point( const tripoint_abs_omt &origin, bool show_debug_i
 
 void setup_cities_menu( uilist &cities_menu, std::vector<city> &cities_container );
 
-std::optional<city> select_city( uilist &cities_menu, std::vector<city> &cities_container,
-                                 bool random = false );
+cata::optional<city> select_city( uilist &cities_menu, std::vector<city> &cities_container,
+                                  bool random = false );
 
 } // namespace omap
 

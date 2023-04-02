@@ -13,31 +13,25 @@
     "//": "this is all the dialogue related to working on armor with Cody",
     "type": "talk_topic",
     "dynamic_line": [
-      "Sure.  After what you did for me, I'd equip an army for you.  I'll need some money to negotiate with the caravans and scavengers that come by.  What level of protection are you thinking?  I can do 2mm, 4mm, and 6mm suits depending on how much you want to resemble a tank, or I can make you a suit of chainmail instead if you want a little more flexibility.  Materials costs are 300 merch to pay for the food I need to do the labor plus 100 merch per 2mm or 50 merch for the chainmail.  Whatever I save in non-scaling bits like the chain and leather, I get gouged in looking for so much bulk metal."
+      "Sure.  After what you did for me, I'd equip an army for you.  I'll need some money to negotiate with the caravans and scavengers that come by.  What level of protection are you thinking?  I can do 2mm, 4mm, and 6mm suits depending on how much you want to resemble a tank.  Materials costs are 100 merch per 2mm.  Whatever I save in non-scaling bits like the chain and leather, I get gouged in looking for so much bulk metal."
     ],
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
-        "text": "[350 merch, 1.2mm] I'd prefer to just have chainmail.",
-        "condition": { "u_has_items": { "item": "FMCNote", "count": 350 } },
-        "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "1.2" } ],
-        "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
-      },
-      {
-        "text": "[400 merch, 2mm] I like to stay light.",
-        "condition": { "u_has_items": { "item": "FMCNote", "count": 400 } },
+        "text": "[100 merch, 2mm] I like to stay light.",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 100 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       },
       {
-        "text": "[500 merch, 4mm] A middle ground would be good.",
-        "condition": { "u_has_items": { "item": "FMCNote", "count": 500 } },
+        "text": "[200 merch, 4mm] A middle ground would be good.",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 200 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       },
       {
-        "text": "[600 merch, 6mm] Never skimp on protection.",
-        "condition": { "u_has_items": { "item": "FMCNote", "count": 600 } },
+        "text": "[300 merch, 6mm] Never skimp on protection.",
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 300 } },
         "effect": [ { "u_add_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" } ],
         "topic": "TALK_BLACKSMITH_FABRICATE_TYPE"
       }
@@ -109,47 +103,36 @@
     "responses": [
       { "text": "Forget it.", "topic": "TALK_BLACKSMITH_SERVICES" },
       {
-        "text": "[350 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
+        "text": "[100 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "FMCNote", "count": 350 } },
-            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "1.2" }
-          ]
-        },
-        "effect": [ { "u_sell_item": "FMCNote", "count": 350, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
-        "topic": "TALK_DONE"
-      },
-      {
-        "text": "[400 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
-        "condition": {
-          "and": [
-            { "u_has_items": { "item": "FMCNote", "count": 400 } },
+            { "u_has_items": { "item": "FMCNote", "count": 100 } },
             { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "2" }
           ]
         },
-        "effect": [ { "u_sell_item": "FMCNote", "count": 400, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
+        "effect": [ { "u_sell_item": "FMCNote", "count": 100, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
         "topic": "TALK_DONE"
       },
       {
-        "text": "[500 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
+        "text": "[200 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "FMCNote", "count": 500 } },
+            { "u_has_items": { "item": "FMCNote", "count": 200 } },
             { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "4" }
           ]
         },
-        "effect": [ { "u_sell_item": "FMCNote", "count": 500, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
+        "effect": [ { "u_sell_item": "FMCNote", "count": 200, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
         "topic": "TALK_DONE"
       },
       {
-        "text": "[600 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
+        "text": "[300 merch] Sounds good.  See you in <u_val:number_artisans_blacksmith_wait> weeks.",
         "condition": {
           "and": [
-            { "u_has_items": { "item": "FMCNote", "count": 600 } },
+            { "u_has_items": { "item": "FMCNote", "count": 300 } },
             { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "6" }
           ]
         },
-        "effect": [ { "u_sell_item": "FMCNote", "count": 600, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
+        "effect": [ { "u_sell_item": "FMCNote", "count": 300, "true_eocs": "EOC_blacksmith_crafting_armor" } ],
         "topic": "TALK_DONE"
       }
     ]
@@ -160,52 +143,6 @@
     "type": "talk_topic",
     "dynamic_line": [ "It's all done!  Sorry for the long wait; hopefully it's worth it.  If you need it refitted, let me know." ],
     "responses": [
-      {
-        "text": "Thanks.",
-        "condition": {
-          "and": [
-            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "3" },
-            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "1.2" }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "armor_hc_chainmail" },
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
-          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
-        ],
-        "topic": "TALK_BLACKSMITH_SERVICES"
-      },
-      {
-        "text": "Thanks.",
-        "condition": {
-          "and": [
-            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "4" },
-            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "1.2" }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "armor_qt_chainmail" },
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
-          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" }
-        ],
-        "topic": "TALK_BLACKSMITH_SERVICES"
-      },
-      {
-        "text": "Thanks.",
-        "condition": {
-          "and": [
-            { "u_has_var": "blacksmith_wait", "type": "number", "context": "artisans", "value": "5" },
-            { "u_has_var": "blacksmith_thickness", "type": "number", "context": "artisans", "value": "1.2" }
-          ]
-        },
-        "effect": [
-          { "u_spawn_item": "armor_nomad_chainmail" },
-          { "u_add_var": "blacksmith_crafting", "type": "dialogue", "context": "artisans", "value": "no" },
-          { "u_add_var": "u_current_project", "type": "dialogue", "context": "artisans", "value": "none" },
-          { "u_lose_var": "blacksmith_has_exodii_items", "type": "dialogue", "context": "artisans" }
-        ],
-        "topic": "TALK_BLACKSMITH_SERVICES"
-      },
       {
         "text": "Thanks.",
         "condition": {

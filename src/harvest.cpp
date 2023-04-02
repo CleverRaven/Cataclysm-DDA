@@ -43,23 +43,20 @@ bool string_id<harvest_drop_type>::is_valid() const
 
 translation harvest_drop_type::field_dress_msg( bool succeeded ) const
 {
-    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
-    return SNIPPET.random_from_category(
-               succeeded ? msg_fielddress_success : msg_fielddress_fail ).value_or( translation() );
+    return SNIPPET.random_from_category( succeeded ? msg_fielddress_success :
+                                         msg_fielddress_fail ).value_or( translation() );
 }
 
 translation harvest_drop_type::butcher_msg( bool succeeded ) const
 {
-    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
-    return SNIPPET.random_from_category(
-               succeeded ? msg_butcher_success : msg_butcher_fail ).value_or( translation() );
+    return SNIPPET.random_from_category( succeeded ? msg_butcher_success : msg_butcher_fail ).value_or(
+               translation() );
 }
 
 translation harvest_drop_type::dissect_msg( bool succeeded ) const
 {
-    // NOLINTNEXTLINE(clang-analyzer-cplusplus.NewDeleteLeaks)
-    return SNIPPET.random_from_category(
-               succeeded ? msg_dissect_success : msg_dissect_fail ).value_or( translation() );
+    return SNIPPET.random_from_category( succeeded ? msg_dissect_success : msg_dissect_fail ).value_or(
+               translation() );
 }
 
 /** @relates string_id */

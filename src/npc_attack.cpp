@@ -3,7 +3,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "creature_tracker.h"
-#include "dialogue.h"
 #include "flag.h"
 #include "item.h"
 #include "line.h"
@@ -151,7 +150,7 @@ bool npc_attack_spell::can_use( const npc &source ) const
     // missing components or energy or something
     return attack_spell.can_cast( source ) &&
            // use the same rules as silent guns
-           !( source.rules.has_flag( ally_rule::use_silent ) && attack_spell.sound_volume( source ) >= 5 );
+           !( source.rules.has_flag( ally_rule::use_silent ) && attack_spell.sound_volume() >= 5 );
 }
 
 int npc_attack_spell::base_time_penalty( const npc &source ) const
@@ -182,9 +181,8 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
         if( !critter ) {
             // no critter? no damage! however, we assume fields are worth something
             if( attack_spell_id->field ) {
-                dialogue d( get_talker_for( source ), nullptr );
-                total_potential += static_cast<double>( attack_spell.field_intensity( source ) ) /
-                                   static_cast<double>( attack_spell_id->field_chance.evaluate( d ) ) / 2.0;
+                total_potential += static_cast<double>( attack_spell.field_intensity() ) /
+                                   static_cast<double>( attack_spell_id->field_chance ) / 2.0;
             }
             continue;
         }
@@ -218,12 +216,12 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
             const Creature *source_ptr = &source;
             if( att == Creature::Attitude::FRIENDLY || critter == source_ptr ) {
                 // however we under no circumstances want to kill an ally (or ourselves!)
-                return npc_attack_rating( std::nullopt, location );
+                return npc_attack_rating( cata::nullopt, location );
             }
         }
         total_potential += potential;
     }
-    return npc_attack_rating( static_cast<int>( std::round( total_potential ) ), location );
+    return npc_attack_rating( std::round( total_potential ), location );
 }
 
 void npc_attack_melee::use( npc &source, const tripoint &location ) const
@@ -299,7 +297,7 @@ tripoint_range<tripoint> npc_attack_melee::targetable_points( const npc &source 
 npc_attack_rating npc_attack_melee::evaluate( const npc &source,
         const Creature *target ) const
 {
-    npc_attack_rating effectiveness( std::nullopt, source.pos() );
+    npc_attack_rating effectiveness( cata::nullopt, source.pos() );
     if( !can_use( source ) ) {
         return effectiveness;
     }
@@ -379,7 +377,7 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
         potential *= npc_attack_constants::target_modifier;
     }
 
-    return npc_attack_rating( static_cast<int>( std::round( potential ) ), critter->pos() );
+    return npc_attack_rating( std::round( potential ), critter->pos() );
 }
 
 void npc_attack_gun::use( npc &source, const tripoint &location ) const
@@ -467,7 +465,7 @@ tripoint_range<tripoint> npc_attack_gun::targetable_points( const npc &source ) 
 npc_attack_rating npc_attack_gun::evaluate(
     const npc &source, const Creature *target ) const
 {
-    npc_attack_rating effectiveness( std::nullopt, source.pos() );
+    npc_attack_rating effectiveness( cata::nullopt, source.pos() );
     if( !can_use( source ) ) {
         return effectiveness;
     }
@@ -516,13 +514,13 @@ npc_attack_rating npc_attack_gun::evaluate_tripoint(
     const Creature *critter = get_creature_tracker().creature_at( location );
     if( !critter ) {
         // TODO: AOE ammo effects
-        return npc_attack_rating( std::nullopt, location );
+        return npc_attack_rating( cata::nullopt, location );
     }
 
     const Creature::Attitude att = source.attitude_to( *critter );
     if( att != Creature::Attitude::HOSTILE ) {
         // No point in attacking neutral/friendly targets
-        return npc_attack_rating( std::nullopt, location );
+        return npc_attack_rating( cata::nullopt, location );
     }
 
     const bool avoids_friendly_fire = source.rules.has_flag( ally_rule::avoid_friendly_fire );
@@ -544,7 +542,7 @@ npc_attack_rating npc_attack_gun::evaluate_tripoint(
     if( target && target->pos() == critter->pos() ) {
         potential *= npc_attack_constants::target_modifier;
     }
-    return npc_attack_rating( static_cast<int>( std::round( potential ) ), location );
+    return npc_attack_rating( std::round( potential ), location );
 }
 
 void npc_attack_activate_item::use( npc &source, const tripoint &/*location*/ ) const
@@ -571,7 +569,7 @@ npc_attack_rating npc_attack_activate_item::evaluate(
     const npc &source, const Creature * /*target*/ ) const
 {
     if( !can_use( source ) ) {
-        return npc_attack_rating( std::nullopt, source.pos() );
+        return npc_attack_rating( cata::nullopt, source.pos() );
     }
     // until we have better logic for grenades it's better to keep this as a last resort...
     const int emergency = source.emergency() ? 1 : 0;
@@ -689,7 +687,7 @@ tripoint_range<tripoint> npc_attack_throw::targetable_points( const npc &source 
 npc_attack_rating npc_attack_throw::evaluate(
     const npc &source, const Creature *target ) const
 {
-    npc_attack_rating effectiveness( std::nullopt, source.pos() );
+    npc_attack_rating effectiveness( cata::nullopt, source.pos() );
     if( !can_use( source ) ) {
         // please don't throw your pants...
         return effectiveness;
@@ -759,7 +757,7 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     const npc &source, const Creature *target, const tripoint &location ) const
 {
     if( has_obstruction( source.pos(), location ) ) {
-        return npc_attack_rating( std::nullopt, location );
+        return npc_attack_rating( cata::nullopt, location );
     }
     item single_item( thrown_item );
     if( single_item.count_by_charges() ) {
@@ -774,13 +772,13 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
 
     if( att != Creature::Attitude::HOSTILE ) {
         // No point in throwing stuff at neutral/friendly targets
-        return npc_attack_rating( std::nullopt, location );
+        return npc_attack_rating( cata::nullopt, location );
     }
 
     if( source.rules.has_flag( ally_rule::avoid_friendly_fire ) &&
         !source.wont_hit_friend( location, thrown_item, true ) ) {
         // Avoid friendy fire
-        return npc_attack_rating( std::nullopt, location );
+        return npc_attack_rating( cata::nullopt, location );
     }
 
     const float throw_mult = throw_cost( source, single_item ) * source.speed_rating() / 100.0f;
@@ -803,5 +801,5 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     if( potential > 0.0f && target && critter && target->pos() == critter->pos() ) {
         potential *= npc_attack_constants::target_modifier;
     }
-    return npc_attack_rating( static_cast<int>( std::round( potential ) ), location );
+    return npc_attack_rating( std::round( potential ), location );
 }

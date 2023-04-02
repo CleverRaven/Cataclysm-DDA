@@ -29,7 +29,7 @@
     "type": "item_group",
     "id": "milspec_arsenal_shot",
     "items": [
-      { "item": "mossberg_930", "variant": "m1014", "prob": 100 },
+      { "item": "m1014", "prob": 100 },
       { "item": "mossberg_590", "prob": 70 },
       { "item": "mossberg_500", "prob": 50 },
       { "group": "nested_m26_mass_no_ammo", "prob": 30 }

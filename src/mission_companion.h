@@ -5,14 +5,13 @@
 #include <iosfwd>
 #include <map>
 #include <new>
-#include <optional>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "coordinates.h"
-#include "mapgendata.h"
 #include "memory_fast.h"
+#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -74,14 +73,7 @@ enum mission_kind : int {
     Camp_Chop_Shop,  //  Obsolete removed during 0.E
     Camp_Plow,
     Camp_Plant,
-    Camp_Harvest,
-
-    last_mission_kind
-};
-
-template<>
-struct enum_traits<mission_kind> {
-    static constexpr mission_kind last = mission_kind::last_mission_kind;
+    Camp_Harvest
 };
 
 //  Operation to get translated UI strings for the corresponding misison
@@ -100,15 +92,13 @@ std::string action_of( mission_kind kind );
 struct mission_id {
     mission_kind id = No_Mission;
     std::string parameters;
-    mapgen_arguments mapgen_args;
-    std::optional<point> dir;
-
-    void serialize( JsonOut & ) const;
-    void deserialize( const JsonValue & );
+    cata::optional<point> dir;
 };
 
 bool is_equal( const mission_id &first, const mission_id &second );
 void reset_miss_id( mission_id &miss_id );
+std::string string_of( mission_id miss_id );
+mission_id mission_id_of( const std::string &str );
 
 //  ret determines whether the mission is for the start of a mission or the return of the companion(s).
 //  Used in the UI mission generation process to distinguish active missions from available ones.

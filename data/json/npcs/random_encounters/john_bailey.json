@@ -104,7 +104,7 @@
       { "item": "dogfood_dry" },
       { "item": "lighter", "charges": 100 },
       { "item": "aspirin" },
-      { "item": "bandages", "count": [ 1, 3 ] },
+      { "item": "bandages" },
       { "item": "pot" },
       { "item": "FMCNote", "count": 10 },
       { "item": "357mag_fmj", "count": 2 },

@@ -14,7 +14,7 @@
     "base_energy_cost": 100,
     "energy_source": "MANA",
     "spell_class": "TECHNOMANCER",
-    "difficulty": 5,
+    "difficulty": 1,
     "max_level": 20,
     "min_aoe": 0,
     "max_aoe": 5,
@@ -24,8 +24,8 @@
     "range_increment": 1.0,
     "//": "duration is in moves",
     "min_duration": 6000,
-    "max_duration": 30000,
-    "duration_increment": 1200
+    "max_duration": 10000,
+    "duration_increment": 400
   },
   {
     "id": "invisibility",
@@ -51,7 +51,7 @@
   {
     "id": "holy_blade",
     "type": "SPELL",
-    "name": "Mage Blade",
+    "name": "Holy Blade",
     "description": "This blade of light will cut through any evil it makes contact with!",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE" ],
@@ -76,7 +76,7 @@
   {
     "id": "holy_blade_plus",
     "type": "SPELL",
-    "name": "Enhanced Mage Blade",
+    "name": "Enhanced Holy Blade",
     "description": "This blade of light will cut through any evil it makes contact with!  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS" ],
@@ -100,7 +100,7 @@
   {
     "id": "spirit_armor",
     "type": "SPELL",
-    "name": "Mage Armor",
+    "name": "Spiritual Armor",
     "description": "Evil will not make it through your defenses if your faith is strong enough!",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS", "CONCENTRATE", "SOMATIC" ],
@@ -125,7 +125,7 @@
   {
     "id": "spirit_armor_plus",
     "type": "SPELL",
-    "name": "Enhanced Mage Armor",
+    "name": "Enhanced Spiritual Armor",
     "description": "Evil will not make it through your defenses if your faith is strong enough!  Now you know this spell like the back of your hand, and start to design your own version.",
     "valid_targets": [ "self" ],
     "flags": [ "VERBAL", "NO_LEGS", "SOMATIC" ],
@@ -286,17 +286,17 @@
     "shape": "blast",
     "spell_class": "TECHNOMANCER",
     "energy_source": "MANA",
-    "difficulty": 7,
+    "difficulty": 5,
     "max_level": 20,
     "base_casting_time": 500,
     "casting_time_increment": -2.5,
     "final_casting_time": 450,
     "base_energy_cost": 500,
-    "energy_increment": -7.5,
-    "final_energy_cost": 350,
-    "min_duration": 6000,
-    "max_duration": 180000,
-    "duration_increment": 8700
+    "energy_increment": -5.0,
+    "final_energy_cost": 400,
+    "min_duration": 180000,
+    "max_duration": 360000,
+    "duration_increment": 10000
   },
   {
     "id": "laze",
@@ -586,7 +586,7 @@
     "name": "Knifeshot",
     "description": "This spell generates a magnetic field around a knife, before launching it at high speed.",
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "CONCENTRATE", "SILENT", "SOMATIC", "NO_HANDS" ],
+    "flags": [ "CONCENTRATE", "SILENT", "SOMATIC" ],
     "components": "spell_components_knifeshot",
     "effect": "attack",
     "shape": "blast",

@@ -6,7 +6,6 @@
 #include <iosfwd>
 #include <map>
 #include <new>
-#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -18,6 +17,7 @@
 #include "damage.h"
 #include "hash_utils.h"
 #include "memory_fast.h"
+#include "optional.h"
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
@@ -126,8 +126,8 @@ struct trait_and_var {
 };
 
 struct trait_replacement {
-    std::optional<proficiency_id> prof;
-    std::optional<trait_and_var> trait;
+    cata::optional<proficiency_id> prof;
+    cata::optional<trait_and_var> trait;
     bool error = false;
 };
 
@@ -200,18 +200,18 @@ struct mutation_branch {
         int bodytemp_max = 0;
         int bodytemp_sleep = 0;
         // Healing per turn
-        std::optional<float> healing_awake = std::nullopt;
-        std::optional<float> healing_multiplier = std::nullopt;
+        cata::optional<float> healing_awake = cata::nullopt;
+        cata::optional<float> healing_resting = cata::nullopt;
         // Limb mending bonus
-        std::optional<float> mending_modifier = std::nullopt;
+        cata::optional<float> mending_modifier = cata::nullopt;
         // Bonus HP multiplier. That is, 1.0 doubles hp, -0.5 halves it.
-        std::optional<float> hp_modifier = std::nullopt;
+        cata::optional<float> hp_modifier = cata::nullopt;
         // Second HP modifier that stacks with first but is otherwise identical.
-        std::optional<float> hp_modifier_secondary = std::nullopt;
+        cata::optional<float> hp_modifier_secondary = cata::nullopt;
         // Flat bonus/penalty to hp.
-        std::optional<float> hp_adjustment = std::nullopt;
+        cata::optional<float> hp_adjustment = cata::nullopt;
         // Modify strength stat without changing HP
-        std::optional<float> str_modifier = std::nullopt;
+        cata::optional<float> str_modifier = cata::nullopt;
         //melee bonuses
         int cut_dmg_bonus = 0;
         float pierce_dmg_bonus = 0.0f;
@@ -219,19 +219,19 @@ struct mutation_branch {
         int bash_dmg_bonus = 0;
         std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
-        std::optional<float> dodge_modifier = std::nullopt;
-        std::optional<float> movecost_modifier = std::nullopt;
-        std::optional<float> movecost_flatground_modifier = std::nullopt;
-        std::optional<float> movecost_obstacle_modifier = std::nullopt;
-        std::optional<float> attackcost_modifier = std::nullopt;
-        std::optional<float> cardio_multiplier = std::nullopt;
-        std::optional<float> weight_capacity_modifier = std::nullopt;
-        std::optional<float> hearing_modifier = std::nullopt;
-        std::optional<float> movecost_swim_modifier = std::nullopt;
-        std::optional<float> noise_modifier = std::nullopt;
+        cata::optional<float> dodge_modifier = cata::nullopt;
+        cata::optional<float> movecost_modifier = cata::nullopt;
+        cata::optional<float> movecost_flatground_modifier = cata::nullopt;
+        cata::optional<float> movecost_obstacle_modifier = cata::nullopt;
+        cata::optional<float> attackcost_modifier = cata::nullopt;
+        cata::optional<float> cardio_multiplier = cata::nullopt;
+        cata::optional<float> weight_capacity_modifier = cata::nullopt;
+        cata::optional<float> hearing_modifier = cata::nullopt;
+        cata::optional<float> movecost_swim_modifier = cata::nullopt;
+        cata::optional<float> noise_modifier = cata::nullopt;
         float scent_modifier = 1.0f;
-        std::optional<int> scent_intensity;
-        std::optional<int> scent_mask;
+        cata::optional<int> scent_intensity;
+        cata::optional<int> scent_mask;
 
         int butchering_quality = 0;
 
@@ -246,7 +246,7 @@ struct mutation_branch {
         std::map<skill_id, int> craft_skill_bonus;
 
         /**What do you smell like*/
-        std::optional<scenttype_id> scent_typeid;
+        cata::optional<scenttype_id> scent_typeid;
 
         /**Map of glowing body parts and their glow intensity*/
         std::map<bodypart_str_id, float> lumination;
@@ -259,46 +259,46 @@ struct mutation_branch {
         /**maximum damage dealt by water every minute when wet. Can be negative and regen hit points.*/
         int weakness_to_water = 0;
 
-        std::optional<float> crafting_speed_multiplier = std::nullopt;
+        cata::optional<float> crafting_speed_multiplier = cata::nullopt;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
-        std::optional<float> stealth_modifier = std::nullopt;
+        cata::optional<float> stealth_modifier = cata::nullopt;
 
         // Speed lowers--or raises--for every X F (X C) degrees below or above 65 F (18.3 C)
-        std::optional<float> temperature_speed_modifier = std::nullopt;
+        cata::optional<float> temperature_speed_modifier = cata::nullopt;
         // Extra metabolism rate multiplier. 1.0 doubles usage, -0.5 halves.
-        std::optional<float> metabolism_modifier = std::nullopt;
+        cata::optional<float> metabolism_modifier = cata::nullopt;
         // As above but for thirst.
-        std::optional<float> thirst_modifier = std::nullopt;
+        cata::optional<float> thirst_modifier = cata::nullopt;
         // As above but for fatigue.
-        std::optional<float> fatigue_modifier = std::nullopt;
+        cata::optional<float> fatigue_modifier = cata::nullopt;
         // Modifier for the rate at which fatigue and sleep deprivation drops when resting.
-        std::optional<float> fatigue_regen_modifier = std::nullopt;
+        cata::optional<float> fatigue_regen_modifier = cata::nullopt;
         // Modifier for the rate at which stamina regenerates.
-        std::optional<float> stamina_regen_modifier = std::nullopt;
+        cata::optional<float> stamina_regen_modifier = cata::nullopt;
         // the modifier for obtaining an item from a container as a handling penalty
-        std::optional<float> obtain_cost_multiplier = std::nullopt;
+        cata::optional<float> obtain_cost_multiplier = cata::nullopt;
         // the modifier for the stomach size
-        std::optional<float> stomach_size_multiplier = std::nullopt;
+        cata::optional<float> stomach_size_multiplier = cata::nullopt;
         // the modifier for the vomit chance
-        std::optional<float> vomit_multiplier = std::nullopt;
+        cata::optional<float> vomit_multiplier = cata::nullopt;
         // the modifier for sweat amount
-        std::optional<float> sweat_multiplier = std::nullopt;
+        cata::optional<float> sweat_multiplier = cata::nullopt;
 
         // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
-        std::optional<float> overmap_sight = std::nullopt;
+        cata::optional<float> overmap_sight = cata::nullopt;
 
         // Multiplier for sight range, defaulting to 1.
-        std::optional<float> overmap_multiplier = std::nullopt;
+        cata::optional<float> overmap_multiplier = cata::nullopt;
 
         // Multiplier for reading speed, defaulting to 1.
-        std::optional<float> reading_speed_multiplier = std::nullopt;
+        cata::optional<float> reading_speed_multiplier = cata::nullopt;
 
         // Multiplier for skill rust delay, defaulting to 1.
-        std::optional<float> skill_rust_multiplier = std::nullopt;
+        cata::optional<float> skill_rust_multiplier = cata::nullopt;
 
         // Multiplier for consume time, defaulting to 1.
-        std::optional<float> consume_time_modifier = std::nullopt;
+        cata::optional<float> consume_time_modifier = cata::nullopt;
 
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
@@ -326,18 +326,18 @@ struct mutation_branch {
         std::set<bodypart_str_id> no_cbm_on_bp;
 
         // amount of mana added or subtracted from max
-        std::optional<float> mana_modifier = std::nullopt;
-        std::optional<float> mana_multiplier = std::nullopt;
-        std::optional<float> mana_regen_multiplier = std::nullopt;
+        cata::optional<float> mana_modifier = cata::nullopt;
+        cata::optional<float> mana_multiplier = cata::nullopt;
+        cata::optional<float> mana_regen_multiplier = cata::nullopt;
         // for every point of bionic power, reduces max mana pool by 1 * bionic_mana_penalty
-        std::optional<float> bionic_mana_penalty = std::nullopt;
-        std::optional<float> casting_time_multiplier = std::nullopt;
+        cata::optional<float> bionic_mana_penalty = cata::nullopt;
+        cata::optional<float> casting_time_multiplier = cata::nullopt;
         // spells learned and their associated level when gaining the mutation
         std::map<spell_id, int> spells_learned;
         // hide activation menu when activating - preferred for spell targeting activations
-        std::optional<bool> hide_on_activated = std::nullopt;
+        cata::optional<bool> hide_on_activated = cata::nullopt;
         // hide activation menu when deactivating - preferred for spell targeting deactivations
-        std::optional<bool> hide_on_deactivated = std::nullopt;
+        cata::optional<bool> hide_on_deactivated = cata::nullopt;
         /** Monster cameras added by this mutation */
         std::map<mtype_id, int> moncams;
         /** effect_on_conditions triggered when this mutation activates */
@@ -573,14 +573,8 @@ struct mutation_category_trait {
         mutation_category_id id;
         // The trait that you gain when you break the threshold for this category
         trait_id threshold_mut;
-        // Amount of vitamin necessary to attempt breaking the threshold
-        int threshold_min = 2200;
         // Mutation vitamin
         vitamin_id vitamin;
-        // Chance to remove base traits
-        int base_removal_chance = 100;
-        // Multiplier of vitamin costs when mutating this category removes starting traits
-        float base_removal_cost_mul = 3.0f;
 
         static const std::map<mutation_category_id, mutation_category_trait> &get_all();
         static const mutation_category_trait &get_category(

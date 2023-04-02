@@ -56,8 +56,7 @@
       "dead_end": { "overmap": "ants_end_south", "north": "tunnel_to_tunnel" },
       "queen": { "overmap": "ants_queen_north", "north": "tunnel_to_tunnel" },
       "larvae": { "overmap": "ants_larvae_north", "north": "tunnel_to_tunnel" },
-      "food": { "overmap": "ants_food_north", "north": "tunnel_to_tunnel" },
-      "farm": { "overmap": "ants_fungus_colony_north", "north": "tunnel_to_tunnel" }
+      "food": { "overmap": "ants_food_north", "north": "tunnel_to_tunnel" }
     },
     "root": "surface",
     "phases": [
@@ -69,11 +68,7 @@
         { "overmap": "below_entrance", "max": { "poisson": 0.7 } }
       ],
       [ { "overmap": "queen", "max": 1 } ],
-      [
-        { "overmap": "food", "max": { "poisson": 5 } },
-        { "overmap": "larvae", "max": { "poisson": 5 } },
-        { "overmap": "farm", "max": { "poisson": 10 } }
-      ],
+      [ { "overmap": "food", "max": { "poisson": 5 } }, { "overmap": "larvae", "max": { "poisson": 5 } } ],
       [
         { "overmap": "dead_end", "weight": 2000 },
         { "overmap": "straight_tunnel", "weight": 100 },
@@ -129,8 +124,7 @@
       "dead_end": { "overmap": "acid_ants_end_south", "north": "tunnel_to_tunnel" },
       "queen": { "overmap": "acid_ants_queen_north", "north": "tunnel_to_tunnel" },
       "larvae": { "overmap": "acid_ants_larvae_north", "north": "tunnel_to_tunnel" },
-      "food": { "overmap": "acid_ants_food_north", "north": "tunnel_to_tunnel" },
-      "farm": { "overmap": "acid_ants_fungus_colony_north", "north": "tunnel_to_tunnel" }
+      "food": { "overmap": "acid_ants_food_north", "north": "tunnel_to_tunnel" }
     },
     "root": "surface",
     "phases": [
@@ -142,11 +136,7 @@
         { "overmap": "below_entrance", "max": { "poisson": 0.7 } }
       ],
       [ { "overmap": "queen", "max": 1 } ],
-      [
-        { "overmap": "food", "max": { "poisson": 5 } },
-        { "overmap": "larvae", "max": { "poisson": 5 } },
-        { "overmap": "farm", "max": { "poisson": 10 } }
-      ],
+      [ { "overmap": "food", "max": { "poisson": 5 } }, { "overmap": "larvae", "max": { "poisson": 5 } } ],
       [
         { "overmap": "dead_end", "weight": 2000 },
         { "overmap": "straight_tunnel", "weight": 100 },

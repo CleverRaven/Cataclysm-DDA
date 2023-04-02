@@ -18,7 +18,7 @@
       { "id": "kitchen_recipes_1" },
       { "id": "fbmc_lightindustry_00" }
     ],
-    "blueprint_resources": [ "oven" ],
+    "blueprint_resources": [ "fake_oven" ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_name": "basic survey",
     "check_blueprint_needs": false

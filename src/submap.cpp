@@ -26,6 +26,17 @@ void maptile_soa::swap_soa_tile( const point &p1, const point &p2 )
     std::swap( rad[p1.x][p1.y], rad[p2.x][p2.y] );
 }
 
+submap::submap()
+{
+    std::uninitialized_fill_n( &ter[0][0], elements, t_null );
+    std::uninitialized_fill_n( &frn[0][0], elements, f_null );
+    std::uninitialized_fill_n( &lum[0][0], elements, 0 );
+    std::uninitialized_fill_n( &trp[0][0], elements, tr_null );
+    std::uninitialized_fill_n( &rad[0][0], elements, 0 );
+
+    is_uniform = false;
+}
+
 submap::submap( submap && ) noexcept( map_is_noexcept ) = default;
 submap::~submap() = default;
 
@@ -81,7 +92,7 @@ const std::string &submap::get_graffiti( const point &p ) const
 
 void submap::set_graffiti( const point &p, const std::string &new_graffiti )
 {
-    ensure_nonuniform();
+    is_uniform = false;
     // Find signage at p if available
     const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
@@ -93,16 +104,16 @@ void submap::set_graffiti( const point &p, const std::string &new_graffiti )
 
 void submap::delete_graffiti( const point &p )
 {
+    is_uniform = false;
     const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_GRAFFITI );
     if( fresult.result ) {
-        ensure_nonuniform();
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
     }
 }
 bool submap::has_signage( const point &p ) const
 {
-    if( !is_uniform() && m->frn[p.x][p.y].obj().has_flag( ter_furn_flag::TFLAG_SIGN ) ) {
+    if( frn[p.x][p.y].obj().has_flag( ter_furn_flag::TFLAG_SIGN ) ) {
         return find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE ).result;
     }
 
@@ -110,7 +121,7 @@ bool submap::has_signage( const point &p ) const
 }
 std::string submap::get_signage( const point &p ) const
 {
-    if( !is_uniform() && m->frn[p.x][p.y].obj().has_flag( ter_furn_flag::TFLAG_SIGN ) ) {
+    if( frn[p.x][p.y].obj().has_flag( ter_furn_flag::TFLAG_SIGN ) ) {
         const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
         if( fresult.result ) {
             return cosmetics[ fresult.ndx ].str;
@@ -121,7 +132,7 @@ std::string submap::get_signage( const point &p ) const
 }
 void submap::set_signage( const point &p, const std::string &s )
 {
-    ensure_nonuniform();
+    is_uniform = false;
     // Find signage at p if available
     const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
     if( fresult.result ) {
@@ -132,9 +143,9 @@ void submap::set_signage( const point &p, const std::string &s )
 }
 void submap::delete_signage( const point &p )
 {
+    is_uniform = false;
     const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
     if( fresult.result ) {
-        ensure_nonuniform();
         cosmetics[ fresult.ndx ] = cosmetics.back();
         cosmetics.pop_back();
     }
@@ -142,10 +153,10 @@ void submap::delete_signage( const point &p )
 
 void submap::update_legacy_computer()
 {
-    if( !is_uniform() && legacy_computer ) {
+    if( legacy_computer ) {
         for( int x = 0; x < SEEX; ++x ) {
             for( int y = 0; y < SEEY; ++y ) {
-                if( m->frn[x][y] == furn_f_console ) {
+                if( frn[x][y] == furn_f_console ) {
                     computers.emplace( point( x, y ), *legacy_computer );
                 }
             }
@@ -156,8 +167,8 @@ void submap::update_legacy_computer()
 
 bool submap::has_computer( const point &p ) const
 {
-    return !is_uniform() && ( computers.find( p ) != computers.end() ||
-                              ( legacy_computer && m->frn[p.x][p.y] == furn_f_console ) );
+    return computers.find( p ) != computers.end() || ( legacy_computer && frn[p.x][p.y]
+            == furn_f_console );
 }
 
 const computer *submap::get_computer( const point &p ) const
@@ -168,7 +179,7 @@ const computer *submap::get_computer( const point &p ) const
     if( it != computers.end() ) {
         return &it->second;
     }
-    if( !is_uniform() && legacy_computer && m->frn[p.x][p.y] == furn_f_console ) {
+    if( legacy_computer && frn[p.x][p.y] == furn_f_console ) {
         return legacy_computer.get();
     }
     return nullptr;
@@ -221,9 +232,6 @@ bool submap::is_open_air( const point &p ) const
 
 void submap::rotate( int turns )
 {
-    if( is_uniform() ) {
-        return;
-    }
     turns = turns % 4;
 
     if( turns == 0 ) {
@@ -241,14 +249,14 @@ void submap::rotate( int turns )
         // Swap horizontal stripes.
         for( int j = 0, je = SEEY / 2; j < je; ++j ) {
             for( int i = j, ie = SEEX - j; i < ie; ++i ) {
-                m->swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
+                swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
             }
         }
         // Swap vertical stripes so that they don't overlap with
         // the already swapped horizontals.
         for( int i = 0, ie = SEEX / 2; i < ie; ++i ) {
             for( int j = i + 1, je = SEEY - i - 1; j < je; ++j ) {
-                m->swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
+                swap_soa_tile( { i, j }, rotate_point( { i, j } ) );
             }
         }
     } else {
@@ -261,7 +269,7 @@ void submap::rotate( int turns )
                 for( int k = 0; k < 3; ++k ) {
                     p = pp;
                     pp = rotate_point_ccw( pp );
-                    m->swap_soa_tile( p, pp );
+                    swap_soa_tile( p, pp );
                 }
             }
         }
@@ -298,15 +306,12 @@ void submap::rotate( int turns )
 
 void submap::mirror( bool horizontally )
 {
-    if( is_uniform() ) {
-        return;
-    }
     std::map<point, computer> mirror_comp;
 
     if( horizontally ) {
         for( int i = 0, ie = SEEX / 2; i < ie; i++ ) {
             for( int k = 0; k < SEEY; k++ ) {
-                m->swap_soa_tile( { i, k }, { SEEX - 1 - i, k } );
+                swap_soa_tile( { i, k }, { SEEX - 1 - i, k } );
             }
         }
 
@@ -323,7 +328,7 @@ void submap::mirror( bool horizontally )
     } else {
         for( int k = 0, ke = SEEY / 2; k < ke; k++ ) {
             for( int i = 0; i < SEEX; i++ ) {
-                m->swap_soa_tile( { i, k }, { i, SEEY - 1 - k } );
+                swap_soa_tile( { i, k }, { i, SEEY - 1 - k } );
             }
         }
 
@@ -340,63 +345,62 @@ void submap::mirror( bool horizontally )
     }
 }
 
-void submap::revert_submap( submap &sr )
+void submap::revert_submap( submap_revert &sr )
 {
-    if( sr.is_uniform() ) {
-        m.reset();
-        set_all_ter( sr.get_ter( point_zero ), true );
-        return;
-    }
-
-    ensure_nonuniform();
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             point pt( x, y );
-            m->frn[x][y] = sr.get_furn( pt );
-            m->ter[x][y] = sr.get_ter( pt );
-            m->trp[x][y] = sr.get_trap( pt );
-            m->itm[x][y] = sr.get_items( pt );
-            for( item &itm : m->itm[x][y] ) {
+            frn[x][y] = sr.get_furn( pt );
+            ter[x][y] = sr.get_ter( pt );
+            trp[x][y] = sr.get_trap( pt );
+            itm[x][y] = sr.get_items( pt );
+            for( item &itm : itm[x][y] ) {
                 if( itm.is_emissive() ) {
                     this->update_lum_add( pt, itm );
                 }
-                active_items.add( itm, pt );
+                if( itm.needs_processing() ) {
+                    active_items.add( itm, pt );
+                }
             }
         }
     }
 }
 
-submap submap::get_revert_submap() const
+submap_revert submap::get_revert_submap() const
 {
-    submap ret;
-    ret.uniform_ter = uniform_ter;
-    if( !is_uniform() ) {
-        ret.m = std::make_unique<maptile_soa>( *m );
+    submap_revert ret;
+    for( int x = 0; x < SEEX; x++ ) {
+        for( int y = 0; y < SEEY; y++ ) {
+            point pt( x, y );
+            ret.set_furn( pt, frn[x][y] );
+            ret.set_ter( pt, ter[x][y] );
+            ret.set_trap( pt, trp[x][y] );
+            ret.set_items( pt, itm[x][y] );
+        }
     }
-
     return ret;
 }
 
 void submap::update_lum_rem( const point &p, const item &i )
 {
-    ensure_nonuniform();
+    is_uniform = false;
     if( !i.is_emissive() ) {
         return;
-    } else if( m->lum[p.x][p.y] && m->lum[p.x][p.y] < 255 ) {
-        m->lum[p.x][p.y]--;
+    } else if( lum[p.x][p.y] && lum[p.x][p.y] < 255 ) {
+        lum[p.x][p.y]--;
         return;
     }
 
     // Have to scan through all items to be sure removing i will actually lower
     // the count below 255.
     int count = 0;
-    for( const item &it : m->itm[p.x][p.y] ) {
+    for( const item &it : itm[p.x][p.y] ) {
         if( it.is_emissive() ) {
             count++;
         }
     }
 
     if( count <= 256 ) {
-        m->lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
+        lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
     }
 }

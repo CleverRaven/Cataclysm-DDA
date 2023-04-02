@@ -1,4 +1,3 @@
-#include <optional>
 #include <vector>
 
 #include "avatar.h"
@@ -10,6 +9,7 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "optional.h"
 #include "activity_actor_definitions.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -119,14 +119,14 @@ TEST_CASE( "starting_bicycle_damaged_pedal", "[vehicle]" )
         veh_ptr->set_hp( pedel, pedel.hp() * 0.25, true );
         // Try starting the engine 100 time because it is random that a combustion engine does fails
         for( int i = 0; i < 100 ; i++ ) {
-            CHECK( veh_ptr->start_engine( pedel ) );
+            CHECK( veh_ptr->start_engine( 0 ) );
         }
     }
 
     SECTION( "when the pedal has 0 hp" ) {
         veh_ptr->set_hp( pedel, 0, true );
 
-        CHECK_FALSE( veh_ptr->start_engine( pedel ) );
+        CHECK_FALSE( veh_ptr->start_engine( 0 ) );
     }
 
     here.detach_vehicle( veh_ptr );
@@ -391,8 +391,8 @@ static void check_folded_item_to_parts_damage_transfer( const folded_item_damage
 TEST_CASE( "Check folded item damage transfers to parts and vice versa", "[item][vehicle]" )
 {
     std::vector<folded_item_damage_preset> presets {
-        { itype_folded_wheelchair_generic, 2111, 2411, 12666, 14466 },
-        { itype_folded_bicycle,            1689, 1989, 18582, 21882 },
+        { itype_folded_wheelchair_generic, 2111, 2277, 12666, 13666 },
+        { itype_folded_bicycle,            1689, 1961, 18582, 21582 },
     };
 
     for( const folded_item_damage_preset &preset : presets ) {
@@ -449,8 +449,8 @@ TEST_CASE( "power_cable_stretch_disconnect" )
     clear_avatar();
     map &m = get_map();
     const int max_displacement = 50;
-    const std::optional<item> stand_lamp1( "test_standing_lamp" );
-    const std::optional<item> stand_lamp2( "test_standing_lamp" );
+    const cata::optional<item> stand_lamp1( "test_standing_lamp" );
+    const cata::optional<item> stand_lamp2( "test_standing_lamp" );
 
     const tripoint app1_pos( HALF_MAPSIZE_X + 2, HALF_MAPSIZE_Y + 2, 0 );
     const tripoint app2_pos( app1_pos + tripoint( 2, 2, 0 ) );
@@ -632,7 +632,7 @@ static void rack_check( const rack_preset &preset )
             REQUIRE( error ==
                      "vehicle named Foldable wheelchair is already racked on this vehicle"
                      "racking actor failed: failed racking Foldable wheelchair on Car, "
-                     "racks: [82, 81, and 79]." );
+                     "racks: [130, 117, and 91]." );
         }
 
         const optional_vpart_position ovp_racked = m.veh_at(
@@ -684,7 +684,7 @@ static void rack_check( const rack_preset &preset )
 }
 
 // Testing vehicle racking and unracking
-TEST_CASE( "Racking and unracking tests", "[vehicle][bikerack]" )
+TEST_CASE( "Racking and unracking tests", "[vehicle]" )
 {
     std::vector<rack_preset> racking_presets {
         // basic test; rack bike on car, unrack it, everything should succeed

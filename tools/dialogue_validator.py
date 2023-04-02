@@ -131,7 +131,7 @@ def validate(dialogue):
         "TALK_MISSION_DESCRIBE_URGENT", "TALK_SEDATED", "TALK_WAKE_UP",
         "TALK_MUG", "TALK_STRANGER_AGGRESSIVE", "TALK_STRANGER_SCARED",
         "TALK_STRANGER_WARY", "TALK_STRANGER_FRIENDLY",
-        "TALK_STRANGER_NEUTRAL", "TALK_SHELTER"
+        "TALK_STRANGER_NEUTRAL", "TALK_SHELTER", "TALK_CAMP_OVERSEER"
     ]
     for talk_topic in dialogue:
         if not isinstance(talk_topic, dict):

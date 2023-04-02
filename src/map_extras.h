@@ -73,7 +73,7 @@ class map_extra
     private:
         translation name_;
         translation description_;
-        std::optional<std::pair<int, int>> min_max_zlevel_;
+        cata::optional<std::pair<int, int>> min_max_zlevel_;
         cata::flat_set<std::string> flags_;
 };
 

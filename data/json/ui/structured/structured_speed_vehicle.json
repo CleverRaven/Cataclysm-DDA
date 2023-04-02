@@ -1,70 +1,33 @@
 [
   {
-    "id": "structured_ma_wf_speed_weight_text_layout",
+    "id": "structured_speed_vehicle_layout",
     "type": "widget",
     "style": "layout",
-    "label": "Speed + Weight %",
-    "description": "Shows martial arts style, wielded weapon/<color_yellow>vehicle fuel</color>, <color_yellow>move/driving speed</color>, and relative <color_yellow>weight carried percentage</color> text.",
-    "arrange": "minimum_columns",
-    "widgets": [ "structured_style_simple", "structured_wield_speed_vehicle_layout", "structured_carry_weight_text" ]
-  },
-  {
-    "id": "structured_ma_wf_speed_weight_graph_layout",
-    "type": "widget",
-    "style": "layout",
-    "label": "Speed + Weight Graph",
-    "description": "Shows martial arts style, wielded weapon/<color_yellow>vehicle fuel</color>, <color_yellow>move/driving speed</color>, and relative <color_yellow>weight carried graph</color>.",
-    "arrange": "minimum_columns",
-    "widgets": [ "structured_style_simple", "structured_wield_speed_vehicle_layout", "structured_carry_weight_graph" ],
-    "flags": [ "W_DISABLED_BY_DEFAULT" ]
-  },
-  {
-    "id": "structured_style_simple",
-    "type": "widget",
-    "label": "Style",
-    "style": "text",
-    "width": 9,
-    "colors": [ "c_dark_gray" ],
-    "var": "style_text",
-    "flags": [ "W_LABEL_NONE" ]
-  },
-  {
-    "id": "structured_wield_speed_vehicle_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "minimum_columns",
-    "width": 27,
+    "arrange": "columns",
     "clauses": [
+      { "id": "driving", "widgets": [ "vehicle_cruise_desc_no_label" ], "condition": "u_driving" },
       {
         "id": "not_driving",
-        "widgets": [ "structured_wield_simple", "structured_speed_layout" ],
+        "widgets": [ "structured_speed_num_layout", "structured_move_count_mode_layout" ],
         "condition": { "not": "u_driving" }
-      },
-      { "id": "driving", "widgets": [ "structured_fuel", "structured_vehicle_speed" ], "condition": "u_driving" }
+      }
     ]
   },
   {
-    "id": "structured_wield_simple",
+    "id": "structured_speed_num_layout",
     "type": "widget",
     "style": "layout",
-    "width": 11,
-    "widgets": [ "wielding_simple_desc_no_label" ]
-  },
-  {
-    "id": "structured_speed_layout",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "minimum_columns",
-    "width": 13,
-    "padding": 1,
-    "widgets": [ "structured_speed", "structured_move_count_mode_layout" ]
-  },
-  {
-    "id": "structured_speed",
-    "type": "widget",
+    "arrange": "columns",
     "width": 5,
+    "widgets": [ "structured_speed_num" ]
+  },
+  {
+    "id": "structured_speed_num",
+    "type": "widget",
     "label": "S",
-    "copy-from": "speed_num"
+    "var": "speed",
+    "style": "number",
+    "colors": [ "c_red", "c_light_red", "c_light_green", "c_green" ]
   },
   {
     "id": "structured_move_count_mode_layout",
@@ -79,40 +42,5 @@
     "type": "widget",
     "copy-from": "move_count_mode_desc",
     "flags": [ "W_LABEL_NONE" ]
-  },
-  {
-    "id": "structured_fuel",
-    "type": "widget",
-    "width": 11,
-    "separator": "  ",
-    "copy-from": "vehicle_fuel_desc_label"
-  },
-  {
-    "id": "structured_vehicle_speed",
-    "type": "widget",
-    "style": "layout",
-    "arrange": "minimum_columns",
-    "width": 13,
-    "widgets": [ "structured_cruise" ]
-  },
-  {
-    "id": "structured_cruise",
-    "type": "widget",
-    "width": 13,
-    "padding": 0,
-    "copy-from": "vehicle_cruise_desc_no_label"
-  },
-  {
-    "id": "structured_carry_weight_text",
-    "type": "widget",
-    "copy-from": "carry_weight_text_label",
-    "label": "Wt",
-    "text_align": "right"
-  },
-  {
-    "id": "structured_carry_weight_graph",
-    "type": "widget",
-    "copy-from": "carry_weight_graph_label",
-    "label": "Wt"
   }
 ]

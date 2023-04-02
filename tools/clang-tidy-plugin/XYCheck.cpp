@@ -13,7 +13,11 @@
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 void XYCheck::registerMatchers( MatchFinder *Finder )
@@ -148,4 +152,6 @@ void XYCheck::check( const MatchFinder::MatchResult &Result )
     CheckParam( *this, Result );
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

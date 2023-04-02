@@ -8,8 +8,7 @@
       { "id": "pointy_stick", "description": " Craft: Pointy Sticks" },
       { "id": "wood_panel_from nailed planks", "description": " Craft: Wooden Panel, Nailed Planks" },
       { "id": "wood_panel_from wooden beams", "description": " Craft: Wooden Panel, Wooden Beams" },
-      { "id": "wood_beam_from logs", "description": " Craft: Wooden Beam" },
-      { "id": "2x4_from logs", "description": " Craft: Wooden Plank" }
+      { "id": "wood_beam_from logs", "description": " Craft: Wooden Beam" }
     ]
   },
   {
@@ -46,8 +45,7 @@
       { "id": "hardtack", "description": " Cook: Hardtack" },
       { "id": "veggy_pickled_jarred", "description": " Cook: Veggy, Pickled" },
       { "id": "cheese_hard", "description": " Cook: Cheese, Hard" },
-      { "id": "pemmican", "description": " Cook: Pemmican, Meat + Berries" },
-      { "id": "pemmican_veggy", "description": " Cook: Pemmican, Meat + Veg" },
+      { "id": "pemmican", "description": " Cook: Pemmican" },
       { "id": "veggy_aspic", "description": " Cook: Veggy Aspic" },
       { "id": "meat_canned_jarred", "description": " Cook: Meat, Canned" },
       { "id": "meat_aspic", "description": " Cook: Meat Aspic" },

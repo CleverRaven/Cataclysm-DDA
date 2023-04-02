@@ -29,7 +29,11 @@ class MacroDefinition;
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 class NoLongMacrosCallbacks : public PPCallbacks
@@ -193,4 +197,6 @@ void NoLongCheck::check( const MatchFinder::MatchResult &Result )
     CheckCast( *this, Result );
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

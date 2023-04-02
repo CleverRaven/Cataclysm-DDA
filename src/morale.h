@@ -154,7 +154,6 @@ class player_morale
         void update_stylish_bonus();
         void update_squeamish_penalty();
         void update_masochist_bonus();
-        void update_radiophile_bonus();
         void update_bodytemp_penalty( const time_duration &ticks );
         void update_constrained_penalty();
 
@@ -208,7 +207,6 @@ class player_morale
         bool took_prozac_bad;
         bool stylish;
         int perceived_pain;
-        int radiation;
 };
 
 #endif // CATA_SRC_MORALE_H

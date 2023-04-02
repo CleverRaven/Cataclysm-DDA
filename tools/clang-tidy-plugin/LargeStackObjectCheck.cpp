@@ -29,7 +29,11 @@ class MacroDefinition;
 
 using namespace clang::ast_matchers;
 
-namespace clang::tidy::cata
+namespace clang
+{
+namespace tidy
+{
+namespace cata
 {
 
 void LargeStackObjectCheck::registerMatchers( MatchFinder *Finder )
@@ -76,4 +80,6 @@ void LargeStackObjectCheck::check( const MatchFinder::MatchResult &Result )
     CheckDecl( *this, Result );
 }
 
-} // namespace clang::tidy::cata
+} // namespace cata
+} // namespace tidy
+} // namespace clang

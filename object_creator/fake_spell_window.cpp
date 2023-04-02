@@ -63,8 +63,8 @@ creator::fake_spell_window::fake_spell_window( QWidget *parent, Qt::WindowFlags 
     [&]() {
         editable_spell.id = spell_id( id_box.text().toStdString() );
         if( editable_spell.id.is_valid() ) {
-            max_level_box.setMaximum( editable_spell.id->max_level.min.dbl_val.value() );
-            min_level_box.setMaximum( editable_spell.id->max_level.min.dbl_val.value() );
+            max_level_box.setMaximum( editable_spell.id->max_level );
+            min_level_box.setMaximum( editable_spell.id->max_level );
         }
     } );
     QObject::connect( &id_box, &QLineEdit::textChanged, this, &fake_spell_window::modified );

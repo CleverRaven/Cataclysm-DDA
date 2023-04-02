@@ -3,18 +3,18 @@
     "type": "palette",
     "id": "office_palette",
     "terrain": {
+      "*": "t_null",
       "/": "t_open_air",
-      " ": "t_null",
-      "%": "t_region_groundcover_urban",
       "~": "t_soil",
       "#": "t_concrete_wall",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "'": "t_thconc_floor",
       "r": "t_thconc_floor",
+      "Q": "t_thconc_floor",
       "O": "t_thconc_floor",
-      ".": "t_linoleum_gray",
-      ":": "t_linoleum_gray",
+      ".": "t_floor",
+      ":": "t_floor",
       "i": "t_linoleum_white",
       "S": "t_linoleum_white",
       "T": "t_linoleum_white",
@@ -22,29 +22,36 @@
       "o": "t_linoleum_white",
       "C": "t_linoleum_white",
       "y": "t_linoleum_white",
+      " ": "t_region_groundcover_urban",
       ",": "t_pavement_y",
       "_": "t_pavement",
-      "É": "t_pavement",
-      "Á": "t_pavement",
+      "%": [ [ "t_region_shrub_decorative", 16 ], [ "t_region_groundcover_forest", 5 ] ],
+      "I": "t_region_tree_shade",
       "+": "t_door_c",
       "=": "t_door_locked",
-      "-": "t_door_metal_c",
+      "D": "t_door_metal_c",
+      "!": "t_door_metal_locked",
       "E": "t_elevator",
       "G": "t_door_glass_c",
-      "R": "t_glass_railing",
-      "s": "t_concrete",
+      "H": "t_wall_glass",
+      "R": "t_railing_v",
+      "s": "t_sidewalk",
       "V": "t_wall_glass",
       "w": "t_window",
+      "-": "t_brick_wall",
       "|": "t_brick_wall",
-      "H": "t_elevator_control_off",
+      "z": "t_flat_roof",
+      "1": "t_gutter_north",
+      "2": "t_gutter_east",
+      "3": "t_gutter_south",
+      "4": "t_gutter_west",
+      "5": "t_gutter_drop",
       "Δ": "t_ramp_up_low",
       "Ʌ": "t_ramp_up_high",
       "Ŧ": "t_ramp_down_high",
       "±": "t_ramp_down_low"
     },
     "furniture": {
-      "*": "f_room_divider",
-      "%": "f_hedge_short",
       "?": "f_sofa",
       "M": "f_armchair",
       "b": "f_bench",
@@ -61,145 +68,39 @@
       "^": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "r": "f_rack",
       "S": "f_sink",
+      "T": "f_toilet",
       "O": [ [ "f_cardboard_box", 6 ], "f_crate_c" ],
       "a": "f_trashcan",
-      "f": "f_filing_cabinet",
+      "F": "f_filing_cabinet",
       "Q": "f_safe_l",
       "x": "f_console_broken",
+      "X": "f_generator_broken",
+      "N": "f_machinery_heavy",
       "y": "f_locker",
       "B": "f_bulletin",
-      "A": "f_bookcase"
+      "6": "f_cellphone_booster",
+      "7": "f_small_satelitte_dish"
     },
     "items": {
-      "d": { "item": "SUS_office_desk", "chance": 40 },
-      "e": { "item": "SUS_fridge_breakroom", "chance": 70 },
-      "o": { "item": "SUS_oven", "chance": 90 },
+      "d": [
+        { "item": "office", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "cubical_office", "chance": 40, "repeat": [ 1, 2 ] }
+      ],
+      "e": [
+        { "item": "fridge", "chance": 70, "repeat": [ 1, 3 ] },
+        { "item": "fridgesnacks", "chance": 70, "repeat": [ 1, 10 ] }
+      ],
+      "o": { "item": "oven", "chance": 70 },
       "r": [ { "item": "office_supplies", "chance": 65, "repeat": [ 1, 10 ] } ],
-      "y": { "item": "SUS_janitors_closet", "chance": 90 },
-      "Y": { "item": "coat_rack", "chance": 66, "repeat": [ 1, 5 ] },
-      "a": { "item": "trash", "chance": 70, "repeat": [ 1, 3 ] },
+      "y": { "item": "cleaning", "chance": 60, "repeat": [ 1, 2 ] },
+      "Y": { "item": "jackets", "chance": 90, "repeat": [ 3, 8 ] },
+      "a": { "item": "trash", "chance": 70, "repeat": [ 2, 5 ] },
+      "Q": { "item": "jewelry_safe", "chance": 70, "repeat": [ 1, 3 ] },
       "t": { "item": "dining", "chance": 40, "repeat": [ 1, 2 ] },
-      "f": { "item": "SUS_office_filing_cabinet", "chance": 90 },
-      "A": { "item": "homebooks", "chance": 40, "repeat": [ 1, 4 ] },
+      "F": { "item": "file_room", "chance": 70, "repeat": [ 1, 10 ] },
       ".": { "item": "office_mess", "chance": 1 }
     },
-    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
-    "monster": { "_": { "group": "GROUP_CIVILIAN", "chance": 1 }, ".": { "group": "GROUP_CIVILIAN", "chance": 1 } },
-    "toilets": { "T": {  } },
-    "vehicles": {
-      "Á": { "vehicle": "parking_garage", "chance": 50, "rotation": 270 },
-      "É": { "vehicle": "parking_garage", "chance": 50, "rotation": 90 }
-    },
-    "nested": {
-      "7": { "chunks": [ [ "5x5_corridor_office0_sw", 1 ], [ "5x5_corridor_office1_sw", 1 ], [ "5x5_corridor_sofas_sw", 2 ] ] },
-      "8": { "chunks": [ [ "5x5_corridor_office0_se", 1 ], [ "5x5_corridor_office1_se", 1 ], [ "5x5_corridor_sofas_se", 2 ] ] },
-      "[": { "chunks": [ [ "3x3_desk_l_1", 1 ], [ "3x3_desk_l_2", 1 ], [ "3x3_desk_l_3", 1 ] ] },
-      "]": { "chunks": [ [ "3x3_desk_r_1", 1 ], [ "3x3_desk_r_2", 1 ], [ "3x3_desk_r_3", 1 ] ] },
-      "5": {
-        "chunks": [ [ "6x6_room_boss_l", 1 ], [ "6x6_room_meeting_l", 1 ], [ "6x6_room_office_l", 1 ], [ "6x6_room_breakroom_l", 1 ] ]
-      },
-      "6": {
-        "chunks": [ [ "6x6_room_boss_r", 1 ], [ "6x6_room_files_r", 1 ], [ "6x6_room_office_r", 1 ], [ "6x6_room_breakroom_r", 1 ] ]
-      },
-      "≤": { "chunks": [ [ "8x8_meeting_room_l_1", 1 ], [ "8x8_meeting_room_l_2", 1 ], [ "8x8_meeting_room_l_3", 1 ] ] },
-      "≥": {
-        "chunks": [
-          [ "8x8_meeting_room_r_1", 1 ],
-          [ "8x8_meeting_room_r_2", 1 ],
-          [ "8x8_meeting_room_r_3", 1 ],
-          [ "8x8_meeting_room_r_4", 1 ]
-        ]
-      },
-      "(": {
-        "chunks": [
-          [ "14x14_office_slide_sw", 1 ],
-          [ "14x14_office_glass_sw", 1 ],
-          [ "14x14_office_cubicle_sw", 1 ],
-          [ "14x14_office_crowded_sw", 1 ],
-          [ "14x14_office_generic_sw", 1 ]
-        ]
-      },
-      ")": {
-        "chunks": [
-          [ "14x14_office_slide_se", 1 ],
-          [ "14x14_office_glass_se", 1 ],
-          [ "14x14_office_generic_se", 1 ],
-          [ "14x14_office_cubicle_se", 1 ],
-          [ "14x14_office_crowded_se", 1 ]
-        ]
-      },
-      "{": {
-        "chunks": [
-          [ "14x14_office_glass_nw", 1 ],
-          [ "14x14_office_cubicle_nw", 1 ],
-          [ "14x14_office_generic_nw", 1 ],
-          [ "14x14_office_slide_nw", 1 ],
-          [ "14x14_office_crowded_nw", 1 ]
-        ]
-      },
-      "}": {
-        "chunks": [
-          [ "14x14_office_glass_ne", 1 ],
-          [ "14x14_office_cubicle_ne", 1 ],
-          [ "14x14_office_generic_ne", 1 ],
-          [ "14x14_office_slide_ne", 1 ],
-          [ "14x14_office_crowded_ne", 1 ]
-        ]
-      },
-      "1": {
-        "chunks": [
-          [ "5x5_cabinet_toilet_l", 2 ],
-          [ "5x5_cabinet_storage0_l", 1 ],
-          [ "5x5_cabinet_storage1_l", 1 ],
-          [ "5x5_cabinet_storage2_l", 1 ],
-          [ "5x5_cabinet_cleaning0_l", 2 ],
-          [ "5x5_cabinet_cleaning1_l", 2 ]
-        ]
-      },
-      "2": {
-        "chunks": [
-          [ "5x5_cabinet_toilet_r", 2 ],
-          [ "5x5_cabinet_storage0_r", 1 ],
-          [ "5x5_cabinet_storage1_r", 1 ],
-          [ "5x5_cabinet_storage2_r", 1 ],
-          [ "5x5_cabinet_cleaning0_r", 2 ],
-          [ "5x5_cabinet_cleaning1_r", 2 ]
-        ]
-      },
-      "!": {
-        "chunks": [
-          [ "5x5_corridor_office_ne", 2 ],
-          [ "5x5_corridor_benches_ne", 1 ],
-          [ "5x5_corridor_sofa_ne", 1 ],
-          [ "5x5_corridor_office0_se", 1 ],
-          [ "5x5_corridor_office1_se", 1 ],
-          [ "5x5_corridor_sofas_se", 2 ]
-        ]
-      },
-      "¡": {
-        "chunks": [
-          [ "5x5_cabinet_office0_n", 1 ],
-          [ "5x5_cabinet_office1_n", 1 ],
-          [ "5x5_cabinet_sec_n", 1 ],
-          [ "5x5_cabinet_sofa_n", 1 ]
-        ]
-      },
-      "3": {
-        "chunks": [
-          [ "6x6_cabinet_office_n", 1 ],
-          [ "6x6_cabinet_glass_ne", 1 ],
-          [ "6x6_cabinet_computer_ne", 1 ],
-          [ "6x6_cabinet_files_ne", 1 ]
-        ]
-      },
-      "4": {
-        "chunks": [
-          [ "5x5_corridor_register_ne", 1 ],
-          [ "5x5_corridor_office_ne", 1 ],
-          [ "5x5_corridor_benches_ne", 1 ],
-          [ "5x5_corridor_sofa_ne", 1 ]
-        ]
-      }
-    }
+    "vendingmachines": { "8": { "item_group": "vending_drink" }, "9": { "item_group": "vending_food" } },
+    "toilets": { "T": {  } }
   }
 ]

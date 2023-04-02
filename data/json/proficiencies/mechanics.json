@@ -7,7 +7,7 @@
     "description": "Maintaining and building simple engines.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_skill_penalty": 0.25,
+    "default_fail_multiplier": 1.25,
     "time_to_learn": "8 h"
   },
   {
@@ -18,7 +18,7 @@
     "description": "You know how to safely and efficiently build, repair, maintain and use various appliances that make use of high pressure.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_skill_penalty": 0.25,
+    "default_fail_multiplier": 1.25,
     "time_to_learn": "12 h",
     "required_proficiencies": [ "prof_plumbing", "prof_basic_engines", "prof_appliance_repair", "prof_pneumatics" ]
   },
@@ -30,7 +30,7 @@
     "description": "You know how to safely and efficiently build, repair, maintain and use various complex machinery that makes use of chemical processes.",
     "can_learn": true,
     "default_time_multiplier": 2.5,
-    "default_skill_penalty": 0.5,
+    "default_fail_multiplier": 1.5,
     "time_to_learn": "20 h",
     "required_proficiencies": [ "prof_high_pressure_systems", "prof_chem_synth" ]
   },
@@ -42,7 +42,7 @@
     "description": "Maintaining and building compressed-air powered machines.",
     "can_learn": true,
     "default_time_multiplier": 2,
-    "default_skill_penalty": 0.4,
+    "default_fail_multiplier": 1.4,
     "time_to_learn": "8 h"
   }
 ]

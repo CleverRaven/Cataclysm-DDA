@@ -6,7 +6,6 @@
 #include <functional>
 #include <iosfwd>
 #include <memory>
-#include <optional>
 #include <set>
 #include <vector>
 
@@ -26,6 +25,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
+#include "optional.h"
 #include "options.h"
 #include "point.h"
 #include "projectile.h"

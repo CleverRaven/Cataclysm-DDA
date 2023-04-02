@@ -1,5 +1,5 @@
 #include <functional>
-#include <optional>
+#include <functional>
 #include <list>
 
 #include "cata_catch.h"
@@ -10,6 +10,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
+#include "optional.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"

@@ -21,7 +21,7 @@
       { "id": "fishing_recipes" },
       { "id": "fbmc_lighthouse_0" }
     ],
-    "blueprint_resources": [ "fake_woodstove", "water_purifier", "oven" ],
+    "blueprint_resources": [ "fake_woodstove", "water_purifier_tool", "fake_oven" ],
     "blueprint_requires": [ { "id": "not_an_upgrade" } ],
     "blueprint_name": "basic survey",
     "check_blueprint_needs": false

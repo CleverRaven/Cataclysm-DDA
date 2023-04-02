@@ -10,7 +10,6 @@
 #include <functional>
 #include <iterator>
 #include <memory>
-#include <optional>
 #include <utility>
 #include <vector>
 
@@ -31,6 +30,7 @@
 #include "mapdata.h"
 #include "math_defines.h"
 #include "monster.h"
+#include "optional.h"
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
 #include "vehicle.h"

@@ -121,7 +121,7 @@
         "success": {
           "topic": "BGSS_HOSPITAL_2_CABINSUCCESS",
           "effect": [
-            { "run_eocs": [ "EOC_HOSPITAL_2_MAKE_MISSION" ] },
+            { "add_mission": "directions_hospital_2_CABIN" },
             { "u_message": "<npc_name> marks the location of the cabin on your map.", "type": "good", "popup": true }
           ]
         },
@@ -151,20 +151,14 @@
   {
     "id": "BGSS_HOSPITAL_2_CABINSUCCESS",
     "type": "talk_topic",
-    "dynamic_line": "I suppose it couldn't hurt now.  I doubt anyone's still there anyway.",
-    "responses": [ { "text": "Thanks for the directions.  I'll check it out.", "topic": "TALK_NONE" } ]
+    "dynamic_line": "I suppose it couldn't hurt now.  I doubt anyone's still there anyway.  Bring me with you when you go, though.  I want to be sure.",
+    "responses": [ { "text": "Thanks for the directions.  Let's check it out.", "topic": "TALK_NONE" } ]
   },
   {
     "id": "BGSS_HOSPITAL_2_CABINFAILURE",
     "type": "talk_topic",
     "dynamic_line": "Yeah, fat chance I'm giving up that kind of personal information to someone I barely know.  What are you trying to pull?",
     "responses": [ { "text": "…", "topic": "TALK_NONE" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_HOSPITAL_2_MAKE_MISSION",
-    "//": "Assigns the mission through an EOC to avoid having to bring the NPC along with the player.",
-    "effect": [ { "assign_mission": "directions_hospital_2_CABIN" } ]
   },
   {
     "id": "directions_hospital_2_CABIN",
@@ -178,6 +172,7 @@
       "assign_mission_target": { "om_special": "Cabin_2", "om_terrain": "cabin_2", "reveal_radius": 3, "search_range": 400 },
       "effect": { "u_add_var": "hospital_2_started_quest", "type": "mission", "context": "BGSS", "value": "yes" }
     },
+    "end": { "opinion": { "trust": 1, "value": 1 } },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "…",

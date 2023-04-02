@@ -10,7 +10,7 @@
         "condition": {
           "and": [
             {
-              "compare_num": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
+              "compare_int": [ { "npc_val": "var", "var_name": "direction", "type": "randomize", "context": "dialogue" }, "=", { "const": 1 } ]
             },
             { "npc_has_trait": "BOSS_NC_FARMER_01" },
             { "not": { "u_has_var": "directions", "type": "BOSS", "context": "mission", "value": "farmer" } }
@@ -38,7 +38,7 @@
     "difficulty": 2,
     "value": 0,
     "start": {
-      "assign_mission_target": { "om_special": "Farm Mutable", "om_terrain": "farm_2", "reveal_radius": 5, "search_range": 400 },
+      "assign_mission_target": { "om_special": "Farm", "om_terrain": "farm_2", "reveal_radius": 5, "search_range": 400 },
       "effect": { "u_add_var": "directions", "type": "BOSS", "context": "mission", "value": "farmer" }
     },
     "origins": [ "ORIGIN_SECONDARY" ],

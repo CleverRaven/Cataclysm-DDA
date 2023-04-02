@@ -173,34 +173,5 @@
     "method": "json",
     "nested_mapgen_id": "shelter_computer_broken",
     "object": { "mapgensize": [ 1, 1 ], "place_furniture": [ { "furn": "f_console_broken", "x": 0, "y": 0 } ] }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "nested_mapgen_id": "4x4_planksandtools",
-    "object": {
-      "mapgensize": [ 4, 4 ],
-      "rows": [
-        "~~ 2",
-        "~~ 2",
-        "   2",
-        "!!!!"
-      ],
-      "palettes": [ "shelter_unfinished" ],
-      "furniture": { "!": "f_crate_o", "2": "f_crate_o" },
-      "place_item": [ { "item": "pot", "x": 1, "y": 4, "amount": 1 } ],
-      "items": {
-        "!": [
-          { "item": "faction_camp_tools", "chance": 95, "repeat": [ 2, 3 ], "faction": "your_followers" },
-          { "item": "hardware_bulk", "chance": 95, "faction": "your_followers" },
-          { "item": "tools_home", "chance": 95, "faction": "your_followers" },
-          { "item": "dishes_utility", "chance": 80, "repeat": [ 2, 3 ], "faction": "your_followers" }
-        ],
-        "2": [
-          { "item": "faction_camp_misc", "chance": 80, "repeat": [ 1, 2 ], "faction": "your_followers" },
-          { "item": "metal_wreckage", "chance": 80, "repeat": [ 6, 9 ], "faction": "your_followers" }
-        ]
-      }
-    }
   }
 ]

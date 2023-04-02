@@ -10,8 +10,7 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ] ],
-    "//": "150g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "fish", 1 ], [ "fish_scrap", 10 ] ] ]
   },
   {
@@ -26,8 +25,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "//": "150g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "fish", 1 ], [ "fish_scrap", 10 ] ] ]
   },
   {
@@ -41,8 +39,7 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ] ],
-    "//": "150g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "lobster", 1 ] ] ]
   },
   {
@@ -57,8 +54,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "//": "150g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "lobster", 1 ] ] ]
   },
   {
@@ -72,8 +68,7 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ] ],
-    "//": "150g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "mollusk", 1 ] ] ]
   },
   {
@@ -88,8 +83,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "//": "150g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "mollusk", 1 ] ] ]
   },
   {
@@ -104,8 +98,7 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 19, "LIST" ] ] ],
-    "//": "194g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "raw_beans", 1 ] ] ]
   },
   {
@@ -121,8 +114,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 19, "LIST" ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
-    "//": "194g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "raw_beans", 1 ] ] ]
   },
   {
@@ -136,8 +128,7 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 9, "LIST" ] ] ],
-    "//": "85g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "tofu", 1 ] ] ]
   },
   {
@@ -152,8 +143,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 9, "LIST" ] ], [ [ "surface_heat", 6, "LIST" ] ] ],
-    "//": "85g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "tofu", 1 ] ] ]
   },
   {
@@ -167,8 +157,7 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ] ],
-    "//": "Variable weights, around averaging around 150g",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "coconut", 1 ], [ "can_coconut", 1 ] ] ]
   },
   {
@@ -183,8 +172,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
-    "//": "Variable weights, around averaging around 150g + 1u to heat the fruit",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "coconut", 1 ], [ "can_coconut", 1 ] ] ]
   },
   {
@@ -199,8 +187,7 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 30, "LIST" ] ] ],
-    "//": "300g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
   {
@@ -215,8 +202,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 30, "LIST" ] ], [ [ "surface_heat", 20, "LIST" ] ] ],
-    "//": "300g of stuff, 20u to cook it",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "meat_red_raw", 1, "LIST" ] ] ]
   },
   {
@@ -230,8 +216,7 @@
     "time": "18 m",
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "dehydrating_heat", 24, "LIST" ] ] ],
-    "//": "238g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "meat_tainted", 1 ] ] ]
   },
   {
@@ -246,8 +231,7 @@
     "time": "20 m",
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "dehydrating_heat", 24, "LIST" ] ], [ [ "surface_heat", 16, "LIST" ] ] ],
-    "//": "238g of stuff, 16u to cook it",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "meat_tainted", 1 ] ] ]
   },
   {
@@ -261,8 +245,7 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 7, "LIST" ] ] ],
-    "//": "69g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ] ] ]
   },
   {
@@ -277,8 +260,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 7, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "69g of stuff, 2u to cook",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "mushroom", 1 ], [ "mushroom_morel", 1 ] ] ]
   },
   {
@@ -293,8 +275,7 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ] ],
-    "//": "highly variable - most hover around 100-120g but some (tomato) are much heavier.  Basing this off plant marrow (119g) since it's the most common ingredient",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [
       [
         [ "veggy_any_fresh_uncooked", 1, "LIST" ],
@@ -319,8 +300,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "highly variable - most hover around 100-120g but some (tomato) are much heavier.  Basing this off plant marrow (119g) since it's the most common ingredient",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
       [
         [ "veggy_any_fresh_uncooked", 1, "LIST" ],
@@ -344,8 +324,7 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 21, "LIST" ] ] ],
-    "//": "210g of stuff - kernels are rather heavy",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "corn_kernels", 1 ] ] ]
   },
   {
@@ -361,8 +340,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 21, "LIST" ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
-    "//": "210g of stuff - kernels are rather heavy, 8u to cook",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "corn_kernels", 1 ] ] ]
   },
   {
@@ -377,8 +355,7 @@
     "time": "18 m",
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ] ],
-    "//": "119g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "veggy_tainted", 1 ] ] ]
   },
   {
@@ -394,8 +371,7 @@
     "time": "20 m",
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "dehydrating_heat", 12, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "119g of stuff, 2u heat to 'cook'",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "veggy_tainted", 1 ] ] ]
   },
   {
@@ -410,8 +386,7 @@
     "time": "18 m",
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "dehydrating_heat", 26, "LIST" ] ] ],
-    "//": "259g of stuff, liquids are naturally inefficient for this",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "milk", 1 ] ] ]
   },
   {
@@ -427,8 +402,7 @@
     "time": "20 m",
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "dehydrating_heat", 26, "LIST" ] ], [ [ "surface_heat", 2, "LIST" ] ] ],
-    "//": "259g of stuff, liquids are naturally inefficient for this. 2u to heat",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "milk", 1 ] ] ]
   },
   {
@@ -443,8 +417,7 @@
     "time": "20 m",
     "batch_time_factors": [ 67, 5 ],
     "autolearn": true,
-    "tools": [ [ [ "dehydrating_heat", 13, "LIST" ] ] ],
-    "//": "120-132g of stuff depending on cheese type",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "cheese", 4 ], [ "cheese_hard", 4 ] ] ]
   },
   {
@@ -459,9 +432,8 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 55, "LIST" ] ] ],
-    "//": "by weight of unfertilized bird egg 550g of stuff",
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "eggs_invert", 1, "LIST" ] ] ]
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "eggs_insect", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -476,9 +448,8 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 55, "LIST" ] ], [ [ "surface_heat", 36, "LIST" ] ] ],
-    "//": "by weight of unfertilized bird egg 550g of stuff plus 36u heat for the eggs (standard is 3 per egg)",
-    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "eggs_invert", 1, "LIST" ] ] ]
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "eggs_bird", 12, "LIST" ], [ "egg_reptile", 12 ], [ "eggs_insect", 1, "LIST" ] ] ]
   },
   {
     "result": "protein_powder",
@@ -494,7 +465,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "FINE_GRIND", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 2 ], [ "dry_lobster", 2 ] ] ]
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 3 ], [ "dry_lobster", 3 ] ] ]
   },
   {
     "result": "protein_powder",
@@ -511,7 +482,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "food_processor", 20 ] ], [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 2 ], [ "dry_lobster", 2 ] ] ]
+    "components": [ [ [ "dry_meat", 1 ], [ "dry_fish", 3 ], [ "dry_lobster", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -525,8 +496,7 @@
     "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 19, "LIST" ] ] ],
-    "//": "194g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "raw_lentils", 1 ] ] ]
   },
   {
@@ -542,8 +512,7 @@
     "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 19, "LIST" ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
-    "//": "194g of stuff, 8u to cook the lentils",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "raw_lentils", 1 ] ] ]
   },
   {
@@ -554,11 +523,10 @@
     "subcategory": "CSC_FOOD_DRY",
     "skill_used": "cooking",
     "difficulty": 2,
-    "time": "7 m",
+    "time": "18 m",
     "autolearn": true,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 3, "LIST" ] ] ],
-    "//": "25g of stuff",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ] ],
     "components": [ [ [ "gelatin_fresh", 1 ] ] ]
   },
   {
@@ -572,10 +540,8 @@
     "difficulty": 3,
     "time": "20 m",
     "autolearn": true,
-    "charges": 1,
     "batch_time_factors": [ 67, 5 ],
-    "tools": [ [ [ "dehydrating_heat", 3, "LIST" ] ], [ [ "surface_heat", 3, "LIST" ] ] ],
-    "//": "30 g acorns",
+    "tools": [ [ [ "dehydrator", 25 ], [ "char_smoker", 25 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "acorns_blanched", 1 ] ] ]
   }
 ]

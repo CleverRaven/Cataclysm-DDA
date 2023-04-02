@@ -19,11 +19,10 @@
     "sound_category": "flurries",
     "sun_multiplier": 0.3,
     "required_weathers": [ "cloudy" ],
-    "priority": 30,
     "condition": {
       "or": [
-        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 97 } ] },
-        { "compare_num": [ { "weather": "pressure" }, "<", { "const": 1000 } ] }
+        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 97 } ] },
+        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 1000 } ] }
       ]
     }
   },
@@ -47,8 +46,7 @@
     "sound_category": "snowstorm",
     "sun_multiplier": 0.15,
     "required_weathers": [ "cloudy", "afs_flurries" ],
-    "priority": 40,
-    "condition": { "and": [ "is_day", { "compare_num": [ { "weather": "windpower" }, ">=", { "const": 20 } ] } ] }
+    "condition": { "and": [ "is_day", { "compare_int": [ { "weather": "windpower" }, ">=", { "const": 20 } ] } ] }
   },
   {
     "id": "afs_snowing",
@@ -70,11 +68,10 @@
     "sound_category": "snow",
     "sun_multiplier": 0.2,
     "required_weathers": [ "afs_flurries", "afs_whiteout" ],
-    "priority": 50,
     "condition": {
       "or": [
-        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 98 } ] },
-        { "compare_num": [ { "weather": "pressure" }, "<", { "const": 993 } ] }
+        { "compare_int": [ { "weather": "humidity" }, ">=", { "const": 98 } ] },
+        { "compare_int": [ { "weather": "pressure" }, "<", { "const": 993 } ] }
       ]
     }
   },
@@ -98,8 +95,7 @@
     "sound_category": "snowstorm",
     "sun_multiplier": 0.01,
     "required_weathers": [ "afs_snowing" ],
-    "priority": 60,
-    "condition": { "compare_num": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
+    "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 990 } ] }
   },
   {
     "id": "afs_lightning",
@@ -121,7 +117,6 @@
     "sound_category": "snowstorm",
     "sun_multiplier": 0.01,
     "required_weathers": [ "afs_thunder" ],
-    "priority": 70,
-    "condition": { "compare_num": [ { "weather": "pressure" }, "<", { "const": 980 } ] }
+    "condition": { "compare_int": [ { "weather": "pressure" }, "<", { "const": 980 } ] }
   }
 ]

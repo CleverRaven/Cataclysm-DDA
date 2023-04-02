@@ -589,11 +589,12 @@
     "color": "light_gray",
     "spoils_in": "5 days",
     "quench": 1,
-    "description": "Wet, cooked lentils.  Humble and nutrient-rich, but pretty bland.",
+    "description": "Some delicious cooked lentils.  Humble but nutrient-rich.",
     "price": 0,
     "price_postapoc": 100,
     "volume": "250 ml",
-    "flags": [ "EATEN_HOT", "FREEZERBURN" ]
+    "fun": 1,
+    "flags": [ "EATEN_HOT" ]
   },
   {
     "type": "COMESTIBLE",
@@ -1028,7 +1029,7 @@
   {
     "type": "COMESTIBLE",
     "id": "snail_garden",
-    "category": "food",
+    "category": "other",
     "name": { "str": "snail" },
     "weight": "15 g",
     "color": "brown",
@@ -1084,17 +1085,5 @@
     "fun": -15,
     "freezing_point": -274,
     "flags": [ "NUTRIENT_OVERRIDE" ]
-  },
-  {
-    "type": "COMESTIBLE",
-    "id": "dry_bottle_gourd",
-    "name": { "str": "dried bottle gourd" },
-    "copy-from": "dry_lentils",
-    "looks_like": "pumpkin",
-    "comestible_type": "FOOD",
-    "symbol": "6",
-    "description": "A vegetable from the gourd family, bottle gourds were brought to the Americas by the first Native American settlers crossing the Bering strait.  This one has been dried for processing into a watertight container.",
-    "volume": "2500 ml",
-    "flags": [ "INEDIBLE" ]
   }
 ]

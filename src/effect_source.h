@@ -3,9 +3,9 @@
 #define CATA_SRC_EFFECT_SOURCE_H
 
 #include <new>
-#include <optional>
 
 #include "character_id.h"
+#include "optional.h"
 #include "type_id.h"
 
 class Character;
@@ -30,9 +30,9 @@ class effect_source
         // unassigned sources can more easily be found
         static effect_source empty();
 
-        std::optional<character_id> get_character_id() const;
-        std::optional<faction_id> get_faction_id() const;
-        std::optional<mfaction_id> get_mfaction_id() const;
+        cata::optional<character_id> get_character_id() const;
+        cata::optional<faction_id> get_faction_id() const;
+        cata::optional<mfaction_id> get_mfaction_id() const;
 
         // This attempts to resolve the creature that caused the effect
         // Currently only supports resolving player and NPC characters
@@ -43,9 +43,9 @@ class effect_source
         void deserialize( const JsonObject &data );
 
     private:
-        std::optional<character_id> character = character_id();
-        std::optional<faction_id> fac = faction_id();
-        std::optional<mfaction_id> mfac = mfaction_id();
+        cata::optional<character_id> character = character_id();
+        cata::optional<faction_id> fac = faction_id();
+        cata::optional<mfaction_id> mfac = mfaction_id();
 };
 
 #endif // CATA_SRC_EFFECT_SOURCE_H

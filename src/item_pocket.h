@@ -8,13 +8,13 @@
 #include <list>
 #include <map>
 #include <new>
-#include <optional>
 #include <set>
 #include <type_traits>
 #include <vector>
 
 #include "enums.h"
 #include "flat_set.h"
+#include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
@@ -113,15 +113,11 @@ class item_pocket
                 bool is_unloadable() const;
                 void set_unloadable( bool );
 
-                const std::optional<std::string> &get_preset_name() const;
-                void set_preset_name( const std::string & );
-
                 void info( std::vector<iteminfo> &info ) const;
 
                 void serialize( JsonOut &json ) const;
                 void deserialize( const JsonObject &data );
             private:
-                std::optional<std::string> preset_name;
                 int priority_rating = 0;
                 cata::flat_set<itype_id> item_whitelist;
                 cata::flat_set<itype_id> item_blacklist;
@@ -135,7 +131,7 @@ class item_pocket
         item_pocket() = default;
         explicit item_pocket( const pocket_data *data ) : data( data ) {}
 
-        bool stacks_with( const item_pocket &rhs, int depth = 0, int maxdepth = 2 ) const;
+        bool stacks_with( const item_pocket &rhs ) const;
         bool is_funnel_container( units::volume &bigger_than ) const;
         bool is_restricted() const;
         bool has_any_with( const std::function<bool( const item & )> &filter ) const;
@@ -288,12 +284,12 @@ class item_pocket
         void set_item_defaults();
 
         // removes and returns the item from the pocket.
-        std::optional<item> remove_item( const item &it );
-        std::optional<item> remove_item( const item_location &it );
+        cata::optional<item> remove_item( const item &it );
+        cata::optional<item> remove_item( const item_location &it );
         // spills any contents that can't fit into the pocket, largest items first
         void overflow( const tripoint &pos );
         bool spill_contents( const tripoint &pos );
-        void on_pickup( Character &guy, item *avoid = nullptr );
+        void on_pickup( Character &guy );
         void on_contents_changed();
         void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         void clear_items();
@@ -318,8 +314,7 @@ class item_pocket
         }
 
         // tries to put an item in the pocket. returns false if failure
-        ret_val<contain_code> insert_item( const item &it, bool into_bottom = false,
-                                           bool restack_charges = true );
+        ret_val<contain_code> insert_item( const item &it, bool into_bottom = false );
         /**
           * adds an item to the pocket with no checks
           * may create a new pocket
@@ -386,17 +381,6 @@ class item_pocket
 
         favorite_settings settings;
 
-        // Pocket presets functions
-        static void serialize_presets( JsonOut &json );
-        static void deserialize_presets( const JsonArray &ja );
-        static void load_presets();
-        static void add_preset( const item_pocket::favorite_settings &preset );
-        static void save_presets();
-        static std::vector<item_pocket::favorite_settings>::iterator find_preset( const std::string &s );
-        static bool has_preset( const std::string &s );
-        static void delete_preset( std::vector<item_pocket::favorite_settings>::iterator iter );
-        static std::vector<item_pocket::favorite_settings> pocket_presets;
-
         // should the name of this pocket be used as a description
         bool name_as_description = false; // NOLINT(cata-serialize)
     private:
@@ -460,7 +444,7 @@ class pocket_data
         // max volume of stuff the pocket can hold
         units::volume volume_capacity = max_volume_for_container;
         // max volume of item that can be contained, otherwise it spills
-        std::optional<units::volume> max_item_volume = std::nullopt;
+        cata::optional<units::volume> max_item_volume = cata::nullopt;
         // min volume of item that can be contained, otherwise it spills
         units::volume min_item_volume = 0_ml;
         // min length of item that can be contained used for exterior pockets

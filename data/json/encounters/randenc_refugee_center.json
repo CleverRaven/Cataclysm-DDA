@@ -40,7 +40,7 @@
             "is_night"
           ]
         },
-        { "compare_num": [ { "global_val": "var", "var_name": "RC_Shoppers_visiting" }, "==", { "const": 1 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "RC_Shoppers_visiting" }, "==", { "const": 1 } ] },
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } }
       ]
     },
@@ -94,7 +94,7 @@
             "is_night"
           ]
         },
-        { "compare_num": [ { "global_val": "var", "var_name": "RC_JohnBailey_visiting" }, "==", { "const": 1 } ] },
+        { "compare_int": [ { "global_val": "var", "var_name": "RC_JohnBailey_visiting" }, "==", { "const": 1 } ] },
         { "not": { "u_near_om_location": "evac_center_13", "range": 2 } }
       ]
     },

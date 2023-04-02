@@ -5,17 +5,17 @@
 #include <cmath>
 #include <ostream>
 
-constexpr float LIGHT_SOURCE_LOCAL = 0.1f;
-constexpr float LIGHT_SOURCE_BRIGHT = 10.0f;
+static constexpr float LIGHT_SOURCE_LOCAL = 0.1f;
+static constexpr float LIGHT_SOURCE_BRIGHT = 10.0f;
 
 // Just enough light that you can see the current and adjacent squares with normal vision.
-constexpr float LIGHT_AMBIENT_MINIMAL = 3.7f;
+static constexpr float LIGHT_AMBIENT_MINIMAL = 3.7f;
 // The threshold between not being able to see anything and things appearing shadowy.
-constexpr float LIGHT_AMBIENT_LOW = 3.5f;
+static constexpr float LIGHT_AMBIENT_LOW = 3.5f;
 // The lower threshold for seeing well enough to do detail work such as reading or crafting.
-constexpr float LIGHT_AMBIENT_DIM = 5.0f;
+static constexpr float LIGHT_AMBIENT_DIM = 5.0f;
 // The threshold between things being shadowed and being brightly lit.
-constexpr float LIGHT_AMBIENT_LIT = 10.0f;
+static constexpr float LIGHT_AMBIENT_LIT = 10.0f;
 
 /**
  * Transparency 101:
@@ -29,14 +29,14 @@ constexpr float LIGHT_AMBIENT_LIT = 10.0f;
  *
  * Note:  LIGHT_TRANSPARENCY_SOLID=0 is a special case (it indicates completely opaque tile)
  * */
-constexpr float LIGHT_TRANSPARENCY_SOLID = 0.0f;
+static constexpr float LIGHT_TRANSPARENCY_SOLID = 0.0f;
 // Calculated to run out at 60 squares.
 // Cumulative transparency should drop to 0.1 or lower over 60 squares,
 // Bright sunlight should drop to LIGHT_AMBIENT_LOW over 60 squares.
-constexpr float LIGHT_TRANSPARENCY_OPEN_AIR = 0.038376418216f;
+static constexpr float LIGHT_TRANSPARENCY_OPEN_AIR = 0.038376418216f;
 
 // indicates starting (full) visibility (for seen_cache)
-constexpr float VISIBILITY_FULL = 1.0f;
+static constexpr float VISIBILITY_FULL = 1.0f;
 
 constexpr inline int LIGHT_RANGE( float b )
 {

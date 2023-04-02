@@ -1,0 +1,26 @@
+[
+  {
+    "type": "vehicle_part",
+    "id": "tracker",
+    "name": { "str": "tracking device" },
+    "symbol": "*",
+    "categories": [ "other" ],
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "damage_modifier": 10,
+    "durability": 20,
+    "description": "A small transmitter that lets you locate the vehicle on the map.",
+    "item": "veh_tracker",
+    "//": "10W GPS transponder like an XPC-TR",
+    "epower": -10,
+    "folded_volume": "500 ml",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "TRACK", "UNMOUNT_ON_DAMAGE", "ENABLED_DRAINS_EPOWER" ],
+    "breaks_into": "ig_vp_device"
+  }
+]

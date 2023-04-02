@@ -21,7 +21,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "magnetron" },
-    "description": "An electrical component designed to produce microwaves, for use in a microwave oven.",
+    "description": "This electrical component is designed to produce microwaves, for use in your microwave.",
     "weight": "954 g",
     "volume": "4 L",
     "price": 4000,
@@ -36,7 +36,7 @@
     "type": "GENERIC",
     "category": "spare_parts",
     "name": { "str": "explosively pumped flux compression generator" },
-    "description": "A large device consisting mainly of a tube of copper wire surrounding a large copper tube filled with high explosives.  When detonated properly, the explosives allow the device to produce large amounts of electrical energy in a very short time.",
+    "description": "This large device consists mainly of a tube of copper wire surrounding a large copper tube filled with high explosives.  When detonated properly, the explosives allow the device to produce large amounts of electrical energy in a very short time.",
     "weight": "3589 g",
     "volume": "10455 ml",
     "price": 10000,
@@ -48,18 +48,5 @@
     "material": [ "copper" ],
     "symbol": "|",
     "color": "brown"
-  },
-  {
-    "type": "GENERIC",
-    "id": "melchior_platter",
-    "name": { "str": "supercomputer platter" },
-    "description": "A hefty and expensive-looking golden dish engraved with concentric circuitry.  You felt the urge to rip it from a supercomputer.",
-    "symbol": "o",
-    "color": "yellow",
-    "weight": "12 kg",
-    "volume": "1000 ml",
-    "price": 2000,
-    "material": [ "steel", "gold" ],
-    "category": "spare_parts"
   }
 ]

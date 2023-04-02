@@ -542,7 +542,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 1 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 11 } ] }
           ]
         }
       },
@@ -553,7 +553,7 @@
         "condition": {
           "and": [
             { "u_has_effect": "bleed", "intensity": 11 },
-            { "compare_num": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
+            { "compare_int": [ { "u_val": "effect_intensity", "effect": "bleed" }, "<", { "const": 21 } ] }
           ]
         }
       },
@@ -633,12 +633,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_LA", "l_nc_cl", "i_bp_LA_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_LA", "l_nc_cl", "i_bp_LA_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
       }
     ],
     "type": "widget"
@@ -654,12 +654,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_HD", "l_nc_cl", "i_bp_HD_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_HD", "l_nc_cl", "i_bp_HD_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
       }
     ],
     "type": "widget"
@@ -675,12 +675,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_RA", "l_nc_cl", "i_bp_RA_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_RA", "l_nc_cl", "i_bp_RA_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
       }
     ],
     "type": "widget"
@@ -696,12 +696,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_LL", "l_nc_cl", "i_bp_LL_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_LL", "l_nc_cl", "i_bp_LL_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
       }
     ],
     "type": "widget"
@@ -717,12 +717,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_CT", "l_nc_cl", "i_bp_CT_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_CT", "l_nc_cl", "i_bp_CT_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
       }
     ],
     "type": "widget"
@@ -738,12 +738,12 @@
       {
         "id": "broken",
         "widgets": [ "l_nw", "l_bp_RL", "l_nc_cl", "i_bp_RL_broken_sym", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, "==", { "const": 0 } ] }
       },
       {
         "id": "intact",
         "widgets": [ "l_nw", "l_bp_RL", "l_nc_cl", "i_bp_RL_hp_graph", "l_ne" ],
-        "condition": { "compare_num": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "hp" }, ">", { "const": 0 } ] }
       }
     ],
     "type": "widget"
@@ -945,91 +945,91 @@
         "id": "new_moon",
         "sym": "⎛   ⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 0 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 0 } ] }
       },
       {
         "id": "waxing_crescent1",
         "sym": "⎛  ",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 1 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 1 } ] }
       },
       {
         "id": "waxing_crescent2",
         "sym": "▊⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 1 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 1 } ] }
       },
       {
         "id": "half_moon1",
         "sym": "⎛ ▐",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 2 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 2 } ] }
       },
       {
         "id": "half_moon2",
         "sym": "⡡⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 2 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 2 } ] }
       },
       {
         "id": "waxing_gibbous1",
         "sym": "⎛",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 3 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
       },
       {
         "id": "waxing_gibbous2",
         "sym": "▎⢁⡡⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 3 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 3 } ] }
       },
       {
         "id": "full_moon",
         "sym": "⎛⡐⢁⡡⎞",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 4 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 4 } ] }
       },
       {
         "id": "waning_gibbous1",
         "sym": "⎛⡐⢁",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 5 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 5 } ] }
       },
       {
         "id": "waning_gibbous2",
         "sym": "▎⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 5 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 5 } ] }
       },
       {
         "id": "half_moon1",
         "sym": "⎛⡐",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 6 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 6 } ] }
       },
       {
         "id": "half_moon2",
         "sym": "▌ ⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 6 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 6 } ] }
       },
       {
         "id": "waning_crescent1",
         "sym": "⎛",
         "color": "c_black_white",
-        "condition": { "compare_num": [ "moon", "==", { "const": 7 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 7 } ] }
       },
       {
         "id": "waning_crescent2",
         "sym": "▎  ⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 7 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 7 } ] }
       },
       {
         "id": "dark_moon",
         "sym": "⎛   ⎞",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ "moon", "==", { "const": 8 } ] }
+        "condition": { "compare_int": [ "moon", "==", { "const": 8 } ] }
       }
     ],
     "type": "widget"
@@ -1122,31 +1122,31 @@
         "id": "bright",
         "text": "☼☼☼☼☼",
         "color": "c_white",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "<=", { "const": 1 } ] }
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "<=", { "const": 1 } ] }
       },
       {
         "id": "cloudy",
         "text": "☼☼☼☼",
         "color": "c_yellow",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 2 } ] }
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 2 } ] }
       },
       {
         "id": "shady",
         "text": "☼☼☼",
         "color": "c_light_gray",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 3 } ] }
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 3 } ] }
       },
       {
         "id": "dark",
         "text": "☼☼",
         "color": "c_dark_gray",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 4 } ] }
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, "==", { "const": 4 } ] }
       },
       {
         "id": "very dark",
         "text": "☼",
         "color": "c_dark_gray",
-        "condition": { "compare_num": [ { "u_val": "fine_detail_vision_mod" }, ">=", { "const": 5 } ] }
+        "condition": { "compare_int": [ { "u_val": "fine_detail_vision_mod" }, ">=", { "const": 5 } ] }
       }
     ],
     "type": "widget"
@@ -1311,31 +1311,31 @@
         "id": "20%",
         "color": "h_yellow",
         "sym": "1",
-        "condition": { "compare_num": [ { "u_val": "power_percentage" }, ">", { "const": 19 } ] }
+        "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">", { "const": 19 } ] }
       },
       {
         "id": "40%",
         "color": "h_yellow",
         "sym": "2",
-        "condition": { "compare_num": [ { "u_val": "power_percentage" }, ">", { "const": 39 } ] }
+        "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">", { "const": 39 } ] }
       },
       {
         "id": "60%",
         "color": "h_yellow",
         "sym": "3",
-        "condition": { "compare_num": [ { "u_val": "power_percentage" }, ">", { "const": 59 } ] }
+        "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">", { "const": 59 } ] }
       },
       {
         "id": "80%",
         "color": "h_yellow",
         "sym": "4",
-        "condition": { "compare_num": [ { "u_val": "power_percentage" }, ">", { "const": 79 } ] }
+        "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">", { "const": 79 } ] }
       },
       {
         "id": "99%",
         "color": "h_yellow",
         "sym": "5",
-        "condition": { "compare_num": [ { "u_val": "power_percentage" }, ">", { "const": 99 } ] }
+        "condition": { "compare_int": [ { "u_val": "power_percentage" }, ">", { "const": 99 } ] }
       }
     ],
     "default_clause": { "text": "     " },
@@ -1476,7 +1476,7 @@
         "id": "turgid",
         "text": "o⁰ₒ○",
         "color": "c_light_green_green",
-        "condition": { "compare_num": [ { "u_val": "instant_thirst" }, "<", { "const": -60 } ] }
+        "condition": { "compare_int": [ { "u_val": "instant_thirst" }, "<", { "const": -60 } ] }
       },
       {
         "id": "hydrated",
@@ -1484,8 +1484,8 @@
         "color": "h_green",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">=", { "const": -60 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<", { "const": -20 } ] }
+            { "compare_int": [ { "u_val": "instant_thirst" }, ">=", { "const": -60 } ] },
+            { "compare_int": [ { "u_val": "instant_thirst" }, "<", { "const": -20 } ] }
           ]
         }
       },
@@ -1495,8 +1495,8 @@
         "color": "h_green",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">=", { "const": -20 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<", { "const": 0 } ] }
+            { "compare_int": [ { "u_val": "instant_thirst" }, ">=", { "const": -20 } ] },
+            { "compare_int": [ { "u_val": "instant_thirst" }, "<", { "const": 0 } ] }
           ]
         }
       },
@@ -1506,8 +1506,8 @@
         "color": "h_green",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">=", { "const": 0 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 40 } ] }
+            { "compare_int": [ { "u_val": "instant_thirst" }, ">=", { "const": 0 } ] },
+            { "compare_int": [ { "u_val": "instant_thirst" }, "<=", { "const": 40 } ] }
           ]
         }
       },
@@ -1517,8 +1517,8 @@
         "color": "h_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 40 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 80 } ] }
+            { "compare_int": [ { "u_val": "instant_thirst" }, ">", { "const": 40 } ] },
+            { "compare_int": [ { "u_val": "instant_thirst" }, "<=", { "const": 80 } ] }
           ]
         }
       },
@@ -1528,8 +1528,8 @@
         "color": "h_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 80 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 240 } ] }
+            { "compare_int": [ { "u_val": "instant_thirst" }, ">", { "const": 80 } ] },
+            { "compare_int": [ { "u_val": "instant_thirst" }, "<=", { "const": 240 } ] }
           ]
         }
       },
@@ -1539,8 +1539,8 @@
         "color": "h_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 240 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 450 } ] }
+            { "compare_int": [ { "u_val": "instant_thirst" }, ">", { "const": 240 } ] },
+            { "compare_int": [ { "u_val": "instant_thirst" }, "<=", { "const": 450 } ] }
           ]
         }
       },
@@ -1550,8 +1550,8 @@
         "color": "h_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 450 } ] },
-            { "compare_num": [ { "u_val": "instant_thirst" }, "<=", { "const": 520 } ] }
+            { "compare_int": [ { "u_val": "instant_thirst" }, ">", { "const": 450 } ] },
+            { "compare_int": [ { "u_val": "instant_thirst" }, "<=", { "const": 520 } ] }
           ]
         }
       },
@@ -1559,7 +1559,7 @@
         "id": "parched",
         "text": "XXXX",
         "color": "i_red",
-        "condition": { "compare_num": [ { "u_val": "instant_thirst" }, ">", { "const": 520 } ] }
+        "condition": { "compare_int": [ { "u_val": "instant_thirst" }, ">", { "const": 520 } ] }
       }
     ],
     "type": "widget"
@@ -1581,7 +1581,7 @@
         "id": "sk",
         "sym": "ₒ",
         "color": "c_red",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
       },
       {
         "id": "e",
@@ -1589,8 +1589,8 @@
         "color": "c_light_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
           ]
         }
       },
@@ -1600,8 +1600,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
           ]
         }
       },
@@ -1611,8 +1611,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
           ]
         }
       },
@@ -1622,8 +1622,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
           ]
         }
       },
@@ -1633,8 +1633,8 @@
         "color": "c_light_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
           ]
         }
       },
@@ -1644,8 +1644,8 @@
         "color": "c_red",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
           ]
         }
       },
@@ -1653,7 +1653,7 @@
         "id": "m_o",
         "sym": "ₒ",
         "color": "c_white",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
       }
     ],
     "type": "widget"
@@ -1667,19 +1667,19 @@
         "id": "sk",
         "sym": "⎻⎺",
         "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
       },
       {
         "id": "sk",
         "sym": "ₗ",
         "color": "c_yellow",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
       },
       {
         "id": "sk",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 1000 } ] }
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 14000 } ] }
       },
       {
         "id": "e",
@@ -1687,8 +1687,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
           ]
         }
       },
@@ -1698,8 +1698,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
           ]
         }
       },
@@ -1709,8 +1709,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 1000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 2000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 14000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 16000 } ] }
           ]
         }
       },
@@ -1720,8 +1720,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
           ]
         }
       },
@@ -1731,8 +1731,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
           ]
         }
       },
@@ -1742,8 +1742,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 2000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 3000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 16000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 18500 } ] }
           ]
         }
       },
@@ -1753,8 +1753,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
           ]
         }
       },
@@ -1764,8 +1764,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
           ]
         }
       },
@@ -1775,8 +1775,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 3000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 5000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 18500 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 25000 } ] }
           ]
         }
       },
@@ -1786,8 +1786,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
           ]
         }
       },
@@ -1797,8 +1797,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
           ]
         }
       },
@@ -1808,8 +1808,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 5000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 10000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 25000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 30000 } ] }
           ]
         }
       },
@@ -1819,8 +1819,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
           ]
         }
       },
@@ -1830,8 +1830,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
           ]
         }
       },
@@ -1841,8 +1841,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 10000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 15000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 30000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 35000 } ] }
           ]
         }
       },
@@ -1852,8 +1852,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
           ]
         }
       },
@@ -1863,8 +1863,8 @@
         "color": "c_yellow",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
           ]
         }
       },
@@ -1874,8 +1874,8 @@
         "color": "c_brown",
         "condition": {
           "and": [
-            { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 15000 } ] },
-            { "compare_num": [ { "u_val": "bmi_permil" }, "<=", { "const": 20000 } ] }
+            { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 35000 } ] },
+            { "compare_int": [ { "u_val": "bmi_permil" }, "<=", { "const": 40000 } ] }
           ]
         }
       },
@@ -1883,19 +1883,19 @@
         "id": "m_o",
         "sym": "  ",
         "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
       },
       {
         "id": "m_o",
         "sym": "ₕ",
         "color": "c_red",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
       },
       {
         "id": "m_o",
         "sym": " ⎺",
         "color": "c_brown",
-        "condition": { "compare_num": [ { "u_val": "bmi_permil" }, ">", { "const": 20000 } ] }
+        "condition": { "compare_int": [ { "u_val": "bmi_permil" }, ">", { "const": 40000 } ] }
       }
     ],
     "type": "widget"
@@ -2093,37 +2093,37 @@
         "id": "none",
         "text": "None       ",
         "color": "light_gray",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 0 } ] }
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 0 } ] }
       },
       {
         "id": "light",
         "text": "Light      ",
         "color": "yellow",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 1 } ] }
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 1 } ] }
       },
       {
         "id": "moderate",
         "text": "Moderate   ",
         "color": "yellow",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 2 } ] }
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 2 } ] }
       },
       {
         "id": "brisk",
         "text": "Brisk      ",
         "color": "light_red",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 3 } ] }
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 3 } ] }
       },
       {
         "id": "active",
         "text": "Active     ",
         "color": "light_red",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, "==", { "const": 4 } ] }
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, "==", { "const": 4 } ] }
       },
       {
         "id": "extreme",
         "text": "Extreme    ",
         "color": "red",
-        "condition": { "compare_num": [ { "u_val": "activity_level" }, ">=", { "const": 5 } ] }
+        "condition": { "compare_int": [ { "u_val": "activity_level" }, ">=", { "const": 5 } ] }
       }
     ],
     "type": "widget"

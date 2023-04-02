@@ -1,5 +1,11 @@
 [
   {
+    "type": "palette",
+    "id": "fbmh_2_tent_palette",
+    "terrain": { ".": "t_dirtfloor", "+": "t_dirtfloor", "v": "t_dirtfloor", "w": "t_dirtfloor" },
+    "furniture": { "+": "f_canvas_door", "v": "f_canvas_wall", "w": "f_canvas_wall" }
+  },
+  {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "fbmh_2_tent_room_1",

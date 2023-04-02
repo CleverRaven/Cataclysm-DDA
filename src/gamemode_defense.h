@@ -34,7 +34,7 @@ enum defense_style {
 };
 
 enum defense_location {
-    DEFLOC_NULL = -1,
+    DEFLOC_NULL = 0,
     DEFLOC_HOSPITAL,
     DEFLOC_WORKS,
     DEFLOC_MALL,

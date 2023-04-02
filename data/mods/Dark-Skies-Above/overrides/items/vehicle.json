@@ -1,0 +1,16 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "reinforced_solar_panel",
+    "copy-from": "reinforced_solar_panel",
+    "name": { "str": "reinforced solar panel" },
+    "description": "A solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from aliens or errant baseballs.  The glass causes this panel to produce slightly less power than a normal panel.  Useful for a vehicle."
+  },
+  {
+    "type": "GENERIC",
+    "id": "reinforced_solar_panel_v2",
+    "copy-from": "reinforced_solar_panel_v2",
+    "name": { "str": "upgraded reinforced solar panel" },
+    "description": "An upgraded solar panel that has been covered with a pane of reinforced glass to protect the delicate solar cells from aliens or errant baseballs.  The glass causes this panel to produce slightly less power than a normal upgraded panel.  Useful for a vehicle."
+  }
+]

@@ -8,7 +8,6 @@
 #include <functional>
 #include <map>
 #include <memory>
-#include <optional>
 #include <queue>
 #include <string>
 #include <unordered_set>
@@ -28,6 +27,7 @@
 #include "map_memory.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "optional.h"
 #include "point.h"
 #include "tileray.h"
 #include "translations.h"
@@ -333,7 +333,7 @@ class vehicle::autodrive_controller
             return data;
         }
         void check_safe_speed();
-        std::optional<navigation_step> compute_next_step();
+        cata::optional<navigation_step> compute_next_step();
         collision_check_result check_collision_zone( orientation turn_dir );
         void reduce_speed();
 
@@ -353,7 +353,7 @@ class vehicle::autodrive_controller
         void compute_next_nodes( const node_address &addr, const navigation_node &node,
                                  int target_speed_tps,
                                  std::vector<std::pair<node_address, navigation_node>> &next_nodes ) const;
-        std::optional<std::vector<navigation_step>> compute_path( int speed_tps ) const;
+        cata::optional<std::vector<navigation_step>> compute_path( int speed_tps ) const;
 };
 
 static const std::array<orientation, NUM_ORIENTATIONS> &all_orientations()
@@ -940,11 +940,11 @@ const
     }
 }
 
-std::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compute_path(
+cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compute_path(
             int speed_tps ) const
 {
     if( speed_tps == 0 || speed_tps < -1 ) {
-        return std::nullopt;
+        return cata::nullopt;
     }
     // TODO: tweak this
     constexpr int max_search_count = 10000;
@@ -1000,7 +1000,7 @@ std::optional<std::vector<navigation_step>> vehicle::autodrive_controller::compu
             }
         }
     }
-    return std::nullopt;
+    return cata::nullopt;
 }
 
 vehicle::autodrive_controller::autodrive_controller( const vehicle &driven_veh,
@@ -1086,7 +1086,7 @@ void vehicle::autodrive_controller::reduce_speed()
     data.max_speed_tps = MIN_SPEED_TPS;
 }
 
-std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
+cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
 {
     precompute_data();
     const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
@@ -1125,7 +1125,7 @@ std::optional<navigation_step> vehicle::autodrive_controller::compute_next_step(
             new_path = compute_path( data.max_speed_tps );
         }
         if( !new_path ) {
-            return std::nullopt;
+            return cata::nullopt;
         }
         data.path.swap( *new_path );
     }
@@ -1244,7 +1244,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         return autodrive_result::abort;
     }
     active_autodrive_controller->check_safe_speed();
-    std::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
+    cata::optional<navigation_step> next_step = active_autodrive_controller->compute_next_step();
     if( !next_step ) {
         // message handles pathfinding failure either due to obstacles or inability to see
         driver.add_msg_if_player( _( "Can't see a path forward." ) );

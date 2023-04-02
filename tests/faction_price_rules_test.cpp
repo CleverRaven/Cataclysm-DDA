@@ -7,56 +7,6 @@
 
 static const skill_id skill_speech( "speech" );
 
-TEST_CASE( "basic_price_check", "[npc][trade]" )
-{
-    using namespace npc_trading;
-    clear_avatar();
-    avatar &u = get_avatar();
-    npc &guy = spawn_npc( { 50, 50 }, "test_npc_trader" );
-    clear_character( guy );
-
-    bool const u_buy = GENERATE( true, false );
-    CAPTURE( u_buy );
-
-    Character *seller = nullptr;
-    Character *buyer = nullptr;
-    if( u_buy ) {
-        buyer = &u;
-        seller = &guy;
-    } else {
-        buyer = &guy;
-        seller = &u;
-    }
-
-    item m4( "m4_carbine" );
-    item mag( m4.magazine_default() );
-    int const ammo_amount = mag.remaining_ammo_capacity();
-    item ammo( mag.ammo_default(), calendar::turn, ammo_amount );
-    item bomba( "test_bomba" );
-    REQUIRE( bomba.type->price_post != units::from_cent( 0 ) );
-    item backpack( "debug_backpack" );
-
-    int const price_separate = adjusted_price( &m4, 1, *buyer, *seller ) +
-                               adjusted_price( &mag, 1, *buyer, *seller ) +
-                               adjusted_price( &ammo, ammo_amount, *buyer, *seller ) +
-                               adjusted_price( &backpack, 1, *buyer, *seller );
-
-    mag.put_in( ammo, item_pocket::pocket_type::MAGAZINE );
-    m4.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
-    backpack.put_in( m4, item_pocket::pocket_type::CONTAINER );
-    if( !u_buy ) {
-        REQUIRE( !guy.wants_to_buy( bomba ) );
-        backpack.put_in( bomba, item_pocket::pocket_type::CONTAINER );
-    }
-
-    trade_selector::entry_t bck_entry{
-        item_location{ map_cursor( tripoint_zero ), &backpack }, 1 };
-
-    int const price_combined = trading_price( *buyer, *seller, bck_entry );
-
-    CHECK( price_separate == Approx( price_combined ).margin( 1 ) );
-}
-
 TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
 {
     clear_avatar();
@@ -142,19 +92,5 @@ TEST_CASE( "faction_price_rules", "[npc][factions][trade]" )
         REQUIRE( fmarkup != - 100 );
         guy.set_value( "npctalk_var_bool_preference_vegan", "yes" );
         REQUIRE( guy.get_price_rules( pants_fur )->markup == -100 );
-    }
-    WHEN( "price rule affects magazine contents" ) {
-        clear_character( guy );
-        item const battery( "battery" );
-        item tbd( "test_battery_disposable" );
-        int const battery_price = *guy.get_price_rules( battery )->price;
-        REQUIRE( battery.price( true ) != battery_price );
-        trade_selector::entry_t tbd_entry{
-            item_location{ map_cursor( tripoint_zero ), &tbd }, 1 };
-
-        REQUIRE( npc_trading::trading_price( get_avatar(), guy, tbd_entry ) ==
-                 Approx( units::to_cent( tbd.type->price_post ) * 1.25 +
-                         battery_price * 1.25 * tbd.ammo_remaining( nullptr ) / battery.type->stack_size )
-                 .margin( 1 ) );
     }
 }

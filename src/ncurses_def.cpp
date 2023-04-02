@@ -265,11 +265,6 @@ void catacurses::init_interface()
     init_colors();
 }
 
-bool catacurses::supports_256_colors()
-{
-    return COLORS >= 256;
-}
-
 void input_manager::pump_events()
 {
     if( test_mode ) {
