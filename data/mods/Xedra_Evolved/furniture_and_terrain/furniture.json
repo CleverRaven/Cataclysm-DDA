@@ -101,10 +101,7 @@
       "str_min": 20,
       "str_max": 30,
       "sound_fail": "smash!",
-      "items": [
-        { "item": "glass_shard", "count": [ 8, 12 ] },
-        { "item": "scrap_dreamdross", "count": [ 2, 10 ] }
-      ]
+      "items": [ { "item": "glass_shard", "count": [ 8, 12 ] }, { "item": "scrap_dreamdross", "count": [ 2, 10 ] } ]
     }
   }
 ]
