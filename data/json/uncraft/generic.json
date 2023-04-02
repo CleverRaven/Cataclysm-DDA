@@ -527,6 +527,14 @@
     "qualities": [ { "id": "CUT", "level": 1 } ]
   },
   {
+    "result": "pallet",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "30 m",
+    "components": [ [ [ "2x4", 3 ] ], [ [ "plank_short", 9 ] ], [ [ "nail", 117 ] ], [ [ "splinter", 61 ] ] ],
+    "qualities": [ { "id": "PRYING_NAIL", "level": 1 } ]
+  },
+  {
     "result": "432gal_drum_rubber",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",

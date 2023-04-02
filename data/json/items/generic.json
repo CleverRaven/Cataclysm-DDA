@@ -4174,6 +4174,17 @@
     "color": "green"
   },
   {
+    "id": "pallet",
+    "type": "GENERIC",
+    "name": { "str": "wooden pallet" },
+    "description": "Heavy and bulky 40x48 inch palette.",
+    "weight": "28 kg",
+    "volume": "194400 ml",
+    "material": [ "wood" ],
+    "symbol": "#",
+    "color": "brown"
+  },
+  {
     "type": "TOOL",
     "id": "training_dummy_light",
     "symbol": "@",

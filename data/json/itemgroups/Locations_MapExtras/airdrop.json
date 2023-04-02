@@ -16,12 +16,6 @@
     "items": [ { "item": "water_clean", "prob": 100, "container-item": "55gal_drum_rubber", "charges": [ 700, 800 ] } ]
   },
   {
-    "id": "bottle_pur_tablets",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [ { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": 15 } ]
-  },
-  {
     "id": "airdrop_humanitarian",
     "type": "item_group",
     "subtype": "collection",
@@ -31,7 +25,8 @@
       { "group": "disinfectant_bottle", "container-item": "box_small", "count": 8, "repeat": [ 1, 1 ] },
       { "group": "airdrop_tent", "repeat": [ 1, 1 ] },
       { "group": "emer_blanket_box", "repeat": [ 1, 1 ] },
-      { "group": "bandages_box", "repeat": [ 1, 1 ] }
+      { "group": "bandages_box", "repeat": [ 1, 1 ] },
+      { "item": "cardboard", "charges": [ 1200, 1700 ] }
     ]
   },
   {
@@ -40,6 +35,25 @@
     "subtype": "collection",
     "container-item": "box_medium",
     "entries": [ { "item": "protein_bar_evac", "count": 100 } ]
+  },
+  {
+    "id": "bottle_pur_tablets",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "pur_tablets", "container-item": "bottle_plastic_small", "charges": 15 } ]
+  },
+  {
+    "id": "disinfectant_bottle",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "disinfectant", "charges": 10, "container-item": "bottle_plastic_small" } ]
+  },
+  {
+    "id": "airdrop_tent",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_large",
+    "entries": [ { "item": "large_tent_kit", "count": 15 }, { "item": "cardboard", "count": 42 } ]
   },
   {
     "id": "emer_blanket_box",
@@ -58,12 +72,6 @@
     "entries": [ { "item": "bandages", "count": [ 250, 270 ] } ]
   },
   {
-    "id": "disinfectant_bottle",
-    "type": "item_group",
-    "subtype": "collection",
-    "entries": [ { "item": "disinfectant", "charges": 10, "container-item": "bottle_plastic_small" } ]
-  },
-  {
     "id": "airdrop_IFAK",
     "type": "item_group",
     "subtype": "collection",
@@ -78,13 +86,6 @@
     "entries": [ { "group": "MRE", "repeat": 14 }, { "item": "cardboard", "count": 13 } ]
   },
   {
-    "id": "airdrop_tent",
-    "type": "item_group",
-    "subtype": "collection",
-    "container-item": "box_large",
-    "entries": [ { "item": "large_tent_kit", "count": 15 }, { "item": "cardboard", "count": 42 } ]
-  },
-  {
     "id": "airdrop_generator",
     "type": "item_group",
     "subtype": "collection",
@@ -95,7 +96,8 @@
       { "item": "sheet_metal", "count": [ 4, 6 ] },
       { "item": "jp8", "charges": [ 10000, 15000 ], "container-item": "jerrycan_big" },
       { "item": "i4_diesel" },
-      { "item": "bearing", "charges": [ 5, 40 ] }
+      { "item": "bearing", "charges": [ 5, 40 ] },
+      { "item": "cardboard", "charges": [ 1200, 1700 ] }
     ]
   }
 ]
