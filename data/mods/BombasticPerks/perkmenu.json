@@ -107,9 +107,14 @@
         "topic": "TALK_PERK_MENU_PINCHEDFINGERS"
       },
       {
-        "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
+        "condition": { "not": { "or": [ { "u_has_trait": "perk_bloody_mess" }, { "u_has_trait": "perk_gentle_death" } ] } }
         "text": "Gain [<trait_name:perk_bloody_mess>]",
         "topic": "TALK_PERK_MENU_BLOODY_MESS"
+      },
+      {
+        "condition": { "not": { "or": [ { "u_has_trait": "perk_bloody_mess" }, { "u_has_trait": "perk_gentle_death" } ] } },
+        "text": "Gain [<trait_name:perk_gentle_death>]",
+        "topic": "TALK_PERK_MENU_GENTLE_DEATH"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_tuck_and_roll" } },
@@ -125,6 +130,11 @@
         "condition": { "not": { "u_has_trait": "perk_jumpy" } },
         "text": "Gain [<trait_name:perk_jumpy>]",
         "topic": "TALK_PERK_MENU_JUMPY"
+      },
+      {
+        "condition": { "and": [ { "u_has_skill": { "skill": "pistol", "level": 3 } }, { "not": { "u_has_trait": "perk_quickdraw" } } ] },
+        "text": "Gain [<trait_name:perk_quickdraw>]",
+        "topic": "TALK_PERK_MENU_QUICKDRAW"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_hobbyist" } },
@@ -400,7 +410,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_PERK_MENU_BLOODY_MESS",
-    "dynamic_line": "<trait_name:perk_bloody_mess>: \"<trait_description:perk_bloody_mess>\"",
+    "dynamic_line": "<trait_name:perk_bloody_mess>: \"<trait_description:perk_bloody_mess>\"\n\nMutually exclusive with Gentle Death.",
     "responses": [
       {
         "text": "Select Perk.",
@@ -409,6 +419,27 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_bloody_mess" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_GENTLE_DEATH",
+    "dynamic_line": "<trait_name:perk_gentle_death>: \"<trait_description:perk_gentle_death>\"\n\n\Mutually exclusive with Bloody Mess.",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_gentle_death" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }
@@ -472,6 +503,27 @@
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_jumpy" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_QUICKDRAW",
+    "dynamic_line": "<trait_name:perk_quickdraw>: \"<trait_description:perk_quickdraw>\"\n\nRequires handguns 3.",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_quickdraw" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }

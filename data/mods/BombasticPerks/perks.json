@@ -161,6 +161,15 @@
   },
   {
     "type": "mutation",
+    "id": "perk_gentle_death",
+    "name": { "str": "Gentle Death" },
+    "points": 0,
+    "description": "You won't be hunting rabbits with bazookas, but a little overkill won't spoil the meat.  Enemies you kill tend to stay intact.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": 30.0 } ] } ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_tingly",
     "name": { "str": "Tingly" },
     "points": 0,
@@ -176,6 +185,15 @@
     "description": "You've not been the same since the apocalypse, almost everything makes you jump.  You are just a bit quicker to act though.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.03 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_quickdraw",
+    "name": { "str": "Quickdraw" },
+    "points": 0,
+    "description": "You're the fastest gun in the West!  You can access items in containers 30% faster.",
+    "obtain_cost_multiplier": 0.7,
+    "category": [ "perk" ]
   },
   {
     "type": "mutation",
