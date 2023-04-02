@@ -5649,24 +5649,77 @@ void overmap::build_connection(
         z, initial_dir );
 }
 
+// connect the points to each other using a minimum spanning tree
+// plus rare extra connections to make loops
 void overmap::connect_closest_points( const std::vector<point_om_omt> &points, int z,
                                       const overmap_connection &connection )
 {
-    if( points.size() == 1 ) {
+    // { weight, {i, j} }
+    using edge = std::pair<float, std::pair<size_t, size_t>>;
+
+    if( points.size() < 2 ) {
         return;
     }
-    for( size_t i = 0; i < points.size(); ++i ) {
-        int closest = -1;
-        int k = 0;
+
+    std::vector<edge> edges;
+
+    // enumerate every possible connection between the points
+    edges.reserve( points.size() * ( points.size() - 1 ) / 2 );
+    for( size_t i = 0; i < points.size() - 1; ++i ) {
         for( size_t j = i + 1; j < points.size(); j++ ) {
-            const int distance = trig_dist( points[i], points[j] );
-            if( distance < closest || closest < 0 ) {
-                closest = distance;
-                k = j;
-            }
+            const float distance = trig_dist( points[i], points[j] );
+            edges.push_back( {distance, {i, j}} );
         }
-        if( closest > 0 ) {
-            build_connection( points[i], points[k], z, connection, false );
+    }
+
+    // sort from shortest to longest
+    sort( edges.begin(), edges.end() );
+
+    // track which subgraph each point belongs to
+    std::vector<int> subgraphs( points.size(), -1 );
+
+    for( edge candidate : edges ) {
+        const size_t i = candidate.second.first;
+        const size_t j = candidate.second.second;
+        bool connect = false;
+        if( subgraphs[i] < 0 && subgraphs[j] < 0 ) {
+            // neither point of this connection has been connected yet
+            // identify them each as the root of a new subgraph
+            subgraphs[i] = i;
+            subgraphs[j] = j;
+            // and connect them
+            connect = true;
+        } else if( subgraphs[i] < 0 ) {
+            // j is already connected to something
+            // add i to j's subgraph
+            subgraphs[i] = subgraphs[j];
+            // and connect them
+            connect = true;
+        } else if( subgraphs[j] < 0 ) {
+            // i is already connected to something
+            // add j to i's subgraph
+            subgraphs[j] = subgraphs[i];
+            // and connect them
+            connect = true;
+        } else if( subgraphs[i] != subgraphs[j] ) {
+            // i and j are both connected to different subgraphs
+            // join the subgraphs
+            int dead_subtree = subgraphs[j];
+            for( size_t k = 0; k < points.size(); k++ ) {
+                if( subgraphs[k] == dead_subtree ) {
+                    subgraphs[k] = subgraphs[i];
+                }
+            }
+            // and connect them
+            connect = true;
+        } else if( one_in( 10 ) ) {
+            // the remaining case is that i and j are already in the same subgraph
+            // making this connection creates a loop
+            connect = true;
+        }
+
+        if( connect ) {
+            build_connection( points[i], points[j], z, connection, false );
         }
     }
 }
