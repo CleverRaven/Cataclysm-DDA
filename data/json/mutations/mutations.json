@@ -6407,6 +6407,17 @@
   },
   {
     "type": "mutation",
+    "id": "MAKAYLA_MUTATOR",
+    "name": { "str": "Catastrophic mutation" },
+    "points": -2,
+    "mixed_effect": true,
+    "description": "Exposure to portal storms and related phenomena causes you to mutate in a mostly predictable fashion.",
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "CHAOTIC", "UNSTABLE" ]
+  },
+  {
+    "type": "mutation",
     "id": "CHAOTIC",
     "name": { "str": "Genetic Chaos" },
     "points": -4,
