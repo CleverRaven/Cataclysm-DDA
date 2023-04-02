@@ -13,7 +13,6 @@
     "type": "vitamin",
     "vit_type": "vitamin",
     "name": { "str": "Iron" },
-    "excess": "hypervitaminosis",
     "deficiency": "anemia",
     "min": -24000,
     "max": 3600,
@@ -404,7 +403,7 @@
     "min": 0,
     "max": 8000,
     "flags": [ "NO_DISPLAY" ],
-    "rate": "1 d",
+    "rate": "2 h",
     "disease_excess": [ [ 1, 899 ], [ 900, 2799 ], [ 2800, 8000 ] ]
   },
   {

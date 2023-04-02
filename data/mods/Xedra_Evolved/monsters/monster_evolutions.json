@@ -1,0 +1,14 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RENFIELD_UPGRADE",
+    "monsters": [
+      { "monster": "mon_renfield", "weight": 910 },
+      { "monster": "mon_renfield_9mm", "weight": 450 },
+      { "monster": "mon_renfield_shotgun", "weight": 250 },
+      { "monster": "mon_renfield_flamethrower", "weight": 45 },
+      { "monster": "mon_renfield_bionic_monster", "weight": 25 },
+      { "monster": "mon_renfield_abomination", "weight": 25 }
+    ]
+  }
+]

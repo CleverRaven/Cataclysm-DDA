@@ -1,5 +1,4 @@
 #include "cube_direction.h" // IWYU pragma: associated
-#include "enum_conversions.h"
 #include "omdata.h" // IWYU pragma: associated
 #include "overmap.h" // IWYU pragma: associated
 
@@ -7,12 +6,11 @@
 #include <cmath>
 #include <cstring>
 #include <exception>
-#include <istream>
 #include <memory>
 #include <numeric>
+#include <optional>
 #include <ostream>
 #include <set>
-#include <type_traits>
 #include <unordered_set>
 #include <vector>
 
@@ -40,14 +38,11 @@
 #include "mapbuffer.h"
 #include "mapgen.h"
 #include "mapgen_functions.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
-#include "name.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap_connection.h"
@@ -103,6 +98,7 @@ static const oter_str_id oter_river_sw( "river_sw" );
 static const oter_str_id oter_river_west( "river_west" );
 static const oter_str_id oter_road_nesw( "road_nesw" );
 static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
+static const oter_str_id oter_sewer_end_north( "sewer_end_north" );
 static const oter_str_id oter_sewer_isolated( "sewer_isolated" );
 static const oter_str_id oter_sewer_sub_station( "sewer_sub_station" );
 static const oter_str_id oter_solid_earth( "solid_earth" );
@@ -126,6 +122,7 @@ static const oter_type_str_id oter_type_lab_stairs( "lab_stairs" );
 static const oter_type_str_id oter_type_microlab_sub_connector( "microlab_sub_connector" );
 static const oter_type_str_id oter_type_road( "road" );
 static const oter_type_str_id oter_type_road_nesw_manhole( "road_nesw_manhole" );
+static const oter_type_str_id oter_type_sewer_connector( "sewer_connector" );
 static const oter_type_str_id oter_type_slimepit_bottom( "slimepit_bottom" );
 static const oter_type_str_id oter_type_slimepit_down( "slimepit_down" );
 static const oter_type_str_id oter_type_solid_earth( "solid_earth" );
@@ -341,92 +338,6 @@ template<>
 bool overmap_special_id::is_valid() const
 {
     return specials.is_valid( *this );
-}
-
-generic_factory<city> &get_city_factory()
-{
-    static generic_factory<city> city_factory( "city" );
-    return city_factory;
-}
-
-/** @relates string_id */
-template<>
-const city &string_id<city>::obj() const
-{
-    return get_city_factory().obj( *this );
-}
-
-/** @relates string_id */
-template<>
-bool string_id<city>::is_valid() const
-{
-    return get_city_factory().is_valid( *this );
-}
-
-void city::load_city( const JsonObject &jo, const std::string &src )
-{
-    get_city_factory().load( jo, src );
-}
-
-void city::finalize()
-{
-    for( city &c : const_cast<std::vector<city>&>( city::get_all() ) ) {
-        if( c.name.empty() ) {
-            c.name = Name::get( nameFlags::IsTownName );
-        }
-        if( c.population == 0 ) {
-            c.population = rng( 1, INT_MAX );
-        }
-        if( c.size == -1 ) {
-            c.size = rng( 1, 16 );
-        }
-    }
-}
-
-void city::check_consistency()
-{
-    get_city_factory().check();
-}
-
-const std::vector<city> &city::get_all()
-{
-    return get_city_factory().get_all();
-}
-
-void city::reset()
-{
-    get_city_factory().reset();
-}
-
-void city::load( const JsonObject &jo, const std::string & )
-{
-
-    mandatory( jo, was_loaded, "id", id );
-    mandatory( jo, was_loaded, "database_id", database_id );
-    optional( jo, was_loaded, "name", name );
-    optional( jo, was_loaded, "population", population );
-    optional( jo, was_loaded, "size", size );
-    mandatory( jo, was_loaded, "pos_om", pos_om );
-    mandatory( jo, was_loaded, "pos", pos );
-}
-
-void city::check() const
-{
-    if( get_option<bool>( "SELECT_STARTING_CITY" ) && city::get_all().empty() ) {
-        debugmsg( "Overmap cities need to be defined when `SELECT_STARTING_CITY` option is set to `true`!" );
-    }
-}
-
-city::city( const point_om_omt &P, int const S )
-    : pos( P )
-    , size( S )
-    , name( Name::get( nameFlags::IsTownName ) )
-{
-}
-
-int city::get_distance_from( const tripoint_om_omt &p ) const
-{
-    return std::max( static_cast<int>( trig_dist( p, tripoint_om_omt{ pos, 0 } ) ) - size, 0 );
 }
 
 std::map<radio_type, std::string> radio_type_names =
@@ -814,6 +725,8 @@ void oter_type_t::load( const JsonObject &jo, const std::string &src )
     assign( jo, "travel_cost", travel_cost, strict );
     assign( jo, "extras", extras, strict );
     assign( jo, "mondensity", mondensity, strict );
+    assign( jo, "entry_eoc", entry_EOC, strict );
+    assign( jo, "exit_eoc", exit_EOC, strict );
     assign( jo, "spawns", static_spawns, strict );
     assign( jo, "color", color );
     assign( jo, "land_use_code", land_use_code, strict );
@@ -979,7 +892,7 @@ void oter_t::get_rotation_and_subtile( int &rotation, int &subtile ) const
         rotation = t.rotation;
         subtile = t.subtile;
     } else if( is_rotatable() ) {
-        rotation = static_cast<int>( get_dir() );
+        rotation = ( 4 - static_cast<int>( get_dir() ) ) % 4;
         subtile = -1;
     } else {
         rotation = 0;
@@ -2211,7 +2124,7 @@ struct mutable_overmap_phase_remainder {
         }
     };
 
-    cata::optional<can_place_result> can_place(
+    std::optional<can_place_result> can_place(
         const overmap &om, const mutable_overmap_placement_rule_remainder &rule,
         const tripoint_om_omt &origin, om_direction::type dir,
         const joins_tracker &unresolved
@@ -2220,13 +2133,13 @@ struct mutable_overmap_phase_remainder {
 
         for( const mutable_overmap_piece_candidate piece : rule.pieces( origin, dir ) ) {
             if( !overmap::inbounds( piece.pos ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             if( !is_amongst_locations( om.ter( piece.pos ), piece.overmap->locations ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             if( unresolved.any_postponed_at( piece.pos ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             context_mandatory_joins_shortfall -= unresolved.count_unresolved_at( piece.pos );
         }
@@ -2242,7 +2155,7 @@ struct mutable_overmap_phase_remainder {
             const mutable_overmap_join &join = *ter_join.join;
             switch( unresolved.allows( pos_d, ter_join ) ) {
                 case joins_tracker::join_status::disallowed:
-                    return cata::nullopt;
+                    return std::nullopt;
                 case joins_tracker::join_status::matched_non_available:
                     ++context_mandatory_joins_shortfall;
                 // fallthrough
@@ -2263,11 +2176,11 @@ struct mutable_overmap_phase_remainder {
             // suitable locations
             tripoint_om_omt neighbour = pos_d.p + displace( pos_d.dir );
             if( !overmap::inbounds( neighbour ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
             const oter_id &neighbour_terrain = om.ter( neighbour );
             if( !is_amongst_locations( neighbour_terrain, join.into_locations ) ) {
-                return cata::nullopt;
+                return std::nullopt;
             }
         }
         return can_place_result{ context_mandatory_joins_shortfall,
@@ -2286,7 +2199,7 @@ struct mutable_overmap_phase_remainder {
                 for( const tripoint_rel_omt &piece_pos : rule.positions( dir ) ) {
                     tripoint_om_omt origin = pos - piece_pos;
 
-                    if( cata::optional<can_place_result> result = can_place(
+                    if( std::optional<can_place_result> result = can_place(
                                 om, rule, origin, dir, unresolved ) ) {
                         if( best_result < *result ) {
                             pos_dir_options.clear();
@@ -2599,9 +2512,9 @@ struct mutable_overmap_special_data : overmap_special_data {
             descriptions.push_back( std::move( satisfy_result.description ) );
             const mutable_overmap_placement_rule_remainder *rule = satisfy_result.rule;
             if( rule ) {
-                const tripoint_om_omt &origin = satisfy_result.origin;
+                const tripoint_om_omt &satisfy_origin = satisfy_result.origin;
                 om_direction::type rot = satisfy_result.dir;
-                for( const mutable_overmap_piece_candidate piece : rule->pieces( origin, rot ) ) {
+                for( const mutable_overmap_piece_candidate piece : rule->pieces( satisfy_origin, rot ) ) {
                     const mutable_overmap_terrain &ter = *piece.overmap;
                     add_ter( ter, piece.pos, piece.rot, satisfy_result.suppressed_joins );
                 }
@@ -2638,7 +2551,7 @@ struct mutable_overmap_special_data : overmap_special_data {
             debugmsg( "Spawn of mutable special %s had unresolved joins.  Existing terrain "
                       "at %s was %s; joins were %s\nComplete record of placement follows:\n%s",
                       parent_id.str(), p.to_string(), current_terrain.id().str(), joins,
-                      join( descriptions, "\n" ) );
+                      string_join( descriptions, "\n" ) );
 
             om.add_note(
                 p, string_format(
@@ -2984,7 +2897,7 @@ const oter_id &overmap::ter_unsafe( const tripoint_om_omt &p ) const
     return layer[p.z() + OVERMAP_DEPTH].terrain[p.xy()];
 }
 
-cata::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p )
+std::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p )
 {
     auto it = mapgen_args_index.find( p );
     if( it == mapgen_args_index.end() ) {
@@ -3298,7 +3211,7 @@ void overmap::add_extra_note( const tripoint_om_omt &p )
             return;
         }
 
-        const cata::optional<auto_notes::custom_symbol> &symbol =
+        const std::optional<auto_notes::custom_symbol> &symbol =
             auto_note_settings.get_custom_symbol( extra );
         const std::string note_symbol = symbol ? ( *symbol ).get_symbol_string() : extra->get_symbol();
         const nc_color note_color = symbol ? ( *symbol ).get_color() : extra->color;
@@ -3373,7 +3286,13 @@ void overmap::generate( const overmap *north, const overmap *east,
     const std::string overmap_pregenerated_path =
         get_option<std::string>( "OVERMAP_PREGENERATED_PATH" );
     if( !overmap_pregenerated_path.empty() ) {
-        const cata_path fpath = PATH_INFO::moddir() / string_format( "%s/overmap_%d_%d.omap.gz",
+        // HACK: For some reason gz files are automatically unpacked and renamed during Android build process
+#if defined(__ANDROID__)
+        static const std::string fname = "%s/overmap_%d_%d.omap";
+#else
+        static const std::string fname = "%s/overmap_%d_%d.omap.gz";
+#endif
+        const cata_path fpath = PATH_INFO::moddir() / string_format( fname,
                                 overmap_pregenerated_path, pos().x(), pos().y() );
         dbg( D_INFO ) << "trying" << fpath;
         if( !read_from_file_optional_json( fpath, [this, &fpath]( const JsonValue & jv ) {
@@ -3550,6 +3469,12 @@ bool overmap::generate_sub( const int z )
             const oter_t &oter_here = *oter_id_here;
             const oter_id oter_above = ter_unsafe( p + tripoint_above );
             const oter_id oter_ground = ter_unsafe( tripoint_om_omt( p.xy(), 0 ) );
+
+            if( oter_here.get_type_id() == oter_type_sewer_connector ) {
+                om_direction::type rotation = oter_here.get_dir();
+                ter_set( p, oter_sewer_end_north.id()->get_rotated( rotation ) );
+                sewer_points.emplace_back( p.xy() );
+            }
 
             if( oter_here.get_type_id() == oter_type_microlab_sub_connector ) {
                 om_direction::type rotation = oter_here.get_dir();
@@ -3839,7 +3764,7 @@ const city &overmap::get_nearest_city( const tripoint_om_omt &p ) const
 }
 
 tripoint_om_omt overmap::find_random_omt( const std::pair<std::string, ot_match_type> &target,
-        cata::optional<city> target_city ) const
+        std::optional<city> target_city ) const
 {
     const bool check_nearest_city = target_city.has_value();
     std::vector<tripoint_om_omt> valid;
@@ -3848,8 +3773,7 @@ tripoint_om_omt overmap::find_random_omt( const std::pair<std::string, ot_match_
             for( int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++ ) {
                 tripoint_om_omt p( i, j, k );
                 if( is_ot_match( target.first, ter( p ), target.second ) ) {
-                    if( !check_nearest_city ||
-                        ( check_nearest_city && get_nearest_city( p ) == target_city.value() ) ) {
+                    if( !check_nearest_city || get_nearest_city( p ) == target_city.value() ) {
                         valid.push_back( p );
                     }
                 }
@@ -3890,6 +3814,42 @@ void overmap::clear_cities()
 void overmap::clear_connections_out()
 {
     connections_out.clear();
+}
+
+static std::map<std::string, std::string> oter_id_migrations;
+
+void overmap::load_oter_id_migration( const JsonObject &jo )
+{
+    for( const JsonMember &kv : jo.get_object( "oter_ids" ) ) {
+        oter_id_migrations.emplace( kv.name(), kv.get_string() );
+    }
+}
+
+void overmap::reset_oter_id_migrations()
+{
+    oter_id_migrations.clear();
+}
+
+bool overmap::is_oter_id_obsolete( const std::string &oterid )
+{
+    return oter_id_migrations.count( oterid ) > 0;
+}
+
+void overmap::migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::string> &points )
+{
+    for( const auto&[pos, old_id] : points ) {
+        const oter_str_id new_id = oter_str_id( oter_id_migrations.at( old_id ) );
+        const tripoint_abs_sm pos_abs = project_to<coords::sm>( project_combine( this->pos(), pos ) );
+
+        if( new_id.is_valid() ) {
+            DebugLog( D_WARNING, DC_ALL ) << "migrated oter_id '" << old_id << "' at " << pos_abs
+                                          << " to '" << new_id.str() << "'";
+
+            ter_set( pos, new_id );
+        } else {
+            debugmsg( "oter_id migration defined from '%s' to invalid ter_id '%s'", old_id, new_id.str() );
+        }
+    }
 }
 
 void overmap::place_special_forced( const overmap_special_id &special_id,
@@ -5415,7 +5375,7 @@ void overmap::place_ravines()
     // We dont really care about the paths each ravine takes, so this can be whatever
     // The random return value was chosen because it easily produces decent looking windy ravines
     const pf::two_node_scoring_fn<point_om_omt> estimate =
-    [&]( pf::directed_node<point_om_omt>, const cata::optional<pf::directed_node<point_om_omt>> & ) {
+    [&]( pf::directed_node<point_om_omt>, const std::optional<pf::directed_node<point_om_omt>> & ) {
         return pf::node_score( 0, rng( 1, 2 ) );
     };
     // A path is generated for each of ravine, and all its constituent points are stored within the
@@ -5474,7 +5434,7 @@ pf::directed_path<point_om_omt> overmap::lay_out_connection(
     int z, const bool must_be_unexplored ) const
 {
     const pf::two_node_scoring_fn<point_om_omt> estimate =
-    [&]( pf::directed_node<point_om_omt> cur, cata::optional<pf::directed_node<point_om_omt>> prev ) {
+    [&]( pf::directed_node<point_om_omt> cur, std::optional<pf::directed_node<point_om_omt>> prev ) {
         const oter_id id = ter( tripoint_om_omt( cur.pos, z ) );
 
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( id );
@@ -5771,12 +5731,12 @@ bool overmap::check_overmap_special_type( const overmap_special_id &id,
     return found_id->second == id;
 }
 
-cata::optional<overmap_special_id> overmap::overmap_special_at( const tripoint_om_omt &p ) const
+std::optional<overmap_special_id> overmap::overmap_special_at( const tripoint_om_omt &p ) const
 {
     auto it = overmap_special_placements.find( p );
 
     if( it == overmap_special_placements.end() ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     return it->second;
@@ -6097,7 +6057,7 @@ std::vector<tripoint_om_omt> overmap::place_special(
 
     const bool is_safe_zone = special.has_flag( "SAFE_AT_WORLDGEN" );
 
-    cata::optional<mapgen_arguments> *mapgen_args_p = &*mapgen_arg_storage.emplace();
+    std::optional<mapgen_arguments> *mapgen_args_p = &*mapgen_arg_storage.emplace();
     special_placement_result result = special.place( *this, p, dir, cit, must_be_unexplored );
     for( const std::pair<om_pos_dir, std::string> &join : result.joins_used ) {
         joins_used[join.first] = join.second;
@@ -6579,20 +6539,6 @@ void overmap::add_mon_group( const mongroup &group, int radius )
     }
 }
 
-void overmap::for_each_npc( const std::function<void( npc & )> &callback )
-{
-    for( auto &guy : npcs ) {
-        callback( *guy );
-    }
-}
-
-void overmap::for_each_npc( const std::function<void( const npc & )> &callback ) const
-{
-    for( const auto &guy : npcs ) {
-        callback( *guy );
-    }
-}
-
 shared_ptr_fast<npc> overmap::find_npc( const character_id &id ) const
 {
     for( const auto &guy : npcs ) {
@@ -6613,14 +6559,14 @@ shared_ptr_fast<npc> overmap::find_npc_by_unique_id( const std::string &id ) con
     return nullptr;
 }
 
-cata::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
+std::optional<basecamp *> overmap::find_camp( const point_abs_omt &p )
 {
     for( basecamp &v : camps ) {
         if( v.camp_omt_pos().xy() == p ) {
             return &v;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const
@@ -6673,7 +6619,6 @@ std::string enum_to_string<ot_match_type>( ot_match_type data )
 }
 } // namespace io
 
-constexpr tripoint_abs_omt overmap::invalid_tripoint;
 static const std::array<std::string, 4> suffixes = {{ "_north", "_west", "_south", "_east" }};
 
 std::string oter_no_dir( const oter_id &oter )

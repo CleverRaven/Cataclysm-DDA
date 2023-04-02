@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -56,7 +57,6 @@
 #include "move_mode.h"
 #include "mutation.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -166,7 +166,7 @@ static void swap_npc( npc &one, npc &two, npc &tmp )
     two = std::move( tmp );
 }
 
-void avatar::control_npc( npc &np )
+void avatar::control_npc( npc &np, const bool debug )
 {
     if( !np.is_player_ally() ) {
         debugmsg( "control_npc() called on non-allied npc %s", np.name );
@@ -178,6 +178,12 @@ void avatar::control_npc( npc &np )
         shadow_npc->op_of_u.value = 10;
         shadow_npc->set_attitude( NPCATT_FOLLOW );
     }
+    character_id new_character = np.getID();
+    const std::function<void( npc & )> update_npc = [new_character]( npc & guy ) {
+        guy.update_missions_target( get_avatar().getID(), new_character );
+    };
+    overmap_buffer.foreach_npc( update_npc );
+    mission().update_world_missions_character( get_avatar().getID(), new_character );
     npc tmp;
     // move avatar character data into shadow npc
     swap_character( *shadow_npc, tmp );
@@ -196,9 +202,13 @@ void avatar::control_npc( npc &np )
     const bool z_level_changed = g->vertical_shift( posz() );
     g->update_map( *this, z_level_changed );
     character_mood_face( true );
+
+    profession_id prof_id = prof ? prof->ident() : profession::generic()->ident();
+    get_event_bus().send<event_type::game_avatar_new>( /*is_new_game=*/false, debug,
+            getID(), name, male, prof_id, custom_profession );
 }
 
-void avatar::control_npc_menu()
+void avatar::control_npc_menu( const bool debug )
 {
     std::vector<shared_ptr_fast<npc>> followers;
     uilist charmenu;
@@ -211,6 +221,7 @@ void avatar::control_npc_menu()
         }
     }
     if( followers.empty() ) {
+        popup( _( "There's no one to take control of!" ) );
         return;
     }
     charmenu.w_y_setup = 0;
@@ -218,7 +229,7 @@ void avatar::control_npc_menu()
     if( charmenu.ret < 0 || static_cast<size_t>( charmenu.ret ) >= followers.size() ) {
         return;
     }
-    get_avatar().control_npc( *followers.at( charmenu.ret ) );
+    get_avatar().control_npc( *followers[charmenu.ret], debug );
 }
 
 void avatar::longpull( const std::string &name )
@@ -343,10 +354,14 @@ void avatar::on_mission_assignment( mission &new_mission )
 void avatar::on_mission_finished( mission &cur_mission )
 {
     if( cur_mission.has_failed() ) {
-        failed_missions.push_back( &cur_mission );
+        if( !cur_mission.get_type().invisible_on_complete ) {
+            failed_missions.push_back( &cur_mission );
+        }
         add_msg_if_player( m_bad, _( "Mission \"%s\" is failed." ), cur_mission.name() );
     } else {
-        completed_missions.push_back( &cur_mission );
+        if( !cur_mission.get_type().invisible_on_complete ) {
+            completed_missions.push_back( &cur_mission );
+        }
         add_msg_if_player( m_good, _( "Mission \"%s\" is successfully completed." ),
                            cur_mission.name() );
     }
@@ -367,12 +382,14 @@ void avatar::on_mission_finished( mission &cur_mission )
 
 void avatar::remove_active_mission( mission &cur_mission )
 {
+    cur_mission.remove_active_world_mission( cur_mission );
     const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
     if( iter == active_missions.end() ) {
         debugmsg( "removed mission %d was not in the active_missions list", cur_mission.get_id() );
     } else {
         active_missions.erase( iter );
     }
+
     if( &cur_mission == active_mission ) {
         if( active_missions.empty() ) {
             active_mission = nullptr;
@@ -534,7 +551,6 @@ bool avatar::read( item_location &book, item_location ereader )
                      string_format( _( "Reading %1$s (can train %2$s from %3$d to %4$d)" ), book->type_name(),
                                     skill_name, type->req, type->level );
 
-
         menu.addentry( 0, true, '0', _( "Read once" ) );
 
         const int lvl = get_knowledge_level( skill );
@@ -672,7 +688,6 @@ bool avatar::read( item_location &book, item_location ereader )
 
     return true;
 }
-
 
 void avatar::grab( object_type grab_type, const tripoint &grab_point )
 {
@@ -893,12 +908,10 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
                                     get_name() ) - 1;
 }
 
-
 mfaction_id avatar::get_monster_faction() const
 {
     return monfaction_player.id();
 }
-
 
 void avatar::disp_morale()
 {
@@ -920,28 +933,6 @@ void avatar::disp_morale()
     morale->display( equilibrium, pain_penalty, fatigue_penalty );
 }
 
-int avatar::limb_dodge_encumbrance() const
-{
-    std::map<body_part_type::type, std::vector<bodypart_id>> bps;
-    for( const auto &bp : body ) {
-        if( bp.first->encumb_impacts_dodge ) {
-            bps[bp.first->primary_limb_type()].emplace_back( bp.first );
-        }
-    }
-
-    float total = 0.0f;
-    for( auto &bp : bps ) {
-        float sub_total = 0.0f;
-        for( auto &b : bp.second ) {
-            sub_total += encumb( b );
-        }
-        sub_total /= bp.second.size() * 10.0f;
-        total += sub_total;
-    }
-
-    return std::floor( total );
-}
-
 void avatar::reset_stats()
 {
     const int current_stim = get_stim();
@@ -960,11 +951,9 @@ void avatar::reset_stats()
         add_miss_reason( _( "Your insect limbs get in the way." ), 2 );
     }
     if( has_trait( trait_INSECT_ARMS_OK ) ) {
-        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
+        if( !wearing_fitting_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 1 );
-        } else if( !exclusive_flag_coverage( STATIC( flag_id( "INTEGRATED" ) ) )
-                   .test( body_part_torso ) ) {
-            mod_dex_bonus( -1 );
+        } else {
             add_miss_reason( _( "Your clothing restricts your insect arms." ), 1 );
         }
     }
@@ -975,12 +964,9 @@ void avatar::reset_stats()
         add_miss_reason( _( "Your arachnid limbs get in the way." ), 4 );
     }
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
-        if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
+        if( !wearing_fitting_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( STATIC( flag_id( "OVERSIZE" ) ) )
-                   .test( body_part_torso ) && !exclusive_flag_coverage( STATIC( flag_id( "INTEGRATED" ) ) )
-                   .test( body_part_torso ) ) {
-            mod_dex_bonus( -2 );
+        } else {
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
     }
@@ -1029,14 +1015,16 @@ void avatar::reset_stats()
         set_fake_effect_dur( effect_stim_overdose, 1_turns * ( current_stim - 30 ) );
     }
     // Starvation
-    const float bmi = get_bmi();
-    if( bmi < character_weight_category::underweight ) {
-        const int str_penalty = std::floor( ( 1.0f - ( bmi - 13.0f ) / 3.0f ) * get_str_base() );
+    const float bmi = get_bmi_fat();
+    if( bmi < character_weight_category::normal ) {
+        const int str_penalty = std::floor( ( 1.0f - ( get_bmi_fat() /
+                                              character_weight_category::normal ) ) * str_max );
+        const int dexint_penalty = std::floor( ( character_weight_category::normal - bmi ) * 3.0f );
         add_miss_reason( _( "You're weak from hunger." ),
                          static_cast<unsigned>( ( get_starvation() + 300 ) / 1000 ) );
-        mod_str_bonus( -str_penalty );
-        mod_dex_bonus( -( str_penalty / 2 ) );
-        mod_int_bonus( -( str_penalty / 2 ) );
+        mod_str_bonus( -1 * str_penalty );
+        mod_dex_bonus( -1 * dexint_penalty );
+        mod_int_bonus( -1 * dexint_penalty );
     }
     // Thirst
     if( get_thirst() >= 200 ) {
@@ -1055,7 +1043,7 @@ void avatar::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() - limb_dodge_encumbrance() );
+    mod_dodge_bonus( mabuff_dodge_bonus() );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
@@ -1249,12 +1237,10 @@ void avatar::rebuild_aim_cache()
 
             float current_angle = atan2f( smy - posy(), smx - posx() );
 
-
             // move from -pi to pi, to 0 to 2pi for angles
             if( current_angle < 0 ) {
                 current_angle = current_angle + 2 * pi;
             }
-
 
             // some basic angle inclusion math, but also everything with 15 is still seen
             if( rl_dist( tripoint( point( smx, smy ), pos().z ), pos() ) < 15 ) {
@@ -1508,20 +1494,28 @@ void avatar::update_cardio_acc()
     // This function should be called once every 24 hours,
     // before the front of the calorie diary is reset for the next day.
 
-    // Daily gain or loss is the square root of the difference between
-    // current cardio fitness and the kcals spent in the previous 24 hours.
-    const int cardio_fit = get_cardiofit();
+    // Cardio goal is 1000 times the ratio of kcals spent versus bmr,
+    // giving a default of 1000 for no extra activity.
+    const int bmr = get_bmr();
     const int last_24h_kcal = calorie_diary.front().spent;
 
-    // If we burned kcals beyond our current fitness level, gain some cardio.
-    // Or, if we burned fewer kcals than current fitness, lose some cardio.
+    const int cardio_goal = ( last_24h_kcal * get_cardio_acc_base() ) / bmr;
+
+    // If cardio accumulator is below cardio goal, gain some cardio.
+    // Or, if cardio accumulator is above cardio goal, lose some cardio.
+    const int cardio_accum = get_cardio_acc();
     int adjustment = 0;
-    if( cardio_fit > last_24h_kcal ) {
-        adjustment = -std::sqrt( cardio_fit - last_24h_kcal );
-    } else if( last_24h_kcal > cardio_fit ) {
-        adjustment = std::sqrt( last_24h_kcal - cardio_fit );
+    if( cardio_accum > cardio_goal ) {
+        adjustment = -std::sqrt( cardio_accum - cardio_goal );
+    } else if( cardio_goal > cardio_accum ) {
+        adjustment = std::sqrt( cardio_goal - cardio_accum );
     }
-    set_cardio_acc( get_cardio_acc() + adjustment );
+
+    // Set a large sane upper limit to cardio fitness. This could be done
+    // asymptotically instead of as a sharp cutoff, but the gradual growth
+    // rate of cardio_acc should accomplish that naturally.
+    set_cardio_acc( clamp( cardio_accum + adjustment, get_cardio_acc_base(),
+                           get_cardio_acc_base() * 3 ) );
 }
 
 void avatar::advance_daily_calories()
@@ -1576,6 +1570,38 @@ void avatar::add_gained_calories( int cal )
 void avatar::log_activity_level( float level )
 {
     calorie_diary.front().activity_levels[level]++;
+}
+
+avatar::daily_calories::daily_calories()
+{
+    activity_levels.emplace( NO_EXERCISE, 0 );
+    activity_levels.emplace( LIGHT_EXERCISE, 0 );
+    activity_levels.emplace( MODERATE_EXERCISE, 0 );
+    activity_levels.emplace( BRISK_EXERCISE, 0 );
+    activity_levels.emplace( ACTIVE_EXERCISE, 0 );
+    activity_levels.emplace( EXTRA_EXERCISE, 0 );
+}
+
+void avatar::daily_calories::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    json.member( "spent", spent );
+    json.member( "gained", gained );
+    json.member( "ingested", ingested );
+    save_activity( json );
+
+    json.end_object();
+}
+
+void avatar::daily_calories::deserialize( const JsonObject &data )
+{
+    data.read( "spent", spent );
+    data.read( "gained", gained );
+    data.read( "ingested", ingested );
+    if( data.has_member( "activity" ) ) {
+        read_activity( data );
+    }
 }
 
 void avatar::daily_calories::save_activity( JsonOut &json ) const
@@ -2044,4 +2070,14 @@ bool avatar::query_yn( const std::string &mes ) const
 void avatar::set_location( const tripoint_abs_ms &loc )
 {
     Creature::set_location( loc );
+}
+
+void monster_visible_info::remove_npc( npc *n )
+{
+    for( auto &t : unique_types ) {
+        auto it = std::find( t.begin(), t.end(), n );
+        if( it != t.end() ) {
+            t.erase( it );
+        }
+    }
 }

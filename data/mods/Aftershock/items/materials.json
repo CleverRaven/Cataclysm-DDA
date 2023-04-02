@@ -39,7 +39,7 @@
   {
     "type": "material",
     "id": "vacuum_carbide",
-    "name": "Vacuum-cast carbide",
+    "name": "Vacuum-cast Carbide",
     "density": 18,
     "bash_resist": 8,
     "cut_resist": 14,
@@ -56,7 +56,7 @@
   {
     "type": "material",
     "id": "nanoprinted_alloy",
-    "name": "Nanoprinted alloy mesh",
+    "name": "Nanoprinted Alloy Mesh",
     "density": 6,
     "bash_resist": 4,
     "cut_resist": 6,
@@ -73,7 +73,7 @@
   {
     "type": "material",
     "id": "clearcrete",
-    "name": "clearcrete",
+    "name": "Clearcrete",
     "density": 40,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
@@ -88,6 +88,22 @@
     "repaired_with": "scrap",
     "dmg_adj": [ "scratched", "cut", "cracked", "shattered" ],
     "bash_dmg_verb": "cracked",
+    "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "material",
+    "id": "enamel",
+    "name": "Enamel",
+    "density": 6,
+    "bash_resist": 4,
+    "cut_resist": 7,
+    "bullet_resist": 6,
+    "acid_resist": 2,
+    "fire_resist": 4,
+    "elec_resist": 8,
+    "chip_resist": 2,
+    "dmg_adj": [ "scratched", "chipped", "cracked", "shattered" ],
+    "bash_dmg_verb": "chipped",
     "cut_dmg_verb": "scratched"
   }
 ]

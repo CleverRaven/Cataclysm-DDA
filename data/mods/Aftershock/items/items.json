@@ -225,5 +225,19 @@
     "symbol": "[",
     "color": "light_gray",
     "flags": [ "STURDY" ]
+  },
+  {
+    "id": "afs_glass_device",
+    "type": "ARMOR",
+    "name": { "str": "glass device" },
+    "description": "This transparent slate of computation glass was once an incredibly versatile hypercloud access point.  With all its functions dependent on a now broken FTL communications network, it's not really useful for anything.",
+    "weight": "80 g",
+    "volume": "80 ml",
+    "price": 700,
+    "price_postapoc": 500,
+    "material": [ "glass" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "flags": [ "STURDY" ]
   }
 ]

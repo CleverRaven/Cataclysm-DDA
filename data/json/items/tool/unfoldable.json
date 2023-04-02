@@ -47,7 +47,7 @@
     "type": "TOOL",
     "copy-from": "generic_folded_vehicle",
     "name": { "str": "inflatable boat" },
-    "description": "This rubber rowboat (oars included) is deflated for storage.  Activate it, having an air pump in inventory, to inflate and launch.",
+    "description": "This rubber rowboat (with oars included) is deflated for storage.  Activate it with an air pump in your inventory to inflate and launch it.",
     "weight": "32420 g",
     "volume": "9000 ml",
     "symbol": "0",

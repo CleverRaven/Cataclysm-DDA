@@ -301,7 +301,9 @@ void scen_blacklist::load_scen_blacklist( const JsonObject &jo, const std::strin
 void scen_blacklist::load( const JsonObject &jo, const std::string & )
 {
     if( !scenarios.empty() ) {
-        jo.throw_error( "Attempted to load scenario blacklist with an existing scenario blacklist" );
+        DebugLog( D_INFO, DC_ALL ) <<
+                                   "Attempted to load scenario blacklist with an existing scenario blacklist, resetting blacklist info";
+        reset_scenarios_blacklist();
     }
 
     const std::string bl_stype = jo.get_string( "subtype" );
@@ -467,7 +469,7 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-cata::optional<achievement_id> scenario::get_requirement() const
+std::optional<achievement_id> scenario::get_requirement() const
 {
     return _requirement;
 }
@@ -545,9 +547,11 @@ time_point scenario::start_of_game() const
 {
     time_point ret;
 
+    const int options_start_hour = get_option<int>( "INITIAL_TIME" );
+
     if( custom_start_date() ) {
         ret = calendar::turn_zero
-              + 1_hours * start_hour()
+              + 1_hours * ( options_start_hour == -1 ? rng( 0, 23 ) : start_hour() )
               + 1_days * start_day()
               + 1_days * get_option<int>( "SEASON_LENGTH" ) * start_season()
               + calendar::year_length() * ( start_year() - 1 );
@@ -558,7 +562,7 @@ time_point scenario::start_of_game() const
         }
     } else {
         ret = start_of_cataclysm()
-              + 1_hours * get_option<int>( "INITIAL_TIME" )
+              + 1_hours * ( options_start_hour == -1 ? rng( 0, 23 ) : options_start_hour )
               + 1_days * get_option<int>( "SPAWN_DELAY" );
     }
     return ret;

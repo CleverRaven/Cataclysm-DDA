@@ -73,8 +73,8 @@
       [ "bio_probability_travel", 10 ],
       [ "bio_laser", 10 ],
       [ "bio_emp", 10 ],
+      [ "bio_pitch_perfect", 10 ],
       [ "bio_emp_armgun", 10 ],
-      [ "bio_railgun", 10 ],
       [ "bio_flashbang", 10 ],
       [ "bio_chain_lightning", 10 ],
       [ "bio_power_armor_interface", 10 ],
@@ -92,7 +92,8 @@
       [ "bio_shotgun", 10 ],
       [ "bio_taste_blocker", 10 ],
       [ "bio_soporific", 10 ],
-      [ "bio_recoil", 10 ]
+      [ "bio_recoil", 10 ],
+      [ "bio_fitnessband", 10 ]
     ]
   },
   {
@@ -115,7 +116,8 @@
       [ "bio_ethanol", 10 ],
       [ "bio_watch", 10 ],
       [ "bio_torsionratchet", 10 ],
-      [ "bio_cable", 10 ]
+      [ "bio_cable", 10 ],
+      [ "bio_fitnessband", 10 ]
     ]
   },
   {
@@ -165,7 +167,6 @@
       [ "bio_laser", 10 ],
       [ "bio_emp", 10 ],
       [ "bio_emp_armgun", 10 ],
-      [ "bio_railgun", 10 ],
       [ "bio_flashbang", 10 ],
       [ "bio_chain_lightning", 10 ],
       [ "bio_time_freeze", 10 ],

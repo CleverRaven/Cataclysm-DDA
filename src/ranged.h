@@ -19,7 +19,7 @@ class vehicle;
 struct vehicle_part;
 
 // Recoil change less or equal to this value (in MoA) stops further aiming
-static constexpr double MIN_RECOIL_IMPROVEMENT = 0.01;
+constexpr double MIN_RECOIL_IMPROVEMENT = 0.01;
 
 namespace target_handler
 {
@@ -74,7 +74,6 @@ double calc_steadiness( const Character &you, const item &weapon, const tripoint
                         double predicted_recoil );
 
 double calculate_aim_cap( const Character &you, const tripoint &target );
-
 
 struct Target_attributes {
     int range = 1;

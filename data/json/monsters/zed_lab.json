@@ -37,7 +37,6 @@
     "flags": [
       "SEES",
       "HEARS",
-      "SMELLS",
       "STUMBLES",
       "WARM",
       "BASHES",
@@ -92,20 +91,7 @@
     "death_drops": "mon_zombie_labsecurity_death_drops",
     "upgrades": { "half_life": 35, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "NO_BREATHE",
-      "REVIVES",
-      "PUSH_MON",
-      "FILTHY"
-    ]
+    "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_zombie_phase_skulker",
@@ -123,6 +109,7 @@
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "magenta_white",
+    "scents_tracked": [ "sc_human", "sc_fetid" ],
     "aggression": 100,
     "morale": 100,
     "melee_skill": 4,

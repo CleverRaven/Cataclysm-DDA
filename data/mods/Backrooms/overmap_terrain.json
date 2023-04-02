@@ -11,7 +11,7 @@
     "sym": ".",
     "color": "white",
     "see_cost": 20,
-    "spawns": { "group": "GROUP_BACKROOMS", "population": [ 0, 1 ], "chance": 50 },
+    "spawns": { "group": "GROUP_BACKROOMS", "population": [ 2, 15 ], "chance": 40 },
     "extras": "field"
   },
   {

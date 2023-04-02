@@ -181,14 +181,15 @@
     "category": "container",
     "name": { "str": "mini ammo box", "str_pl": "mini ammo boxes" },
     "description": "A lightweight box, labelled with a big, shiny image of an ammunition cartridge.",
+    "//": "20x308mm, 100x9mm",
     "flags": [ "COLLAPSE_CONTENTS" ],
-    "weight": "12 g",
-    "volume": "170 ml",
+    "weight": "17 g",
+    "volume": "175 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "max_contains_volume": "160 ml",
+        "max_contains_volume": "170 ml",
         "max_contains_weight": "800 g",
         "max_item_length": "100 mm"
       }
@@ -196,17 +197,6 @@
     "material": [ "paper" ],
     "symbol": "□",
     "color": "brown"
-  },
-  {
-    "id": "ammunition_box_9mm",
-    "type": "GENERIC",
-    "copy-from": "ammunition_box_308",
-    "name": { "str": "small ammo box", "str_pl": "small ammo boxes" },
-    "//": "100x9mm",
-    "flags": [ "COLLAPSE_CONTENTS" ],
-    "weight": "17 g",
-    "volume": "175 ml",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "170 ml", "max_contains_weight": "450 g" } ]
   },
   {
     "id": "ammunition_box_223",

@@ -191,6 +191,7 @@ void zone_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "description", desc_, translation() );
     optional( jo, was_loaded, "can_be_personal", can_be_personal );
+    optional( jo, was_loaded, "hidden", hidden );
 }
 
 shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
@@ -530,7 +531,7 @@ void plot_options::deserialize( const JsonObject &jo_zone )
     jo_zone.read( "seed", seed );
 }
 
-cata::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
+std::optional<std::string> zone_manager::query_name( const std::string &default_name ) const
 {
     string_input_popup popup;
     popup
@@ -545,7 +546,7 @@ cata::optional<std::string> zone_manager::query_name( const std::string &default
     }
 }
 
-cata::optional<zone_type_id> zone_manager::query_type( bool personal ) const
+std::optional<zone_type_id> zone_manager::query_type( bool personal ) const
 {
     const auto &types = get_manager().get_types();
 
@@ -559,8 +560,10 @@ cata::optional<zone_type_id> zone_manager::query_type( bool personal ) const
             }
         }
     } else {
-        std::copy( types.begin(), types.end(),
-                   std::back_inserter<std::vector<std::pair<zone_type_id, zone_type>>>( types_vec ) );
+        std::copy_if( types.begin(), types.end(), std::back_inserter( types_vec ),
+        []( std::pair<zone_type_id, zone_type> const & it ) {
+            return !it.first.is_valid() || !it.first->hidden;
+        } );
     }
     std::sort( types_vec.begin(), types_vec.end(),
     []( const std::pair<zone_type_id, zone_type> &lhs, const std::pair<zone_type_id, zone_type> &rhs ) {
@@ -626,7 +629,7 @@ bool zone_data::set_type()
 }
 
 void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
-                              const bool manual, bool update_avatar )
+                              const bool manual, bool update_avatar, bool skip_cache_update )
 {
     if( is_vehicle && manual ) {
         debugmsg( "Tried moving a lootzone bound to a vehicle part" );
@@ -635,7 +638,9 @@ void zone_data::set_position( const std::pair<tripoint, tripoint> &position,
     start = position.first;
     end = position.second;
 
-    zone_manager::get_manager().cache_data( update_avatar );
+    if( !skip_cache_update ) {
+        zone_manager::get_manager().cache_data( update_avatar );
+    }
 }
 
 void zone_data::set_enabled( const bool enabled_arg )
@@ -898,9 +903,13 @@ bool zone_manager::custom_loot_has( const tripoint_abs_ms &where, const item *it
         bool has = false;
         if( ztype == zone_type_LOOT_CUSTOM ) {
             auto const z = item_filter_from_string( filter_string );
-            has = z( *check_it );
+            has = z( *check_it ) || ( check_it != it && z( *it ) );
         } else if( ztype == zone_type_LOOT_ITEM_GROUP ) {
-            has = item_group::group_contains_item( item_group_id( filter_string ), check_it->typeId() );
+            has = item_group::group_contains_item( item_group_id( filter_string ),
+                                                   check_it->typeId() ) ||
+                  ( check_it != it &&
+                    item_group::group_contains_item( item_group_id( filter_string ),
+                            it->typeId() ) );
         }
         if( has ) {
             return true;
@@ -942,11 +951,11 @@ std::unordered_set<tripoint_abs_ms> zone_manager::get_near( const zone_type_id &
     return near_point_set;
 }
 
-cata::optional<tripoint_abs_ms> zone_manager::get_nearest( const zone_type_id &type,
+std::optional<tripoint_abs_ms> zone_manager::get_nearest( const zone_type_id &type,
         const tripoint_abs_ms &where, int range, const faction_id &fac ) const
 {
     if( range < 0 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     tripoint_abs_ms nearest_pos( INT_MIN, INT_MIN, INT_MIN );
@@ -975,7 +984,7 @@ cata::optional<tripoint_abs_ms> zone_manager::get_nearest( const zone_type_id &t
         }
     }
     if( nearest_dist > range ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return nearest_pos;
 }
@@ -1011,12 +1020,12 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         }
     }
 
-    cata::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
+    std::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
     if( zone_check_first && has_near( *zone_check_first, where, range, fac ) ) {
         return *zone_check_first;
     }
 
-    cata::optional<zone_type_id> zone_cat = cat.zone();
+    std::optional<zone_type_id> zone_cat = cat.zone();
     if( zone_cat && has_near( *zone_cat, where, range, fac ) ) {
         return *cat.zone();
     }
@@ -1145,7 +1154,6 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
     auto nz = vehicle.loot_zones.emplace( mount_point, new_zone );
     map &here = pmap == nullptr ? get_map() : *pmap;
     here.register_vehicle_zone( &vehicle, here.get_abs_sub().z() );
-    vehicle.zones_dirty = false;
     added_vzones.push_back( &nz->second );
     cache_vzones( pmap );
 }
@@ -1529,11 +1537,10 @@ void zone_manager::revert_vzones()
     map &here = get_map();
     for( zone_data zone : removed_vzones ) {
         //Code is copied from add() to avoid yn query
-        if( const cata::optional<vpart_reference> vp = here.veh_at( here.getlocal(
+        if( const std::optional<vpart_reference> vp = here.veh_at( here.getlocal(
                     zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
             zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), zone );
-            vp->vehicle().zones_dirty = false;
             here.register_vehicle_zone( &vp->vehicle(), here.get_abs_sub().z() );
             cache_vzones();
         }

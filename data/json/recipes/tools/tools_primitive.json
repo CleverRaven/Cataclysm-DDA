@@ -54,7 +54,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "skill_penalty": 0 } ],
     "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
   },
   {
@@ -73,7 +73,7 @@
       { "id": "CUT", "level": 2 },
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "skill_penalty": 0 } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "2x4", 1 ] ],
@@ -97,7 +97,7 @@
       { "id": "CUT", "level": 2 },
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
-    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "fail_multiplier": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "skill_penalty": 0 } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "log", 1 ] ],
@@ -121,7 +121,7 @@
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "copper_scrap_equivalent", 50, "LIST" ] ],
+      [ [ "scrap_copper", 1 ] ],
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
     ]
   },
@@ -253,7 +253,7 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "clay_quern",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -278,20 +278,7 @@
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 2 ], [ "2x4", 1 ] ], [ [ "splinter", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "fire_drill",
-    "id_suffix": "refresh",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "time": "2 m",
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "fire_drill", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "components": [ [ [ "stick", 1 ] ], [ [ "splinter", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -304,21 +291,34 @@
     "time": "30 m",
     "autolearn": true,
     "using": [ [ "cordage_short", 1 ] ],
-    "qualities": [ { "id": "CUT", "level": 2 }, { "id": "DRILL_ROCK", "level": 1 } ],
-    "components": [ [ [ "stick", 2 ], [ "2x4", 1 ] ], [ [ "rock", 1 ], [ "ceramic_shard", 1 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1 }, [ { "id": "DRILL_ROCK", "level": 1 }, { "id": "DRILL", "level": 1 } ] ],
+    "components": [ [ [ "stick", 1 ] ], [ [ "rock", 1 ], [ "ceramic_shard", 1 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "fire_drill_large",
-    "id_suffix": "refresh",
+    "result": "notched_plank",
     "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "time": "10 m",
+    "autolearn": true,
+    "result_mult": 4,
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "DRILL_ROCK", "level": 1 } ] ],
+    "flags": [ "FULL_MAGAZINE" ],
+    "components": [ [ [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "notched_stick",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
     "time": "2 m",
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "fire_drill_large", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "result_mult": 4,
+    "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "DRILL_ROCK", "level": 1 } ] ],
+    "flags": [ "FULL_MAGAZINE" ],
+    "components": [ [ [ "stick", 1 ] ] ]
   },
   {
     "type": "recipe",

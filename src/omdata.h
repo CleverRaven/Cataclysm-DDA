@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <list>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -21,7 +22,6 @@
 #include "cube_direction.h"
 #include "enum_bitset.h"
 #include "mapgen_parameter.h"
-#include "optional.h"
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
@@ -42,10 +42,10 @@ struct mapgen_arguments;
 struct oter_t;
 struct overmap_location;
 
-static const overmap_land_use_code_id land_use_code_forest( "forest" );
-static const overmap_land_use_code_id land_use_code_wetland( "wetland" );
-static const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
-static const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
+inline const overmap_land_use_code_id land_use_code_forest( "forest" );
+inline const overmap_land_use_code_id land_use_code_wetland( "wetland" );
+inline const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
+inline const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -232,6 +232,8 @@ struct oter_type_t {
         unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
         std::string extras = "none";
         int mondensity = 0;
+        effect_on_condition_id entry_EOC;
+        effect_on_condition_id exit_EOC;
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
@@ -344,6 +346,14 @@ struct oter_t {
             return type->mondensity;
         }
 
+        effect_on_condition_id get_entry_EOC() const {
+            return type->entry_EOC;
+        }
+
+        effect_on_condition_id get_exit_EOC() const {
+            return type->exit_EOC;
+        }
+
         const overmap_static_spawns &get_static_spawns() const {
             return type->static_spawns;
         }
@@ -416,7 +426,7 @@ struct oter_t {
 // OMSPEC_FREQ determines the length of the side of the square in which each
 // overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
 // into 900 squares; lots of space for interesting stuff!
-static constexpr int OMSPEC_FREQ = 15;
+constexpr int OMSPEC_FREQ = 15;
 
 struct overmap_special_spawns : public overmap_spawns {
     numeric_interval<int> radius;
@@ -459,7 +469,7 @@ struct overmap_special_terrain : overmap_special_locations {
 
 struct overmap_special_connection {
     tripoint p;
-    cata::optional<tripoint> from;
+    std::optional<tripoint> from;
     cube_direction initial_dir = cube_direction::last; // NOLINT(cata-serialize)
     // TODO: Remove it.
     string_id<oter_type_t> terrain;

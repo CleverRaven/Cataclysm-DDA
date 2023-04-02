@@ -17,7 +17,7 @@
   {
     "result": "bipod_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -31,7 +31,7 @@
   {
     "result": "grip_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -45,7 +45,7 @@
   {
     "result": "m203_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -59,7 +59,7 @@
   {
     "result": "m320_mod_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -73,7 +73,7 @@
   {
     "result": "masterkey_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -87,7 +87,7 @@
   {
     "result": "m26_mass_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -101,7 +101,7 @@
   {
     "result": "rm121aux_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -115,7 +115,7 @@
   {
     "result": "u_shotgun_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -129,7 +129,7 @@
   {
     "result": "knife_combat_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -143,7 +143,7 @@
   {
     "result": "sword_bayonet_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -157,7 +157,7 @@
   {
     "result": "offset_sight_rail_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -171,7 +171,7 @@
   {
     "result": "stabilizer_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -185,7 +185,7 @@
   {
     "result": "muzzle_brake_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -199,7 +199,7 @@
   {
     "result": "rifle_scope_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -213,7 +213,7 @@
   {
     "result": "acog_scope_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -281,7 +281,7 @@
   {
     "result": "offset_sights_mod",
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
@@ -874,6 +874,34 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "wooden_grip",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
+    "skill_used": "fabrication",
+    "skills_required": [ [ "gun", 3 ] ],
+    "difficulty": 3,
+    "time": "50 m",
+    "autolearn": true,
+    "book_learn": [
+      [ "manual_fabrication", 2 ],
+      [ "manual_pistol", 3 ],
+      [ "manual_shotgun", 4 ],
+      [ "manual_smg", 4 ],
+      [ "manual_rifle", 4 ],
+      [ "manual_launcher", 4 ]
+    ],
+    "qualities": [
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "CUT", "level": 2 },
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.5 } ],
+    "components": [ [ [ "rolling_pin", 1 ] ], [ [ "nail", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "muzzle_brake",
     "category": "CC_WEAPON",
@@ -1041,7 +1069,6 @@
         [ "glock_31", -1 ],
         [ "glock_21", -1 ],
         [ "glock_20", -1 ],
-        [ "glock_40", -1 ],
         [ "glock_29", -1 ]
       ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
@@ -1064,22 +1091,6 @@
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
     "tools": [ [ [ "tec9", -1 ] ], [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ] ],
     "components": [ [ [ "steel_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "bow_sight",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "fabrication",
-    "skills_required": [ [ "archery", 2 ] ],
-    "difficulty": 3,
-    "time": "30 m",
-    "book_learn": [ [ "manual_gun", 3 ], [ "mag_archery", 2 ], [ "manual_archery", 1 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
   {
     "type": "recipe",

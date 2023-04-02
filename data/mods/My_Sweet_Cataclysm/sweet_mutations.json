@@ -43,9 +43,8 @@
     "vitamin_rates": [ [ "vitC", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ],
     "starting_trait": true,
     "healing_awake": 0.0,
-    "healing_resting": -1.0,
+    "healing_multiplier": 0.0,
     "healthy_rate": 0.0,
-    "bleed_resist": 1000,
     "fat_to_max_hp": 0.1,
     "sweat_multiplier": 0.0,
     "anger_relations": [ [ "MARSHMALLOW", 20 ], [ "GUMMY", 5 ], [ "CHEWGUM", 20 ] ],
@@ -58,6 +57,6 @@
         "bash": 5
       }
     ],
-    "flags": [ "NO_THIRST", "NO_DISEASE", "NO_RADIATION", "NO_MINIMAL_HEALING", "INFECTION_IMMUNE" ]
+    "flags": [ "NO_THIRST", "NO_DISEASE", "NO_RADIATION", "BLEED_IMMUNE", "INFECTION_IMMUNE" ]
   }
 ]

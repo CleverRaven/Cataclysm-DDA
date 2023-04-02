@@ -1,8 +1,6 @@
 #include "cata_catch.h"
 #include "item.h"
 
-
-
 TEST_CASE( "Fuel energy", "[energy]" )
 {
     item battery( "battery" );

@@ -1141,23 +1141,6 @@
     "looks_like": "fd_smoke"
   },
   {
-    "id": "fd_bees",
-    "type": "field_type",
-    "legacy_enum_id": 37,
-    "intensity_levels": [
-      { "name": "some bees", "sym": "8", "dangerous": true },
-      { "name": "swarm of bees", "color": "light_gray" },
-      { "name": "angry swarm of bees", "color": "dark_gray" }
-    ],
-    "percent_spread": 5,
-    "outdoor_age_speedup": "0 turns",
-    "dirty_transparency_cache": true,
-    "priority": 8,
-    "half_life": "100 minutes",
-    "display_items": false,
-    "display_field": true
-  },
-  {
     "id": "fd_incendiary",
     "type": "field_type",
     "legacy_enum_id": 38,
@@ -1637,5 +1620,16 @@
     "half_life": "1 seconds",
     "phase": "solid",
     "display_field": false
+  },
+  {
+    "id": "fd_churned_earth",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "churned earth", "sym": "^", "color": "brown", "dangerous": false } ],
+    "half_life": "1 minute",
+    "accelerated_decay": true,
+    "display_field": true,
+    "display_items": true,
+    "phase": "solid",
+    "looks_like": "t_dirtmound"
   }
 ]

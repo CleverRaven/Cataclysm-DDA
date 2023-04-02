@@ -6,6 +6,7 @@
 #include <functional>
 #include <iosfwd>
 #include <memory>
+#include <optional>
 #include <set>
 #include <vector>
 
@@ -25,7 +26,6 @@
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "point.h"
 #include "projectile.h"
@@ -293,12 +293,10 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                                      sfx::get_heard_angle( target ) );
         }
         // TODO: Z dispersion
-        // If we missed, just draw a straight line.
-        trajectory = line_to( source, target );
-    } else {
-        // Go around obstacles a little if we're on target.
-        trajectory = here.find_clear_path( source, target );
     }
+
+    //Use find clear path to draw the trajectory with optimal initial tile offsets.
+    trajectory = here.find_clear_path( source, target );
 
     add_msg_debug( debugmode::DF_BALLISTIC,
                    "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
@@ -442,10 +440,13 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             // Critter can still dodge the projectile
             // In this case hit_critter won't be set
             if( attack.hit_critter != nullptr ) {
-                const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
-                if( bt_len > 0 ) {
-                    const tripoint &dest = move_along_line( tp, trajectory, bt_len );
-                    here.add_splatter_trail( critter->bloodType(), tp, dest );
+                const field_type_id blood_type = critter->bloodType();
+                if( blood_type ) {
+                    const size_t bt_len = blood_trail_len( attack.dealt_dam.total_damage() );
+                    if( bt_len > 0 ) {
+                        const tripoint &dest = move_along_line( tp, trajectory, bt_len );
+                        here.add_splatter_trail( blood_type, tp, dest );
+                    }
                 }
                 sfx::do_projectile_hit( *attack.hit_critter );
                 has_momentum = false;

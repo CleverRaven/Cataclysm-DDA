@@ -211,16 +211,16 @@ translated:
 const char *translated = pgettext("The color", "blue")
 ```
 
-#### `ngettext()`
+#### `n_gettext()`
 
-Some languages have complex rules for plural forms. `ngettext` can be used to
+Some languages have complex rules for plural forms. `n_gettext` can be used to
 translate these plurals correctly. Its first parameter is the untranslated
 string in singular form, the second parameter is the untranslated string in
 plural form and the third one is used to determine which one of the first two
 should be used at run time:
 
 ```c++
-const char *translated = ngettext("one zombie", "many zombies", num_of_zombies)
+const char *translated = n_gettext("one zombie", "many zombies", num_of_zombies)
 ```
 
 ### `translation`

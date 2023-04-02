@@ -24,7 +24,7 @@
       "x": [ "t_door_metal_pickable", "t_door_metal_c" ],
       "=": "t_wall_glass",
       ".": "t_thconc_floor",
-      "r": "t_carpet_red",
+      "r": "t_carpet_concrete_red",
       "W": "t_window",
       "X": "t_window_bars",
       "|": "t_concrete_wall",
@@ -65,6 +65,7 @@
       "æ": "f_warehouse_shelf",
       "Ë": "f_warehouse_shelf",
       "Ï": "f_warehouse_shelf",
+      "Í": "f_warehouse_shelf",
       "I": "f_filing_cabinet",
       "s": "f_sink",
       "D": "f_dumpster",
@@ -91,33 +92,6 @@
   {
     "type": "palette",
     "id": "farm_supply_looted_palette",
-    "nested": { "|": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 6 ], [ "null", 93 ] ] } }
-  },
-  {
-    "id": "farm_supply_soil_and_sand",
-    "type": "item_group",
-    "subtype": "collection",
-    "items": [
-      { "item": "material_sand", "prob": 50, "charges": 500, "container-item": "bag_canvas" },
-      { "item": "material_soil", "prob": 50, "charges": 500, "container-item": "bag_canvas" }
-    ]
-  },
-  {
-    "id": "farm_supply_rocks",
-    "type": "item_group",
-    "subtype": "collection",
-    "items": [
-      { "item": "rock", "prob": 40, "count": [ 1, 10 ] },
-      { "item": "rock_large", "prob": 10, "count": [ 1, 10 ] },
-      { "item": "rock_flaking", "prob": 20, "count": [ 1, 10 ] },
-      { "item": "flint", "prob": 5, "count": [ 1, 10 ] },
-      { "item": "material_shrd_limestone", "prob": 40, "count": [ 1, 10 ] },
-      { "item": "material_limestone", "prob": 40, "count": [ 1, 10 ] }
-    ]
-  },
-  {
-    "id": "farm_supply_quicklime_and_saltpetre",
-    "type": "item_group",
-    "items": [ [ "material_quicklime", 85 ], { "item": "chem_saltpetre", "prob": 15, "charges-min": 10, "charges-max": 50 } ]
+    "nested": { "|": { "chunks": [ [ "shelter_graffiti", 1 ], [ "general_graffiti", 5 ], [ "null", 94 ] ] } }
   }
 ]

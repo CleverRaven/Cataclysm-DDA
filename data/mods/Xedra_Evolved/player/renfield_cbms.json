@@ -1,0 +1,78 @@
+[
+  {
+    "id": "bio_flesh_roots",
+    "type": "bionic",
+    "name": { "str": "Fleshy Root Structures" },
+    "description": "A fairly disturbing bionic module created by vampires for their servants.  Installed by planting the seed next to the heart inside of the chest, then sealed back up, the remainder of the surgery the seed spreads its root structures across the body and limbs.  The roots large enough to help obstruct damage to the body don't extend into the feet and hands but they do wrap around the skull in places.  They take up very little space for a body plus limbs CBM running mostly along the top layers of the skin.  Rumored to grow denser and thicker as they age over decades and centuries.",
+    "occupied_bodyparts": [ [ "torso", 4 ], [ "head", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 2 ], [ "leg_r", 2 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "passive_pseudo_items": [ "armor_bio_flesh_roots" ]
+  },
+  {
+    "id": "bio_fuel_cell_vamp_blood",
+    "type": "bionic",
+    "name": { "str": "Vampire Blood Power Generator" },
+    "description": "Embedded into your back and connected to your bionic power supply is a device to convert the blood of vampires to produce a facsimile of bionic power.  It can store up to 100 mL of blood.  For unknown reasons if installed into an active vampire it will not function when filled with its bearers blood.  No one who talks about it knows why.",
+    "occupied_bodyparts": [ [ "torso", 8 ] ],
+    "fuel_options": [ "vampire_blood" ],
+    "fuel_efficiency": 0.6,
+    "exothermic_power_gen": false,
+    "time": "6 s",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_POWER_SOURCE" ],
+    "passive_pseudo_items": [ "integrated_vamp_blood_bank" ]
+  },
+  {
+    "id": "integrated_vamp_blood_bank",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "internal vampire blood bank" },
+    "description": "Internal tank for vampire blood power generator bionic.",
+    "volume": "251 ml",
+    "weight": "1 g",
+    "price": 0,
+    "material": [ "plastic" ],
+    "symbol": "(",
+    "color": "magenta",
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "NO_REPAIR", "ALLOWS_NATURAL_ATTACKS", "BIONIC_FUEL_SOURCE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "250 ml",
+        "max_item_volume": "250 ml",
+        "max_contains_weight": "1 kg",
+        "material_restriction": [ "vampire_blood" ]
+      }
+    ]
+  },
+  {
+    "id": "xe_bio_chiropteran_signal",
+    "type": "bionic",
+    "name": { "str": "Chiropteran Vocal Cords" },
+    "description": "Your vocal cords have been enhanced, able to resonate like a bat to draw in a swarm to protect you.",
+    "occupied_bodyparts": [ [ "mouth", 1 ] ],
+    "flags": [ "USES_BIONIC_POWER" ],
+    "activated_eocs": [ "EOC_SUMMON_BAT_SWARM" ],
+    "act_cost": "100 J"
+  },
+  {
+    "id": "xe_bio_xl_chiropteran_signal",
+    "type": "bionic",
+    "name": { "str": "Desmodontinae Gargantua Vocalizer" },
+    "description": "Your vocal cords have been reinforced and enlarged.  You can make a strange noise with it, but you don't know what it's supposed to communicate.",
+    "occupied_bodyparts": [ [ "mouth", 2 ] ],
+    "flags": [ "USES_BIONIC_POWER" ],
+    "activated_eocs": [ "EOC_SUMMON_XL_BAT" ],
+    "act_cost": "50 J"
+  },
+  {
+    "id": "xe_bio_spore_enhancer",
+    "type": "bionic",
+    "name": { "str": "Crypt Spore Enhancement System" },
+    "description": "There are fungi that grow in the corpse dirt that vampires rest in.  In unexposed humans these fungal spores can cause crippling coughing fits and even death.  But when treated with a solution made of vampire blood or harvested straight from the still-warm lungs of a previous recipient they can be migrated into a living host body where they will speed up reactions and increase strength slightly.",
+    "occupied_bodyparts": [ [ "torso", 2 ], [ "arm_l", 2 ], [ "arm_r", 2 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "stat_bonus": [ [ "STR", 1 ], [ "DEX", 1 ] ],
+    "flags": [ "BIONIC_NPC_USABLE" ]
+  }
+]

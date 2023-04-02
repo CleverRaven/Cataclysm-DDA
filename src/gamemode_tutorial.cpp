@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <iosfwd>
 #include <memory>
+#include <optional>
 
 #include "action.h"
 #include "avatar.h"
@@ -19,7 +20,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -132,8 +132,10 @@ bool tutorial_game::init()
 {
     // TODO: clean up old tutorial
 
-    // Start at noon at the end of the spring to prevent freezing
+    // Start at noon at the end of the spring and set a fixed temperature of 20 degrees to prevent freezing
     calendar::turn = calendar::start_of_cataclysm + 8_weeks + 12_hours;
+    get_weather().forced_temperature = units::from_celsius( 20 );
+
     tutorials_seen.clear();
     get_scent().reset();
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
@@ -200,7 +202,7 @@ void tutorial_game::per_turn()
         add_message( tut_lesson::LESSON_PAIN );
     }
 
-    if( player_character.get_stamina() <= 9000 ) {
+    if( player_character.get_stamina() <= 8000 ) {
         add_message( tut_lesson::LESSON_RESTORE_STAMINA );
     }
 

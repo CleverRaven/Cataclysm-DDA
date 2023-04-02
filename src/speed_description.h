@@ -13,7 +13,6 @@ template<typename T>
 class generic_factory;
 class speed_description_value;
 
-
 class speed_description
 {
     public:

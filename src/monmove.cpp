@@ -86,6 +86,9 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     if( fid == fd_web ) {
         return has_flag( MF_WEBWALK );
     }
+    if( fid == fd_sludge || fid == fd_sap ) {
+        return flies();
+    }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
         return has_flag( MF_NO_BREATHE );
@@ -724,8 +727,8 @@ bool monster::is_aquatic_danger( const tripoint &at_pos ) const
 bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
 {
     if( is_aquatic_danger( at_pos ) && one_in( chance ) ) {
-        die( nullptr );
         add_msg_if_player_sees( at_pos, _( "The %s drowns!" ), name() );
+        die( nullptr );
         return true;
     }
     return false;
@@ -1205,14 +1208,20 @@ void monster::nursebot_operate( Character *dragged_foe )
         if( dragged_foe->has_effect( effect_grabbed ) ) {
 
             const bionic_collection &collec = *dragged_foe->my_bionics;
+            cata_assert( !collec.empty() );
             const int index = rng( 0, collec.size() - 1 );
-            const bionic &target_cbm = collec[index];
+            const bionic *const target_cbm = &collec[index];
+            const bionic &real_target =
+                target_cbm->is_included()
+                ? **dragged_foe->find_bionic_by_uid( target_cbm->get_parent_uid() )
+                : *target_cbm;
 
             //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
             const float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
                                          static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
 
-            get_player_character().uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
+            dragged_foe->cancel_activity();
+            get_player_character().uninstall_bionic( real_target, *this, *dragged_foe, adjusted_skill );
 
             dragged_foe->remove_effect( effect_grabbed );
             remove_effect( effect_dragging );
@@ -1718,9 +1727,18 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
                                 has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ), here.tername( destination ) );
     }
 
+    optional_vpart_position vp_orig = here.veh_at( pos() );
+    if( vp_orig ) {
+        vp_orig->vehicle().invalidate_mass();
+    }
+
     setpos( destination );
     footsteps( destination );
     underwater = will_be_water;
+    optional_vpart_position vp_dest = here.veh_at( destination );
+    if( vp_dest ) {
+        vp_dest->vehicle().invalidate_mass();
+    }
     if( is_hallucination() ) {
         //Hallucinations don't do any of the stuff after this point
         return true;
@@ -1730,11 +1748,11 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         const int sharp_damage = rng( 1, 10 );
         const int rough_damage = rng( 1, 2 );
         if( here.has_flag( ter_furn_flag::TFLAG_SHARP, pos() ) && !one_in( 4 ) &&
-            get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage ) {
+            get_armor_cut( bodypart_id( "torso" ) ) < sharp_damage && get_hp() > sharp_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), sharp_damage );
         }
         if( here.has_flag( ter_furn_flag::TFLAG_ROUGH, pos() ) && one_in( 6 ) &&
-            get_armor_cut( bodypart_id( "torso" ) ) < rough_damage ) {
+            get_armor_cut( bodypart_id( "torso" ) ) < rough_damage && get_hp() > rough_damage ) {
             apply_damage( nullptr, bodypart_id( "torso" ), rough_damage );
         }
     }
@@ -1758,36 +1776,35 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     if( !will_be_water && ( digs() || can_dig() ) ) {
         underwater = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() );
     }
-    // Diggers turn the dirt into dirtmound
+
+    // Digging creatures leave a trail of churned earth
+    // They always leave some on their tile, and larger creatures emit some around themselves as well
     if( digging() && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) ) {
         int factor = 0;
         switch( type->size ) {
-            case creature_size::tiny:
-                factor = 100;
-                break;
-            case creature_size::small:
-                factor = 30;
-                break;
             case creature_size::medium:
-                factor = 6;
+                factor = 4;
                 break;
             case creature_size::large:
                 factor = 3;
                 break;
             case creature_size::huge:
-                factor = 1;
+                factor = 2;
                 break;
             case creature_size::num_sizes:
                 debugmsg( "ERROR: Invalid Creature size class." );
                 break;
+            default:
+                factor = 4;
+                break;
         }
-        // TODO: make this take terrain type into account so diggers traveling under sand will create mounds of sand etc.
-        if( one_in( factor ) ) {
-            here.ter_set( pos(), t_dirtmound );
+        here.add_field( pos(), fd_churned_earth, 2 );
+        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dest ) && one_in( factor ) ) {
+                here.add_field( dest, fd_churned_earth, 2 );
+            }
         }
     }
-
-
 
     // Acid trail monsters leave... a trail of acid
     if( has_flag( MF_ACIDTRAIL ) ) {
@@ -1962,7 +1979,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     Character &player_character = get_player_character();
     // Only print the message when near player or it can get spammy
     if( rl_dist( player_character.pos(), pos() ) < 4 ) {
-        add_msg_if_player_sees( *critter, m_warning, _( "The %1$s tramples %2$s" ),
+        add_msg_if_player_sees( *critter, m_warning, _( "The %1$s tramples %2$s." ),
                                 name(), critter->disp_name() );
     }
 

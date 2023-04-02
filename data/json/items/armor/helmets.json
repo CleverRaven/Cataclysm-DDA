@@ -21,6 +21,57 @@
     "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 55, "covers": [ "head" ] } ]
   },
   {
+    "id": "stockpot_helmet",
+    "repairs_like": "mc_helm_close",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pot great helm" },
+    "description": "An enclosed helmet made from a stock pot with a 'T' crudely carved into the front and a blanket stuffed inside to cushion it.  There are strings tied to the handles to help fasten it to your body, but it's extremely limiting and smothering.",
+    "weight": "3580 g",
+    "volume": "13 L",
+    "price": 4500,
+    "price_postapoc": 50,
+    "bashing": 10,
+    "material": [ "mc_steel", "aluminum" ],
+    "symbol": "[",
+    "looks_like": "helmet_plate",
+    "color": "light_gray",
+    "warmth": 70,
+    "material_thickness": 1,
+    "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ] ],
+    "techniques": [ "WBLOCK_1" ],
+    "armor": [
+      {
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.95 },
+          { "type": "cotton", "covered_by_mat": 98, "thickness": 2.5 },
+          { "type": "aluminum", "covered_by_mat": 40, "thickness": 4.0 }
+        ],
+        "covers": [ "head" ],
+        "coverage": 92,
+        "layers": [ "NORMAL", "OUTER" ],
+        "encumbrance_modifiers": [ "RESTRICTS_NECK", "IMBALANCED" ]
+      },
+      {
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.95 } ],
+        "covers": [ "eyes" ],
+        "coverage": 90,
+        "encumbrance": 25,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      },
+      {
+        "material": [ { "type": "mc_steel", "covered_by_mat": 100, "thickness": 0.95 } ],
+        "covers": [ "mouth" ],
+        "coverage": 80,
+        "encumbrance": 30,
+        "layers": [ "OUTER" ],
+        "rigid_layer_only": true
+      }
+    ],
+    "flags": [ "RAINPROOF", "PADDED", "OUTER" ]
+  },
+  {
     "id": "headgear",
     "repairs_like": "tricorne",
     "type": "ARMOR",
@@ -31,7 +82,7 @@
     "price": 4000,
     "price_postapoc": 250,
     "to_hit": 1,
-    "material": [ "plastic", "leather" ],
+    "material": [ "plastic_pad", "leather" ],
     "symbol": "[",
     "looks_like": "balclava",
     "color": "red",
@@ -39,7 +90,17 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "OVERSIZE", "STURDY" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 75,
+        "covers": [ "head" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.5 }
+        ]
+      }
+    ]
   },
   {
     "id": "helmet_army",
@@ -249,13 +310,13 @@
     "category": "armor",
     "name": { "str": "baseball helmet" },
     "description": "A hard plastic helmet that covers the head and ears.  Designed to protect against a baseball to the head.",
-    "weight": "453 g",
+    "weight": "615 g",
     "volume": "1750 ml",
     "price": 3100,
     "price_postapoc": 250,
     "to_hit": -1,
     "bashing": 7,
-    "material": [ "plastic", "iron" ],
+    "material": [ "plastic", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "blue",
@@ -264,7 +325,17 @@
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 95, "covers": [ "head" ] } ]
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 95,
+        "covers": [ "head" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 12 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 3 }
+        ]
+      }
+    ]
   },
   {
     "id": "helmet_barbute",
@@ -316,20 +387,29 @@
     "category": "armor",
     "name": { "str": "bike helmet" },
     "description": "A thick foam helmet.  Designed to protect against concussion.",
-    "weight": "270 g",
+    "weight": "400 g",
     "volume": "1500 ml",
     "price": 17000,
     "price_postapoc": 250,
     "bashing": 4,
-    "material": [ "plastic" ],
+    "material": [ "plastic", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "dark_gray",
     "warmth": 15,
-    "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "PADDED" ],
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 75, "covers": [ "head" ] } ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 75,
+        "covers": [ "head" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 1.5 }
+        ]
+      }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -476,22 +556,43 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "football helmet" },
-    "description": "A heavy polycarbonate helmet normally worn by football players.",
+    "description": "A heavy polycarbonate helmet normally worn by football players.  It comes with a visor to protect the eyes.",
     "weight": "1360 g",
     "volume": "2250 ml",
     "price": 19800,
     "price_postapoc": 250,
-    "material": [ "thermo_resin" ],
+    "material": [ "thermo_resin", "plastic_pad" ],
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "yellow",
     "armor": [
-      { "covers": [ "head" ], "coverage": 95, "encumbrance_modifiers": [ "NONE" ] },
-      { "covers": [ "eyes" ], "rigid_layer_only": true, "coverage": 75, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "rigid_layer_only": true, "coverage": 85, "encumbrance": 0 }
+      {
+        "covers": [ "head" ],
+        "coverage": 95,
+        "encumbrance_modifiers": [ "NONE" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 14 },
+          { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 3 }
+        ]
+      },
+      {
+        "covers": [ "eyes" ],
+        "rigid_layer_only": true,
+        "coverage": 70,
+        "encumbrance": 5,
+        "breathability": "POOR",
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 4 } ]
+      },
+      {
+        "covers": [ "mouth" ],
+        "rigid_layer_only": true,
+        "coverage": 85,
+        "encumbrance": 0,
+        "breathability": "GOOD",
+        "material": [ { "type": "thermo_resin", "covered_by_mat": 100, "thickness": 4 } ]
+      }
     ],
     "warmth": 10,
-    "material_thickness": 4,
     "flags": [ "WATER_FRIENDLY", "PADDED" ]
   },
   {
@@ -586,7 +687,7 @@
     "category": "armor",
     "name": { "str": "leather armor helmet" },
     "description": "A thick leather helmet that provides excellent protection for the head.",
-    "weight": "435 g",
+    "weight": "658 g",
     "volume": "2 L",
     "price": 14000,
     "price_postapoc": 2000,
@@ -595,7 +696,7 @@
     "looks_like": "hat_hard",
     "color": "brown",
     "warmth": 10,
-    "material_thickness": 3,
+    "material_thickness": 4.5,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY" ],
     "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ]
@@ -625,7 +726,7 @@
     "name": { "str": "wolf skull helmet" },
     "description": "The top part of a large wolf skull, equipped with leather straps to secure it on your head.  Every inch of the skull has been carved with a maze of fine, intertwined symbols that make your eyes water.",
     "weight": "1 kg",
-    "volume": "3 L",
+    "volume": "4 L",
     "price": 1400,
     "price_postapoc": 200,
     "material": [ "leather", "bone" ],
@@ -633,7 +734,7 @@
     "color": "dark_gray",
     "material_thickness": 3,
     "flags": [ "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 85, "covers": [ "head" ] } ]
+    "armor": [ { "encumbrance_modifiers": [ "IMBALANCED" ], "coverage": 35, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_liner",
@@ -669,14 +770,15 @@
     "price_postapoc": 750,
     "to_hit": -1,
     "bashing": 7,
-    "material": [ "plastic", "epoxy" ],
+    "material": [ "plastic", "epoxy", "plastic_pad" ],
     "symbol": "[",
     "color": "dark_gray",
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 16 }
         ],
         "covers": [ "head" ],
         "coverage": 100,
@@ -732,8 +834,9 @@
     "armor": [
       {
         "material": [
-          { "type": "plastic", "covered_by_mat": 100, "thickness": 3.0 },
-          { "type": "epoxy", "covered_by_mat": 100, "thickness": 1.0 }
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "epoxy", "covered_by_mat": 100, "thickness": 0.5 },
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 16 }
         ],
         "encumbrance_modifiers": [ "RESTRICTS_NECK", "WELL_SUPPORTED" ],
         "coverage": 100,
@@ -1645,5 +1748,89 @@
     "use_action": { "type": "transform", "msg": "You lower the helm's visor.", "target": "xl_qt_helm_close", "menu_text": "Lower" },
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "airsoft_helmet",
+    "repairs_like": "xlkevlar",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "airsoft helmet" },
+    "description": "A lightweight helmet that is fashioned to look like a real military helmet, but is made of plastic and only protects against BB's and other light threats.  It has a military rail system for attachments.",
+    "weight": "455 g",
+    "volume": "1850 ml",
+    "price": 6000,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": [ "plastic", "plastic_pad" ],
+    "symbol": "[",
+    "looks_like": "helmet_army",
+    "color": "dark_gray",
+    "warmth": 15,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "WATERPROOF", "PADDED" ],
+    "armor": [
+      {
+        "encumbrance_modifiers": [ "NONE" ],
+        "coverage": 85,
+        "covers": [ "head" ],
+        "material": [
+          { "type": "plastic_pad", "covered_by_mat": 100, "thickness": 6 },
+          { "type": "plastic", "covered_by_mat": 100, "thickness": 2.5 }
+        ]
+      }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "500 g",
+        "moves": 250,
+        "description": "Pocket for a face shield or a shield visor.",
+        "flag_restriction": [ "HELMET_FACE_SHIELD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for an ear attachment.",
+        "flag_restriction": [ "HELMET_EAR_ATTACHMENT" ],
+        "inherits_flags": true
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "250 g",
+        "moves": 250,
+        "description": "Pocket for a nape protector.",
+        "flag_restriction": [ "HELMET_NAPE_PROTECTOR" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "ablative": true,
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a rail-mounted mandible guard.",
+        "flag_restriction": [ "HELMET_MANDIBLE_GUARD", "HELMET_MANDIBLE_GUARD_STRAPPED" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "volume_encumber_modifier": 0,
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "400 g",
+        "moves": 250,
+        "description": "Pocket for a counterweight pouch.",
+        "flag_restriction": [ "HELMET_BACK_POUCH" ]
+      }
+    ]
   }
 ]
