@@ -2436,7 +2436,7 @@
     "name": "Big-Bore Hunter",
     "description": "You always harbored a passion for hunting and a particular fondness for big-bore rifle calibers and affordable conversion kits.  Whether it was their cost-effective nature or the simple, testosterone-amplifying notion that you could retool your rifle to belt out .50-caliber bullets, you preferred them for your hunting trips.  Now, with your converted rifle in hand, you fancy that there isn't any game too large for you to take down.",
     "points": 2,
-    "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "rifle" } ],
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "rifle" } ],
     "items": {
       "both": {
         "items": [
