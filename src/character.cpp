@@ -1716,6 +1716,9 @@ bool Character::is_dead_state() const
 
 void Character::on_try_dodge()
 {
+    // Each attempt consumes an available dodge
+    dodges_left--;
+
     const int base_burn_rate = get_option<int>( STATIC( "PLAYER_BASE_STAMINA_BURN_RATE" ) );
     mod_stamina( -base_burn_rate * 6 );
     set_activity_level( EXTRA_EXERCISE );
@@ -1723,10 +1726,6 @@ void Character::on_try_dodge()
 
 void Character::on_dodge( Creature *source, float difficulty )
 {
-    // Each avoided hit consumes an available dodge
-    // When no more available we are likely to fail player::dodge_roll
-    dodges_left--;
-
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon.is_gun() ) {
         recoil += std::max( weapon.volume() / 250_ml - get_skill_level( skill_dodge ), 0.0f ) * rng( 0,

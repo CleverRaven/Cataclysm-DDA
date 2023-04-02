@@ -487,7 +487,7 @@ class Creature : public viewer
         */
         void longpull( const std::string &name, const tripoint &p );
 
-        bool dodge_check( float hit_roll, bool force_try = false);
+        bool dodge_check( float hit_roll, bool force_try = false );
         bool dodge_check( monster *z );
         bool dodge_check( monster *z, bodypart_id bp, damage_instance dam_inst );
 
