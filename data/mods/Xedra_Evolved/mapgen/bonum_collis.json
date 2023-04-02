@@ -11,7 +11,7 @@
         "......9..///////..9.....",
         "..9......./////.....9...",
         "..........////..........",
-        "....9......//....9..9..",
+        "....9......//....9..9...",
         "...........//...........",
         "..........|++|......9...",
         "...9.....||  ||.........",
@@ -42,45 +42,26 @@
         "0": "t_window_bars_noglass",
         "+": "t_door_red_c",
         "9": [
-          "t_tree_blackjack",
-          [ "t_tree_walnut", 5 ],
-          [ "t_tree_chestnut", 5 ],
-          "t_tree_beech",
-          "t_tree_hazelnut",
-          "t_tree_cottonwood",
+          [ "t_tree_pomegranate", 5 ],
+          [ "t_tree_fig", 5 ],
           [ "t_tree", 5 ],
           [ "t_tree_elm", 3 ],
           "t_tree_dead",
           "t_tree_apple",
-          "t_tree_pear",
-          "t_tree_cherry",
-          "t_tree_peach",
-          "t_tree_apricot",
-          "t_tree_plum",
-          "t_tree_mulberry",
-          "t_tree_elderberry",
-          [ "t_tree_pine", 5 ],
+          [ "t_tree_hawthorn", 5 ],
           "t_tree_birch",
-          [ "t_tree_willow", 3 ],
-          "t_tree_maple",
-          "t_tree_hickory",
-          "t_tree_almond",
-          "t_tree_pecan"
+          [ "t_tree_willow", 3 ]
         ]
       },
       "furniture": {
         "%": [ [ "f_boulder_medium", 2 ], [ "f_boulder_small", 1 ], [ "f_boulder_large", 3 ] ],
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "h": "f_chair",
-        "X": "f_balefire",
+        "X": "xe_f_balefire",
         "t": "f_table",
         "7": "f_bench",
-        "C": "f_throne",
-        "a": "f_rack_coat",
-        "g": "f_statue",
-        "k": "f_floor_lamp",
-        "I": "f_desk",
-        "H": "f_fireplace"
+        "C": "xe_f_throne",
+        "g": "f_statue"
       },
       "items": {
         "g": [
@@ -103,257 +84,6 @@
           { "item": "magic_shop_clothes", "chance": 40, "repeat": [ 1, 2 ] },
           { "item": "enchanted_worn_items", "chance": 20, "repeat": [ 1, 2 ] }
         ]
-      }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "lake_retreat_z1",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "..........|00|..........",
-        ".........||rr||.........",
-        "........||r  r||........",
-        ".......||     y||.......",
-        "......||W c     ||......",
-        "......0s  cu hth 0......",
-        "......0m  cu hth 0......",
-        "......||R c     ||......",
-        ".......||     C||.......",
-        "........||y  a||........",
-        ".........||><||.........",
-        "..........|00|..........",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................"
-      ],
-      "terrain": {
-        " ": "t_floor",
-        ".": "t_open_air",
-        "|": "t_rock_green",
-        "<": "t_wood_stairs_up",
-        ">": "t_wood_stairs_down",
-        "0": "t_window_domestic",
-        "+": "t_door_green_c"
-      },
-      "furniture": {
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "h": "f_chair",
-        "t": "f_table",
-        "R": "f_trashcan",
-        "C": "f_armchair",
-        "a": "f_rack_coat",
-        "k": "f_floor_lamp",
-        "r": "f_rack_wood",
-        "s": "f_sink",
-        "u": "f_stool",
-        "W": "f_woodstove",
-        "c": "f_counter",
-        "m": "f_glass_fridge"
-      },
-      "items": {
-        "c": [
-          { "item": "dishes_utility", "chance": 30 },
-          { "item": "condiments", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "SUS_knife_drawer", "chance": 20, "repeat": [ 1, 2 ] },
-          { "item": "SUS_junk_drawer", "chance": 10, "repeat": [ 1, 2 ] },
-          { "item": "SUS_cookware", "chance": 20 }
-        ],
-        "s": { "item": "oven", "chance": 20, "repeat": [ 2, 4 ] },
-        "m": { "item": "fridge", "chance": 20, "repeat": [ 2, 4 ] },
-        "R": { "item": "trash", "chance": 25, "repeat": [ 1, 2 ] },
-        "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
-        "t": { "item": "condiments", "chance": 25, "repeat": [ 1, 2 ] },
-        "a": { "item": "jackets", "chance": 25, "repeat": [ 1, 2 ] },
-        "r": [
-          { "item": "condiments", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "groce_ingredient", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "groce_bread", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "pantry_liquids", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "dry_goods", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "preserved_food", "chance": 30, "repeat": [ 1, 2 ] }
-        ]
-      }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "lake_retreat_z2",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "..........|00|..........",
-        ".........||s&||.........",
-        "........||c   ||........",
-        ".......||||+|+|||.......",
-        "......||fy  | yg||......",
-        "......0I  dd|I  d0......",
-        "......0IC dd|Ih d0......",
-        "......||g   |  f||......",
-        ".......|||+||+|||.......",
-        "........||    ||........",
-        ".........||<>||.........",
-        "..........|00|..........",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................"
-      ],
-      "terrain": {
-        " ": "t_floor",
-        ".": "t_open_air",
-        "|": "t_rock_blue",
-        "<": "t_wood_stairs_up",
-        ">": "t_wood_stairs_down",
-        "0": "t_window_domestic",
-        "+": "t_door_green_c"
-      },
-      "furniture": {
-        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
-        "h": "f_chair",
-        "t": "f_table",
-        "C": "f_armchair",
-        "g": "f_bookcase",
-        "I": "f_desk",
-        "s": "f_sink",
-        "d": "f_bed",
-        "f": "f_wardrobe",
-        "c": "f_shower"
-      },
-      "toilets": { "&": {  } },
-      "items": {
-        "g": [
-          { "item": "homebooks", "chance": 50, "repeat": [ 2, 4 ] },
-          { "item": "magic_shop_books", "chance": 20 },
-          { "item": "novels", "chance": 80, "repeat": [ 2, 4 ] }
-        ],
-        "I": [
-          { "item": "bedroom", "chance": 70, "repeat": [ 2, 4 ] },
-          { "item": "magic_shop_potions", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "magic_shop_wands", "chance": 15 },
-          { "item": "enchanted_small_items", "chance": 30, "repeat": [ 1, 2 ] }
-        ],
-        "d": { "item": "bed", "chance": 20, "repeat": [ 2, 4 ] },
-        "s": { "item": "softdrugs", "chance": 20, "repeat": [ 2, 4 ] },
-        "c": { "item": "shower", "chance": 25, "repeat": [ 1, 2 ] },
-        "f": [
-          { "item": "enchanted_worn_items", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "enchanted_combat_items", "chance": 10 },
-          { "item": "magic_shop_clothes", "chance": 30, "repeat": [ 1, 2 ] },
-          { "item": "pants", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "shirts", "chance": 50, "repeat": [ 1, 2 ] },
-          { "item": "bags", "chance": 30, "repeat": [ 1, 2 ] }
-        ]
-      }
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "lake_retreat_z3",
-    "object": {
-      "fill_ter": "t_concrete",
-      "rows": [
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "..........|00|..........",
-        ".........||  ||.........",
-        "........00    00........",
-        ".......00  MM  00.......",
-        "......||  MMMM  ||......",
-        "......0h  M$NM  h0......",
-        "......0h  MNNM  h0......",
-        "......||  MMMM  ||......",
-        ".......00  MM  00.......",
-        "........00    00........",
-        ".........||><||.........",
-        "..........|00|..........",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................"
-      ],
-      "terrain": {
-        " ": "t_concrete",
-        ".": "t_open_air",
-        "|": "t_rock_green",
-        ">": "t_wood_stairs_down",
-        "<": "t_wood_stairs_up",
-        "0": "t_laminated_glass",
-        "+": "t_door_green_c",
-        "M": "t_water_pool_shallow",
-        "N": [ "t_shrub_lilac", "t_shrub_hydrangea" ],
-        "$": [ "t_tree_apple", "t_tree_pear", "t_tree_cherry", "t_tree_peach", "t_tree_apricot", "t_tree_plum", "t_tree_willow" ]
-      },
-      "furniture": { "h": "f_bench" },
-      "items": { "h": [ { "item": "enchanted_small_items", "chance": 20 }, { "item": "magic_shop_books", "chance": 30 } ] },
-      "place_npcs": [ { "class": "magus_old", "x": 10, "y": 12 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "lake_retreat_z4",
-    "object": {
-      "fill_ter": "t_concrete",
-      "rows": [
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "..........||||..........",
-        ".........||  ||.........",
-        "........||    ||........",
-        ".......||      ||.......",
-        "......||        ||......",
-        "......|          |......",
-        "......|          |......",
-        "......||        ||......",
-        ".......||      ||.......",
-        "........||    ||........",
-        ".........|||>||.........",
-        "..........||||..........",
-        "........................",
-        "........................",
-        "........................",
-        "........................",
-        "........................"
-      ],
-      "terrain": {
-        " ": "t_glass_roof",
-        ".": "t_open_air",
-        "|": "t_rock_floor_no_roof",
-        ">": "t_wood_stairs_down",
-        "0": "t_laminated_glass"
       }
     }
   },
