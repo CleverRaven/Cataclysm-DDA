@@ -905,7 +905,7 @@ bool gun_actor::call( monster &z ) const
         add_msg_debug( debugmode::DF_MATTACK, "Target %s at range %d", target->disp_name(), dist );
     }
 
-        for( const auto &e : ranges ) {
+    for( const auto &e : ranges ) {
         if( dist >= e.first.first && dist <= e.first.second ) {
             if( untargeted || try_target( z, *target ) ) {
                 shoot( z, aim_at, e.second );
