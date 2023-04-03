@@ -33,6 +33,7 @@
 #include "pimpl.h"
 #include "profession.h"
 #include "proficiency.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -1094,6 +1095,37 @@ static void skip_skill_headers( const std::vector<HeaderSkill> &skillslist, unsi
     }
 }
 
+static int get_line_count( player_display_tab curtab,
+                           Character &you,
+                           std::vector<trait_and_var> &traitslist,
+                           const std::vector<bionic_grouping> &bionicslist,
+                           const std::vector<std::pair<std::string,
+                           std::string>> &effect_name_and_text,
+                           const std::vector<HeaderSkill> &skillslist )
+{
+    switch( curtab ) {
+        case player_display_tab::stats:
+            return 9;
+        case player_display_tab::encumbrance: {
+            const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
+            return bps.size();
+        }
+        case player_display_tab::traits:
+            return traitslist.size();
+        case player_display_tab::bionics:
+            return bionicslist.size();
+        case player_display_tab::effects:
+            return effect_name_and_text.size();
+        case player_display_tab::skills:
+            return skillslist.size();
+        case player_display_tab::proficiencies:
+            return you.display_proficiencies().size();
+        case player_display_tab::num_tabs:
+            cata_fatal( "Invalid curtab" );
+    }
+    return 0;
+}
+
 static bool handle_player_display_action( Character &you, unsigned int &line,
         unsigned int &info_line,
         player_display_tab &curtab, input_context &ctxt, const ui_adaptor &ui_tip,
@@ -1103,7 +1135,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         std::vector<trait_and_var> &traitslist,
         const std::vector<bionic_grouping> &bionicslist,
         const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
-        const std::vector<HeaderSkill> &skillslist, bool customize_character )
+        const std::vector<HeaderSkill> &skillslist, bool customize_character,
+        const std::vector<catacurses::window *> windows,
+        int &mouse_line, bool &header_clicked )
 {
     const auto invalidate_tab = [&]( const player_display_tab tab ) {
         switch( tab ) {
@@ -1133,34 +1167,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         }
     };
 
-    unsigned int line_count = 0;
-    switch( curtab ) {
-        case player_display_tab::stats:
-            line_count = 9;
-            break;
-        case player_display_tab::encumbrance: {
-            const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
-            line_count = bps.size();
-            break;
-        }
-        case player_display_tab::traits:
-            line_count = traitslist.size();
-            break;
-        case player_display_tab::bionics:
-            line_count = bionicslist.size();
-            break;
-        case player_display_tab::effects:
-            line_count = effect_name_and_text.size();
-            break;
-        case player_display_tab::skills:
-            line_count = skillslist.size();
-            break;
-        case player_display_tab::proficiencies:
-            line_count = you.display_proficiencies().size();
-            break;
-        case player_display_tab::num_tabs:
-            cata_fatal( "Invalid curtab" );
-    }
+    unsigned int line_count = get_line_count( curtab, you, traitslist, bionicslist,
+                              effect_name_and_text, skillslist );
+
     if( line_count > 0 ) {
         line = std::clamp( line, 0U, line_count - 1 );
         if( curtab == player_display_tab::skills ) {
@@ -1182,6 +1191,26 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         info_line = 0;
         invalidate_tab( curtab );
         ui_info.invalidate_ui();
+    } else if( action == "MOUSE_MOVE" ) {
+        mouse_line = -1;
+        header_clicked = false;
+        for( int i = 0; i < windows.size(); i++ ) {
+            std::optional<point> p = ctxt.get_coordinates_text( *windows[i] );
+            if( p.has_value() && window_contains_point_relative( *windows[i], p.value() ) ) {
+                invalidate_tab( curtab );
+                curtab = ( player_display_tab )i;
+                invalidate_tab( curtab );
+                line_count = get_line_count( curtab, you, traitslist, bionicslist, effect_name_and_text,
+                                             skillslist );
+                mouse_line = line = std::clamp( p.value().y - 1, 0, ( int )line_count );
+                header_clicked = p.value().y == 0;
+                if( mouse_line > 0 && curtab == player_display_tab::skills &&
+                    skillslist[line].is_header )                     {
+                    mouse_line = line = 0;
+                }
+                break;
+            }
+        }
     } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
         invalidate_tab( curtab );
         curtab = increment_and_wrap( curtab, ( action == "RIGHT" ||
@@ -1199,14 +1228,17 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         }
     } else if( action == "QUIT" ) {
         done = true;
-    } else if( action == "CONFIRM" ) {
+    } else if( action == "CONFIRM" || ( action == "SELECT" && mouse_line != -1 ) ) {
         switch( curtab ) {
             default:
                 break;
             case player_display_tab::stats:
-                if( line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) && you.is_avatar() ) {
+                if( header_clicked ) {
+                    display_bodygraph( you );
+                } else if( line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) && you.is_avatar() ) {
                     you.as_avatar()->upgrade_stat_prompt( static_cast<character_stat>( line ) );
                 }
+
                 invalidate_tab( curtab );
                 break;
             case player_display_tab::skills: {
@@ -1476,6 +1508,9 @@ void Character::disp_info( bool customize_character )
 
     input_context ctxt( "PLAYER_INFO" );
     ctxt.register_navigate_ui_list();
+    ctxt.register_action( "COORDINATE" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "LEFT", to_translation( "Cycle to next category" ) );
     ctxt.register_action( "RIGHT", to_translation( "Cycle to previous category" ) );
     ctxt.register_action( "NEXT_TAB", to_translation( "Cycle to next category" ) );
@@ -1747,12 +1782,23 @@ void Character::disp_info( bool customize_character )
 
     bool done = false;
 
+    std::vector<catacurses::window *> windows;
+    windows.push_back( &w_stats );
+    windows.push_back( &w_encumb );
+    windows.push_back( &w_skills );
+    windows.push_back( &w_traits );
+    windows.push_back( &w_bionics );
+    windows.push_back( &w_effects );
+    windows.push_back( &w_proficiencies );
+    int mouse_line = -1;
+    bool header_clicked = false;
     do {
         ui_manager::redraw_invalidated();
 
         done = handle_player_display_action( *this, line, info_line, curtab, ctxt, ui_tip, ui_info,
                                              ui_stats, ui_encumb, ui_traits, ui_bionics, ui_effects,
                                              ui_skills, ui_proficiencies, traitslist, bionicslist,
-                                             effect_name_and_text, skillslist, customize_character );
+                                             effect_name_and_text, skillslist, customize_character,
+                                             windows, mouse_line, header_clicked );
     } while( !done );
 }
