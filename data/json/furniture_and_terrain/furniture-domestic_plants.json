@@ -252,16 +252,13 @@
       ]
     },
     "bash": {
-        "str_min": 2,
-        "str_max": 6,
-        "sound": "rrrrip!",
-        "sound_fail": "brush.",
-        "sound_vol": 4,
-        "furn_set": "f_planter",
-        "items": [
-          { "item": "withered", "count": [ 1, 2 ] },
-          { "item": "leaves", "count": [ 1, 2 ] }
-        ]
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "rrrrip!",
+      "sound_fail": "brush.",
+      "sound_vol": 4,
+      "furn_set": "f_planter",
+      "items": [ { "item": "withered", "count": [ 1, 2 ] }, { "item": "leaves", "count": [ 1, 2 ] } ]
     },
     "plant_data": { "transform": "f_planter_seedling", "base": "f_planter" }
   },
