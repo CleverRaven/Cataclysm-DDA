@@ -111,6 +111,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     int tfrag_attempts = 5;
     bool collision = false;
     int collision_angle = 0;
+    Creature *const victim;
     while( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
         //Fail if we run out of telefrag attempts
         if( tfrag_attempts-- < 1 ) {
@@ -121,31 +122,13 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             }
             return false;
         }
-        if( collision ) {
-            critter.setpos( target );
-            g->fling_creature( &critter, units::from_degrees( collision_angle - 180 ), 50 );
-            critter.apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
-            critter.apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
-            critter.apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
-            critter.apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
-            critter.apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
-            critter.apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
-            critter.check_dead_state();
-            //player and npc exclusive teleporting effects
-            if( p ) {
-                g->place_player( p->pos() );
-                if( add_teleglow ) {
-                    p->add_effect( effect_teleglow, 30_minutes );
-                }
-            }
-            if( c_is_u ) {
-                g->update_map( *p );
-            }
-            critter.remove_effect( effect_grabbed );
-            return true;
+        //if the thing that was going to be teleported into has a dimensional anchor, break out early and don't teleport.
+        if( poor_soul->as_character() && ( poor_soul->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) || poor_soul->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
+          poor_soul->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
+          return false;
         }
-        //Character *const poor_player = dynamic_cast<Character *>( poor_soul );
         if( force ) {
+            //this should only happen through debug menu, so this won't affect the player.
             poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
             poor_soul->check_dead_state();
         } else if( safe ) {
@@ -157,6 +140,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             }
             return false;
         } else {
+            //we passed all the conditions needed for a teleport accident, so handle messages for teleport accidents here
             const bool poor_soul_is_u = poor_soul->is_avatar();
             if( poor_soul_is_u && display_message ) {
                 add_msg( m_bad, _( "You're blasted with strange energy!" ) );
@@ -171,30 +155,38 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             } else {
                 if( get_player_view().sees( *poor_soul ) ) {
                     if( display_message ) {
-                        add_msg( m_good,
+                        add_msg( m_warning,
                                  _( "%1$s collides with %2$s mid teleport, and they are both knocked away by a violent explosion of energy!" ),
                                  critter.disp_name(), poor_soul->disp_name() );
                     }
                 }
+                //we lose access to poor_soul once this loop breaks, so we need to track it as it is now needed.
+                collision = true;
+                victim = poor_soul;
             }
-            //don't splatter. instead get thrown in a random direction painfully.
-            collision = true;
-            collision_angle = rng( 0, 360 );
-            g->fling_creature( poor_soul, units::from_degrees( collision_angle - 180 ), 50 );
-            explosion_handler::explosion( &critter, target, 25 );
-            poor_soul->remove_effect( effect_grabbed );
-            poor_soul->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
-            poor_soul->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
-            poor_soul->apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
-            poor_soul->apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
-            poor_soul->apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
-            poor_soul->apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
-            poor_soul->check_dead_state();
         }
     }
     critter.setpos( target );
-    if( collision ) {
-        g->fling_creature( &critter, units::from_degrees( collision_angle - 180 ), 50 );
+    //there was a collision with a creature at some point, so handle that.
+    if( collision && victim ) {
+        //determine a random angle to throw the thing it teleported into, then fling it.
+        collision_angle = rng( 0, 360 );
+        g->fling_creature( victim, units::from_degrees( collision_angle - 180 ), 40 );
+        //spawn a mostly cosmetic explosion for flair.
+        explosion_handler::explosion( &critter, target, 10 );
+        //if it was grabbed, it isn't anymore.
+        victim->remove_effect( effect_grabbed );
+        //apply a bunch of damage to it, similar to a tear in reality
+        victim->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
+        victim->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
+        victim->apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
+        victim->apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
+        victim->apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
+        victim->apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
+        victim->check_dead_state();
+        //then, throw the thing that teleported in the opposite direction as the thing it teleported into.
+        g->fling_creature( &critter, units::from_degrees( collision_angle - 180 ), 40 );
+        //do a bunch of damage to it too.
         critter.apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
         critter.apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
         critter.apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
@@ -216,7 +208,3 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     critter.remove_effect( effect_grabbed );
     return true;
 }
-
-
-
-
