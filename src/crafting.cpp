@@ -2178,11 +2178,11 @@ bool Character::craft_consume_tools( item &craft, int multiplier, bool start_cra
         // Account for batch size
         ret *= craft.get_making_batch_size();
 
-        // Only for the next 5% progress
-        ret /= 20;
-
         // In case more than 5% progress was accomplished in one turn
         ret *= multiplier;
+
+        // Only for the next 5% progress
+        ret /= 20;
 
         // If just starting consume the remainder as well
         if( start_craft ) {
