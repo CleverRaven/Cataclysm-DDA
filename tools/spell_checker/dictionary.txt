@@ -2787,6 +2787,7 @@ tetrahedron
 th
 thawb
 themm
+therizinosaurus
 thermochemistry
 thermoplastics
 theropod
