@@ -897,11 +897,11 @@ bool gun_actor::call( monster &z ) const
                 visible_points.push_back( p );
                 if( veh->part_with_feature( p, VPFLAG_CONTROLS, true ) >= 0 &&
                     veh->part_with_feature( p, VPFLAG_ENGINE, true ) >= 0 &&
-                    veh->part_with_feature( p, VPFLAG_WHEEL, true ) >= 0) {
+                    veh->part_with_feature( p, VPFLAG_WHEEL, true ) >= 0 ) {
                     valid_targets.push_back( p );
                 }
             }
-            if( !targets.empty() ) {
+            if( !valid_targets.empty() ) {
                 std::shuffle( valid_targets.begin(), valid_targets.end(), rng_get_seed() );
                 aim_at = valid_targest.back();
             } else if( !visible_points.empty() ) {
