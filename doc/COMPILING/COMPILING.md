@@ -36,17 +36,7 @@ You have three major choices here: GCC, Clang and MXE.
 
 (Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for C++ you'll need to install `g++`.)
 
-Cataclysm is targeting the C++17 standard and that means you'll need a compiler that supports it. You can easily check if your version of `g++` supports C++17 by running:
-
-    $ `g++ --std=c++17`
-    g++: fatal error: no input files
-    compilation terminated.
-
-If you get a line like:
-
-    g++: error: unrecognized command line option ‘--std=c++17’
-
-This means you'll need a newer version of GCC (`g++`).
+Cataclysm is targeting the C++17 standard and that means you'll need a compiler that supports it. You can check if your C++ compiler supports the standard by reading [COMPILER_SUPPORT.md](./COMPILER_SUPPORT.md)
 
 The general rule is the newer the compiler the better.
 
