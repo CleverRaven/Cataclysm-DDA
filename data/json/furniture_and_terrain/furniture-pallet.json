@@ -12,7 +12,7 @@
     "coverage": 60,
     "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
-      "items": [ { "item": "brick", "count": 400 }, { "item": "wood_panel", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [ { "item": "brick", "count": 400 }, { "item": "pallet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
     },
     "bash": {
       "str_min": 30,
@@ -20,9 +20,10 @@
       "sound": "crash!",
       "sound_fail": "bash!",
       "items": [
-        { "item": "rock", "count": [ 5, 8 ] },
-        { "item": "splinter", "count": [ 1, 3 ] },
-        { "item": "brick", "count": [ 8, 12 ] }
+        { "item": "pallet", "count": 1 },
+        { "item": "brick", "count": [ 300, 350 ] },
+        { "item": "brick", "count": [ 30, 50 ], "damage": [ 1, 6 ] },
+        { "item": "plastic_sheet", "count": 1, "damage": [ 2, 5 ] }
       ]
     }
   },
@@ -39,7 +40,7 @@
     "coverage": 60,
     "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT" ],
     "deconstruct": {
-      "items": [ { "item": "brick", "count": 400 }, { "item": "wood_panel", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
+      "items": [ { "item": "brick", "count": 400 }, { "item": "pallet", "count": 1 }, { "item": "plastic_sheet", "count": 1 } ]
     },
     "bash": {
       "str_min": 30,
@@ -47,9 +48,10 @@
       "sound": "crash!",
       "sound_fail": "bash!",
       "items": [
-        { "item": "rock", "count": [ 5, 8 ] },
-        { "item": "splinter", "count": [ 1, 3 ] },
-        { "item": "brick", "count": [ 8, 12 ] }
+        { "item": "pallet", "count": 1 },
+        { "item": "brick", "count": 350 },
+        { "item": "brick", "count": 50, "damage": [ 1, 4 ] },
+        { "item": "plastic_sheet", "count": 1, "damage": [ 2, 4 ] }
       ]
     }
   },
@@ -68,7 +70,7 @@
     "deconstruct": {
       "items": [
         { "item": "material_cement", "container-item": "bag_canvas", "charges": 500, "count": 100 },
-        { "item": "wood_panel", "count": 1 },
+        { "item": "pallet", "count": 1 },
         { "item": "plastic_sheet", "count": 1 }
       ]
     },
@@ -78,9 +80,10 @@
       "sound": "thump!",
       "sound_fail": "thud!",
       "items": [
-        { "item": "material_cement", "container-item": "bag_canvas", "charges": 500, "count": [ 8, 12 ] },
-        { "item": "material_cement", "charges": [ 200, 500 ] },
-        { "item": "splinter", "count": [ 1, 3 ] }
+        { "item": "material_cement", "container-item": "bag_canvas", "charges": 500, "count": [ 80, 90 ] },
+        { "item": "material_cement", "charges": [ 500, 1500 ] },
+        { "item": "bag_canvas", "count": [ 2, 10 ], "damage": [ 1, 5 ] },
+        { "item": "pallet", "count": 1 }
       ]
     }
   },
@@ -96,13 +99,18 @@
     "required_str": -1,
     "coverage": 40,
     "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "EASY_DECONSTRUCT", "FLAMMABLE_ASH" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 120 }, { "item": "rope_6", "count": 2 } ] },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 120 }, { "item": "rope_6", "count": 2 }, { "item": "pallet", "count": 1 } ] },
     "bash": {
       "str_min": 8,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "2x4", "count": [ 16, 24 ] }, { "item": "splinter", "count": [ 20, 48 ] } ]
+      "items": [
+        { "item": "2x4", "count": [ 90, 100 ] },
+        { "item": "2x4", "count": [ 2, 20 ] },
+        { "item": "pallet", "count": 1 },
+        { "item": "rope_6", "count": [ 1, 2 ], "damage": [ 1, 5 ] }
+      ]
     }
   }
 ]
