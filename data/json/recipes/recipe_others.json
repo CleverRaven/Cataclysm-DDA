@@ -3218,7 +3218,7 @@
       { "proficiency": "prof_welding" },
       { "proficiency": "prof_blacksmithing" }
     ],
-    "//": "80 cm weld",
+    "//1": "80 cm weld",
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "using": [ [ "steel_standard", 2 ], [ "welding_standard", 80, "LIST" ], [ "blacksmithing_standard", 8 ] ],
