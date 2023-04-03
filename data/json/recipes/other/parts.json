@@ -328,8 +328,8 @@
     "difficulty": 4,
     "time": "135 m",
     "autolearn": true,
-    "using": [ [ "welding_standard", 10 ] ],
-    "//": "5x5 grid of 20 cm square sheets combined into one big sheet = 800cm of weld. ouch!"
+    "using": [ [ "welding_standard", 800 ] ],
+    "//": "5x5 grid of 20 cm square sheets combined into one big sheet = 800cm of weld. ouch!",
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
