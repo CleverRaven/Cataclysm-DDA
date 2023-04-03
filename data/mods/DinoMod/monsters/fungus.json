@@ -342,6 +342,25 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM" ]
   },
   {
+    "id": "mon_zerizinosaurus_fungus",
+    "type": "MONSTER",
+    "name": { "str": "fungal therizinosaurus zombie" },
+    "description": "Once a huge feathered bipedal plant eating dinosaur with long claws, fungal tendrils now sprout from its mouth, eyes, and other orifices, holding together a shambling mass of mold-covered feathers.",
+    "copy-from": "mon_zerizinosaurus",
+    "default_faction": "fungus",
+    "species": [ "FUNGUS" ],
+    "diff": 2,
+    "proportional": { "hp": 0.75, "speed": 0.65 },
+    "color": "light_gray",
+    "relative": { "melee_skill": -1, "melee_dice": -1, "melee_dice_sides": 3, "armor_bash": 3 },
+    "bleed_rate": 0,
+    "vision_day": 5,
+    "vision_night": 5,
+    "special_attacks": [ [ "FUNGUS", 200 ], [ "LONGSWIPE", 20 ] ],
+    "upgrades": {  },
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "FILTHY", "WARM", "BASHES", "DESTROYS" ]
+  },
+  {
     "id": "mon_zothronychus_fungus",
     "type": "MONSTER",
     "name": { "str": "fungal nothronychus zombie" },
