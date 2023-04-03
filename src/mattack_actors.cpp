@@ -838,6 +838,9 @@ static vehicle *find_target_vehicle( monster &z, int range )
     map &here = get_map();
     vehicle *chosen = nullptr;
     for( wrapped_vehicle &v : here.get_vehicles() ) {
+        if( !z.sees( v.pos ) ) {
+            continue;
+        }
         if( !fov_3d && v.pos.z != z.pos().z ) {
             continue;
         }
