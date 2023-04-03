@@ -1519,7 +1519,7 @@ void options_manager::add_options_general()
 
     add( "FORCE_SMART_CONTROLLER_OFF_ON_ENGINE_STOP", "general",
          to_translation( "Force smart engine controller off" ),
-         to_translation( "If enabled, turn off the smart engine controller when you turn off the engine of the car without an electric motor" ),
+         to_translation( "If enabled, turn off the smart engine controller when you turn off the engine of the car without an electric motor." ),
     {
         { "disabled", to_translation( "options", "Disabled" ) },
         { "enabled", to_translation( "Enabled" ) },
@@ -2736,7 +2736,7 @@ void options_manager::add_options_debug()
 
     add( "PREVENT_OCCLUSION_MAX_DIST", "debug",
          to_translation( "Maximum distance for auto occlusion handling" ),
-         to_translation( "Maximum distance for auto .  Values above zero overwrite tileset settings." ),
+         to_translation( "Maximum distance for auto occlusion handling.  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
 

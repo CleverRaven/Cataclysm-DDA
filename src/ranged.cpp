@@ -1575,6 +1575,15 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         aim_types = you.get_aim_types( weapon );
     }
 
+    // predict how long it'll take to reach from current recoil
+    // to the ui's selected default aim mode threshold.
+    const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
+            ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
+
+    const int selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+
+    const int throw_moves = throw_cost( you, weapon );
+
     for( const aim_type &aim_type : aim_types ) {
         const std::vector<input_event> keys = ctxt.keys_bound_to( aim_type.action.empty() ? "FIRE" :
                                               aim_type.action, /*maximum_modifier_count=*/1 );
@@ -1585,20 +1594,11 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         prediction.hotkey = ( keys.empty() ? input_event() : keys.front() ).short_description();
 
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
-            prediction.moves = throw_cost( you, weapon );
+            prediction.moves = throw_moves;
         } else {
             prediction.moves = you.gun_engagement_moves( weapon, aim_type.threshold, you.recoil, target )
                                + time_to_attack( you, *weapon.type );
         }
-        // predict how long it'll take to reach from current recoil
-        // to the current aim mode's threshold.
-        const recoil_prediction aim_to_type = predict_recoil( you, weapon, target,
-                                              ui.get_sight_dispersion(), aim_type, you.recoil );
-
-        // predict how long it'll take to reach from current recoil
-        // to the ui's selected default aim mode threshold.
-        const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
-                ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
         // if the default method is "behind" the selected; e.g. you are in immediate
         // firing mode with almost close no chances of hitting, but UI has selected
@@ -1609,8 +1609,12 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         // no-op.
         if( prediction.is_default ) {
             prediction.moves += aim_to_selected.moves;
-            prediction.steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+            prediction.steadiness = selected_steadiness;
         } else {
+            // predict how long it'll take to reach from current recoil
+            // to the current aim mode's threshold.
+            const recoil_prediction aim_to_type = ( aim_type == ui.get_selected_aim_type() ) ? aim_to_selected :
+                                                  predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type, you.recoil );
             prediction.steadiness = calc_steadiness( you, weapon, pos, aim_to_type.recoil );
         }
 
