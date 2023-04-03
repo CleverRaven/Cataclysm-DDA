@@ -3534,7 +3534,8 @@ void inventory_multiselector::on_input( const inventory_input &input )
         if( input.action == "SELECT" ) {
             toggle_entries( count );
         }
-    } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
+    }
+    if( input.action == "TOGGLE_NON_FAVORITE" ) {
         toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
     } else if( input.action ==
                "MARK_WITH_COUNT" ) { // Set count and mark selected with specific key
