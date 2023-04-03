@@ -60,7 +60,7 @@
           }
         },
         "text": "Gain [Way Of The Fist]",
-        "topic": "TALK_PERK_MENU_OPENPALM"
+        "topic": "TALK_PERK_MENU_WAYOFTHEFIST"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
@@ -301,7 +301,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_PERK_MENU_OPENPALM",
+    "id": "TALK_PERK_MENU_WAYOFTHEFIST",
     "dynamic_line": "<trait_name:perk_way_openpalm>: \"<trait_description:perk_way_openpalm>\"\nRequires unarmed 2 and cutting 1.\n\n<trait_name:perk_way_closedfist>: \"<trait_description:perk_way_closedfist>\"\nRequires unarmed 2 and bashing 1.\n\n<trait_name:perk_way_pinchedfingers>: \"<trait_description:perk_way_pinchedfingers>\"\nRequires unarmed 2 and piercing 1.",
     "responses": [
       {
