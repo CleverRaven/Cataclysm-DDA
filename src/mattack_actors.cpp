@@ -902,11 +902,9 @@ bool gun_actor::call( monster &z ) const
                 }
             }
             if( !valid_targets.empty() ) {
-                std::shuffle( valid_targets.begin(), valid_targets.end(), rng_get_seed() );
-                aim_at = valid_targest.back();
+                aim_at = random_entry( valid_targets, tripoint_zero );
             } else if( !visible_points.empty() ) {
-                std::shuffle( visible_points.begin(), visible_points.end(), rng_get_seed() );
-                aim_at = visible_points.back();
+                aim_at = random_entry( visible_points, tripoint_zero );
             } else {
                 return false;
             }
