@@ -289,6 +289,14 @@
     "upgrades": { "age_grow": 365, "into": "mon_ornithomimus" }
   },
   {
+    "id": "mon_therizinosaurus_juvenile",
+    "type": "MONSTER",
+    "name": "green and magenta two-legged juvenile",
+    "description": "A large bipedal plant-eating dinosaur juvenile, it could be from a number of different species.",
+    "copy-from": "mon_gallimimus_juvenile",
+    "upgrades": { "age_grow": 365, "into": "mon_therizinosaurus" }
+  },
+  {
     "id": "mon_nothronychus_juvenile",
     "type": "MONSTER",
     "name": "green and magenta two-legged juvenile",
