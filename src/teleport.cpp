@@ -123,9 +123,10 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             return false;
         }
         //if the thing that was going to be teleported into has a dimensional anchor, break out early and don't teleport.
-        if( poor_soul->as_character() && ( poor_soul->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) || poor_soul->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
-          poor_soul->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
-          return false;
+        if( poor_soul->as_character() && ( poor_soul->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
+                                           poor_soul->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
+            poor_soul->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
+            return false;
         }
         if( force ) {
             //this should only happen through debug menu, so this won't affect the player.
