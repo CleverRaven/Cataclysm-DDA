@@ -888,18 +888,28 @@ bool gun_actor::call( monster &z ) const
             if( !veh ) {
                 return false;
             }
-            for( const vpart_reference &vp : veh->get_avail_parts( "CONTROLS" ) ) {
-                if( z.sees( vp.pos() ) ) {
-                    aim_at = vp.pos();
-                    untargeted = true;
+            std::vector<tripoint> valid_targets;
+            std::vector<tripoint> visible_points;
+            for( const tripoint &p : veh->get_points() ) {
+                if( !z.sees( p ) ) {
+                    continue;
+                }
+                visible_points.push_back( p );
+                if( veh->part_with_feature( p, VPFLAG_CONTROLS, true ) >= 0 &&
+                    veh->part_with_feature( p, VPFLAG_ENGINE, true ) >= 0 &&
+                    veh->part_with_feature( p, VPFLAG_WHEEL, true ) >= 0) {
+                    valid_targets.push_back( p );
                 }
             }
-            if( !untargeted ) {
-                untargeted = true;
-                aim_at = veh->global_pos3();
+            if( !targets.empty() ) {
+                std::shuffle( valid_targets.begin(), valid_targets.end(), rng_get_seed() );
+                aim_at = valid_targest.back();
+            } else if( !visible_points.empty() ) {
+                std::shuffle( visible_points.begin(), visible_points.end(), rng_get_seed() );
+                aim_at = visible_points.back();
+            } else {
+                return false;
             }
-        } else {
-            aim_at = target->pos();
         }
     }
 
