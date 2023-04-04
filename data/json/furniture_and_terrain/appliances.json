@@ -424,6 +424,33 @@
   },
   {
     "type": "vehicle_part",
+    "id": "ap_catalytic_cracking_reactor",
+    "name": { "str": "catalytic cracking reactor" },
+    "looks_like": "f_catalytic_cracking_reactor",
+    "symbol": "Y",
+    "color": "light_cyan",
+    "categories": [ "utility" ],
+    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  You can take this down and plug it into your own power grid to use it.",
+    "damage_modifier": 10,
+    "damage_reduction": { "all": 30 },
+    "durability": 80,
+    "flags": [ "OBSTACLE", "APPLIANCE" ],
+    "pseudo_tools": [ { "id": "catalytic_cracking_reactor_tool" } ],
+    "epower": "0 W",
+    "item": "catalytic_cracking_reactor",
+    "breaks_into": [
+        { "item": "element", "charges": [ 4, 8 ] },
+        { "item": "55gal_drum", "count": [ 3, 5 ] },
+        { "item": "pipe", "count": [ 2, 5 ] },
+        { "item": "thermometer", "count": [ 1, 4 ] },
+        { "item": "well_pump", "count": [ 0, 1 ] },
+        { "item": "laptop", "count": [ 0, 1 ] },
+        { "item": "pump_complex", "count": [ 0, 3 ] },
+        { "item": "cable", "count": [ 3, 8 ] }
+      ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "ap_hydraulic_press",
     "name": { "str": "hydraulic press" },
     "looks_like": "f_hydraulic_press",

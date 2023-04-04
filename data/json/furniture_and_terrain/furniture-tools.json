@@ -1044,6 +1044,7 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": 16,
+    "examine_action": { "type": "appliance_convert", "furn_set": "f_null", "item": "catalytic_cracking_reactor" },
     "flags": [ "BLOCKSDOOR", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 40,
