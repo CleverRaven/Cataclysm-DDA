@@ -204,26 +204,110 @@
     "variants": [
       {
         "id": "holybook_talmud_01",
-        "name": { "str": "Talmud, Vol. 1, Tractate Berakhot (Part 1)" },
-        "description": "This is volume 1 of 51, containing the first part of Tractate Berakhot. It is concerned with rules relating to the Shema and the Amidah.",
+        "name": { "str": "Talmud, Vol. 1, Tractate Berakhot (Part 1)", "str_pl": "copies of the Talmud, Vol. 1, Tractate Berakhot (Part 1)" },
+        "description": "This is volume 1 of 51, containing the first part of Tractate Berakhot.  It is concerned with rules relating to the Shema and the Amidah.",
         "append": true
       },
       {
         "id": "holybook_talmud_02",
-        "name": { "str": "Talmud, Vol. 2, Tractate Berakhot (Part 2)" },
-        "description": "This is volume 2 of 51, containing the second part of Tractate Berakhot. It is concerned with rules relating to prayers, primarily those before or after eating but it also touches on prayers that occur on special occasions such as hearing thunder or being unexpectedly delivered from danger.",
+        "name": { "str": "Talmud, Vol. 2, Tractate Berakhot (Part 2)", "str_pl": "copies of the Talmud, Vol. 2, Tractate Berakhot (Part 2)" },
+        "description": "This is volume 2 of 51, containing the second part of Tractate Berakhot.  It is concerned with rules relating to prayers, primarily those before or after eating but it also touches on prayers that occur on special occasions such as hearing thunder or being unexpectedly delivered from danger.",
         "append": true
       },
       {
         "id": "holybook_talmud_03",
-        "name": { "str": "Talmud, Vol. 3, Tractate Pe'ah" },
-        "description": "This is volume 3 of 51, containing Tractate Pe'ah. It is concerned with agriculture, of harvesting, and providing food for the poor.",
+        "name": { "str": "Talmud, Vol. 3, Tractate Pe'ah", "str_pl": "copies of the Talmud, Vol. 3, Tractate Pe'ah" },
+        "description": "This is volume 3 of 51, containing Tractate Pe'ah.  It is concerned with agriculture, of harvesting, and providing food for the poor.",
         "append": true
       },
       {
         "id": "holybook_talmud_04",
-        "name": { "str": "Talmud, Vol. 4, Tractate Demai" },
-        "description": "This is volume 4 of 51, containing Tractate Demai. It is concerned with rules for dubiously-tithed produce.",
+        "name": { "str": "Talmud, Vol. 4, Tractate Demai", "str_pl": "copies of the Talmud, Vol. 4, Tractate Demai" },
+        "description": "This is volume 4 of 51, containing Tractate Demai.  It is concerned with rules for dubiously-tithed produce.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_05",
+        "name": { "str": "Talmud, Vol. 5, Tractate Kilayim", "str_pl": "copies of the Talmud, Vol. 5, Tractate Kilayim" },
+        "description": "This is volume 5 of 51, containing Tractate Kilayim.  It is concerned with prohibitions on the mixing of different kinds, such as wearing wool and linen clothing or planting anything other than grapes in a vineyard.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_06a",
+        "name": { "str": "Talmud, Vol. 6a, Tractate Shevi'it (Part 1)", "str_pl": "copies of the Talmud, Vol. 6a, Tractate Shevi'it (Part 1)" },
+        "description": "This is volume 6a of 51, containing the first part of Tractate Shevi'it.  It is concerned with the Shemitah year, the seventh year where fields must lie fallow.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_06b",
+        "name": { "str": "Talmud, Vol. 6b, Tractate Shevi'it (Part 2)", "str_pl": "copies of the Talmud, Vol. 6b, Tractate Shevi'it (Part 2)" },
+        "description": "This is volume 6b of 51, containing the second part of Tractate Shevi'it.  It continues the discussion of the Shemitah year, the seventh year where fields must lie fallow.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_07",
+        "name": { "str": "Talmud, Vol. 7, Tractate Terumot (Part 1)", "str_pl": "copies of the Talmud, Vol. 7, Tractate Terumot (Part 1)" },
+        "description": "This is volume 7 of 51, containing the first part of Tractate Terumot.  It is concerned with terumot, portions of agriculture produce that are given directly to the Kohanim priestly class.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_08",
+        "name": { "str": "Talmud, Vol. 8, Tractate Terumot (Part 2)", "str_pl": "copies of the Talmud, Vol. 8, Tractate Terumot (Part 2)" },
+        "description": "This is volume 8 of 51, containing the second part of Tractate Terumot.  It is continues the discussion of terumot, portions of agriculture produce that are given directly to the Kohanim priestly class.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_09",
+        "name": { "str": "Talmud, Vol. 9, Tractate Maasrot", "str_pl": "copies of the Talmud, Vol. 9, Tractate Maasrot" },
+        "description": "This is volume 9 of 51, containing Tractate Maasrot.  It is concerned with the separation of the harvest into tithes, and the portions given to the Tribe of Levi, the poor, or the people of Jerusalem.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_10",
+        "name": { "str": "Talmud, Vol. 10, Tractate Maaser Sheni", "str_pl": "copies of the Talmud, Vol. 10, Tractate Maaser Sheni" },
+        "description": "This is volume 10 of 51, containing Tractate Maaser Sheni.  It is concerned with the practice of consuming a portion of the yearly harvest in Jerusalem, or exchanging it for money used to buy food in Jerusalem to hold a feast.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_11",
+        "name": { "str": "Talmud, Vol. 11, Tractate Challah", "str_pl": "copies of the Talmud, Vol. 11, Tractate Challah" },
+        "description": "This is volume 11 of 51, containing Tractate Challah.  It is concerned with the practice of baking bread with the first portion of harvested grain and tithing it as an offering.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_12",
+        "name": { "str": "Talmud, Vol. 12, Tractate Orlah & Bikkurim", "str_pl": "copies of the Talmud, Vol. 12, Tractate Orlah & Bikkurim" },
+        "description": "This is volume 12 of 51, containing Tractates Orlah and Bikkurim.  Both tractates discuss the practice of letting a fruit tree grow for three years before harvesting it.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_13",
+        "name": { "str": "Talmud, Vol. 13, Tractate Shabbat (Part 1)", "str_pl": "copies of the Talmud, Vol. 13, Tractate Shabbat (Part 1)" },
+        "description": "This is volume 13 of 51, containing the first part of Tractate Shabbat.  It discusses the thirty-nine types of prohibited labor",
+        "append: true
+      },
+      {
+        "id": "holybook_talmud_14",
+        "name": { "str": "Talmud, Vol. 14, Tractate Shabbat (Part 2)", "str_pl": "copies of the Talmud, Vol. 14, Tractate Shabbat (Part 2)" },
+        "description": "This is volume 14 of 51, containing the second part of Tractate Shabbat.  It discusses the prohibitions of carrying items or transporting animals on Shabbat.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_15",
+        "name": { "str": "Talmud, Vol. 15, Tractate Shabbat (Part 3)", "str_pl": "copies of the Talmud, Vol. 15, Tractate Shabbat (Part 3)" },
+        "description": "This is volume 15 of 51, containing the third part of Tractate Shabbat.  It discusses the positive commandments of Shabbat, such as lighting candles and eating a festive meal, and continues the discussion of prohibited types of labor.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_16",
+        "name": { "str": "Talmud, Vol. 16, Tractate Eruvin (Part 1)", "str_pl": "copies of the Talmud, Vol. 16, Tractate Eruvin (Part 1)" },
+        "description": "This is volume 16 of 51, containing the first part of Tractate Eruvin.  It discusses the ways to expand the allowable areas in which one may carrying items or transport items on Shabbat.",
+        "append": true
+      },
+      {
+        "id": "holybook_talmud_17",
+        "name": { "str": "Talmud, Vol. 17, Tractate Eruvin (Part 2)", "str_pl": "copies of the Talmud, Vol. 17, Tractate Eruvin (Part 2)" },
+        "description": "This is volume 17 of 51, containing the second part of Tractate Eruvin.  It continues discussing the ways to expand the allowable areas in which one may carrying items or transport items on Shabbat.",
         "append": true
       }
     ]
