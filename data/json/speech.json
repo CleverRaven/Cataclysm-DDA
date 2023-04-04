@@ -2697,38 +2697,38 @@
   {
     "type": "speech",
     "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Stop resisting!\"",
+    "sound": "\"STOP RESISTING!!!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Get on the ground, now!\"",
+    "sound": "\"GET ON THE GROUND, NOW!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Hands where I can see them!\"",
+    "sound": "\"HANDS WHERE I CAN SEE THEM!!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Stop in the name of the law!\"",
+    "sound": "\"STOP IN THE NAME OF THE LAW!!!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"You are under arrest!\"",
+    "sound": "\"YOU ARE UNDER ARREST!\"",
     "volume": 25
   },
   {
     "type": "speech",
     "//": "This appears twice intentionally, to give it more frequency.",
     "speaker": [ "mon_feral_cop" ],
-    "sound": "\"Stop resisting!\"",
+    "sound": "\"STOP RESISTING!!!\"",
     "volume": 25
   },
   {
