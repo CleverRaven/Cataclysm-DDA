@@ -919,7 +919,7 @@
     "points": -2,
     "custom_initial_date": { "hour": 2 },
     "start_name": "Wilderness",
-	"eoc": [ "scenario_surrounded_zombie_heavy" ],
+    "eoc": [ "scenario_surrounded_zombie_heavy" ],
     "allowed_locs": [
       "sloc_campsite",
       "sloc_cabin_lake",
