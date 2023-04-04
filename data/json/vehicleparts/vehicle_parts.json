@@ -1456,7 +1456,7 @@
     "description": "A belt, attached to a seat.",
     "folded_volume": "500 ml",
     "bonus": 10,
-    "item": "rope_6",
+    "item": "seatbelt",
     "location": "on_seat",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
