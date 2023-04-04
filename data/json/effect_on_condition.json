@@ -666,10 +666,10 @@
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
       { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 12, "max_radius": 20 },
-	  { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 12, "max_radius": 20 },
-	  { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
-	  { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
-	  { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 30 }
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 12, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 30 }
     ]
   },
   {
