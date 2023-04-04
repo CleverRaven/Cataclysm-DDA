@@ -2750,7 +2750,7 @@
     "time": "600 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "//1": "50cm weld per frame",
-    "using": [ [ "welding_standard", 500 ],[ "welding_standard", 500 ] ],
+    "using": [ [ "welding_standard", 500 ], [ "welding_standard", 500 ] ],
     "components": [ [ [ "frame", 10 ] ], [ [ "nut_bolt", 200 ] ] ],
     "pre_terrain": "t_concrete",
     "post_terrain": "t_support_l"
