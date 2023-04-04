@@ -852,7 +852,7 @@
       "nco",
       "combat-engineer"
     ],
-	"requirement": "achievement_reach_aircraft_carrier",
+    "requirement": "achievement_reach_aircraft_carrier",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
