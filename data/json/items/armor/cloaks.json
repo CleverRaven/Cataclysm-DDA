@@ -137,7 +137,7 @@
       {
         "id": "leather_pride_flag",
         "name": { "str": "leather flag" },
-        "description": "A large black and blue leather flag.  A horizontally striped black and blue flag with a white band in the middle and red heart in a corner.  The black represents leather; the blue represents devotion, loyalty, and community; the white represents purity and innocence; and the red heart represents love for the community.",
+        "description": "A horizontally striped black and blue leather flag with a white band in the middle and red heart in a corner.  The black represents leather; the blue represents devotion, loyalty, and community; the white represents purity and innocence; and the red heart represents love for the community.",
         "weight": 1
       },
       {
