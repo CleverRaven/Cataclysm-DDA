@@ -366,7 +366,7 @@
     "professions": [ "security" ],
     "allowed_locs": [ "sloc_lab_concourse_area" ],
     "map_extra": "mx_lab_concourse_area",
-	"requirement": "achievement_reach_trans_coast_lab",
+    "requirement": "achievement_reach_trans_coast_lab",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
