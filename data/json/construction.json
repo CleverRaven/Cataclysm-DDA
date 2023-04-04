@@ -2765,7 +2765,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "//1": "3cm per pipe",
     "using": [ [ "welding_standard", 54 ] ],
-    "components": [ [ [ "pipe", 18 ] ],[ [ "pipe_fittings", 6 ] ] ],
+    "components": [ [ [ "pipe", 18 ] ], [ [ "pipe_fittings", 6 ] ] ],
     "pre_terrain": "t_concrete",
     "post_terrain": "t_support_s"
   },
