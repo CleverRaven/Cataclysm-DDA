@@ -204,12 +204,27 @@
     "type": "scenario",
     "name": "Burning Building",
     "description": "The building you had chosen to reside in has suddenly caught fire!  You might want to leave.",
-    "flags": [ "CITY_START" ],
+    "flags": [ "FIRE_START", "CITY_START" ],
     "id": "fire",
     "points": -2,
     "start_name": "In Town",
     "eoc": [ "EOC_scenario_fire", "EOC_scenario_smoke" ],
-    "allowed_locs": [ "sloc_library" ]
+    "allowed_locs": [
+      "sloc_library",
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_school",
+      "sloc_grocery_store",
+      "sloc_garage",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_golfcourse_clubhouse",
+      "sloc_church",
+      "sloc_cemetery"
+    ]
   },
   {
     "type": "scenario",
