@@ -261,7 +261,6 @@ static const itype_id itype_swim_fins( "swim_fins" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
 
-static const json_character_flag json_flag_ACID_IMMUNE( "ACID_IMMUNE" );
 static const json_character_flag json_flag_CLIMB_NO_LADDER( "CLIMB_NO_LADDER" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
 static const json_character_flag json_flag_INFECTION_IMMUNE( "INFECTION_IMMUNE" );
@@ -10501,11 +10500,11 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
                    pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
+            const bool acid_immune = u.is_immune_damage( damage_type::ACID ) || u.is_immune_field( fd_acid );
             const auto pulp = [&]( const tripoint & pos ) {
                 for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
-                        ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid ||
-                          u.is_immune_damage( damage_type::ACID ) || u.is_immune_field( fd_acid ) ) ) {
+                        ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
 
                         if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                             if( !maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
