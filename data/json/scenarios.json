@@ -232,7 +232,7 @@
     "points": -2,
     "start_name": "Bastion Fort",
     "allowed_locs": [ "sloc_fort" ],
-	"requirement": "achievement_reach_bastion_fort",
+    "requirement": "achievement_reach_bastion_fort",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
