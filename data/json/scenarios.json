@@ -981,8 +981,8 @@
       "sloc_church"
     ],
     "eoc": [ "scenario_surrounded_zombie" ],
-	"map_extra": "mx_looters",
-	"requirement": "achievement_kill_10_monsters",
+    "map_extra": "mx_looters",
+    "requirement": "achievement_kill_10_monsters",
     "flags": [ "LONE_START" ]
   },
   {
