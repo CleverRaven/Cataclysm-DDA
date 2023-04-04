@@ -1490,6 +1490,7 @@
           ]
         },
         { "id": "fd_acid_vent", "fg": 390 },
+        { "id": "fd_bees", "fg": 393 },
         {
           "id": "fd_bile",
           "multitile": true,

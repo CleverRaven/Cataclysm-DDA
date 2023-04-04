@@ -6407,6 +6407,17 @@
   },
   {
     "type": "mutation",
+    "id": "MAKAYLA_MUTATOR",
+    "name": { "str": "Catastrophic mutation" },
+    "points": -2,
+    "mixed_effect": true,
+    "description": "Exposure to portal storms and related phenomena causes you to mutate in a mostly predictable fashion.",
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "CHAOTIC", "UNSTABLE" ]
+  },
+  {
+    "type": "mutation",
     "id": "CHAOTIC",
     "name": { "str": "Genetic Chaos" },
     "points": -4,
@@ -7591,16 +7602,6 @@
   },
   {
     "type": "mutation",
-    "id": "PROF_CYBERCOP",
-    "name": { "str": "Bionic Officer" },
-    "points": 0,
-    "description": "You are a cybernetically-resurrected law enforcement officer, with jurisdiction throughout the New England region thanks to interstate agreements.  Whether you can do for the law what the law did for you is another question.",
-    "valid": false,
-    "purifiable": false,
-    "profession": true
-  },
-  {
-    "type": "mutation",
     "id": "PROF_CHURL",
     "name": { "str": "Churl" },
     "points": 0,
@@ -7962,7 +7963,7 @@
     "points": 99,
     "valid": false,
     "description": "If you need to survive the deadliest bug attacks.",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "MAX_HP", "add": 9000 } ] } ] },
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": 9000 } ] } ],
     "debug": true
   },
   {
@@ -7972,7 +7973,7 @@
     "points": 99,
     "valid": false,
     "description": "Heal yourself from this stupid bug attacks.",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "REGEN_HP", "multiply": 100 } ] } ] },
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "add": 100 } ] } ],
     "debug": true
   },
   {
@@ -8045,6 +8046,16 @@
     "points": 99,
     "valid": false,
     "description": "Crafting failures won't bug you any more.",
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_CS",
+    "name": { "str": "Debug Crafting Speed" },
+    "points": 99,
+    "valid": false,
+    "description": "Craft the bug out 50 times faster.",
+    "crafting_speed_multiplier": 50,
     "debug": true
   },
   {

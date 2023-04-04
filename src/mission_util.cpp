@@ -11,6 +11,7 @@
 #include "avatar.h"
 #include "cata_assert.h"
 #include "character.h"
+#include "city.h"
 #include "coordinates.h"
 #include "condition.h"
 #include "debug.h"

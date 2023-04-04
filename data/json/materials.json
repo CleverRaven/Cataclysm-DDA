@@ -661,6 +661,17 @@
   },
   {
     "type": "material",
+    "//": "similar to layered kevlar, cotton sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "cotton_quilted",
+    "name": "Quilted Cotton",
+    "copy-from": "cotton",
+    "bash_resist": 2,
+    "cut_resist": 2,
+    "bullet_resist": 1.5,
+    "wind_resist": 75
+  },
+  {
+    "type": "material",
     "id": "denim",
     "name": "Denim",
     "//": "Denim clothing is usually measured in oz rather than mm thickness.  For our purposes, assume 6 oz denim is equal to 0.4mm and scale up from there.",
@@ -717,6 +728,24 @@
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 }
     ]
+  },
+  {
+    "type": "material",
+    "//": "similar to layered kevlar, canvas sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "canvas_quilted",
+    "name": "Quilted Canvas",
+    "copy-from": "canvas",
+    "bash_resist": 2,
+    "cut_resist": 3,
+    "bullet_resist": 2,
+    "wind_resist": 90
+  },
+  {
+    "type": "material",
+    "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
+    "id": "canvas_quilted_2",
+    "copy-from": "canvas_quilted",
+    "name": "Quilted Canvas"
   },
   {
     "type": "material",
@@ -1013,7 +1042,7 @@
     "type": "material",
     "id": "gold",
     "name": "Gold",
-    "density": 19.3,
+    "density": 19.32,
     "specific_heat_liquid": 0.15,
     "specific_heat_solid": 0.13,
     "latent_heat": 63,
@@ -1783,7 +1812,7 @@
     "type": "material",
     "id": "silver",
     "name": "Silver",
-    "density": 10.5,
+    "density": 10.49,
     "specific_heat_liquid": 0.28,
     "specific_heat_solid": 0.23,
     "latent_heat": 105,
@@ -1804,7 +1833,7 @@
     "type": "material",
     "id": "platinum",
     "name": "Platinum",
-    "density": 21.5,
+    "density": 21.45,
     "specific_heat_liquid": 0.18,
     "specific_heat_solid": 0.13,
     "latent_heat": 114,
@@ -2331,6 +2360,24 @@
   },
   {
     "type": "material",
+    "//": "similar to layered kevlar, nylon sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "nylon_quilted",
+    "name": "Quilted Nylon",
+    "copy-from": "nylon",
+    "bash_resist": 1.5,
+    "cut_resist": 2,
+    "bullet_resist": 3,
+    "wind_resist": 65
+  },
+  {
+    "type": "material",
+    "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
+    "id": "nylon_quilted_2",
+    "copy-from": "nylon_quilted",
+    "name": "Quilted Nylon"
+  },
+  {
+    "type": "material",
     "id": "unobtanium",
     "//": "this isn't supposed to be a super impressive material, just impossible to repair",
     "name": "Strange Metal",
@@ -2679,6 +2726,24 @@
       { "fuel": 1, "smoke": 1, "burn": 5 }
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ]
+  },
+  {
+    "type": "material",
+    "//": "similar to layered kevlar, wool sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "wool_quilted",
+    "name": "Quilted Wool",
+    "copy-from": "wool",
+    "bash_resist": 2,
+    "cut_resist": 2,
+    "bullet_resist": 1.5,
+    "wind_resist": 65
+  },
+  {
+    "type": "material",
+    "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
+    "id": "wool_quilted_2",
+    "copy-from": "wool_quilted",
+    "name": "Quilted Wool"
   },
   {
     "type": "material",

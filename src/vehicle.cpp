@@ -657,7 +657,7 @@ std::set<point> vehicle::immediate_path( const units::angle &rotate )
     const int distance_to_check = 10 + ( velocity / 800 );
     units::angle adjusted_angle = normalize( face.dir() + rotate );
     // clamp to multiples of 15.
-    adjusted_angle = round_to_multiple_of( adjusted_angle, 15_degrees );
+    adjusted_angle = round_to_multiple_of( adjusted_angle, vehicles::steer_increment );
     tileray collision_vector;
     collision_vector.init( adjusted_angle );
     map &here = get_map();

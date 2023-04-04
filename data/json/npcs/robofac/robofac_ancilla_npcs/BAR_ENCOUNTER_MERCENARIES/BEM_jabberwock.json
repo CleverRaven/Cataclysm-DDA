@@ -1,0 +1,97 @@
+[
+  {
+    "id": "BEM_jabberwock_mission",
+    "type": "mission_definition",
+    "name": { "str": "\"God\"-Slayer" },
+    "goal": "MGOAL_KILL_MONSTER",
+    "difficulty": 5,
+    "value": 200000,
+    "urgent": true,
+    "description": "A traumatized mercenary has claimed to have seen what you assume to be powerful monster.  Maybe you should investigate this for the benefit of everyone.",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "forest_thick",
+        "om_terrain_replace": "forest",
+        "reveal_radius": 1,
+        "random": true,
+        "search_range": 60,
+        "min_distance": 15,
+        "z": 0
+      },
+      "update_mapgen": { "place_monster": [ { "monster": "mon_jabberwock", "x": 11, "y": 11, "target": true } ] }
+    },
+    "end": { "effect": { "u_add_var": "completed_bem_jabberwock", "type": "dialogue", "context": "bem", "value": "yes" } },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "//": "All dialogue about this mission is handled through talk_topics, so we don't use any of these strings.",
+      "describe": "…",
+      "offer": "…",
+      "accepted": "…",
+      "rejected": "…",
+      "advice": "…",
+      "inquire": "…",
+      "success": "…",
+      "success_lie": "…",
+      "failure": "…"
+    }
+  },
+  {
+    "id": "BEM_JABBERWOCK_1",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_has_mission": "BEM_jabberwock_mission",
+      "yes": "&You see one more traumatized face, all too many and too frequent for any help to be worthwhile.",
+      "no": {
+        "u_has_var": "completed_bem_jabberwock",
+        "type": "dialogue",
+        "context": "bem",
+        "value": "yes",
+        "yes": "&You see one more traumatized face, all too many and too frequent for any help to be worthwhile.",
+        "no": "&The mercenary stares intently at stain in the ceiling, firmly clutching a now cold cup of soup.  No one else seems to be very concerned about this."
+      }
+    },
+    "responses": [
+      {
+        "text": "Attempt a friendly approach",
+        "topic": "BEM_JABBERWOCK_2",
+        "condition": {
+          "not": {
+            "or": [
+              { "u_has_mission": "BEM_jabberwock_mission" },
+              { "u_has_var": "completed_bem_jabberwock", "type": "dialogue", "context": "bem", "value": "yes" }
+            ]
+          }
+        }
+      },
+      { "text": "Leave the traveler to their trauma.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BEM_JABBERWOCK_2",
+    "type": "talk_topic",
+    "dynamic_line": "&<mypronoun> seems completely lost to the present, but you can't help but notice their gear is caked with mud and broken twigs.  It doesnt look like you'll be getting much conversation from this one.",
+    "responses": [
+      { "text": "Press on in search of a reaction", "topic": "BEM_JABBERWOCK_3" },
+      { "text": "Try to find someone more interested in conversation.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BEM_JABBERWOCK_3",
+    "type": "talk_topic",
+    "dynamic_line": "&Continued prodding manages to extract a baffling response from your interlocutor \"I- I-ve seen it, the god of our new world, a god of flesh and bone.  <mypronoun> says with a maddened glare, as if this where some sort of shocking revelation.\"",
+    "responses": [
+      {
+        "text": "Show your map to the mercenary, and have them mark where they saw this \"god\".",
+        "topic": "BEM_JABBERWOCK_4"
+      },
+      { "text": "Yeah I'm sure I have seen that one too.  Try to stay safe.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BEM_JABBERWOCK_4",
+    "type": "talk_topic",
+    "dynamic_line": "&<mypronoun> silently points at your maps with a trembling hand.",
+    "speaker_effect": { "effect": { "assign_mission": "BEM_jabberwock_mission" } },
+    "responses": [ { "text": "Thank you.", "topic": "TALK_DONE", "effect": "end_conversation" } ]
+  }
+]
