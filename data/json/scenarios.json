@@ -507,7 +507,7 @@
       "k9_cop",
       "cop"
     ],
-	"requirement": "achievement_reach_island_prison",
+    "requirement": "achievement_reach_island_prison",
     "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
