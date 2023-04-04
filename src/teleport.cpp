@@ -111,7 +111,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     int tfrag_attempts = 5;
     bool collision = false;
     int collision_angle = 0;
-    while( ( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) && !collision ) {
+    while( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
         //Fail if we run out of telefrag attempts
         if( tfrag_attempts-- < 1 ) {
             if( p && display_message ) {
@@ -122,8 +122,8 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
             return false;
         }
         //if the thing that was going to be teleported into has a dimensional anchor, break out early and don't teleport.
-        if( poor_soul->as_character() && ( poor_soul->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
-                                           poor_soul->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
+        if( poor_soul->as_character() && ( poor_soul->as_character()->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
+                                           poor_soul->as_character()->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
             poor_soul->as_character()->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             return false;
         }
@@ -139,7 +139,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 g->place_player_overmap( project_to<coords::omt>( avatar_pos ), false );
             }
             return false;
-        } else {
+        } else if( !collision ) {
             //we passed all the conditions needed for a teleport accident, so handle messages for teleport accidents here
             const bool poor_soul_is_u = poor_soul->is_avatar();
             if( poor_soul_is_u && display_message ) {
@@ -160,7 +160,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                                  critter.disp_name(), poor_soul->disp_name() );
                     }
                 }
-                //once collision is true this loop will break, so everything here should only happen once
+                //once collision this if block shouldn't run so everything here should only happen once
                 collision = true;
                 //determine a random angle to throw the thing it teleported into, then fling it.
                 collision_angle = rng( 0, 360 );
