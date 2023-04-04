@@ -284,7 +284,7 @@
         "id": "holybook_talmud_13",
         "name": { "str": "Talmud, Vol. 13, Tractate Shabbat (Part 1)", "str_pl": "copies of the Talmud, Vol. 13, Tractate Shabbat (Part 1)" },
         "description": "This is volume 13 of 51, containing the first part of Tractate Shabbat.  It discusses the thirty-nine types of prohibited labor",
-        "append: true
+        "append": true
       },
       {
         "id": "holybook_talmud_14",
