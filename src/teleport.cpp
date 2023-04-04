@@ -111,8 +111,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
     int tfrag_attempts = 5;
     bool collision = false;
     int collision_angle = 0;
-    Creature *const victim;
-    while( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
+    while( !collision && Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
         //Fail if we run out of telefrag attempts
         if( tfrag_attempts-- < 1 ) {
             if( p && display_message ) {
@@ -125,7 +124,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         //if the thing that was going to be teleported into has a dimensional anchor, break out early and don't teleport.
         if( poor_soul->as_character() && ( poor_soul->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                                            poor_soul->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
-            poor_soul->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
+            poor_soul>as_character()->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             return false;
         }
         if( force ) {
@@ -161,31 +160,30 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                                  critter.disp_name(), poor_soul->disp_name() );
                     }
                 }
-                //we lose access to poor_soul once this loop breaks, so we need to track it as it is now needed.
+                //once collision is true this loop will break, so everything here should only happen once
                 collision = true;
-                victim = poor_soul;
+                //determine a random angle to throw the thing it teleported into, then fling it.
+                collision_angle = rng( 0, 360 );
+                g->fling_creature( victim, units::from_degrees( collision_angle - 180 ), 40 );
+                //spawn a mostly cosmetic explosion for flair.
+                explosion_handler::explosion( &critter, target, 10 );
+                //if it was grabbed, it isn't anymore.
+                victim->remove_effect( effect_grabbed );
+                //apply a bunch of damage to it, similar to a tear in reality
+                victim->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
+                victim->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
+                victim->apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
+                victim->apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
+               victim->apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
+                victim->apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
+                victim->check_dead_state();
             }
         }
     }
     critter.setpos( target );
     //there was a collision with a creature at some point, so handle that.
     if( collision && victim ) {
-        //determine a random angle to throw the thing it teleported into, then fling it.
-        collision_angle = rng( 0, 360 );
-        g->fling_creature( victim, units::from_degrees( collision_angle - 180 ), 40 );
-        //spawn a mostly cosmetic explosion for flair.
-        explosion_handler::explosion( &critter, target, 10 );
-        //if it was grabbed, it isn't anymore.
-        victim->remove_effect( effect_grabbed );
-        //apply a bunch of damage to it, similar to a tear in reality
-        victim->apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
-        victim->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
-        victim->apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
-        victim->apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
-        victim->apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
-        victim->apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
-        victim->check_dead_state();
-        //then, throw the thing that teleported in the opposite direction as the thing it teleported into.
+        //throw the thing that teleported in the opposite direction as the thing it teleported into.
         g->fling_creature( &critter, units::from_degrees( collision_angle - 180 ), 40 );
         //do a bunch of damage to it too.
         critter.apply_damage( nullptr, bodypart_id( "arm_l" ), rng( 5, 10 ) );
