@@ -1006,10 +1006,7 @@
     "description": "You were trying to get some distance from home and keep a low profile. Days of boredom and a return to bad habits made you overdo it with the booze last night. You awake and find yourself confused with the strange behavior of people outside. Time to sober up and see what's going on. ",
     "forced_traits": [ "ADDICTIVE" ],
     "start_name": "In Town",
-    "allowed_locs": [
-	  "sloc_mobile_home",
-	  "sloc_motel"
-    ],
+    "allowed_locs": [ "sloc_mobile_home", "sloc_motel" ],
     "eoc": [ "EOC_scenario_drunk" ],
     "flags": [ "LONE_START" ]
   }
