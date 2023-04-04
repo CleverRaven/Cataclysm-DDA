@@ -125,7 +125,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
         //if the thing that was going to be teleported into has a dimensional anchor, break out early and don't teleport.
         if( poor_soul->as_character() && ( poor_soul->worn_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ||
                                            poor_soul->has_effect_with_flag( json_flag_DIMENSIONAL_ANCHOR ) ) ) {
-            poor_soul>as_character()->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
+            poor_soul->as_character()->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             return false;
         }
         if( force ) {
@@ -175,7 +175,7 @@ bool teleport::teleport_to_point( Creature &critter, tripoint target, bool safe,
                 victim->apply_damage( nullptr, bodypart_id( "arm_r" ), rng( 5, 10 ) );
                 victim->apply_damage( nullptr, bodypart_id( "leg_l" ), rng( 7, 12 ) );
                 victim->apply_damage( nullptr, bodypart_id( "leg_r" ), rng( 7, 12 ) );
-               victim->apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
+                victim->apply_damage( nullptr, bodypart_id( "torso" ), rng( 5, 15 ) );
                 victim->apply_damage( nullptr, bodypart_id( "head" ), rng( 2, 8 ) );
                 victim->check_dead_state();
             }
