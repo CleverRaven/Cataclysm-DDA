@@ -883,7 +883,7 @@
   {
     "type": "scenario",
     "name": "Challenge - Close Encounter",
-    "description": "You don't know what it was but you managed to lose it for the time being. Now you are injured, surrounded and the building is on fire. You hope you have some time before it returns to finish the job.",
+    "description": "You don't know what it was but you managed to lose it for the time being.  Now you are injured, surrounded and the building is on fire.  You hope you have some time before it returns to finish the job.",
     "flags": [ "CITY_START", "CHALLENGE", "LONE_START", "HELI_CRASH" ],
     "id": "close_encounter_start",
     "points": -5,
@@ -916,7 +916,7 @@
   {
     "type": "scenario",
     "name": "Surrounded in the Dark",
-    "description": "You were camping in the wild. One night strange noises closed in on you and you were attacked. You managed to get away but can feel things moving in the dark.",
+    "description": "You were camping in the wild.  One night strange noises closed in on you and you were attacked.  You managed to get away but can feel things moving in the dark.",
     "id": "camp_attack_start",
     "points": -2,
     "custom_initial_date": { "hour": 2 },
@@ -939,7 +939,7 @@
     "id": "lone_survivor_start",
     "name": "Lone Survivor",
     "points": 0,
-    "description": "You are the only one that made it...",
+    "description": "You are the only one that made it.  ",
     "start_name": "In Town",
     "allowed_locs": [
       "sloc_house",
@@ -966,7 +966,7 @@
     "id": "rock_hard_place_start",
     "name": "Between a Rock and a Hard Place",
     "points": -2,
-    "description": "You were trying to scavenge for supplies, now some rough group of bandits has dragged monsters in with them where you were hiding!",
+    "description": "You were trying to scavenge for supplies, now some rough group of bandits has dragged monsters in with them where you were hiding! ",
     "start_name": "In Town",
     "allowed_locs": [
       "sloc_house",
@@ -992,7 +992,7 @@
     "id": "shattered_sky_start",
     "name": "Challenge - Shattered sky",
     "points": -5,
-    "description": "From up here, you watched it all fall apart. The sky cracked and indescribable alien shapes writhed in the clouds. The horizon has returned to normal, but you still see shadows moving in the corner of your eye and feel them calling you. ",
+    "description": "From up here, you watched it all fall apart.  The sky cracked and indescribable alien shapes writhed in the clouds.  The horizon has returned to normal, but you still see shadows moving in the corner of your eye and feel them calling you. ",
     "forced_traits": [ "SCHIZOPHRENIC" ],
     "start_name": "In Town",
     "allowed_locs": [ "sloc_apartments_rooftop", "sloc_apartments_rooftop2", "sloc_hotel_rooftop", "sloc_office_tower_rooftop" ],
@@ -1005,7 +1005,7 @@
     "id": "low_profile_start",
     "name": "Low Profile",
     "points": -1,
-    "description": "You were trying to get some distance from home and keep a low profile. Days of boredom and a return to bad habits made you overdo it with the booze last night. You awake and find yourself confused with the strange behavior of people outside. Time to sober up and see what's going on. ",
+    "description": "You were trying to get some distance from home and keep a low profile.  Days of boredom and a return to bad habits made you overdo it with the booze last night.  You awake and find yourself confused with the strange behavior of people outside.  Time to sober up and see what's going on. ",
     "forced_traits": [ "ADDICTIVE" ],
     "start_name": "In Town",
     "allowed_locs": [ "sloc_mobile_home", "sloc_motel" ],
