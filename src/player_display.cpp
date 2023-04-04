@@ -1064,7 +1064,7 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
                    you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
     }
 
-    const auto btn_color = [&tip_btn_highlight]( const unsigned btn_to_draw ) {
+    const auto btn_color = [&tip_btn_highlight]( const int btn_to_draw ) {
         if( tip_btn_highlight == btn_to_draw ) {
             return h_light_gray;
         } else {
@@ -1235,15 +1235,15 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         int orig_tip_btn = tip_btn_selected;
         tip_btn_selected = -1;
         std::optional<point> p;
-        for( int i = 0; i < windows.size(); i++ ) {
+        for( size_t i = 0; i < windows.size(); i++ ) {
             p = ctxt.get_coordinates_text( *windows[i] );
             if( p.has_value() && window_contains_point_relative( *windows[i], p.value() ) ) {
                 invalidate_tab( curtab );
-                curtab = ( player_display_tab )i;
+                curtab = player_display_tab( i );
                 invalidate_tab( curtab );
                 line_count = get_line_count( curtab, you, traitslist, bionicslist, effect_name_and_text,
                                              skillslist );
-                line = std::clamp( p.value().y - 1, 0, ( int )line_count );
+                line = std::clamp( p.value().y - 1, 0, int( line_count ) );
                 ui_info.invalidate_ui();
                 break;
             }
@@ -1289,9 +1289,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
             header_clicked = false;
             int mouse_line = -1;
             if( curtab < player_display_tab::num_tabs ) {
-                std::optional<point> p = ctxt.get_coordinates_text( *windows[( int )curtab] );
-                if( p.has_value() && window_contains_point_relative( *windows[( int )curtab], p.value() ) ) {
-                    mouse_line = std::clamp( p.value().y - 1, 0, ( int )line_count );
+                std::optional<point> p = ctxt.get_coordinates_text( *windows[int( curtab )] );
+                if( p.has_value() && window_contains_point_relative( *windows[int( curtab )], p.value() ) ) {
+                    mouse_line = std::clamp( p.value().y - 1, 0, int( line_count ) );
                     header_clicked = p.value().y == 0;
                     if( curtab == player_display_tab::skills && skillslist[mouse_line].is_header ) {
                         mouse_line = -1;
@@ -1850,16 +1850,8 @@ void Character::disp_info( bool customize_character )
 
     bool done = false;
 
-    std::vector<catacurses::window *> windows;
-    windows.push_back( &w_stats );
-    windows.push_back( &w_encumb );
-    windows.push_back( &w_skills );
-    windows.push_back( &w_traits );
-    windows.push_back( &w_bionics );
-    windows.push_back( &w_effects );
-    windows.push_back( &w_proficiencies );
-    int mouse_line = -1;
-    bool header_clicked = false;
+    std::vector<catacurses::window *> windows{ &w_stats, &w_encumb, & w_skills, &w_traits, &w_bionics, &w_effects, &w_proficiencies };
+
     do {
         ui_manager::redraw_invalidated();
 
