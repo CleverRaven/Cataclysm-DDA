@@ -1033,7 +1033,7 @@
       ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]
     ],
-    "//": "30cm weld",
+    "//1": "30cm weld",
     "using": [ [ "welding_standard", 30 ] ],
     "components": [ [ [ "steel_plate", 1 ], [ "steel_lump", 2 ] ], [ [ "pipe", 1 ], [ "sheet_metal_small", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
