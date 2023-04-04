@@ -711,7 +711,11 @@
     "id": "EOC_lone_survivor",
     "eoc_type": "SCENARIO_SPECIFIC",
     "effect": [
-      { "u_message": "They are all dead. The group you were surviving with has been annihilated. Their bodies are still nearby. You are the last one left alive and their screams will haunt you.", "type": "warning", "popup": true },
+      {
+        "u_message": "They are all dead. The group you were surviving with has been annihilated. Their bodies are still nearby. You are the last one left alive and their screams will haunt you.",
+        "type": "warning",
+        "popup": true
+      },
       {
         "u_add_morale": "morale_feeling_bad",
         "bonus": -30,
