@@ -633,7 +633,7 @@
     "type": "start_location",
     "id": "sloc_motel",
     "name": "Motel",
-    "terrain": [ "motel_1", "2fmotel_1", "2fmotel_1_f2"  ]
+    "terrain": [ "motel_1", "2fmotel_1", "2fmotel_1_f2" ]
   },
   {
     "type": "start_location",
