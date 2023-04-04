@@ -34,7 +34,7 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "viewer.h"
-#include "vpart_range.h"
+#include "veh_type.h"
 
 
 static const efftype_id effect_badpoison( "badpoison" );
@@ -884,6 +884,7 @@ bool gun_actor::call( monster &z ) const
                 return false;
             }
             //No living targets, try to find a moving car
+            untargeted = true;
             vehicle *veh = find_target_vehicle( z, get_max_range() );
             if( !veh ) {
                 return false;
@@ -914,6 +915,8 @@ bool gun_actor::call( monster &z ) const
     int dist = rl_dist( z.pos(), aim_at );
     if( target ) {
         add_msg_debug( debugmode::DF_MATTACK, "Target %s at range %d", target->disp_name(), dist );
+    } else {
+        add_msg_debug( debugmode::DF_MATTACK, "Shooting at vehicle at range %d", dist );
     }
 
     for( const auto &e : ranges ) {
