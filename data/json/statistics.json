@@ -2070,7 +2070,8 @@
           ]
         ]
       }
-  },
+    }
+          ]
   {
     "id": "num_avatar_enters_hospital",
     "type": "event_statistic",
