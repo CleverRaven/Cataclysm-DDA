@@ -875,7 +875,7 @@
     "start_name": "Nuclear Power Plant",
     "allowed_locs": [ "nuclear_plant" ],
     "professions": [ "electrician", "labtech", "medic" ],
-	"requirement": "achievement_reach_nuclear_plant",
+    "requirement": "achievement_reach_nuclear_plant",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
