@@ -2587,7 +2587,7 @@
     "required_skills": [ [ "fabrication", 9 ] ],
     "time": "420 m",
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "SMOOTH", "level": 2 } ] ],
-    "using": [ [ "welding_standard", 500 ] [ "welding_standard", 500 ] ],
+    "using": [ [ "welding_standard", 500 ], [ "welding_standard", 500 ] ],
     "//1": "lots of 1 meter square metal sheet and plating so very big weld",
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "components": [
