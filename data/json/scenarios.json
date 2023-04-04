@@ -993,12 +993,7 @@
     "description": "From up here, you watched it all fall apart. The sky cracked and indescribable alien shapes writhed in the clouds. The horizon has returned to normal, but you still see shadows moving in the corner of your eye and feel them calling you. ",
     "forced_traits": [ "SCHIZOPHRENIC" ],
     "start_name": "In Town",
-    "allowed_locs": [
-      "sloc_apartments_rooftop",
-      "sloc_apartments_rooftop2",
-      "sloc_hotel_rooftop",
-      "sloc_office_tower_rooftop"
-    ],
+    "allowed_locs": [ "sloc_apartments_rooftop", "sloc_apartments_rooftop2", "sloc_hotel_rooftop", "sloc_office_tower_rooftop" ],
     "eoc": [ "scenario_strong_portal_storm_base" ],
 	"requirement": "achievement_reach_mid_z_level",
     "flags": [ "LONE_START", "CITY_START", "CHALLENGE", "HELI_CRASH" ]
