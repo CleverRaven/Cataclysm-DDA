@@ -695,7 +695,7 @@
       "combat-mechanic",
       "combat-engineer"
     ],
-	"requirement": "achievement_reach_military_base",
+    "requirement": "achievement_reach_military_base",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
