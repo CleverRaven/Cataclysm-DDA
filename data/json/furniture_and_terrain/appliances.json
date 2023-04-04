@@ -439,15 +439,15 @@
     "epower": "0 W",
     "item": "catalytic_cracking_reactor",
     "breaks_into": [
-        { "item": "element", "charges": [ 4, 8 ] },
-        { "item": "55gal_drum", "count": [ 3, 5 ] },
-        { "item": "pipe", "count": [ 2, 5 ] },
-        { "item": "thermometer", "count": [ 1, 4 ] },
-        { "item": "well_pump", "count": [ 0, 1 ] },
-        { "item": "laptop", "count": [ 0, 1 ] },
-        { "item": "pump_complex", "count": [ 0, 3 ] },
-        { "item": "cable", "count": [ 3, 8 ] }
-      ]
+      { "item": "element", "charges": [ 4, 8 ] },
+      { "item": "55gal_drum", "count": [ 3, 5 ] },
+      { "item": "pipe", "count": [ 2, 5 ] },
+      { "item": "thermometer", "count": [ 1, 4 ] },
+      { "item": "well_pump", "count": [ 0, 1 ] },
+      { "item": "laptop", "count": [ 0, 1 ] },
+      { "item": "pump_complex", "count": [ 0, 3 ] },
+      { "item": "cable", "count": [ 3, 8 ] }
+    ]
   },
   {
     "type": "vehicle_part",
