@@ -147,28 +147,20 @@
     "type": "npc",
     "id": "prepper_survivor",
     "name_suffix": "prepper",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_PREPPER",
     "attitude": 1,
     "mission": 7,
     "chat": "TALK_NPC_PREPPER_SURVIVOR",
-    "shopkeeper_item_group": [
-      { "group": "homeguns", "rigid": true },
-      { "group": "lmoe_guns", "rigid": true },
-      { "group": "ammo_reloaded", "rigid": true },
-      { "group": "magazines", "rigid": true },
-      { "group": "gear_survival", "rigid": true }
-    ],
     "faction": "no_faction"
   },
   {
     "type": "npc",
     "id": "survivor_moonshiner",
     "name_suffix": "moonshiner",
-    "class": "NC_SCAVENGER",
+    "class": "NC_SCAVENGER_MOONSHINER",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_NPC_MOONSHINER",
-    "shopkeeper_item_group": [ { "group": "still_alcohol", "rigid": true }, { "group": "keg_wine_intact", "rigid": true } ],
     "faction": "no_faction"
   },
   {

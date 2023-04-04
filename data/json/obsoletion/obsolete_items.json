@@ -50,6 +50,89 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "gambeson_loose",
+    "repairs_like": "gambeson",
+    "type": "ARMOR",
+    "name": { "str": "gambeson (loose)", "str_pl": "gambesons (loose)" },
+    "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  Use it to wear it tighter and be able to put proper armor over it.",
+    "copy-from": "gambeson",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your gambeson a bit tighter.",
+      "target": "gambeson",
+      "menu_text": "Adjust tighter"
+    }
+  },
+  {
+    "id": "gambeson_loose_vest",
+    "repairs_like": "gambeson",
+    "type": "ARMOR",
+    "name": { "str": "gambeson vest (loose)", "str_pl": "gambeson vests (loose)" },
+    "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  Use it to wear it tighter and be able to put proper armor over it.",
+    "copy-from": "gambeson_vest",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your gambeson vest a bit tighter.",
+      "target": "gambeson",
+      "menu_text": "Adjust tighter"
+    }
+  },
+  {
+    "id": "k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "Kevlar gambeson" },
+    "description": "Designed to mimic a thick jacket of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
+    "weight": "11556 g",
+    "volume": "2520 ml",
+    "price": 20000,
+    "price_postapoc": 750,
+    "to_hit": -5,
+    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "light_gray",
+    "warmth": 50,
+    "material_thickness": 3.2,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
+    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_loose", "menu_text": "Loosen" },
+    "//": "materials on this guy are slightly weird since it is trying to quilt soft armor panels, so at thickest it is their thickness",
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_upper_l", "arm_lower_l", "arm_upper_r", "arm_lower_r" ],
+        "coverage": 100,
+        "encumbrance": 20
+      },
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 70, "thickness": 3.4, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_elbow_l", "arm_shoulder_l", "arm_elbow_r", "arm_shoulder_r" ],
+        "coverage": 100,
+        "encumbrance": 0,
+        "//": "skip second entry for arm encumbrance"
+      }
+    ]
+  },
+  {
     "type": "COMESTIBLE",
     "id": "egg_lady_bug_giant",
     "name": { "str": "giant ladybug egg" },
@@ -109,6 +192,37 @@
     ]
   },
   {
+    "id": "k_gambeson_vest",
+    "type": "ARMOR",
+    "name": { "str": "Kevlar gambeson vest" },
+    "description": "Designed to mimic a thick vest of quilted fabric that would be worn underneath mail or other armor.  A base layer of aramid fabric has had strips of soft body armor sewn into it to mimic quilting.  Use it to loosen it if you want to wear it over your clothes.",
+    "weight": "6200 g",
+    "volume": "1670 ml",
+    "price": 20000,
+    "price_postapoc": 600,
+    "to_hit": -5,
+    "material": [ { "type": "kevlar_layered" }, { "type": "kevlar" } ],
+    "symbol": "[",
+    "looks_like": "coat_winter",
+    "color": "light_gray",
+    "warmth": 50,
+    "material_thickness": 3.2,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
+    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_loose", "menu_text": "Loosen" },
+    "armor": [
+      {
+        "material": [
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 3.4, "ignore_sheet_thickness": true },
+          { "type": "kevlar", "covered_by_mat": 100, "thickness": 1.0 }
+        ],
+        "covers": [ "torso" ],
+        "coverage": 100,
+        "encumbrance": 20
+      }
+    ]
+  },
+  {
     "id": "l-stick",
     "type": "TOOL",
     "category": "weapons",
@@ -145,6 +259,239 @@
         "default_magazine": "medium_plus_battery_cell"
       }
     ]
+  },
+  {
+    "id": "k_gambeson_loose",
+    "repairs_like": "k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "Kevlar gambeson (loose)", "str_pl": "Kevlar gambesons (loose)" },
+    "description": "A thick jacket of quilted fabric, loosened to be worn as outer armor.  This one incorporates Kevlar layers added for better protection.  Use it to wear it tighter and be able to put proper armor over it.",
+    "copy-from": "k_gambeson",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your Kevlar gambeson a bit tighter.",
+      "target": "k_gambeson",
+      "menu_text": "Adjust tighter"
+    }
+  },
+  {
+    "id": "k_gambeson_vest_loose",
+    "repairs_like": "k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "Kevlar gambeson vest (loose)", "str_pl": "Kevlar gambeson vests (loose)" },
+    "description": "A thick vest of quilted fabric, loosened to be worn as outer armor.  This one incorporates Kevlar layers added for better protection.  Use it to wear it tighter and be able to put proper armor over it.",
+    "copy-from": "k_gambeson_vest",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your Kevlar gambeson a bit tighter.",
+      "target": "k_gambeson_vest",
+      "menu_text": "Adjust tighter"
+    }
+  },
+  {
+    "id": "k_gambeson_pants",
+    "type": "ARMOR",
+    "name": { "str": "Kevlar arming pants", "str_pl": "pairs of Kevlar arming pants" },
+    "description": "Thick pants made of quilted fabric, meant to be worn alongside a gambeson under or without armor.  This one incorporates Kevlar layers added for better protection.",
+    "weight": "9300 g",
+    "volume": "2000 ml",
+    "price": 14000,
+    "price_postapoc": 600,
+    "to_hit": -5,
+    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
+    "symbol": "[",
+    "looks_like": "pants_ski",
+    "color": "light_gray",
+    "warmth": 50,
+    "material_thickness": 3.2,
+    "valid_mods": [ "steel_padded" ],
+    "flags": [ "VARSIZE", "STURDY", "NONCONDUCTIVE" ],
+    "armor": [ { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 20 } ]
+  },
+  {
+    "id": "gambeson_xs_loose",
+    "repairs_like": "gambeson",
+    "type": "ARMOR",
+    "name": { "str": "XS gambeson (loose)", "str_pl": "XS gambesons (loose)" },
+    "description": "A thick vest of quilted fabric, loosened to be worn as outer armor, coming in size XS.  Use it to wear it tighter and be able to put proper armor over it.",
+    "copy-from": "gambeson_xs",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your XS gambeson a bit tighter.",
+      "target": "gambeson_xs",
+      "menu_text": "Adjust tighter"
+    }
+  },
+  {
+    "id": "gambeson_vest_xs_loose",
+    "repairs_like": "gambeson_vest",
+    "type": "ARMOR",
+    "name": { "str": "XS gambeson vest (loose)", "str_pl": "XS gambeson vests (loose)" },
+    "description": "A thick vest of quilted fabric, loosened to be worn as outer armor, coming in size XS with removed sleeves.  Use it to wear it tighter and be able to put proper armor over it.",
+    "copy-from": "gambeson_vest_xs",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your XS gambeson vest a bit tighter.",
+      "target": "gambeson_vest_xs",
+      "menu_text": "Adjust tighter"
+    }
+  },
+  {
+    "id": "xl_gambeson_loose",
+    "repairs_like": "xl_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "XL gambeson (loose)", "str_pl": "XL gambesons (loose)" },
+    "copy-from": "xl_gambeson",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your XL gambeson a bit tighter.",
+      "target": "xl_gambeson",
+      "menu_text": "Adjust tighter"
+    }
+  },
+  {
+    "id": "xl_gambeson_vest_loose",
+    "repairs_like": "xl_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "XL gambeson vest (loose)", "str_pl": "XL gambeson vests (loose)" },
+    "copy-from": "xl_gambeson_vest",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your XL gambeson vest a bit tighter.",
+      "target": "xl_gambeson_vest",
+      "menu_text": "Adjust tighter"
+    }
+  },
+  {
+    "id": "xl_k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "XL Kevlar gambeson" },
+    "copy-from": "k_gambeson",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_k_gambeson_loose", "menu_text": "Loosen" }
+  },
+  {
+    "id": "xl_k_gambeson_vest",
+    "type": "ARMOR",
+    "name": { "str": "XL Kevlar gambeson vest" },
+    "copy-from": "k_gambeson_vest",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] },
+    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "xl_k_gambeson_vest_loose", "menu_text": "Loosen" }
+  },
+  {
+    "id": "k_gambeson_xs",
+    "type": "ARMOR",
+    "copy-from": "k_gambeson",
+    "looks_like": "k_gambeson",
+    "name": { "str": "XS Kevlar gambeson" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
+  },
+  {
+    "id": "k_gambeson_vest_xs",
+    "type": "ARMOR",
+    "copy-from": "k_gambeson_vest",
+    "looks_like": "k_gambeson",
+    "name": { "str": "XS Kevlar gambeson vest" },
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] },
+    "use_action": { "type": "transform", "msg": "You loosen your %s.", "target": "k_gambeson_vest_xs_loose", "menu_text": "Loosen" }
+  },
+  {
+    "id": "xl_k_gambeson_pants",
+    "type": "ARMOR",
+    "name": { "str": "XL Kevlar arming pants", "str_pl": "pairs of XL Kevlar arming pants" },
+    "copy-from": "k_gambeson_pants",
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xl_k_gambeson_loose",
+    "repairs_like": "xl_k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "XL Kevlar gambeson (loose)", "str_pl": "XL Kevlar gambesons (loose)" },
+    "copy-from": "xl_k_gambeson",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your XL Kevlar gambeson a bit tighter.",
+      "target": "xl_k_gambeson",
+      "menu_text": "Adjust tighter"
+    }
+  },
+  {
+    "id": "xl_k_gambeson_vest_loose",
+    "repairs_like": "xl_k_gambeson",
+    "type": "ARMOR",
+    "name": { "str": "XL Kevlar gambeson vest (loose)", "str_pl": "XL Kevlar gambeson vests (loose)" },
+    "copy-from": "xl_k_gambeson_vest",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your XL Kevlar gambeson vest a bit tighter.",
+      "target": "xl_k_gambeson_vest",
+      "menu_text": "Adjust tighter"
+    }
+  },
+  {
+    "id": "k_gambeson_vest_xs_loose",
+    "repairs_like": "k_gambeson_xs",
+    "type": "ARMOR",
+    "name": { "str": "XS Kevlar gambeson vest (loose)", "str_pl": "XS Kevlar gambeson vests (loose)" },
+    "copy-from": "k_gambeson_vest_xs",
+    "extend": { "flags": [ "OUTER" ] },
+    "use_action": {
+      "type": "transform",
+      "msg": "You adjust your XL Kevlar gambeson vest a bit tighter.",
+      "target": "k_gambeson_vest_xs",
+      "menu_text": "Adjust tighter"
+    }
+  },
+  {
+    "id": "k_gambeson_hood",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "Kevlar gambeson hood" },
+    "description": "A customized gambeson hood made from Kevlar.  Can be worn under helmets.",
+    "weight": "340 g",
+    "volume": "300 ml",
+    "price": 412,
+    "price_postapoc": 500,
+    "to_hit": -1,
+    "material": [ { "type": "kevlar_layered", "portion": 6 }, { "type": "kevlar", "portion": 4 } ],
+    "symbol": "[",
+    "looks_like": "balclava",
+    "color": "light_red",
+    "warmth": 25,
+    "material_thickness": 3.2,
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 90, "covers": [ "head" ] } ]
+  },
+  {
+    "id": "xl_k_gambeson_hood",
+    "type": "ARMOR",
+    "copy-from": "k_gambeson_hood",
+    "name": { "str": "XL Kevlar gambeson hood" },
+    "description": "A customized gambeson hood made from Kevlar.  Can be worn under helmets.  Comes in XL size.",
+    "proportional": { "weight": 1.25, "volume": 1.3, "price": 1.25 },
+    "extend": { "flags": [ "OVERSIZE" ] }
+  },
+  {
+    "id": "xs_k_gambeson_hood",
+    "type": "ARMOR",
+    "copy-from": "k_gambeson_hood",
+    "name": { "str": "XS Kevlar gambeson hood" },
+    "description": "A customized hood made from quilted fabrics and Kevlar.  Can be worn under helmets.  Comes in XS size.",
+    "proportional": { "weight": 0.75, "volume": 0.75, "price": 0.5 },
+    "extend": { "flags": [ "UNDERSIZE" ] }
   },
   {
     "id": "l-stick_on",

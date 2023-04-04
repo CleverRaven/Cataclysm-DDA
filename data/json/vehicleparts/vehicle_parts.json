@@ -3370,7 +3370,7 @@
       { "item": "motor_tiny", "prob": 25 }
     ],
     "damage_reduction": { "all": 32 },
-    "flag": "EXTRA_DRAG"
+    "flags": [ "EXTRA_DRAG" ]
   },
   {
     "type": "vehicle_part",
@@ -3403,6 +3403,6 @@
       { "item": "scrap_copper", "count": [ 1, 2 ] }
     ],
     "damage_reduction": { "all": 32 },
-    "flag": "EXTRA_DRAG"
+    "flags": [ "EXTRA_DRAG" ]
   }
 ]

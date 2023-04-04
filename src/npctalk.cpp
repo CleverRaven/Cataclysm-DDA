@@ -24,6 +24,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
+#include "city.h"
 #include "clzones.h"
 #include "color.h"
 #include "computer.h"
