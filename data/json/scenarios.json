@@ -886,9 +886,9 @@
     "id": "close_encounter_start",
     "points": -5,
     "start_name": "In Town",
-	"forced_traits": [ "HAS_NEMESIS" ],
-	"eoc": [ "scenario_surrounded_zombie", "EOC_scenario_fire", "EOC_scenario_smoke" ],
-	"requirement": "achievement_kill_100_monsters",
+    "forced_traits": [ "HAS_NEMESIS" ],
+    "eoc": [ "scenario_surrounded_zombie", "EOC_scenario_fire", "EOC_scenario_smoke" ],
+    "requirement": "achievement_kill_100_monsters",
     "allowed_locs": [
       "sloc_grocery_store",
       "sloc_garage",
