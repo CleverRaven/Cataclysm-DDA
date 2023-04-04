@@ -1790,8 +1790,6 @@
     "id": "achievement_reach_mid_z_level",
     "type": "achievement",
     "name": "I can see my house from here!",
-    "requirements": [ 
-	{ "event_statistic": "max_move_z", "is": ">=", "target": 6 }
-	]
-  } 
+    "requirements": [ { "event_statistic": "max_move_z", "is": ">=", "target": 6 } ]
+  }
 ]
