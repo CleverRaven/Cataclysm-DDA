@@ -94,6 +94,7 @@
     "name": "Balefire",
     "description": "A giant blue white fire produces a cool light and almost no heat.",
     "symbol": "O",
+    "required_str": -1,
     "move_cost_mod": -1,
     "color": "light_blue",
     "coverage": 30,
