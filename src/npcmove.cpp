@@ -595,7 +595,7 @@ void npc::assess_danger()
         return;
     }
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
-    const std::string &bogey, const std::string &warning ) {
+    const std::string & bogey, const std::string & warning ) {
         int dist = rl_dist( pos(), foe.pos() );
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
             warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
@@ -3588,7 +3588,7 @@ void npc::heal_self()
         item *treatment = nullptr;
         std::string iusage = "INHALER";
 
-        const auto filter_use = [this]( const std::string &filter ) -> std::vector<item *> {
+        const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
             auto inv_filtered = items_with( [&filter]( const item & itm )
             {
                 return ( itm.type->get_use( filter ) != nullptr ) && itm.ammo_sufficient( nullptr );
@@ -4417,11 +4417,11 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
 {
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.
-    const auto complain_since = [this]( const std::string &key, const time_duration & d ) {
+    const auto complain_since = [this]( const std::string & key, const time_duration & d ) {
         const auto iter = complaints.find( key );
         return iter == complaints.end() || iter->second < calendar::turn - d;
     };
-    const auto set_complain_since = [this]( const std::string &key ) {
+    const auto set_complain_since = [this]( const std::string & key ) {
         const auto iter = complaints.find( key );
         if( iter == complaints.end() ) {
             complaints.emplace( key, calendar::turn );
