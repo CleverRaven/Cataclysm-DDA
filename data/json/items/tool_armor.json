@@ -1455,7 +1455,7 @@
       "PADDED",
       "USE_UPS",
       "NO_UNLOAD",
-      "COMBAT_TOGGLEABLE
+      "COMBAT_TOGGLEABLE"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" } ] },
     "armor": [
@@ -1565,7 +1565,7 @@
       "PADDED",
       "USE_UPS",
       "NO_UNLOAD",
-      "COMBAT_TOGGLEABLE
+      "COMBAT_TOGGLEABLE"
     ]
   },
   {
