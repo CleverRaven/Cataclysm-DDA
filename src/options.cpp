@@ -2633,8 +2633,8 @@ void options_manager::add_options_world_default()
 
     add( "CHARACTER_POINT_POOLS", "world_default", to_translation( "Character point pools" ),
          to_translation( "Allowed point pools for character generation." ),
-    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Multi-pool only" ) }, { "no_freeform", to_translation( "No freeform" ) } },
-    "any"
+    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Legacy Multipool" ) }, { "story_teller", to_translation( "Survivor" ) } },
+    "story_teller"
        );
 
     add_empty_line();
@@ -2676,6 +2676,13 @@ void options_manager::add_options_debug()
     add( "MAX_TRAIT_POINTS", "debug", to_translation( "Maximum trait points" ),
          to_translation( "Maximum trait points available for character generation." ),
          0, 1000, 12
+       );
+
+    add_empty_line();
+
+    add( "DEBUG_DIFFICULTIES", "debug", to_translation( "Show values for character creation" ),
+         to_translation( "In character creation will show the underlying value that is used to determine difficulty." ),
+         false
        );
 
     add_empty_line();
