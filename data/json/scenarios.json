@@ -955,8 +955,8 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "eoc": [  "EOC_scenario_blood" ],
-	"map_extra": "mx_corpses",
+    "eoc": [ "EOC_scenario_blood" ],
+    "map_extra": "mx_corpses",
     "flags": [ "LONE_START" ]
   },
   {
