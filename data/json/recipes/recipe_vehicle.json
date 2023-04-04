@@ -312,7 +312,7 @@
     "time": "30 m",
     "reversible": true,
     "autolearn": true,
-    "//": "60cm weld",
+    "//1": "60cm weld",
     "using": [ [ "welding_standard", 60 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "rebar", 4 ] ], [ [ "scrap", 3 ] ] ]
