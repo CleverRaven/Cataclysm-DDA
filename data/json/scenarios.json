@@ -464,7 +464,7 @@
     "forced_traits": [ "FLIMSY2" ],
     "forbidden_traits": [ "TOUGH", "DISRESISTANT" ],
     "professions": [ "unemployed", "patient", "veteran" ],
-	"requirement": "achievement_reach_hospital",
+    "requirement": "achievement_reach_hospital",
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
