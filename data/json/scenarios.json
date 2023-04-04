@@ -923,12 +923,12 @@
     "allowed_locs": [
       "sloc_campsite",
       "sloc_cabin_lake",
-	  "sloc_cabin",
-	  "sloc_field",
-	  "sloc_forest",
-	  "sloc_campground",
-	  "sloc_hermit_shack",
-	  "sloc_river"
+      "sloc_cabin",
+      "sloc_field",
+      "sloc_forest",
+      "sloc_campground",
+      "sloc_hermit_shack",
+      "sloc_river"
     ],
 	"flags": [ "LONE_START", "HELI_CRASH" ]
   },
