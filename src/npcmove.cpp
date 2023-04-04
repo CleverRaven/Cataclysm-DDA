@@ -595,7 +595,7 @@ void npc::assess_danger()
         return;
     }
     const auto handle_hostile = [&]( const Character & foe, float foe_threat,
-    const std::string & bogey, const std::string & warning ) {
+    const std::string &bogey, const std::string &warning ) {
         int dist = rl_dist( pos(), foe.pos() );
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
             warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
@@ -906,11 +906,6 @@ void npc::move()
             add_msg_debug( debugmode::DF_NPC, "NPC %s: investigating sound at x(%d) y(%d)", get_name(),
                            ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
         }
-    } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
-        tripoint return_guard_pos = *ai_cache.guard_pos;
-        add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
-                       return_guard_pos.x, return_guard_pos.y );
-        action = npc_return_to_guard_pos;
     } else {
         // No present danger
         cleanup_on_no_danger();
@@ -921,6 +916,12 @@ void npc::move()
         if( action == npc_undecided ) {
             action = address_player();
             print_action( "address_player %s", action );
+        }
+        if( action == npc_undecided && ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
+            tripoint return_guard_pos = *ai_cache.guard_pos;
+            add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
+                           return_guard_pos.x, return_guard_pos.y );
+            action = npc_return_to_guard_pos;
         }
     }
 
@@ -3587,7 +3588,7 @@ void npc::heal_self()
         item *treatment = nullptr;
         std::string iusage = "INHALER";
 
-        const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
+        const auto filter_use = [this]( const std::string &filter ) -> std::vector<item *> {
             auto inv_filtered = items_with( [&filter]( const item & itm )
             {
                 return ( itm.type->get_use( filter ) != nullptr ) && itm.ammo_sufficient( nullptr );
@@ -4416,11 +4417,11 @@ bool npc::complain_about( const std::string &issue, const time_duration &dur,
 {
     // Don't have a default constructor for time_point, so accessing it in the
     // complaints map is a bit difficult, those lambdas should cover it.
-    const auto complain_since = [this]( const std::string & key, const time_duration & d ) {
+    const auto complain_since = [this]( const std::string &key, const time_duration & d ) {
         const auto iter = complaints.find( key );
         return iter == complaints.end() || iter->second < calendar::turn - d;
     };
-    const auto set_complain_since = [this]( const std::string & key ) {
+    const auto set_complain_since = [this]( const std::string &key ) {
         const auto iter = complaints.find( key );
         if( iter == complaints.end() ) {
             complaints.emplace( key, calendar::turn );
