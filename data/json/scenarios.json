@@ -930,7 +930,7 @@
       "sloc_hermit_shack",
       "sloc_river"
     ],
-	"flags": [ "LONE_START", "HELI_CRASH" ]
+    "flags": [ "LONE_START", "HELI_CRASH" ]
   },
   {
     "type": "scenario",
