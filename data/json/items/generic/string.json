@@ -166,7 +166,7 @@
     "copy-from": "rope_6",
     "type": "GENERIC",
     "name": { "str": "seat belt" },
-    "description": "A length of synthetic fiber weaved into a flat band, usually used to securly fasten passenger inside vehicles.",
+    "description": "A length of synthetic fiber weaved into a flat band, usually used to securely fasten passenger inside vehicles.",
     "material": "nylon",
     "armor_data": {
       "armor": [
