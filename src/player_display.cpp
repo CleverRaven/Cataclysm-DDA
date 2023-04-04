@@ -1172,7 +1172,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         const std::vector<bionic_grouping> &bionicslist,
         const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
         const std::vector<HeaderSkill> &skillslist, bool customize_character,
-        const std::vector<catacurses::window *> windows, const catacurses::window &w_tip,
+        const std::vector<catacurses::window *> &windows, const catacurses::window &w_tip,
         int &tip_btn_selected )
 {
     const auto invalidate_tab = [&]( const player_display_tab tab ) {
