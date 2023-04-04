@@ -995,7 +995,7 @@
     "start_name": "In Town",
     "allowed_locs": [ "sloc_apartments_rooftop", "sloc_apartments_rooftop2", "sloc_hotel_rooftop", "sloc_office_tower_rooftop" ],
     "eoc": [ "scenario_strong_portal_storm_base" ],
-	"requirement": "achievement_reach_mid_z_level",
+    "requirement": "achievement_reach_mid_z_level",
     "flags": [ "LONE_START", "CITY_START", "CHALLENGE", "HELI_CRASH" ]
   },
   {
