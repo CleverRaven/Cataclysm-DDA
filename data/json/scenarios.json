@@ -232,6 +232,7 @@
     "points": -2,
     "start_name": "Bastion Fort",
     "allowed_locs": [ "sloc_fort" ],
+	"requirement": "achievement_reach_bastion_fort",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -365,6 +366,7 @@
     "professions": [ "security" ],
     "allowed_locs": [ "sloc_lab_concourse_area" ],
     "map_extra": "mx_lab_concourse_area",
+	"requirement": "achievement_reach_trans_coast_lab",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -462,6 +464,7 @@
     "forced_traits": [ "FLIMSY2" ],
     "forbidden_traits": [ "TOUGH", "DISRESISTANT" ],
     "professions": [ "unemployed", "patient", "veteran" ],
+	"requirement": "achievement_reach_hospital",
     "flags": [ "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -504,6 +507,7 @@
       "k9_cop",
       "cop"
     ],
+	"requirement": "achievement_reach_island_prison",
     "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
@@ -515,6 +519,7 @@
     "allowed_locs": [ "sloc_mi-go_camp" ],
     "start_name": "Mi-Go Camp",
     "professions": [ "captive", "rescuer" ],
+	"requirement": "achievement_reach_mi-Go_encampment",
     "flags": [ "LONE_START", "CHALLENGE" ],
     "custom_initial_date": { "season": "winter" }
   },
@@ -690,6 +695,7 @@
       "combat-mechanic",
       "combat-engineer"
     ],
+	"requirement": "achievement_reach_military_base",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -820,6 +826,7 @@
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  However, the people you came with started to turn and now they're out for your flesh!  You've holed up in the basement for now, but sooner or later you have to make for the door… and fast!",
     "allowed_locs": [ "sloc_shelter_infest_a", "sloc_shelter_infest_b", "sloc_shelter_infest_c" ],
     "start_name": "In an Infested Shelter",
+	 "requirement": "achievement_survive_7_days",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -845,6 +852,7 @@
       "nco",
       "combat-engineer"
     ],
+	"requirement": "achievement_reach_aircraft_carrier",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -867,6 +875,147 @@
     "start_name": "Nuclear Power Plant",
     "allowed_locs": [ "nuclear_plant" ],
     "professions": [ "electrician", "labtech", "medic" ],
+	"requirement": "achievement_reach_nuclear_plant",
     "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "name": "Challenge - Close Encounter",
+    "description": "You don't know what it was but you managed to lose it for the time being. Now you are injured, surrounded and the building is on fire. You hope you have some time before it returns to finish the job.",
+    "flags": [ "CITY_START", "CHALLENGE", "LONE_START", "HELI_CRASH" ],
+    "id": "close_encounter_start",
+    "points": -5,
+    "start_name": "In Town",
+	"forced_traits": [ "HAS_NEMESIS" ],
+	"eoc": [ "scenario_surrounded_zombie", "EOC_scenario_fire", "EOC_scenario_smoke" ],
+	"requirement": "achievement_kill_100_monsters",
+    "allowed_locs": [
+      "sloc_grocery_store",
+      "sloc_garage",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_church",
+	  "sloc_fire_station",
+      "sloc_police",
+      "sloc_town_hall",
+      "sloc_apartments_rooftop",
+      "sloc_apartments_rooftop2",
+      "sloc_hospital",
+      "sloc_school",
+      "sloc_hotel_rooftop",
+      "sloc_office_tower_rooftop",
+      "sloc_cathedral_rooftop"
+    ],
+    "missions": [ "MISSION_KILL_NEMESIS" ]
+  },
+  {
+    "type": "scenario",
+    "name": "Surrounded in the Dark",
+    "description": "You were camping in the wild. One night strange noises closed in on you and you were attacked. You managed to get away but can feel things moving in the dark.",
+    "id": "camp_attack_start",
+    "points": -2,
+	"custom_initial_date": { "hour":2 },
+    "start_name": "Wilderness",
+	"eoc": [ "scenario_surrounded_zombie_heavy" ],
+    "allowed_locs": [
+      "sloc_campsite",
+      "sloc_cabin_lake",
+	  "sloc_cabin",
+	  "sloc_field",
+	  "sloc_forest",
+	  "sloc_campground",
+	  "sloc_hermit_shack",
+	  "sloc_river"
+    ],
+	"flags": [ "LONE_START", "HELI_CRASH" ]
+  },
+  {
+    "type": "scenario",
+    "id": "lone_survivor_start",
+    "name": "Lone Survivor",
+    "points": 0,
+    "description": "You are the only one that made it...",
+    "start_name": "In Town",
+    "allowed_locs": [
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_grocery_store",
+      "sloc_garage",
+	  "sloc_bank",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_golfcourse_mid_course",
+      "sloc_golfcourse_clubhouse",
+      "sloc_church",
+      "sloc_cemetery"
+    ],
+    "eoc": [  "EOC_scenario_blood" ],
+	"map_extra": "mx_corpses",
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "rock_hard_place_start",
+    "name": "Between a Rock and a Hard Place",
+    "points": -2,
+    "description": "You were trying to scavenge for supplies, now some rough group of bandits has dragged monsters in with them where you were hiding!",
+    "start_name": "In Town",
+    "allowed_locs": [
+      "sloc_house",
+      "sloc_house_boarded",
+      "sloc_school",
+      "sloc_grocery_store",
+      "sloc_garage",
+      "sloc_bank",
+      "sloc_furniture_store",
+      "sloc_library",
+      "sloc_bookstore",
+      "sloc_zoo_giftshop",
+      "sloc_zoo_cages",
+      "sloc_church"
+    ],
+    "eoc": [ "scenario_surrounded_zombie" ],
+	"map_extra": "mx_looters",
+	"requirement": "achievement_kill_10_monsters",
+    "flags": [ "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "id": "shattered_sky_start",
+    "name": "Challenge - Shattered sky",
+    "points": -5,
+    "description": "From up here, you watched it all fall apart. The sky cracked and indescribable alien shapes writhed in the clouds. The horizon has returned to normal, but you still see shadows moving in the corner of your eye and feel them calling you. ",
+	"forced_traits": [ "SCHIZOPHRENIC" ],
+    "start_name": "In Town",
+    "allowed_locs": [
+      "sloc_apartments_rooftop",
+      "sloc_apartments_rooftop2",
+      "sloc_hotel_rooftop",
+      "sloc_office_tower_rooftop"
+    ],
+    "eoc": [ "scenario_strong_portal_storm_base" ],
+	"requirement": "achievement_reach_mid_z_level",
+    "flags": [ "LONE_START", "CITY_START", "CHALLENGE", "HELI_CRASH" ]
+  },
+  {
+    "type": "scenario",
+    "id": "low_profile_start",
+    "name": "Low Profile",
+    "points": -1,
+    "description": "You were trying to get some distance from home and keep a low profile. Days of boredom and a return to bad habits made you overdo it with the booze last night. You awake and find yourself confused with the strange behavior of people outside. Time to sober up and see what's going on. ",
+	"forced_traits": [ "ADDICTIVE" ],
+    "start_name": "In Town",
+    "allowed_locs": [
+	  "sloc_mobile_home",
+	  "sloc_motel"
+    ],
+    "eoc": [ "EOC_scenario_drunk" ],
+    "flags": [ "LONE_START" ]
   }
 ]
