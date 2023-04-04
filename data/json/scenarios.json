@@ -519,7 +519,7 @@
     "allowed_locs": [ "sloc_mi-go_camp" ],
     "start_name": "Mi-Go Camp",
     "professions": [ "captive", "rescuer" ],
-	"requirement": "achievement_reach_mi-Go_encampment",
+    "requirement": "achievement_reach_mi-Go_encampment",
     "flags": [ "LONE_START", "CHALLENGE" ],
     "custom_initial_date": { "season": "winter" }
   },
