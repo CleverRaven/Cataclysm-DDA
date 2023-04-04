@@ -521,6 +521,6 @@
         "forbidden_effects_any": [ "maimed_leg" ]
       }
     ],
-    "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "COMBAT_MOUNT", "INSECTICIDEPROOF" ]
+    "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PET_WONT_FOLLOW", "PET_MOUNTABLE", "PATH_AVOID_FALL", "COMBAT_MOUNT", "INSECTICIDEPROOF" ]
   }
 ]
