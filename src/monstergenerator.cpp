@@ -33,6 +33,7 @@
 #include "pathfinding.h"
 #include "rng.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "weakpoint.h"
 
@@ -438,6 +439,13 @@ void MonsterGenerator::finalize_mtypes()
         }
         if( mon.status_chance_multiplier < 0 ) {
             mon.status_chance_multiplier = 0;
+        }
+
+        // Check if trap_ids are valid
+        for( trap_str_id trap_avoid_id : mon.trap_avoids ) {
+            if( !trap_avoid_id.is_valid() ) {
+                debugmsg( "Invalid trap '%s'", trap_avoid_id.str() );
+            }
         }
 
         // Lower bound for hp scaling
