@@ -3222,9 +3222,6 @@ void Character::apply_skill_boost()
 
 void Character::do_skill_rust()
 {
-    if( get_option<std::string>( "SKILL_RUST" ) == "off" ) {
-        return;
-    }
     for( std::pair<const skill_id, SkillLevel> &pair : *_skills ) {
         const Skill &aSkill = *pair.first;
         SkillLevel &skill_level_obj = pair.second;
@@ -3251,17 +3248,10 @@ void Character::do_skill_rust()
         }
 
         const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_RESIST, 0 );
-        const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
-        }
-        const int newSkill = skill_level_obj.level();
-        if( newSkill < oldSkillLevel ) {
-            add_msg_if_player( m_bad,
-                               _( "Your practical skill in %s may need some refreshing.  It has dropped to %d." ), aSkill.name(),
-                               newSkill );
         }
     }
 }
