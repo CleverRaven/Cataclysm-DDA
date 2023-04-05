@@ -896,11 +896,17 @@ bool gun_actor::call( monster &z ) const
                     continue;
                 }
                 visible_points.push_back( p );
-                if( veh->part_with_feature( p, VPFLAG_CONTROLS, true ) >= 0 &&
-                    veh->part_with_feature( p, VPFLAG_ENGINE, true ) >= 0 &&
-                    veh->part_with_feature( p, VPFLAG_WHEEL, true ) >= 0 ) {
-                    valid_targets.push_back( p );
-                }
+                for( const vpart_reference &vp : veh->get_all_parts() ) {
+                    if( vp.pos() != p ) {
+                        continue;
+                    }
+                    if( veh->part_with_feature( vp.part_index(), VPFLAG_CONTROLS, true ) >= 0 &&
+                        veh->part_with_feature( vp.part_index(), VPFLAG_ENGINE, true ) >= 0 &&
+                        veh->part_with_feature( vp.part_index(), VPFLAG_WHEEL, true ) >= 0 ) {
+                        valid_targets.push_back( p );
+                        break;
+                    }
+                 }
             }
             if( !valid_targets.empty() ) {
                 aim_at = random_entry( valid_targets, tripoint_zero );
