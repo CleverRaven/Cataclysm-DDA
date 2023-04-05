@@ -3558,7 +3558,7 @@ void inventory_multiselector::on_input( const inventory_input &input )
 {
     if( input.entry != nullptr ) { // Single Item from mouse
         highlight( input.entry->any_item() );
-        if( input.action == "SELECT" ) {
+        if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
             toggle_entries( count );
         }
     }
