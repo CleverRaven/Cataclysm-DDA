@@ -3400,7 +3400,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
 
         if( input.entry != nullptr ) {
             highlight( input.entry->any_item() );
-            if( input.action == "SELECT" ) {
+            if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
                 toggle_entry( input.entry );
                 just_selected = input.entry;
             }
@@ -4006,7 +4006,7 @@ int inventory_examiner::execute()
             if( highlight( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-            if( input.action == "SELECT" ) {
+            if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
                 return cleanup();
             }
         }
