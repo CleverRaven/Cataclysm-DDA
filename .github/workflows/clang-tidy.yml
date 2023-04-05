@@ -8,6 +8,14 @@ on:
   pull_request:
     branches:
     - master
+    paths:
+    - **.c
+    - **.cpp
+    - **.h
+    - **.hpp
+    - **/CMakeLists.txt
+    - **/Makefile
+    - .github/workflows/clang-tidy.yml
 
 # We only care about the latest revision of a PR, so cancel all previous instances.
 concurrency:
