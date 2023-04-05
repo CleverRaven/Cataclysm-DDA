@@ -23,7 +23,7 @@
       [ [ "water_faucet", 1 ] ],
       [ [ "cable", 5 ] ],
       [ [ "sheet_metal", 1 ] ],
-      [ [ "nut_bolt", 30 ] ]
+      [ [ "nuts_bolts", 30 ] ]
     ]
   },
   {
@@ -102,7 +102,7 @@
       [ [ "food_processor", 1 ] ],
       [ [ "press", 1 ] ],
       [ [ "cable", 5 ] ],
-      [ [ "nut_bolt", 30 ] ]
+      [ [ "nuts_bolts", 30 ] ]
     ]
   },
   {
@@ -129,7 +129,7 @@
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 5 ] ],
       [ [ "sheet_metal", 1 ] ],
-      [ [ "nut_bolt", 30 ] ]
+      [ [ "nuts_bolts", 30 ] ]
     ]
   },
   {
@@ -151,7 +151,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "processor", 1 ] ], [ [ "nut_bolt", 16 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "motor", 2 ] ], [ [ "processor", 1 ] ], [ [ "nuts_bolts", 16 ] ] ]
   },
   {
     "type": "recipe",
@@ -178,7 +178,7 @@
       [ [ "motor", 2 ] ],
       [ [ "wheel", 1 ] ],
       [ [ "processor", 1 ] ],
-      [ [ "nut_bolt", 16 ] ]
+      [ [ "nuts_bolts", 16 ] ]
     ]
   },
   {
@@ -200,7 +200,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 2 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 1 ] ], [ [ "nut_bolt", 16 ] ] ]
+    "components": [ [ [ "pipe", 2 ] ], [ [ "sheet_metal", 1 ] ], [ [ "frame", 1 ] ], [ [ "wheel", 1 ] ], [ [ "nuts_bolts", 16 ] ] ]
   },
   {
     "type": "recipe",
@@ -228,7 +228,7 @@
       [ [ "wheel", 1 ] ],
       [ [ "motor", 1 ] ],
       [ [ "pipe_fittings", 2 ] ],
-      [ [ "nut_bolt", 50 ] ]
+      [ [ "nuts_bolts", 50 ] ]
     ]
   }
 ]
