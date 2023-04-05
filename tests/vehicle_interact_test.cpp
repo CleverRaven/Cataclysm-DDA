@@ -73,7 +73,9 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.push_back( tool_with_ammo( "welder", 10000 ) );
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 100, item( "scrap" ) );
+        tools.emplace_back( "wrench" );
+        tools.insert( tools.end(), 100, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 100, item( "nuts_bolts" ) );
         tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
@@ -93,7 +95,9 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 
         tools.emplace_back( "goggles_welding" );
         tools.emplace_back( "hammer" );
-        tools.insert( tools.end(), 100, item( "scrap" ) );
+        tools.emplace_back( "wrench" );
+        tools.insert( tools.end(), 100, item( "steel_chunk" ) );
+        tools.insert( tools.end(), 100, item( "nuts_bolts" ) );
         tools.insert( tools.end(), 10, item( "material_aluminium_ingot" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_steel" ) );
         tools.insert( tools.end(), 50, item( "welding_wire_alloy" ) );
