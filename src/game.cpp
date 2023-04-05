@@ -594,10 +594,10 @@ void game_ui::init_ui()
     get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
     get_options().save();
 #else
-    ensure_term_size();
-
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
+
+    ensure_term_size();
 
     // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
     if( TERMY % 2 ) {
@@ -5846,16 +5846,14 @@ void game::examine( const tripoint &examp, bool with_pickup )
                     return;
                 }
             }
-        } else if( u.is_mounted() ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
+        } else {
+            u.cant_do_mounted();
         }
         npc *np = dynamic_cast<npc *>( c );
-        if( np != nullptr && !u.is_mounted() ) {
+        if( np != nullptr && !u.cant_do_mounted() ) {
             if( npc_menu( *np ) ) {
                 return;
             }
-        } else if( np != nullptr && u.is_mounted() ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
         }
     }
 
@@ -5889,15 +5887,11 @@ void game::examine( const tripoint &examp, bool with_pickup )
     const tripoint player_pos = u.pos();
 
     if( m.has_furn( examp ) ) {
-        if( u.is_mounted() ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
-        } else {
+        if( !u.cant_do_mounted() ) {
             xfurn_t.examine( u, examp );
         }
     } else {
-        if( u.is_mounted() && xter_t.can_examine( examp ) ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
-        } else {
+        if( xter_t.can_examine( examp ) && !u.is_mounted() ) {
             xter_t.examine( u, examp );
         }
     }

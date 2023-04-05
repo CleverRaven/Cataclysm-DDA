@@ -64,6 +64,6 @@
     "method": "json",
     "update_mapgen_id": "nest_RandEnc_ruralgas_jotunn_remove",
     "//": "removes a random encounter at this roadstop",
-    "object": { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 }
+    "object": { "set": [ { "square": "creature_remove", "x": 0, "y": 0, "x2": 23, "y2": 23 } ] }
   }
 ]

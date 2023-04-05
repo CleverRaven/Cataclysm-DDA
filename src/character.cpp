@@ -1519,6 +1519,18 @@ bool Character::check_mount_is_spooked()
     return false;
 }
 
+bool Character::cant_do_mounted( bool msg ) const
+{
+    if( is_mounted() ) {
+        if( msg ) {
+            add_msg_player_or_npc( m_info, _( "You can't do that while mounted." ),
+                                   _( "<npcname> can't do that while mounted." ) );
+        }
+        return true;
+    }
+    return false;
+}
+
 bool Character::is_mounted() const
 {
     return has_effect( effect_riding ) && mounted_creature;
@@ -1735,10 +1747,10 @@ bool Character::uncanny_dodge()
 
     const bool can_dodge_bio = get_power_level() >= trigger_cost &&
                                has_active_bionic( bio_uncanny_dodge );
-    const bool can_dodge_mut = get_stamina() >= 300 && count_trait_flag( json_flag_UNCANNY_DODGE );
+    const bool can_dodge_mut = get_stamina() >= 300 && has_trait_flag( json_flag_UNCANNY_DODGE );
     const bool can_dodge_both = get_power_level() >= ( trigger_cost / 2 ) &&
                                 has_active_bionic( bio_uncanny_dodge ) &&
-                                get_stamina() >= 150 && count_trait_flag( json_flag_UNCANNY_DODGE );
+                                get_stamina() >= 150 && has_trait_flag( json_flag_UNCANNY_DODGE );
 
     if( !( can_dodge_bio || can_dodge_mut || can_dodge_both ) ) {
         return false;
@@ -3210,9 +3222,6 @@ void Character::apply_skill_boost()
 
 void Character::do_skill_rust()
 {
-    if( get_option<std::string>( "SKILL_RUST" ) == "off" ) {
-        return;
-    }
     for( std::pair<const skill_id, SkillLevel> &pair : *_skills ) {
         const Skill &aSkill = *pair.first;
         SkillLevel &skill_level_obj = pair.second;
@@ -3239,17 +3248,10 @@ void Character::do_skill_rust()
         }
 
         const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_RESIST, 0 );
-        const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
-        }
-        const int newSkill = skill_level_obj.level();
-        if( newSkill < oldSkillLevel ) {
-            add_msg_if_player( m_bad,
-                               _( "Your practical skill in %s may need some refreshing.  It has dropped to %d." ), aSkill.name(),
-                               newSkill );
         }
     }
 }
@@ -6706,12 +6708,13 @@ bool Character::consume_charges( item &used, int qty )
     return false;
 }
 
-int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
+int Character::item_handling_cost( const item &it, bool penalties, int base_cost,
+                                   int charges_in_it ) const
 {
     int mv = base_cost;
     if( penalties ) {
         // 40 moves per liter, up to 200 at 5 liters
-        mv += std::min( 200, it.volume() / 20_ml );
+        mv += std::min( 200, it.volume( false, false, charges_in_it ) / 20_ml );
     }
 
     if( weapon.typeId() == itype_e_handcuffs ) {
@@ -8659,8 +8662,9 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= tmp.size() ) {
                 break;
             }
-            tmp[imenu.ret]->use_amount( it, quantity, ret, filter );
-            remove_item( *tmp[imenu.ret] );
+            if( tmp[imenu.ret]->use_amount( it, quantity, ret, filter ) ) {
+                remove_item( *tmp[imenu.ret] );
+            }
             tmp.erase( tmp.begin() + imenu.ret );
         }
     }
@@ -10540,6 +10544,23 @@ int Character::book_fun_for( const item &book, const Character &p ) const
     return fun_bonus;
 }
 
+bool Character::has_bionic_with_flag( const json_character_flag &flag ) const
+{
+    for( const bionic &bio : *my_bionics ) {
+        if( bio.info().has_flag( flag ) ) {
+            return true;
+        }
+        if( bio.info().activated ) {
+            if( ( bio.info().has_active_flag( flag ) && has_active_bionic( bio.id ) ) ||
+                ( bio.info().has_inactive_flag( flag ) && !has_active_bionic( bio.id ) ) ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 int Character::count_bionic_with_flag( const json_character_flag &flag ) const
 {
     int ret = 0;
@@ -10558,6 +10579,19 @@ int Character::count_bionic_with_flag( const json_character_flag &flag ) const
     return ret;
 }
 
+bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
+{
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( bp->has_flag( flag ) ) {
+            return true;
+        }
+        if( get_part( bp )->has_conditional_flag( flag ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int Character::count_bodypart_with_flag( const json_character_flag &flag ) const
 {
     int ret = 0;
@@ -10572,11 +10606,24 @@ int Character::count_bodypart_with_flag( const json_character_flag &flag ) const
     return ret;
 }
 
-int Character::has_flag( const json_character_flag &flag ) const
+bool Character::has_flag( const json_character_flag &flag ) const
 {
     // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
-    return count_trait_flag( flag ) + count_bionic_with_flag( flag ) + has_effect_with_flag(
-               flag ) + count_bodypart_with_flag( flag ) + count_mabuff_flag( flag );
+    return has_trait_flag( flag ) ||
+           has_bionic_with_flag( flag ) ||
+           has_effect_with_flag( flag ) ||
+           has_bodypart_with_flag( flag ) ||
+           has_mabuff_flag( flag );
+}
+
+int Character::count_flag( const json_character_flag &flag ) const
+{
+    // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
+    return count_trait_flag( flag ) +
+           count_bionic_with_flag( flag ) +
+           has_effect_with_flag( flag ) +
+           count_bodypart_with_flag( flag ) +
+           count_mabuff_flag( flag );
 }
 
 bool Character::is_driving() const
