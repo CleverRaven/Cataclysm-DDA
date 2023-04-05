@@ -906,7 +906,7 @@ bool gun_actor::call( monster &z ) const
                         valid_targets.push_back( p );
                         break;
                     }
-                 }
+                }
             }
             if( !valid_targets.empty() ) {
                 aim_at = random_entry( valid_targets, tripoint_zero );
