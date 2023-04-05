@@ -3098,7 +3098,7 @@ item_location inventory_pick_selector::execute()
             if( highlight( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-            if( input.action == "SELECT" ) {
+            if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
                 return input.entry->any_item();
             }
         } else if( input.action == "ORGANIZE_MENU" ) {
