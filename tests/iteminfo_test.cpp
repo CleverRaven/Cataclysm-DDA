@@ -1895,7 +1895,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-79%)\n" );
+               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-56%)\n" );
     }
 }
 

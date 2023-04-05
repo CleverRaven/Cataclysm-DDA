@@ -159,9 +159,6 @@ struct islot_comestible {
         /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
         int parasites = 0;
 
-        /**Amount of radiation you get from this comestible*/
-        int radiation = 0;
-
         /** freezing point in degrees celsius, below this temperature item can freeze */
         float freeze_point = 0;
 

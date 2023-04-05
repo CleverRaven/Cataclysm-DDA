@@ -4777,62 +4777,50 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 
     // At least 3 exit points, to guarantee road continuity across overmaps
     if( roads_out.size() < 3 ) {
-        std::vector<tripoint_om_omt> viable_roads;
-        tripoint_om_omt tmp;
-        // Populate viable_roads with one point for each neighborless side.
-        // Make sure these points don't conflict with rivers.
 
+        std::array<const overmap *, 4> neighbors = { east, south, west, north };
+        static constexpr std::array<point, 4> neighbor_deltas = {
+            point_east, point_south, point_west, point_north
+        };
+
+        // x and y coordinates for a point on the edge in each direction
+        // -1 represents a variable one dimensional coordinate along that edge
+        // east == point( OMAPX - 1, n ); north == point( n, 0 );
+        static constexpr std::array<int, 4> edge_coords_x = {OMAPX - 1, -1, 0, -1};
+        static constexpr std::array<int, 4> edge_coords_y = {-1, OMAPY - 1, -1, 0};
+
+        // all the points on an edge except the 10 on each end
         std::array < int, OMAPX - 20 > omap_num;
-        for( int i = 0; i < 160; i++ ) {
+        for( int i = 0; i < OMAPX - 20; i++ ) {
             omap_num[i] = i + 10;
         }
 
-        if( north == nullptr ) {
-            std::shuffle( omap_num.begin(), omap_num.end(), rng_get_engine() );
-            for( const int &i : omap_num ) {
-                tmp = tripoint_om_omt( i, 0, 0 );
-                if( !( is_river( ter( tmp ) ) || is_river( ter( tmp + point_east ) ) ||
-                       is_river( ter( tmp + point_west ) ) ) ) {
-                    viable_roads.push_back( tmp );
+        std::array < size_t, 4 > dirs = {0, 1, 2, 3};
+        std::shuffle( dirs.begin(), dirs.end(), rng_get_engine() );
+
+        for( size_t dir : dirs ) {
+            // only potentially add a new random connection toward ungenerated overmaps
+            if( neighbors[dir] == nullptr ) {
+                std::shuffle( omap_num.begin(), omap_num.end(), rng_get_engine() );
+                for( const int &i : omap_num ) {
+                    tripoint_om_omt tmp = tripoint_om_omt(
+                                              edge_coords_x[dir] >= 0 ? edge_coords_x[dir] : i,
+                                              edge_coords_y[dir] >= 0 ? edge_coords_y[dir] : i,
+                                              0 );
+                    // Make sure these points don't conflict with rivers.
+                    if( !( is_river( ter( tmp ) ) ||
+                           // avoid adjacent rivers
+                           // east/west of a point on the north/south edge, and vice versa
+                           is_river( ter( tmp + neighbor_deltas[( dir + 1 ) % 4] ) ) ||
+                           is_river( ter( tmp + neighbor_deltas[( dir + 3 ) % 4] ) ) ) ) {
+                        roads_out.push_back( tmp );
+                        break;
+                    }
+                }
+                if( roads_out.size() == 3 ) {
                     break;
                 }
             }
-        }
-        if( east == nullptr ) {
-            std::shuffle( omap_num.begin(), omap_num.end(), rng_get_engine() );
-            for( const int &i : omap_num ) {
-                tmp = tripoint_om_omt( OMAPX - 1, i, 0 );
-                if( !( is_river( ter( tmp ) ) || is_river( ter( tmp + point_north ) ) ||
-                       is_river( ter( tmp + point_south ) ) ) ) {
-                    viable_roads.push_back( tmp );
-                    break;
-                }
-            }
-        }
-        if( south == nullptr ) {
-            std::shuffle( omap_num.begin(), omap_num.end(), rng_get_engine() );
-            for( const int &i : omap_num ) {
-                tmp = tripoint_om_omt( i, OMAPY - 1, 0 );
-                if( !( is_river( ter( tmp ) ) || is_river( ter( tmp + point_east ) ) ||
-                       is_river( ter( tmp + point_west ) ) ) ) {
-                    viable_roads.push_back( tmp );
-                    break;
-                }
-            }
-        }
-        if( west == nullptr ) {
-            std::shuffle( omap_num.begin(), omap_num.end(), rng_get_engine() );
-            for( const int &i : omap_num ) {
-                tmp = tripoint_om_omt( 0, i, 0 );
-                if( !( is_river( ter( tmp ) ) || is_river( ter( tmp + point_north ) ) ||
-                       is_river( ter( tmp + point_south ) ) ) ) {
-                    viable_roads.push_back( tmp );
-                    break;
-                }
-            }
-        }
-        while( roads_out.size() < 3 && !viable_roads.empty() ) {
-            roads_out.push_back( random_entry_removed( viable_roads ) );
         }
     }
 
@@ -5661,24 +5649,77 @@ void overmap::build_connection(
         z, initial_dir );
 }
 
+// connect the points to each other using a minimum spanning tree
+// plus rare extra connections to make loops
 void overmap::connect_closest_points( const std::vector<point_om_omt> &points, int z,
                                       const overmap_connection &connection )
 {
-    if( points.size() == 1 ) {
+    // { weight, {i, j} }
+    using edge = std::pair<float, std::pair<size_t, size_t>>;
+
+    if( points.size() < 2 ) {
         return;
     }
-    for( size_t i = 0; i < points.size(); ++i ) {
-        int closest = -1;
-        int k = 0;
+
+    std::vector<edge> edges;
+
+    // enumerate every possible connection between the points
+    edges.reserve( points.size() * ( points.size() - 1 ) / 2 );
+    for( size_t i = 0; i < points.size() - 1; ++i ) {
         for( size_t j = i + 1; j < points.size(); j++ ) {
-            const int distance = trig_dist( points[i], points[j] );
-            if( distance < closest || closest < 0 ) {
-                closest = distance;
-                k = j;
-            }
+            const float distance = trig_dist( points[i], points[j] );
+            edges.push_back( {distance, {i, j}} );
         }
-        if( closest > 0 ) {
-            build_connection( points[i], points[k], z, connection, false );
+    }
+
+    // sort from shortest to longest
+    sort( edges.begin(), edges.end() );
+
+    // track which subgraph each point belongs to
+    std::vector<int> subgraphs( points.size(), -1 );
+
+    for( edge candidate : edges ) {
+        const size_t i = candidate.second.first;
+        const size_t j = candidate.second.second;
+        bool connect = false;
+        if( subgraphs[i] < 0 && subgraphs[j] < 0 ) {
+            // neither point of this connection has been connected yet
+            // identify them each as the root of a new subgraph
+            subgraphs[i] = i;
+            subgraphs[j] = j;
+            // and connect them
+            connect = true;
+        } else if( subgraphs[i] < 0 ) {
+            // j is already connected to something
+            // add i to j's subgraph
+            subgraphs[i] = subgraphs[j];
+            // and connect them
+            connect = true;
+        } else if( subgraphs[j] < 0 ) {
+            // i is already connected to something
+            // add j to i's subgraph
+            subgraphs[j] = subgraphs[i];
+            // and connect them
+            connect = true;
+        } else if( subgraphs[i] != subgraphs[j] ) {
+            // i and j are both connected to different subgraphs
+            // join the subgraphs
+            int dead_subtree = subgraphs[j];
+            for( size_t k = 0; k < points.size(); k++ ) {
+                if( subgraphs[k] == dead_subtree ) {
+                    subgraphs[k] = subgraphs[i];
+                }
+            }
+            // and connect them
+            connect = true;
+        } else if( one_in( 10 ) ) {
+            // the remaining case is that i and j are already in the same subgraph
+            // making this connection creates a loop
+            connect = true;
+        }
+
+        if( connect ) {
+            build_connection( points[i], points[j], z, connection, false );
         }
     }
 }
