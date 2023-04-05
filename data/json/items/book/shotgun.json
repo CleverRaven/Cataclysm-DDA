@@ -41,8 +41,6 @@
         "id": "mag_shotgun_5",
         "name": { "str": "The Skeet Shooter's Logbook", "str_pl": "copies of The Skeet Shooter's Logbook" },
         "description": "A small guide to skeet shooting, including rules, equipment, tips, and techniques for improving accuracy and performance.",
-        "max_level": 3,
-        "intelligence": 8,
         "weight": 1
       },
       {
@@ -50,16 +48,12 @@
         "name": { "str": "If It Ain't Broke, Fix It!", "str_pl": "copies of If It Ain't Broke, Fix It!" },
         "description": "The beginner's guide to clay shooting, with lots of advice, instructions, and drills.",
         "//": "978-0976020400",
-        "max_level": 3,
-        "intelligence": 8,
         "weight": 1
       },
       {
         "id": "mag_shotgun_7",
         "name": { "str": "Sporting Clays Consistency", "str_pl": "copies of Sporting Clays Consistency" },
         "description": "A bird and clay shooting manual, this book contains lots of information about proper shotgun shooting like stances, aim, and ballistics.",
-        "max_level": 3,
-        "intelligence": 8,
         "//": "978-0976020417",
         "weight": 1
       }

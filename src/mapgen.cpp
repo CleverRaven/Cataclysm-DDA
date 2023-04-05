@@ -21,6 +21,7 @@
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character_id.h"
+#include "city.h"
 #include "clzones.h"
 #include "colony.h"
 #include "common_types.h"
@@ -6246,9 +6247,6 @@ void map::draw_connections( const mapgendata &dat )
             }
         }
     } else if( terrain_type->get_type_id() == oter_type_sewer ) {
-        if( dat.above() == oter_road_nesw_manhole ) {
-            ter_set( point( rng( SEEX - 2, SEEX + 1 ), rng( SEEY - 2, SEEY + 1 ) ), t_ladder_up );
-        }
         if( ( dat.north()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 0 ) ) {
             for( int j = 0; j < SEEY - 3; j++ ) {

@@ -1182,7 +1182,7 @@
     "end": {
       "effect": [
         { "u_spawn_item": "icon", "count": 350 },
-        { "u_spawn_item": "pickled_egg", "count": 10, "container": "jar_glass_sealed", "sealed": true }
+        { "u_spawn_item": "pickled_egg", "count": 10, "container": "jar_glass_sealed" }
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],

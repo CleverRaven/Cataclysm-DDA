@@ -6407,6 +6407,17 @@
   },
   {
     "type": "mutation",
+    "id": "MAKAYLA_MUTATOR",
+    "name": { "str": "Catastrophic mutation" },
+    "points": -2,
+    "mixed_effect": true,
+    "description": "Exposure to portal storms and related phenomena causes you to mutate in a mostly predictable fashion.",
+    "purifiable": false,
+    "valid": false,
+    "cancels": [ "CHAOTIC", "UNSTABLE" ]
+  },
+  {
+    "type": "mutation",
     "id": "CHAOTIC",
     "name": { "str": "Genetic Chaos" },
     "points": -4,
@@ -7952,7 +7963,7 @@
     "points": 99,
     "valid": false,
     "description": "If you need to survive the deadliest bug attacks.",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "MAX_HP", "add": 9000 } ] } ] },
+    "enchantments": [ { "values": [ { "value": "MAX_HP", "add": 9000 } ] } ],
     "debug": true
   },
   {
@@ -7962,7 +7973,7 @@
     "points": 99,
     "valid": false,
     "description": "Heal yourself from this stupid bug attacks.",
-    "relic_data": { "passive_effects": [ { "values": [ { "value": "REGEN_HP", "multiply": 100 } ] } ] },
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "add": 100 } ] } ],
     "debug": true
   },
   {

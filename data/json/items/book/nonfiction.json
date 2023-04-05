@@ -20,7 +20,7 @@
     "id": "book_nonf_hard_homemk_handshome",
     "type": "BOOK",
     "name": { "str": "The Hands-On Home", "str_pl": "copies of The Hands-On Home" },
-    "description": "An ecologically-minded take on modern homemaking, this is a practical guide to maximising your time in the kitchen and beyond.",
+    "description": "An ecologically-minded take on modern homemaking, this is a practical guide to maximizing your time in the kitchen and beyond.",
     "weight": "1334 g",
     "copy-from": "book_nonf_hard_homemk_tpl"
   },

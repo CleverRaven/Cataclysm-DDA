@@ -1114,7 +1114,7 @@
     "color": "yellow",
     "use_action": [ "MEDITATE" ],
     "flags": [ "NO_WEAR_EFFECT" ],
-    "variants_type": "generic",
+    "variant_type": "generic",
     "variants": [
       {
         "id": "lutheran_necklace",

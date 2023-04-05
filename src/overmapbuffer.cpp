@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
+#include "city.h"
 #include "color.h"
 #include "common_types.h"
 #include "coordinate_conversions.h"
