@@ -40,7 +40,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "solar_panel", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ], [ [ "nut_bolt", 8 ] ] ]
+    "components": [ [ [ "solar_panel", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ], [ [ "nuts_bolts", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -61,7 +61,7 @@
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ], [ [ "nut_bolt", 8 ] ] ]
+    "components": [ [ [ "solar_panel_v2", 1 ] ], [ [ "scrap", 2 ] ], [ [ "wire", 2 ] ], [ [ "nuts_bolts", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -320,7 +320,7 @@
       ],
       [ [ "nail", 120 ] ],
       [ [ "pipe", 20 ] ],
-      [ [ "nut_bolt", 50 ] ],
+      [ [ "nuts_bolts", 50 ] ],
       [ [ "pipe_fittings", 10 ] ]
     ]
   },
@@ -358,7 +358,7 @@
       [ [ "nail", 80 ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ],
-      [ [ "nut_bolt", 20 ] ],
+      [ [ "nuts_bolts", 20 ] ],
       [ [ "pipe_fittings", 3 ] ]
     ]
   },
@@ -381,7 +381,7 @@
       [ [ "nail", 80 ] ],
       [ [ "pipe", 8 ] ],
       [ [ "wheel_wood_b", 2 ] ],
-      [ [ "nut_bolt", 20 ] ],
+      [ [ "nuts_bolts", 20 ] ],
       [ [ "pipe_fittings", 3 ] ]
     ]
   },
@@ -426,7 +426,7 @@
       [ [ "nail", 240 ] ],
       [ [ "pipe", 24 ] ],
       [ [ "wheel_wood_b", 6 ] ],
-      [ [ "nut_bolt", 42 ] ],
+      [ [ "nuts_bolts", 42 ] ],
       [ [ "pipe_fittings", 10 ] ]
     ]
   },
@@ -457,7 +457,7 @@
       [ [ "nail", 240 ] ],
       [ [ "pipe", 24 ] ],
       [ [ "wheel_wood_b", 6 ] ],
-      [ [ "nut_bolt", 42 ] ],
+      [ [ "nuts_bolts", 42 ] ],
       [ [ "pipe_fittings", 10 ] ]
     ]
   },
