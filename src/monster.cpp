@@ -62,6 +62,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "units.h"
 #include "viewer.h"
 #include "weakpoint.h"
@@ -1044,8 +1045,7 @@ bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr ) const
         return true;
     }
 
-    std::vector<std::string> tavoids = get_trap_avoids();
-    if (std::find(tavoids.begin(), tavoids.end(), tr.id.str()) != tavoids.end()) {
+    if( get_trap_avoids().count( tr.id ) > 0 ) {
         return true;
     }
 
@@ -3596,7 +3596,7 @@ std::set<tripoint> monster::get_path_avoid() const
     return std::set<tripoint>();
 }
 
-std::vector<std::string> monster::get_trap_avoids() const
+const std::set<trap_str_id> &monster::get_trap_avoids() const
 {
     return type->trap_avoids;
 }

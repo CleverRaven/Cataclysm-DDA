@@ -347,7 +347,7 @@ struct mtype {
         weakpoint_families families;
 
         // Traps avoided by this monster
-        std::vector<std::string> trap_avoids;
+        std::set<trap_str_id> trap_avoids;
 
     private:
         std::vector<weakpoints_id> weakpoints_deferred;

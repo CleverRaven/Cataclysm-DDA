@@ -770,15 +770,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_pure", armor_pure, strict, 0 );
     assign( jo, "armor_biological", armor_biological, strict, 0 );
 
-    if ( jo.has_array("trap_avoids") ) {
-        for( const JsonValue entry : jo.get_array( "trap_avoids" ) ) {
-            if( entry.test_string() ) {
-                trap_avoids.push_back( entry.get_string() );
-            } else {
-                entry.throw_error( "array element is not a string." );
-            }
-        }
-    }
+    optional( jo, was_loaded, "trap_avoids", trap_avoids, string_id_reader<trap>{} );
 
     if( !was_loaded ) {
         weakpoints_deferred.clear();
