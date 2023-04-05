@@ -2666,10 +2666,10 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
-    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "using": [ [ "welding_standard", 500 ] ],
     "//1": "4cm weld per rebar + welding all the metal squares into place",
-    "components": [ [ [ "rebar", 16 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "hinge", 2 ] ], [ [ "nut_bolt", 8 ] ] ],
+    "components": [ [ [ "rebar", 16 ] ], [ [ "sheet_metal_small", 12 ] ], [ [ "hinge", 2 ] ], [ [ "nuts_bolts", 8 ] ] ],
     "pre_terrain": "t_mdoor_frame",
     "post_terrain": "t_door_bar_c"
   },
@@ -2751,7 +2751,7 @@
     "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ] ],
     "//1": "50cm weld per frame",
     "using": [ [ "welding_standard", 500 ], [ "welding_standard", 500 ] ],
-    "components": [ [ [ "frame", 10 ] ], [ [ "nut_bolt", 200 ] ] ],
+    "components": [ [ [ "frame", 10 ] ], [ [ "nuts_bolts", 200 ] ] ],
     "pre_terrain": "t_concrete",
     "post_terrain": "t_support_l"
   },
