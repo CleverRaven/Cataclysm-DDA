@@ -1991,7 +1991,7 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             }
         }
     }
-    for( auto &it : ret ) {
+    for( item &it : ret ) {
         it.spill_contents( *this );
     }
     empty_buckets( *this );
