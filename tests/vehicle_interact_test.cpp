@@ -98,7 +98,7 @@ TEST_CASE( "repair_vehicle_part", "[vehicle]" )
         tools.emplace_back( "hammer" );
         tools.emplace_back( "wrench" );
         tools.insert( tools.end(), 20, item( "steel_chunk" ) );
-        tools.insert( tools.end(), 50, item( "scrap" ) );  
+        tools.insert( tools.end(), 50, item( "scrap" ) );
         tools.insert( tools.end(), 25, item( "nuts_bolts" ) );
         tools.insert( tools.end(), 8, item( "material_aluminium_ingot" ) );
         tools.insert( tools.end(), 500, item( "welding_wire_steel" ) );
