@@ -59,7 +59,7 @@ directed_path<point> greedy_path( const point &source, const point &dest, const 
     }
     const Node first_node( source, om_direction::type::invalid, 1000 );
     if( scorer( directed_node<point>( first_node.pos, first_node.dir ),
-                cata::nullopt ).node_cost < 0 ) {
+                std::nullopt ).node_cost < 0 ) {
         return res;
     }
     const size_t map_size = static_cast<size_t>( max.x ) * max.y;
@@ -276,7 +276,7 @@ omt_score::omt_score( int node_cost, bool allow_z_change ) : node_cost( node_cos
 
 simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
         const tripoint_abs_omt &dest, const int radius, const omt_scoring_fn &scorer,
-        const std::function<void( size_t, size_t )> &progress_fn, const cata::optional<int> &max_cost )
+        const std::function<void( size_t, size_t )> &progress_fn, const std::optional<int> &max_cost )
 {
     cata_assert( progress_fn != nullptr );
     simple_path<tripoint_abs_omt> ret;
@@ -294,7 +294,7 @@ simple_path<tripoint_abs_omt> find_overmap_path( const tripoint_abs_omt &source,
     constexpr int max_search_count = 100000;
 
     constexpr auto report_period = std::chrono::milliseconds( 100 );
-    auto report_next = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point report_next = std::chrono::steady_clock::now();
     int progress = 0;
     while( !open_set.empty() ) {
         const node_address cur_addr = open_set.top().addr;

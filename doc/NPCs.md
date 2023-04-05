@@ -52,14 +52,14 @@ Format:
     { "group": "example_shopkeeper_itemgroup3", "trust": 20, "rigid": true }
     { "group": "example_shopkeeper_itemgroup3", "trust": 40, "strict": true },
     {
-        "group": "example_shopkeeper_itemgroup4",
-        "condition": { "u_has_var": "VIP", "type": "general", "context": "examples", "value": "yes" }
+      "group": "example_shopkeeper_itemgroup4",
+      "condition": { "u_has_var": "VIP", "type": "general", "context": "examples", "value": "yes" }
     }
   ],
   "shopkeeper_consumption_rates": "basic_shop_rates",
   "shopkeeper_price_rules": [
     { "item": "scrap", "price": 10000 },
-  ]
+  ],
   "shopkeeper_blacklist": "test_blacklist",
   "restock_interval": "6 days",
   "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ]
@@ -95,15 +95,15 @@ Controls consumption of shopkeeper's stock of items (simulates purchase by other
   "default_rate": 5, // defined as units/day since last restock
   "junk_threshold": "10 cent", // items below this price will be consumed completely regardless of matches below
   "rates": [ // lower entries override higher ones
-      { "item": "hammer", "rate": 1 },
-      {
-        "item": "hammer",
-        "rate": 10,
-        "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
-      },
-      { "category": "ammo", "rate": 10 },
-      { "group": "EXODII_basic_trade", "rate": 100 }
-      { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
+    { "item": "hammer", "rate": 1 },
+    {
+      "item": "hammer",
+      "rate": 10,
+      "condition": { "npc_has_var": "hammer_eater", "type": "bool", "context": "dinner", "value": "yes" }
+    },
+    { "category": "ammo", "rate": 10 },
+    { "group": "EXODII_basic_trade", "rate": 100 }
+    { "group": "EXODII_basic_trade", "category": "ammo", "rate": 200 }
   ]
 ```
 `condition` is checked with avatar as alpha and npc as beta. See [Player or NPC conditions](#player-or-npc-conditions).
@@ -115,13 +115,13 @@ Specifies blacklist of items that shopkeeper will not accept for trade.  Format 
   "type": "shopkeeper_blacklist",
   "id": "basic_blacklist",
   "entries": [
-      {
-        "item": "hammer",
-        "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
-        "message": "<npcname> hates this item"
-      },
-      { "category": "ammo" },
-      { "group": "EXODII_basic_trade" }
+    {
+      "item": "hammer",
+      "condition": { "npc_has_var": "hammer_hater", "type": "bool", "context": "test", "value": "yes" },
+      "message": "<npcname> hates this item"
+    },
+    { "category": "ammo" },
+    { "group": "EXODII_basic_trade" }
   ]
 ```
 
@@ -224,19 +224,19 @@ Case use example:
 
 ```json
 {
-    "type":"npc",
-    "...": "rest of fields go here",
-    "<acknowledged>": "I gotcha fam",
-    "<camp_food_thanks>": "<food_thanks_custom>"
+  "type":"npc",
+  "...": "rest of fields go here",
+  "<acknowledged>": "I gotcha fam",
+  "<camp_food_thanks>": "<food_thanks_custom>"
 },
 {
-    "type":"snippet",
-    "category":"<food_thanks_custom>",
-    "text": [
-        "thanks for the grub",
-        "thanks for the food!",
-        "itadakimasu!"
-    ]
+  "type":"snippet",
+  "category":"<food_thanks_custom>",
+  "text": [
+    "thanks for the grub",
+    "thanks for the food!",
+    "itadakimasu!"
+  ]
 }
 ```
 
@@ -337,6 +337,10 @@ Field | Used for...
 `<u_val:VAR>` | The user variable VAR
 `<npc_val:VAR>` | The npc variable VAR
 `<global_val:VAR>` | The global variable VAR
+`<item_name:ID>` | The name of the item with ID
+`<item_description:ID>` | The description of the item with ID
+`<trait_name:ID>` | The name of the trait with ID
+`<trait_description:ID>` | The description of the trait with ID
 
 ---
 
@@ -354,16 +358,16 @@ One can specify new topics in json. It is currently not possible to define the s
 Format:
 ```json
 {
-    "type": "talk_topic",
-    "id": "TALK_ARSONIST",
-    "dynamic_line": "What now?",
-    "responses": [
-        {
-            "text": "I don't know either",
-            "topic": "TALK_DONE"
-        }
-    ],
-    "replace_built_in_responses": true
+  "type": "talk_topic",
+  "id": "TALK_ARSONIST",
+  "dynamic_line": "What now?",
+  "responses": [
+    {
+      "text": "I don't know either",
+      "topic": "TALK_DONE"
+    }
+  ],
+  "replace_built_in_responses": true
 }
 ```
 
@@ -410,11 +414,11 @@ A dynamic line can either be a simple string, or an complex object, or an array 
 Example:
 ```json
 "dynamic_line": [
-    "generic text",
-    {
-        "npc_female": [ "text1", "text2", "text3" ],
-        "npc_male": { "u_female": "text a", "u_male": "text b" }
-    }
+  "generic text",
+  {
+    "npc_female": [ "text1", "text2", "text3" ],
+    "npc_male": { "u_female": "text a", "u_male": "text b" }
+  }
 ]
 ```
 
@@ -426,19 +430,19 @@ In all cases, `npc_` refers to the NPC, and `u_` refers to the player.  Optional
 The dynamic line is a list of dynamic lines, all of which are displayed.  The dynamic lines in the list are processed normally.
 ```json
 {
-    "concatenate": [
-        {
-            "npc_male": true,
-            "yes": "I'm a man.",
-            "no": "I'm a woman."
-        },
-        "  ",
-        {
-            "u_female": true,
-            "no": "You're a man.",
-            "yes": "You're a woman."
-        }
-    ]
+  "concatenate": [
+    {
+      "npc_male": true,
+      "yes": "I'm a man.",
+      "no": "I'm a woman."
+    },
+    "  ",
+    {
+      "u_female": true,
+      "no": "You're a man.",
+      "yes": "You're a woman."
+    }
+  ]
 }
 ```
 
@@ -447,8 +451,8 @@ The line is to be given a gender context for the NPC, player, or both, to aid
 translation in languages where that matters. For example:
 ```json
 {
-    "gendered_line": "Thank you.",
-    "relevant_genders": [ "npc" ]
+  "gendered_line": "Thank you.",
+  "relevant_genders": [ "npc" ]
 }
 ```
 ("Thank you" is different for male and female speakers in e.g. Portuguese).
@@ -461,7 +465,7 @@ The dynamic line will be randomly chosen from the hints snippets.
 
 ```json
 {
-    "give_hint": true
+  "give_hint": true
 }
 ```
 
@@ -470,7 +474,7 @@ The dynamic line will list all of the possible starting sites for faction camps.
 
 ```json
 {
-    "list_faction_camp_sites": true
+  "list_faction_camp_sites": true
 }
 ```
 
@@ -479,8 +483,8 @@ The dynamic line will be chosen from a reason generated by an earlier effect.  T
 
 ```json
 {
-    "has_reason": { "use_reason": true },
-    "no": "What is it, boss?"
+  "has_reason": { "use_reason": true },
+  "no": "What is it, boss?"
 }
 ```
 
@@ -489,33 +493,33 @@ The dynamic line will be chosen based on whether a single dialogue condition is 
 
 ```json
 {
-    "npc_need": "fatigue",
-    "level": "TIRED",
-    "no": "Just few minutes more...",
-    "yes": "Make it quick, I want to go back to sleep."
+  "npc_need": "fatigue",
+  "level": "TIRED",
+  "no": "Just few minutes more...",
+  "yes": "Make it quick, I want to go back to sleep."
 }
 {
-    "npc_aim_rule": "AIM_PRECISE",
-    "no": "*will not bother to aim at all.",
-    "yes": "*will take time and aim carefully."
+  "npc_aim_rule": "AIM_PRECISE",
+  "no": "*will not bother to aim at all.",
+  "yes": "*will take time and aim carefully."
 }
 {
-    "u_has_item": "india_pale_ale",
-    "yes": "<noticedbooze>",
-    "no": "<neutralchitchat>"
+  "u_has_item": "india_pale_ale",
+  "yes": "<noticedbooze>",
+  "no": "<neutralchitchat>"
 }
 {
-    "days_since_cataclysm": 30,
-    "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
-    "no": "<neutralchitchat>"
+  "days_since_cataclysm": 30,
+  "yes": "Now, we've got a moment, I was just thinking it's been a month or so since... since all this, how are you coping with it all?",
+  "no": "<neutralchitchat>"
 }
 {
-    "is_day": "Sure is bright out.",
-    "no": {
-        "u_male": true,
-        "yes": "Want a beer?",
-        "no": "Want a cocktail?"
-    }
+  "is_day": "Sure is bright out.",
+  "no": {
+    "u_male": true,
+      "yes": "Want a beer?",
+      "no": "Want a cocktail?"
+  }
 }
 ```
 
@@ -564,49 +568,61 @@ A response contains at least a text, which is display to the user and "spoken" b
 Format:
 ```json
 {
-    "text": "I, the player, say to you...",
-    "condition": "...something...",
-    "trial": {
-        "type": "PERSUADE",
-        "difficulty": 10
-    },
-    "success": {
-        "topic": "TALK_DONE",
-        "effect": "...",
-        "opinion": {
-            "trust": 0,
-            "fear": 0,
-            "value": 0,
-            "anger": 0,
-            "owed": 0,
-            "favors": 0
-        }
-    },
-    "failure": {
-        "topic": "TALK_DONE"
+  "text": "I, the player, say to you...",
+  "condition": "...something...",
+  "trial": {
+    "type": "PERSUADE",
+    "difficulty": 10
+  },
+  "success": {
+    "topic": "TALK_DONE",
+    "effect": "...",
+    "opinion": {
+      "trust": 0,
+      "fear": 0,
+      "value": 0,
+      "anger": 0,
+      "owed": 0,
+      "favors": 0
     }
+  },
+  "failure": {
+    "topic": "TALK_DONE"
+  }
 }
 ```
 
 Alternatively a short format:
 ```json
 {
-    "text": "I, the player, say to you...",
-    "effect": "...",
-    "topic": "TALK_WHATEVER"
+  "text": "I, the player, say to you...",
+  "effect": "...",
+  "topic": "TALK_WHATEVER"
 }
 ```
 The short format is equivalent to (an unconditional switching of the topic, `effect` is optional):
 ```json
 {
-    "text": "I, the player, say to you...",
-    "trial": {
-        "type": "NONE"
-    },
-    "success": {
-        "effect": "...",
-        "topic": "TALK_WHATEVER"
-    }
+  "text": "I, the player, say to you...",
+  "trial": {
+    "type": "NONE"
+  },
+  "success": {
+    "effect": "...",
+    "topic": "TALK_WHATEVER"
+  }
+}
+```
+
+When using a conditional you can specify the response to still appear but be marked as unavaiable. This can be done by adding a `failure_explanation` or `failure_topic` in the bellow example if the condition fails `*Didn't have enough: I, the player, say to you...` will be what appears in the responses, and if selected it will instead go to `TALK_EXPLAIN_FAILURE` and wont trigger the other effects:
+```json
+{
+  "condition": "...something...",
+  "failure_explanation": "Didn't have enough",
+  "failure_topic": "TALK_EXPLAIN_FAILURE",
+  "text": "I, the player, say to you...",
+  "effect": "...",
+  "topic": "TALK_WHATEVER"
 }
 ```
 
@@ -625,12 +641,12 @@ May be used in place of text.  The player will have one response text if a condi
 
 ```json
 {
-    "truefalsetext": {
-        "condition": { "u_has_cash": 800 },
-        "true": "I may have the money, I'm not giving you any.",
-        "false": "I don't have that money."
-    },
-    "topic": "TALK_WONT_PAY"
+  "truefalsetext": {
+    "condition": { "u_has_cash": 800 },
+    "true": "I may have the money, I'm not giving you any.",
+    "false": "I don't have that money."
+  },
+  "topic": "TALK_WONT_PAY"
 }
 ```
 
@@ -641,12 +657,12 @@ May be used in place of text.  The player will have one response text if a condi
 
 ```json
 "success": {
-    "topic": {
-        "id": "TALK_NEXT",
-        "dynamic_line": "...",
-        "responses": [
-        ]
-    }
+  "topic": {
+    "id": "TALK_NEXT",
+    "dynamic_line": "...",
+    "responses": [
+    ]
+  }
 }
 ```
 #### `effect`
@@ -717,7 +733,7 @@ Example:
   { "text": "You know what, never mind.", "topic": "TALK_NONE" },
   { "text": "How does 5 Ben Franklins sound?",
     "topic": "TALK_BIG_BRIBE", "condition": { "u_has_cash": 500 }, "switch": true },
-   { "text": "I could give you a big Grant.",
+  { "text": "I could give you a big Grant.",
     "topic": "TALK_BRIBE", "condition": { "u_has_cash": 50 }, "switch": true },
   { "text": "Lincoln liberated the slaves, what can he do for me?",
     "topic": "TALK_TINY_BRIBE", "condition": { "u_has_cash": 5 }, "switch": true, "default": true },
@@ -759,27 +775,27 @@ The `effect` field of `speaker_effect` or a `response` can be any of the followi
 
 #### Missions
 
-Effect | Description
----|---
-`assign_mission` | Assigns a previously selected mission to your character.
-`mission_success` | Resolves the current mission successfully.
-`mission_failure` | Resolves the current mission as a failure.
-`clear_mission` | Clears the mission from the your character's assigned missions.
-`mission_reward` | Gives the player the mission's reward.
+| Effect            | Description                                                     |
+| ----------------- | --------------------------------------------------------------- |
+| `assign_mission`  | Assigns a previously selected mission to your character.        |
+| `mission_success` | Resolves the current mission successfully.                      |
+| `mission_failure` | Resolves the current mission as a failure.                      |
+| `clear_mission`   | Clears the mission from the your character's assigned missions. |
+| `mission_reward`  | Gives the player the mission's reward.                          |
 
 #### Stats / Morale
 
-Effect | Description
----|---
-`lesser_give_aid` | Removes bleeding from your character's body and heals 5-15 HP of injury on each of your character's body parts.
-`lesser_give_aid_all` | Performs `lesser_give_aid` on each of your character's NPC allies in range.
-`give_aid` | Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts.
-`give_aid_all` | Performs `give_aid` on each of your character's NPC allies in range.
-`buy_haircut` | Gives your character a haircut morale boost for 12 hours.
-`buy_shave` | Gives your character a shave morale boost for 6 hours.
-`morale_chat` | Gives your character a pleasant conversation morale boost for 6 hours.
-`player_weapon_away` | Makes your character put away (unwield) their weapon.
-`player_weapon_drop` | Makes your character drop their weapon.
+| Effect                | Description |
+| --------------------- | ----------- |
+| `lesser_give_aid`     | Removes bleeding from your character's body and heals 5-15 HP of injury on each of your character's body parts. |
+| `lesser_give_aid_all` | Performs `lesser_give_aid` on each of your character's NPC allies in range. |
+| `give_aid`            | Removes all bites, infection, and bleeding from your character's body and heals 10-25 HP of injury on each of your character's body parts. |
+| `give_aid_all`        | Performs `give_aid` on each of your character's NPC allies in range.        |
+| `buy_haircut`         | Gives your character a haircut morale boost for 12 hours.                   |
+| `buy_shave`           | Gives your character a shave morale boost for 6 hours.                      |
+| `morale_chat`         | Gives your character a pleasant conversation morale boost for 6 hours.      |
+| `player_weapon_away`  | Makes your character put away (unwield) their weapon.                       |
+| `player_weapon_drop`  | Makes your character drop their weapon.                                     |
 
 #### Character effects / Mutations
 
@@ -823,8 +839,8 @@ Effect | Description
 `give_equipment` | Allows your character to select items from the NPC's inventory and transfer them to your inventory.
 `npc_gets_item` | Allows your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will not accept it if they do not have space or weight to carry it, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
 `npc_gets_item_to_use` | Allow your character to select an item from your character's inventory and transfer it to the NPC's inventory.  The NPC will attempt to wield it and will not accept it if it is too heavy or is an inferior weapon to what they are currently using, and will set a reason that can be referenced in a future dynamic line with `"use_reason"`.
-`u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `use_item_group: `bool) | Your character gains the item or `count` copies of the item, contained in container if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.
-`u_buy_item: `string or [variable object](#variable-object), `cost: `int or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `use_item_group: `bool) | The NPC will sell your character the item or `count` copies of the item, contained in `container`, and will subtract `cost` from `op_of_u.owed`.  If the `op_o_u.owed` is less than `cost`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost` is satisfied.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.
+`u_spawn_item: `string or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool) | Your character gains the item or `count` copies of the item, contained in container if specified. If used in an NPC conversation the items are said to be given by the NPC.  If a variable item is passed for the name an item of the type contained in it will be used.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.  If `suppress_message` is true (defaults to false) no message will be shown.
+`u_buy_item: `string or [variable object](#variable-object), `cost: `int or [variable object](#variable-object), (*optional* `count: `int or [variable object](#variable-object)), (*optional* `container: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `use_item_group: `bool), (*optional* `suppress_message: `bool) | The NPC will sell your character the item or `count` copies of the item, contained in `container`, and will subtract `cost` from `op_of_u.owed`.  If the `op_o_u.owed` is less than `cost`, the trade window will open and the player will have to trade to make up the difference; the NPC will not give the player the item unless `cost` is satisfied.  If `use_item_group` is true (defaults to false) it will instead pull an item from the item group given.  If `suppress_message` is true (defaults to false) no message will be shown
 `u_sell_item: `string or [variable object](#variable-object), (*optional* `cost: `int or [variable object](#variable-object)), (*optional* `count: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Your character will give the NPC the item or `count` copies of the item, and will add `cost` to the NPC's `op_of_u.owed` if specified.<br/>If cost isn't present, the your character gives the NPC the item at no charge.<br/>This effect will fail if you do not have at least `count` copies of the item, so it should be checked with.  If the item is sold, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `u_bulk_trade_accept, npc_bulk_trade_accept, u_bulk_trade_accept, npc_bulk_trade_accept: `int or [variable object](#variable-object)  | Only valid after a `repeat_response`.  The player trades all instances of the item from the `repeat_response` with the NPC.  For `u_bulk_trade_accept`, the player loses the items from their inventory and gains the same value of the NPC's faction currency; for `npc_bulk_trade_accept`, the player gains the items from the NPC's inventory and loses the same value of the NPC's faction currency.  If there is remaining value, or the NPC doesn't have a faction currency, the remainder goes into the NPC's `op_of_u.owed`. If `quantity` is specified only that many items/charges will be moved.
 `u_bulk_donate, npc_bulk_donate` or  `u_bulk_donate, npc_bulk_donate: `int or [variable object](#variable-object)  | Only valid after a `repeat_response`.  The player or NPC transfers all instances of the item from the `repeat_response`.  For `u_bulk_donate`, the player loses the items from their inventory and the NPC gains them; for `npc_bulk_donate`, the player gains the items from the NPC's inventory and the NPC loses them. If a value is specified only that many items/charges will be moved.
@@ -895,6 +911,7 @@ Effect | Description
 `sound_effect: `string or [variable object](#variable-object), (*optional* `sound_effect_variant: `string or [variable object](#variable-object)), (*optional* `outdoor_event: outdoor_event`), (*optional* `volume: `int or [variable object](#variable-object))  | Will play a sound effect of id `sound_effect` and variant `sound_effect_variant`. If `volume` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground.
 `open_dialogue`, (*optional* `topic: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`). | Opens up a dialog between the participants. This should only be used in effect_on_conditions. If the dialog is opened, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run. If `topic` is supplied than a conversation with an empty talker starting with the topic `topic` will be opened.
 `take_control`, (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | If the npc is a character then take control of them and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`give_achievement` string or [variable object](#variable-object), Marks the given achievement as complete.
 `take_control_menu` | Opens up a menu to choose a follower to take control of.
 `assign_mission: `string or [variable object](#variable-object) | Will assign mission to the player.
 `remove_active_mission: `string or [variable object](#variable-object) | Will remove mission from the player's active mission list without failing it.
@@ -902,7 +919,7 @@ Effect | Description
 `offer_mission: `string or [variable object](#variable-object) or array of them | Adds mission_type_id(s) to the npc's missions that they offer.
 `run_eocs : effect_on_condition_array or single effect_condition_object` | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
 `queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: `duration or [variable object](#variable-object) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
-`u_roll_remainder, npc_roll_remainder : `array of strings and/or [variable objects](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Type must be either `bionic`, `mutation`, `spell` or `recipe`.  If the u or npc does not have all of the listed bionics, mutations, spells, or recipes they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_roll_remainder, npc_roll_remainder : `array of strings and/or [variable objects](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `message: ` string or [variable object](#variable-object) ) | Type must be either `bionic`, `mutation`, `spell` or `recipe`.  If the u or npc does not have all of the listed bionics, mutations, spells, or recipes they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.  If `message` is provided and a result is given then the `message` will be displayed as a message with the first instance of `%s` in it replaced with the name of the result selected.  
 `switch : arithmetic_expression`, `cases: effect_array` | Will calculate value of `switch` and then run member of `cases` with the highest `case` that the `switch` is higher or equal to. `cases` is an array of objects with an int_or_var `case` and an `effect` field which is a dialog effect.
 `u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: `array of strings and/or [variable objects](#variable-object)), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: `int or [variable object](#variable-object)), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
 `weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.<br/><br/>Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.<pre>    "effect": [<br/>      {<br/>        "weighted_list_eocs": [<br/>          [ "EOC_SLEEP", { "const": 1 } ],<br/>          [ {<br/>              "id": "eoc_test2",<br/>              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]<br/>            },<br/>            { "const": 10 }<br/>          ]<br/>        ]<br/>      }<br/>    ]</pre>
@@ -958,6 +975,8 @@ Condition | Type | Description
 `"u_has_dexterity"`<br/>`"npc_has_dexterity"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's dexterity is at least the value of `u_has_dexterity` or `npc_has_dexterity`.
 `"u_has_intelligence"`<br/>`"npc_has_intelligence"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's intelligence is at least the value of `u_has_intelligence` or `npc_has_intelligence`.
 `"u_has_perception"`<br/>`"npc_has_perception"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's perception is at least the value of `u_has_perception` or `npc_has_perception`.
+`"u_has_hp"`<br/>`"npc_has_hp"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's hp is at least the value of `u_has_hp` or `npc_has_hp`.  If optional parameter `bodypart` is supplied the hp of that part will be tested, otherwise the hp of all body parts will be summed and used.  Works on monsters.
+`"u_has_part_temp"`<br/>`"npc_has_part_temp"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's bodypart has at least the value of `u_has_part_temp` or `npc_has_part_temp` warmth.  Parameter `bodypart` tells what part to use.
 `"u_has_item"`<br/>`"npc_has_item"` | string or [variable object](#variable-object) | `true` if the player character or NPC has something with `u_has_item`'s or `npc_has_item`'s `item_id` in their inventory.
 `"u_has_items"`<br/>`"npc_has_item"` | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string or [variable object](#variable-object) and a `count` int or [variable object](#variable-object) or `charges` int or [variable object](#variable-object).<br/>`true` if the player character or NPC has at least `charges` charges or counts of `item` in their inventory.
 `"u_has_item_category"`<br/>`"npc_has_item_category"` | string or [variable object](#variable-object) | `"count": `int or [variable object](#variable-object) is an optional field that must be in the same dictionary and defaults to 1 if not specified.  `true` if the player or NPC has `count` items with the same category as `u_has_item_category` or `npc_has_item_category`.
@@ -1120,56 +1139,56 @@ Condition | Type | Description
   }
 },
 {
-    "text": "I killed them.  All of them.",
-    "topic": "TALK_MISSION_SUCCESS",
-    "condition": {
-        "and": [ { "or": [ { "mission_goal": "KILL_MONSTER_SPEC" }, { "mission_goal": "KILL_MONSTER_TYPE" } ] }, "mission_complete" ]
-    },
-    "switch": true
+  "text": "I killed them.  All of them.",
+  "topic": "TALK_MISSION_SUCCESS",
+  "condition": {
+    "and": [ { "or": [ { "mission_goal": "KILL_MONSTER_SPEC" }, { "mission_goal": "KILL_MONSTER_TYPE" } ] }, "mission_complete" ]
+  },
+  "switch": true
 },
 {
-    "text": "Glad to help.  I need no payment.",
-    "topic": "TALK_NONE",
-    "effect": "clear_mission",
-    "mission_opinion": { "trust": 4, "value": 3 },
-    "opinion": { "fear": -1, "anger": -1 }
+  "text": "Glad to help.  I need no payment.",
+  "topic": "TALK_NONE",
+  "effect": "clear_mission",
+  "mission_opinion": { "trust": 4, "value": 3 },
+  "opinion": { "fear": -1, "anger": -1 }
 },
 {
-    "text": "Maybe you can teach me something as payment?",
-    "topic": "TALK_TRAIN",
-    "condition": { "or": [ "npc_train_skills", "npc_train_styles" ] },
-    "effect": "mission_reward"
+  "text": "Maybe you can teach me something as payment?",
+  "topic": "TALK_TRAIN",
+  "condition": { "or": [ "npc_train_skills", "npc_train_styles" ] },
+  "effect": "mission_reward"
 },
 {
-    "truefalsetext": {
-        "true": "I killed him.",
-        "false": "I killed it.",
-        "condition": { "mission_goal": "ASSASSINATE" }
-    },
-    "condition": {
-        "and": [
-            "mission_incomplete",
-            {
-                "or": [
-                    { "mission_goal": "ASSASSINATE" },
-                    { "mission_goal": "KILL_MONSTER" },
-                    { "mission_goal": "KILL_MONSTER_SPEC" },
-                    { "mission_goal": "KILL_MONSTER_TYPE" }
-                ]
-            }
+  "truefalsetext": {
+    "true": "I killed him.",
+    "false": "I killed it.",
+    "condition": { "mission_goal": "ASSASSINATE" }
+  },
+  "condition": {
+    "and": [
+      "mission_incomplete",
+      {
+        "or": [
+          { "mission_goal": "ASSASSINATE" },
+          { "mission_goal": "KILL_MONSTER" },
+          { "mission_goal": "KILL_MONSTER_SPEC" },
+          { "mission_goal": "KILL_MONSTER_TYPE" }
         ]
-    },
-    "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 3 ] ] },
-    "success": { "topic": "TALK_NONE" },
-    "failure": { "topic": "TALK_MISSION_FAILURE" }
+      }
+    ]
+  },
+  "trial": { "type": "LIE", "difficulty": 10, "mod": [ [ "TRUST", 3 ] ] },
+  "success": { "topic": "TALK_NONE" },
+  "failure": { "topic": "TALK_MISSION_FAILURE" }
 },
 {
   "text": "Didn't you say you knew where the Vault was?",
   "topic": "TALK_VAULT_INFO",
   "condition": { "not": { "u_has_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard_rep" } },
   "effect": [
-      { "u_add_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard" },
-      { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
+    { "u_add_var": "asked_about_vault", "value": "yes", "type": "sentinel", "context": "old_guard" },
+    { "mapgen_update": "hulk_hairstyling", "om_terrain": "necropolis_a_13", "om_special": "Necropolis", "om_terrain_replace": "field", "z": 0 }
   ]
 },
 {
@@ -1193,26 +1212,26 @@ Condition | Type | Description
 ### Variable Object
 `variable_object`: This is either an object, an `arithmetic` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
 
-example json:
-```
+Example:
+```json
 "effect": [ { "u_mod_focus": { "u_val":"test", "default": 1 } },
   { "u_mod_focus": [ 0, { "u_val":"test", "default": 1 } ] }
-  { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1,
+  { "u_add_morale": "morale_honey","bonus": -20,"max_bonus": -60, "decay_start": 1 },
   "duration": { "global_val": "test2", "default": "2 minutes" },
   {
     "u_spawn_monster": "mon_absence",
     "real_count": { "arithmetic": [ { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] }, "+", { "const": 1 } ] }
-  } ]
-
+  }
+]
 ```
 
 ### Compare Numbers and Arithmetics
 `"compare_num"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
-```
+```json
 {
   "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana with at maximum a value of 15.",
   "topic": "TALK_DONE",
-  "condition": { "compare_num": [ { "u_val": "strength" }, ">=", { "const": 5 } ] }
+  "condition": { "compare_num": [ { "u_val": "strength" }, ">=", { "const": 5 } ] },
   "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, "=", { "u_val": "focus" }, "*", { "u_val": "mana_max" } ], "max":15 }
 },
 ```
@@ -1245,6 +1264,9 @@ Example | Description
 `"u_val": "cash"` | Amount of money the character has. Only supported for the player character. Can be read but not written to.
 `"u_val": "owed"` | Owed money to the NPC you're talking to.
 `"u_val": "sold"` | Amount sold to the NPC you're talking to.
+`"u_val": "hp"` | Amount of hp.  If `bodypart` is provided it will be for that part otherwise it will be the sum of all parts.
+`"u_val": "warmth"` | Amount of warmth in a given bodypart.  `bodypart` is the id of the part to use.
+`"u_val": "effect_intensity"` | Intensity of an effect.  `effect` is the id of the effect to test and `bodypart` is optionally the body part to look at.  If the effect is not present a -1 is returned.
 `"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
 `"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
 `"u_val": "pain"` | Pain level.
@@ -1269,6 +1291,7 @@ Example | Description
 `"u_val": "activity_level"` | Current activity level index, from 0-5
 `"u_val": "fatigue"` | Current fatigue level.
 `"u_val": "stamina"` | Current stamina level.
+`"u_val": "health"` | Current health level.
 `"u_val": "sleep_deprivation"` | Current sleep deprivation level.
 `"u_val": "anger"` | Current anger level, only works for monsters.
 `"u_val": "friendly"` | Current friendly level, only works for monsters.

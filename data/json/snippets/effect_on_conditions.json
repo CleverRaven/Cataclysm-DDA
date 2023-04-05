@@ -504,6 +504,19 @@
   },
   {
     "type": "snippet",
+    "category": "<XEDRA_OFFICER>",
+    "text": [
+      "an almost human voice saying \"Contact, clean this up.\"",
+      "an almost human voice saying \"This is what we've trained for.\"",
+      "an almost human voice saying \"I WONT LET YOU KILL ME!\"",
+      "an almost human voice saying \"Flank him, quick.\"",
+      "an almost human voice saying \"Get eyes on them.\"",
+      "an almost human voice saying \"I'm not going back.\"",
+      "an almost human voice saying \"The breach must be contained.\""
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "AMBIENT_LAB_SUBWAY",
     "text": [
       "<AMBIENT_SUBWAY>",

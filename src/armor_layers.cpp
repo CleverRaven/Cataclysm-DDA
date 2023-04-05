@@ -231,7 +231,21 @@ std::vector<std::string> clothing_properties(
 {
     std::vector<std::string> props;
     bodypart_id used_bp = bp;
+
+    // catch all for items that aren't armor
+    if( !worn_item.find_armor_data() ) {
+        props.push_back( string_format( "<color_c_red>%s</color>",
+                                        _( "Item provides no protection" ) ) );
+        return props;
+    }
     if( bp == bodypart_id( "bp_null" ) ) {
+        // if the armor has no protection data
+        if( worn_item.find_armor_data()->sub_data.empty() ) {
+            props.push_back( string_format( "<color_c_red>%s</color>",
+                                            _( "Item provides no protection" ) ) );
+            return props;
+        }
+
         // if there is only one data entry for the armor
         if( worn_item.find_armor_data()->sub_data.size() > 1 ) {
             props.push_back( string_format( "<color_c_red>%s</color>",
@@ -324,12 +338,17 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     std::vector<std::string> prot;
     bodypart_id used_bp = bp;
 
+    if( !worn_item.find_armor_data() ) {
+        return prot;
+    }
+
     // if bp is null its gonna be impossible to really get good info
     if( bp == bodypart_id( "bp_null" ) ) {
-        if( worn_item.find_armor_data()->sub_data.size() > 1 ) {
-            return prot;
-        } else {
+        // if we have exactly one entry for armor we can use that data
+        if( worn_item.find_armor_data()->sub_data.size() == 1 ) {
             used_bp = *worn_item.get_covered_body_parts().begin();
+        } else {
+            return prot;
         }
     }
 
@@ -654,6 +673,8 @@ void outfit::sort_armor( Character &guy )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "MOVE_ARMOR" );
     ctxt.register_action( "CHANGE_SIDE" );
     ctxt.register_action( "TOGGLE_CLOTH" );
@@ -977,24 +998,16 @@ void outfit::sort_armor( Character &guy )
                     popup( _( "Can't sort this under your integrated armor!" ) );
                 }
             }
-        } else if( action == "LEFT" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             mid_pane.offset = 0;
-            tabindex--;
-            if( tabindex < 0 ) {
-                tabindex = tabcount - 1;
-            }
+            tabindex = increment_and_wrap( tabindex, action == "RIGHT" || action == "NEXT_TAB", tabcount );
             leftListIndex = leftListOffset = 0;
             selected = -1;
-        } else if( action == "RIGHT" ) {
-            mid_pane.offset = 0;
-            tabindex = ( tabindex + 1 ) % tabcount;
-            leftListIndex = leftListOffset = 0;
-            selected = -1;
-        } else if( action == "NEXT_TAB" ) {
+        } else if( action == "PAGE_DOWN" ) {
             if( rightListOffset + rightListLines < rightListSize ) {
                 rightListOffset++;
             }
-        } else if( action == "PREV_TAB" ) {
+        } else if( action == "PAGE_UP" ) {
             if( rightListOffset > 0 ) {
                 rightListOffset--;
             }
@@ -1053,7 +1066,7 @@ void outfit::sort_armor( Character &guy )
                 item_location obtained = loc.obtain( guy );
                 if( obtained ) {
                     // wear the item
-                    cata::optional<std::list<item>::iterator> new_equip_it =
+                    std::optional<std::list<item>::iterator> new_equip_it =
                         guy.wear( obtained );
                     if( new_equip_it ) {
                         const bodypart_id &bp = armor_cat[tabindex];
@@ -1087,7 +1100,7 @@ void outfit::sort_armor( Character &guy )
                 item_location obtained = loc.obtain( guy );
                 if( obtained ) {
                     // wear the item
-                    cata::optional<std::list<item>::iterator> new_equip_it =
+                    std::optional<std::list<item>::iterator> new_equip_it =
                         guy.wear( obtained );
                     if( new_equip_it ) {
                         // save iterator to cursor's position

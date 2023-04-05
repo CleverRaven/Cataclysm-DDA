@@ -295,7 +295,7 @@ std::string trim_by_length( const std::string &text, int width )
 
         const std::vector<std::string> color_segments = split_by_color( text );
         for( size_t i = 0; i < color_segments.size() ; ++i ) {
-            std::string seg = color_segments[i];
+            const std::string &seg = color_segments[i];
             if( seg.empty() ) {
                 // TODO: Check is required right now because, for a fully-color-tagged string, split_by_color
                 // returns an empty string first
@@ -491,20 +491,11 @@ void scrollable_text( const std::function<catacurses::window()> &init_window,
         ui_manager::redraw();
 
         action = ctxt.handle_input();
-        if( action == "UP" || action == "SCROLL_UP" ) {
-            if( beg_line > 0 ) {
-                --beg_line;
-            }
-        } else if( action == "DOWN" || action == "SCROLL_DOWN" ) {
-            if( beg_line < max_beg_line ) {
-                ++beg_line;
-            }
+        if( action == "UP" || action == "SCROLL_UP" || action == "DOWN" || action == "SCROLL_DOWN" ) {
+            beg_line = increment_and_clamp( beg_line, action == "DOWN" ||
+                                            action == "SCROLL_DOWN", max_beg_line );
         } else if( action == "PAGE_UP" ) {
-            if( beg_line > text_h ) {
-                beg_line -= text_h;
-            } else {
-                beg_line = 0;
-            }
+            beg_line = std::max( beg_line - text_h, 0 );
         } else if( action == "PAGE_DOWN" ) {
             // always scroll an entire page's length
             if( beg_line < max_beg_line ) {
@@ -1225,7 +1216,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     while( true ) {
         ui_manager::redraw();
         action = ctxt.handle_input();
-        cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+        std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
 
         if( data.handle_scrolling && item_info_bar.handle_dragging( action, coord, *data.ptr_selected ) ) {
             // No action required, the scrollbar has handled it
@@ -1355,7 +1346,7 @@ std::string to_upper_case( const std::string &s )
 {
     const auto &f = std::use_facet<std::ctype<wchar_t>>( std::locale() );
     std::wstring wstr = utf8_to_wstr( s );
-    f.toupper( &wstr[0], &wstr[0] + wstr.size() );
+    f.toupper( wstr.data(), wstr.data() + wstr.size() );
     return wstr_to_utf8( wstr );
 }
 
@@ -1795,7 +1786,7 @@ scrollbar &scrollbar::set_draggable( input_context &ctxt )
     return *this;
 }
 
-bool scrollbar::handle_dragging( const std::string &action, const cata::optional<point> &coord,
+bool scrollbar::handle_dragging( const std::string &action, const std::optional<point> &coord,
                                  int &position )
 {
     if( ( action != "MOUSE_MOVE" && action != "CLICK_AND_DRAG" ) && dragging ) {
@@ -1938,14 +1929,14 @@ int multiline_list::get_offset_from_entry( const int entry )
 
 bool multiline_list::handle_navigation( std::string &action, input_context &ctxt )
 {
-    cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+    std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
     inclusive_rectangle<point> mouseover_area( point( catacurses::getbegx( w ),
             catacurses::getbegy( w ) ), point( getmaxx( w ) + catacurses::getbegx( w ),
                     getmaxy( w ) + catacurses::getbegy( w ) ) );
     bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
 
     mouseover_position = -1;
-    cata::optional<point> local_coord = ctxt.get_coordinates_text( w );
+    std::optional<point> local_coord = ctxt.get_coordinates_text( w );
     if( local_coord.has_value() ) {
         for( const auto &entry : entry_map ) {
             if( entry.second.contains( local_coord.value() ) ) {
@@ -2175,7 +2166,7 @@ void scrolling_text_view::draw( const nc_color &base_color )
 
 bool scrolling_text_view::handle_navigation( const std::string &action, input_context &ctxt )
 {
-    cata::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
+    std::optional<point> coord = ctxt.get_coordinates_text( catacurses::stdscr );
     inclusive_rectangle<point> mouseover_area( point( getbegx( w_ ), getbegy( w_ ) ),
             point( getmaxx( w_ ) + getbegx( w_ ), getmaxy( w_ ) + getbegy( w_ ) ) );
     bool mouse_in_window = coord.has_value() && mouseover_area.contains( coord.value() );
@@ -2424,7 +2415,7 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
 
         va_list args_copy;
         va_copy( args_copy, args );
-        const int result = vsnprintf( &buffer[0], buffer_size, format, args_copy );
+        const int result = vsnprintf( buffer.data(), buffer_size, format, args_copy );
         va_end( args_copy );
 
         // No error, and the buffer is big enough; we're done.
@@ -2444,7 +2435,7 @@ std::string cata::string_formatter::raw_string_format( const char *format, ... )
     }
 
     va_end( args );
-    return std::string( &buffer[0] );
+    return std::string( buffer.data() );
 #endif
 }
 #endif
@@ -2710,6 +2701,56 @@ std::string get_labeled_bar( const double val, const int width, const std::strin
     const std::array<std::pair<double, char>, 1> ratings =
     {{ std::make_pair( 1.0, c ) }};
     return get_labeled_bar( val, width, label, ratings.begin(), ratings.end() );
+}
+
+template<typename BarIterator>
+inline std::string get_labeled_bar( const double val, const int width, const std::string &label,
+                                    BarIterator begin, BarIterator end )
+{
+    return get_labeled_bar<BarIterator>( val, width, label, begin, end, []( BarIterator it,
+    int seg_width ) -> std::string {
+        return std::string( seg_width, std::get<1>( *it ) );} );
+}
+
+using RatingVector = std::vector<std::tuple<double, char, std::string>>;
+
+template std::string get_labeled_bar<RatingVector::iterator>( const double val, const int width,
+        const std::string &label,
+        RatingVector::iterator begin, RatingVector::iterator end,
+        std::function<std::string( RatingVector::iterator, int )> printer );
+
+template<typename BarIterator>
+std::string get_labeled_bar( const double val, const int width, const std::string &label,
+                             BarIterator begin, BarIterator end, std::function<std::string( BarIterator, int )> printer )
+{
+    std::string result;
+
+    result.reserve( width );
+    if( !label.empty() ) {
+        result += label;
+        result += ' ';
+    }
+    const int bar_width = width - utf8_width( result ) - 2; // - 2 for the brackets
+
+    result += '[';
+    if( bar_width > 0 ) {
+        int used_width = 0;
+        for( BarIterator it( begin ); it != end; ++it ) {
+            const double factor = std::min( 1.0, std::max( 0.0, std::get<0>( *it ) * val ) );
+            const int seg_width = static_cast<int>( factor * bar_width ) - used_width;
+
+            if( seg_width <= 0 ) {
+                continue;
+            }
+            used_width += seg_width;
+
+            result += printer( it, seg_width );
+        }
+        result.insert( result.end(), bar_width - used_width, ' ' );
+    }
+    result += ']';
+
+    return result;
 }
 
 /**
@@ -3140,27 +3181,6 @@ std::string wildcard_trim_rule( const std::string &pattern_in )
     }
 
     return pattern;
-}
-
-std::vector<std::string> string_split( const std::string &text_in, char delim_in )
-{
-    std::vector<std::string> elems;
-
-    if( text_in.empty() ) {
-        return elems; // Well, that was easy.
-    }
-
-    std::stringstream ss( text_in );
-    std::string item;
-    while( std::getline( ss, item, delim_in ) ) {
-        elems.push_back( item );
-    }
-
-    if( text_in.back() == delim_in ) {
-        elems.emplace_back( "" );
-    }
-
-    return elems;
 }
 
 // find substring (case insensitive)

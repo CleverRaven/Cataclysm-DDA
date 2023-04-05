@@ -31,6 +31,7 @@
   },
   {
     "id": "22_casing_new",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "category": "spare_parts",
     "price": 100,
@@ -304,18 +305,6 @@
     "description": "An empty casing from a .460 Rowland round.  It looks deceptively like a .45 ACP casing.",
     "weight": "4 g",
     "volume": "6ml"
-  },
-  {
-    "id": "5x50_hull",
-    "copy-from": "casing",
-    "looks_like": "9mm_casing",
-    "type": "GENERIC",
-    "name": { "str": "5x50mm hull" },
-    "description": "An empty plastic hull from a 5x50mm flechette round.",
-    "weight": "1 g",
-    "volume": "5ml",
-    "material": [ "plastic" ],
-    "color": "light_green"
   },
   {
     "id": "500_casing",

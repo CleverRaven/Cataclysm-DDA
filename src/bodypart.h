@@ -136,7 +136,6 @@ struct limb_score {
 };
 
 struct bp_limb_score {
-    limb_score_id id = limb_score_id::NULL_ID();
     float score = 0.0f;
     float max = 0.0f;
 };
@@ -217,7 +216,7 @@ struct body_part_type {
 
     private:
         // limb score values
-        std::vector<bp_limb_score> limb_scores;
+        std::map<limb_score_id, bp_limb_score> limb_scores;
         damage_instance damage;
 
     public:
@@ -273,6 +272,10 @@ struct body_part_type {
         // Health at which the limb stops contributing its conditional flags / techs
         int health_limit = 0;
 
+        // Minimum BMI to start adding extra encumbrance (only counts the points of BMI that came from fat, ignoring muscle and bone)
+        int bmi_encumbrance_threshold = 999;
+        // Amount of encumbrance per point of BMI over the threshold
+        float bmi_encumbrance_scalar = 0;
         float smash_efficiency = 0.5f;
 
         //Morale parameters
@@ -489,6 +492,8 @@ class bodypart
         int get_frostbite_timer() const;
         int get_temp_cur() const;
         int get_temp_conv() const;
+        int get_bmi_encumbrance_threshold() const;
+        float get_bmi_encumbrance_scalar() const;
 
         std::array<int, NUM_WATER_TOLERANCE> get_mut_drench() const;
 

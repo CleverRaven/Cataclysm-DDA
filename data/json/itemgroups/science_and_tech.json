@@ -122,9 +122,9 @@
       { "item": "closed_loop_extractor_large", "prob": 2 },
       { "item": "closed_loop_extractor_small", "prob": 2 },
       { "item": "gasket_plastic", "prob": 10 },
-      { "item": "butane_tank", "prob": 15, "charges-min": 1 },
+      { "item": "butane_tank", "prob": 15, "charges-min": 15000 },
       { "item": "vac_oven_small", "prob": 5 },
-      { "item": "butane_can", "prob": 2, "charges-min": 1 },
+      { "item": "butane_can", "prob": 2, "charges-min": 300 },
       { "item": "chem_citric_acid", "prob": 16 }
     ]
   },
@@ -186,9 +186,9 @@
       [ "syringe", 8 ],
       [ "adrenaline_injector", 4 ],
       { "item": "extinguisher", "prob": 20, "charges": 100 },
-      { "item": "hotplate", "prob": 10, "charges": [ 0, 500 ] },
+      { "item": "hotplate_induction", "prob": 10, "charges": [ 0, 500 ] },
       {
-        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 1, 30 ] } ],
+        "collection": [ { "item": "ref_lighter_butane" }, { "item": "butane_can", "charges": [ 200, 400 ] } ],
         "prob": 5
       },
       [ "software_medical", 10 ],
@@ -218,7 +218,7 @@
       { "item": "chem_muriatic_acid", "prob": 20, "charges-min": 1 },
       { "item": "chem_potassium_chloride", "prob": 5, "charges-min": 100 },
       { "item": "chem_potassium_hydroxide", "prob": 10, "charges-min": 100 },
-      { "item": "chem_zinc", "prob": 10, "charges-min": 100 },
+      { "item": "chem_zinc_oxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
@@ -498,7 +498,7 @@
       [ "autoclave", 20 ],
       [ "syringe", 8 ],
       [ "cotton_patchwork", 1 ],
-      [ "scissors", 50 ],
+      [ "scissors_medical", 50 ],
       [ "boots_rubber", 20 ],
       [ "subsuit_xl", 4 ],
       { "item": "cotton_patchwork", "prob": 1, "custom-flags": [ "FILTHY" ] },

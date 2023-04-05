@@ -73,6 +73,7 @@
     "passive_mods": { "str_mod": -2 },
     "points": -1,
     "description": "Your body is unnaturally weak.  -2 Strength.",
+    "types": [ "STR" ],
     "category": [ "MANATOUCHED", "RAT", "BIRD", "SLIME" ],
     "cancels": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4", "STR_ALPHA" ]
   },

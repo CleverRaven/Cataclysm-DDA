@@ -7,6 +7,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -17,7 +18,6 @@
 #include "inventory.h"
 #include "memory_fast.h"
 #include "mission_companion.h"
-#include "optional.h"
 #include "point.h"
 #include "requirements.h"
 #include "translations.h"
@@ -111,6 +111,7 @@ struct basecamp_fuel {
 
 struct basecamp_upgrade {
     std::string bldg;
+    mapgen_arguments args;
     translation name;
     bool avail = false;
     bool in_progress = false;
@@ -188,7 +189,7 @@ class basecamp
         bool point_within_camp( const tripoint_abs_omt &p ) const;
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
-        bool has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,
+        bool has_provides( const std::string &req, const std::optional<point> &dir = std::nullopt,
                            int level = 0 ) const;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );
@@ -303,7 +304,8 @@ class basecamp
                                        //  const std::vector<item*>& equipment, //  No support for extracting equipment from recipes currently..
                                        const std::map<skill_id, int> &required_skills = {} );
         void start_upgrade( const mission_id &miss_id );
-        std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
+        std::string om_upgrade_description( const std::string &bldg, const mapgen_arguments &,
+                                            bool trunc = false ) const;
         void start_menial_labor();
         void worker_assignment_ui();
         void job_assignment_ui();
@@ -415,13 +417,15 @@ class basecamp
 class basecamp_action_components
 {
     public:
-        basecamp_action_components( const recipe &making, int batch_size, basecamp & );
+        basecamp_action_components( const recipe &making, const mapgen_arguments &, int batch_size,
+                                    basecamp & );
 
         // Returns true iff all necessary components were successfully chosen
         bool choose_components();
         void consume_components();
     private:
         const recipe &making_;
+        const mapgen_arguments &args_;
         int batch_size_;
         basecamp &base_;
         std::vector<comp_selection<item_comp>> item_selections_;

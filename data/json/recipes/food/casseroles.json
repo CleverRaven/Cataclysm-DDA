@@ -12,7 +12,8 @@
     "batch_time_factors": [ 50, 2 ],
     "book_learn": [ [ "mag_cooking", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ], [ [ "casserole", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 44, "LIST" ] ], [ [ "casserole", -1 ] ] ],
+    "//": "33u for corn (1680g), 2u for oil, 6u for cheese, 3u for the peppers/onion/garlic",
     "components": [
       [ [ "veggy_any_corn_uncooked", 8, "LIST" ] ],
       [ [ "salt", 7 ], [ "seasoning_salt", 7 ], [ "soysauce", 4 ] ],
@@ -76,7 +77,8 @@
     "batch_time_factors": [ 50, 2 ],
     "book_learn": [ [ "mag_cooking", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ], [ [ "casserole", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 49, "LIST" ] ], [ [ "casserole", -1 ] ] ],
+    "//": "20u for the fish (300g), 9u for the pasta (120g), 8u for the beans/corn, 4u for the broth, 2u for the carrot, 4u for the milk, 1u for the oil, 1u for bread",
     "components": [
       [ [ "fish", 2 ], [ "can_tuna", 2 ], [ "can_salmon", 2 ], [ "can_herring", 2 ], [ "fish_canned", 2 ] ],
       [ [ "spaghetti_raw", 2 ], [ "macaroni_raw", 2 ], [ "noodles_fast", 2 ] ],
@@ -108,7 +110,8 @@
     "batch_time_factors": [ 50, 2 ],
     "book_learn": [ [ "mag_cooking", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 2 }, { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 6, "LIST" ] ], [ [ "casserole", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 33, "LIST" ] ], [ [ "casserole", -1 ] ] ],
+    "//": "20u for the lobster (300g), 2u for the flour, 2u for the sherry, 2u for the milk, 1u for the cheese, 2u for the oil, 4u for the crackers",
     "components": [
       [ [ "lobster", 2 ], [ "lobster_canned", 2 ] ],
       [ [ "crackers", 2 ], [ "oyster_crackers", 2 ] ],

@@ -276,13 +276,15 @@ nutrients Character::compute_effective_nutrients( const item &comest ) const
             // Avoid division by zero
             return tally;
         }
-        for( const item &component : comest.components ) {
-            nutrients component_value =
-                compute_effective_nutrients( component ) * component.charges;
-            if( component.has_flag( flag_BYPRODUCT ) ) {
-                tally -= component_value;
-            } else {
-                tally += component_value;
+        for( const item_components::type_vector_pair &tvp : comest.components ) {
+            for( const item &component : tvp.second ) {
+                nutrients component_value =
+                    compute_effective_nutrients( component ) * component.charges;
+                if( component.has_flag( flag_BYPRODUCT ) ) {
+                    tally -= component_value;
+                } else {
+                    tally += component_value;
+                }
             }
         }
         return tally / comest.recipe_charges;
@@ -318,7 +320,7 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         our_extra_flags.insert( flag_COOKED );
     }
 
-    const requirement_data requirements = rec.simple_requirements();
+    const requirement_data &requirements = rec.simple_requirements();
     const requirement_data::alter_item_comp_vector &component_requirements =
         requirements.get_components();
 
@@ -380,11 +382,19 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_min;
         nutrients this_max;
 
-        item result_it = rec->create_result();
-        if( result_it.num_item_stacks() == 1 ) {
-            const item alt_result = result_it.legacy_front();
-            if( alt_result.typeId() == comest_it.typeId() ) {
-                result_it = alt_result;
+        std::vector<item> results = rec->create_results();
+        item result_it = results.front();
+        for( item &it : results ) {
+            if( it.typeId() == comest_it.typeId() ) {
+                result_it = it;
+                break;
+            }
+            if( !it.is_container_empty() ) {
+                const item alt_result = it.legacy_front();
+                if( alt_result.typeId() == comest_it.typeId() ) {
+                    result_it = alt_result;
+                    break;
+                }
             }
         }
         if( result_it.typeId() != comest_it.typeId() ) {
@@ -777,7 +787,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     const use_function *smoking = food.type->get_use( "SMOKING" );
     if( smoking != nullptr ) {
-        cata::optional<std::string> litcig = iuse::can_smoke( *this );
+        std::optional<std::string> litcig = iuse::can_smoke( *this );
         if( litcig.has_value() ) {
             return ret_val<edible_rating>::make_failure( NO_TOOL, _( litcig.value_or( "" ) ) );
         }
@@ -1153,11 +1163,6 @@ void Character::modify_fatigue( const islot_comestible &comest )
     mod_fatigue( -comest.fatigue_mod );
 }
 
-void Character::modify_radiation( const islot_comestible &comest )
-{
-    irradiate( comest.radiation );
-}
-
 void Character::modify_addiction( const islot_comestible &comest )
 {
     add_addiction( comest.add, comest.addict );
@@ -1457,7 +1462,6 @@ bool Character::consume_effects( item &food )
     }
     modify_stimulation( comest );
     modify_fatigue( comest );
-    modify_radiation( comest );
     modify_addiction( comest );
     modify_morale( food, nutr );
 
@@ -1539,6 +1543,7 @@ bool Character::consume_effects( item &food )
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
     }
+    // to do: reduce nutrition by a factor of the amount of muscle to be rebuilt?
     activate_consume_eocs( *this, food );
 
     // GET IN MAH BELLY!
@@ -1716,7 +1721,6 @@ static bool consume_med( item &target, Character &you )
         you.modify_health( comest );
         you.modify_stimulation( comest );
         you.modify_fatigue( comest );
-        you.modify_radiation( comest );
         you.modify_addiction( comest );
         you.modify_morale( target );
         activate_consume_eocs( you, target );
@@ -1737,8 +1741,7 @@ trinary Character::consume( item &target, bool force )
         add_msg_if_player( m_info, _( "You do not have that item." ) );
         return trinary::NONE;
     }
-    if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
-        add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+    if( !has_trait( trait_WATERSLEEP ) && cant_do_underwater() ) {
         return trinary::NONE;
     }
 

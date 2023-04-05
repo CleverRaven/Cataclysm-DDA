@@ -2696,45 +2696,40 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_big_pappy" ],
-    "sound": "\"I'm 'bout to walk 15 miles both ways across yer ass!\"",
-    "volume": 35
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Stop resisting!\"",
+    "volume": 25
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"Do you want a cookie, honey?\"",
-    "volume": 20
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Get on the ground, now!\"",
+    "volume": 25
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"You're looking feverish.  Let grandma make you some soup.\"",
-    "volume": 20
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Hands where I can see them!\"",
+    "volume": 25
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"The nice doctor told me he had invented an anti-aging powder!\"",
-    "volume": 20
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"Stop in the name of the law!\"",
+    "volume": 25
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"Are you here to bring me home?\"",
-    "volume": 20
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"You are under arrest!\"",
+    "volume": 25
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"Give gramma some sugar!\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"That's my purse!  I don't know you!\"",
-    "volume": 20
+    "//": "This appears twice intentionally, to give it more frequency.",
+    "speaker": [ "mon_feral_cop" ],
+    "sound": "\"Stop resisting!\"",
+    "volume": 25
   },
   {
     "type": "speech",

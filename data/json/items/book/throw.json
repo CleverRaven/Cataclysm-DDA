@@ -86,7 +86,6 @@
         "name": { "str": "The Science of Baseball", "str_pl": "copies of The Science of Baseball" },
         "description": "The author and several experts cover topics like what makes a ball break, bounce, and fly; how material science and physics work together to make the bat function; how hitters use physics, geometry, and force to connect; baseball injuries; and much more.",
         "//": "978-1510768970",
-        "intelligence": 8,
         "weight": 1
       },
       {

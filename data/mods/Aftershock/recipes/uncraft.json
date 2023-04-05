@@ -3,7 +3,7 @@
     "result": "golf_club",
     "//": "Google tells me that golf clubs often have titanium heads, so that's a source of it.",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 m",
@@ -13,7 +13,7 @@
   {
     "result": "afs_atomic_smartphone",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "NO_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -21,14 +21,13 @@
       [ [ "small_lcd_screen", 1 ] ],
       [ [ "RAM", 1 ] ],
       [ [ "processor", 1 ] ],
-      [ [ "lens_small", 1 ] ],
       [ [ "plut_cell", 1 ] ]
     ]
   },
   {
     "result": "afs_titanium_frame",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "ACTIVE_EXERCISE",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "1 h",
@@ -39,7 +38,7 @@
   {
     "result": "afs_titanium_tooth",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "afs_titanium_small", 1 ] ] ]
@@ -47,7 +46,7 @@
   {
     "result": "afs_titanium_watch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "36 s",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "afs_titanium_small", 20 ] ], [ [ "clockworks", 1 ] ] ]
@@ -55,7 +54,7 @@
   {
     "result": "afs_titanium_ring",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "afs_titanium_small", 2 ] ] ]
@@ -63,7 +62,7 @@
   {
     "result": "afs_titanium_implant",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "afs_scrap_titanium", 5 ] ] ]
@@ -71,7 +70,7 @@
   {
     "result": "afs_titanium_bat",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "BRISK_EXERCISE",
     "skill_used": "mechanics",
     "difficulty": 3,
     "time": "30 m",
@@ -82,7 +81,7 @@
   {
     "result": "afs_energy_saber_off",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
@@ -96,7 +95,7 @@
   {
     "result": "afs_plasma_torch",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
@@ -112,7 +111,7 @@
   {
     "result": "afs_plasma_torch_gun",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "1 h",
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
@@ -128,7 +127,7 @@
   {
     "result": "azabow_off",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "time": "2 h",
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
@@ -141,7 +140,7 @@
   {
     "result": "aza_sword",
     "type": "uncraft",
-    "activity_level": "fake",
+    "activity_level": "MODERATE_EXERCISE",
     "time": "5 s",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "afs_material_2", 6 ] ], [ [ "afs_material_3", 4 ] ], [ [ "afs_material_1", 8 ] ] ]
@@ -467,5 +466,25 @@
       [ [ "pathfinding_module", 1 ] ],
       [ [ "identification_module", 1 ] ]
     ]
+  },
+  {
+    "result": "afs_5x50dart",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "combatnail", 1 ] ], [ [ "5x50_hull", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder_rifle", 30 ] ] ]
+  },
+  {
+    "result": "afs_5x50heavy",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "gun",
+    "difficulty": 5,
+    "time": "5 s",
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 3 ] ], [ [ "5x50_hull", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder_rifle", 30 ] ] ]
   }
 ]
