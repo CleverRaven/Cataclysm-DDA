@@ -32,9 +32,7 @@
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
-#include "vehicle.h"
 #include "viewer.h"
-#include "veh_type.h"
 
 
 static const efftype_id effect_badpoison( "badpoison" );
@@ -833,27 +831,6 @@ int gun_actor::get_max_range()  const
     return max_range;
 }
 
-static vehicle *find_target_vehicle( monster &z, int range )
-{
-    map &here = get_map();
-    vehicle *chosen = nullptr;
-    for( wrapped_vehicle &v : here.get_vehicles() ) {
-        if( !z.sees( v.pos ) ) {
-            continue;
-        }
-        if( !fov_3d && v.pos.z != z.pos().z ) {
-            continue;
-        }
-        int new_dist = rl_dist( z.pos(), v.pos );
-        if( v.v->velocity != 0 && new_dist < range ) {
-            chosen = v.v;
-            range = new_dist;
-        }
-    }
-    return chosen;
-}
-
-
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
@@ -878,47 +855,22 @@ bool gun_actor::call( monster &z ) const
         aim_at = target->pos();
     } else {
         target = z.attack_target();
+        aim_at = target ? target->pos() : tripoint_zero;
         if( !target || !z.sees( *target ) || ( !target->is_monster() && !z.aggro_character ) ) {
-            //return false;
             if( !target_moving_vehicles ) {
                 return false;
             }
-            //No living targets, try to find a moving car
-            untargeted = true;
-            vehicle *veh = find_target_vehicle( z, get_max_range() );
-            if( !veh ) {
+            untargeted = true; // no living targets, try to find moving car parts
+            const std::set<tripoint_bub_ms> moving_veh_parts = get_map()
+                    .get_moving_vehicle_targets( z, get_max_range() );
+            if( moving_veh_parts.empty() ) {
                 return false;
             }
-            std::vector<tripoint> valid_targets;
-            std::vector<tripoint> visible_points;
-            for( const tripoint &p : veh->get_points() ) {
-                if( !z.sees( p ) ) {
-                    continue;
-                }
-                visible_points.push_back( p );
-                for( const vpart_reference &vp : veh->get_all_parts() ) {
-                    if( vp.pos() != p ) {
-                        continue;
-                    }
-                    if( veh->part_with_feature( vp.part_index(), VPFLAG_CONTROLS, true ) >= 0 &&
-                        veh->part_with_feature( vp.part_index(), VPFLAG_ENGINE, true ) >= 0 &&
-                        veh->part_with_feature( vp.part_index(), VPFLAG_WHEEL, true ) >= 0 ) {
-                        valid_targets.push_back( p );
-                        break;
-                    }
-                }
-            }
-            if( !valid_targets.empty() ) {
-                aim_at = random_entry( valid_targets, tripoint_zero );
-            } else if( !visible_points.empty() ) {
-                aim_at = random_entry( visible_points, tripoint_zero );
-            } else {
-                return false;
-            }
+            aim_at = random_entry( moving_veh_parts, tripoint_bub_ms() ).raw();
         }
     }
 
-    int dist = rl_dist( z.pos(), aim_at );
+    const int dist = rl_dist( z.pos(), aim_at );
     if( target ) {
         add_msg_debug( debugmode::DF_MATTACK, "Target %s at range %d", target->disp_name(), dist );
     } else {
