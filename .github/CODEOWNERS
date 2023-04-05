@@ -22,6 +22,5 @@
 magic*.cpp @KorGgenT
 magic*.h @KorGgenT
 /tools/ @jbytheway @int-ua
-/lang/ @BrettDong
 widget.cpp @wapcaplet @dseguin
 widget.h @wapcaplet @dseguin
