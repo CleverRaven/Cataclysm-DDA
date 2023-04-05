@@ -753,7 +753,7 @@
       "items": [
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
         { "item": "scrap", "count": [ 6, 12 ] },
-        { "item": "steel_chunk", "coutnt": [ 8, 16 ] },
+        { "item": "steel_chunk", "count": [ 8, 16 ] },
         { "item": "sheet_metal_small", "count": [ 1, 4 ] }
       ]
     }

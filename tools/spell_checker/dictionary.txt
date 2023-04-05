@@ -51,6 +51,8 @@ airhorn
 airjack
 airsoft
 airworthy
+aketon
+aketons
 alamosaurus
 alate
 alates
@@ -1021,6 +1023,7 @@ flechettes
 fleshier
 fletched
 fletching
+flexibility
 flightworthy
 flim
 flintknapping
@@ -2725,6 +2728,7 @@ superpositional
 supersoldier
 supersoldiers
 suppurated
+surcoat
 survivalcraft
 survivalists
 susurrate

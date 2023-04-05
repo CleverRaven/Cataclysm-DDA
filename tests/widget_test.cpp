@@ -9,7 +9,6 @@
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "options_helpers.h"
 #include "weather.h"

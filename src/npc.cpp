@@ -1560,119 +1560,8 @@ void npc::invalidate_range_cache()
 
 void npc::form_opinion( const Character &you )
 {
-    const item_location weapon = you.get_wielded_item();
-    // FEAR
-    if( !you.is_armed() ) {
-        // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
-        op_of_u.fear -= 3;
-    } else if( weapon->is_gun() ) {
-        // TODO: Make bows not guns
-        if( weapon->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
-            op_of_u.fear += 2;
-        } else {
-            op_of_u.fear += 6;
-        }
-    } else if( you.weapon_value( *weapon ) > 20 ) {
-        op_of_u.fear += 2;
-    }
+    op_of_u = get_opinion_values( you );
 
-    ///\EFFECT_STR increases NPC fear of the player
-    if( you.str_max >= 16 ) {
-        op_of_u.fear += 2;
-    } else if( you.str_max >= 12 ) {
-        op_of_u.fear += 1;
-    } else if( you.str_max <= 3 ) {
-        op_of_u.fear -= 3;
-    } else if( you.str_max <= 5 ) {
-        op_of_u.fear -= 1;
-    }
-
-    // is your health low
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
-        const int hp_max = elem.second.get_hp_max();
-        const int hp_cur = elem.second.get_hp_cur();
-        if( hp_cur <= hp_max / 2 ) {
-            op_of_u.fear--;
-        }
-    }
-
-    // is my health low
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        const int hp_max = elem.second.get_hp_max();
-        const int hp_cur = elem.second.get_hp_cur();
-        if( hp_cur <= hp_max / 2 ) {
-            op_of_u.fear++;
-        }
-    }
-
-    if( you.has_trait( trait_SAPIOVORE ) ) {
-        op_of_u.fear += 10; // Sapiovores = Scary
-    }
-    if( you.has_trait( trait_TERRIFYING ) ) {
-        op_of_u.fear += 6;
-    }
-
-    int u_ugly = 0;
-    for( trait_id &mut : you.get_mutations() ) {
-        u_ugly += mut.obj().ugliness;
-    }
-    for( const bodypart_id &bp : you.get_all_body_parts() ) {
-        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
-            continue;
-        }
-        u_ugly += bp->ugliness_mandatory;
-        u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
-    }
-    op_of_u.fear += u_ugly / 2;
-    op_of_u.trust -= u_ugly / 3;
-
-    if( you.get_stim() > 20 ) {
-        op_of_u.fear++;
-    }
-
-    if( you.has_effect( effect_drunk ) ) {
-        op_of_u.fear -= 2;
-    }
-
-    // TRUST
-    if( op_of_u.fear > 0 ) {
-        op_of_u.trust -= 3;
-    } else {
-        op_of_u.trust += 1;
-    }
-
-    if( weapon && weapon->is_gun() ) {
-        op_of_u.trust -= 2;
-    } else if( !you.is_armed() ) {
-        op_of_u.trust += 2;
-    }
-
-    // TODO: More effects
-    if( you.has_effect( effect_high ) ) {
-        op_of_u.trust -= 1;
-    }
-    if( you.has_effect( effect_drunk ) ) {
-        op_of_u.trust -= 2;
-    }
-    if( you.get_stim() > 20 || you.get_stim() < -20 ) {
-        op_of_u.trust -= 1;
-    }
-    if( you.get_painkiller() > 30 ) {
-        op_of_u.trust -= 1;
-    }
-
-    if( op_of_u.trust > 0 ) {
-        // Trust is worth a lot right now
-        op_of_u.trust /= 2;
-    }
-
-    // VALUE
-    op_of_u.value = 0;
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        if( elem.second.get_hp_cur() < elem.second.get_hp_max() * 0.8f ) {
-            op_of_u.value++;
-        }
-    }
     decide_needs();
     for( const npc_need &i : needs ) {
         if( i == need_food || i == need_drink ) {
@@ -1696,6 +1585,128 @@ void npc::form_opinion( const Character &you )
 
     add_msg_debug( debugmode::DF_NPC, "%s formed an opinion of you: %s", get_name(),
                    npc_attitude_id( attitude ) );
+}
+
+npc_opinion npc::get_opinion_values( const Character &you ) const
+{
+    npc_opinion npc_values = op_of_u;
+
+
+    const item_location weapon = you.get_wielded_item();
+    // FEAR
+    if( !you.is_armed() ) {
+        // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
+        npc_values.fear -= 3;
+    } else if( weapon->is_gun() ) {
+        // TODO: Make bows not guns
+        if( weapon->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) ) {
+            npc_values.fear += 2;
+        } else {
+            npc_values.fear += 6;
+        }
+    } else if( you.weapon_value( *weapon ) > 20 ) {
+        npc_values.fear += 2;
+    }
+
+    ///\EFFECT_STR increases NPC fear of the player
+    if( you.str_max >= 16 ) {
+        npc_values.fear += 2;
+    } else if( you.str_max >= 12 ) {
+        npc_values.fear += 1;
+    } else if( you.str_max <= 3 ) {
+        npc_values.fear -= 3;
+    } else if( you.str_max <= 5 ) {
+        npc_values.fear -= 1;
+    }
+
+    // is your health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_player_character().get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
+        if( hp_cur <= hp_max / 2 ) {
+            npc_values.fear--;
+        }
+    }
+
+    // is my health low
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int hp_max = elem.second.get_hp_max();
+        const int hp_cur = elem.second.get_hp_cur();
+        if( hp_cur <= hp_max / 2 ) {
+            npc_values.fear++;
+        }
+    }
+
+    if( you.has_trait( trait_SAPIOVORE ) ) {
+        npc_values.fear += 10; // Sapiovores = Scary
+    }
+    if( you.has_trait( trait_TERRIFYING ) ) {
+        npc_values.fear += 6;
+    }
+
+    int u_ugly = 0;
+    for( trait_id &mut : you.get_mutations() ) {
+        u_ugly += mut.obj().ugliness;
+    }
+    for( const bodypart_id &bp : you.get_all_body_parts() ) {
+        if( bp->ugliness == 0 && bp->ugliness_mandatory == 0 ) {
+            continue;
+        }
+        u_ugly += bp->ugliness_mandatory;
+        u_ugly += bp->ugliness - ( bp->ugliness * worn.get_coverage( bp ) / 100 );
+    }
+    npc_values.fear += u_ugly / 2;
+    npc_values.trust -= u_ugly / 3;
+
+    if( you.get_stim() > 20 ) {
+        npc_values.fear++;
+    }
+
+    if( you.has_effect( effect_drunk ) ) {
+        npc_values.fear -= 2;
+    }
+
+    // TRUST
+    if( op_of_u.fear > 0 ) {
+        npc_values.trust -= 3;
+    } else {
+        npc_values.trust += 1;
+    }
+
+    if( weapon && weapon->is_gun() ) {
+        npc_values.trust -= 2;
+    } else if( !you.is_armed() ) {
+        npc_values.trust += 2;
+    }
+
+    // TODO: More effects
+    if( you.has_effect( effect_high ) ) {
+        npc_values.trust -= 1;
+    }
+    if( you.has_effect( effect_drunk ) ) {
+        npc_values.trust -= 2;
+    }
+    if( you.get_stim() > 20 || you.get_stim() < -20 ) {
+        npc_values.trust -= 1;
+    }
+    if( you.get_painkiller() > 30 ) {
+        npc_values.trust -= 1;
+    }
+
+    if( op_of_u.trust > 0 ) {
+        // Trust is worth a lot right now
+        npc_values.trust /= 2;
+    }
+
+    // VALUE
+    npc_values.value = 0;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        if( elem.second.get_hp_cur() < elem.second.get_hp_max() * 0.8f ) {
+            npc_values.value++;
+        }
+    }
+
+    return npc_values;
 }
 
 void npc::mutiny()

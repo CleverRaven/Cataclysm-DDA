@@ -42,7 +42,7 @@
     "id": "portable_stove",
     "type": "TOOL",
     "symbol": "_",
-    "colo": "light_gray",
+    "color": "light_gray",
     "container": "nylon_bag",
     "name": { "str": "portable stove" },
     "description": "A foldable wood stove to safely lit fires while camping in the wilderness.  Activate it to Deploy.",

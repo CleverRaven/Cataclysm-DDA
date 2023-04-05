@@ -385,6 +385,39 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "MAKAYLA_MUTATOR_portal_storm",
+    "recurrence": "15 minutes",
+    "//": "The assumption is that Makayla controls this normally, so the effects are only active when she's the avatar.  Thus global:true.",
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        { "u_has_trait": "MAKAYLA_MUTATOR" },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        "u_is_outside"
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [
+      { "u_message": "Everything feels fuzzy.", "type": "info" },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_feline" }, "=", { "const": 450 } ] },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "=", { "const": 750 } ] },
+      {
+        "run_eocs": [
+          {
+            "id": "cat_ears_portal_storm",
+            "condition": { "not": { "u_has_trait": "FELINE_EARS" } },
+            "effect": [
+              { "u_message": "It didn't take very long for the ears to be back.", "type": "info" },
+              { "u_add_trait": "FELINE_EARS" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "record_portal_storm_data",
     "recurrence": "5 minutes",
     "global": true,

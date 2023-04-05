@@ -12,6 +12,7 @@
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"

@@ -2683,6 +2683,8 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     item_name_cache_users++;
     tp_start =
         std::chrono::time_point_cast<std::chrono::milliseconds>( std::chrono::steady_clock::now() );
+    ctxt.register_action( "COORDINATE" );
+    ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "DOWN", to_translation( "Next item" ) );
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Page down" ) );
@@ -2754,7 +2756,7 @@ inventory_input inventory_selector::process_input( const std::string &action, in
 {
     inventory_input res{ action, ch, nullptr };
 
-    if( res.action == "SELECT" ) {
+    if( res.action == "SELECT" || res.action == "COORDINATE" || res.action == "MOUSE_MOVE" ) {
         std::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
         if( o_p ) {
             point p = o_p.value();
@@ -3096,7 +3098,9 @@ item_location inventory_pick_selector::execute()
             if( highlight( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-            return input.entry->any_item();
+            if( input.action == "SELECT" ) {
+                return input.entry->any_item();
+            }
         } else if( input.action == "ORGANIZE_MENU" ) {
             u.worn.organize_items_menu();
             return item_location();
@@ -3396,8 +3400,10 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
 
         if( input.entry != nullptr ) {
             highlight( input.entry->any_item() );
-            toggle_entry( input.entry );
-            just_selected = input.entry;
+            if( input.action == "SELECT" ) {
+                toggle_entry( input.entry );
+                just_selected = input.entry;
+            }
         } else if( input.action == "TOGGLE_ENTRY" ) {
             const auto selection( get_active_column().get_all_selected() );
 
@@ -3552,8 +3558,11 @@ void inventory_multiselector::on_input( const inventory_input &input )
 {
     if( input.entry != nullptr ) { // Single Item from mouse
         highlight( input.entry->any_item() );
-        toggle_entries( count );
-    } else if( input.action == "TOGGLE_NON_FAVORITE" ) {
+        if( input.action == "SELECT" ) {
+            toggle_entries( count );
+        }
+    }
+    if( input.action == "TOGGLE_NON_FAVORITE" ) {
         toggle_entries( count, toggle_mode::NON_FAVORITE_NON_WORN );
     } else if( input.action == "MARK_WITH_COUNT" ) { // Set count and mark selected with specific key
         int query_result = query_count();
@@ -3997,7 +4006,9 @@ int inventory_examiner::execute()
             if( highlight( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-            return cleanup();
+            if( input.action == "SELECT" ) {
+                return cleanup();
+            }
         }
 
         if( input.action == "QUIT" || input.action == "CONFIRM" ) {

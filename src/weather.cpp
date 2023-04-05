@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "city.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
