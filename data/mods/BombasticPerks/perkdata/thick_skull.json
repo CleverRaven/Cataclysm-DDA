@@ -4,14 +4,14 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str_sp": "thick skull" },
-    "description": "You've taken so many hits to the head your skull's gotten thicker.",
+    "description": "You've taken so many hits to the head that your skull's gotten thicker.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "bone" ],
     "material_thickness": 3,
     "symbol": "x",
     "color": "magenta",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "ZERO_WEIGHT", "NO_SALVAGE" ],
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "ZERO_WEIGHT", "NO_SALVAGE", "SOFT" ],
     "armor": [
       {
         "covers": [ "head" ],

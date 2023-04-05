@@ -267,8 +267,7 @@ std::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tr
             p.add_msg_if_player( m_info, need_fire_msg, it.tname() );
             return std::nullopt;
         }
-        if( p.is_underwater() ) {
-            p.add_msg_if_player( m_info, _( "You can't do that while underwater" ) );
+        if( p.cant_do_underwater() ) {
             return std::nullopt;
         }
     }
@@ -1047,8 +1046,7 @@ void deploy_furn_actor::load( const JsonObject &obj )
 std::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         const tripoint &pos ) const
 {
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     tripoint pnt = pos;
@@ -2606,17 +2604,10 @@ bool repair_item_actor::can_use_tool( const Character &p, const item &tool, bool
         }
         return false;
     }
-    if( p.is_underwater() ) {
-        if( print_msg ) {
-            p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        }
+    if( p.cant_do_underwater( print_msg ) ) {
         return false;
     }
-    if( p.is_mounted() ) {
-        if( print_msg ) {
-            p.add_msg_player_or_npc( m_bad, _( "You can't do that while mounted." ),
-                                     _( "<npcname> can't do that while mounted." ) );
-        }
+    if( p.cant_do_mounted( print_msg ) ) {
         return false;
     }
     if( p.fine_detail_vision_mod() > 4 ) {
@@ -3311,12 +3302,10 @@ static Character &get_patient( Character &healer, const tripoint &pos )
 
 std::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoint &pos ) const
 {
-    if( p.is_underwater() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+    if( p.cant_do_underwater() ) {
         return std::nullopt;
     }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     if( it.is_filthy() ) {
@@ -3845,12 +3834,10 @@ static void place_and_add_as_known( Character &p, const tripoint &pos, const tra
 std::optional<int> place_trap_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     const bool could_bury = !bury_question.empty();
-    if( !allow_underwater && p.is_underwater() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+    if( !allow_underwater && p.cant_do_underwater() ) {
         return std::nullopt;
     }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     const std::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
@@ -4409,8 +4396,7 @@ void deploy_tent_actor::load( const JsonObject &obj )
 std::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     int diam = 2 * radius + 1;
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( _( "You cannot do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     const std::optional<tripoint> dir = choose_direction( string_format(
@@ -4534,12 +4520,10 @@ std::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const 
     if( p.is_npc() ) {
         return std::nullopt;
     }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
-    if( p.is_underwater() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+    if( p.cant_do_underwater() ) {
         return std::nullopt;
     }
 
