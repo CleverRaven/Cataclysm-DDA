@@ -4,6 +4,7 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <optional>
 #include <set>
 #include <sstream>
 #include <string>
@@ -24,7 +25,6 @@
 #include "json_loader.h"
 #include "magic.h"
 #include "mutation.h"
-#include "optional.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -112,108 +112,41 @@ TEST_CASE( "spell_type handles all members", "[json]" )
         CHECK( test_spell.spell_tags.test( spell_flag::CONCENTRATE ) );
         CHECK( test_spell.field );
         CHECK( test_spell.field->id() == field_test_field );
-        CHECK( test_spell.field_chance == 2 );
-        CHECK( test_spell.max_field_intensity == 2 );
-        CHECK( test_spell.min_field_intensity == 2 );
-        CHECK( test_spell.field_intensity_increment == 1 );
-        CHECK( test_spell.field_intensity_variance == 1 );
-        CHECK( test_spell.min_damage == 1 );
-        CHECK( test_spell.max_damage == 1 );
-        CHECK( test_spell.damage_increment == 1.0f );
-        CHECK( test_spell.min_range == 1 );
-        CHECK( test_spell.max_range == 1 );
-        CHECK( test_spell.range_increment == 1.0f );
-        CHECK( test_spell.min_aoe == 1 );
-        CHECK( test_spell.max_aoe == 1 );
-        CHECK( test_spell.aoe_increment == 1.0f );
-        CHECK( test_spell.min_dot == 1 );
-        CHECK( test_spell.max_dot == 1 );
-        CHECK( test_spell.dot_increment == 1.0f );
-        CHECK( test_spell.min_duration == 1 );
-        CHECK( test_spell.max_duration == 1 );
-        CHECK( test_spell.duration_increment == 1 );
-        CHECK( test_spell.min_pierce == 1 );
-        CHECK( test_spell.max_pierce == 1 );
-        CHECK( test_spell.pierce_increment == 1.0f );
-        CHECK( test_spell.base_energy_cost == 1 );
-        CHECK( test_spell.final_energy_cost == 2 );
-        CHECK( test_spell.energy_increment == 1.0f );
+        CHECK( test_spell.field_chance.min.dbl_val.value() == 2 );
+        CHECK( test_spell.max_field_intensity.min.dbl_val.value() == 2 );
+        CHECK( test_spell.min_field_intensity.min.dbl_val.value() == 2 );
+        CHECK( test_spell.field_intensity_increment.min.dbl_val.value() == 1 );
+        CHECK( test_spell.field_intensity_variance.min.dbl_val.value() == 1 );
+        CHECK( test_spell.min_damage.min.dbl_val.value() == 1 );
+        CHECK( test_spell.max_damage.min.dbl_val.value() == 1 );
+        CHECK( test_spell.damage_increment.min.dbl_val.value() == 1.0f );
+        CHECK( test_spell.min_range.min.dbl_val.value() == 1 );
+        CHECK( test_spell.max_range.min.dbl_val.value() == 1 );
+        CHECK( test_spell.range_increment.min.dbl_val.value() == 1.0f );
+        CHECK( test_spell.min_aoe.min.dbl_val.value() == 1 );
+        CHECK( test_spell.max_aoe.min.dbl_val.value() == 1 );
+        CHECK( test_spell.aoe_increment.min.dbl_val.value() == 1.0f );
+        CHECK( test_spell.min_dot.min.dbl_val.value() == 1 );
+        CHECK( test_spell.max_dot.min.dbl_val.value() == 1 );
+        CHECK( test_spell.dot_increment.min.dbl_val.value() == 1.0f );
+        CHECK( test_spell.min_duration.min.dbl_val.value() == 1 );
+        CHECK( test_spell.max_duration.min.dbl_val.value() == 1 );
+        CHECK( test_spell.duration_increment.min.dbl_val.value() == 1 );
+        CHECK( test_spell.min_pierce.min.dbl_val.value() == 1 );
+        CHECK( test_spell.max_pierce.min.dbl_val.value() == 1 );
+        CHECK( test_spell.pierce_increment.min.dbl_val.value() == 1.0f );
+        CHECK( test_spell.base_energy_cost.min.dbl_val.value() == 1 );
+        CHECK( test_spell.final_energy_cost.min.dbl_val.value() == 2 );
+        CHECK( test_spell.energy_increment.min.dbl_val.value() == 1.0f );
         CHECK( test_spell.spell_class == trait_test_trait );
         CHECK( test_spell.energy_source == magic_energy_type::mana );
         CHECK( test_spell.dmg_type == damage_type::PURE );
-        CHECK( test_spell.difficulty == 1 );
-        CHECK( test_spell.max_level == 1 );
-        CHECK( test_spell.base_casting_time == 1 );
-        CHECK( test_spell.final_casting_time == 2 );
-        CHECK( test_spell.casting_time_increment == 1.0f );
+        CHECK( test_spell.difficulty.min.dbl_val.value() == 1 );
+        CHECK( test_spell.max_level.min.dbl_val.value() == 1 );
+        CHECK( test_spell.base_casting_time.min.dbl_val.value() == 1 );
+        CHECK( test_spell.final_casting_time.min.dbl_val.value() == 2 );
+        CHECK( test_spell.casting_time_increment.min.dbl_val.value() == 1.0f );
         CHECK( test_spell.learn_spells == test_learn_spell );
-    }
-
-    SECTION( "spell_types serialize correctly" ) {
-        const std::string serialized_spell_type =
-            R"({)"
-            R"("type":"SPELL",)"
-            R"("id":"test_spell_json",)"
-            R"("name":"test spell",)"
-            R"("description":"a spell to make sure the json deserialization and serialization is working properly",)"
-            R"("effect":"attack",)"
-            R"("shape":"blast",)"
-            R"("valid_targets":["none"],)"
-            R"("effect_str":"string",)"
-            R"("skill":"not_spellcraft",)"
-            R"("components":"test_components",)"
-            R"("message":"test message",)"
-            R"("sound_description":"test_description",)"
-            R"("sound_type":"weather",)"
-            R"("sound_ambient":true,)"
-            R"("sound_id":"test_sound",)"
-            R"("sound_variant":"not_default",)"
-            R"("targeted_monster_ids":["mon_test"],)"
-            R"("extra_effects":[{"id":"test_fake_spell"}],)"
-            R"("affected_body_parts":["head"],)"
-            R"("flags":["CONCENTRATE"],)"
-            R"("field_id":"test_field",)"
-            R"("field_chance":2,)"
-            R"("max_field_intensity":2,)"
-            R"("min_field_intensity":2,)"
-            R"("field_intensity_increment":1.000000,)"
-            R"("field_intensity_variance":1.000000,)"
-            R"("min_damage":1,)"
-            R"("max_damage":1,)"
-            R"("damage_increment":1.000000,)"
-            R"("min_range":1,)"
-            R"("max_range":1,)"
-            R"("range_increment":1.000000,)"
-            R"("min_aoe":1,)"
-            R"("max_aoe":1,)"
-            R"("aoe_increment":1.000000,)"
-            R"("min_dot":1,)"
-            R"("max_dot":1,)"
-            R"("dot_increment":1.000000,)"
-            R"("min_duration":1,)"
-            R"("max_duration":1,)"
-            R"("duration_increment":1,)"
-            R"("min_pierce":1,)"
-            R"("max_pierce":1,)"
-            R"("pierce_increment":1.000000,)"
-            R"("base_energy_cost":1,)"
-            R"("final_energy_cost":2,)"
-            R"("energy_increment":1.000000,)"
-            R"("spell_class":"test_trait",)"
-            R"("energy_source":"MANA",)"
-            R"("damage_type":"pure",)"
-            R"("difficulty":1,)"
-            R"("max_level":1,)"
-            R"("base_casting_time":1,)"
-            R"("final_casting_time":2,)"
-            R"("casting_time_increment":1.000000,)"
-            R"("learn_spells":{"test_fake_spell":1})"
-            R"(})";
-
-        std::ostringstream os;
-        JsonOut jsout( os );
-        jsout.write( test_spell );
-        REQUIRE( os.str() == serialized_spell_type );
     }
 }
 
@@ -925,19 +858,19 @@ TEST_CASE( "item_colony_ser_deser", "[json][item]" )
 TEST_CASE( "serialize_optional", "[json]" )
 {
     SECTION( "simple_empty_optional" ) {
-        cata::optional<int> o;
+        std::optional<int> o;
         test_serialization( o, "null" );
     }
     SECTION( "optional_of_int" ) {
-        cata::optional<int> o( 7 );
+        std::optional<int> o( 7 );
         test_serialization( o, "7" );
     }
     SECTION( "vector_of_empty_optional" ) {
-        std::vector<cata::optional<int>> v( 3 );
+        std::vector<std::optional<int>> v( 3 );
         test_serialization( v, "[null,null,null]" );
     }
     SECTION( "vector_of_optional_of_int" ) {
-        std::vector<cata::optional<int>> v{ { 1 }, { 2 }, { 3 } };
+        std::vector<std::optional<int>> v{ { 1 }, { 2 }, { 3 } };
         test_serialization( v, "[1,2,3]" );
     }
 }

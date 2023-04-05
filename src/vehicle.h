@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <stack>
 #include <string>
@@ -31,7 +32,6 @@
 #include "item_location.h"
 #include "item_stack.h"
 #include "line.h"
-#include "optional.h"
 #include "point.h"
 #include "tileray.h"
 #include "type_id.h"
@@ -68,12 +68,16 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+
 namespace vehicles
 {
 // ratio of constant rolling resistance to the part that varies with velocity
 constexpr double rolling_constant_to_variable = 33.33;
 constexpr float vmiph_per_tile = 400.0f;
+// steering/turning increment
+constexpr units::angle steer_increment = 15_degrees;
 } // namespace vehicles
+
 struct rider_data {
     Creature *psg = nullptr;
     int prt = -1;
@@ -218,7 +222,7 @@ int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
 int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
-static constexpr float accel_g = 9.81f;
+constexpr float accel_g = 9.81f;
 
 enum class vp_flag : uint32_t {
     none = 0,
@@ -910,7 +914,7 @@ class vehicle
             old_owner = temp_owner;
         }
         void remove_old_owner() {
-            theft_time = cata::nullopt;
+            theft_time = std::nullopt;
             old_owner = faction_id::NULL_ID();
         }
         void set_owner( const faction_id &new_owner ) {
@@ -1097,14 +1101,43 @@ class vehicle
         std::vector<int> parts_at_relative( const point &dp, bool use_cache,
                                             bool include_fake = false ) const;
 
-        // returns index of part, inner to given, with certain flag, or -1
-        int part_with_feature( int p, const std::string &f, bool unbroken ) const;
+        /**
+        *  Returns index of part at mount point \p pt which has given \p f flag
+        *  @note does not use relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken
+        *  @returns part index or -1
+        */
         int part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
+        /**
+        *  Returns \p p or part index at mount point \p pt which has given \p f flag
+        *  @note uses relative_parts cache
+        *  @param p index of part to start searching from
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken()
+        *  @returns part index or -1
+        */
         int part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
-
-        // returns index of part, inner to given, with certain flag, or -1
-        int avail_part_with_feature( int p, const std::string &f ) const;
+        /**
+        *  Returns index of part at mount point \p pt which has given \p f flag
+        *  and is_available(), or -1 if no such part or it's not is_available()
+        *  @note does not use relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken
+        *  @returns part index or -1
+        */
         int avail_part_with_feature( const point &pt, const std::string &f ) const;
+        /**
+        *  Returns \p p or part index at mount point \p pt which has given \p f flag
+        *  and is_available(), or -1 if no such part or it's not is_available()
+        *  @note uses relative_parts cache
+        *  @param p index of part to start searching from
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken()
+        *  @returns part index or -1
+        */
         int avail_part_with_feature( int p, vpart_bitflags f ) const;
 
         /**
@@ -1569,7 +1602,7 @@ class vehicle
          * @param k_traction_cache cached value of vehicle::k_traction, if empty, will be computed
          */
         void smart_controller_handle_turn( bool thrusting = false,
-                                           const cata::optional<float> &k_traction_cache = cata::nullopt );
+                                           const std::optional<float> &k_traction_cache = std::nullopt );
 
         bool has_available_electric_engine();
         void disable_smart_controller_if_needed();
@@ -1624,6 +1657,17 @@ class vehicle
         units::volume max_volume( int part ) const;
         units::volume free_volume( int part ) const;
         units::volume stored_volume( int part ) const;
+
+        /**
+        * Flags item \p tool with PSEUDO, if it needs battery and has MOD pocket then a
+        * magazine_battery_pseudo_mod is installed and a pseudo battery with high capacity
+        * is inserted into the magazine well pocket with however many battery charges are
+        * available to this vehicle.
+        * @param tool the tool item to modify
+        * @return amount of energy the pseudo battery is set to or 0 joules
+        */
+        units::energy prepare_vehicle_tool( item &tool ) const;
+
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.
@@ -1632,13 +1676,13 @@ class vehicle
         /**
          * Try to add an item to part's cargo.
          *
-         * @returns cata::nullopt if it can't be put here (not a cargo part, adding this would violate
+         * @returns std::nullopt if it can't be put here (not a cargo part, adding this would violate
          * the volume limit or item count limit, not all charges can fit, etc.)
          * Otherwise, returns an iterator to the added item in the vehicle stack
          */
-        cata::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
+        std::optional<vehicle_stack::iterator> add_item( int part, const item &itm );
         /** Like the above */
-        cata::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
+        std::optional<vehicle_stack::iterator> add_item( vehicle_part &pt, const item &obj );
         /**
          * Add an item counted by charges to the part's cargo.
          *
@@ -2018,12 +2062,12 @@ class vehicle
         // a magic vehicle, powered by magic.gif
         bool magic = false;
         // when does the magic vehicle disappear?
-        cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        std::optional<time_duration> summon_time_limit = std::nullopt;
         // cached values of the factors that determined last chosen engine state
         // NOLINTNEXTLINE(cata-serialize)
-        cata::optional<smart_controller_cache> smart_controller_state = cata::nullopt;
+        std::optional<smart_controller_cache> smart_controller_state = std::nullopt;
         // SC config. optional, as majority of vehicles don't have SC installed
-        cata::optional<smart_controller_config> smart_controller_cfg = cata::nullopt;
+        std::optional<smart_controller_config> smart_controller_cfg = std::nullopt;
         bool has_enabled_smart_controller = false; // NOLINT(cata-serialize)
 
         void add_tag( const std::string &tag );
@@ -2096,7 +2140,7 @@ class vehicle
         float of_turn_carry = 0.0f;
         units::power extra_drag = 0_W; // NOLINT(cata-serialize)
         // the time point when it was successfully stolen
-        cata::optional<time_point> theft_time;
+        std::optional<time_point> theft_time;
         // rotation used for mount precalc values
         // NOLINTNEXTLINE(cata-serialize)
         std::array<units::angle, 2> pivot_rotation = { { 0_degrees, 0_degrees } };

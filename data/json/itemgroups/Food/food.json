@@ -624,6 +624,7 @@
       { "item": "pizza_cheese", "prob": 8 },
       { "item": "pizza_meat", "prob": 8 },
       { "item": "cheeseburger", "prob": 4 },
+      { "item": "fried_mozzarella_sticks", "prob": 11 },
       { "item": "deluxe_cheeseburger", "prob": 6 },
       { "item": "hamburger", "prob": 8 },
       { "item": "tofu_rice", "prob": 4 },
@@ -827,6 +828,7 @@
       { "item": "deluxe_cheeseburger", "prob": 50 },
       { "item": "hamburger", "prob": 70 },
       { "item": "cheese", "prob": 45 },
+      { "item": "mozzarella_cheese", "prob": 30 },
       { "item": "ceramic_plate", "prob": 30 },
       { "item": "knife_steak", "prob": 45 },
       { "item": "tongs", "prob": 60 }
@@ -843,6 +845,7 @@
       { "item": "hamburger", "count": [ 0, 3 ] },
       { "item": "sloppyjoe", "count": [ 0, 3 ] },
       { "item": "fries", "count": [ 0, 3 ] },
+      { "item": "fried_mozzarella_sticks", "count": [ 0, 3 ] },
       { "item": "hotdogs_cooked", "count": [ 0, 3 ] },
       { "item": "corndogs_cooked", "count": [ 0, 3 ] },
       { "item": "bacon", "count": [ 0, 3 ] }
@@ -930,6 +933,7 @@
       { "item": "sloppyjoe", "prob": 8 },
       { "item": "bacon", "prob": 25 },
       { "item": "cheese", "prob": 30 },
+      { "item": "mozzarella_cheese", "prob": 20 },
       { "item": "restaurantmap", "prob": 5 },
       { "item": "touristmap", "prob": 2 },
       { "item": "noodles_fast", "prob": 30 },

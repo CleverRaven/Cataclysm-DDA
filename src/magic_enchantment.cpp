@@ -138,6 +138,8 @@ namespace io
             case enchant_vals::mod::ITEM_ATTACK_SPEED: return "ITEM_ATTACK_SPEED";
             case enchant_vals::mod::CLIMATE_CONTROL_HEAT: return "CLIMATE_CONTROL_HEAT";
             case enchant_vals::mod::CLIMATE_CONTROL_CHILL: return "CLIMATE_CONTROL_CHILL";
+            case enchant_vals::mod::FALL_DAMAGE: return "FALL_DAMAGE";
+            case enchant_vals::mod::OVERKILL_DAMAGE: return "OVERKILL_DAMAGE";
             case enchant_vals::mod::NUM_MOD: break;
         }
         cata_fatal( "Invalid enchant_vals::mod" );
@@ -266,7 +268,7 @@ void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
 }
 
 void enchantment::load( const JsonObject &jo, const std::string &,
-                        const cata::optional<std::string> &inline_id, bool is_child )
+                        const std::optional<std::string> &inline_id, bool is_child )
 {
     optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
 
@@ -298,7 +300,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
     if( jo.has_string( "condition" ) ) {
         std::string condit;
         optional( jo, was_loaded, "condition", condit );
-        cata::optional<condition> con = io::string_to_enum_optional<condition>( condit );
+        std::optional<condition> con = io::string_to_enum_optional<condition>( condit );
         if( con.has_value() ) {
             active_conditions.second = con.value();
         } else {
@@ -363,7 +365,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
 }
 
 void enchant_cache::load( const JsonObject &jo, const std::string &,
-                          const cata::optional<std::string> &inline_id )
+                          const std::optional<std::string> &inline_id )
 {
     enchantment::load( jo, "", inline_id, true );
     if( jo.has_array( "values" ) ) {
@@ -785,7 +787,7 @@ void enchant_cache::activate_passive( Character &guy ) const
         // a random approximation!
         if( one_in( to_seconds<int>( activation.first ) ) ) {
             for( const fake_spell &fake : activation.second ) {
-                fake.get_spell( 0 ).cast_all_effects( guy, guy.pos() );
+                fake.get_spell( guy, 0 ).cast_all_effects( guy, guy.pos() );
             }
         }
     }
@@ -818,10 +820,10 @@ void enchant_cache::cast_enchantment_spell( Character &caster, const Creature *t
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
                                       caster.get_name() );
-        sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
+        sp.get_spell( caster, sp.level ).cast_all_effects( caster, caster.pos() );
     } else  if( target != nullptr ) {
         const Creature &trg_crtr = *target;
-        const spell &spell_lvl = sp.get_spell( sp.level );
+        const spell &spell_lvl = sp.get_spell( caster, sp.level );
         if( !spell_lvl.is_valid_target( caster, trg_crtr.pos() ) ||
             !spell_lvl.is_target_in_range( caster, trg_crtr.pos() ) ) {
             return;

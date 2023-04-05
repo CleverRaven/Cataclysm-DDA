@@ -4,6 +4,8 @@
     "id": "roof_palette",
     "//": "Please use the '-' symbol when placing rain gutters.",
     "terrain": {
+      ">": "t_stairs_down",
+      "v": "t_ladder_down",
       ".": "t_flat_roof",
       " ": "t_open_air",
       "o": "t_glass_roof",
@@ -37,6 +39,7 @@
       "~": "f_chimney",
       "=": "f_vent_pipe",
       "A": "f_air_conditioner",
+      "M": "f_solar_unit",
       "b": "f_bench",
       "c": "f_counter",
       "t": "f_table",

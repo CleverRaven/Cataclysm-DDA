@@ -506,6 +506,7 @@ class Creature : public viewer
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
+        bool cant_do_underwater( bool msg = true ) const;
         virtual bool is_underwater() const;
         bool is_likely_underwater() const; // Should eventually be virtual, although not pure
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
@@ -1190,6 +1191,7 @@ class Creature : public viewer
         virtual bool is_symbol_highlighted() const;
 
         std::unordered_map<std::string, std::string> &get_values();
+        void clear_killer();
 
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead

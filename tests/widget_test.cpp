@@ -9,7 +9,6 @@
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "options_helpers.h"
 #include "weather.h"
@@ -1603,7 +1602,8 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 
     // Acquire and wear a radiation badge
     item rad_badge( itype_rad_badge );
-    item *rad_badge_worn = & **ava.worn.wear_item( ava, rad_badge, false, false );
+    auto rad_badge_iter = *ava.worn.wear_item( ava, rad_badge, false, false );
+    item *rad_badge_worn = & *rad_badge_iter;
 
     // Color indicator is shown when character has radiation badge
     rad_badge_worn->irradiation = 0;

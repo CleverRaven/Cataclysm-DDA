@@ -7,6 +7,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <optional>
 #include <stack>
 #include <string>
 #include <tuple>
@@ -46,7 +47,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "projectile.h"
@@ -250,6 +250,18 @@ void Creature::process_turn()
     if( !has_effect( effect_ridden ) ) {
         moves += get_speed();
     }
+}
+
+bool Creature::cant_do_underwater( bool msg ) const
+{
+    if( is_underwater() ) {
+        if( msg ) {
+            add_msg_player_or_npc( m_info, _( "You can't do that while underwater." ),
+                                   _( "<npcname> can't do that while underwater." ) );
+        }
+        return true;
+    }
+    return false;
 }
 
 bool Creature::is_underwater() const
@@ -1836,6 +1848,11 @@ void Creature::set_killer( Creature *const killer )
     }
 }
 
+void Creature::clear_killer()
+{
+    killer = nullptr;
+}
+
 int Creature::get_num_blocks() const
 {
     return num_blocks + num_blocks_bonus;
@@ -3031,6 +3048,8 @@ std::unique_ptr<talker> get_talker_for( const Creature &me )
 {
     if( !me.is_monster() ) {
         return std::make_unique<talker_character_const>( static_cast<const Character *>( &me ) );
+    } else if( me.is_monster() ) {
+        return std::make_unique<talker_monster_const>( static_cast<const monster *>( &me ) );
     } else {
         debugmsg( "Invalid creature type %s.", me.get_name() );
         standard_npc default_npc( "Default" );

@@ -174,7 +174,7 @@ std::string material_type::name() const
     return _name.translated();
 }
 
-cata::optional<itype_id> material_type::salvaged_into() const
+std::optional<itype_id> material_type::salvaged_into() const
 {
     return _salvaged_into;
 }
@@ -298,7 +298,7 @@ int material_type::breathability() const
     return material_type::breathability_to_rating( _breathability );
 }
 
-cata::optional<int> material_type::wind_resist() const
+std::optional<int> material_type::wind_resist() const
 {
     return _wind_resist;
 }

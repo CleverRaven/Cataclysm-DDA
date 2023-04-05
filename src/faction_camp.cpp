@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -56,7 +57,6 @@
 #include "npc.h"
 #include "npctalk.h"
 #include "omdata.h"
-#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmap_ui.h"
@@ -612,17 +612,17 @@ static bool extract_and_check_orientation_flags( const recipe_id &recipe,
     return true;
 }
 
-static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_type = "default" )
+static std::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_type = "default" )
 {
     tripoint_abs_omt omt_pos = p.global_omt_location();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( bcp ) {
         return bcp;
     }
     get_map().add_camp( omt_pos, "faction_camp" );
     bcp = overmap_buffer.find_camp( omt_pos.xy() );
     if( !bcp ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     basecamp *temp_camp = *bcp;
     temp_camp->define_camp( omt_pos, camp_type );
@@ -698,7 +698,7 @@ void talk_function::start_camp( npc &p )
                p.disp_name(), making.get_blueprint().str() );
         return;
     }
-    cata::optional<basecamp *> camp = get_basecamp( p, camp_type.str() );
+    std::optional<basecamp *> camp = get_basecamp( p, camp_type.str() );
     if( camp.has_value() ) {
         for( int tab_num = base_camps::TAB_MAIN; tab_num < base_camps::TAB_NW; tab_num++ ) {
             std::vector<ui_mission_id> temp;
@@ -713,7 +713,7 @@ void talk_function::basecamp_mission( npc &p )
     const tripoint_abs_omt omt_pos = p.global_omt_location();
     mission_data mission_key;
 
-    cata::optional<basecamp *> temp_camp = get_basecamp( p );
+    std::optional<basecamp *> temp_camp = get_basecamp( p );
     if( !temp_camp ) {
         return;
     }
@@ -1956,7 +1956,7 @@ void basecamp::worker_assignment_ui()
     size_t selection = 0;
     input_context ctxt( "FACTION_MANAGER" );
     ctxt.register_action( "INSPECT_NPC" );
-    ctxt.register_updown();
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -2018,17 +2018,7 @@ void basecamp::worker_assignment_ui()
             if( cur_npc ) {
                 cur_npc->disp_info();
             }
-        } else if( action == "DOWN" ) {
-            selection++;
-            if( selection >= followers.size() ) {
-                selection = 0;
-            }
-        } else if( action == "UP" ) {
-            if( selection == 0 ) {
-                selection = followers.empty() ? 0 : followers.size() - 1;
-            } else {
-                selection--;
-            }
+        } else if( navigate_ui_list( action, selection, 5, followers.size(), true ) ) {
         } else if( action == "CONFIRM" ) {
             if( !followers.empty() && cur_npc ) {
                 talk_function::assign_camp( *cur_npc );
@@ -2061,7 +2051,7 @@ void basecamp::job_assignment_ui()
     size_t selection = 0;
     input_context ctxt( "FACTION_MANAGER" );
     ctxt.register_action( "INSPECT_NPC" );
-    ctxt.register_updown();
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -2137,17 +2127,7 @@ void basecamp::job_assignment_ui()
             if( cur_npc ) {
                 cur_npc->disp_info();
             }
-        } else if( action == "DOWN" ) {
-            selection++;
-            if( selection >= stationed_npcs.size() ) {
-                selection = 0;
-            }
-        } else if( action == "UP" ) {
-            if( selection == 0 ) {
-                selection = stationed_npcs.empty() ? 0 : stationed_npcs.size() - 1;
-            } else {
-                selection--;
-            }
+        } else if( navigate_ui_list( action, selection, 5, stationed_npcs.size(), true ) ) {
         } else if( action == "CONFIRM" ) {
             if( cur_npc ) {
                 while( true ) {
@@ -4065,7 +4045,7 @@ std::string talk_function::name_mission_tabs(
     if( role_id != base_camps::id ) {
         return cur_title;
     }
-    cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( omt_pos.xy() );
+    std::optional<basecamp *> temp_camp = overmap_buffer.find_camp( omt_pos.xy() );
     if( !temp_camp ) {
         return cur_title;
     }

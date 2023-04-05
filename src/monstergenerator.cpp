@@ -5,6 +5,7 @@
 #include <cstdlib>
 #include <limits>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -28,7 +29,6 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "mongroup.h"
-#include "optional.h"
 #include "options.h"
 #include "pathfinding.h"
 #include "rng.h"
@@ -153,7 +153,6 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_REVIVES: return "REVIVES";
         case MF_VERMIN: return "VERMIN";
         case MF_NOGIB: return "NOGIB";
-        case MF_LARVA: return "LARVA";
         case MF_ARTHROPOD_BLOOD: return "ARTHROPOD_BLOOD";
         case MF_ACID_BLOOD: return "ACID_BLOOD";
         case MF_BILE_BLOOD: return "BILE_BLOOD";
@@ -240,13 +239,13 @@ bool string_id<species_type>::is_valid() const
     return MonsterGenerator::generator().mon_species->is_valid( *this );
 }
 
-cata::optional<mon_action_death> MonsterGenerator::get_death_function( const std::string &f ) const
+std::optional<mon_action_death> MonsterGenerator::get_death_function( const std::string &f ) const
 {
     const auto it = death_map.find( f );
 
     return it != death_map.cend()
-           ? cata::optional<mon_action_death>( it->second )
-           : cata::optional<mon_action_death>();
+           ? std::optional<mon_action_death>( it->second )
+           : std::optional<mon_action_death>();
 }
 
 MonsterGenerator::MonsterGenerator()
@@ -525,7 +524,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "SPLIT", mattack::split );
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
-    add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
     add_hardcoded_attack( "CHECK_UP", mattack::nurse_check_up );
     add_hardcoded_attack( "ASSIST", mattack::nurse_assist );
     add_hardcoded_attack( "OPERATE", mattack::nurse_operate );
@@ -597,6 +595,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
     add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
+    add_hardcoded_attack( "BLOW_WHISTLE", mattack::blow_whistle );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
     add_hardcoded_attack( "EVOLVE_KILL_STRIKE", mattack::evolve_kill_strike );
@@ -930,7 +929,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     } else if( jo.has_object( "melee_damage" ) ) {
         melee_damage = load_damage_instance( jo.get_object( "melee_damage" ) );
     } else if( jo.has_object( "relative" ) ) {
-        cata::optional<damage_instance> tmp_dmg;
+        std::optional<damage_instance> tmp_dmg;
         JsonObject rel = jo.get_object( "relative" );
         rel.allow_omitted_members();
         if( rel.has_array( "melee_damage" ) ) {
@@ -947,7 +946,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             melee_damage.add( tmp_dmg.value() );
         }
     } else if( jo.has_object( "proportional" ) ) {
-        cata::optional<damage_instance> tmp_dmg;
+        std::optional<damage_instance> tmp_dmg;
         JsonObject prop = jo.get_object( "proportional" );
         prop.allow_omitted_members();
         if( prop.has_array( "melee_damage" ) ) {

@@ -39,7 +39,7 @@ fi
 ccache --zero-stats
 # Increase cache size because debug builds generate large object files
 ccache -M 5G
-ccache --show-stats
+ccache --show-stats --verbose
 
 if [ "$CMAKE" = "1" ]
 then
@@ -62,10 +62,14 @@ then
         ..
     make -j$num_jobs
 else
-    # The OSX_MIN version here should match that used in release builds so that
-    # CI detects issues that will affect releases.  It doesn't affect builds on
-    # other platforms.
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 OSX_MIN=10.12
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 FRAMEWORK=1 UNIVERSAL_BINARY=1
+
+    # For CI on macOS, patch the test binary so it can find SDL2 libraries.
+    if [[ ! -z "$OS" && "$OS" = "macos-12" ]]
+    then
+        file tests/cata_test
+        install_name_tool -add_rpath $HOME/Library/Frameworks tests/cata_test
+    fi
 fi
 
 # vim:tw=0

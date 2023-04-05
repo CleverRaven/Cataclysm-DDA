@@ -161,6 +161,26 @@ TEST_CASE( "npc_talk_start", "[npc_talk]" )
     CHECK( d.responses[0].text == "This is a basic test response." );
 }
 
+TEST_CASE( "npc_talk_failures", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    d.add_topic( "TALK_TEST_FAIL_RESPONSE" );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].text == "*Impossible Test: Never See this." );
+}
+
+TEST_CASE( "npc_talk_failures_topic", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    d.add_topic( "TALK_TEST_FAIL_RESPONSE" );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].success.next_topic.id == "TALK_TEST_START" );
+}
+
 TEST_CASE( "npc_talk_describe_mission", "[npc_talk]" )
 {
     dialogue d;

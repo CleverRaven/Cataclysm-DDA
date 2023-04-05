@@ -9,6 +9,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <stdexcept>
@@ -20,6 +21,7 @@
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character_id.h"
+#include "city.h"
 #include "clzones.h"
 #include "colony.h"
 #include "common_types.h"
@@ -58,7 +60,6 @@
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -268,7 +269,7 @@ void map::generate( const tripoint &p, const time_point &when )
                 if( !mgr.name ) {
                     continue;
                 }
-                if( const cata::optional<tripoint> pt =
+                if( const std::optional<tripoint> pt =
                 random_point( *this, [this]( const tripoint & n ) {
                 return passable( n );
                 } ) ) {
@@ -1213,7 +1214,7 @@ class mapgen_value
 
         struct param_source : value_source {
             std::string param_name;
-            cata::optional<StringId> fallback;
+            std::optional<StringId> fallback;
 
             explicit param_source( const JsonObject &jo )
                 : param_name( jo.get_string( "param" ) ) {
@@ -3097,8 +3098,8 @@ class jmapgen_sealed_item : public jmapgen_piece
     public:
         mapgen_value<furn_id> furniture;
         jmapgen_int chance;
-        cata::optional<jmapgen_spawn_item> item_spawner;
-        cata::optional<jmapgen_item_group> item_group_spawner;
+        std::optional<jmapgen_spawn_item> item_spawner;
+        std::optional<jmapgen_item_group> item_group_spawner;
         jmapgen_sealed_item( const JsonObject &jsi, const std::string &context )
             : furniture( jsi.get_member( "furniture" ) )
             , chance( jsi, "chance", 100, 100 ) {
@@ -5693,7 +5694,7 @@ void map::draw_lab( mapgendata &dat )
                     tripoint_range<tripoint> options =
                     points_in_rectangle( { 6, 6, abs_sub.z() },
                     { SEEX * 2 - 7, SEEY * 2 - 7, abs_sub.z() } );
-                    cata::optional<tripoint> center = random_point(
+                    std::optional<tripoint> center = random_point(
                     options, [&]( const tripoint & p ) {
                         return tr_at( p ).is_null();
                     } );
@@ -6246,9 +6247,6 @@ void map::draw_connections( const mapgendata &dat )
             }
         }
     } else if( terrain_type->get_type_id() == oter_type_sewer ) {
-        if( dat.above() == oter_road_nesw_manhole ) {
-            ter_set( point( rng( SEEX - 2, SEEX + 1 ), rng( SEEY - 2, SEEY + 1 ) ), t_ladder_up );
-        }
         if( ( dat.north()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 0 ) ) {
             for( int j = 0; j < SEEY - 3; j++ ) {

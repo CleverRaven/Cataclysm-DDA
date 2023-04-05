@@ -4933,5 +4933,11 @@
     "id": "orchard_1",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "orchard_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "orchard_roof_1_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "warehouse",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "warehouse_north" }, { "point": [ 0, 0, 1 ], "overmap": "warehouse_roof_north" } ]
   }
 ]

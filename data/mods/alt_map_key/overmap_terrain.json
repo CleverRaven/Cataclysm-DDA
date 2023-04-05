@@ -5009,30 +5009,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "trailerparksmall0",
-    "copy-from": "trailerparksmall0",
-    "name": "trailer park",
-    "sym": "t",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "trailerparksmall1",
-    "copy-from": "trailerparksmall1",
-    "name": "trailer park",
-    "sym": "t",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "trailerparksmall2",
-    "copy-from": "trailerparksmall2",
-    "name": "trailer park",
-    "sym": "t",
-    "color": "i_light_green"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "large_storage_units_3",
     "copy-from": "large_storage_units_3",
     "name": "storage units",
