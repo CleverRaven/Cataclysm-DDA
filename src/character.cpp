@@ -7301,10 +7301,11 @@ std::string Character::weapname() const
 
 std::string Character::weapname_simple() const
 {
+    //To make wield state consistent, gun_nam; when calling tname, is disabling 'with_collapsed' flag
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
-        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname();
+        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname(1,true,0,true,false); 
         return gun_name;
 
     } else if( !is_armed() ) {
