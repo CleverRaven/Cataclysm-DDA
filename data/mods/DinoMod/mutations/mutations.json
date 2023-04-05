@@ -139,7 +139,7 @@
     "id": "THICKSKIN2",
     "name": { "str": "Tough-Skinned" },
     "points": 3,
-    "description": "Your skin is getting tougher.  Greatly improving protection against all sorts of damage.  Makes you less dextrous though.",
+    "description": "Your skin is getting tougher.  Greatly improves protection against all sorts of damage.  Makes you less dextrous though.",
     "prereqs": "THICKSKIN",
     "cancels": "THINSKIN",
     "category": [ "STEGO", "TYRANT", "HORNS" ],
@@ -438,6 +438,12 @@
     "type": "mutation",
     "id": "LARGE",
     "copy-from": "LARGE",
+    "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "DENSE_BONES",
+    "copy-from": "DENSE_BONES",
     "extend": { "category": [ "STEGO", "TYRANT", "HORNS" ] }
   },
   {
