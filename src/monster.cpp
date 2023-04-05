@@ -1043,6 +1043,12 @@ bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr ) const
     if( digging() || flies() ) {
         return true;
     }
+
+    std::vector<std::string> tavoids = get_trap_avoids();
+    if (std::find(tavoids.begin(), tavoids.end(), tr.id.str()) != tavoids.end()) {
+        return true;
+    }
+
     return dice( 3, type->sk_dodge + 1 ) >= dice( 3, tr.get_avoidance() );
 }
 
@@ -3588,4 +3594,9 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
 std::set<tripoint> monster::get_path_avoid() const
 {
     return std::set<tripoint>();
+}
+
+std::vector<std::string> monster::get_trap_avoids() const
+{
+    return type->trap_avoids;
 }
