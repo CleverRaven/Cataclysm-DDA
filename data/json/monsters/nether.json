@@ -351,7 +351,7 @@
     "harvest": "zombie_meatslug",
     "//": "Add a demihuman alien anatomy for things like flaming eye's and Mi-go, polyps and other lovecraftian horrors from other dimensions",
     "special_attacks": [ [ "STARE", 12 ] ],
-    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
+    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD", "PACIFIST" ]
   },
   {
     "id": "mon_flying_polyp",
