@@ -745,7 +745,7 @@
   },
   {
     "id": "ammo_casings_milspec",
-    "//": "Casings for setpieces implying military shootouts",
+    "//": "Casings for setpieces implying military shootouts by CQB folks.  Weirdness thrown in to account for trying to kill XEDRA/Extradimensionals.  No vehicular only stuff.",
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
