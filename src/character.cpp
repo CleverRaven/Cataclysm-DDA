@@ -8672,8 +8672,9 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= tmp.size() ) {
                 break;
             }
-            tmp[imenu.ret]->use_amount( it, quantity, ret, filter );
-            remove_item( *tmp[imenu.ret] );
+            if( tmp[imenu.ret]->use_amount( it, quantity, ret, filter ) ) {
+                remove_item( *tmp[imenu.ret] );
+            }
             tmp.erase( tmp.begin() + imenu.ret );
         }
     }
