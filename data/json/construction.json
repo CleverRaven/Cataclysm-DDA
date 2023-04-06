@@ -5076,7 +5076,7 @@
     "id": "app_catalytic_cracking_reactor",
     "group": "place_catalytic_cracking_reactor",
     "category": "APPLIANCE",
-    "//1" : "maybe some applied science? this seems to be some semi-advanced hardware",
+    "//1": "maybe some applied science? this seems to be some semi-advanced hardware",
     "required_skills": [ [ "fabrication", 0 ] ],
     "//2": "I set lower activity and longer time for putting a lot of light and/or small items together. When possible, I'd like it to take more time to disassemble as well.",
     "time": "40 m",
