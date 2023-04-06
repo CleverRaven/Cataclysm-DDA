@@ -128,7 +128,7 @@ std::pair<int, int> Character::gunmod_installation_odds( const item_location &gu
     roll += ( get_dex() - 12 ) * 2;
     roll += ( get_int() - 12 ) * 2;
     // each level of damage to the base gun reduces success by 10%
-    roll -= std::max( gun->damage_level(), 0 ) * 10;
+    roll -= gun->damage_level() * 10;
     roll = std::min( std::max( roll, 0 ), 100 );
 
     // risk of causing damage on failure increases with less durable guns
