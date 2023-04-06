@@ -25,27 +25,5 @@
       }
     ],
     "armor": [ { "covers": [ "torso" ], "coverage": 0, "encumbrance": 0 } ]
-  },
-  {
-    "id": "integrated_thick_skull",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str_sp": "thick skull" },
-    "description": "You've taken so many hits to the head your skull's gotten thicker.",
-    "price": 0,
-    "price_postapoc": 0,
-    "material": [ "bone" ],
-    "material_thickness": 3,
-    "symbol": "x",
-    "color": "magenta",
-    "flags": [ "INTEGRATED", "UNBREAKABLE", "SKINTIGHT", "ZERO_WEIGHT", "NO_SALVAGE" ],
-    "armor": [
-      {
-        "covers": [ "head" ],
-        "specifically_covers": [ "head_forehead", "head_crown", "head_nape", "head_ear_r", "head_ear_l" ],
-        "coverage": 100,
-        "encumbrance": 1
-      }
-    ]
   }
 ]

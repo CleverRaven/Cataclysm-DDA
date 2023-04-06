@@ -45,7 +45,7 @@
     "components": [
       [ [ "tobacco", 20 ] ],
       [ [ "sugar_standard", 1, "LIST" ], [ "artificial_sweetener", 14 ] ],
-      [ [ "juice", 2 ], [ "oj", 1 ], [ "cranberry_juice", 1 ], [ "sweet_water", 1 ] ],
+      [ [ "sweet_juice", 1, "LIST" ], [ "sweet_water", 1 ] ],
       [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ]
     ]
   },

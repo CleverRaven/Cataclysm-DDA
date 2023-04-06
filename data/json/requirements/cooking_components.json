@@ -945,12 +945,12 @@
         [ "lulo", 2 ],
         [ "mango", 1 ],
         [ "maracuya", 1 ],
-        [ "melon", 1 ],
+        [ "melon_chunks", 1 ],
         [ "orange", 1 ],
         [ "papaya", 1 ],
         [ "peach", 1 ],
         [ "pear", 1 ],
-        [ "pineapple", 1 ],
+        [ "pineapple_chunks", 1 ],
         [ "plums", 1 ],
         [ "pomegranate", 1 ],
         [ "pumpkin", 1 ],
@@ -963,7 +963,7 @@
         [ "huckleberries", 1 ],
         [ "mulberries", 1 ],
         [ "elderberries", 1 ],
-        [ "watermelon", 1 ]
+        [ "watermelon_wedge", 1 ]
       ]
     ]
   },
@@ -986,13 +986,11 @@
         [ "irradiated_lulo", 2 ],
         [ "irradiated_mango", 1 ],
         [ "irradiated_maracuya", 1 ],
-        [ "irradiated_melon", 1 ],
         [ "irradiated_orange", 1 ],
         [ "irradiated_papaya", 1 ],
         [ "irradiated_peach", 1 ],
         [ "irradiated_pumpkin", 1 ],
         [ "irradiated_pear", 1 ],
-        [ "irradiated_pineapple", 1 ],
         [ "irradiated_plums", 1 ],
         [ "irradiated_pomegranate", 1 ],
         [ "irradiated_raspberries", 1 ],
@@ -1000,8 +998,7 @@
         [ "irradiated_strawberries", 1 ],
         [ "irradiated_huckleberries", 1 ],
         [ "irradiated_mulberries", 1 ],
-        [ "irradiated_elderberries", 1 ],
-        [ "irradiated_watermelon", 1 ]
+        [ "irradiated_elderberries", 1 ]
       ]
     ]
   },
@@ -1272,6 +1269,7 @@
     "components": [
       [
         [ "oj", 1 ],
+        [ "oj_fresh", 1 ],
         [ "lemonade", 1 ],
         [ "apple_cider", 1 ],
         [ "cranberry_juice", 1 ],

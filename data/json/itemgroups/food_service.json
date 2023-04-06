@@ -204,11 +204,11 @@
     "//": "Alcohol you'd find in at a still or moonshine camp",
     "subtype": "distribution",
     "entries": [
-      { "item": "brandied_fruit", "prob": 75, "repeat": [ 3, 6 ] },
-      { "item": "moonshine", "prob": 86, "repeat": [ 3, 6 ] },
-      { "item": "beer", "prob": 80, "repeat": [ 3, 6 ] },
-      { "item": "fruit_wine", "prob": 40, "repeat": [ 3, 6 ] },
-      { "item": "brandy", "prob": 20, "repeat": [ 3, 6 ] }
+      { "item": "brandied_fruit", "prob": 75 },
+      { "item": "moonshine", "prob": 86 },
+      { "item": "beer", "prob": 80 },
+      { "item": "fruit_wine", "prob": 40 },
+      { "item": "brandy", "prob": 20 }
     ]
   },
   {

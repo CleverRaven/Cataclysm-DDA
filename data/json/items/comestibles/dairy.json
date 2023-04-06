@@ -141,7 +141,7 @@
     "color": "white",
     "spoils_in": "10 days",
     "calories": 110,
-    "container": null,
+    "container": "null",
     "description": "A white stick of raw milkfat and milk solids, made directly from cow's milk.",
     "price": 200,
     "price_postapoc": 500,

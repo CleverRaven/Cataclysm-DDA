@@ -706,5 +706,18 @@
     "material": [ "plastic" ],
     "symbol": "o",
     "color": "light_gray"
+  },
+  {
+    "type": "GENERIC",
+    "id": "doormat",
+    "name": { "str_sp": "doormat" },
+    "description": "A non-slip mat with a welcoming message.  Once used to keep a house clean and inviting.",
+    "weight": "2200 g",
+    "volume": "3 L",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "cotton" ],
+    "symbol": "_",
+    "color": "brown"
   }
 ]

@@ -668,7 +668,12 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( *np->get_wielded_item() );
+        item_location wielded = np->get_wielded_item();
+        if( wielded ) {
+            return np->weapon_value( *wielded );
+        } else {
+            return np->unarmed_value();
+        }
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );

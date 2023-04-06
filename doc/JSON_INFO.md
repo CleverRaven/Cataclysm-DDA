@@ -540,31 +540,31 @@ selected subfolders
 
 See below for specifics on the various items
 
-| Filename             | Description
-|---                   |---
-| `ammo.json`          | common base components like batteries and marbles
-| `ammo_types.json`    | standard ammo types by gun
-| `archery.json`       | bows and arrows
-| `armor.json`         | armor and clothing
-| `bionics.json`       | Compact Bionic Modules (CBMs)
-| `biosignatures.json` | animal waste
-| `books.json`         | books
+| Filename                       | Description
+|---                             |---
+| `ammo.json`                    | common base components like batteries and marbles
+| `ammo_types.json`              | standard ammo types by gun
+| `archery.json`                 | bows and arrows
+| `armor.json`                   | armor and clothing
+| `bionics.json`                 | Compact Bionic Modules (CBMs)
+| `biosignatures.json`           | animal waste
+| `books.json`                   | books
 | `chemicals_and_resources.json` | chemical precursors
-| `comestibles.json`   | food/drinks
-| `containers.json`    | containers
-| `crossbows.json`     | crossbows and bolts
-| `fake.json`          | fake items for bionics or mutations
-| `fuel.json`          | liquid fuels
-| `grenades.json`      | grenades and throwable explosives
-| `handloaded_bullets.json` | random ammo
-| `melee.json`         | melee weapons
-| `newspaper.json`     | flyers, newspapers, and survivor notes. `snippets.json` for messages
-| `ranged.json`        | guns
-| `software.json`      | software for SD-cards and USB sticks
-| `tool_armor.json`    | clothes and armor that can be (a)ctivated
-| `toolmod.json`       | modifications of tools
-| `tools.json`         | tools and items that can be (a)ctivated
-| `vehicle_parts.json` | components of vehicles when they aren't on the vehicle
+| `comestibles.json`             | food/drinks
+| `containers.json`              | containers
+| `crossbows.json`               | crossbows and bolts
+| `fake.json`                    | fake items for bionics or mutations
+| `fuel.json`                    | liquid fuels
+| `grenades.json`                | grenades and throwable explosives
+| `handloaded_bullets.json`      | random ammo
+| `melee.json`                   | melee weapons
+| `newspaper.json`               | flyers, newspapers, and survivor notes. `snippets.json` for messages
+| `ranged.json`                  | guns
+| `software.json`                | software for SD-cards and USB sticks
+| `tool_armor.json`              | clothes and armor that can be (a)ctivated
+| `toolmod.json`                 | modifications of tools
+| `tools.json`                   | tools and items that can be (a)ctivated
+| `vehicle_parts.json`           | components of vehicles when they aren't on the vehicle
 
 ### `data/json/items/comestibles/`
 
@@ -611,10 +611,10 @@ This section describes each json file and their contents. Each json has their ow
 
 ### Ascii_arts
 
-| Identifier        | Description
-|---                |---
-| id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. \ have to be replaced by \\\ in order to be visible.
+| Identifier | Description
+|---         |---
+| `id`       | Unique ID. Must be one continuous word, use underscores if necessary.
+| `picture`  | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. \ have to be replaced by \\\ in order to be visible.
 
 ```C++
   {
@@ -747,16 +747,16 @@ These are interactive graphs that highlight different body parts or sub body par
 }
 ```
 
-| Field | description
-|--- |---
-| `type` | Always `body_graph`.
-| `id` | String uniquely identifying this graph.
+| Field             | description
+|---                |---
+| `type`            | Always `body_graph`.
+| `id`              | String uniquely identifying this graph.
 | `parent_bodypart` | (_optional_) ID of the parent body part of this graph, if any. Only used to display the current body part as the window's subtitle.
-| `fill_sym` | (_optional_) Specifies a character to fill all sections of the graph when viewing in-game.
-| `fill_color` | (_optional_) Specifies a color to use for unselected sections of the graph when viewing in-game.
-| `rows` | Array of strings that form the graph. The symbols used for each fragment may correspond to an entry in `parts`, which form the sections of the graph. Empty spaces (` `) are ignored for the purposes of filling.
-| `mirror` | (_optional_) Can be specified instead of `rows`. This takes a string ID referring to a different body_graph, which will be flipped horizontally and used as the rows in this graph (ex: `hand_l` mirrors `hand_r`).
-| `parts` | A list of symbols present in the graph that correspond to specific body parts or sub body parts.
+| `fill_sym`        | (_optional_) Specifies a character to fill all sections of the graph when viewing in-game.
+| `fill_color`      | (_optional_) Specifies a color to use for unselected sections of the graph when viewing in-game.
+| `rows`            | Array of strings that form the graph. The symbols used for each fragment may correspond to an entry in `parts`, which form the sections of the graph. Empty spaces (` `) are ignored for the purposes of filling.
+| `mirror`          | (_optional_) Can be specified instead of `rows`. This takes a string ID referring to a different body_graph, which will be flipped horizontally and used as the rows in this graph (ex: `hand_l` mirrors `hand_r`).
+| `parts`           | A list of symbols present in the graph that correspond to specific body parts or sub body parts.
 
 The resolution limit for the `rows` field is 40x20, in order to maintain compatibility with 80x24 terminals.
 
@@ -765,13 +765,13 @@ The resolution limit for the `rows` field is 40x20, in order to maintain compati
 The `parts` field can be used to define the interaction with different sections of the graph. Each part should
 reference at least one body part or sub body part.
 
-| Field | description
-|--- |---
-| `body_parts` | An array of `body_part` IDs that are represented by this graph section.
+| Field            | description
+|---               |---
+| `body_parts`     | An array of `body_part` IDs that are represented by this graph section.
 | `sub_body_parts` | An array of `sub_body_part` IDs that are represented by this graph section.
-| `sym` | (_optional_) A symbol to override fragments belonging to this section.
-| `select_color` | (_optional_) Color to use when selecting this section.
-| `nested_graph` | (_optional_) ID of another body_graph. When the player selects and confirms this section, the UI switches to the given nested graph.
+| `sym`            | (_optional_) A symbol to override fragments belonging to this section.
+| `select_color`   | (_optional_) Color to use when selecting this section.
+| `nested_graph`   | (_optional_) ID of another body_graph. When the player selects and confirms this section, the UI switches to the given nested graph.
 
 
 ### Body_parts
@@ -992,19 +992,19 @@ Character modifiers define how effective different behaviours are for actions th
 
 #### Character Modifiers - Value
 
-| Field        | Description
-|------        |------------
-| `limb_score` | Refers to a `limb_score` id, or an array of `limb_score` id's (can be a weighted list). These are the limb scores from which this modifier is derived.  For additive calculations ( `limb_score_op: "+"`) the score is multiplied by the weight, for multiplicative calculation (`limb_score_op: "x"`) it is raised to the weight's power.
-| `limb_score_op` | (_optional_) Operation (add `+` or multiply `x`) to apply when multiple limb scores are defined. Ex: `x` => `score1 x score2 x score3 ...`. (Defaults to `x`)
-| `limb_type`  | (_optional_) Refers to a `limb_type` as defined in [`body_part`](#body_parts). If present, only limb scores from body parts with that `limb_type` are used.
+| Field             | Description
+|------             |------------
+| `limb_score`      | Refers to a `limb_score` id, or an array of `limb_score` id's (can be a weighted list). These are the limb scores from which this modifier is derived.  For additive calculations ( `limb_score_op: "+"`) the score is multiplied by the weight, for multiplicative calculation (`limb_score_op: "x"`) it is raised to the weight's power.
+| `limb_score_op`   | (_optional_) Operation (add `+` or multiply `x`) to apply when multiple limb scores are defined. Ex: `x` => `score1 x score2 x score3 ...`. (Defaults to `x`)
+| `limb_type`       | (_optional_) Refers to a `limb_type` as defined in [`body_part`](#body_parts). If present, only limb scores from body parts with that `limb_type` are used.
 | `override_encumb` | (_optional_) Boolean (true/false). If specified, this forces the limb score to be affected/unaffected by limb encumbrance if true/false. (Overrides `affected_by_encumb` in `limb_score`)
 | `override_wounds` | (_optional_) Boolean (true/false). If specified, this forces the limb score to be affected/unaffected by limb health if true/false.(Overrides `affected_by_wounds` in `limb_score`)
-| `min`        | (_optional_) Defines a minimum value for this modifier. Generally only used for "bonus" multipliers that provide a benefit. Should not be used together with `max`.
-| `max`        | (_optional_) Defines a maximum value for this modifier. Generally used for "cost" multipliers that provide a malus. Should not be used together with `min`. This value can be defined as a decimal or as the special value `"max_move_cost"`.
-| `nominator`  | (_optional_) Causes the limb score to divide the specified value, such that `nominator / ( limb_score * denominator )`.
-| `denominator` | (_optional_) Divides the limb score (or the nominator, if specified) by the specified value, such that `limb_score / denominator`.
-| `subtract`   | (_optional_) Defines a value to subtract from the resulting modifier, such that `mod - subtract`.
-| `builtin`    | Instead of a limb score, the `value` object can define a built-in function to handle the calculation of the modifier.
+| `min`             | (_optional_) Defines a minimum value for this modifier. Generally only used for "bonus" multipliers that provide a benefit. Should not be used together with `max`.
+| `max`             | (_optional_) Defines a maximum value for this modifier. Generally used for "cost" multipliers that provide a malus. Should not be used together with `min`. This value can be defined as a decimal or as the special value `"max_move_cost"`.
+| `nominator`       | (_optional_) Causes the limb score to divide the specified value, such that `nominator / ( limb_score * denominator )`.
+| `denominator`     | (_optional_) Divides the limb score (or the nominator, if specified) by the specified value, such that `limb_score / denominator`.
+| `subtract`        | (_optional_) Defines a value to subtract from the resulting modifier, such that `mod - subtract`.
+| `builtin`         | Instead of a limb score, the `value` object can define a built-in function to handle the calculation of the modifier.
 
 The modifier is normally derived from a limb score, which is modified in a sequence of operations. Here are some possible outcomes for different combinations of specified fields in `value`:
 ```C++
@@ -1027,54 +1027,54 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 
 ### Bionics
 
-| Identifier                  | Description
-|---                          |---
-| id                          | Unique ID. Must be one continuous word, use underscores if necessary.
-| name                        | In-game name displayed.
-| description                 | In-game description.
-| act_cost                    | (_optional_) How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| deact_cost                  | (_optional_) How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| react_cost                  | (_optional_) How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| trigger_cost                | (_optional_) How many kJ it costs to trigger special effects for this bionic. This can be a reaction to specific conditions or an action taken while the bionic is active.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| time                        | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
-| upgraded_bionic             | (_optional_) Bionic that can be upgraded by installing this one.
-| available_upgrades          | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
-| encumbrance                 | (_optional_) A list of body parts and how much this bionic encumber them.
-| known_ma_styles             | (_optional_) A list of martial art styles that are known to the wearer when the bionic is activated
-| weight_capacity_bonus       | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
-| weight_capacity_modifier    | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
-| canceled_mutations          | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
-| mutation_conflicts          | (_optional_) A list of mutations that prevent this bionic from being installed.
-| included_bionics            | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
-| included                    | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
-| env_protec                  | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
-| bash_protec                 | (_optional_) How much bash protection does this bionic provide on the specified body parts.
-| cut_protec                  | (_optional_) How much cut protection does this bionic provide on the specified body parts.
-| bullet_protect              | (_optional_) How much bullet protect does this bionic provide on the specified body parts.
-| occupied_bodyparts          | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
-| capacity                    | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
-| fuel_options                | (_optional_) A list of materials that this bionic can use to produce bionic power.
-| is_remote_fueled            | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)
-| fuel_capacity               | (_optional_) Volume of fuel this bionic can store.
-| fuel_efficiency             | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
-| passive_fuel_efficiency     | (_optional_) Fraction of fuel energy passively converted into power. Useful for CBM using PERPETUAL fuel like `muscle`, `wind` or `sun_light`. (default: `0`)
-| exothermic_power_gen        | (_optional_) If true this bionic emits heat when producing power. (default: `false`)
-| coverage_power_gen_penalty  | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
-| power_gen_emission          | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
-| stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
-| activated_eocs              | (_optional_) List of effect_on_conditions that attempt to activate when this CBM is successfully activated.
-| processed_eocs              | (_optional_) List of effect_on_conditions that attempt to activate each turn this CBM is active.
-| deactivated_eocs            | (_optional_) List of effect_on_conditions that attempt to activate when this CBM is successfully deactivated.
-| enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantment's id or an inline definition of the enchantment.
-| learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
-| learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when uninstalling
-| installation_requirement    | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
-| vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorption, affects all vitamins. (default: `1.0`)
-| dupes_allowed               | (_optional_) Boolean to determine if multiple copies of this bionic can be installed.  Defaults to false.
-| cant_remove_reason          | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`)
-| social_modifiers			  | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
-| dispersion_mod              | (_optional_) Modifier to change firearm dispersion.
-| activated_on_install        | (_optional_) Auto-activates this bionic when installed.
+| Identifier                   | Description
+|---                           |---
+| `id`                         | Unique ID. Must be one continuous word, use underscores if necessary.
+| `name`                       | In-game name displayed.
+| `description`                | In-game description.
+| `act_cost`                   | (_optional_) How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| `deact_cost`                 | (_optional_) How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| `react_cost`                 | (_optional_) How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| `trigger_cost`               | (_optional_) How many kJ it costs to trigger special effects for this bionic. This can be a reaction to specific conditions or an action taken while the bionic is active.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| `time`                       | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
+| `upgraded_bionic`            | (_optional_) Bionic that can be upgraded by installing this one.
+| `available_upgrades`         | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
+| `encumbrance`                | (_optional_) A list of body parts and how much this bionic encumber them.
+| `known_ma_styles`            | (_optional_) A list of martial art styles that are known to the wearer when the bionic is activated
+| `weight_capacity_bonus`      | (_optional_) Bonus to weight carrying capacity in grams, can be negative.  Strings can be used - "5000 g" or "5 kg" (default: `0`)
+| `weight_capacity_modifier`   | (_optional_) Factor modifying base weight carrying capacity. (default: `1`)
+| `canceled_mutations`         | (_optional_) A list of mutations/traits that are removed when this bionic is installed (e.g. because it replaces the fault biological part).
+| `mutation_conflicts`         | (_optional_) A list of mutations that prevent this bionic from being installed.
+| `included_bionics`           | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
+| `included`                   | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
+| `env_protec`                 | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
+| `bash_protec`                | (_optional_) How much bash protection does this bionic provide on the specified body parts.
+| `cut_protec`                 | (_optional_) How much cut protection does this bionic provide on the specified body parts.
+| `bullet_protect`             | (_optional_) How much bullet protect does this bionic provide on the specified body parts.
+| `occupied_bodyparts`         | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
+| `capacity`                   | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| `fuel_options`               | (_optional_) A list of materials that this bionic can use to produce bionic power.
+| `is_remote_fueled`           | (_optional_) If true this bionic allows you to plug your power banks to an external power source (solar backpack, UPS, vehicle etc) via a cable. (default: `false`)
+| `fuel_capacity`              | (_optional_) Volume of fuel this bionic can store.
+| `fuel_efficiency`            | (_optional_) Fraction of fuel energy converted into power. (default: `0`)
+| `passive_fuel_efficiency`    | (_optional_) Fraction of fuel energy passively converted into power. Useful for CBM using PERPETUAL fuel like `muscle`, `wind` or `sun_light`. (default: `0`)
+| `exothermic_power_gen`       | (_optional_) If true this bionic emits heat when producing power. (default: `false`)
+| `coverage_power_gen_penalty` | (_optional_) Fraction of coverage diminishing fuel_efficiency. Float between 0.0 and 1.0. (default: `nullopt`)
+| `power_gen_emission`         | (_optional_) `emit_id` of the field emitted by this bionic when it produces energy. Emit_ids are defined in `emit.json`.
+| `stat_bonus`                 | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
+| `activated_eocs`             | (_optional_) List of effect_on_conditions that attempt to activate when this CBM is successfully activated.
+| `processed_eocs`             | (_optional_) List of effect_on_conditions that attempt to activate each turn this CBM is active.
+| `deactivated_eocs`           | (_optional_) List of effect_on_conditions that attempt to activate when this CBM is successfully deactivated.
+| `enchantments`               | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.) Values can either be the enchantment's id or an inline definition of the enchantment.
+| `learned_spells`             | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
+| `learned_proficiencies`      | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when uninstalling
+| `installation_requirement`   | (_optional_) Requirement id pointing to a requirement defining the tools and components necessary to install this CBM.
+| `vitamin_absorb_mod`         | (_optional_) Modifier to vitamin absorption, affects all vitamins. (default: `1.0`)
+| `dupes_allowed`              | (_optional_) Boolean to determine if multiple copies of this bionic can be installed.  Defaults to false.
+| `cant_remove_reason`         | (_optional_) String message to be displayed as the reason it can't be uninstalled.  Having any value other than `""` as this will prevent unistalling the bionic. Formatting includes two `%s` for example: `The Telescopic Lenses are part of %1$s eyes now. Removing them would leave %2$s blind.`  (default: `""`)
+| `social_modifiers`			     | (_optional_) Json object with optional members: persuade, lie, and intimidate which add or subtract that amount from those types of social checks
+| `dispersion_mod`             | (_optional_) Modifier to change firearm dispersion.
+| `activated_on_install`       | (_optional_) Auto-activates this bionic when installed.
 
 ```C++
 {
@@ -1115,9 +1115,9 @@ When adding a new bionic, if it's not included with another one, you must also a
 
 | Identifier | Description
 |---         |---
-| messages   | List of potential dreams.
-| category   | Mutation category needed to dream.
-| strength   | Mutation category strength required (1 = 20-34, 2 = 35-49, 3 = 50+).
+| `messages` | List of potential dreams.
+| `category` | Mutation category needed to dream.
+| `strength` | Mutation category strength required (1 = 20-34, 2 = 35-49, 3 = 50+).
 
 ```C++
 {
@@ -1132,16 +1132,16 @@ When adding a new bionic, if it's not included with another one, you must also a
 
 ### Disease
 
-| Identifier         | Description
-|---                 |---
-| id                 | Unique ID. Must be one continuous word, use underscores if necessary.
-| min_duration       | The minimum duration the disease can last. Uses strings "x m", "x s","x d".
-| max_duration       | The maximum duration the disease can last.
-| min_intensity      | The minimum intensity of the effect applied by the disease
-| max_intensity      | The maximum intensity of the effect.
-| health_threshold   | The amount of health above which one is immune to the disease. Must be between -200 and 200. (optional )
-| symptoms           | The effect applied by the disease.
-| affected_bodyparts | The list of bodyparts on which the effect is applied. (optional, default to bp_null)
+| Identifier           | Description
+|---                   |---
+| `id`                 | Unique ID. Must be one continuous word, use underscores if necessary.
+| `min_duration`       | The minimum duration the disease can last. Uses strings "x m", "x s","x d".
+| `max_duration`       | The maximum duration the disease can last.
+| `min_intensity`      | The minimum intensity of the effect applied by the disease
+| `max_intensity`      | The maximum intensity of the effect.
+| `health_threshold`   | The amount of health above which one is immune to the disease. Must be between -200 and 200. (optional )
+| `symptoms`           | The effect applied by the disease.
+| `affected_bodyparts` | The list of bodyparts on which the effect is applied. (optional, default to bp_null)
 
 
 ```json
@@ -1162,13 +1162,13 @@ When adding a new bionic, if it's not included with another one, you must also a
 
 Emitters randomly place [fields](#field-types) around their positions - every turn for monster emissions, every ten seconds for furniture/terrain.
 
-| Identifier | Description
-|---         |---
-| id         | Unique ID
-| field      | Field type emitted
-| intensity  | Initial intensity of the spawned fields (spawning multiple fields will still cause their intensity to increase). Default 1.
-| chance     | **Percent** chance of the emitter emitting, values above 100 will increase the quantity of fields placed via `roll_remainder` (ex: `chance: 150` will place one field 50% of the time and two fields the other 50% ). Failing the roll will disable the whole emission for the tick, not rolled for every `qty`! Default 100.
-| qty        | Number of fields placed. Fields are placed using the field propagation rules, allowing fields to spread. Default 1.
+| Identifier  | Description
+|---          |---
+| `id`        | Unique ID
+| `field`     | Field type emitted
+| `intensity` | Initial intensity of the spawned fields (spawning multiple fields will still cause their intensity to increase). Default 1.
+| `chance`    | **Percent** chance of the emitter emitting, values above 100 will increase the quantity of fields placed via `roll_remainder` (ex: `chance: 150` will place one field 50% of the time and two fields the other 50% ). Failing the roll will disable the whole emission for the tick, not rolled for every `qty`! Default 100.
+| `qty`       | Number of fields placed. Fields are placed using the field propagation rules, allowing fields to spread. Default 1.
 
 ```JSON
   {
@@ -1187,9 +1187,9 @@ The syntax listed here is still valid.
 
 | Identifier | Description
 |---         |---
-| id         | Unique ID. Must be one continuous word, use underscores if necessary
-| items      | List of potential item ID's. Chance of an item spawning is x/T, where X is the value linked to the specific item and T is the total of all item values in a group.
-| groups     | ??
+| `id`       | Unique ID. Must be one continuous word, use underscores if necessary
+| `items`    | List of potential item ID's. Chance of an item spawning is x/T, where X is the value linked to the specific item and T is the total of all item values in a group.
+| `groups`   | ??
 
 ```C++
 {
@@ -1210,14 +1210,14 @@ The syntax listed here is still valid.
 
 When you sort your inventory by category, these are the categories that are displayed.
 
-| Identifier      | Description
-|---              |---
-| id              | Unique ID. Must be one continuous word, use underscores if necessary
-| name            | The name of the category. This is what shows up in-game when you open the inventory.
-| zone            | The corresponding loot_zone (see loot_zones.json)
-| sort_rank       | Used to sort categories when displaying.  Lower values are shown first
-| priority_zones  | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
-|spawn_rate       | Sets amount of items from item category that might spawn.  Checks for `spawn_rate` value for item category.  If `spawn_chance` is 0.0, the item will not spawn. If `spawn_chance` is greater than 0.0 and less than 1.0, it will make a random roll (0.0-1.0) to check if the item will have a chance to spawn.  If `spawn_chance` is more than or equal to 1.0, it will add a chance to spawn additional items from the same category.  Items will be taken from item group which original item was located in.  Therefore this parameter won't affect chance to spawn additional items for items set to spawn solitary in mapgen (e.g. through use of `item` or `place_item`).
+| Identifier       | Description
+|---               |---
+| `id`             | Unique ID. Must be one continuous word, use underscores if necessary
+| `name`           | The name of the category. This is what shows up in-game when you open the inventory.
+| `zone`           | The corresponding loot_zone (see loot_zones.json)
+| `sort_rank`      | Used to sort categories when displaying.  Lower values are shown first
+| `priority_zones` | When set, items in this category will be sorted to the priority zone if the conditions are met. If the user does not have the priority zone in the zone manager, the items get sorted into zone set in the 'zone' property. It is a list of objects. Each object has 3 properties: ID: The id of a LOOT_ZONE (see LOOT_ZONES.json), filthy: boolean. setting this means filthy items of this category will be sorted to the priority zone, flags: array of flags
+| `spawn_rate`      | Sets amount of items from item category that might spawn.  Checks for `spawn_rate` value for item category.  If `spawn_chance` is 0.0, the item will not spawn. If `spawn_chance` is greater than 0.0 and less than 1.0, it will make a random roll (0.0-1.0) to check if the item will have a chance to spawn.  If `spawn_chance` is more than or equal to 1.0, it will add a chance to spawn additional items from the same category.  Items will be taken from item group which original item was located in.  Therefore this parameter won't affect chance to spawn additional items for items set to spawn solitary in mapgen (e.g. through use of `item` or `place_item`).
 
 ```C++
 {
@@ -1267,35 +1267,35 @@ flag is set.
 
 ### Materials
 
-| Identifier       | Description
-|---               |---
-| `id`             | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
-| `name`           | In-game name displayed.
-| `bash_resist`    | How well a material resists bashing damage.
-| `cut_resist`     | How well a material resists cutting damage.
-| `bullet_resist`  | How well a material resists bullet damage.
-| `acid_resist`    | Ability of a material to resist acid.
-| `elec_resist`    | Ability of a material to resist electricity. Optional defaults to 0.0
-| `biologic_resist`    | Ability of a material to resist biological damage. Optional defaults to 0.0
-| `cold_resist`    | Ability of a material to resist cold damage. Optional defaults to 0.0
-| `fire_resist`    | Ability of a material to resist fire.
-| `chip_resist`    | Returns resistance to being damaged by attacks against the item itself.
-| `bash_dmg_verb`  | Verb used when material takes bashing damage.
-| `cut_dmg_verb`   | Verb used when material takes cutting damage.
-| `dmg_adj`        | Description added to damaged item in ascending severity.
-| `dmg_adj`        | Adjectives used to describe damage states of a material.
-| `density`        | Affects vehicle collision damage, with denser parts having the advantage over less-dense parts.
-| `wind_resist`    | Percentage 0-100. How effective this material is at stopping wind from getting through. Higher values are better. If none of the materials an item is made of specify a value, a default of 99 is assumed.
-| `vitamins`       | Vitamins in a material. Usually overridden by item specific values.  An integer percentage of ideal daily value.
+| Identifier             | Description
+|---                     |---
+| `id`                   | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
+| `name`                 | In-game name displayed.
+| `bash_resist`          | How well a material resists bashing damage.
+| `cut_resist`           | How well a material resists cutting damage.
+| `bullet_resist`        | How well a material resists bullet damage.
+| `acid_resist`          | Ability of a material to resist acid.
+| `elec_resist`          | Ability of a material to resist electricity. Optional defaults to 0.0
+| `biologic_resist`      | Ability of a material to resist biological damage. Optional defaults to 0.0
+| `cold_resist`          | Ability of a material to resist cold damage. Optional defaults to 0.0
+| `fire_resist`          | Ability of a material to resist fire.
+| `chip_resist`          | Returns resistance to being damaged by attacks against the item itself.
+| `bash_dmg_verb`        | Verb used when material takes bashing damage.
+| `cut_dmg_verb`         | Verb used when material takes cutting damage.
+| `dmg_adj`              | Description added to damaged item in ascending severity.
+| `dmg_adj`              | Adjectives used to describe damage states of a material.
+| `density`              | Affects vehicle collision damage, with denser parts having the advantage over less-dense parts.
+| `wind_resist`          | Percentage 0-100. How effective this material is at stopping wind from getting through. Higher values are better. If none of the materials an item is made of specify a value, a default of 99 is assumed.
+| `vitamins`             | Vitamins in a material. Usually overridden by item specific values.  An integer percentage of ideal daily value.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186 - water.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108 - water.
-| `latent_heat`    | Latent heat of fusion for a material (J/g). Default 334.
-| `freezing_point`   | Freezing point of this material (C). Default 0 C ( 32 F ).
-| `edible`   | Optional boolean. Default is false.
-| `rotting`   | Optional boolean. Default is false.
-| `soft`   | True for pliable materials, whose length doesn't prevent fitting into a container, or through the opening of a container. Default is false.
-| `conductive`     | True if the material conducts electricity, defaults to false
-| `reinforces`   | Optional boolean. Default is false.
+| `latent_heat`          | Latent heat of fusion for a material (J/g). Default 334.
+| `freezing_point`       | Freezing point of this material (C). Default 0 C ( 32 F ).
+| `edible`               | Optional boolean. Default is false.
+| `rotting`              | Optional boolean. Default is false.
+| `soft`                 | True for pliable materials, whose length doesn't prevent fitting into a container, or through the opening of a container. Default is false.
+| `conductive`           | True if the material conducts electricity, defaults to false
+| `reinforces`           | Optional boolean. Default is false.
 
 There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bullet. These are integer values; the default is 0 and they can be negative to take more damage.
 
@@ -1358,16 +1358,16 @@ If a fuel has the PERPETUAL flag, engines powered by it never use any fuel.  Thi
 
 #### Group definition
 
-| Identifier  | Description
-|---          |---
-| `name`      | Unique ID. Must be one continuous word, use underscores if necessary.
-| `default`   | (_optional_) Default monster, used to represent the monster group. (default: The monster with the highest `weight` in the group)
-| `monsters`  | To choose a monster for spawning, the game creates entries equal to the sum of all `weight` and picks one. Each monster will have a number of entries equal to its `weight`. See the table below for how to build the single monster definitions.
-| `is_safe`   | (_optional_) (bool) Check to not trigger safe-mode warning, currently inconsequential.
-| `is_animal` | (_optional_) (bool) Check if that group has only normal animals, currently inconsequential.
+| Identifier              | Description
+|---                      |---
+| `name`                  | Unique ID. Must be one continuous word, use underscores if necessary.
+| `default`               | (_optional_) Default monster, used to represent the monster group. (default: The monster with the highest `weight` in the group)
+| `monsters`              | To choose a monster for spawning, the game creates entries equal to the sum of all `weight` and picks one. Each monster will have a number of entries equal to its `weight`. See the table below for how to build the single monster definitions.
+| `is_safe`               | (_optional_) (bool) Check to not trigger safe-mode warning, currently inconsequential.
+| `is_animal`             | (_optional_) (bool) Check if that group has only normal animals, currently inconsequential.
 | `replace_monster_group` | (_optional_) (bool) Check if the group should be replaced completely by another monster group as game time progresses - doesn't affect already spawned monsters, as such mostly superseded by monster evolution.
-| `new_monster_group_id` | (_optional_) (string) The id of the monster group that should replace this one.
-| `replacement_time` | (_optional_) (int) The amount of time before the group should be replaced by the new one, in days. Final replacement date is calculated by `replacement_time * evolution factor`.
+| `new_monster_group_id`  | (_optional_) (string) The id of the monster group that should replace this one.
+| `replacement_time`      | (_optional_) (int) The amount of time before the group should be replaced by the new one, in days. Final replacement date is calculated by `replacement_time * evolution factor`.
 
 #### Monster/Subgroup definition
 
@@ -2075,8 +2075,8 @@ request](https://github.com/CleverRaven/Cataclysm-DDA/pull/36657) and the
 
 | Identifier               | Description
 |---                       |---
-| id                       | Unique ID. Must be one continuous word, use underscores if necessary.
-| receptive_species        | Species able to track this scent. Must use valid ids defined in `species.json`
+| `id`                     | Unique ID. Must be one continuous word, use underscores if necessary.
+| `receptive_species`      | Species able to track this scent. Must use valid ids defined in `species.json`
 
 ```json
   {
@@ -3197,22 +3197,22 @@ According to <https://leathersupreme.com/leather-hide-thickness-in-leather-jacke
 
 From [this site](https://cci.one/site/marine/design-tips-fabrication-overview/tables-of-weights-and-measures/), an equivalency guideline for fabric weight to mm:
 
-| Cloth | oz/yd2 | g/m2 | Inches | mm |
-| ----- | ------- | ----- | ------- | ---- |
-|  Fiberglass (plain weave)  | 2.3 |  78  | 0.004 | 0.10 |
-|  Fiberglass (plain weave)  | 6.0 | 203 | 0.007 | 0.17 |
-| Kevlar (TM) (plain weave) | 5.0 | 170 | 0.010 | 0.25 |
-| Carbon Fiber (plain weave) | 5.8 | 197 | 0.009 | 0.23 |
-| Carbon Fiber (unidirectional) | 9.0 | 305 | 0.011 | 0.28 |
+| Cloth                         | oz/yd2 | g/m2  | Inches | mm   |
+| -----                         | ------ | ----- | ------ | ---- |
+| Fiberglass (plain weave)      |    2.3 |    78 |  0.004 | 0.10 |
+| Fiberglass (plain weave)      |    6.0 |   203 |  0.007 | 0.17 |
+| Kevlar (TM) (plain weave)     |    5.0 |   170 |  0.010 | 0.25 |
+| Carbon Fiber (plain weave)    |    5.8 |   197 |  0.009 | 0.23 |
+| Carbon Fiber (unidirectional) |    9.0 |   305 |  0.011 | 0.28 |
 
 Chart cobbled together from several sources for more general materials:
 
-|  Fabric  | oz/yd2 | Max g/m2 | Inches | mm to use |
-| ------- | --------| ---------- | ------- | ---------- |
-| Very light | 0-4 | 136 | 0.006-0.007 | 0.15 |
-|   Light   | 4-7 | 237 |    0.008    |  0.2  |
-|  Medium  | 7-11 | 373 | 0.009-0.011 | 0.25 |
-|   Heavy   | 11-14 | 475 | 0.012-0.014 | 0.3 |
+| Fabric     | oz/yd2  | Max g/m2   | Inches      | mm to use  |
+| ---------- | ------- | ---------- | ----------- | ---------- |
+| Very light |     0-4 |        136 | 0.006-0.007 |       0.15 |
+| Light      |     4-7 |        237 |       0.008 |        0.2 |
+| Medium     |    7-11 |        373 | 0.009-0.011 |       0.25 |
+| Heavy      |   11-14 |        475 | 0.012-0.014 |        0.3 |
 
 Shoe thicknesses are outlined at <https://secretcobbler.com/choosing-leather/>; TL;DR: upper 1.2 - 2.0mm, lining 0.8 - 1.2mm, for a total of 2.0 - 3.2mm.
 
@@ -3384,7 +3384,6 @@ CBMs can be defined like this:
 "use_action" : [ "CRACK" ],     // What effects a comestible has when used, see special definitions below
 "stim" : 40,                // Stimulant effect
 "fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
-"radiation": 8,             // How much radiation you get from this comestible.
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting. One of 'FOOD', 'DRINK', 'MED', or 'INVALID' (consider using a different "type" than COMESTIBLE instead of using INVALID)
 "consumption_effect_on_conditions" : [ "EOC_1" ],  // Effect on conditions to run after consuming.  Inline or string id supported
 "quench" : 0,               // Thirst quenched

@@ -43,7 +43,6 @@ static const item_group_id Item_spawn_data_road( "road" );
 static const item_group_id Item_spawn_data_sewer( "sewer" );
 static const item_group_id Item_spawn_data_wreckage( "wreckage" );
 
-static const mongroup_id GROUP_FAMOUS_SINGERS( "GROUP_FAMOUS_SINGERS" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
 static const oter_str_id oter_crater( "crater" );
@@ -794,10 +793,6 @@ void mapgen_road( mapgendata &dat )
     if( neighbor_sidewalks ) {
         m->place_spawns( GROUP_ZOMBIE, 2, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
                          dat.monster_density() );
-        // 1 per 10 overmaps
-        if( one_in( 10000 ) ) {
-            m->place_spawns( GROUP_FAMOUS_SINGERS, 1, point_zero, point( SEEX, SEEY ), 1, true );
-        }
     }
 
     // add some items
