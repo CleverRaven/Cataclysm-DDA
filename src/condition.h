@@ -49,7 +49,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
         "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int",
-        "compare_string", "roll_contested", "compare_num"
+        "compare_string", "roll_contested", "compare_num", "u_has_martial_art", "npc_has_martial_art"
     }
 };
 } // namespace dialogue_data
@@ -121,6 +121,7 @@ struct conditional_t {
 
         void set_has_any_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_compare_var( const JsonObject &jo, const std::string &member, bool is_npc = false );

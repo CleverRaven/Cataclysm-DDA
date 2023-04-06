@@ -601,5 +601,11 @@ class talker
             return 0;
         }
         virtual void set_part_hp_cur( const bodypart_id &, int ) const {}
+
+        virtual void learn_martial_art( const matype_id & ) const {}
+        virtual void forget_martial_art( const matype_id & ) const {}
+        virtual bool knows_martial_art( const matype_id & ) const {
+            return false;
+        }
 };
 #endif // CATA_SRC_TALKER_H
