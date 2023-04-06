@@ -3012,13 +3012,6 @@ void item::io( Archive &archive )
 
     load_legacy_craft_data( archive, craft_data_ );
 
-    double float_damage = 0;
-    if( archive.read( "damage", float_damage ) ) {
-        damage_ = std::min( std::max( min_damage(),
-                                      static_cast<int>( float_damage * itype::damage_scale ) ),
-                            max_damage() );
-    }
-
     int note = 0;
     const bool note_read = archive.read( "note", note );
 
@@ -3231,7 +3224,14 @@ void item::deserialize( const JsonObject &data )
     }
 
     update_inherited_flags();
-    on_damage_changed();
+
+    // 2023-03-26 remove in 0.H, remnants of reinforcing
+    damage_ = std::clamp( damage_, 0, max_damage() );
+    degradation_ = std::clamp( degradation_, 0, max_damage() );
+
+    // 2023-03-26 remove in 0.H, accurizing is obsolete
+    faults.erase( STATIC( fault_id( "fault_gun_unaccurized" ) ) );
+    faults.erase( STATIC( fault_id( "fault_gun_damaged" ) ) );
 }
 
 void item::serialize( JsonOut &json ) const

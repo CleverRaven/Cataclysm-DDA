@@ -2717,7 +2717,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     }
 
     // Item damage_level (0-4) reduces chance of success (0.8^lvl =~ 100%, 80%, 64%, 51%, 41%)
-    const float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level() ), 1.0 );
+    const float component_success_chance = std::pow( 0.8, dis_item.damage_level() );
 
     // Recovered component items to be dropped
     std::list<item> drop_items;

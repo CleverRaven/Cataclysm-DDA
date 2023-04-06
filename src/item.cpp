@@ -132,9 +132,6 @@ static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-const static fault_id fault_gun_damaged( "fault_gun_damaged" );
-const static fault_id fault_gun_unaccurized( "fault_gun_unaccurized" );
-
 static const furn_str_id furn_f_metal_smoking_rack_active( "f_metal_smoking_rack_active" );
 static const furn_str_id furn_f_smoking_rack_active( "f_smoking_rack_active" );
 static const furn_str_id furn_f_water_mill_active( "f_water_mill_active" );
@@ -281,7 +278,6 @@ item::item() : bday( calendar::start_of_cataclysm )
     charges = 0;
     contents = item_contents( type->pockets );
     select_itype_variant();
-    on_damage_changed();
 }
 
 item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
@@ -333,7 +329,6 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     }
 
     select_itype_variant();
-    on_damage_changed();
     if( type->gun ) {
         for( const itype_id &mod : type->gun->built_in_mods ) {
             item it( mod, turn, qty );
@@ -827,52 +822,26 @@ int item::degradation() const
 
 void item::rand_degradation()
 {
-    degradation_ = damage() <= 0 ? 0 : rng( 0, damage() );
-    degradation_ = type->degrade_increments() > 0 ? degradation_ * ( 50.f / static_cast<float>
-                   ( type->degrade_increments() ) ) : 0;
-}
-
-int item::damage_level( int dmg ) const
-{
-    dmg = dmg == INT_MIN ? damage_ : dmg;
-    if( dmg == 0 ) {
-        return 0;
-    } else if( max_damage() <= 1 ) {
-        return dmg > 0 ? 4 : dmg;
-    } else if( dmg < 0 ) {
-        return -( 3 * ( -dmg - 1 ) / ( max_damage() - 1 ) + 1 );
-    } else {
-        return 3 * ( dmg - 1 ) / ( max_damage() - 1 ) + 1;
+    if( type->degrade_increments() == 0 ) {
+        return; // likely count_by_charges
     }
+    set_degradation( rng( 0, damage() ) * 50.0f / type->degrade_increments() );
 }
 
-float item::damage_scaling( bool to_self ) const
+int item::damage_level() const
 {
-    float scale = damage_level() * .125f;
-    // caps the scale if this is a hit to the player vs the item itself
-    scale = 1.0f - scale;
-    // reinforce only effects damage to the item proper otherwise max scaling is 100f
-    return to_self ? scale : std::min( scale, 1.0f );
+    return type->damage_level( damage_ );
 }
 
-int item::damage_floor( bool allow_negative ) const
+void item::set_damage( int qty )
 {
-    return std::max( min_damage() + degradation(), allow_negative ? min_damage() : 0 );
+    damage_ = std::clamp( qty, degradation_, max_damage() );
 }
 
-item &item::set_damage( int qty )
+void item::set_degradation( int qty )
 {
-    damage_ = std::max( std::min( qty, max_damage() ), min_damage() );
-    degradation_ = std::max( std::min( damage_ - min_damage(), degradation_ ), 0 );
-    on_damage_changed();
-    return *this;
-}
-
-item &item::set_degradation( int qty )
-{
-    degradation_ = std::max( std::min( qty, max_damage() ), 0 );
-    damage_ = std::min( std::max( damage_, damage_floor( false ) ), max_damage() );
-    return *this;
+    degradation_ = std::clamp( qty, 0, max_damage() );
+    damage_ = std::clamp( damage_, degradation_, max_damage() );
 }
 
 item item::split( int qty )
@@ -4902,9 +4871,6 @@ void item::repair_info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( !repairs_with.empty() ) {
             info.emplace_back( "DESCRIPTION", string_format( _( "<bold>With</bold> %s." ), repairs_with ) );
         }
-        if( reinforceable() ) {
-            info.emplace_back( "DESCRIPTION", _( "* This item can be <good>reinforced</good>." ) );
-        }
     } else {
         info.emplace_back( "DESCRIPTION", _( "* This item is <bad>not repairable</bad>." ) );
     }
@@ -6332,25 +6298,6 @@ void item::on_contents_changed()
     cached_relative_encumbrance.reset();
     encumbrance_update_ = true;
     update_inherited_flags();
-}
-
-void item::on_damage( int, damage_type )
-{
-
-}
-
-void item::on_damage_changed()
-{
-    if( is_firearm() && !has_flag( flag_NO_REPAIR ) ) {
-        faults.erase( fault_gun_damaged );
-        faults.erase( fault_gun_unaccurized );
-        if( damage_level() == -1 ) { // gun is fully repaired and accurized
-        } else if( damage_level() == 0 ) { // repaired but not accurized (++) yet
-            faults.emplace( fault_gun_unaccurized );
-        } else { // can be repaired
-            faults.emplace( fault_gun_damaged );
-        }
-    }
 }
 
 std::string item::dirt_symbol() const
@@ -8463,7 +8410,7 @@ float item::_resist( const damage_type dmg_type, bool to_self, int resist_value,
     float resist = 0.0f;
     float mod = get_clothing_mod_val_for_damage_type( dmg_type );
 
-    const float damage_scale = damage_scaling( to_self );
+    const float damage_scale = 1.0f - damage_level() * 0.125f;
 
     if( !bp_null ) {
         // If we have armour portion materials for this body part, use that instead
@@ -8483,7 +8430,6 @@ float item::_resist( const damage_type dmg_type, bool to_self, int resist_value,
     }
 
     // base resistance
-    // Don't give reinforced items +armor, just more resistance to ripping
     const int total = type->mat_portion_total == 0 ? 1 : type->mat_portion_total;
     const std::map<material_id, int> mats = made_of();
     if( !mats.empty() ) {
@@ -8623,11 +8569,6 @@ int item::chip_resistance( bool worst, const bodypart_id &bp ) const
     return res;
 }
 
-int item::min_damage() const
-{
-    return type->damage_min();
-}
-
 int item::max_damage() const
 {
     return type->damage_max();
@@ -8635,66 +8576,58 @@ int item::max_damage() const
 
 float item::get_relative_health() const
 {
-    return ( max_damage() + 1.0f - damage() ) / ( max_damage() + 1.0f );
+    const int max_dmg = max_damage();
+    if( max_dmg == 0 ) { // count_by_charges items
+        return 1.0f;
+    }
+    return 1.0f - static_cast<float>( damage() ) / max_dmg;
 }
 
-static int get_dmg_lvl_internal( int dmg, int min, int max )
+static int get_degrade_amount( const item &it, int dmgNow_, int dmgPrev )
 {
-    const int inc = ( max - min ) / 5;
-    dmg -= min;
-    return inc > 0 ? dmg == 0 ? -1 : ( dmg - 1 ) / inc : 0;
+    const int max_dmg = it.max_damage();
+    const int degrade_increments = it.type->degrade_increments();
+    if( max_dmg == 0 || degrade_increments == 0 ) {
+        return 0; // count by charges
+    }
+    const int facNow_ = dmgNow_ == 0 ? -1 : ( dmgNow_ - 1 ) * 5 / max_dmg;
+    const int facPrev = dmgPrev == 0 ? -1 : ( dmgPrev - 1 ) * 5 / max_dmg;
+
+    return std::max( facNow_ - facPrev, 0 ) * max_dmg / degrade_increments;
 }
 
-bool item::mod_damage( int qty, damage_type dt )
+bool item::mod_damage( int qty )
 {
     if( has_flag( flag_UNBREAKABLE ) ) {
         return false;
     }
-
-    bool destroy = false;
-    int dmg_lvl = get_dmg_lvl_internal( damage_, min_damage(), max_damage() );
-
     if( count_by_charges() ) {
         charges -= std::min( type->stack_size * qty / itype::damage_scale, charges );
-        destroy |= charges == 0;
-    }
+        return charges == 0; // return destroy = true if no charges
+    } else {
+        const int dmg_before = damage_;
+        const bool destroy = ( damage_ + qty ) > max_damage();
+        set_damage( damage_ + qty );
 
-    if( qty > 0 ) {
-        on_damage( qty, dt );
-    }
-
-    if( !count_by_charges() ) {
-        destroy |= damage_ + qty > max_damage();
-
-        damage_ = std::max( std::min( damage_ + qty, max_damage() ), min_damage() + degradation_ );
-    }
-
-    if( qty > 0 && !destroy ) {
-        int degrade = std::max( get_dmg_lvl_internal( damage_, min_damage(), max_damage() ) - dmg_lvl, 0 );
-        int incr = type->degrade_increments();
-        if( incr > 0 ) {
-            degradation_ += degrade * ( max_damage() - min_damage() ) / incr;
+        if( qty > 0 && !destroy ) { // apply automatic degradation
+            set_degradation( degradation_ + get_degrade_amount( *this, damage_, dmg_before ) );
         }
+        return destroy;
     }
-
-    on_damage_changed();
-
-    return destroy;
-}
-
-bool item::mod_damage( const int qty )
-{
-    return mod_damage( qty, damage_type::NONE );
-}
-
-bool item::inc_damage( const damage_type dt )
-{
-    return mod_damage( itype::damage_scale, dt );
 }
 
 bool item::inc_damage()
 {
-    return inc_damage( damage_type::NONE );
+    return mod_damage( itype::damage_scale );
+}
+
+int item::repairable_levels() const
+{
+    const int levels = type->damage_level( damage_ ) - type->damage_level( degradation_ );
+
+    return levels > 0
+           ? levels                    // full integer levels of damage
+           : damage() > degradation(); // partial level of damage can still be repaired
 }
 
 item::armor_status item::damage_armor_durability( damage_unit &du, const bodypart_id &bp )
@@ -8739,11 +8672,11 @@ item::armor_status item::damage_armor_durability( damage_unit &du, const bodypar
         }
     }
 
-    if( mod_damage( has_flag( flag_FRAGILE ) ?
-                    rng( 2 * itype::damage_scale, 3 * itype::damage_scale ) : itype::damage_scale, du.type ) ) {
-        return armor_status::DESTROYED;
-    }
-    return armor_status::DAMAGED;
+    const int damage = has_flag( flag_FRAGILE )
+                       ? rng( 2 * itype::damage_scale, 3 * itype::damage_scale )
+                       : itype::damage_scale;
+
+    return mod_damage( damage ) ? armor_status::DESTROYED : armor_status::DAMAGED;
 }
 
 item::armor_status item::damage_armor_transforms( damage_unit &du ) const
@@ -8772,54 +8705,43 @@ item::armor_status item::damage_armor_transforms( damage_unit &du ) const
 
 nc_color item::damage_color() const
 {
-    // TODO: unify with veh_interact::countDurability
     switch( damage_level() ) {
-        default:
-            // reinforced
-            if( damage() <= min_damage() ) {
-                // fully reinforced
-                return c_green;
-            } else {
-                return c_light_green;
-            }
         case 0:
-            return c_light_green;
+            return c_green;
         case 1:
-            return c_yellow;
+            return c_light_green;
         case 2:
-            return c_light_red;
+            return c_yellow;
         case 3:
-            return c_magenta;
+            return c_light_red;
         case 4:
-            if( damage() >= max_damage() ) {
-                return c_dark_gray;
-            } else {
-                return c_red;
-            }
+            return c_red;
+        case 5:
+            return c_dark_gray;
+        default:
+            debugmsg( "damage_level returned unexpected value %d", damage_level() );
+            return c_dark_gray;
     }
 }
 
 std::string item::damage_symbol() const
 {
     switch( damage_level() ) {
-        default:
-            // reinforced
-            return _( R"(++)" );
         case 0:
-            return _( R"(||)" );
+            return _( R"(++)" );
         case 1:
-            return _( R"(|\)" );
+            return _( R"(||)" );
         case 2:
-            return _( R"(|.)" );
+            return _( R"(|\)" );
         case 3:
-            return _( R"(\.)" );
+            return _( R"(|.)" );
         case 4:
-            if( damage() >= max_damage() ) {
-                return _( R"(XX)" );
-            } else {
-                return _( R"(..)" );
-            }
-
+            return _( R"(\.)" );
+        case 5:
+            return _( R"(XX)" );
+        default:
+            debugmsg( "damage_level returned unexpected value %d", damage_level() );
+            return _( R"(??)" ); // negative damage is invalid
     }
 }
 
@@ -8827,15 +8749,7 @@ std::string item::durability_indicator( bool include_intact ) const
 {
     std::string outputstring;
 
-    if( damage() < 0 ) {
-        if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-            outputstring = colorize( damage_symbol(), damage_color() ) + degradation_symbol() + "\u00A0";
-        } else if( is_gun() ) {
-            outputstring = pgettext( "damage adjective", "accurized " );
-        } else {
-            outputstring = pgettext( "damage adjective", "reinforced " );
-        }
-    } else if( has_flag( flag_CORPSE ) ) {
+    if( has_flag( flag_CORPSE ) ) {
         if( damage() > 0 ) {
             switch( damage_level() ) {
                 case 1:
@@ -9050,19 +8964,6 @@ bool item::conductive() const
     const std::vector<const material_type *> &mats = made_of_types();
     return std::any_of( mats.begin(), mats.end(), []( const material_type * mt ) {
         return mt->is_conductive();
-    } );
-}
-
-bool item::reinforceable() const
-{
-    if( is_null() || has_flag( flag_NO_REPAIR ) ) {
-        return false;
-    }
-
-    // If a material is reinforceable, so are we
-    const std::vector<const material_type *> &mats = made_of_types();
-    return std::any_of( mats.begin(), mats.end(), []( const material_type * mt ) {
-        return mt->reinforces();
     } );
 }
 
@@ -12933,7 +12834,7 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 bool item::process_blackpowder_fouling( Character *carrier )
 {
     if( damage() < max_damage() && one_in( 2000 ) ) {
-        inc_damage( damage_type::ACID );
+        inc_damage();
         if( carrier ) {
             carrier->add_msg_if_player( m_bad, _( "Your %s rusts due to blackpowder fouling." ), tname() );
         }
