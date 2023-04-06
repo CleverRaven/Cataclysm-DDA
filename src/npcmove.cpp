@@ -111,7 +111,6 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_catch_up( "catch_up" );
 static const efftype_id effect_disinfected( "disinfected" );
-static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
 static const efftype_id effect_infected( "infected" );
@@ -1895,11 +1894,9 @@ npc_action npc::address_needs( float danger )
             return npc_noop;
         }
     }
-    //Does the hallucination needs to disappear ?
-    if( is_hallucination() && player_character.sees( *this ) ) {
-        if( !player_character.has_effect( effect_hallu ) ) {
-            die( nullptr );
-        }
+    //Hallucinations have a chance of disappearing each turn
+    if( is_hallucination() && one_in( 25 ) ) {
+        die( nullptr );
     }
 
     if( danger > NPC_DANGER_VERY_LOW ) {

@@ -2683,7 +2683,6 @@ void monster::load( const JsonObject &data )
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
     data.read( "fish_population", fish_population );
-    data.read( "lifespan_end", lifespan_end );
     //for older saves convert summon time limit to lifespan end
     std::optional<time_duration> summon_time_limit;
     data.read( "summon_time_limit", summon_time_limit );
@@ -2788,8 +2787,6 @@ void monster::store( JsonOut &json ) const
     json.member( "biosignatures", biosignatures );
     json.member( "biosig_timer", biosig_timer );
     json.member( "udder_timer", udder_timer );
-
-    json.member( "lifespan_end", lifespan_end );
 
     if( horde_attraction > MHA_NULL && horde_attraction < NUM_MONSTER_HORDE_ATTRACTION ) {
         json.member( "horde_attraction", horde_attraction );
@@ -3905,7 +3902,7 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "last_updated", last_updated );
 
     jsout.member( "body", body );
-
+    jsout.member( "lifespan_end", lifespan_end );
     // fake is not stored, it's temporary anyway, only used to fire with a gun.
 }
 
@@ -3986,7 +3983,7 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "body", body );
 
     fake = false; // see Creature::load
-
+    jsin.read( "lifespan_end", lifespan_end );
     on_stat_change( "pain", pain );
 }
 
