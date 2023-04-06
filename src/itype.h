@@ -1313,13 +1313,9 @@ struct itype {
         float solar_efficiency = 0.0f;
 
     private:
-        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
-        // TODO: create and use a MinMax class or similar to put both values into one object.
-        /// @{
-        int damage_min_ = -1000;
-        int damage_max_ = +4000;
+        /** maximum amount of damage to a non- count_by_charges item */
+        static constexpr int damage_max_ = 4000;
         int degrade_increments_ = 50;
-        /// @}
 
     public:
         /** Damage output in melee for zero or more damage types */
@@ -1347,9 +1343,6 @@ struct itype {
             melee.fill( 0 );
         }
 
-        int damage_min() const {
-            return count_by_charges() ? 0 : damage_min_;
-        }
         int damage_max() const {
             return count_by_charges() ? 0 : damage_max_;
         }
@@ -1357,6 +1350,17 @@ struct itype {
         int degrade_increments() const {
             return count_by_charges() ? 0 : degrade_increments_;
         }
+
+        /**
+        * Quantizes item damage numbers into levels (for example for display).
+        * item damage [    0 -    0 ] returns 0
+        * item damage [    1 -  999 ] returns 1
+        * item damage [ 1000 - 1999 ] returns 2
+        * item damage [ 2000 - 2999 ] returns 3
+        * item damage [ 3000 - 3999 ] returns 4
+        * item damage [ 4000 - 4000 ] returns 5
+        */
+        int damage_level( int damage ) const;
 
         std::string get_item_type_string() const;
 

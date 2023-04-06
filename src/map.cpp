@@ -3586,10 +3586,9 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
             }
         } else {
             const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
-            while( ( damage_chance > material_factor ||
-                     x_in_y( damage_chance, material_factor ) ) &&
-                   i->damage() < i->max_damage() ) {
-                i->inc_damage( damage_type::BASH );
+            while( ( damage_chance > material_factor || x_in_y( damage_chance, material_factor ) ) &&
+                   ( i->damage() < i->max_damage() ) ) {
+                i->inc_damage();
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
                 item_was_damaged = true;
