@@ -575,7 +575,6 @@ class monster : public Creature
         void on_load();
 
         const pathfinding_settings &get_pathfinding_settings() const override;
-        const std::set<trap_str_id> &get_trap_avoids() const;
         std::set<tripoint> get_path_avoid() const override;
         // summoned monsters via spells
         void set_summon_time( const time_duration &length );

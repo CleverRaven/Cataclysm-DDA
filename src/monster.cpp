@@ -1045,7 +1045,7 @@ bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr ) const
         return true;
     }
 
-    if( get_trap_avoids().count( tr.id ) > 0 ) {
+    if( type->trap_avoids.count( tr.id ) > 0 ) {
         return true;
     }
 
@@ -3594,9 +3594,4 @@ const pathfinding_settings &monster::get_pathfinding_settings() const
 std::set<tripoint> monster::get_path_avoid() const
 {
     return std::set<tripoint>();
-}
-
-const std::set<trap_str_id> &monster::get_trap_avoids() const
-{
-    return type->trap_avoids;
 }
