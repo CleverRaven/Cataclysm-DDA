@@ -778,7 +778,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_pure", armor_pure, strict, 0 );
     assign( jo, "armor_biological", armor_biological, strict, 0 );
 
-    optional( jo, was_loaded, "trap_avoids", trap_avoids, string_id_reader<trap> {} );
+    optional( jo, was_loaded, "trap_avoids", trap_avoids );
 
     if( !was_loaded ) {
         weakpoints_deferred.clear();
