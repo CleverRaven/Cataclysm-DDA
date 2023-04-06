@@ -774,6 +774,16 @@
     ]
   },
   {
+    "name": "GROUP_ZOMBIE_POOL",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 350 },
+      { "monster": "mon_zombie_swimmer_base", "weight": 500, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_child", "weight": 150 }
+    ]
+  },
+  {
     "name": "GROUP_POOL_NOKIDS",
     "type": "monstergroup",
     "monsters": [

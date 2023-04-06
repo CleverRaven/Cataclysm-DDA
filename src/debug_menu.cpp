@@ -38,6 +38,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "city.h"
 #include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
@@ -749,9 +750,14 @@ static void spell_description(
         }
 
     } else if( spl_eff == "spawn_item" ) {
-        damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage( chrc ),
-                                       item::nname( itype_id( spl.effect_data() ), spl.damage( chrc ) ) );
-
+        if( spl.has_flag( spell_flag::SPAWN_GROUP ) ) {
+            // todo: more user-friendly presentation
+            damage_string = string_format( _( "Spawn item group %1$s %2$d times" ), spl.effect_data(),
+                                           spl.damage( chrc ) );
+        } else {
+            damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage( chrc ),
+                                           item::nname( itype_id( spl.effect_data() ), spl.damage( chrc ) ) );
+        }
     } else if( spl_eff == "summon" ) {
         std::string monster_name = "FIXME";
         if( spl.has_flag( spell_flag::SPAWN_GROUP ) ) {
@@ -1811,7 +1817,7 @@ static void character_edit_menu()
     }
 
     enum {
-        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
         D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
@@ -1825,6 +1831,7 @@ static void character_edit_menu()
     nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spells" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant items" ) );
     nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "Delete (all) items" ) );
+    nmenu.addentry( D_DROP_ITEMS, true, 'D', "%s", _( "Drop items" ) );
     nmenu.addentry( D_ITEM_WORN, true, 'w', "%s", _( "Wear/wield an item from player's inventory" ) );
     nmenu.addentry( D_HP, true, 'h', "%s", _( "Set hit points" ) );
     nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set stamina" ) );
@@ -1883,6 +1890,9 @@ static void character_edit_menu()
             you.worn.clear();
             you.inv->clear();
             you.remove_weapon();
+            break;
+        case D_DROP_ITEMS:
+            you.drop( game_menus::inv::multidrop( you ), you.pos() );
             break;
         case D_ITEM_WORN: {
             item_location loc = game_menus::inv::titled_menu( player_character, _( "Make target equip" ) );

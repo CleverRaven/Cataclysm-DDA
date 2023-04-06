@@ -15,6 +15,7 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "cata_io.h"
+#include "city.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"

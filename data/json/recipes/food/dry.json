@@ -169,7 +169,7 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ] ],
     "//": "Variable weights, around averaging around 150g",
-    "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "coconut", 1 ], [ "can_coconut", 1 ] ] ]
+    "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "coconut_flesh", 1 ], [ "can_coconut", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -185,7 +185,7 @@
     "batch_time_factors": [ 67, 5 ],
     "tools": [ [ [ "dehydrating_heat", 15, "LIST" ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
     "//": "Variable weights, around averaging around 150g + 1u to heat the fruit",
-    "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "coconut", 1 ], [ "can_coconut", 1 ] ] ]
+    "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "coconut_flesh", 1 ], [ "can_coconut", 1 ] ] ]
   },
   {
     "type": "recipe",

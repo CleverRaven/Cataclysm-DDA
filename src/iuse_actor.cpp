@@ -267,8 +267,7 @@ std::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tr
             p.add_msg_if_player( m_info, need_fire_msg, it.tname() );
             return std::nullopt;
         }
-        if( p.is_underwater() ) {
-            p.add_msg_if_player( m_info, _( "You can't do that while underwater" ) );
+        if( p.cant_do_underwater() ) {
             return std::nullopt;
         }
     }
@@ -1047,8 +1046,7 @@ void deploy_furn_actor::load( const JsonObject &obj )
 std::optional<int> deploy_furn_actor::use( Character &p, item &it, bool,
         const tripoint &pos ) const
 {
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     tripoint pnt = pos;
@@ -1565,8 +1563,7 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     }
 
     // If the item being cut is damaged, additional losses will be incurred.
-    // Reinforcing does not decrease losses.
-    efficiency *= std::min( std::pow( 0.8, cut.get_item()->damage_level() ), 1.0 );
+    efficiency *= std::pow( 0.8, cut.get_item()->damage_level() );
 
     auto distribute_uniformly = [&mat_to_weight]( const item & x, float num_adjusted ) -> void {
         for( const auto &type : x.made_of() )
@@ -2606,17 +2603,10 @@ bool repair_item_actor::can_use_tool( const Character &p, const item &tool, bool
         }
         return false;
     }
-    if( p.is_underwater() ) {
-        if( print_msg ) {
-            p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        }
+    if( p.cant_do_underwater( print_msg ) ) {
         return false;
     }
-    if( p.is_mounted() ) {
-        if( print_msg ) {
-            p.add_msg_player_or_npc( m_bad, _( "You can't do that while mounted." ),
-                                     _( "<npcname> can't do that while mounted." ) );
-        }
+    if( p.cant_do_mounted( print_msg ) ) {
         return false;
     }
     if( p.fine_detail_vision_mod() > 4 ) {
@@ -2925,27 +2915,14 @@ bool repair_item_actor::can_repair_target( Character &pl, const item &fix, bool 
         return true;
     }
 
-    if( fix.damage() > fix.damage_floor( false ) ) {
+    if( fix.damage() > fix.degradation() ) {
         return true;
     }
 
-    if( fix.damage() <= fix.damage_floor( true ) ) {
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _( "Your %s is already enhanced to its maximum potential." ),
-                                  fix.tname() );
-        }
-        return false;
+    if( print_msg ) {
+        pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ), fix.tname() );
     }
-
-    if( fix.has_flag( flag_PRIMITIVE_RANGED_WEAPON ) || !fix.reinforceable() ) {
-        if( print_msg ) {
-            pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
-                                  fix.tname() );
-        }
-        return false;
-    }
-
-    return true;
+    return false;
 }
 
 std::pair<float, float> repair_item_actor::repair_chance(
@@ -2957,6 +2934,10 @@ std::pair<float, float> repair_item_actor::repair_chance(
     const int recipe_difficulty = repair_recipe_difficulty( pl, fix );
     int action_difficulty = 0;
     switch( action_type ) {
+        case RT_NOTHING: /* fallthrough */
+        case RT_DOWNSIZING: /* fallthrough */
+        case RT_UPSIZING:
+            break;
         case RT_REPAIR:
             action_difficulty = fix.damage_level();
             break;
@@ -2964,15 +2945,14 @@ std::pair<float, float> repair_item_actor::repair_chance(
             // Let's make refitting as hard as recovering an almost-wrecked item
             action_difficulty = fix.max_damage() / itype::damage_scale;
             break;
-        case RT_REINFORCE:
-            // Reinforcing is at least as hard as refitting
-            action_difficulty = std::max( fix.max_damage() / itype::damage_scale, recipe_difficulty );
-            break;
         case RT_PRACTICE:
             // Skill gain scales with recipe difficulty, so practice difficulty should too
             action_difficulty = recipe_difficulty;
+            break;
         default:
-            ;
+            // 5 is obsoleted reinforcing, remove after 0.H
+            action_difficulty = 1'000'000; // ensure failure
+            break;
     }
 
     const int difficulty = recipe_difficulty + action_difficulty;
@@ -2998,7 +2978,7 @@ std::pair<float, float> repair_item_actor::repair_chance(
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
-    if( fix.damage() > fix.damage_floor( false ) ) {
+    if( fix.damage() > fix.degradation() ) {
         return RT_REPAIR;
     }
 
@@ -3023,10 +3003,6 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     const bool too_small_while_big = !smol && is_undersized && !is_oversized;
     if( too_small_while_big && can_be_refitted && resizing_matters ) {
         return RT_UPSIZING;
-    }
-
-    if( fix.damage() > fix.damage_floor( true ) && fix.damage_floor( true ) < 0 ) {
-        return RT_REINFORCE;
     }
 
     if( current_skill_level <= trains_skill_to ) {
@@ -3200,24 +3176,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &
         return AS_RETRY;
     }
 
-    if( action == RT_REINFORCE ) {
-        if( fix->has_flag( flag_PRIMITIVE_RANGED_WEAPON ) || !fix->reinforceable() ) {
-            pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ),
-                                  fix->tname() );
-            return AS_CANT;
-        }
-
-        if( roll == SUCCESS ) {
-            pl.add_msg_if_player( m_good, _( "You make your %s extra sturdy." ), fix->tname() );
-            fix->mod_damage( -itype::damage_scale );
-            handle_components( pl, *fix, false, false, true );
-            return AS_SUCCESS;
-        }
-
-        return AS_RETRY;
-    }
-
-    pl.add_msg_if_player( m_info, _( "Your %s is already enhanced." ), fix->tname() );
+    pl.add_msg_if_player( m_info, _( "You cannot improve your %s any more this way." ), fix->tname() );
     return AS_CANT;
 }
 
@@ -3229,7 +3188,7 @@ std::string repair_item_actor::action_description( repair_item_actor::repair_typ
             translate_marker( "Refitting" ),
             translate_marker( "Downsizing" ),
             translate_marker( "Upsizing" ),
-            translate_marker( "Reinforcing" ),
+            "Obsolete",
             translate_marker( "Practicing" )
         }
     };
@@ -3311,12 +3270,10 @@ static Character &get_patient( Character &healer, const tripoint &pos )
 
 std::optional<int> heal_actor::use( Character &p, item &it, bool, const tripoint &pos ) const
 {
-    if( p.is_underwater() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+    if( p.cant_do_underwater() ) {
         return std::nullopt;
     }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     if( it.is_filthy() ) {
@@ -3845,12 +3802,10 @@ static void place_and_add_as_known( Character &p, const tripoint &pos, const tra
 std::optional<int> place_trap_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     const bool could_bury = !bury_question.empty();
-    if( !allow_underwater && p.is_underwater() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+    if( !allow_underwater && p.cant_do_underwater() ) {
         return std::nullopt;
     }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     const std::optional<tripoint> pos_ = choose_adjacent( string_format( _( "Place %s where?" ),
@@ -4409,8 +4364,7 @@ void deploy_tent_actor::load( const JsonObject &obj )
 std::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const tripoint & ) const
 {
     int diam = 2 * radius + 1;
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( _( "You cannot do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
     const std::optional<tripoint> dir = choose_direction( string_format(
@@ -4534,12 +4488,10 @@ std::optional<int> sew_advanced_actor::use( Character &p, item &it, bool, const 
     if( p.is_npc() ) {
         return std::nullopt;
     }
-    if( p.is_mounted() ) {
-        p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
+    if( p.cant_do_mounted() ) {
         return std::nullopt;
     }
-    if( p.is_underwater() ) {
-        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+    if( p.cant_do_underwater() ) {
         return std::nullopt;
     }
 

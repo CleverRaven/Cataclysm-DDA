@@ -11,6 +11,7 @@
 #include "avatar.h"
 #include "cata_assert.h"
 #include "character.h"
+#include "city.h"
 #include "coordinates.h"
 #include "condition.h"
 #include "debug.h"
@@ -315,7 +316,9 @@ tripoint_abs_omt mission_util::get_om_terrain_pos( const mission_target_params<d
     tripoint_abs_omt origin_pos = get_mission_om_origin( params );
     dialogue d( get_talker_for( get_avatar() ), nullptr );
     tripoint_abs_omt target_pos = origin_pos;
-    if( !params.overmap_terrain.evaluate( d ).empty() ) {
+    if( ( params.overmap_terrain.default_val.has_value() ||
+          params.overmap_terrain.str_val.has_value() || params.overmap_terrain.var_val.has_value() ) &&
+        !params.overmap_terrain.evaluate( d ).empty() ) {
         std::optional<tripoint_abs_omt> temp_pos = find_or_create_om_terrain( origin_pos, params );
         if( temp_pos ) {
             target_pos = *temp_pos;

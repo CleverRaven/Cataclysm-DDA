@@ -36,17 +36,7 @@ You have three major choices here: GCC, Clang and MXE.
 
 (Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for C++ you'll need to install `g++`.)
 
-Cataclysm is targeting the C++14 standard and that means you'll need a compiler that supports it. You can easily check if your version of `g++` supports C++14 by running:
-
-    $ `g++ --std=c++14`
-    g++: fatal error: no input files
-    compilation terminated.
-
-If you get a line like:
-
-    g++: error: unrecognized command line option ‘--std=c++14’
-
-This means you'll need a newer version of GCC (`g++`).
+Cataclysm is targeting the C++17 standard and that means you'll need a compiler that supports it. You can check if your C++ compiler supports the standard by reading [COMPILER_SUPPORT.md](./COMPILER_SUPPORT.md)
 
 The general rule is the newer the compiler the better.
 
@@ -632,7 +622,7 @@ There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (
 
 ### Building on FreeBSD/amd64 13.0 with the system compiler
 
-FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14 support out of the box.
+FreeBSD uses clang as the default compiler, which provides C++17 support out of the box since FreeBSD 12.0.
 
 Install the following with pkg (or from Ports):
 

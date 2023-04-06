@@ -17,6 +17,7 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "magic_teleporter_list.h"
+#include "mdarray.h"
 #include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
@@ -97,6 +98,8 @@ class avatar : public Character
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
+        // initialize avatar and avatar mocks
+        void initialize( character_type type );
         void add_profession_items();
         void randomize( bool random_scenario, bool play_now = false );
         void randomize_cosmetics();

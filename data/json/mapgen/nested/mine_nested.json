@@ -358,7 +358,6 @@
     "method": "json",
     "nested_mapgen_id": "mine_finale_archaeology",
     "object": {
-      "fill_ter": "t_rock_floor",
       "mapgensize": [ 6, 6 ],
       "rows": [
         "!!!###",
@@ -368,7 +367,15 @@
         "@####@",
         "@@@@@@"
       ],
-      "terrain": { " ": "t_rock_floor", "#": "t_rock", "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ] },
+      "terrain": {
+        " ": "t_rock_floor",
+        "#": "t_rock",
+        "@": [ [ "t_rock", 4 ], [ "t_rock_floor", 1 ] ],
+        "c": "t_rock_floor",
+        "C": "t_rock_floor",
+        "D": "t_rock_floor",
+        "G": "t_rock_floor"
+      },
       "furniture": {
         "c": "f_crate_c",
         "C": "f_crate_c",

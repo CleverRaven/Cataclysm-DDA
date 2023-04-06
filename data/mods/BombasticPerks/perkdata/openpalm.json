@@ -1,0 +1,19 @@
+[
+  {
+    "id": "integrated_hand_openpalm",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "callused hands" },
+    "description": "You've dealt so many blows your hands are rough with calluses.  The edge of your hand is sharp enough to cut paper.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "flesh" ],
+    "material_thickness": 2,
+    "symbol": "x",
+    "color": "magenta",
+    "cutting": 4,
+    "flags": [ "INTEGRATED", "UNBREAKABLE", "PERSONAL", "ZERO_WEIGHT" ],
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ],
+    "qualities": [ [ "BUTCHER", 5 ], [ "CUT", 1 ] ]
+  }
+]
