@@ -2179,7 +2179,6 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
     if( !act->targets.empty() ) {
         ploc = act->targets.data();
     }
-
     item *main_tool = &( !w_hack.init( *act ) ?
                          ploc ?
                          **ploc : you->i_at( act->index ) : w_hack.get_item() );
