@@ -92,6 +92,7 @@
         "text": "Gain [<trait_name:perk_popeye>]",
         "topic": "TALK_PERK_MENU_POPEYE"
       },
+      { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
   },
