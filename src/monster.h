@@ -33,6 +33,7 @@ class JsonOut;
 class effect;
 class effect_source;
 class item;
+struct monster_plan;
 namespace catacurses
 {
 class window;
@@ -231,7 +232,13 @@ class monster : public Creature
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
+        // is it mating season?
+        bool mating_angry() const;
         void plan();
+        void anger_hostile_seen( const monster_plan &mon_plan );
+        void anger_mating_season( const monster_plan &mon_plan );
+        // will change mon_plan::dist
+        void anger_cub_threatened( monster_plan &mon_plan );
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
@@ -576,10 +583,6 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
-        // summoned monsters via spells
-        void set_summon_time( const time_duration &length );
-        // handles removing the monster if the timer runs out
-        void decrement_summon_timer();
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
@@ -605,7 +608,6 @@ class monster : public Creature
         int next_patrol_point = -1;
 
         std::bitset<NUM_MEFF> effect_cache;
-        std::optional<time_point> lifespan_end = std::nullopt;
         int turns_since_target = 0;
 
         Character *find_dragged_foe();
