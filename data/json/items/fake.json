@@ -184,7 +184,8 @@
     "type": "TOOL",
     "copy-from": "fake_appliance_tool",
     "name": { "str": "catalytic cracking reactor" },
-    "charges_per_use": 50,
+    "//": "there's a laptop im the disassembly, I assume it requires power.",
+    "charges_per_use": 1,
     "charged_qualities": [ [ "EXTRACT", 3 ] ]
   },
   {
