@@ -1108,10 +1108,6 @@ void map::register_vehicle_zone( vehicle *veh, const int zlev )
 }
 
 bool map::deregister_vehicle_zone( zone_data &zone ) const
-// returns a list of tripoints which contain parts from moving vehicles within \p max_range
-// distance from \p source position, if any parts are CONTROLS, ENGINE or WHEELS returns a
-// list of tripoints with exclusively such parts instead. Used for monster gun actor targeting.
-std::set<tripoint_bub_ms> get_moving_vehicle_targets( const Creature &source, int max_range );
 {
     if( const std::optional<vpart_reference> vp = veh_at( getlocal(
                 zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
@@ -1160,7 +1156,6 @@ std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, in
     }
     return !priority.empty() ? priority : visible;
 }
-
 
 // 3D vehicle functions
 

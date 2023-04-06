@@ -831,8 +831,6 @@ int gun_actor::get_max_range()  const
     return max_range;
 }
 
-
-
 bool gun_actor::call( monster &z ) const
 {
     Creature *target;
@@ -856,6 +854,7 @@ bool gun_actor::call( monster &z ) const
         }
         aim_at = target->pos();
     } else {
+        target = z.attack_target();
         aim_at = target ? target->pos() : tripoint_zero;
         if( !target || !z.sees( *target ) || ( !target->is_monster() && !z.aggro_character ) ) {
             if( !target_moving_vehicles ) {
@@ -867,7 +866,7 @@ bool gun_actor::call( monster &z ) const
             if( moving_veh_parts.empty() ) {
                 return false;
             }
-            aim_at = random_entry( moving_veh_parts, tripoint_bub_ms() ).raw()
+            aim_at = random_entry( moving_veh_parts, tripoint_bub_ms() ).raw();
         }
     }
 
