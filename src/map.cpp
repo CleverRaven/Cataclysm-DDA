@@ -1108,10 +1108,6 @@ void map::register_vehicle_zone( vehicle *veh, const int zlev )
 }
 
 bool map::deregister_vehicle_zone( zone_data &zone ) const
-// returns a list of tripoints which contain parts from moving vehicles within \p max_range
-// distance from \p source position, if any parts are CONTROLS, ENGINE or WHEELS returns a
-// list of tripoints with exclusively such parts instead. Used for monster gun actor targeting.
-std::set<tripoint_bub_ms> get_moving_vehicle_targets( const Creature &source, int max_range );
 {
     if( const std::optional<vpart_reference> vp = veh_at( getlocal(
                 zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
@@ -1125,42 +1121,6 @@ std::set<tripoint_bub_ms> get_moving_vehicle_targets( const Creature &source, in
     }
     return false;
 }
-
-std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, int max_range )
-{
-    const tripoint_bub_ms zpos( z.pos() );
-    std::set<tripoint_bub_ms> priority;
-    std::set<tripoint_bub_ms> visible;
-    for( wrapped_vehicle &v : get_vehicles() ) {
-        if( !v.v->is_moving() ) {
-            continue;
-        }
-        if( !fov_3d && v.pos.z != zpos.z() ) {
-            continue;
-        }
-        if( rl_dist( zpos, tripoint_bub_ms( v.pos ) ) > max_range + 40 ) {
-            continue; // coarse distance filter, 40 = ~24 * sqrt(2) - rough max diameter of a vehicle
-        }
-        for( const vpart_reference &vpr : v.v->get_all_parts() ) {
-            const tripoint_bub_ms vppos = static_cast<tripoint_bub_ms>( vpr.pos() );
-            if( rl_dist( zpos, vppos ) > max_range ) {
-                continue;
-            }
-            if( !z.sees( vppos ) ) {
-                continue;
-            }
-            if( vpr.has_feature( VPFLAG_CONTROLS ) ||
-                vpr.has_feature( VPFLAG_ENGINE ) ||
-                vpr.has_feature( VPFLAG_WHEEL ) ) {
-                priority.emplace( vppos );
-            } else {
-                visible.emplace( vppos );
-            }
-        }
-    }
-    return !priority.empty() ? priority : visible;
-}
-
 
 // 3D vehicle functions
 
