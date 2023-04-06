@@ -6479,7 +6479,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         int amt = 0;
         maintext = label( quantity );
         for( const item *mod : is_gun() ? gunmods() : toolmods() ) {
-            if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ) {
+            if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) || !type->gun->default_mods.count(mod->typeId())) {
                 amt++;
             }
         }
