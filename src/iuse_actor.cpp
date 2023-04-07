@@ -4765,9 +4765,13 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
     dump.emplace_back( "DESCRIPTION", description );
 }
 
-std::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool,
+std::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
+    if( t ) {
+        return std::nullopt;
+    }
+
     Character *char_ptr = nullptr;
     if( avatar *u = p.as_avatar() ) {
         char_ptr = u;
