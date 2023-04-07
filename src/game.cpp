@@ -11527,7 +11527,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) ) {
-        if( wall_cling && here.passable( stairs ) ) {
+        if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
             u.set_activity_level( EXTRA_EXERCISE );
             u.mod_stamina( -750 );
