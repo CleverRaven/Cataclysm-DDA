@@ -1390,13 +1390,14 @@
     "difficulty": 6,
     "time": "2 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 2 ], [ "scrap_aluminum", 11 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
       { "proficiency": "prof_toolsmithing" }
     ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "scrap_aluminum", 11 ] ] ]
   },
   {
     "type": "recipe",
