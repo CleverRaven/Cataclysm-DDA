@@ -29,7 +29,10 @@
       "L": "t_null",
       "C": "t_null",
       "Y": "t_null",
-      "y": "t_null"
+      "y": "t_null",
+      "f": "t_chainfence",
+      "g": "t_chaingate_c",
+      "+": "t_door_metal_c"
     },
     "furniture": {
       "&": "f_roof_turbine_vent",
