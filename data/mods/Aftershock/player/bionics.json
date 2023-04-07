@@ -129,7 +129,7 @@
     "name": { "str": "Pain Suppression Injection System" },
     "description": "The chemical injection system and microcomputer that when activated gives a burst of chemicals that allows your blood to work a little harder at stabilizing the body and then flushes your system with a powerful anesthetic that allows you to continue operating at high capacity.  Upon deactivation, the user may experience extreme lethargy, sudden loss of consciousness, among other symptoms that may prove potentially fatal if not in a safe location.",
     "flags": [ "BIONIC_TOGGLED" ],
-    "\\": "Pain enchantment doesn't work currently.  Remove spell and this comment once it does.",
+    "//": "Pain enchantment doesn't work currently.  Remove spell and this comment once it does.",
     "enchantments": [
       {
         "condition": "ACTIVE",

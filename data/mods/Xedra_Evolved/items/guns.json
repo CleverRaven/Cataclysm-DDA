@@ -86,7 +86,7 @@
     "dispersion": 358,
     "durability": 8,
     "modes": [ [ "DEFAULT", "burst", 10 ] ],
-    "ups_charges": 1,
+    "energy_drain": "1 kJ",
     "reload": 200,
     "default_mods": [ "bars" ],
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],

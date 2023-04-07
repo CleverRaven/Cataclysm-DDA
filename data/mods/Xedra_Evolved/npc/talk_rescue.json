@@ -15,18 +15,16 @@
     ],
     "responses": [
       { "text": "Let's get out of here before more spiders show up.", "topic": "TALK_DONE", "effect": "follow" },
-      { "text": "I don't need another mouth to feed.  Get out of my sight.", "topic": "TALK_DONE", "effect": "flee" }
-    ]
-  },
-  {
-    "type": "talk_topic",
-    "id": "TALK_RESCUED_INVESTIGATE",
-    "text": "[Investigation 2] Are you feeling ok after all of this?  I can see some of your wounds.",
-    "condition": { "and": [ { "npc_has_trait": [ "EGGSAC_SURVIVABLE", "EGGSAC_FATAL" ] }, { "u_has_deduction": 2 } ] },
-    "effect": { "u_add_var": "u_knows_goblinspider_eggs", "type": "knowledge", "context": "reproduction", "value": "yes" },
-    "responses": [
+      { "text": "I don't need another mouth to feed.  Get out of my sight.", "topic": "TALK_DONE", "effect": "flee" },
       {
-        "text": "I can't help but thinking there is something different about some of these wounds.",
+        "text": "[Investigation 2] Are you feeling ok after all of this?  I can see some of your wounds.",
+        "condition": {
+          "and": [
+            { "or": [ { "npc_has_trait": "EGGSAC_SURVIVABLE" }, { "npc_has_trait": "EGGSAC_FATAL" } ] },
+            { "u_has_skill": { "skill": "deduction", "level": 2 } }
+          ]
+        },
+        "effect": { "u_add_var": "u_knows_goblinspider_eggs", "type": "knowledge", "context": "reproduction", "value": "yes" },
         "topic": "TALK_RESCUED_INFESTED"
       }
     ]

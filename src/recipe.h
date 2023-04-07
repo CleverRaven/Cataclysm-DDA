@@ -268,6 +268,7 @@ class recipe
         std::string get_consistency_error() const;
 
         bool is_practice() const;
+        /* Return true if this is NOT a recipe but instead only nested recipe (folder for recipes).*/
         bool is_nested() const;
         bool is_blueprint() const;
         const update_mapgen_id &get_blueprint() const;

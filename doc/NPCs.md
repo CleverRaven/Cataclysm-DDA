@@ -902,7 +902,8 @@ Effect | Description
 `u_transform_radius, npc_transform_radius: `int or [variable object](#variable-object), `ter_furn_transform: `string or [variable object](#variable-object), (*optional* `target_var: `[variable object](#variable-object)), (*optional* `time_in_future: `duration or [variable object](#variable-object)), (*optional* `key: `string or [variable object](#variable-object)) | Applies the ter_furn_transform of id `ter_furn_transform` (See [the transform docs](TER_FURN_TRANSFORM.md)) in radius `transform_radius`. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  If `time_in_future` is set the transform will that far in the future, in this case however the target location and radius will be determined now and not changed even if their variables update.  If `key` is provided it can be used with `alter_timed_events` to force it to occur early.
 `transform_line: `string or [variable object](#variable-object), `first: `[variable object](#variable-object), `second: `[variable object](#variable-object) | Applies the ter_furn_transform of id `transform_line` (See [the transform docs](TER_FURN_TRANSFORM.md)) on a line between points `first` and `second`.
 `place_override: `string or [variable object](#variable-object), `length: `duration or [variable object](#variable-object), (*optional* `key: `string or [variable object](#variable-object)) | Overrides the location name in the sidebar to instead be the title string.  Also disables map and map memory.  If `length` is set the effect will last that long.  If `key` is provided it can be used with `alter_timed_events` to force it to end early.
-`u_spawn_monster, npc_spawn_monster: `string or [variable object](#variable-object),(*optional* `group: group_bool`), (*optional* `hallucination_count: `int or [variable object](#variable-object)), (*optional* `real_count: `int or [variable object](#variable-object)),(*optional* `min_radius: `int or [variable object](#variable-object)), (*optional* `max_radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `open_air_allowed: open_air_allowed_bool`), (*optional* `target_range : `int or [variable object](#variable-object)), (*optional* `lifespan: `duration or [variable object](#variable-object)), (*optional* `target_var: `[variable object](#variable-object)), (*optional* `spawn_message: `string or [variable object](#variable-object)), (*optional* `spawn_message_plural: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Spawns `real_count`(defaults to 0) monsters and `hallucination_count`(defaults to 0) hallucinations near you or the npc. The spawn will be of type `_spawn_monster`, if `group_bool` is false(defaults to false, if it is true a random monster from monster_group `_spawn_monster` will be used), if this is an empty string it will instead be a random monster within `target_range` spaces of you. The spawns will happen between `min_radius`(defaults to 1) and `max_radius`(defaults to 10) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. If `open_air_allowed` is true(defaults to false) monsters can be spawned on open air. If `lifespan` is provided the monster or hallucination will only that long. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  If at least one spawned creature is visible `spawn_message` will be displayed.  If `spawn_message_plural` is defined and more than one spawned creature is visible it will be used instead.  If at least one monster is spawned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_spawn_monster, npc_spawn_monster: `string or [variable object](#variable-object), (*optional* `group: group_bool`), (*optional* `hallucination_count: `int or [variable object](#variable-object)), (*optional* `real_count: `int or [variable object](#variable-object)),(*optional* `min_radius: `int or [variable object](#variable-object)), (*optional* `max_radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `indoor_only: indoor_only_bool`),(*optional* `open_air_allowed: open_air_allowed_bool`), (*optional* `target_range : `int or [variable object](#variable-object)), (*optional* `lifespan: `duration or [variable object](#variable-object)), (*optional* `target_var: `[variable object](#variable-object)), (*optional* `spawn_message: `string or [variable object](#variable-object)), (*optional* `spawn_message_plural: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Spawns `real_count`(defaults to 0) monsters and `hallucination_count`(defaults to 0) hallucinations near you or the npc. The spawn will be of type `_spawn_monster`, if `group_bool` is false(defaults to false, if it is true a random monster from monster_group `_spawn_monster` will be used), if this is an empty string it will instead be a random monster within `target_range` spaces of you. The spawns will happen between `min_radius`(defaults to 1) and `max_radius`(defaults to 10) spaces of the target and if `outdoor_only` is true(defaults to false) will only choose outdoor spaces, if `indoor_only` is true(defaults to false) it will only choose indoor locations. If `open_air_allowed` is true(defaults to false) monsters can be spawned on open air. If `lifespan` is provided the monster or hallucination will only that long. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  If at least one spawned creature is visible `spawn_message` will be displayed.  If `spawn_message_plural` is defined and more than one spawned creature is visible it will be used instead.  If at least one monster is spawned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
+`u_spawn_npc, npc_spawn_npc: `string or [variable object](#variable-object), (*optional* `unique_id: `string or [variable object](#variable-object)), (*optional* `traits: `array of string or [variable object](#variable-object)), (*optional* `hallucination_count: `int or [variable object](#variable-object)), (*optional* `real_count: `int or [variable object](#variable-object)),(*optional* `min_radius: `int or [variable object](#variable-object)), (*optional* `max_radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `indoor_only: indoor_only_bool`),(*optional* `open_air_allowed: open_air_allowed_bool`), (*optional* `target_range : `int or [variable object](#variable-object)), (*optional* `lifespan: `duration or [variable object](#variable-object)), (*optional* `target_var: `[variable object](#variable-object)), (*optional* `spawn_message: `string or [variable object](#variable-object)), (*optional* `spawn_message_plural: `string or [variable object](#variable-object)), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`) | Spawns `real_count`(defaults to 0) npcs and `hallucination_count`(defaults to 0) hallucinations near you or the npc. The npc will be of class `_spawn_npc`, and have any members of `traits` as additional traits. If `unique_id` is defined any non hallucination npcs will have it as their unique id, if an npc with that unique id exists it will not spawn.  The spawns will happen between `min_radius`(defaults to 1) and `max_radius`(defaults to 10) spaces of the target and if `outdoor_only` is true(defaults to false) will only choose outdoor spaces, if `indoor_only` is true(defaults to false) it will only choose indoor locations. If `open_air_allowed` is true(defaults to false) monsters can be spawned on open air. If `lifespan` is provided the monster or hallucination will only that long. If `target_var` is set this effect will be centered on a location saved to a variable with its name.  If at least one spawned creature is visible `spawn_message` will be displayed.  If `spawn_message_plural` is defined and more than one spawned creature is visible it will be used instead.  If at least one monster is spawned, then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.
 `u_set_field, npc_set_field: `string or [variable object](#variable-object),(*optional* `intensity: `int or [variable object](#variable-object)), (*optional* `age: `int or [variable object](#variable-object)), (*optional* `radius: `int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `indoor_only: indoor_only_bool`), (*optional* `hit_player : hit_player_bool`), (*optional* `target_var: `[variable object](#variable-object)) | Add a field centered on you or the npc of type `_set_field`, of intensity `intensity`( defaults to 1,) of radius `radius`(defaults to 10000000) and age `age` (defaults 1). It will only happen outdoors if `outdoor_only` is true, it defaults to false. `indoor_only` is the opposite. It will hit the player as if they entered it if `hit_player` is true, it defaults to true. If `target_var` is set this effect will be centered on a location saved to a variable with its name.
 
 #### General
@@ -920,7 +921,7 @@ Effect | Description
 `run_eocs : effect_on_condition_array or single effect_condition_object` | Will run up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition.
 `queue_eocs : effect_on_condition_array or single effect_condition_object`, `time_in_future: `duration or [variable object](#variable-object) | Will queue up all members of the `effect_on_condition_array`. Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run `time_in_future` in the future.  If the eoc is global the avatar will be u and npc will be invalid. Otherwise it will be queued for the current alpha if they are a character and not be queued otherwise.
 `u_roll_remainder, npc_roll_remainder : `array of strings and/or [variable objects](#variable-object), `type: `string or [variable object](#variable-object), (*optional* `true_eocs: eocs_array`), (*optional* `false_eocs: eocs_array`), (*optional* `message: ` string or [variable object](#variable-object) ) | Type must be either `bionic`, `mutation`, `spell` or `recipe`.  If the u or npc does not have all of the listed bionics, mutations, spells, or recipes they will be given one randomly and and then all of the effect_on_conditions in `true_eocs` are run, otherwise all the effect_on_conditions in `false_eocs` are run.  If `message` is provided and a result is given then the `message` will be displayed as a message with the first instance of `%s` in it replaced with the name of the result selected.  
-`switch : arithmetic_expression`, `cases: effect_array` | Will calculate value of `switch` and then run member of `cases` with the highest `case` that the `switch` is higher or equal to. `cases` is an array of objects with an int_or_var `case` and an `effect` field which is a dialog effect.
+`switch : arithmetic/math_expression`, `cases: effect_array` | Will calculate value of `switch` and then run member of `cases` with the highest `case` that the `switch` is higher or equal to. `cases` is an array of objects with an int_or_var `case` and an `effect` field which is a dialog effect.
 `u_run_npc_eocs or npc_run_npc_eocs : effect_on_condition_array`, (*optional* `unique_ids: `array of strings and/or [variable objects](#variable-object)), (*optional* `npcs_must_see: npcs_must_see_bool`), (*optional* `npc_range: `int or [variable object](#variable-object)), (*optional* `local: local_bool`) | Will run all members of the `effect_on_condition_array` on npcs. Members should either be the id of an effect_on_condition or an inline effect_on_condition.  If `local`(default: false) is false, then regardless of location all npcs with unique ids in the array `unique_ids` will be affected.  If `local` is true, only unique_ids listed in `unique_ids` will be affected, if it is empty all npcs in range will be effected. If a value is given for `npc_range` the npc must be that close to the source and if `npcs_must_see`(defaults to false) is true the npc must be able to see the source. For `u_run_npc_eocs` u is the source for `npc_run_npc_eocs` it is the npc.
 `weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an object that resolves to an integer weight.<br/><br/>Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.<pre>    "effect": [<br/>      {<br/>        "weighted_list_eocs": [<br/>          [ "EOC_SLEEP", { "const": 1 } ],<br/>          [ {<br/>              "id": "eoc_test2",<br/>              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ]<br/>            },<br/>            { "const": 10 }<br/>          ]<br/>        ]<br/>      }<br/>    ]</pre>
 
@@ -968,7 +969,7 @@ Condition | Type | Description
 `"u_has_flag"`<br/>`"npc_has_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC has the specified character flag.  The special trait flag `"MUTATION_THRESHOLD"` checks to see if the player or NPC has crossed a mutation threshold.
 `"u_has_any_trait"`<br/>`"npc_has_any_trait"` | array of strings and/or [variable objects](#variable-object) | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
 `"u_has_var"`, `"npc_has_var"` | string | `"type": type_str`, `"context": context_str`, and `"value": value_str` are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_add_var"` or `"npc_add_var"` with the string, `type_str`, `context_str`, and `value_str`.
-`"u_compare_var"`, `"npc_compare_var"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"value": `int or [variable object](#variable-object) ` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable that is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`) and value.
+`"u_compare_var"`, `"npc_compare_var"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"value"`: int or [variable object](#variable-object)  are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable that is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`) and value. <br/><br/>`compare_var` is deprecated, see [Math](#math) for the replacement.
 `"u_compare_time_since_var"`, `"npc_compare_time_since_var_"` | dictionary | `"type": type_str`, `"context": context_str`, `"op": op_str`, `"time": time_string` are required fields, referencing a var as in `"u_add_var"` or `"npc_add_var"`.<br/>`true` if the player character or NPC has a stored variable and the current turn and that value (converted to a time point) plus the time_string is true for the provided operator `op_str` (one of `==`, `!=`, `<`, `>`, `<=`, `>=`).<br/><br/>Example: returns true if the player character has a "test", "test", "var_time_test" variable and the current turn is greater than that value plus 3 days' worth of turns.<pre>{<br/>  "u_compare_time_since_var": "test", "type": "test",<br/>  "context": "var_time_test", "op": ">", "time": "3 days"<br/>}</pre>
 `"compare_string"` | array | The array must contain exactly two entries.  They can be either strings and/or [variable objects](#variable-object).  Returns true if the strings are the same.
 `"u_has_strength"`<br/>`"npc_has_strength"` | int or [variable object](#variable-object) | `true` if the player character's or NPC's strength is at least the value of `u_has_strength` or `npc_has_strength`.
@@ -1210,7 +1211,7 @@ Condition | Type | Description
 ## Utility Structures
 
 ### Variable Object
-`variable_object`: This is either an object, an `arithmetic` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
+`variable_object`: This is either an object, an `arithmetic`/`math` [expression](#compare-numbers-and-arithmetics) or array describing a variable name. It can either describe a double, a time duration or a string. If it is an array it must have 2 values the first of which will be a minimum and the second will be a maximum, the value will be randomly between the two. If it is a double `default` is a double which will be the value returned if the variable is not defined. If is it a duration then `default` can be either an int or a string describing a time span. `u_val`, `npc_val`, or `global_val` can be the used for the variable name element.  If `u_val` is used it describes a variable on player u, if `npc_val` is used it describes a variable on player npc, if `global_val` is used it describes a global variable.  If this is a duration `infinite` will be accepted to be a virtually infinite value(it is actually more than a year, if longer is needed a code change to make this a flag or something will be needed).
 
 Example:
 ```json
@@ -1226,6 +1227,8 @@ Example:
 ```
 
 ### Compare Numbers and Arithmetics
+*`arithmetic` and `compare_num` are deprecated in the long term. See [Math](#math) for the replacement.*
+
 `"compare_num"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
 ```json
 {
@@ -1307,3 +1310,100 @@ Example | Description
 `"hour"` | Hours since midnight.
 `"moon"` | Phase of the moon.<pre>MOON_NEW =0,<br/>WAXING_CRESCENT =1,<br/>HALF_MOON_WAXING =2,<br/>WAXING_GIBBOUS =3,<br/>FULL =4,<br/>WANING_GIBBOUS =5,<br/>HALF_MOON_WANING =6,<br/>WANING_CRESCENT =7</pre>
 `"arithmetic"` | An arithmetic expression with no result.<br/><br/>Example:<pre>"real_count": { "arithmetic": [<br/>  { "arithmetic": [ { "const":1 }, "+", { "const": 1 } ] },<br/>  "+", { "const": 1 }<br/>] },</pre>
+
+### Math
+A `math` object lets you evaluate math expressions and assign them to dialogue variables or compare them for conditions. It takes the form
+```JSON
+{ "math": [ "2 + 2 - 3", "==", "1" ] }
+```
+or idiomatically
+```JSON
+{ "math": [ "lhs", "operator", "rhs" ] }
+```
+It takes an array as a parameter with 1, 2, or 3 strings:
+
+#### One string = return value
+```JSON
+{ "math": [ "lhs" ] }
+```
+Example:
+```JSON
+{ "value": "LUMINATION", "add": { "math": [ "u_val('morale') * 3 - rng(0, 100)" ] } }
+```
+The expression in `lhs` is evaluated and passed on to the parent object.
+
+#### Two strings = unary operation
+```JSON
+{ "math": [ "lhs", "operator" ] }
+```
+Example:
+```JSON
+"effect": [ { "math": [ "math_test", "++" ] } ]
+```
+`lhs` must be an [assignment target](#assignment-target). `operator` can be `++` or `--` to increment or decrement, respectively.
+
+#### Three strings = assignment or comparison
+```JSON
+{ "math": [ "lhs", "operator", "rhs" ] }
+```
+If `operator` is `=`, `+=`, `-=`, `*=`, `/=`, or `%=` the operation is an assignment:
+```JSON
+"effect": { "math": [ "u_blorg", "=", "rng( 0, 2 ) + u_val('spell_level', 'spell: test_spell_pew') / 2" ] }
+```
+`lhs` must be an [assignment target](#assignment-target). `rhs` is evaluated and stored in the assignment target from `lhs`.
+
+
+If `operator` is `==`, `>=`, `<=`, `>`, or `<`, the operation is a comparison:
+```JSON
+"condition": { "math": [ "u_val('stamina') * 2", ">=", "5000 + rand( 300 )" ] },
+```
+`lhs` and `rhs` are evaluated independently and the result of `operator` is passed on to the parent object.
+
+#### Constants
+The tokens `π` (and `pi` alias ) and `e` are recognized as mathematical constants and get replaced by their nominal values.
+
+#### Math functions
+Common math functions are supported: 
+
+`abs()`, `sqrt()`, `log()`, `sin()`, `cos()`, and `tan()` take one argument, for example `sin( 2 * pi + 1 )`.
+
+`max()` and `min()` take any number of arguments, for example `max( 1, 2, 3 )`.
+
+`rand()` takes one argument `x` and returns a random integer between 0 and x, for example `rand(100)`.
+
+`rng()` takes two arguments `a` and `b` and returns a random floating point value between a and b, for example `rng(1.5, 2)`.
+
+Function composition is also supported, for example `sin( rng(0, max( 0.5, u_sin_var ) ) )`
+
+#### Dialogue functions
+Dialogue functions take single-quoted strings as arguments and can return or manipulate game values. They are scoped just like [variables](#variables).
+
+This section is a work in progress as functions are ported from `arithmetic` to `math`. There is a `val()` shim available that can replace `u_val` and `npc_val`:
+
+```JSON
+{ "math": [ "u_val('stamina')" ] }
+```
+where
+```JSON
+"u_val('stamina')"
+```
+is equivalent to
+```JSON
+{ "u_val": "stamina" }
+```
+Keyword-value pairs are also supported:
+```JSON
+"n_val('spell_level', 'spell: test_spell_pew')"
+```
+is equivalent to
+```JSON
+{ "npc_val": "spell_level", "spell": "test_spell_pew" }
+
+```
+
+
+#### Variables
+Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, and `n_myvar` is scoped on the beta talker.
+
+#### Assignment target
+An assignment target can be either a scoped [variable name](#variables) or a scoped [dialogue function](#dialogue-functions).
