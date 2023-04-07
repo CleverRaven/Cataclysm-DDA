@@ -1543,7 +1543,7 @@
     "description": "A series of straps attached to the seat, intended to fasten together after going over your shoulders and hips and between your legs.",
     "folded_volume": "1 L",
     "bonus": 25,
-    "item": "rope_30",
+    "item": "five-point_harness",
     "location": "on_seat",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
