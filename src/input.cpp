@@ -897,7 +897,7 @@ std::string input_context::get_conflicts(
     const input_event &event, const std::string &ignore_action ) const
 {
     return enumerate_as_string( registered_actions.begin(), registered_actions.end(),
-    [ this, &event, &ignore_action ]( const std::string &action ) {
+    [ this, &event, &ignore_action ]( const std::string & action ) {
         return action != ignore_action && action_uses_input( action, event )
                ? get_action_name( action ) : std::string();
     } );
@@ -1426,7 +1426,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
     std::vector<std::string> org_registered_actions( registered_actions );
     org_registered_actions.erase( std::remove_if( org_registered_actions.begin(),
                                   org_registered_actions.end(),
-    []( const std::string &a ) {
+    []( const std::string & a ) {
         return a == ANY_INPUT || a == COORDINATE;
     } ), org_registered_actions.end() );
 
