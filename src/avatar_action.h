@@ -63,7 +63,7 @@ void fire_wielded_weapon( avatar &you );
 void fire_ranged_mutation( Character &you, const item &fake_gun );
 
 /** Stores fake gun specified by the bionic and starts interactive aiming */
-void fire_ranged_bionic( avatar &you, const item &fake_gun, const units::energy &cost_per_shot );
+void fire_ranged_bionic( avatar &you, const item &fake_gun );
 
 /**
  * Checks if the player can manually (with their 2 hands, not via vehicle controls)

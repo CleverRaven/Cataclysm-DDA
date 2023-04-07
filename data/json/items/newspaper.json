@@ -561,14 +561,14 @@
       {
         "id": "horror",
         "name": { "str": "Hunted III movie poster" },
-        "description": "This is a poster for \"Hunted III\", the third entry of the \"Hunted\" slasher franchise.  Its tagline reads: \"You can't outrun it forever\".",
+        "description": "A poster for \"Hunted III\", the third entry of the \"Hunted\" slasher franchise.  Its tagline reads: \"You can't outrun it forever\".",
         "color": "red",
         "weight": 1
       },
       {
         "id": "sci-fi",
         "name": { "str": "Cybercop 3D movie poster" },
-        "description": "This is a poster for \"Cybercop 3D\", a sci-fi movie about a policeman tasked to take down a group of dangerous hackers inside a simulated reality.",
+        "description": "A poster for \"Cybercop 3D\", a sci-fi movie about a policeman tasked to take down a group of dangerous hackers inside a simulated reality.",
         "color": "light_blue",
         "weight": 1
       }
