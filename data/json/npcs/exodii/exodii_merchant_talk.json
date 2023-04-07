@@ -648,11 +648,24 @@
   {
     "id": "TALK_EXODII_MERCHANT_Jobs",
     "type": "talk_topic",
-    "dynamic_line": "&Rubik pulls out a binder, and flips through the pages for a second.  \"Yeah, we're always in need of some help around here.  Here's the list I've been keeping for stuff like this, what are you interested in?\"",
+      "concatenate": [
+      "*Rubik pulls out a sheaf of mismatched papers, and leafs through the pages for a second.  Their broad metallic fingers look surprisingly deft and delicate, and incongruous on the otherwise unremarkable looseleaf.  \"Aye, an' there's room for a pop-an-work roun' here.  Rubik's got tassed a lissy, right and clean",
+        {
+          "u_has_mission": "EXODII_MISSION_CONTACT_HUB",
+          "yes": ".  Right and so, mayhap ye should first see about that escoltin'.",
+          "no": {
+            { "compare_int": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "==", { "const": 1 } ] },
+            "yes": ", but for the right-an-quick, this'n has nothin' t'be tassed for ye.",
+            "no": ".  How'd ye be twigged by a quick an' round, a nice escoltin' out to a place sommat of curiosity?"
+          }
+        }
+      ]
+    },
+    "//~": "Yeah, we're always in need of some help around here.  Here's the list I've got for stuff like this.",
     "//~": " ",
     "responses": [
       {
-        "text": "[First Contact]",
+        "text": "Sounds like you're saying a job?  That's what I'm looking for.  Tell me more.",
         "condition": {
           "and": [
             { "not": { "u_has_mission": "EXODII_MISSION_CONTACT_HUB" } },

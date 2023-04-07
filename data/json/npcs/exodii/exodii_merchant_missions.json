@@ -52,8 +52,8 @@
       "rejected": "-",
       "advice": "-",
       "inquire": "What've ye scolted, then, o'the clunker?",
-      "success": "That's great!  I'll put it down in the books.  I'm worried that this cabal might cut our time here short, though.",
-      "success_lie": "That doesn't match what our drones have seen.",
+      "success": "Aye and fine!  One for the paper-claim an' so.  An I'm ken, these'n's could be a right thorn.  For ol' Rubik's sake, let's hope they be'n't for to drive us out o' your otherlands.",
+      "success_lie": "Hm.  The escoltin' our way be less.  This'n'll yark at the Scythy mayhaps.",
       "failure": "Fine an' fine.  Come back to this'n if you like to try again."
     }
   },
