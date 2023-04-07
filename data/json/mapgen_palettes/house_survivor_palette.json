@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "house_survivor_palette",
     "//": "Intended as a palette for non-nested survivor houses.  Barricades doors and windows, replaces glass walls with sandbags, adds traps to doormat tiles, changes item groups to survivor variants, clutters floor with empty cans.",
-    "2//": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
+    "//2": "Symbols still open for use: 0 ! $ % & _ = ~ ? / , ` and some symbols that conflict with json (like brackets).",
     "parameters": {
       "interior_wall_type": {
         "type": "ter_str_id",
