@@ -274,7 +274,7 @@ jobs:
         env:
           # Enable pretty backtraces
           BACKTRACE: 1
-          CDDA_STRIPPED_PDB: 1
+          CDDA_RELEASE_BUILD: 1
           VCPKG_OVERLAY_TRIPLETS: ${{ github.workspace }}\.github\vcpkg_triplets
         run: |
           msbuild -m -p:Configuration=Release -p:Platform=${{ matrix.arch }} "-target:Cataclysm-vcpkg-static;JsonFormatter-vcpkg-static" msvc-full-features\Cataclysm-vcpkg-static.sln
