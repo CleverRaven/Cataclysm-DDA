@@ -69,11 +69,11 @@ static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 static const bionic_id bio_fitnessband( "bio_fitnessband" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
-static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
-
 static const flag_id json_flag_CALORIES_INTAKE( "CALORIES_INTAKE" );
 
 static const itype_id itype_fitness_band( "fitness_band" );
+
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const quality_id qual_ANESTHESIA( "ANESTHESIA" );
 
