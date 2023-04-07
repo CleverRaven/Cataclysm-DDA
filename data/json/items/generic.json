@@ -777,11 +777,17 @@
   {
     "type": "GENERIC",
     "id": "chalice",
+    "name": { "str": "gold chalice" },
+    "description": "A gold chalice.",
+    "category": "other",
+    "material": [ "gold" ],
+    "weight": "200 g",
+    "volume": "330 ml",
+    "longest_side": "12 cm",
+    "price": "19 USD",
+    "price_postapoc": 10,
     "symbol": "/",
-    "color": "yellow",
-    "copy-from": "candlestick",
-    "name": { "str": "chalice" },
-    "description": "A gold chalice."
+    "color": "yellow"
   },
   {
     "type": "GENERIC",

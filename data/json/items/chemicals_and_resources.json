@@ -79,7 +79,7 @@
     "category": "spare_parts",
     "price": 200,
     "price_postapoc": 10,
-    "name": { "str_sp": "cement" },
+    "name": { "str_sp": "cement powder" },
     "symbol": "=",
     "color": "dark_gray",
     "description": "Portland is most likely long gone, but its memory persists in cement.  This ubiquitous binder can be used for all kinds of advanced masonry.  Just add water.",

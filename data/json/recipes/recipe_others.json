@@ -1390,7 +1390,7 @@
     "difficulty": 6,
     "time": "2 h 30 m",
     "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
+    "using": [ [ "blacksmithing_standard", 2 ], [ "scrap_aluminum", 11 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
