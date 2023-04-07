@@ -1066,11 +1066,6 @@
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
   },
   {
-    "id": "WITH_CONTAINER",
-    "type": "json_flag",
-    "//": "items spawned by spells are put in their containers."
-  },
-  {
     "id": "SPAWN_WITH_DEATH_DROPS",
     "type": "json_flag",
     "//": "Allows summoned monsters to drop their usual death drops.  Otherwise, summoned monsters drop nothing on death."

@@ -668,7 +668,7 @@
     "prereqs2": [ "SCALES", "DRAGON_SCALES_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_TAIL" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
@@ -689,7 +689,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "DRAGON_TAIL_SCALED" ],
     "category": [ "DRAGON_BLACK" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {

@@ -412,6 +412,10 @@ class Character : public Creature, public visitable
         Character &operator=( const Character & ) = delete;
         ~Character() override;
 
+        // initialize avatar and avatar mocks
+        void initialize();
+
+
         Character *as_character() override {
             return this;
         }
@@ -1240,6 +1244,7 @@ class Character : public Creature, public visitable
 
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
+        bool cant_do_mounted( bool msg = true ) const;
         bool is_mounted() const;
         bool check_mount_will_move( const tripoint &dest_loc );
         bool check_mount_is_spooked();
@@ -1742,10 +1747,11 @@ class Character : public Creature, public visitable
          * @param it Item to calculate handling cost for
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
+         * @param charges_in_it the amount of charges to be handled (default is whole)
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
         int item_handling_cost( const item &it, bool penalties = true,
-                                int base_cost = INVENTORY_HANDLING_PENALTY ) const;
+                                int base_cost = INVENTORY_HANDLING_PENALTY, int charges_in_it = -1 ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container

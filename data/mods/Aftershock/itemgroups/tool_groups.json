@@ -144,6 +144,7 @@
     "type": "item_group",
     "id": "afs_tools_pocket",
     "//": "General use tools that fit in small pockets.",
+    "subtype": "distribution",
     "entries": [
       {
         "distribution": [
