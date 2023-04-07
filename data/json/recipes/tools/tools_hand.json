@@ -387,7 +387,7 @@
       { "proficiency": "prof_toolsmithing" }
     ],
     "qualities": [ { "id": "GRIND", "level": 2 } ],
-    "components": [ [ [ "scrap", 5 ], [ "steel_chunk", 1 ] ] ]
+    "components": [ [ [ "scrap", 9 ], [ "steel_chunk", 2 ] ] ]
   },
   {
     "type": "recipe",
