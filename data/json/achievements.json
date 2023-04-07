@@ -1775,7 +1775,7 @@
   {
     "id": "achievement_reach_hospital",
     "type": "achievement",
-    "name": "The Doctor is out",
+    "name": "The Doctor is out!",
     "requirements": [
       {
         "event_statistic": "num_avatar_enters_hospital",
@@ -1791,5 +1791,53 @@
     "type": "achievement",
     "name": "I can see my house from here!",
     "requirements": [ { "event_statistic": "max_move_z", "is": ">=", "target": 6 } ]
+  },
+  {
+    "id": "achievement_reach_negative_z_level",
+    "type": "achievement",
+    "name": "All downhill from here.",
+    "requirements": [ { "event_statistic": "min_move_z", "is": "<=", "target": -5 } ]
+  },
+  {
+    "id": "achievement_reach_fungal_tower",
+    "type": "achievement",
+    "name": "Oh Shitake!",
+    "requirements": [
+      {
+        "event_statistic": "last_overmap_special_avatar_entered",
+        "is": "==",
+        "target": [ "overmap_special_id", "Fungal Tower" ],
+        "visible": "when_achievement_completed",
+        "description": "Reach a Fungal Tower"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_mansion",
+    "type": "achievement",
+    "name": "Lifestyles of the rich and fetid!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_mansion",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a Mansion"
+      }
+    ]
+  },
+  {
+    "id": "achievement_reach_mine",
+    "type": "achievement",
+    "name": "We need to go deeper!",
+    "requirements": [
+      {
+        "event_statistic": "num_avatar_enters_mine",
+        "is": ">=",
+        "target": 1,
+        "visible": "when_achievement_completed",
+        "description": "Reach a Mine"
+      }
+    ]
   }
 ]

@@ -198,19 +198,19 @@
       "sloc_cemetery"
     ],
     "eoc": [ "scenario_fungal_infection" ],
+    "requirement": "achievement_reach_fungal_tower",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
     "name": "Burning Building",
     "description": "The building you had chosen to reside in has suddenly caught fire!  You might want to leave.",
-    "flags": [ "FIRE_START", "CITY_START" ],
+    "flags": [ "CITY_START" ],
     "id": "fire",
     "points": -2,
     "start_name": "In Town",
     "eoc": [ "EOC_scenario_fire", "EOC_scenario_smoke" ],
     "allowed_locs": [
-      "sloc_library",
       "sloc_house",
       "sloc_house_boarded",
       "sloc_school",
@@ -278,6 +278,7 @@
       "true_foodperson"
     ],
     "eoc": [ "scenario_infected", "scenario_bad_day" ],
+    "requirement": "achievement_survive_28_days",
     "flags": [ "FIRE_START", "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
@@ -291,6 +292,7 @@
     "professions": [ "churl" ],
     "forced_traits": [ "ILLITERATE", "ANTIJUNK", "STRONGSTOMACH", "SPIRITUAL" ],
     "forbidden_traits": [ "FASTREADER", "SLOWREADER" ],
+    "requirement": "achievement_witnessed_portal_storm",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
@@ -665,6 +667,7 @@
     "start_name": "Bottom of a mine",
     "allowed_locs": [ "sloc_mine_finale" ],
     "professions": [ "miner", "labtech", "security", "archaeologist" ],
+    "requirement": "achievement_reach_mine",
     "flags": [ "CITY_START", "LONE_START", "CHALLENGE" ]
   },
   {
@@ -731,6 +734,7 @@
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Field",
     "allowed_locs": [ "sloc_field" ],
+    "requirement": "achievement_witnessed_portal_storm",
     "eoc": [ "scenario_strong_portal_storm" ]
   },
   {
@@ -742,6 +746,7 @@
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "requirement": "achievement_witnessed_portal_storm",
     "eoc": [ "scenario_strong_portal_storm_base" ]
   },
   {
@@ -753,6 +758,7 @@
     "flags": [ "CHALLENGE", "LONE_START" ],
     "start_name": "Evac Shelter",
     "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
+    "requirement": "achievement_witnessed_portal_storm",
     "eoc": [ "scenario_quick_portal_storm" ]
   },
   {
@@ -766,6 +772,7 @@
     "start_name": "Field",
     "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
     "eoc": [ "scenario_strong_portal_storm" ],
+    "requirement": "achievement_reach_lab_finale",
     "professions": [ "portal_traveler", "churl", "true_foodperson", "unemployed", "naked" ]
   },
   {
@@ -818,6 +825,7 @@
       "hitman",
       "assassin"
     ],
+    "requirement": "achievement_reach_mansion",
     "missions": [ "MISSION_MANSION_START" ]
   },
   {
@@ -916,12 +924,12 @@
   {
     "type": "scenario",
     "name": "Surrounded in the Dark",
-    "description": "You were camping in the wild.  One night strange noises closed in on you and you were attacked.  You managed to get away but can feel things moving in the dark.",
+    "description": "You were camping in the wild to let things back home cool off.  One night strange noises closed in on you and you were attacked.  You managed to get away but can feel things moving in the dark.",
     "id": "camp_attack_start",
-    "points": -2,
+    "points": 0,
     "custom_initial_date": { "hour": 2 },
     "start_name": "Wilderness",
-    "eoc": [ "scenario_surrounded_zombie_heavy" ],
+    "eoc": [ "scenario_surrounded_zombie" ],
     "allowed_locs": [
       "sloc_campsite",
       "sloc_cabin_lake",
@@ -932,14 +940,14 @@
       "sloc_hermit_shack",
       "sloc_river"
     ],
-    "flags": [ "LONE_START", "HELI_CRASH" ]
+    "flags": [ "LONE_START" ]
   },
   {
     "type": "scenario",
     "id": "lone_survivor_start",
     "name": "Lone Survivor",
     "points": 0,
-    "description": "You are the only one that made it.",
+    "description": "You are the only one that made it.  Everyone else died nearby.  You have to get out of here!",
     "start_name": "In Town",
     "allowed_locs": [
       "sloc_house",
@@ -957,7 +965,7 @@
       "sloc_church",
       "sloc_cemetery"
     ],
-    "eoc": [ "EOC_scenario_blood" ],
+    "eoc": [ "EOC_lone_survivor" ],
     "map_extra": "mx_corpses",
     "flags": [ "LONE_START" ]
   },
@@ -1005,7 +1013,7 @@
     "id": "low_profile_start",
     "name": "Low Profile",
     "points": -1,
-    "description": "You were trying to get some distance from home and keep a low profile.  Days of boredom and a return to bad habits made you overdo it with the booze last night.  You awake and find yourself confused by the strange behaviour of people outside.  Time to sober up and see what's going on. ",
+    "description": "You were trying to get some distance from home and keep a low profile.  Days of boredom and a return to bad habits made you overdo it with the booze last night.  You awake and find yourself confused by the strange behaviour of people outside.  Time to sober up and see what's going on.",
     "forced_traits": [ "ADDICTIVE" ],
     "start_name": "In Town",
     "allowed_locs": [ "sloc_mobile_home", "sloc_motel" ],
