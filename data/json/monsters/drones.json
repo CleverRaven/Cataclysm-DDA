@@ -165,6 +165,7 @@
         "ranges": [ [ 0, 50, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": true,
         "targeting_cost": 700,
         "targeting_timeout_extend": -10,

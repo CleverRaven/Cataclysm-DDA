@@ -80,7 +80,17 @@
     "miss_messages": [ [ "The flames distract you.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
-    "//": "Needs to emit light once someone unites traits, effects etc 'light_emitted: 3'.",
+    "max_intensity": 3,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LUMINATION",
+            "add": { "arithmetic": [ { "u_val": "effect_intensity", "effect": "foxfire_imbibed" }, "*", { "const": 50 } ] }
+          }
+        ]
+      }
+    ],
     "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] },
     "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] }
   },
@@ -104,6 +114,7 @@
       "You've got a few theories you'd like to explore.",
       "Your brain can't hold any more brilliance."
     ],
+    "max_intensity": 3,
     "rating": "good"
   },
   {
@@ -117,6 +128,7 @@
       "Random voices jump into your head time to time.  Most of them are friendly.",
       "You clearly feel the otherworldly presence.  They are ready to help you."
     ],
+    "max_intensity": 5,
     "rating": "good"
   },
   {
@@ -358,6 +370,8 @@
     "desc": [ "Perfect hatred" ],
     "//": "Must limit the player's sight to 2-3 tiles (maybe real blind would be cool, but I don't really think it's a good idea (and also I don't know how it interacts with melee (and also the effect is pretty weak for total blindness))), but it's hardcoded atm",
     "apply_message": "AAAAARGH!!",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.1 }, { "limb_score": "night_vis", "modifier": 0.1 } ],
     "base_mods": { "str_mod": [ 4 ], "dex_mod": [ 4 ], "per_mod": [ -8 ] }
   },
   {
@@ -458,5 +472,28 @@
     "//": "The original idea was to make an enchantment, that adds ARMOR_BASH enchantment value, so monsters will take more damage when you attack them, but sadly enchantments now works only with player's avatar, and not with monsters.  So now it's a boring slowdown.",
     "base_mods": { "speed_mod": [ -33 ] },
     "scaling_mods": { "speed_mod": [ -33 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "spell_unbreakable_eff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "You are the only who can control your body now.",
+    "remove_message": "External forces apply to your body again.",
+    "blocks_effects": [ "grabbed" ],
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "eater_unbreakable" ] } ]
+  },
+  {
+    "id": "eater_unbreakable",
+    "type": "mutation",
+    "name": { "str": "Unbreakable" },
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "Nothing can move you from your path.",
+    "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
+    "flags": [ "STEADY" ]
   }
 ]

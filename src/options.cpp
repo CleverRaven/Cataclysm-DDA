@@ -1,6 +1,5 @@
 #include "options.h"
 
-#include <clocale>
 #include <cfloat>
 #include <climits>
 #include <clocale>
@@ -196,10 +195,7 @@ static const std::map<std::string, std::pair<std::string, std::map<std::string, 
 &get_migrated_options()
 {
     static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>> opt
-    = {
-        {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } },
-        {"SKILL_RUST", { "SKILL_RUST", { {"int", "vanilla" }, {"intcap", "capped"} } } }
-    };
+    = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
     return opt;
 }
 
@@ -1520,7 +1516,7 @@ void options_manager::add_options_general()
 
     add( "FORCE_SMART_CONTROLLER_OFF_ON_ENGINE_STOP", "general",
          to_translation( "Force smart engine controller off" ),
-         to_translation( "If enabled, turn off the smart engine controller when you turn off the engine of the car without an electric motor" ),
+         to_translation( "If enabled, turn off the smart engine controller when you turn off the engine of the car without an electric motor." ),
     {
         { "disabled", to_translation( "options", "Disabled" ) },
         { "enabled", to_translation( "Enabled" ) },
@@ -2010,7 +2006,7 @@ void options_manager::add_options_interface()
 
     add( "ITEM_HEALTH_BAR", "interface", to_translation( "Show item health bars" ),
          // NOLINTNEXTLINE(cata-text-style): one space after "etc."
-         to_translation( "If true, show item health bars instead of reinforced, scratched etc. text." ),
+         to_translation( "If true, show item health bars instead of scratched, ripped etc. text." ),
          true
        );
 
@@ -2634,8 +2630,8 @@ void options_manager::add_options_world_default()
 
     add( "CHARACTER_POINT_POOLS", "world_default", to_translation( "Character point pools" ),
          to_translation( "Allowed point pools for character generation." ),
-    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Multi-pool only" ) }, { "no_freeform", to_translation( "No freeform" ) } },
-    "any"
+    { { "any", to_translation( "Any" ) }, { "multi_pool", to_translation( "Legacy Multipool" ) }, { "story_teller", to_translation( "Survivor" ) } },
+    "story_teller"
        );
 
     add_empty_line();
@@ -2681,22 +2677,17 @@ void options_manager::add_options_debug()
 
     add_empty_line();
 
-    add( "SKILL_TRAINING_SPEED", "debug", to_translation( "Skill training speed" ),
-         to_translation( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
-         0.0, 100.0, 1.0, 0.1
+    add( "DEBUG_DIFFICULTIES", "debug", to_translation( "Show values for character creation" ),
+         to_translation( "In character creation will show the underlying value that is used to determine difficulty." ),
+         false
        );
 
     add_empty_line();
 
-    add( "SKILL_RUST", "debug", to_translation( "Skill rust" ),
-         to_translation( "Set the type of skill rust.  Vanilla: Skill rust can decrease levels.  - Capped: Skill rust cannot decrease levels.  - Off: None at all." ),
-         //~ plain, default, normal
-    {   { "vanilla", to_translation( "Vanilla" ) },
-        //~ capped at a value
-        { "capped", to_translation( "Capped" ) },
-        { "off", to_translation( "Off" ) }
-    },
-    "vanilla" );
+    add( "SKILL_TRAINING_SPEED", "debug", to_translation( "Skill training speed" ),
+         to_translation( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
+         0.0, 100.0, 1.0, 0.1
+       );
 
     add_empty_line();
 
@@ -2737,7 +2728,7 @@ void options_manager::add_options_debug()
 
     add( "PREVENT_OCCLUSION_MAX_DIST", "debug",
          to_translation( "Maximum distance for auto occlusion handling" ),
-         to_translation( "Maximum distance for auto .  Values above zero overwrite tileset settings." ),
+         to_translation( "Maximum distance for auto occlusion handling.  Values above zero overwrite tileset settings." ),
          0.0, 60.0, 0.0, 0.1
        );
 

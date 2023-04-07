@@ -623,6 +623,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "drug_lab_roof",
+    "name": "drug lab roof",
+    "sym": "^",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "campground_1a", "campground_1b", "campground_2a", "campground_2b" ],
     "name": "campground",
     "sym": "+",

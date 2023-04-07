@@ -12,7 +12,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": ",",
     "color": "brown",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spring_heeled_leap" ] }
   },
   {
@@ -28,7 +28,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "%",
     "color": "dark_gray",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "banish_nether_monsters" ] }
   },
   {
@@ -44,7 +44,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "a",
     "color": "green",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "banish_dark_monsters" ] }
   },
   {
@@ -60,7 +60,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "light_cyan",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "blood_boil" ] }
   },
   {
@@ -76,7 +76,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "O",
     "color": "white_magenta",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "self_healing" ] }
   },
   {
@@ -92,7 +92,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "C",
     "color": "white_magenta",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "supercoffee" ] }
   },
   {
@@ -102,7 +102,7 @@
     "looks_like": "blindfold",
     "name": { "str": "red devil blindfold" },
     "description": "A red fabric blindfold with a cartoonish devil over the eyes.  You feel some anger when you put it on.  Did that devil just wink at you?",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_rage" ] }
   },
   {
@@ -119,7 +119,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "red",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_stamina_wonder" ] }
   },
   {
@@ -135,7 +135,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "green",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_night_vision" ] }
   },
   {
@@ -151,7 +151,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "red",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_dodge" ] }
   },
   {
@@ -167,7 +167,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "@",
     "color": "red",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_endurance" ] }
   },
   {
@@ -183,7 +183,7 @@
     "symbol": "[",
     "looks_like": "ring_purity",
     "color": "brown",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "sided": true,
     "armor": [
       {
@@ -209,7 +209,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "o",
     "color": "white",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_clairvoyance" ] }
   },
   {
@@ -224,7 +224,7 @@
     "color": "brown",
     "material": [ "forged_dreamstuff" ],
     "looks_like": "book_newage_generic",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_melee_damage" ] }
   },
   {
@@ -246,7 +246,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "l",
     "color": "red",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_spear" ] }
   },
   {
@@ -262,7 +262,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "red",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_speed_wonder" ] }
   },
   {
@@ -278,7 +278,24 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "0",
     "color": "red",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "spell_weak" ] }
+  },
+  {
+    "id": "artifact_unbreakable",
+    "type": "GENERIC",
+    "category": "artifacts",
+    "name": { "str": "pair of spheres", "str_pl": "pairs of spheres" },
+    "description": "Two perfect spheres, where the first does not move at all, and second constantly rotates around.  You feel the connection to both of them.",
+    "//": "unstoppable and immovable",
+    "weight": "240 g",
+    "volume": "1150 ml",
+    "price": 1000,
+    "price_postapoc": 10,
+    "material": [ "forged_dreamstuff" ],
+    "symbol": "0",
+    "color": "dark_gray",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
+    "use_action": { "type": "learn_spell", "spells": [ "spell_unbreakable" ] }
   }
 ]

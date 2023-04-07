@@ -1,8 +1,8 @@
 [
   {
+    "type": "mapgen",
     "method": "json",
     "om_terrain": "drug_lab",
-    "type": "mapgen",
     "object": {
       "fill_ter": "t_region_groundcover",
       "rows": [
@@ -32,7 +32,7 @@
         "                        "
       ],
       "palettes": [ "moonshine_palette" ],
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 9, 16 ], "y": [ 9, 14 ], "repeat": [ 2, 3 ] } ],
+      "place_monster": [ { "monster": "mon_zombie_hazmat", "x": [ 9, 16 ], "y": [ 9, 14 ], "repeat": [ 0, 2 ] } ],
       "items": {
         " ": [ { "item": "trash", "chance": 1 }, { "item": "clutter_yard", "chance": 1 } ],
         "t": [
@@ -43,6 +43,41 @@
           { "item": "methlab", "chance": 90 }
         ]
       }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "drug_lab_roof",
+    "object": {
+      "fill_ter": "t_thatch_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           .......      ",
+        "           .......      ",
+        "           .......      ",
+        "           .......      ",
+        "           .......      ",
+        "           .......      ",
+        "           .......      ",
+        "           .......      ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": { ".": "t_thatch_roof", " ": "t_open_air" }
     }
   }
 ]

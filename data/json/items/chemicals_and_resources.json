@@ -1269,9 +1269,10 @@
     "to_hit": -2
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "butternut",
     "category": "food",
+    "comestible_type": "FOOD",
     "symbol": "%",
     "color": "yellow",
     "name": { "str_sp": "butternuts" },
@@ -2029,10 +2030,52 @@
     "copy-from": "chem_muriatic_acid",
     "price": 0,
     "price_postapoc": 0,
-    "name": { "str_sp": "acidic blood" },
+    "name": { "str_sp": "toxic acidic blood" },
     "symbol": "~",
     "color": "red",
-    "description": "Blood mixed with acidic compounds, extremely corrosive.",
-    "weight": "262 g"
+    "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_acid_insect",
+    "copy-from": "formic_acid",
+    "category": "chems",
+    "price_postapoc": 0,
+    "name": { "str_sp": "virulent acidic blood" },
+    "symbol": "~",
+    "color": "red",
+    "description": "Blood mixed with acidic compounds, extremely corrosive, a means of refining this could net some useful chemicals.",
+    "volume": "250 ml",
+    "weight": "305 g",
+    "stack_size": 1,
+    "container": "bottle_glass",
+    "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_acid_plant",
+    "copy-from": "chem_acetic_acid",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "putrid acidic blood" },
+    "symbol": "~",
+    "color": "green",
+    "description": "Blood mixed with acidic compounds, smells putrid, a means of refining this could net some useful chemicals.",
+    "comestible_type": "INVALID",
+    "delete": { "ammo_type": "components" },
+    "flags": [ "DROP_ACTION_ONLY_IF_LIQUID" ],
+    "drop_action": { "type": "emit_actor", "emits": [ "emit_acid_drop" ], "scale_qty": true }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "blood_acid_underground",
+    "copy-from": "chem_sulphuric_acid",
+    "price": 0,
+    "price_postapoc": 0,
+    "name": { "str_sp": "foul acidic blood" },
+    "symbol": "~",
+    "color": "red",
+    "description": "Blood mixed with acidic compounds, foul-smelling and extremely corrosive, a means of refining this could net some useful chemicals."
   }
 ]

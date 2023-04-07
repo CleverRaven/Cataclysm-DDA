@@ -774,6 +774,16 @@
     ]
   },
   {
+    "name": "GROUP_ZOMBIE_POOL",
+    "type": "monstergroup",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 350 },
+      { "monster": "mon_zombie_swimmer_base", "weight": 500, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_child", "weight": 150 }
+    ]
+  },
+  {
     "name": "GROUP_POOL_NOKIDS",
     "type": "monstergroup",
     "monsters": [
@@ -840,8 +850,25 @@
     ]
   },
   {
+    "name": "GROUP_CIVILIAN",
+    "//": "Civilians/Normal people that died, represents a lot of different common professions.  No children or dogs.",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_zombie", "weight": 500 },
+      { "monster": "mon_zombie_fat", "weight": 250 },
+      { "monster": "mon_zombie_tough", "weight": 100 },
+      { "monster": "mon_zombie_runner", "weight": 50 },
+      { "monster": "mon_zombie_brainless", "weight": 40 },
+      { "monster": "mon_zombie_crawler", "weight": 40 },
+      { "monster": "mon_zombie_rot", "weight": 20 },
+      { "monster": "mon_feral_human_pipe", "weight": 60 },
+      { "monster": "mon_feral_human_crowbar", "weight": 30 },
+      { "monster": "mon_feral_human_axe", "weight": 5, "cost_multiplier": 2 }
+    ]
+  },
+  {
     "name": "GROUP_CIVILIAN_NO_FERAL",
-    "//": "Civilians/Normal people that died, represents a lot of different common professions.",
+    "//": "Civilians/Normal people that died, represents a lot of different common professions.  No children, dogs or ferals.",
     "type": "monstergroup",
     "monsters": [
       { "monster": "mon_zombie", "weight": 500 },

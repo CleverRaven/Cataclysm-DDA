@@ -1134,7 +1134,10 @@ class activatable_inventory_preset : public pickup_inventory_preset
 
             if( uses.size() == 1 ) {
                 return uses.begin()->second.get_name();
-            } else if( uses.size() > 1 ) {
+            } else if( uses.size() == 2 ) {
+                return string_format( _( "%1$s</color> <color_dark_gray>or</color> <color_light_green>%2$s" ),
+                                      uses.begin()->second.get_name(), std::next( uses.begin() )->second.get_name() );
+            } else if( uses.size() > 2 ) {
                 return _( "…" );
             }
 
@@ -1930,7 +1933,7 @@ item_location game_menus::inv::molle_attach( Character &you, item &tool )
                        );
 }
 
-drop_locations game_menus::inv::multidrop( avatar &you )
+drop_locations game_menus::inv::multidrop( Character &you )
 {
     you.inv->restack( you );
 

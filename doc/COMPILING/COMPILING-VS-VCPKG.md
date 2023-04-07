@@ -23,7 +23,7 @@ Steps from current guide were tested on Windows 10 (64 bit), Visual Studio 2019 
 
 2. Install `Git for Windows` (installer can be downloaded from [Git homepage](https://git-scm.com/)).
 
-3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `d08e708c2111893da3cc7e49b597ee4654c8076e` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
+3. Install and configure `vcpkg`. If you already have `vcpkg` installed, you should update it to at least commit `5b1214315250939257ef5d62ecdcbca18cf4fb1c` (the most recent tested good revision) and rerun `.\bootstrap-vcpkg.bat` as described:
 
 ***WARNING: It is important that, wherever you decide to clone this repo, the path does not include whitespace. That is, `C:/dev/vcpkg` is acceptable, but `C:/dev test/vcpkg` is not.***
 
@@ -111,8 +111,6 @@ There is a batch script in `msvc-full-features` folder `distribute.bat`. It will
 It is possible to use ccache with Visual Studio and gain the same benefits as other platforms.
 
 1. Download the "Windows x86_64 (binary release)" of ccache from https://ccache.dev/download.html.
-
-    - Note: Version 4.6.2 has a bug which causes a spammy warning on build. As of now, version 4.6.1 is known to work and not cause spam on build. You can download version 4.6.1 from https://github.com/ccache/ccache/releases/tag/v4.6.1, it is the "ccache-4.6.1-windows-x86_64.zip" option under Assets.
 
 2. Extract the contents of the zip file somewhere convenient but not on $PATH.
 

@@ -33,6 +33,7 @@
 #include "pimpl.h"
 #include "profession.h"
 #include "proficiency.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -1037,7 +1038,8 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
 }
 
 static void draw_tip( const catacurses::window &w_tip, const Character &you,
-                      const std::string &race, const input_context &ctxt, bool customize_character )
+                      const std::string &race, const input_context &ctxt, bool customize_character,
+                      int &tip_btn_highlight )
 {
     werase( w_tip );
 
@@ -1062,18 +1064,25 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
                    you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
     }
 
+    const auto btn_color = [&tip_btn_highlight]( const int btn_to_draw ) {
+        if( tip_btn_highlight == btn_to_draw ) {
+            return h_light_gray;
+        } else {
+            return c_light_gray;
+        }
+    };
 
     if( customize_character ) {
-        right_print( w_tip, 0, 16, c_light_gray, string_format(
+        right_print( w_tip, 0, 16, btn_color( 0 ), string_format(
                          _( "[<color_yellow>%s</color>] Customize " ),
                          ctxt.get_desc( "SWITCH_GENDER" ) ) );
     }
 
-    right_print( w_tip, 0, 6, c_light_gray, string_format(
+    right_print( w_tip, 0, 6, btn_color( 1 ), string_format(
                      _( "[<color_yellow>%s</color>] Morale" ),
                      ctxt.get_desc( "morale" ) ) );
 
-    right_print( w_tip, 0, 1, c_light_gray, string_format(
+    right_print( w_tip, 0, 1, btn_color( 2 ), string_format(
                      _( "[<color_yellow>%s</color>]" ),
                      ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
@@ -1094,6 +1103,65 @@ static void skip_skill_headers( const std::vector<HeaderSkill> &skillslist, unsi
     }
 }
 
+static void on_customize_character( Character &you )
+{
+    uilist cmenu;
+    cmenu.title = _( "Customize Character" );
+    cmenu.addentry( 1, true, 'y', _( "Change gender" ) );
+    cmenu.addentry( 2, true, 'n', _( "Change name" ) );
+
+    cmenu.query();
+    if( cmenu.ret == 1 ) {
+        you.male = !you.male;
+        popup( _( "Gender set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
+    } else if( cmenu.ret == 2 ) {
+        std::string filterstring = you.play_name.value_or( std::string() );
+        string_input_popup popup;
+        popup
+        .title( _( "New name ( leave empty to reset ):" ) )
+        .width( 85 )
+        .edit( filterstring );
+        if( popup.confirmed() ) {
+            if( filterstring.empty() ) {
+                you.play_name.reset();
+            } else {
+                you.play_name = filterstring;
+            }
+        }
+    }
+}
+
+static int get_line_count( player_display_tab curtab,
+                           Character &you,
+                           std::vector<trait_and_var> &traitslist,
+                           const std::vector<bionic_grouping> &bionicslist,
+                           const std::vector<std::pair<std::string,
+                           std::string>> &effect_name_and_text,
+                           const std::vector<HeaderSkill> &skillslist )
+{
+    switch( curtab ) {
+        case player_display_tab::stats:
+            return 9;
+        case player_display_tab::encumbrance: {
+            const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
+            return bps.size();
+        }
+        case player_display_tab::traits:
+            return traitslist.size();
+        case player_display_tab::bionics:
+            return bionicslist.size();
+        case player_display_tab::effects:
+            return effect_name_and_text.size();
+        case player_display_tab::skills:
+            return skillslist.size();
+        case player_display_tab::proficiencies:
+            return you.display_proficiencies().size();
+        case player_display_tab::num_tabs:
+            cata_fatal( "Invalid curtab" );
+    }
+    return 0;
+}
+
 static bool handle_player_display_action( Character &you, unsigned int &line,
         unsigned int &info_line,
         player_display_tab &curtab, input_context &ctxt, const ui_adaptor &ui_tip,
@@ -1103,7 +1171,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         std::vector<trait_and_var> &traitslist,
         const std::vector<bionic_grouping> &bionicslist,
         const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
-        const std::vector<HeaderSkill> &skillslist, bool customize_character )
+        const std::vector<HeaderSkill> &skillslist, bool customize_character,
+        const std::vector<catacurses::window *> &windows, const catacurses::window &w_tip,
+        int &tip_btn_selected )
 {
     const auto invalidate_tab = [&]( const player_display_tab tab ) {
         switch( tab ) {
@@ -1133,34 +1203,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         }
     };
 
-    unsigned int line_count = 0;
-    switch( curtab ) {
-        case player_display_tab::stats:
-            line_count = 9;
-            break;
-        case player_display_tab::encumbrance: {
-            const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
-            line_count = bps.size();
-            break;
-        }
-        case player_display_tab::traits:
-            line_count = traitslist.size();
-            break;
-        case player_display_tab::bionics:
-            line_count = bionicslist.size();
-            break;
-        case player_display_tab::effects:
-            line_count = effect_name_and_text.size();
-            break;
-        case player_display_tab::skills:
-            line_count = skillslist.size();
-            break;
-        case player_display_tab::proficiencies:
-            line_count = you.display_proficiencies().size();
-            break;
-        case player_display_tab::num_tabs:
-            cata_fatal( "Invalid curtab" );
-    }
+    unsigned int line_count = get_line_count( curtab, you, traitslist, bionicslist,
+                              effect_name_and_text, skillslist );
+
     if( line_count > 0 ) {
         line = std::clamp( line, 0U, line_count - 1 );
         if( curtab == player_display_tab::skills ) {
@@ -1174,6 +1219,10 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     const std::string action = ctxt.handle_input();
 
     if( navigate_ui_list( action, line, 3, line_count, true ) ) {
+        if( tip_btn_selected != -1 ) {
+            tip_btn_selected = -1;
+            ui_tip.invalidate_ui();
+        }
         if( curtab == player_display_tab::skills ) {
             const bool inc = action == "DOWN" || action == "PAGE_DOWN" || action == "SCROLL_DOWN" ||
                              action == "HOME";
@@ -1182,7 +1231,42 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         info_line = 0;
         invalidate_tab( curtab );
         ui_info.invalidate_ui();
+    } else if( action == "MOUSE_MOVE" ) {
+        int orig_tip_btn = tip_btn_selected;
+        tip_btn_selected = -1;
+        std::optional<point> p;
+        for( size_t i = 0; i < windows.size(); i++ ) {
+            p = ctxt.get_coordinates_text( *windows[i] );
+            if( p.has_value() && window_contains_point_relative( *windows[i], p.value() ) ) {
+                invalidate_tab( curtab );
+                curtab = player_display_tab( i );
+                invalidate_tab( curtab );
+                line_count = get_line_count( curtab, you, traitslist, bionicslist, effect_name_and_text,
+                                             skillslist );
+                line = std::clamp( p.value().y - 1, 0, int( line_count ) );
+                ui_info.invalidate_ui();
+                break;
+            }
+        }
+        p = ctxt.get_coordinates_text( w_tip );
+        if( p.has_value() && window_contains_point_relative( w_tip, p.value() ) ) {
+            int rightX = catacurses::getmaxx( w_tip ) - p.value().x;
+            if( rightX  > 1 && rightX < 5 ) {
+                tip_btn_selected = 2;
+            } else if( rightX >= 7 && rightX < 17 ) {
+                tip_btn_selected = 1;
+            } else if( customize_character && rightX > 17  && rightX <= 30 ) {
+                tip_btn_selected = 0;
+            }
+        }
+        if( orig_tip_btn != tip_btn_selected ) {
+            ui_tip.invalidate_ui();
+        }
     } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
+        if( tip_btn_selected != -1 ) {
+            tip_btn_selected = -1;
+            ui_tip.invalidate_ui();
+        }
         invalidate_tab( curtab );
         curtab = increment_and_wrap( curtab, ( action == "RIGHT" ||
                                                action == "NEXT_TAB" ), player_display_tab::num_tabs );
@@ -1199,14 +1283,52 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         }
     } else if( action == "QUIT" ) {
         done = true;
-    } else if( action == "CONFIRM" ) {
+    } else if( action == "CONFIRM" || action == "SELECT" ) {
+        bool header_clicked = false;
+        if( action == "SELECT" ) {
+            header_clicked = false;
+            int mouse_line = -1;
+            if( curtab < player_display_tab::num_tabs ) {
+                std::optional<point> p = ctxt.get_coordinates_text( *windows[int( curtab )] );
+                if( p.has_value() && window_contains_point_relative( *windows[int( curtab )], p.value() ) ) {
+                    mouse_line = std::clamp( p.value().y - 1, 0, int( line_count ) );
+                    header_clicked = p.value().y == 0;
+                    if( curtab == player_display_tab::skills && skillslist[mouse_line].is_header ) {
+                        mouse_line = -1;
+                    }
+                }
+            }
+            if( tip_btn_selected != -1 ) {
+                switch( tip_btn_selected ) {
+                    case 0:
+                        if( customize_character ) {
+                            on_customize_character( you );
+                        }
+                        break;
+                    case 1:
+                        if( you.is_avatar() ) {
+                            you.as_avatar()->disp_morale();
+                        }
+                        break;
+                    case 2:
+                        ctxt.display_menu();
+                        break;
+                }
+                return done;
+            } else if( mouse_line == -1 ) {
+                return done;
+            }
+        }
         switch( curtab ) {
             default:
                 break;
             case player_display_tab::stats:
-                if( line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) && you.is_avatar() ) {
+                if( header_clicked ) {
+                    display_bodygraph( you );
+                } else if( line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) && you.is_avatar() ) {
                     you.as_avatar()->upgrade_stat_prompt( static_cast<character_stat>( line ) );
                 }
+
                 invalidate_tab( curtab );
                 break;
             case player_display_tab::skills: {
@@ -1244,30 +1366,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     } else if( action == "VIEW_BODYSTAT" ) {
         display_bodygraph( you );
     } else if( customize_character && action == "SWITCH_GENDER" ) {
-        uilist cmenu;
-        cmenu.title = _( "Customize Character" );
-        cmenu.addentry( 1, true, 'y', _( "Change gender" ) );
-        cmenu.addentry( 2, true, 'n', _( "Change name" ) );
-
-        cmenu.query();
-        if( cmenu.ret == 1 ) {
-            you.male = !you.male;
-            popup( _( "Gender set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
-        } else if( cmenu.ret == 2 ) {
-            std::string filterstring = you.play_name.value_or( std::string() );
-            string_input_popup popup;
-            popup
-            .title( _( "New name ( leave empty to reset ):" ) )
-            .width( 85 )
-            .edit( filterstring );
-            if( popup.confirmed() ) {
-                if( filterstring.empty() ) {
-                    you.play_name.reset();
-                } else {
-                    you.play_name = filterstring;
-                }
-            }
-        }
+        on_customize_character( you );
     } else if( action == "SCROLL_INFOBOX_UP" ) {
         if( info_line > 0 ) {
             --info_line;
@@ -1317,9 +1416,6 @@ void Character::disp_info( bool customize_character )
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const std::string name = _effect_it.second.disp_name();
-            if( name.empty() ) {
-                continue;
-            }
             effect_name_and_text.emplace_back( name, _effect_it.second.disp_desc() );
         }
     }
@@ -1408,6 +1504,13 @@ void Character::disp_info( bool customize_character )
         effect_name_and_text.emplace_back( detail );
     }
 
+    // If any effects with no names have cropped up, let's remove them.
+    //   NB: This can happen if an effect no longer exists.
+    effect_name_and_text.erase( std::remove_if( effect_name_and_text.begin(),
+    effect_name_and_text.end(), []( const std::pair<std::string, std::string> &e ) {
+        return e.first.empty();
+    } ), effect_name_and_text.end() );
+
     const unsigned int effect_win_size_y_max = 1 + effect_name_and_text.size();
     const unsigned int proficiency_win_size_y_max = 1 + display_proficiencies().size();
 
@@ -1472,6 +1575,9 @@ void Character::disp_info( bool customize_character )
 
     input_context ctxt( "PLAYER_INFO" );
     ctxt.register_navigate_ui_list();
+    ctxt.register_action( "COORDINATE" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "LEFT", to_translation( "Cycle to next category" ) );
     ctxt.register_action( "RIGHT", to_translation( "Cycle to previous category" ) );
     ctxt.register_action( "NEXT_TAB", to_translation( "Cycle to next category" ) );
@@ -1507,6 +1613,7 @@ void Character::disp_info( bool customize_character )
     player_display_tab curtab = player_display_tab::stats;
     unsigned int line = 0;
     unsigned int info_line = 0;
+    int tip_btn_highlight = -1;
 
     catacurses::window w_tip;
     ui_adaptor ui_tip;
@@ -1517,7 +1624,7 @@ void Character::disp_info( bool customize_character )
     ui_tip.mark_resize();
     ui_tip.on_redraw( [&]( ui_adaptor & ui_tip ) {
         ui_tip.disable_cursor();
-        draw_tip( w_tip, *this, race, ctxt, customize_character );
+        draw_tip( w_tip, *this, race, ctxt, customize_character, tip_btn_highlight );
     } );
 
     // STATS
@@ -1743,12 +1850,15 @@ void Character::disp_info( bool customize_character )
 
     bool done = false;
 
+    std::vector<catacurses::window *> windows{ &w_stats, &w_encumb, & w_skills, &w_traits, &w_bionics, &w_effects, &w_proficiencies };
+
     do {
         ui_manager::redraw_invalidated();
 
         done = handle_player_display_action( *this, line, info_line, curtab, ctxt, ui_tip, ui_info,
                                              ui_stats, ui_encumb, ui_traits, ui_bionics, ui_effects,
                                              ui_skills, ui_proficiencies, traitslist, bionicslist,
-                                             effect_name_and_text, skillslist, customize_character );
+                                             effect_name_and_text, skillslist, customize_character,
+                                             windows, w_tip, tip_btn_highlight );
     } while( !done );
 }

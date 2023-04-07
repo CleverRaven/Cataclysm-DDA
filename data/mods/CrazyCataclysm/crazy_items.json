@@ -50,9 +50,8 @@
     "name": { "str": "Ionic Overload Generator" },
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact.  Close range use is highly discouraged.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
-    "act_cost": 500,
     "fake_weapon": "bio_ion_gun",
-    "flags": [ "BIONIC_GUN", "USES_BIONIC_POWER" ]
+    "flags": [ "BIONIC_GUN" ]
   },
   {
     "id": "bio_ion_gun",
@@ -70,13 +69,14 @@
     "skill": "rifle",
     "range": 45,
     "ranged_damage": { "damage_type": "stab", "amount": 250, "armor_penetration": 20 },
+    "energy_drain": "500 kJ",
     "dispersion": 10,
     "recoil": 100,
     "durability": 10,
     "loudness": 50,
     "reload": 0,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_HUGE", "STREAM_BIG", "INCENDIARY", "WIDE" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID", "BIONIC_WEAPON" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID", "BIONIC_WEAPON", "USES_BIONIC_POWER" ]
   },
   {
     "id": "yeet_cannon",

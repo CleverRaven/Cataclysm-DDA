@@ -658,7 +658,7 @@ void vehicle::turn( units::angle deg )
     last_turn = deg;
     turn_dir = normalize( turn_dir + deg );
     // quick rounding the turn dir to a multiple of 15
-    turn_dir = round_to_multiple_of( turn_dir, 15_degrees );
+    turn_dir = round_to_multiple_of( turn_dir, vehicles::steer_increment );
 }
 
 void vehicle::stop( bool update_cache )
@@ -1298,7 +1298,7 @@ void vehicle::selfdrive( const point &p )
             }
         }
     }
-    units::angle turn_delta = 15_degrees * p.x;
+    units::angle turn_delta = vehicles::steer_increment * p.x;
     const float handling_diff = handling_difficulty();
     if( turn_delta != 0_degrees ) {
         float eff = steering_effectiveness();
@@ -1419,7 +1419,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
         driver.moves = std::min( driver.moves, 0 );
         thrust( 0, z );
     }
-    units::angle turn_delta = 15_degrees * p.x;
+    units::angle turn_delta = vehicles::steer_increment * p.x;
     const float handling_diff = handling_difficulty();
     if( turn_delta != 0_degrees ) {
         float eff = steering_effectiveness();
@@ -1892,7 +1892,7 @@ vehicle *vehicle::act_on_map()
 
     if( skidding && one_in( 4 ) ) {
         // Might turn uncontrollably while skidding
-        turn( one_in( 2 ) ? -15_degrees : 15_degrees );
+        turn( vehicles::steer_increment * ( one_in( 2 ) ? -1 : 1 ) );
     }
 
     if( should_fall ) {
@@ -2210,7 +2210,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
                 if( turn_amount < 1 ) {
                     turn_amount = 1;
                 }
-                units::angle turn_angle = std::min( turn_amount * 15_degrees, 120_degrees );
+                units::angle turn_angle = std::min( turn_amount * vehicles::steer_increment, 120_degrees );
                 coll_turn = one_in( 2 ) ? turn_angle : -turn_angle;
             }
         }

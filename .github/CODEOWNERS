@@ -3,14 +3,11 @@
 #In fact, the code "owners" designation is meant to encourage third party
 #individuals to contribute to the mod, with the curators notified for reviews.
 
-/data/mods/Aftershock/ @Maleclypse @John-Candlebury @Mom-Bun
-/data/mods/DinoMod/ @ephemeralstoryteller @damien @LyleSY
-/data/mods/Graphical_Overmap/ @Kilvoctu @Larwck
+/data/mods/Aftershock/ @Maleclypse @John-Candlebury
+/data/mods/DinoMod/ @LyleSY
+/data/mods/BombasticPerks/ @bombasticSlacks
 /data/mods/MMA/ @Hymore246
-/data/mods/blazemod/ @SouP
 /data/mods/classic_zombies/ @I-am-Erk
-/data/mods/crt_expansion/ @Soupster89
-/data/mods/desertpack/ @davidpwbrown
 /data/mods/generic_guns/ @tenmillimaster
 /data/mods/Magiclysm/ @KorGgenT
 /data/mods/My_Sweet_Cataclysm/ @Fris0uman
@@ -18,13 +15,12 @@
 /data/mods/speedydex/ @KorGgenT
 /data/mods/stats_through_kills/ @KorGgenT
 /data/mods/Xedra_Evolved/ @Maleclypse
-/data/mods/Dark-Skies-Above/ @ephemeralstoryteller
 /data/mods/innawood/ @Light-Wave
 /data/mods/MA/ @ZhilkinSerg
 
+.clang-tidy @jbytheway
 magic*.cpp @KorGgenT
 magic*.h @KorGgenT
-/tools/ @int-ua
-/lang/ @BrettDong
+/tools/ @jbytheway @int-ua
 widget.cpp @wapcaplet @dseguin
 widget.h @wapcaplet @dseguin

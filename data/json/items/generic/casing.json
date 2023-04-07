@@ -7,8 +7,7 @@
     "stackable": true,
     "material": [ "brass" ],
     "symbol": "=",
-    "color": "yellow",
-    "damage_states": [ 0, 0 ]
+    "color": "yellow"
   },
   {
     "id": "223_casing",
@@ -31,6 +30,7 @@
   },
   {
     "id": "22_casing_new",
+    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "category": "spare_parts",
     "price": 100,
@@ -306,18 +306,6 @@
     "volume": "6ml"
   },
   {
-    "id": "5x50_hull",
-    "copy-from": "casing",
-    "looks_like": "9mm_casing",
-    "type": "GENERIC",
-    "name": { "str": "5x50mm hull" },
-    "description": "An empty plastic hull from a 5x50mm flechette round.",
-    "weight": "1 g",
-    "volume": "5ml",
-    "material": [ "plastic" ],
-    "color": "light_green"
-  },
-  {
     "id": "500_casing",
     "copy-from": "casing",
     "looks_like": "9mm_casing",
@@ -468,8 +456,7 @@
     "stackable": true,
     "material": [ "plastic" ],
     "symbol": "=",
-    "color": "red",
-    "damage_states": [ 0, 0 ]
+    "color": "red"
   },
   {
     "id": "410shot_hull",
@@ -483,8 +470,7 @@
     "material": [ "plastic" ],
     "symbol": "=",
     "looks_like": "shot_hull",
-    "color": "red",
-    "damage_states": [ 0, 0 ]
+    "color": "red"
   },
   {
     "id": "300blk_casing",

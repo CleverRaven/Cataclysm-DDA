@@ -548,7 +548,13 @@
     "id": "NC_EVAC_GODCO_TRADER",
     "name": { "str": "Merchant" },
     "job_description": "I'm a local shopkeeper.",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
@@ -1279,6 +1285,6 @@
   {
     "type": "item_group",
     "id": "NC_GODCO_MERCHANT_sell",
-    "items": [ { "group": "NC_EVAC_SHOPKEEP_misc", "prob": 100, "repeat": [ 3, 5 ] } ]
+    "items": [ { "group": "NC_EVAC_SHOPKEEP_misc", "prob": 100 } ]
   }
 ]

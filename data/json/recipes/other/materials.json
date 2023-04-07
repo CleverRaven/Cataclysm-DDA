@@ -122,9 +122,8 @@
     "components": [
       [
         [ "tin", 12 ],
-        [ "material_aluminium_ingot", 1 ],
-        [ "aluminum_foil", 40 ],
-        [ "chem_aluminium_powder", 15 ],
+        [ "aluminum_foil", 371 ],
+        [ "chem_aluminium_powder", 29 ],
         [ "can_drink", 2 ],
         [ "scrap_aluminum", 1 ]
       ],
@@ -143,7 +142,7 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "copper", 32 ] ] ]
+    "components": [ [ [ "copper", 50 ] ] ]
   },
   {
     "type": "recipe",
@@ -306,33 +305,6 @@
     "autolearn": true,
     "tools": [ [ [ "electric_spinwheel", 1 ] ] ],
     "components": [ [ [ "felt_patch", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "sheet_neoprene",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "chemistry",
-    "difficulty": 5,
-    "time": "25 m",
-    "book_learn": [ [ "adv_chemistry", 4 ], [ "textbook_chemistry", 4 ] ],
-    "proficiencies": [
-      { "proficiency": "prof_intro_chemistry" },
-      { "proficiency": "prof_inorganic_chemistry" },
-      { "proficiency": "prof_organic_chemistry" }
-    ],
-    "result_mult": 9,
-    "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "sheet_metal", -1 ] ] ],
-    "components": [
-      [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ], [ "methed_alcohol", 50 ] ],
-      [ [ "copper_scrap_equivalent", 2, "LIST" ] ],
-      [ [ "any_strong_acid", 1, "LIST" ] ],
-      [ [ "bleach", 2 ] ],
-      [ [ "oxy_powder", 50 ] ],
-      [ [ "scrap", 1 ] ]
-    ]
   },
   {
     "type": "recipe",

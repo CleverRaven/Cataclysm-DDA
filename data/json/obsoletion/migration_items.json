@@ -95,5 +95,10 @@
     "id": "mess_tin",
     "type": "MIGRATION",
     "replace": "mess_kit"
+  },
+  {
+    "id": "badge_cybercop",
+    "type": "MIGRATION",
+    "replace": "badge_marshal"
   }
 ]
