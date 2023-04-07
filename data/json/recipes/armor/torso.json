@@ -895,7 +895,7 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "25 m" },
     "using": [ [ "tailoring_cotton_patchwork", 40 ] ]
   },
   {
@@ -908,7 +908,7 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "25 m" },
     "using": [ [ "tailoring_cotton_patchwork", 38 ] ]
   },
   {
