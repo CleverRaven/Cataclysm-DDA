@@ -927,9 +927,9 @@
     "description": "You were camping in the wild to let things back home cool off.  One night strange noises closed in on you and you were attacked.  You managed to get away but can feel things moving in the dark.",
     "id": "camp_attack_start",
     "points": 0,
-    "custom_initial_date": { "hour": 2 },
+    "custom_initial_date": { "hour": 1 },
     "start_name": "Wilderness",
-    "eoc": [ "scenario_surrounded_zombie" ],
+    "eoc": [ "scenario_surrounded_zombie_heavy" ],
     "allowed_locs": [
       "sloc_campsite",
       "sloc_cabin_lake",
