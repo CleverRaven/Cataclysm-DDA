@@ -495,11 +495,11 @@ void main_menu::init_strings()
     }
 
     vWorldSubItems.clear();
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
-    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Sh<o|O>w World Mods" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Copy World Sett<i|I>ngs" ) );
     vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "Character to Tem<p|P>late" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<D|d>elete World" ) );
+    vWorldSubItems.emplace_back( pgettext( "Main Menu|World", "<R|r>eset World" ) );
 
     vWorldHotkeys.clear();
     for( const std::string &item : vWorldSubItems ) {
@@ -1079,7 +1079,7 @@ void main_menu::world_tab( const std::string &worldname )
     uilist mmenu( string_format( _( "Manage world \"%s\"" ), worldname ), {} );
     mmenu.border_color = c_white;
     int opt_val = 0;
-    std::array<char, 5> hotkeys = { 'd', 'r', 'm', 's', 't' };
+    std::array<char, 5> hotkeys = { 'm', 's', 't', 'd', 'r' };
     for( const std::string &it : vWorldSubItems ) {
         mmenu.entries.emplace_back( opt_val, true, hotkeys[opt_val],
                                     remove_color_tags( shortcut_text( c_white, it ) ) );
@@ -1103,24 +1103,14 @@ void main_menu::world_tab( const std::string &worldname )
     };
 
     switch( opt_val ) {
-        case 0: // Delete World
-            if( query_yn( _( "Delete the world and all saves within?" ) ) ) {
-                clear_world( true );
-            }
-            break;
-        case 1: // Reset World
-            if( query_yn( _( "Remove all saves and regenerate world?" ) ) ) {
-                clear_world( false );
-            }
-            break;
-        case 2: // Active World Mods
+        case 0: // Active World Mods
             world_generator->show_active_world_mods(
                 world_generator->get_world( worldname )->active_mod_order );
             break;
-        case 3: // Copy World settings
+        case 1: // Copy World settings
             world_generator->make_new_world( true, worldname );
             break;
-        case 4: // Character to Template
+        case 2: // Character to Template
             if( load_character_tab( worldname ) ) {
                 avatar &pc = get_avatar();
                 pc.setID( character_id(), true );
@@ -1130,6 +1120,16 @@ void main_menu::world_tab( const std::string &worldname )
                 MAPBUFFER.clear();
                 overmap_buffer.clear();
                 load_char_templates();
+            }
+            break;
+        case 3: // Delete World
+            if( query_yn( _( "Delete the world and all saves within?" ) ) ) {
+                clear_world( true );
+            }
+            break;
+        case 4: // Reset World
+            if( query_yn( _( "Remove all saves and regenerate world?" ) ) ) {
+                clear_world( false );
             }
             break;
         default:
