@@ -48,7 +48,7 @@ jobs:
           tag: ${{ steps.generate_env_vars.outputs.tag_name }}  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5
@@ -184,7 +184,7 @@ jobs:
     env:
         ZSTD_CLEVEL: 17
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get soundpack
         if: matrix.sound == 1
         run: |
