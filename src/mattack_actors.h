@@ -193,6 +193,8 @@ class gun_actor : public mattack_actor
         /** Number of moves required for each attack */
         int move_cost = 150;
 
+        /** Should moving vehicles be targeted */
+        bool target_moving_vehicles = false;
         /*@{*/
         /** Turrets may need to expend moves targeting before firing on certain targets */
 
