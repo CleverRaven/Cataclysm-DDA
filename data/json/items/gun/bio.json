@@ -40,11 +40,12 @@
     "range": 10,
     "ranged_damage": { "damage_type": "stab", "amount": 10, "armor_penetration": 5 },
     "//": "This is a pulse, not a laser. It's a point and shoot system, like a shotgun but even more so since this is a single mass.",
+    "energy_drain": "50 kJ",
     "durability": 10,
     "loudness": 20,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
     "ammo_effects": [ "DRAW_AS_LINE", "WIDE", "EMP" ],
-    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "NO_UNLOAD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "NO_UNLOAD", "TRADER_AVOID", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_laser_gun",
@@ -60,11 +61,12 @@
     "skill": "pistol",
     "range": 30,
     "ranged_damage": { "damage_type": "heat", "amount": 10, "armor_penetration": 4 },
+    "energy_drain": "30 kJ",
     "dispersion": 10,
     "durability": 10,
     "loudness": 7,
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "BIONIC_WEAPON", "FIRESTARTER", "ZERO_WEIGHT" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "BIONIC_WEAPON", "FIRESTARTER", "ZERO_WEIGHT", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_lightning",
@@ -80,11 +82,12 @@
     "skill": "rifle",
     "range": 10,
     "ranged_damage": { "damage_type": "electric", "amount": 16 },
+    "energy_drain": "100 kJ",
     "dispersion": 10,
     "durability": 10,
     "loudness": 10,
     "ammo_effects": [ "LIGHTNING", "BOUNCE" ],
-    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "flags": [ "NEVER_JAMS", "BIONIC_WEAPON", "TRADER_AVOID", "ZERO_WEIGHT", "USES_BIONIC_POWER" ]
   },
   {
     "id": "mut_quills",
