@@ -293,7 +293,7 @@ class item_pocket
         // spills any contents that can't fit into the pocket, largest items first
         void overflow( const tripoint &pos );
         bool spill_contents( const tripoint &pos );
-        void on_pickup( Character &guy );
+        void on_pickup( Character &guy, item *avoid = nullptr );
         void on_contents_changed();
         void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         void clear_items();
@@ -318,7 +318,8 @@ class item_pocket
         }
 
         // tries to put an item in the pocket. returns false if failure
-        ret_val<contain_code> insert_item( const item &it, bool into_bottom = false );
+        ret_val<contain_code> insert_item( const item &it, bool into_bottom = false,
+                                           bool restack_charges = true );
         /**
           * adds an item to the pocket with no checks
           * may create a new pocket

@@ -82,11 +82,11 @@ static const itype_id itype_detergent( "detergent" );
 static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 static const itype_id itype_null( "null" );
-static const itype_id itype_pseudo_water_purifier( "pseudo_water_purifier" );
 static const itype_id itype_soldering_iron( "soldering_iron" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_faucet( "water_faucet" );
+static const itype_id itype_water_purifier( "water_purifier" );
 static const itype_id itype_welder( "welder" );
 
 static const quality_id qual_SCREW( "SCREW" );
@@ -391,49 +391,49 @@ void vehicle::control_engines()
 
 void vehicle::smash_security_system()
 {
-
-    //get security and controls location
-    int s = -1;
-    int c = -1;
-    for( int p : speciality ) {
-        if( part_flag( p, "SECURITY" ) && !parts[ p ].is_broken() ) {
-            s = p;
-            c = part_with_feature( s, "CONTROLS", true );
+    int idx_security = -1;
+    int idx_controls = -1;
+    for( const int p : speciality ) { //get security and controls location
+        const vehicle_part &vp = part( p );
+        if( vp.info().has_flag( "SECURITY" ) && !vp.is_broken() ) {
+            idx_security = p;
+            idx_controls = part_with_feature( vp.mount, "CONTROLS", true );
             break;
         }
     }
     Character &player_character = get_player_character();
     map &here = get_map();
-    //controls and security must both be valid
-    if( c >= 0 && s >= 0 ) {
-        ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
-        int skill = player_character.get_skill_level( skill_mechanics );
-        int percent_controls = 70 / ( 1 + skill );
-        int percent_alarm = ( skill + 3 ) * 10;
-        int rand = rng( 1, 100 );
-
-        if( percent_controls > rand ) {
-            damage_direct( here, c, part_info( c ).durability / 4 );
-
-            if( parts[ c ].removed || parts[ c ].is_broken() ) {
-                player_character.controlling_vehicle = false;
-                is_alarm_on = false;
-                add_msg( _( "You destroy the controls…" ) );
-            } else {
-                add_msg( _( "You damage the controls." ) );
-            }
-        }
-        if( percent_alarm > rand ) {
-            damage_direct( here, s, part_info( s ).durability / 5 );
-            // chance to disable alarm immediately, or disable on destruction
-            if( percent_alarm / 4 > rand || parts[ s ].is_broken() ) {
-                is_alarm_on = false;
-            }
-        }
-        add_msg( ( is_alarm_on ) ? _( "The alarm keeps going." ) : _( "The alarm stops." ) );
-    } else {
+    if( idx_controls < 0 || idx_security < 0 ) {
         debugmsg( "No security system found on vehicle." );
+        return; // both must be valid parts
     }
+    const vehicle_part &vp_controls = part( idx_controls );
+    const vehicle_part &vp_security = part( idx_security );
+    ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
+    const int skill = player_character.get_skill_level( skill_mechanics );
+    const int percent_controls = 70 / ( 1 + skill );
+    const int percent_alarm = ( skill + 3 ) * 10;
+    const int rand = rng( 1, 100 );
+
+    if( percent_controls > rand ) {
+        damage_direct( here, idx_controls, vp_controls.info().durability / 4 );
+
+        if( vp_controls.removed || vp_controls.is_broken() ) {
+            player_character.controlling_vehicle = false;
+            is_alarm_on = false;
+            add_msg( _( "You destroy the controls…" ) );
+        } else {
+            add_msg( _( "You damage the controls." ) );
+        }
+    }
+    if( percent_alarm > rand ) {
+        damage_direct( here, idx_security, vp_security.info().durability / 5 );
+        // chance to disable alarm immediately, or disable on destruction
+        if( percent_alarm / 4 > rand || vp_security.is_broken() ) {
+            is_alarm_on = false;
+        }
+    }
+    add_msg( is_alarm_on ? _( "The alarm keeps going." ) : _( "The alarm stops." ) );
 }
 
 void vehicle::autopilot_patrol_check()
@@ -1121,7 +1121,7 @@ void vehicle::operate_scoop()
             }
             if( one_in( chance_to_damage_item ) && that_item_there->damage() < that_item_there->max_damage() ) {
                 //The scoop will not destroy the item, but it may damage it a bit.
-                that_item_there->inc_damage( damage_type::BASH );
+                that_item_there->inc_damage();
                 //The scoop gets a lot louder when breaking an item.
                 sounds::sound( position, rng( 10,
                                               that_item_there->volume() / units::legacy_volume_factor * 2 + 10 ),
@@ -1604,7 +1604,6 @@ void vehicle::build_bike_rack_menu( veh_menu &menu, int part )
 
 void vpart_position::form_inventory( inventory &inv ) const
 {
-    const int veh_battery = vehicle().fuel_left( itype_battery );
     const std::optional<vpart_reference> vp_faucet = part_with_tool( itype_water_faucet );
     const std::optional<vpart_reference> vp_cargo = part_with_feature( "CARGO", true );
 
@@ -1620,7 +1619,7 @@ void vpart_position::form_inventory( inventory &inv ) const
     }
 
     // HACK: water_faucet pseudo tool gives access to liquids in tanks
-    if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet, 0 ) ) {
+    if( vp_faucet && inv.provide_pseudo_item( itype_water_faucet ) != nullptr ) {
         for( const item *it : vehicle().fuel_items_left() ) {
             if( it->made_of( phase_id::LIQUID ) ) {
                 item fuel( *it );
@@ -1629,8 +1628,16 @@ void vpart_position::form_inventory( inventory &inv ) const
         }
     }
 
-    for( const std::pair<itype_id, int> &tool : get_tools() ) {
-        inv.provide_pseudo_item( tool.first, veh_battery );
+    for( const std::pair<itype_id, int> &pair : get_tools() ) {
+        const itype_id &tool_type = pair.first;
+        if( !tool_type.is_valid() ) {
+            debugmsg( "invalid pseudo tool %s", tool_type.str() );
+            continue;
+        }
+
+        if( item *tool = inv.provide_pseudo_item( tool_type ) ) {
+            vehicle().prepare_vehicle_tool( *tool ); // sets up battery charges from vehicle
+        }
     }
 }
 
@@ -1640,40 +1647,64 @@ static bool tool_wants_battery( const itype_id &type )
     item mag( tool.magazine_default() );
     mag.clear_items();
 
-    return tool.can_contain( mag ).success() &&
+    return !mag.is_null() && tool.can_contain( mag ).success() &&
            tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
            tool.ammo_capacity( ammo_battery ) > 0;
 }
 
+units::energy vehicle::prepare_vehicle_tool( item &tool ) const
+{
+    tool.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
+    if( !tool_wants_battery( tool.typeId() ) ) {
+        add_msg_debug( debugmode::DF_VEHICLE, "prepared tool %s with no battery", tool.typeId().str() );
+        return 0_J; // tool doesn't need battery, bail early
+    }
+    if( tool.has_pocket_type( item_pocket::pocket_type::MOD ) ) {
+        item bat_mod( "magazine_battery_pseudo_mod" );
+        bat_mod.set_flag( STATIC( flag_id( "IRREMOVABLE" ) ) );
+        tool.put_in( bat_mod, item_pocket::pocket_type::MOD );
+    } else {
+        debugmsg( "tool %s uses batteries but has no space for a "
+                  "magazine_battery_pseudo_mod, this is likely a bug", tool.typeId().str() );
+    }
+    item mag( tool.magazine_default() );
+    mag.clear_items(); // no initial ammo
+    if( !tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() ) {
+        debugmsg( "%s uses batteries but inserting %s into MAGAZINE_WELL pocket failed",
+                  tool.typeId().str(), mag.typeId().str() );
+        return 0_J;
+    }
+    const int64_t tool_capacity = tool.ammo_capacity( ammo_battery );
+    const int64_t tool_battery = std::min( tool_capacity, battery_left() );
+    tool.ammo_set( itype_battery, tool_battery );
+
+    add_msg_debug( debugmode::DF_VEHICLE, "prepared vehtool %s with %s",
+                   tool.typeId().str(), tool.magazine_current()->tname() );
+
+    return units::from_kilojoule( tool_battery );
+}
+
 static bool use_vehicle_tool( vehicle &veh, const tripoint &vp_pos, const itype_id &tool_type )
 {
-    item pseudo( tool_type, calendar::turn_zero );
-    pseudo.set_flag( STATIC( flag_id( "PSEUDO" ) ) );
-    if( !tool_wants_battery( tool_type ) ) {
-        get_player_character().invoke_item( &pseudo );
-        return true;
+    item tool( tool_type, calendar::turn );
+    const units::energy tool_battery = veh.prepare_vehicle_tool( tool );
+    if( tool.ammo_capacity( ammo_battery ) > 0 &&
+        tool.ammo_required() > veh.fuel_left( itype_battery ) ) {
+        return false; // tool uses battery but vehicle doesn't have enough for 1 "use"
     }
-    if( veh.fuel_left( itype_battery ) < pseudo.ammo_required() ) {
-        return false;
-    }
-    item pseudo_magazine( pseudo.magazine_default() );
-    pseudo_magazine.clear_items(); // no initial ammo
-    pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
-    const int64_t tool_capacity = pseudo.ammo_capacity( ammo_battery );
-    const int64_t veh_battery = veh.battery_left();
-    const int tool_battery = std::min( tool_capacity, veh_battery );
-    pseudo.ammo_set( itype_battery, tool_battery );
-    get_player_character().invoke_item( &pseudo );
-    player_activity &act = get_player_character().activity;
+    get_player_character().invoke_item( &tool );
 
     // HACK: Evil hack incoming
+    player_activity &act = get_player_character().activity;
     if( act.id() == ACT_REPAIR_ITEM &&
         ( tool_type == itype_welder || tool_type == itype_soldering_iron ) ) {
         act.index = INT_MIN; // tell activity the item doesn't really exist
         act.coords.push_back( vp_pos ); // tell it to search for the tool on `pos`
         act.str_values.push_back( tool_type.str() ); // specific tool on the rig
     }
-    const int used_charges = tool_battery - pseudo.ammo_remaining();
+
+    // if tool has less battery charges than it started with - discharge from vehicle batteries
+    const int used_charges = units::to_kilojoule( tool_battery ) - tool.ammo_remaining();
     veh.discharge_battery( used_charges );
     return true;
 }
@@ -2026,10 +2057,10 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
         }
     }
 
-    if( vp.part_with_tool( itype_pseudo_water_purifier ) ) {
+    if( vp.part_with_tool( itype_water_purifier ) ) {
         menu.add( _( "Purify water in vehicle tank" ) )
         .enable( fuel_left( itype_water ) &&
-                 fuel_left( itype_battery ) >= itype_pseudo_water_purifier->charges_to_use() )
+                 fuel_left( itype_battery ) >= itype_water_purifier->charges_to_use() )
         .hotkey( "PURIFY_WATER" )
         .on_submit( [this] {
             const auto sel = []( const vehicle_part & pt )
@@ -2043,7 +2074,7 @@ void vehicle::build_interact_menu( veh_menu &menu, const tripoint &p, bool with_
             {
                 return;
             }
-            int64_t cost = static_cast<int64_t>( itype_pseudo_water_purifier->charges_to_use() );
+            int64_t cost = static_cast<int64_t>( itype_water_purifier->charges_to_use() );
             if( fuel_left( itype_battery ) < tank.ammo_remaining() * cost )
             {
                 //~ $1 - vehicle name, $2 - part name

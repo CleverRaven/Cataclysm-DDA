@@ -1021,7 +1021,7 @@ void iexamine::vending( Character &you, const tripoint &examp )
 
     bool used_machine = false;
     input_context ctxt( "VENDING_MACHINE" );
-    ctxt.register_updown();
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -1111,10 +1111,7 @@ void iexamine::vending( Character &you, const tripoint &examp )
         auto &cur_item  = cur_items.back();
 
         const std::string &action = ctxt.handle_input();
-        if( action == "DOWN" ) {
-            cur_pos = ( cur_pos + 1 ) % num_items;
-        } else if( action == "UP" ) {
-            cur_pos = ( cur_pos + num_items - 1 ) % num_items;
+        if( navigate_ui_list( action, cur_pos, 3, num_items, true ) ) {
         } else if( action == "CONFIRM" ) {
             const int iprice = cur_item->price( false );
 
@@ -4035,8 +4032,7 @@ void trap::examine( const tripoint &examp ) const
         return;
     }
 
-    if( player_character.is_mounted() ) {
-        add_msg( m_warning, _( "You cannot do that while mounted." ) );
+    if( player_character.cant_do_mounted() ) {
         return;
     }
 
@@ -4171,7 +4167,7 @@ const itype *furn_t::crafting_pseudo_item_type() const
 const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
-    if( pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
+    if( pseudo && pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
         return item::find_type( ammotype( *pseudo->tool->ammo_id.begin() )->default_ammotype() );
     }
     return nullptr;

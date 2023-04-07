@@ -1869,7 +1869,7 @@
     "damage_modifier": 80,
     "durability": 400,
     "description": "A military ASRG covered in heavy plating.  Provides constant albeit low power to your car.",
-    "epower": 130,
+    "epower": "130 W",
     "location": "center",
     "item": "compact_ASRG_containment",
     "requirements": {
@@ -3084,7 +3084,7 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 2 ] ] }
     },
     "flags": [  ],
-    "pseudo_tools": [ { "id": "pseudo_water_purifier", "hotkey": "p" } ],
+    "pseudo_tools": [ { "id": "water_purifier", "hotkey": "p" } ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 26 }
   },
@@ -3370,7 +3370,7 @@
       { "item": "motor_tiny", "prob": 25 }
     ],
     "damage_reduction": { "all": 32 },
-    "flag": "EXTRA_DRAG"
+    "flags": [ "EXTRA_DRAG" ]
   },
   {
     "type": "vehicle_part",
@@ -3403,6 +3403,6 @@
       { "item": "scrap_copper", "count": [ 1, 2 ] }
     ],
     "damage_reduction": { "all": 32 },
-    "flag": "EXTRA_DRAG"
+    "flags": [ "EXTRA_DRAG" ]
   }
 ]

@@ -24,7 +24,7 @@ Note that for the default region, all attributes and sections are required.
 |       Identifier        |                            Description                             |
 | ----------------------- | ------------------------------------------------------------------ |
 | `type`                  | Type identifier. Must be "region_settings".                        |
-| `id`                    | Unique identifier for this region.                                  |
+| `id`                    | Unique identifier for this region.                                 |
 | `default_oter`          | Default overmap terrain for this region.                           |
 | `default_groundcover`   | List of terrain types and weights applied as default ground cover. |
 
@@ -36,8 +36,8 @@ Note that for the default region, all attributes and sections are required.
 	"id": "default",
 	"default_oter": "field",
 	"default_groundcover": [
-		["t_grass", 4],
-		["t_dirt", 1]
+		[ "t_grass", 4 ],
+		[ "t_dirt", 1 ]
 	]
 }
 ```
@@ -495,8 +495,8 @@ The **weather** section defines the base weather attributes used for the region.
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
 | `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
-| `weather_black_list`			 | Ids of weather types not allowed in this region. 					 |
-| `weather_white_list`			 | Ids of the only weather types allowed in this region. 			     |
+| `weather_black_list`           | Ids of weather types not allowed in this region.                      |
+| `weather_white_list`           | Ids of the only weather types allowed in this region.                 |
 
 ### Example
 
@@ -511,8 +511,8 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_wind_season_variation": 64,
 		"weather_black_list": [
 			"snowstorm"
-      	]
-    },
+    ]
+  }
 }
 ```
 
@@ -554,21 +554,23 @@ those values which should be changed.
 | Identifier |                                         Description                                         |
 | ---------- | ------------------------------------------------------------------------------------------- |
 | `type`     | Type identifier. Must be "region_overlay".                                                  |
-| `id`       | Unique identifier for this region overlay.                                                   |
+| `id`       | Unique identifier for this region overlay.                                                  |
 | `regions`  | A list of regions to which this overlay should be applied. "all" will apply to all regions. |
 
 All additional fields and sections are as defined for a `region_overlay`.
 
 ### Example
 ```json
-[{
-	"type": "region_overlay",
-	"id": "example_overlay",
-	"regions": ["all"],
-	"city": {
-		"parks": {
-			"examplepark": 1
+[
+	{
+		"type": "region_overlay",
+		"id": "example_overlay",
+		"regions": [ "all" ],
+		"city": {
+			"parks": {
+				"examplepark": 1
+			}
 		}
 	}
-}]
+]
 ```

@@ -347,7 +347,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         }
     } else {
         limbtypes.clear();
-        body_part_type::type limb_type;
+        body_part_type::type limb_type = {};
         mandatory( jo, was_loaded, "limb_type", limb_type );
         limbtypes.emplace( limb_type, 1.0f );
     }
@@ -415,10 +415,10 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
         const JsonArray &jarr = jo.get_array( "limb_scores" );
         for( const JsonValue jval : jarr ) {
             bp_limb_score bpls;
-            bpls.id = limb_score_id( jval.get_array().get_string( 0 ) );
+            const limb_score_id id = limb_score_id( jval.get_array().get_string( 0 ) );
             bpls.score = jval.get_array().get_float( 1 );
             bpls.max = jval.get_array().size() > 2 ? jval.get_array().get_float( 2 ) : bpls.score;
-            limb_scores.emplace_back( bpls );
+            limb_scores[id] = bpls;
         }
     }
 
@@ -536,12 +536,12 @@ void body_part_type::check() const
         debugmsg( "Bodypart %s has inconsistent opposite part!", id.str() );
     }
 
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( !bpls.id.is_valid() ) {
-            debugmsg( "Body part %s has invalid limb score %s.", id.str(), bpls.id.str() );
+    for( const std::pair<const limb_score_id, bp_limb_score> &bpls : limb_scores ) {
+        if( !bpls.first.is_valid() ) {
+            debugmsg( "Body part %s has invalid limb score %s.", id.str(), bpls.first.str() );
         }
-        if( bpls.score > bpls.max ) {
-            debugmsg( "Body part %s has higher %s score than max.", id.str(), bpls.id.str() );
+        if( bpls.second.score > bpls.second.max ) {
+            debugmsg( "Body part %s has higher %s score than max.", id.str(), bpls.first.str() );
         }
     }
 
@@ -561,32 +561,19 @@ void body_part_type::check() const
 
 float body_part_type::get_limb_score( const limb_score_id &id ) const
 {
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( bpls.id == id ) {
-            return bpls.score;
-        }
-    }
-    return 0.0f;
+    const auto it = limb_scores.find( id );
+    return it == limb_scores.end() ? 0.0f : it->second.score;
 }
 
 float body_part_type::get_limb_score_max( const limb_score_id &id ) const
 {
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( bpls.id == id ) {
-            return bpls.max;
-        }
-    }
-    return 0.0f;
+    const auto it = limb_scores.find( id );
+    return it == limb_scores.end() ? 0.0f : it->second.max;
 }
 
 bool body_part_type::has_limb_score( const limb_score_id &id ) const
 {
-    for( const bp_limb_score &bpls : limb_scores ) {
-        if( bpls.id == id ) {
-            return true;
-        }
-    }
-    return false;
+    return limb_scores.count( id );
 }
 
 float body_part_type::unarmed_damage( const damage_type &dt ) const

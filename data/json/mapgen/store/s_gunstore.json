@@ -39,6 +39,47 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": [ "s_gunstore" ],
+    "//": "Survivor",
+    "weight": 50,
+    "object": {
+      "faction_owner": [ { "id": "no_faction", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        ",,,,,,,,,,,,,,,,,''''/,,",
+        ",###::##::##::###''''',,",
+        ";#..............#''''',,",
+        ",#..............&''''',,",
+        ",#..##..##..KKvv#''''',,",
+        ",#..LL..LL..YYYY##:::##,",
+        ",#..LL..LL......#N=n=N#,",
+        ",#..LL..LL......D=====#,",
+        ",#..LL..LL..CC C#=n=n=#,",
+        ",#..LL..LL..d..|WRWRWRW,",
+        ",#..LL..LL..Ca.|W=====W,",
+        ",#..##..##..d..|W=====W,",
+        ",#..........Ca.|W.....W,",
+        ",#..........dr.XW.....W,",
+        ",#-D--D-------D-W.....W,",
+        ",#r.-..-<-EEEO..D.....W,",
+        ",#^.-l.-D-EA..rEWT.T.TW,",
+        ",#q&-l...-?A..AEWxxxxxW,",
+        ",#---....----D-#WWWWWWW,",
+        ",#sss..........#;''''ww,",
+        ",#......ss.ss..+'''''ww,",
+        ",#ss....ss.ss..+'''''ww,",
+        ",#ssss.........#''''''',",
+        ",###############''''''',"
+      ],
+      "palettes": [ "gun_store_palette" ],
+      "place_npcs": [ { "class": "NPC_gun_store_survivor", "x": 14, "y": [ 10, 12 ] } ],
+      "terrain": { "w": "t_sidewalk", "&": "t_door_metal_c" },
+      "place_loot": [ { "group": "cash_register_random", "x": 12, "y": 10 }, { "group": "cash_register_random", "x": 12, "y": 12 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": [ "s_gunstore_2ndfloor" ],
     "object": {
       "fill_ter": "t_floor",

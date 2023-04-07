@@ -675,6 +675,10 @@ class map
         std::vector<zone_data *> get_vehicle_zones( int zlev );
         void register_vehicle_zone( vehicle *, int zlev );
         bool deregister_vehicle_zone( zone_data &zone ) const;
+        // returns a list of tripoints which contain parts from moving vehicles within \p max_range
+        // distance from \p source position, if any parts are CONTROLS, ENGINE or WHEELS returns a
+        // list of tripoints with exclusively such parts instead. Used for monster gun actor targeting.
+        std::set<tripoint_bub_ms> get_moving_vehicle_targets( const Creature &source, int max_range );
 
         // Removes vehicle from map and returns it in unique_ptr
         std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );
@@ -1286,6 +1290,7 @@ class map
          *  @warning function is relatively expensive and meant for user initiated actions, not mapgen
          */
         // TODO: fix point types (remove the first overload)
+        item_location add_item_ret_loc( const tripoint &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow = true );
         item &add_item_or_charges( const point &p, const item &obj, bool overflow = true ) {
@@ -1585,6 +1590,9 @@ class map
         template<typename Map>
         static cata::copy_const<Map, field_entry> *get_field_helper(
             Map &m, const tripoint &p, const field_type_id &type );
+
+        std::pair<item *, tripoint> _add_item_or_charges( const tripoint &pos, item obj,
+                bool overflow = true );
     public:
 
         // Splatters of various kind

@@ -1924,7 +1924,7 @@ void TextJsonIn::error( int offset, const std::string &message )
     rewind( 3, 240 );
     size_t startpos = tell();
     std::string buffer( pos - startpos, '\0' );
-    stream->read( &buffer[0], pos - startpos );
+    stream->read( buffer.data(), pos - startpos );
     auto it = buffer.begin();
     for( ; it < buffer.end() && ( *it == '\r' || *it == '\n' ); ++it ) {
         // skip starting newlines
@@ -2073,7 +2073,7 @@ std::string TextJsonIn::substr( size_t pos, size_t len )
     }
     ret.resize( len );
     stream->seekg( pos );
-    stream->read( &ret[0], len );
+    stream->read( ret.data(), len );
     return ret;
 }
 

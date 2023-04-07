@@ -12,7 +12,7 @@ An example: Suppose item A has a probability of 30 and item B has a probability 
 
 
 | Combination     | Collection | Distribution |
-| ----------------|------------|------------- |
+| --------------- | ---------- | ------------ |
 | Neither A nor B | 56%        | 0%           |
 | Only A          | 24%        | 60%          |
 | Only B          | 14%        | 40%          |
@@ -23,7 +23,7 @@ An example: Suppose item A has a probability of 30 and item B has a probability 
 The format is this:
 
 ```json
-{
+  {
     "type": "item_group",
     "subtype": "<subtype>",
     "id": "<some name>",
@@ -32,7 +32,7 @@ The format is this:
     "container-item": "<container-item-id>",
     "on_overflow": "<discard|spill>",
     "entries": [ ... ]
-}
+  }
 ```
 
 `subtype` is optional. It can be `collection` or `distribution`.  If unspecified, it defaults to `old`, which denotes that this item group uses the old format (essentially a distribution).
@@ -129,7 +129,7 @@ The procgen_id relates directly to a `relic_procgen_data` object's id. The `rule
 "damage-min": 0,
 "damage-max": 3,
 "count": 4
-"charges": [10, 100]
+"charges": [ 10, 100 ]
 ```
 
 This will create 4 items; they can have different damage levels as the damage value is rolled separately for each of these items.  Each item has charges (AKA ammo) in the range of 10 to 100 (inclusive); if the item needs a magazine before it can have charges, that will be taken care of for you.  Using an array (which must have 2 entries) for charges/count/damage is equivalent to writing explicit min and max values.  In other words, `"count": [a,b]` is the same as `"count-min": a, "count-max": b`.
@@ -179,16 +179,16 @@ This format does not support further properties of the created items - the proba
 The content of "entries", "items" and "groups" are all added if those members exist.  This will have the item `<id-1>` appear twice in the item group:
 
 ```json
-{
+  {
     "items": [ "<id-1>" ],
     "entries": [ { "item": "<id-1>" } ]
-}
+  }
 ```
 
 Another example: The group "milk" spawns a container (taken from milk_containers) that contains milk (the maximal amount that fits into the container, because there is no defined charges value).
 
 ```json
-{
+  {
     "type" : "item_group",
     "id": "milk_containers",
     "subtype": "distribution",
@@ -196,15 +196,15 @@ Another example: The group "milk" spawns a container (taken from milk_containers
       "bottle_plastic", "bottle_glass", "flask_glass",
       "jar_glass_sealed", "jar_3l_glass_sealed", "flask_hip", "55gal_drum"
     ]
-},
-{
+  },
+  {
     "type" : "item_group",
     "id": "milk",
     "subtype": "distribution",
     "entries": [
-        { "item": "milk", "container-group": "milk_containers" }
+      { "item": "milk", "container-group": "milk_containers" }
     ]
-},
+  },
 ```
 
 ## Adding to item groups
@@ -212,7 +212,7 @@ Another example: The group "milk" spawns a container (taken from milk_containers
 Mods can add entries to item groups by specifying a group with the same id that copies-from the previous group (`"copy-from": group_id`), and encompassing the added items within an `extend` block, like so:
 
 ```json
-{
+  {
     "type" : "item_group",
     "id": "milk_containers",
     "copy-from": "milk_containers",
@@ -223,18 +223,18 @@ Mods can add entries to item groups by specifying a group with the same id that 
         "jar_glass_sealed", "jar_3l_glass_sealed", "flask_hip", "55gal_drum"
       ]
     }
-},
-{
+  },
+  {
     "type" : "item_group",
     "id": "milk",
     "copy-from": "milk",
     "subtype": "distribution",
     "extend": {
       "entries": [
-          { "item": "milk", "container-group": "milk_containers" }
+        { "item": "milk", "container-group": "milk_containers" }
       ]
     }
-},
+  },
 ```
 
 ## Inlined item groups
@@ -246,26 +246,26 @@ As an example: monster death drops (`death_drops` entry in the `MONSTER` object,
 Therefore, this snippet:
 
 ```json
-{
+  {
     "type": "item_group",
     "id": "specific_group_id",
     "subtype": "distribution",
     "items": [ "a", "b" ]
-},
-{
+  },
+  {
     "death_drops": "specific_group_id"
-}
+  }
 ```
 
 is equivalent to:
 
 ```json
-{
+  {
     "death_drops": {
-        "subtype": "distribution",
-        "items": [ "a", "b" ]
+      "subtype": "distribution",
+      "items": [ "a", "b" ]
     }
-}
+  }
 ```
 
 The inline group is read like any other group and one can use all the properties mentioned above.  Its `type` and `id` members are always ignored.
@@ -273,11 +273,11 @@ The inline group is read like any other group and one can use all the properties
 Instead of a full JSON object, one can also write a JSON array.  The default subtype is used and the array is read like the "entries" array (see above).  Each entry of that array must be a JSON object. Example:
 
 ```json
-{
+  {
     "death_drops": [
-        { "item": "rag", "damage": 2 }, { "item": "bowling_ball" }
+      { "item": "rag", "damage": 2 }, { "item": "bowling_ball" }
     ]
-}
+  }
 ```
 
 ----

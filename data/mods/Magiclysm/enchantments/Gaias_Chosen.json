@@ -42,7 +42,7 @@
     "effect": [
       { "u_location_variable": { "u_val": "dust_reborn_teleport" }, "min_radius": 0, "max_radius": 0 },
       { "u_add_effect": "effect_dust_reborn", "duration": "30 days" },
-      { "u_add_trait": "DUST_REBORN", "duration": "30 days" },
+      { "u_add_trait": "DUST_REBORN" },
       { "u_message": "Part of your body and soul were divorced.", "type": "neutral" }
     ]
   },

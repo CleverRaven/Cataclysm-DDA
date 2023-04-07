@@ -1584,6 +1584,7 @@ void advanced_inventory::display()
         } );
     }
 
+
     while( !exit ) {
         if( player_character.moves < 0 ) {
             do_return_entry();
@@ -1605,6 +1606,10 @@ void advanced_inventory::display()
         // current item in source pane, might be null
         advanced_inv_listitem *sitem = spane.get_cur_item_ptr();
         aim_location changeSquare = NUM_AIM_LOCATIONS;
+
+        if( !is_processing() && move_all_items_and_waiting_to_quit ) {
+            break;
+        }
 
         const std::string action = is_processing() ? "MOVE_ALL_ITEMS" : ctxt.handle_input();
         if( action == "CATEGORY_SELECTION" ) {
@@ -1643,6 +1648,11 @@ void advanced_inventory::display()
         } else if( action == "MOVE_ALL_ITEMS" ) {
             exit = move_all_items();
             recalc = true;
+            if( exit ) {
+                if( get_option<bool>( "CLOSE_ADV_INV" ) ) {
+                    move_all_items_and_waiting_to_quit = true;
+                }
+            }
         } else if( action == "SORT" ) {
             if( show_sort_menu( spane ) ) {
                 recalc = true;

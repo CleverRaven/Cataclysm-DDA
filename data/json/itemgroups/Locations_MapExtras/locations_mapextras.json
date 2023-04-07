@@ -149,7 +149,7 @@
       [ "hatchet", 50 ],
       [ "storage_line", 20 ],
       [ "iceaxe", 20 ],
-      { "item": "mess_kit", "prob": 100, "charges": [ 0, 500 ] },
+      { "item": "mess_kit", "prob": 100 },
       { "item": "portable_stove", "prob": 5, "container-item": "nylon_bag", "sealed": false },
       [ "teapot", 50 ],
       [ "binoculars", 30 ],

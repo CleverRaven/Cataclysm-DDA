@@ -18,6 +18,7 @@
 #include "cata_utility.h"
 #include "cellular_automata.h"
 #include "character_id.h"
+#include "city.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -137,11 +138,9 @@ static const map_extra_id map_extra_mx_portal_in( "mx_portal_in" );
 static const map_extra_id map_extra_mx_reed( "mx_reed" );
 static const map_extra_id map_extra_mx_roadblock( "mx_roadblock" );
 static const map_extra_id map_extra_mx_roadworks( "mx_roadworks" );
-static const map_extra_id map_extra_mx_shia( "mx_shia" );
 static const map_extra_id map_extra_mx_shrubbery( "mx_shrubbery" );
 static const map_extra_id map_extra_mx_supplydrop( "mx_supplydrop" );
 
-static const mongroup_id GROUP_CANNIBAL( "GROUP_CANNIBAL" );
 static const mongroup_id GROUP_DERMATIK( "GROUP_DERMATIK" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
@@ -1511,20 +1510,6 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_shia( map &m, const tripoint &/*loc*/ )
-{
-    // A rare chance to spawn Shia. This was extracted from the hardcoded forest mapgen
-    // and moved into a map extra, but it still has a one_in chance of spawning because
-    // otherwise the extreme rarity of this event wildly skewed the values for all of the
-    // other extras.
-    if( one_in( 5000 ) ) {
-        m.place_spawns( GROUP_CANNIBAL, 1, point_zero, { SEEX * 2, SEEY * 2 }, 1, true );
-        return true;
-    }
-
-    return false;
-}
-
 static bool mx_jabberwock( map &m, const tripoint &/*loc*/ )
 {
     // A rare chance to spawn a jabberwock. This was extracted from the hardcoded forest mapgen
@@ -2681,7 +2666,6 @@ static FunctionMap builtin_functions = {
     { map_extra_mx_helicopter, mx_helicopter },
     { map_extra_mx_portal_in, mx_portal_in },
     { map_extra_mx_house_wasp, mx_house_wasp },
-    { map_extra_mx_shia, mx_shia },
     { map_extra_mx_jabberwock, mx_jabberwock },
     { map_extra_mx_grove, mx_grove },
     { map_extra_mx_shrubbery, mx_shrubbery },

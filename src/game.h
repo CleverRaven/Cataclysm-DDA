@@ -41,10 +41,11 @@ class creature_tracker;
 class JsonValue;
 class item;
 class location;
+class eoc_events;
 class spell_events;
 class viewer;
 
-static constexpr int DEFAULT_TILESET_ZOOM = 16;
+constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 // The reference to the one and only game instance.
 class game;
@@ -358,9 +359,16 @@ class game
         /** Spawns a hallucination at a determined position of a given monster. */
         bool spawn_hallucination( const tripoint &p, const mtype_id &mt,
                                   std::optional<time_duration> lifespan );
-        /** Finds somewhere to spawn a monster. */
+        /** Spawns a npc at a determined position. */
+        bool spawn_npc( const tripoint &p, const string_id<npc_template> &npc_class, std::string &unique_id,
+                        std::vector<trait_id> &traits, std::optional<time_duration> lifespan );
+        /** Finds somewhere to spawn a monster or npc. */
         bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                      int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed = false );
+                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+                                      bool open_air_allowed = false );
+        bool find_nearby_spawn_point( const tripoint &target, int min_radius,
+                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+                                      bool open_air_allowed = false );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
 
@@ -525,6 +533,8 @@ class game
         void reload_npcs();
         void remove_npc( character_id const &id );
         const kill_tracker &get_kill_tracker() const;
+        stats_tracker &stats();
+        achievements_tracker &achievements();
         /** Add follower id to set of followers. */
         void add_npc_follower( const character_id &id );
         /** Remove follower id from follower set. */
@@ -999,7 +1009,7 @@ class game
         class debug_hour_timer
         {
             public:
-                using IRLTimeMs = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+                using IRLTimeMs = std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>;
                 void toggle();
                 void print_time();
             private:
@@ -1031,6 +1041,8 @@ class game
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr; // NOLINT(cata-serialize)
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
+        pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
+
 
         map &m;
         avatar &u;
@@ -1039,9 +1051,7 @@ class game
         const scenario *scen = nullptr; // NOLINT(cata-serialize)
 
         event_bus &events();
-        stats_tracker &stats();
         timed_event_manager &timed_events; // NOLINT(cata-serialize)
-        achievements_tracker &achievements();
         memorial_logger &memorial();
 
         global_variables global_variables_instance;

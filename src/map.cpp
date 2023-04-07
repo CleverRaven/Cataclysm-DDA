@@ -781,7 +781,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // If not enough wheels, mess up the ground a bit.
     if( !vertical && !veh.valid_wheel_config() && !( veh.is_watercraft() && veh.can_float() ) &&
         !veh.is_flying_in_air() && dp.z == 0 ) {
-        veh.velocity += veh.velocity < 0 ? 2000 : -2000;
+        veh.velocity -= std::clamp( veh.velocity, -2000, 2000 ); // extra drag
         for( const tripoint &p : veh.get_points() ) {
             const ter_id &pter = ter( p );
             if( pter == t_dirt || pter == t_grass ) {
@@ -1120,6 +1120,41 @@ bool map::deregister_vehicle_zone( zone_data &zone ) const
         }
     }
     return false;
+}
+
+std::set<tripoint_bub_ms> map::get_moving_vehicle_targets( const Creature &z, int max_range )
+{
+    const tripoint_bub_ms zpos( z.pos() );
+    std::set<tripoint_bub_ms> priority;
+    std::set<tripoint_bub_ms> visible;
+    for( wrapped_vehicle &v : get_vehicles() ) {
+        if( !v.v->is_moving() ) {
+            continue;
+        }
+        if( !fov_3d && v.pos.z != zpos.z() ) {
+            continue;
+        }
+        if( rl_dist( zpos, tripoint_bub_ms( v.pos ) ) > max_range + 40 ) {
+            continue; // coarse distance filter, 40 = ~24 * sqrt(2) - rough max diameter of a vehicle
+        }
+        for( const vpart_reference &vpr : v.v->get_all_parts() ) {
+            const tripoint_bub_ms vppos = static_cast<tripoint_bub_ms>( vpr.pos() );
+            if( rl_dist( zpos, vppos ) > max_range ) {
+                continue;
+            }
+            if( !z.sees( vppos ) ) {
+                continue;
+            }
+            if( vpr.has_feature( VPFLAG_CONTROLS ) ||
+                vpr.has_feature( VPFLAG_ENGINE ) ||
+                vpr.has_feature( VPFLAG_WHEEL ) ) {
+                priority.emplace( vppos );
+            } else {
+                visible.emplace( vppos );
+            }
+        }
+    }
+    return !priority.empty() ? priority : visible;
 }
 
 // 3D vehicle functions
@@ -3586,10 +3621,9 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
             }
         } else {
             const field_type_id type_blood = i->is_corpse() ? i->get_mtype()->bloodType() : fd_null;
-            while( ( damage_chance > material_factor ||
-                     x_in_y( damage_chance, material_factor ) ) &&
-                   i->damage() < i->max_damage() ) {
-                i->inc_damage( damage_type::BASH );
+            while( ( damage_chance > material_factor || x_in_y( damage_chance, material_factor ) ) &&
+                   ( i->damage() < i->max_damage() ) ) {
+                i->inc_damage();
                 add_splash( type_blood, p, 1, damage_chance );
                 damage_chance -= material_factor;
                 item_was_damaged = true;
@@ -4769,7 +4803,7 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id, const unsigned
         //let's fail silently if we specify charges for an item that doesn't support it
         new_item.charges = charges;
     }
-    new_item = new_item.in_its_container();
+    new_item = new_item.in_its_container( new_item.count() );
     new_item.set_owner( faction_id( faction ) ); // Set faction to the container as well
     if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) ||
         has_flag( ter_furn_flag::TFLAG_DESTROY_ITEM, p ) ) {
@@ -4807,7 +4841,23 @@ units::volume map::free_volume( const tripoint_bub_ms &p )
     return free_volume( p.raw() );
 }
 
+item_location map::add_item_ret_loc( const tripoint &pos, item obj, bool overflow )
+{
+    std::pair<item *, tripoint> ret = _add_item_or_charges( pos, std::move( obj ), overflow );
+    if( ret.first != nullptr && !ret.first->is_null() ) {
+        return item_location { map_cursor{ ret.second }, ret.first };
+    }
+
+    return {};
+}
+
 item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
+{
+    return *_add_item_or_charges( pos, std::move( obj ), overflow ).first;
+}
+
+std::pair<item *, tripoint> map::_add_item_or_charges( const tripoint &pos, item obj,
+        bool overflow )
 {
     // Checks if item would not be destroyed if added to this tile
     auto valid_tile = [&]( const tripoint & e ) {
@@ -4850,17 +4900,17 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
     };
 
     if( item_is_blacklisted( obj.typeId() ) ) {
-        return null_item_reference();
+        return { &null_item_reference(), tripoint_min };
     }
 
     // Some items never exist on map as a discrete item (must be contained by another item)
     if( obj.has_flag( flag_NO_DROP ) ) {
-        return null_item_reference();
+        return { &null_item_reference(), tripoint_min };
     }
 
     // If intended drop tile destroys the item then we don't attempt to overflow
     if( !valid_tile( pos ) ) {
-        return null_item_reference();
+        return { &null_item_reference(), tripoint_min };
     }
 
     if( ( !has_flag( ter_furn_flag::TFLAG_NOITEM, pos ) ||
@@ -4869,12 +4919,12 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
         // Pass map into on_drop, because this map may not be the global map object (in mapgen, for instance).
         if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
             if( obj.on_drop( pos, *this ) ) {
-                return null_item_reference();
+                return { &null_item_reference(), tripoint_min };
             }
 
         }
         // If tile can contain items place here...
-        return place_item( pos );
+        return { &place_item( pos ), pos };
 
     } else if( overflow ) {
         // ...otherwise try to overflow to adjacent tiles (if permitted)
@@ -4894,7 +4944,7 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
             }
             if( obj.made_of( phase_id::LIQUID ) || !obj.has_flag( flag_DROP_ACTION_ONLY_IF_LIQUID ) ) {
                 if( obj.on_drop( e, *this ) ) {
-                    return null_item_reference();
+                    return { &null_item_reference(), tripoint_min };
                 }
             }
 
@@ -4902,12 +4952,12 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
                 has_flag( ter_furn_flag::TFLAG_NOITEM, e ) || has_flag( ter_furn_flag::TFLAG_SEALED, e ) ) {
                 continue;
             }
-            return place_item( e );
+            return { &place_item( e ), e };
         }
     }
 
     // failed due to lack of space at target tile (+/- overflow tiles)
-    return null_item_reference();
+    return { &null_item_reference(), tripoint_min };
 }
 
 item &map::add_item_or_charges( const tripoint_bub_ms &pos, item obj, bool overflow )
@@ -5213,7 +5263,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
                 if( n.ammo_capacity( ammo_battery ) > n.ammo_remaining() ||
-                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
+                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining( nullptr ) ) ) {
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
                         const int missing = cur_veh.discharge_battery( 1 );

@@ -71,7 +71,7 @@
     "replace": "pistol_magnum_pipe"
   },
   {
-    "id": [ "rm228", "sw_619", "mr73", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
+    "id": [ "sw_619", "mr73", "ruger_redhawk", "sw629", "bfr", "sw_500", "raging_bull", "raging_judge" ],
     "type": "MIGRATION",
     "replace": "pistol_magnum_revolver"
   },
@@ -174,7 +174,6 @@
       "fn_p90",
       "fn_ps90",
       "needlegun",
-      "rm2000_smg",
       "sten",
       "bt_apc9k",
       "colt_ro635",
@@ -214,6 +213,7 @@
       "scar_l",
       "sig_mcx_rattler_sbr",
       "rm51_assault_rifle",
+      "rm2000_smg",
       "an94",
       "vz58_p",
       "vz58_v",
@@ -351,7 +351,7 @@
     "replace": "shot_pipe_double"
   },
   {
-    "id": [ "saiga_410", "rm120c", "rm20", "bigun", "saiga_12", "tavor_12", "aa_12", "bigun", "USAS_12" ],
+    "id": [ "saiga_410", "rm120c", "rm228", "rm20", "bigun", "saiga_12", "tavor_12", "aa_12", "bigun", "USAS_12" ],
     "type": "MIGRATION",
     "replace": "shot_tactical"
   },

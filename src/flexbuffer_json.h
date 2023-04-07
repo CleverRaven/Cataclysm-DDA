@@ -80,7 +80,7 @@ class JsonArray;
 class JsonValue;
 class JsonMember;
 
-static inline flexbuffers::Reference flexbuffer_root_from_storage(
+inline flexbuffers::Reference flexbuffer_root_from_storage(
     const std::shared_ptr<flexbuffer_storage> &storage )
 {
     return flexbuffers::GetRoot( storage->data(), storage->size() );

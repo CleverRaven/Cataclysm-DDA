@@ -68,12 +68,16 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+
 namespace vehicles
 {
 // ratio of constant rolling resistance to the part that varies with velocity
 constexpr double rolling_constant_to_variable = 33.33;
 constexpr float vmiph_per_tile = 400.0f;
+// steering/turning increment
+constexpr units::angle steer_increment = 15_degrees;
 } // namespace vehicles
+
 struct rider_data {
     Creature *psg = nullptr;
     int prt = -1;
@@ -218,7 +222,7 @@ int mps_to_vmiph( double mps );
 double vmiph_to_mps( int vmiph );
 int cmps_to_vmiph( int cmps );
 int vmiph_to_cmps( int vmiph );
-static constexpr float accel_g = 9.81f;
+constexpr float accel_g = 9.81f;
 
 enum class vp_flag : uint32_t {
     none = 0,
@@ -438,14 +442,8 @@ struct vehicle_part {
         int degradation() const;
         /** max damage of part base */
         int max_damage() const;
-        /** Current damage floor of the part base */
-        int damage_floor( bool allow_negative ) const;
-        // @returns the maximum damage levels possible to repair, accounting for part degradation
-        int repairable_levels() const;
         // @returns true if part can be repaired, accounting for part degradation
         bool is_repairable() const;
-        /** Current part damage level in same units as item::damage_level */
-        int damage_level( int dmg = INT_MIN ) const;
 
         /** Current part damage as a percentage of maximum, with 0.0 being perfect condition */
         double damage_percent() const;
@@ -862,10 +860,9 @@ class vehicle
          * Apply damage to part constrained by range [0,durability] possibly destroying it
          * @param pt Part being damaged
          * @param qty maximum amount by which to adjust damage (negative permissible)
-         * @param dt type of damage which may be passed to base @ref item::on_damage callback
          * @return whether part was destroyed as a result of the damage
          */
-        bool mod_hp( vehicle_part &pt, int qty, damage_type dt = damage_type::NONE );
+        bool mod_hp( vehicle_part &pt, int qty );
 
         // check if given player controls this vehicle
         bool player_in_control( const Character &p ) const;
@@ -1097,14 +1094,43 @@ class vehicle
         std::vector<int> parts_at_relative( const point &dp, bool use_cache,
                                             bool include_fake = false ) const;
 
-        // returns index of part, inner to given, with certain flag, or -1
-        int part_with_feature( int p, const std::string &f, bool unbroken ) const;
+        /**
+        *  Returns index of part at mount point \p pt which has given \p f flag
+        *  @note does not use relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken
+        *  @returns part index or -1
+        */
         int part_with_feature( const point &pt, const std::string &f, bool unbroken ) const;
+        /**
+        *  Returns \p p or part index at mount point \p pt which has given \p f flag
+        *  @note uses relative_parts cache
+        *  @param p index of part to start searching from
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken()
+        *  @returns part index or -1
+        */
         int part_with_feature( int p, vpart_bitflags f, bool unbroken ) const;
-
-        // returns index of part, inner to given, with certain flag, or -1
-        int avail_part_with_feature( int p, const std::string &f ) const;
+        /**
+        *  Returns index of part at mount point \p pt which has given \p f flag
+        *  and is_available(), or -1 if no such part or it's not is_available()
+        *  @note does not use relative_parts cache
+        *  @param pt only returns parts from this mount point
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken
+        *  @returns part index or -1
+        */
         int avail_part_with_feature( const point &pt, const std::string &f ) const;
+        /**
+        *  Returns \p p or part index at mount point \p pt which has given \p f flag
+        *  and is_available(), or -1 if no such part or it's not is_available()
+        *  @note uses relative_parts cache
+        *  @param p index of part to start searching from
+        *  @param f required flag in part's vpart_info flags collection
+        *  @param unbroken if true also requires the part to be !is_broken()
+        *  @returns part index or -1
+        */
         int avail_part_with_feature( int p, vpart_bitflags f ) const;
 
         /**
@@ -1624,6 +1650,17 @@ class vehicle
         units::volume max_volume( int part ) const;
         units::volume free_volume( int part ) const;
         units::volume stored_volume( int part ) const;
+
+        /**
+        * Flags item \p tool with PSEUDO, if it needs battery and has MOD pocket then a
+        * magazine_battery_pseudo_mod is installed and a pseudo battery with high capacity
+        * is inserted into the magazine well pocket with however many battery charges are
+        * available to this vehicle.
+        * @param tool the tool item to modify
+        * @return amount of energy the pseudo battery is set to or 0 joules
+        */
+        units::energy prepare_vehicle_tool( item &tool ) const;
+
         /**
          * Update an item's active status, for example when adding
          * hot or perishable liquid to a container.

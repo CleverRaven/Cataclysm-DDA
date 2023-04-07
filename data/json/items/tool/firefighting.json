@@ -155,7 +155,7 @@
       "active": true,
       "type": "transform"
     },
-    "flags": [ "ACT_IN_FIRE", "BOMB" ]
+    "flags": [ "ACT_IN_FIRE", "BOMB", "GRENADE" ]
   },
   {
     "id": "throw_extinguisher_act",

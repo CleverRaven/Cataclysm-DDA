@@ -962,20 +962,6 @@
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
-    "result": "mess_tin",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "3 h",
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "BRISK_EXERCISE",
     "result": "ny_hook",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",

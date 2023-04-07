@@ -250,7 +250,7 @@
     "skill_used": "tailor",
     "time": "1 m 2 s",
     "autolearn": true,
-    "count": 8,
+    "result_mult": 8,
     "qualities": [ { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_fibercloth", 1 ] ] ]
   },
@@ -263,7 +263,7 @@
     "skill_used": "tailor",
     "time": "9 s",
     "autolearn": true,
-    "count": 1,
+    "result_mult": 1,
     "flags": [ "BLIND_EASY" ],
     "components": [ [ [ "cotton_patchwork", 1 ], [ "fibercloth_patchwork", 1 ] ] ]
   }

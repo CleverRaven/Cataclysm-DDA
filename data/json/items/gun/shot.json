@@ -54,10 +54,10 @@
     "dispersion": 855,
     "durability": 8,
     "modes": [ [ "DEFAULT", "burst", 6 ] ],
-    "ups_charges": 1,
+    "energy_drain": "1 kJ",
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
-    "flags": [ "MOUNTED_GUN" ],
+    "flags": [ "MOUNTED_GUN", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "shotbelt_20" ] } ]
   },
   {
