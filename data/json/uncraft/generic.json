@@ -545,5 +545,21 @@
     "time": "1 m",
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "gold_small", 40 ] ] ]
+  },
+  {
+    "result": "pillowcase",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 } ],
+    "components": [ [ [ "sheet_cotton", 3 ] ], [ [ "zipper_short_plastic", 1 ] ] ]
+  },
+  {
+    "result": "blanket",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "10 m",
+    "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
+    "components": [ [ [ "sheet_cotton", 30 ] ], [ [ "thread", 150 ] ] ]
   }
 ]

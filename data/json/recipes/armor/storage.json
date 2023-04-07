@@ -663,6 +663,7 @@
     "skills_required": [ "melee", 1 ],
     "time": "4 h",
     "autolearn": true,
+    "reversible": { "time": "40 m" },
     "using": [ [ "tailoring_leather_small", 15 ], [ "adhesive", 1 ], [ "clasps", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],

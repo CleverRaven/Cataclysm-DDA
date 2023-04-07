@@ -1843,7 +1843,7 @@
     "difficulty": 2,
     "time": "38 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "tailoring_cotton_patchwork", 4 ] ]
   },
   {
@@ -2020,7 +2020,7 @@
     "difficulty": 3,
     "time": "45 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "tailoring_cotton_patchwork", 8 ] ]
   },
   {
@@ -2047,7 +2047,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "reversible": true,
+    "reversible": { "time": "5 m" },
     "using": [ [ "tailoring_cotton_patchwork", 3 ] ]
   },
   {

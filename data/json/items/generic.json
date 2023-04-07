@@ -2867,6 +2867,7 @@
     "price": 1500,
     "price_postapoc": 100,
     "material": [ "cotton" ],
+    "repairs_like": "tshirt",
     "weight": "774 g",
     "volume": "1750 ml",
     "flags": [ "SLEEP_AID" ],
