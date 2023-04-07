@@ -998,6 +998,7 @@
     "description": "A waffle iron, generally used for making waffles.",
     "weight": "520 g",
     "volume": "870 ml",
+    "longest_side": "30 cm"
     "price": "16 USD",
     "price_postapoc": 10,
     "to_hit": { "grip": "solid", "length": "hand", "surface": "any", "balance": "clumsy" },
@@ -1005,7 +1006,8 @@
     "material": [ "aluminum" ],
     "symbol": ")",
     "color": "dark_gray",
-    "qualities": [ [ "COOK", 1 ] ]
+    "qualities": [ [ "COOK", 1 ] ],
+    "//": "Based on: https://www.amazon.com/Noxious-Additives-Material-Sandwich-Breakfast/dp/B07WWW1S84/ref=sr_1_1?crid=QSRJMOJRQ89G&keywords=manual+waffle+iron&qid=1680812963&sprefix=manualwaffle+iron%2Caps%2C183&sr=8-1"
   },
   {
     "id": "water_purifier",

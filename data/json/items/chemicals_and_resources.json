@@ -1969,7 +1969,7 @@
     "count": 100
   },
   {
-    "type": "AMMO",
+    "type": "GENERIC",
     "id": "liquid_soap",
     "name": { "str_sp": "liquid soap" },
     "category": "chems",
@@ -1984,8 +1984,8 @@
     "price_postapoc": 0,
     "volume": "250 ml",
     "phase": "liquid",
-    "ammo_type": "components",
     "flags": [ "DETERGENT" ],
+    "stackable": true,
     "count": 5
   },
   {
