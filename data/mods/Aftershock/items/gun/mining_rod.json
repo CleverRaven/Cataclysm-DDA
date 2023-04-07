@@ -18,9 +18,10 @@
     "range": 60,
     "dispersion": 45,
     "durability": 8,
-    "ups_charges": 50,
+    "energy_drain": "50 kJ",
     "reload": 2000,
     "clip_size": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "metal_rail": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "metal_rail": 1 } } ],
+    "flags": [ "USE_UPS" ]
   }
 ]

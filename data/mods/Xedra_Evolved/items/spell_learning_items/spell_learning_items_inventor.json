@@ -13,7 +13,7 @@
     "symbol": "=",
     "color": "yellow",
     "looks_like": "tailor_portfolio",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_battery_gun" ] }
   },
   {
@@ -30,7 +30,7 @@
     "symbol": "=",
     "color": "light_cyan",
     "looks_like": "tailor_portfolio",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_ray_gun" ] }
   },
   {
@@ -48,7 +48,7 @@
     "symbol": "[",
     "looks_like": "mask_gas",
     "color": "dark_gray",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_mace_magic" ] }
   },
   {
@@ -64,7 +64,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "*",
     "color": "black",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "firmament_driver" ] }
   },
   {
@@ -80,7 +80,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": ".",
     "color": "red",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_bio_launcher", "summon_bio_warhead" ] }
   },
   {
@@ -95,7 +95,7 @@
     "material": [ "forged_dreamstuff" ],
     "color": "green",
     "symbol": "$",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_rip_ticket" ] }
   },
   {
@@ -112,7 +112,7 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_helmet_inventor" ] }
   },
   {
@@ -127,7 +127,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "?",
     "looks_like": "textbook_anarch",
-    "scannable": false,
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_ion_gun" ] }
   }
 ]

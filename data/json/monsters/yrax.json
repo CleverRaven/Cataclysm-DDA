@@ -40,6 +40,7 @@
         "ranges": [ [ 0, 25, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": true,
         "targeting_sound": "a fast sequence of clicking tones.",
         "targeting_volume": 50,

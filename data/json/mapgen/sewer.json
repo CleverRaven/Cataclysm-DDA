@@ -395,7 +395,7 @@
       "place_nested": [
         { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
         { "chunks": [ [ "sewer_pump_10x10_L", 1 ], [ "null", 3 ] ], "x": 1, "y": [ 0, 14 ] },
-        { "chunks": [ "sewer_bridge_4x4", 100 ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "sewer_bridge_4x4" ], "x": 10, "y": [ 0, 20 ] },
         { "chunks": [ "ladder_1x1" ], "x": 12, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
       ]
     }
@@ -437,7 +437,7 @@
       "place_nested": [
         { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
         { "chunks": [ [ "sewer_pump_10x10_L", 1 ], [ "null", 3 ] ], "x": 1, "y": [ 0, 14 ] },
-        { "chunks": [ "sewer_bridge_4x4", 100 ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "sewer_bridge_4x4" ], "x": 10, "y": [ 0, 20 ] },
         { "chunks": [ "ladder_1x1" ], "x": 19, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
       ]
     }
@@ -480,7 +480,7 @@
       "place_nested": [
         { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
         { "chunks": [ [ "sewer_pump_10x10_R", 1 ], [ "null", 3 ] ], "x": 13, "y": [ 0, 14 ] },
-        { "chunks": [ "sewer_bridge_4x4", 100 ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "sewer_bridge_4x4" ], "x": 10, "y": [ 0, 20 ] },
         { "chunks": [ "ladder_1x1" ], "x": 11, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
       ]
     }
@@ -522,7 +522,7 @@
       "place_nested": [
         { "chunks": [ [ "sewer_blockage_4x4", 1 ], [ "null", 6 ] ], "x": 10, "y": [ 0, 20 ] },
         { "chunks": [ [ "sewer_pump_10x10_R", 1 ], [ "null", 3 ] ], "x": 13, "y": [ 0, 14 ] },
-        { "chunks": [ "sewer_bridge_4x4", 100 ], "x": 10, "y": [ 0, 20 ] },
+        { "chunks": [ "sewer_bridge_4x4" ], "x": 10, "y": [ 0, 20 ] },
         { "chunks": [ "ladder_1x1" ], "x": 4, "y": 11, "neighbors": { "above": [ "road_nesw_manhole" ] } }
       ]
     }

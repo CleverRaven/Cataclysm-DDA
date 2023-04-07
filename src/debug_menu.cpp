@@ -750,9 +750,14 @@ static void spell_description(
         }
 
     } else if( spl_eff == "spawn_item" ) {
-        damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage( chrc ),
-                                       item::nname( itype_id( spl.effect_data() ), spl.damage( chrc ) ) );
-
+        if( spl.has_flag( spell_flag::SPAWN_GROUP ) ) {
+            // todo: more user-friendly presentation
+            damage_string = string_format( _( "Spawn item group %1$s %2$d times" ), spl.effect_data(),
+                                           spl.damage( chrc ) );
+        } else {
+            damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage( chrc ),
+                                           item::nname( itype_id( spl.effect_data() ), spl.damage( chrc ) ) );
+        }
     } else if( spl_eff == "summon" ) {
         std::string monster_name = "FIXME";
         if( spl.has_flag( spell_flag::SPAWN_GROUP ) ) {
