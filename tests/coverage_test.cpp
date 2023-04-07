@@ -61,7 +61,7 @@ static float get_avg_melee_dmg( const std::string &clothing_id, bool infect_risk
         if( zed.melee_attack( dude, 10000.0f ) ) {
             num_hits++;
         }
-        cloth.set_damage( cloth.min_damage() );
+        cloth.set_damage( 0 );
         if( !infect_risk ) {
             dam_acc += dude.get_hp_max() - dude.get_hp();
         } else if( dude.has_effect( effect_bite ) ) {
@@ -96,7 +96,7 @@ static float get_avg_melee_dmg( item cloth, bool infect_risk = false )
         if( zed.melee_attack( dude, 10000.0f ) ) {
             num_hits++;
         }
-        cloth.set_damage( cloth.min_damage() );
+        cloth.set_damage( 0 );
         if( !infect_risk ) {
             dam_acc += dude.get_hp_max() - dude.get_hp();
         } else if( dude.has_effect( effect_bite ) ) {
@@ -142,7 +142,7 @@ static float get_avg_bullet_dmg( const std::string &clothing_id )
         if( atk.missed_by < 1.0 ) {
             num_hits++;
         }
-        cloth.set_damage( cloth.min_damage() );
+        cloth.set_damage( 0 );
         dam_acc += dude->get_hp_max() - dude->get_hp();
         if( dude->is_dead() ) {
             break;

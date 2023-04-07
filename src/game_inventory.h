@@ -83,7 +83,7 @@ bool compare_items( const item &first, const item &second,
  * Select items to drop.
  * @return A list of pairs of item_location, quantity.
  */
-drop_locations multidrop( avatar &you );
+drop_locations multidrop( Character &you );
 /**
  * Select items to pick up.
  * If target is provided, pick up items only from that tile (presumably adjacent to the avatar).

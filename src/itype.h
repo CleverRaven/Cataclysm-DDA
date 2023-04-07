@@ -159,9 +159,6 @@ struct islot_comestible {
         /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
         int parasites = 0;
 
-        /**Amount of radiation you get from this comestible*/
-        int radiation = 0;
-
         /** freezing point in degrees celsius, below this temperature item can freeze */
         float freeze_point = 0;
 
@@ -708,9 +705,9 @@ struct islot_gun : common_ranged_data {
     int loudness = 0;
 
     /**
-     * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
+     * If this uses electric energy, how much (per shot).
      */
-    int ups_charges = 0;
+    units::energy energy_drain = 0_kJ;
     /**
      * One in X chance for gun to require major cleanup after firing blackpowder shot.
      */
@@ -825,11 +822,11 @@ struct islot_gunmod : common_ranged_data {
     /** How many moves does this gunmod take to install? */
     int install_time = -1;
 
-    /** Increases base gun UPS consumption by this many times per shot */
-    float ups_charges_multiplier = 1.0f;
+    /** Increases base gun energy consumption by this many times per shot */
+    float energy_drain_multiplier = 1.0f;
 
-    /** Increases base gun UPS consumption by this value (kJ) per shot */
-    int ups_charges_modifier = 0;
+    /** Increases base gun energy consumption by this value per shot */
+    units::energy energy_drain_modifier = 0_kJ;
 
     /** Increases base gun ammo to fire by this many times per shot */
     float ammo_to_fire_multiplier = 1.0f;
@@ -1316,13 +1313,9 @@ struct itype {
         float solar_efficiency = 0.0f;
 
     private:
-        /** Minimum and maximum amount of damage to an item (state of maximum repair). */
-        // TODO: create and use a MinMax class or similar to put both values into one object.
-        /// @{
-        int damage_min_ = -1000;
-        int damage_max_ = +4000;
+        /** maximum amount of damage to a non- count_by_charges item */
+        static constexpr int damage_max_ = 4000;
         int degrade_increments_ = 50;
-        /// @}
 
     public:
         /** Damage output in melee for zero or more damage types */
@@ -1350,9 +1343,6 @@ struct itype {
             melee.fill( 0 );
         }
 
-        int damage_min() const {
-            return count_by_charges() ? 0 : damage_min_;
-        }
         int damage_max() const {
             return count_by_charges() ? 0 : damage_max_;
         }
@@ -1360,6 +1350,17 @@ struct itype {
         int degrade_increments() const {
             return count_by_charges() ? 0 : degrade_increments_;
         }
+
+        /**
+        * Quantizes item damage numbers into levels (for example for display).
+        * item damage [    0 -    0 ] returns 0
+        * item damage [    1 -  999 ] returns 1
+        * item damage [ 1000 - 1999 ] returns 2
+        * item damage [ 2000 - 2999 ] returns 3
+        * item damage [ 3000 - 3999 ] returns 4
+        * item damage [ 4000 - 4000 ] returns 5
+        */
+        int damage_level( int damage ) const;
 
         std::string get_item_type_string() const;
 

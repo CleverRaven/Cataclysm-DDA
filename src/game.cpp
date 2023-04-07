@@ -55,6 +55,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
+#include "city.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
@@ -593,10 +594,10 @@ void game_ui::init_ui()
     get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
     get_options().save();
 #else
-    ensure_term_size();
-
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
+
+    ensure_term_size();
 
     // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
     if( TERMY % 2 ) {
@@ -4896,6 +4897,21 @@ static bool can_place_monster( const monster &mon, const tripoint &p )
     return mon.will_move_to( p );
 }
 
+static bool can_place_npc( const tripoint &p )
+{
+    creature_tracker &creatures = get_creature_tracker();
+    if( const monster *const critter = creatures.creature_at<monster>( p ) ) {
+        // creature_tracker handles this. The hallucination monster will simply vanish
+        if( !critter->is_hallucination() ) {
+            return false;
+        }
+    }
+    if( creatures.creature_at<Character>( p ) ) {
+        return false;
+    }
+    return !g->is_dangerous_tile( p );
+}
+
 static std::optional<tripoint> choose_where_to_place_monster( const monster &mon,
         const tripoint_range<tripoint> &range )
 {
@@ -4991,7 +5007,7 @@ void game::clear_zombies()
 }
 
 bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                    int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed )
+                                    int max_radius, tripoint &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
 {
     tripoint target_point;
     //find a legal outdoor place to spawn based on the specified radius,
@@ -5002,6 +5018,29 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
         if( can_place_monster( monster( mt->id ), target_point ) &&
             ( open_air_allowed || get_map().has_floor( target_point ) ) &&
             ( !outdoor_only || get_map().is_outside( target_point ) ) &&
+            ( !indoor_only || !get_map().is_outside( target_point ) ) &&
+            rl_dist( target_point, target ) >= min_radius ) {
+            point = target_point;
+            return true;
+        }
+    }
+    return false;
+}
+
+
+bool game::find_nearby_spawn_point( const tripoint &target, int min_radius,
+                                    int max_radius, tripoint &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
+{
+    tripoint target_point;
+    //find a legal outdoor place to spawn based on the specified radius,
+    //we just try a bunch of random points and use the first one that works, it none do then no spawn
+    for( int attempts = 0; attempts < 75; attempts++ ) {
+        target_point = target + tripoint( rng( -max_radius, max_radius ),
+                                          rng( -max_radius, max_radius ), 0 );
+        if( can_place_npc( target_point ) &&
+            ( open_air_allowed || get_map().has_floor( target_point ) ) &&
+            ( !outdoor_only || get_map().is_outside( target_point ) ) &&
+            ( !indoor_only || !get_map().is_outside( target_point ) ) &&
             rl_dist( target_point, target ) >= min_radius ) {
             point = target_point;
             return true;
@@ -5073,6 +5112,37 @@ bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt,
     //Don't attempt to place phantasms inside of other creatures
     if( !get_creature_tracker().creature_at( phantasm->pos(), true ) ) {
         return critter_tracker->add( phantasm );
+    } else {
+        return false;
+    }
+}
+
+bool game::spawn_npc( const tripoint &p, const string_id<npc_template> &npc_class,
+                      std::string &unique_id,
+                      std::vector<trait_id> &traits, std::optional<time_duration> lifespan )
+{
+    if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
+        get_avatar().add_msg_debug_if_player( debugmode::DF_NPC, "NPC with unique id %s already exists.",
+                                              unique_id );
+        return false;
+    }
+    shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
+    tmp->normalize();
+    tmp->load_npc_template( npc_class );
+    tmp->spawn_at_precise( tripoint_abs_ms( get_map().getabs( p ) ) );
+    if( !get_creature_tracker().creature_at( p, true ) ) {
+        overmap_buffer.insert_npc( tmp );
+        for( const trait_id &new_trait : traits ) {
+            tmp->set_mutation( new_trait );
+        }
+        if( !unique_id.empty() ) {
+            tmp->set_unique_id( unique_id );
+        }
+        if( lifespan.has_value() ) {
+            tmp->set_summon_time( lifespan.value() );
+        }
+        load_npcs();
+        return true;
     } else {
         return false;
     }
@@ -5845,16 +5915,14 @@ void game::examine( const tripoint &examp, bool with_pickup )
                     return;
                 }
             }
-        } else if( u.is_mounted() ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
+        } else {
+            u.cant_do_mounted();
         }
         npc *np = dynamic_cast<npc *>( c );
-        if( np != nullptr && !u.is_mounted() ) {
+        if( np != nullptr && !u.cant_do_mounted() ) {
             if( npc_menu( *np ) ) {
                 return;
             }
-        } else if( np != nullptr && u.is_mounted() ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
         }
     }
 
@@ -5888,15 +5956,11 @@ void game::examine( const tripoint &examp, bool with_pickup )
     const tripoint player_pos = u.pos();
 
     if( m.has_furn( examp ) ) {
-        if( u.is_mounted() ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
-        } else {
+        if( !u.cant_do_mounted() ) {
             xfurn_t.examine( u, examp );
         }
     } else {
-        if( u.is_mounted() && xter_t.can_examine( examp ) ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
-        } else {
+        if( xter_t.can_examine( examp ) && !u.is_mounted() ) {
             xter_t.examine( u, examp );
         }
     }

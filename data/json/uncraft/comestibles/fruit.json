@@ -1,0 +1,52 @@
+[
+  {
+    "result": "watermelon",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "watermelon_wedge", 16 ] ] ]
+  },
+  {
+    "result": "melon",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "melon_chunks", 3 ] ] ]
+  },
+  {
+    "result": "pineapple",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "pineapple_chunks", 5 ] ] ]
+  },
+  {
+    "result": "coconut",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "time": "2 m",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "coconut_flesh", 5 ] ] ]
+  },
+  {
+    "result": "irradiated_watermelon",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "watermelon"
+  },
+  {
+    "result": "irradiated_melon",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "pineapple"
+  },
+  {
+    "result": "irradiated_pineapple",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "copy-from": "pineapple"
+  }
+]

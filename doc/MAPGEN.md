@@ -1195,7 +1195,7 @@ For example, the default value of a parameter, or a terrain id in the
 * A JSON object containing the key `"distribution"`, whose corresponding value
   is a list of lists, each a pair of a string id and an integer weight.  For
   example:
-```
+```json
 { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
 ```
 * A JSON object containing the key `"param"`, whose corresponding value is the

@@ -1,0 +1,50 @@
+[
+  {
+    "type": "enchantment",
+    "id": "ench_longsword_holy",
+    "has": "WIELD",
+    "condition": "ALWAYS",
+    "name": { "str": "magical blade" },
+    "description": "The damage done and light emitted by this sword increase with intelligence.",
+    "values": [
+      {
+        "value": "ITEM_DAMAGE_CUT",
+        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "holy_blade" }, "+", { "u_val": "intelligence" } ] }
+      },
+      {
+        "value": "LUMINATION",
+        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "holy_blade" }, "+", { "u_val": "intelligence" } ] }
+      }
+    ]
+  },
+  {
+    "type": "enchantment",
+    "id": "ench_armor_spirit",
+    "has": "WORN",
+    "condition": "ALWAYS",
+    "name": { "str": "magic armor" },
+    "description": "This armor is made better as your spell level improves.",
+    "values": [
+      {
+        "value": "ARMOR_BASH",
+        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+      },
+      {
+        "value": "ARMOR_CUT",
+        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+      },
+      {
+        "value": "ARMOR_STAB",
+        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+      },
+      {
+        "value": "ARMOR_BULLET",
+        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": -1 } ] }
+      },
+      {
+        "value": "LUMINATION",
+        "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spirit_armor" }, "*", { "const": 3 } ] }
+      }
+    ]
+  }
+]

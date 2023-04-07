@@ -9,7 +9,6 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "omdata.h"
-#include "overmap.h"
 #include "rng.h"
 
 namespace

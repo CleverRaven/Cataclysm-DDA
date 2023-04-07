@@ -1,0 +1,254 @@
+[
+  {
+    "type": "test_data",
+    "spawn_data": {
+      "group": [
+        {
+          "given": "group with container-item spawns item with default charges",
+          "group": "test_default_charges_container_item",
+          "expected": 4
+        },
+        {
+          "given": "group with container-item spawns item with custom charges",
+          "group": "test_custom_charges_container_item",
+          "expected": 17
+        },
+        {
+          "given": "group without container-item spawns item with default charges and default container",
+          "group": "test_default_charges_default_container",
+          "expected": 4
+        },
+        {
+          "given": "group without container-item spawns item with custom charges and default container",
+          "group": "test_custom_charges_default_container",
+          "expected": 17
+        },
+        {
+          "given": "group with container-item spawns multiple items without charges",
+          "group": "test_container_item_multiples",
+          "expected": 4
+        },
+        {
+          "given": "group without container-item spawns single item without charges and with default container",
+          "group": "test_default_container_single",
+          "expected": 1
+        }
+      ],
+      "recipe": [
+        { "given": "recipe spawns item with default charges", "recipe": "test_item_with_charges", "expected": 4 },
+        {
+          "given": "recipe spawns item with custom charges",
+          "recipe": "test_item_with_charges_custom",
+          "expected": 17
+        }
+      ],
+      "vehicle": [
+        {
+          "given": "vehicle spawns with item with default charges and default container",
+          "vehicle": "test_vehicle_item_with_default_charges_and_container",
+          "expected": 4
+        },
+        {
+          "given": "vehicle spawns with item without charges and with default container",
+          "vehicle": "test_vehicle_item_with_container_without_charges",
+          "expected": 1
+        }
+      ],
+      "profession": [
+        {
+          "given": "profession item substitution to item with default charges and default container",
+          "profession": "test_profession_substitution_default_charges_default_container",
+          "expected": 4
+        },
+        {
+          "given": "profession item substitution to item with custom charges and default container",
+          "profession": "test_profession_substitution_custom_charges_default_container",
+          "expected": 17
+        },
+        {
+          "given": "profession item substitution to item without charges and with default container",
+          "profession": "test_profession_substitution_without_charges_default_container",
+          "expected": 1
+        }
+      ],
+      "map": [
+        {
+          "given": "map::spawn_item spawns item with default charges and default container",
+          "item": "test_item_with_charges_and_container",
+          "expected": 4
+        },
+        {
+          "given": "map::spawn_item spawns item with custom charges and default container",
+          "item": "test_item_with_charges_and_container",
+          "charges": 17,
+          "expected": 17
+        },
+        {
+          "given": "map::spawn_item spawns item without charges and with default container",
+          "item": "test_item_with_container_without_charges",
+          "expected": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "test_item_with_charges",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "charges": 4,
+    "name": "test item with charges",
+    "volume": "1ml",
+    "weight": "1g",
+    "description": "nothing",
+    "symbol": "t"
+  },
+  {
+    "id": "test_item_with_charges_and_container",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "charges": 4,
+    "container": "test_backpack",
+    "name": "test item with charges",
+    "volume": "1ml",
+    "weight": "1g",
+    "description": "nothing",
+    "symbol": "t"
+  },
+  {
+    "id": "test_item_without_charges",
+    "type": "GENERIC",
+    "name": "test item without charges",
+    "volume": "1ml",
+    "weight": "1g",
+    "description": "nothing",
+    "symbol": "t"
+  },
+  {
+    "id": "test_item_with_container_without_charges",
+    "type": "GENERIC",
+    "container": "test_backpack",
+    "name": "test item without charges",
+    "volume": "1ml",
+    "weight": "1g",
+    "description": "nothing",
+    "symbol": "t"
+  },
+  {
+    "id": "test_default_charges_container_item",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "test_backpack",
+    "on_overflow": "discard",
+    "entries": [ { "item": "test_item_with_charges" } ]
+  },
+  {
+    "id": "test_custom_charges_container_item",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "test_backpack",
+    "on_overflow": "discard",
+    "entries": [ { "item": "test_item_with_charges", "charges": 17 } ]
+  },
+  {
+    "id": "test_container_item_multiples",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "test_backpack",
+    "on_overflow": "discard",
+    "entries": [ { "item": "test_item_without_charges", "count": 4 } ]
+  },
+  {
+    "id": "test_default_charges_default_container",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "test_item_with_charges_and_container" } ]
+  },
+  {
+    "id": "test_custom_charges_default_container",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "test_item_with_charges_and_container", "charges": 17 } ]
+  },
+  {
+    "id": "test_default_container_single",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "test_item_with_container_without_charges" } ]
+  },
+  {
+    "type": "recipe",
+    "result": "test_item_with_charges",
+    "container": "test_backpack",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS"
+  },
+  {
+    "type": "recipe",
+    "result": "test_item_with_charges",
+    "id_suffix": "custom",
+    "container": "test_backpack",
+    "charges": 17,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS"
+  },
+  {
+    "id": "test_vehicle_item_with_default_charges_and_container",
+    "type": "vehicle",
+    "name": "Test Vehicle",
+    "blueprint": [ "#" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "folding_frame", "trunk" ] } ],
+    "items": [ { "x": 0, "y": 0, "chance": 100, "items": [ "test_item_with_charges_and_container" ] } ]
+  },
+  {
+    "id": "test_vehicle_item_with_container_without_charges",
+    "type": "vehicle",
+    "name": "Test Vehicle",
+    "blueprint": [ "#" ],
+    "parts": [ { "x": 0, "y": 0, "parts": [ "folding_frame", "trunk" ] } ],
+    "items": [ { "x": 0, "y": 0, "chance": 100, "items": [ "test_item_with_container_without_charges" ] } ]
+  },
+  {
+    "id": "test_trait_substitution",
+    "type": "mutation",
+    "name": "substitution test trait",
+    "description": "substitution test trait",
+    "points": 0
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "test_item_with_charges",
+    "sub": [ { "present": [ "test_trait_substitution" ], "new": [ "test_item_with_charges_and_container" ] } ]
+  },
+  {
+    "type": "profession_item_substitutions",
+    "item": "test_item_without_charges",
+    "sub": [ { "present": [ "test_trait_substitution" ], "new": [ "test_item_with_container_without_charges" ] } ]
+  },
+  {
+    "id": "test_profession_substitution_default_charges_default_container",
+    "type": "profession",
+    "traits": [ "test_trait_substitution" ],
+    "items": { "both": { "entries": [ { "item": "test_item_with_charges" } ] } },
+    "name": "substitution test profession",
+    "description": "substitution test profession",
+    "points": 0
+  },
+  {
+    "id": "test_profession_substitution_custom_charges_default_container",
+    "type": "profession",
+    "traits": [ "test_trait_substitution" ],
+    "items": { "both": { "entries": [ { "group": "test_custom_charges_default_container" } ] } },
+    "name": "substitution test profession",
+    "description": "substitution test profession",
+    "points": 0
+  },
+  {
+    "id": "test_profession_substitution_without_charges_default_container",
+    "type": "profession",
+    "traits": [ "test_trait_substitution" ],
+    "items": { "both": { "entries": [ { "item": "test_item_without_charges" } ] } },
+    "name": "substitution test profession",
+    "description": "substitution test profession",
+    "points": 0
+  }
+]

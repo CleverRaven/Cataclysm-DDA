@@ -36,7 +36,7 @@
           "=",
           { "u_val": "var", "var_name": "exp_to_perk" },
           "+",
-          { "const": 300 }
+          { "u_val": "var", "var_name": "exp_per_level" }
         ]
       },
       {
@@ -71,15 +71,38 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_give_perk_menu",
+    "id": "EOC_bombastic_perks_initialize",
     "eoc_type": "EVENT",
     "required_event": "game_start",
     "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
     "effect": [
+      { "queue_eocs": "EOC_bombastic_perks_try_configure", "time_in_future": "30 seconds" },
+      { "u_message": "Bombastic Perks is loaded, configuration menu will appear in 30 seconds." }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_bombastic_perks_try_configure",
+    "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
+    "effect": [
+      { "open_dialogue": { "topic": "TALK_PERK_MENU_WELCOME" } },
+      { "queue_eocs": "EOC_bombastic_perks_try_configure", "time_in_future": "30 seconds" },
+      {
+        "u_message": "Configuration menu closed, if Bombastic Perks was not properly configured menu will open again in 30 seconds."
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_give_perk_menu",
+    "condition": { "and": [ { "not": { "u_has_trait": "perk_perk_menu" } } ] },
+    "effect": [
       { "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "u_val": "var", "var_name": "exp_to_perk" }, "=", { "const": 100 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "exp_per_level" }, "=", { "const": 300 } ] },
       { "arithmetic": [ { "u_val": "var", "var_name": "available_exp" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "u_val": "var", "var_name": "current_level" }, "=", { "const": 0 } ] },
+      { "arithmetic": [ { "u_val": "var", "var_name": "no_prerecs" }, "=", { "const": 0 } ] },
       { "u_add_trait": "perk_perk_menu" }
     ]
   },
@@ -90,33 +113,6 @@
       {
         "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "+", { "const": 1 } ]
       }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_queue_can_finder",
-    "effect": [
-      { "queue_eocs": "EOC_can_hunting", "time_in_future": [ "35 minutes", "120 minutes" ] },
-      { "u_message": "You start hunting for cans" },
-      { "arithmetic": [ { "u_val": "var", "var_name": "looking_for_cans" }, "=", { "const": 1 } ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_deque_can_finder",
-    "effect": [
-      { "u_message": "You stop looking for cans" },
-      { "arithmetic": [ { "u_val": "var", "var_name": "looking_for_cans" }, "=", { "const": 0 } ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "EOC_can_hunting",
-    "condition": { "compare_num": [ { "u_val": "var", "var_name": "looking_for_cans" }, ">", { "const": 0 } ] },
-    "effect": [
-      { "queue_eocs": "EOC_can_hunting", "time_in_future": [ "35 minutes", "120 minutes" ] },
-      { "u_message": "Someone left a perfectly good can of soda on the ground!" },
-      { "u_spawn_item": "groce_softdrink", "use_item_group": true }
     ]
   }
 ]

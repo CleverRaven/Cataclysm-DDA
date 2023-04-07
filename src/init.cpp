@@ -22,6 +22,7 @@
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character_modifier.h"
+#include "city.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"

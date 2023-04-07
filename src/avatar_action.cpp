@@ -668,7 +668,12 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( *np->get_wielded_item() );
+        item_location wielded = np->get_wielded_item();
+        if( wielded ) {
+            return np->weapon_value( *wielded );
+        } else {
+            return np->unarmed_value();
+        }
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -837,11 +842,10 @@ void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
     you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ), false );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
-                                        const units::energy &cost_per_shot )
+void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun )
 {
     you.assign_activity(
-        player_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ) ), false );
+        player_activity( aim_activity_actor::use_bionic( fake_gun ) ), false );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
