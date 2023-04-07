@@ -561,5 +561,27 @@
     "time": "10 m",
     "qualities": [ { "id": "FABRIC_CUT", "level": 1 }, { "id": "CUT", "level": 2 } ],
     "components": [ [ [ "sheet_cotton", 30 ] ], [ [ "thread", 150 ] ] ]
+  },
+  {
+    "result": "crackpipe",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 3 ] ] ]
+  },
+  {
+    "result": "pipe_glass",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 2 ] ] ]
+  },
+  {
+    "result": "water_faucet",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "3 m",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "steel_chunk", 3 ] ], [ [ "scrap", 3 ] ] ]
   }
 ]

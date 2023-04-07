@@ -3130,7 +3130,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ]
   },
   {
     "id": "medium_propane_tank",
@@ -3159,7 +3159,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ]
   },
   {
     "id": "large_propane_tank",
@@ -3188,7 +3188,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ]
   },
   {
     "id": "xl_propane_tank",
@@ -3217,7 +3217,7 @@
       }
     ],
     "charges_per_use": 1,
-    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS" ]
+    "flags": [ "GAS_TANK", "COLLAPSE_CONTENTS", "NO_SALVAGE" ]
   },
   {
     "id": "shot_glass",

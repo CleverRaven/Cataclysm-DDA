@@ -101,10 +101,12 @@
     "name": { "str": "match", "str_pl": "matches" },
     "symbol": "|",
     "description": "A small stick with a red part at the end.  Strike it against a matchbook to light it.",
+    "category": "tools",
     "volume": "4 ml",
     "weight": "1 mg",
     "color": "red",
     "flags": [ "TRADER_AVOID" ],
+    "material": [ "wood" ],
     "ammo_type": "match"
   },
   {

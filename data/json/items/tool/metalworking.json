@@ -49,7 +49,7 @@
     "symbol": ";",
     "color": "red",
     "use_action": [ "BOLTCUTTERS" ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ]
   },
   {
     "id": "char_forge",

@@ -1070,7 +1070,7 @@
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "WRENCH", 2 ], [ "WRENCH_FINE", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP", "NO_SALVAGE" ]
   },
   {
     "id": "small_repairkit",
