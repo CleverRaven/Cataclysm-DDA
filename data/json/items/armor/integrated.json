@@ -516,7 +516,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "epicuticle" },
-    "description": "This skin is much better.  You could get used to this one.",
+    "description": "Your chitinous skin doesn't sweat so well and it's a bit stiffer than before, but it's far more durable than your old human skin.",
     "weight": "1 kg",
     "volume": "200 ml",
     "price": 0,
@@ -532,6 +532,12 @@
         "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
         "covers": [ "hand_l", "hand_r", "foot_l", "foot_r", "leg_l", "leg_r", "arm_l", "arm_r", "torso", "head" ],
         "coverage": 100,
+        "encumbrance": 2
+      },
+      {
+        "material": [ { "type": "leather_arthropod", "covered_by_mat": 100, "thickness": 2.5 } ],
+        "covers": [ "mouth" ],
+        "coverage": 85,
         "encumbrance": 1
       }
     ]

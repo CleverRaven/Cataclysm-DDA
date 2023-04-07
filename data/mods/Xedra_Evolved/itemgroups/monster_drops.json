@@ -102,6 +102,7 @@
     "type": "item_group",
     "id": "harddrugs",
     "copy-from": "harddrugs",
+    "subtype": "distribution",
     "extend": {
       "entries": [
         { "item": "faewild", "prob": 15, "container-item": "bag_zipper", "charges": [ 3, 12 ] },

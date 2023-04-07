@@ -290,7 +290,6 @@ Flag                       | Description
 `TARGET_TELEPORT`          | Teleport spell changes to maximum range target with aoe as variation around target.
 `UNSAFE_TELEPORT`          | Teleport spell risks killing the caster or others.
 `VERBAL`                   | Spell makes noise at caster location, mouth encumbrance affects fail %.
-`WITH_CONTAINER`           | Items spawned with container.
 `WONDER`                   | This drastically alters the behavior of the parent spell: The spell itself doesn't cast, but the damage and range information are used to cast the `extra_effects`.  A n number of `extra_effects` will be chosen to be cast at random, where n is the current damage of the spell (stacks with the `RANDOM_DAMAGE` flag), the message of the casted spell will also be displayed.  If this spell's message is not wanted, make sure `message` is an empty string.
 
 
