@@ -382,11 +382,6 @@ void math_exp<D>::math_exp_impl::parse_comma( parse_state &state )
         new_oper();
     }
     arity.top().current++;
-    if( arity.top().expected > 0 && arity.top().current > arity.top().expected ) {
-        throw std::invalid_argument( string_format(
-                                         "Too many arguments for function %s()",
-                                         arity.top().sym.data() ) );
-    }
     state.set( parse_state::expect::operand, true );
 }
 
@@ -424,11 +419,17 @@ void math_exp<D>::math_exp_impl::new_func()
 {
     if( !ops.empty() && is_function( ops.top() ) ) {
         typename std::vector<thingie<D>>::size_type const nparams = arity.top().current;
-        if( arity.top().expected > 0 && arity.top().current < arity.top().expected ) {
-            throw std::invalid_argument( string_format(
-                                             "Not enough arguments for function %s()",
-                                             arity.top().sym.data() ) );
+        if( arity.top().expected >= 0 ) {
+            if( arity.top().current < arity.top().expected ) {
+                throw std::invalid_argument(
+                    string_format( "Not enough arguments for function %s()", arity.top().sym.data() ) );
+            }
+            if( arity.top().current > arity.top().expected ) {
+                throw std::invalid_argument(
+                    string_format( "Too many arguments for function %s()", arity.top().sym.data() ) );
+            }
         }
+
         std::vector<thingie<D>> params( nparams );
         for( typename std::vector<thingie<D>>::size_type i = 0; i < nparams; i++ ) {
             params[nparams - i - 1] = std::move( output.top() );

@@ -119,6 +119,7 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "sin(+)" ) );
         CHECK_FALSE( testexp.parse( "sin(-)" ) );
         CHECK_FALSE( testexp.parse( "_test_(-)" ) );
+        CHECK_FALSE( testexp.parse( "_test_(1)" ) );
         CHECK_FALSE( testexp.parse( "'string'" ) );
         CHECK_FALSE( testexp.parse( "('wrong')" ) );
         CHECK_FALSE( testexp.parse( "u_val('wr'ong')" ) ); // stray ' inside string
