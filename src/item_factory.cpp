@@ -2635,11 +2635,11 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "barrel_volume", slot.barrel_volume, strict, 0_ml );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
-    assign( jo, "ups_charges", slot.ups_charges, strict, 0 );
+    assign( jo, "energy_drain", slot.energy_drain, strict, 0_kJ );
     assign( jo, "blackpowder_tolerance", slot.blackpowder_tolerance, strict, 0 );
     assign( jo, "min_cycle_recoil", slot.min_cycle_recoil, strict, 0 );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 1 );
+    assign( jo, "ammo_to_fire", slot.ammo_to_fire, strict, 0 );
 
     if( jo.has_array( "valid_mod_locations" ) ) {
         slot.valid_mod_locations.clear();
@@ -3251,8 +3251,8 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "shot_spread_multiplier_modifier", slot.shot_spread_multiplier_modifier );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
-    assign( jo, "ups_charges_multiplier", slot.ups_charges_multiplier );
-    assign( jo, "ups_charges_modifier", slot.ups_charges_modifier );
+    assign( jo, "energy_drain_multiplier", slot.energy_drain_multiplier );
+    assign( jo, "energy_drain_modifier", slot.energy_drain_modifier );
     assign( jo, "ammo_to_fire_multiplier", slot.ammo_to_fire_multiplier );
     assign( jo, "ammo_to_fire_modifier", slot.ammo_to_fire_modifier );
     assign( jo, "weight_multiplier", slot.weight_multiplier );

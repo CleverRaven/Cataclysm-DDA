@@ -5263,7 +5263,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 }
                 // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
                 if( n.ammo_capacity( ammo_battery ) > n.ammo_remaining() ||
-                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
+                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining( nullptr ) ) ) {
                     int power = recharge_part.info().bonus;
                     while( power >= 1000 || x_in_y( power, 1000 ) ) {
                         const int missing = cur_veh.discharge_battery( 1 );
