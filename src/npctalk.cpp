@@ -4555,6 +4555,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_cast_spell( jo, "npc_cast_spell", true, targeted );
     } else if( jo.has_array( "arithmetic" ) ) {
         subeffect_fun.set_arithmetic( jo, "arithmetic", false );
+    } else if( jo.has_array( "math" ) ) {
+        subeffect_fun.set_math( jo, "math" );
     } else if( jo.has_string( "u_spawn_monster" ) ) {
         subeffect_fun.set_spawn_monster( jo, "u_spawn_monster", false );
     } else if( jo.has_string( "npc_spawn_monster" ) ) {
