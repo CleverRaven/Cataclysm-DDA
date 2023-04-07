@@ -1605,7 +1605,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
         while( corpse.damage() < corpse.max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
-                corpse.inc_damage( damage_type::BASH );
+                corpse.inc_damage();
                 if( corpse.damage() == corpse.max_damage() ) {
                     num_corpses++;
                 }
@@ -2059,14 +2059,14 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
 
 enum class repeat_type : int {
     // INIT should be zero. In some scenarios (vehicle welder), activity value default to zero.
-    INIT = 0,    // Haven't found repeat value yet.
-    ONCE,        // Repeat just once
-    FOREVER,     // Repeat for as long as possible
-    FULL,        // Repeat until damage==0
-    EVENT,       // Repeat until something interesting happens
-    REFIT_ONCE,  // Try refitting once
-    REFIT_FULL,  // Reapeat until item fits
-    CANCEL,      // Stop repeating
+    INIT = 0,       // Haven't found repeat value yet.
+    ONCE = 1,       // Repeat just once
+    // value 2 obsolete - previously used for reinforcement
+    FULL = 3,       // Repeat until damage==0
+    EVENT = 4,      // Repeat until something interesting happens
+    REFIT_ONCE = 5, // Try refitting once
+    REFIT_FULL = 6, // Reapeat until item fits
+    CANCEL = 7,     // Stop repeating
 };
 
 using I = std::underlying_type_t<repeat_type>;
@@ -2092,17 +2092,15 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
     rmenu.text = title;
 
     rmenu.addentry( static_cast<int>( repeat_type::ONCE ), true, '1', _( "Repeat once" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::FOREVER ), true, '2',
-                    _( "Repeat until reinforced" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::FULL ), true, '3',
-                    _( "Repeat until fully repaired, but don't reinforce" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '4',
+    rmenu.addentry( static_cast<int>( repeat_type::FULL ), true, '2',
+                    _( "Repeat until fully repaired" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '3',
                     _( "Repeat until success/failure/level up" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::REFIT_ONCE ), can_refit, '5',
+    rmenu.addentry( static_cast<int>( repeat_type::REFIT_ONCE ), can_refit, '4',
                     _( "Attempt to refit once" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::REFIT_FULL ), can_refit, '6',
+    rmenu.addentry( static_cast<int>( repeat_type::REFIT_FULL ), can_refit, '5',
                     _( "Repeat until refitted" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '7', _( "Back to item selection" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '6', _( "Back to item selection" ) );
 
     rmenu.selected = last_selection - repeat_type::ONCE;
     rmenu.query();
@@ -2258,8 +2256,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         const bool need_input =
             ( repeat == repeat_type::ONCE ) ||
             ( repeat == repeat_type::EVENT && event_happened ) ||
-            ( repeat == repeat_type::FULL && ( cannot_continue_repair ||
-                                               fix_location->damage() <= fix_location->damage_floor( false ) ) ) ||
+            ( repeat == repeat_type::FULL && cannot_continue_repair ) ||
             ( repeat == repeat_type::REFIT_ONCE ) ||
             ( repeat == repeat_type::REFIT_FULL && !can_refit );
         if( need_input ) {
@@ -2376,8 +2373,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL &&
-                fix.damage() <= fix.damage_floor( false ) ) {
+            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() ) {
                 const char *msg = fix.damage_level() > 0 ?
                                   _( "Your %s is repaired as much as possible, considering the degradation." ) :
                                   _( "Your %s is already fully repaired." );
@@ -2479,11 +2475,7 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     const std::string start_durability = target->durability_indicator( true );
     item &fix = *target.get_item();
     for( int i = 0; i < method->heal_stages.value_or( 0 ); i++ ) {
-        int dmg = fix.damage() + 1;
-        for( const int lvl = fix.damage_level(); lvl == fix.damage_level() && dmg != fix.damage(); ) {
-            dmg = fix.damage(); // break loop if clamped by degradation or no more repair needed
-            fix.mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
-        }
+        fix.mod_damage( -itype::damage_scale );
     }
 
     //get skill list from mending method, iterate through and give xp

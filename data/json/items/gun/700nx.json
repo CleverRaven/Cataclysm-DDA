@@ -5,7 +5,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "Elephant gun" },
-    "description": "A custom-made single shot rifle specially designed for the hunting of huge game.  You could obviously kill everything with this, EVERYTHING.  If you ever find enough ammo of course.",
+    "description": "A ornately engraved, custom-made double rifle specially designed for the hunting of huge game.  You could obviously kill everything with this, EVERYTHING.  If you ever find enough ammo of course.",
     "weight": "8082 g",
     "volume": "4500 ml",
     "longest_side": "110 cm",
@@ -19,8 +19,8 @@
     "dispersion": 90,
     "durability": 8,
     "blackpowder_tolerance": 56,
-    "clip_size": 1,
-    "reload": 600,
+    "clip_size": 2,
+    "reload": 300,
     "barrel_volume": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -34,7 +34,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "700nx": 1 } } ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT", "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "700nx": 2 } } ]
   }
 ]

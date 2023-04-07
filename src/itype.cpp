@@ -97,6 +97,17 @@ std::string itype::nname( unsigned int quantity ) const
     return name.translated( quantity );
 }
 
+int itype::damage_level( int damage ) const
+{
+    if( damage == 0 ) {
+        return 0;
+    }
+    if( count_by_charges() ) {
+        return 5;
+    }
+    return std::clamp( 1 + 4 * damage / damage_max(), 0, 5 );
+}
+
 bool itype::has_any_quality( const std::string &quality ) const
 {
     return std::any_of( qualities.begin(),
