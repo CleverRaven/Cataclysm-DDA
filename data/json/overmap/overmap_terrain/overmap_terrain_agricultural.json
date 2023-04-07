@@ -112,6 +112,12 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "sugar_house_parking",
+    "copy-from": "s_lot",
+    "delete": { "flags": [ "SIDEWALK" ] }
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "pottery_cottage", "pottery_cottage_2nd", "pottery_cottage_roof" ],
     "copy-from": "generic_rural_building",
     "name": "potters cottage",

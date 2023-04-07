@@ -9,6 +9,7 @@
 
 #include "dialogue.h"
 #include "dialogue_helpers.h"
+#include "math_parser_shim.h"
 #include "mission.h"
 
 class JsonObject;
@@ -49,7 +50,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
         "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int",
-        "compare_string", "roll_contested"
+        "compare_string", "roll_contested", "compare_num"
     }
 };
 } // namespace dialogue_data
@@ -73,12 +74,12 @@ template<class T>
 str_or_var<T> get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
                               const std::string &default_val = "" );
 template<class T>
-int_or_var<T> get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
-                              int default_val = 0 );
+dbl_or_var<T> get_dbl_or_var( const JsonObject &jo, std::string member, bool required = true,
+                              double default_val = 0.0 );
 template<class T>
-int_or_var_part<T> get_int_or_var_part( const JsonValue &jv, const std::string &member,
+dbl_or_var_part<T> get_dbl_or_var_part( const JsonValue &jv, const std::string &member,
                                         bool required = true,
-                                        int default_val = 0 );
+                                        double default_val = 0.0 );
 template<class T>
 duration_or_var<T> get_duration_or_var( const JsonObject &jo, std::string member,
                                         bool required = true,
@@ -88,13 +89,13 @@ duration_or_var_part<T> get_duration_or_var_part( const JsonValue &jv, const std
         bool required = true,
         time_duration default_val = 0_seconds );
 template<class T>
-tripoint_abs_ms get_tripoint_from_var( cata::optional<var_info> var, const T &d );
+tripoint_abs_ms get_tripoint_from_var( std::optional<var_info> var, const T &d );
 var_info read_var_info( const JsonObject &jo );
 void write_var_value( var_type type, const std::string &name, talker *talk,
                       const std::string &value );
 template<class T>
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
-                              bool check_value, int_or_var<T> &default_val );
+                              bool check_value, dbl_or_var<T> &default_val );
 std::string get_talk_var_basename( const JsonObject &jo, const std::string &member,
                                    bool check_value );
 // the truly awful declaration for the conditional_t loading helper_function
@@ -211,10 +212,16 @@ struct conditional_t {
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
         void set_compare_string( const JsonObject &jo, const std::string &member );
-        void set_compare_int( const JsonObject &jo, const std::string &member );
-        static std::function<int( const T & )> get_get_int( const JsonObject &jo );
-        static std::function<int( const T & )> get_get_int( const std::string &value,
+        void set_compare_num( const JsonObject &jo, const std::string &member );
+        void set_math( const JsonObject &jo, const std::string &member );
+        template<class J>
+        static std::function<double( const T & )> get_get_dbl( J const &jo );
+        static std::function<double( const T & )> get_get_dbl( const std::string &value,
                 const JsonObject &jo );
+        template <class J>
+        std::function<void( const T &, double )>
+        static get_set_dbl( const J &jo, const std::optional<dbl_or_var_part<T>> &min,
+                            const std::optional<dbl_or_var_part<T>> &max, bool temp_var );
         bool operator()( const T &d ) const {
             if( !condition ) {
                 return false;
@@ -222,6 +229,21 @@ struct conditional_t {
             return condition( d );
         }
 };
+
+extern template std::function<double( const dialogue & )>
+conditional_t<dialogue>::get_get_dbl<>( kwargs_shim const & );
+extern template std::function<double( const mission_goal_condition_context & )>
+conditional_t<mission_goal_condition_context>::get_get_dbl<>( kwargs_shim const & );
+
+extern template std::function<void( const dialogue &, double )>
+conditional_t<dialogue>::get_set_dbl<>( const kwargs_shim &,
+                                        const std::optional<dbl_or_var_part<dialogue>> &,
+                                        const std::optional<dbl_or_var_part<dialogue>> &, bool );
+extern template std::function<void( const mission_goal_condition_context &, double )>
+conditional_t<mission_goal_condition_context>::get_set_dbl<>( const kwargs_shim &,
+        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
+        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
+        bool );
 
 #if !defined(MACOSX)
 extern template struct conditional_t<dialogue>;
@@ -233,7 +255,7 @@ extern template duration_or_var<dialogue> get_duration_or_var( const JsonObject 
         bool required, time_duration default_val );
 extern template std::string get_talk_varname<dialogue>( const JsonObject &jo,
         const std::string &member,
-        bool check_value, int_or_var<dialogue> &default_val );
+        bool check_value, dbl_or_var<dialogue> &default_val );
 extern template struct conditional_t<mission_goal_condition_context>;
 extern template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
         const std::string &member_name,

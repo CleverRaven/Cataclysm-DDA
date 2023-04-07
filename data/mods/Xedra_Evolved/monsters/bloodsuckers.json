@@ -12,7 +12,7 @@
     "hp": 90,
     "speed": 80,
     "material": [ "flesh" ],
-    "symbol": "V",
+    "symbol": "M",
     "color": "brown",
     "aggression": 100,
     "morale": 100,
@@ -186,6 +186,7 @@
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The renfield fires their Glock!"
       }
     ],
@@ -253,6 +254,7 @@
         "//": "(ferals don't care about max-effective range.)",
         "ranges": [ [ 2, 25, "DEFAULT" ] ],
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The renfield fires their shotgun!"
       }
     ],
@@ -318,6 +320,7 @@
         "no_ammo_sound": "hiss!",
         "ranges": [ [ 0, 10, "DEFAULT" ] ],
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The renfield shoots their flamethrower!"
       }
     ],
@@ -338,6 +341,59 @@
       "DROPS_AMMO"
     ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ]
+  },
+  {
+    "id": "mon_zombie_flamer",
+    "type": "MONSTER",
+    "name": { "str": "zombie burner" },
+    "description": "When bullets weren't enough to stop the end of the world, the military tried fire instead.  Their failure is made manifest in this gas-masked husk, its black suit torn and ripped.  Its flamethrower, dangling limply at its side, is attached to a tank of napalm strapped onto its back, which trickles its contents onto the ground.",
+    "default_faction": "zombie",
+    "bodytype": "human",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 5,
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "hp": 100,
+    "speed": 70,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "white_red",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 6,
+    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
+    "dodge": 1,
+    "armor_bash": 12,
+    "armor_cut": 25,
+    "armor_bullet": 20,
+    "armor_elec": 4,
+    "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_body_armor", "wps_humanoid_open_helmet", "wps_humanoid_gasmask" ],
+    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_syn_armored" ],
+    "vision_day": 30,
+    "vision_night": 3,
+    "luminance": 8,
+    "harvest": "zombie",
+    "starting_ammo": { "pressurized_tank": 1000 },
+    "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ] },
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
+    "burn_into": "mon_zombie_scorched",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "DRIPS_NAPALM",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_renfield_bionic_monster",
@@ -390,7 +446,7 @@
     "id": "mon_renfield_abomination",
     "type": "MONSTER",
     "name": { "str": "abominable renfield" },
-    "description": "A towering mutated test subject, covered in thick fur and the torn bottom part of a jumpsuit.  Their legs end in large padded feet not unlike a dog's, but they still manage to stand upright, freeing up their clawed hands to tear you apart.",
+    "description": "A brobdignagian Renfield, twisted through unnatural alchemies.  Their stump sized legs and feet pound the earth as they move, while their claw like hands to tear you apart.",
     "symbol": "A",
     "color": "brown_red",
     "default_faction": "vampire",
@@ -418,11 +474,6 @@
       [ "PARROT", 800 ],
       { "id": "cut_throat", "move_cost": 130, "cooldown": 4, "min_mul": 1.5, "max_mul": 3.5 },
       { "id": "smash", "move_cost": 100, "cooldown": 8, "min_mul": 0.8, "throw_strength": 50 },
-      {
-        "type": "bite",
-        "cooldown": 10,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 18, "armor_multiplier": 0.7 } ]
-      },
       { "id": "longswipe", "move_cost": 120, "cooldown": 12, "min_mul": 1.5, "max_mul": 3 }
     ],
     "death_drops": "mon_renfield_abomination_death_drops",
@@ -442,7 +493,7 @@
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ]
   },
   {
-    "id": "mon_bat",
+    "id": "xe_mon_bat",
     "type": "MONSTER",
     "name": { "str": "bat" },
     "description": "One of the vesper bats, a family of winged insect-eating mammals.  It roosts in caves and other hollows, and uses a form of echolocation to aerially navigate through tricky terrain at rapid speeds.",

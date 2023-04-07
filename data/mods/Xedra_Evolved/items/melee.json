@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "weapons",
     "name": { "str": "glasknife", "str_pl": "glasknives" },
-    "description": "This is a knife that appears to be made of glass, it's much more durable than glass appearing to be some sort of crystal with the strength of metal.",
+    "description": "This is a knife that seems to be made of glass, but significantly more durable, like some sort of crystal with the strength of metal.",
     "copy-from": "knife_combat",
     "volume": "500 ml",
     "longest_side": "30 cm",
@@ -64,7 +64,7 @@
     "type": "GENERIC",
     "name": { "str": "redcap club" },
     "copy-from": "mace",
-    "description": "A giant bloodstained club, barely human wieldable with two hands.  You see whenever it connects with an enemy shadowy tendrils of blood stick to whatever it hits and burn like acid.",
+    "description": "A giant bloodstained club, barely human wieldable with two hands.  You see shadowy tendrils of blood whenever it connects with an enemy, sticking to whatever it hits and burning like acid.",
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "ALWAYS_TWOHAND" ],
     "relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "hit_you_effect": [ { "id": "blood_tendrils" } ] } ] }
   },
@@ -104,5 +104,349 @@
     "min_range": 1,
     "shape": "blast",
     "effect": "attack"
+  },
+  {
+    "id": "dreamdross_knife",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": { "str": "dreamdross knife", "str_pl": "dreamdross knives" },
+    "description": "Covered with thin layer of dreamdross, this knife is a light and sharp tool to work with.",
+    "copy-from": "knife_combat",
+    "volume": "400 ml",
+    "longest_side": "30 cm",
+    "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "good" },
+    "proportional": { "cutting": 0.6, "weight": 0.6 },
+    "material": [ "dreamstuff" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "techniques": [ "RAPID" ],
+    "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 21 ] ],
+    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE", "TRADER_AVOID" ],
+    "weapon_category": [ "KNIVES" ]
+  },
+  {
+    "id": "dreamdross_club",
+    "type": "GENERIC",
+    "category": "weapons",
+    "name": { "str": "dreamdross club" },
+    "description": "It was a good tool before, but now it's covered with big layer of dreamdross, and it works as a light, but deadly weapon.",
+    "copy-from": "mace",
+    "volume": "1250 ml",
+    "longest_side": "80 cm",
+    "to_hit": { "grip": "weapon", "length": "short", "surface": "any", "balance": "neutral" },
+    "proportional": { "bashing": 0.9, "weight": 0.6 },
+    "material": [ "dreamstuff" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "TRADER_AVOID" ],
+    "weapon_category": [ "MACES" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamdross_bo",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str_sp": "dreamdrossed quarterstaff" },
+    "description": "Piece of stick, that was covered with dreamdross.  Pretty long, so you can reach far target with it, but it has lack of magical properties.",
+    "copy-from": "bo",
+    "volume": "1500 ml",
+    "longest_side": "180 cm",
+    "material": [ "wood", "dreamstuff" ],
+    "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "weapon_category": [ "QUARTERSTAVES" ],
+    "proportional": { "bashing": 1.3, "weight": 0.6 },
+    "category": "weapons",
+    "to_hit": { "grip": "weapon", "length": "long", "surface": "any", "balance": "good" },
+    "price_postapoc": 1000
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_q_staff",
+    "copy-from": "bo",
+    "name": { "str": "dreamforged quarterstaff", "str_pl": "dreamforged quarterstaves" },
+    "description": "Long quarterstaff, forged entirely from dreamdross.  Twice as heavy than wooden one, but lot sturdier, and still useful as a weapon.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "//": "All dreamforged weapons are forged 100% from dreamdross. Wooden parts double their weight, but steel parts almost quarter their weight. 100% steel weapon like swords and knifes has too big benefit from it, so their damage is reduced respectively - the random properties will make them really good weapon anyway, but the basic stats will be sane enough.",
+    "proportional": { "bashing": 2.5, "weight": 2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_longsword",
+    "copy-from": "longsword",
+    "name": { "str": "dreamforged longsword" },
+    "description": "Longsword, forged entirely from dreamdross.  It is much lighter than steel one, but it apply much less force to target.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.5, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_warhammer",
+    "copy-from": "warhammer",
+    "name": { "str": "dreamforged warhammer" },
+    "description": "Warhammer, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "weight": "1367 g",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "bashing": 1.1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_spear",
+    "copy-from": "spear_steel",
+    "name": { "str": "dreamforged spear" },
+    "description": "Spear, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "weight": "2129 g",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 1.2 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_halberd",
+    "copy-from": "halberd",
+    "name": { "str": "dreamforged halberd" },
+    "description": "Twohand halberd, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "weight": "2374 g",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 1.1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_glaive",
+    "copy-from": "glaive",
+    "name": { "str": "dreamforged glaive" },
+    "description": "Twohand halberd, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "weight": "2285 g",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 1.1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_naginata",
+    "copy-from": "naginata",
+    "name": { "str_sp": "dreamforged naginata" },
+    "description": "Sturdy naginata, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "weight": "2181 g",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 1.1 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_mace",
+    "copy-from": "mace",
+    "name": { "str": "dreamforged mace" },
+    "description": "Light mace, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "weight": "1160 g",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "bashing": 0.9 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_morningstar",
+    "copy-from": "morningstar",
+    "name": { "str": "dreamforged morningstar" },
+    "description": "Light morningstar, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "weight": "1198 g",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "bashing": 0.9 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_estoc",
+    "copy-from": "estoc",
+    "name": { "str": "dreamforged estoc" },
+    "description": "Estoc, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.5, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_arming_sword",
+    "copy-from": "arming_sword",
+    "name": { "str": "dreamforged arming sword" },
+    "description": "Arming sword, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.5, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_broadsword",
+    "copy-from": "broadsword",
+    "name": { "str": "dreamforged broadsword" },
+    "description": "Arming sword, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.5, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_battleaxe",
+    "copy-from": "battleaxe",
+    "name": { "str": "dreamforged battle axe" },
+    "description": "Arming sword, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "weight": "1216 g",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.7 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_katana",
+    "copy-from": "katana",
+    "name": { "str_sp": "katana" },
+    "description": "Katana, forged entirely from dreamdross.  So light, that you can't properly apply any force on it.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.3, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_knife_combat",
+    "copy-from": "knife_combat",
+    "name": { "str": "dreamforged combat knife", "str_pl": "dreamforged combat knives" },
+    "description": "Small military knife, forged entirely from dreamdross.  You barely feel any weight.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.6, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_kris",
+    "copy-from": "kris",
+    "name": { "str": "dreamforged kris", "str_pl": "dreamforged krises" },
+    "description": "Small curved knife, forged entirely from dreamdross.  You barely feel any weight.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.85, "bashing": 0.3, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_kukri",
+    "copy-from": "kukri",
+    "name": { "str": "dreamforged kukri" },
+    "description": "Small curved knife, forged entirely from dreamdross.  You barely feel any weight.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.9, "bashing": 0.3, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_nodachi",
+    "copy-from": "qt_nodachi",
+    "name": { "str_sp": "nodachi" },
+    "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.3, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_rapier",
+    "copy-from": "rapier",
+    "name": { "str": "dreamforged rapier" },
+    "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.65, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_tanto",
+    "copy-from": "tanto",
+    "name": { "str_sp": "tanto" },
+    "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.3, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_wakizashi",
+    "copy-from": "wakizashi",
+    "name": { "str_sp": "wakizashi" },
+    "description": "Long nodachi, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.3, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_zweihander",
+    "copy-from": "zweihander",
+    "name": { "str": "dreamforged zweihänder" },
+    "description": "Huge twohand sword, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.6, "bashing": 0.3, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_khopesh",
+    "copy-from": "khopesh",
+    "name": { "str": "dreamforged khopesh", "str_pl": "dreamforged khopeshes" },
+    "description": "Light khopesh, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.8, "bashing": 0.3, "weight": 0.25 }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_lucerne",
+    "copy-from": "lucern_hammer",
+    "name": { "str": "dreamforged lucerne hammer" },
+    "description": "lucerne hammer, forged entirely from dreamdross.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "weight": "2571 g",
+    "material": [ "forged_dreamstuff" ],
+    "proportional": { "cutting": 0.9, "bashing": 1.1 }
+  },
+  {
+    "id": "dreamforged_knuckle",
+    "type": "ARMOR",
+    "name": { "str_sp": "dreamforged knuckles" },
+    "description": "A pair of thick dreamdross plates covering your proximal phalange.  The dreamdross grant it some minor magical properties, but you can't control their effects.",
+    "copy-from": "knuckle_impact",
+    "proportional": { "bashing": 0.7, "weight": 0.25 },
+    "material": [ "forged_dreamstuff" ],
+    "material_thickness": 3,
+    "flags": [ "WATER_FRIENDLY", "DURABLE_MELEE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 80,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
+  },
+  {
+    "id": "dreamforged_knuckle_berserk",
+    "type": "ARMOR",
+    "name": { "str_sp": "berserker knuckles" },
+    "description": "Fiery-red knuckles with tiny blades in the end.  They are fed with your energy and the blood of your enemies, and will fuel different items with berserk properties.",
+    "//": "You actually can use it with any weapon, because enchantment applied always, both when you wear it or if you wield it, but it doesn't matter, because iirc fists has one of the biggest attack speed in the game, which is the only thing that matter here.",
+    "copy-from": "dreamforged_knuckle",
+    "proportional": { "bashing": 0.5 },
+    "cutting": 3,
+    "relic_data": { "passive_effects": [ { "id": "BERSERKING" } ] },
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 80,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "dreamforged_glaive",
+    "id": "dreamforged_glaive_healing",
+    "name": { "str": "qiang of life", "str_pl": "spears of life" },
+    "description": "Long, dense spear.  It can steal a life from creature it attacks, healing you for a bit.",
+    "relic_data": { "passive_effects": [ { "id": "ENCHANTMENT_VAMPIRISM" } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_tsurugi_speed",
+    "copy-from": "dreamforged_broadsword",
+    "name": { "str_sp": "tsurugi of speed" },
+    "description": "Classic japanese tsurugi sword with razor sharp blade.  You start to think you need to move faster, and effect intensifies when you are surrounded.",
+    "relic_data": { "passive_effects": [ { "id": "MON_NEARBY_SPEED" } ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "dreamforged_q_staff_exp",
+    "copy-from": "dreamforged_q_staff",
+    "name": { "str": "bo of practice", "str_pl": "bos of practices" },
+    "description": "Long, straight stick.  Simple weapon, it is powered by your own experience of fighting dreadful creatures",
+    "relic_data": { "passive_effects": [ { "id": "EXP_BASH" } ] }
   }
 ]

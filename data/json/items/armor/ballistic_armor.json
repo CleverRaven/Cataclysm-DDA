@@ -112,6 +112,7 @@
     "color": "dark_gray",
     "material_thickness": 25,
     "non_functional": "destroyed_large_ceramic_plate",
+    "damage_verb": "makes a crunch, something has shifted",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
@@ -260,6 +261,7 @@
     "color": "dark_gray",
     "material_thickness": 25,
     "non_functional": "destroyed_medium_ceramic_plate",
+    "damage_verb": "makes a crunch, something has shifted",
     "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 1, "coverage": 35, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
@@ -326,6 +328,25 @@
     "weight": "7 kg",
     "volume": "8 L",
     "material": [ "nylon", "kevlar_layered" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ballistic_vest_heavy_military",
+        "name": { "str": "heavy ballistic vest" },
+        "description": "It's styled in a dark olive color.",
+        "color": "light_green",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "ballistic_vest_heavy_xedra",
+        "name": { "str": "XEDRA containment armor" },
+        "description": "It's black with IR reflective markings and a large XE on the right shoulder.",
+        "color": "light_green",
+        "weight": 0,
+        "append": true
+      }
+    ],
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {

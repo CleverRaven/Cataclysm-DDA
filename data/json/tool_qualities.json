@@ -48,8 +48,9 @@
   },
   {
     "type": "tool_quality",
-    "id": "FISHING",
-    "name": { "str": "fishing" }
+    "id": "FISHING_ROD",
+    "name": { "str": "fishing" },
+    "usages": [ [ 1, [ "FISH_ROD" ] ] ]
   },
   {
     "type": "tool_quality",
@@ -403,5 +404,10 @@
     "type": "tool_quality",
     "id": "CUT_GLASS",
     "name": { "str": "glass cutting" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "MOP",
+    "name": { "str": "mopping" }
   }
 ]

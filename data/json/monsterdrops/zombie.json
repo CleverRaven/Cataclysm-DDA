@@ -76,14 +76,6 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "id": "mon_zombie_flamer",
-    "ammo": 50,
-    "magazine": 100,
-    "entries": [ { "item": "flamethrower", "charges-min": 0, "charges-max": 500 } ]
-  },
-  {
-    "type": "item_group",
-    "subtype": "collection",
     "id": "mon_zombie_swimmer_death_drops",
     "entries": [
       {
@@ -164,6 +156,18 @@
       { "item": "briefs", "damage": [ 1, 4 ], "prob": 100 },
       { "item": "slippers", "damage": [ 1, 4 ], "prob": 100 },
       { "item": "dentures", "prob": 75 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "zombie_fursuits",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "wolfsuit", "prob": 50, "damage": [ 2, 3 ] },
+      { "item": "dragonsuit", "prob": 50, "damage": [ 2, 3 ] },
+      { "item": "felinesuit", "prob": 50, "damage": [ 2, 3 ] },
+      { "item": "dinosuit", "prob": 50, "damage": [ 2, 3 ] },
+      { "item": "sharksuit", "prob": 50, "damage": [ 2, 3 ] }
     ]
   }
 ]

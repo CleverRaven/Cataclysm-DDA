@@ -634,18 +634,18 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
  * Similarly, if it can use a += operator against it's own type, the non-dummy
  * handle_relative template is constructed.
  */
-template<typename T, typename = cata::void_t<>>
+template<typename T, typename = std::void_t<>>
 struct supports_proportional : std::false_type { };
 
 template<typename T>
-struct supports_proportional<T, cata::void_t<decltype( std::declval<T &>() *= std::declval<float>() )>> :
+struct supports_proportional<T, std::void_t<decltype( std::declval<T &>() *= std::declval<float>() )>> :
 std::true_type {};
 
-template<typename T, typename = cata::void_t<>>
+template<typename T, typename = std::void_t<>>
 struct supports_relative : std::false_type { };
 
 template<typename T>
-struct supports_relative < T, cata::void_t < decltype( std::declval<T &>() += std::declval<T &>() )
+struct supports_relative < T, std::void_t < decltype( std::declval<T &>() += std::declval<T &>() )
 >> : std::true_type {};
 
 // Explicitly specialize these templates for a couple types

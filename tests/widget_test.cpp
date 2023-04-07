@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "cata_utility.h"
 #include "game.h"
 #include "game_constants.h"
 #include "player_helpers.h"
@@ -8,7 +9,6 @@
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "options_helpers.h"
 #include "weather.h"
@@ -52,7 +52,6 @@ static const move_mode_id move_mode_walk( "walk" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 
-static const weather_type_id weather_acid_rain( "acid_rain" );
 static const weather_type_id weather_cloudy( "cloudy" );
 static const weather_type_id weather_drizzle( "drizzle" );
 static const weather_type_id weather_portal_storm( "portal_storm" );
@@ -591,9 +590,12 @@ TEST_CASE( "widgets showing avatar stamina", "[widget][avatar][stamina]" )
 // Set the avatar's stored kcals to reach a given BMI value
 static void set_avatar_bmi( avatar &ava, float bmi )
 {
-    // get_bmi uses ( 12 * get_kcal_percent + 13 )
+    // BMI is split into muscle, fat and other. Other is always 12 and muscle is 1:1 strength stat.
+    // It is normal to have 5 BMIs of fat (this is bordering Normal and Overweight - BMI 25 for an 8 str character)
+    // Normal BMI is now irrelevant for almost everything, as "fat bmis" are what determine your obesity.
+    // Your natural strength trends down to 0 as you starve (below 2 fat BMIs - emaciated/skeletal) meaning you die at BMI 12.
     // (see char_biometrics_test.cpp for more BMI details)
-    ava.set_stored_kcal( ava.get_healthy_kcal() * ( bmi - 13 ) / 12 );
+    ava.set_stored_kcal( ava.get_healthy_kcal() * ( bmi / 5 ) );
 }
 
 TEST_CASE( "widgets showing avatar weight", "[widget][weight]" )
@@ -604,56 +606,56 @@ TEST_CASE( "widgets showing avatar weight", "[widget][weight]" )
     // Classic weight widget, modeled after the one shown in-game
     widget weight_clause_w = widget_test_weight_clauses_normal.obj();
 
-    set_avatar_bmi( ava, 12.0 );
+    set_avatar_bmi( ava, 0.5 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Skeletal</color>" );
-    set_avatar_bmi( ava, 14.0 );
+    set_avatar_bmi( ava, 1.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Skeletal</color>" );
 
-    set_avatar_bmi( ava, 14.1 );
+    set_avatar_bmi( ava, 1.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_red>Emaciated</color>" );
-    set_avatar_bmi( ava, 16.0 );
+    set_avatar_bmi( ava, 2.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_red>Emaciated</color>" );
 
-    set_avatar_bmi( ava, 16.1 );
+    set_avatar_bmi( ava, 2.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_yellow>Underweight</color>" );
-    set_avatar_bmi( ava, 18.5 );
+    set_avatar_bmi( ava, 2.9 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_yellow>Underweight</color>" );
 
-    set_avatar_bmi( ava, 18.6 );
+    set_avatar_bmi( ava, 3.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_gray>Normal</color>" );
-    set_avatar_bmi( ava, 25.0 );
+    set_avatar_bmi( ava, 5.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_gray>Normal</color>" );
 
-    set_avatar_bmi( ava, 25.1 );
+    set_avatar_bmi( ava, 5.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_yellow>Overweight</color>" );
-    set_avatar_bmi( ava, 30.0 );
+    set_avatar_bmi( ava, 10.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_yellow>Overweight</color>" );
 
-    set_avatar_bmi( ava, 30.1 );
+    set_avatar_bmi( ava, 10.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_red>Obese</color>" );
-    set_avatar_bmi( ava, 35.0 );
+    set_avatar_bmi( ava, 15.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_light_red>Obese</color>" );
 
-    set_avatar_bmi( ava, 35.1 );
+    set_avatar_bmi( ava, 15.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Very Obese</color>" );
-    set_avatar_bmi( ava, 40.0 );
+    set_avatar_bmi( ava, 20.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Very Obese</color>" );
 
-    set_avatar_bmi( ava, 40.1 );
+    set_avatar_bmi( ava, 20.1 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Morbidly Obese</color>" );
-    set_avatar_bmi( ava, 50.0 );
+    set_avatar_bmi( ava, 25.0 );
     CHECK( weight_clause_w.layout( ava ) == "Weight: <color_c_red>Morbidly Obese</color>" );
 
     // "Fun" version with customized thresholds, text, and color
     widget weight_clause_fun_w = widget_test_weight_clauses_fun.obj();
 
-    set_avatar_bmi( ava, 18.0 );
+    set_avatar_bmi( ava, 2.0 );
     CHECK( weight_clause_fun_w.layout( ava ) == "Thiccness: <color_c_yellow>Skin and Bones</color>" );
-    set_avatar_bmi( ava, 18.1 );
+    set_avatar_bmi( ava, 3.6 );
     CHECK( weight_clause_fun_w.layout( ava ) == "Thiccness: <color_c_white>Boring</color>" );
-    set_avatar_bmi( ava, 30.0 );
+    set_avatar_bmi( ava, 10.0 );
     CHECK( weight_clause_fun_w.layout( ava ) == "Thiccness: <color_c_white>Boring</color>" );
-    set_avatar_bmi( ava, 30.1 );
+    set_avatar_bmi( ava, 20.1 );
     CHECK( weight_clause_fun_w.layout( ava ) == "Thiccness: <color_c_pink>C H O N K</color>" );
 
 }
@@ -1575,17 +1577,17 @@ TEST_CASE( "outer armor widget", "[widget][armor]" )
     // Wearing something covering torso
     ava.worn.wear_item( ava, item( "test_zentai" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
-           "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
+           "Torso Armor: <color_c_green>++</color>\u00A0test zentai (poor fit)" );
 
     // Wearing socks doesn't affect the torso
     ava.worn.wear_item( ava, item( "test_socks" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
-           "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
+           "Torso Armor: <color_c_green>++</color>\u00A0test zentai (poor fit)" );
 
     // Wearing something else on the torso
     ava.worn.wear_item( ava, item( "test_hazmat_suit" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
-           "Torso Armor: <color_c_light_green>||</color>\u00A0TEST hazmat suit (poor fit)" );
+           "Torso Armor: <color_c_green>++</color>\u00A0TEST hazmat suit (poor fit)" );
 }
 
 TEST_CASE( "radiation badge widget", "[widget][radiation]" )
@@ -1600,7 +1602,8 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 
     // Acquire and wear a radiation badge
     item rad_badge( itype_rad_badge );
-    item *rad_badge_worn = & **ava.worn.wear_item( ava, rad_badge, false, false );
+    auto rad_badge_iter = *ava.worn.wear_item( ava, rad_badge, false, false );
+    item *rad_badge_worn = & *rad_badge_iter;
 
     // Color indicator is shown when character has radiation badge
     rad_badge_worn->irradiation = 0;
@@ -1928,11 +1931,6 @@ TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_white>Snowing</color>" );
         }
 
-        SECTION( "acid rain" ) {
-            scoped_weather_override forecast( weather_acid_rain );
-            CHECK( weather_w.layout( ava ) == "Weather: <color_c_green>Acid Rain</color>" );
-        }
-
         SECTION( "portal storm" ) {
             scoped_weather_override forecast( weather_portal_storm );
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_red>Portal Storm</color>" );
@@ -1984,7 +1982,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
             brown_dot, h_brown_dot, brown_dot, "\n",
             brown_dot, brown_dot, brown_dot
         };
-        CHECK( overmap_w.layout( ava ) == join( field_3x3, "" ) );
+        CHECK( overmap_w.layout( ava ) == string_join( field_3x3, "" ) );
     }
 
     SECTION( "forest" ) {
@@ -1999,7 +1997,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
             green_F, h_green_F, red_star, "\n",
             green_F, green_F, green_F
         };
-        CHECK( overmap_w.layout( ava ) == join( forest_3x3, "" ) );
+        CHECK( overmap_w.layout( ava ) == string_join( forest_3x3, "" ) );
     }
 
     SECTION( "central lab" ) {
@@ -2015,7 +2013,7 @@ TEST_CASE( "multi-line overmap text widget", "[widget][overmap]" )
             blue_L, h_blue_L, blue_L, "\n",
             red_star, blue_L, blue_L
         };
-        CHECK( overmap_w.layout( ava ) == join( lab_3x3, "" ) );
+        CHECK( overmap_w.layout( ava ) == string_join( lab_3x3, "" ) );
     }
 
     // TODO: Horde indicators
@@ -2673,7 +2671,7 @@ TEST_CASE( "widget rows in columns", "[widget]" )
     SECTION( "3 columns, multiline/rows/rows" ) {
         const std::string brown_dot = "<color_c_brown>.</color>";
         const std::string h_brown_dot = "<color_h_brown>.</color>";
-        const std::string expected = join( {
+        const std::string expected = string_join( std::vector<std::string> {
             brown_dot, brown_dot, brown_dot, "         MOVE:  0    STR: 8    \n",
             brown_dot, h_brown_dot, brown_dot, "         SPEED: 100  DEX: 8    \n",
             brown_dot, brown_dot, brown_dot, "         FOCUS: 100  INT: 8    \n",
@@ -2689,22 +2687,22 @@ TEST_CASE( "widget rows in columns", "[widget]" )
     SECTION( "3 columns nested in 2 columns, rows/columns, multiline/rows/rows" ) {
         const std::string brown_dot = "<color_c_brown>.</color>";
         const std::string h_brown_dot = "<color_h_brown>.</color>";
-        const std::string expected = join( {
-            join( {
+        const std::string expected = string_join( std::vector<std::string> {
+            string_join( std::vector<std::string> {
                 "CLAUSE: Zero                       ",
                 brown_dot,
                 brown_dot,
                 brown_dot,
                 "         MOVE:  0    STR: 8   \n"
             }, "" ),
-            join( {
+            string_join( std::vector<std::string> {
                 "POOL:   0000                       ",
                 brown_dot,
                 h_brown_dot,
                 brown_dot,
                 "         SPEED: 100  DEX: 8   \n"
             }, "" ),
-            join( {
+            string_join( std::vector<std::string> {
                 "NUM:    0                          ",
                 brown_dot,
                 brown_dot,

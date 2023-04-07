@@ -166,12 +166,97 @@
     "origins": [ "ORIGIN_OPENER_NPC", "ORIGIN_ANY_NPC" ],
     "dialogue": {
       "describe": "St. Michael the archangel defend me in battle…",
-      "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic… I doubt it will be of much use but I've got to hope in something.  It will look like a normal rock to your puny mind.",
+      "offer": "As the world seems to abandon the reality that we once knew, it becomes plausible that the old superstitions that were cast aside may have had some truth to them.  Please go and find me a religious relic… I doubt it will be of much use but I've got to hope in something.  It will look like a normal rock to you, but I can divine secrets from its earthly essence.",
       "accepted": "I wish you the best of luck, may whatever god you please guide your path.",
       "rejected": "Ya, I guess the stress may just be getting to me…",
       "advice": "I hear rocks may be found in the woods.  They tell me things.  The spirits.  Religion!",
       "inquire": "Any luck?  Please find me a small relic.  Any relic will do.  It looks like a rock.",
       "success": "Thank you, I need some time alone now…",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_RECOVER_PRIEST_DIARY",
+    "type": "mission_definition",
+    "name": { "str": "Recover Holy Symbol" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 70000,
+    "item": "holy_symbol",
+    "start": {
+      "update_mapgen": { "place_item": [ { "item": "holy_symbol", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
+      "assign_mission_target": {
+        "om_terrain": "standing_stones",
+        "om_terrain_match_type": "PREFIX",
+        "om_special": "Standing stones",
+        "search_range": 80,
+        "min_distance": 5,
+        "random": true,
+        "z": 0
+      }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_INVESTIGATE_CULT",
+    "dialogue": {
+      "describe": "St. Michael the archangel defend me in battle…",
+      "offer": "I have learned so much from this sacred relic.  I have attuned to it.  We must go deeper.  I now understand that buried in the deep forest is a special place with even larger rocks, I mean sacred relics.  Go there, and get me a holy symbol of this place.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path.",
+      "rejected": "Ya, I guess the stress may just be getting to me…",
+      "advice": "The woods are deep and dark and probably dangerous.  Bring a friend if you can.",
+      "inquire": "Any luck?",
+      "success": "Thank you, this is exactly what I was looking for.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_INVESTIGATE_CULT",
+    "type": "mission_definition",
+    "name": { "str": "Investigate Cult" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 150000,
+    "item": "etched_skull",
+    "start": {
+      "update_mapgen": { "place_item": [ { "item": "etched_skull", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
+      "assign_mission_target": { "om_terrain": "cave_rat", "om_special": "Rat Cave", "reveal_radius": 3, "search_range": 120 }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_INVESTIGATE_PRISON_VISIONARY",
+    "dialogue": {
+      "describe": "St. Michael the archangel defend me in battle…",
+      "offer": "You have no idea how interesting this holy symbol is.  I have two very promising leads… first things first, I have learned of dark whispers of mystic significance, telluric resonances that tingle the spine and give me kind of a dizzy feeling, but not entirely unpleasant.  Could you investigate a location for me?  I'm not sure what was going on here but the whispers seem fairly worried about it.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path… You may need it this time more than the past excursions you have gone on.  There is a whisper about potential human sacrifice in the days immediately before and after the grand mystical shift.  The name of the cult is not revealed to me, except for an incessant squeaking.",
+      "rejected": "Ya, I guess the stress may just be getting to me…",
+      "advice": "I doubt the site is still occupied but I'd carry some form of weapon at least… I'm not sure what you might be looking for but I'm positive you'll find something out of the ordinary if you look long enough.",
+      "inquire": "I'm positive there is something there… there has to be, any luck?",
+      "success": "Thank you, your account of these… demonic creations proves the fears the whispers had were well founded.  Our priority should be routing out any survivors of this cult… I don't known if they are responsible for the disaster but they certainly know more about it than I do.",
+      "success_lie": "What good does this do us?",
+      "failure": "It was a lost cause anyways…"
+    }
+  },
+  {
+    "id": "MISSION_INVESTIGATE_PRISON_VISIONARY",
+    "type": "mission_definition",
+    "name": { "str": "Mad Hermit" },
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 150000,
+    "item": "visions_solitude",
+    "start": {
+      "assign_mission_target": { "om_terrain": "island_forest_thick", "om_special": "Island", "reveal_radius": 3, "search_range": 180 },
+      "update_mapgen": { "om_terrain": "prison_1_4", "place_item": [ { "item": "visions_solitude", "x": 15, "y": 22 } ] }
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "St. Michael the archangel defend me in battle…",
+      "offer": "I have another task if you are feeling up to it.   There is a mad hermit that the whispers made special mention of.  I was wondering if you could see what may have happened to them or if they left anything behind.  The whispers admit the individual is rather unstable, to put it lightly, but the whispers believe the hermit was some kind of mystical visionary.  I'm not in a position to cast out the account just yet… it seems the hermit has prophesied events accurately before.",
+      "accepted": "I wish you the best of luck, may whatever god you please guide your path… I can only imagine that the island will be a little slice of hell.  I hope you can swim.",
+      "rejected": "Ya, I guess the stress may just be getting to me…",
+      "advice": "With things as they are you probably won't just find a boat lying around.  Maybe make one?  Maybe swim?",
+      "inquire": "Any luck?",
+      "success": "Thank you, I'm not sure what to make of this but I'll ponder your account.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }

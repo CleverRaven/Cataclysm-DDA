@@ -5,11 +5,11 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 
 #include "calendar.h"
-#include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -24,9 +24,9 @@ struct mending_method {
         time_duration time;
         std::map<std::string, std::string> set_variables;
         std::map<skill_id, int> skills;
-        cata::optional<fault_id> turns_into;
-        cata::optional<fault_id> also_mends;
-        cata::optional<int> heal_stages;
+        std::optional<fault_id> turns_into;
+        std::optional<fault_id> also_mends;
+        std::optional<int> heal_stages;
 
         requirement_data get_requirements() const;
     private:

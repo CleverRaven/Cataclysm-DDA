@@ -127,7 +127,7 @@
     "longest_side": "686 mm",
     "price": 5000,
     "price_postapoc": 500,
-    "material": [ "steel" ],
+    "material": [ "aluminum" ],
     "symbol": "]",
     "color": "dark_gray"
   },
@@ -346,7 +346,7 @@
     "price_postapoc": 250,
     "bashing": 8,
     "to_hit": -1,
-    "material": [ "steel", "rubber" ],
+    "material": [ "aluminum", "rubber" ],
     "symbol": "]",
     "color": "dark_gray"
   },
@@ -446,7 +446,7 @@
     "price_postapoc": 250,
     "bashing": 8,
     "to_hit": -1,
-    "material": [ "steel", "rubber" ],
+    "material": [ "aluminum", "rubber" ],
     "symbol": "]",
     "color": "dark_gray",
     "diameter": 27,

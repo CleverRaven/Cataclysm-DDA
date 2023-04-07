@@ -122,7 +122,7 @@ std::map<bodypart_id, int> Character::get_all_armor_type( damage_type dt,
             case damage_type::COLD:
             case damage_type::ELECTRIC: {
                 for( const item *it : clothing_map.at( bp ) ) {
-                    per_bp.second += it->damage_resist( dt, false, bp );
+                    per_bp.second += it->resist( dt, false, bp );
                 }
 
                 per_bp.second += mutation_armor( bp, dt );
@@ -451,8 +451,11 @@ bool Character::ablative_armor_absorb( damage_unit &du, item &armor, const sub_b
                     const std::string pre_damage_name = ablative_armor.tname();
 
                     // TODO: add balistic and shattering verbs for ablative materials instead of hard coded
-                    std::string format_string = _( "Your %1$s is %2$s!" );
-                    std::string damage_verb = "shattered";
+                    std::string format_string = _( "Your %1$s %2$s!" );
+                    std::string damage_verb = "is shattered";
+                    if( !ablative_armor.find_armor_data()->damage_verb.empty() ) {
+                        damage_verb = ablative_armor.find_armor_data()->damage_verb.translated();
+                    }
                     add_msg_if_player( m_bad, format_string, pre_damage_name, damage_verb );
 
                     if( is_avatar() ) {

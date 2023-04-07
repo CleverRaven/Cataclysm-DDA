@@ -2,8 +2,11 @@
 #ifndef CATA_SRC_DIALOGUE_HELPERS_H
 #define CATA_SRC_DIALOGUE_HELPERS_H
 
+#include <optional>
+
+#include "calendar.h"
 #include "global_vars.h"
-#include "optional.h"
+#include "math_parser.h"
 #include "rng.h"
 #include "type_id.h"
 
@@ -56,6 +59,7 @@ struct talk_effect_fun_t {
         void set_next_weather();
         void set_hp( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_sound_effect( const JsonObject &jo, const std::string &member );
+        void set_give_achievment( const JsonObject &jo, const std::string &member );
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -96,9 +100,11 @@ struct talk_effect_fun_t {
         void set_add_faction_trust( const JsonObject &jo, const std::string &member );
         void set_lose_faction_trust( const JsonObject &jo, const std::string &member );
         void set_arithmetic( const JsonObject &jo, const std::string &member, bool no_result );
+        void set_math( const JsonObject &jo, const std::string &member );
         void set_set_string_var( const JsonObject &jo, const std::string &member );
         void set_custom_light_level( const JsonObject &jo, const std::string &member );
         void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_spawn_npc( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_teleport( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_give_equipment( const JsonObject &jo, const std::string &member );
@@ -156,9 +162,9 @@ static std::string read_var_value( const var_info &info, const T &d )
 
 template<class T>
 struct str_or_var {
-    cata::optional<std::string> str_val;
-    cata::optional<var_info> var_val;
-    cata::optional<std::string> default_val;
+    std::optional<std::string> str_val;
+    std::optional<var_info> var_val;
+    std::optional<std::string> default_val;
     std::string evaluate( const T &d ) const {
         if( str_val.has_value() ) {
             return str_val.value();
@@ -185,19 +191,50 @@ struct str_or_var {
     }
 };
 
+template<typename D>
+struct eoc_math {
+    enum class oper : int {
+        ret = 0,
+        assign,
+
+        // these need mhs
+        plus_assign,
+        minus_assign,
+        mult_assign,
+        div_assign,
+        mod_assign,
+        increase,
+        decrease,
+
+        equal,
+        less,
+        equal_or_less,
+        greater,
+        equal_or_greater,
+    };
+    math_exp<D> lhs;
+    math_exp<D> mhs;
+    math_exp<D> rhs;
+    eoc_math::oper action;
+
+    void from_json( const JsonObject &jo, std::string const &member );
+    double act( D const &d ) const;
+};
+
 template<class T>
-struct int_or_var_part {
-    cata::optional<int> int_val;
-    cata::optional<var_info> var_val;
-    cata::optional<int> default_val;
-    cata::optional<talk_effect_fun_t<T>> arithmetic_val;
-    int evaluate( const T &d ) const {
-        if( int_val.has_value() ) {
-            return int_val.value();
+struct dbl_or_var_part {
+    std::optional<double> dbl_val;
+    std::optional<var_info> var_val;
+    std::optional<double> default_val;
+    std::optional<talk_effect_fun_t<T>> arithmetic_val;
+    std::optional<eoc_math<T>> math_val;
+    double evaluate( const T &d ) const {
+        if( dbl_val.has_value() ) {
+            return dbl_val.value();
         } else if( var_val.has_value() ) {
             std::string val = read_var_value( var_val.value(), d );
             if( !val.empty() ) {
-                return std::stoi( val );
+                return std::stof( val );
             }
             if( default_val.has_value() ) {
                 return default_val.value();
@@ -206,7 +243,7 @@ struct int_or_var_part {
                 if( var_name.find( "npctalk_var" ) != std::string::npos ) {
                     var_name = var_name.substr( 12 );
                 }
-                debugmsg( "No default value provided for int_or_var_part while encountering unused variable %s.  Add a \"default\" member to prevent this.",
+                debugmsg( "No default value provided for dbl_or_var_part while encountering unused variable %s.  Add a \"default\" member to prevent this.",
                           var_name );
                 return 0;
             }
@@ -215,24 +252,26 @@ struct int_or_var_part {
             var_info info = var_info( var_type::global, "temp_var" );
             std::string val = read_var_value( info, d );
             if( !val.empty() ) {
-                return std::stoi( val );
+                return std::stof( val );
             } else {
-                debugmsg( "No valid arithmetic value for int_or_var_part." );
+                debugmsg( "No valid arithmetic value for dbl_or_var_part." );
                 return 0;
             }
+        } else if( math_val ) {
+            return math_val->act( d );
         } else {
-            debugmsg( "No valid value for int_or_var_part." );
+            debugmsg( "No valid value for dbl_or_var_part." );
             return 0;
         }
     }
 };
 
 template<class T>
-struct int_or_var {
+struct dbl_or_var {
     bool pair = false;
-    int_or_var_part<T> min;
-    int_or_var_part<T> max;
-    int evaluate( const T &d ) const {
+    dbl_or_var_part<T> min;
+    dbl_or_var_part<T> max;
+    double evaluate( const T &d ) const {
         if( pair ) {
             return rng( min.evaluate( d ), max.evaluate( d ) );
         } else {
@@ -243,10 +282,11 @@ struct int_or_var {
 
 template<class T>
 struct duration_or_var_part {
-    cata::optional<time_duration> dur_val;
-    cata::optional<var_info> var_val;
-    cata::optional<time_duration> default_val;
-    cata::optional<talk_effect_fun_t<T>> arithmetic_val;
+    std::optional<time_duration> dur_val;
+    std::optional<var_info> var_val;
+    std::optional<time_duration> default_val;
+    std::optional<talk_effect_fun_t<T>> arithmetic_val;
+    std::optional<eoc_math<T>> math_val;
     time_duration evaluate( const T &d ) const {
         if( dur_val.has_value() ) {
             return dur_val.value();
@@ -280,6 +320,8 @@ struct duration_or_var_part {
                 debugmsg( "No valid arithmetic value for duration_or_var_part." );
                 return 0_seconds;
             }
+        } else if( math_val ) {
+            return time_duration::from_turns( math_val->act( d ) );
         } else {
             debugmsg( "No valid value for duration_or_var_part." );
             return 0_seconds;

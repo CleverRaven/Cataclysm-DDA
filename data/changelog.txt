@@ -1,3 +1,87 @@
+# 0.H
+
+## Features:
+Tilesets: Automatically prevent occlusions via semi-transparent sprites (similar to retraction)
+Add parametric mapgen to consolidate similar basecamp definitions
+
+
+## Content:
+Add 14 scores, 24 achievements and 5 conducts related to vehicular travel
+Add generic finales for generic mine
+Add new boss for physics lab
+Add 4 New Apartment Complexes
+Add several new bungalows
+
+
+## Interface:
+Show crafting failure chances in the crafting interface
+Show addictions from hobbies in newcharacter tab
+Added ability to think to yourself in the message log
+Added Presets for pocket settings
+
+
+## Mods:
+[Aftershock] Fix the Migo mutation tree
+[TropiCata] Adds more tropical flora
+[Mythos] Split off Mythos creatures into self-contained mod for 0.G
+[Desert Region] world generation changes
+[Aftershock] Reduce deadliness and frequency of ruin robots
+[Dark Skies] Remove Dark Skies Above from the main repository
+[Magiclysm] Adds item enchanting to magicalysm mod
+[Backrooms] Adds 10 rare artifact variants to the Backrooms
+[Magiclysm Graphical Overmap] Delete Magiclysm Graphical Overmap
+[Magiclysm] Another approach to animist summoning
+[Xedra Evolved] Add content for dreamsmiths and dreamers
+
+
+## Balance:
+Cap melee skill gain based on monster melee skill
+Simple deconstruct is much faster
+Add denim as a material and buff jeans
+Removed scent tracking from certain zombies
+Cody can make chainmail armor and charges more
+Rework melee, unarmed, dodge, cutting, stabbing, and bashing practice recipes to limit higher level practice actions to books
+
+
+## Bugfixes:
+Crafting GUI: show how much recipe makes for non-charge items
+Monsters add weight to vehicle when on boardable parts
+Make AUTO_PICKUP_SAFEMODE also consider ignored mobs
+Reset daily health at the end of each day
+Food inside sealed containers is properly labeled as such in the [E]ating menu
+Prevent autodrive from dropping vehicles in holes
+Allow room for starting NPC when picking player starting position
+Determine how much you can squish a soft container by its contents
+mutate_towards accounts for bionics which CANCEL but don't CONFLICT with mutations
+Fix files after a symlink in a directory all treated as symlink on Windows
+Fixes marina spawns
+Fix NPCs unable to trade items away if they have no pockets
+Display IME candidate list and composition text correctly on Windows
+Fix dark gray in the ncurses client for terminal emulators that support 256 colors.
+Fixes mobile home park road connections
+Flush map buffers after failing to create starting location
+Smart controller supports using only one engine
+Disassembly doesn't return items with UNRECOVERABLE flag
+
+
+## Performance:
+Make `Character::best_item_with_quality` examine items non-recursively
+Refactor effect types to use map indirection and enums instead of strings
+
+
+## Infrastructure:
+Epower and power in units::power
+Update compiler support.  Now supporting gcc 8.1+, clang 10+, XCode 10.1+
+Refactor some crafting infrastructure to support removal of charges
+
+
+## Build:
+Support Mac arm64 build
+
+
+## I18N and A11Y:
+
+
 # 0.G (Gaiman)
 
 ## Highlights

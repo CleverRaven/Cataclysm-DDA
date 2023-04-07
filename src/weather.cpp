@@ -14,6 +14,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "city.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
@@ -79,11 +80,9 @@ bool is_creature_outside( const Creature &target )
 weather_type_id get_bad_weather()
 {
     weather_type_id bad_weather = WEATHER_NULL;
-    const weather_generator &weather_gen = get_weather().get_cur_weather_gen();
-    for( const std::string &weather_type : weather_gen.weather_types ) {
-        weather_type_id current_conditions = weather_type_id( weather_type );
-        if( current_conditions->precip == precip_class::heavy ) {
-            bad_weather = current_conditions;
+    for( const weather_type_id &weather_type : get_weather().get_cur_weather_gen().sorted_weather ) {
+        if( weather_type->precip == precip_class::heavy ) {
+            bad_weather = weather_type;
         }
     }
     return bad_weather;
@@ -113,10 +112,10 @@ void glare( const weather_type_id &w )
         incident_sun_irradiance( w, calendar::turn ) > irradiance::moderate ) {
         // Winter snow glare happens at lower irradiance
         effect = &effect_snow_glare;
-        dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
+        dur = player_character.has_effect( *effect ) ? 10_turns : 20_turns;
     } else if( incident_sun_irradiance( w, calendar::turn ) > irradiance::high ) {
         effect = &effect_glare;
-        dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
+        dur = player_character.has_effect( *effect ) ? 10_turns : 20_turns;
     }
 
     //apply final glare effect
@@ -125,7 +124,11 @@ void glare( const weather_type_id &w )
         if( player_character.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        player_character.add_env_effect( *effect, body_part_eyes, 2, dur );
+        // Glare in all your eyes
+        for( bodypart_id &bp : player_character.get_all_body_parts_of_type(
+                 body_part_type::type::sensor ) ) {
+            player_character.add_effect( *effect, dur, bp );
+        }
     }
 }
 
@@ -160,11 +163,7 @@ static void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
                 break;
         }
     }
-    if( wtype->acidic ) {
-        data.acid_amount += amount;
-    } else {
-        data.rain_amount += amount;
-    }
+    data.rain_amount += amount;
 
     // TODO: Change this sunlight "sampling" here into a proper interpolation
     const float tick_sunlight = incident_sunlight( wtype, t );
@@ -229,20 +228,15 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
         const int rain = roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.rain_amount ) );
-        it.add_rain_to_container( false, rain );
+        it.add_rain_to_container( rain );
         // add_msg_debug( "Retroactively adding %d water from turn %d to %d", rain, startturn, endturn);
-    }
-
-    if( data.acid_amount > 0 ) {
-        const int acid = roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.acid_amount ) );
-        it.add_rain_to_container( true, acid );
     }
 }
 
 /**
  * Add charge(s) of rain to given container, possibly contaminating it.
  */
-void item::add_rain_to_container( bool acid, int charges )
+void item::add_rain_to_container( int charges )
 {
     if( charges <= 0 ) {
         return;
@@ -252,10 +246,8 @@ void item::add_rain_to_container( bool acid, int charges )
     ret.charges = std::min( charges, capa );
     if( contents.can_contain( ret ).success() ) {
         // This is easy. Just add 1 charge of the rain liquid to the container.
-        if( !acid ) {
-            // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
-            ret.poison = one_in( 10 ) ? 1 : 0;
-        }
+        // Funnels aren't always clean enough for water. // TODO: disinfectant squeegie->funnel
+        ret.poison = one_in( 10 ) ? 1 : 0;
         put_in( ret, item_pocket::pocket_type::CONTAINER );
     } else {
         static const std::set<itype_id> allowed_liquid_types{
@@ -270,40 +262,9 @@ void item::add_rain_to_container( bool acid, int charges )
         }
         // The container already has a liquid.
         item &liq = *found_liq;
-        int orig = liq.charges;
         int added = std::min( charges, capa );
         if( capa > 0 ) {
             liq.charges += added;
-        }
-
-        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water ) {
-            // The container already contains this liquid or weakly acidic water.
-            // Don't do anything special -- we already added liquid.
-        } else {
-            // The rain is different from what's in the container.
-            // Turn the container's liquid into weak acid with a probability
-            // based on its current volume.
-
-            // If it's raining acid and this container started with 7
-            // charges of water, the liquid will now be 1/8th acid or,
-            // equivalently, 1/4th weak acid (the rest being water). A
-            // stochastic approach gives the liquid a 1 in 4 (or 2 in
-            // liquid.charges) chance of becoming weak acid.
-            const bool transmute = x_in_y( 2 * added, liq.charges );
-
-            if( transmute ) {
-                liq = item( "water", calendar::turn, liq.charges );
-            } else if( liq.typeId() == itype_water ) {
-                // The container has water, and the acid rain didn't turn it
-                // into weak acid. Poison the water instead, assuming 1
-                // charge of acid would act like a charge of water with poison 5.
-                int total_poison = liq.poison * orig + 5 * added;
-                liq.poison = total_poison / liq.charges;
-                int leftover_poison = total_poison - liq.poison * liq.charges;
-                if( leftover_poison > rng( 0, liq.charges ) ) {
-                    liq.poison++;
-                }
-            }
         }
     }
 }
@@ -359,7 +320,7 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const
 /**
  * Main routine for filling funnels from weather effects.
  */
-static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
+static void fill_funnels( int rain_depth_mm_per_hour, const trap &tr )
 {
     const double turns_per_charge = tr.funnel_turns_per_charge( rain_depth_mm_per_hour );
     map &here = get_map();
@@ -371,8 +332,7 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
             // FIXME:
             //add_msg("%d mm/h %d tps %.4f: fill",int(calendar::turn),rain_depth_mm_per_hour,turns_per_charge);
             // This funnel has collected some rain! Put the rain in the largest
-            // container here which is either empty or contains some mixture of
-            // impure water and acid.
+            // container here which is either empty or contains some water
             map_stack items = here.i_at( loc );
             auto container = items.end();
             for( auto candidate_container = items.begin(); candidate_container != items.end();
@@ -383,7 +343,7 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
             }
 
             if( container != items.end() ) {
-                container->add_rain_to_container( acid, 1 );
+                container->add_rain_to_container( 1 );
                 container->set_age( 0_turns );
             }
         }
@@ -394,10 +354,10 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
  * Fill funnels and makeshift funnels from weather effects.
  * @see fill_funnels
  */
-static void fill_water_collectors( int mmPerHour, bool acid )
+static void fill_water_collectors( int mmPerHour )
 {
     for( const trap * const &e : trap::get_funnels() ) {
-        fill_funnels( mmPerHour, acid, *e );
+        fill_funnels( mmPerHour, *e );
     }
 }
 
@@ -487,8 +447,7 @@ void handle_weather_effects( const weather_type_id &w )
     map &here = get_map();
     Character &target = get_player_character();
     if( w->rains && w->precip != precip_class::none ) {
-        fill_water_collectors( precip_mm_per_hour( w->precip ),
-                               w->acidic );
+        fill_water_collectors( precip_mm_per_hour( w->precip ) );
         int wetness = 0;
         time_duration decay_time = 60_turns;
         if( w->precip == precip_class::very_light ) {

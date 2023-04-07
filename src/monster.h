@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <map>
 #include <new>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
@@ -20,7 +21,6 @@
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
-#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -33,6 +33,7 @@ class JsonOut;
 class effect;
 class effect_source;
 class item;
+struct monster_plan;
 namespace catacurses
 {
 class window;
@@ -231,7 +232,13 @@ class monster : public Creature
 
         // How good of a target is given creature (checks for visibility)
         float rate_target( Creature &c, float best, bool smart = false ) const;
+        // is it mating season?
+        bool mating_angry() const;
         void plan();
+        void anger_hostile_seen( const monster_plan &mon_plan );
+        void anger_mating_season( const monster_plan &mon_plan );
+        // will change mon_plan::dist
+        void anger_cub_threatened( monster_plan &mon_plan );
         void move(); // Actual movement
         void footsteps( const tripoint &p ); // noise made by movement
         void shove_vehicle( const tripoint &remote_destination,
@@ -327,8 +334,8 @@ class monster : public Creature
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
-        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
-                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
+        void make_bleed( const effect_source &source, time_duration duration,
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false );
 
         const weakpoint *absorb_hit( const weakpoint_attack &attack, const bodypart_id &bp,
                                      damage_instance &dam ) override;
@@ -541,7 +548,7 @@ class monster : public Creature
         short ignoring = 0;
         bool aggro_character = true;
 
-        cata::optional<time_point> lastseen_turn;
+        std::optional<time_point> lastseen_turn;
 
         // Stair data.
         int staircount = 0;
@@ -576,26 +583,22 @@ class monster : public Creature
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
-        // summoned monsters via spells
-        void set_summon_time( const time_duration &length );
-        // handles removing the monster if the timer runs out
-        void decrement_summon_timer();
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
-        cata::optional<tripoint_abs_ms> goal;
+        std::optional<tripoint_abs_ms> goal;
         bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
         bool upgrades = false;
         int upgrade_time = 0;
         bool reproduces = false;
-        cata::optional<time_point> baby_timer;
+        std::optional<time_point> baby_timer;
         bool biosignatures = false;
-        cata::optional<time_point> biosig_timer;
+        std::optional<time_point> biosig_timer;
         time_point udder_timer;
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
@@ -605,7 +608,6 @@ class monster : public Creature
         int next_patrol_point = -1;
 
         std::bitset<NUM_MEFF> effect_cache;
-        cata::optional<time_point> lifespan_end = cata::nullopt;
         int turns_since_target = 0;
 
         Character *find_dragged_foe();

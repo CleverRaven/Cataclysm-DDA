@@ -52,7 +52,7 @@ class talker
         virtual monster *get_monster() {
             return nullptr;
         }
-        virtual monster *get_monster() const {
+        virtual const monster *get_monster() const {
             return nullptr;
         }
         virtual Creature *get_creature() {
@@ -89,9 +89,15 @@ class talker
         virtual int posz() const {
             return 0;
         }
-        virtual tripoint pos() const = 0;
-        virtual tripoint_abs_ms global_pos() const = 0;
-        virtual tripoint_abs_omt global_omt_location() const = 0;
+        virtual tripoint pos() const {
+            return {};
+        }
+        virtual tripoint_abs_ms global_pos() const {
+            return {};
+        }
+        virtual tripoint_abs_omt global_omt_location() const {
+            return {};
+        }
         virtual void set_pos( tripoint ) {}
         virtual std::string distance_to_goal() const {
             return "";
@@ -442,6 +448,9 @@ class talker
             return 0;
         }
         virtual int get_stored_kcal() const {
+            return 0;
+        }
+        virtual int get_healthy_kcal() const {
             return 0;
         }
         virtual int get_stim() const {

@@ -14,7 +14,7 @@
     "morale": 100,
     "luminance": 5,
     "death_function": { "message": "The %s's interior compartment sizzles with destructive energy.", "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "STUN_IMMUNE" ]
+    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "STUN_IMMUNE", "PACIFIST" ]
   },
   {
     "id": "mon_EMP_hack",
@@ -109,7 +109,8 @@
     "armor_bullet": 6,
     "revert_to_itype": "bot_manhack",
     "death_function": { "corpse_type": "BROKEN" },
-    "extend": { "flags": [ "HIT_AND_RUN" ] }
+    "extend": { "flags": [ "HIT_AND_RUN" ] },
+    "delete": { "flags": [ "PACIFIST" ] }
   },
   {
     "id": "mon_mininuke_hack",
@@ -164,6 +165,7 @@
         "ranges": [ [ 0, 50, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": true,
         "targeting_cost": 700,
         "targeting_timeout_extend": -10,

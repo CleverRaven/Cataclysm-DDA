@@ -39,18 +39,11 @@
 
 static const item_group_id Item_spawn_data_field( "field" );
 static const item_group_id Item_spawn_data_forest_trail( "forest_trail" );
-static const item_group_id Item_spawn_data_hive( "hive" );
-static const item_group_id Item_spawn_data_hive_center( "hive_center" );
 static const item_group_id Item_spawn_data_road( "road" );
 static const item_group_id Item_spawn_data_sewer( "sewer" );
 static const item_group_id Item_spawn_data_wreckage( "wreckage" );
 
-static const mongroup_id GROUP_BEEHIVE( "GROUP_BEEHIVE" );
-static const mongroup_id GROUP_BEEKEEPER( "GROUP_BEEKEEPER" );
-static const mongroup_id GROUP_FAMOUS_SINGERS( "GROUP_FAMOUS_SINGERS" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
-
-static const npc_template_id npc_template_apis( "apis" );
 
 static const oter_str_id oter_crater( "crater" );
 static const oter_str_id oter_crater_core( "crater_core" );
@@ -65,7 +58,6 @@ static const oter_str_id oter_forest_trail_nsw( "forest_trail_nsw" );
 static const oter_str_id oter_forest_trail_sw( "forest_trail_sw" );
 static const oter_str_id oter_forest_trail_wn( "forest_trail_wn" );
 static const oter_str_id oter_hellmouth( "hellmouth" );
-static const oter_str_id oter_hive( "hive" );
 static const oter_str_id oter_hiway_ew( "hiway_ew" );
 static const oter_str_id oter_rift( "rift" );
 static const oter_str_id oter_river_c_not_nw( "river_c_not_nw" );
@@ -144,7 +136,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "forest_trail_end",         &mapgen_forest_trail_straight },
             { "forest_trail_tee",         &mapgen_forest_trail_tee },
             { "forest_trail_four_way",    &mapgen_forest_trail_four_way },
-            { "hive",             &mapgen_hive },
             { "road_straight",    &mapgen_road },
             { "road_curved",      &mapgen_road },
             { "road_end",         &mapgen_road },
@@ -293,169 +284,6 @@ void mapgen_field( mapgendata &dat )
     // FIXME: take 'rock' out and add as regional biome setting
     m->place_items( Item_spawn_data_field, 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
                     true, dat.when() );
-}
-
-void mapgen_hive( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    // Start with a basic forest pattern
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            int rn = rng( 0, 14 );
-            if( rn > 13 ) {
-                m->ter_set( point( i, j ), t_tree );
-            } else if( rn > 11 ) {
-                m->ter_set( point( i, j ), t_tree_young );
-            } else if( rn > 10 ) {
-                m->ter_set( point( i, j ), t_underbrush );
-            } else {
-                m->ter_set( point( i, j ), dat.groundcover() );
-            }
-        }
-    }
-
-    m->place_spawns( GROUP_BEEHIVE, 2, point( 5, 5 ), point( 17, 17 ), 2 );
-    m->place_spawns( GROUP_BEEKEEPER, 2, point( 5, 5 ), point( 17, 17 ), 1 );
-
-    // j and i loop through appropriate hive-cell center squares
-    const bool is_center = dat.t_nesw[0] == oter_hive && dat.t_nesw[1] == oter_hive &&
-                           dat.t_nesw[2] == oter_hive && dat.t_nesw[3] == oter_hive;
-    for( int j = 5; j < SEEY * 2 - 5; j += 6 ) {
-        for( int i = j == 5 || j == 17 ? 3 : 6; i < SEEX * 2 - 5; i += 6 ) {
-            if( !one_in( 8 ) ) {
-                // Caps are always there
-                m->ter_set( point( i, j - 5 ), t_wax );
-                m->ter_set( point( i, j + 5 ), t_wax );
-                for( int k = -2; k <= 2; k++ ) {
-                    for( int l = -1; l <= 1; l++ ) {
-                        m->ter_set( point( i + k, j + l ), t_floor_wax );
-                    }
-                }
-                m->ter_set( point( i, j - 3 ), t_floor_wax );
-                m->ter_set( point( i, j + 3 ), t_floor_wax );
-                m->ter_set( point( i - 1, j - 2 ), t_floor_wax );
-                m->ter_set( point( i, j - 2 ), t_floor_wax );
-                m->ter_set( point( i + 1, j - 2 ), t_floor_wax );
-                m->ter_set( point( i - 1, j + 2 ), t_floor_wax );
-                m->ter_set( point( i, j + 2 ), t_floor_wax );
-                m->ter_set( point( i + 1, j + 2 ), t_floor_wax );
-
-                // Up to two of these get skipped; an entrance to the cell
-                int skip1 = rng( 0, SEEX * 2 - 1 );
-                int skip2 = rng( 0, SEEY * 2 - 1 );
-
-                m->ter_set( point( i - 1, j - 4 ), t_wax );
-                m->ter_set( point( i, j - 4 ), t_wax );
-                m->ter_set( point( i + 1, j - 4 ), t_wax );
-                m->ter_set( point( i - 2, j - 3 ), t_wax );
-                m->ter_set( point( i - 1, j - 3 ), t_wax );
-                m->ter_set( point( i + 1, j - 3 ), t_wax );
-                m->ter_set( point( i + 2, j - 3 ), t_wax );
-                m->ter_set( point( i - 3, j - 2 ), t_wax );
-                m->ter_set( point( i - 2, j - 2 ), t_wax );
-                m->ter_set( point( i + 2, j - 2 ), t_wax );
-                m->ter_set( point( i + 3, j - 2 ), t_wax );
-                m->ter_set( point( i - 3, j - 1 ), t_wax );
-                m->ter_set( point( i - 3, j ), t_wax );
-                m->ter_set( point( i - 3, j - 1 ), t_wax );
-                m->ter_set( point( i - 3, j + 1 ), t_wax );
-                m->ter_set( point( i - 3, j ), t_wax );
-                m->ter_set( point( i - 3, j + 1 ), t_wax );
-                m->ter_set( point( i - 2, j + 3 ), t_wax );
-                m->ter_set( point( i - 1, j + 3 ), t_wax );
-                m->ter_set( point( i + 1, j + 3 ), t_wax );
-                m->ter_set( point( i + 2, j + 3 ), t_wax );
-                m->ter_set( point( i - 1, j + 4 ), t_wax );
-                m->ter_set( point( i, j + 4 ), t_wax );
-                m->ter_set( point( i + 1, j + 4 ), t_wax );
-
-                if( skip1 == 0 || skip2 == 0 ) {
-                    m->ter_set( point( i - 1, j - 4 ), t_floor_wax );
-                }
-                if( skip1 == 1 || skip2 == 1 ) {
-                    m->ter_set( point( i, j - 4 ), t_floor_wax );
-                }
-                if( skip1 == 2 || skip2 == 2 ) {
-                    m->ter_set( point( i + 1, j - 4 ), t_floor_wax );
-                }
-                if( skip1 == 3 || skip2 == 3 ) {
-                    m->ter_set( point( i - 2, j - 3 ), t_floor_wax );
-                }
-                if( skip1 == 4 || skip2 == 4 ) {
-                    m->ter_set( point( i - 1, j - 3 ), t_floor_wax );
-                }
-                if( skip1 == 5 || skip2 == 5 ) {
-                    m->ter_set( point( i + 1, j - 3 ), t_floor_wax );
-                }
-                if( skip1 == 6 || skip2 == 6 ) {
-                    m->ter_set( point( i + 2, j - 3 ), t_floor_wax );
-                }
-                if( skip1 == 7 || skip2 == 7 ) {
-                    m->ter_set( point( i - 3, j - 2 ), t_floor_wax );
-                }
-                if( skip1 == 8 || skip2 == 8 ) {
-                    m->ter_set( point( i - 2, j - 2 ), t_floor_wax );
-                }
-                if( skip1 == 9 || skip2 == 9 ) {
-                    m->ter_set( point( i + 2, j - 2 ), t_floor_wax );
-                }
-                if( skip1 == 10 || skip2 == 10 ) {
-                    m->ter_set( point( i + 3, j - 2 ), t_floor_wax );
-                }
-                if( skip1 == 11 || skip2 == 11 ) {
-                    m->ter_set( point( i - 3, j - 1 ), t_floor_wax );
-                }
-                if( skip1 == 12 || skip2 == 12 ) {
-                    m->ter_set( point( i - 3, j ), t_floor_wax );
-                }
-                if( skip1 == 13 || skip2 == 13 ) {
-                    m->ter_set( point( i - 3, j - 1 ), t_floor_wax );
-                }
-                if( skip1 == 14 || skip2 == 14 ) {
-                    m->ter_set( point( i - 3, j + 1 ), t_floor_wax );
-                }
-                if( skip1 == 15 || skip2 == 15 ) {
-                    m->ter_set( point( i - 3, j ), t_floor_wax );
-                }
-                if( skip1 == 16 || skip2 == 16 ) {
-                    m->ter_set( point( i - 3, j + 1 ), t_floor_wax );
-                }
-                if( skip1 == 17 || skip2 == 17 ) {
-                    m->ter_set( point( i - 2, j + 3 ), t_floor_wax );
-                }
-                if( skip1 == 18 || skip2 == 18 ) {
-                    m->ter_set( point( i - 1, j + 3 ), t_floor_wax );
-                }
-                if( skip1 == 19 || skip2 == 19 ) {
-                    m->ter_set( point( i + 1, j + 3 ), t_floor_wax );
-                }
-                if( skip1 == 20 || skip2 == 20 ) {
-                    m->ter_set( point( i + 2, j + 3 ), t_floor_wax );
-                }
-                if( skip1 == 21 || skip2 == 21 ) {
-                    m->ter_set( point( i - 1, j + 4 ), t_floor_wax );
-                }
-                if( skip1 == 22 || skip2 == 22 ) {
-                    m->ter_set( point( i, j + 4 ), t_floor_wax );
-                }
-                if( skip1 == 23 || skip2 == 23 ) {
-                    m->ter_set( point( i + 1, j + 4 ), t_floor_wax );
-                }
-
-                if( is_center ) {
-                    m->place_items( Item_spawn_data_hive_center, 90, point( i - 2, j - 2 ),
-                                    point( i + 2, j + 2 ), false, dat.when() );
-                } else {
-                    m->place_items( Item_spawn_data_hive, 80, point( i - 2, j - 2 ),
-                                    point( i + 2, j + 2 ), false, dat.when() );
-                }
-            }
-        }
-    }
-
-    if( is_center ) {
-        m->place_npc( point( SEEX, SEEY ), npc_template_apis );
-    }
 }
 
 int terrain_type_to_nesw_array( oter_id terrain_type, std::array<bool, 4> &array )
@@ -965,10 +793,6 @@ void mapgen_road( mapgendata &dat )
     if( neighbor_sidewalks ) {
         m->place_spawns( GROUP_ZOMBIE, 2, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
                          dat.monster_density() );
-        // 1 per 10 overmaps
-        if( one_in( 10000 ) ) {
-            m->place_spawns( GROUP_FAMOUS_SINGERS, 1, point_zero, point( SEEX, SEEY ), 1, true );
-        }
     }
 
     // add some items
@@ -2356,8 +2180,10 @@ void mapgen_forest( mapgendata &dat )
         if( p.x < SEEX ) {
             if( p.y < SEEY ) {
                 unify_continuous_border( adjacent_biomes[3], adjacent_biomes[7], adjacent_biomes[0],
+                                         // NOLINTNEXTLINE(readability-container-data-pointer)
                                          &cardinal_four_weights[3], &cardinal_four_weights[0], self_weight );
             } else {
+                // NOLINTNEXTLINE(readability-container-data-pointer)
                 unify_continuous_border( adjacent_biomes[0], adjacent_biomes[4], adjacent_biomes[1],
                                          &cardinal_four_weights[0], &cardinal_four_weights[1], self_weight );
             }

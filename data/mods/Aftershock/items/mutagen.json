@@ -20,7 +20,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "mi-go mutagen",
-    "description": "An extremely rare mutagen cocktail, it smells of sulphur and glows orange.",
+    "description": "An extremely rare mutagen cocktail, it smells of sulfur and glows orange.",
     "price": 500000,
     "use_action": {
       "type": "consume_drug",

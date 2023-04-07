@@ -169,7 +169,7 @@
     "type": "mutation",
     "id": "DRAGON_FEET",
     "name": { "str": "Dragon Legs" },
-    "points": -1,
+    "points": 0,
     "visibility": 4,
     "ugliness": 2,
     "mixed_effect": true,
@@ -255,7 +255,7 @@
     "id": "HUGE_DRAGON",
     "flags": [ "HUGE" ],
     "name": { "str": "Freakish Draconic Maturity" },
-    "points": -2,
+    "points": 0,
     "visibility": 4,
     "ugliness": 4,
     "mixed_effect": true,
@@ -598,7 +598,7 @@
     "type": "mutation",
     "id": "MUZZLE_DRAGON",
     "name": { "str": "Scaled Mouth" },
-    "points": -3,
+    "points": 0,
     "visibility": 6,
     "ugliness": 6,
     "mixed_effect": true,
@@ -622,7 +622,7 @@
     "type": "mutation",
     "id": "DRAGON_MAW_BLACK",
     "name": { "str": "Black Dragon Maw" },
-    "points": -3,
+    "points": 0,
     "visibility": 8,
     "ugliness": 8,
     "mixed_effect": true,
@@ -668,7 +668,7 @@
     "prereqs2": [ "SCALES", "DRAGON_SCALES_BLACK" ],
     "category": [ "DRAGON_BLACK" ],
     "changes_to": [ "DRAGON_TAIL" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
@@ -689,7 +689,7 @@
     "types": [ "TAIL" ],
     "prereqs": [ "DRAGON_TAIL_SCALED" ],
     "category": [ "DRAGON_BLACK" ],
-    "restricts_gear": [ "leg_l", "leg_r" ],
+    "restricts_gear": [ "leg_hip_l", "leg_hip_r" ],
     "allowed_items": [ "ALLOWS_TAIL" ],
     "allow_soft_gear": true,
     "attacks": {
@@ -744,52 +744,65 @@
     "spells_learned": [ [ "acid_claw", 1 ] ]
   },
   {
-    "type": "effect_on_condition",
-    "id": "EOC_GIVE_SOUL_PRESSURE_OFF",
-    "//": "Works only once, and give you a SOUL_PRESSURE_OFF mutation. Dont know how to optimise it, so left it as it is.",
-    "recurrence": [ "1 s", "1 s" ],
-    "condition": {
-      "and": [
-        { "u_has_trait": "SOULFIRE" },
-        {
-          "not": { "u_has_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
-        }
-      ]
-    },
-    "deactivate_condition": { "not": { "u_has_trait": "SOULFIRE" } },
-    "effect": [
-      { "u_add_trait": "SOUL_PRESSURE_OFF" },
-      { "u_add_var": "u_got_soulfire_attunement", "type": "attunement", "context": "attunement", "value": "yes" }
-    ]
+    "type": "mutation",
+    "id": "DENSE_BONES",
+    "copy-from": "DENSE_BONES",
+    "extend": { "category": [ "DRAGON_BLACK" ] }
   },
   {
     "type": "mutation",
-    "id": "SOUL_PRESSURE_OFF",
-    "starting_trait": false,
+    "id": "PRED1",
+    "copy-from": "PRED1",
+    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PRED2",
+    "copy-from": "PRED2",
+    "extend": { "category": [ "DRAGON_BLACK" ], "threshreq": [ "THRESH_DRAGON_BLACK" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PRED3_DRAGON",
+    "name": { "str": "Draconic Predator" },
+    "points": 4,
+    "description": "You have become something more than human.  Something better - and far, far worse.  Combat skills are easy to learn and maintain, and unlike lesser predators, your mental faculties don't suffer at all.",
+    "social_modifiers": { "intimidate": 5 },
     "purifiable": false,
-    "valid": false,
-    "name": { "str": "Soul Pressure" },
-    "points": 0,
-    "active": true,
-    "description": "Your presence is so dangerous you can burn living creatures around you.  You suppress it now.",
-    "transform": {
-      "target": "SOUL_PRESSURE_ON",
-      "msg_transform": "Living creatures around you start to burn!",
-      "active": true,
-      "moves": 10
+    "types": [ "PREDATION" ],
+    "prereqs": [ "CARNIVORE" ],
+    "prereqs2": [ "PRED2" ],
+    "leads_to": [ "SAPIOVORE" ],
+    "changes_to": [ "PRED4_DRAGON" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "cancels": [ "PACIFIST" ],
+    "category": [ "DRAGON_BLACK" ],
+    "flags": [ "PRED3" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PRED4_DRAGON",
+    "name": { "str": "Draconic Apex Predator" },
+    "points": 5,
+    "description": "Your mind and brain have fully adapted to your new place at the top of the magical food chain.  You can effortlessly master and maintain combat skills, and your malevolent intellect only grows.",
+    "social_modifiers": { "intimidate": 6 },
+    "purifiable": false,
+    "types": [ "PREDATION" ],
+    "prereqs": [ "CARNIVORE" ],
+    "prereqs2": [ "PRED3_DRAGON" ],
+    "threshreq": [ "THRESH_DRAGON_BLACK" ],
+    "category": [ "DRAGON_BLACK" ],
+    "passive_mods": { "int_mod": 1 },
+    "flags": [ "PRED4" ]
+  },
+  {
+    "type": "mutation",
+    "id": "SAPIOVORE",
+    "copy-from": "SAPIOVORE",
+    "extend": {
+      "category": [ "DRAGON_BLACK" ],
+      "threshreq": [ "THRESH_DRAGON_BLACK" ],
+      "prereqs2": [ "PRED3_DRAGON", "PRED4_DRAGON" ]
     }
-  },
-  {
-    "type": "mutation",
-    "id": "SOUL_PRESSURE_ON",
-    "starting_trait": false,
-    "purifiable": false,
-    "valid": false,
-    "active": true,
-    "name": { "str": "Soul Pressure (on)" },
-    "points": -1,
-    "description": "Your presence is so dangerous you can burn living creatures around you.",
-    "enchantments": [ "SOULFIRE" ],
-    "transform": { "target": "SOUL_PRESSURE_OFF", "msg_transform": "You suppress your soul pressure.", "active": false, "moves": 10 }
   }
 ]

@@ -6,6 +6,7 @@
 #include <list>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -46,7 +47,6 @@
 #include "mutation.h"
 #include "npc.h"
 #include "npctrade.h"
-#include "optional.h"
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
@@ -339,7 +339,7 @@ void talk_function::goto_location( npc &p )
         if( elem == p.global_omt_location() ) {
             continue;
         }
-        cata::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
+        std::optional<basecamp *> camp = overmap_buffer.find_camp( elem.xy() );
         if( !camp ) {
             continue;
         }
@@ -378,7 +378,7 @@ void talk_function::goto_location( npc &p )
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = p.chatbin.talk_friend_guard;
-    p.guard_pos = cata::nullopt;
+    p.guard_pos = std::nullopt;
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -401,7 +401,7 @@ void talk_function::assign_guard( npc &p )
 
 void talk_function::abandon_camp( npc &p )
 {
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         temp_camp->abandon_camp();
@@ -410,7 +410,7 @@ void talk_function::abandon_camp( npc &p )
 
 void talk_function::assign_camp( npc &p )
 {
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
+    std::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().xy() );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
         p.set_attitude( NPCATT_NULL );
@@ -442,13 +442,13 @@ void talk_function::stop_guard( npc &p )
     }
     p.chatbin.first_topic = p.chatbin.talk_friend;
     p.goal = npc::no_goal_point;
-    p.guard_pos = cata::nullopt;
+    p.guard_pos = std::nullopt;
     if( p.assigned_camp ) {
-        if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
+        if( std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
             ( *bcp )->remove_assignee( p.getID() );
             ( *bcp )->validate_assignees();
         }
-        p.assigned_camp = cata::nullopt;
+        p.assigned_camp = std::nullopt;
     }
 }
 
@@ -973,8 +973,8 @@ void talk_function::player_weapon_away( npc &/*p*/ )
 {
     Character &player_character = get_player_character();
 
-    cata::optional<bionic *> bionic_weapon = player_character.find_bionic_by_uid(
-                player_character.get_weapon_bionic_uid() );
+    std::optional<bionic *> bionic_weapon = player_character.find_bionic_by_uid(
+            player_character.get_weapon_bionic_uid() );
     if( bionic_weapon ) {
         player_character.deactivate_bionic( **bionic_weapon );
         return;

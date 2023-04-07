@@ -1,0 +1,14 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_aelfen_tailoring",
+    "category": "prof_tailoring",
+    "name": { "str": "Aelfen Tailoring Techniques" },
+    "description": "Working with materials from other dimensions is never easy.  But this definitely improves your ability to work on fabrics and furs from the lands under the hill.",
+    "//": "I don't know if I'll make any advanced proficiencies for changeling recipes but I'd like to at least have some base level ones.",
+    "can_learn": true,
+    "default_time_multiplier": 1.5,
+    "default_skill_penalty": 1.15,
+    "time_to_learn": "6 h"
+  }
+]

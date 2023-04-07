@@ -84,6 +84,9 @@ enum base_color : short {
     magenta = 0x05,  // RGB{196, 0, 180}
     cyan = 0x06,     // RGB{0, 170, 200}
     white = 0x07,    // RGB{196, 196, 196}
+
+    // 256 Color Support
+    dark_gray = 237,
 };
 
 using chtype = int;
@@ -136,6 +139,7 @@ int getbegx( const window &win );
 int getbegy( const window &win );
 int getcurx( const window &win );
 int getcury( const window &win );
+bool supports_256_colors();
 } // namespace catacurses
 
 #endif // CATA_SRC_CURSESDEF_H

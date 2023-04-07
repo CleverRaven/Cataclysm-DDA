@@ -14,14 +14,10 @@
     "type": "monstergroup",
     "default": "mon_dog",
     "monsters": [
-      { "group": "GROUP_PET_DOGS", "weight": 95, "cost_multiplier": 0 },
-      { "monster": "mon_dog_mutant_mongrel", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_dog_incorporeal", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_dog_incorporeal_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_telekenetic", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_dog_telekenetic_pup", "weight": 5, "cost_multiplier": 0 },
-      { "monster": "mon_dog_antimemetic", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_dog_antimemetic_pup", "weight": 5, "cost_multiplier": 0 }
+      { "group": "GROUP_PET_DOGS", "weight": 90, "cost_multiplier": 0 },
+      { "monster": "mon_dog_mutant_mongrel", "weight": 7, "cost_multiplier": 0 },
+      { "monster": "mon_dog_incorporeal", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_dog_antimemetic", "weight": 1, "cost_multiplier": 0 }
     ]
   },
   {
@@ -29,13 +25,10 @@
     "type": "monstergroup",
     "default": "mon_cat",
     "monsters": [
-      { "group": "GROUP_PET_CATS", "weight": 967, "cost_multiplier": 0 },
-      { "monster": "mon_cat_void", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_cat_void_kitten", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_cat_liquid", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_cat_liquid_kitten", "weight": 1, "cost_multiplier": 0 },
-      { "monster": "mon_cat_mutant_prism", "weight": 10, "cost_multiplier": 0 },
-      { "monster": "mon_cat_mutant_kitten_prism", "weight": 1, "cost_multiplier": 0 }
+      { "group": "GROUP_PET_CATS", "weight": 97, "cost_multiplier": 0 },
+      { "monster": "mon_cat_void", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_cat_liquid", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_cat_mutant_prism", "weight": 1, "cost_multiplier": 0 }
     ]
   },
   {
@@ -109,7 +102,8 @@
     "default": "mon_dog",
     "monsters": [
       { "group": "GROUP_PET_CATS", "weight": 1, "cost_multiplier": 0 },
-      { "group": "GROUP_PET_DOGS", "weight": 1, "cost_multiplier": 0 }
+      { "group": "GROUP_PET_DOGS", "weight": 1, "cost_multiplier": 0 },
+      { "monster": "mon_ferret", "weight": 1, "cost_multiplier": 0 }
     ]
   }
 ]
