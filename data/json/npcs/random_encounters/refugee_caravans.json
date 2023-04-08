@@ -273,7 +273,11 @@
     "dynamic_line": "*tips their hat down from their eyes and looks at you, eyes bloodshot.  \"Mmh?  Hey, just having a.  I was a.  Give me all your heroin.",
     "responses": [
       { "text": "Oh, uh, sorry.", "topic": "TALK_DONE" },
-      { "text": "Never, that heroin is for me and me alone.", "condition": { "u_has_items": { "item": "heroin" } }, "topic": "TALK_DONE" }
+      {
+        "text": "Never, that heroin is for me and me alone.",
+        "condition": { "u_has_items": { "item": "heroin" } },
+        "topic": "TALK_DONE"
+      }
     ]
   }
 ]
