@@ -34,7 +34,7 @@ function merge_lang
     num_untranslated=$( \
         msgattrib --untranslated "${o}" 2>/dev/null | grep -c '^msgid')
     mkdir -p lang/stats
-    printf '{"%s", %d, %d},\n' \
+    printf '{"%s"sv, %d, %d},\n' \
         "${n}" "$((num_translated-1))" "$((num_untranslated-1))" \
         > lang/stats/${n}
 }
