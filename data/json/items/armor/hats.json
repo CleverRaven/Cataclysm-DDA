@@ -562,7 +562,7 @@
         "volume_encumber_modifier": 0,
         "max_contains_volume": "300 ml",
         "max_contains_weight": "300 g",
-		"max_item_length": "14 cm",
+        "max_item_length": "14 cm",
         "moves": 250,
         "description": "Pocket for a flashlight attachment.",
         "flag_restriction": [ "HELMET_HEAD_ATTACHMENT" ]
