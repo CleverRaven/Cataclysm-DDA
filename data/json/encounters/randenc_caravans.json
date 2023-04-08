@@ -102,7 +102,7 @@
         "u_location_variable": { "global_val": "randenc_refugee_loc" },
         "target_params": { "om_terrain": "roadstop_a" }
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "RandEnc_Refugee" }, "=", { "const": 1 } ] }
+      { "math": [ "RandEnc_Refugee", "=", "1" ] }
     ]
   },
   {
