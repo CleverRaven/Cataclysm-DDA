@@ -1340,7 +1340,8 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
     for( const auto& [lang_id, lang_name] : language_names ) {
         std::string name = lang_name;
         if( const lang_stats *stats = lang_stats_for( lang_id ) ) {
-            name += string_format( _( " (%.1f%%)" ), stats->percent_translated() );
+            name += string_format( _( " <color_dark_gray>(%.1f%%)</color>" ),
+                                   stats->percent_translated() );
         }
         lang_options.emplace_back( lang_id, no_translation( name ) );
     }
@@ -3398,8 +3399,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
             const std::string name = utf8_truncate( name_value.first.s, name_width );
             mvwprintz( w_options, point( name_col + 3, line_pos ), name_value.first.col, name );
 
-            const std::string value = utf8_truncate( name_value.second.s, value_width );
-            mvwprintz( w_options, point( value_col, line_pos ), name_value.second.col, value );
+            trim_and_print( w_options, point( value_col, line_pos ), value_width,
+                            name_value.second.col, name_value.second.s );
 
             opt_line_map.emplace( i, inclusive_rectangle<point>( point( name_col, line_pos ),
                                   point( value_col + value_width - 1, line_pos ) ) );
