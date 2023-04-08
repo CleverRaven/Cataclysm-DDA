@@ -52,7 +52,7 @@
     "dynamic_line": "You again.  Any good news?  Haven't heard any in a long time.",
     "responses": [
       { "text": "What's your story?", "topic": "TALK_CARAVAN_REFUGEE_A_Story" },
-      { "text": "No, dark days.", "topic": "TALK_DONE" }
+      { "text": "No, I don’t have any.", "topic": "TALK_DONE" }
     ]
   },
   {
