@@ -1,20 +1,33 @@
 [
   {
-    "id": "airdrop_humanitarian",
+    "id": "airdrop_humanitarian_full",
     "type": "item_group",
     "subtype": "collection",
     "entries": [
-      { "group": "protein_bar_wrapped_box", "prob": 100 },
+      { "group": "protein_bar_wrapped_box", "prob": 100, "count": [ 3, 8 ] },
       {
         "distribution": [ { "group": "bottle_pur_tablets" }, { "group": "twoliter_water_batch", "count": [ 3, 8 ] } ]
       },
-      { "group": "disinfectant_bottle", "prob": 100 },
-      { "group": "toilet_paper_packed", "repeat": [ 3, 4 ], "prob": 100 },
-      { "group": "soap_packed", "repeat": [ 1, 4 ], "prob": 100 },
-      { "group": "toothbrush_packed", "prob": 100 },
-      { "group": "airdrop_tent", "prob": 100 },
-      { "group": "emer_blanket_box", "prob": 100 },
-      { "group": "bandages_box", "prob": 100 },
+      { "group": "disinfectant_bottle", "prob": 25 },
+      { "group": "toilet_paper_packed", "repeat": [ 3, 4 ], "prob": 50 },
+      { "group": "soap_packed", "repeat": [ 1, 4 ], "prob": 50 },
+      { "group": "toothbrush_packed", "prob": 25 },
+      { "group": "airdrop_tent", "prob": 25 },
+      { "group": "emer_blanket_box", "prob": 50 },
+      { "group": "bandages_box", "prob": 25 },
+      { "item": "cardboard", "count": [ 1200, 1700 ] }
+    ]
+  },
+  {
+    "id": "airdrop_humanitarian_looted",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "protein_bar_evac", "prob": 60, "count": [ 2, 100 ] },
+      { "item": "toilet_paper", "repeat": [ 0, 10 ], "prob": 50 },
+      { "group": "soap_packed", "repeat": [ 0, 1 ], "prob": 50 },
+      { "item": "large_tent_kit", "repeat": [ 0, 3 ], "prob": 50 },
+      { "item": "emer_blanket", "repeat": [ 0, 7 ], "prob": 75 },
       { "item": "cardboard", "count": [ 1200, 1700 ] }
     ]
   },
@@ -99,7 +112,23 @@
       { "item": "jp8", "charges": [ 10000, 15000 ], "container-item": "jerrycan_big" },
       { "item": "i4_diesel" },
       { "item": "bearing", "charges": [ 5, 40 ] },
+      { "item": "jp8", "charges": [ 19000, 20000 ], "container-item": "jerrycan_big", "count": 5 },
       { "item": "cardboard", "count": [ 1200, 1700 ] }
+    ]
+  },
+  {
+    "id": "airdrop_trash",
+    "type": "item_group",
+    "subtype": "collection",
+    "container-item": "box_medium",
+    "on_overflow": "spill",
+    "entries": [
+      { "item": "paper", "count": [ 5, 15 ], "custom-flags": [ "FILTHY" ] },
+      { "item": "cardboard", "count": [ 100, 210 ] },
+      { "item": "shrink_wrap", "count": [ 2, 8 ] },
+      { "item": "bottle_twoliter", "count": [ 3, 11 ] },
+      { "item": "plastic_chunk", "count": [ 10, 30 ] },
+      { "item": "bottle_plastic_small", "count": [ 0, 4 ], "prob": 50 }
     ]
   }
 ]
