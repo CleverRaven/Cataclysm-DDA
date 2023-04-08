@@ -79,7 +79,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_RandEnc_Roadstop_refugee_add",
-    "recurrence": 6000,
+    "recurrence": 3000,
     "global": true,
     "condition": {
       "and": [
