@@ -141,6 +141,7 @@ class talker_character_const: public talker
         int get_health() const override;
         int get_body_temp() const override;
         int get_body_temp_delta() const override;
+        bool knows_martial_art( const matype_id &id ) const override;
     protected:
         talker_character_const() = default;
         const Character *me_chr_const;
@@ -237,6 +238,8 @@ class talker_character: public talker_character_const
         int get_part_hp_cur( const bodypart_id &id ) const override;
         int get_part_hp_max( const bodypart_id &id ) const override;
         void set_part_hp_cur( const bodypart_id &id, int set ) const override;
+        void learn_martial_art( const matype_id &id ) const override;
+        void forget_martial_art( const matype_id &id ) const override;
     protected:
         talker_character() = default;
         Character *me_chr;

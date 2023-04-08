@@ -534,7 +534,7 @@
     "price": 324000,
     "material": [ "steel", "wood" ],
     "flags": [ "FIRE_TWOHAND", "PRIMITIVE_RANGED_WEAPON", "TRADER_AVOID" ],
-    "skill": "smg",
+    "skill": "rifle",
     "ammo": [ "bolt" ],
     "weight": "3628 g",
     "volume": "2500 ml",
