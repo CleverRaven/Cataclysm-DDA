@@ -24,7 +24,7 @@
   {
     "type": "npc",
     "id": "NC_caravan_refugee_C",
-    "//": "Random NPC, demands heroin but can't accept.",
+    "//": "Random NPC, demands heroin and can accept.",
     "name_suffix": "refugee",
     "class": "NC_SCAVENGER",
     "attitude": 0,
