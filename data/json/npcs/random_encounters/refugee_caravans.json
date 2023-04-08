@@ -270,7 +270,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_C",
-    "dynamic_line": "[tips their hat down from their eyes and looks at you, eyes bloodshot.]  \"Mmh?  Hey, just having a.  I was a.  Give me all your heroin.",
+    "dynamic_line": "[They moan, shake their head and look at you, eyes bloodshot.]  \"Mmh?  Hey, just having a.  I was a.  Give me all your heroin.",
     "responses": [
       { "text": "Oh, uh, sorry.", "topic": "TALK_DONE" },
       {
