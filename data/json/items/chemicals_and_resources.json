@@ -1904,8 +1904,8 @@
     "container": "test_tube",
     "symbol": ";",
     "color": "light_gray",
-    "price": 2000,
-    "price_postapoc": 20000,
+    "price": "20 USD",
+    "price_postapoc": "2 USD",
     "count": 1,
     "stack_size": 1
   },
