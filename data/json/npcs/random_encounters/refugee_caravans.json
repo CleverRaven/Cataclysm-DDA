@@ -242,7 +242,7 @@
     "dynamic_line": "Actually, I think I'm on the right track here, but you might have some luck finding a little something something back at the Free Merchant base.  They seemed pretty desperate.",
     "responses": [
       {
-        "text": "Yes.  Of course.  How do I get there?",
+        "text": "Of course.  How do I get there?",
         "topic": "TALK_CARAVAN_REFUGEE_B1_Directions",
         "condition": {
           "and": [
