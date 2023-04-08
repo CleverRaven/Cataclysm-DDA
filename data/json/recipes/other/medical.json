@@ -28,10 +28,10 @@
     "activity_level": "NO_EXERCISE",
     "category": "CC_*",
     "subcategory": "CSC_*_NESTED",
-    "skill_used": "tailor",
-    "time": "9 s",
+    "time": "1 s",
     "autolearn": true,
     "flags": [ "BLIND_EASY" ],
+    "//": "Too simple to learn any tailoring or healthcare.",
     "components": [ [ [ "sheet_cotton", 1 ], [ "sheet_cotton_patchwork", 1 ] ] ]
   },
   {
