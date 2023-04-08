@@ -6,22 +6,26 @@
       {
         "result": [ "t_door_c" ],
         "valid_terrain": [ "t_door_elocked" ],
-        "message": "The numpad chirps happily at you as the door unlocks."
+        "message": "The numpad chirps happily at you as the door unlocks.",
+        "popup": true
       },
       {
         "result": [ "t_door_c_peep" ],
         "valid_terrain": [ "t_door_elocked_peep" ],
-        "message": "The numpad chirps happily at you as the door unlocks."
+        "message": "The numpad chirps happily at you as the door unlocks.",
+        "popup": true
       },
       {
         "result": [ "t_door_c" ],
         "valid_terrain": [ "t_door_elocked_alarm" ],
-        "message": "The numpad chirps happily at you as the door unlocks."
+        "message": "The numpad chirps happily at you as the door unlocks.",
+        "popup": true
       },
       {
         "result": [ "t_door_metal_c" ],
         "valid_terrain": [ "t_door_metal_elocked" ],
-        "message": "The numpad chirps happily at you as the door unlocks."
+        "message": "The numpad chirps happily at you as the door unlocks.",
+        "popup": true
       }
     ]
   }

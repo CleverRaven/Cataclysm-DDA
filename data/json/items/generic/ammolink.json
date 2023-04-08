@@ -10,7 +10,8 @@
     "stackable": true,
     "material": [ "steel" ],
     "symbol": "=",
-    "color": "yellow"
+    "color": "yellow",
+    "damage_states": [ 0, 0 ]
   },
   {
     "id": "ammolink223",

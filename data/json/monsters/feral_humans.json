@@ -678,7 +678,6 @@
         "fake_per": 10,
         "ranges": [ [ 2, 35, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "target_moving_vehicles": true,
         "description": "The mad militiaman fires their rifle!"
       }
     ],
@@ -777,7 +776,6 @@
         "//": "(ferals don't care about max-effective range.)",
         "ranges": [ [ 2, 25, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "target_moving_vehicles": true,
         "description": "The feral biker fires their shotgun!"
       }
     ],
@@ -1001,7 +999,6 @@
         "fake_per": 10,
         "ranges": [ [ 2, 14, "DEFAULT" ] ],
         "require_targeting_player": false,
-        "target_moving_vehicles": true,
         "description": "The feral officer fires their M18!"
       }
     ],

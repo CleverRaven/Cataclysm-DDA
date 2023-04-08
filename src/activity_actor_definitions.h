@@ -43,6 +43,7 @@ class aim_activity_actor : public activity_actor
 {
     private:
         std::optional<item> fake_weapon;
+        units::energy bp_cost_per_shot = 0_J;
         std::vector<tripoint> fin_trajectory;
 
     public:
@@ -76,7 +77,7 @@ class aim_activity_actor : public activity_actor
         static aim_activity_actor use_wielded();
 
         /** Aiming fake gun provided by a bionic */
-        static aim_activity_actor use_bionic( const item &fake_gun );
+        static aim_activity_actor use_bionic( const item &fake_gun, const units::energy &cost_per_shot );
 
         /** Aiming fake gun provided by a mutation */
         static aim_activity_actor use_mutation( const item &fake_gun );

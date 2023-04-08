@@ -245,9 +245,11 @@ aim_activity_actor aim_activity_actor::use_wielded()
     return aim_activity_actor();
 }
 
-aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun )
+aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
+        const units::energy &cost_per_shot )
 {
     aim_activity_actor act = aim_activity_actor();
+    act.bp_cost_per_shot = cost_per_shot;
     act.fake_weapon = fake_gun;
     return act;
 }
@@ -335,8 +337,14 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
+    // Fire!
     gun_mode gun = weapon->gun_current_mode();
-    who.fire_gun( fin_trajectory.back(), gun.qty, *gun );
+    int shots_fired = who.fire_gun( fin_trajectory.back(), gun.qty, *gun );
+
+    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
+    if( shots_fired && ( bp_cost_per_shot > 0_J ) ) {
+        who.mod_power_level( -bp_cost_per_shot * shots_fired );
+    }
 
     if( weapon && weapon->gun_current_mode()->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         // RAS weapons are currently bugged, this is a workaround so bug impact
@@ -354,6 +362,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     aim_activity_actor aim_actor;
     aim_actor.abort_if_no_targets = true;
     aim_actor.fake_weapon = this->fake_weapon;
+    aim_actor.bp_cost_per_shot = this->bp_cost_per_shot;
     aim_actor.initial_view_offset = this->initial_view_offset;
 
     // if invalid target or it's dead - reset it so a new one is acquired
@@ -375,6 +384,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "fake_weapon", fake_weapon );
+    jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
     jsout.member( "fin_trajectory", fin_trajectory );
     jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
@@ -397,6 +407,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin
     JsonObject data = jsin.get_object();
 
     data.read( "fake_weapon", actor.fake_weapon );
+    data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
     data.read( "fin_trajectory", actor.fin_trajectory );
     data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );

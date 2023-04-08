@@ -250,7 +250,6 @@ The monster fires a gun at a target.  If the monster is friendly, it will avoid 
 | `require_targeting_player`  | If true, the monster will need to "target" the player, wasting `targeting_cost` moves, putting the attack on cooldown and making warning sounds, unless it attacked something that needs to be targeted recently.  Gives "grace period" to player.                                                               |
 | `require_targeting_npc`     | As above, but with NPCs.                                                                                              |
 | `require_targeting_monster` | As above, but with monsters.                                                                                          |
-| 'target_moving_vehicles'    | If true, the monster will "target" moving vehicles even if it cannot see the player.
 | `targeting_timeout`         | Targeting status will be applied for this many turns.  Note that targeting applies to turret, not targets.            |
 | `targeting_timeout_extend`  | Successfully attacking will extend the targeting for this many turns.  Can be negative.                               |
 | `targeting_cost`            | Move cost of targeting the player. Only applied if attacking the player and didn't target player within last 5 turns. |

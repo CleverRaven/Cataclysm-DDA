@@ -4728,7 +4728,7 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoin
         acid.set_item_temperature( blood_temp );
         it->put_in( acid, item_pocket::pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
-            if( it->inc_damage() ) {
+            if( it->inc_damage( damage_type::ACID ) ) {
                 p->add_msg_if_player( m_info, _( "…but acidic blood melts the %s, destroying it!" ),
                                       it->tname() );
                 p->i_rem( it );
@@ -5462,11 +5462,21 @@ std::optional<int> gun_repair( Character *p, item *, item_location &loc )
         p->add_msg_if_player( m_info, _( "You can't see to do that!" ) );
         return std::nullopt;
     }
-    if( fix.damage() <= fix.degradation() ) {
+    if( fix.damage() <= fix.damage_floor( true ) ) {
         const char *msg = fix.damage_level() > 0 ?
                           _( "You can't improve your %s any more, considering the degradation." ) :
                           _( "You can't improve your %s any more this way." );
         p->add_msg_if_player( m_info, msg, fix.tname() );
+        return std::nullopt;
+    }
+    if( fix.damage() <= fix.damage_floor( false ) && fix.damage_floor( true ) < 0 &&
+        p->get_skill_level( skill_mechanics ) < 8 ) {
+        const char *msg = fix.damage_level() > 0 ?
+                          _( "Your %s is in its best condition, considering the degradation." ) :
+                          _( "Your %s is already in peak condition." );
+        p->add_msg_if_player( m_info, msg, fix.tname() );
+        p->add_msg_if_player( m_info,
+                              _( "With a higher mechanics skill, you might be able to improve it." ) );
         return std::nullopt;
     }
     const std::string startdurability = fix.durability_indicator( true );
@@ -5474,7 +5484,18 @@ std::optional<int> gun_repair( Character *p, item *, item_location &loc )
     p->practice( skill_mechanics, 10 );
     p->moves -= to_moves<int>( 20_seconds );
 
-    fix.mod_damage( -itype::damage_scale );
+    if( fix.damage() <= 0 ) {
+        /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
+        fix.mod_damage( -itype::damage_scale );
+        p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname( 1, false ) );
+        return 1;
+    }
+
+    int dmg = fix.damage() + 1;
+    for( const int lvl = fix.damage_level(); lvl == fix.damage_level() && dmg != fix.damage(); ) {
+        dmg = fix.damage(); // break loop if clamped by degradation or no more repair needed
+        fix.mod_damage( -1 ); // scan for next damage indicator breakpoint, repairing that much damage
+    }
 
     const std::string msg = fix.damage_level() == 0
                             ? _( "You repair your %s completely!  ( %s-> %s)" )

@@ -30,11 +30,7 @@ double rng_float( double lo, double hi )
     if( lo > hi ) {
         std::swap( lo, hi );
     }
-    if( std::isfinite( lo ) && std::isfinite( hi ) ) {
-        return rng_real_dist( rng_get_engine(), std::uniform_real_distribution<>::param_type( lo, hi ) );
-    }
-    debugmsg( "rng_float called with nan/inf" );
-    return 0;
+    return rng_real_dist( rng_get_engine(), std::uniform_real_distribution<>::param_type( lo, hi ) );
 }
 
 units::angle random_direction()

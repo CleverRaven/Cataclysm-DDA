@@ -62,15 +62,13 @@
       {
         "id": "spell_1",
         "type": "spell",
-        "allow_no_target": true,
-        "spell_data": { "id": "shifting", "hit_self": true },
+        "spell_data": { "id": "shifting", "hit_self": true, "allow_no_target": true },
         "cooldown": 2
       },
       {
         "id": "spell_2",
         "type": "spell",
-        "allow_no_target": true,
-        "spell_data": { "id": "duplicate_shifter", "hit_self": true },
+        "spell_data": { "id": "duplicate_shifter", "hit_self": true, "allow_no_target": true },
         "cooldown": 15
       }
     ],

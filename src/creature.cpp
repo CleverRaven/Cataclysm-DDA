@@ -234,7 +234,6 @@ void Creature::reset_bonuses()
 
 void Creature::process_turn()
 {
-    decrement_summon_timer();
     if( is_dead_state() ) {
         return;
     }
@@ -1854,21 +1853,6 @@ void Creature::clear_killer()
     killer = nullptr;
 }
 
-void Creature::set_summon_time( const time_duration &length )
-{
-    lifespan_end = calendar::turn + length;
-}
-
-void Creature::decrement_summon_timer()
-{
-    if( !lifespan_end ) {
-        return;
-    }
-    if( lifespan_end.value() <= calendar::turn ) {
-        die( nullptr );
-    }
-}
-
 int Creature::get_num_blocks() const
 {
     return num_blocks + num_blocks_bonus;
@@ -3048,26 +3032,28 @@ tripoint_abs_omt Creature::global_omt_location() const
 std::unique_ptr<talker> get_talker_for( Creature &me )
 {
     if( me.is_monster() ) {
-        return std::make_unique<talker_monster>( me.as_monster() );
+        return std::make_unique<talker_monster>( static_cast<monster *>( &me ) );
     } else if( me.is_npc() ) {
-        return std::make_unique<talker_npc>( me.as_npc() );
+        return std::make_unique<talker_npc>( static_cast<npc *>( &me ) );
     } else if( me.is_avatar() ) {
-        return std::make_unique<talker_avatar>( me.as_avatar() );
+        return std::make_unique<talker_avatar>( static_cast<avatar *>( &me ) );
     } else {
         debugmsg( "Invalid creature type %s.", me.get_name() );
-        return std::make_unique<talker>();
+        standard_npc default_npc( "Default" );
+        return get_talker_for( default_npc );
     }
 }
 
 std::unique_ptr<talker> get_talker_for( const Creature &me )
 {
     if( !me.is_monster() ) {
-        return std::make_unique<talker_character_const>( me.as_character() );
+        return std::make_unique<talker_character_const>( static_cast<const Character *>( &me ) );
     } else if( me.is_monster() ) {
-        return std::make_unique<talker_monster_const>( me.as_monster() );
+        return std::make_unique<talker_monster_const>( static_cast<const monster *>( &me ) );
     } else {
         debugmsg( "Invalid creature type %s.", me.get_name() );
-        return std::make_unique<talker>();
+        standard_npc default_npc( "Default" );
+        return get_talker_for( default_npc );
     }
 }
 
@@ -3075,15 +3061,17 @@ std::unique_ptr<talker> get_talker_for( Creature *me )
 {
     if( !me ) {
         debugmsg( "Null creature type." );
-        return std::make_unique<talker>();
+        standard_npc default_npc( "Default" );
+        return get_talker_for( default_npc );
     } else if( me->is_monster() ) {
-        return std::make_unique<talker_monster>( me->as_monster() );
+        return std::make_unique<talker_monster>( static_cast<monster *>( me ) );
     } else if( me->is_npc() ) {
-        return std::make_unique<talker_npc>( me->as_npc() );
+        return std::make_unique<talker_npc>( static_cast<npc *>( me ) );
     } else if( me->is_avatar() ) {
-        return std::make_unique<talker_avatar>( me->as_avatar() );
+        return std::make_unique<talker_avatar>( static_cast<avatar *>( me ) );
     } else {
         debugmsg( "Invalid creature type %s.", me->get_name() );
-        return std::make_unique<talker>();
+        standard_npc default_npc( "Default" );
+        return get_talker_for( default_npc );
     }
 }

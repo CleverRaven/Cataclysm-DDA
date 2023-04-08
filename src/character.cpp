@@ -3222,6 +3222,9 @@ void Character::apply_skill_boost()
 
 void Character::do_skill_rust()
 {
+    if( get_option<std::string>( "SKILL_RUST" ) == "off" ) {
+        return;
+    }
     for( std::pair<const skill_id, SkillLevel> &pair : *_skills ) {
         const Skill &aSkill = *pair.first;
         SkillLevel &skill_level_obj = pair.second;
@@ -3248,10 +3251,17 @@ void Character::do_skill_rust()
         }
 
         const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_RESIST, 0 );
+        const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
+        }
+        const int newSkill = skill_level_obj.level();
+        if( newSkill < oldSkillLevel ) {
+            add_msg_if_player( m_bad,
+                               _( "Your practical skill in %s may need some refreshing.  It has dropped to %d." ), aSkill.name(),
+                               newSkill );
         }
     }
 }
@@ -6180,7 +6190,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
-            if( obj->damage() > obj->degradation() ) {
+            if( obj->damage() > obj->damage_floor( false ) ) {
                 const std::set<itype_id> &rep = obj->repaired_with();
                 if( rep.empty() ) {
                     add_msg( m_info, _( "It is damaged, but cannot be repaired." ) );
@@ -6332,7 +6342,7 @@ float Character::leak_level() const
         if( it->has_flag( flag_RADIOACTIVE ) ) {
             if( it->has_flag( flag_LEAK_ALWAYS ) ) {
                 ret += to_gram( it->weight() ) / 250.f;
-            } else if( it->has_flag( flag_LEAK_DAM ) ) {
+            } else if( it->has_flag( flag_LEAK_DAM ) && it->damage() > 0 ) {
                 ret += it->damage_level();
             }
         }
@@ -8662,9 +8672,8 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= tmp.size() ) {
                 break;
             }
-            if( tmp[imenu.ret]->use_amount( it, quantity, ret, filter ) ) {
-                remove_item( *tmp[imenu.ret] );
-            }
+            tmp[imenu.ret]->use_amount( it, quantity, ret, filter );
+            remove_item( *tmp[imenu.ret] );
             tmp.erase( tmp.begin() + imenu.ret );
         }
     }

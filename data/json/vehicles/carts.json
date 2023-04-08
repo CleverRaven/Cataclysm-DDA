@@ -151,7 +151,7 @@
     "type": "vehicle",
     "name": "Swivel Chair",
     "blueprint": [ "#" ],
-    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "seat_swivel_chair" ] } ]
+    "parts": [ { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "wheel_caster", "seat" ] } ]
   },
   {
     "id": "water_cart",

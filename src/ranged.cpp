@@ -934,20 +934,12 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-
-        // Vehicle turrets drain vehicle battery and do not care about this
-        if( !gun.has_flag( flag_VEHICLE ) ) {
-            const units::energy energ_req = gun.get_gun_energy_drain();
-            const units::energy drained = gun.energy_consume( energ_req, pos(), this );
-            if( drained < energ_req ) {
-                debugmsg( "Unexpected shortage of energy whilst firing %s. Required: %i J, drained: %i J",
-                          gun.tname(), units::to_joule( energ_req ), units::to_joule( drained ) );
-                break;
-            }
-        }
-
         if( !current_ammo.is_null() ) {
             cycle_action( gun, current_ammo, pos() );
+        }
+
+        if( !gun.has_flag( flag_VEHICLE ) ) {
+            consume_ups( gun.get_gun_ups_drain() );
         }
 
         if( gun_skill == skill_launcher ) {
@@ -3879,8 +3871,8 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    if( gmode->get_gun_energy_drain() > 0_kJ ) {
-        const units::energy energy_drain = gmode->get_gun_energy_drain();
+    if( gmode->get_gun_ups_drain() > 0_kJ ) {
+        const units::energy ups_drain = gmode->get_gun_ups_drain();
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
@@ -3888,21 +3880,27 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                 is_mech_weapon = true;
             }
         }
-
-        if( gmode->energy_remaining( &you ) < energy_drain ) {
-            result = false;
-            if( is_mech_weapon ) {
+        if( !is_mech_weapon ) {
+            if( you.available_ups() < ups_drain ) {
+                messages.push_back( string_format(
+                                        _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
+                                        gmode->tname(), units::to_kilojoule( ups_drain ) ) );
+                result = false;
+            }
+        } else {
+            if( you.available_ups() < ups_drain ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
-            } else if( gmode->has_flag( flag_USES_BIONIC_POWER ) ) {
-                messages.push_back( string_format(
-                                        _( "You need at least %2$d kJ of bionic power to fire the %1$s!" ),
-                                        gmode->tname(), units::to_kilojoule( energy_drain ) ) );
-            } else if( gmode->has_flag( flag_USE_UPS ) ) {
-                messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d kJ to fire the %1$s!" ),
-                                        gmode->tname(), units::to_kilojoule( energy_drain ) ) );
+                result = false;
             }
+        }
+        // Workaround for guns that use ups and normal ammo at same time.
+        // Remove once guns can support use of multiple ammo at once
+        if( !gmode->ammo_default().is_null() &&
+            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() &&
+            !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+            result = false;
+            messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         }
     }
 

@@ -8,6 +8,9 @@ accessorizing
 acclimatization
 accoustrement
 accuracies
+accurize
+accurized
+accurizing 
 achelousaurus
 acho
 acidball
@@ -1435,7 +1438,6 @@ jointer
 jointing
 jort
 jorts
-jpg
 jtest
 junglefowl
 junipers
@@ -1719,7 +1721,6 @@ midden
 mideast
 mideastern
 midgame
-midground 
 midrange
 midsentence
 migo
@@ -2461,8 +2462,8 @@ scutcher
 scutellosaurus
 scuttles
 sealab
-sealable
 sealabs
+sealable
 seater
 secretively
 secubot
@@ -3203,5 +3204,5 @@ zuul
 zweitimber
 zygomaticus
 zzz
-zzzzchzzzzchurzzz
 zzzzchzzzzchurzzzpileus
+zzzzchzzzzchurzzz

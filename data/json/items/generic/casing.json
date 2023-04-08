@@ -7,7 +7,8 @@
     "stackable": true,
     "material": [ "brass" ],
     "symbol": "=",
-    "color": "yellow"
+    "color": "yellow",
+    "damage_states": [ 0, 0 ]
   },
   {
     "id": "223_casing",
@@ -30,7 +31,6 @@
   },
   {
     "id": "22_casing_new",
-    "looks_like": "9mm_casing",
     "type": "GENERIC",
     "category": "spare_parts",
     "price": 100,
@@ -486,7 +486,8 @@
     "stackable": true,
     "material": [ "plastic" ],
     "symbol": "=",
-    "color": "red"
+    "color": "red",
+    "damage_states": [ 0, 0 ]
   },
   {
     "id": "410shot_hull",
@@ -500,7 +501,8 @@
     "material": [ "plastic" ],
     "symbol": "=",
     "looks_like": "shot_hull",
-    "color": "red"
+    "color": "red",
+    "damage_states": [ 0, 0 ]
   },
   {
     "id": "300blk_casing",

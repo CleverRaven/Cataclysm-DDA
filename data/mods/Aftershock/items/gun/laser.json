@@ -13,9 +13,9 @@
     "range": 10,
     "ranged_damage": { "damage_type": "stab", "amount": 5, "armor_penetration": 15 },
     "dispersion": 500,
-    "energy_drain": "25 kJ",
+    "ups_charges": 25,
     "ammo_effects": [ "LASER", "BEANBAG" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "afs_sentinel_laser",
@@ -26,17 +26,17 @@
     "color": "red",
     "range": 10,
     "ranged_damage": { "damage_type": "heat", "amount": 25, "armor_penetration": 4 },
-    "energy_drain": "30 kJ",
+    "ups_charges": 30,
     "modes": [ [ "MULTI", "trilaser", 3 ] ],
     "ammo_effects": [ "LASER" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "afs_sentinel_laser_mon",
     "type": "GUN",
     "copy-from": "afs_sentinel_laser",
     "name": { "str": "wrist-trilaser" },
-    "energy_drain": "0 kJ",
+    "ups_charges": 0,
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   },
   {
@@ -61,7 +61,7 @@
     "dispersion": 90,
     "durability": 7,
     "loudness": 8,
-    "energy_drain": "25 kJ",
+    "ups_charges": 25,
     "reload": 200,
     "valid_mod_locations": [
       [ "emitter", 1 ],
@@ -74,14 +74,14 @@
       [ "underbarrel mount", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
+    "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "id": "laser_cannon_xray_mon",
     "type": "GUN",
     "copy-from": "laser_cannon_xray",
     "name": { "str": "mounted x-ray cannon" },
-    "energy_drain": "0 kJ",
+    "ups_charges": 0,
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   },
   {
@@ -109,8 +109,7 @@
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ammo_effects": [ "LASER" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE" ],
-    "ammo_to_fire": 0,
-    "energy_drain": "20 kJ",
+    "ammo_to_fire": 20,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -135,8 +134,8 @@
     "range": 15,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ], [ "AUTO", "3s sequence", 3 ] ],
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
-    "ammo_to_fire": 0,
-    "energy_drain": "10 kJ",
+    "ammo_to_fire": 10,
+    "ups_charges": 0,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "emitter", 1 ],
@@ -173,10 +172,10 @@
     "ranged_damage": [ { "damage_type": "pure", "amount": 5 }, { "damage_type": "heat", "amount": 20 } ],
     "range": 20,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ] ],
-    "ammo_to_fire": 0,
+    "ammo_to_fire": 30,
     "ammo_effects": [ "INCENDIARY", "DAZZLE_BEAM", "PLASMA_BUBBLE" ],
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
-    "energy_drain": "30 kJ",
+    "ups_charges": 0,
     "built_in_mods": [ "afs_holo_aim_assist" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -242,8 +241,7 @@
     "range": 37,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ], [ "AUTO", "3s sequence", 3 ] ],
     "extend": { "ammo_effects": [ "TACTICAL_LASER_EXPLOSION" ] },
-    "ammo_to_fire": 0,
-    "energy_drain": "50 kJ",
+    "ammo_to_fire": 50,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "default_mods": [ "red_dot_sight" ],
     "pocket_data": [
@@ -268,9 +266,9 @@
     "ammo": [ "battery" ],
     "ranged_damage": { "damage_type": "heat", "amount": 4 },
     "range": 15,
-    "ammo_to_fire": 0,
+    "ammo_to_fire": 5,
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
-    "energy_drain": "5 kJ",
+    "ups_charges": 0,
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "emitter", 1 ],
@@ -300,9 +298,9 @@
     "price": "1 kUSD",
     "price_postapoc": "1 kUSD",
     "ammo": [ "battery" ],
-    "ammo_to_fire": 0,
+    "ammo_to_fire": 35,
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
-    "energy_drain": "35 kJ",
+    "ups_charges": 0,
     "modes": [ [ "DEFAULT", "pulse", 1 ], [ "BURST", "2s sequence", 2 ] ],
     "ranged_damage": { "damage_type": "heat", "amount": 25, "armor_penetration": 4 },
     "pocket_data": [
@@ -327,8 +325,8 @@
     "price_postapoc": 2000,
     "range": 20,
     "ammo": [ "battery" ],
-    "ammo_to_fire": 0,
-    "energy_drain": "10 kJ",
+    "ammo_to_fire": 10,
+    "ups_charges": 0,
     "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
     "flags": [ "NEVER_JAMS", "NON_FOULING", "NEEDS_NO_LUBE", "FRAGILE" ],
     "pocket_data": [
@@ -350,9 +348,9 @@
     "price": "1500 USD",
     "price_postapoc": "1500 USD",
     "ammo": [ "battery" ],
-    "ammo_to_fire": 0,
+    "ammo_to_fire": 75,
     "delete": { "flags": [ "NO_UNLOAD", "NO_RELOAD" ] },
-    "energy_drain": "75 kJ",
+    "ups_charges": 0,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

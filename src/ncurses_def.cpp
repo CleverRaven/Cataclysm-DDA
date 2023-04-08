@@ -452,32 +452,34 @@ void ensure_term_size()
     // do not use ui_adaptor here to avoid re-entry
     const int minHeight = EVEN_MINIMUM_TERM_HEIGHT;
     const int minWidth = EVEN_MINIMUM_TERM_WIDTH;
+    int maxy = getmaxy( catacurses::stdscr );
+    int maxx = getmaxx( catacurses::stdscr );
 
-    while( TERMY < minHeight || TERMX < minWidth ) {
+    while( maxy < minHeight || maxx < minWidth ) {
         catacurses::erase();
-        if( TERMY < minHeight && TERMX < minWidth ) {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+        if( maxy < minHeight && maxx < minWidth ) {
+            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white,
                             _( "Whoa!  Your terminal is tiny!  This game requires a minimum terminal size of "
                                "%dx%d to work properly.  %dx%d just won't do.  Maybe a smaller font would help?" ),
-                            minWidth, minHeight, TERMX, TERMY );
-        } else if( TERMX < minWidth ) {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+                            minWidth, minHeight, maxx, maxy );
+        } else if( maxx < minWidth ) {
+            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white,
                             _( "Oh!  Hey, look at that.  Your terminal is just a little too narrow.  This game "
                                "requires a minimum terminal size of %dx%d to function.  It just won't work "
                                "with only %dx%d.  Can you stretch it out sideways a bit?" ),
-                            minWidth, minHeight, TERMX, TERMY );
+                            minWidth, minHeight, maxx, maxy );
         } else {
-            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
+            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white,
                             _( "Woah, woah, we're just a little short on space here.  The game requires a "
                                "minimum terminal size of %dx%d to run.  %dx%d isn't quite enough!  Can you "
                                "make the terminal just a smidgen taller?" ),
-                            minWidth, minHeight, TERMX, TERMY );
+                            minWidth, minHeight, maxx, maxy );
         }
         catacurses::refresh();
         // do not use input_manager or input_context here to avoid re-entry
         getch();
-        TERMY = getmaxy( catacurses::stdscr );
-        TERMX = getmaxx( catacurses::stdscr );
+        maxy = getmaxy( catacurses::stdscr );
+        maxx = getmaxx( catacurses::stdscr );
     }
 }
 

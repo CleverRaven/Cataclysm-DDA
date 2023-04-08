@@ -19,7 +19,7 @@
     "range": 60,
     "dispersion": 45,
     "durability": 8,
-    "energy_drain": "5 kJ",
+    "ups_charges": 5,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -31,7 +31,7 @@
       [ "stock accessory", 2 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "USE_UPS" ],
+    "flags": [ "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "hk_g80mag" ] } ]
   }
 ]

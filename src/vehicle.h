@@ -442,8 +442,14 @@ struct vehicle_part {
         int degradation() const;
         /** max damage of part base */
         int max_damage() const;
+        /** Current damage floor of the part base */
+        int damage_floor( bool allow_negative ) const;
+        // @returns the maximum damage levels possible to repair, accounting for part degradation
+        int repairable_levels() const;
         // @returns true if part can be repaired, accounting for part degradation
         bool is_repairable() const;
+        /** Current part damage level in same units as item::damage_level */
+        int damage_level( int dmg = INT_MIN ) const;
 
         /** Current part damage as a percentage of maximum, with 0.0 being perfect condition */
         double damage_percent() const;
@@ -860,9 +866,10 @@ class vehicle
          * Apply damage to part constrained by range [0,durability] possibly destroying it
          * @param pt Part being damaged
          * @param qty maximum amount by which to adjust damage (negative permissible)
+         * @param dt type of damage which may be passed to base @ref item::on_damage callback
          * @return whether part was destroyed as a result of the damage
          */
-        bool mod_hp( vehicle_part &pt, int qty );
+        bool mod_hp( vehicle_part &pt, int qty, damage_type dt = damage_type::NONE );
 
         // check if given player controls this vehicle
         bool player_in_control( const Character &p ) const;

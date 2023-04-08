@@ -147,6 +147,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::RANDOM_CRITTER: return "RANDOM_CRITTER";
         case spell_flag::MUTATE_TRAIT: return "MUTATE_TRAIT";
         case spell_flag::PAIN_NORESIST: return "PAIN_NORESIST";
+        case spell_flag::WITH_CONTAINER: return "WITH_CONTAINER";
         case spell_flag::SPAWN_GROUP: return "SPAWN_GROUP";
         case spell_flag::IGNITE_FLAMMABLE: return "IGNITE_FLAMMABLE";
         case spell_flag::NO_FAIL: return "NO_FAIL";
@@ -2253,14 +2254,8 @@ void spellcasting_callback::spell_info_text( const spell &sp, int width )
             aoe_string = string_format( "%s: %d", _( "Variance" ), sp.aoe( pc ) );
         }
     } else if( sp.effect() == "spawn_item" ) {
-        if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
-            // todo: more user-friendly presentation
-            damage_string = string_format( _( "Spawn item group %1$s %2$d times" ), sp.effect_data(),
-                                           sp.damage( pc ) );
-        } else {
-            damage_string = string_format( "%s %d %s", _( "Spawn" ), sp.damage( pc ),
-                                           item::nname( itype_id( sp.effect_data() ), sp.damage( pc ) ) );
-        }
+        damage_string = string_format( "%s %d %s", _( "Spawn" ), sp.damage( pc ),
+                                       item::nname( itype_id( sp.effect_data() ), sp.damage( pc ) ) );
     } else if( sp.effect() == "summon" ) {
         std::string monster_name = "FIXME";
         if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
