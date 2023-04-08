@@ -1504,11 +1504,11 @@ action_id input_context::display_menu( const bool permit_execute_action )
             }
             nc_color col;
             if( attributes.input_events.empty() ) {
-                col = i == highlight_row_index ? h_unbound_key : unbound_key;
+                col = i == size_t( highlight_row_index ) ? h_unbound_key : unbound_key;
             } else if( overwrite_default ) {
-                col = i == highlight_row_index ? h_local_key : local_key;
+                col = i == size_t( highlight_row_index ) ? h_local_key : local_key;
             } else {
-                col = i == highlight_row_index ? h_global_key : global_key;
+                col = i == size_t( highlight_row_index ) ? h_global_key : global_key;
             }
             mvwprintz( w_help, point( 4, i + 7 ), col, "%s:", get_action_name( action_id ) );
             mvwprintz( w_help, point( TERMX >= 100 ? 62 : 52, i + 7 ), col, "%s", get_desc( action_id ) );
@@ -1572,6 +1572,8 @@ action_id input_context::display_menu( const bool permit_execute_action )
                         break;
                     case add_global_btn:
                         status = s_add_global;
+                        break;
+                    case no_btn:
                         break;
                 }
             }
