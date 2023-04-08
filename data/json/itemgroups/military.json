@@ -636,7 +636,7 @@
       { "item": "m9", "variant": "m9", "prob": 6 },
       { "item": "usp_45", "prob": 6 },
       { "item": "m4_carbine", "variant": "m4a1", "prob": 7 },
-      { "item": "m4_carbine", "variant": "m4_cqbr", "prob": 1 },
+      { "item": "m4_cqbr", "prob": 1 },
       { "item": "m231pfw", "prob": 1 },
       { "item": "m16a4", "prob": 5 },
       { "item": "m16_auto_rifle", "variant": "m16a3", "prob": 1 },
@@ -892,7 +892,10 @@
       { "item": "20x66_frag", "prob": 2, "charges": [ 1, 5 ] },
       { "item": "20x66_flare", "prob": 4, "charges": [ 1, 10 ] },
       { "item": "20x66_inc", "prob": 2, "charges": [ 1, 10 ] },
-      { "item": "bt_apc9k", "prob": 1, "charges": [ 0, 15 ] }
+      { "item": "bt_apc9k", "prob": 1, "charges": [ 0, 15 ] },
+      { "item": "tac338", "prob": 8, "charges": [ 0, 5 ] },
+      { "item": "338lapua_fmjbt", "prob": 12, "charges": [ 1, 25 ] },
+      { "item": "338lapua_api", "prob": 4, "charges": [ 1, 10 ] }
     ]
   },
   {
