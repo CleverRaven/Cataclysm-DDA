@@ -1,14 +1,12 @@
 // RUN: %check_clang_tidy %s cata-assert %t -- -plugins=%cata_plugin --
 
-#include <assert.h>
-#include <stdlib.h>
-
+// check_clang_tidy uses -nostdinc++, so we add dummy declarations of used values here
+#define assert( expr ) static_cast<void>( expr )
 namespace std
 {
-
 void abort();
-
 }
+using std::abort;
 
 #define cata_assert(expression) assert(expression)
 

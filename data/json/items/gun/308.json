@@ -73,12 +73,12 @@
     "dispersion": 200,
     "durability": 9,
     "blackpowder_tolerance": 96,
-    "ups_charges": 1,
+    "energy_drain": "1 kJ",
     "reload": 400,
     "valid_mod_locations": [ [ "brass catcher", 1 ], [ "sling", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ] ],
     "modes": [ [ "DEFAULT", "low auto", 50 ], [ "AUTO", "high auto", 100 ] ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "NEVER_JAMS", "MOUNTED_GUN" ],
+    "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "USE_UPS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "belt308" ] } ]
   },
   {

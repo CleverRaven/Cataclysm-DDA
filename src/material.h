@@ -94,7 +94,6 @@ class material_type
         bool _rotting = false;
         bool _soft = false;
         bool _uncomfortable = false;
-        bool _reinforces = false;
         bool _conductive = false; // If this material conducts electricity
 
         // the thickness that sheets of this material come in, anything that uses it should be a multiple of this
@@ -154,7 +153,6 @@ class material_type
         bool rotting() const;
         bool soft() const;
         bool uncomfortable() const;
-        bool reinforces() const;
 
         double vitamin( const vitamin_id &id ) const {
             const auto iter = _vitamins.find( id );

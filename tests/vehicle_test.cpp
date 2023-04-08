@@ -92,7 +92,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part", "[vehicle]" )
     //Must not be broken yet
     REQUIRE( !cargo_part->is_broken() );
     //For some reason (0 - cargo_part->hp()) is just not enough to destroy a part
-    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ), damage_type::BASH ) );
+    REQUIRE( veh_ptr->mod_hp( *cargo_part, -( 1 + cargo_part->hp() ) ) );
     //Now it must be broken
     REQUIRE( cargo_part->is_broken() );
     //Now part is really broken, adding an item should fail
@@ -138,11 +138,11 @@ struct vehicle_preset {
 };
 
 struct damage_preset {
-    double damage;
-    double degradation;
-    double expect_damage;
-    double expect_degradation;
-    double expect_hp;
+    int damage;
+    int degradation;
+    int expect_damage;
+    int expect_degradation;
+    int expect_hp;
 };
 
 static void complete_activity( Character &u, const activity_actor &act )
@@ -210,8 +210,8 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     vehicle &veh = ovp->vehicle();
     for( const vpart_reference &vpr : veh.get_all_parts() ) {
         item base = vpr.part().get_base();
-        base.set_degradation( damage_preset.degradation * base.max_damage() );
-        base.set_damage( damage_preset.damage * base.max_damage() );
+        base.set_degradation( damage_preset.degradation );
+        base.set_damage( damage_preset.damage );
         vpr.part().set_base( base );
         veh.set_hp( vpr.part(), vpr.info().durability, true );
     }
@@ -242,9 +242,9 @@ static void unfold_and_check( const vehicle_preset &veh_preset, const damage_pre
     // verify the damage/degradation roundtripped via serialization on every part
     for( const vpart_reference &vpr : ovp_unfolded->vehicle().get_all_parts() ) {
         const item &base = vpr.part().get_base();
-        CHECK( base.damage() == ( damage_preset.expect_damage * base.max_damage() ) );
-        CHECK( base.degradation() == ( damage_preset.expect_degradation * base.max_damage() ) );
-        CHECK( vpr.part().health_percent() == damage_preset.expect_hp );
+        CHECK( base.damage() == damage_preset.expect_damage );
+        CHECK( base.degradation() == damage_preset.expect_degradation );
+        CHECK( ( vpr.part().max_damage() - vpr.part().damage() ) == damage_preset.expect_hp );
     }
 
     m.destroy_vehicle( &ovp_unfolded->vehicle() );
@@ -260,12 +260,11 @@ TEST_CASE( "Unfolding vehicle parts and testing degradation", "[item][degradatio
     };
 
     const std::vector<damage_preset> presets {
-        { 0.00, 0.00, 0.00, 0.00, 1.00 }, //   0% damaged,   0% degraded
-        { 0.25, 0.25, 0.00, 0.25, 1.00 }, //  25% damaged,  25% degraded
-        { 0.50, 0.50, 0.25, 0.50, 0.75 }, //  50% damaged,  50% degraded
-        { 0.75, 0.50, 0.25, 0.50, 0.75 }, //  75% damaged,  50% degraded
-        { 0.75, 1.00, 0.75, 1.00, 0.25 }, //  75% damaged, 100% degraded
-        { 1.00, 1.00, 0.75, 1.00, 0.25 }, // 100% damaged, 100% degraded
+        {    0,    0,    0,    0, 4000 },
+        { 1000, 1000, 1000, 1000, 3000 },
+        { 2000, 2000, 2000, 2000, 2000 },
+        { 1800, 2000, 2000, 2000, 2000 },
+        { 3000, 3999, 3999, 3999,    1 },
     };
 
     for( const vehicle_preset &veh_preset : vehicle_presets ) {

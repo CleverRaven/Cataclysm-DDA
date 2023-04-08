@@ -143,6 +143,7 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
+          "target_moving_vehicles": true,
           "description": "The %s launches a corrosive dart!",
           "ranges": [ [ 2, 20, "DEFAULT" ] ]
         }
@@ -180,6 +181,7 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
+          "target_moving_vehicles": true,
           "description": "The %s launches a hail of corrosive darts!",
           "ranges": [ [ 2, 8, "DEFAULT" ] ]
         }
