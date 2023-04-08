@@ -2227,7 +2227,7 @@
     "category": "other",
     "price": 20000,
     "price_postapoc": 10,
-    "material": [ "steel" ],
+    "material": [ "iron" ],
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID" ],
     "weight": "115 kg",
     "volume": "20 L",

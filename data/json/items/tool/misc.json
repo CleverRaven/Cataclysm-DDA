@@ -134,7 +134,7 @@
     "name": { "str": "cow bell" },
     "description": "A cow bell.  You feel like you need more of it.",
     "weight": "330 g",
-    "volume": "95 ml",
+    "volume": "300 ml",
     "longest_side": "20 cm",
     "price": "10 USD",
     "price_postapoc": 10,
