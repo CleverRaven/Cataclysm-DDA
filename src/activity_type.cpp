@@ -10,8 +10,6 @@
 #include "activity_handlers.h"
 #include "assign.h"
 #include "debug.h"
-#include "dialogue.h"
-#include "effect_on_condition.h"
 #include "enum_conversions.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -114,16 +112,6 @@ void activity_type::call_do_turn( player_activity *act, Character *you ) const
     if( pair != activity_handlers::do_turn_functions.end() ) {
         pair->second( act, you );
     }
-
-    if( !do_turn_EOC.is_null() ) {
-        // if we have an EOC defined in json do that
-        dialogue d( get_talker_for( you ), nullptr );
-        if( do_turn_EOC->type == eoc_type::ACTIVATION ) {
-            do_turn_EOC->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-        }
-    }
 }
 
 bool activity_type::call_finish( player_activity *act, Character *you ) const
@@ -136,15 +124,6 @@ bool activity_type::call_finish( player_activity *act, Character *you ) const
         return true;
     }
 
-    if( !completion_EOC.is_null() ) {
-        // if we have an EOC defined in json do that
-        dialogue d( get_talker_for( you ), nullptr );
-        if( completion_EOC->type == eoc_type::ACTIVATION ) {
-            completion_EOC->activate( d );
-        } else {
-            debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
-        }
-    }
     return false;
 }
 

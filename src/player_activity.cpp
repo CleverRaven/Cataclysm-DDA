@@ -10,6 +10,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "construction.h"
+#include "effect_on_condition.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
@@ -313,6 +314,16 @@ void player_activity::do_turn( Character &you )
         // Use the legacy turn function
         type->call_do_turn( this, &you );
     }
+
+    if( !type->do_turn_EOC.is_null() ) {
+        // if we have an EOC defined in json do that
+        dialogue d( get_talker_for( you ), nullptr );
+        if( type->do_turn_EOC->type == eoc_type::ACTIVATION ) {
+            type->do_turn_EOC->activate( d );
+        } else {
+            debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
+        }
+    }
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
@@ -374,6 +385,17 @@ void player_activity::do_turn( Character &you )
             if( !type->call_finish( this, &you ) ) {
                 // "Finish" is never a misnomer for any activity without a finish function
                 set_to_null();
+            }
+        }
+
+
+        if( !type->completion_EOC.is_null() ) {
+            // if we have an EOC defined in json do that
+            dialogue d( get_talker_for( you ), nullptr );
+            if( type->completion_EOC->type == eoc_type::ACTIVATION ) {
+                type->completion_EOC->activate( d );
+            } else {
+                debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
             }
         }
     }
