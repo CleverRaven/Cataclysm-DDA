@@ -1252,9 +1252,8 @@
       "str_min": 20,
       "str_max": 30,
       "ter_set": "t_dirt",
-      "sound": "crunch!",
-      "sound_fail": "whack!",
-      "items": [ { "item": "rock_large", "count": [ 0, 5 ] }, { "item": "sharp_rock", "count": [ 0, 3 ] } ]
+      "sound_fail": "whump!",
+      "items": [ { "item": "rock_large", "count": [ 0, 20 ] }, { "item": "sharp_rock", "count": [ 0, 16 ] } ]
     },
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "ROUGH", "UNSTABLE", "PERMEABLE", "EASY_DECONSTRUCT" ]
   },
