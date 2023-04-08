@@ -1254,10 +1254,7 @@
       "ter_set": "t_dirt",
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "items": [
-        { "item": "rock_large", "count": [ 0, 5 ] },
-        { "item": "sharp_rock", "count": [ 0, 3 ] }
-      ]
+      "items": [ { "item": "rock_large", "count": [ 0, 5 ] }, { "item": "sharp_rock", "count": [ 0, 3 ] } ]
     },
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "ROUGH", "UNSTABLE", "PERMEABLE", "EASY_DECONSTRUCT" ]
   },
