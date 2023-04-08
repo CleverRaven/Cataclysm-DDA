@@ -417,7 +417,6 @@
     },
     "toilets": { "T": {  } }
   },
-
   {
     "type": "palette",
     "id": "hotel_tower_palette.json",
