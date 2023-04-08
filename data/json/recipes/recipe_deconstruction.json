@@ -7407,7 +7407,7 @@
     "activity_level": "BRISK_EXERCISE",
     "time": "1 h",
     "tools": [ [ [ "angle_grinder", 50 ] ] ],
-    "components": [ [ [ "steel_lump", 130 ] ] ]
+    "components": [ [ [ "steel_lump", 109 ] ] ]
   },
   {
     "result": "30gal_drum_aluminum",
