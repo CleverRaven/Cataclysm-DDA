@@ -1598,7 +1598,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zachelousaurus_brute",
-    "name": { "str": "Achelosaurus Anvil" },
+    "name": { "str": "Achelousaurus Anvil" },
     "copy-from": "mon_zachelousaurus",
     "description": "A massive, four-legged dinosaur corpse with a tall bony crest with two long curved spikes and three rough bosses above the eyes and nose as well as a short tail and hooked beak.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
