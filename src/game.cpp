@@ -5917,6 +5917,8 @@ void game::examine( const tripoint &examp, bool with_pickup )
                 if( monexamine::mfriend_menu( *mon ) ) {
                     return;
                 }
+            } else if( mon->has_flag( MF_CONVERSATION ) && !mon->type->chat_topics.empty() ) {
+                get_avatar().talk_to( get_talker_for( mon ) );
             }
         } else {
             u.cant_do_mounted();
