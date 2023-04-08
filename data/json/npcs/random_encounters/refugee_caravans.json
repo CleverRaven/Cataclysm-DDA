@@ -62,7 +62,7 @@
     "responses": [
       { "text": "Oh, I wasn’t joking <name_b>.", "effect": "hostile", "topic": "TALK_DONE" },
       { "text": "What's your situation here?", "topic": "TALK_CARAVAN_REFUGEE_A1_Job" },
-      { "text": "Yes.  A joke.  Ha ha.", "topic": "TALK_DONE" }
+      { "text": "I’m sorry, I should be going.", "topic": "TALK_DONE" }
     ]
   },
   {
