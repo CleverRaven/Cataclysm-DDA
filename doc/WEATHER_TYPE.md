@@ -27,8 +27,6 @@ Each weather type is a type of weather that occurs, and what causes it. The only
 | `condition`          | A dialog condition to determine if this weather is happening.  See Dialogue conditions section of [NPCs](NPCs.md) |
 | `priority`           | An integer.  If the condition of multiple weather types are true the one with higher priority wins. |
 | `required_weathers`  | A string array of possible weathers, it is at this point in the loop. i.e. rain can only happen if the conditions for clouds light drizzle or drizzle are present.  Required weathers need to have lower load orders to be. |
-|	`required_weathers`          | A string array of possible weathers, it is at this point in the loop. i.e. rain can only happen if the conditions for clouds light drizzle or drizzle are present.  Required weathers need to have lower load orders to be  |
-
 
 #### `weather_type` example
 

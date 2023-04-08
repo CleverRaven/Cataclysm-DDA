@@ -8,8 +8,8 @@
     "price": "200 kUSD",
     "price_postapoc": "200 kUSD",
     "ammo": [ "battery" ],
-    "ammo_to_fire": 30,
-    "ups_charges": 0,
+    "ammo_to_fire": 0,
+    "energy_drain": "30 kJ",
     "modes": [ [ "DEFAULT", "Pulse ", 1 ] ],
     "ranged_damage": [ { "damage_type": "electric", "amount": 10 }, { "damage_type": "pure", "amount": 25 } ],
     "pocket_data": [

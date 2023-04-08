@@ -140,7 +140,7 @@
         "success_msg": "You replace the faulty starter motor of %s.",
         "time": "10 m",
         "skills": [ { "id": "mechanics", "level": 3 } ],
-        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "motor_small", 1 ] ] ] }
+        "requirements": { "qualities": [ { "id": "WRENCH_FINE", "level": 1 } ], "components": [ [ [ "motor_tiny", 1 ] ] ] }
       }
     ],
     "flags": [ "BAD_STARTER" ]
