@@ -72,8 +72,7 @@
     "responses": [
       { "text": "That's it?  What's your story?", "topic": "TALK_CARAVAN_REFUGEE_A_Story" },
       { "text": "Good luck with that.  I'll be on my way.", "topic": "TALK_DONE" },
-      { "text": "You're never going to make it, you should just end it now.", "topic": "TALK_DONE" },
-      { "text": "I'm going to hurt you now.", "topic": "TALK_DONE" }
+      { "text": "You're never going to make it, you should just end it now.", "topic": "TALK_DONE" }
     ]
   },
   {
