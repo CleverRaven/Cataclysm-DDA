@@ -7,13 +7,14 @@
 #include "profession.h"
 #include "skill.h"
 
+static const profession_id profession_unemployed( "unemployed" );
 
 player_difficulty::player_difficulty()
 {
     // set up an average NPC
     average = npc();
     reset_npc( average );
-    average.prof = &profession_id( "unemployed" ).obj();
+    average.prof = &profession_unemployed.obj();
 }
 
 // creates an npc with similar stats to an avatar for testing
