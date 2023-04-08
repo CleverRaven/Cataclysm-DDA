@@ -193,7 +193,7 @@
         "failure": { "topic": "TALK_CARAVAN_REFUGEE_B1_Join_No" }
       },
       {
-        "text": "Why, where you before?",
+        "text": "Why, where were you before?",
         "topic": "TALK_CARAVAN_REFUGEE_B1_Directions",
         "condition": {
           "and": [
