@@ -1692,7 +1692,9 @@ void options_manager::add_options_interface()
     };
 
     add( "USE_LANG", "interface", to_translation( "Language" ),
-         to_translation( "Switch language." ), options_manager::get_lang_options(), "" );
+         to_translation( "Switch language.  Each percentage is the fraction of strings translated "
+                         "for that language." ),
+         options_manager::get_lang_options(), "" );
 
     add_empty_line();
 
@@ -3212,7 +3214,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only, b
 
     const int iWorldOffset = world_options_only ? 2 : 0;
     int iMinScreenWidth = 0;
-    const int iTooltipHeight = 6;
+    const int iTooltipHeight = 7;
     int iContentHeight = 0;
     bool recalc_startpos = false;
 
