@@ -16,6 +16,8 @@
   {
     "type": "enchantment",
     "id": "FIRE_ELEMENTAL",
+    "name": { "str": "Salamander" },
+    "description": "Your Fire Elemental abilities grant you good resistance to temperature conditions.  Also your body emit streams of heat into anyone who attack you, and grant a heat damage resistance.",
     "condition": "ALWAYS",
     "values": [
       { "value": "ARMOR_HEAT", "multiply": -0.4 },
