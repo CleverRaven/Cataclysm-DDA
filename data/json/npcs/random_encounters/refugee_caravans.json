@@ -60,7 +60,7 @@
     "id": "TALK_CARAVAN_REFUGEE_A1_Hurt",
     "dynamic_line": "I can’t tell if you’re joking or not, please don’t say such things.",
     "responses": [
-      { "text": "I'm going to hurt you now.", "topic": "TALK_DONE" },
+      { "text": "Oh, I wasn’t joking <name_b>.", "effect": "hostile", "topic": "TALK_DONE" },
       { "text": "What's your situation here?", "topic": "TALK_CARAVAN_REFUGEE_A1_Job" },
       { "text": "Yes.  A joke.  Ha ha.", "topic": "TALK_DONE" }
     ]
