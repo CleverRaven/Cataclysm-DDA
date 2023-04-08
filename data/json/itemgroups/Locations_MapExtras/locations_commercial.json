@@ -2080,7 +2080,7 @@
     "type": "item_group",
     "id": "hotel_luggage",
     "subtype": "distribution",
-    "container-item": "suitcase_m",
+    "container-item": "suitcase_l",
     "items": [ { "group": "SUS_dresser_mens", "prob": 50 }, { "group": "SUS_dresser_womens", "prob": 50 } ]
   },
   {
