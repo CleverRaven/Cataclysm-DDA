@@ -73,7 +73,7 @@
       "L": { "item": "hotel_luggage", "chance": 66 },
       "c": { "item": "magazines", "chance": 15 },
       "d": [ { "item": "traveler", "chance": 80, "repeat": [ 3, 5 ] }, { "item": "book_hotel_tower_bible", "chance": 100 } ],
-      "o": { "item": "hotel_coffee_bar", "chance": 100 },
+      "o": { "item": "hotel_coffee_bar", "chance": 50 },
       "Y": { "item": "unisex_coat_rack", "chance": 30, "repeat": [ 1, 4 ] },
       "b": { "item": "shower", "chance": 10, "repeat": [ 1, 2 ] },
       "&": { "item": "SUS_toilet", "chance": 10, "repeat": [ 1, 3 ] }
