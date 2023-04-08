@@ -21,6 +21,7 @@
 #include "generic_factory.h"
 #include "input.h"
 #include "json.h"
+#include "lang_stats.h"
 #include "line.h"
 #include "mapsharing.h"
 #include "output.h"
@@ -1302,35 +1303,47 @@ std::vector<options_manager::id_and_option> options_manager::get_lang_options()
 {
     std::vector<id_and_option> lang_options = {
         { "", to_translation( "System language" ) },
-        // Note: language names are in their own language and are *not* translated at all.
-        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
-        // http://en.wikipedia.org/wiki/List_of_language_names
-        { "en", no_translation( R"(English)" ) },
-        { "ar", no_translation( R"(العربية)" )},
-        { "cs", no_translation( R"(Český Jazyk)" )},
-        { "da", no_translation( R"(Dansk)" )},
-        { "de", no_translation( R"(Deutsch)" ) },
-        { "el", no_translation( R"(Ελληνικά)" )},
-        { "es_AR", no_translation( R"(Español (Argentina))" ) },
-        { "es_ES", no_translation( R"(Español (España))" ) },
-        { "fr", no_translation( R"(Français)" ) },
-        { "hu", no_translation( R"(Magyar)" ) },
-        { "id", no_translation( R"(Bahasa Indonesia)" )},
-        { "is", no_translation( R"(Íslenska)" )},
-        { "it_IT", no_translation( R"(Italiano)" )},
-        { "ja", no_translation( R"(日本語)" ) },
-        { "ko", no_translation( R"(한국어)" ) },
-        { "nb", no_translation( R"(Norsk)" )},
-        { "nl", no_translation( R"(Nederlands)" )},
-        { "pl", no_translation( R"(Polski)" ) },
-        { "pt_BR", no_translation( R"(Português (Brasil))" )},
-        { "ru", no_translation( R"(Русский)" ) },
-        { "sr", no_translation( R"(Српски)" )},
-        { "tr", no_translation( R"(Türkçe)" )},
-        { "uk_UA", no_translation( R"(український)" )},
-        { "zh_CN", no_translation( R"(中文 (天朝))" ) },
-        { "zh_TW", no_translation( R"(中文 (台灣))" ) },
     };
+
+    constexpr std::array<std::pair<const char *, const char *>, 25> language_names = {{
+            // Note: language names are in their own language and are *not* translated at all.
+            // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
+            // http://en.wikipedia.org/wiki/List_of_language_names
+            { "en", R"(English)" },
+            { "ar", R"(العربية)" },
+            { "cs", R"(Český Jazyk)" },
+            { "da", R"(Dansk)" },
+            { "de", R"(Deutsch)" },
+            { "el", R"(Ελληνικά)" },
+            { "es_AR", R"(Español (Argentina))" },
+            { "es_ES", R"(Español (España))" },
+            { "fr", R"(Français)" },
+            { "hu", R"(Magyar)" },
+            { "id", R"(Bahasa Indonesia)" },
+            { "is", R"(Íslenska)" },
+            { "it_IT", R"(Italiano)" },
+            { "ja", R"(日本語)" },
+            { "ko", R"(한국어)" },
+            { "nb", R"(Norsk)" },
+            { "nl", R"(Nederlands)" },
+            { "pl", R"(Polski)" },
+            { "pt_BR", R"(Português (Brasil))" },
+            { "ru", R"(Русский)" },
+            { "sr", R"(Српски)" },
+            { "tr", R"(Türkçe)" },
+            { "uk_UA", R"(український)" },
+            { "zh_CN", R"(中文 (天朝))" },
+            { "zh_TW", R"(中文 (台灣))" },
+        }
+    };
+
+    for( const auto& [lang_id, lang_name] : language_names ) {
+        std::string name = lang_name;
+        if( const lang_stats *stats = lang_stats_for( lang_id ) ) {
+            name += string_format( _( " (%.1f%%)" ), stats->percent_translated() );
+        }
+        lang_options.emplace_back( lang_id, no_translation( name ) );
+    }
 
     std::unordered_set<std::string> lang_list = get_langs_with_translation_files();
 
