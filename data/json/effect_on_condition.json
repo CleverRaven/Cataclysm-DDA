@@ -800,4 +800,3 @@
     "object": { "place_fields": [ { "field": "fd_smoke", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 60 } ] }
   }
 ]
-
