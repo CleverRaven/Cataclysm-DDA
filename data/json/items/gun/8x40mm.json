@@ -32,7 +32,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "magazine_well": "250 ml", "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ] } ]
   },
   {
@@ -71,7 +71,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_10_mag", "8x40_25_mag" ] } ]
   },
   {
@@ -108,7 +108,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_25_mag", "8x40_10_mag" ] } ]
   },
   {
@@ -146,7 +146,7 @@
       [ "stock", 1 ],
       [ "stock accessory", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_500_mag", "8x40_250_mag" ] } ]
   },
   {
@@ -183,7 +183,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_50_mag", "8x40_100_mag" ] } ]
   },
@@ -223,7 +223,7 @@
       [ "stock accessory", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_250_mag", "8x40_500_mag" ] } ]
   },
   {
@@ -261,7 +261,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazines": [ [ "8x40mm", [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "flags": [ "WATERPROOF_GUN" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "8x40_100_mag", "8x40_50_mag", "8x40_250_mag" ] } ]
   }

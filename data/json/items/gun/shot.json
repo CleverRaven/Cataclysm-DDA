@@ -54,10 +54,10 @@
     "dispersion": 855,
     "durability": 8,
     "modes": [ [ "DEFAULT", "burst", 6 ] ],
-    "energy_drain": "1 kJ",
+    "ups_charges": 1,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
-    "flags": [ "MOUNTED_GUN", "USE_UPS" ],
+    "flags": [ "MOUNTED_GUN" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "shotbelt_20" ] } ]
   },
   {
@@ -394,6 +394,11 @@
         "id": "browning_a5",
         "name": { "str": "Browning Auto 5" },
         "description": "This humble looking shotgun was the earliest successful semi-automatic shotgun, and the second most successful in U.S. history, with over 2.7 million made between 1902 and 1998.  The recoil tuning mechanism under the handguard and long dwell time of the action make for pleasant shooting."
+      },
+      {
+        "id": "ithaca37",
+        "name": { "str": "Ithaca M37 Featherlight" },
+        "description": "A seasoned veteran of America’s sporting culture, the Ithaca M37 is the oldest pump-action shotgun still in active production.  The M37 has served hunters and officers for over eight decades, featuring a bottom-feeding and ejecting design that keeps the action sealed from the elements.  An heirloom that retains its utility all the way from pre-Cataclysm hunting expeditions up into the depths of alien environments, it would be wise to keep it handy, for close encounters."
       }
     ],
     "ascii_picture": "remington870",
