@@ -1240,6 +1240,28 @@
     "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM", "WALL", "MINEABLE" ]
   },
   {
+    "id": "t_rockyobstacle",
+    "type": "terrain",
+    "name": "rocky obstacle",
+    "description": "Some larger rocks arranged and crudely rammed into the ground to slow down who or whatever is trying to cross.",
+    "symbol": "^",
+    "color": "light_gray",
+    "looks_like": "t_railroad_rubble",
+    "move_cost": 4,
+    "bash": {
+      "str_min": 20,
+      "str_max": 30,
+      "ter_set": "t_dirt",
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "rock_large", "count": [ 0, 5 ] },
+        { "item": "sharp_rock", "count": [ 0, 3 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "ROUGH", "UNSTABLE", "PERMEABLE", "EASY_DECONSTRUCT" ]
+  },
+  {
     "type": "terrain",
     "id": "t_rootcellar",
     "name": "root cellar",
