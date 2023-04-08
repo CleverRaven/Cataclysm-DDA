@@ -112,8 +112,8 @@
     "families": [ "prof_wp_amalgamation" ],
     "harvest": "zombie_amalgamation",
     "//": "TODO: When effects/spells can mess with path settings + flags move smartness to the effect of dedicated coordinatiors",
-    "path_settings": { "avoid_sharp": true, "avoid_traps": true, "max_dist": 400 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_1", "REVIVES", "NO_BREATHE" ]
+    "path_settings": { "avoid_sharp": false, "avoid_traps": false, "max_dist": 400 },
+    "flags": [ "SEES", "SMELLS", "HEARS", "PATH_AVOID_DANGER_2", "REVIVES", "NO_BREATHE" ]
   },
   {
     "type": "MONSTER",
