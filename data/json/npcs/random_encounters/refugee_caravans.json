@@ -58,7 +58,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_A1_Hurt",
-    "dynamic_line": "Ha ha, love that funny joke.  I love funny jokes like that.  So funny.",
+    "dynamic_line": "I can’t tell if you’re joking or not, please don’t say such things.",
     "responses": [
       { "text": "I'm going to hurt you now.", "topic": "TALK_DONE" },
       { "text": "What's your situation here?", "topic": "TALK_CARAVAN_REFUGEE_A1_Job" },
