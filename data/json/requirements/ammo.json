@@ -245,5 +245,21 @@
     "type": "requirement",
     "//": "References needed for forge and crucible to recast your stabilized explosives",
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 25 ] ] ]
+  },
+  {
+    "id": "50beowulf_casehead",
+    "type": "requirement",
+    "//": "References needed for boltfaces and magazines using .50 Beowulf or derivatives",
+    "tools": [
+      [
+        [ "50beowulf_casing", -1 ],
+        [ "50beowulf_xtp", -1 ],
+        [ "50beowulf_penetrator", -1 ],
+        [ "bp_50beowulf_xtp", -1 ],
+        [ "bp_50beowulf_penetrator", -1 ],
+        [ "reloaded_50beowulf_xtp", -1 ],
+        [ "reloaded_50beowulf_penetrator", -1 ]
+      ]
+    ]
   }
 ]
