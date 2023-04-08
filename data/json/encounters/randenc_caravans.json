@@ -114,7 +114,7 @@
       "and": [
         { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "refugee", "op": ">", "time": "1 h" },
         { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
-        { "compare_num": [ { "global_val": "var", "var_name": "RandEnc_Refugee" }, "==", { "const": 1 } ] }
+        { "math": [ "RandEnc_Refugee", "==", "1" ] }
       ]
     },
     "effect": [
