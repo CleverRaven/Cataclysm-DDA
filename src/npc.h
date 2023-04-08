@@ -818,7 +818,6 @@ class npc : public Character
 
         // Interaction with the player
         void form_opinion( const Character &you );
-        npc_opinion get_opinion_values( const Character &you ) const;
         std::string pick_talk_topic( const Character &u );
         std::string const &get_specified_talk_topic( std::string const &topic_id );
         float character_danger( const Character &u ) const;

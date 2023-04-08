@@ -80,30 +80,31 @@ int tileray::quadrant() const
     return static_cast<int>( std::floor( direction / 90_degrees ) ) % 4;
 }
 
-// convert direction to nearest of 0=east, 1=south, 2=west, 3=north
-// ties broken in favor of north/south
 int tileray::dir4() const
 {
-    // ensure direction is in range [0,360)
-    const units::angle dir = fmod( fmod( direction, 360_degrees ) + 360_degrees, 360_degrees );
-
-    // adjust and round values near diagonals before comparison to avoid floating point error
-    if( round_to_multiple_of( dir - 45_degrees, 1.5_degrees ) == 0_degrees ||
-        round_to_multiple_of( dir - 135_degrees, 1.5_degrees ) == 0_degrees ) {
+    if( direction >= 45_degrees && direction <= 135_degrees ) {
         return 1;
-    }
-    if( round_to_multiple_of( dir - 225_degrees, 1.5_degrees ) == 0_degrees ||
-        round_to_multiple_of( dir - 315_degrees, 1.5_degrees ) == 0_degrees ) {
+    } else if( direction > 135_degrees && direction < 225_degrees ) {
+        return 2;
+    } else if( direction >= 225_degrees && direction <= 315_degrees ) {
         return 3;
+    } else {
+        return 0;
     }
-
-    return fmod( ( ( direction + 45_degrees ) / 90_degrees ), 4 );
 }
 
-// convert direction to nearest of 0=east, 1=southeast, 2=south, ...., 7=northeast
 int tileray::dir8() const
 {
-    return fmod( ( ( direction + 22.5_degrees ) / 45_degrees ), 8 );
+    int oct = 0;
+    units::angle dir = direction;
+    if( dir < 23_degrees || dir > 337_degrees ) {
+        return 0;
+    }
+    while( dir > 22_degrees ) {
+        dir -= 45_degrees;
+        oct += 1;
+    }
+    return oct;
 }
 
 // This function assumes a vehicle is being drawn.

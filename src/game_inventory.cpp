@@ -1933,7 +1933,7 @@ item_location game_menus::inv::molle_attach( Character &you, item &tool )
                        );
 }
 
-drop_locations game_menus::inv::multidrop( Character &you )
+drop_locations game_menus::inv::multidrop( avatar &you )
 {
     you.inv->restack( you );
 

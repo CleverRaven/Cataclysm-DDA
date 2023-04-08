@@ -665,7 +665,8 @@ std::optional<int> iuse::antibiotic( Character *p, item *, bool, const tripoint 
 
 std::optional<int> iuse::eyedrops( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
     if( !it->ammo_sufficient( p ) ) {
@@ -683,7 +684,8 @@ std::optional<int> iuse::eyedrops( Character *p, item *it, bool, const tripoint 
 
 std::optional<int> iuse::fungicide( Character *p, item *, bool, const tripoint & )
 {
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
 
@@ -740,7 +742,8 @@ std::optional<int> iuse::fungicide( Character *p, item *, bool, const tripoint &
 
 std::optional<int> iuse::antifungal( Character *p, item *, bool, const tripoint & )
 {
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
     p->add_effect( effect_antifungal, 4_hours );
@@ -758,7 +761,8 @@ std::optional<int> iuse::antifungal( Character *p, item *, bool, const tripoint 
 
 std::optional<int> iuse::antiparasitic( Character *p, item *, bool, const tripoint & )
 {
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
     p->add_msg_if_player( _( "You take some antiparasitic medication." ) );
@@ -950,7 +954,8 @@ std::optional<int> iuse::meditate( Character *p, item *it, bool t, const tripoin
     if( !p || t ) {
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     if( p->has_trait( trait_SPIRITUAL ) ) {
@@ -1762,7 +1767,8 @@ std::optional<int> iuse::fishing_rod( Character *p, item *it, bool, const tripoi
         // Long actions - NPCs don't like those yet.
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     map &here = get_map();
@@ -1794,10 +1800,12 @@ std::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripoi
             return 0;
         }
 
-        if( p->cant_do_mounted() ) {
+        if( p->is_mounted() ) {
+            p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
             return std::nullopt;
         }
-        if( p->cant_do_underwater() ) {
+        if( p->is_underwater() ) {
+            p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
             return std::nullopt;
         }
 
@@ -2348,7 +2356,8 @@ std::optional<int> iuse::rm13armor_on( Character *p, item *it, bool t, const tri
 
 std::optional<int> iuse::unpack_item( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
     std::string oname = it->typeId().str() + "_on";
@@ -2393,7 +2402,8 @@ std::optional<int> iuse::pack_cbm( Character *p, item *it, bool, const tripoint 
 
 std::optional<int> iuse::pack_item( Character *p, item *it, bool t, const tripoint & )
 {
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
     if( t ) { // Normal use
@@ -2418,7 +2428,8 @@ std::optional<int> iuse::pack_item( Character *p, item *it, bool t, const tripoi
 
 std::optional<int> iuse::water_purifier( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     item_location obj = g->inv_map_splice( []( const item & e ) {
@@ -2766,7 +2777,8 @@ std::optional<int> iuse::crowbar_weak( Character *p, item *it, bool, const tripo
 
 std::optional<int> iuse::crowbar( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
 
@@ -2847,7 +2859,8 @@ std::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripoi
     if( !p || t ) {
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     const std::optional<tripoint> pnt_ = choose_adjacent( _( "Till soil where?" ) );
@@ -2880,7 +2893,8 @@ std::optional<int> iuse::dig( Character *p, item * /* it */, bool t, const tripo
     if( !p || t ) {
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
 
@@ -2902,7 +2916,8 @@ std::optional<int> iuse::dig_channel( Character *p, item */* it */, bool t, cons
     if( !p || t ) {
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
 
@@ -2920,7 +2935,8 @@ std::optional<int> iuse::fill_pit( Character *p, item */* it */, bool t, const t
     if( !p || t ) {
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
 
@@ -2942,7 +2958,8 @@ std::optional<int> iuse::fill_pit( Character *p, item */* it */, bool t, const t
 
 std::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
@@ -2974,7 +2991,8 @@ std::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const tripo
 
 std::optional<int> iuse::siphon( Character *p, item *, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     map &here = get_map();
@@ -3209,10 +3227,12 @@ std::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoin
     if( !it->ammo_sufficient( p ) ) {
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
 
@@ -3323,10 +3343,12 @@ std::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint &
         // Long action
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
 
@@ -3476,7 +3498,8 @@ std::optional<int> iuse::teleport( Character *p, item *it, bool, const tripoint 
         // That would be evil
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     if( !it->ammo_sufficient( p ) ) {
@@ -3784,7 +3807,8 @@ std::optional<int> iuse::molotov_lit( Character *p, item *it, bool t, const trip
 
 std::optional<int> iuse::firecracker_pack( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
     if( !p->has_charges( itype_fire, 1 ) ) {
@@ -3824,7 +3848,8 @@ std::optional<int> iuse::firecracker_pack_act( Character *, item *it, bool, cons
 
 std::optional<int> iuse::firecracker( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
     if( !p->use_charges_if_avail( itype_fire, 1 ) ) {
@@ -3877,7 +3902,8 @@ std::optional<int> iuse::portal( Character *p, item *it, bool, const tripoint & 
     if( !it->ammo_sufficient( p ) ) {
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     tripoint t( p->posx() + rng( -2, 2 ), p->posy() + rng( -2, 2 ), p->posz() );
@@ -4147,7 +4173,8 @@ std::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint 
 
 std::optional<int> iuse::rpgdie( Character *you, item *die, bool, const tripoint & )
 {
-    if( you->cant_do_mounted() ) {
+    if( you->is_mounted() ) {
+        you->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     int num_sides = die->get_var( "die_num_sides", 0 );
@@ -4306,10 +4333,12 @@ std::optional<int> iuse::portable_game( Character *p, item *it, bool active, con
         // Long action
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
     if( p->has_trait( trait_ILLITERATE ) ) {
@@ -4599,7 +4628,8 @@ std::optional<int> iuse::dog_whistle( Character *p, item *, bool, const tripoint
     if( !p->is_avatar() ) {
         return std::nullopt;
     }
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
     p->add_msg_if_player( _( "You blow your dog whistle." ) );
@@ -4671,7 +4701,8 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoin
     if( p->is_npc() ) {
         return std::nullopt;    // No NPCs for now!
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     if( !it->empty() ) {
@@ -4751,7 +4782,8 @@ std::optional<int> iuse::blood_draw( Character *p, item *it, bool, const tripoin
 
 void iuse::cut_log_into_planks( Character &p )
 {
-    if( p.cant_do_mounted() ) {
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return;
     }
     const int moves = to_moves<int>( 20_minutes );
@@ -4766,7 +4798,8 @@ std::optional<int> iuse::lumber( Character *p, item *, bool t, const tripoint & 
     if( t ) {
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     map &here = get_map();
@@ -4817,7 +4850,8 @@ std::optional<int> iuse::chop_tree( Character *p, item *it, bool t, const tripoi
     if( !p || t ) {
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     map &here = get_map();
@@ -4858,7 +4892,8 @@ std::optional<int> iuse::chop_logs( Character *p, item *it, bool t, const tripoi
     if( !p || t ) {
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
 
@@ -4901,7 +4936,8 @@ std::optional<int> iuse::oxytorch( Character *p, item *it, bool, const tripoint 
         // Long action
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     if( !p->has_quality( qual_GLARE, 1 ) ) {
@@ -4948,7 +4984,8 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, bool t, const tripoint
     if( !p || t ) {
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
 
@@ -4989,7 +5026,8 @@ std::optional<int> iuse::hacksaw( Character *p, item *it, bool t, const tripoint
 
 std::optional<int> iuse::boltcutters( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
 
@@ -5028,7 +5066,8 @@ std::optional<int> iuse::boltcutters( Character *p, item *it, bool, const tripoi
 
 std::optional<int> iuse::mop( Character *p, item *, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     map &here = get_map();
@@ -5183,7 +5222,8 @@ std::optional<int> iuse::heat_food( Character *p, item *it, bool, const tripoint
 
 std::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     if( !it->ammo_sufficient( p ) ) {
@@ -5199,7 +5239,8 @@ std::optional<int> iuse::hotplate( Character *p, item *it, bool, const tripoint 
 
 std::optional<int> iuse::hotplate_atomic( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     if( it->typeId() == itype_atomic_coffeepot ) {
@@ -5387,7 +5428,8 @@ std::optional<int> iuse::radglove( Character *p, item *it, bool, const tripoint 
 
 std::optional<int> iuse::contacts( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
     const time_duration duration = rng( 6_days, 8_days );
@@ -5434,10 +5476,12 @@ std::optional<int> iuse::gun_repair( Character *p, item *it, bool, const tripoin
     if( !it->ammo_sufficient( p ) ) {
         return std::nullopt;
     }
-    if( p->cant_do_underwater() ) {
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     /** @EFFECT_MECHANICS >1 allows gun repair */
@@ -5997,7 +6041,8 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
             play_music( *p, pos, 8, std::min( 25, songs ) );
         }
         return std::nullopt;
-    } else if( p->cant_do_mounted() ) {
+    } else if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     } else if( !p->is_npc() ) {
 
@@ -6005,7 +6050,8 @@ std::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tri
             ei_invalid, ei_photo, ei_music, ei_recipe, ei_uploaded_photos, ei_monsters, ei_download, ei_decrypt
         };
 
-        if( p->cant_do_underwater() ) {
+        if( p->is_underwater() ) {
+            p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
             return std::nullopt;
         }
         if( p->has_trait( trait_ILLITERATE ) ) {
@@ -8073,7 +8119,8 @@ std::optional<int> iuse::multicooker( Character *p, item *it, bool t, const trip
             mc_start, mc_stop, mc_take, mc_upgrade, mc_empty
         };
 
-        if( p->cant_do_underwater() ) {
+        if( p->is_underwater() ) {
+            p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
             return std::nullopt;
         }
 
@@ -8885,7 +8932,8 @@ std::optional<int> iuse::cord_attach( Character *p, item *it, bool, const tripoi
 
 std::optional<int> iuse::shavekit( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     if( !it->ammo_sufficient( p ) ) {
@@ -8898,7 +8946,8 @@ std::optional<int> iuse::shavekit( Character *p, item *it, bool, const tripoint 
 
 std::optional<int> iuse::hairkit( Character *p, item *, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     p->assign_activity( player_activity( haircut_activity_actor() ) );
@@ -9067,7 +9116,8 @@ std::optional<int> iuse::directional_hologram( Character *p, item *it, bool, con
 
 std::optional<int> iuse::capture_monster_veh( Character *p, item *it, bool, const tripoint &pos )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     if( !it->has_flag( flag_VEHICLE ) ) {
@@ -9221,7 +9271,8 @@ std::optional<int> iuse::wash_soft_items( Character *p, item *, bool, const trip
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
@@ -9241,7 +9292,8 @@ std::optional<int> iuse::wash_hard_items( Character *p, item *, bool, const trip
         p->add_msg_if_player( _( "You can't see to do that!" ) );
         return std::nullopt;
     }
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     // Check that player isn't over volume limit as this might cause it to break... this is a hack.
@@ -9275,7 +9327,8 @@ std::optional<int> iuse::wash_all_items( Character *p, item *, bool, const tripo
 
 std::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_items )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     p->inv->restack( *p );
@@ -9446,7 +9499,8 @@ static item *wield_before_use( Character *const p, item *const it, const std::st
 
 std::optional<int> iuse::craft( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     it = wield_before_use( p, it, _( "Wield the %s and start working?" ) );
@@ -9484,7 +9538,8 @@ std::optional<int> iuse::craft( Character *p, item *it, bool, const tripoint & )
 
 std::optional<int> iuse::disassemble( Character *p, item *it, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return std::nullopt;
     }
     it = wield_before_use( p, it, _( "Wield the %s and start working?" ) );
@@ -9813,7 +9868,8 @@ std::optional<int> iuse::ebookread( Character *p, item *it, bool t, const tripoi
 
 std::optional<int> iuse::binder_add_recipe( Character *p, item *binder, bool, const tripoint & )
 {
-    if( p->cant_do_mounted() ) {
+    if( p->is_mounted() ) {
+        p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return std::nullopt;
     }
 

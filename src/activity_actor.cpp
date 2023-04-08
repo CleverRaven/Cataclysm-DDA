@@ -2354,7 +2354,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
 
 std::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
 {
-    if( you.cant_do_mounted() ) {
+    if( you.is_mounted() ) {
+        you.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return std::nullopt;
     }
 
@@ -6640,10 +6641,12 @@ std::unique_ptr<activity_actor> vehicle_folding_activity_actor::deserialize( Jso
 
 bool vehicle_unfolding_activity_actor::unfold_vehicle( Character &p, bool check_only ) const
 {
-    if( p.cant_do_underwater() ) {
+    if( p.is_underwater() ) {
+        p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return false;
     }
-    if( p.cant_do_mounted() ) {
+    if( p.is_mounted() ) {
+        p.add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return false;
     }
     map &here = get_map();
