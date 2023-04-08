@@ -660,7 +660,7 @@ units::energy item::mod_energy( const units::energy &qty )
         return 0_J;
     }
 
-    units::energy val = energy_remaining() + qty;
+    units::energy val = energy_remaining( nullptr ) + qty;
     if( val < 0_J ) {
         return val;
     } else if( val > type->battery->max_capacity ) {
@@ -3001,12 +3001,9 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            iteminfo::lower_is_better, mod->ammo_required() );
     }
 
-    if( mod->get_gun_ups_drain() > 0_kJ && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
-        info.emplace_back( "AMMO",
-                           string_format( n_gettext( "Uses <stat>%i</stat> charge of UPS per shot",
-                                          "Uses <stat>%i</stat> kJ of UPS per shot",
-                                          units::to_kilojoule( mod->get_gun_ups_drain() ) ),
-                                          units::to_kilojoule( mod->get_gun_ups_drain() ) ) );
+    if( mod->get_gun_energy_drain() > 0_kJ && parts->test( iteminfo_parts::AMMO_UPSCOST ) ) {
+        info.emplace_back( "AMMO", _( "Energy per shot: " ), string_format( "<stat>%s</stat>",
+                           units::display( mod->get_gun_energy_drain() ) ) );
     }
 
     if( parts->test( iteminfo_parts::GUN_AIMING_STATS ) ) {
@@ -6400,8 +6397,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     std::string vehtext;
     if( is_engine() && engine_displacement() > 0 ) {
-        vehtext = string_format( pgettext( "vehicle adjective", "%2.1fL " ),
+        vehtext = string_format( pgettext( "vehicle adjective", "%gL " ),
                                  engine_displacement() / 100.0f );
+
 
     } else if( is_wheel() && type->wheel->diameter > 0 ) {
         vehtext = string_format( pgettext( "vehicle adjective", "%d\" " ), type->wheel->diameter );
@@ -6744,7 +6742,7 @@ std::string item::display_name( unsigned int quantity ) const
         }
     } else if( is_vehicle_battery() ) {
         show_amt = true;
-        amount = to_joule( energy_remaining() );
+        amount = to_joule( energy_remaining( nullptr ) );
         max_amount = to_joule( type->battery->max_capacity );
     }
 
@@ -10231,13 +10229,16 @@ int item::gun_range( const Character *p ) const
     return std::max( 0, ret );
 }
 
-units::energy item::energy_remaining() const
+int item::shots_remaining( const Character *carrier ) const
 {
-    if( is_vehicle_battery() ) {
-        return energy;
+    int ret = 1000; // Arbitrary large number for things that do not require ammo.
+    if( ammo_required() ) {
+        ret = std::min( ammo_remaining( carrier ) / ammo_required(), ret );
     }
-
-    return 0_J;
+    if( get_gun_energy_drain() > 0_kJ ) {
+        ret = std::min( static_cast<int>( energy_remaining( carrier ) / get_gun_energy_drain() ), ret );
+    }
+    return ret;
 }
 
 int item::ammo_remaining( const Character *carrier ) const
@@ -10250,20 +10251,10 @@ int item::ammo_remaining( const Character *carrier ) const
         ret += mag->ammo_remaining();
     }
 
-    // Power from bionic
-    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
-        ret += units::to_kilojoule( carrier->get_power_level() );
-    }
-
     std::set<ammotype> ammo = ammo_types();
     // Non ammo using item that uses charges
     if( ammo.empty() ) {
         ret += charges;
-    }
-
-    // Extra power from UPS
-    if( carrier != nullptr && ( has_flag( flag_USE_UPS ) || get_gun_ups_drain() > 0_kJ ) ) {
-        ret += units::to_kilojoule( carrier->available_ups() );
     }
 
     // Magazines and integral magazines on their own
@@ -10283,6 +10274,55 @@ int item::ammo_remaining( const Character *carrier ) const
             }
         }
     }
+
+    // UPS/bionic power can replace battery ammo requirement.
+    // Only for tools. Guns should always use energy_drain for electricity use.
+    if( carrier != nullptr && type->tool && type->tool->ammo_id.count( ammo_battery ) ) {
+        if( has_flag( flag_USES_BIONIC_POWER ) ) {
+            ret += units::to_kilojoule( carrier->get_power_level() );
+        }
+        if( has_flag( flag_USE_UPS ) ) {
+            ret += units::to_kilojoule( carrier->available_ups() );
+        }
+    }
+
+    return ret;
+}
+
+units::energy item::energy_remaining( const Character *carrier ) const
+{
+    units::energy ret = 0_kJ;
+
+    // Future energy based batteries
+    if( is_vehicle_battery() ) {
+        ret += energy;
+    }
+
+    // Magazine in the item
+    const item *mag = magazine_current();
+    if( mag ) {
+        ret += mag->energy_remaining( carrier );
+    }
+
+    // Power from bionic
+    if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
+        ret += carrier->get_power_level();
+    }
+
+    // Extra power from UPS
+    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+        ret += carrier->available_ups();
+    }
+
+    // Battery(ammo) contained within
+    if( is_magazine() ) {
+        for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+            if( e->typeId() == itype_battery ) {
+                ret += units::from_kilojoule( e->charges );
+            }
+        }
+    }
+
     return ret;
 }
 
@@ -10354,14 +10394,11 @@ void item::handle_liquid_or_spill( Character &guy, const item *avoid )
 
 bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
-    if( ammo_required() ) {
-        return ammo_remaining( carrier ) >= ammo_required() * qty;
-    } else if( get_gun_ups_drain() > 0_kJ ) {
-        return carrier->available_ups() >= get_gun_ups_drain() * qty;
-    } else if( count_by_charges() ) {
+    if( count_by_charges() ) {
         return ammo_remaining( carrier ) >= qty;
     }
-    return true;
+
+    return shots_remaining( carrier ) >= qty;
 }
 
 bool item::ammo_sufficient( const Character *carrier, const std::string &method, int qty ) const
@@ -10370,12 +10407,8 @@ bool item::ammo_sufficient( const Character *carrier, const std::string &method,
     if( iter != type->ammo_scale.end() ) {
         qty *= iter->second;
     }
-    if( ammo_required() ) {
-        return ammo_remaining( carrier ) >= ammo_required() * qty;
-    } else if( get_gun_ups_drain() > 0_kJ ) {
-        return carrier->available_ups() >= get_gun_ups_drain() * qty;
-    }
-    return true;
+
+    return ammo_sufficient( carrier, qty );
 }
 
 int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
@@ -10405,21 +10438,67 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty -= charg_used;
     }
 
-    // Consume UPS power from various sources
-    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
-        units::energy energy_draw = units::from_kilojoule( qty );
-        qty -= units::to_kilojoule( carrier->consume_ups( energy_draw ) );
+    // Modded tools can consume UPS/bionic energy instead of (battery)ammo.
+    // Guns handle energy in energy_consume()
+    if( carrier != nullptr && type->tool && type->tool->ammo_id.count( ammo_battery ) ) {
+        units::energy wanted_energy = units::from_kilojoule( qty );
+
+        if( has_flag( flag_USE_UPS ) ) {
+            wanted_energy -= carrier->consume_ups( wanted_energy );
+        }
+
+        if( has_flag( flag_USES_BIONIC_POWER ) ) {
+            units::energy bio_used = std::min( carrier->get_power_level(), wanted_energy );
+            carrier->mod_power_level( -bio_used );
+            wanted_energy -= bio_used;
+        }
+
+        // It is possible for this to cause rounding error due to different precision of energy
+        // But that can happen only if there was not enough ammo and you shouldn't be able to use without sufficient ammo
+        qty = units::to_kilojoule( wanted_energy );
+    }
+    return wanted_qty - qty;
+}
+
+units::energy item::energy_consume( units::energy qty, const tripoint &pos, Character *carrier )
+{
+    if( qty < 0_kJ ) {
+        debugmsg( "Cannot consume negative quantity of energy for %s", tname() );
+        return 0_kJ;
     }
 
-    // Consume bio pwr directly
+    const units::energy wanted_energy = qty;
+
+    // Consume battery(ammo)
+    if( is_battery() ) {
+        int consumed_kj = contents.ammo_consume( units::to_kilojoule( qty ), pos );
+        qty -= units::from_kilojoule( consumed_kj );
+    }
+
+    // Consume energy from contained magazine
+    if( magazine_current() ) {
+        qty -= magazine_current()->energy_consume( qty, pos, carrier );
+    }
+
+    // Consume UPS energy from various sources
+    if( carrier != nullptr && has_flag( flag_USE_UPS ) ) {
+        qty -= carrier->consume_ups( qty );
+    }
+
+    // Consume bio energy
     if( carrier != nullptr && has_flag( flag_USES_BIONIC_POWER ) ) {
-        int bio_used = std::min( static_cast < int>( units::to_kilojoule( carrier->get_power_level() ) ),
-                                 qty );
-        carrier->mod_power_level( -units::from_kilojoule( bio_used ) );
+        units::energy bio_used = std::min( carrier->get_power_level(), qty );
+        carrier->mod_power_level( -bio_used );
         qty -= bio_used;
     }
 
-    return wanted_qty - qty;
+    // If consumption is not integer kJ we need to consume one extra battery charge to "round up".
+    // Should happen only if battery powered and energy per shot is not integer kJ.
+    if( qty > 0_kJ && is_battery() ) {
+        qty -= energy_consume( 1_kJ, pos, carrier );
+    }
+
+    return wanted_energy - qty;
 }
 
 int item::activation_consume( int qty, const tripoint &pos, Character *carrier )
@@ -10450,9 +10529,6 @@ const itype *item::ammo_data() const
         }
     }
 
-    if( is_gun() && ammo_remaining() > 0 ) {
-        return contents.first_ammo().ammo_data();
-    }
     return nullptr;
 }
 
@@ -10461,8 +10537,6 @@ itype_id item::ammo_current() const
     const itype *ammo = ammo_data();
     if( ammo ) {
         return ammo->get_id();
-    } else if( has_flag( flag_USE_UPS ) ) {
-        return itype_battery;
     }
 
     return itype_id::NULL_ID();
@@ -10525,8 +10599,6 @@ itype_id item::ammo_default( bool conversion ) const
         if( !res.is_empty() ) {
             return res;
         }
-    } else if( has_flag( flag_USE_UPS ) ) {
-        return itype_battery;
     }
 
     return itype_id::NULL_ID();
@@ -13355,19 +13427,35 @@ const itype *item::find_type( const itype_id &type )
     return item_controller->find_template( type );
 }
 
-units::energy item::get_gun_ups_drain() const
+units::energy item::get_gun_energy_drain() const
 {
-    int draincount = 0;
+    units::energy draincount = 0_kJ;
     if( type->gun ) {
-        int modifier = 0;
+        units::energy modifier = 0_kJ;
         float multiplier = 1.0f;
         for( const item *mod : gunmods() ) {
-            modifier += mod->type->gunmod->ups_charges_modifier;
-            multiplier *= mod->type->gunmod->ups_charges_multiplier;
+            modifier += mod->type->gunmod->energy_drain_modifier;
+            multiplier *= mod->type->gunmod->energy_drain_multiplier;
         }
-        draincount = ( type->gun->ups_charges * multiplier ) + modifier;
+        draincount = ( type->gun->energy_drain * multiplier ) + modifier;
     }
-    return units::from_kilojoule( draincount );
+    return draincount;
+}
+
+units::energy item::get_gun_ups_drain() const
+{
+    if( has_flag( flag_USE_UPS ) ) {
+        return get_gun_energy_drain();
+    }
+    return 0_kJ;
+}
+
+units::energy item::get_gun_bionic_drain() const
+{
+    if( has_flag( flag_USES_BIONIC_POWER ) ) {
+        return get_gun_energy_drain();
+    }
+    return 0_kJ;
 }
 
 bool item::has_label() const

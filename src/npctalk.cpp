@@ -2196,6 +2196,26 @@ void talk_effect_fun_t<T>::set_remove_trait( const JsonObject &jo, const std::st
 }
 
 template<class T>
+void talk_effect_fun_t<T>::set_learn_martial_art( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var<T> ma_to_learn = get_str_or_var<T>( jo.get_member( member ), member, true );
+    function = [is_npc, ma_to_learn]( const T & d ) {
+        d.actor( is_npc )->learn_martial_art( matype_id( ma_to_learn.evaluate( d ) ) );
+    };
+}
+
+template<class T>
+void talk_effect_fun_t<T>::set_forget_martial_art( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var<T> ma_to_forget = get_str_or_var<T>( jo.get_member( member ), member, true );
+    function = [is_npc, ma_to_forget]( const T & d ) {
+        d.actor( is_npc )->forget_martial_art( matype_id( ma_to_forget.evaluate( d ) ) );
+    };
+}
+
+template<class T>
 void talk_effect_fun_t<T>::set_mutate( const JsonObject &jo, const std::string &member,
                                        bool is_npc )
 {
@@ -4388,6 +4408,14 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_mutate_category( jo, "u_mutate_category" );
     } else if( jo.has_member( "npc_mutate_category" ) ) {
         subeffect_fun.set_mutate_category( jo, "npc_mutate_category", is_npc );
+    } else if( jo.has_member( "u_learn_martial_art" ) ) {
+        subeffect_fun.set_learn_martial_art( jo, "u_learn_martial_art" );
+    } else if( jo.has_member( "npc_learn_martial_art" ) ) {
+        subeffect_fun.set_learn_martial_art( jo, "npc_learn_martial_art", is_npc );
+    } else if( jo.has_member( "u_forget_martial_art" ) ) {
+        subeffect_fun.set_forget_martial_art( jo, "u_forget_martial_art" );
+    } else if( jo.has_member( "npc_forget_martial_art" ) ) {
+        subeffect_fun.set_forget_martial_art( jo, "npc_forget_martial_art", is_npc );
     } else if( jo.has_int( "u_spend_cash" ) ) {
         subeffect_fun.set_u_spend_cash( jo, "u_spend_cash" );
     } else if( jo.has_string( "npc_change_faction" ) ) {
@@ -4555,6 +4583,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_cast_spell( jo, "npc_cast_spell", true, targeted );
     } else if( jo.has_array( "arithmetic" ) ) {
         subeffect_fun.set_arithmetic( jo, "arithmetic", false );
+    } else if( jo.has_array( "math" ) ) {
+        subeffect_fun.set_math( jo, "math" );
     } else if( jo.has_string( "u_spawn_monster" ) ) {
         subeffect_fun.set_spawn_monster( jo, "u_spawn_monster", false );
     } else if( jo.has_string( "npc_spawn_monster" ) ) {

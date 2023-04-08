@@ -49,7 +49,7 @@
     "dispersion": 180,
     "durability": 5,
     "loudness": 12,
-    "ups_charges": 2,
+    "energy_drain": "2 kJ",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -59,6 +59,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "nailmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "nailmag" ] } ],
+    "flags": [ "USE_UPS" ]
   }
 ]

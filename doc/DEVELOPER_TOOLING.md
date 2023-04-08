@@ -29,7 +29,7 @@ If you have only `astyle` then use:
 astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h
 ```
 
-On Windows, there is an [AStyle extension for Visual Studio](https://github.com/lukamicoder/astyle-extension).
+On Windows, there is an [AStyle extension for Visual Studio 2019](https://github.com/lukamicoder/astyle-extension) with an unmerged update for [Visual Studio 2022](https://github.com/lukamicoder/astyle-extension/pull/21).
 
 #### Instruction:
 

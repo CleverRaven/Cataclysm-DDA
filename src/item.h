@@ -2221,14 +2221,22 @@ class item : public visitable
 
         void clear_itype_variant();
 
-        /** Quantity of energy currently loaded in tool or battery */
-        units::energy energy_remaining() const;
+        /**
+         * Quantity of shots in the gun. Looks at both ammo and available energy.
+         * @param carrier is used for UPS and bionic power
+         */
+        int shots_remaining( const Character *carrier ) const;
+
+        /**
+         * Energy available from battery/UPS/bionics
+         * @param carrier is used for UPS and bionic power.
+         */
+        units::energy energy_remaining( const Character *carrier = nullptr ) const;
 
 
         /**
-         * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
-         * If UPS/bionic power does not matter then the carrier can be nullptr
-         * @param carrier is used for UPS and bionic power
+         * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
+         * @param carrier is used for UPS and bionic power for tools
          */
         int ammo_remaining( const Character *carrier = nullptr ) const;
 
@@ -2283,6 +2291,17 @@ class item : public visitable
          * @return amount of ammo consumed which will be between 0 and qty
          */
         int ammo_consume( int qty, const tripoint &pos, Character *carrier );
+
+        /**
+         * Consume energy (if available) and return the amount of energy that was consumed
+         * Consume order: battery, UPS, bionic
+         * When consuming energy from batteries the consumption will round up by adding 1 kJ. More energy may be consumed than required.
+         * @param qty amount of energy that should be consumed
+         * @param pos current location of item, used for ejecting magazines and similar effects
+         * @param carrier holder of the item, used for getting UPS and bionic power
+         * @return amount of energy consumed which will be between 0 kJ and qty+1 kJ
+         */
+        units::energy energy_consume( units::energy qty, const tripoint &pos, Character *carrier );
 
         /**
          * Consume ammo to activate item qty times (if available) and return the amount of ammo that was consumed
@@ -2571,7 +2590,15 @@ class item : public visitable
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
+
+        /**
+         * Get gun energy drain. Includes modifiers from gunmods.
+         * @return energy drained per shot
+         */
+        units::energy get_gun_energy_drain() const;
         units::energy get_gun_ups_drain() const;
+        units::energy get_gun_bionic_drain() const;
+
         void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;
