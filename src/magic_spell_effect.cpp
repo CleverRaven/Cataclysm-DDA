@@ -1088,7 +1088,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
         }
 
         if( it.ethereal && player_character.is_wearing( it.typeId() ) ) {
-        	// Ethereal equipment already exists so just update its duration
+            // Ethereal equipment already exists so just update its duration
             item *existing_item = player_character.item_worn_with_id( it.typeId() );
             existing_item->set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
         } else if( player_character.can_wear( it ).success() ) {
