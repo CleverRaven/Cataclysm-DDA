@@ -7,46 +7,17 @@
   },
   "configurePresets": [
     {
-      "name": "base",
-      "description": "Base Build Configuration",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "hidden": true
-    },
-    {
-      "name": "windows",
-      "description": "Windows Build Configuration",
-      "cacheVariables": {
-        "VCPKG_OVERLAY_TRIPLETS": "${sourceDir}/build-scripts"
-      },
-      "hidden": true
-    },
-    {
-      "name": "MSVC",
-      "inherits": [ "windows" ],
-      "description": "Visual C++ Configuration",
-      "cacheVariables": {
-        "VCPKG_ROOT": "C:/vcpkg"
-      },
-      "hidden": true
-    },
-    {
-      "name": "x64-windows-static",
-      "inherits": [ "base", "MSVC" ],
-      "description": "Link Statically",
-      "cacheVariables": {
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
-        "DYNAMIC_LINKING": "False"
-      },
-      "hidden": true
-    },
-    {
       "name": "windows-tiles-sounds-x64-msvc",
-      "inherits": [ "x64-windows-static" ],
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
       "displayName": "Windows Tiles Sounds x64 MSVC",
       "description": "Target Windows (64-bit) with the Visual Studio development environment. (RelWithDebInfo)",
       "cacheVariables": {
         "CMAKE_PROJECT_INCLUDE_BEFORE": "${sourceDir}/build-scripts/windows-tiles-sounds-x64-msvc.cmake",
         "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/build-scripts/MSVC.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "VCPKG_ROOT": "C:/vcpkg",
+        "DYNAMIC_LINKING": "False",
         "RELEASE": "True",
         "CURSES": "False",
         "LOCALIZE": "True",
