@@ -384,6 +384,7 @@
     "price": 240000,
     "price_postapoc": 5000,
     "variant_type": "gun",
+    "barrel_length": "381 mm",
     "variants": [
       {
         "id": "m4a1",

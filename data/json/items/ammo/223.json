@@ -17,7 +17,12 @@
     "ammo_type": "223",
     "casing": "223_casing",
     "range": 36,
-    "damage": { "damage_type": "bullet", "amount": 44, "armor_penetration": 2 },
+    "damage": {
+      "damage_type": "bullet",
+      "amount": 44,
+      "armor_penetration": 2,
+      "barrels": [ { "barrel_length": "356 mm", "amount": 60 }, { "barrel_length": "406 mm", "amount": 70 } ]
+    },
     "dispersion": 30,
     "recoil": 1500,
     "effects": [ "COOKOFF" ]
