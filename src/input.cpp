@@ -1467,13 +1467,13 @@ action_id input_context::display_menu( const bool permit_execute_action )
             return index_highlighted == index_to_draw ? h_light_gray : c_light_gray;
         };
         right_print( w_help, 4, 2, item_color( int( remove_btn ), int( highlighted_btn_index ) ),
-                     string_format( "<[<color_yellow>%c</color>] Remove keybinding>",
+                     string_format( _( "<[<color_yellow>%c</color>] Remove keybinding>" ),
                                     fallback_keys.at( fallback_action::remove ) ) );
         right_print( w_help, 4, 26, item_color( int( add_local_btn ), int( highlighted_btn_index ) ),
-                     string_format( "<[<color_yellow>%c</color>] Add local keybinding>",
+                     string_format( _( "<[<color_yellow>%c</color>] Add local keybinding>" ),
                                     fallback_keys.at( fallback_action::add_local ) ) );
         right_print( w_help, 4, 54, item_color( int( add_global_btn ), int( highlighted_btn_index ) ),
-                     string_format( "<[<color_yellow>%c</color>] Add global keybinding>",
+                     string_format( _( "<[<color_yellow>%c</color>] Add global keybinding>" ),
                                     fallback_keys.at( fallback_action::add_global ) ) );
 
         for( size_t i = 0; i + scroll_offset < filtered_registered_actions.size() &&
