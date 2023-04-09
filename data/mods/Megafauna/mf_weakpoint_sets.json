@@ -85,7 +85,7 @@
             "effect": "nausea",
             "permanent": true,
             "chance": 10,
-            "message": "You have ripped the %s bowels!  The % is wretching.",
+            "message": "You have ripped the %s bowels!  The % is retching.",
             "damage_required": [ 5, 25 ]
           },
           {
