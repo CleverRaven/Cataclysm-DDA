@@ -33,6 +33,7 @@ Use the `Home` key to return to the top.
     - [Limb scores](#limb-scores)
     - [Character Modifiers](#character-modifiers)
       - [Character Modifiers - Value](#character-modifiers---value)
+    - [Damage Types](#damage-types)
     - [Bionics](#bionics)
     - [Dreams](#dreams)
     - [Disease](#disease)
@@ -1048,9 +1049,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `included_bionics`           | (_optional_) Additional bionics that are installed automatically when this bionic is installed. This can be used to install several bionics from one CBM item, which is useful as each of those can be activated independently.
 | `included`                   | (_optional_) Whether this bionic is included with another. If true this bionic does not require a CBM item to be defined. (default: `false`)
 | `env_protec`                 | (_optional_) How much environmental protection does this bionic provide on the specified body parts.
-| `bash_protec`                | (_optional_) How much bash protection does this bionic provide on the specified body parts.
-| `cut_protec`                 | (_optional_) How much cut protection does this bionic provide on the specified body parts.
-| `bullet_protect`             | (_optional_) How much bullet protect does this bionic provide on the specified body parts.
+| `protec`                     | (_optional_) An array of resistance values that determines the types of protection this bionic provides on the specified body parts.
 | `occupied_bodyparts`         | (_optional_) A list of body parts occupied by this bionic, and the number of bionic slots it take on those parts.
 | `capacity`                   | (_optional_) Amount of power storage added by this bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | `fuel_options`               | (_optional_) A list of materials that this bionic can use to produce bionic power.
@@ -1076,7 +1075,7 @@ mod = min( max, ( limb_score / denominator ) - subtract );
 | `dispersion_mod`             | (_optional_) Modifier to change firearm dispersion.
 | `activated_on_install`       | (_optional_) Auto-activates this bionic when installed.
 
-```C++
+```JSON
 {
     "id"           : "bio_batteries",
     "name"         : "Battery System",
@@ -1101,15 +1100,92 @@ mod = min( max, ( limb_score / denominator ) - subtract );
     "description": "Surgically implanted in your trachea is an advanced filtration system.  If toxins, or airborne diseases find their way into your windpipe, the filter will attempt to remove them.",
     "occupied_bodyparts": [ [ "torso", 4 ], [ "mouth", 2 ] ],
     "env_protec": [ [ "mouth", 7 ] ],
-    "bash_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "cut_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
-    "bullet_protec": [ [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "protec": [
+      [ "arm_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "arm_r", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "hand_l", { "bash": 3, "cut": 3, "bullet": 3 } ],
+      [ "hand_r", { "bash": 3, "cut": 3, "bullet": 3 } ]
+    ],
     "flags": [ "BIONIC_NPC_USABLE" ]
 }
 ```
 
 Bionics effects are defined in the code and new effects cannot be created through JSON alone.
 When adding a new bionic, if it's not included with another one, you must also add the corresponding CBM item in `data/json/items/bionics.json`. Even for a faulty bionic.
+
+
+### Damage Types
+
+| Field               | Description
+| ---                 | ---
+| `name`              | The name of the damage type as it appears in the protection values in the item info screen.
+| `skill`             | _(optional)_ Determines the skill used when dealing this damage type. (defaults to none)
+| `physical`          | _(optional)_ Identifies this damage type as originating from physical sources. (defaults to false)
+| `melee_only`        | _(optional)_ Identifies this damage type as originating from melee weapons and attacks. (defaults to false)
+| `edged`             | _(optional)_ Identifies this damage type as originating from a sharp or pointy weapon or implement. (defaults to false)
+| `environmental`     | _(optional)_ This damage type corresponds to environmental sources. Currently influences whether an item or piece of armor includes environmental resistance against this damage type. (defaults to false)
+| `material_required` | _(optional)_ Determines whether materials must defined a resistance for this damage type. (defaults to false)
+| `mon_difficulty`    | _(optional)_ Determines whether this damage type should contribute to a monster's difficulty rating. (defaults to false)
+| `no_resist`         | _(optional)_ Identifies this damage type as being impossible to resist against (ie. "pure" damage). (defaults to false)
+| `immune_flags`      | _(optional)_ An object with two optional fields: `"character"` and `"monster"`. Both inner fields list an array of character flags and monster flags, respectively, that would make the character or monster immune to this damage type.
+| `magic_color`       | _(optional)_ Determines which color identifies this damage type when used in spells. (defaults to "black")
+| `derived_from`      | _(optional)_ An array that determines how this damage type should be calculated in terms of armor protection and monster resistance values. The first value is the source damage type and the second value is the modifier applied to source damage type calculations.
+| `onhit_eocs`        | _(optional)_ An array of effect-on-conditions that activate when a monster or character hits another monster or character with this damage type. In this case, `u` refers to the damage source and `npc` refers to the damage target.
+
+```JSON
+  {
+    "//": "stabbing/piercing damage",
+    "id": "stab",
+    "type": "damage_type",
+    "melee_only": true,
+    "physical": true,
+    "edged": true,
+    "magic_color": "light_red",
+    "name": "pierce",
+    "skill": "stabbing",
+    "//2": "derived from cut only for monster defs",
+    "derived_from": [ "cut", 0.8 ],
+    "immune_flags": { "character": [ "STAB_IMMUNE" ] }
+  },
+  {
+    "//": "e.g. electrical discharge",
+    "id": "electric",
+    "type": "damage_type",
+    "physical": false,
+    "magic_color": "light_blue",
+    "name": "electric",
+    "immune_flags": { "character": [ "ELECTRIC_IMMUNE" ], "monster": [ "ELECTRIC", "ELECTRIC_FIELD" ] },
+    "onhit_eocs": [ "EOC_ELECTRIC_ONHIT" ]
+  }
+```
+
+
+### Damage Info Ordering
+
+Damage types are displayed in various parts of the item info UI, representing armor resistances, melee damage, etc.
+Using `damage_info_order` we can reorder how these are shown, and even determine whether they can be displayed at all.
+
+| Field          | Description
+| ---            | ---
+| `id`           | Unique identifier, must correspond to an existing `damage_type`
+| `info_display` | _(optional)_ Determines the detail in which this damage type is displayed in protection values. Valid values are "detailed", "basic", and "none". (defaults to "none")
+| `verb`         | _(optional)_ A verb describing how this damage type is applied (ex: "bashing"). Used in the melee section of an item's info.
+| `*_info`       | _(optional)_ An object that determines the order and visibility of this damage type for the specified section of an item's info. `"order"` determines where in the list of damage types it will be displayed in this section, and `"show_type"` determines whether to show this damage type in this section. Possible sections include: `bionic_info`, `protection_info`, `pet_prot_info`, `melee_combat_info`, and `ablative_info`.
+
+```JSON
+{
+  "id": "acid",
+  "type": "damage_info_order",
+  "info_display": "basic",
+  "verb": "corroding",
+  "bionic_info": { "order": 500, "show_type": true },
+  "protection_info": { "order": 800, "show_type": true },
+  "pet_prot_info": { "order": 500, "show_type": true },
+  "melee_combat_info": { "order": 500, "show_type": false },
+  "ablative_info": { "order": 500, "show_type": false }
+}
+```
+
 
 ### Dreams
 
@@ -1271,14 +1347,7 @@ flag is set.
 |---                     |---
 | `id`                   | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
 | `name`                 | In-game name displayed.
-| `bash_resist`          | How well a material resists bashing damage.
-| `cut_resist`           | How well a material resists cutting damage.
-| `bullet_resist`        | How well a material resists bullet damage.
-| `acid_resist`          | Ability of a material to resist acid.
-| `elec_resist`          | Ability of a material to resist electricity. Optional defaults to 0.0
-| `biologic_resist`      | Ability of a material to resist biological damage. Optional defaults to 0.0
-| `cold_resist`          | Ability of a material to resist cold damage. Optional defaults to 0.0
-| `fire_resist`          | Ability of a material to resist fire.
+| `resist`               | An object that determines resistance values for this material.
 | `chip_resist`          | Returns resistance to being damaged by attacks against the item itself.
 | `bash_dmg_verb`        | Verb used when material takes bashing damage.
 | `cut_dmg_verb`         | Verb used when material takes cutting damage.
@@ -1299,7 +1368,7 @@ flag is set.
 
 There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bullet. These are integer values; the default is 0 and they can be negative to take more damage.
 
-```C++
+```JSON
 {
     "type": "material",
     "id": "hflesh",
@@ -1310,12 +1379,7 @@ There are seven -resist parameters: acid, bash, chip, cut, elec, fire, and bulle
     "latent_heat": 260,
     "edible": true,
     "rotting": true,
-    "bash_resist": 1,
-    "cut_resist": 1,
-    "bullet_resist": 1,
-    "acid_resist": 1,
-    "fire_resist": 1,
-    "elec_resist": 1,
+    "resist": { "bash": 1, "cut": 1, "acid": 1, "heat": 1, "bullet": 1 },
     "chip_resist": 2,
     "dmg_adj": [ "bruised", "mutilated", "badly mutilated", "thoroughly mutilated" ],
     "bash_dmg_verb": "bruised",
@@ -2928,8 +2992,10 @@ Weakpoints only match if they share the same id, so it's important to define the
 ],
 "repairs_with": [ "plastic" ],               // Material types that this item can be repaired with. Defaults to all the item materials.
 "weapon_category": [ "WEAPON_CAT1" ],        // (Optional) Weapon categories this item is in for martial arts.
-"cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
-"bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
+"melee_damage": {                            // (Optional) Damage caused by using it as a melee weapon.  These values cannot be negative.
+  "bash": 0,
+  "cut": 0
+},
 "to_hit": 0,                                 // (Optional, deprecated, default = 0) To-hit bonus if using it as a melee weapon (whatever for?).  The object version is preferred
 "to_hit" {                                   // (Optional, Preferred) To hit bonus values, see below
   "grip": "solid",                           // the item's grip value
@@ -3465,8 +3531,10 @@ Any Item can be a container. To add the ability to contain things to an item, yo
 ],
 "weight": 907,         // Weight, measured in grams
 "volume": "1500 ml",   // Volume, volume in ml and L can be used - "50 ml" or "2 L"
-"bashing": 12,         // Bashing damage caused by using it as a melee weapon
-"cutting": 12,         // Cutting damage caused by using it as a melee weapon
+"melee_damage": {      // Damage caused by using it as a melee weapon
+  "bash": 12,
+  "cut": 12
+},
 "flags" : ["CHOP"],    // Indicates special effects
 "to_hit": 1            // To-hit bonus if using it as a melee weapon
 ```
@@ -3582,8 +3650,10 @@ Alternately, every item (book, tool, armor, even food) can be used as a gunmod i
 "flags": [ "FIRE" ],      // Indicates special effects
 "weight": 831,        // Weight, measured in grams
 "volume": "1500 ml",  // Volume, volume in ml and L can be used - "50 ml" or "2 L"
-"bashing": 12,        // Bashing damage caused by using it as a melee weapon
-"cutting": 0,         // Cutting damage caused by using it as a melee weapon
+"melee_damage": {     // Damage caused by using it as a melee weapon
+  "bash": 12,
+  "cut": 0
+},
 "to_hit": 3,          // To-hit bonus if using it as a melee weapon
 "turns_per_charge": 20, // Charges consumed over time, deprecated in favor of power_draw
 "use_action": [ "firestarter" ], // Action performed when tool is used, see special definition below
