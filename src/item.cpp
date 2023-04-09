@@ -5423,10 +5423,10 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
 
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
-        std::vector<flag_id> flags;
-        std::set_union( type->get_flags().begin(), type->get_flags().end(),
-                        get_flags().begin(), get_flags().end(),
-                        std::back_inserter( flags ) );
+        cata::flat_set<flag_id> flags;
+        flags.insert( get_flags().begin(), get_flags().end() );
+        flags.insert( type->get_flags().begin(), type->get_flags().end() );
+        flags.insert( inherited_tags_cache.begin(), inherited_tags_cache.end() );
 
         // ...and display those which have an info description
         for( const flag_id &e : sorted_lex( flags ) ) {
