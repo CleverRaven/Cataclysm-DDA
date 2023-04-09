@@ -8,6 +8,10 @@
 #include "player_helpers.h"
 #include "point.h"
 
+
+static const activity_id activity_ACT_ADD_VARIABLE_DURING( "ACT_ADD_VARIABLE_DURING" );
+static const activity_id activity_ACT_ADD_VARIABLE_COMPLETE( "ACT_ADD_VARIABLE_COMPLETE" );
+
 static const effect_on_condition_id
 effect_on_condition_EOC_TEST_TRANSFORM_LINE( "EOC_TEST_TRANSFORM_LINE" );
 static const effect_on_condition_id
@@ -26,7 +30,7 @@ effect_on_condition_EOC_math_var( "EOC_math_var" );
 static const effect_on_condition_id effect_on_condition_EOC_teleport_test( "EOC_teleport_test" );
 namespace
 {
-static void complete_activity( Character &u )
+void complete_activity( Character &u )
 {
     while( !u.activity.is_null() ) {
         u.set_moves( u.get_speed() );
@@ -161,7 +165,7 @@ TEST_CASE( "EOC_activity_finish", "[eoc][timed_event]" )
 {
     clear_avatar();
     clear_map();
-    get_avatar().assign_activity( activity_id( "ACT_ADD_VARIABLE_COMPLETE" ), 10 );
+    get_avatar().assign_activity( activity_ACT_ADD_VARIABLE_COMPLETE, 10 );
 
     complete_activity( get_avatar() );
 
@@ -172,7 +176,7 @@ TEST_CASE( "EOC_activity_ongoing", "[eoc][timed_event]" )
 {
     clear_avatar();
     clear_map();
-    get_avatar().assign_activity( activity_id( "ACT_ADD_VARIABLE_DURING" ), 300 );
+    get_avatar().assign_activity( activity_ACT_ADD_VARIABLE_DURING, 300 );
 
     complete_activity( get_avatar() );
 
