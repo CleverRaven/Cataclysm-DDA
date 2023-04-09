@@ -61,7 +61,8 @@
         "7": "f_bench",
         "C": "xe_f_throne",
         "g": "f_statue"
-      }
+      },
+      "place_npcs": [ { "class": "boann", "x": 12, "y": 13 } ]
     }
   },
   {
