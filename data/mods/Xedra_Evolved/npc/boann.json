@@ -58,10 +58,19 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_BOANN_4",
+    "dynamic_line": "If we die here, we will rise just like you, we are within the belly of the beast, so to speak here.  But yes when we go elsewhere we don't bring this with us, that would be rude.",
+    "responses": [
+      { "text": "Please take me away with you.", "topic": "TALK_BOANN_JOIN" },
+      { "text": "I haven't decided if I believe you or not but I'll see you around.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_BOANN_JOIN",
     "dynamic_line": "Well you can't just join by asking, you need to accomplish a series of progressively more difficult quests, bringing me trophies and relics proving your worth to join our ranks.",
     "responses": [
-      { "text": "I might have a quest for you now.", "topic": "TALK_MISSION_LIST" },
+      { "text": "Do you have a quest for me now?", "topic": "TALK_MISSION_LIST" },
       { "text": "I'm going to head on now.", "topic": "TALK_DONE" }
     ]
   },
@@ -87,7 +96,7 @@
     },
     "end": {
       "opinion": { "trust": 2, "value": 2 },
-      "effect": [ { "u_buy_monster": "mon_melian_mantis_mount", "count": 1, "name": "Bladepetal" } ]
+      "effect": [ { "u_buy_monster": "mon_melian_mantis_mount", "count": 1, "name": "Bladepetal" }, { "u_spawn_item": "horse_tack", "count": 1 } ]
     },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
