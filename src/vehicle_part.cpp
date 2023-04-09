@@ -93,9 +93,8 @@ item vehicle_part::properties_to_item() const
         tmp.active = true;
     }
 
-    // force rationalization of damage values to the middle value of each damage level so
-    // that parts will stack nicely
-    tmp.set_damage( tmp.damage_level() * itype::damage_scale );
+    // quantize damage to the middle of each damage_level so that items will stack nicely
+    tmp.set_damage( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
     return tmp;
 }
 
