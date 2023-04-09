@@ -9,6 +9,7 @@
 
 #include "dialogue.h"
 #include "dialogue_helpers.h"
+#include "math_parser_shim.h"
 #include "mission.h"
 
 class JsonObject;
@@ -49,7 +50,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
         "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale",
         "npc_has_morale", "u_is_on_terrain", "npc_is_on_terrain", "u_is_in_field", "npc_is_in_field", "compare_int",
-        "compare_string", "roll_contested", "compare_num"
+        "compare_string", "roll_contested", "compare_num", "u_has_martial_art", "npc_has_martial_art"
     }
 };
 } // namespace dialogue_data
@@ -121,6 +122,7 @@ struct conditional_t {
 
         void set_has_any_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_martial_art( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_compare_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -212,9 +214,15 @@ struct conditional_t {
         void set_can_see( bool is_npc = false );
         void set_compare_string( const JsonObject &jo, const std::string &member );
         void set_compare_num( const JsonObject &jo, const std::string &member );
-        static std::function<double( const T & )> get_get_dbl( const JsonObject &jo );
+        void set_math( const JsonObject &jo, const std::string &member );
+        template<class J>
+        static std::function<double( const T & )> get_get_dbl( J const &jo );
         static std::function<double( const T & )> get_get_dbl( const std::string &value,
                 const JsonObject &jo );
+        template <class J>
+        std::function<void( const T &, double )>
+        static get_set_dbl( const J &jo, const std::optional<dbl_or_var_part<T>> &min,
+                            const std::optional<dbl_or_var_part<T>> &max, bool temp_var );
         bool operator()( const T &d ) const {
             if( !condition ) {
                 return false;
@@ -222,6 +230,21 @@ struct conditional_t {
             return condition( d );
         }
 };
+
+extern template std::function<double( const dialogue & )>
+conditional_t<dialogue>::get_get_dbl<>( kwargs_shim const & );
+extern template std::function<double( const mission_goal_condition_context & )>
+conditional_t<mission_goal_condition_context>::get_get_dbl<>( kwargs_shim const & );
+
+extern template std::function<void( const dialogue &, double )>
+conditional_t<dialogue>::get_set_dbl<>( const kwargs_shim &,
+                                        const std::optional<dbl_or_var_part<dialogue>> &,
+                                        const std::optional<dbl_or_var_part<dialogue>> &, bool );
+extern template std::function<void( const mission_goal_condition_context &, double )>
+conditional_t<mission_goal_condition_context>::get_set_dbl<>( const kwargs_shim &,
+        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
+        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
+        bool );
 
 #if !defined(MACOSX)
 extern template struct conditional_t<dialogue>;

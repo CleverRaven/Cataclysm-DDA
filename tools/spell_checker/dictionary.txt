@@ -8,9 +8,6 @@ accessorizing
 acclimatization
 accoustrement
 accuracies
-accurize
-accurized
-accurizing 
 achelousaurus
 acho
 acidball
@@ -51,6 +48,8 @@ airhorn
 airjack
 airsoft
 airworthy
+aketon
+aketons
 alamosaurus
 alate
 alates
@@ -1021,6 +1020,7 @@ flechettes
 fleshier
 fletched
 fletching
+flexibility
 flightworthy
 flim
 flintknapping
@@ -1435,6 +1435,7 @@ jointer
 jointing
 jort
 jorts
+jpg
 jtest
 junglefowl
 junipers
@@ -1718,6 +1719,7 @@ midden
 mideast
 mideastern
 midgame
+midground 
 midrange
 midsentence
 migo
@@ -2459,8 +2461,8 @@ scutcher
 scutellosaurus
 scuttles
 sealab
-sealabs
 sealable
+sealabs
 seater
 secretively
 secubot
@@ -2725,6 +2727,7 @@ superpositional
 supersoldier
 supersoldiers
 suppurated
+surcoat
 survivalcraft
 survivalists
 susurrate
@@ -3200,5 +3203,5 @@ zuul
 zweitimber
 zygomaticus
 zzz
-zzzzchzzzzchurzzzpileus
 zzzzchzzzzchurzzz
+zzzzchzzzzchurzzzpileus
