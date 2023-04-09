@@ -62,137 +62,16 @@
         "7": "f_bench",
         "C": "xe_f_throne",
         "g": "f_statue"
-      },
-      "items": {
-        "g": [
-          { "item": "homebooks", "chance": 20, "repeat": [ 2, 4 ] },
-          { "item": "magic_shop_books", "chance": 30 },
-          { "item": "novels", "chance": 20, "repeat": [ 2, 4 ] }
-        ],
-        "I": [
-          { "item": "office", "chance": 30, "repeat": [ 2, 4 ] },
-          { "item": "magic_shop_potions", "chance": 20, "repeat": [ 1, 2 ] },
-          { "item": "magic_shop_wands", "chance": 15 },
-          { "item": "enchanted_small_items", "chance": 20 }
-        ],
-        "R": { "item": "trash", "chance": 25, "repeat": [ 1, 2 ] },
-        "W": { "item": "stash_wood", "chance": 25, "repeat": [ 1, 2 ] },
-        "t": { "item": "livingroom", "chance": 25, "repeat": [ 1, 2 ] },
-        "a": [
-          { "item": "jackets", "chance": 80, "repeat": [ 1, 2 ] },
-          { "item": "bags", "chance": 60, "repeat": [ 1, 2 ] },
-          { "item": "magic_shop_clothes", "chance": 40, "repeat": [ 1, 2 ] },
-          { "item": "enchanted_worn_items", "chance": 20, "repeat": [ 1, 2 ] }
-        ]
       }
     }
   },
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": "lake_retreat_boathouse",
+    "om_terrain": "boann_sidhe_island",
     "object": {
-      "fill_ter": "t_grass",
+      "fill_ter": "t_open_air",
       "rows": [
-        "~~~~~~~--||||||||||...9.",
-        "~~~~~~--dddddd|b  |.9...",
-        "~~~~~~~~~~~~~d|b r|...9.",
-        "~~~~~~~~~~~~~d   w|9....",
-        "~~~~~~~~~~~~~d   w|...9.",
-        "~~~~~~~~~~~~~d|b  0.....",
-        "~-dddddddddddd|b r|...9.",
-        "--.......|||||||+||.9...",
-        "--.............///......",
-        "..........9....///...9..",
-        ".....U.......9.//.9.....",
-        "...M.U........//....9...",
-        ".....U..9....//...9..9..",
-        "............//.9........",
-        "...........//......9...9",
-        "..9........////.........",
-        "...........//////...9...",
-        "................//.....9",
-        "......9.......9..//.....",
-        "..................////..",
-        "...............9..9//.9.",
-        "...9........9......////.",
-        "..........9.......9.9.//",
-        "//............9.......//"
-      ],
-      "place_vehicles": [
-        { "vehicle": "kayak_racing", "x": 11, "y": 2, "rotation": 180, "chance": 40, "status": 0 },
-        { "vehicle": "canoe", "x": 2, "y": 5, "rotation": 180, "chance": 100, "status": 0 }
-      ],
-      "place_loot": [ { "item": "rope_30", "x": 12, "y": 6, "chance": 100 }, { "item": "stepladder", "x": 17, "y": 1, "chance": 100 } ],
-      "terrain": {
-        " ": "t_floor",
-        "b": "t_floor",
-        "r": "t_floor",
-        "w": "t_floor",
-        "*": "t_wall_log_half",
-        "d": "t_dock",
-        "/": "t_dirt",
-        "M": "t_dirt",
-        "U": "t_dirt",
-        "~": "t_water_dp",
-        "-": "t_water_sh",
-        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub", "t_fern" ],
-        "|": "t_wall_log",
-        "0": "t_window_domestic",
-        "+": "t_door_c",
-        "9": [
-          "t_tree_blackjack",
-          [ "t_tree_walnut", 5 ],
-          [ "t_tree_chestnut", 5 ],
-          "t_tree_beech",
-          "t_tree_hazelnut",
-          "t_tree_cottonwood",
-          [ "t_tree", 5 ],
-          [ "t_tree_elm", 3 ],
-          "t_tree_dead",
-          "t_tree_apple",
-          "t_tree_pear",
-          "t_tree_cherry",
-          "t_tree_peach",
-          "t_tree_apricot",
-          "t_tree_plum",
-          "t_tree_mulberry",
-          "t_tree_elderberry",
-          [ "t_tree_pine", 5 ],
-          "t_tree_birch",
-          [ "t_tree_willow", 3 ],
-          "t_tree_maple",
-          "t_tree_hickory",
-          "t_tree_almond",
-          "t_tree_pecan"
-        ]
-      },
-      "furniture": { "r": "f_rack", "b": "f_bench", "U": "f_bench", "t": "f_table", "M": "f_firering", "w": "f_workbench" },
-      "items": {
-        "r": { "item": "fishing_items", "chance": 40, "repeat": [ 1, 2 ] },
-        "b": { "item": "fishing_items", "chance": 20, "repeat": [ 1, 2 ] },
-        "d": { "item": "fishing_items", "chance": 5, "repeat": [ 1, 2 ] },
-        "w": { "item": "home_hw", "chance": 30, "repeat": [ 1, 2 ] },
-        "M": { "item": "stash_wood", "chance": 100, "repeat": [ 6, 10 ] }
-      },
-      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 10, 22 ], "y": [ 15, 22 ], "density": 0.1 } ]
-    }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": "lake_retreat_boathouse_roof",
-    "object": {
-      "fill_ter": "t_tar_flat_roof",
-      "rows": [
-        "         ..........     ",
-        "         ..........     ",
-        "         ..........     ",
-        "         ..........     ",
-        "         ..........     ",
-        "         ..........     ",
-        "         ..........     ",
-        "         ..........     ",
         "                        ",
         "                        ",
         "                        ",
@@ -200,10 +79,18 @@
         "                        ",
         "                        ",
         "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
+        "          ....          ",
+        "         ......         ",
+        "        ........        ",
+        "       ..........       ",
+        "    ..............      ",
+        "    ..............      ",
+        "    ..............      ",
+        "      ............      ",
+        "       ..........       ",
+        "        ........        ",
+        "         ......         ",
+        "          ....          ",
         "                        ",
         "                        ",
         "                        ",
@@ -211,7 +98,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ],
-      "terrain": { ".": "t_tar_flat_roof" }
+      "terrain": { ".": "t_flat_roof" }
     }
   }
 ]
