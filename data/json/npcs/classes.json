@@ -259,6 +259,24 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_HUNTER",
+    "name": { "str": "Hunter" },
+    "job_description": "I'm tracking game.",
+    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "bonus_str": { "rng": [ -2, 0 ] },
+    "bonus_dex": { "rng": [ -3, -1 ] },
+    "bonus_per": { "rng": [ 2, 4 ] },
+    "shopkeeper_item_group": "NC_HUNTER_misc",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ 0, -4 ] } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "archery", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 2, 5 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_SCAVENGER_NOMOVE",
     "name": { "str": "Scavenger" },
     "common": false,
@@ -297,24 +315,6 @@
       { "skill": "pistol", "bonus": { "rng": [ 2, 5 ] } },
       { "skill": "rifle", "bonus": { "rng": [ 0, 3 ] } },
       { "skill": "archery", "bonus": { "rng": [ 0, 3 ] } }
-    ]
-  },
-  {
-    "type": "npc_class",
-    "id": "NC_HUNTER",
-    "name": { "str": "Hunter" },
-    "job_description": "I'm tracking game.",
-    "traits": [ { "group": "BG_survival_story_RURAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
-    "bonus_str": { "rng": [ -2, 0 ] },
-    "bonus_dex": { "rng": [ -3, -1 ] },
-    "bonus_per": { "rng": [ 2, 4 ] },
-    "shopkeeper_item_group": "NC_HUNTER_misc",
-    "skills": [
-      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ 0, -4 ] } ] } },
-      { "skill": "gun", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "rifle", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "archery", "bonus": { "rng": [ 2, 4 ] } },
-      { "skill": "speech", "bonus": { "rng": [ 2, 5 ] } }
     ]
   },
   {
