@@ -465,6 +465,12 @@ item Character::item_worn_with_flag( const flag_id &f ) const
     return worn.item_worn_with_flag( f );
 }
 
+item *Character::item_worn_with_id( const itype_id &i )
+{
+    return worn.item_worn_with_id( i );
+}
+
+
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     return worn.wearing_something_on( bp );
