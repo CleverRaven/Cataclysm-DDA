@@ -1969,7 +1969,7 @@
     "count": 100
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "liquid_soap",
     "name": { "str_sp": "liquid soap" },
     "category": "chems",
@@ -1985,8 +1985,8 @@
     "volume": "250 ml",
     "phase": "liquid",
     "flags": [ "DETERGENT" ],
-    "stackable": true,
-    "count": 5
+    "comestible_type": "INVALID",
+    "charges": 5
   },
   {
     "id": "pine_resin",
