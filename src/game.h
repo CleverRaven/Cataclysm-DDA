@@ -11,6 +11,7 @@
 #include <memory>
 #include <queue>
 #include <new>
+#include <optional>
 #include <set>
 #include <unordered_set>
 #include <utility>
@@ -28,7 +29,6 @@
 #include "item_location.h"
 #include "memory_fast.h"
 #include "monster.h"
-#include "optional.h"
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
@@ -41,10 +41,11 @@ class creature_tracker;
 class JsonValue;
 class item;
 class location;
+class eoc_events;
 class spell_events;
 class viewer;
 
-static constexpr int DEFAULT_TILESET_ZOOM = 16;
+constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 // The reference to the one and only game instance.
 class game;
@@ -116,8 +117,8 @@ enum peek_act : int {
 };
 
 struct look_around_result {
-    cata::optional<tripoint> position;
-    cata::optional<peek_act> peek_action;
+    std::optional<tripoint> position;
+    std::optional<peek_act> peek_action;
 };
 struct look_around_params {
     const bool show_window;
@@ -265,7 +266,7 @@ class game
          * @param next If true, bases it on the vehicle the vehicle will turn to next turn,
          * instead of the one it is currently facing.
          */
-        cata::optional<tripoint> get_veh_dir_indicator_location( bool next ) const;
+        std::optional<tripoint> get_veh_dir_indicator_location( bool next ) const;
         void draw_veh_dir_indicator( bool next );
 
         /**
@@ -278,8 +279,12 @@ class game
         /** Returns the other end of the stairs (if any). May query, affect u etc.
         * @param pos Disable queries and msgs if not the same position as player.
         */
-        cata::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
+        std::optional<tripoint> find_or_make_stairs( map &mp, int z_after, bool &rope_ladder,
                 bool peeking, const tripoint &pos );
+        /*
+        * Prompt player on direction they want to climb up or down.
+        */
+        std::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts, bool up = true );
         /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc.
          *  Returns true if the z-level changed.
          */
@@ -353,10 +358,17 @@ class game
         bool spawn_hallucination( const tripoint &p );
         /** Spawns a hallucination at a determined position of a given monster. */
         bool spawn_hallucination( const tripoint &p, const mtype_id &mt,
-                                  cata::optional<time_duration> lifespan );
-        /** Finds somewhere to spawn a monster. */
+                                  std::optional<time_duration> lifespan );
+        /** Spawns a npc at a determined position. */
+        bool spawn_npc( const tripoint &p, const string_id<npc_template> &npc_class, std::string &unique_id,
+                        std::vector<trait_id> &traits, std::optional<time_duration> lifespan );
+        /** Finds somewhere to spawn a monster or npc. */
         bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                      int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed = false );
+                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+                                      bool open_air_allowed = false );
+        bool find_nearby_spawn_point( const tripoint &target, int min_radius,
+                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+                                      bool open_air_allowed = false );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
 
@@ -521,6 +533,8 @@ class game
         void reload_npcs();
         void remove_npc( character_id const &id );
         const kill_tracker &get_kill_tracker() const;
+        stats_tracker &stats();
+        achievements_tracker &achievements();
         /** Add follower id to set of followers. */
         void add_npc_follower( const character_id &id );
         /** Remove follower id from follower set. */
@@ -577,7 +591,7 @@ class game
 
         void peek();
         void peek( const tripoint &p );
-        cata::optional<tripoint> look_debug();
+        std::optional<tripoint> look_debug();
 
         bool check_zone( const zone_type_id &type, const tripoint &where ) const;
         /** Checks whether or not there is a zone of particular type nearby */
@@ -585,8 +599,18 @@ class game
         bool is_zones_manager_open() const;
         void zones_manager();
 
+        /// @brief attempt to find a safe route (avoids tiles dangerous to '@ref who').
+        /// @param who character to use for evaluating danger tiles and pathfinding start position
+        /// @param target pathfinding destination tile
+        /// @param threshold distance in tiles from target that is considered "arrived" at destination
+        /// @param report when pathfinding fails triggers this function with a translated error string as parameter
+        /// @return safe route if one was found, or std::nullopt
+        std::optional<std::vector<tripoint_bub_ms>> safe_route_to( Character &who,
+                const tripoint_bub_ms &target, int threshold,
+                const std::function<void( const std::string &msg )> &report ) const;
+
         // Look at nearby terrain ';', or select zone points
-        cata::optional<tripoint> look_around();
+        std::optional<tripoint> look_around();
         /**
         * @brief
         *
@@ -861,8 +885,10 @@ class game
         void reload_wielded( bool prompt = false );
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
-        point place_player( const tripoint &dest );
+        point place_player( const tripoint &dest, bool quick = false );
         void place_player_overmap( const tripoint_abs_omt &om_dest, bool move_player = true );
+        void perhaps_add_random_npc( bool ignore_spawn_timers_and_rates );
+        static void display_om_pathfinding_progress( size_t open_set, size_t known_size );
 
         unsigned int get_seed() const;
 
@@ -893,6 +919,8 @@ class game
                                    int &line );
         void print_trap_info( const tripoint &lp, const catacurses::window &w_look, int column,
                               int &line );
+        void print_part_con_info( const tripoint &lp, const catacurses::window &w_look, int column,
+                                  int &line );
         void print_creature_info( const Creature *creature, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
         void print_vehicle_info( const vehicle *veh, int veh_part, const catacurses::window &w_look,
@@ -921,14 +949,11 @@ class game
          * point to a different monster after calling this (or to no monster at all).
          */
         void despawn_monster( monster &critter );
-
     private:
-        void perhaps_add_random_npc();
-
         // Routine loop functions, approximately in order of execution
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool do_regular_action( action_id &act, avatar &player_character,
-                                const cata::optional<tripoint> &mouse_target );
+                                const std::optional<tripoint> &mouse_target );
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint_bub_ms &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint_bub_ms &mouse_target );
@@ -936,6 +961,7 @@ class game
         void item_action_menu( item_location loc = item_location() ); // Displays item action menu
 
         bool is_game_over();     // Returns true if the player quit or died
+        void bury_screen() const;// Bury a dead character (record their last words)
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
         void draw_minimap();     // Draw the 5x5 minimap
     public:
@@ -970,7 +996,7 @@ class game
 
         /* Debug functions */
         // currently displayed overlay (none is displayed if empty)
-        cata::optional<action_id> displaying_overlays; // NOLINT(cata-serialize)
+        std::optional<action_id> displaying_overlays; // NOLINT(cata-serialize)
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_vehicle_ai(); // Displays vehicle autopilot AI overlay
@@ -983,12 +1009,12 @@ class game
         class debug_hour_timer
         {
             public:
-                using IRLTimeMs = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+                using IRLTimeMs = std::chrono::time_point<std::chrono::steady_clock, std::chrono::milliseconds>;
                 void toggle();
                 void print_time();
             private:
                 bool enabled = false;
-                cata::optional<IRLTimeMs> start_time = cata::nullopt;
+                std::optional<IRLTimeMs> start_time = std::nullopt;
         } debug_hour_timer; // NOLINT(cata-serialize)
 
         /**
@@ -1015,6 +1041,8 @@ class game
         pimpl<kill_tracker> kill_tracker_ptr;
         pimpl<memorial_logger> memorial_logger_ptr; // NOLINT(cata-serialize)
         pimpl<spell_events> spell_events_ptr; // NOLINT(cata-serialize)
+        pimpl<eoc_events> eoc_events_ptr; // NOLINT(cata-serialize)
+
 
         map &m;
         avatar &u;
@@ -1023,9 +1051,7 @@ class game
         const scenario *scen = nullptr; // NOLINT(cata-serialize)
 
         event_bus &events();
-        stats_tracker &stats();
         timed_event_manager &timed_events; // NOLINT(cata-serialize)
-        achievements_tracker &achievements();
         memorial_logger &memorial();
 
         global_variables global_variables_instance;
@@ -1099,7 +1125,10 @@ class game
         weather_manager weather; // NOLINT(cata-serialize)
 
     public:
-        int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
+        // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
+        // Please note that this does not count ignored monsters, so this value might
+        // be 0 even if the player currently sees some monsters.
+        int mostseen = 0;
     private:
         shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)
 
@@ -1184,6 +1213,11 @@ class game
         @return whether player has slipped down
         */
         bool slip_down( bool check_for_traps = false );
+
+        /**
+        * Climb down from a ledge using grappling hooks or spider webs if appropriate.
+        */
+        void climb_down( const tripoint &examp );
 };
 
 // Returns temperature modifier from direct heat radiation of nearby sources

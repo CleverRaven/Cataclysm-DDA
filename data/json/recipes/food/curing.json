@@ -12,6 +12,10 @@
     "batch_time_factors": [ 83, 2 ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_food_prep" }, { "proficiency": "prof_preservation" }, { "proficiency": "prof_food_curing" } ],
-    "components": [ [ [ "salt", 2 ], [ "soysauce", 4 ], [ "seasoning_salt", 2 ] ], [ [ "eggs_roe", 2, "LIST" ] ], [ [ "water", 4 ] ] ]
+    "components": [
+      [ [ "salt", 2 ], [ "soysauce", 4 ], [ "seasoning_salt", 2 ] ],
+      [ [ "eggs_roe", 2, "LIST" ] ],
+      [ [ "water", 4 ], [ "water_clean", 4 ] ]
+    ]
   }
 ]

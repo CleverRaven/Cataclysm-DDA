@@ -1,0 +1,7 @@
+[
+  {
+    "type": "enchantment",
+    "id": "MAGNETISM_MAGE",
+    "values": [ { "value": "ARMOR_BULLET", "add": -50 }, { "value": "SIGHT_RANGE_ELECTRIC", "add": 1000 } ]
+  }
+]

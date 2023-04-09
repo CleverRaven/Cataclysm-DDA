@@ -1,0 +1,24 @@
+name: Check pull request head branch name
+
+on:
+  pull_request_target:
+    types:
+      - opened
+
+jobs:
+  check_branch_name:
+    runs-on: ubuntu-latest
+    if: github.head_ref == 'master' && github.repository == 'CleverRaven/Cataclysm-DDA'
+    steps:
+      - name: Post warning
+        uses: actions/github-script@v6.3.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: "You are creating a pull request with the master branch as the head branch. This is likely a mistake unless you really know what you are doing. You may read https://docs.github.com/en/get-started/quickstart/contributing-to-projects#creating-a-branch-to-work-on for a typical workflow of contributing to a project on GitHub."
+            });
+

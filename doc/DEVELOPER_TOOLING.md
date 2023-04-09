@@ -29,7 +29,7 @@ If you have only `astyle` then use:
 astyle --options=.astylerc --recursive src/*.cpp,*.h tests/*.cpp,*.h
 ```
 
-On Windows, there is an [AStyle extension for Visual Studio](https://github.com/lukamicoder/astyle-extension).
+On Windows, there is an [AStyle extension for Visual Studio 2019](https://github.com/lukamicoder/astyle-extension) with an unmerged update for [Visual Studio 2022](https://github.com/lukamicoder/astyle-extension/pull/21).
 
 #### Instruction:
 
@@ -37,7 +37,7 @@ On Windows, there is an [AStyle extension for Visual Studio](https://github.com/
 
 2. Go to `Tools` - `Options` - `AStyle Formatter` - `General`.
 
-3. Import `https://github.com/CleverRaven/Cataclysm-DDA/blob/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
+3. Import `https://raw.githubusercontent.com/CleverRaven/Cataclysm-DDA/master/msvc-full-features/AStyleExtension-Cataclysm-DDA.cfg` on `Export/Import` tab using `Import` button:
 
 ![image](https://user-images.githubusercontent.com/16213433/54817923-1d85c200-4ca9-11e9-95ac-e1f84394429b.png)
 
@@ -52,12 +52,6 @@ On Windows, there is an [AStyle extension for Visual Studio](https://github.com/
 *Note:* You can also configure keybindings for aforementioned commands in `Tools` - `Options` - `Environment` - `Keybindings` menu:
 
 ![image](https://user-images.githubusercontent.com/16213433/54818153-aac91680-4ca9-11e9-80e6-51e243b2b33b.png)
-
-#### Code::Blocks
-
-If you are using Code::Blocks the IDE includes an astyle plugin and a command to format the selected text in the context sensitive menu. This has a tendency to underperform when used on only a section of code so best practice is to select all your source code first. In `Settings` - `Editor` - `Keyboard shortcuts` - `Plugins` you can set up a convenient keybinding to run astyle, such as `ctrl`+`alt`+`a` to mesh with `ctrl`+`a` (select all).
-
-The CataclysmWin.cbp will not configure the astyle formatter for you. `Settings` - `Editor` - `Source formatter` holds the settings for astyle and you can find the the relevant commands by opening `.astylerc` in a text editor. One caveat is that in the first tab 1TBS is easily overlooked as the font disguises the number `1`, looking instead like `ITBS`.
 
 ## JSON style
 

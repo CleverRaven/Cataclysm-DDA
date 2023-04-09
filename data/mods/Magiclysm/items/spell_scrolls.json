@@ -32,6 +32,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_sound_bomb",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Sound Bomb", "str_pl": "Scrolls of Sound Bomb" },
+    "description": "Behind the cool name hides a common joke spell to spook your friends and restrain dogs.  It can be useful in some special cases.",
+    "use_action": { "type": "learn_spell", "spells": [ "sound_bomb" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_invisibility",
     "//": "Technomancer spell",
     "name": { "str": "Scroll of Invisibility", "str_pl": "Scrolls of Invisibility" },
@@ -46,6 +55,15 @@
     "name": { "str": "Scroll of Obfuscated Body", "str_pl": "Scrolls of Obfuscated Body" },
     "description": "A magical aura distorts light around your body, making it easier to dodge enemy attacks.",
     "use_action": { "type": "learn_spell", "spells": [ "obfuscated_body" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_thought_shield",
+    "//": "Classless spell",
+    "name": { "str": "Scroll of Thought Shield", "str_pl": "Scrolls of Thought Shield" },
+    "description": "Harried by evil spirits or creatures from beyond?  This spell will keep your mind safe!",
+    "use_action": { "type": "learn_spell", "spells": [ "thought_shield" ] }
   },
   {
     "type": "BOOK",
@@ -95,20 +113,11 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_summon_zombie",
+    "id": "spell_scroll_summon_undead",
     "//": "Animist spell",
-    "name": { "str": "Scroll of Summon Zombie", "str_pl": "Scrolls of Summon Zombie" },
+    "name": { "str": "Scroll of Summon Undead", "str_pl": "Scrolls of Summon Undead" },
     "description": "An ethereal-looking zombie rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_zombie" ] }
-  },
-  {
-    "type": "BOOK",
-    "copy-from": "spell_scroll",
-    "id": "spell_scroll_summon_skeleton",
-    "//": "Animist spell",
-    "name": { "str": "Scroll of Summon Skeleton", "str_pl": "Scrolls of Summon Skeleton" },
-    "description": "A ghostly skeleton rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_skeleton" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "summon_undead" ] }
   },
   {
     "type": "BOOK",
@@ -122,6 +131,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_devour",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Devour", "str_pl": "Scrolls of Devour" },
+    "description": "Kill a summoned creature, consuming its life energy to regain some health.",
+    "use_action": { "type": "learn_spell", "spells": [ "devour" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_floating_disk",
     "name": { "str": "Scroll of Summon Floating Disk", "str_pl": "Scrolls of Summon Floating Disk" },
     "description": "Summons a floating disk that is sworn to carry your burdens.",
@@ -130,11 +148,38 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_summon_decayed_pouncer",
+    "id": "spell_scroll_summon_undead_swarm",
     "//": "Animist spell",
-    "name": { "str": "Scroll of Summon Decayed Pouncer", "str_pl": "Scrolls of Summon Decayed Pouncer" },
-    "description": "A decrepit looking large cat rises from the depths of the earth to fight for you.  You may be able to summon more with a higher level in this spell.",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_decayed_pouncer" ] }
+    "name": { "str": "Scroll of Summon Undead Swarm", "str_pl": "Scrolls of Summon Undead Swarm" },
+    "description": "A few decrepit looking animals rises from the depths of the earth to fight for you.  You may be able to summon better with a higher level in this spell.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_undead_swarm" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_convert",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Convert", "str_pl": "Scrolls of Convert" },
+    "description": "Kill an ally creature, converting its life energy into compact rune, that you can use afterwards.",
+    "use_action": { "type": "learn_spell", "spells": [ "convert" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_dominate",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Domination", "str_pl": "Scrolls of Domination" },
+    "description": "Force the undead creature you pick to obey your command, making it an ally for a short time.",
+    "use_action": { "type": "learn_spell", "spells": [ "dominate" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_life_detonation",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Life Detonation", "str_pl": "Scrolls of Life Detonation" },
+    "description": "Explode a living energy inside your undead, to release a tremendous force around.",
+    "use_action": { "type": "learn_spell", "spells": [ "life_detonation" ] }
   },
   {
     "type": "BOOK",
@@ -331,8 +376,17 @@
     "id": "spell_scroll_druid_healing_herb",
     "//": "Druid spell",
     "name": { "str": "Scroll of Floral Healing", "str_pl": "Scrolls of Floral Healing" },
-    "description": "Using a magic energy from herbs allow you to heal yourself.",
+    "description": "Using magic energy from herbs to allows you to heal yourself.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_healing_herb" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_druid_bandage",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Vegetative Poultice", "str_pl": "Scrolls of Vegetative Poultice" },
+    "description": "Turn a bunch of leaves and bark into an effective bandage.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_bandage_heal" ] }
   },
   {
     "type": "BOOK",
@@ -396,6 +450,123 @@
     "name": { "str": "Scroll of Rockbolt", "str_pl": "Scrolls of Rockbolt" },
     "description": "Fires a conjured stone projectile at high velocity.",
     "use_action": { "type": "learn_spell", "spells": [ "eshaper_rockbolt" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_clairvoyance",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Clairvoyance", "str_pl": "Scrolls of Clairvoyance" },
+    "description": "You close your eyes and the earth surrenders its secrets to you.",
+    "use_action": { "type": "learn_spell", "spells": [ "clairvoyance" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_stoneskin",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Stoneskin", "str_pl": "Scrolls of Stoneskin" },
+    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_stoneskin" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_pillar",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Pillar of Stone", "str_pl": "Scrolls of Pillar of Stone" },
+    "description": "Drawing upon the surrounding earth, you form a pillar of solid rock.  Experience will make the task easier, and less disruptive to the surrounding area.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_pillar" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_pertifying_touch",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Petrifying Touch", "str_pl": "Scrolls of Petrifying Touch" },
+    "description": "Your hands tries to transform the body of your enemy into a pure stone.  The effect is temporary, but it can deal significant damage.",
+    "use_action": { "type": "learn_spell", "spells": [ "pertifying_touch" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_reactive_armor",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Reactive Armour", "str_pl": "Scrolls of Reactive Armour" },
+    "description": "Explode your stone skin, to deal massive damage to all enemies around.",
+    "use_action": { "type": "learn_spell", "spells": [ "reactive_armor" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_eshaper_impalement",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Impalement", "str_pl": "Scrolls of Impalement" },
+    "description": "Summon a stone spikes underground, that penetrate your enemies, and nail them for a while.",
+    "use_action": { "type": "learn_spell", "spells": [ "eshaper_impalement" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_eshaper_spawn_tools",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Utility Molding", "str_pl": "Scrolls of Utility Molding" },
+    "description": "Shape the basic working tools, using your own magic abilities and earth nearby.  Activate to change the shape of a tool.",
+    "use_action": { "type": "learn_spell", "spells": [ "eshaper_spawn_tools" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_eshaper_melee_damage",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Weighting", "str_pl": "Scrolls of Weighting" },
+    "description": "Fill yourself with the power of Earth, and make each your attacks as devastating as an earthquake.",
+    "use_action": { "type": "learn_spell", "spells": [ "eshaper_melee_damage" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_eshaper_crystal_wrap",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Crystal Wrapping", "str_pl": "Scrolls of Crystal Wrapping" },
+    "description": "You cover your body with a layer of razor sharp crystals.  Monster that attack you will take some damage in return, and gives you some additional cut damage in melee.",
+    "use_action": { "type": "learn_spell", "spells": [ "eshaper_crystal_wrap" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_shape_of_dust",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Shape of Dust", "str_pl": "Scrolls of Shape of Dust" },
+    "description": "Hide yourself between the sand gust.  It's harder to hit you, and monster's can't spot you.",
+    "use_action": { "type": "learn_spell", "spells": [ "shape_of_dust" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_eshaper_golem",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Earthshaper's Golem", "str_pl": "Scrolls of Earthshaper's Golem" },
+    "description": "Shape a strong golem out of the stone.  It may help for a lot, but you have not enough energy to support it forever.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_eshaper_golem" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_boulder",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Summon Boulder", "str_pl": "Scrolls of Summon Boulder" },
+    "description": "Pull the smooth rock underground, using your forces of earth shaping.  You can use it as a table, or as a primitive anvil.",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_boulder" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_earthshaper_reveal_world_map",
+    "//": "Earthshaper spell",
+    "name": { "str": "Scroll of Reading the Earthbones", "str_pl": "Scrolls of Reading the Earthbone" },
+    "description": "Use magic to reveal nearby terrain .",
+    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_reveal_world_map" ] }
   },
   {
     "type": "BOOK",
@@ -670,6 +841,105 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_storm_shipwrecker",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Shipwrecker", "str_pl": "Scrolls of Shipwrecker" },
+    "description": "The spell moves out of your mouth, creating a giant shockwave, and shuttering everything in its path.",
+    "use_action": { "type": "learn_spell", "spells": [ "storm_shipwrecker" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_explosive_decompression",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Explosive Decompression", "str_pl": "Scrolls of Explosive Decompression" },
+    "description": "Create a high pressure zone originating from the selected point.  Shortly after, the massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone effected.",
+    "use_action": { "type": "learn_spell", "spells": [ "explosive_decompression" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_vacuum_decompression",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Vacuum Decompression", "str_pl": "Scrolls of Vacuum Decompression" },
+    "description": "Create a high pressure zone originating from the selected point.  Shortly after, the massive pressure wave will crush everything inside, inflicting barotrarumatic injuries on everyone effected.  It will also try to pull unprepared creatures inside the zone before attack.",
+    "use_action": { "type": "learn_spell", "spells": [ "vacuum_decompression" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_air_bubble",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Air Bubble", "str_pl": "Scrolls of Air Bubble" },
+    "description": "Cover your head with an air bubble, allowing you to breathe underwater or prevent breathing of toxic gases.",
+    "use_action": { "type": "learn_spell", "spells": [ "air_bubble" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_storm_superconductor",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Superconductor", "str_pl": "Scrolls of Superconductor" },
+    "description": "Create a devastating electric charge on a small distance, roasting everything to their death.",
+    "use_action": { "type": "learn_spell", "spells": [ "storm_superconductor" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_shocking_dash",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Shocking Dash", "str_pl": "Scrolls of Shocking Dash" },
+    "description": "Fill your legs with energy, and dash into picked place.",
+    "use_action": { "type": "learn_spell", "spells": [ "shocking_dash" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_toxtricity",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Toxtricity", "str_pl": "Scrolls of Toxtricity" },
+    "description": "Inject an electric energy into the creatures, which makes them weak, and deal huge damage over time.",
+    "use_action": { "type": "learn_spell", "spells": [ "toxtricity" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_electric_eye",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Electric Eye", "str_pl": "Scrolls of Electric Eye" },
+    "description": "Enhance your sight with your powers.  It allows you to see creatures of the same energy around you, and block or dodge an additional attack your enhanced perception speed could anticipate.",
+    "use_action": { "type": "learn_spell", "spells": [ "electric_eye" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_electric_waves",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Electric Waves", "str_pl": "Scrolls of Electric Waves" },
+    "description": "Your hands start to emit a huge amount of energy, that you release with each attack.",
+    "use_action": { "type": "learn_spell", "spells": [ "electric_waves" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_electric_arts",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Electric Arts", "str_pl": "Scrolls of Electric Arts" },
+    "description": "Insulate the skin against electrical damage.  Particularly useful for the apprentice Stormshaper, whose magical control is weak and whose efforts could easily end in self-electrocution.",
+    "use_action": { "type": "learn_spell", "spells": [ "electric_arts" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_teravolt",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Teravolt", "str_pl": "Scrolls of Teravolt" },
+    "description": "Summon a Teravolt, a small, semi-intelligent spirit, that homes onto hostile creatures and explodes into a huge spark cloud.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_teravolt" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_windrun",
     "//": "Stormshaper spell",
     "name": { "str": "Scroll of Windrunning", "str_pl": "Scrolls of Windrunning" },
@@ -684,6 +954,15 @@
     "name": { "str": "Scroll of Call Stormhammer", "str_pl": "Scrolls of Call Stormhammer" },
     "description": "Creates a crackling magical warhammer full of lightning to smite your foes with, and of course, smash things to bits!",
     "use_action": { "type": "learn_spell", "spells": [ "storm_hammer" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_stormfist",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Stormfist", "str_pl": "Scrolls of Stormfist" },
+    "description": "Encases your arm and hand in a sheath of crackling magical lightning, you can punch and defend yourself with it in melee combat.",
+    "use_action": { "type": "learn_spell", "spells": [ "stormfist" ] }
   },
   {
     "type": "BOOK",
@@ -832,15 +1111,6 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_clairvoyance",
-    "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Clairvoyance", "str_pl": "Scrolls of Clairvoyance" },
-    "description": "You close your eyes and the earth surrenders its secrets to you.",
-    "use_action": { "type": "learn_spell", "spells": [ "clairvoyance" ] }
-  },
-  {
-    "type": "BOOK",
-    "copy-from": "spell_scroll",
     "id": "spell_scroll_bleed",
     "//": "Animist spell",
     "name": { "str": "Scroll of Bleed", "str_pl": "Scrolls of Bleed" },
@@ -893,26 +1163,8 @@
     "id": "spell_scroll_druidic_healing",
     "//": "Druid spell",
     "name": { "str": "Scroll of Sacrificial Healing", "str_pl": "Scrolls of Sacrificial Healing" },
-    "description": "Channels some of the user's own life force into healing energy, for the sake of ones allies.",
+    "description": "Channels some of the user's own life force into healing energy, for the sake of one's allies.",
     "use_action": { "type": "learn_spell", "spells": [ "druidic_healing" ] }
-  },
-  {
-    "type": "BOOK",
-    "copy-from": "spell_scroll",
-    "id": "spell_scroll_earthshaper_stoneskin",
-    "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Stoneskin", "str_pl": "Scrolls of Stoneskin" },
-    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.",
-    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_stoneskin" ] }
-  },
-  {
-    "type": "BOOK",
-    "copy-from": "spell_scroll",
-    "id": "spell_scroll_earthshaper_pillar",
-    "//": "Earthshaper spell",
-    "name": { "str": "Scroll of Pillar of Stone", "str_pl": "Scrolls of Pillar of Stone" },
-    "description": "Drawing upon the surrounding earth, you form a pillar of solid rock.  Experience will make the task easier, and less disruptive to the surrounding area.",
-    "use_action": { "type": "learn_spell", "spells": [ "earthshaper_pillar" ] }
   },
   {
     "type": "BOOK",
@@ -937,7 +1189,7 @@
     "id": "spell_scroll_biomancer_visceral_projection",
     "//": "Biomancer spell",
     "name": { "str": "Scroll of Visceral Projection", "str_pl": "Scrolls of Visceral Projection" },
-    "description": "Projects a spray of acrid blood and gore all around you, growing to ensnare your prey in in a field of twitching poisonous tendrils.",
+    "description": "Projects a spray of acrid blood and gore all around you, growing to ensnare your prey in a field of twitching poisonous tendrils.",
     "use_action": { "type": "learn_spell", "spells": [ "biomancer_visceral_projection" ] }
   },
   {
@@ -991,6 +1243,14 @@
     "name": { "str": "Scroll of Improved Knock", "str_pl": "Scrolls of Improved Knock" },
     "description": "You can channel magical energy to open any locked door from a short range away.",
     "use_action": { "type": "learn_spell", "spells": [ "improved_knock" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_create_electric_lighter",
+    "name": { "str": "Scroll of Fire Spark", "str_pl": "Scrolls of Fire Spark" },
+    "description": "Summons a small electric spark, that do not harm anything.  You can use it to ignite something flammable.",
+    "use_action": { "type": "learn_spell", "spells": [ "create_electric_lighter" ] }
   },
   {
     "type": "BOOK",

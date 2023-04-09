@@ -47,7 +47,7 @@ set(CataAnalyzerSrc
 if (CATA_CLANG_TIDY_EXECUTABLE)
     set(CataAnalyzerName CataAnalyzer)
     add_executable(${CataAnalyzerName} ${CataAnalyzerSrc})
-    target_link_libraries(${CataAnalyzerName} clangTidyMain)
+    target_link_libraries(${CataAnalyzerName} PRIVATE clangTidyMain)
     add_definitions(-DCATA_CLANG_TIDY_EXECUTABLE)
 else ()
     set(CataAnalyzerName CataAnalyzerPlugin)

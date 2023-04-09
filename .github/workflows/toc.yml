@@ -5,13 +5,16 @@ on:
     paths:
     - 'doc/JSON_INFO.md'
 name: TOC Generator
+permissions:
+  contents: read
+
 jobs:
   generateTOC:
     if: github.repository == 'CleverRaven/Cataclysm-DDA'
     name: Update the table of contents
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: npx doctoc doc/JSON_INFO.md --github
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3

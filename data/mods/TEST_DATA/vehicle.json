@@ -134,7 +134,11 @@
       { "x": 0, "y": -1, "parts": [ "frame", "board" ] },
       { "x": 1, "y": -1, "parts": [ "frame", "board" ] },
       { "x": -1, "y": 0, "parts": [ "frame", "board" ] },
-      { "x": 0, "y": 0, "parts": [ "frame", "seat", "roof", "cam_control", "controls", "dashboard", "battery_car" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "frame", "seat", "roof", "cam_control", "controls", "dashboard", "battery_car", "horn_car" ]
+      },
       { "x": 1, "y": 0, "parts": [ "frame", "board" ] },
       { "x": -1, "y": 1, "parts": [ "frame", "board" ] },
       { "x": 0, "y": 1, "parts": [ "frame", "board", "omnicam" ] },
@@ -328,7 +332,6 @@
     "broken_color": "red",
     "durability": 150,
     "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
-    "size": 60000,
     "categories": [ "movement" ],
     "damage_modifier": 80,
     "breaks_into": [
@@ -362,8 +365,8 @@
     "durability": 100,
     "description": "A fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
     "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
-    "epower": -30,
-    "size": 2000,
+    "epower": "-30 W",
+    "size": "500 L",
     "item": "fridge_test",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },

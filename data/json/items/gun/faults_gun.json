@@ -90,41 +90,5 @@
       }
     ],
     "flags": [ "SILENT" ]
-  },
-  {
-    "id": "fault_gun_damaged",
-    "type": "fault",
-    "name": { "str": "Damaged gun" },
-    "description": "This firearm is in need of repair.",
-    "mending_methods": [
-      {
-        "id": "mend_fault_gun_damaged",
-        "name": "Repair gun",
-        "success_msg": "You repair your %s!  ( %s-> %s)",
-        "time": "20 m",
-        "skills": [ { "id": "mechanics", "level": 2 } ],
-        "heal_stages": 1,
-        "requirements": [ [ "gun_repair", 1 ] ]
-      }
-    ],
-    "flags": [ "SILENT" ]
-  },
-  {
-    "id": "fault_gun_unaccurized",
-    "type": "fault",
-    "name": { "str": "Unaccurized gun" },
-    "description": "This firearm is not accurized.",
-    "mending_methods": [
-      {
-        "id": "mend_fault_gun_unaccurized",
-        "name": "Accurize gun",
-        "success_msg": "You accurize your %s!",
-        "time": "60 m",
-        "skills": [ { "id": "mechanics", "level": 8 } ],
-        "heal_stages": 2,
-        "requirements": [ [ "gun_repair", 1 ] ]
-      }
-    ],
-    "flags": [ "SILENT" ]
   }
 ]

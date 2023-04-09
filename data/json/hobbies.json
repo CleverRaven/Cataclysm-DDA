@@ -22,7 +22,7 @@
     "subtype": "hobby",
     "id": "crackhead",
     "name": "Crack Cocaine Dependence",
-    "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some rocks, and before you knew it you were turning tricks behind the local pharmacy just to score a little more.  Where are you going to get your next fix now?",
+    "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some rocks, and before you knew it you were turning tricks behind the local pharmacy just to score a little more.  Where are you going to get your fix now?",
     "points": -2,
     "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 20, "type": "crack" } ]
@@ -189,6 +189,17 @@
   {
     "type": "profession",
     "subtype": "hobby",
+    "id": "wrestling",
+    "name": "Wrestling",
+    "description": "While not the type of wrestler to use folding chairs as weapons, you have experience wrasslin' and tusslin' with others out on the mat.  There's no referees around to see, but hopefully your skills will help you avoid getting pinned by the undead.",
+    "points": 4,
+    "//": "If Grab Break ever becomes a proficiency instead of tied to martial arts, it should absolutely be added here and replace Fast Reflexes.",
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 3, "name": "dodge" } ],
+    "traits": [ "FAST_REFLEXES" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
     "id": "vid_games",
     "name": "Video Gaming",
     "description": "You loved immersing yourself in virtual worlds through video games.  Now you're faced with real survival horror, and no extra lives.",
@@ -313,7 +324,7 @@
     "subtype": "hobby",
     "id": "sewing",
     "name": "Sewing",
-    "description": "You used to sew torn clothes back together, and have even made your own clothes a few times.",
+    "description": "You are quite good at sewing torn clothes back together, and have even made your own clothes a few times.",
     "points": 3,
     "proficiencies": [ "prof_closures", "prof_elastics", "prof_knitting" ],
     "skills": [ { "level": 3, "name": "tailor" }, { "level": 1, "name": "fabrication" } ]
@@ -352,7 +363,7 @@
     "subtype": "hobby",
     "id": "self_defense",
     "name": "Self-Defense",
-    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "description": "You have taken some self-defense classes at a local gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "points": 4,
     "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
     "traits": [ "MARTIAL_ARTS2" ]
@@ -397,7 +408,7 @@
     "subtype": "hobby",
     "id": "gourmand_alt",
     "name": "Competitive Eating",
-    "description": "You were a professional eater before the Cataclysm and frequently participated in eating contests.  Thanks to your training you can eat huge amounts of food without getting sick, and while eating forty hot dogs in ten minutes might not be too useful in a world of zombies, your fortitude might help you survive off food other survivors would pass over.",
+    "description": "You were a professional eater before the Cataclysm and frequently participated in eating contests.  Thanks to your training, you can eat huge amounts of food without getting sick, and while eating forty hot dogs in ten minutes might not be too useful in the apocalypse, your fortitude might help you survive off food other survivors would pass over.",
     "points": 3,
     "traits": [ "GOURMAND", "STRONGSTOMACH" ]
   },
@@ -526,7 +537,7 @@
     "subtype": "hobby",
     "id": "ham_radio_operator",
     "name": "Ham Radio",
-    "description": "You whiled your nights away using, building and repairing old ham radios.  Now you have no one to talk to. But you won't give up hope, and maybe your electronics knowledge can help you somehow.",
+    "description": "You whiled your nights away using, building, and repairing old ham radios.  Now you have no one to talk to. But you won't give up hope, and maybe your electronics knowledge can help you somehow.",
     "points": 2,
     "skills": [ { "level": 3, "name": "electronics" } ],
     "proficiencies": [ "prof_elec_soldering", "prof_elec_circuits" ]
@@ -582,7 +593,7 @@
     "subtype": "hobby",
     "id": "trap_shooting",
     "name": "Trap Shooting",
-    "description": "Nothing like the smell of gunsmoke and blowing ceramic orange discs out of the sky.  Time to shoot at things a little fleshier than clay pigeons.",
+    "description": "You loved the smell of gunsmoke and blowing ceramic discs out of the sky.  Your future will likely involve shooting things a little fleshier than clay pigeons.",
     "points": 2,
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "shotgun" } ]
   },

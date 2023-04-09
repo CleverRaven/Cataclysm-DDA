@@ -78,7 +78,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "flags": [ "NEVER_JAMS" ],
+    "flags": [ "NEVER_JAMS", "MISSION_ITEM" ],
     "weapon_category": [ "AUTOMATIC_RIFLES" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ak74mag", "rpk74mag", "casket74mag" ] } ]
   }

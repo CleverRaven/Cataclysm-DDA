@@ -1,6 +1,7 @@
 #include <memory>
 
 #include "character_id.h"
+#include "character_martial_arts.h"
 #include "effect.h"
 #include "item.h"
 #include "magic.h"
@@ -192,6 +193,16 @@ bool talker_character_const::has_trait( const trait_id &trait_to_check ) const
     return me_chr_const->has_trait( trait_to_check );
 }
 
+bool talker_character_const::has_recipe( const recipe_id &recipe_to_check ) const
+{
+    return me_chr_const->knows_recipe( &*recipe_to_check );
+}
+
+void talker_character::learn_recipe( const recipe_id &recipe_to_learn )
+{
+    me_chr->learn_recipe( &*recipe_to_learn );
+}
+
 bool talker_character_const::is_deaf() const
 {
     return me_chr_const->is_deaf();
@@ -268,9 +279,63 @@ void talker_character::set_skill_level( const skill_id &skill, int value )
     me_chr->set_skill_level( skill, value );
 }
 
+int talker_character_const::get_spell_level( const trait_id &spell_school ) const
+{
+    int spell_level = -1;
+    for( const spell &sp : me_chr_const->spells_known_of_class( spell_school ) ) {
+        spell_level = std::max( sp.get_level(), spell_level );
+    }
+    return spell_level;
+}
+
+int talker_character_const::get_spell_level( const spell_id &spell_name ) const
+{
+    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+        return -1;
+    }
+    return me_chr_const->magic->get_spell( spell_name ).get_level();
+}
+
+int talker_character_const::get_highest_spell_level() const
+{
+    int spell_level = -1;
+    for( const spell *sp : me_chr_const->magic->get_spells() ) {
+        spell_level = std::max( sp->get_level(), spell_level );
+    }
+    return spell_level;
+}
+
+int talker_character_const::get_spell_exp( const spell_id &spell_name ) const
+{
+    if( !me_chr_const->magic->knows_spell( spell_name ) ) {
+        return -1;
+    }
+    return me_chr_const->magic->get_spell( spell_name ).xp();
+}
+
+void talker_character::set_spell_level( const spell_id &sp, int new_level )
+{
+    me_chr->magic->set_spell_level( sp, new_level, me_chr );
+}
+
+void talker_character::set_spell_exp( const spell_id &sp, int new_level )
+{
+    me_chr->magic->set_spell_exp( sp, new_level, me_chr );
+}
+
 bool talker_character_const::knows_proficiency( const proficiency_id &proficiency ) const
 {
     return me_chr_const->has_proficiency( proficiency );
+}
+
+time_duration talker_character_const::proficiency_practiced_time( const proficiency_id &prof ) const
+{
+    return me_chr_const->get_proficiency_practiced_time( prof );
+}
+
+void talker_character::set_proficiency_practiced_time( const proficiency_id &prof, int turns )
+{
+    me_chr->set_proficiency_practiced_time( prof, turns );
 }
 
 bool talker_character_const::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
@@ -395,6 +460,11 @@ void talker_character::i_add( const item &new_item )
     me_chr->i_add( new_item );
 }
 
+void talker_character::i_add_or_drop( item &new_item )
+{
+    me_chr->i_add_or_drop( new_item );
+}
+
 void talker_character::remove_items_with( const std::function<bool( const item & )> &filter )
 {
     me_chr->remove_items_with( filter );
@@ -407,8 +477,8 @@ bool talker_character_const::unarmed_attack() const
 
 bool talker_character_const::can_stash_weapon() const
 {
-    cata::optional<bionic *> bionic_weapon = me_chr_const->find_bionic_by_uid(
-                me_chr_const->get_weapon_bionic_uid() );
+    std::optional<bionic *> bionic_weapon = me_chr_const->find_bionic_by_uid(
+            me_chr_const->get_weapon_bionic_uid() );
     if( bionic_weapon && me_chr_const->can_deactivate_bionic( **bionic_weapon ).success() ) {
         return true;
     }
@@ -479,6 +549,11 @@ int talker_character_const::get_stored_kcal() const
     return me_chr_const->get_stored_kcal();
 }
 
+int talker_character_const::get_healthy_kcal() const
+{
+    return me_chr_const->get_healthy_kcal();
+}
+
 void talker_character::set_stored_kcal( int value )
 {
     me_chr->set_stored_kcal( value );
@@ -521,6 +596,17 @@ bool talker_character_const::wielded_with_flag( const flag_id &flag ) const
 bool talker_character_const::has_item_with_flag( const flag_id &flag ) const
 {
     return me_chr_const->has_item_with_flag( flag );
+}
+
+int talker_character_const::item_rads( const flag_id &flag, aggregate_type agg_func ) const
+{
+    std::vector<int> rad_vals;
+    for( const item *it : me_chr_const->all_items_with_flag( flag ) ) {
+        if( me_chr_const->is_worn( *it ) || me_chr_const->is_wielding( *it ) ) {
+            rad_vals.emplace_back( it->irradiation );
+        }
+    }
+    return aggregate( rad_vals, agg_func );
 }
 
 units::energy talker_character_const::power_cur() const
@@ -688,7 +774,7 @@ int talker_character_const::get_age() const
 
 int talker_character_const::get_bmi_permil() const
 {
-    return std::round( me_chr_const->get_bmi() * 1000.0f );
+    return std::round( me_chr_const->get_bmi_fat() * 1000.0f );
 }
 
 void talker_character::set_height( int amount )
@@ -744,6 +830,11 @@ int talker_character_const::get_body_temp_delta() const
            me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
 }
 
+bool talker_character_const::knows_martial_art( const matype_id &id ) const
+{
+    return me_chr_const->martial_arts_data->has_martialart( id );
+}
+
 void talker_character::add_bionic( const bionic_id &new_bionic )
 {
     me_chr->add_bionic( new_bionic );
@@ -751,7 +842,7 @@ void talker_character::add_bionic( const bionic_id &new_bionic )
 
 void talker_character::remove_bionic( const bionic_id &old_bionic )
 {
-    if( cata::optional<bionic *> bio = me_chr->find_bionic_by_type( old_bionic ) ) {
+    if( std::optional<bionic *> bio = me_chr->find_bionic_by_type( old_bionic ) ) {
         me_chr->remove_bionic( **bio );
     }
 }
@@ -774,9 +865,10 @@ std::string talker_character::skill_seminar_text( const skill_id &s ) const
     return string_format( "%s (%d)", s.obj().name(), lvl );
 }
 
-std::vector<bodypart_id> talker_character::get_all_body_parts() const
+std::vector<bodypart_id> talker_character::get_all_body_parts( bool all, bool main_only ) const
 {
-    return me_chr->get_all_body_parts( get_body_part_flags::none );
+    return me_chr->get_all_body_parts( all ? get_body_part_flags::none : ( main_only ?
+                                       get_body_part_flags::only_main : get_body_part_flags::only_minor ) );
 }
 
 int talker_character::get_part_hp_cur( const bodypart_id &id ) const
@@ -784,7 +876,22 @@ int talker_character::get_part_hp_cur( const bodypart_id &id ) const
     return me_chr->get_part_hp_cur( id );
 }
 
+int talker_character::get_part_hp_max( const bodypart_id &id ) const
+{
+    return me_chr->get_part_hp_max( id );
+}
+
 void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
 {
     me_chr->set_part_hp_cur( id, set );
+}
+
+void talker_character::learn_martial_art( const matype_id &id ) const
+{
+    me_chr->martial_arts_data->add_martialart( id );
+}
+
+void talker_character::forget_martial_art( const matype_id &id ) const
+{
+    me_chr->martial_arts_data->clear_style( id );
 }

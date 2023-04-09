@@ -313,7 +313,10 @@ void prof_window::run()
     }
 
     ctxt = input_context( "PROFICIENCY_WINDOW" );
-    ctxt.register_directions();
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "PREV_CATEGORY" );
     ctxt.register_action( "NEXT_CATEGORY" );
@@ -328,34 +331,14 @@ void prof_window::run()
         ui_manager::redraw();
         std::string action = ctxt.handle_input();
         std::vector<display_prof_deps *> &cur_set = get_current_set();
-        if( action == "UP" ) {
-            sel_prof--;
-            if( sel_prof < 0 ) {
-                sel_prof = std::max( static_cast<int>( cur_set.size() ) - 1, 0 );
-            }
-        } else if( action == "DOWN" ) {
-            sel_prof++;
-            if( sel_prof >= static_cast<int>( cur_set.size() ) ) {
-                sel_prof = 0;
-            }
-        } else if( action == "LEFT" || action == "PREV_CATEGORY" ) {
-            if( filter_str.empty() ) {
-                current_cat--;
-                if( current_cat < 0 ) {
-                    current_cat = std::max( static_cast<int>( cats.size() ) - 1, 0 );
-                }
-                sel_prof = 0;
-                top_prof = 0;
-            }
-        } else if( action == "RIGHT" || action == "NEXT_CATEGORY" ) {
-            if( filter_str.empty() ) {
-                current_cat++;
-                if( current_cat >= static_cast<int>( cats.size() ) ) {
-                    current_cat = 0;
-                }
-                sel_prof = 0;
-                top_prof = 0;
-            }
+        if( navigate_ui_list( action, sel_prof, 10, cur_set.size(), true ) ) {
+        } else if( filter_str.empty() && ( action == "LEFT" || action == "PREV_CATEGORY" ||
+                                           action == "PREV_TAB" ||
+                                           action == "RIGHT" || action == "NEXT_CATEGORY" || action == "NEXT_TAB" ) ) {
+            current_cat = increment_and_wrap( current_cat, action == "RIGHT" ||
+                                              action == "NEXT_CATEGORY" || action == "NEXT_TAB", cats.size() );
+            sel_prof = 0;
+            top_prof = 0;
         } else if( action == "FILTER" ) {
             //~ Refers to single-character search prefixes, like p: or s:
             std::string desc( _( "Available prefixes:" ) );

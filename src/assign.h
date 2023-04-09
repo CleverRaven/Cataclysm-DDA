@@ -29,7 +29,7 @@ class is_optional_helper : public std::false_type
 {
 };
 template<typename T>
-class is_optional_helper<cata::optional<T>> : public std::true_type
+class is_optional_helper<std::optional<T>> : public std::true_type
 {
 };
 } // namespace detail
@@ -229,6 +229,11 @@ bool assign( const JsonObject &jo, const std::string &name, units::energy &val,
              units::energy lo = units::energy_min,
              units::energy hi = units::energy_max );
 
+bool assign( const JsonObject &jo, const std::string &name, units::power &val,
+             bool strict = false,
+             units::power lo = units::power_min,
+             units::power hi = units::power_max );
+
 bool assign( const JsonObject &jo, const std::string &name, nc_color &val );
 
 class time_duration;
@@ -302,7 +307,7 @@ std::enable_if<std::is_same<typename std::decay<T>::type, time_duration>::value,
 }
 
 template<typename T>
-inline bool assign( const JsonObject &jo, const std::string &name, cata::optional<T> &val,
+inline bool assign( const JsonObject &jo, const std::string &name, std::optional<T> &val,
                     const bool strict = false )
 {
     if( !jo.has_member( name ) ) {

@@ -524,7 +524,7 @@
         ">": [ "t_stairs_down" ],
         "#": "t_adobe_brick_wall",
         "_": "t_thconc_floor",
-        "+": "t_door_metal_c",
+        "+": "t_door_metal_elocked",
         "D": "t_chaingate_l",
         "%": "t_chainfence"
       },

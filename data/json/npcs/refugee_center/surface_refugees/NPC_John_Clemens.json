@@ -17,7 +17,7 @@
     "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
-    "//": "John is a pseudonym.  This guy probably lived in a city before the Cataclysm, but now he either thinks or pretends to be a cowboy..",
+    "//": "John is a pseudonym.  This guy probably lived in a city before the Cataclysm, but now he either thinks he is or pretends to be a cowboy..",
     "bonus_str": { "rng": [ -1, 2 ] },
     "bonus_dex": { "rng": [ -3, 2 ] },
     "bonus_int": { "rng": [ -2, 1 ] },
@@ -25,7 +25,12 @@
     "worn_override": "REFUGEE_John_worn",
     "carry_override": "REFUGEE_John_carried",
     "weapon_override": "REFUGEE_John_wield",
-    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_Caucasian" } ],
+    "traits": [
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_Caucasian" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
       { "skill": "fabrication", "bonus": { "rng": [ 0, 1 ] } },

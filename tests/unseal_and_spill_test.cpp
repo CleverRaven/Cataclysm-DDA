@@ -1,6 +1,7 @@
 #include <iosfwd>
 #include <list>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <tuple>
@@ -21,7 +22,6 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -256,7 +256,7 @@ void match( Parent &&parent, Container &&contents,
                     match( content_loc, content_result );
                     item_location container = container_from_parent( parent );
                     if( container ) {
-                        item_pocket *pocket = container->contained_where( *content );
+                        item_pocket *pocket = content_loc.parent_pocket();
                         REQUIRE( pocket );
                         CHECK( content_result.parent_pocket_sealed == pocket->sealed() );
                     }
@@ -413,7 +413,7 @@ void test_scenario::run()
     INFO( container_loc_str );
     switch( cur_container_loc ) {
         case container_location::inventory: {
-            cata::optional<std::list<item>::iterator> worn = guy.wear_item( item(
+            std::optional<std::list<item>::iterator> worn = guy.wear_item( item(
                         itype_test_restricted_container_holder ), false );
             REQUIRE( worn.has_value() );
             ret_val<void> ret = ( **worn ).put_in( it, item_pocket::pocket_type::CONTAINER );
@@ -424,7 +424,7 @@ void test_scenario::run()
             break;
         }
         case container_location::worn: {
-            cata::optional<std::list<item>::iterator> worn = guy.wear_item( it, false );
+            std::optional<std::list<item>::iterator> worn = guy.wear_item( it, false );
             REQUIRE( worn.has_value() );
             it_loc = item_location( guy, & **worn );
             break;
@@ -439,10 +439,10 @@ void test_scenario::run()
                                              -90_degrees, 0, 0 );
             REQUIRE( veh );
             here.board_vehicle( guy.pos(), &guy );
-            cata::optional<vpart_reference> vp =
+            std::optional<vpart_reference> vp =
                 here.veh_at( guy.pos() ).part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
             REQUIRE( vp.has_value() );
-            cata::optional<vehicle_stack::iterator> added = veh->add_item( vp->part(), it );
+            std::optional<vehicle_stack::iterator> added = veh->add_item( vp->part(), it );
             REQUIRE( added.has_value() );
             it_loc = item_location( vehicle_cursor( vp->vehicle(), vp->part_index() ), & **added );
             break;
@@ -524,11 +524,11 @@ void test_scenario::run()
         }
     }
 
-    cata::optional<final_result> original_location;
+    std::optional<final_result> original_location;
     std::vector<final_result> ground;
     std::vector<final_result> vehicle_results;
     std::vector<final_result> worn_results;
-    cata::optional<final_result> wielded_results;
+    std::optional<final_result> wielded_results;
     switch( cur_scenario ) {
         case scenario::contained_liquid:
             if( !will_spill_outer ) {
@@ -561,7 +561,7 @@ void test_scenario::run()
                     }
                 };
             } else {
-                original_location = cata::nullopt;
+                original_location = std::nullopt;
                 ground = {
                     final_result {
                         itype_test_watertight_open_sealed_container_250ml,
@@ -859,8 +859,8 @@ void test_scenario::run()
     INFO( "checking ground items" );
     match( map_cursor( guy.pos() ), here.i_at( guy.pos() ), ground );
     INFO( "checking vehicle items" );
-    cata::optional<vpart_reference> vp = here.veh_at( guy.pos() )
-                                         .part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
+    std::optional<vpart_reference> vp = here.veh_at( guy.pos() )
+                                        .part_with_feature( vpart_bitflags::VPFLAG_CARGO, true );
     if( cur_container_loc == container_location::vehicle ) {
         REQUIRE( vp.has_value() );
         match( vehicle_cursor( vp->vehicle(), vp->part_index() ),

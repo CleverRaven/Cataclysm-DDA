@@ -29,7 +29,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "special_attacks": [ { "type": "bite", "attack_upper": false, "cooldown": 2 } ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
@@ -106,7 +106,7 @@
     "vision_night": 10,
     "harvest": "zombie",
     "special_attacks": [ [ "SHRIEK", 5 ] ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY" ],
@@ -143,7 +143,7 @@
     "vision_night": 5,
     "harvest": "zombie",
     "special_attacks": [ [ "SHRIEK", 5 ], { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ],
@@ -180,8 +180,8 @@
     "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_child" ],
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 5 ] ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "The %s explodes!", "corpse_type": "NO_CORPSE" },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "flags": [ "SEES", "HEARS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
@@ -216,7 +216,7 @@
     "vision_night": 10,
     "harvest": "zombie",
     "special_attacks": [ { "id": "scratch", "attack_upper": false, "cooldown": 10 }, { "type": "leap", "cooldown": 10, "max_range": 5 } ],
-    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY" ],
@@ -256,7 +256,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "SHRIEK", 15 ], { "id": "scratch", "attack_upper": false, "cooldown": 10 } ],
     "death_function": { "effect": { "id": "death_guilt", "min_level": 6 } },
-    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_zombie_child_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "HARDTOSHOOT", "FILTHY" ],
@@ -265,64 +265,41 @@
   {
     "id": "mon_zombie_wretch",
     "type": "MONSTER",
-    "name": { "str": "swollen wretch", "str_pl": "swollen wretches" },
-    "description": "The hideously deformed corpse of what, you hesitate to guess, was once either a mere child or adolescent.  Its skin has detached from its skeletal and muscular structure and has overgrown into a malformed fleshy chrysalis containing its rotting innards, with a faint glow emanating from within the creature’s swollen body as various lighter than air decomposing gasses are created and burned in a chain reaction.  This has caused its flesh, like a nightmarish balloon, to distend to obscene proportions, causing its overtaxed skin to become translucent and for the abomination to hover a few feet off the floor at any given moment.  All of the orifices in its head have sealed over into a transparent membrane, save for its narrow slit of a maw, from which a stream of noxious gas escapes; seemingly allowing the monstrosity to regulate its buoyancy.  From within its immensely swollen body, you can just make out faint shadowy forms moving about.",
+    "name": { "str": "wretched hatchery", "str_pl": "wretched hatcheries" },
+    "description": "Lethargically resting on its back, this hideous mass of sagging flesh and writhing organs, which used to be a child, twitches feebly as its midsection churns.  Almost bursting from its skin, the child’s ribcage has arched outward, forming a hive-like construct covered by severely stretched epidermis.  Through the wretched organism’s taut abdominal flesh, you witness small forms swarming within its ribcage—its guts roiling as new beings are sculpted from pilfered flesh and bone.  The creature’s limbs rest haphazardly on the ground, contorted in ways that suggest the absence of bones or any interior construct.",
     "default_faction": "zombie",
     "bodytype": "blob",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "volume": "120000 ml",
+    "volume": "40000 ml",
     "weight": "30000 g",
-    "//": "Since it’s essentially a floating human balloon held up by decomposition related gasses, it’s got a large volume but is comparatively very light. Also very fragile and slow.",
-    "hp": 20,
+    "hp": 40,
     "speed": 20,
     "material": [ "flesh" ],
     "symbol": "z",
     "color": "pink",
-    "aggression": 60,
+    "aggression": 100,
     "morale": 100,
-    "melee_skill": 2,
+    "melee_skill": 1,
     "melee_dice": 2,
     "melee_dice_sides": 2,
     "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
     "armor_elec": 1,
     "weakpoint_sets": [ "wps_humanoid_body", "wps_humanoid_child_body", "wps_humanoid_head_big" ],
-    "families": [ "prof_intro_biology", "prof_wp_zombie", "prof_wp_child" ],
-    "dodge": 1,
     "vision_day": 20,
     "vision_night": 3,
-    "harvest": "exempt",
-    "emit_fields": [ { "emit_id": "emit_toxic_leak", "delay": "1 s" } ],
-    "luminance": 15,
-    "weakpoints": [
-      {
-        "id": "Belly",
-        "name": "the stretched skin of the abdomen",
-        "crit_mult": { "all": 0.75 },
-        "difficulty": { "ranged": 2, "melee": 1 },
-        "coverage_mult": { "broad": 0.5 },
-        "effects": [
-          {
-            "effect": "staggered",
-            "chance": 15,
-            "message": "The %s gargles as it’s sent wobbling!",
-            "damage_required": [ 10, 100 ]
-          }
-        ],
-        "coverage": 40
-      }
-    ],
+    "bleed_rate": 0,
+    "harvest": "zombie",
     "special_attacks": [
       {
         "type": "spell",
-        "spell_data": { "id": "small_raptor_spawn", "hit_self": true },
+        "spell_data": { "id": "wretch_raptor_spawn", "hit_self": true },
         "cooldown": 50,
-        "monster_message": "With a high-pitched shriek, the bloated wretch bursts, and gore-smeared winged beasts climb out of the corpse!"
+        "monster_message": "Ripping and tearing, a small beast burrows free of the wretch’s abdomen!"
       }
     ],
-    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explodes!", "corpse_type": "NO_CORPSE" },
-    "death_drops": "child_items",
+    "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "burn_into": "mon_zombie_child_scorched",
     "fungalize_into": "mon_fungal_wretch",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FLIES", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "IMMOBILE", "WARM", "POISON", "NO_BREATHE", "FILTHY" ]
   }
 ]

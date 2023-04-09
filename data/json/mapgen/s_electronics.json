@@ -46,7 +46,7 @@
         "D": "t_door_c",
         "H": "t_window",
         "I": "t_door_locked_interior",
-        "L": "t_door_metal_pickable",
+        "L": [ "t_door_metal_pickable", "t_door_metal_elocked" ],
         "W": "t_curtains",
         "_": "t_pavement",
         "d": "t_sidewalk",

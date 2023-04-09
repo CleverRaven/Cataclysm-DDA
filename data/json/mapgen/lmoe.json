@@ -226,7 +226,7 @@
         "    S      S            ",
         "                  S     "
       ],
-      "place_signs": [ { "signage": "Private property!  Keep out!", "x": 12, "y": 16 } ],
+      "place_signs": [ { "signage": "PRIVATE PROPERTY!\nNO SOLICITING!\n\nATTEMPT TO ENTER\nAND YOU WILL BE SHOT!", "x": 12, "y": 16 } ],
       "terrain": { "X": "t_door_metal_locked" },
       "palettes": [ "bunker_ext" ]
     }
@@ -249,7 +249,7 @@
         "##|u___h|U_UU_U|A,,,_|##",
         "##|u___D|=*==*=|_,,,}|##",
         "##|A____:______+_,,,}|##",
-        "##|||||||_1,,1_|S__hD|##",
+        "##|||||||_1,,1_|S__h2|##",
         "##|VVVVV=_e,,P_|||||||##",
         "##|_____*__,,____|s_K|##",
         "##|vvvvv=_E,,f___+__t|##",

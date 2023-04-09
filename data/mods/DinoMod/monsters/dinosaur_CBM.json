@@ -27,7 +27,7 @@
     "luminance": 1,
     "starting_ammo": { "battery": 10 },
     "special_attacks": [
-      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "id": "bio_op_takedown", "cooldown": 20 },
       {
         "type": "gun",
         "cooldown": 7,
@@ -38,6 +38,7 @@
         "ranges": [ [ 0, 30, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
+        "target_moving_vehicles": true,
         "laser_lock": false,
         "targeting_cost": 1,
         "targeting_timeout_extend": -1,
@@ -76,7 +77,7 @@
       [ "GRAB", 7 ],
       { "type": "bite", "cooldown": 5 },
       [ "LUNGE", 10 ],
-      [ "BIO_OP_TAKEDOWN", 15 ],
+      { "id": "bio_op_takedown", "cooldown": 15 },
       { "type": "spell", "spell_data": { "id": "CBM_TRex_recording" }, "cooldown": 1600 }
     ],
     "zombify_into": "mon_zyrannosaurus_bio_op",
@@ -105,7 +106,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "A small fast-moving bipedal dinosaur dotted with crackling bionics.  Its sharp claws and teeth glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_DINO"
@@ -131,7 +132,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "zombify_into": "mon_zallimimus_bio_op",
     "description": "A fast-moving feathered bipedal dinosaur dotted with crackling bionics.  Its curved claws glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
@@ -158,7 +159,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "zombify_into": "mon_zallimimus_bio_op",
     "description": "A fast-moving feathered bipedal dinosaur dotted with crackling bionics and a long tail.",
     "special_when_hit": [ "ZAPBACK", 75 ],
@@ -185,7 +186,10 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      { "id": "bio_op_takedown", "cooldown": 20 }
+    ],
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  Its small, hooked claws glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_raptor"
@@ -211,7 +215,10 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      { "id": "bio_op_takedown", "cooldown": 20 }
+    ],
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  Its small, hooked claws glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_raptor"
@@ -237,7 +244,10 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      { "id": "bio_op_takedown", "cooldown": 20 }
+    ],
     "zombify_into": "mon_zeinonychus_bio_op",
     "description": "A bipedal dinosaur covered with feathers and crackling bionics.  Each foot has a large glowing sickle-like claw.",
     "special_when_hit": [ "ZAPBACK", 75 ],
@@ -264,7 +274,10 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      { "id": "bio_op_takedown", "cooldown": 20 }
+    ],
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  Its small, hooked claws and many sharp teeth glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_raptor"
@@ -290,7 +303,10 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      { "id": "bio_op_takedown", "cooldown": 20 }
+    ],
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  Each foot has a large glowing sickle-like claw.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_raptor"
@@ -316,7 +332,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "A small bipedal dinosaur dotted with crackling bionics with long arms.  The sharp teeth glow menacingly",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_DINO"
@@ -343,7 +359,7 @@
     "vision_day": 100,
     "luminance": 4,
     "special_attacks": [
-      [ "BIO_OP_TAKEDOWN", 20 ],
+      { "id": "bio_op_takedown", "cooldown": 20 },
       { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "tailsmash_DinoMod", 30 ],
       [ "EAT_CROP", 5 ]
@@ -374,7 +390,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "A long-necked bipedal dinosaur dotted with crackling bionics with long legs and short arms.  Its hooked beak glows menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_DINO"
@@ -400,7 +416,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics and sporting a round hard-looking domed head.  Its curved claws glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_DINO"
@@ -426,7 +442,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "zombify_into": "mon_zachycephalosaurus_bio_op",
     "description": "A feathered bipedal dinosaur dotted with crackling bionics and sporting a round hard-looking domed head.  Its curved claws glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
@@ -453,7 +469,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "zombify_into": "mon_zachycephalosaurus_bio_op",
     "description": "A small four legged dinosaur dotted with crackling bionics with a glowing beak and small horns",
     "special_when_hit": [ "ZAPBACK", 75 ],
@@ -480,7 +496,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "zombify_into": "mon_zriceratops_bio_op",
     "description": "A massive three-horned four-legged dinosaur dotted with crackling bionics.  The horns glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
@@ -507,7 +523,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  The tiny claws glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_DINO"
@@ -533,7 +549,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  The claws glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_DINO"
@@ -559,7 +575,7 @@
     "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
     "vision_day": 100,
     "luminance": 4,
-    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "special_attacks": [ { "id": "bio_op_takedown", "cooldown": 20 } ],
     "description": "A feathered flying reptile with short wings dotted with crackling bionics and a colorful glowing beak.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "dissect": "dissect_CBM_DINO"

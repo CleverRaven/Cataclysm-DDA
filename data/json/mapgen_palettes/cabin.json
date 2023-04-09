@@ -60,7 +60,7 @@
       "-": [ [ "t_fence", 15 ], "t_region_groundcover" ],
       "w": [ [ { "param": "cabin_window_type", "fallback": "t_window_boarded" }, 6 ], "t_window_frame" ],
       "W": [ [ "t_window_boarded", 3 ], "t_window", "t_window_frame" ],
-      "+": [ [ "t_door_c", 1 ], [ "t_door_locked", 3 ], [ "t_door_b", 2 ] ],
+      "+": [ [ "t_door_c", 1 ], [ "t_door_locked", 4 ], [ "t_door_b", 2 ], [ "t_door_elocked", 2 ] ],
       "=": [ [ "t_door_c", 1 ], [ "t_door_o", 1 ], [ "t_door_b", 2 ] ]
     },
     "furniture": {

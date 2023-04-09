@@ -637,7 +637,7 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( halligan, stam ) ==
                "--\n"
                "<color_c_white>Stamina use</color>:"
-               " Costs about <color_c_yellow>3.10</color>%"
+               " Costs about <color_c_yellow>3.20</color>%"
                " stamina to swing.\n" );
 
         CHECK( item_info_str( mr_pointy, stam ) ==
@@ -649,7 +649,7 @@ TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
         CHECK( item_info_str( arrow, stam ) ==
                "--\n"
                "<color_c_white>Stamina use</color>:"
-               " Costs about <color_c_yellow>0.70</color>%"
+               " Costs about <color_c_yellow>0.80</color>%"
                " stamina to swing.\n" );
     }
 
@@ -856,7 +856,6 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                " The <color_c_cyan>arms</color>."
                " The <color_c_cyan>legs</color>."
                " The <color_c_cyan>torso</color>.\n" );
-
 
         std::vector<iteminfo_parts> cov_warm_swat = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( swat_armor.get_avg_coverage() == 95 );
@@ -1219,12 +1218,12 @@ static void expected_armor_values( const item &armor, float bash, float cut, flo
                                    float acid = 0.0f, float fire = 0.0f, float env = 0.0f )
 {
     CAPTURE( armor.typeId().str() );
-    REQUIRE( armor.bash_resist() == Approx( bash ) );
-    REQUIRE( armor.cut_resist() == Approx( cut ) );
-    REQUIRE( armor.stab_resist() == Approx( stab ) );
-    REQUIRE( armor.bullet_resist() == Approx( bullet ) );
-    REQUIRE( armor.acid_resist() == Approx( acid ) );
-    REQUIRE( armor.fire_resist() == Approx( fire ) );
+    REQUIRE( armor.resist( damage_type::BASH ) == Approx( bash ) );
+    REQUIRE( armor.resist( damage_type::CUT ) == Approx( cut ) );
+    REQUIRE( armor.resist( damage_type::STAB ) == Approx( stab ) );
+    REQUIRE( armor.resist( damage_type::BULLET ) == Approx( bullet ) );
+    REQUIRE( armor.resist( damage_type::ACID ) == Approx( acid ) );
+    REQUIRE( armor.resist( damage_type::HEAT ) == Approx( fire ) );
     REQUIRE( armor.get_env_resist() == Approx( env ) );
 }
 
@@ -1648,9 +1647,17 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
     SECTION( "weapon mods" ) {
         CHECK( item_info_str( compbow, { iteminfo_parts::DESCRIPTION_GUN_MODS } ) ==
                "--\n"
-               "<color_c_white>Mods</color>: <color_c_white>0/2</color> accessories;"
-               " <color_c_white>0/1</color> dampening; <color_c_white>0/1</color> sights;"
-               " <color_c_white>0/1</color> stabilizer; <color_c_white>0/1</color> underbarrel.\n" );
+               "<color_c_white>Mods</color>:\n"
+               "<color_cyan># </color>accessories:\n"
+               "    <color_dark_gray>[-empty-]</color> <color_dark_gray>[-empty-]</color>\n"
+               "<color_cyan># </color>dampening:\n"
+               "    <color_dark_gray>[-empty-]</color>\n"
+               "<color_cyan># </color>sights:\n"
+               "    <color_dark_gray>[-empty-]</color>\n"
+               "<color_cyan># </color>stabilizer:\n"
+               "    <color_dark_gray>[-empty-]</color>\n"
+               "<color_cyan># </color>underbarrel:\n"
+               "    <color_dark_gray>[-empty-]</color>\n" );
     }
 
     SECTION( "weapon dispersion" ) {
@@ -1882,13 +1889,13 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>56</color>-<color_c_yellow>532</color>"
+               " <color_c_yellow>52</color>-<color_c_yellow>532</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
         // Values end up rounded slightly
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-79%)\n" );
+               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-56%)\n" );
     }
 }
 
@@ -2452,25 +2459,16 @@ TEST_CASE( "repairable and with what tools", "[iteminfo][repair]" )
 
     std::vector<iteminfo_parts> repaired = { iteminfo_parts::DESCRIPTION_REPAIREDWITH };
 
-    // TODO: Move reinforcement to a different part flag ? Repair tools interfere here (especially
-    // with Magiclysm, which has enchanted tailor's kit)
-    /*
-    item socks( "test_socks" );
-    CHECK( item_info_str( socks, repaired ) ==
-           "--\n"
-           "* This item can be <color_c_green>reinforced</color>.\n" );
-    */
-
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using extended multitool, arc welder, makeshift arc welder, or welding kit.\n"
+           "<color_c_white>Repair</color> using integrated multitool, arc welder, makeshift arc welder, or high-temperature welding kit.\n"
            "<color_c_white>With</color> <color_c_cyan>Steel</color>.\n"
          );
 
     // FIXME: Use an item that can only be repaired by test tools
     CHECK( item_info_str( hazmat, repaired ) ==
            "--\n"
-           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or extended multitool.\n"
+           "<color_c_white>Repair</color> using gunsmith repair kit, firearm repair kit, soldering iron, TEST soldering iron, or integrated multitool.\n"
            "<color_c_white>With</color> <color_c_cyan>Plastic</color>.\n" );
 
     CHECK( item_info_str( rock, repaired ) ==
@@ -2776,6 +2774,7 @@ TEST_CASE( "ammo restriction info", "[iteminfo][ammo_restriction]" )
         CHECK( item_info_str( compbow, mag_cap ) ==
                "--\n"
                "Capacity: <color_c_yellow>1</color> round of arrows\n" );
+
 
     }
 }

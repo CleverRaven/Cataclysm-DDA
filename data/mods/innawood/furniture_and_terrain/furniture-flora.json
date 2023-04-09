@@ -17,8 +17,8 @@
   {
     "type": "furniture",
     "id": "f_wildsbeet",
-    "name": "wild sugarbeet",
-    "description": "Sugarbeet plant, growing wild without human touch.",
+    "name": "wild sugar beet",
+    "description": "Sugar beet plant, growing wild without human touch.",
     "symbol": "f",
     "color": "magenta",
     "looks_like": "f_dandelion",

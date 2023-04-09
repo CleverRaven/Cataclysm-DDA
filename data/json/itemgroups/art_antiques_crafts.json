@@ -8,6 +8,7 @@
       { "item": "spiral_stone", "prob": 20 },
       { "item": "cane", "prob": 10 },
       { "item": "candlestick", "prob": 20 },
+      { "item": "chalice", "prob": 10 },
       { "group": "tinware", "prob": 5 },
       { "item": "heels", "prob": 50 },
       { "item": "coat_fur_sf", "prob": 1 },
@@ -138,6 +139,7 @@
     "entries": [
       { "group": "coins", "prob": 1, "count": [ 1, 10 ] },
       { "item": "oxylamp", "prob": 50 },
+      { "item": "washboard", "prob": 20 },
       { "item": "cow_bell", "prob": 15 },
       { "item": "sickle", "prob": 2 },
       { "item": "scythe", "prob": 2 },

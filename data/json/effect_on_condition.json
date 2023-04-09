@@ -34,7 +34,17 @@
     "type": "effect_on_condition",
     "id": "scenario_paralyzepoison",
     "eoc_type": "SCENARIO_SPECIFIC",
-    "effect": [ { "u_add_effect": "paralyzepoison", "intensity": 4, "duration": "20 minutes" } ]
+    "effect": [ { "u_add_effect": "paralyzepoison", "intensity": 3, "duration": "10 minutes" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_mansion_pursuit",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_spawn_monster": "GROUP_MANSION_ARMORED", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 30 },
+      { "u_spawn_monster": "GROUP_MANSION_START", "group": true, "real_count": 2, "min_radius": 10, "max_radius": 18 },
+      { "u_spawn_monster": "GROUP_MANSION_START", "group": true, "real_count": 2, "min_radius": 15, "max_radius": 25 }
+    ]
   },
   {
     "type": "effect_on_condition",
@@ -73,6 +83,30 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "faction_camp_start",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "faction_start_add" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "get_katana",
+    "global": true,
+    "effect": { "u_spawn_item": "katana" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "get_deagle_44",
+    "global": true,
+    "effect": { "u_spawn_item": "deagle_44" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "get_m4_carbine",
+    "global": true,
+    "effect": { "u_spawn_item": "m4_carbine" }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "thunder",
     "recurrence": 1,
     "global": true,
@@ -80,7 +114,7 @@
       "and": [
         { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] },
         { "one_in_chance": 50 },
-        { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
+        { "compare_num": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] } },
@@ -98,7 +132,7 @@
       "and": [
         { "is_weather": "lightning" },
         { "one_in_chance": 600 },
-        { "compare_int": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
+        { "compare_num": [ { "u_val": "pos_z" }, ">=", { "const": 0 } ] }
       ]
     },
     "deactivate_condition": { "not": { "is_weather": "lightning" } },
@@ -108,40 +142,6 @@
       "lightning",
       { "custom_light_level": 100, "length": [ "1 seconds", "1 seconds" ] }
     ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "acid_drizzle",
-    "recurrence": 1,
-    "global": true,
-    "run_for_npcs": true,
-    "condition": {
-      "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside", { "compare_int": [ { "u_val": "pain" }, "<", { "const": 30 } ] } ]
-    },
-    "deactivate_condition": { "not": { "is_weather": "acid_drizzle" } },
-    "effect": [
-      { "u_message": "The acid rain stings, but is mostly harmless for now…" },
-      { "arithmetic": [ { "u_val": "pain" }, "++" ] }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "acid_rain",
-    "recurrence": 1,
-    "global": true,
-    "run_for_npcs": true,
-    "condition": {
-      "and": [
-        { "is_weather": "acid_rain" },
-        "u_is_outside",
-        { "compare_int": [ { "u_val": "pain" }, "<", { "const": 100 } ] },
-        {
-          "not": { "or": [ { "u_has_wielded_with_flag": "RAIN_PROTECT" }, { "u_has_worn_with_flag": "RAINPROOF" } ] }
-        }
-      ]
-    },
-    "deactivate_condition": { "not": { "is_weather": "acid_rain" } },
-    "effect": [ { "u_message": "The acid rain burns!" }, { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] } ]
   },
   {
     "type": "effect_on_condition",
@@ -167,7 +167,7 @@
     "type": "effect_on_condition",
     "id": "bio_drain",
     "recurrence": [ "30 minutes", "1 hours 30 minutes" ],
-    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "compare_int": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ] },
+    "condition": { "and": [ { "u_has_bionics": "bio_drain" }, { "compare_num": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ] },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_drain" } },
     "effect": [
       { "u_message": "Your batteries discharge slightly.", "type": "bad" },
@@ -269,7 +269,7 @@
     "id": "bio_shakes",
     "recurrence": [ "1 hours", "3 hours" ],
     "condition": {
-      "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_int": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ]
+      "and": [ { "u_has_bionics": "bio_shakes" }, { "compare_num": [ { "u_val": "power" }, ">=", { "power": "25 kJ" } ] } ]
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_shakes" } },
     "effect": [
@@ -287,7 +287,7 @@
       "and": [
         { "u_has_bionics": "bio_glowy" },
         { "not": { "u_has_effect": "glowy_led" } },
-        { "compare_int": [ { "u_val": "power" }, ">=", { "power": "1 kJ" } ] }
+        { "compare_num": [ { "u_val": "power" }, ">=", { "power": "1 kJ" } ] }
       ]
     },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_glowy" } },
@@ -309,7 +309,14 @@
     "type": "effect_on_condition",
     "id": "bio_itchy",
     "recurrence": [ "25 minutes", "1 hours 15 minutes" ],
-    "condition": { "and": [ { "u_has_bionics": "bio_itchy" }, { "not": { "u_has_effect": "formication" } } ] },
+    "condition": {
+      "and": [
+        { "u_has_bionics": "bio_itchy" },
+        { "not": { "u_has_effect": "formication" } },
+        { "not": { "u_has_effect": "narcosis" } },
+        { "not": { "and": [ { "u_has_effect": "sleep" }, { "u_has_bionics": "bio_sleep_shutdown" } ] } }
+      ]
+    },
     "deactivate_condition": { "not": { "u_has_bionics": "bio_itchy" } },
     "effect": [
       { "u_message": "Your malfunctioning bionic itches!", "type": "bad" },
@@ -358,7 +365,7 @@
     "id": "EOC_DEATH_PORTAL_DUNGEON",
     "type": "effect_on_condition",
     "eoc_type": "AVATAR_DEATH",
-    "condition": { "compare_int": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
+    "condition": { "compare_num": [ { "global_val": "var", "var_name": "portal_dungeon_level" }, "!=", { "const": 0 } ] },
     "effect": [
       {
         "u_message": "Your ultimate fate is hard to sum up in words but suffice to say, the thing that used to be you wishes it had hidden from the storm.",
@@ -377,19 +384,35 @@
     "effect": [ "take_control_menu" ]
   },
   {
-    "id": "EOC_PREVENT_DEATH",
     "type": "effect_on_condition",
-    "eoc_type": "PREVENT_DEATH",
-    "condition": { "u_has_trait": "PORTAL_RESURRECTION" },
+    "id": "MAKAYLA_MUTATOR_portal_storm",
+    "recurrence": "15 minutes",
+    "//": "The assumption is that Makayla controls this normally, so the effects are only active when she's the avatar.  Thus global:true.",
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        { "u_has_trait": "MAKAYLA_MUTATOR" },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        "u_is_outside"
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": [
-      { "u_set_hp": 50, "only_increase": true },
-      { "u_add_effect": "incorporeal", "duration": [ "5 minutes", "10 minutes" ] },
-      { "u_lose_trait": "PORTAL_RESURRECTION" },
-      { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 0 } ] },
-      { "arithmetic": [ { "u_val": "fatigue" }, "=", { "const": 0 } ] },
+      { "u_message": "Everything feels fuzzy.", "type": "info" },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_feline" }, "=", { "const": 450 } ] },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "=", { "const": 750 } ] },
       {
-        "u_message": "For an instant that is also an eternity, you exist only in an empty void.  Then you feel something vast, alien, and merciless reach through a preexisting connection to give you just enough energy to exist.  Its motives for doing so are not likely to be benign.",
-        "popup": true
+        "run_eocs": [
+          {
+            "id": "cat_ears_portal_storm",
+            "condition": { "not": { "u_has_trait": "FELINE_EARS" } },
+            "effect": [
+              { "u_message": "It didn't take very long for the ears to be back.", "type": "info" },
+              { "u_add_trait": "FELINE_EARS" }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -398,7 +421,9 @@
     "id": "record_portal_storm_data",
     "recurrence": "5 minutes",
     "global": true,
-    "condition": { "and": [ { "is_weather": "portal_storm" }, { "u_has_item": "nre_recorder" }, "u_is_outside" ] },
+    "condition": {
+      "and": [ { "is_weather": "portal_storm" }, { "u_has_items": { "item": "nre_recorder", "charges": 1 } }, "u_is_outside" ]
+    },
     "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
     "effect": [
       { "u_adjust_var": "portal_storm_record", "type": "counter", "context": "nre_recorder", "adjustment": 1 },
@@ -446,7 +471,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_last_amigara_death",
-    "condition": { "compare_int": [ { "global_val": "monsters_nearby", "id": "mon_amigara_horror" }, "<", { "const": 1 } ] },
+    "condition": { "compare_num": [ { "global_val": "monsters_nearby", "id": "mon_amigara_horror" }, "<", { "const": 1 } ] },
     "effect": [
       { "mapgen_update": "amigara_death" },
       { "u_lose_effect": "effect_amigara" },
@@ -458,6 +483,15 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_PLAY_PIANO",
+    "effect": [
+      { "u_add_morale": "morale_music", "bonus": 5, "max_bonus": 10 },
+      { "u_make_sound": "music", "type": "music", "volume": 10 },
+      { "u_message": "play_piano", "snippet": true }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_RANDOM_HALLUCINATIONS",
     "recurrence": [ "1 hours", "3 hours" ],
     "condition": { "and": [ { "u_has_effect": "hallucination_attacks" }, { "x_in_y_chance": { "x": 1, "y": 6 } } ] },
@@ -465,7 +499,7 @@
       {
         "run_eocs": {
           "id": "EOC_HALLUCINATION_ATTACKS",
-          "condition": { "compare_int": [ { "global_val": "monsters_nearby" }, ">", { "const": 1 } ] },
+          "condition": { "compare_num": [ { "global_val": "monsters_nearby" }, ">", { "const": 1 } ] },
           "effect": [
             {
               "u_spawn_monster": "GROUP_YOUR_FEARS",
@@ -481,5 +515,189 @@
         }
       }
     ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MISSION_GET_DRIVEBELTS_done",
+    "global": true,
+    "condition": { "u_has_items": { "item": "drivebelt", "count": 3 } },
+    "effect": [ { "u_sell_item": "drivebelt", "count": 3 } ],
+    "false_effect": [ { "u_sell_item": "drivebelt_makeshift", "count": 3 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MISSION_LUMBERMILL_GET_6_BLANKETS_done",
+    "global": true,
+    "condition": {
+      "or": [
+        { "u_has_items": { "item": "blanket", "count": 6 } },
+        { "u_has_items": { "item": "fur_blanket", "count": 6 } },
+        { "u_has_items": { "item": "electric_blanket", "count": 6 } },
+        { "u_has_items": { "item": "quilt", "count": 6 } },
+        { "u_has_items": { "item": "quilt_patchwork", "count": 6 } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "sell_blanket",
+            "condition": { "u_has_items": { "item": "blanket", "count": 6 } },
+            "effect": { "u_sell_item": "blanket", "count": 6 }
+          },
+          {
+            "id": "sell_fur_blanket",
+            "condition": { "u_has_items": { "item": "fur_blanket", "count": 6 } },
+            "effect": { "u_sell_item": "fur_blanket", "count": 6 }
+          },
+          {
+            "id": "sell_electric_blanket",
+            "condition": { "u_has_items": { "item": "electric_blanket", "count": 6 } },
+            "effect": { "u_sell_item": "electric_blanket", "count": 6 }
+          },
+          {
+            "id": "sell_quilt",
+            "condition": { "u_has_items": { "item": "quilt", "count": 6 } },
+            "effect": { "u_sell_item": "quilt", "count": 6 }
+          },
+          {
+            "id": "sell_quilt_patchwork",
+            "condition": { "u_has_items": { "item": "quilt_patchwork", "count": 6 } },
+            "effect": { "u_sell_item": "quilt_patchwork", "count": 6 }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN",
+    "recurrence": [ "7 days", "14 days" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -40 } ] },
+        { "compare_int": [ { "faction_like": "hells_raiders" }, ">", { "const": -60 } ] },
+        { "days_since_cataclysm": 9 },
+        { "not": { "is_weather": "portal_storm" } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
+        { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
+        { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
+      ]
+    },
+    "effect": [ { "mapgen_update": "bandit_killer_add" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN_2",
+    "recurrence": [ "7 days", "14 days" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -60 } ] },
+        { "compare_int": [ { "faction_like": "hells_raiders" }, ">", { "const": -90 } ] },
+        { "days_since_cataclysm": 15 },
+        { "not": { "is_weather": "portal_storm" } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
+        { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
+        { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
+      ]
+    },
+    "effect": [ { "mapgen_update": "bandit_killer_add" }, { "mapgen_update": "bandit_killer_add" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_BANDIT_ASSASSIN_3",
+    "recurrence": [ "7 days", "14 days" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ { "faction_like": "hells_raiders" }, "<", { "const": -90 } ] },
+        { "days_since_cataclysm": 21 },
+        { "not": { "is_weather": "portal_storm" } },
+        { "not": { "u_near_om_location": "godco_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "evac_center_18", "range": 4 } },
+        { "not": { "u_near_om_location": "pagan_cult_enter", "range": 4 } },
+        { "not": { "u_near_om_location": "lumbermill_0_0_ocu", "range": 4 } },
+        { "not": { "u_near_om_location": "smallscrapyard_ocu", "range": 4 } }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "bandit_killer_add" },
+      { "mapgen_update": "bandit_killer_add" },
+      { "mapgen_update": "bandit_killer_add" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_OLD_GUARD_ASSASSIN",
+    "recurrence": [ "7 days", "14 days" ],
+    "condition": {
+      "and": [
+        { "compare_int": [ { "faction_like": "old_guard" }, "<", { "const": -45 } ] },
+        { "days_since_cataclysm": 9 },
+        { "not": { "is_weather": "portal_storm" } }
+      ]
+    },
+    "effect": [ { "mapgen_update": "government_killteam_add" } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_MISSION_GODCO_TROPHY2_done",
+    "global": true,
+    "condition": {
+      "or": [
+        { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "sell_egg_spider_cellar",
+            "condition": { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_cellar", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_jumping",
+            "condition": { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_jumping", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_trapdoor",
+            "condition": { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_trapdoor", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_web",
+            "condition": { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_web", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_widow",
+            "condition": { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_widow", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_wolf",
+            "condition": { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_wolf", "count": 1 }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_READ_LOCAL_FILES",
+    "condition": { "and": [ { "u_has_skill": { "skill": "computer", "level": 2 } }, { "one_in_chance": 15 } ] },
+    "effect": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true } ],
+    "false_effect": [ { "u_message": "You found nothing interesting in the local files." } ]
   }
 ]

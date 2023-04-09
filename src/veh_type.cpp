@@ -260,7 +260,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
 /**
  * Reads engine info from a JsonObject.
  */
-void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
+void vpart_info::load_engine( std::optional<vpslot_engine> &eptr, const JsonObject &jo,
                               const itype_id &fuel_type )
 {
     vpslot_engine e_info{};
@@ -293,7 +293,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     cata_assert( eptr );
 }
 
-void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo )
+void vpart_info::load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo )
 {
     vpslot_rotor rotor_info{};
     if( roptr ) {
@@ -304,7 +304,7 @@ void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObje
     cata_assert( roptr );
 }
 
-void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo )
+void vpart_info::load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo )
 {
     vpslot_wheel wh_info{};
     if( whptr ) {
@@ -341,7 +341,7 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObje
     cata_assert( whptr );
 }
 
-void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo )
+void vpart_info::load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo )
 {
     vpslot_workbench wb_info{};
     if( wbptr ) {
@@ -622,8 +622,8 @@ static int gun_battery_mags_drain( const itype &guntype )
             }
         }
     }
-    if( guntype.gun->ups_charges > 0 && charges_used > 0 ) {
-        debugmsg( "%s uses both UPS charges and battery magazines", guntype.nname( 1 ) );
+    if( guntype.gun->energy_drain > 0_kJ && charges_used > 0 ) {
+        debugmsg( "%s uses both energy and battery magazines", guntype.nname( 1 ) );
     }
     return charges_used;
 }
@@ -643,9 +643,9 @@ static std::string get_looks_like( const vpart_info &vpi, const itype &it )
         return false;
     };
 
-    if( it.gun->ups_charges > 0 && has_light_ammo( it.gun->ammo ) ) {
+    if( it.gun->energy_drain > 0_kJ && has_light_ammo( it.gun->ammo ) ) {
         return "mounted_hk_g80"; // railguns
-    } else if( vpi.has_flag( "USE_BATTERIES" ) || it.gun->ups_charges > 0 ) {
+    } else if( vpi.has_flag( "USE_BATTERIES" ) || it.gun->energy_drain > 0_kJ ) {
         return "laser_rifle"; // generic energy weapons
     } else if( vpi.has_flag( "USE_TANKS" ) ) {
         return "watercannon"; // liquid sprayers (flamethrower, foam gun etc)
@@ -779,6 +779,16 @@ void vpart_info::finalize()
             e.second.z_order = 0;
             e.second.list_order = 5;
         }
+        std::set<std::pair<itype_id, int>> &pt = e.second.pseudo_tools;
+        for( auto it = pt.begin(); it != pt.end(); /* blank */ ) {
+            const itype_id &tool = it->first;
+            if( !tool.is_valid() ) {
+                debugmsg( "invalid pseudo tool itype_id '%s' on '%s'", tool.str(), e.first.str() );
+                pt.erase( it++ );
+            } else {
+                ++it;
+            }
+        }
     }
 }
 
@@ -893,8 +903,20 @@ void vpart_info::check()
             debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(),
                       part.base_item.c_str() );
         }
-        if( part.size < 0_ml ) {
-            debugmsg( "vehicle part %s has negative size", part.id.c_str() );
+        if( part.size != 0_ml ) {
+            if( part.size < 0_ml ) {
+                debugmsg( "vehicle part %s has negative size", part.id.c_str() );
+            }
+            if( !part.has_flag( "CARGO" ) ) {
+                debugmsg( "vehicle part %s is not CARGO and cannot define size", part.id.c_str() );
+            } else if( part.has_flag( "FLUIDTANK" ) ) {
+                debugmsg( "vehicle part %s is FLUIDTANK and cannot define size; it's defined on part's base item",
+                          part.id.c_str() );
+            }
+        }
+        if( part.has_flag( "CARGO" ) && part.has_flag( "FLUIDTANK" ) ) {
+            debugmsg( "vehicle part %s can't have both CARGO and FLUIDTANK flags at the same time",
+                      part.id.c_str() );
         }
         if( !item::type_is_defined( part.base_item ) ) {
             debugmsg( "vehicle part %s uses undefined item %s", part.id.c_str(), part.base_item.c_str() );
@@ -947,7 +969,7 @@ void vpart_info::check()
                 debugmsg( "vehicle part %s has undefined tool quality %s", part.id.c_str(), q.first.c_str() );
             }
         }
-        if( part.has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) && part.epower == 0 ) {
+        if( part.has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) && part.epower == 0_W ) {
             debugmsg( "%s is set to drain epower, but has epower == 0", part.id.c_str() );
         }
         // Parts with non-zero epower must have a flag that affects epower usage
@@ -957,7 +979,7 @@ void vpart_info::check()
                 "REACTOR", "WIND_TURBINE", "WATER_WHEEL"
             }
         };
-        if( part.epower != 0 &&
+        if( part.epower != 0_W &&
         std::none_of( handled.begin(), handled.end(), [&part]( const std::string & flag ) {
         return part.has_flag( flag );
         } ) ) {
@@ -1020,14 +1042,15 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
             continue;
         } else if( flagid == "ENABLED_DRAINS_EPOWER" ||
                    flagid == "ENGINE" ) { // ENGINEs get the same description
-            if( epower < 0 ) {
-                append_desc( string_format( json_flag::get( "ENABLED_DRAINS_EPOWER" ).info(), -epower ) );
+            if( epower < 0_W ) {
+                append_desc( string_format( json_flag::get( "ENABLED_DRAINS_EPOWER" ).info(),
+                                            -units::to_watt( epower ) ) );
             }
         } else if( flagid == "ALTERNATOR" ||
                    flagid == "SOLAR_PANEL" ||
                    flagid == "WATER_WHEEL" ||
                    flagid == "WIND_TURBINE" ) {
-            append_desc( string_format( json_flag::get( flagid ).info(), epower ) );
+            append_desc( string_format( json_flag::get( flagid ).info(), units::to_watt( epower ) ) );
         } else {
             append_desc( json_flag::get( flagid ).info() );
         }
@@ -1219,7 +1242,7 @@ int vpart_info::rotor_diameter() const
     return 0;
 }
 
-const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
+const std::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
 }

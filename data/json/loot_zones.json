@@ -256,6 +256,7 @@
     "type": "LOOT_ZONE",
     "name": "Loot: Item Group",
     "can_be_personal": false,
+    "hidden": true,
     "description": "Destination for items from an item group."
   },
   {

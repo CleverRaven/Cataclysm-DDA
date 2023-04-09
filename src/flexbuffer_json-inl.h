@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_FLEXBUFFER_JSON_INL_H
 #define CATA_SRC_FLEXBUFFER_JSON_INL_H
 
+#include <optional>
 #include <string>
 #include <type_traits>
 
@@ -15,7 +16,6 @@
 #include "json_error.h"
 #include "int_id.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "string_id.h"
 
 // The iterators have to come first because clang requires complete definitions when we call begin/end in definitions later in the header.
@@ -801,13 +801,10 @@ inline JsonValue JsonArray::get_next()
 //NOLINTNEXTLINE(modernize-use-equals-default)
 inline JsonObject::~JsonObject()
 {
-    // Unvisited member reporting currently disabled.
-#if 0
 #ifndef CATA_IN_TOOL
-    if( !std::uncaught_exception() && !visited_fields_bitset_.all() ) {
+    if( std::uncaught_exceptions() == 0 && !visited_fields_bitset_.all() ) {
         report_unvisited();
     }
-#endif
 #endif
 }
 
@@ -872,7 +869,7 @@ inline JsonArray JsonObject::get_array( const std::string &key ) const
 
 inline JsonArray JsonObject::get_array( const char *key ) const
 {
-    cata::optional<JsonValue> member_opt = get_member_opt( key );
+    std::optional<JsonValue> member_opt = get_member_opt( key );
     if( member_opt.has_value() ) {
         return std::move( *member_opt );
     }
@@ -886,7 +883,7 @@ inline JsonObject JsonObject::get_object( const std::string &key ) const
 
 inline JsonObject JsonObject::get_object( const char *key ) const
 {
-    cata::optional<JsonValue> member_opt = get_member_opt( key );
+    std::optional<JsonValue> member_opt = get_member_opt( key );
     if( member_opt.has_value() ) {
         return std::move( *member_opt );
     }
@@ -905,7 +902,7 @@ E JsonObject::get_enum_value( const char *name ) const
     try {
         return io::string_to_enum<E>( static_cast<std::string>( value ) );
     } catch( const io::InvalidEnumString & ) {
-        value.throw_error( "invalud enumumeration value" );
+        value.throw_error( "invalid enumeration value" );
     }
 }
 
@@ -917,12 +914,12 @@ E JsonObject::get_enum_value( const std::string &name, E fallback ) const
 template<typename E, typename >
 E JsonObject::get_enum_value( const char *name, E fallback ) const
 {
-    cata::optional<JsonValue> value = get_member_opt( name );
+    std::optional<JsonValue> value = get_member_opt( name );
     if( value.has_value() ) {
         try {
             return io::string_to_enum<E>( static_cast<std::string>( *value ) );
         } catch( const io::InvalidEnumString & ) {
-            value->throw_error( "invalud enumumeration value" );
+            value->throw_error( "invalid enumeration value" );
         }
     } else {
         return fallback;
@@ -946,6 +943,20 @@ inline std::vector<std::string> JsonObject::get_string_array( const std::string 
     ret.reserve( ja.size() );
     for( JsonValue jv : get_array( name ) ) {
         ret.emplace_back( jv );
+    }
+    return ret;
+}
+inline std::vector<std::string> JsonObject::get_as_string_array( const std::string &name ) const
+{
+    std::vector<std::string> ret;
+    if( has_array( name ) ) {
+        JsonArray ja = get_array( name );
+        ret.reserve( ja.size() );
+        for( JsonValue jv : get_array( name ) ) {
+            ret.emplace_back( jv );
+        }
+    } else {
+        ret.emplace_back( get_string( name ) );
     }
     return ret;
 }
@@ -1050,7 +1061,7 @@ inline int JsonObject::get_int( const std::string &key, int fallback ) const
 }
 inline int JsonObject::get_int( const char *key, int fallback ) const
 {
-    cata::optional<JsonValue> member_opt = get_member_opt( key );
+    std::optional<JsonValue> member_opt = get_member_opt( key );
     if( member_opt.has_value() ) {
         return *member_opt;
     }
@@ -1063,7 +1074,7 @@ inline double JsonObject::get_float( const std::string &key, double fallback ) c
 }
 inline double JsonObject::get_float( const char *key, double fallback ) const
 {
-    cata::optional<JsonValue> member_opt = get_member_opt( key );
+    std::optional<JsonValue> member_opt = get_member_opt( key );
     if( member_opt.has_value() ) {
         return *member_opt;
     }
@@ -1076,7 +1087,7 @@ inline bool JsonObject::get_bool( const std::string &key, bool fallback ) const
 }
 inline bool JsonObject::get_bool( const char *key, bool fallback ) const
 {
-    cata::optional<JsonValue> member_opt = get_member_opt( key );
+    std::optional<JsonValue> member_opt = get_member_opt( key );
     if( member_opt.has_value() ) {
         return *member_opt;
     }
@@ -1084,7 +1095,7 @@ inline bool JsonObject::get_bool( const char *key, bool fallback ) const
 }
 
 // Tries to get the member, and if found, calls it visited.
-inline cata::optional<JsonValue> JsonObject::get_member_opt( const char *key ) const
+inline std::optional<JsonValue> JsonObject::get_member_opt( const char *key ) const
 {
     size_t idx = 0;
     bool found = find_map_key_idx( key, keys_, idx );
@@ -1092,7 +1103,7 @@ inline cata::optional<JsonValue> JsonObject::get_member_opt( const char *key ) c
         mark_visited( idx );
         return JsonValue{ root_, values_[ idx ], &path_, idx };
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
 inline JsonValue JsonObject::get_member( const std::string &key ) const
@@ -1122,7 +1133,7 @@ inline JsonValue JsonObject::operator[]( const char *key ) const
 template <typename T>
 bool JsonObject::read( const char *name, T &t, bool throw_on_error ) const
 {
-    cata::optional<JsonValue> member_opt = get_member_opt( name );
+    std::optional<JsonValue> member_opt = get_member_opt( name );
     if( !member_opt.has_value() ) {
         return false;
     }
@@ -1144,7 +1155,7 @@ template <typename T, typename Res>
 Res JsonObject::get_tags( const char *name ) const
 {
     Res res;
-    cata::optional<JsonValue> member_opt = get_member_opt( name );
+    std::optional<JsonValue> member_opt = get_member_opt( name );
     if( !member_opt.has_value() ) {
         return res;
     }
@@ -1172,12 +1183,12 @@ inline JsonValue JsonObject::operator[]( size_t idx ) const
 }
 
 template<typename T>
-void deserialize( cata::optional<T> &obj, const JsonValue &jsin )
+void deserialize( std::optional<T> &obj, const JsonValue &jsin )
 {
     if( jsin.test_null() ) {
         obj.reset();
     } else {
-        obj.emplace();
+        obj.emplace( T{} );
         jsin.read( *obj, true );
     }
 }

@@ -290,8 +290,23 @@
     "difficulty": 2,
     "value": 30000,
     "item": "safe_box",
-    "start": "place_deposit_box",
-    "end": "deposit_box",
+    "start": {
+      "update_mapgen": { "place_item": [ { "item": "safe_box", "x": [ 18, 21 ], "y": [ 4, 6 ], "amount": 1 } ] },
+      "effect": "follow_only",
+      "assign_mission_target": { "om_terrain": "bank", "om_terrain_match_type": "PREFIX", "search_range": 120, "random": true, "z": 0 }
+    },
+    "end": {
+      "effect": [
+        "stop_following",
+        {
+          "weighted_list_eocs": [
+            [ { "id": "get_katana" }, { "const": 5 } ],
+            [ { "id": "get_deagle_44" }, { "const": 10 } ],
+            [ { "id": "get_m4_carbine" }, { "const": 6 } ]
+          ]
+        }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_GET_DEPUTY_BADGE",
     "dialogue": {
@@ -459,7 +474,23 @@
     "difficulty": 5,
     "value": 250000,
     "urgent": true,
-    "start": "kill_horde_master",
+    "start": {
+      "update_mapgen": {
+        "place_monster": [
+          { "monster": "mon_zombie_master", "x": [ 12, 15 ], "y": [ 12, 15 ], "target": true, "name": "Demonic Soul" },
+          { "group": "GROUP_ZOMBIE", "x": [ 12, 15 ], "y": [ 12, 15 ], "repeat": [ 21, 29 ] }
+        ]
+      },
+      "effect": "follow_only",
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "CONTAINS",
+        "search_range": 80,
+        "min_distance": 10,
+        "random": true,
+        "z": 0
+      }
+    },
     "end": { "effect": "stop_following" },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_RECRUIT_TRACKER",
@@ -607,7 +638,17 @@
     "difficulty": 2,
     "value": 70000,
     "item": "priest_diary",
-    "start": "place_priest_diary",
+    "start": {
+      "update_mapgen": { "place_item": [ { "item": "priest_diary", "x": [ 3, 21 ], "y": [ 6, 21 ], "amount": 1 } ] },
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "PREFIX",
+        "search_range": 80,
+        "min_distance": 5,
+        "random": true,
+        "z": 0
+      }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_INVESTIGATE_CULT",
     "dialogue": {
@@ -654,8 +695,18 @@
     "goal": "MGOAL_FIND_MONSTER",
     "difficulty": 3,
     "value": 100000,
-    "place": "near_town",
-    "start": "place_dog",
+    "start": {
+      "update_mapgen": { "place_monster": [ { "monster": "mon_dog", "x": [ 3, 21 ], "y": [ 6, 21 ], "friendly": true, "target": true } ] },
+      "effect": [ { "u_spawn_item": "dog_whistle" } ],
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_replace": "field",
+        "om_terrain_match_type": "PREFIX",
+        "search_range": 43,
+        "random": true,
+        "z": 0
+      }
+    },
     "origins": [ "ORIGIN_OPENER_NPC" ],
     "dialogue": {
       "describe": "Oh, my poor puppy…",
@@ -839,6 +890,7 @@
     "description": "You could find this place upside down, dizzy and blindfolded.  Its presence is too altered to allow the mercy of ignorance.",
     "difficulty": 0,
     "value": 0,
+    "invisible_on_complete": true,
     "start": { "assign_mission_target": { "var": { "global_val": "portal_dungeon" } } }
   }
 ]

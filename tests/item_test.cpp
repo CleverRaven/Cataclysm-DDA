@@ -12,6 +12,7 @@
 #include "enums.h"
 #include "flag.h"
 #include "game.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -20,16 +21,18 @@
 #include "mtype.h"
 #include "player_helpers.h"
 #include "ret_val.h"
+#include "test_data.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
-
 
 static const flag_id json_flag_COLD( "COLD" );
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
 static const flag_id json_flag_HOT( "HOT" );
 
+static const item_category_id item_category_container( "container" );
+static const item_category_id item_category_food( "food" );
 
 static const itype_id itype_test_backpack( "test_backpack" );
 static const itype_id itype_test_duffelbag( "test_duffelbag" );
@@ -727,9 +730,9 @@ static bool assert_maximum_density_for_material( const item &target )
         return false;
     }
     const std::map<material_id, int> &mats = target.made_of();
-    if( !mats.empty() && known_bad_density::known_bad.count( target.typeId() ) == 0 ) {
+    if( !mats.empty() && test_data::known_bad.count( target.typeId() ) == 0 ) {
         const float max_density = max_density_for_mats( mats, target.type->mat_portion_total );
-        INFO( target.typeId() );
+        CAPTURE( target.typeId(), target.weight(), target.volume() );
         CHECK( item_density( target ) <= max_density );
 
         return item_density( target ) > max_density;
@@ -759,7 +762,7 @@ TEST_CASE( "item_material_density_sanity_check", "[item]" )
 
 TEST_CASE( "item_material_density_blacklist_is_pruned", "[item]" )
 {
-    for( const itype_id &bad : known_bad_density::known_bad ) {
+    for( const itype_id &bad : test_data::known_bad ) {
         if( !bad.is_valid() ) {
             continue;
         }
@@ -819,7 +822,6 @@ TEST_CASE( "rigid_armor_compliance", "[item][armor]" )
     guy.change_side( *guy.worn.top_items_loc( guy ).front().get_item() );
 
     CHECK( guy.worn.top_items_loc( guy ).front().get_item()->get_side() == side::RIGHT );
-
 
     // check if you can't wear 3 rigid armors
     clear_avatar();
@@ -881,4 +883,23 @@ TEST_CASE( "rigid_splint_compliance", "[item][armor]" )
     // should be able to wear the arm is open
     REQUIRE( guy.wield( third_splint ) );
     REQUIRE( guy.wear( guy.used_weapon(), false ) );
+}
+
+TEST_CASE( "item_single_type_contents", "[item]" )
+{
+    item walnut( "walnut" );
+    item nail( "nail" );
+    item bag( "bag_plastic" );
+    REQUIRE( bag.get_category_of_contents().id == item_category_container );
+    int const num = GENERATE( 1, 2 );
+    bool ret = true;
+    for( int i = 0; i < num; i++ ) {
+        ret &= bag.put_in( walnut, item_pocket::pocket_type::CONTAINER ).success();
+    }
+    REQUIRE( ret );
+    CAPTURE( num, bag.display_name() );
+    CHECK( bag.get_category_of_contents() == *item_category_food );
+    REQUIRE( nail.get_category_of_contents().id != walnut.get_category_of_contents().id );
+    REQUIRE( bag.put_in( nail, item_pocket::pocket_type::CONTAINER ).success() );
+    CHECK( bag.get_category_of_contents().id == item_category_container );
 }

@@ -24,6 +24,12 @@
     "restriction": "Item must be an armored skirt"
   },
   {
+    "id": "ABLATIVE_HELMET",
+    "type": "json_flag",
+    "info": "This will hook to a <info>Hub 01 proprietary</info> helmet connector",
+    "restriction": "Item must be an armored helmet"
+  },
+  {
     "id": "ACTIVE_CLOAKING",
     "type": "json_flag",
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
@@ -40,6 +46,11 @@
     "id": "ALARMCLOCK",
     "type": "json_flag",
     "info": "This gear has an <info>alarm clock</info> feature."
+  },
+  {
+    "id": "ALLOWS_BODY_BLOCK",
+    "type": "json_flag",
+    "info": "This item <info>allows to block with your body</info> when wielded as a weapon."
   },
   {
     "id": "ALLOWS_NATURAL_ATTACKS",
@@ -196,7 +207,8 @@
   {
     "id": "CANT_WEAR",
     "type": "json_flag",
-    "info": "This armor can't be worn directly."
+    "info": "This armor can't be worn directly.",
+    "inherit": false
   },
   {
     "id": "DECAY_EXPOSED_ATMOSPHERE",
@@ -929,12 +941,6 @@
     "//": "This gun wont train marksmanship when fired.  Used in Aftershock smart guns."
   },
   {
-    "id": "UNARMED_WEAPON",
-    "type": "json_flag",
-    "//": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
-    "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
-  },
-  {
     "id": "NANOFAB_REPAIR",
     "type": "json_flag",
     "info": "This item has a holographic patch that reflects the light oddly.  It was constructed in a nanofabricator and can be <info>repaired in one</info>."
@@ -1060,11 +1066,6 @@
     "//": "pain altering spells can't be resisted (like with the deadened trait)"
   },
   {
-    "id": "WITH_CONTAINER",
-    "type": "json_flag",
-    "//": "items spawned by spells are put in their containers."
-  },
-  {
     "id": "SPAWN_WITH_DEATH_DROPS",
     "type": "json_flag",
     "//": "Allows summoned monsters to drop their usual death drops.  Otherwise, summoned monsters drop nothing on death."
@@ -1148,6 +1149,7 @@
   },
   {
     "id": "ALWAYS_TWOHAND",
+    "info": "<bad>You must</bad> have two free hands to wield this item.",
     "type": "json_flag"
   },
   {
@@ -1314,14 +1316,6 @@
     "type": "json_flag"
   },
   {
-    "id": "FISH_GOOD",
-    "type": "json_flag"
-  },
-  {
-    "id": "FISH_POOR",
-    "type": "json_flag"
-  },
-  {
     "id": "FIT",
     "type": "json_flag"
   },
@@ -1448,6 +1442,7 @@
   },
   {
     "id": "MOUNTED_GUN",
+    "info": "This weapon is <bad>too unwieldy</bad> to fire on its own and <info>must be mounted</info> on a vehicle or furniture (window, table, mound of dirt, etc.) before use.",
     "type": "json_flag"
   },
   {
@@ -1684,7 +1679,15 @@
   },
   {
     "id": "SPEEDLOADER",
-    "type": "json_flag"
+    "info": "This item can quickly reload rounds into gun or magazine that <info>have enough space</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER_CLIP" ]
+  },
+  {
+    "id": "SPEEDLOADER_CLIP",
+    "info": "This item can quickly reload rounds into gun or magazine that <info>don't have enough space</info>.",
+    "type": "json_flag",
+    "conflicts": [ "SPEEDLOADER" ]
   },
   {
     "id": "SPLINT",
@@ -1716,6 +1719,10 @@
   },
   {
     "id": "TOBACCO",
+    "type": "json_flag"
+  },
+  {
+    "id": "TOUGH_FEET",
     "type": "json_flag"
   },
   {
@@ -1792,10 +1799,6 @@
     "info": "This gear <bad>prevents</bad> you from <info>speaking</info>."
   },
   {
-    "id": "NOT_FOOTWEAR",
-    "type": "json_flag"
-  },
-  {
     "id": "IRREPLACEABLE_CONSUMABLE",
     "type": "json_flag"
   },
@@ -1830,6 +1833,7 @@
   },
   {
     "id": "FIRE_TWOHAND",
+    "info": "<bad>You must</bad> have two free hands to fire this item.",
     "type": "json_flag"
   },
   {
@@ -1956,6 +1960,11 @@
   },
   {
     "id": "SCIENCE_CARD_MEDICAL_RED",
+    "type": "json_flag",
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MU_UNIVERSAL",
     "type": "json_flag",
     "info": "You could probably use this to access a secure zone of a facility."
   },
@@ -2113,5 +2122,9 @@
     "id": "BIONIC_FUEL_SOURCE",
     "type": "json_flag",
     "info": "Contents of this item are used for fueling bionics."
+  },
+  {
+    "id": "ELECTRONIC",
+    "type": "json_flag"
   }
 ]

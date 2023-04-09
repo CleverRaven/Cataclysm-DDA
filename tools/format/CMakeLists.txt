@@ -6,7 +6,7 @@ add_executable(
         format_main.cpp
         ${CMAKE_SOURCE_DIR}/src/json.cpp)
 
-target_link_libraries(json_formatter flatbuffers)
+target_link_libraries(json_formatter PRIVATE flatbuffers)
 
 add_definitions(-DCATA_IN_TOOL)
 

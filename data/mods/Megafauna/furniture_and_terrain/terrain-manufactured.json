@@ -1,0 +1,24 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_glypto_shelter",
+    "name": "glyptodont-shell shelter",
+    "description": "Improvised shelter made of a glyptodont shell, providing a little bit of protection against the elements or predators.",
+    "symbol": "O",
+    "color": "brown",
+    "looks_like": "t_leanto",
+    "move_cost": 2,
+    "coverage": 60,
+    "floor_bedding_warmth": 800,
+    "comfort": 1,
+    "flags": [ "CONTAINER", "FLAMMABLE_ASH", "REDUCE_SCENT", "INDOORS", "MOUNTABLE", "HIDE_PLACE", "EASY_DECONSTRUCT", "NO_SIGHT" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "sound": "crunch.",
+      "sound_fail": "whump.",
+      "ter_set": "t_pit_shallow",
+      "items": [ { "item": "stick", "count": [ 0, 1 ] }, { "item": "glypto_shell", "count": [ 1, 1 ] } ]
+    }
+  }
+]

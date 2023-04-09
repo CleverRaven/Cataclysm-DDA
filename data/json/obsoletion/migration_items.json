@@ -1,0 +1,104 @@
+[
+  {
+    "id": "armor_bio_carbon_filament",
+    "type": "MIGRATION",
+    "replace": "tinfoil_hat"
+  },
+  {
+    "id": "nato_assault_rifle",
+    "from_variant": "scar_l",
+    "type": "MIGRATION",
+    "replace": "scar_l"
+  },
+  {
+    "id": "m27_assault_rifle",
+    "from_variant": "scar_l",
+    "type": "MIGRATION",
+    "replace": "scar_l"
+  },
+  {
+    "id": "r_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_red", "count": 15 } ]
+  },
+  {
+    "id": "b_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_blue", "count": 15 } ]
+  },
+  {
+    "id": "g_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_green", "count": 15 } ]
+  },
+  {
+    "id": "y_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_yellow", "count": 15 } ]
+  },
+  {
+    "id": "p_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_purple", "count": 15 } ]
+  },
+  {
+    "id": "w_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_white", "count": 15 } ]
+  },
+  {
+    "id": "black_paint",
+    "type": "MIGRATION",
+    "replace": "paint_can_steel",
+    "contents": [ { "id": "paint_black", "count": 15 } ]
+  },
+  {
+    "id": "chem_zinc",
+    "type": "MIGRATION",
+    "replace": "chem_zinc_oxide"
+  },
+  {
+    "id": "steel_scissors",
+    "type": "MIGRATION",
+    "replace": "scissors"
+  },
+  {
+    "id": "teddy",
+    "type": "MIGRATION",
+    "replace": "teddy_bear",
+    "variant": "toy_plush_teddy",
+    "flags": [ "FILTHY" ]
+  },
+  {
+    "id": "toothbrush_dirty",
+    "type": "MIGRATION",
+    "replace": "toothbrush_plain",
+    "flags": [ "FILTHY" ]
+  },
+  {
+    "id": "egg_lady_bug_giant",
+    "type": "MIGRATION",
+    "replace": "egg_lady_bug"
+  },
+  {
+    "id": "spider_egg",
+    "type": "MIGRATION",
+    "replace": "egg_spider_cellar"
+  },
+  {
+    "id": "mess_tin",
+    "type": "MIGRATION",
+    "replace": "mess_kit"
+  },
+  {
+    "id": "badge_cybercop",
+    "type": "MIGRATION",
+    "replace": "badge_marshal"
+  }
+]

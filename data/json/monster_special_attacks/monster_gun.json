@@ -143,8 +143,8 @@
     "id": "v29_turret",
     "copy-from": "v29",
     "type": "GUN",
+    "energy_drain": "0 kJ",
     "name": { "str": "mounted laser" },
-    "ups_charges": 0,
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]
   },
   {
@@ -152,7 +152,7 @@
     "copy-from": "v29",
     "type": "GUN",
     "name": { "str": "deterrent laser weapon" },
-    "ups_charges": 0,
+    "energy_drain": "0 kJ",
     "ammo_effects": [ "DRAW_LASER_BEAM" ],
     "ranged_damage": { "damage_type": "electric", "amount": 10, "armor_penetration": 4 },
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "NO_TURRET" ]

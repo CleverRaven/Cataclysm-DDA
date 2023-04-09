@@ -60,6 +60,8 @@ std::string enum_to_string<relic_recharge_type>( relic_recharge_type type )
         case relic_recharge_type::PERIODIC: return "periodic";
         case relic_recharge_type::SOLAR_SUNNY: return "solar_sunny";
         case relic_recharge_type::LUNAR: return "lunar";
+        case relic_recharge_type::FULL_MOON: return "full_moon";
+        case relic_recharge_type::NEW_MOON: return "new_moon";
         case relic_recharge_type::SOLAR_CLOUDY: return "solar_cloudy";
         case relic_recharge_type::NUM: break;
     }
@@ -242,7 +244,6 @@ void relic_charge_template::deserialize( const JsonObject &jo )
     load( jo );
 }
 
-
 void relic_charge_template::load( const JsonObject &jo )
 {
     int tmp_power = 0;
@@ -351,7 +352,13 @@ void relic::load( const JsonObject &jo )
         for( JsonObject jobj : jo.get_array( "passive_effects" ) ) {
             enchant_cache ench;
             ench.load( jobj );
-            add_passive_effect( ench );
+            if( !ench.id.is_empty() ) {
+                // for enchantments by id we need to wait till finalize to cast them to objects
+                // for now stash them
+                passive_enchant_ids.push_back( ench.id );
+            } else {
+                add_passive_effect( ench );
+            }
         }
     }
     jo.read( "charge_info", charge );
@@ -360,6 +367,14 @@ void relic::load( const JsonObject &jo )
     }
     jo.read( "name", item_name_override );
     moves = jo.get_int( "moves", 100 );
+}
+
+void relic::finalize()
+{
+    // add the enchantments that we couldn't earlier in the load
+    for( const enchantment_id &ench : passive_enchant_ids ) {
+        add_passive_effect( ench.obj() );
+    }
 }
 
 void relic::deserialize( const JsonObject &jobj )
@@ -406,9 +421,9 @@ int relic::activate( Creature &caster, const tripoint &target )
     }
     caster.moves -= moves;
     for( const fake_spell &sp : active_effects ) {
-        spell casting = sp.get_spell( sp.level );
+        spell casting = sp.get_spell( caster, sp.level );
         casting.cast_all_effects( caster, target );
-        caster.add_msg_if_player( casting.message() );
+        caster.add_msg_if_player( casting.message(), casting.name() );
     }
     charge.charges -= charge.charges_per_use;
     return charge.charges_per_use;
@@ -481,7 +496,22 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
         }
         case relic_recharge_type::LUNAR : {
             if( can_recharge_lunar( parent, carrier, pos ) &&
+                get_moon_phase( calendar::turn ) >= MOON_NEW &&
+                get_moon_phase( calendar::turn ) <= MOON_WANING_CRESCENT ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge_type::FULL_MOON : {
+            if( can_recharge_lunar( parent, carrier, pos ) &&
                 get_moon_phase( calendar::turn ) == MOON_FULL ) {
+                charge.accumulate_charge( parent );
+            }
+            return;
+        }
+        case relic_recharge_type::NEW_MOON : {
+            if( can_recharge_lunar( parent, carrier, pos ) &&
+                get_moon_phase( calendar::turn ) == MOON_NEW ) {
                 charge.accumulate_charge( parent );
             }
             return;
@@ -528,7 +558,6 @@ bool relic::can_recharge( item &parent, Character *carrier ) const
     }
 
     return true;
-
 
 }
 

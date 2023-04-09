@@ -4,7 +4,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "ray diagrams", "str_pl": "copies of ray diagrams" },
-    "description": "These are diagrams covered in mathematical formulae and drawings of rays.  You think there are some discussions about how to manipulate rays, rays of what though?",
+    "description": "These are diagrams covered in mathematical formulae and drawings of rays.  You think there are some discussions about how to manipulate rays.  Rays of what, though?",
     "weight": "600 g",
     "volume": "450ml",
     "price": 10000,
@@ -13,6 +13,7 @@
     "symbol": "=",
     "color": "yellow",
     "looks_like": "tailor_portfolio",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_battery_gun" ] }
   },
   {
@@ -29,6 +30,7 @@
     "symbol": "=",
     "color": "light_cyan",
     "looks_like": "tailor_portfolio",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_ray_gun" ] }
   },
   {
@@ -36,7 +38,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "wolf's mask" },
-    "description": "Huge, respirator-like mask, which covers the whole head, except the right eye.  The tubes are not connected to anything, so you can't breath with the mask on your face.",
+    "description": "A huge, respirator-like mask, covering the whole head except for the right eye.  The tubes are not connected to anything, so you can't breathe with the mask on your face.",
     "weight": "405 g",
     "volume": "1479 ml",
     "price": 4000,
@@ -46,6 +48,7 @@
     "symbol": "[",
     "looks_like": "mask_gas",
     "color": "dark_gray",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_mace_magic" ] }
   },
   {
@@ -53,7 +56,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "String Theory For Dummies", "str_pl": "copies of String Theory For Dummies" },
-    "description": "A small hardcover book, that describes a version of string theory that seems quite preposterous.",
+    "description": "A small hardcover book describing a version of string theory that seems quite preposterous.",
     "weight": "77 g",
     "volume": "334 ml",
     "price": 1000,
@@ -61,6 +64,7 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": "*",
     "color": "black",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "firmament_driver" ] }
   },
   {
@@ -68,7 +72,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "syringe with vermilion liquid", "str_pl": "syringes with vermilion liquid" },
-    "description": "Small syringe filled with dark red liquid.  The piston seems to be glued, and you can't move it.",
+    "description": "A small syringe filled with a dark red liquid.  The plunger seems to be glued, and you can't move it.",
     "weight": "5 g",
     "volume": "10 ml",
     "price": 10000,
@@ -76,20 +80,22 @@
     "material": [ "forged_dreamstuff" ],
     "symbol": ".",
     "color": "red",
-    "use_action": { "type": "learn_spell", "spells": [ "summon_bio_launcher" ] }
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
+    "use_action": { "type": "learn_spell", "spells": [ "summon_bio_launcher", "summon_bio_warhead" ] }
   },
   {
     "id": "money_strap_magic",
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "odd hundred-dollar strap" },
-    "description": "A hundred-dollar bills held together by a mustard currency strap.  Each bill contain a sequence of symbols you can't understand, but can feel pounding inside your skull.",
+    "description": "A stack of hundred-dollar bills held together by a mustard currency strap.  Each bill contains a sequence of symbols you can't understand, but can feel pounding inside your skull.",
     "looks_like": "money_strap_one",
     "weight": "100 g",
     "volume": "113 ml",
     "material": [ "forged_dreamstuff" ],
     "color": "green",
     "symbol": "$",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_rip_ticket" ] }
   },
   {
@@ -97,7 +103,7 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "tin foil hat" },
-    "description": "Tiny hat, made from thin tin foil layer and a strainer.  You can't wear it, because it's too small for your head.",
+    "description": "A tiny hat, made from a thin layer of tin foil and a strainer.  You can't wear it, because it's too small for your head.",
     "weight": "6 g",
     "volume": "89 ml",
     "price": 600,
@@ -106,6 +112,7 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_helmet_inventor" ] }
   },
   {
@@ -113,13 +120,14 @@
     "type": "GENERIC",
     "category": "artifacts",
     "name": { "str": "video game disc" },
-    "description": "A small box with a video game disc.  The cover shows a man, surrounded by monsters, who's shooting the monsters with a gun in each hand.  There is a compact disc inside, but you can't pick it up.",
+    "description": "A small box with a video game disc.  The cover shows a man surrounded by monsters, shooting them with a gun in each hand.  There is a compact disc inside, but you can't pick it up.",
     "//": "No, its 'Crimsonland'",
     "weight": "60 g",
     "volume": "250 ml",
     "material": [ "forged_dreamstuff" ],
     "symbol": "?",
     "looks_like": "textbook_anarch",
+    "//scannable": [ false, "not a book, but shouldn't be scannable" ],
     "use_action": { "type": "learn_spell", "spells": [ "summon_ion_gun" ] }
   }
 ]

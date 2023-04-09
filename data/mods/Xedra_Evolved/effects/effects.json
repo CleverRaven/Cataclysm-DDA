@@ -17,7 +17,7 @@
       "You have contracted an interdimensional disease, specifically Blood Spiders.  Symptoms can be alleviated by medication (antiparasitic)."
     ],
     "apply_memorial_log": "Caught blood spiders.",
-    "remove_memorial_log": "Eradicated the spiders in his blood.",
+    "remove_memorial_log": "Eradicated the spiders in their blood.",
     "apply_message": "Your veins itch…",
     "rating": "bad",
     "resist_traits": [ "PARAIMMUNE", "ACIDBLOOD" ],
@@ -39,6 +39,7 @@
   {
     "type": "effect_type",
     "id": "faewild",
+    "//": "Should make the player have better perception with a worse dex but should be offset if taken with consumables that grant altered_physics.",
     "name": [ "glamoured" ],
     "desc": [ "The world is beautiful and breathtaking but maybe also terrifying." ],
     "apply_message": "Colors brighten and vision sharpens.",
@@ -51,6 +52,7 @@
   {
     "type": "effect_type",
     "id": "relative_physics",
+    "//": "Should improve your dex but worsen your mood.  Also should resist Hallucinating when on this.",
     "name": [ "Angled", "Canted", "Mirrored" ],
     "desc": [
       "Your vision suddenly feels as if it shifted down and to the left.",
@@ -62,25 +64,8 @@
     "decay_messages": [ [ "Your body accepts your presence once more.", "good" ], [ "A mirror cracks in the distance.", "good" ] ],
     "max_intensity": 3,
     "rating": "bad",
-    "base_mods": {
-      "pain_chance": [ 256 ],
-      "pain_max_val": [ 15 ],
-      "pain_min": [ 1, 0 ],
-      "fatigue_min": [ 10 ],
-      "fatigue_max": [ 20 ],
-      "fatigue_chance": [ 900 ],
-      "h_mod_min": [ -1 ],
-      "h_mod_min_val": [ 0 ],
-      "h_mod_chance": [ 900 ]
-    },
-    "scaling_mods": {
-      "pain_max_val": [ 5 ],
-      "pain_chance": [ 150 ],
-      "fatigue_chance": [ -300 ],
-      "h_mod_min": [ -1 ],
-      "h_mod_min_val": [ -50 ],
-      "h_mod_chance": [ -200 ]
-    },
+    "base_mods": { "dex_mod": [ 1 ], "h_mod_min": [ -1 ], "h_mod_min_val": [ 0 ], "h_mod_chance": [ 900 ] },
+    "scaling_mods": { "dex_mod": [ 1 ], "h_mod_min": [ -1 ], "h_mod_min_val": [ -50 ], "h_mod_chance": [ -200 ] },
     "blood_analysis_description": "Anomalous Readings"
   },
   {
@@ -95,7 +80,17 @@
     "miss_messages": [ [ "The flames distract you.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
-    "//": "Needs to emit light once Mylie unites traits, effects etc 'light_emitted: 3'.",
+    "max_intensity": 3,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LUMINATION",
+            "add": { "arithmetic": [ { "u_val": "effect_intensity", "effect": "foxfire_imbibed" }, "*", { "const": 50 } ] }
+          }
+        ]
+      }
+    ],
     "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] },
     "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] }
   },
@@ -111,9 +106,30 @@
   },
   {
     "type": "effect_type",
-    "id": "manic_fugue",
-    "name": [ "Manic Fugue" ],
-    "desc": [ "Your creative state is happening." ]
+    "id": "creativity",
+    "//": "Tracks inventors creative sparks",
+    "name": [ "One Amazing Idea", "Several Inspired Tangents", "Brimming with Creativity" ],
+    "desc": [
+      "You have one incredibly amazing idea.",
+      "You've got a few theories you'd like to explore.",
+      "Your brain can't hold any more brilliance."
+    ],
+    "max_intensity": 3,
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "dreamer_eff",
+    "name": [ "Matter Twist", "Matter Deformation", "Dimensional Shift", "Dimensional Chasm", "Reality Gateway" ],
+    "desc": [
+      "Sometimes the world nearby twists.  Was it you?",
+      "Sometimes there is an odd noise you hear.  Sounds like a whisper.",
+      "You feel someone's presences.  They are wondering.",
+      "Random voices jump into your head time to time.  Most of them are friendly.",
+      "You clearly feel the otherworldly presence.  They are ready to help you."
+    ],
+    "max_intensity": 5,
+    "rating": "good"
   },
   {
     "type": "effect_type",
@@ -147,15 +163,17 @@
   {
     "type": "effect_type",
     "id": "blood_treatment",
+    "//": "Should reduce and reverse the effects of vampire_virus.",
     "rating": "good",
     "blocks_effects": [ "vampire_virus" ],
     "blood_analysis_description": "Heightened levels of organosulfur compounds, mercury, and silver.",
-    "max_duration": 86400,
+    "max_duration": 8640000,
     "dur_add_perc": 25
   },
   {
     "type": "effect_type",
     "id": "blood_quenched",
+    "//": "The PC has consumed more human blood than usual.  Will slow them down some but gives them more blood vitamin to cast with or to go without consuming blood for longer.",
     "name": [ "Flush", "Engorged", "Tick-like" ],
     "rating": "mixed",
     "max_intensity": 100,
@@ -167,6 +185,7 @@
   {
     "type": "effect_type",
     "id": "poisoned_blood",
+    "//": "Should happen if you consume blood treatments after gaining Vampire4 trait.  Currently unobtainable.",
     "name": [ "Poisoned blood" ],
     "desc": [ "You have poisoned your own blood!" ],
     "miss_messages": [ [ "You feel bad inside.", 1 ] ],
@@ -189,6 +208,7 @@
   {
     "type": "effect_type",
     "id": "poisoned_blood2",
+    "//": "Should happen if you consume blood treatments after gaining Vampire5 trait.  Currently unobtainable.",
     "rating": "bad",
     "chance_kill": [ [ 1, 1 ] ],
     "chance_kill_resist": [ [ 1, 1 ] ],
@@ -204,26 +224,26 @@
     "desc": [
       "Your complexion is wan and spent.",
       "Your skin is pale and your eyes are thoroughly bloodshot.",
-      "Your skin is pale and have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
+      "Your skin is pale and your eyes have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
     ],
     "apply_message": "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.",
     "death_msg": "You succumb to your deadly necrotic condition.",
     "apply_memorial_log": "Contracted a bloodborne pathogen out of legend.",
     "remove_memorial_log": "Rid themselves of a horrific curse of the blood.",
     "resist_traits": [ "ACIDBLOOD" ],
-    "resist_effects": [ "blood_treatment", "blood_quenched" ],
+    "resist_effects": [ "blood_treatment" ],
+    "blocks_effects": [ "cold", "flu" ],
     "max_intensity": 3,
-    "int_add_val": 1,
-    "int_decay_step": 1,
-    "int_decay_tick": 2864000,
+    "//": "Each stage is intended to last 5.3 days.  I'm not sure if I've got the decay ticks correct on this.",
     "rating": "bad",
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
-    "base_mods": { "speed_mod": [ -10 ], "str_mod": [ -1 ], "dodge_mod": [ -1 ] },
+    "base_mods": { "speed_mod": [ -5 ] },
     "scaling_mods": { "speed_mod": [ 15 ], "str_mod": [ 1.5 ], "dodge_mod": [ 1.5 ] }
   },
   {
     "type": "effect_type",
     "id": "vampire_virus_ascendant",
+    "//": "Currently unobtainable.  Needs to be player choice and significant quest/difficulty to advance to this stage. VAMPIRE4 will be gated behind this.",
     "name": [ "Terminal Porphyria" ],
     "desc": [ "Your skin is deathly white and will redden and burn when exposed to the sun." ],
     "apply_message": "You've chosen to embrace this illness and enhance your curse.",
@@ -239,6 +259,7 @@
   {
     "type": "effect_type",
     "id": "vampire_virus_post_mortal",
+    "//": "Currently unobtainable.  Needs to be player choice and significant quest/difficulty to advance to this stage. VAMPIRE5 will be gated behind this.",
     "name": [ "Homo sapiens homovorus" ],
     "desc": [
       "Your skin is deathly white, your eyes are solid red except for a huge pupil, the only food you can consume is human blood, and if sunlight hits you that part of your body instantly burns."
@@ -257,6 +278,7 @@
   {
     "type": "effect_type",
     "id": "withering",
+    "//": "This is the starving effect when the vampire hasn't consumed enough human blood.  Should take several days of not consuming blood even if not using any powers.",
     "name": [ "Sallow", "Hypomia", "Corpse-like", "Eternal Slumber" ],
     "desc": [
       "The absence of raw blood from your diet has left you wan, pale and uncomfortable.",
@@ -278,13 +300,13 @@
       "str_mod": [ -1 ],
       "stamina_min": [ -100 ],
       "stamina_max": [ -200 ],
-      "stamina_chance": [ 900 ],
+      "stamina_chance": [ 9000 ],
       "fatigue_min": [ 10 ],
       "fatigue_max": [ 20 ],
-      "fatigue_chance": [ 900 ],
+      "fatigue_chance": [ 9000 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
-      "h_mod_chance": [ 900 ]
+      "h_mod_chance": [ 9000 ]
     },
     "scaling_mods": {
       "str_mod": [ -2 ],
@@ -327,5 +349,151 @@
       "stamina_min": [ 40 ],
       "stamina_chance": [ 2 ]
     }
+  },
+  {
+    "id": "eater_lump_pool",
+    "type": "effect_type",
+    "name": [ "Dream Gorging" ],
+    "desc": [
+      "You ate a whole dreamdross ingot.  It is too much for your body, but temporarily you have a +6 to your strength and better regeneration."
+    ],
+    "apply_message": "A huge warm wave moves from your stomach through your body.",
+    "remove_message": "The warm feeling fades away.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "STRENGTH", "add": 6 }, { "value": "REGEN_HP", "multiply": 1 } ] } ]
+  },
+  {
+    "type": "effect_type",
+    "id": "blind_rage",
+    "name": [ "Blind Rage" ],
+    "desc": [ "Perfect hatred" ],
+    "//": "Must limit the player's sight to 2-3 tiles (maybe real blind would be cool, but I don't really think it's a good idea (and also I don't know how it interacts with melee (and also the effect is pretty weak for total blindness))), but it's hardcoded atm",
+    "apply_message": "AAAAARGH!!",
+    "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
+    "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.1 }, { "limb_score": "night_vis", "modifier": 0.1 } ],
+    "base_mods": { "str_mod": [ 4 ], "dex_mod": [ 4 ], "per_mod": [ -8 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "spell_stamina_eff",
+    "name": [ "Circulatory" ],
+    "desc": [ "You can't get tired." ],
+    "apply_message": "You feel a deep energy in your muscles, exuberant and coiled.",
+    "remove_message": "The energy in your body fades away.",
+    "rating": "good",
+    "//": "+0.1x smamina regen for each level",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "REGEN_STAMINA",
+            "multiply": { "arithmetic": [ { "u_val": "spell_level", "spell": "spell_stamina_wonder" }, "/", { "const": 10 } ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "effect_dodge",
+    "type": "effect_type",
+    "name": [ "Dodge" ],
+    "desc": [ "Shun their attacks." ],
+    "apply_message": "Your reaction speed is increased.",
+    "remove_message": "Your reaction speed turns back to normal.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ]
+  },
+  {
+    "id": "effect_endurance",
+    "type": "effect_type",
+    "name": [ "Endurance" ],
+    "desc": [ "Take the blows.  Don’t let the world kill you." ],
+    "apply_message": "Your sense of touch is blunted for a bit, but your skin feels more dense.",
+    "remove_message": "The sturdy feeling is gone.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "values": [ { "value": "ARMOR_BASH", "add": -12 }, { "value": "ARMOR_CUT", "add": -12 }, { "value": "ARMOR_STAB", "add": -12 } ]
+      }
+    ]
+  },
+  {
+    "id": "spell_melee_damage",
+    "type": "effect_type",
+    "name": [ "Physical Instrument" ],
+    "desc": [ "Your body is a tool of destruction.  Use it effectively." ],
+    "apply_message": "You can feel a bubbling energy in your muscles.",
+    "remove_message": "The feelings in your muscles subside.",
+    "rating": "good",
+    "show_intensity": false,
+    "enchantments": [
+      {
+        "values": [
+          { "value": "ATTACK_SPEED", "add": 20 },
+          { "value": "BONUS_DODGE", "add": 2 },
+          { "value": "MELEE_DAMAGE", "multiply": 0.5 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "spell_speed_eff",
+    "name": [ "Rush" ],
+    "desc": [ "A burst of speed and stamina." ],
+    "apply_message": "Your lungs seem to gain capacity and your legs feel longer.",
+    "remove_message": "Your body shrinks back into its normal space.",
+    "rating": "good",
+    "show_intensity": false,
+    "//": "+3 speed for each level",
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "SPEED",
+            "add": { "arithmetic": [ { "u_val": "spell_level", "spell": "spell_speed_wonder" }, "*", { "const": 3 } ] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "effect_weakening",
+    "type": "effect_type",
+    "name": [ "Weakness" ],
+    "desc": [ "Your body is slow." ],
+    "rating": "bad",
+    "show_intensity": false,
+    "max_intensity": 2,
+    "int_add_val": 1,
+    "//": "The original idea was to make an enchantment, that adds ARMOR_BASH enchantment value, so monsters will take more damage when you attack them, but sadly enchantments now works only with player's avatar, and not with monsters.  So now it's a boring slowdown.",
+    "base_mods": { "speed_mod": [ -33 ] },
+    "scaling_mods": { "speed_mod": [ -33 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "spell_unbreakable_eff",
+    "name": [ "" ],
+    "desc": [ "" ],
+    "apply_message": "You are the only who can control your body now.",
+    "remove_message": "External forces apply to your body again.",
+    "blocks_effects": [ "grabbed" ],
+    "rating": "good",
+    "enchantments": [ { "mutations": [ "eater_unbreakable" ] } ]
+  },
+  {
+    "id": "eater_unbreakable",
+    "type": "mutation",
+    "name": { "str": "Unbreakable" },
+    "points": 0,
+    "starting_trait": false,
+    "purifiable": false,
+    "valid": false,
+    "description": "Nothing can move you from your path.",
+    "enchantments": [ { "values": [ { "value": "PAIN", "multiply": -1 } ] } ],
+    "flags": [ "STEADY" ]
   }
 ]

@@ -10,19 +10,20 @@
     "price": 40000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "material": [ "cotton", "kevlar" ],
+    "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "duster_leather",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 8, 13 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 85,
-        "encumbrance": [ 4, 5 ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+        "coverage": 86,
+        "encumbrance": [ 5, 6 ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
       },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 8, 8 ] }
     ],
     "pocket_data": [
       {
@@ -68,7 +69,7 @@
         "moves": 120
       }
     ],
-    "warmth": 10,
+    "warmth": 20,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
@@ -103,17 +104,18 @@
     "price": 34000,
     "price_postapoc": 4500,
     "to_hit": -1,
-    "material": [ "cotton", "kevlar" ],
+    "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "duster_survivor",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 13 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 8, 13 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
-        "coverage": 85,
-        "encumbrance": [ 4, 5 ],
-        "specifically_covers": [ "leg_hip_l", "leg_hip_r", "leg_upper_l", "leg_upper_r" ]
+        "coverage": 86,
+        "encumbrance": [ 5, 6 ],
+        "specifically_covers": [ "leg_draped_l", "leg_draped_r" ],
+        "layers": [ "BELTED" ]
       }
     ],
     "pocket_data": [
@@ -124,8 +126,8 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
-    "warmth": 10,
-    "material_thickness": 2,
+    "warmth": 20,
+    "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ]
@@ -150,7 +152,7 @@
         "//": "stats of a bullet proof vest",
         "material": [
           { "type": "nylon", "covered_by_mat": 100, "thickness": 1.0 },
-          { "type": "kevlar_layered", "covered_by_mat": 90, "thickness": 4.4 }
+          { "type": "kevlar_layered", "covered_by_mat": 95, "thickness": 4.4 }
         ],
         "volume_encumber_modifier": 0.3,
         "encumbrance": 6,
@@ -234,13 +236,26 @@
     "price": 40000,
     "price_postapoc": 8000,
     "to_hit": -1,
-    "material": [ "cotton", "kevlar" ],
+    "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "trenchcoat",
     "color": "brown",
     "armor": [
-      { "covers": [ "torso" ], "coverage": 85, "encumbrance": [ 7, 15 ] },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 85, "encumbrance": [ 7, 7 ] }
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 15 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 8, 8 ] },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 90,
+        "encumbrance": [ 5, 6 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 80,
+        "encumbrance": [ 0, 0 ]
+      }
     ],
     "pocket_data": [
       {
@@ -286,7 +301,7 @@
         "moves": 120
       }
     ],
-    "warmth": 10,
+    "warmth": 20,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
@@ -304,7 +319,7 @@
     "price": 34000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "material": [ "cotton", "kevlar" ],
+    "material": [ "canvas", "kevlar" ],
     "symbol": "[",
     "looks_like": "sleeveless_duster_survivor",
     "color": "brown",
@@ -316,11 +331,32 @@
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 120 }
     ],
-    "warmth": 10,
+    "warmth": 20,
     "material_thickness": 3,
     "valid_mods": [ "steel_padded" ],
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "POCKETS", "HOOD", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF", "OUTER" ],
-    "armor": [ { "encumbrance": [ 7, 15 ], "coverage": 85, "covers": [ "torso" ] } ]
+    "armor": [
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ], "coverage": 100, "encumbrance": [ 8, 15 ] },
+      { "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ], "coverage": 95, "encumbrance": [ 0, 0 ] },
+      {
+        "covers": [ "arm_l", "arm_r" ],
+        "specifically_covers": [ "arm_shoulder_l", "arm_shoulder_r" ],
+        "coverage": 40,
+        "encumbrance": [ 0, 0 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_hip_l", "leg_hip_r" ],
+        "coverage": 90,
+        "encumbrance": [ 5, 6 ]
+      },
+      {
+        "covers": [ "leg_l", "leg_r" ],
+        "specifically_covers": [ "leg_upper_l", "leg_upper_r" ],
+        "coverage": 80,
+        "encumbrance": [ 0, 0 ]
+      }
+    ]
   }
 ]

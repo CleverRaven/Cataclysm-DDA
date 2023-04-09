@@ -56,17 +56,29 @@
   },
   {
     "type": "item_group",
+    "id": "NC_BUNKER_MERCHANT_sell",
+    "items": [
+      { "group": "book_military", "prob": 70 },
+      { "group": "guns_milspec", "prob": 70 },
+      { "group": "mil_armor", "prob": 70 },
+      { "group": "mil_food_nodrugs", "prob": 80 },
+      { "group": "ammo_rifle_milspec", "prob": 80 },
+      { "group": "camping", "prob": 90 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "NC_BUNKER_MERCHANT_misc",
     "items": [
-      { "group": "ammo_reloaded", "prob": 100, "count-min": 5, "count-max": 10 },
-      { "group": "everyday_gear", "prob": 100, "count-min": 5, "count-max": 25 },
-      { "group": "guns_survival", "prob": 100, "count-min": 5, "count-max": 5 },
-      { "group": "tools_survival", "prob": 100, "count-min": 5, "count-max": 5 },
-      { "group": "supplies_electronics", "prob": 100, "count-min": 5, "count-max": 5 },
-      { "group": "clothing_outdoor_torso", "prob": 100, "count-min": 5, "count-max": 5 },
-      { "group": "clothing_outdoor_pants", "prob": 100, "count-min": 5, "count-max": 5 },
-      { "group": "clothing_outdoor_shoes", "prob": 100, "count-min": 5, "count-max": 5 },
-      { "group": "drugs_soldier", "prob": 100, "count-min": 5, "count-max": 5 }
+      { "group": "ammo_reloaded", "prob": 100 },
+      { "group": "everyday_gear", "prob": 100 },
+      { "group": "guns_survival", "prob": 100 },
+      { "group": "tools_survival", "prob": 100 },
+      { "group": "supplies_electronics", "prob": 100 },
+      { "group": "clothing_outdoor_torso", "prob": 100 },
+      { "group": "clothing_outdoor_pants", "prob": 100 },
+      { "group": "clothing_outdoor_shoes", "prob": 100 },
+      { "group": "drugs_soldier", "prob": 100 }
     ]
   }
 ]

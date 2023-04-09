@@ -57,6 +57,24 @@
   },
   {
     "type": "effect_type",
+    "id": "migo_rad_away",
+    "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -1 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
+    "blood_analysis_description": "Strange proteins are ingesting radioactive particles and flushing themselves from the host.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
+    "id": "migo_rad_flush",
+    "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -5 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
+    "blood_analysis_description": "Strange proteins are ingesting radioactive particles and containing all emmissions.",
+    "rating": "good"
+  },
+  {
+    "type": "effect_type",
     "id": "mutagen_mastodon",
     "name": [ "Mastodon Mutation", "Mastodon Transformation", "Mastodon Metamorphosis" ],
     "desc": [
@@ -178,6 +196,54 @@
     "desc": [ "FE09-    A3 65 FF    ATT $#17A\nFE0B-    4E          JMP $5010\nFE0D-    A5 24       DEX $#05\n" ],
     "rating": "good",
     "flags": [ "LEVITATION" ],
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "decreased_performance",
+    "name": [ "Decreased Performance" ],
+    "desc": [ "The performance enhancing drugs slowly wear off and leave you in a state of existential grade hangover." ],
+    "rating": "bad",
+    "int_dur_factor": "8 h",
+    "max_duration": "24 h",
+    "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -10 ], "str_mod": [ -2 ], "dex_mod": [ -2 ] },
+    "blood_analysis_description": "Post overdose quantities of multiple drugs in analyzed blood.",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "post_speed_injection",
+    "name": [ "Slowed Reactions" ],
+    "desc": [ "The performance enhancing drugs slowly wear off and leave you in a state of existential grade hangover." ],
+    "rating": "bad",
+    "int_dur_factor": "8 h",
+    "max_duration": "24 h",
+    "base_mods": { "speed_mod": [ -45 ], "stamina_min": [ -17 ] },
+    "blood_analysis_description": "Dangerous levels of military grade nervous system medications.",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "post_healing_injection",
+    "name": [ "Haggard and drawn" ],
+    "desc": [ "The performance enhancing drugs slowly wear off and leave you in a state of existential grade hangover." ],
+    "rating": "bad",
+    "int_dur_factor": "8 h",
+    "max_duration": "24 h",
+    "base_mods": { "stim_amount": [ -5 ], "stim_max_val": [ -60 ], "perspiration_amount": [ 2 ], "stamina_amount": [ -10 ] },
+    "blood_analysis_description": "Post overdose quantities of multiple drugs in analyzed blood.",
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "post_strength_injection",
+    "name": [ "Weakened and worn down" ],
+    "desc": [ "The performance enhancing drugs slowly wear off and leave you in a state of existential grade hangover." ],
+    "rating": "bad",
+    "int_dur_factor": "8 h",
+    "max_duration": "24 h",
+    "base_mods": { "speed_mod": [ -5 ], "stamina_min": [ -10 ], "str_mod": [ -4 ], "dex_mod": [ -2 ] },
+    "blood_analysis_description": "Dangerous levels of steroids.",
     "show_in_info": true
   }
 ]

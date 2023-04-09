@@ -50,12 +50,12 @@
       "bio_power_storage_mkII",
       "bio_recoil"
     ],
-    "traits": [ "PROF_CYBERCOP" ],
+    "traits": [ "PROF_FED" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "pistol" } ],
     "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
-        "items": [ "tac_fullhelmet", "police_belt", "pants_cargo", "under_armor", "socks", "boots", "badge_cybercop", "wristwatch" ],
+        "items": [ "tac_fullhelmet", "police_belt", "pants_cargo", "under_armor", "socks", "boots", "badge_marshal", "wristwatch" ],
         "entries": [
           { "group": "charged_two_way_radio" },
           { "group": "charged_smart_phone" },
@@ -259,7 +259,7 @@
           "glasses_safety",
           "coat_lab",
           "mbag",
-          "bandages",
+          { "item": "bandages", "count": 3 },
           "wristwatch",
           "stethoscope"
         ],
@@ -469,10 +469,10 @@
           "tent_kit",
           "rollmat",
           "e_tool",
-          "knife_hunting"
+          "knife_hunting",
+          "mess_kit"
         ],
         "entries": [
-          { "item": "medium_plus_battery_cell", "ammo-item": "battery", "charges": 600, "container-item": "mil_mess_kit" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "hat_boonie", "custom-flags": [ "no_auto_equip" ] },

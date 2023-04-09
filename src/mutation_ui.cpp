@@ -49,8 +49,9 @@ static const auto shortcut_desc = []( const std::string &comment, const std::str
 
 // needs extensive improvement
 
-static trait_id GetTrait( std::vector<trait_id> active, std::vector<trait_id> passive, int cursor,
-                          mutation_tab_mode tab_mode )
+static trait_id GetTrait( const std::vector<trait_id> &active,
+                          const std::vector<trait_id> &passive,
+                          int cursor, mutation_tab_mode tab_mode )
 {
     trait_id mut_id;
     if( tab_mode == mutation_tab_mode::active ) {
@@ -226,7 +227,7 @@ void avatar::power_mutations()
     }
 #endif
 
-    cata::optional<trait_id> examine_id;
+    std::optional<trait_id> examine_id;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( wBio );
@@ -400,7 +401,7 @@ void avatar::power_mutations()
                         }
 
                         menu_mode = mutation_menu_mode::activating;
-                        examine_id = cata::nullopt;
+                        examine_id = std::nullopt;
                         // TODO: show a message like when reassigning a key to an item?
                         break;
                     }
@@ -511,9 +512,9 @@ void avatar::power_mutations()
                 } else {
                     continue;
                 }
-                examine_id = GetTrait( active, passive, cursor, tab_mode );
                 scroll_position = 0;
                 cursor = 0;
+                examine_id = GetTrait( active, passive, cursor, tab_mode );
             } else if( action == "CONFIRM" ) {
                 trait_id mut_id;
                 if( tab_mode == mutation_tab_mode::active ) {
@@ -567,7 +568,7 @@ void avatar::power_mutations()
                             }
 
                             menu_mode = mutation_menu_mode::activating;
-                            examine_id = cata::nullopt;
+                            examine_id = std::nullopt;
                             // TODO: show a message like when reassigning a key to an item?
                             break;
                         }
@@ -610,15 +611,15 @@ void avatar::power_mutations()
                 }
             } else if( action == "REASSIGN" ) {
                 menu_mode = mutation_menu_mode::reassigning;
-                examine_id = cata::nullopt;
+                examine_id = std::nullopt;
             } else if( action == "TOGGLE_EXAMINE" ) {
                 // switches between activation and examination
                 menu_mode = menu_mode == mutation_menu_mode::activating ?
                             mutation_menu_mode::examining : mutation_menu_mode::activating;
-                examine_id = cata::nullopt;
+                examine_id = std::nullopt;
             } else if( action == "TOGGLE_SPRITE" ) {
                 menu_mode = mutation_menu_mode::hiding;
-                examine_id = cata::nullopt;
+                examine_id = std::nullopt;
             } else if( action == "QUIT" ) {
                 exit = true;
             }

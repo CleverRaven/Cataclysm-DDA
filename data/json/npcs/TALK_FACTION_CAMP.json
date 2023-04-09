@@ -30,8 +30,7 @@
       {
         "text": "We need to abandon this camp.",
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" },
-        "topic": "TALK_DONE",
-        "effect": "abandon_camp"
+        "topic": "TALK_ABANDON"
       },
       {
         "text": "Show me what needs to be done at the camp.",
@@ -63,10 +62,6 @@
       { "text": "Tell me more about faction camps and food.", "topic": "TALK_CAMP_TUTORIAL_FOOD" },
       { "text": "Tell me more about camp missions.", "topic": "TALK_CAMP_TUTORIAL_MISSIONS" },
       { "text": "Tell me about building a camp.", "topic": "TALK_CAMP_TUTORIAL_BUILDING" },
-      {
-        "text": "Give me a list the locations where faction camps can be built.",
-        "topic": "TALK_ALLY_TUTORIAL_CAMP_LOCATION"
-      },
       { "text": "Give me some advice on building a camp.", "topic": "TALK_CAMP_TUTORIAL_ADVICE" },
       { "text": "I know the basics.  Just tell me what changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       { "text": "Never mind, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
@@ -78,7 +73,7 @@
   {
     "id": "TALK_CAMP_TUTORIAL_OVERVIEW",
     "type": "talk_topic",
-    "dynamic_line": "Each faction camp starts with the companion surveying the land and constructing a bulletin board, with the exception of the bare bones camp, where it is up to you to construct the board yourself anywhere within the camp's perimeter.  You can then 'e'xamine the bulletin board to get a list of available missions with descriptions, and to assign a companion to work on a mission.  The bulletin board is the primary way to access the camp.\n  If both you and a companion have two-way radios, you can assign missions to the companion remotely by talking on the radio.\n  When you ask a companion to start a camp they'll survey the land, mark is as a faction camp (visible on the overmap) to establish it as a faction camp.  All faction camps except the bare bones one also has the companion build a bulletin board.  A faction camp has a central tile where the bulletin board is, and possibly one or more expansions that are in adjacent tiles.\n  All of your faction camps can be stocked with food, and your companions will eat from that food when performing camp missions, or even when they're just hungry and near the camp.\n  Currently, the bare bones faction camp can be created anywhere, while the modular hub ones can be built in fields, and the evac shelter one in all evac shelters.  In addition to those, there are faction camps that can be built in fire stations, mansions, fire lookout towers, helipads, lighthouses, military outposts, pottery cottages, radio towers, and small sealabs, and I may have forgotten some.  You can start a faction camp by talking to a companion who is standing on a suitable terrain, asking about faction camps, and then telling the companion to build a faction camp.  They'll immediately survey the tile and make the bulletin board (bare bones leaves the bulletin board location and construction up to you).  You'll be able to ask the companion for a list of suitable starting sites.",
+    "dynamic_line": "Each faction camp starts with the companion surveying the land and constructing a bulletin board, with the exception of the bare bones camp, where it is up to you to construct the board yourself anywhere within the camp's perimeter.  You can then 'e'xamine the bulletin board to get a list of available missions with descriptions, and to assign a companion to work on a mission.  The bulletin board is the primary way to access the camp.\n  If both you and a companion have two-way radios, you can assign missions to the companion remotely by talking on the radio.\n  When you ask a companion to start a camp they'll survey the land and mark it as a faction camp (visible on the overmap) to establish it.  The companion will also build a bulletin board for all faction camps except the bare bones one.  A faction camp has a central tile where the bulletin board is, and possibly one or more expansions that are in adjacent tiles.\n  All of your faction camps can be stocked with food, and your companions will eat from that food when performing camp missions, or even when they're just hungry and near the camp.\n  Currently, the bare bones faction camp can be created anywhere, while the modular hub ones can be built in fields, and the evac shelter one in all evac shelters.  In addition to those, there are faction camps that can be built in fire stations, mansions, fire lookout towers, helipads, lighthouses, military outposts, pottery cottages, radio towers, and small sealabs, and I may have forgotten some.  You can start a faction camp by talking to a companion who is standing on a suitable terrain, asking about faction camps, and then telling the companion to build a faction camp.  They'll immediately survey the tile and make the bulletin board (bare bones leaves the bulletin board location and construction up to you).  You'll be able to ask the companion for a list of suitable starting sites.",
     "responses": [
       { "text": "Wait, we can talk with radios?", "topic": "TALK_ALLY_TUTORIAL_RADIO" },
       { "text": "Tell me more about faction camps and food.", "topic": "TALK_CAMP_TUTORIAL_FOOD" },
@@ -126,7 +121,7 @@
   {
     "id": "TALK_CAMP_TUTORIAL_BUILDING",
     "type": "talk_topic",
-    "dynamic_line": "Currently, there are three main types of camps that you can start building: bare bones camps, modular field camps, and established building camps which is a wide range of camps adapted to using specific buildings.  The established building list includes fire lookout towers, helipads, lighthouses, light industry, mansions, military outposts, pottery cottages, radio towers, small sealabs, and fire stations.  I may have forgotten something here, as my memory may not be completely up to date.  There used to be an additional one called the primitive field camp, but you can't start those anymore, only upgrade them.\n  The bare bones camp is the most flexible kind of camp as it can be built anywhere and doesn't mandate any construction.  Modular field camps is the next most flexible kind of camp since you can build them on any field and can locate them to have plenty of space for expansions, but you start with nothing in a field and have to build every building, so they can require a lot of resources.  Building upgrade camps are faster to build since you start in an existing building, but you have to establish them in a supported type of existing building and there may not be limited or no space for expansions.\n  Each camp location will have a variety of upgrade missions for it, except for the bare bones one where everything is up to you.  The various missions have descriptions.  In general, though, you'll need to establish housing if you want to expand, and some missions such as hunting or recruiting will require that you have some kind of kitchen or office that you can use to help schedule activities.\n  Regardless of what kind of camp you make, you have to start it by asking a companion to build the camp.  If there are more alternatives than just the bare bones camp you'll get a list of the available alternatives.",
+    "dynamic_line": "Currently, there are three main types of camps that you can start building: bare bones camps, modular field camps, and established building camps which is a wide range of camps adapted to using specific buildings.  The established building list includes fire lookout towers, helipads, lighthouses, light industry, mansions, military outposts, pottery cottages, radio towers, small sealabs, and fire stations.  I may have forgotten something here, as my memory may not be completely up to date.\n  The bare bones camp is the most flexible kind of camp as it can be built anywhere and doesn't mandate any construction.  Modular field camps is the next most flexible kind of camp since you can build them on any field and can locate them to have plenty of space for expansions, but you start with nothing in a field and have to build every building, so they can require a lot of resources.  Established building camps are faster to set up since you start in an existing building, but you have to establish them in a supported type of existing building and there may be limited or no space for expansions.\n  Each camp location will have a variety of upgrade missions for it, except for the bare bones one where everything is up to you.  The various missions have descriptions.  In general, though, you'll need to establish housing if you want to expand, and some missions such as hunting or recruiting will require that you have some kind of kitchen or office that you can use to help schedule activities.\n  Regardless of what kind of camp you make, you have to start it by asking a companion to build the camp.  If there are more alternatives than just the bare bones camp you'll get a list of the available alternatives.",
     "responses": [
       { "text": "Tell me about bare bones camps.", "topic": "TALK_CAMP_TUTORIAL_BARE_BONES" },
       { "text": "Tell me about modular field camps.", "topic": "TALK_CAMP_TUTORIAL_MFC" },
@@ -390,7 +385,7 @@
   {
     "id": "TALK_CAMP_TUTORIAL_CHANGES",
     "type": "talk_topic",
-    "dynamic_line": "\n1.  Faction camps used to require a second companion to act as overseer and camp manager, but that's been replaced by the bulletin board and two-way radio.\n2.  It used to be impossible to upgrade faction camps if there was a vehicle, even a cart, on the same map.  You can now upgrade camps even if there is a vehicle on the map, as long as the upgrade doesn't change the area under the vehicle.\n3.  Faction camps used to upgrade by completely redrawing the map.  Damage to the camp would be replaced when the camp was upgraded.  Now upgrades only change the actual area being upgraded, and you will have to repair damage to the camp yourself.\n4.  There used to be a single path for upgrading the main camp.  Now, after you have completed the first tent, you will have many options for your next upgrade, and you can have different companions working on different upgrades of the main camp at the same time.\n5.  Companions who are near a camp will feed themselves from the camp's food stores, and if the camp has a well, they'll use it to quench their thirst.\n6.  You can now set up faction camps in select buildings.  The list of available buildings is constantly growing, so you'll have to experiment.",
+    "dynamic_line": "\n1.  Faction camps used to require a second companion to act as overseer and camp manager, but that's been replaced by the bulletin board and two-way radio.\n2.  It used to be impossible to upgrade faction camps if there was a vehicle, even a cart, on the same map.  You can now upgrade camps even if there is a vehicle on the map, as long as the upgrade doesn't change the area under the vehicle.\n3.  Faction camps used to upgrade by completely redrawing the map.  Damage to the camp would be replaced when the camp was upgraded.  Now upgrades only change the actual area being upgraded, and you will have to repair damage to the camp yourself.\n4.  There used to be a single path for upgrading the main camp.  Now, after you have completed the first tent, you will have many options for your next upgrade, and you can have different companions working on different upgrades of the main camp at the same time.\n5.  Companions who are near a camp will feed themselves from the camp's food stores, and if the camp has a well, they'll use it to quench their thirst.\n6.  You can now set up faction camps in select buildings.  The list of available buildings is constantly growing, so you'll have to experiment.\n7. The oldest type of camp, known as the primitive field camp or \"Old Camp\", is no longer supported and will be removed entirely in the future.",
     "responses": [
       { "text": "Wait, let's go back over from the start.", "topic": "TALK_CAMP_TUTORIAL_INTRO" },
       { "text": "Give me an overview of how camps work.", "topic": "TALK_CAMP_TUTORIAL_OVERVIEW" },
@@ -402,20 +397,6 @@
       { "text": "Thanks, let's go back to talking about camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Forget it.  Let's go.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "TALK_CAMP_OVERSEER",
-    "type": "talk_topic",
-    "dynamic_line": "Hey boss.  I was thinking, you don't really need me sitting in this tent and not really contributing to the camp.  It's a cushy job, but I could do more.  We could put up a bulletin board and you could write up what you want done there.  What do you say?",
-    "responses": [
-      { "text": "What needs to be done?", "topic": "TALK_CAMP_OVERSEER", "effect": "basecamp_mission" },
-      {
-        "text": "Yes, set up the bulletin board and then go back to normal duties.",
-        "topic": "TALK_DONE",
-        "effect": "remove_overseer"
-      },
-      { "text": "See you around.", "topic": "TALK_DONE" }
     ]
   },
   {

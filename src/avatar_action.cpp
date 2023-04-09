@@ -476,7 +476,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !veh1->handle_potential_theft( you ) ) {
             return true;
         } else {
             door_name = veh1->part( dpart ).name();
@@ -634,7 +634,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         return;
     }
     if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( you ) ) {
             return;
         }
     }
@@ -668,7 +668,12 @@ static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
-        return np->weapon_value( *np->get_wielded_item() );
+        item_location wielded = np->get_wielded_item();
+        if( wielded ) {
+            return np->weapon_value( *wielded );
+        } else {
+            return np->unarmed_value();
+        }
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -837,11 +842,10 @@ void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
     you.assign_activity( player_activity( aim_activity_actor::use_mutation( fake_gun ) ), false );
 }
 
-void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun,
-                                        const units::energy &cost_per_shot )
+void avatar_action::fire_ranged_bionic( avatar &you, const item &fake_gun )
 {
     you.assign_activity(
-        player_activity( aim_activity_actor::use_bionic( fake_gun, cost_per_shot ) ), false );
+        player_activity( aim_activity_actor::use_bionic( fake_gun ) ), false );
 }
 
 void avatar_action::fire_turret_manual( avatar &you, map &m, turret_data &turret )
@@ -952,10 +956,20 @@ void avatar_action::eat( avatar &you, const item_location &loc,
     }
     you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
                                           consume_menu_selected_items, consume_menu_filter, type ) ) );
+    you.last_item = item( *loc ).typeId();
+}
+
+void avatar_action::eat_or_use( avatar &you, item_location loc )
+{
+    if( loc && loc->is_medical_tool() ) {
+        avatar_action::use_item( you, loc, "heal" );
+    } else {
+        avatar_action::eat( you, loc );
+    }
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
-                             const cata::optional<tripoint> &blind_throw_from_pos )
+                             const std::optional<tripoint> &blind_throw_from_pos )
 {
     bool in_shell = you.has_active_mutation( trait_SHELL2 ) ||
                     you.has_active_mutation( trait_SHELL3 );
@@ -1070,21 +1084,6 @@ void avatar_action::plthrow( avatar &you, item_location loc,
     g->reenter_fullscreen();
 }
 
-static void make_active( item_location loc )
-{
-    map &here = get_map();
-    switch( loc.where() ) {
-        case item_location::type::map:
-            here.make_active( loc );
-            break;
-        case item_location::type::vehicle:
-            here.veh_at( loc.position() )->vehicle().make_active( loc );
-            break;
-        default:
-            break;
-    }
-}
-
 static void update_lum( item_location loc, bool add )
 {
     switch( loc.where() ) {
@@ -1102,8 +1101,13 @@ void avatar_action::use_item( avatar &you )
     avatar_action::use_item( you, loc );
 }
 
-void avatar_action::use_item( avatar &you, item_location &loc )
+void avatar_action::use_item( avatar &you, item_location &loc, std::string const &method )
 {
+    if( you.has_effect( effect_incorporeal ) ) {
+        you.add_msg_if_player( m_bad, _( "You can't use anything while incorporeal." ) );
+        return;
+    }
+
     // Some items may be used without being picked up first
     bool use_in_place = false;
 
@@ -1142,15 +1146,15 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         you.mod_moves( -loc.obtain_cost( you ) );
     } else {
         item_location::type loc_where = loc.where_recursive();
+        std::string const name = loc->display_name();
         if( loc_where != item_location::type::character ) {
-            you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
             pre_obtain_moves = -1;
             on_person = false;
         }
 
         // Get the parent pocket before the item is obtained.
         if( loc.has_parent() ) {
-            parent_pocket = loc.parent_item().get_item()->contained_where( *loc );
+            parent_pocket = loc.parent_pocket();
         }
 
         loc = loc.obtain( you, 1 );
@@ -1162,22 +1166,25 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             pre_obtain_moves = you.moves;
         }
         if( !loc ) {
-            debugmsg( "Failed to obtain target item" );
+            you.add_msg_if_player( _( "Couldn't pick up the %s." ), name );
             return;
+        }
+        if( loc_where != item_location::type::character ) {
+            you.add_msg_if_player( _( "You pick up the %s." ), name );
         }
     }
 
     if( use_in_place ) {
         update_lum( loc, false );
-        you.use( loc, pre_obtain_moves );
+        you.use( loc, pre_obtain_moves, method );
         update_lum( loc, true );
 
-        make_active( loc );
+        loc.make_active();
     } else {
-        you.use( loc, pre_obtain_moves );
+        you.use( loc, pre_obtain_moves, method );
 
         if( parent_pocket && on_person && parent_pocket->will_spill() ) {
-            parent_pocket->handle_liquid_or_spill( you );
+            parent_pocket->handle_liquid_or_spill( you, loc.parent_item().get_item() );
         }
     }
 

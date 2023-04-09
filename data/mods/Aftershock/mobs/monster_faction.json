@@ -53,9 +53,18 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "reavers",
+    "base_faction": "human",
+    "neutral": [ "herbivore", "robofac" ],
+    "by_mood": [ "insect", "small_animal", "human", "bee" ],
+    "hate": [ "zombie" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "zombie",
     "copy-from": "zombie",
-    "neutral": [ "moxie" ]
+    "neutral": [ "moxie" ],
+    "hate": [ "reavers" ]
   },
   {
     "type": "MONSTER_FACTION",

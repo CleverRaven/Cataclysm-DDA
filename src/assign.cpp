@@ -370,6 +370,75 @@ bool assign( const JsonObject &jo, const std::string &name, units::energy &val, 
     return true;
 }
 
+bool assign( const JsonObject &jo, const std::string &name, units::power &val, bool strict,
+             const units::power lo, const units::power hi )
+{
+    const auto parse = [&name]( const JsonObject & obj, units::power & out ) {
+        if( obj.has_int( name ) ) {
+            const std::int64_t tmp = obj.get_int( name );
+            if( tmp > units::to_kilowatt( units::power_max ) ) {
+                out = units::power_max;
+            } else {
+                out = units::from_kilowatt( tmp );
+            }
+            return true;
+        }
+        if( obj.has_string( name ) ) {
+
+            out = read_from_json_string<units::power>( obj.get_member( name ), units::power_units );
+            return true;
+        }
+        return false;
+    };
+
+    units::power out;
+
+    // Object via which to report errors which differs for proportional/relative values
+    const JsonObject *err = &jo;
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
+
+    // Do not require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( relative.has_member( name ) ) {
+        units::power tmp;
+        err = &relative;
+        if( !parse( *err, tmp ) ) {
+            err->throw_error_at( name, "invalid relative value specified" );
+        }
+        strict = false;
+        out = val + tmp;
+
+    } else if( proportional.has_member( name ) ) {
+        double scalar;
+        err = &proportional;
+        if( !err->read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err->throw_error_at( name, "multiplier must be a positive number other than 1" );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( !parse( jo, out ) ) {
+        return false;
+    }
+
+    if( out < lo || out > hi ) {
+        err->throw_error_at( name, "value outside supported range" );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( *err,
+                                 "cannot assign explicit value the same as default or inherited value",
+                                 name );
+    }
+
+    val = out;
+
+    return true;
+}
+
 bool assign( const JsonObject &jo, const std::string &name, nc_color &val )
 {
     if( !jo.has_member( name ) ) {

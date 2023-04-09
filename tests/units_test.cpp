@@ -44,6 +44,20 @@ TEST_CASE( "units_have_correct_ratios", "[units]" )
     CHECK( M_PI * 1_radians == 1_pi_radians );
     CHECK( 2_pi_radians == 360_degrees );
     CHECK( 60_arcmin == 1_degrees );
+
+    CHECK( 1_mW == units::from_milliwatt( 1 ) );
+    CHECK( 1_W == units::from_watt( 1 ) );
+    CHECK( 1_kW == units::from_kilowatt( 1 ) );
+
+    CHECK( 1_W * 1_seconds == 1_J );
+    CHECK( 1_seconds * 1_W == 1_J );
+    CHECK( 1_J / 1_seconds == 1_W );
+    CHECK( 1_J / 1_W == 1_seconds );
+    CHECK( 5_W * 5_minutes == 1.5_kJ );
+    CHECK( -5_W * 5_minutes == -1.5_kJ );
+    CHECK( ( 5_kJ / 5_W ) == ( 16_minutes + 40_seconds ) );
+    CHECK( ( -5_kJ / 5_W ) == -( 16_minutes + 40_seconds ) );
+    CHECK( ( 5_kJ / -5_W ) == -( 16_minutes + 40_seconds ) );
 }
 
 static units::energy parse_energy_quantity( const std::string &json )
@@ -68,6 +82,30 @@ TEST_CASE( "energy parsing from JSON", "[units]" )
 
     CHECK( parse_energy_quantity( "\"1 mJ 1 J 1 kJ\"" ) == 1_mJ + 1_J + 1_kJ );
     CHECK( parse_energy_quantity( "\"1 mJ -4 J 1 kJ\"" ) == 1_mJ - 4_J + 1_kJ );
+}
+
+static units::power parse_power_quantity( const std::string &json )
+{
+    JsonValue jsin = json_loader::from_string( json );
+    return read_from_json_string<units::power>( jsin, units::power_units );
+}
+
+TEST_CASE( "power parsing from JSON", "[units]" )
+{
+    CHECK_THROWS( parse_power_quantity( "\"\"" ) ); // empty string
+    CHECK_THROWS( parse_power_quantity( "27" ) ); // not a string at all
+    CHECK_THROWS( parse_power_quantity( "\"    \"" ) ); // only spaces
+    CHECK_THROWS( parse_power_quantity( "\"27\"" ) ); // no energy unit
+
+    CHECK( parse_power_quantity( "\"1 mW\"" ) == 1_mW );
+    CHECK( parse_power_quantity( "\"1 W\"" ) == 1_W );
+    CHECK( parse_power_quantity( "\"1 kW\"" ) == 1_kW );
+    CHECK( parse_power_quantity( "\"+1 mW\"" ) == 1_mW );
+    CHECK( parse_power_quantity( "\"+1 W\"" ) == 1_W );
+    CHECK( parse_power_quantity( "\"+1 kW\"" ) == 1_kW );
+
+    CHECK( parse_power_quantity( "\"1 mW 1 W 1 kW\"" ) == 1_mW + 1_W + 1_kW );
+    CHECK( parse_power_quantity( "\"1 mW -4 W 1 kW\"" ) == 1_mW - 4_W + 1_kW );
 }
 
 static time_duration parse_time_duration( const std::string &json )
@@ -295,7 +333,6 @@ TEST_CASE( "rounding" )
     CHECK( round_to_multiple_of( -15_degrees, 15_degrees ) == -15_degrees );
     CHECK( round_to_multiple_of( -360_degrees, 15_degrees ) == -360_degrees );
 }
-
 
 TEST_CASE( "Temperatures", "[temperature]" )
 {

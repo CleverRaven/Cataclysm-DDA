@@ -4,6 +4,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -18,7 +19,6 @@
 #include "event_field_transformations.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "optional.h"
 #include "output.h"
 #include "stats_tracker.h"
 #include "string_formatter.h"
@@ -169,24 +169,31 @@ class event_statistic::impl
 };
 
 struct value_constraint {
+    enum comparator { lt, lteq, gteq, gt };
     std::vector<cata_variant> equals_any_;
-    cata::optional<string_id<event_statistic>> equals_statistic_;
-
-    bool permits( const cata_variant &v, stats_tracker &stats ) const {
-        if( std::find( equals_any_.begin(), equals_any_.end(), v ) != equals_any_.end() ) {
-            return true;
-        }
-        // NOLINTNEXTLINE(readability-simplify-boolean-expr)
-        if( equals_statistic_ && stats.value_of( *equals_statistic_ ) == v ) {
-            return true;
-        }
-        return false;
-    }
+    std::optional<string_id<event_statistic>> equals_statistic_;
+    std::optional<std::pair<comparator, cata_variant>> val_comp_;
 
     void deserialize( const JsonObject &jo ) {
-        cata_variant equals_variant;
-        if( jo.read( "equals", equals_variant, false ) ) {
-            equals_any_ = { equals_variant };
+        cata_variant single_val;
+        const auto check_comp_int = [&]( const std::string & comp ) -> bool {
+            bool ret = single_val.type() == cata_variant_type::int_;
+            if( !ret ) {
+                jo.throw_error( string_format( "The value constraint \"%s\" may only be used with int type!",
+                                               comp ) );
+            }
+            return ret;
+        };
+        if( jo.read( "equals", single_val, false ) ) {
+            equals_any_ = { single_val };
+        } else if( jo.read( "lt", single_val, false ) && check_comp_int( "lt" ) ) {
+            val_comp_ = std::pair<comparator, cata_variant>( comparator::lt, single_val );
+        } else if( jo.read( "lteq", single_val, false ) && check_comp_int( "lteq" ) ) {
+            val_comp_ = std::pair<comparator, cata_variant>( comparator::lteq, single_val );
+        } else if( jo.read( "gteq", single_val, false ) && check_comp_int( "gteq" ) ) {
+            val_comp_ = std::pair<comparator, cata_variant>( comparator::gteq, single_val );
+        } else if( jo.read( "gt", single_val, false ) && check_comp_int( "gt" ) ) {
+            val_comp_ = std::pair<comparator, cata_variant>( comparator::gt, single_val );
         }
 
         std::pair<cata_variant_type, std::vector<std::string>> equals_any;
@@ -203,7 +210,7 @@ struct value_constraint {
             equals_statistic_ = stat;
         }
 
-        if( equals_any_.empty() && !equals_statistic_ ) {
+        if( equals_any_.empty() && !equals_statistic_ && !val_comp_ ) {
             jo.throw_error( "No valid value constraint found" );
         }
     }
@@ -226,7 +233,7 @@ struct value_constraint {
             }
         }
 
-        for( const cata_variant &e : equals_any_ ) {
+        const auto check_one = [&]( const cata_variant & e ) -> void {
             if( input_type != e.type() ) {
                 debugmsg( "constraint for event_transformation %s matches constant of type %s "
                           "but value compared with it has type %s",
@@ -238,6 +245,14 @@ struct value_constraint {
                           "but that is not a valid value of that type",
                           name, e.get_string(), io::enum_to_string( e.type() ) );
             }
+        };
+
+        for( const cata_variant &e : equals_any_ ) {
+            check_one( e );
+        }
+
+        if( val_comp_ ) {
+            check_one( ( *val_comp_ ).second );
         }
     }
 
@@ -435,10 +450,112 @@ struct event_transformation_impl : public event_transformation::impl {
     std::vector<std::pair<std::string, value_constraint>> constraints_;
     std::vector<std::string> drop_fields_;
 
+    struct updatable_value_constraint;
+
+    struct state : stats_tracker_multiset_state, event_multiset_watcher {
+        state( const event_transformation_impl *trans, stats_tracker &stats ) :
+            transformation_( trans ),
+            data_( trans->initialize( stats ) ),
+            cached_value_constraints_( trans->make_cached_value_constraints( this, stats ) ) {
+            cata_assert( cached_value_constraints_.size() == trans->constraints_.size() );
+            trans->source_->add_watcher( stats, this );
+        }
+
+        void value_constraint_changed( stats_tracker &stats ) {
+            data_ = transformation_->initialize( cached_value_constraints_, stats );
+            stats.transformed_set_changed( transformation_->id_, data_ );
+        }
+
+        void event_added( const cata::event &e, stats_tracker &stats ) override {
+            EventVector transformed =
+                transformation_->match_and_transform( e.data(), cached_value_constraints_ );
+            for( cata::event::data_type &d : transformed ) {
+                cata::event new_event( e.type(), e.time(), std::move( d ) );
+                data_.add( new_event );
+                stats.transformed_set_changed( transformation_->id_, new_event );
+            }
+        }
+
+        void events_reset( const event_multiset &new_value, stats_tracker &stats ) override {
+            data_ = transformation_->initialize(
+                        new_value.counts(), cached_value_constraints_, stats );
+            stats.transformed_set_changed( transformation_->id_, data_ );
+        }
+
+        const event_transformation_impl *transformation_;
+        event_multiset data_;
+        std::list<updatable_value_constraint> cached_value_constraints_;
+    };
+
+    // This is a helper class that wraps a value_constraint but caches the
+    // value of any target statistic and is notified whenever that statistic
+    // value changes.  This allows us to avoid recomputing the value of that
+    // target statistic.
+    struct updatable_value_constraint : stat_watcher {
+        updatable_value_constraint(
+            const std::pair<std::string, value_constraint> &p,
+            state *st,
+            stats_tracker &stats
+        )
+            : parent_constraint_( &p.second )
+            , parent_state_( st )
+            , field_name_( p.first ) {
+            const value_constraint &val = p.second;
+            if( val.equals_statistic_ ) {
+                cached_value_ = stats.value_of( *val.equals_statistic_ );
+                stats.add_watcher( *val.equals_statistic_, this );
+            }
+        }
+
+        const std::string &field_name() const {
+            return field_name_;
+        }
+
+        void new_value( const cata_variant &new_val, stats_tracker &stats ) override {
+            cached_value_ = new_val;
+            parent_state_->value_constraint_changed( stats );
+        }
+
+        bool permits( const cata_variant &v ) const {
+            const value_constraint &p = *parent_constraint_;
+            if( std::find( p.equals_any_.begin(), p.equals_any_.end(), v ) != p.equals_any_.end() ) {
+                return true;
+            }
+            // NOLINTNEXTLINE(readability-simplify-boolean-expr)
+            if( cached_value_ ) {
+                return *cached_value_ == v;
+            }
+            if( p.val_comp_ ) {
+                const int v_int = v.get<int>();
+                const int c_int = p.val_comp_->second.get<int>();
+                using comparator = value_constraint::comparator;
+                switch( p.val_comp_->first ) {
+                    case comparator::lt:
+                        return v_int < c_int;
+                    case comparator::lteq:
+                        return v_int <= c_int;
+                    case comparator::gteq:
+                        return v_int >= c_int;
+                    case comparator::gt:
+                        return v_int > c_int;
+                }
+            }
+            return false;
+        }
+
+        std::optional<cata_variant> cached_value_;
+        const value_constraint *parent_constraint_;
+        state *parent_state_;
+        std::string field_name_;
+    };
+
     using EventVector = std::vector<cata::event::data_type>;
 
-    EventVector match_and_transform( const cata::event::data_type &input_data,
-                                     stats_tracker &stats ) const {
+    EventVector match_and_transform(
+        const cata::event::data_type &input_data,
+        const std::list<updatable_value_constraint> &cached_value_constraints ) const {
+        cata_assert( cached_value_constraints.size() == constraints_.size() );
+
         EventVector result = { input_data };
         for( const std::pair<std::string, new_field> &p : new_fields_ ) {
             EventVector before_this_pass = std::move( result );
@@ -450,11 +567,10 @@ struct event_transformation_impl : public event_transformation::impl {
         }
 
         auto violates_constraints = [&]( const cata::event::data_type & data ) {
-            for( const std::pair<std::string, value_constraint> &p : constraints_ ) {
-                const std::string &field = p.first;
-                const value_constraint &constraint = p.second;
+            for( const updatable_value_constraint &constraint : cached_value_constraints ) {
+                const std::string &field = constraint.field_name();
                 const auto it = data.find( field );
-                if( it == data.end() || !constraint.permits( it->second, stats ) ) {
+                if( it == data.end() || !constraint.permits( it->second ) ) {
                     return true;
                 }
             }
@@ -473,13 +589,26 @@ struct event_transformation_impl : public event_transformation::impl {
         return result;
     }
 
-    event_multiset initialize( const event_multiset::summaries_type &input,
-                               stats_tracker &stats ) const {
+    std::list<updatable_value_constraint> make_cached_value_constraints(
+        state *st, stats_tracker &stats ) const {
+        // Need to use list here rather than vector because
+        // updatable_value_constraint is not movable.
+        std::list<updatable_value_constraint> result;
+        for( const auto &p : constraints_ ) {
+            result.emplace_back( p, st, stats );
+        }
+        return result;
+    }
+
+    event_multiset initialize(
+        const event_multiset::summaries_type &input,
+        const std::list<updatable_value_constraint> &cached_value_constraints,
+        stats_tracker & ) const {
         event_multiset result;
 
         for( const std::pair<const cata::event::data_type, event_summary> &p : input ) {
             cata::event::data_type event_data = p.first;
-            EventVector transformed = match_and_transform( event_data, stats );
+            EventVector transformed = match_and_transform( event_data, cached_value_constraints );
             for( cata::event::data_type &d : transformed ) {
                 result.add( { d, p.second } );
             }
@@ -487,8 +616,14 @@ struct event_transformation_impl : public event_transformation::impl {
         return result;
     }
 
+    event_multiset initialize(
+        const std::list<updatable_value_constraint> &cached_value_constraints,
+        stats_tracker &stats ) const {
+        return initialize( source_->get( stats ).counts(), cached_value_constraints, stats );
+    }
+
     event_multiset initialize( stats_tracker &stats ) const override {
-        return initialize( source_->get( stats ).counts(), stats );
+        return initialize( make_cached_value_constraints( nullptr, stats ), stats );
     }
 
     void check( const std::string &name ) const override {
@@ -519,44 +654,6 @@ struct event_transformation_impl : public event_transformation::impl {
             }
         }
     }
-
-    struct state : stats_tracker_multiset_state, event_multiset_watcher, stat_watcher {
-        state( const event_transformation_impl *trans, stats_tracker &stats ) :
-            transformation_( trans ),
-            data_( trans->initialize( stats ) ) {
-            trans->source_->add_watcher( stats, this );
-            for( const auto &p : trans->constraints_ ) {
-                if( p.second.equals_statistic_ ) {
-                    // TODO: we need a version of value_constraint that is
-                    // itself a watcher so that it can cache the statistic
-                    // value it cares about and not constantly recompute it.
-                    stats.add_watcher( *p.second.equals_statistic_, this );
-                }
-            }
-        }
-
-        void new_value( const cata_variant &, stats_tracker &stats ) override {
-            data_ = transformation_->initialize( stats );
-            stats.transformed_set_changed( transformation_->id_, data_ );
-        }
-
-        void event_added( const cata::event &e, stats_tracker &stats ) override {
-            EventVector transformed = transformation_->match_and_transform( e.data(), stats );
-            for( cata::event::data_type &d : transformed ) {
-                cata::event new_event( e.type(), e.time(), std::move( d ) );
-                data_.add( new_event );
-                stats.transformed_set_changed( transformation_->id_, new_event );
-            }
-        }
-
-        void events_reset( const event_multiset &new_value, stats_tracker &stats ) override {
-            data_ = transformation_->initialize( new_value.counts(), stats );
-            stats.transformed_set_changed( transformation_->id_, data_ );
-        }
-
-        const event_transformation_impl *transformation_;
-        event_multiset data_;
-    };
 
     std::unique_ptr<stats_tracker_state> watch( stats_tracker &stats ) const override {
         return std::make_unique<state>( this, stats );
@@ -684,7 +781,7 @@ struct event_statistic_count : event_statistic::impl {
     }
 
     monotonically monotonicity() const override {
-        return source->monotonicity();
+        return monotonically::increasing;
     }
 
     std::unique_ptr<impl> clone() const override {
@@ -980,7 +1077,7 @@ struct event_statistic_first_value : event_statistic_field_summary<false> {
 
     cata_variant value( stats_tracker &stats ) const override {
         const event_multiset &events = source->get( stats );
-        const cata::optional<event_multiset::summaries_type::value_type> d = events.first();
+        const std::optional<event_multiset::summaries_type::value_type> d = events.first();
         if( d ) {
             auto it = d->first.find( field );
             if( it == d->first.end() ) {
@@ -1049,7 +1146,7 @@ struct event_statistic_last_value : event_statistic_field_summary<false> {
 
     cata_variant value( stats_tracker &stats ) const override {
         const event_multiset &events = source->get( stats );
-        const cata::optional<event_multiset::summaries_type::value_type> d = events.last();
+        const std::optional<event_multiset::summaries_type::value_type> d = events.last();
         if( d ) {
             auto it = d->first.find( field );
             if( it == d->first.end() ) {
