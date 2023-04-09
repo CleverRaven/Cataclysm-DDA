@@ -14,7 +14,6 @@
 
 #include "cached_options.h"
 #include "catacharset.h"
-#include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "filesystem.h"
@@ -482,12 +481,12 @@ std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path 
     return read_maybe_compressed_file( path.get_unrelative_path() );
 }
 
-cata::optional<std::string> read_whole_file( const std::string &path )
+std::optional<std::string> read_whole_file( const std::string &path )
 {
     return read_whole_file( fs::u8path( path ) );
 }
 
-cata::optional<std::string> read_whole_file( const fs::path &path )
+std::optional<std::string> read_whole_file( const fs::path &path )
 {
     std::string outstring;
     try {
@@ -511,20 +510,20 @@ cata::optional<std::string> read_whole_file( const fs::path &path )
             fin.seekg( 0 );
 
             outstring.resize( size );
-            fin.read( &outstring[0], size );
+            fin.read( outstring.data(), size );
         }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
         }
 
-        return cata::optional<std::string>( std::move( outstring ) );
+        return std::optional<std::string>( std::move( outstring ) );
     } catch( const std::exception &err ) {
         debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 
-cata::optional<std::string> read_whole_file( const cata_path &path )
+std::optional<std::string> read_whole_file( const cata_path &path )
 {
     return read_whole_file( path.get_unrelative_path() );
 }

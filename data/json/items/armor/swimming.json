@@ -913,7 +913,7 @@
     "color": "pink",
     "armor": [
       { "covers": [ "torso" ], "coverage": 95, "encumbrance": 6, "volume_encumber_modifier": 0.25 },
-      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 6, 6 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 6, 6 ] },
       {
         "covers": [ "leg_l", "leg_r" ],
         "coverage": 75,

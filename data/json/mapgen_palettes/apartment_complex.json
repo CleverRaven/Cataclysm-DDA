@@ -2,6 +2,7 @@
   {
     "type": "palette",
     "id": "apt_complex",
+    "//": "Used by apartment complexes and multi-unit housings",
     "parameters": {
       "wall_type": {
         "type": "ter_str_id",
@@ -49,6 +50,7 @@
   {
     "type": "palette",
     "id": "apt_complex_ground",
+    "//": "Used by apartment complexes and multi-unit housings",
     "palettes": [ "apt_complex" ],
     "parameters": {
       "fencing_type": {

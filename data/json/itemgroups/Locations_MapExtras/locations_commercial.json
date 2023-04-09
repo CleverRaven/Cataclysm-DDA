@@ -290,7 +290,7 @@
       [ "deagle_44", 2 ],
       [ "lemat_revolver", 1 ],
       [ "m1911", 5 ],
-      [ "mn_ebr_kit", 1 ],
+      [ "mosin91_30", 1 ],
       [ "match_trigger", 3 ],
       [ "autoclave", 1 ],
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },
@@ -607,7 +607,6 @@
       [ "haori", 1 ],
       [ "hakama", 2 ],
       [ "geta", 1 ],
-      [ "l-stick", 1 ],
       [ "solarpack", 5 ],
       [ "tourist_table", 10 ],
       [ "thermos", 25 ],
@@ -708,7 +707,6 @@
       [ "popcan_stove", 2 ],
       [ "denat_alcohol", 1 ],
       [ "methed_alcohol", 1 ],
-      [ "mil_mess_kit", 1 ],
       [ "water_purifier", 5 ],
       [ "radio", 20 ],
       [ "geiger_off", 8 ],
@@ -741,7 +739,6 @@
       [ "tourist_table", 5 ],
       [ "chem_hexamine", 5 ],
       [ "esbit_stove", 10 ],
-      [ "mess_tin", 10 ],
       [ "angle_grinder", 4 ]
     ]
   },
@@ -879,7 +876,6 @@
       { "item": "glowstick", "prob": 15, "charges": 1400 },
       { "item": "clown_suit", "prob": 5 },
       { "item": "clownshoes", "prob": 5 },
-      { "item": "l-stick", "prob": 1 },
       { "item": "inflatable_dragon", "prob": 1, "charges": [ 0, 500 ] },
       { "item": "inflatable_ghost", "prob": 1, "charges": [ 0, 500 ] },
       { "item": "fog_machine", "prob": 1, "charges": [ 0, 500 ] }

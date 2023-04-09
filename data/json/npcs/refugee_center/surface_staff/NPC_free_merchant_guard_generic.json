@@ -5,8 +5,6 @@
     "//": "A generic guard for the Free Merchants faction.",
     "name_suffix": "Guard",
     "class": "NC_FREE_MERCH_GUARD",
-    "weapon_override": "FREE_MERCH_GUARD_wield_phase1",
-    "worn_override": "FREE_MERCH_GUARD_worn_phase1",
     "attitude": 0,
     "mission": 8,
     "chat": "TALK_GUARD",

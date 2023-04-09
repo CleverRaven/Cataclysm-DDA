@@ -7,6 +7,20 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_TEST_FAIL_RESPONSE",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "condition": { "and": [ { "compare_num": [ { "const": 0 }, ">", { "const": 1 } ] } ] },
+        "text": "Never See this.",
+        "failure_explanation": "Impossible Test",
+        "failure_topic": "TALK_TEST_START",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_TEST_SIMPLE_STATS",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [

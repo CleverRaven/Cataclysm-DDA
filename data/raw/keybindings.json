@@ -964,7 +964,7 @@
     "type": "keybinding",
     "id": "PICK_MODS",
     "category": "WORLDGEN_CONFIRM_DIALOG",
-    "name": "Pick random world name",
+    "name": "View mod manager",
     "bindings": [
       { "input_method": "keyboard_any", "key": "m" },
       { "input_method": "keyboard_char", "key": "M" },
@@ -1954,6 +1954,12 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_NUMPAD_NAVIGATION",
+    "name": "Toggle navigation with numpad numbers",
+    "bindings": [ { "input_method": "keyboard_any", "key": "F5" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "INVENTORY_FILTER",
     "category": "INVENTORY",
     "name": "Set item filter",
@@ -1964,11 +1970,7 @@
     "id": "EXAMINE",
     "category": "INVENTORY",
     "name": "Examine",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "e" },
-      { "input_method": "keyboard_char", "key": "E" },
-      { "input_method": "keyboard_code", "key": "e", "mod": [ "shift" ] }
-    ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "e" } ]
   },
   {
     "type": "keybinding",
@@ -2611,17 +2613,9 @@
   },
   {
     "type": "keybinding",
-    "name": "View achievements, scores, and kills",
+    "name": "View character's morale",
     "category": "DEFAULTMODE",
-    "id": "scores",
-    "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "View morale",
-    "category": "DEFAULTMODE",
-    "id": "morale",
-    "bindings": [ { "input_method": "keyboard_any", "key": "v" } ]
+    "id": "morale"
   },
   {
     "type": "keybinding",
@@ -2745,8 +2739,7 @@
     "type": "keybinding",
     "name": "Sidebar options",
     "category": "DEFAULTMODE",
-    "id": "toggle_panel_adm",
-    "bindings": [ { "input_method": "keyboard_char", "key": "}" }, { "input_method": "keyboard_code", "key": "]", "mod": [ "shift" ] } ]
+    "id": "toggle_panel_adm"
   },
   {
     "type": "keybinding",
@@ -2986,7 +2979,8 @@
     "type": "keybinding",
     "id": "diary",
     "name": "Open diary",
-    "category": "DEFAULTMODE"
+    "category": "DEFAULTMODE",
+    "bindings": [ { "input_method": "keyboard_char", "key": ")" }, { "input_method": "keyboard_code", "key": "0", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -3561,7 +3555,8 @@
     "type": "keybinding",
     "id": "MARK_WITH_COUNT",
     "category": "INVENTORY",
-    "name": "Select a specific amount of highlighted item"
+    "name": "Select a specific amount of highlighted item",
+    "bindings": [ { "input_method": "keyboard_any", "key": "!" } ]
   },
   {
     "type": "keybinding",
@@ -4176,6 +4171,20 @@
   },
   {
     "type": "keybinding",
+    "id": "SCROLL_MISSION_INFO_UP",
+    "category": "FACTIONS",
+    "name": "Scroll camp mission info up",
+    "bindings": [ { "input_method": "keyboard_char", "key": "[" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SCROLL_MISSION_INFO_DOWN",
+    "category": "FACTIONS",
+    "name": "Scroll camp mission info down",
+    "bindings": [ { "input_method": "keyboard_char", "key": "]" } ]
+  },
+  {
+    "type": "keybinding",
     "category": "PLAYER_INFO",
     "id": "VIEW_PROFICIENCIES",
     "name": "View character proficiencies",
@@ -4187,6 +4196,13 @@
     "id": "VIEW_BODYSTAT",
     "name": "View character's body status",
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "View character's morale",
+    "category": "PLAYER_INFO",
+    "id": "morale",
+    "bindings": [ { "input_method": "keyboard_any", "key": "m" } ]
   },
   {
     "type": "keybinding",
@@ -4284,6 +4300,13 @@
     "name": "Add new page",
     "category": "DIARY",
     "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "n" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "View achievements, scores, and kills",
+    "category": "DIARY",
+    "id": "VIEW_SCORES",
+    "bindings": [ { "input_method": "keyboard_any", "mod": [  ], "key": [ "v" ] } ]
   },
   {
     "type": "keybinding",

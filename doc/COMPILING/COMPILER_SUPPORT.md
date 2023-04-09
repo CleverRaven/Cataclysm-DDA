@@ -1,5 +1,28 @@
 # Compilers Supported
 
+| Compiler                                             |                       Version |
+| :---                                                 |                          ---: |
+| [GCC](https://gcc.gnu.org)                           |                           9.1 |
+| [clang](https://clang.llvm.org)                      |                          10.0 |
+| [MinGW-w64](https://www.mingw-w64.org)               |         10.0.0 <br/> GCC 11.2 |
+| [Visual Studio](https://visualstudio.microsoft.com/) | [2019](COMPILING-VS-VCPKG.md) |
+| [XCode](https://developer.apple.com/xcode)           | 10.1 <br/> [macOS 10.13](https://en.wikipedia.org/wiki/MacOS_High_Sierra) |
+
+## Mingw and Mingw-w64
+
+We use Mingw for cross-compilation of Windows versions on Linux.
+It is currently used both in the tests and for the Windows release binaries.
+
+## MSYS2
+
+MSYS2 is [a way to build the project](COMPILING-MSYS.md) on Windows. It
+currently offers gcc at versions 7 or higher.
+
+MSYS also provides clang.  We don't currently support using clang here, but
+work to that end is welcome.
+
+## XCode
+
 Our goal with compiler support is to make it as easy as possible for new
 contributors to get started with development of the game, while also using the
 newest compilers (and thus language standards) that we can.
@@ -9,9 +32,8 @@ and back to those shipping in any supported version of a popular distribution
 or relevant development environment, including Ubuntu, Debian, MSYS, and XCode.
 
 Since macOS can be harder to update we have active developers and users on
-unsupported versions of macOS we would like to support.  Newer macOS cannot
-compile for older macOS, so to support a reasonable number of users we aim to
-support at least 95% of users by macOS market share.
+unsupported versions of macOS we would like to support.  To support a reasonable
+number of users we aim to support at least 95% of users by macOS market share.
 
 At the time of writing:
 * Bionic is about to end general support, so we aim to support the next oldest
@@ -32,7 +54,7 @@ In practice, compiler support is often determined by what is covered in our
 automated testing.
 
 At time of writing, the oldest relevant compiler is XCode 10.1, the latest
-supported on macOS 10.13.
+supported on macOS 10.13, which is based on LLVM 6.
 
 With gcc 9.3, clang 10, and XCode 10.1 we can get all the C++17 language
 features and [most but not all of the C++17 library
@@ -69,32 +91,3 @@ it varies across time.  For example, this output:
 shows that cumulative market share for versions up to 10.11 first dropped below
 5% in 2021-07, at which point we (following the above guidelines) allowed
 ourselves to drop support for 10.11.
-
-## GCC
-
-We support and test gcc from version 9.1.
-
-## Clang
-
-We support and test Clang from version 10.0.
-
-## Mingw and Mingw-w64
-
-We use Mingw for cross-compilation of Windows versions on Linux.  gcc 11.2 is
-currently used both in the tests and for the Windows release binaries.
-
-## MSYS2
-
-MSYS2 is [a way to build the project](COMPILING-MSYS.md) on Windows. It
-currently offers gcc at versions 7 or higher.
-
-MSYS also provides clang.  We don't currently support using clang here, but
-work to that end is welcome.
-
-## Visual Studio
-
-We support and test [Visual Studio](COMPILING-VS-VCPKG.md) 2019 and above.
-
-## XCode
-
-We support macOS 10.13 and above, using XCode 10.1 and above.

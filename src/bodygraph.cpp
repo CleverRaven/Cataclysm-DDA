@@ -263,7 +263,8 @@ bodygraph_display::bodygraph_display( const Character *u, const bodygraph_id &id
         this->id = bodygraph_full_body;
     }
 
-    ctxt.register_directions();
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "SCROLL_INFOBOX_UP" );
     ctxt.register_action( "SCROLL_INFOBOX_DOWN" );
     ctxt.register_action( "PAGE_UP" );
@@ -609,22 +610,11 @@ void bodygraph_display::display()
                     prepare_infolist();
                 }
             }
-        } else if( action == "UP" ) {
-            sel_part--;
-            if( sel_part < 0 ) {
-                sel_part = partlist.size() - 1;
-            }
-            prepare_infolist();
-        } else if( action == "DOWN" ) {
-            sel_part++;
-            if( sel_part >= static_cast<int>( partlist.size() ) ) {
-                sel_part = 0;
-            }
-            prepare_infolist();
         } else if( action == "SCROLL_INFOBOX_UP" || action == "PAGE_UP" ) {
             top_info--;
         } else if( action == "SCROLL_INFOBOX_DOWN" || action == "PAGE_DOWN" ) {
             top_info++;
+        } else if( navigate_ui_list( action, sel_part, 3, partlist.size(), true ) ) {
         }
         if( static_cast<int>( info_txt.size() ) >= all_height - 2 ) {
             top_info = clamp( top_info, 0, static_cast<int>( info_txt.size() ) - ( all_height - 2 ) );

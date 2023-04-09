@@ -466,7 +466,7 @@
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -486,7 +486,7 @@
     "city_distance": [ 30, -1 ],
     "city_sizes": [ 0, 12 ],
     "occurrences": [ 0, 1 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -3606,25 +3606,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "valhalla_cult",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "pagan_cult_henge_north" },
-      { "point": [ -1, 0, 0 ], "overmap": "pagan_cult_long_wall_north" },
-      { "point": [ 1, 0, 0 ], "overmap": "pagan_cult_long_wall_south" },
-      { "point": [ 0, -1, 0 ], "overmap": "pagan_cult_longhouse_north" },
-      { "point": [ 0, 1, 0 ], "overmap": "pagan_cult_enter_north" },
-      { "point": [ 1, -1, 0 ], "overmap": "pagan_cult_right_corner_up_north" },
-      { "point": [ -1, -1, 0 ], "overmap": "pagan_cult_left_corner_up_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "pagan_cult_right_corner_north" },
-      { "point": [ -1, 1, 0 ], "overmap": "pagan_cult_left_corner_north" }
-    ],
-    "locations": [ "land" ],
-    "city_distance": [ 8, 30 ],
-    "occurrences": [ 30, 70 ],
-    "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "campsite",
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "campsite_north" } ],
     "locations": [ "forest" ],
@@ -4219,7 +4200,7 @@
     "locations": [ "forest" ],
     "city_distance": [ 20, -1 ],
     "occurrences": [ 0, 3 ],
-    "flags": [ "CLASSIC", "WILDERNESS" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "MAN_MADE" ]
   },
   {
     "type": "overmap_special",
@@ -4414,7 +4395,7 @@
   {
     "type": "overmap_special",
     "id": "drug_lab",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "drug_lab_north" } ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "drug_lab_north" }, { "point": [ 0, 0, 1 ], "overmap": "drug_lab_roof_north" } ],
     "locations": [ "forest" ],
     "city_distance": [ 20, 60 ],
     "city_sizes": [ 8, -1 ],

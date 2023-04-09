@@ -414,7 +414,7 @@
     "description": "The Champion of the Earth, Gaia's Chosen is blessed on all things nature, animate and inanimate.",
     "enchantments": [ "GAIAS_CHOSEN" ],
     "prereqs": [ "DRUID", "EARTHSHAPER" ],
-    "spells_learned": [ [ "gaiaschosen_samsara", 5 ] ],
+    "spells_learned": [ [ "gaiaschosen_samsara", 5 ], [ "dust_reborn", 5 ], [ "terra_armor", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",

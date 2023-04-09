@@ -155,10 +155,10 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
-cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
+std::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( type == ACT_NULL || get_verb().empty() ) {
-        return cata::optional<std::string>();
+        return std::optional<std::string>();
     }
 
     if( type == ACT_ADV_INVENTORY ||
@@ -171,7 +171,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
         type == ACT_EAT_MENU ||
         type == ACT_PICKUP_MENU ||
         type == ACT_VIEW_RECIPE ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     std::string extra_info;

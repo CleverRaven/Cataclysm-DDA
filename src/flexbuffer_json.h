@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_FLEXBUFFER_JSON_H
 #define CATA_SRC_FLEXBUFFER_JSON_H
 
+#include <optional>
 #include <string>
 #include <type_traits>
 
@@ -14,7 +15,6 @@
 #include "json_error.h"
 #include "int_id.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "string_id.h"
 
 // Represents a 'path' in a json object, a series of object keys or indices, that when accessed from the root get you to some element in the json structure.
@@ -80,7 +80,7 @@ class JsonArray;
 class JsonValue;
 class JsonMember;
 
-static inline flexbuffers::Reference flexbuffer_root_from_storage(
+inline flexbuffers::Reference flexbuffer_root_from_storage(
     const std::shared_ptr<flexbuffer_storage> &storage )
 {
     return flexbuffers::GetRoot( storage->data(), storage->size() );
@@ -672,7 +672,7 @@ class JsonObject : JsonWithPath
         double get_float( const char *key, double fallback ) const;
 
         // Tries to get the member, and if found, calls it visited.
-        cata::optional<JsonValue> get_member_opt( const char *key ) const;
+        std::optional<JsonValue> get_member_opt( const char *key ) const;
         JsonValue get_member( const std::string &key ) const;
         JsonValue get_member( const char *key ) const;
         JsonValue operator[]( const char *key ) const;
@@ -764,7 +764,7 @@ class JsonObject : JsonWithPath
 // The implementation still exists in the -inl header but has to come after all
 // the definitions for JsonValue::read().
 //template<typename T>
-//void deserialize( cata::optional<T> &obj, const JsonValue &jsin );
+//void deserialize( std::optional<T> &obj, const JsonValue &jsin );
 
 void add_array_to_set( std::set<std::string> &s, const JsonObject &json,
                        const std::string &name );

@@ -80,7 +80,17 @@
     "miss_messages": [ [ "The flames distract you.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST", "VOMITSTOMACH" ],
-    "//": "Needs to emit light once someone unites traits, effects etc 'light_emitted: 3'.",
+    "max_intensity": 3,
+    "enchantments": [
+      {
+        "values": [
+          {
+            "value": "LUMINATION",
+            "add": { "arithmetic": [ { "u_val": "effect_intensity", "effect": "foxfire_imbibed" }, "*", { "const": 50 } ] }
+          }
+        ]
+      }
+    ],
     "base_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] },
     "scaling_mods": { "per_mod": [ -1 ], "dex_mod": [ -1 ] }
   },
@@ -104,6 +114,7 @@
       "You've got a few theories you'd like to explore.",
       "Your brain can't hold any more brilliance."
     ],
+    "max_intensity": 3,
     "rating": "good"
   },
   {
@@ -213,22 +224,20 @@
     "desc": [
       "Your complexion is wan and spent.",
       "Your skin is pale and your eyes are thoroughly bloodshot.",
-      "Your skin is pale and have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
+      "Your skin is pale and your eyes have turned dark red.  You feel a constant hunger, like the food you eat is no longer nourishing you."
     ],
     "apply_message": "You feel the blood rushing from the wound and then a pressure that reminds you of backwash.",
     "death_msg": "You succumb to your deadly necrotic condition.",
     "apply_memorial_log": "Contracted a bloodborne pathogen out of legend.",
     "remove_memorial_log": "Rid themselves of a horrific curse of the blood.",
     "resist_traits": [ "ACIDBLOOD" ],
-    "resist_effects": [ "blood_treatment", "blood_quenched" ],
+    "resist_effects": [ "blood_treatment" ],
+    "blocks_effects": [ "cold", "flu" ],
     "max_intensity": 3,
-    "int_add_val": 1,
-    "int_decay_step": 1,
-    "int_decay_tick": 28512000,
-    "//": "Each stage is intended to last 3.3 days.  I'm not sure if I've got the decay ticks correct on this.",
+    "//": "Each stage is intended to last 5.3 days.  I'm not sure if I've got the decay ticks correct on this.",
     "rating": "bad",
     "blood_analysis_description": "Unknown RNA virus is rewriting sampled blood cells.",
-    "base_mods": { "speed_mod": [ -10 ], "str_mod": [ -1 ], "dodge_mod": [ -1 ] },
+    "base_mods": { "speed_mod": [ -5 ] },
     "scaling_mods": { "speed_mod": [ 15 ], "str_mod": [ 1.5 ], "dodge_mod": [ 1.5 ] }
   },
   {
@@ -291,13 +300,13 @@
       "str_mod": [ -1 ],
       "stamina_min": [ -100 ],
       "stamina_max": [ -200 ],
-      "stamina_chance": [ 900 ],
+      "stamina_chance": [ 9000 ],
       "fatigue_min": [ 10 ],
       "fatigue_max": [ 20 ],
-      "fatigue_chance": [ 900 ],
+      "fatigue_chance": [ 9000 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
-      "h_mod_chance": [ 900 ]
+      "h_mod_chance": [ 9000 ]
     },
     "scaling_mods": {
       "str_mod": [ -2 ],
@@ -362,10 +371,7 @@
     "//": "Must limit the player's sight to 2-3 tiles (maybe real blind would be cool, but I don't really think it's a good idea (and also I don't know how it interacts with melee (and also the effect is pretty weak for total blindness))), but it's hardcoded atm",
     "apply_message": "AAAAARGH!!",
     "flags": [ "EFFECT_LIMB_SCORE_MOD" ],
-    "limb_score_mods": [
-      { "limb_score": "vision", "modifier": 0.1 },
-      { "limb_score": "night_vis", "modifier": 0.1 }
-    ],
+    "limb_score_mods": [ { "limb_score": "vision", "modifier": 0.1 }, { "limb_score": "night_vis", "modifier": 0.1 } ],
     "base_mods": { "str_mod": [ 4 ], "dex_mod": [ 4 ], "per_mod": [ -8 ] }
   },
   {

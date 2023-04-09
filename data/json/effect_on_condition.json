@@ -385,6 +385,39 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "MAKAYLA_MUTATOR_portal_storm",
+    "recurrence": "15 minutes",
+    "//": "The assumption is that Makayla controls this normally, so the effects are only active when she's the avatar.  Thus global:true.",
+    "global": true,
+    "condition": {
+      "and": [
+        { "is_weather": "portal_storm" },
+        { "u_has_trait": "MAKAYLA_MUTATOR" },
+        { "not": { "u_has_worn_with_flag": "PORTAL_PROOF" } },
+        "u_is_outside"
+      ]
+    },
+    "deactivate_condition": { "not": { "is_weather": "portal_storm" } },
+    "effect": [
+      { "u_message": "Everything feels fuzzy.", "type": "info" },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen_feline" }, "=", { "const": 450 } ] },
+      { "arithmetic": [ { "u_val": "vitamin", "name": "mutagen" }, "=", { "const": 750 } ] },
+      {
+        "run_eocs": [
+          {
+            "id": "cat_ears_portal_storm",
+            "condition": { "not": { "u_has_trait": "FELINE_EARS" } },
+            "effect": [
+              { "u_message": "It didn't take very long for the ears to be back.", "type": "info" },
+              { "u_add_trait": "FELINE_EARS" }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "record_portal_storm_data",
     "recurrence": "5 minutes",
     "global": true,
@@ -611,18 +644,60 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_EXODII_ASSASSIN",
-    "recurrence": [ "7 days", "14 days" ],
-    "condition": { "and": [ { "compare_int": [ { "faction_like": "exodii" }, "<", { "const": -35 } ] }, { "days_since_cataclysm": 5 } ] },
-    "effect": [ { "mapgen_update": "exodii_bomb_add" } ]
+    "id": "EOC_MISSION_GODCO_TROPHY2_done",
+    "global": true,
+    "condition": {
+      "or": [
+        { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
+        { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } }
+      ]
+    },
+    "effect": [
+      {
+        "run_eocs": [
+          {
+            "id": "sell_egg_spider_cellar",
+            "condition": { "u_has_items": { "item": "egg_spider_cellar", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_cellar", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_jumping",
+            "condition": { "u_has_items": { "item": "egg_spider_jumping", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_jumping", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_trapdoor",
+            "condition": { "u_has_items": { "item": "egg_spider_trapdoor", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_trapdoor", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_web",
+            "condition": { "u_has_items": { "item": "egg_spider_web", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_web", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_widow",
+            "condition": { "u_has_items": { "item": "egg_spider_widow", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_widow", "count": 1 }
+          },
+          {
+            "id": "sell_egg_spider_wolf",
+            "condition": { "u_has_items": { "item": "egg_spider_wolf", "count": 1 } },
+            "effect": { "u_sell_item": "egg_spider_wolf", "count": 1 }
+          }
+        ]
+      }
+    ]
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_ROBOFAC_ASSASSIN",
-    "recurrence": [ "7 days", "14 days" ],
-    "condition": {
-      "and": [ { "compare_int": [ { "faction_like": "robofac" }, "<", { "const": -230 } ] }, { "days_since_cataclysm": 5 } ]
-    },
-    "effect": [ { "mapgen_update": "exodii_bomb_add" } ]
+    "id": "EOC_READ_LOCAL_FILES",
+    "condition": { "and": [ { "u_has_skill": { "skill": "computer", "level": 2 } }, { "one_in_chance": 15 } ] },
+    "effect": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true } ],
+    "false_effect": [ { "u_message": "You found nothing interesting in the local files." } ]
   }
 ]

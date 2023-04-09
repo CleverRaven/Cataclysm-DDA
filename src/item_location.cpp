@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <iterator>
 #include <list>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -22,7 +23,6 @@
 #include "line.h"
 #include "map.h"
 #include "map_selector.h"
-#include "optional.h"
 #include "point.h"
 #include "ret_val.h"
 #include "safe_reference.h"
@@ -252,13 +252,8 @@ class item_location::impl::item_on_map : public item_location::impl
                 return 0;
             }
 
-            item obj = *target();
-            obj = obj.split( qty );
-            if( obj.is_null() ) {
-                obj = *target();
-            }
-
-            int mv = ch.item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
+            item *obj = target();
+            int mv = ch.item_handling_cost( *obj, true, MAP_HANDLING_PENALTY, qty );
             mv += 100 * rl_dist( ch.pos(), cur.pos() );
 
             // TODO: handle unpacking costs
@@ -395,19 +390,12 @@ class item_location::impl::item_on_person : public item_location::impl
             }
 
             int mv = 0;
-
-            item obj = *target();
-            obj = obj.split( qty );
-            if( obj.is_null() ) {
-                obj = *target();
-            }
-
-            item &target_ref = *target();
-            if( who->is_wielding( target_ref ) ) {
-                mv = who->item_handling_cost( obj, false, 0 );
+            item *obj = target();
+            if( who->is_wielding( *obj ) ) {
+                mv = who->item_handling_cost( *obj, false, 0, qty );
             } else {
                 // then we are wearing it
-                mv = who->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY / 2 );
+                mv = who->item_handling_cost( *obj, true, INVENTORY_HANDLING_PENALTY / 2, qty );
                 mv += 250;
             }
 
@@ -517,13 +505,8 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 return 0;
             }
 
-            item obj = *target();
-            obj = obj.split( qty );
-            if( obj.is_null() ) {
-                obj = *target();
-            }
-
-            int mv = ch.item_handling_cost( obj, true, VEHICLE_HANDLING_PENALTY );
+            item *obj = target();
+            int mv = ch.item_handling_cost( *obj, true, VEHICLE_HANDLING_PENALTY, qty );
             mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
             // TODO: handle unpacking costs
@@ -703,13 +686,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 return 0;
             }
 
-            item obj = *target();
-            obj = obj.split( qty );
-            if( obj.is_null() ) {
-                obj = *target();
-            }
-
-            const int container_mv = container->obtain_cost( *target() );
+            const int container_mv = parent_pocket()->moves();
             if( container_mv == 0 ) {
                 debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
                 return 0;

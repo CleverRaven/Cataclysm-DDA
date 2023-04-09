@@ -57,6 +57,7 @@
       [ "spell_scroll_druid_rootstrike", 40 ],
       [ "spell_scroll_druid_healing_herb", 35 ],
       [ "spell_scroll_druid_naturebow1", 20 ],
+      [ "spell_scroll_druid_bandage", 30 ],
       [ "spell_scroll_seismic_stomp", 20 ],
       [ "spell_scroll_eshaper_shardspray", 25 ],
       [ "spell_scroll_eshaper_spawn_tools", 40 ],

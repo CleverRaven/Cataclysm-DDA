@@ -49,7 +49,7 @@ vpart_id vpart_appliance_from_item( const itype_id &item_id )
     return vpart_ap_standing_lamp;
 }
 
-void place_appliance( const tripoint &p, const vpart_id &vpart, const cata::optional<item> &base )
+void place_appliance( const tripoint &p, const vpart_id &vpart, const std::optional<item> &base )
 {
     map &here = get_map();
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p, 0_degrees, 0, 0 );
@@ -68,6 +68,7 @@ void place_appliance( const tripoint &p, const vpart_id &vpart, const cata::opti
         veh->install_part( point_zero, vpart );
     }
     veh->name = vpart->name();
+    veh->last_update = calendar::turn;
 
     // Update the vehicle cache immediately,
     // or the appliance will be invisible for the first couple of turns.

@@ -23,7 +23,7 @@
     "durability": 10,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
     "loudness": 23,
-    "ups_charges": 60,
+    "energy_drain": "60 kJ",
     "reload": 0,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -37,7 +37,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "DRAW_LASER_BEAM", "EMP" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
   },
   {
     "id": "gatling_mech_laser",
@@ -61,11 +61,11 @@
     "dispersion": 100,
     "durability": 8,
     "loudness": 12,
-    "ups_charges": 20,
+    "energy_drain": "20 kJ",
     "reload": 0,
     "modes": [ [ "DEFAULT", "3 rd.", 3 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "high auto", 15 ] ],
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON_FOULING" ]
+    "flags": [ "NO_UNLOAD", "NEVER_JAMS", "NO_UNWIELD", "NO_SALVAGE", "NO_REPAIR", "UNBREAKABLE_MELEE", "NON_FOULING", "USE_UPS" ]
   },
   {
     "id": "recon_mech_laser",
@@ -89,7 +89,7 @@
     "dispersion": 15,
     "durability": 8,
     "loudness": 1,
-    "ups_charges": 50,
+    "energy_drain": "50 kJ",
     "reload": 0,
     "ammo_effects": [ "LASER", "PLASMA_BUBBLE", "INCENDIARY" ],
     "flags": [
@@ -100,7 +100,8 @@
       "NO_REPAIR",
       "UNBREAKABLE_MELEE",
       "NON_FOULING",
-      "NEEDS_NO_LUBE"
+      "NEEDS_NO_LUBE",
+      "USE_UPS"
     ]
   },
   {
@@ -127,7 +128,7 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "loudness": 12,
-    "ups_charges": 40,
+    "energy_drain": "40 kJ",
     "reload": 0,
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -142,7 +143,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
   },
   {
     "id": "hm12",
@@ -152,9 +153,9 @@
     "description": "This prototype 'energy weapon' was apparently manufactured by Hub 01.  It somewhat resembles an oversize radar gun, mounted on a rectangular frame of white sheet metal.  It will temporarily stun robots, if you manage to hit their sensors with a clean shot.",
     "price_postapoc": 15000,
     "ranged_damage": { "damage_type": "pure", "amount": 1 },
-    "ups_charges": 1,
+    "energy_drain": "1 kJ",
     "ammo_effects": [ "LASER", "ROBOT_DAZZLE" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
   },
   {
     "id": "v29",
@@ -180,7 +181,7 @@
     "dispersion": 180,
     "durability": 8,
     "loudness": 7,
-    "ups_charges": 10,
+    "energy_drain": "10 kJ",
     "reload": 200,
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -193,7 +194,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE", "USE_UPS" ]
   },
   {
     "id": "gatling_mech_laser_single",

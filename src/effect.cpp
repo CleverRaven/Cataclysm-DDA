@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstddef>
 #include <map>
+#include <optional>
 #include <unordered_set>
 
 #include "bodypart.h"
@@ -16,7 +17,6 @@
 #include "generic_factory.h"
 #include "json.h"
 #include "messages.h"
-#include "optional.h"
 #include "output.h"
 #include "rng.h"
 #include "string_formatter.h"
@@ -276,6 +276,8 @@ void effect_type::extract_effect(
         }
 
         const JsonObject base = j.get_object( MOD_TYPE_STRINGS[cur_mod_type] );
+        // We call this function for every possible type of mod, we can't perform this check
+        base.allow_omitted_members();
 
         for( const auto &action_key : action_keys ) {
             if( !base.has_array( action_key.first ) ) {
@@ -1489,7 +1491,7 @@ void load_effect_type( const JsonObject &jo )
     optional( jo, false, "chance_kill_resist", new_etype.red_kill_chance );
     optional( jo, false, "death_msg", new_etype.death_msg, to_translation( "You died." ) );
     optional( jo, false, "death_event", new_etype.death_event,
-              enum_flags_reader<event_type>( "event_type" ), cata::nullopt );
+              enum_flags_reader<event_type>( "event_type" ), std::nullopt );
 
     new_etype.max_intensity = jo.get_int( "max_intensity", 1 );
     new_etype.dur_add_perc = jo.get_int( "dur_add_perc", 100 );

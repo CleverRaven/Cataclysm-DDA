@@ -2,9 +2,16 @@
   {
     "id": "avatar_id",
     "type": "event_statistic",
-    "stat_type": "unique_value",
-    "event_type": "game_start",
+    "stat_type": "last_value",
+    "event_type": "game_avatar_new",
     "field": "avatar_id"
+  },
+  {
+    "id": "last_words",
+    "type": "event_statistic",
+    "stat_type": "last_value",
+    "event_type": "game_avatar_death",
+    "field": "last_words"
   },
   {
     "id": "avatar_wakes_up",
