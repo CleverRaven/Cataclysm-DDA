@@ -262,7 +262,12 @@
     "id": "NC_SCAVENGER_PREPPER",
     "name": { "str": "Scavenger" },
     "job_description": "I'm just trying to survive.",
-    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_EVACUEE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "GETS_RANDOM_MISSION_NOMOVE" }
+    ],
     "shopkeeper_item_group": [
       { "group": "homeguns", "rigid": true },
       { "group": "lmoe_guns", "rigid": true },
@@ -283,7 +288,12 @@
     "id": "NC_SCAVENGER_MOONSHINER",
     "name": { "str": "Scavenger" },
     "job_description": "I'm just trying to survive.",
-    "traits": [ { "group": "BG_survival_story_EVACUEE" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_EVACUEE" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      { "trait": "GETS_RANDOM_MISSION_NOMOVE" }
+    ],
     "shopkeeper_item_group": [ { "group": "still_alcohol", "rigid": true }, { "group": "keg_wine_intact", "rigid": true } ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
@@ -567,3 +577,4 @@
     ]
   }
 ]
+
