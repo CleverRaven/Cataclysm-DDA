@@ -121,7 +121,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
-    "examine_action": "tree_hawthorn",
+    "examine_action": "harvest_ter_nectar",
     "harvest_by_season": [
       { "seasons": [ "spring" ], "id": "hawthorn_petal_harv" },
       { "seasons": [ "autumn", "winter" ], "id": "hawthorn_berry_harv" }
@@ -151,7 +151,7 @@
     "move_cost": 0,
     "coverage": 80,
     "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
-    "examine_action": "tree_hawthorn",
+    "examine_action": "harvested_plant",
     "transforms_into": "t_tree_hawthorn",
     "bash": {
       "str_min": 80,

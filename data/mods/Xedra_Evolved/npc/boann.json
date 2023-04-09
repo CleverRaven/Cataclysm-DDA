@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "boann",
     "name_unique": "Lady Boann",
-    "class": "xe_lady_boann",
+    "class": "xe_fae_noblewoman_boann",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_BOANN_1",
