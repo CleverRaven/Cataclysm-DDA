@@ -1036,7 +1036,7 @@
   {
     "type": "furniture",
     "id": "f_catalytic_cracking_reactor",
-    "name": "catalytic cracking reactor",
+    "name": "disconnected catalytic cracking reactor",
     "looks_like": "f_machinery_light",
     "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  You can take this down and plug it into your own power grid to use it.",
     "symbol": "Y",

@@ -357,7 +357,7 @@
     "id": "catalytic_cracking_reactor",
     "type": "GENERIC",
     "name": { "str": "disassembled catalytic cracking reactor" },
-    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled and reassembled.",
+    "description": "A makeshift extraction system, or as makeshift as you can consider something that was purpose-built in a laboratory by a group of experts.  Meticulously disassembled. You can reassemble and plug it into your own power grid to use it.",
     "symbol": "Y",
     "color": "light_cyan",
     "looks_like": "f_catalytic_cracking_reactor",
