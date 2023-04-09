@@ -2242,6 +2242,11 @@ bool npc::update_path( const tripoint &p, const bool no_bashing, bool force )
     return false;
 }
 
+void npc::set_guard_pos( const tripoint_abs_ms &p )
+{
+    ai_cache.guard_pos = p.raw();
+}
+
 bool npc::can_open_door( const tripoint &p, const bool inside ) const
 {
     return !is_hallucination() && !rules.has_flag( ally_rule::avoid_doors ) &&

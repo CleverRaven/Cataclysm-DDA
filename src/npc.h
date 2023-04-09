@@ -1129,6 +1129,7 @@ class npc : public Character
          * @returns If it updated the path.
          */
         bool update_path( const tripoint &p, bool no_bashing = false, bool force = true );
+        void set_guard_pos( const tripoint_abs_ms &p );
         bool can_open_door( const tripoint &p, bool inside ) const;
         bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
 

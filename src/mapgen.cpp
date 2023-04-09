@@ -3295,6 +3295,26 @@ class jmapgen_zone : public jmapgen_piece
 };
 
 /**
+ * Place a variable
+ */
+class jmapgen_variable : public jmapgen_piece
+{
+    public:
+        std::string name;
+        jmapgen_variable( const JsonObject &jsi, const std::string &/*context*/ ) {
+            name = jsi.get_string( "name" );
+        }
+        mapgen_phase phase() const override {
+            return mapgen_phase::zones;
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const std::string &/*context*/ ) const override {
+            get_globals().set_queued_point( name, dat.m.getglobal( tripoint( x.val, y.val,
+                                            dat.m.get_abs_sub().z() ) ).to_string() );
+        }
+};
+
+/**
  * Removes vehicles
  */
 class jmapgen_remove_vehicles : public jmapgen_piece
@@ -4408,6 +4428,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_translate>( jo, "translate_ter", context_ );
     objects.load_objects<jmapgen_zone>( jo, "place_zones", context_ );
     objects.load_objects<jmapgen_ter_furn_transform>( jo, "place_ter_furn_transforms", context_ );
+    objects.load_objects<jmapgen_variable>( jo, "place_variables", context_ );
     // Needs to be last as it affects other placed items
     objects.load_objects<jmapgen_faction>( jo, "faction_owner", context_ );
 
@@ -4994,6 +5015,11 @@ void mapgen_function_json::generate( mapgendata &md )
     if( ter.is_rotatable() || ter.is_linear() ) {
         m->rotate( ter.get_rotation() );
     }
+    global_variables &globvars = get_globals();
+    for( std::pair<std::string, std::string> queued_point : globvars.get_queued_points() ) {
+        globvars.set_global_value( queued_point.first, queued_point.second );
+    }
+    globvars.clear_queued_points();
 }
 
 bool mapgen_function_json::expects_predecessor() const
@@ -6963,6 +6989,29 @@ void map::rotate( int turns, const bool setpos_safe )
     // rotate zones
     zone_manager &mgr = zone_manager::get_manager();
     mgr.rotate_zones( *this, turns );
+
+    global_variables &globvars = get_globals();
+    std::unordered_map<std::string, std::string> temp_points = globvars.get_queued_points();
+    globvars.clear_queued_points();
+    for( std::pair<std::string, std::string> queued_point : temp_points ) {
+        //This is all just a copy of the section rotating NPCs above
+        const tripoint sq = tripoint::from_string( queued_point.second );
+        real_coords np_rc;
+        np_rc.fromabs( sq.xy() );
+        // Note: We are rotating the entire overmap square (2x2 of submaps)
+        if( np_rc.om_pos != rc.om_pos || sq.z != abs_sub.z() ) {
+            continue;
+        }
+        point old( np_rc.sub_pos );
+        if( np_rc.om_sub.x % 2 != 0 ) {
+            old.x += SEEX;
+        }
+        if( np_rc.om_sub.y % 2 != 0 ) {
+            old.y += SEEY;
+        }
+        const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
+        globvars.set_queued_point( queued_point.first, tripoint_abs_ms( getabs( tripoint( new_pos, abs_sub.z() ) ) ).to_string() );
+    }
 }
 
 /**
