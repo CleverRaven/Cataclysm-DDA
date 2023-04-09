@@ -73,7 +73,7 @@
     "difficulty": 8,
     "value": 0,
     "item": "jabberwock_heart",
-    "start": { 
+    "start": {
       "assign_mission_target": {
         "om_terrain": "forest_thick",
         "om_terrain_replace": "forest",
@@ -87,9 +87,7 @@
     },
     "end": {
       "opinion": { "trust": 2, "value": 2 },
-      "effect": [
-        { "u_buy_monster": "mon_melian_mantis_mount", "count": 1, "name": "Bladepetal" }
-      ]
+      "effect": [ { "u_buy_monster": "mon_melian_mantis_mount", "count": 1, "name": "Bladepetal" } ]
     },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
