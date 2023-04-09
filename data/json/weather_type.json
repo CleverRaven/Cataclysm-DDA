@@ -271,6 +271,76 @@
     }
   },
   {
+    "id": "mist",
+    "type": "weather_type",
+    "name": "Mist",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
+    "ranged_penalty": 3,
+    "sight_penalty": 1.2,
+    "light_modifier": -20,
+    "sun_multiplier": 0.3,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "light",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 30,
+    "required_weathers": [ "clear" ],
+    "condition": {
+      "and": [
+        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 95 } ] },
+        { "compare_num": [ { "weather": "windpower" }, ">=", { "const": 11 } ] },
+        { "compare_num": [ { "weather": "windpower" }, "<", { "const": 0 } ] },
+        { "compare_num": [ { "global_val": "var", "var_name": "temp_drop_rate" }, ">", { "const": 0 } ] }
+      ]
+    }
+  },
+  {
+    "id": "fog",
+    "type": "weather_type",
+    "name": "Fog",
+    "color": "light_gray",
+    "map_color": "dark_gray_white",
+    "sym": "~",
+    "ranged_penalty": 7,
+    "sight_penalty": 1.5,
+    "light_modifier": -40,
+    "sun_multiplier": 0.3,
+    "sound_attn": 0,
+    "dangerous": false,
+    "precip": "heavy",
+    "rains": false,
+    "sound_category": "silent",
+    "priority": 30,
+    "required_weathers": [ "mist" ],
+    "condition": {
+      "and": [
+        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 95 } ] },
+        { "compare_num": [ { "weather": "windpower" }, ">=", { "const": 11 } ] },
+        { "compare_num": [ { "weather": "windpower" }, "<", { "const": 0 } ] },
+        { "compare_num": [ { "global_val": "var", "var_name": "temp_drop_rate" }, ">", { "const": 1 } ] }
+      ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_CALCULATE_TEMP_DROP_RATE",
+    "recurrence": [ "15 minutes", "20 minutes" ],
+    "//": "we compare the temperature of previous calculation with current temperature, to check how big the temperature drop, then save the current temperature to use in the next check",
+    "effect": [
+      {
+        "math": [
+          "global_val('var', 'var': 'temp_drop_rate')",
+          "=",
+          "global_val('var', 'var': 'temp_drop_rate') - weather('temperature')"
+        ]
+      },
+      { "arithmetic": [ { "global_val": "var", "var_name": "previous_temp" }, "=", { "weather": "temperature" } ] }
+    ]
+  },
+  {
     "id": "early_portal_storm",
     "type": "weather_type",
     "name": "Early Portal Storm",
