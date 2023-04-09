@@ -96,7 +96,10 @@
     },
     "end": {
       "opinion": { "trust": 2, "value": 2 },
-      "effect": [ { "u_buy_monster": "mon_melian_mantis_mount", "count": 1, "name": "Bladepetal" }, { "u_spawn_item": "horse_tack", "count": 1 } ]
+      "effect": [
+        { "u_buy_monster": "mon_melian_mantis_mount", "count": 1, "name": "Bladepetal" },
+        { "u_spawn_item": "horse_tack", "count": 1 }
+      ]
     },
     "has_generic_rewards": false,
     "origins": [ "ORIGIN_SECONDARY" ],
