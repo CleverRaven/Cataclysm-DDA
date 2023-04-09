@@ -537,11 +537,11 @@ void kill_advanced_inv();
 
 /**
  * Helper for typical UI list navigation with wrap-around
- * Add delta to val, then wrap to the range [0,size)
+ * Add delta to val. If on bounds, wrap to other bound, otherwise clamp to the range [0,size)
  */
 template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
-increment_and_wrap( V val, int delta, S size )
+inc_clamp_wrap( V val, int delta, S size )
 {
     if( size == 0 ) {
         return 0;
@@ -565,9 +565,9 @@ increment_and_wrap( V val, int delta, S size )
  */
 template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
-increment_and_wrap( V val, bool inc, S size )
+inc_clamp_wrap( V val, bool inc, S size )
 {
-    return increment_and_wrap( val, static_cast<int>( inc ? 1 : -1 ), size );
+    return inc_clamp_wrap( val, static_cast<int>( inc ? 1 : -1 ), size );
 }
 
 /**
@@ -577,10 +577,9 @@ increment_and_wrap( V val, bool inc, S size )
  */
 template<typename T, typename I>
 inline typename std::enable_if<std::is_enum<T>::value, T>::type
-increment_and_wrap( T val, I inc, T size )
+inc_clamp_wrap( T val, I inc, T size )
 {
-    return static_cast<T>( increment_and_wrap( static_cast<int>( val ), inc,
-                           static_cast<int>( size ) ) );
+    return static_cast<T>( inc_clamp_wrap( static_cast<int>( val ), inc, static_cast<int>( size ) ) );
 }
 
 
@@ -590,7 +589,7 @@ increment_and_wrap( T val, I inc, T size )
  */
 template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
-increment_and_clamp( V val, int delta, S min, S max )
+inc_clamp( V val, int delta, S min, S max )
 {
     // Templating of existing `unsigned int` triggers linter rules against `unsigned long`
     if constexpr( std::is_unsigned_v<V> ) {
@@ -608,11 +607,10 @@ increment_and_clamp( V val, int delta, S min, S max )
  */
 template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
-increment_and_clamp( V val, bool inc, S max )
+inc_clamp( V val, bool inc, S max )
 {
-    return increment_and_clamp( val, static_cast<int>( val + ( inc ? 1 : -1 ) ),
-                                // NOLINTNEXTLINE(cata-no-long)
-                                static_cast<S>( 0 ), max );
+    // NOLINTNEXTLINE(cata-no-long)
+    return inc_clamp( val, static_cast<int>( val + ( inc ? 1 : -1 ) ), static_cast<S>( 0 ), max );
 }
 
 /**
@@ -621,10 +619,10 @@ increment_and_clamp( V val, bool inc, S max )
  */
 template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
-increment_and_clamp( V val, int delta, S max )
+inc_clamp( V val, int delta, S max )
 {
     // NOLINTNEXTLINE(cata-no-long)
-    return increment_and_clamp( val, delta, static_cast<S>( 0 ), max );
+    return inc_clamp( val, delta, static_cast<S>( 0 ), max );
 }
 
 /**
@@ -633,9 +631,9 @@ increment_and_clamp( V val, int delta, S max )
  */
 template<typename V, typename S>
 inline typename std::enable_if < !std::is_enum<V>::value, V >::type
-increment_and_clamp( V val, bool inc, S min, S max )
+inc_clamp( V val, bool inc, S min, S max )
 {
-    return increment_and_clamp( val, val + ( inc ? 1 : -1 ), min, max );
+    return inc_clamp( val, val + ( inc ? 1 : -1 ), min, max );
 }
 
 /**
@@ -645,10 +643,9 @@ increment_and_clamp( V val, bool inc, S min, S max )
  */
 template<typename T, typename I>
 inline typename std::enable_if<std::is_enum<T>::value, T>::type
-increment_and_clamp( T val, I inc, T size )
+inc_clamp( T val, I inc, T size )
 {
-    return static_cast<T>( increment_and_clamp( static_cast<int>( val ), inc,
-                           static_cast<int>( size ) ) );
+    return static_cast<T>( inc_clamp( static_cast<int>( val ), inc, static_cast<int>( size ) ) );
 }
 
 /**

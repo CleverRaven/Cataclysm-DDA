@@ -1735,7 +1735,7 @@ const recipe *select_crafting_recipe( int &batch_size_out, const recipe_id &goto
         } else if( action == "SCROLL_UP" && mouse_in_list ) {
             line = std::max( 0, line - 1 );
         } else if( action == "PAGE_UP" || action == "PAGE_DOWN" ) {
-            line = increment_and_clamp( line, action == "PAGE_UP" ? -scroll_rate : scroll_rate, recmax );
+            line = inc_clamp( line, action == "PAGE_UP" ? -scroll_rate : scroll_rate, recmax );
         } else if( action == "HOME" ) {
             line = 0;
             user_moved_line = highlight_unread_recipes;
