@@ -306,38 +306,5 @@
     "zombify_into": "mon_meat_cocoon_large",
     "delete": { "flags": [ "HIT_AND_RUN" ], "fear_triggers": [ "FIRE" ] },
     "extend": { "flags": [ "SMALLSLUDGETRAIL", "SLUDGEPROOF", "NOHEAD", "STUN_IMMUNE", "FIREPROOF" ] }
-  },
-  {
-    "id": "mon_one_eye",
-    "type": "MONSTER",
-    "name": { "str": "cyclopean" },
-    "description": "A relatively humanoid mutant with purple hair and a grapefruit-sized bloodshot eye.",
-    "default_faction": "mutant",
-    "bodytype": "human",
-    "species": [ "MUTANT" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 80,
-    "speed": 130,
-    "material": [ "flesh" ],
-    "symbol": "@",
-    "color": "light_red",
-    "aggression": 30,
-    "morale": 30,
-    "melee_skill": 5,
-    "melee_dice": 2,
-    "melee_dice_sides": 4,
-    "melee_damage": [ { "damage_type": "cut", "amount": 0 } ],
-    "armor_elec": 1,
-    "dodge": 5,
-    "harvest": "mutant_human",
-    "dissect": "dissect_human_sample_single",
-    "fear_triggers": [ "FIRE" ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
-    },
-    "zombify_into": "mon_meat_cocoon_small",
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN" ]
   }
 ]

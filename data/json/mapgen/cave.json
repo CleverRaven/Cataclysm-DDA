@@ -567,8 +567,7 @@
         "............>..........."
       ],
       "terrain": { ".": "t_soil", " ": "t_dirt_underground", ">": "t_slope_up" },
-      "furniture": {  },
-      "monster": { "M": { "monster": "mon_nakedmolerat_giant" }, " ": { "monster": "mon_nakedmolerat_giant", "chance": 2 } }
+      "furniture": {  }
     }
   },
   {
@@ -809,7 +808,6 @@
         "<": "t_slope_up"
       },
       "furniture": {  },
-      "monster": { "K": { "monster": "mon_rat_king" }, "r": { "monster": "mon_sewer_rat" } },
       "items": { "l": { "item": "gobag_contents", "chance": 75 } }
     }
   },

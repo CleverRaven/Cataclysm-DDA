@@ -303,7 +303,7 @@
       "place_rubble": [ { "x": 11, "y": 4, "items": true }, { "x": 13, "y": 11, "items": true }, { "x": 12, "y": 13, "items": true } ],
       "place_monster": [
         {
-          "monster": [ "mon_zombie_hulk", "mon_skeleton_hulk", "mon_nakedmolerat_giant" ],
+          "monster": [ "mon_zombie_hulk", "mon_skeleton_hulk" ],
           "x": [ 11, 12 ],
           "y": [ 6, 22 ],
           "chance": 90
