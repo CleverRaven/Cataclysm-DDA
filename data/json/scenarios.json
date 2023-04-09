@@ -992,7 +992,7 @@
     ],
     "eoc": [ "scenario_surrounded_zombie" ],
     "map_extra": "mx_looters",
-    "requirement": "achievement_kill_10_monsters",
+    "requirement": "achievement_survive_7_days",
     "flags": [ "LONE_START" ]
   },
   {
