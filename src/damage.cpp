@@ -443,17 +443,7 @@ static damage_unit load_damage_unit( const JsonObject &curr )
     damage_unit du( dt, amount, arpen, armor_mul, damage_mul, unc_armor_mul,
                     unc_damage_mul );
 
-    std::vector<barrel_desc> barrels;
-
-    if( curr.has_array( "barrels" ) ) {
-        for( const JsonObject &barrel : curr.get_array( "barrels" ) ) {
-            units::length bl;
-            float amt;
-            mandatory( barrel, false, "barrel_length", bl );
-            mandatory( barrel, false, "amount", amt );
-            du.barrels.emplace_back( bl, amt );
-        }
-    }
+    optional( curr, false, "barrels", du.barrels );
 
     return du;
 }
