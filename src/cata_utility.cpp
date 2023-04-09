@@ -650,6 +650,19 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
+int string_view_cmp( const std::string_view l, const std::string_view r )
+{
+    size_t min_len = std::min( l.size(), r.size() );
+    int result = memcmp( l.data(), r.data(), min_len );
+    if( result ) {
+        return result;
+    }
+    if( l.size() == r.size() ) {
+        return 0;
+    }
+    return l.size() < r.size() ? -1 : 1;
+}
+
 std::vector<std::string> string_split( const std::string &string, char delim )
 {
     std::vector<std::string> elems;

@@ -1087,7 +1087,7 @@ namespace detail
 {
 
 template<typename T, typename Error>
-T read_from_json_string_common( const std::string &s,
+T read_from_json_string_common( const std::string_view s,
                                 const std::vector<std::pair<std::string, T>> &units, Error &&error )
 {
     size_t i = 0;
