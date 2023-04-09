@@ -50,6 +50,19 @@
         "topic": "TALK_PERK_MENU_THICK_SKULL"
       },
       {
+        "condition": {
+          "not": {
+            "or": [
+              { "u_has_trait": "perk_way_openpalm" },
+              { "u_has_trait": "perk_way_closedfist" },
+              { "u_has_trait": "perk_way_pinchedfingers" }
+            ]
+          }
+        },
+        "text": "Gain [Way Of The Fist]",
+        "topic": "TALK_PERK_MENU_WAYOFTHEFIST"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
         "text": "Gain [<trait_name:perk_bloody_mess>]",
         "topic": "TALK_PERK_MENU_BLOODY_MESS"
@@ -79,6 +92,7 @@
         "text": "Gain [<trait_name:perk_popeye>]",
         "topic": "TALK_PERK_MENU_POPEYE"
       },
+      { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
   },
@@ -97,6 +111,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_STR_UP" },
@@ -118,6 +133,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_DEX_UP" },
@@ -139,6 +155,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_INT_UP" },
@@ -160,6 +177,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_PER_UP" },
@@ -181,6 +199,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_holdout_pocket" },
@@ -202,6 +221,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_built_tough" },
@@ -223,6 +243,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_hauler" },
@@ -244,6 +265,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_vacationer" },
@@ -265,9 +287,94 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_thick_skull" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_WAYOFTHEFIST",
+    "dynamic_line": "<trait_name:perk_way_openpalm>: \"<trait_description:perk_way_openpalm>\"\nRequires unarmed 2 and cutting 1.\n\n<trait_name:perk_way_closedfist>: \"<trait_description:perk_way_closedfist>\"\nRequires unarmed 2 and bashing 1.\n\n<trait_name:perk_way_pinchedfingers>: \"<trait_description:perk_way_pinchedfingers>\"\nRequires unarmed 2 and piercing 1.",
+    "responses": [
+      {
+        "text": "Select Perk Variant <trait_name:perk_way_openpalm>.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                {
+                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "cutting", "level": 1 } } ]
+                }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_way_openpalm" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      {
+        "text": "Select Perk Variant <trait_name:perk_way_closedfist>.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                {
+                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "bashing", "level": 1 } } ]
+                }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_way_closedfist" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      {
+        "text": "Select Perk Variant <trait_name:perk_way_pinchedfingers>.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                {
+                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "stabbing", "level": 1 } } ]
+                }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_way_pinchedfingers" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }
@@ -286,6 +393,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_bloody_mess" },
@@ -307,6 +415,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_tuck_and_roll" },
@@ -328,6 +437,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_tingly" },
@@ -349,6 +459,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_jumpy" },
@@ -370,6 +481,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_hobbyist" },
@@ -391,6 +503,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_popeye" },

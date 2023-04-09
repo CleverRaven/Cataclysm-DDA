@@ -1687,6 +1687,13 @@ float Character::mabuff_attack_cost_mult() const
     return ret;
 }
 
+bool Character::has_mabuff_flag( const json_character_flag &flag ) const
+{
+    return search_ma_buff_effect( *effects, [flag]( const ma_buff & b, const effect & ) {
+        return b.has_flag( flag );
+    } );
+}
+
 int Character::count_mabuff_flag( const json_character_flag &flag ) const
 {
     int ret = 0;
@@ -1695,6 +1702,7 @@ int Character::count_mabuff_flag( const json_character_flag &flag ) const
     } );
     return ret;
 }
+
 bool Character::is_melee_bash_damage_cap_bonus() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {

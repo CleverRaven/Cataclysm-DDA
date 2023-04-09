@@ -18,9 +18,9 @@
 /data/mods/innawood/ @Light-Wave
 /data/mods/MA/ @ZhilkinSerg
 
+.clang-tidy @jbytheway
 magic*.cpp @KorGgenT
 magic*.h @KorGgenT
-/tools/ @int-ua
-/lang/ @BrettDong
+/tools/ @jbytheway @int-ua
 widget.cpp @wapcaplet @dseguin
 widget.h @wapcaplet @dseguin

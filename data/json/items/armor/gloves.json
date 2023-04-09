@@ -277,7 +277,19 @@
     "material_thickness": 4,
     "environmental_protection": 4,
     "flags": [ "STURDY", "DURABLE_MELEE" ],
-    "armor": [ { "encumbrance": 12, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 12,
+        "coverage": 95,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
+      },
+      {
+        "coverage": 80,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+      }
+    ]
   },
   {
     "id": "xl_gauntlets_chitin",
@@ -410,9 +422,15 @@
     "armor": [
       {
         "encumbrance": 4,
-        "coverage": 95,
+        "coverage": 75,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ]
+      },
+      {
+        "encumbrance": 4,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
       },
       {
         "encumbrance": 0,
@@ -476,10 +494,11 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
-        "coverage": 95,
+        "coverage": 75,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_back_l", "hand_back_r" ]
       },
+      { "coverage": 100, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_palm_l", "hand_palm_r" ] },
       {
         "coverage": 50,
         "covers": [ "hand_l", "hand_r" ],
@@ -507,16 +526,34 @@
     "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
     "armor": [
       {
-        "encumbrance": 3,
-        "coverage": 95,
+        "coverage": 90,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r", "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r" ]
+        "specifically_covers": [ "hand_back_l", "hand_back_r" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 80, "thickness": 0.5 },
+          { "type": "steel", "covered_by_mat": 100, "thickness": 0.25 }
+        ]
+      },
+      {
+        "encumbrance": 3,
+        "coverage": 75,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 } ]
+      },
+      {
+        "encumbrance": 3,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 } ]
       },
       {
         "encumbrance": 0,
         "coverage": 50,
         "covers": [ "hand_l", "hand_r" ],
-        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 0.5 } ]
       }
     ]
   },
@@ -586,7 +623,7 @@
     "color": "brown",
     "warmth": 70,
     "material_thickness": 3,
-    "armor": [ { "encumbrance": 30, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_fur",
@@ -623,7 +660,14 @@
     "warmth": 20,
     "material_thickness": 0.5,
     "flags": [ "WATER_FRIENDLY", "FANCY" ],
-    "armor": [ { "coverage": 95, "covers": [ "hand_r" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r", "hand_back_l", "hand_back_r", "hand_palm_l", "hand_palm_r" ]
+      },
+      { "coverage": 50, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] }
+    ]
   },
   {
     "id": "gloves_leather",
@@ -643,7 +687,7 @@
     "material_thickness": 0.5,
     "valid_mods": [ "steel_padded" ],
     "flags": [ "VARSIZE", "WATERPROOF" ],
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_leather",
@@ -679,7 +723,7 @@
     "warmth": 20,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY" ],
-    "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_light",
@@ -715,7 +759,7 @@
     "warmth": 15,
     "material_thickness": 0.1,
     "flags": [ "WATER_FRIENDLY", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_liner",
@@ -752,7 +796,7 @@
     "material_thickness": 0.1,
     "environmental_protection": 2,
     "flags": [ "WATER_FRIENDLY", "WATERPROOF", "SKINTIGHT", "SOFT", "FRAGILE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_black",
@@ -772,7 +816,7 @@
     "warmth": 10,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE" ],
-    "armor": [ { "encumbrance": 2, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_plate",
@@ -794,7 +838,42 @@
     "material_thickness": 4,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "STURDY", "DURABLE_MELEE" ],
-    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 20,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "iron", "covered_by_mat": 100, "thickness": 2.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "iron", "covered_by_mat": 100, "thickness": 2.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [ { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 } ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "material": [
+          { "type": "leather", "covered_by_mat": 100, "thickness": 2.0 },
+          { "type": "iron", "covered_by_mat": 80, "thickness": 2.0 }
+        ]
+      }
+    ]
   },
   {
     "id": "xl_gloves_plate",
@@ -891,7 +970,7 @@
     "color": "blue",
     "warmth": 60,
     "material_thickness": 3,
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "xl_gloves_wool",
@@ -928,7 +1007,7 @@
     "material_thickness": 2,
     "environmental_protection": 5,
     "flags": [ "WATERPROOF", "STURDY" ],
-    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 20, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_cut_resistant",
@@ -949,7 +1028,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "flags": [ "STURDY" ],
-    "armor": [ { "encumbrance": 40, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_wraps",
@@ -968,7 +1047,7 @@
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
-    "armor": [ { "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_wraps_fur",
@@ -987,7 +1066,7 @@
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_wraps_leather",
@@ -1006,7 +1085,7 @@
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
-    "armor": [ { "encumbrance": 5, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_wraps_wool",
@@ -1025,7 +1104,7 @@
     "warmth": 15,
     "material_thickness": 2,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
-    "armor": [ { "encumbrance": 2, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 2, "coverage": 80, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "long_glove_white",
@@ -1112,7 +1191,7 @@
     "color": "red",
     "warmth": 30,
     "material_thickness": 0.5,
-    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 10, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "sockmitts",
@@ -1130,7 +1209,13 @@
     "warmth": 5,
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ],
-    "armor": [ { "coverage": 40, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "wool_sockmitts",
@@ -1143,7 +1228,13 @@
     "material": [ "wool" ],
     "warmth": 30,
     "material_thickness": 0.3,
-    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "nomex_sockmitts",
@@ -1159,7 +1250,13 @@
     "material_thickness": 1,
     "environmental_protection": 2,
     "extend": { "flags": [ "STURDY" ] },
-    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r", "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ]
+      }
+    ]
   },
   {
     "id": "stockings_tent_arms",
@@ -1207,7 +1304,7 @@
     "color": "white",
     "material_thickness": 0.2,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_skeleton",
@@ -1221,7 +1318,7 @@
     "material_thickness": 0.1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "warmth": 5,
-    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [ { "encumbrance": 1, "coverage": 100, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "gloves_golf",
@@ -1241,7 +1338,15 @@
     "warmth": 20,
     "material_thickness": 0.5,
     "flags": [ "VARSIZE", "WATERPROOF", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 5, "coverage": 90, "covers": [ "hand_l", "hand_r" ] } ]
+    "armor": [
+      {
+        "encumbrance": 5,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_palm_l", "hand_palm_r", "hand_fingers_l", "hand_fingers_r" ]
+      },
+      { "coverage": 80, "covers": [ "hand_l", "hand_r" ], "specifically_covers": [ "hand_wrist_l", "hand_wrist_r" ] }
+    ]
   },
   {
     "id": "gloves_eod",
@@ -1283,14 +1388,33 @@
     "flags": [ "STURDY", "OUTER" ],
     "armor": [
       {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
         "material": [
-          { "type": "lc_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
+        ]
+      },
+      {
         "coverage": 100,
-        "encumbrance": 10
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "material": [
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
       }
     ]
   },
@@ -1310,14 +1434,33 @@
     "name": { "str": "pair of medium steel demi-gauntlets", "str_pl": "pairs of medium steel demi-gauntlets" },
     "armor": [
       {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
         "material": [
-          { "type": "mc_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
+        ]
+      },
+      {
         "coverage": 100,
-        "encumbrance": 10
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "material": [
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
       }
     ]
   },
@@ -1337,14 +1480,33 @@
     "name": { "str": "pair of high steel demi-gauntlets", "str_pl": "pairs of high steel demi-gauntlets" },
     "armor": [
       {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
         "material": [
-          { "type": "hc_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
+        ]
+      },
+      {
         "coverage": 100,
-        "encumbrance": 10
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "material": [
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
       }
     ]
   },
@@ -1364,14 +1526,33 @@
     "name": { "str": "pair of hardened steel demi-gauntlets", "str_pl": "pairs of hardened steel demi-gauntlets" },
     "armor": [
       {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
         "material": [
-          { "type": "ch_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
+        ]
+      },
+      {
         "coverage": 100,
-        "encumbrance": 10
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "material": [
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
       }
     ]
   },
@@ -1391,14 +1572,33 @@
     "name": { "str": "pair of tempered steel demi-gauntlets", "str_pl": "pairs of tempered steel demi-gauntlets" },
     "armor": [
       {
+        "encumbrance": 10,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
         "material": [
-          { "type": "qt_steel", "covered_by_mat": 60, "thickness": 1.25 },
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
           { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
+        ]
+      },
+      {
         "coverage": 100,
-        "encumbrance": 10
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
       }
     ]
   },
@@ -1431,14 +1631,34 @@
     "flags": [ "STURDY", "DURABLE_MELEE", "OUTER" ],
     "armor": [
       {
+        "encumbrance": 20,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "material": [
+          { "type": "lc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [
+          { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
         "material": [
           { "type": "lc_steel", "covered_by_mat": 95, "thickness": 1.25 },
           { "type": "lc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 1.2 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 20
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
       }
     ]
   },
@@ -1458,14 +1678,34 @@
     "name": { "str": "pair of medium steel mitten gauntlets", "str_pl": "pairs of medium steel mitten gauntlets" },
     "armor": [
       {
+        "encumbrance": 20,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "material": [
+          { "type": "mc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [
+          { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
         "material": [
           { "type": "mc_steel", "covered_by_mat": 95, "thickness": 1.25 },
           { "type": "mc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 20
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
       }
     ]
   },
@@ -1485,14 +1725,34 @@
     "name": { "str": "pair of high steel mitten gauntlets", "str_pl": "pairs of high steel mitten gauntlets" },
     "armor": [
       {
+        "encumbrance": 20,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "material": [
+          { "type": "hc_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [
+          { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
         "material": [
           { "type": "hc_steel", "covered_by_mat": 95, "thickness": 1.25 },
           { "type": "hc_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 20
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
       }
     ]
   },
@@ -1512,14 +1772,34 @@
     "name": { "str": "pair of hardened steel mitten gauntlets", "str_pl": "pairs of hardened steel mitten gauntlets" },
     "armor": [
       {
+        "encumbrance": 20,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "material": [
+          { "type": "ch_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [
+          { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
         "material": [
           { "type": "ch_steel", "covered_by_mat": 95, "thickness": 1.25 },
           { "type": "ch_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 20
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
       }
     ]
   },
@@ -1539,14 +1819,34 @@
     "name": { "str": "pair of tempered steel mitten gauntlets", "str_pl": "pairs of tempered steel mitten gauntlets" },
     "armor": [
       {
+        "encumbrance": 20,
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_back_l", "hand_back_r", "hand_wrist_l", "hand_wrist_r" ],
+        "material": [
+          { "type": "qt_steel", "covered_by_mat": 100, "thickness": 1.25 },
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_palm_l", "hand_palm_r" ],
+        "material": [
+          { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
+      },
+      {
+        "coverage": 100,
+        "covers": [ "hand_l", "hand_r" ],
+        "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ],
         "material": [
           { "type": "qt_steel", "covered_by_mat": 95, "thickness": 1.25 },
           { "type": "qt_steel_chain", "covered_by_mat": 100, "thickness": 1.2 },
-          { "type": "leather", "covered_by_mat": 100, "thickness": 0.05 }
-        ],
-        "covers": [ "hand_l", "hand_r" ],
-        "coverage": 100,
-        "encumbrance": 20
+          { "type": "leather", "covered_by_mat": 100, "thickness": 1.0 }
+        ]
       }
     ]
   },

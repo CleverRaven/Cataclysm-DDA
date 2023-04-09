@@ -521,14 +521,7 @@
         { "item": "thermos", "x": 38, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "mess_kit", "x": 37, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
         { "item": "water_purifier", "x": 36, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
-        {
-          "item": "pur_tablets",
-          "container-item": "bottle_plastic_small",
-          "x": 36,
-          "y": 59,
-          "chance": 75,
-          "repeat": [ 50, 100 ]
-        },
+        { "item": "pur_tablets", "x": 36, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
         { "group": "MRE", "x": [ 49, 55 ], "y": [ 53, 54 ], "chance": 75, "repeat": 1500 },
         { "group": "MRE", "x": [ 49, 55 ], "y": 48, "chance": 75, "repeat": 750 },
         { "group": "groce_pasta", "x": [ 44, 46 ], "y": 54, "chance": 75, "repeat": [ 50, 150 ] },

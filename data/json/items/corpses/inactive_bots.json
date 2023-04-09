@@ -750,7 +750,7 @@
     "id": "bot_turret_speaker",
     "type": "TOOL",
     "name": { "str": "inactive loudspeaker" },
-    "description": "This is an inactive automated loudspeaker.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the loudspeaker will continuously shout pre-recorded messages.",
+    "description": "An inactive automated loudspeaker.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the loudspeaker will continuously shout pre-recorded messages.",
     "weight": "100 kg",
     "volume": "50500 ml",
     "price": 500000,
