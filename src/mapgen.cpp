@@ -491,7 +491,7 @@ static mapgen_factory oter_mapgen;
 
 std::map<nested_mapgen_id, nested_mapgen> nested_mapgens;
 std::map<update_mapgen_id, update_mapgen> update_mapgens;
-
+static std::unordered_map<std::string, std::string> queued_points;
 template<>
 bool string_id<nested_mapgen>::is_valid() const
 {
@@ -3309,8 +3309,7 @@ class jmapgen_variable : public jmapgen_piece
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
-            get_globals().set_queued_point( name, dat.m.getglobal( tripoint( x.val, y.val,
-                                            dat.m.get_abs_sub().z() ) ).to_string() );
+            queued_points[name]= dat.m.getglobal( tripoint( x.val, y.val, dat.m.get_abs_sub().z() ) ).to_string();
         }
 };
 
@@ -5016,10 +5015,10 @@ void mapgen_function_json::generate( mapgendata &md )
         m->rotate( ter.get_rotation() );
     }
     global_variables &globvars = get_globals();
-    for( std::pair<std::string, std::string> queued_point : globvars.get_queued_points() ) {
+    for( std::pair<std::string, std::string> queued_point : queued_points ) {
         globvars.set_global_value( queued_point.first, queued_point.second );
     }
-    globvars.clear_queued_points();
+    queued_points.clear();
 }
 
 bool mapgen_function_json::expects_predecessor() const
@@ -6990,9 +6989,9 @@ void map::rotate( int turns, const bool setpos_safe )
     zone_manager &mgr = zone_manager::get_manager();
     mgr.rotate_zones( *this, turns );
 
-    global_variables &globvars = get_globals();
-    std::unordered_map<std::string, std::string> temp_points = globvars.get_queued_points();
-    globvars.clear_queued_points();
+    //global_variables &globvars = get_globals();
+    std::unordered_map<std::string, std::string> temp_points = queued_points;
+    queued_points.clear();
     for( std::pair<std::string, std::string> queued_point : temp_points ) {
         //This is all just a copy of the section rotating NPCs above
         const tripoint sq = tripoint::from_string( queued_point.second );
@@ -7010,7 +7009,7 @@ void map::rotate( int turns, const bool setpos_safe )
             old.y += SEEY;
         }
         const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
-        globvars.set_queued_point( queued_point.first, tripoint_abs_ms( getabs( tripoint( new_pos, abs_sub.z() ) ) ).to_string() );
+        queued_points[queued_point.first]= tripoint_abs_ms( getabs( tripoint( new_pos, abs_sub.z() ) ) ).to_string();
     }
 }
 

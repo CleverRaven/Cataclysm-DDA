@@ -320,6 +320,7 @@
         { "class": "guard", "x": 46, "y": 3 },
         { "class": "free_merchants_merchant", "x": 71, "y": 0 },
         { "class": "science_rep", "x": 48, "y": 0 },
+        { "class": "guard", "x": 52, "y": 0, "unique_id":"GUARD1" },
         { "class": "refugee_beggar1", "x": 53, "y": 0 },
         { "class": "refugee_beggar2", "x": 55, "y": 2 },
         { "class": "refugee_beggar3", "x": 64, "y": 0 },
@@ -327,6 +328,10 @@
         { "class": "guard", "x": 73, "y": 3 },
         { "class": "guard", "x": 89, "y": 3 },
         { "class": "guard", "x": 88, "y": 19 }
+      ],
+      "place_variables": [
+        { "name": "GUARD1_First", "x": 52, "y": 0 },
+        { "name": "GUARD1_Second", "x": 54, "y": 0 }
       ],
       "place_items": [
         { "item": "bed", "x": [ 53, 56 ], "y": 0, "chance": 70 },

@@ -22,10 +22,6 @@ class global_variables
             global_values[ key ] = value;
         }
 
-        void set_queued_point( const std::string &key, const std::string &value ) {
-            queued_points[ key ] = value;
-        }
-
         void remove_global_value( const std::string &key ) {
             global_values.erase( key );
         }
@@ -39,17 +35,8 @@ class global_variables
             return global_values;
         }
 
-        std::unordered_map<std::string, std::string> get_queued_points() const {
-            return queued_points;
-        }
-
         void clear_global_values() {
             global_values.clear();
-            queued_points.clear();
-        }
-
-        void clear_queued_points() {
-            queued_points.clear();
         }
 
         void set_global_values( std::unordered_map<std::string, std::string> input ) {
@@ -59,7 +46,6 @@ class global_variables
         void serialize( JsonOut &jsout ) const;
     private:
         std::unordered_map<std::string, std::string> global_values;
-        std::unordered_map<std::string, std::string> queued_points;
 };
 global_variables &get_globals();
 
