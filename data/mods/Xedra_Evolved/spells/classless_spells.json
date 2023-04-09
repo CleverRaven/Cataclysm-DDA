@@ -68,6 +68,8 @@
     "flags": [ "CONCENTRATE", "NO_LEGS" ],
     "difficulty": 4,
     "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
     "base_casting_time": 200,
     "base_energy_cost": 400,
     "min_duration": 21000,

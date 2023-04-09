@@ -62,6 +62,8 @@
     "flags": [ "CONCENTRATE", "VERBAL", "NO_LEGS" ],
     "difficulty": 9,
     "max_level": 40,
+    "min_damage": 1,
+    "max_damage": 1,
     "base_casting_time": 350,
     "base_energy_cost": 750,
     "min_duration": 100000,

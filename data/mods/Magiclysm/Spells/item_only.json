@@ -585,6 +585,8 @@
     "effect": "spawn_item",
     "effect_str": "flask_ethereal_rebreather",
     "shape": "blast",
+    "min_damage": 1,
+    "max_damage": 1,
     "flags": [ "NO_LEGS", "SILENT" ],
     "min_duration": 360000,
     "max_duration": 360000
