@@ -491,7 +491,6 @@
         "name": { "str": "Basic Chemistry", "str_pl": "copies of Basic Chemistry" },
         "description": "The fifth edition of a textbook to help students master math and problem solving they will use in their future chemistry classes.",
         "//": "978-0134138046",
-        "fun": 0,
         "weight": 1
       },
       {
@@ -499,7 +498,6 @@
         "name": { "str": "Basic Chemistry Concepts and Exercises", "str_pl": "copies of Basic Chemistry Concepts and Exercises" },
         "description": "This book communicates the fundamentals of chemistry in a practical, down-to-earth manner, with simple language and detailed images.",
         "//": "978-1439813379",
-        "fun": 0,
         "weight": 1
       },
       {
@@ -510,7 +508,6 @@
         },
         "description": "This book provides plenty of info about high school-level chemistry, with lot of additional tables and formulas, though lacking many additional pictures.",
         "//": "978-1523504251",
-        "fun": -1,
         "weight": 1
       }
     ],
@@ -550,14 +547,12 @@
         },
         "description": "Describing the problems that may occur while refining oil, this book is an excellent reference and teaching material for students and researchers in chemical engineering and chemistry.",
         "//": "978-3659713538",
-        "fun": -1,
         "weight": 1
       },
       {
         "id": "catalytic_cracking_handbook_2",
         "name": { "str": "Fluid Catalytic Cracking Handbook", "str_pl": "copies of Fluid Catalytic Cracking Handbook" },
         "description": "This handbook provides practical information and tools that engineers can use to maximize the profitability and reliability of their fluid catalytic cracking operations.",
-        "fun": -2,
         "weight": 1
       },
       {
@@ -568,8 +563,6 @@
         },
         "description": "This book describes cold petroleum cracking - a type of process that occurs below the freezing point, compared the common process that occurs at nearly 400 centigrade.  You can't really use this type of process without a lot of additional equipment, but the book provides plenty of information about common methods that you can do by hand.",
         "//": "978-1523389322",
-        "fun": -2,
-        "intelligence": 10,
         "weight": 1
       }
     ],
@@ -615,7 +608,6 @@
         "name": { "str": "The Biodiesel Handbook", "str_pl": "copies of The Biodiesel Handbook" },
         "description": "A big, 500-page book that provides plenty of info about the history of different fuels, methods to apply them, and properties required for each.  It's mainly centered on biodiesel and another biofuels.",
         "//": "978-1893997622",
-        "intelligence": 8,
         "weight": 1
       },
       {
@@ -626,8 +618,6 @@
         },
         "description": "A small book offering insights into plant-based fuels, with detailed analyses of biodiesel types, and possible scenarios for their implementation.  Sadly most of the book just repeats itself, writing the same text over and over again, which makes you feel you stuck in a constant loop.",
         "//": "978-1846289941",
-        "max_level": 5,
-        "fun": -2,
         "weight": 1
       },
       {

@@ -303,7 +303,7 @@
     "id": "filament_canvas",
     "type": "requirement",
     "//": "Thread for sewing canvas.  Unlike filament_durable it's ok to use a single 10 inch canvas thread for this, but half-length aramid threads are still double.  Kept separate from filament_durable because canvas thread is doubled up for those to alleviate it being a bit weaker than kevlar threading.",
-    "components": [ [ [ "thread_canvas", 2 ], [ "thread_kevlar", 2 ], [ "thread_nomex", 2 ] ] ]
+    "components": [ [ [ "thread_canvas", 1 ], [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ] ] ]
   },
   {
     "id": "glazing",

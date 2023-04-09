@@ -211,7 +211,7 @@
     "symbol": ",",
     "copy-from": "id_science",
     "name": { "str": "Security: black zone badge" },
-    "description": "This is an employee badge for a security officer.  The reverse side describes the protocol for using it; this could grant access at black zone card readers.",
+    "description": "An employee badge for a security officer.  The reverse side describes the protocol for using it; this could grant access at black zone card readers.",
     "flags": [ "SCIENCE_CARD_SECURITY_BLACK", "PRESERVE_SPAWN_OMT" ]
   },
   {
@@ -257,7 +257,7 @@
     "copy-from": "id_science",
     "name": { "str": "System supervisor: slate zone badge" },
     "//": "Given by Hub 01's director, intentionally works everywhere.",
-    "description": "This is an employee badge for a system's supervisor.  The reverse side describes the protocol for using it; this could grant access through white zone card readers.",
+    "description": "An employee badge for a system's supervisor.  The reverse side describes the protocol for using it; this could grant access through white zone card readers.",
     "flags": [ "SCIENCE_CARD_MU_UNIVERSAL" ]
   }
 ]

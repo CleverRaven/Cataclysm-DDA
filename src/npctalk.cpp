@@ -24,6 +24,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_id.h"
+#include "city.h"
 #include "clzones.h"
 #include "color.h"
 #include "computer.h"
@@ -108,6 +109,7 @@ static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_speech( "speech" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
+static const trait_id trait_HALLUCINATION( "HALLUCINATION" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 
@@ -2194,6 +2196,26 @@ void talk_effect_fun_t<T>::set_remove_trait( const JsonObject &jo, const std::st
 }
 
 template<class T>
+void talk_effect_fun_t<T>::set_learn_martial_art( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var<T> ma_to_learn = get_str_or_var<T>( jo.get_member( member ), member, true );
+    function = [is_npc, ma_to_learn]( const T & d ) {
+        d.actor( is_npc )->learn_martial_art( matype_id( ma_to_learn.evaluate( d ) ) );
+    };
+}
+
+template<class T>
+void talk_effect_fun_t<T>::set_forget_martial_art( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var<T> ma_to_forget = get_str_or_var<T>( jo.get_member( member ), member, true );
+    function = [is_npc, ma_to_forget]( const T & d ) {
+        d.actor( is_npc )->forget_martial_art( matype_id( ma_to_forget.evaluate( d ) ) );
+    };
+}
+
+template<class T>
 void talk_effect_fun_t<T>::set_mutate( const JsonObject &jo, const std::string &member,
                                        bool is_npc )
 {
@@ -3952,6 +3974,10 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     dbl_or_var<T> dov_max_radius = get_dbl_or_var<T>( jo, "max_radius", false, 10 );
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool indoor_only = jo.get_bool( "indoor_only", false );
+    if( indoor_only && outdoor_only ) {
+        jo.throw_error( "Cannot be outdoor_only and indoor_only at the same time." );
+    }
     const bool open_air_allowed = jo.get_bool( "open_air_allowed", false );
     const bool friendly = jo.get_bool( "friendly", false );
 
@@ -3964,8 +3990,8 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
     std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
     std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
     std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [new_monster, dov_target_range, dov_hallucination_count, dov_real_count,
-                             dov_min_radius, dov_max_radius, outdoor_only, group_id, dov_lifespan, target_var,
+    function = [new_monster, dov_target_range, dov_hallucination_count, dov_real_count, dov_min_radius,
+                             dov_max_radius, outdoor_only, indoor_only, group_id, dov_lifespan, target_var,
                              spawn_message, spawn_message_plural, true_eocs, false_eocs, open_air_allowed,
                  friendly, is_npc]( const T & d ) {
         monster target_monster;
@@ -4003,8 +4029,11 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
-                                            max_radius, spawn_point, outdoor_only, open_air_allowed ) ) {
+                                            max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 lifespan = dov_lifespan.evaluate( d );
+                if( lifespan.value() == 0_seconds ) {
+                    lifespan.reset();
+                }
                 if( g->spawn_hallucination( spawn_point, target_monster.type->id, lifespan ) ) {
                     Creature *critter = get_creature_tracker().creature_at( spawn_point );
                     if( critter ) {
@@ -4022,7 +4051,7 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( target_pos, target_monster.type->id, min_radius,
-                                            max_radius, spawn_point, outdoor_only, open_air_allowed ) ) {
+                                            max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
                 monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
                 if( spawned ) {
                     if( friendly ) {
@@ -4035,6 +4064,119 @@ void talk_effect_fun_t<T>::set_spawn_monster( const JsonObject &jo, const std::s
                     lifespan = dov_lifespan.evaluate( d );
                     if( lifespan.value() > 0_seconds ) {
                         spawned->set_summon_time( lifespan.value() );
+                    }
+                }
+            }
+        }
+        if( visible_spawns > 1 && !spawn_message_plural.empty() ) {
+            get_avatar().add_msg_if_player( m_bad, spawn_message_plural );
+        } else if( visible_spawns > 0 && !spawn_message.empty() ) {
+            get_avatar().add_msg_if_player( m_bad, spawn_message );
+        }
+        if( spawns > 0 ) {
+            run_eoc_vector( true_eocs, d );
+        } else {
+            run_eoc_vector( false_eocs, d );
+        }
+    };
+}
+
+template<class T>
+void talk_effect_fun_t<T>::set_spawn_npc( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var<T> sov_npc_class = get_str_or_var<T>( jo.get_member( member ), member );
+    str_or_var<T> unique_id;
+    if( jo.has_member( "unique_id" ) ) {
+        unique_id = get_str_or_var<T>( jo.get_member( "unique_id" ), "unique_id" );
+    } else {
+        unique_id.str_val = "";
+    }
+    std::vector<str_or_var<T>> traits;
+    for( JsonValue jv : jo.get_array( "traits" ) ) {
+        str_or_var<T> entry = get_str_or_var<T>( jv, "traits" );
+        traits.emplace_back( entry );
+    }
+
+    dbl_or_var<T> dov_hallucination_count = get_dbl_or_var<T>( jo, "hallucination_count", false, 0 );
+    dbl_or_var<T> dov_real_count = get_dbl_or_var<T>( jo, "real_count", false, 0 );
+    dbl_or_var<T> dov_min_radius = get_dbl_or_var<T>( jo, "min_radius", false, 1 );
+    dbl_or_var<T> dov_max_radius = get_dbl_or_var<T>( jo, "max_radius", false, 10 );
+
+    const bool open_air_allowed = jo.get_bool( "open_air_allowed", false );
+    const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool indoor_only = jo.get_bool( "indoor_only", false );
+    if( indoor_only && outdoor_only ) {
+        jo.throw_error( "Cannot be outdoor_only and indoor_only at the same time." );
+    }
+
+
+    duration_or_var<T> dov_lifespan = get_duration_or_var<T>( jo, "lifespan", false, 0_seconds );
+    std::optional<var_info> target_var;
+    if( jo.has_member( "target_var" ) ) {
+        target_var = read_var_info( jo.get_object( "target_var" ) );
+    }
+    std::string spawn_message = jo.get_string( "spawn_message", "" );
+    std::string spawn_message_plural = jo.get_string( "spawn_message_plural", "" );
+    std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
+    std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
+    function = [sov_npc_class, unique_id, traits, dov_hallucination_count, dov_real_count,
+                               dov_min_radius,
+                               dov_max_radius, outdoor_only, indoor_only, dov_lifespan, target_var, spawn_message,
+                   spawn_message_plural, true_eocs, false_eocs, open_air_allowed, is_npc]( const T & d ) {
+        int min_radius = dov_min_radius.evaluate( d );
+        int max_radius = dov_max_radius.evaluate( d );
+        int real_count = dov_real_count.evaluate( d );
+        int hallucination_count = dov_hallucination_count.evaluate( d );
+        string_id<npc_template> cur_npc_class( sov_npc_class.evaluate( d ) );
+        std::string cur_unique_id = unique_id.evaluate( d );
+        std::vector<trait_id> cur_traits( traits.size() );
+        for( const str_or_var<T> &cur_trait : traits ) {
+            cur_traits.emplace_back( trait_id( cur_trait.evaluate( d ) ) );
+        }
+        std::optional<time_duration> lifespan;
+        tripoint target_pos = d.actor( is_npc )->pos();
+        if( target_var.has_value() ) {
+            target_pos = get_map().getlocal( get_tripoint_from_var<T>( target_var, d ) );
+        }
+        int visible_spawns = 0;
+        int spawns = 0;
+        for( int i = 0; i < real_count; i++ ) {
+            tripoint spawn_point;
+            if( g->find_nearby_spawn_point( target_pos, min_radius,
+                                            max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
+                lifespan = dov_lifespan.evaluate( d );
+                if( lifespan.value() == 0_seconds ) {
+                    lifespan.reset();
+                }
+                if( g->spawn_npc( spawn_point, cur_npc_class, cur_unique_id, cur_traits, lifespan ) ) {
+                    Creature *guy = get_creature_tracker().creature_at( spawn_point );
+                    if( guy ) {
+                        spawns++;
+                        if( get_avatar().sees( *guy ) ) {
+                            visible_spawns++;
+                        }
+                    }
+                }
+            }
+        }
+        cur_traits.emplace_back( trait_HALLUCINATION );
+        for( int i = 0; i < hallucination_count; i++ ) {
+            tripoint spawn_point;
+            if( g->find_nearby_spawn_point( target_pos, min_radius,
+                                            max_radius, spawn_point, outdoor_only, indoor_only, open_air_allowed ) ) {
+                lifespan = dov_lifespan.evaluate( d );
+                if( lifespan.value() == 0_seconds ) {
+                    lifespan.reset();
+                }
+                std::string empty;
+                if( g->spawn_npc( spawn_point, cur_npc_class, empty, cur_traits, lifespan ) ) {
+                    Creature *guy = get_creature_tracker().creature_at( spawn_point );
+                    if( guy ) {
+                        spawns++;
+                        if( get_avatar().sees( *guy ) ) {
+                            visible_spawns++;
+                        }
                     }
                 }
             }
@@ -4266,6 +4408,14 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_mutate_category( jo, "u_mutate_category" );
     } else if( jo.has_member( "npc_mutate_category" ) ) {
         subeffect_fun.set_mutate_category( jo, "npc_mutate_category", is_npc );
+    } else if( jo.has_member( "u_learn_martial_art" ) ) {
+        subeffect_fun.set_learn_martial_art( jo, "u_learn_martial_art" );
+    } else if( jo.has_member( "npc_learn_martial_art" ) ) {
+        subeffect_fun.set_learn_martial_art( jo, "npc_learn_martial_art", is_npc );
+    } else if( jo.has_member( "u_forget_martial_art" ) ) {
+        subeffect_fun.set_forget_martial_art( jo, "u_forget_martial_art" );
+    } else if( jo.has_member( "npc_forget_martial_art" ) ) {
+        subeffect_fun.set_forget_martial_art( jo, "npc_forget_martial_art", is_npc );
     } else if( jo.has_int( "u_spend_cash" ) ) {
         subeffect_fun.set_u_spend_cash( jo, "u_spend_cash" );
     } else if( jo.has_string( "npc_change_faction" ) ) {
@@ -4433,10 +4583,16 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_cast_spell( jo, "npc_cast_spell", true, targeted );
     } else if( jo.has_array( "arithmetic" ) ) {
         subeffect_fun.set_arithmetic( jo, "arithmetic", false );
+    } else if( jo.has_array( "math" ) ) {
+        subeffect_fun.set_math( jo, "math" );
     } else if( jo.has_string( "u_spawn_monster" ) ) {
         subeffect_fun.set_spawn_monster( jo, "u_spawn_monster", false );
     } else if( jo.has_string( "npc_spawn_monster" ) ) {
         subeffect_fun.set_spawn_monster( jo, "npc_spawn_monster", true );
+    } else if( jo.has_string( "u_spawn_npc" ) ) {
+        subeffect_fun.set_spawn_npc( jo, "u_spawn_npc", false );
+    } else if( jo.has_string( "npc_spawn_npc" ) ) {
+        subeffect_fun.set_spawn_npc( jo, "npc_spawn_npc", true );
     } else if( jo.has_string( "u_set_field" ) ) {
         subeffect_fun.set_field( jo, "u_set_field", false );
     } else if( jo.has_string( "npc_set_field" ) ) {

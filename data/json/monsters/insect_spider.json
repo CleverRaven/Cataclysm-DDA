@@ -9,7 +9,7 @@
     "species": [ "INSECT" ],
     "volume": "750 ml",
     "weight": "1 kg",
-    "hp": 10,
+    "hp": 5,
     "speed": 50,
     "material": [ "iflesh" ],
     "symbol": "a",
@@ -914,6 +914,7 @@
     "bodytype": "snake",
     "volume": "15 L",
     "weight": "20 kg",
+    "hp": 15,
     "speed": 15,
     "color": "light_green",
     "dissect": "dissect_insect_sample_single",
@@ -1452,7 +1453,8 @@
     "delete": {
       "reproduction": { "baby_egg": "egg_spider_web", "baby_count": 3, "baby_timer": 15 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
-    }
+    },
+    "trap_avoids": [ "tr_sinkhole" ]
   },
   {
     "id": "mon_spider_web",
@@ -1495,6 +1497,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "upgrades": { "half_life": 42, "into": "mon_spider_web_mega" },
     "zombify_into": "mon_meat_cocoon_small",
+    "trap_avoids": [ "tr_sinkhole" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {

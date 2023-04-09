@@ -236,6 +236,12 @@
   },
   {
     "copy-from": "seat_abstract",
+    "id": "seat_swivel_chair",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_abstract",
     "id": "seat_windshield",
     "symbol": "#",
     "type": "vehicle_part"

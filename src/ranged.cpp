@@ -934,12 +934,20 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-        if( !current_ammo.is_null() ) {
-            cycle_action( gun, current_ammo, pos() );
+
+        // Vehicle turrets drain vehicle battery and do not care about this
+        if( !gun.has_flag( flag_VEHICLE ) ) {
+            const units::energy energ_req = gun.get_gun_energy_drain();
+            const units::energy drained = gun.energy_consume( energ_req, pos(), this );
+            if( drained < energ_req ) {
+                debugmsg( "Unexpected shortage of energy whilst firing %s. Required: %i J, drained: %i J",
+                          gun.tname(), units::to_joule( energ_req ), units::to_joule( drained ) );
+                break;
+            }
         }
 
-        if( !gun.has_flag( flag_VEHICLE ) ) {
-            consume_ups( gun.get_gun_ups_drain() );
+        if( !current_ammo.is_null() ) {
+            cycle_action( gun, current_ammo, pos() );
         }
 
         if( gun_skill == skill_launcher ) {
@@ -1575,6 +1583,15 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         aim_types = you.get_aim_types( weapon );
     }
 
+    // predict how long it'll take to reach from current recoil
+    // to the ui's selected default aim mode threshold.
+    const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
+            ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
+
+    const int selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+
+    const int throw_moves = throw_cost( you, weapon );
+
     for( const aim_type &aim_type : aim_types ) {
         const std::vector<input_event> keys = ctxt.keys_bound_to( aim_type.action.empty() ? "FIRE" :
                                               aim_type.action, /*maximum_modifier_count=*/1 );
@@ -1585,20 +1602,11 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         prediction.hotkey = ( keys.empty() ? input_event() : keys.front() ).short_description();
 
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
-            prediction.moves = throw_cost( you, weapon );
+            prediction.moves = throw_moves;
         } else {
             prediction.moves = you.gun_engagement_moves( weapon, aim_type.threshold, you.recoil, target )
                                + time_to_attack( you, *weapon.type );
         }
-        // predict how long it'll take to reach from current recoil
-        // to the current aim mode's threshold.
-        const recoil_prediction aim_to_type = predict_recoil( you, weapon, target,
-                                              ui.get_sight_dispersion(), aim_type, you.recoil );
-
-        // predict how long it'll take to reach from current recoil
-        // to the ui's selected default aim mode threshold.
-        const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
-                ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
         // if the default method is "behind" the selected; e.g. you are in immediate
         // firing mode with almost close no chances of hitting, but UI has selected
@@ -1609,8 +1617,12 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         // no-op.
         if( prediction.is_default ) {
             prediction.moves += aim_to_selected.moves;
-            prediction.steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+            prediction.steadiness = selected_steadiness;
         } else {
+            // predict how long it'll take to reach from current recoil
+            // to the current aim mode's threshold.
+            const recoil_prediction aim_to_type = ( aim_type == ui.get_selected_aim_type() ) ? aim_to_selected :
+                                                  predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type, you.recoil );
             prediction.steadiness = calc_steadiness( you, weapon, pos, aim_to_type.recoil );
         }
 
@@ -3867,8 +3879,8 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    if( gmode->get_gun_ups_drain() > 0_kJ ) {
-        const units::energy ups_drain = gmode->get_gun_ups_drain();
+    if( gmode->get_gun_energy_drain() > 0_kJ ) {
+        const units::energy energy_drain = gmode->get_gun_energy_drain();
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
@@ -3876,27 +3888,21 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                 is_mech_weapon = true;
             }
         }
-        if( !is_mech_weapon ) {
-            if( you.available_ups() < ups_drain ) {
-                messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
-                                        gmode->tname(), units::to_kilojoule( ups_drain ) ) );
-                result = false;
-            }
-        } else {
-            if( you.available_ups() < ups_drain ) {
+
+        if( gmode->energy_remaining( &you ) < energy_drain ) {
+            result = false;
+            if( is_mech_weapon ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
-                result = false;
+            } else if( gmode->has_flag( flag_USES_BIONIC_POWER ) ) {
+                messages.push_back( string_format(
+                                        _( "You need at least %2$d kJ of bionic power to fire the %1$s!" ),
+                                        gmode->tname(), units::to_kilojoule( energy_drain ) ) );
+            } else if( gmode->has_flag( flag_USE_UPS ) ) {
+                messages.push_back( string_format(
+                                        _( "You need a UPS with at least %2$d kJ to fire the %1$s!" ),
+                                        gmode->tname(), units::to_kilojoule( energy_drain ) ) );
             }
-        }
-        // Workaround for guns that use ups and normal ammo at same time.
-        // Remove once guns can support use of multiple ammo at once
-        if( !gmode->ammo_default().is_null() &&
-            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() &&
-            !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-            result = false;
-            messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         }
     }
 

@@ -85,7 +85,7 @@
         "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx#######################;;#################"
       ],
       "palettes": [ "hospital" ],
-      "terrain": { "5": "t_floor", "H": "t_floor", "X": "t_door_metal_locked" },
+      "terrain": { "5": "t_floor", "H": "t_floor", "X": [ "t_door_metal_locked", "t_door_metal_elocked" ] },
       "furniture": { "H": "f_locker" },
       "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "computers": {
