@@ -1467,15 +1467,15 @@ action_id input_context::display_menu( const bool permit_execute_action )
         const auto item_color = []( const int index_to_draw, int index_highlighted ) {
             return index_highlighted == index_to_draw ? h_light_gray : c_light_gray;
         };
-        right_print( w_help, 4, 2, item_color( int( kb_btn_idx::remove ),
+        right_print( w_help, 4, 2, item_color( static_cast<int>( kb_btn_idx::remove ),
                                                int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Remove keybinding>" ),
                                     fallback_keys.at( fallback_action::remove ) ) );
-        right_print( w_help, 4, 26, item_color( int( kb_btn_idx::add_local ),
+        right_print( w_help, 4, 26, item_color( static_cast<int>( kb_btn_idx::add_local ),
                                                 int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Add local keybinding>" ),
                                     fallback_keys.at( fallback_action::add_local ) ) );
-        right_print( w_help, 4, 54, item_color( int( kb_btn_idx::add_global ),
+        right_print( w_help, 4, 54, item_color( static_cast<int>( kb_btn_idx::add_global ),
                                                 int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Add global keybinding>" ),
                                     fallback_keys.at( fallback_action::add_global ) ) );
