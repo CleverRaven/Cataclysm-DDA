@@ -75,7 +75,6 @@ enum class spell_flag : int {
     EXTRA_EFFECTS_FIRST, // the extra effects are cast before the main spell.
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
-    WITH_CONTAINER, // items spawned with container
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.
@@ -750,14 +749,14 @@ void effect_on_condition( const spell &sp, Creature &caster, const tripoint &tar
 void none( const spell &sp, Creature &, const tripoint &target );
 void slime_split_on_death( const spell &sp, Creature &, const tripoint &target );
 
-static const std::map<spell_shape, std::function<std::set<tripoint>
+inline const std::map<spell_shape, std::function<std::set<tripoint>
 ( const override_parameters &, const tripoint &, const tripoint & )>> shape_map = {
     { spell_shape::blast, spell_effect_blast },
     { spell_shape::line, spell_effect_line },
     { spell_shape::cone, spell_effect_cone }
 };
 
-static const
+inline const
 std::map<std::string, std::function<void( const spell &, Creature &, const tripoint & )>>
 effect_map{
     { "pain_split", spell_effect::pain_split },

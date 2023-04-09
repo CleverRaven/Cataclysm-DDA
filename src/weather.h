@@ -28,30 +28,30 @@ class translation;
  */
 ///@{
 //!< More aggressive cold effects.
-static constexpr int BODYTEMP_FREEZING = 500;
+constexpr int BODYTEMP_FREEZING = 500;
 //!< This value means frostbite occurs at the warmest temperature of 1C. If changed, the temp_conv calculation should be reexamined.
-static constexpr int BODYTEMP_VERY_COLD = 2000;
+constexpr int BODYTEMP_VERY_COLD = 2000;
 //!< Frostbite timer will not improve while below this point.
-static constexpr int BODYTEMP_COLD = 3500;
+constexpr int BODYTEMP_COLD = 3500;
 //!< Do not change this value, it is an arbitrary anchor on which other calculations are made.
-static constexpr int BODYTEMP_NORM = 5000;
+constexpr int BODYTEMP_NORM = 5000;
 //!< Level 1 hotness.
-static constexpr int BODYTEMP_HOT = 6500;
+constexpr int BODYTEMP_HOT = 6500;
 //!< Level 2 hotness.
-static constexpr int BODYTEMP_VERY_HOT = 8000;
+constexpr int BODYTEMP_VERY_HOT = 8000;
 //!< Level 3 hotness.
-static constexpr int BODYTEMP_SCORCHING = 9500;
+constexpr int BODYTEMP_SCORCHING = 9500;
 
 //!< Additional Threshold before speed is impacted by heat.
-static constexpr int BODYTEMP_THRESHOLD = 500;
+constexpr int BODYTEMP_THRESHOLD = 500;
 ///@}
 
 // Wetness percentage 0.0f is DRY
 // Level 1 wetness (DAMP) is between 0.0f and Level 2
 // Level 2 wetness percentage
-static constexpr float BODYWET_PERCENT_WET = 0.3f;
+constexpr float BODYWET_PERCENT_WET = 0.3f;
 // Level 3 wetness percentage
-static constexpr float BODYWET_PERCENT_SOAKED = 0.6f;
+constexpr float BODYWET_PERCENT_SOAKED = 0.6f;
 
 // Rough tresholds for sunlight intensity in W/m2.
 namespace irradiance

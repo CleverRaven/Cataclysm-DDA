@@ -257,7 +257,7 @@ enum action_id : int {
     ACTION_MISSIONS,
     /** Display factions screen */
     ACTION_FACTIONS,
-    /** Display morale effects screen */
+    /** Displays morale menu */
     ACTION_MORALE,
     /** Displays medical menu */
     ACTION_MEDICAL,

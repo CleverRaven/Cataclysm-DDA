@@ -7536,7 +7536,6 @@
   {
     "type": "construction",
     "id": "hang_heavy_punching_bag",
-    "description": "A hefty leather bag in an oblong shape, suspended from a ceiling mount with a steel chain.  It can be used for exercise and combat training, with the notable advantage that it doesn't fight back.",
     "group": "hang_heavy_punching_bag",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -7807,6 +7806,30 @@
     "components": [ [ [ "chair_wood_white", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_chair_white",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_oxygen_concentrator",
+    "group": "place_oxygen_concentrator",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "oxygen_concentrator", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_hd_compressor_unit",
+    "group": "place_hd_compressor_unit",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "hd_compressor_unit", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
     "activity_level": "LIGHT_EXERCISE"
   }
 ]

@@ -6,8 +6,6 @@
   },
   {
     "id": [
-      "20x66_10_mag",
-      "20x66_20_mag",
       "af2011a1mag",
       "ppkmag",
       "sigp230mag",
@@ -108,7 +106,6 @@
   },
   {
     "id": [
-      "20x66_40_mag",
       "skorpion61mag",
       "mac11mag",
       "glock40bigmag",
@@ -357,6 +354,9 @@
       "USAS10mag",
       "USAS20mag",
       "shotbelt_20",
+      "20x66_10_mag",
+      "20x66_20_mag",
+      "20x66_40_mag",
       "robofac10",
       "xedra10",
       "robofac30",

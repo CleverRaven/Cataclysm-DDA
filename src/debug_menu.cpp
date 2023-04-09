@@ -38,6 +38,7 @@
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
+#include "city.h"
 #include "clzones.h"
 #include "color.h"
 #include "coordinates.h"
@@ -749,9 +750,14 @@ static void spell_description(
         }
 
     } else if( spl_eff == "spawn_item" ) {
-        damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage( chrc ),
-                                       item::nname( itype_id( spl.effect_data() ), spl.damage( chrc ) ) );
-
+        if( spl.has_flag( spell_flag::SPAWN_GROUP ) ) {
+            // todo: more user-friendly presentation
+            damage_string = string_format( _( "Spawn item group %1$s %2$d times" ), spl.effect_data(),
+                                           spl.damage( chrc ) );
+        } else {
+            damage_string = string_format( _( "Spawn %1$d %2$s" ), spl.damage( chrc ),
+                                           item::nname( itype_id( spl.effect_data() ), spl.damage( chrc ) ) );
+        }
     } else if( spl_eff == "summon" ) {
         std::string monster_name = "FIXME";
         if( spl.has_flag( spell_flag::SPAWN_GROUP ) ) {
@@ -954,7 +960,8 @@ static void change_spells( Character &character )
     ctxt.register_action( "UNLEARN_SPELL" ); // Quickly unlearn a spell
     ctxt.register_action( "TOGGLE_ALL_SPELL" ); // Cycle level on all spells in spells_relative
     ctxt.register_action( "SHOW_ONLY_LEARNED" ); // Removes all unlearned spells in spells_relative
-    ctxt.register_cardinal(); // left and right change spell level
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright(); // left and right change spell level
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" ); // set a spell to a level
     ctxt.register_action( "FILTER" );
@@ -1019,8 +1026,8 @@ static void change_spells( Character &character )
 
             mvwprintz( w_name.window, point( 2, line_number ),
                        spell_color, splt.name.translated() );
-            mvwprintz( w_level.window, point( 2, line_number++ ), spell_color,
-                       _( "%1$-3d/%2$3d" ), spell_level, static_cast<int>( splt.max_level.evaluate( d ) ) );
+            mvwprintz( w_level.window, point( 1, line_number++ ), spell_color,
+                       _( "%1$3d /%2$3d" ), spell_level, static_cast<int>( splt.max_level.evaluate( d ) ) );
         }
 
         nc_color gray = c_light_gray;
@@ -1142,19 +1149,7 @@ static void change_spells( Character &character )
             filterstring.clear();
             filter_spells();
 
-        } else if( action == "UP" ) {
-            if( !spell_selected ) {
-                spell_selected = spells_relative.size() - 1;
-            } else {
-                spell_selected--;
-            }
-
-        } else if( action == "DOWN" ) {
-            spell_selected++;
-            if( static_cast<size_t>( spell_selected ) == spells_relative.size() ) {
-                spell_selected = 0;
-            }
-
+        } else if( navigate_ui_list( action, spell_selected, 10, spells_relative.size(), true ) ) {
         } else if( action == "LEFT" ) {
             int &spell_level = std::get<1>( *spells_relative[spell_selected] );
             spell_level = std::max( -1, spell_level - 1 );
@@ -1822,7 +1817,7 @@ static void character_edit_menu()
     }
 
     enum {
-        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+        D_DESC, D_SKILLS, D_THEORY, D_PROF, D_STATS, D_SPELLS, D_ITEMS, D_DELETE_ITEMS, D_DROP_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
         D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA, D_PRINT_VARS,
         D_WRITE_EOCS, D_KILL_XP, D_CHECK_TEMP, D_EDIT_VARS
@@ -1836,6 +1831,7 @@ static void character_edit_menu()
     nmenu.addentry( D_SPELLS, true, 'l', "%s", _( "Edit spells" ) );
     nmenu.addentry( D_ITEMS, true, 'i', "%s", _( "Grant items" ) );
     nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _( "Delete (all) items" ) );
+    nmenu.addentry( D_DROP_ITEMS, true, 'D', "%s", _( "Drop items" ) );
     nmenu.addentry( D_ITEM_WORN, true, 'w', "%s", _( "Wear/wield an item from player's inventory" ) );
     nmenu.addentry( D_HP, true, 'h', "%s", _( "Set hit points" ) );
     nmenu.addentry( D_STAMINA, true, 'S', "%s", _( "Set stamina" ) );
@@ -1894,6 +1890,9 @@ static void character_edit_menu()
             you.worn.clear();
             you.inv->clear();
             you.remove_weapon();
+            break;
+        case D_DROP_ITEMS:
+            you.drop( game_menus::inv::multidrop( you ), you.pos() );
             break;
         case D_ITEM_WORN: {
             item_location loc = game_menus::inv::titled_menu( player_character, _( "Make target equip" ) );

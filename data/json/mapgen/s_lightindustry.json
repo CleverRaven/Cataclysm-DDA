@@ -127,7 +127,7 @@
         ":": "t_wall_glass",
         ")": "t_door_glass_c",
         "+": "t_door_c",
-        "b": "t_door_metal_locked",
+        "b": [ [ "t_door_metal_locked", 2 ], "t_door_metal_elocked" ],
         "c": "t_gates_mech_control",
         "d": "t_chainfence_h",
         "&": "t_chaingate_l",
@@ -217,10 +217,10 @@
         { "group": "elecsto_diy", "chance": 60, "repeat": 4, "x": [ 34, 37 ], "y": [ 4, 5 ] }
       ],
       "place_monster": [
-        { "group": "GROUP_VANILLA", "x": [ 2, 22 ], "y": [ 7, 14 ], "chance": 75, "repeat": [ 6, 12 ] },
-        { "group": "GROUP_VANILLA", "x": [ 25, 42 ], "y": [ 7, 14 ], "chance": 35, "repeat": [ 2, 6 ] },
-        { "group": "GROUP_VANILLA", "x": [ 2, 22 ], "y": [ 60, 71 ], "chance": 75, "repeat": [ 6, 12 ] },
-        { "group": "GROUP_VANILLA", "x": [ 25, 42 ], "y": [ 60, 71 ], "chance": 35, "repeat": [ 2, 6 ] },
+        { "group": "GROUP_CIVILIAN", "x": [ 2, 22 ], "y": [ 7, 14 ], "chance": 75, "repeat": [ 6, 12 ] },
+        { "group": "GROUP_CIVILIAN", "x": [ 25, 42 ], "y": [ 7, 14 ], "chance": 35, "repeat": [ 2, 6 ] },
+        { "group": "GROUP_CIVILIAN", "x": [ 2, 22 ], "y": [ 60, 71 ], "chance": 75, "repeat": [ 6, 12 ] },
+        { "group": "GROUP_CIVILIAN", "x": [ 25, 42 ], "y": [ 60, 71 ], "chance": 35, "repeat": [ 2, 6 ] },
         { "group": "GROUP_SMALL_STATION", "x": [ 25, 42 ], "y": [ 7, 14 ], "chance": 75, "repeat": [ 3, 6 ] },
         { "group": "GROUP_SMALL_STATION", "x": [ 25, 42 ], "y": [ 60, 71 ], "chance": 75, "repeat": [ 3, 6 ] }
       ],

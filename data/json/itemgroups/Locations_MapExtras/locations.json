@@ -275,6 +275,16 @@
   },
   {
     "type": "item_group",
+    "id": "hospital_oxygen",
+    "items": [
+      { "item": "smoxygen_tank", "charges": 0, "count": [ 0, 4 ] },
+      { "item": "smoxygen_tank", "prob": 60, "charges": [ 0, 12 ] },
+      { "item": "oxygen_tank", "charges": 0, "count": [ 0, 2 ] },
+      { "item": "oxygen_tank", "prob": 40, "charges": [ 0, 24 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "cave_minerals",
     "subtype": "distribution",
     "entries": [ { "item": "material_niter", "prob": 20 }, { "item": "material_limestone", "prob": 5 } ]
@@ -1081,7 +1091,11 @@
       { "item": "bronze_pickaxe", "prob": 2, "damage": [ 2, 4 ] },
       { "item": "bone_flute", "prob": 10, "damage": [ 2, 4 ] },
       { "item": "spear_stone", "prob": 50, "damage": [ 2, 4 ] },
-      { "item": "hand_axe", "prob": 50, "damage": [ 2, 4 ] }
+      { "item": "hand_axe", "prob": 50, "damage": [ 2, 4 ] },
+      { "item": "bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
+      { "item": "large_bone_fossil", "prob": 20, "damage": [ 2, 4 ] },
+      { "item": "bone_plaster", "prob": 50, "damage": [ 2, 4 ] },
+      { "item": "large_bone_plaster", "prob": 50, "damage": [ 2, 4 ] }
     ]
   },
   {

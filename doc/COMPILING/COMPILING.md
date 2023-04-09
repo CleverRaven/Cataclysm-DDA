@@ -36,17 +36,7 @@ You have three major choices here: GCC, Clang and MXE.
 
 (Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for C++ you'll need to install `g++`.)
 
-Cataclysm is targeting the C++14 standard and that means you'll need a compiler that supports it. You can easily check if your version of `g++` supports C++14 by running:
-
-    $ `g++ --std=c++14`
-    g++: fatal error: no input files
-    compilation terminated.
-
-If you get a line like:
-
-    g++: error: unrecognized command line option ‘--std=c++14’
-
-This means you'll need a newer version of GCC (`g++`).
+Cataclysm is targeting the C++17 standard and that means you'll need a compiler that supports it. You can check if your C++ compiler supports the standard by reading [COMPILER_SUPPORT.md](./COMPILER_SUPPORT.md)
 
 The general rule is the newer the compiler the better.
 
@@ -311,7 +301,7 @@ Frameworks were obtained from the SDL official website as described in the next 
 To build the full feature tiles and sound enabled version with localizations enabled:
 
 ```bash
-make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
+make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1
   RELEASE=1 LOCALIZE=1 LANGUAGES=all TILES=1 SOUND=1 FRAMEWORK=1
   OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 ```
@@ -323,7 +313,7 @@ Make sure that `x86_64-apple-darwin15-clang++` is in `PATH` environment variable
 To build the full curses version with localizations enabled:
 
 ```bash
-make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx OSX_MIN=10.7 USE_HOME_DIR=1 CLANG=1
+make dmgdist CROSS=x86_64-apple-darwin15- NATIVE=osx USE_HOME_DIR=1 CLANG=1
   RELEASE=1 LOCALIZE=1 LANGUAGES=all OSXCROSS=1 LIBSDIR=../libs FRAMEWORKSDIR=../Frameworks
 ```
 
@@ -530,7 +520,7 @@ The Cataclysm source is compiled using `make`.
 ### Make options
 
 * `NATIVE=osx` build for OS X. Required for all Mac builds. This is automatically set if compiling natively on macOS.
-* `OSX_MIN=version` sets `-mmacosx-version-min=version`, 10.13 or higher is required. The default value is current system version.
+* `UNIVERSAL_BINARY=1` build `x86_64` and `arm64` dual-architecture Universal Binary; omit to build for host architecture only.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
 * `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
@@ -539,7 +529,7 @@ The Cataclysm source is compiled using `make`.
 * `RELEASE=1` build an optimized release version; omit for debug build.
 * `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++. This is enabled by default.
 * `MACPORTS=1` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
-* `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-dda`, for SDL builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
+* `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-dda`, for OSX builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
 * `DEBUG_SYMBOLS=1` retains debug symbols when building an optimized release binary, making it easy for developers to spot the crash site.
 
 In addition to the options above, there is an `app` make target which will package the tiles build into `Cataclysm.app`, a complete tiles build in a Mac application that can run without Terminal.
@@ -591,7 +581,7 @@ sudo pip install dmgbuild pyobjc-framework-Quartz
 
 Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like this. The use of `USE_HOME_DIR=1` is important here because it will allow for an easy upgrade of the game while keeping the user config and his saves in his home directory.
 
-    `make dmgdist NATIVE=osx OSX_MIN=10.13 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1 USE_HOME_DIR=1`
+    `make dmgdist NATIVE=osx RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1 USE_HOME_DIR=1`
 
 You should see a `Cataclysm.dmg` file.
 
@@ -632,7 +622,7 @@ There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (
 
 ### Building on FreeBSD/amd64 13.0 with the system compiler
 
-FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14 support out of the box.
+FreeBSD uses clang as the default compiler, which provides C++17 support out of the box since FreeBSD 12.0.
 
 Install the following with pkg (or from Ports):
 

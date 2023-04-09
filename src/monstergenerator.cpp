@@ -33,6 +33,7 @@
 #include "pathfinding.h"
 #include "rng.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 #include "weakpoint.h"
 
@@ -440,6 +441,13 @@ void MonsterGenerator::finalize_mtypes()
             mon.status_chance_multiplier = 0;
         }
 
+        // Check if trap_ids are valid
+        for( trap_str_id trap_avoid_id : mon.trap_avoids ) {
+            if( !trap_avoid_id.is_valid() ) {
+                debugmsg( "Invalid trap '%s'", trap_avoid_id.str() );
+            }
+        }
+
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
 
@@ -595,6 +603,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
     add_hardcoded_attack( "PARROT_AT_DANGER", mattack::parrot_at_danger );
+    add_hardcoded_attack( "BLOW_WHISTLE", mattack::blow_whistle );
     add_hardcoded_attack( "DARKMAN", mattack::darkman );
     add_hardcoded_attack( "SLIMESPRING", mattack::slimespring );
     add_hardcoded_attack( "EVOLVE_KILL_STRIKE", mattack::evolve_kill_strike );
@@ -768,6 +777,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_cold", armor_cold, strict, 0 );
     assign( jo, "armor_pure", armor_pure, strict, 0 );
     assign( jo, "armor_biological", armor_biological, strict, 0 );
+
+    optional( jo, was_loaded, "trap_avoids", trap_avoids );
 
     if( !was_loaded ) {
         weakpoints_deferred.clear();

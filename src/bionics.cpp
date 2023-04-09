@@ -138,7 +138,6 @@ static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_pkill_l( "pkill_l" );
 static const efftype_id effect_poison( "poison" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_stung( "stung" );
 static const efftype_id effect_teleglow( "teleglow" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_took_flumed( "took_flumed" );
@@ -462,11 +461,16 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     }
 
     activated = has_flag( STATIC( json_character_flag( json_flag_BIONIC_TOGGLED ) ) ) ||
+                has_flag( json_flag_BIONIC_GUN ) ||
                 power_activate > 0_kJ ||
                 charge_time > 0_turns;
 
     if( has_flag( STATIC( json_character_flag( "BIONIC_FAULTY" ) ) ) ) {
         faulty_bionics.push_back( id );
+    }
+
+    if( has_flag( json_flag_BIONIC_GUN ) && power_activate != 0_kJ ) {
+        debugmsg( "Bionic %s attribute power_activate is ignored due to BIONIC_GUN flag.", id.c_str() );
     }
 }
 
@@ -767,14 +771,17 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
                       bio.info().id.str() );
             return false;
         }
+        if( bio.get_weapon().get_gun_bionic_drain() > get_power_level() ) {
+            add_msg_if_player( m_info, _( "You need at least %s of bionic power to fire the %s!" ),
+                               units::display( bio.get_weapon().get_gun_bionic_drain() ), bio.get_weapon().tname() );
+            return false;
+        }
 
         add_msg_activate();
-        refund_power(); // Power usage calculated later, in avatar_action::fire
         if( close_bionics_ui ) {
             *close_bionics_ui = true;
         }
-        avatar_action::fire_ranged_bionic( player_character, bio.get_weapon(),
-                                           bio.info().power_activate );
+        avatar_action::fire_ranged_bionic( player_character, bio.get_weapon() );
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
         if( !bio.has_weapon() ) {
             debugmsg( "tried to activate weapon bionic \"%s\" without fake_weapon",
@@ -908,7 +915,7 @@ bool Character::activate_bionic( bionic &bio, bool eff_only, bool *close_bionics
         add_msg_activate();
         static const std::vector<efftype_id> removable = {{
                 effect_fungus, effect_dermatik, effect_bloodworms,
-                effect_tetanus, effect_poison, effect_badpoison, effect_stung,
+                effect_tetanus, effect_poison, effect_badpoison,
                 effect_pkill1, effect_pkill2, effect_pkill3, effect_pkill_l,
                 effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
                 effect_pblue, effect_iodine, effect_datura,

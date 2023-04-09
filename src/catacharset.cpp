@@ -347,13 +347,13 @@ std::wstring utf8_to_wstr( const std::string &str )
 #if defined(_WIN32)
     int sz = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, nullptr, 0 ) + 1;
     std::wstring wstr( sz, '\0' );
-    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &wstr[0], sz );
+    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, wstr.data(), sz );
     strip_trailing_nulls( wstr );
     return wstr;
 #else
     std::size_t sz = std::mbstowcs( nullptr, str.c_str(), 0 ) + 1;
     std::wstring wstr( sz, '\0' );
-    std::mbstowcs( &wstr[0], str.c_str(), sz );
+    std::mbstowcs( wstr.data(), str.c_str(), sz );
     strip_trailing_nulls( wstr );
     return wstr;
 #endif
@@ -364,13 +364,13 @@ std::string wstr_to_utf8( const std::wstring &wstr )
 #if defined(_WIN32)
     int sz = WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, nullptr, 0, nullptr, nullptr );
     std::string str( sz, '\0' );
-    WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, &str[0], sz, nullptr, nullptr );
+    WideCharToMultiByte( CP_UTF8, 0, wstr.c_str(), -1, str.data(), sz, nullptr, nullptr );
     strip_trailing_nulls( str );
     return str;
 #else
     std::size_t sz = std::wcstombs( nullptr, wstr.c_str(), 0 ) + 1;
     std::string str( sz, '\0' );
-    std::wcstombs( &str[0], wstr.c_str(), sz );
+    std::wcstombs( str.data(), wstr.c_str(), sz );
     strip_trailing_nulls( str );
     return str;
 #endif

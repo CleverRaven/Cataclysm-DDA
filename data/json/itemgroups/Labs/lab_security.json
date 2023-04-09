@@ -130,19 +130,6 @@
     ]
   },
   {
-    "id": "SUS_rivtech_5x50",
-    "type": "item_group",
-    "//": "This group is for rare spawns of rivetech matched sets.",
-    "subtype": "collection",
-    "entries": [
-      {
-        "distribution": [ { "item": "5x50dart", "prob": 80, "count": [ 1, 3 ] }, { "item": "5x50heavy", "prob": 20, "count": [ 1, 3 ] } ]
-      },
-      { "distribution": [ { "item": "needlegun", "prob": 50 }, { "item": "needlepistol", "prob": 50 } ] },
-      { "distribution": [ { "item": "5x50_50_mag", "prob": 80 }, { "item": "5x50_100_mag", "prob": 20 } ] }
-    ]
-  },
-  {
     "id": "SUS_rivtech_40mm",
     "type": "item_group",
     "//": "This group is for rare spawns of rivetech matched sets.",

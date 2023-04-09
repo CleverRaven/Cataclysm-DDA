@@ -1285,7 +1285,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "oj",
+    "result": "oj_fresh",
     "id_suffix": "jarred_3l",
     "byproducts": [ [ "water_clean", 12 ], [ "juice_pulp", 24 ] ],
     "container": "jar_3l_glass_sealed",
@@ -1435,7 +1435,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "oj",
+    "result": "oj_fresh",
     "id_suffix": "jarred",
     "byproducts": [ [ "water_clean", 2 ], [ "juice_pulp", 4 ] ],
     "container": "jar_glass_sealed",
@@ -2616,7 +2616,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "oj",
+    "result": "oj_fresh",
     "id_suffix": "canned",
     "byproducts": [ [ "juice_pulp", 4 ], [ "water_clean", 1 ] ],
     "container": "can_medium",
@@ -2638,7 +2638,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "oj",
+    "result": "oj_fresh",
     "id_suffix": "canned_small",
     "byproducts": [ [ "juice_pulp", 2 ], [ "water_clean", 1 ] ],
     "container": "can_food",
@@ -2660,7 +2660,7 @@
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
-    "result": "oj",
+    "result": "oj_fresh",
     "id_suffix": "canned_big",
     "byproducts": [ [ "juice_pulp", 24 ], [ "water_clean", 6 ] ],
     "container": "can_food_big",

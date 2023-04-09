@@ -452,8 +452,6 @@
     "material": [ "veggy" ],
     "volume": "250 ml",
     "fun": -2,
-    "//2": "They contain inulin, which is tough to digest. Nothing fatal but should be avoided if possible.",
-    "healthy": -1,
     "smoking_result": "dry_veggy",
     "flags": [ "RAW" ],
     "vitamins": [ [ "vitC", 18 ], [ "iron", 5 ], [ "calcium", 8 ] ]
@@ -963,7 +961,7 @@
     "looks_like": "mushroom",
     "spoils_in": "40 hours",
     "use_action": [ "POISON" ],
-    "description": "This is a chunk of fungal matter from some sort of alien mushroom creature.  Eating unfamiliar mushrooms is a bad idea.",
+    "description": "A chunk of fungal matter from some sort of alien mushroom creature.  Eating unfamiliar mushrooms is a bad idea.",
     "price": 0,
     "price_postapoc": 0,
     "smoking_result": "dry_veggy_tainted"
