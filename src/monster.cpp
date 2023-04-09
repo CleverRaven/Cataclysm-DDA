@@ -62,6 +62,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "units.h"
 #include "viewer.h"
 #include "weakpoint.h"
@@ -403,7 +404,7 @@ void monster::try_upgrade( bool pin_time )
                         for( int i = 0; i < mgr.pack_size; i++ ) {
                             tripoint spawn_pos;
                             if( g->find_nearby_spawn_point( pos(), mgr.name, 1, *type->upgrade_multi_range,
-                                                            spawn_pos, false ) ) {
+                                                            spawn_pos, false, false ) ) {
                                 monster *spawned = g->place_critter_at( mgr.name, spawn_pos );
                                 if( spawned ) {
                                     spawned->friendly = friendly;
@@ -1043,6 +1044,11 @@ bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr ) const
     if( digging() || flies() ) {
         return true;
     }
+
+    if( type->trap_avoids.count( tr.id ) > 0 ) {
+        return true;
+    }
+
     return dice( 3, type->sk_dodge + 1 ) >= dice( 3, tr.get_avoidance() );
 }
 
@@ -2424,25 +2430,9 @@ void monster::explode()
     hp = INT_MIN + 1;
 }
 
-void monster::set_summon_time( const time_duration &length )
-{
-    lifespan_end = calendar::turn + length;
-}
-
-void monster::decrement_summon_timer()
-{
-    if( !lifespan_end ) {
-        return;
-    }
-    if( lifespan_end.value() <= calendar::turn ) {
-        die( nullptr );
-    }
-}
-
 void monster::process_turn()
 {
     map &here = get_map();
-    decrement_summon_timer();
     if( !is_hallucination() ) {
         for( const std::pair<const emit_id, time_duration> &e : type->emit_fields ) {
             if( !calendar::once_every( e.second ) ) {

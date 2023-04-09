@@ -245,9 +245,7 @@ jobs:
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+      uses: actions/checkout@v3
     - name: install dependencies (ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |

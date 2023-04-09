@@ -1133,7 +1133,7 @@
     "type": "harvest",
     "message": "<acidant_harvest>",
     "entries": [
-      { "drop": "blood_acid", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "blood_acid_insect", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.33 },
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
@@ -1150,7 +1150,7 @@
       { "drop": "mutant_meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80, "type": "flesh" },
       { "drop": "acidchitin_piece", "base_num": [ 2, 4 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "bone" },
       { "drop": "chitin_piece", "base_num": [ 0, 3 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "bone" },
-      { "drop": "blood_acid", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "blood_acid_insect", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "mutant_fat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 18, "type": "flesh" }
     ]
@@ -1678,6 +1678,17 @@
     ]
   },
   {
+    "id": "triffid_acid",
+    "//": "acid blood type for plant based creaturs.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood_acid_plant", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.5 },
+      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 }
+    ]
+  },
+  {
     "id": "triffid_fungal_fighter",
     "type": "harvest",
     "entries": [
@@ -1698,6 +1709,17 @@
       { "drop": "veggy", "type": "flesh", "mass_ratio": 0.2 },
       { "drop": "veggy", "type": "offal", "mass_ratio": 0.05 },
       { "drop": "venom_paralytic", "type": "offal", "mass_ratio": 0.02 }
+    ]
+  },
+  {
+    "id": "underground_acid",
+    "//": "acid blood type for underground or digging based creaturs.",
+    "type": "harvest",
+    "entries": [
+      { "drop": "blood_acid_underground", "type": "blood", "mass_ratio": 0.1 },
+      { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.4 },
+      { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "mutant_fat", "type": "offal", "mass_ratio": 0.1 }
     ]
   },
   {

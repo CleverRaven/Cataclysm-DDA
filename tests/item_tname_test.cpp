@@ -276,13 +276,13 @@ TEST_CASE( "engine displacement volume", "[item][tname][engine]" )
     item v12diesel = item( "v12_diesel" );
     item turbine = item( "small_turbine_engine" );
 
-    REQUIRE( vtwin.engine_displacement() == 100 );
+    REQUIRE( vtwin.engine_displacement() == 60 );
     REQUIRE( v12diesel.engine_displacement() == 700 );
     REQUIRE( turbine.engine_displacement() == 2700 );
 
-    CHECK( vtwin.tname() == "1.0L V2 engine" );
-    CHECK( v12diesel.tname() == "7.0L V12 diesel engine" );
-    CHECK( turbine.tname() == "27.0L 1,350 HP gas turbine engine" );
+    CHECK( vtwin.tname() == "0.6L V2 engine" );
+    CHECK( v12diesel.tname() == "7L V12 diesel engine" );
+    CHECK( turbine.tname() == "27L 1,350 HP gas turbine engine" );
 }
 
 TEST_CASE( "wheel diameter", "[item][tname][wheel]" )
@@ -320,8 +320,19 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
             REQUIRE( shirt.damage() == 0 );
             REQUIRE( shirt.damage_level() == 0 );
 
-            // green `||`
+            // green `++`
             THEN( "it appears undamaged" ) {
+                CHECK( shirt.tname() == "<color_c_green>++</color>\u00A0long-sleeved shirt (poor fit)" );
+            }
+        }
+
+        WHEN( "it is minimally damaged" ) {
+            shirt.set_damage( 1 );
+            REQUIRE( shirt.damage() == 1 );
+            REQUIRE( shirt.damage_level() == 1 );
+
+            // light_green `||`
+            THEN( "it appears damaged" ) {
                 CHECK( shirt.tname() == "<color_c_light_green>||</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
@@ -329,7 +340,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "is is one-quarter damaged" ) {
             shirt.set_damage( dam25 );
             REQUIRE( shirt.damage() == dam25 );
-            REQUIRE( shirt.damage_level() == 1 );
+            REQUIRE( shirt.damage_level() == 2 );
 
             // yellow `|\`
             THEN( "it appears slightly damaged" ) {
@@ -340,9 +351,9 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is half damaged" ) {
             shirt.set_damage( dam25 * 2 );
             REQUIRE( shirt.damage() == dam25 * 2 );
-            REQUIRE( shirt.damage_level() == 2 );
+            REQUIRE( shirt.damage_level() == 3 );
 
-            // magenta `|.`
+            // light_red `|.`
             THEN( "it appears moderately damaged" ) {
                 CHECK( shirt.tname() == "<color_c_light_red>|.</color>\u00A0long-sleeved shirt (poor fit)" );
             }
@@ -351,18 +362,18 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is three-quarters damaged" ) {
             shirt.set_damage( dam25 * 3 );
             REQUIRE( shirt.damage() == dam25 * 3 );
-            REQUIRE( shirt.damage_level() == 3 );
+            REQUIRE( shirt.damage_level() == 4 );
 
             // red `\.`
             THEN( "it appears heavily damaged" ) {
-                CHECK( shirt.tname() == "<color_c_magenta>\\.</color>\u00A0long-sleeved shirt (poor fit)" );
+                CHECK( shirt.tname() == "<color_c_red>\\.</color>\u00A0long-sleeved shirt (poor fit)" );
             }
         }
 
         WHEN( "it is totally damaged" ) {
             shirt.set_damage( dam25 * 4 );
             REQUIRE( shirt.damage() == dam25 * 4 );
-            REQUIRE( shirt.damage_level() == 4 );
+            REQUIRE( shirt.damage_level() == 5 );
 
             // dark gray `XX`
             THEN( "it appears almost destroyed" ) {
@@ -373,7 +384,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is one quarter degraded" ) {
             deg_test.set_degradation( deg20 );
             REQUIRE( deg_test.degradation() == deg20 );
-            REQUIRE( deg_test.damage_level() == 0 );
+            REQUIRE( deg_test.damage_level() == 1 );
 
             // yellow bar
             THEN( "it appears slightly degraded" ) {
@@ -385,7 +396,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is half degraded" ) {
             deg_test.set_degradation( deg20 * 2 );
             REQUIRE( deg_test.degradation() == deg20 * 2 );
-            REQUIRE( deg_test.damage_level() == 1 );
+            REQUIRE( deg_test.damage_level() == 2 );
 
             // magenta bar
             THEN( "it appears slightly more degraded" ) {
@@ -397,7 +408,7 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is three quarters degraded" ) {
             deg_test.set_degradation( deg20 * 3 );
             REQUIRE( deg_test.degradation() == deg20 * 3 );
-            REQUIRE( deg_test.damage_level() == 2 );
+            REQUIRE( deg_test.damage_level() == 3 );
 
             // light red bar
             THEN( "it appears very degraded" ) {
@@ -409,12 +420,12 @@ TEST_CASE( "item health or damage bar", "[item][tname][health][damage]" )
         WHEN( "it is totally degraded" ) {
             deg_test.set_degradation( deg20 * 4 );
             REQUIRE( deg_test.degradation() == deg20 * 4 );
-            REQUIRE( deg_test.damage_level() == 2 );
+            REQUIRE( deg_test.damage_level() == 4 );
 
             // short red bar
             THEN( "it appears extremely degraded" ) {
                 CHECK( deg_test.tname() ==
-                       "<color_c_light_red>|.</color><color_c_red>\u2581</color>\u00A0baseball" );
+                       "<color_c_red>\\.</color><color_c_red>\u2581</color>\u00A0baseball" );
             }
         }
     }
@@ -502,7 +513,7 @@ TEST_CASE( "molle_vest_additional_pockets", "[item][tname]" )
     addition_vest.get_contents().add_pocket( item( "holster" ) );
 
     CHECK( addition_vest.tname( 1 ) ==
-           "<color_c_light_green>||</color>\u00A0load bearing vest+1" );
+           "<color_c_green>++</color>\u00A0load bearing vest+1" );
 }
 
 TEST_CASE( "nested_items_tname", "[item][tname]" )
@@ -512,7 +523,7 @@ TEST_CASE( "nested_items_tname", "[item][tname]" )
     item rock( itype_test_rock );
     item rock2( itype_rock );
     const std::string color_pref =
-        "<color_c_light_green>||</color>\u00A0";
+        "<color_c_green>++</color>\u00A0";
 
     const std::string nesting_sym = ">";
 

@@ -110,7 +110,7 @@
       "type": "dialogue",
       "context": "intercom",
       "value": "yes",
-      "no": "Great!  This looks like a very high-quality recording.  Because this data is much better we are willing to pay five times what we paid for the base data collected.\"  The tray slides shut, and quickly reopens with your payment.  \"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
+      "no": "Great!  This looks like a very high-quality recording.  Because this data is much better, we are willing to pay five times what we paid for the base data collected.\"  The tray slides shut, and quickly reopens with your payment.  \"Given your performance and our constant need for new data, you are free to keep the recorder for further use.  We are willing to pay for any future data that you're able to record.",
       "yes": "&\"Excellent.\"  The recording changes hands."
     },
     "speaker_effect": {

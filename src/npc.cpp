@@ -3011,7 +3011,7 @@ void npc::die( Creature *nkiller )
     dead = true;
     Character::die( nkiller );
 
-    if( is_hallucination() ) {
+    if( is_hallucination() || lifespan_end ) {
         add_msg_if_player_sees( *this, _( "%s disappears." ), get_name().c_str() );
         return;
     }

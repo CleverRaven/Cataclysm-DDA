@@ -675,6 +675,10 @@ class map
         std::vector<zone_data *> get_vehicle_zones( int zlev );
         void register_vehicle_zone( vehicle *, int zlev );
         bool deregister_vehicle_zone( zone_data &zone ) const;
+        // returns a list of tripoints which contain parts from moving vehicles within \p max_range
+        // distance from \p z position, if any parts are CONTROLS, ENGINE or WHEELS returns a
+        // list of tripoints with exclusively such parts instead. Used for monster gun actor targeting.
+        std::set<tripoint_bub_ms> get_moving_vehicle_targets( const Creature &z, int max_range );
 
         // Removes vehicle from map and returns it in unique_ptr
         std::unique_ptr<vehicle> detach_vehicle( vehicle *veh );
