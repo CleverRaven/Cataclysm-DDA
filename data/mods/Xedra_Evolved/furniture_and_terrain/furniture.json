@@ -108,6 +108,7 @@
     }
   },
   {
+    "type": "furniture",
     "id": "f_bat_roost",
     "name": "bat roost",
     "//": "Need to add uses for bat guano so this item makes sense.",

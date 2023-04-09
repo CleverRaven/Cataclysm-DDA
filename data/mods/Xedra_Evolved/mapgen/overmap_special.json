@@ -1,7 +1,7 @@
 [
   {
     "type": "overmap_special",
-    "id": "Lake Retreat",
+    "id": "Boann's Island",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
