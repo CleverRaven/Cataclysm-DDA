@@ -922,6 +922,18 @@ item outfit::item_worn_with_flag( const flag_id &f ) const
     return it_with_flag;
 }
 
+item *outfit::item_worn_with_id( const itype_id &i )
+{
+    item *it_with_id = nullptr;
+    for( item &it : worn ) {
+        if( it.typeId() == i ) {
+            it_with_id = &it;
+            break;
+        }
+    }
+    return it_with_id;
+}
+
 std::list<item> outfit::get_visible_worn_items( const Character &guy ) const
 {
     std::list<item> result;
