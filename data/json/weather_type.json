@@ -286,7 +286,6 @@
     "rains": false,
     "sound_category": "silent",
     "priority": 30,
-    "required_weathers": [ "clear" ],
     "condition": {
       "and": [
         { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 95 } ] },
@@ -312,7 +311,7 @@
     "precip": "heavy",
     "rains": false,
     "sound_category": "silent",
-    "priority": 30,
+    "priority": 1,
     "required_weathers": [ "mist" ],
     "condition": {
       "and": [
@@ -326,14 +325,16 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_CALCULATE_TEMP_DROP_RATE",
-    "recurrence": [ "15 minutes", "20 minutes" ],
+    "recurrence": [ "30 minutes", "60 minutes" ],
     "//": "we compare the temperature of previous calculation with current temperature, to check how big the temperature drop, then save the current temperature to use in the next check",
     "effect": [
       {
-        "math": [
-          "global_val('var', 'var': 'temp_drop_rate')",
+        "arithmetic": [
+          { "global_val": "var", "var_name": "temp_drop_rate" },
           "=",
-          "global_val('var', 'var': 'temp_drop_rate') - weather('temperature')"
+          {
+            "arithmetic": [ { "global_val": "var", "var_name": "previous_temp" }, "-", { "weather": "temperature" } ]
+          }
         ]
       },
       { "arithmetic": [ { "global_val": "var", "var_name": "previous_temp" }, "=", { "weather": "temperature" } ] }
@@ -359,7 +360,7 @@
     "tiles_animation": "weather_portal_storm",
     "weather_animation": { "factor": 0.01, "color": "red", "sym": "*" },
     "sound_category": "portal_storm",
-    "priority": 120,
+    "priority": 1,
     "condition": { "compare_num": [ { "global_val": "var", "var_name": "cause_early_portal_storm" }, "=", { "const": 1 } ] }
   },
   {
