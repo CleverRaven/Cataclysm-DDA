@@ -60,16 +60,6 @@
     "type": "effect_on_condition",
     "id": "EOC_increment_var",
     "//": "tests adding a variable to the player",
-    "effect": [
-      {
-        "arithmetic": [
-          { "u_val": "var", "var_name": "activitiy_incrementer" },
-          "=",
-          { "u_val": "var", "var_name": "activitiy_incrementer" },
-          "+",
-          { "const": 1 }
-        ]
-      }
-    ]
+    "effect": [ { "math": [ "u_activitiy_incrementer", "++" ] } ]
   }
 ]
