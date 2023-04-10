@@ -5621,7 +5621,7 @@ void game::control_vehicle()
         const bool controls_ok = controls_idx >= 0; // controls available to "drive"
         const bool reins_ok = reins_idx >= 0 // reins + animal available to "drive"
                               && veh->has_engine_type( fuel_type_animal, false )
-                              && veh->has_harnessed_animal();
+                              && veh->get_harnessed_animal();
         if( veh->player_in_control( u ) ) {
             // player already "driving" - offer ways to leave
             if( controls_ok ) {

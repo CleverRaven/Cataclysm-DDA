@@ -469,7 +469,7 @@ static void pldrive( const tripoint &p )
         const bool has_animal_controls = veh->part_with_feature( vp.mount, "CONTROL_ANIMAL", true ) >= 0;
         const bool has_controls = veh->part_with_feature( vp.mount, "CONTROLS", true ) >= 0;
         const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
-                                veh->has_harnessed_animal();
+                                veh->get_harnessed_animal();
         if( !has_controls && !has_animal_controls ) {
             add_msg( m_info, _( "You can't drive the vehicle from here.  You need controls!" ) );
             player_character.controlling_vehicle = false;

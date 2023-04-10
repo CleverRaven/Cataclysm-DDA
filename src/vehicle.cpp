@@ -218,7 +218,7 @@ bool vehicle::player_in_control( const Character &p ) const
     if( vp && &vp->vehicle() == this &&
         p.controlling_vehicle &&
         ( ( part_with_feature( vp->mount(), "CONTROL_ANIMAL", true ) >= 0 &&
-            has_engine_type( fuel_type_animal, false ) && has_harnessed_animal() ) ||
+            has_engine_type( fuel_type_animal, false ) && get_harnessed_animal() ) ||
           ( part_with_feature( vp->part_index(), VPFLAG_CONTROLS, false ) >= 0 ) )
       ) {
         return true;
@@ -1011,43 +1011,32 @@ const vpart_info &vehicle::part_info( int index, bool include_removed ) const
 units::power vehicle::part_vpower_w( const vehicle_part &vp, const bool at_full_hp ) const
 {
     const vpart_info &vpi = vp.info();
+    const int vp_index = index_of_part( &vp );
     units::power pwr = vpi.power;
     if( vpi.has_flag( VPFLAG_ENGINE ) ) {
-        if( pwr == 0_W ) {
-            pwr = vp.base.engine_displacement() * 373_W;
-        }
         if( vpi.fuel_type == fuel_type_animal ) {
-            monster *mon = get_monster( index_of_part( &vp ) );
-            if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
-                // An animal that can carry twice as much weight, can pull a cart twice as hard.
-                pwr = units::from_watt( mon->get_speed() * ( mon->get_size() - 1 ) * 3
-                                        * ( mon->get_mountable_weight_ratio() * 5 ) );
-            } else {
-                pwr = 0_W;
+            int factor = 0;
+            if( const monster *mon = get_monster( vp_index ); mon && mon->has_effect( effect_harnessed ) ) {
+                factor += mon->get_size() - 1;
+                factor *= mon->get_speed();
+                factor *= mon->get_mountable_weight_ratio();
             }
-        }
-        // Weary multiplier
-        const float weary_mult = get_player_character().exertion_adjusted_move_multiplier();
-        ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
-        pwr += units::from_watt( get_player_character().str_cur - 8 ) * vpi.engine_muscle_power_factor() *
-               weary_mult;
-        /// wind-powered vehicles have differing power depending on wind direction
-        if( vpi.fuel_type == fuel_type_wind ) {
-            weather_manager &weather = get_weather();
-            int windpower = weather.windspeed;
-            rl_vec2d windvec;
-            double raddir = ( ( weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
-            windvec = windvec.normalized();
-            windvec.y = -std::cos( raddir );
-            windvec.x = std::sin( raddir );
-            rl_vec2d fv = face_vec();
-            double dot = windvec.dot_product( fv );
-            if( dot <= 0 ) {
-                dot = std::min( -0.1, dot );
-            } else {
-                dot = std::max( 0.1, dot );
+            pwr = 15_W * factor;
+        } else if( vpi.fuel_type == fuel_type_muscle ) {
+            if( const Character *muscle_user = get_passenger( vp_index ) ) {
+                ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
+                const float muscle_multiplier = muscle_user->str_cur - 8;
+                const float weary_multiplier = muscle_user->exertion_adjusted_move_multiplier();
+                const float engine_multiplier = vpi.engine_muscle_power_factor();
+                pwr += units::from_watt( muscle_multiplier * weary_multiplier * engine_multiplier );
             }
-            units::power windeffectint = units::from_watt( ( windpower * dot ) * 200 );
+        } else if( vpi.fuel_type == fuel_type_wind ) {
+            /// wind-powered vehicles have differing power depending on wind direction
+            const weather_manager &weather = get_weather();
+            const double raddir = ( ( weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+            const rl_vec2d windvec( std::sin( raddir ), -std::cos( raddir ) );
+            const double dot = windvec.dot_product( face_vec() );
+            const units::power windeffectint = units::from_watt( weather.windspeed * dot * 200 );
             pwr = std::max( 1_W, pwr + windeffectint );
         }
     }
@@ -4472,21 +4461,18 @@ float vehicle::steering_effectiveness() const
     if( steering.empty() ) {
         return -1.0f; // No steering installed
     }
-    // If the only steering part is an animal harness, with no animal in, it
-    // is not steerable.
-    const vehicle_part &vp = parts[ steering[0] ];
-    if( steering.size() == 1 && vp.info().fuel_type == fuel_type_animal ) {
-        monster *mon = get_monster( steering[0] );
-        if( mon == nullptr || !mon->has_effect( effect_harnessed ) ) {
-            return -2.0f;
-        }
+    // no steering if only steering part is animal harness without animal in it
+    const vehicle_part &vp = parts[steering[0]];
+    if( steering.size() == 1 && vp.info().fuel_type == fuel_type_animal && !get_harnessed_animal() ) {
+        return -2.0f;
     }
     // For now, you just need one wheel working for 100% effective steering.
     // TODO: return something less than 1.0 if the steering isn't so good
     // (unbalanced, long wheelbase, back-heavy vehicle with front wheel steering,
     // etc)
-    for( int p : steering ) {
-        if( parts[ p ].is_available() ) {
+    for( const int p : steering ) {
+        const vehicle_part &vp = parts[p];
+        if( vp.is_available() ) {
             return 1.0f;
         }
     }

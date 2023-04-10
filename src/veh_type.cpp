@@ -41,6 +41,8 @@ class npc;
 
 static const ammotype ammo_battery( "battery" );
 
+static const itype_id fuel_type_animal( "animal" );
+
 static const itype_id itype_null( "null" );
 
 static const quality_id qual_JACK( "JACK" );
@@ -999,6 +1001,15 @@ void vpart_info::check()
         }
         if( part.has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) && part.epower == 0_W ) {
             debugmsg( "%s is set to drain epower, but has epower == 0", part.id.c_str() );
+        }
+        if( part.has_flag( VPFLAG_ENGINE ) ) {
+            if( part.power != 0_W && part.fuel_type == fuel_type_animal ) {
+                debugmsg( "engine part '%s' powered by '%s' can't define non-zero 'power'",
+                          part.id.c_str(), part.fuel_type.str() );
+            } else if( part.power == 0_W && part.fuel_type != fuel_type_animal ) {
+                debugmsg( "engine part '%s' powered by '%s' must define non zero 'power'",
+                          part.id.c_str(), part.fuel_type.str() );
+            }
         }
         // Parts with non-zero epower must have a flag that affects epower usage
         static const std::vector<std::string> handled = {{
