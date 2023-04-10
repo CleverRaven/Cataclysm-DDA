@@ -918,6 +918,11 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
+    optional( jo, was_loaded, "mount_tied_item", mount_tied_item, itype_id() );
+    optional( jo, was_loaded, "mount_tack_item", mount_tack_item, itype_id() );
+    optional( jo, was_loaded, "mount_armor_item", mount_armor_item, itype_id() );
+    optional( jo, was_loaded, "mount_storage_item", mount_storage_item, itype_id() );
+
     optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},
               mtype_id() );
     optional( jo, was_loaded, "fungalize_into", fungalize_into, string_id_reader<::mtype> {},
@@ -1482,6 +1487,22 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.mech_battery.is_empty() && !item::type_is_defined( mon.mech_battery ) ) {
             debugmsg( "monster %s has unknown mech_battery: %s", mon.id.c_str(),
                       mon.mech_battery.c_str() );
+        }
+        if( !mon.mount_tied_item.is_empty() && !item::type_is_defined( mon.mount_tied_item ) ) {
+            debugmsg( "monster %s has unknown mount_tied_item: %s", mon.id.c_str(),
+                      mon.mount_tied_item.c_str() );
+        }
+        if( !mon.mount_tack_item.is_empty() && !item::type_is_defined( mon.mount_tack_item ) ) {
+            debugmsg( "monster %s has unknown mount_tack_item: %s", mon.id.c_str(),
+                      mon.mount_tack_item.c_str() );
+        }
+        if( !mon.mount_armor_item.is_empty() && !item::type_is_defined( mon.mount_armor_item ) ) {
+            debugmsg( "monster %s has unknown mount_armor_item: %s", mon.id.c_str(),
+                      mon.mount_armor_item.c_str() );
+        }
+        if( !mon.mount_storage_item.is_empty() && !item::type_is_defined( mon.mount_storage_item ) ) {
+            debugmsg( "monster %s has unknown mount_storage_item: %s", mon.id.c_str(),
+                      mon.mount_storage_item.c_str() );
         }
         if( !mon.harvest.is_valid() ) {
             debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );

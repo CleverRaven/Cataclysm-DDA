@@ -470,6 +470,23 @@ struct mtype {
          */
         int mech_str_bonus = 0;
 
+        /**
+         * If this monster is a rideable mount that spawns with a tied item (leash), this is the tied item id
+         */
+        itype_id mount_tied_item;
+        /**
+         * If this monster is a rideable mount that spawns with a tack item, this is the tack item id
+         */
+        itype_id mount_tack_item;
+        /**
+         * If this monster is a rideable mount that spawns with armor, this is the armor item id
+         */
+        itype_id mount_armor_item;
+        /**
+         * If this monster is a rideable mount that spawns with storage bags, this is the storage item id
+         */
+        itype_id mount_storage_item;
+
         // Grinding cap for training player's melee skills when hitting this monster, defaults to MAX_SKILL.
         int melee_training_cap;
 
