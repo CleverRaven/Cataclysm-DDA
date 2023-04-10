@@ -203,7 +203,7 @@ TEST_CASE( "barrel test", "[ammo][weapon]" )
 {
     SECTION( "basic ammo and barrel length test" ) {
         item base_gun( "test_glock_super_long" );
-        CHECK( base_gun.gun_damage( itype_100mm_ammo ).total_damage() == 65 );
+        CHECK( base_gun.gun_damage( itype_test_100mm_ammo ).total_damage() == 65 );
     }
 
     SECTION( "basic ammo and mod length test" ) {
