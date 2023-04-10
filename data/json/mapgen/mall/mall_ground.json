@@ -621,7 +621,7 @@
         "Ŧ": { "item": "camping", "chance": 20, "repeat": [ 1, 2 ] },
         "U": { "item": "cleaning", "chance": 20, "repeat": [ 1, 2 ] },
         "3": { "item": "fast_table", "chance": 20, "repeat": [ 2, 4 ] },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "I": { "item": "cubical_office", "chance": 70, "repeat": [ 2, 4 ] },
         "~": { "item": "cubical_office", "chance": 70, "repeat": [ 2, 4 ] },
         "P": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
