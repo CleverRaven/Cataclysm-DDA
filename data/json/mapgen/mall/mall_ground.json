@@ -801,7 +801,7 @@
           { "item": "bikeshop_for_sale", "chance": 30, "repeat": [ 1, 2 ] }
         ],
         ":": [ { "item": "tools_mechanic", "chance": 20 }, { "item": "tools_common", "chance": 40 } ],
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "U": { "item": "cleaning", "chance": 30, "repeat": [ 1, 2 ] },
         "{": { "item": "magazines", "chance": 30, "repeat": [ 1, 2 ] },
         "I": { "item": "cubical_office", "chance": 40, "repeat": [ 2, 4 ] },
