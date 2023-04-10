@@ -16,7 +16,7 @@
     "color": "green",
     "warmth": 20,
     "material_thickness": 0.6,
-    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "encumbrance": 20, "coverage": 85, "covers": [ "head" ] } ],
+    "armor": [ { "encumbrance_modifiers": [ "NONE" ], "coverage": 85, "covers": [ "head" ] } ],
     "charges_per_use": 1,
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ACTIVE", "values": [ { "value": "INTELLIGENCE", "add": 5 } ] } ] },
     "pocket_data": [
