@@ -2381,7 +2381,7 @@ void set_hobbies( tab_manager &tabs, avatar &u, pool_type pool )
                         sorted_hobbies[i] == sorted_hobbies[cur_id] ? COL_SELECT : c_light_gray );
             }
 
-            mvwprintz( w, point( 2, 5 + i - iStartPos ), col,
+            mvwprintz( w, point( 2, 6 + i - iStartPos ), col,
                        sorted_hobbies[i]->gender_appropriate_name( u.male ) );
         }
 
