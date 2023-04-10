@@ -2893,7 +2893,7 @@
       "items": {
         "I": { "item": "office", "chance": 5 },
         "S": { "item": "office_paper", "chance": 50 },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "V": { "item": "glass_shop", "chance": 10, "repeat": [ 2, 4 ] },
         "K": { "item": "glass_shop", "chance": 10, "repeat": [ 2, 4 ] }
       },
