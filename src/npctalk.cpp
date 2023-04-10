@@ -3793,8 +3793,9 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
 
 void talk_effect_fun_t::set_switch( const JsonObject &jo, const std::string_view member )
 {
-    std::function<double( dialogue const &/* d */ )> eoc_switch = conditional_t::get_get_dbl(
-                jo.get_object( member ) );
+    std::function<double( dialogue const &/* d */ )> eoc_switch = jo.has_string( member ) ?
+            conditional_t::get_get_dbl( jo.get_string( member ), jo ) :
+            conditional_t::get_get_dbl( jo.get_object( member ) );
     std::vector<std::pair<dbl_or_var, talk_effect_t>> case_pairs;
     for( const JsonValue jv : jo.get_array( "cases" ) ) {
         JsonObject array_case = jv.get_object();
