@@ -11621,7 +11621,7 @@ int item::fill_with( const item &contained, const int amount,
 
     item contained_item( contained );
     const bool count_by_charges = contained.count_by_charges();
-    contained_item.charges = count_by_charges ? 1 : -1;
+    contained_item.charges = count_by_charges ? 1 : contained.charges;
     item_location loc;
     item_pocket *pocket = nullptr;
 
@@ -11649,10 +11649,12 @@ int item::fill_with( const item &contained, const int amount,
                                                      pocket->charges_per_remaining_weight( contained_item )
                                                    } );
             }
+
+            if( contained_item.charges == 0 ) {
+                break;
+            }
         }
-        if( contained_item.charges == 0 ) {
-            break;
-        }
+
         if( !pocket->insert_item( contained_item ).success() ) {
             if( count_by_charges ) {
                 debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
