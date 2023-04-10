@@ -174,8 +174,10 @@
 "Map / Mapgen":
   - "**/**mapgen**"
   - "**/mapgen**"
+  - "**/mapgen/**"
   - "**/**overmap**"
   - "**/overmap**"
+  - "**/overmap/**"
 
 "Martial Arts":
   - "**/martialart**"
