@@ -301,7 +301,7 @@
           { "item": "hatstore_accessories", "chance": 100 },
           { "item": "shoestore_shoes", "chance": 100 }
         ],
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "3": { "item": "fast_table", "chance": 20, "repeat": [ 2, 4 ] },
         "I": { "item": "cubical_office", "chance": 70, "repeat": [ 2, 4 ] },
         "L": { "item": "shirts", "chance": 20, "repeat": [ 1, 2 ] },
