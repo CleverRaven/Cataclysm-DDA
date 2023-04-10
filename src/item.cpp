@@ -8701,46 +8701,9 @@ item::armor_status item::damage_armor_transforms( damage_unit &du ) const
     return armor_status::UNDAMAGED;
 }
 
-nc_color item::damage_color() const
+std::string item::damage_indicator() const
 {
-    switch( damage_level() ) {
-        case 0:
-            return c_green;
-        case 1:
-            return c_light_green;
-        case 2:
-            return c_yellow;
-        case 3:
-            return c_light_red;
-        case 4:
-            return c_red;
-        case 5:
-            return c_dark_gray;
-        default:
-            debugmsg( "damage_level returned unexpected value %d", damage_level() );
-            return c_dark_gray;
-    }
-}
-
-std::string item::damage_symbol() const
-{
-    switch( damage_level() ) {
-        case 0:
-            return _( R"(++)" );
-        case 1:
-            return _( R"(||)" );
-        case 2:
-            return _( R"(|\)" );
-        case 3:
-            return _( R"(|.)" );
-        case 4:
-            return _( R"(\.)" );
-        case 5:
-            return _( R"(XX)" );
-        default:
-            debugmsg( "damage_level returned unexpected value %d", damage_level() );
-            return _( R"(??)" ); // negative damage is invalid
-    }
+    return cata::options::damage_indicators[damage_level()];
 }
 
 std::string item::durability_indicator( bool include_intact ) const
@@ -8765,7 +8728,7 @@ std::string item::durability_indicator( bool include_intact ) const
             }
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-        outputstring = colorize( damage_symbol(), damage_color() ) + degradation_symbol() + "\u00A0";
+        outputstring = damage_indicator() + degradation_symbol() + "\u00A0";
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level() ) );
         if( include_intact && outputstring == " " ) {

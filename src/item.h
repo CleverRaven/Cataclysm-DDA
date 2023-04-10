@@ -1357,11 +1357,8 @@ class item : public visitable
          */
         armor_status damage_armor_transforms( damage_unit &du ) const;
 
-        /** Provide color for UI display dependent upon current item damage level */
-        nc_color damage_color() const;
-
-        /** Provide prefix symbol for UI display dependent upon current item damage level */
-        std::string damage_symbol() const;
+        // @return colorize()-ed damage indicator as string, e.g. "<color_green>++</color>"
+        std::string damage_indicator() const;
 
         /**
          * Provides a prefix for the durability state of the item. with ITEM_HEALTH_BAR enabled,
