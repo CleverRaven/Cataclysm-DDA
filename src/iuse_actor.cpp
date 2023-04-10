@@ -4299,6 +4299,7 @@ std::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
         // set gun to default in case this changes anything
         it.gun_set_mode( gun_mode_DEFAULT );
         p.invoke_item( mods[prompt.ret], "transform", pnt );
+        it.on_contents_changed();
         return 0;
     }
 
