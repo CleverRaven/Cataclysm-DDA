@@ -45,6 +45,11 @@
         "topic": "TALK_PERK_MENU_VACATIONER"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_gymrat" } },
+        "text": "Gain [<trait_name:perk_gymrat>]",
+        "topic": "TALK_PERK_MENU_GYMRAT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_thick_skull" } },
         "text": "Gain [<trait_name:perk_thick_skull>]",
         "topic": "TALK_PERK_MENU_THICK_SKULL"
@@ -63,9 +68,14 @@
         "topic": "TALK_PERK_MENU_WAYOFTHEFIST"
       },
       {
-        "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
-        "text": "Gain [<trait_name:perk_bloody_mess>]",
-        "topic": "TALK_PERK_MENU_BLOODY_MESS"
+        "condition": { "not": { "or": [ { "u_has_trait": "perk_bloody_mess" }, { "u_has_trait": "perk_surgical_strikes" } ] } },
+        "text": "Gain [Killing Style]",
+        "topic": "TALK_PERK_MENU_KILLINGSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_quickdraw" } },
+        "text": "Gain [<trait_name:perk_quickdraw>]",
+        "topic": "TALK_PERK_MENU_QUICKDRAW"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_tuck_and_roll" } },
@@ -280,6 +290,38 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_PERK_MENU_GYMRAT",
+    "dynamic_line": "<trait_name:perk_gymrat>: \"<trait_description:perk_gymrat>\"\nRequires athletics 3.",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                { "or": [ { "u_has_skill": { "skill": "swimming", "level": 3 } } ] }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_gymrat" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_PERK_MENU_THICK_SKULL",
     "dynamic_line": "<trait_name:perk_thick_skull>: \"<trait_description:perk_thick_skull>\"",
     "responses": [
@@ -386,17 +428,74 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_PERK_MENU_BLOODY_MESS",
-    "dynamic_line": "<trait_name:perk_bloody_mess>: \"<trait_description:perk_bloody_mess>\"",
+    "id": "TALK_PERK_MENU_KILLINGSTYLE",
+    "dynamic_line": "<trait_name:perk_bloody_mess>: \"<trait_description:perk_bloody_mess>\"\nNo requirements.\n<trait_name:perk_surgical_strikes>: \"<trait_description:perk_surgical_strikes>\"\nRequires melee or marksmanship 2.",
     "responses": [
       {
-        "text": "Select Perk.",
+        "text": "Select Perk Variant <trait_name:perk_bloody_mess>.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
         "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_bloody_mess" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      {
+        "text": "Select Perk Variant <trait_name:perk_surgical_strikes>.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                {
+                  "or": [ { "u_has_skill": { "skill": "melee", "level": 2 } }, { "u_has_skill": { "skill": "gun", "level": 2 } } ]
+                }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_surgical_strikes" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_QUICKDRAW",
+    "dynamic_line": "<trait_name:perk_quickdraw>: \"<trait_description:perk_quickdraw>\"\nRequires handguns 2.",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                { "or": [ { "u_has_skill": { "skill": "pistol", "level": 2 } } ] }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_quickdraw" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }
