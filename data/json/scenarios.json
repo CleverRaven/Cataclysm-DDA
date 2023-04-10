@@ -972,7 +972,7 @@
   {
     "type": "scenario",
     "id": "rock_hard_place_start",
-    "name": "Between a Rock and a Hard Place",
+    "name": "Challenge - Between a Rock and a Hard Place",
     "points": -2,
     "description": "You were trying to scavenge for supplies, and now some rough group of bandits has dragged monsters in with them where you were hiding!",
     "start_name": "In Town",
@@ -993,7 +993,7 @@
     "eoc": [ "scenario_surrounded_zombie" ],
     "map_extra": "mx_looters",
     "requirement": "achievement_survive_7_days",
-    "flags": [ "LONE_START" ]
+    "flags": [ "LONE_START", "CHALLENGE" ]
   },
   {
     "type": "scenario",
