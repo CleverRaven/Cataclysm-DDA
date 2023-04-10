@@ -11249,7 +11249,7 @@ float item::simulate_burn( fire_data &frd ) const
 }
 
 bool item::burn( fire_data &frd )
-
+{
     if( has_flag( flag_UNBREAKABLE ) ) {
         return false;
     }
