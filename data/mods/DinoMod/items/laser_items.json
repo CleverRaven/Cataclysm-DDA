@@ -31,6 +31,7 @@
       }
     ],
     "ammo": [ "battery" ],
-    "ammo_to_fire": 1
+    "ammo_to_fire": 0,
+    "energy_drain": "1 kJ"
   }
 ]

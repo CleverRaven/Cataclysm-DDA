@@ -268,6 +268,7 @@ void JsonObject::report_unvisited() const
         }
 
         error_skipped_members( skipped_members );
+        visited_fields_bitset_.set_all();
     }
 }
 

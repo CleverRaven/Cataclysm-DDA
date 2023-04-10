@@ -95,7 +95,7 @@
           { "item": "dishes_dining", "chance": 10, "repeat": [ 1, 2 ] }
         ]
       },
-      "place_monsters": [ { "monster": "GROUP_BEACH", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ]
     }
   },
   {
@@ -205,7 +205,7 @@
         "d": { "item": "fishing_items", "chance": 5, "repeat": [ 1, 2 ] },
         "M": { "item": "stash_wood", "chance": 100, "repeat": [ 6, 10 ] }
       },
-      "place_monsters": [ { "monster": "GROUP_BEACH", "x": [ 10, 22 ], "y": [ 15, 22 ], "density": 0.1 } ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 10, 22 ], "y": [ 15, 22 ], "density": 0.1 } ]
     }
   },
   {

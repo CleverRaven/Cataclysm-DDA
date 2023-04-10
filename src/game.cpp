@@ -3290,6 +3290,9 @@ bool game::save()
             debugmsg( "game not saved" );
             return false;
         } else {
+            world_generator->last_world_name = world_generator->active_world->world_name;
+            world_generator->last_character_name = u.name;
+            world_generator->save_last_world_info();
             world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
             return true;
         }
@@ -4897,6 +4900,21 @@ static bool can_place_monster( const monster &mon, const tripoint &p )
     return mon.will_move_to( p );
 }
 
+static bool can_place_npc( const tripoint &p )
+{
+    creature_tracker &creatures = get_creature_tracker();
+    if( const monster *const critter = creatures.creature_at<monster>( p ) ) {
+        // creature_tracker handles this. The hallucination monster will simply vanish
+        if( !critter->is_hallucination() ) {
+            return false;
+        }
+    }
+    if( creatures.creature_at<Character>( p ) ) {
+        return false;
+    }
+    return !g->is_dangerous_tile( p );
+}
+
 static std::optional<tripoint> choose_where_to_place_monster( const monster &mon,
         const tripoint_range<tripoint> &range )
 {
@@ -4992,7 +5010,7 @@ void game::clear_zombies()
 }
 
 bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                    int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed )
+                                    int max_radius, tripoint &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
 {
     tripoint target_point;
     //find a legal outdoor place to spawn based on the specified radius,
@@ -5003,6 +5021,29 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
         if( can_place_monster( monster( mt->id ), target_point ) &&
             ( open_air_allowed || get_map().has_floor( target_point ) ) &&
             ( !outdoor_only || get_map().is_outside( target_point ) ) &&
+            ( !indoor_only || !get_map().is_outside( target_point ) ) &&
+            rl_dist( target_point, target ) >= min_radius ) {
+            point = target_point;
+            return true;
+        }
+    }
+    return false;
+}
+
+
+bool game::find_nearby_spawn_point( const tripoint &target, int min_radius,
+                                    int max_radius, tripoint &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
+{
+    tripoint target_point;
+    //find a legal outdoor place to spawn based on the specified radius,
+    //we just try a bunch of random points and use the first one that works, it none do then no spawn
+    for( int attempts = 0; attempts < 75; attempts++ ) {
+        target_point = target + tripoint( rng( -max_radius, max_radius ),
+                                          rng( -max_radius, max_radius ), 0 );
+        if( can_place_npc( target_point ) &&
+            ( open_air_allowed || get_map().has_floor( target_point ) ) &&
+            ( !outdoor_only || get_map().is_outside( target_point ) ) &&
+            ( !indoor_only || !get_map().is_outside( target_point ) ) &&
             rl_dist( target_point, target ) >= min_radius ) {
             point = target_point;
             return true;
@@ -5074,6 +5115,37 @@ bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt,
     //Don't attempt to place phantasms inside of other creatures
     if( !get_creature_tracker().creature_at( phantasm->pos(), true ) ) {
         return critter_tracker->add( phantasm );
+    } else {
+        return false;
+    }
+}
+
+bool game::spawn_npc( const tripoint &p, const string_id<npc_template> &npc_class,
+                      std::string &unique_id,
+                      std::vector<trait_id> &traits, std::optional<time_duration> lifespan )
+{
+    if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
+        get_avatar().add_msg_debug_if_player( debugmode::DF_NPC, "NPC with unique id %s already exists.",
+                                              unique_id );
+        return false;
+    }
+    shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
+    tmp->normalize();
+    tmp->load_npc_template( npc_class );
+    tmp->spawn_at_precise( tripoint_abs_ms( get_map().getabs( p ) ) );
+    if( !get_creature_tracker().creature_at( p, true ) ) {
+        overmap_buffer.insert_npc( tmp );
+        for( const trait_id &new_trait : traits ) {
+            tmp->set_mutation( new_trait );
+        }
+        if( !unique_id.empty() ) {
+            tmp->set_unique_id( unique_id );
+        }
+        if( lifespan.has_value() ) {
+            tmp->set_summon_time( lifespan.value() );
+        }
+        load_npcs();
+        return true;
     } else {
         return false;
     }
@@ -10494,10 +10566,11 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
                    pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
+            const bool acid_immune = u.is_immune_damage( damage_type::ACID ) || u.is_immune_field( fd_acid );
             const auto pulp = [&]( const tripoint & pos ) {
                 for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
-                        !maybe_corpse.get_mtype()->bloodType().obj().has_acid ) {
+                        ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
 
                         if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                             if( !maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
@@ -11457,7 +11530,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) ) {
-        if( wall_cling && here.passable( stairs ) ) {
+        if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
             u.set_activity_level( EXTRA_EXERCISE );
             u.mod_stamina( -750 );

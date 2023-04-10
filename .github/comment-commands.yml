@@ -35,6 +35,7 @@ users:
     - RenechCDDA
     - irwiss
     - strategineer
+    - pjf
 
 keywords:
   - name: confirm-bug

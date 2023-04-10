@@ -189,7 +189,7 @@
     "type": "BOOK",
     "category": "manuals",
     "name": { "str": "Glamopolitan", "str_pl": "issues of Glamopolitan" },
-    "description": "This is a full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
+    "description": "A full-size glossy women's magazine.  There are a few unoriginal recipes and some simple cooking tips somewhere in between the fashion photos and the sex advice columns.",
     "weight": "160 g",
     "volume": "500 ml",
     "price": 450,
