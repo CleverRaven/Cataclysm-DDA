@@ -1068,7 +1068,8 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
 
     std::vector<item> granted;
 
-    for( int i = 0; i < sp.damage( caster ); i++ ) {
+    int count = std::min( 1, sp.damage( caster ) );
+    for( int i = 0; i < count; i++ ) {
         if( sp.has_flag( spell_flag::SPAWN_GROUP ) ) {
             std::vector<item> group_items = item_group::items_from( item_group_id( sp.effect_data() ),
                                             calendar::turn );
