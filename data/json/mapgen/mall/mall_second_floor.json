@@ -2711,7 +2711,6 @@
         "S": { "item": "office_paper", "chance": 30 },
         "z": { "item": "mil_surplus", "chance": 30 },
         "U": { "item": "mil_food_nodrugs", "chance": 30 },
-       
         "Q": { "item": "book_military", "chance": 30 },
         "J": { "item": "office", "chance": 30 },
         "3": { "item": "restaur_sink", "chance": 30 },
