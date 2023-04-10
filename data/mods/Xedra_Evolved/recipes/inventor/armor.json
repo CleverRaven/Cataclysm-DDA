@@ -89,10 +89,7 @@
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
     ],
     "components": [
-      [ "tool_belt", 1 ],
-      [ "police_belt", 1 ],
-      [ "leather_belt", 1 ],
-      [ "webbing_belt", 1 ],
+      [ [ "tool_belt", 1 ], [ "police_belt", 1 ], [ "leather_belt", 1 ], [ "webbing_belt", 1 ] ],
       [ [ "cable", 100 ] ],
       [ [ "e_scrap", 2 ] ],
       [ [ "power_supply", 4 ] ]
@@ -117,10 +114,7 @@
       { "proficiency": "prof_welding", "time_multiplier": 2, "skill_penalty": -100 }
     ],
     "components": [
-      [ "tool_belt", 1 ],
-      [ "police_belt", 1 ],
-      [ "leather_belt", 1 ],
-      [ "webbing_belt", 1 ],
+      [ [ "tool_belt", 1 ], [ "police_belt", 1 ], [ "leather_belt", 1 ], [ "webbing_belt", 1 ] ],
       [ [ "cable", 150 ] ],
       [ [ "e_scrap", 1 ] ],
       [ [ "power_supply", 1 ] ]
