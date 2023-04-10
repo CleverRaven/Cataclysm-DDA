@@ -57,22 +57,30 @@ std::string kwargs_shim::get_string( std::string_view key ) const
     return {};
 }
 
-double kwargs_shim::get_float( std::string_view key ) const
+namespace
 {
-    std::optional<std::string> get = _get_string( key );
-    if( get && !get->empty() ) {
-        return std::stod( *get );
+template<typename T>
+T _ret_t( std::optional<std::string> const &get, T def )
+{
+    if( !get || get->empty() ) {
+        return def;
     }
-    return 0;
+    try {
+        return std::stod( *get );
+    } catch( std::invalid_argument const &/* ex */ ) {
+        return def;
+    }
+}
+} // namespace
+
+double kwargs_shim::get_float( std::string_view key, double def ) const
+{
+    return _ret_t( _get_string( key ), def );
 }
 
 int kwargs_shim::get_int( std::string_view key, int def ) const
 {
-    std::optional<std::string> get = _get_string( key );
-    if( get && !get->empty() ) {
-        return std::stoi( *get );
-    }
-    return def;
+    return _ret_t( _get_string( key ), def );
 }
 
 std::optional<std::string> kwargs_shim::_get_string( std::string_view key ) const
