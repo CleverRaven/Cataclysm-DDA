@@ -23,7 +23,7 @@
     "id": "VOID_MAGE",
     "condition": "ALWAYS",
     "name": { "str": "Drainer" },
-    "description": "Your Void Mage abilities grant you a perfect night vision, and venomous everyone you attack.",
+    "description": "Your Void Mage abilities grant you perfect night vision, and envenom everyone you attack.",
     "ench_effects": [ { "effect": "void_mage_night_vision", "intensity": 1 } ],
     "hit_you_effect": [
       {

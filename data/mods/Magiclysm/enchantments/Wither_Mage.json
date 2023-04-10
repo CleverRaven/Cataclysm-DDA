@@ -3,7 +3,7 @@
     "type": "enchantment",
     "id": "WITHER_MAGE",
     "name": { "str": "Fading" },
-    "description": "Your Wither Mage abilities grant you ability to consume the enemies powers for a short time.",
+    "description": "Your Wither Mage abilities grant you the ability to consume the enemies powers for a short time.",
     "hit_you_effect": [ { "id": "wither_mage_withering", "hit_self": true, "once_in": 6 } ]
   },
   {

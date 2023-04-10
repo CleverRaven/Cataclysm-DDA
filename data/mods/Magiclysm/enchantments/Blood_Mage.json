@@ -3,7 +3,7 @@
     "type": "enchantment",
     "id": "BLOOD_MAGE",
     "name": { "str": "Ichor" },
-    "description": "Your Blood Mage abilities grant you ability to steal some health from your enemies time to time, and constant immune to bleed.",
+    "description": "Your Blood Mage abilities grant you the ability to steal some health from your enemies from time to time, and immunity to bleeding.",
     "hit_you_effect": [ { "id": "blood_mage_healing", "hit_self": true, "once_in": 12 } ]
   },
   {

@@ -17,7 +17,7 @@
     "type": "enchantment",
     "id": "PERMAFROST_MAGE",
     "condition": "ALWAYS",
-    "name": { "str": "Iceberg" },
+    "name": { "str": "Blizzard" },
     "description": "Your Permafrost Mage abilities grant you good resistance to temperature conditions.  Also every enemy attack cause it to freeze for a few seconds.",
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ],
     "hit_me_effect": [ { "id": "permafrost_mage_moves_substract" } ]
