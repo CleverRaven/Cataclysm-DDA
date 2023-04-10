@@ -27,16 +27,6 @@ function merge_lang
     # merge lang/po/cataclysm-dda.pot with .po file
     echo "updating $o"
     msgmerge --sort-by-file --no-fuzzy-matching $o lang/po/cataclysm-dda.pot | msgattrib --sort-by-file --no-obsolete -o $o
-
-    echo "getting stats for ${n}"
-    num_translated=$( \
-        msgattrib --translated "${o}" 2>/dev/null | grep -c '^msgid')
-    num_untranslated=$( \
-        msgattrib --untranslated "${o}" 2>/dev/null | grep -c '^msgid')
-    mkdir -p lang/stats
-    printf '{"%s"sv, %d, %d},\n' \
-        "${n}" "$((num_translated-1))" "$((num_untranslated-1))" \
-        > lang/stats/${n}
 }
 
 # merge incoming translations for each language specified on the commandline
@@ -59,5 +49,3 @@ then
         merge_lang "${n}"
     done
 fi
-
-cat lang/stats/* > src/lang_stats.inc
