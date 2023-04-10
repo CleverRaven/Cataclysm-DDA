@@ -160,9 +160,9 @@ struct parse_state {
         allows_prefix_unary = unary_ok;
     }
 
-    expect expected;
-    expect previous;
-    bool allows_prefix_unary;
+    expect expected = expect::operand;
+    expect previous = expect::eof;
+    bool allows_prefix_unary = true;
 };
 
 template<class D>
@@ -193,12 +193,7 @@ class math_exp<D>::math_exp_impl
             try {
                 _parse( str, assignment );
             } catch( std::invalid_argument const &ex ) {
-                std::ptrdiff_t const offset =
-                    str.empty()
-                    ? 0
-                    : std::clamp<std::ptrdiff_t>( last_token.data() - str.data(), 0, 80 );
-                debugmsg( "Expression parsing failed: %s\n\n%.80s\n%*s^\n", ex.what(),
-                          str.data(), offset, " " );
+                error( str, ex.what() );
                 ops = {};
                 output = {};
                 arity = {};
@@ -240,6 +235,7 @@ class math_exp<D>::math_exp_impl
         std::stack<arity_t> arity;
         thingie<D> tree{ 0.0 };
         std::string_view last_token;
+        parse_state state;
 
         void _parse( std::string_view str, bool assignment );
         void parse_string( std::string_view str, parse_state &state );
@@ -253,6 +249,7 @@ class math_exp<D>::math_exp_impl
         void new_oper();
         void new_var( std::string_view str );
         void maybe_first_argument();
+        void error( std::string_view str, std::string_view what );
         std::vector<std::string> _get_strings( std::vector<thingie<D>> const &params,
                                                size_t nparams ) const;
 };
@@ -269,7 +266,7 @@ template<class D>
 void math_exp<D>::math_exp_impl::_parse( std::string_view str, bool assignment )
 {
     constexpr std::string_view expression_separators = "+-*/^,()%";
-    parse_state state{ parse_state::expect::operand, parse_state::expect::eof, true };
+    state = {};
     for( std::string_view const token : tokenize( str, expression_separators ) ) {
         last_token = token;
         if( std::optional<std::string_view> str = get_string( token ); str ) {
@@ -541,6 +538,23 @@ void math_exp<D>::math_exp_impl::new_var( std::string_view str )
         }
     }
     output.emplace( std::in_place_type_t<var<D>>(), type, "npctalk_var_" + std::string{ scoped } );
+}
+
+template<class D>
+void math_exp<D>::math_exp_impl::error( std::string_view str, std::string_view what )
+{
+    std::ptrdiff_t const offset =
+        std::clamp<std::ptrdiff_t>( last_token.data() - str.data(), 0, 80 );
+    // NOLINTNEXTLINE(cata-translate-string-literal): debug message
+    std::string mess = string_format( "Expression parsing failed: %s", what.data() );
+    if( last_token == "(" && state.expected == parse_state::expect::oper &&
+        std::holds_alternative<var<D>>( output.top().data ) ) {
+        // NOLINTNEXTLINE(cata-translate-string-literal): debug message
+        mess = string_format( "%s (or unknown function %s)", mess,
+                              std::get<var<D>>( output.top().data ).varinfo.name.substr( 12 ) );
+    }
+
+    debugmsg( "%s\n\n%.80s\n%*s^\n", mess, str.data(), offset, " " );
 }
 
 template<class D>
