@@ -62,6 +62,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 #include "units.h"
 #include "viewer.h"
 #include "weakpoint.h"
@@ -1043,6 +1044,11 @@ bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr ) const
     if( digging() || flies() ) {
         return true;
     }
+
+    if( type->trap_avoids.count( tr.id ) > 0 ) {
+        return true;
+    }
+
     return dice( 3, type->sk_dodge + 1 ) >= dice( 3, tr.get_avoidance() );
 }
 

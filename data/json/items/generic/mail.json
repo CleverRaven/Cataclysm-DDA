@@ -235,7 +235,7 @@
       {
         "id": "farewell_greeting_card",
         "name": { "str": "farewell card" },
-        "description": "This is a white greeting card with a stylized drawing of an empty road.  Words printed on it read: \"You're going places (literally).  Wishing you the best!\"",
+        "description": "A white greeting card with a stylized drawing of an empty road.  Words printed on it read: \"You're going places (literally).  Wishing you the best!\"",
         "color": "white",
         "weight": 1
       },

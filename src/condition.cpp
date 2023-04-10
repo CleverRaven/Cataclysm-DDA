@@ -378,6 +378,16 @@ void conditional_t<T>::set_has_trait( const JsonObject &jo, const std::string &m
 }
 
 template<class T>
+void conditional_t<T>::set_has_martial_art( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var<T> style_to_check = get_str_or_var<T>( jo.get_member( member ), member, true );
+    condition = [style_to_check, is_npc]( const T & d ) {
+        return d.actor( is_npc )->knows_martial_art( matype_id( style_to_check.evaluate( d ) ) );
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_has_flag( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
@@ -2992,6 +3002,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_trait( jo, "u_has_trait" );
     } else if( jo.has_member( "npc_has_trait" ) ) {
         set_has_trait( jo, "npc_has_trait", true );
+    } else if( jo.has_member( "u_has_martial_art" ) ) {
+        set_has_martial_art( jo, "u_has_martial_art" );
+    } else if( jo.has_member( "npc_has_martial_art" ) ) {
+        set_has_martial_art( jo, "npc_has_martial_art", true );
     } else if( jo.has_member( "u_has_flag" ) ) {
         set_has_flag( jo, "u_has_flag" );
     } else if( jo.has_member( "npc_has_flag" ) ) {
