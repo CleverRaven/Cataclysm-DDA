@@ -1270,7 +1270,8 @@
         "parking_garage": 50,
         "parking_garage2x2": 200,
         "salon": 500,
-        "strip_mall": 750
+        "strip_mall": 750,
+        "convention_center": 100
       }
     },
     "weather": {
