@@ -1283,7 +1283,7 @@
           { "item": "hatstore_accessories", "chance": 100 },
           { "item": "shoestore_shoes", "chance": 100 }
         ],
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "}": { "item": "SUS_mannequin_formal_mens", "chance": 100 },
         "4": [ { "item": "wedding_dresses", "chance": 100, "repeat": 2 }, { "item": "dress_shoes", "chance": 100 } ],
         "K": { "item": "neckties", "chance": 30, "repeat": [ 1, 3 ] },
