@@ -10,8 +10,8 @@ static const ammotype ammo_762( "762" );
 static const ammotype ammo_9mm( "9mm" );
 static const ammotype ammo_battery( "battery" );
 
-static const itype_id itype_100mm_ammo( "test_100mm_ammo" );
-static const itype_id itype_100mm_ammo_relative( "test_100mm_ammo_relative" );
+static const itype_id itype_test_100mm_ammo( "test_100mm_ammo" );
+static const itype_id itype_test_100mm_ammo_relative( "test_100mm_ammo_relative" );
 static const itype_id itype_44army( "44army" );
 static const itype_id itype_9mm( "9mm" );
 static const itype_id itype_battery( "battery" );
@@ -211,12 +211,12 @@ TEST_CASE( "barrel test", "[ammo][weapon]" )
         item gun_mod( "barrel_glock_short" );
         REQUIRE( base_gun.put_in( gun_mod, item_pocket::pocket_type::MOD ).success() );
         REQUIRE( base_gun.barrel_length().value() == 100 );
-        CHECK( base_gun.gun_damage( itype_100mm_ammo ).total_damage() == 60 );
+        CHECK( base_gun.gun_damage( itype_test_100mm_ammo ).total_damage() == 60 );
     }
 
     SECTION( "inherited ammo and barrel length test" ) {
         item base_gun( "test_glock_super_long" );
-        CHECK( base_gun.gun_damage( itype_100mm_ammo_relative ).total_damage() == 66 );
+        CHECK( base_gun.gun_damage( itype_test_100mm_ammo_relative ).total_damage() == 66 );
     }
 }
 
