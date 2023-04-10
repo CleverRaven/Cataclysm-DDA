@@ -45,7 +45,7 @@
           { "item": "tools_mechanic", "chance": 10, "repeat": [ 1, 2 ] }
         ],
         "J": { "item": "elecsto_homapl", "chance": 10 },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "0": { "item": "beauty", "chance": 10 },
         "P": [
           { "item": "jackets", "chance": 20 },
@@ -224,7 +224,7 @@
         "M": { "item": "jewelry_front", "chance": 30, "repeat": [ 1, 2 ] },
         "Q": { "item": "pants", "chance": 30 },
         "d": { "item": "dresses", "chance": 50 },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "V": { "item": "consumer_electronics", "chance": 40 },
         "J": { "item": "hatstore_accessories", "chance": 20, "repeat": [ 1, 2 ] },
         "K": [
@@ -479,7 +479,7 @@
       "items": {
         "y": { "item": "trash_cart", "chance": 10, "repeat": [ 1, 2 ] },
         "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "z": { "item": "vending_food_items", "chance": 70, "repeat": [ 4, 6 ] },
         "B": [ { "item": "bags", "chance": 5 }, { "item": "snacks", "chance": 10 }, { "item": "vending_food_items", "chance": 10 } ]
       }
@@ -575,7 +575,7 @@
           { "item": "coffee_condiments", "chance": 20 },
           { "item": "tea_dishes", "chance": 20 }
         ],
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "~": [
           { "item": "coffee_display_2", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "coffee_prep", "chance": 50, "repeat": [ 1, 2 ] },
@@ -967,7 +967,7 @@
         "M": { "item": "beauty", "chance": 40, "repeat": [ 2, 4 ] },
         "J": { "item": "kitchen", "chance": 10 },
         "z": { "item": "beauty", "chance": 60, "repeat": [ 2, 4 ] },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "I": { "item": "office", "chance": 20 },
         "Q": { "item": "camping", "chance": 20 },
         "S": { "item": "office_paper", "chance": 30, "repeat": [ 2, 4 ] },
@@ -1298,7 +1298,7 @@
         "I": { "item": "office", "chance": 20 },
         "P": { "item": "gym", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         ")": { "item": "keg_wine_intact", "chance": 100 },
         "z": { "item": "crate_wine", "chance": 30 },
         "K": [ { "item": "table_wine", "chance": 30 }, { "item": "wines_worthy", "chance": 30 } ]
@@ -1756,7 +1756,7 @@
         "P": { "item": "cleaning", "chance": 30 },
         "S": { "item": "office_paper", "chance": 30 },
         ")": { "item": "keg_wine_intact", "chance": 100 },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "z": { "item": "crate_wine", "chance": 60, "repeat": [ 1, 3 ] },
         "K": [ { "item": "table_wine", "chance": 30 }, { "item": "wines_worthy", "chance": 30 } ],
         "!": { "item": "sports", "chance": 20, "repeat": [ 1, 3 ] },
@@ -2021,7 +2021,7 @@
         "Q": { "item": "fast_kitchen", "chance": 20, "repeat": [ 2, 4 ] },
         "l": { "item": "fast_fridge", "chance": 20, "repeat": [ 2, 4 ] },
         "P": { "item": "cleaning", "chance": 20, "repeat": [ 2, 4 ] },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "u": { "item": "default_vending_machine", "chance": 60, "repeat": [ 2, 4 ] },
         "M": { "item": "butcher_meat", "chance": 20, "repeat": [ 2, 4 ] },
         "V": { "item": "butcher_meat", "chance": 20, "repeat": [ 2, 4 ] },
@@ -2313,7 +2313,7 @@
         "I": { "item": "office", "chance": 20 },
         "J": { "item": "office", "chance": 20 },
         "S": { "item": "office_paper", "chance": 100, "repeat": [ 1, 2 ] },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "d": [
           { "item": "jackets", "chance": 40 },
           { "item": "pants", "chance": 100 },
