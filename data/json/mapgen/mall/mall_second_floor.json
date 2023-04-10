@@ -2775,7 +2775,7 @@
         "S": { "item": "office_paper", "chance": 30 },
         "R": { "item": "shoes", "chance": 30, "repeat": [ 1, 2 ] },
         "Q": { "item": "shoes", "chance": 30, "repeat": [ 1, 2 ] },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "K": { "item": "pants", "chance": 30, "repeat": [ 1, 2 ] },
         "T": { "item": "shirts", "chance": 30, "repeat": [ 1, 2 ] },
         "Y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] },
