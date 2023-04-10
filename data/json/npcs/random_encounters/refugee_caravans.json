@@ -40,9 +40,14 @@
     "responses": [
       {
         "text": "What if I want to hurt you?  I'm so good at it and I've had so much practice.",
+        "condition": { "u_has_trait": "PSCYCHOPATH" },
         "topic": "TALK_CARAVAN_REFUGEE_A1_Hurt"
       },
-      { "text": "What's your situation here?", "topic": "TALK_CARAVAN_REFUGEE_A1_Job" },
+      {
+        "text": "What's your situation here?",
+        "topic": "TALK_CARAVAN_REFUGEE_A1_Job",
+        "condition": { "not": { "u_has_trait": "PSCYCHOPATH" } }
+      },
       { "text": "I don't have time for zombie bait like you.", "topic": "TALK_DONE" }
     ]
   },
@@ -61,8 +66,7 @@
     "dynamic_line": "I can’t tell if you’re joking or not, please don’t say such things.",
     "responses": [
       { "text": "Oh, I wasn’t joking <name_b>.", "effect": "hostile", "topic": "TALK_DONE" },
-      { "text": "What's your situation here?", "topic": "TALK_CARAVAN_REFUGEE_A1_Job" },
-      { "text": "I’m sorry, I should be going.", "topic": "TALK_DONE" }
+      { "text": "I’m sorry, I should be going before I do something bad again.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -82,15 +86,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_CARAVAN_REFUGEE_A_Story",
-    "dynamic_line": "We were at the same little evacuation hut, but it was all messed up, just used condoms and broken bottles and lipstick writing on the walls.  We found another group of refugees like us on the road, but they had all been killed, all ripped up, blood everywhere.  We took their food and made it all the way to the refugee center, but they told us there was no room and we should just go back where we came from and fight the dead.  We're not doing that, so we're going to a FEMA camp.  They should have more room and supplies.  No guarantees, but it's a chance.",
+    "dynamic_line": "We were at the same little evacuation hut, but it was all messed up, just used condoms and broken bottles and lipstick writing on the walls.  We found another group of refugees like us on the road, but they had all been killed, all ripped up, blood everywhere.  We took their food and made it all the way to a big refugee center, but somebody there with a gun told us there was no room, so we're going to a FEMA camp.  They should have more room and supplies.  No guarantees, but it's a chance.",
     "responses": [
-      { "text": "They're right, you should just go back home and let it happen.", "topic": "TALK_DONE" },
       {
         "text": "Can you give me directions to that FEMA camp?  I want to go there too if it's so great.",
         "topic": "TALK_CARAVAN_REFUGEE_A_FEMA"
       },
       {
-        "text": "I haven't been to the refugee center.  Can you tell me where it is?",
+        "text": "I haven't been to any refugee center.  Can you tell me where it is?",
         "topic": "TALK_CARAVAN_REFUGEE_A_CENTER",
         "condition": {
           "and": [
@@ -109,7 +112,7 @@
     "speaker_effect": { "effect": { "assign_mission": "MISSION_REACH_FEMA_CA" } },
     "responses": [
       {
-        "text": "I haven't been to the refugee center.  Can you tell me where it is?",
+        "text": "I haven't been to any refugee center.  Can you tell me where it is?",
         "topic": "TALK_CARAVAN_REFUGEE_A_CENTER",
         "condition": {
           "and": [
