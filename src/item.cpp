@@ -10693,7 +10693,7 @@ std::string item::print_ammo( ammotype at, const item *gun ) const
             } );
         } else {
             return enumerate_as_string( type->magazine->cached_ammos[at],
-            [this]( const itype_id & id ) {
+            []( const itype_id & id ) {
                 return string_format( "<info>%s</info>", id->nname( 1 ) );
             } );
         }
