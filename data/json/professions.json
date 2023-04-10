@@ -9,7 +9,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "holster_supp_usp9",
-    "entries": [{ "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "contents-item": [ "suppressor_compact" ] } ]
+    "entries": [ { "item": "usp_9mm", "ammo-item": "9mmfmj", "charges": 15, "contents-item": [ "suppressor_compact" ] } ]
   },
   {
     "type": "item_group",
@@ -1871,7 +1871,17 @@
     "pets": [ { "name": "mon_horse_police", "amount": 1 } ],
     "items": {
       "both": {
-        "items": [ "pants_army", "socks", "badge_deputy", "police_belt", "boots", "wristwatch", "helmet_bike", "knee_pads", "elbow_pads" ],
+        "items": [
+          "pants_army",
+          "socks",
+          "badge_deputy",
+          "police_belt",
+          "boots",
+          "wristwatch",
+          "helmet_bike",
+          "knee_pads",
+          "elbow_pads"
+        ],
         "entries": [
           { "group": "charged_smart_phone" },
           { "group": "charged_two_way_radio" },
