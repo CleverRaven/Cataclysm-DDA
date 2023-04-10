@@ -2959,25 +2959,14 @@ int vehicle::part_at( const point &dp ) const
     return -1;
 }
 
-/**
- * Given a vehicle part which is inside of this vehicle, returns the index of
- * that part. This exists solely because activities relating to vehicle editing
- * require the index of the vehicle part to be passed around.
- * @param part The part to find.
- * @param check_removed Check whether this part can be removed
- * @return The part index, -1 if it is not part of this vehicle.
- */
-int vehicle::index_of_part( const vehicle_part *const part, const bool check_removed ) const
+int vehicle::index_of_part( const vehicle_part *part, bool include_removed ) const
 {
-    if( part != nullptr ) {
-        for( const vpart_reference &vp : get_all_parts() ) {
-            const vehicle_part &next_part = vp.part();
-            if( !check_removed && next_part.removed ) {
-                continue;
-            }
-            if( part->id == next_part.id && part->mount == vp.mount() ) {
-                return vp.part_index();
-            }
+    if( !part || ( !include_removed && part->removed ) ) {
+        return -1;
+    }
+    for( size_t i = 0; i < parts.size(); i++ ) {
+        if( &parts[i] == part ) {
+            return static_cast<int>( i );
         }
     }
     return -1;

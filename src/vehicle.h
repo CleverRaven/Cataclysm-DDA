@@ -1220,8 +1220,9 @@ class vehicle
                                bool below_roof = true, bool roof = true ) const;
         int roof_at_part( int p ) const;
 
-        // Given a part, finds its index in the vehicle
-        int index_of_part( const vehicle_part *part, bool check_removed = false ) const;
+        // Finds index of a given vehicle_part in parts vector, compared by address
+        // @return index or -1 if part is nullptr, not found or removed and include_removed is false.
+        int index_of_part( const vehicle_part *part, bool include_removed = false ) const;
 
         // get symbol for map
         char part_sym( int p, bool exact = false, bool include_fake = true ) const;
