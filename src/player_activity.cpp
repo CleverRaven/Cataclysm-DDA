@@ -307,13 +307,6 @@ void player_activity::do_turn( Character &you )
     }
     const bool travel_activity = id() == ACT_TRAVELLING;
     you.set_activity_level( exertion_level() );
-    // This might finish the activity (set it to null)
-    if( actor ) {
-        actor->do_turn( *this, you );
-    } else {
-        // Use the legacy turn function
-        type->call_do_turn( this, &you );
-    }
 
     if( !type->do_turn_EOC.is_null() ) {
         // if we have an EOC defined in json do that
@@ -324,6 +317,15 @@ void player_activity::do_turn( Character &you )
             debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
         }
     }
+
+    // This might finish the activity (set it to null)
+    if( actor ) {
+        actor->do_turn( *this, you );
+    } else {
+        // Use the legacy turn function
+        type->call_do_turn( this, &you );
+    }
+
     // Activities should never excessively drain stamina.
     // adjusted stamina because
     // autotravel doesn't reduce stamina after do_turn()
@@ -379,16 +381,6 @@ void player_activity::do_turn( Character &you )
     if( *this && moves_left <= 0 ) {
         // Note: For some activities "finish" is a misnomer; that's why we explicitly check if the
         // type is ACT_NULL below.
-        if( actor ) {
-            actor->finish( *this, you );
-        } else {
-            if( !type->call_finish( this, &you ) ) {
-                // "Finish" is never a misnomer for any activity without a finish function
-                set_to_null();
-            }
-        }
-
-
         if( !type->completion_EOC.is_null() ) {
             // if we have an EOC defined in json do that
             dialogue d( get_talker_for( you ), nullptr );
@@ -396,6 +388,14 @@ void player_activity::do_turn( Character &you )
                 type->completion_EOC->activate( d );
             } else {
                 debugmsg( "Must use an activation eoc for player activities.  Otherwise, create a non-recurring effect_on_condition for this with its condition and effects, then have a recurring one queue it." );
+            }
+        }
+        if( actor ) {
+            actor->finish( *this, you );
+        } else {
+            if( !type->call_finish( this, &you ) ) {
+                // "Finish" is never a misnomer for any activity without a finish function
+                set_to_null();
             }
         }
     }
