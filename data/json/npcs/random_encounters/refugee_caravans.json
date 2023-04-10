@@ -273,12 +273,12 @@
       { "text": "Oh, uh, sorry.", "topic": "TALK_DONE" },
       {
         "text": "Never, that heroin is for me and me alone.",
-        "condition": { "u_has_items": { "item": "heroin" } },
+        "condition": { "u_has_item": "heroin" },
         "topic": "TALK_DONE"
       },
       {
         "text": "I think you might need it even more than me.  Here you go.",
-        "condition": { "u_has_items": { "item": "heroin" } },
+        "condition": { "u_has_item": "heroin" },
         "effect": { "u_sell_item": "heroin" },
         "opinion": { "trust": 2, "value": 2 },
         "topic": "TALK_CARAVAN_REFUGEE_C_LOVE"
