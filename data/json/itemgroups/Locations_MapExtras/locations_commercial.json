@@ -55,6 +55,14 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "public_sink",
+    "//": "Items you might find in the sink of a public place, like a bathroom."
+    "items": [
+ { "item": "soap", "prob": 10, "charges": [ 1, 10 ] }
+      ]
+  },
+  {
     "id": "glass_shop",
     "type": "item_group",
     "items": [
