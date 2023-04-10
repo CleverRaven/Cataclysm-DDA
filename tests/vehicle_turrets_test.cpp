@@ -90,14 +90,14 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             const itype *base_itype = veh->part( turr_idx ).get_base().type;
             REQUIRE( base_itype );
             REQUIRE( base_itype->gun );
-            if( base_itype->gun->ups_charges > 0 || turret_vpi->has_flag( "USE_BATTERIES" ) ) {
+            if( base_itype->gun->energy_drain > 0_kJ || turret_vpi->has_flag( "USE_BATTERIES" ) ) {
                 install_charged_battery( veh );
             }
 
             const itype_id ammo_itype = veh->part( turr_idx ).get_base().ammo_default();
             if( ammo_itype.is_null() ) {
                 // probably a pure energy weapon
-                CHECK( base_itype->gun->ups_charges > 0 );
+                CHECK( base_itype->gun->energy_drain > 0_kJ );
             } else if( turret_vpi->has_flag( "USE_TANKS" ) ) {
                 install_tank_with_ammo( veh, ammo_itype );
             } else {

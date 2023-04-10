@@ -147,7 +147,7 @@ player_activity veh_interact::serialize_activity()
                 if( pt->is_broken() ) {
                     time = vp->install_time( player_character );
                 } else if( pt->is_repairable() ) {
-                    time = vp->repair_time( player_character ) * pt->repairable_levels();
+                    time = vp->repair_time( player_character ) * pt->base.repairable_levels();
                 }
             }
             break;
@@ -1260,8 +1260,9 @@ void veh_interact::do_repair()
                 nmsg += colorize( _( "This vehicle cannot be repaired.\n" ), c_light_red );
                 ok = false;
             } else {
-                ok = format_reqs( nmsg, vp.repair_requirements() * pt.repairable_levels(), vp.repair_skills,
-                                  vp.repair_time( player_character ) * pt.repairable_levels() );
+                const int levels = pt.base.repairable_levels();
+                ok = format_reqs( nmsg, vp.repair_requirements() * levels, vp.repair_skills,
+                                  vp.repair_time( player_character ) * levels );
             }
         }
 
@@ -3089,7 +3090,7 @@ void veh_interact::count_durability()
     const vehicle_part_range vpr = veh->get_all_parts();
     int qty = std::accumulate( vpr.begin(), vpr.end(), 0,
     []( int lhs, const vpart_reference & rhs ) {
-        return lhs + std::max( rhs.part().base.damage(), rhs.part().base.damage_floor( false ) );
+        return lhs + std::max( rhs.part().base.damage(), rhs.part().base.degradation() );
     } );
 
     int total = std::accumulate( vpr.begin(), vpr.end(), 0,

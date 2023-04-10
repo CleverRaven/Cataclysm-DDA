@@ -373,6 +373,7 @@
         "fake_dex": 8,
         "fake_per": 8,
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The mi-go scout fires its weapon!",
         "ranges": [ [ 2, 30, "DEFAULT" ] ]
       }
