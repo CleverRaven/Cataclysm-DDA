@@ -2996,7 +2996,7 @@
           { "item": "dollar_kitchen", "chance": 30, "repeat": [ 1, 2 ] },
           { "item": "dollar_tools", "chance": 20, "repeat": [ 1, 2 ] }
         ],
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "K": [
           { "item": "dollar_clothes", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "dollar_books", "chance": 20, "repeat": [ 1, 2 ] }
