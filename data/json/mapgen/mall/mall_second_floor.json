@@ -2464,7 +2464,7 @@
         "M": { "item": "butcher_meat", "chance": 20, "repeat": [ 1, 2 ] },
         "V": { "item": "butcher_meat", "chance": 20, "repeat": [ 1, 2 ] },
         "K": { "item": "butcher_meat", "chance": 20, "repeat": [ 1, 2 ] },
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "m": { "item": "butcher_raw_meat", "chance": 20, "repeat": [ 1, 2 ] },
         "0": { "item": "baked_goods", "chance": 20, "repeat": [ 1, 2 ] },
         "Q": { "item": "groce_bread", "chance": 20, "repeat": [ 1, 2 ] },
