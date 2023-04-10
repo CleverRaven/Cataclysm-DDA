@@ -75,12 +75,7 @@
     "dynamic_line": "We're just trying to find a safe place right now.  I think there's a FEMA camp nearby that should have room for us.",
     "responses": [
       { "text": "That's it?  What's your story?", "topic": "TALK_CARAVAN_REFUGEE_A_Story" },
-      { "text": "Good luck with that.  I'll be on my way.", "topic": "TALK_DONE" },
-      {
-        "text": "You're never going to make it, you should just end it now.",
-        "topic": "TALK_DONE",
-        "opinion": { "value": -1, "anger": 1 }
-      }
+      { "text": "Good luck with that.  I'll be on my way.", "topic": "TALK_DONE" }
     ]
   },
   {
