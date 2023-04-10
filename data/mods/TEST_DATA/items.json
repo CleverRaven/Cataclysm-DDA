@@ -2108,11 +2108,11 @@
     "ammo_type": "test_100mm",
     "casing": "9mm_casing",
     "range": 14,
-    "damage": { 
-      "damage_type": "bullet", 
+    "damage": {
+      "damage_type": "bullet",
       "amount": 26,
       "barrels": [ { "barrel_length": "100 mm", "amount": 60 }, { "barrel_length": "200 mm", "amount": 70 } ]
-     },
+    },
     "dispersion": 60,
     "recoil": 500,
     "effects": [ "COOKOFF" ]
