@@ -306,7 +306,7 @@
     "looks_like": "stanag30",
     "type": "MAGAZINE",
     "name": { "str": "AI .308 10-round magazine" },
-    "description": "A single-stack, 10-round steel box magazine, produced by the British precision rifle company, Accuracy International.  Magazines such as this one have been regarded as the gold standard for marksman rifle magazines, with this particular one being compatible with both the .338 Lapua and .300 Winchester Magnum cartridges.",
+    "description": "A single-stack, 10-round steel box magazine, produced by the British precision rifle company, Accuracy International.  Magazines such as this one have been regarded as the gold standard for marksman rifle magazines, with this particular one being compatible with the .308 Winchester cartridge.",
     "weight": "110 g",
     "volume": "250 ml",
     "price": 9253,
