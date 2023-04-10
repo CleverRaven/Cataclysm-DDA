@@ -1,0 +1,89 @@
+[
+  {
+    "type": "palette",
+    "id": "convention_palette",
+    "palettes": [ { "distribution": [ [ "convention_nested_vacant", 10000 ], [ "convention_nested_fandom", 1 ], [ "convention_nested_lecture", 1 ] ] }, { "distribution": [ [ "conference_nested_vacant", 1 ] ] } ],
+    "terrain": {
+      "_": "t_concrete",
+      "-": "t_wall_glass",
+      "=": "t_door_glass_c",
+      "+": "t_door_metal_c",
+      "|": "t_concrete_wall",
+      ".": "t_linoleum_white",
+      ":": "t_linoleum_gray",
+      "S": "t_linoleum_gray",
+      "t": "t_linoleum_gray",
+      " ": "t_thconc_floor",
+      "!": "t_grate",
+      "'": "t_metal_railing",
+      "/": "t_glass_railing",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "^": "t_ladder_up",
+      "E": "t_elevator",
+      "*": "t_open_air_rooved"
+    },
+    "furniture": { "S": "f_sink" },
+    "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
+    "toilets": { "t": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "convention_nested_vacant",
+    "nested": {
+      "1": { "chunks": [ "convention_up_left_vacant" ] },
+      "2": { "chunks": [ "convention_up_right_vacant" ] },
+      "3": { "chunks": [ "convention_mid_left_vacant" ] },
+      "4": { "chunks": [ "convention_mid_right_vacant" ] },
+      "5": { "chunks": [ "convention_down_left_vacant" ] },
+      "6": { "chunks": [ "convention_down_right_vacant" ] },
+      "7": { "chunks": [ "convention_up_left_vacant" ] },
+      "8": { "chunks": [ "convention_up_right_vacant" ] },
+      "9": { "chunks": [ "convention_down_left_vacant" ] },
+      "0": { "chunks": [ "convention_down_right_vacant" ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "convention_nested_fandom",
+    "nested": {
+      "1": { "chunks": [ "convention_up_left_fandom" ] },
+      "2": { "chunks": [ "convention_up_right_fandom" ] },
+      "3": { "chunks": [ "convention_mid_left_fandom" ] },
+      "4": { "chunks": [ "convention_mid_right_fandom" ] },
+      "5": { "chunks": [ "convention_down_left_fandom" ] },
+      "6": { "chunks": [ "convention_down_right_fandom" ] },
+      "7": { "chunks": [ "convention_up_left_fandom" ] },
+      "8": { "chunks": [ "convention_up_right_fandom" ] },
+      "9": { "chunks": [ "convention_down_left_fandom" ] },
+      "0": { "chunks": [ "convention_down_right_fandom" ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "convention_nested_lecture",
+    "nested": {
+      "1": { "chunks": [ "convention_up_left_lecture" ] },
+      "2": { "chunks": [ "convention_up_right_lecture" ] },
+      "3": { "chunks": [ "convention_mid_left_lecture" ] },
+      "4": { "chunks": [ "convention_mid_right_lecture" ] },
+      "5": { "chunks": [ "convention_down_left_lecture" ] },
+      "6": { "chunks": [ "convention_down_right_lecture" ] },
+      "7": { "chunks": [ "convention_up_left_lecture" ] },
+      "8": { "chunks": [ "convention_up_right_lecture" ] },
+      "9": { "chunks": [ "convention_down_left_lecture" ] },
+      "0": { "chunks": [ "convention_down_right_lecture" ] }
+    }
+  },
+  {
+    "type": "palette",
+    "id": "conference_nested_vacant",
+    "nested": { "(": { "chunks": [ "conference_left_vacant" ] }, ")": { "chunks": [ "conference_right_vacant" ] } }
+  },
+  {
+    "type": "palette",
+    "id": "convention_nested_palette",
+    "terrain": { "│": "t_null" },
+    "furniture": { "*": "f_room_divider", "n": "f_tourist_table", "h": "f_chair_folding" }
+  }
+]
