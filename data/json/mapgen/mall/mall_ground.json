@@ -159,7 +159,7 @@
           { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] },
           { "item": "bed", "chance": 20, "repeat": [ 1, 2 ] }
         ],
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "K": [ { "item": "consumer_electronics", "chance": 20, "repeat": [ 1, 2 ] }, { "item": "magazines", "chance": 50 } ],
         "Y": { "item": "trash", "chance": 20, "repeat": [ 1, 2 ] },
         "M": { "item": "glasses", "chance": 20, "repeat": [ 1, 2 ] },
