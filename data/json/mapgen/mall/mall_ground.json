@@ -1141,7 +1141,7 @@
         "0": { "item": "SUS_tailoring_materials", "chance": 30, "repeat": [ 1, 2 ] },
         "I": { "item": "cubical_office", "chance": 40, "repeat": [ 2, 4 ] },
         "P": [ { "item": "jackets", "chance": 10 }, { "item": "bags", "chance": 10 } ],
-        "j": {"item": "public_sink", "chance": 100},
+        "j": { "item": "public_sink", "chance": 100 },
         "(": { "item": "shirts", "chance": 30, "repeat": [ 1, 2 ] },
         "Ħ": { "item": "pants", "chance": 30, "repeat": [ 2, 4 ] },
         ";": { "item": "vitamin_shop", "chance": 30, "repeat": [ 0, 3 ] },
