@@ -603,3 +603,11 @@ void damage_over_time_data::deserialize( const JsonObject &jo )
     jo.read( "duration", duration );
     jo.read( "bodyparts", bps );
 }
+
+barrel_desc::barrel_desc() = default;
+
+void barrel_desc::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "barrel_length", barrel_length );
+    mandatory( jo, false, "amount", amount );
+}

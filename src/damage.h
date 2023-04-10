@@ -44,11 +44,9 @@ struct barrel_desc {
     units::length barrel_length;
     float amount;
 
+    barrel_desc();
     barrel_desc( units::length bl, float amt ) : barrel_length( bl ), amount( amt ) {}
-    void deserialize( const JsonObject &jo ) {
-            mandatory( jo, false, "barrel_length", barrel_length );
-            mandatory( jo, false, "amount", amout );
-    }
+    void deserialize( const JsonObject &jo );
 };
 
 struct damage_unit {

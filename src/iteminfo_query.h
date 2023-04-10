@@ -76,6 +76,7 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_AUX_GUNMOD_HEADER,
 
     GUN_USEDSKILL,
+    GUN_BARRELLENGTH,
     GUN_CAPACITY,
     GUN_TYPE,
     GUN_MAGAZINE,

@@ -638,6 +638,7 @@ class item : public visitable
                               int charges_in_vol = -1 ) const;
 
         units::length length() const;
+        units::length barrel_length() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.

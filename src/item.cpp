@@ -2841,6 +2841,14 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     }
     info.back().bNewLine = true;
 
+    if( mod->barrel_length().value() > 0 ) {
+        if( parts->test( iteminfo_parts::GUN_BARRELLENGTH ) ) {
+            info.emplace_back( "GUN", string_format( _( "Barrel Length: %d %s" ),
+                               convert_length( mod->barrel_length() ), length_units( mod->barrel_length() ) ),
+                               iteminfo::no_flags );
+        }
+    }
+
     if( mod->ammo_required() && curammo->ammo->critical_multiplier != 1.0 ) {
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
             info.emplace_back( "GUN", _( "Critical multiplier: " ), "<num>",
@@ -7054,6 +7062,23 @@ units::length item::length() const
     return max;
 }
 
+units::length item::barrel_length() const
+{
+    if( is_gun() ) {
+        units::length l = type->gun->barrel_length;
+        for( const item *mod : mods() ) {
+            if( mod->type->gunmod->location.str() == "barrel" ) {
+                if( mod->type->integral_longest_side > 0_mm ) {
+                    l = mod->type->integral_longest_side;
+                }
+            }
+        }
+        return l;
+    } else {
+        return 0_mm;
+    }
+}
+
 units::volume item::collapsed_volume_delta() const
 {
     units::volume delta_volume = 0_ml;
@@ -10129,17 +10154,19 @@ damage_instance item::gun_damage( bool with_ammo, bool shot ) const
     if( !is_gun() ) {
         return damage_instance();
     }
-    damage_instance ret = type->gun->damage.di_considering_length( type->gun->barrel_length );
+
+    units::length bl = barrel_length();
+    damage_instance ret = type->gun->damage.di_considering_length( bl );
 
     for( const item *mod : gunmods() ) {
-        ret.add( mod->type->gunmod->damage.di_considering_length( type->gun->barrel_length ) );
+        ret.add( mod->type->gunmod->damage.di_considering_length( bl ) );
     }
 
     if( with_ammo && ammo_data() ) {
         if( shot ) {
-            ret.add( ammo_data()->ammo->shot_damage.di_considering_length( type->gun->barrel_length ) );
+            ret.add( ammo_data()->ammo->shot_damage.di_considering_length( bl ) );
         } else {
-            ret.add( ammo_data()->ammo->damage.di_considering_length( type->gun->barrel_length ) );
+            ret.add( ammo_data()->ammo->damage.di_considering_length( bl ) );
         }
     }
 
@@ -10162,13 +10189,15 @@ damage_instance item::gun_damage( itype_id ammo ) const
     if( !is_gun() ) {
         return damage_instance();
     }
-    damage_instance ret = type->gun->damage.di_considering_length( type->gun->barrel_length );
+
+    units::length bl = barrel_length();
+    damage_instance ret = type->gun->damage.di_considering_length( bl );
 
     for( const item *mod : gunmods() ) {
-        ret.add( mod->type->gunmod->damage.di_considering_length( type->gun->barrel_length ) );
+        ret.add( mod->type->gunmod->damage.di_considering_length( bl ) );
     }
 
-    ret.add( ammo->ammo->damage.di_considering_length( type->gun->barrel_length ) );
+    ret.add( ammo->ammo->damage.di_considering_length( bl ) );
 
 
     int item_damage = damage_level();
