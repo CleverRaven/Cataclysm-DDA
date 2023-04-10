@@ -2990,23 +2990,22 @@ void talk_effect_fun_t::set_npc_goal( const JsonObject &jo, const std::string_vi
     };
 }
 
-void talk_effect_fun_t::set_destination( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_guard_pos( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
     std::optional<var_info> target_var = read_var_info( jo.get_object( member ) );
-    std::vector<effect_on_condition_id> true_eocs = load_eoc_vector( jo, "true_eocs" );
-    std::vector<effect_on_condition_id> false_eocs = load_eoc_vector( jo, "false_eocs" );
-    function = [target_var, true_eocs, false_eocs, is_npc]( const T & d ) {
+    bool unique_id = jo.get_bool( "unique_id", false );
+    function = [target_var, unique_id, is_npc]( const T & d ) {
         npc *guy = d.actor( is_npc )->get_npc();
         if( guy ) {
-            tripoint_abs_ms target_location = get_tripoint_from_var( target_var, d );
+            var_info cur_var = target_var.value();
+            if( unique_id ) {
+                //12 since it should start with npctalk_var
+                cur_var.name.insert( 12, guy->get_unique_id() );
+            }
+            tripoint_abs_ms target_location = get_tripoint_from_var( cur_var, d );
             guy->set_guard_pos( target_location );
-            /*if( guy->update_path( get_map().getlocal( target_location ) ) ) {
-                run_eoc_vector( true_eocs, d );
-                return;
-            }*/
         }
-        // run_eoc_vector( false_eocs, d );
     };
 }
 
@@ -4496,10 +4495,10 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_npc_goal( jo, "u_set_goal" );
     } else if( jo.has_member( "npc_set_goal" ) ) {
         subeffect_fun.set_npc_goal( jo, "npc_set_goal", true );
-    } else if( jo.has_member( "u_set_destination" ) ) {
-        subeffect_fun.set_destination( jo, "u_set_destination" );
-    } else if( jo.has_member( "npc_set_destination" ) ) {
-        subeffect_fun.set_destination( jo, "npc_set_destination", true );
+    } else if( jo.has_member( "u_set_guard_pos" ) ) {
+        subeffect_fun.set_guard_pos( jo, "u_set_guard_pos" );
+    } else if( jo.has_member( "npc_set_guard_pos" ) ) {
+        subeffect_fun.set_guard_pos( jo, "npc_set_guard_pos", true );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else if( jo.has_member( "alter_timed_events" ) ) {
