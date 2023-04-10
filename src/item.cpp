@@ -11250,11 +11250,10 @@ float item::simulate_burn( fire_data &frd ) const
 
 bool item::burn( fire_data &frd )
 {
-    if( has_flag( flag_UNBREAKABLE ) ) {
-        return false;
-    }
-    
-    float burn_added = simulate_burn( frd );
+if( has_flag( flag_UNBREAKABLE ) )
+{
+    return false;
+}
 
     if( burn_added <= 0 ) {
         return false;
