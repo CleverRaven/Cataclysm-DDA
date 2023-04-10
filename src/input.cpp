@@ -1438,8 +1438,8 @@ action_id input_context::display_menu( const bool permit_execute_action )
     static const nc_color unbound_key = c_light_red;
     static const nc_color h_unbound_key = h_light_red;
 
-    enum class kb_btn_idx { no_btn, remove_btn, add_local_btn, add_global_btn } highlighted_btn_index =
-        kb_btn_idx::no_btn;
+    enum class kb_btn_idx { none, remove, add_local, add_global } highlighted_btn_index =
+        kb_btn_idx::none;
     // (vertical) scroll offset
     size_t scroll_offset = 0;
     // keybindings help
@@ -1467,15 +1467,15 @@ action_id input_context::display_menu( const bool permit_execute_action )
         const auto item_color = []( const int index_to_draw, int index_highlighted ) {
             return index_highlighted == index_to_draw ? h_light_gray : c_light_gray;
         };
-        right_print( w_help, 4, 2, item_color( int( kb_btn_idx::remove_btn ),
+        right_print( w_help, 4, 2, item_color( static_cast<int>( kb_btn_idx::remove ),
                                                int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Remove keybinding>" ),
                                     fallback_keys.at( fallback_action::remove ) ) );
-        right_print( w_help, 4, 26, item_color( int( kb_btn_idx::add_local_btn ),
+        right_print( w_help, 4, 26, item_color( static_cast<int>( kb_btn_idx::add_local ),
                                                 int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Add local keybinding>" ),
                                     fallback_keys.at( fallback_action::add_local ) ) );
-        right_print( w_help, 4, 54, item_color( int( kb_btn_idx::add_global_btn ),
+        right_print( w_help, 4, 54, item_color( static_cast<int>( kb_btn_idx::add_global ),
                                                 int( highlighted_btn_index ) ),
                      string_format( _( "<[<color_yellow>%c</color>] Add global keybinding>" ),
                                     fallback_keys.at( fallback_action::add_global ) ) );
@@ -1547,7 +1547,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
             scroll_offset = 0;
         }
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
-            highlighted_btn_index = kb_btn_idx::no_btn;
+            highlighted_btn_index = kb_btn_idx::none;
             highlight_row_index = -1;
             std::optional<point> o_p = ctxt.get_coordinates_text( w_help );
             if( o_p ) {
@@ -1557,27 +1557,27 @@ action_id input_context::display_menu( const bool permit_execute_action )
                         highlight_row_index = p.y - 7;
                     } else if( p.y == 4 ) {
                         if( p.x >= 17 && p.x <= 43 ) {
-                            highlighted_btn_index = kb_btn_idx::add_global_btn;
+                            highlighted_btn_index = kb_btn_idx::add_global;
                         } else if( p.x >= 46 && p.x < 72 ) {
-                            highlighted_btn_index = kb_btn_idx::add_local_btn;
+                            highlighted_btn_index = kb_btn_idx::add_local;
                         } else if( p.x >= 73 && p.x < 96 ) {
-                            highlighted_btn_index = kb_btn_idx::remove_btn;
+                            highlighted_btn_index = kb_btn_idx::remove;
                         }
                     }
                 }
             }
             if( action == "SELECT" ) {
                 switch( highlighted_btn_index ) {
-                    case kb_btn_idx::remove_btn:
+                    case kb_btn_idx::remove:
                         status = s_remove;
                         break;
-                    case kb_btn_idx::add_local_btn:
+                    case kb_btn_idx::add_local:
                         status = s_add;
                         break;
-                    case kb_btn_idx::add_global_btn:
+                    case kb_btn_idx::add_global:
                         status = s_add_global;
                         break;
-                    case kb_btn_idx::no_btn:
+                    case kb_btn_idx::none:
                         break;
                 }
             }
