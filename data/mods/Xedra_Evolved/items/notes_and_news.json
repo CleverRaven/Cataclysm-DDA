@@ -10,7 +10,7 @@
   {
     "type": "GENERIC",
     "id": "border_patrol_files",
-    "name": { "str": "border patrol files" },
+    "name": { "str_sp": "border patrol files" },
     "description": "A folder filled with pages.",
     "copy-from": "survnote",
     "snippet_category": "border_patrol_files"
