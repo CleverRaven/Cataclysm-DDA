@@ -1450,6 +1450,7 @@
       [ "horn_bicycle", 8 ],
       [ "seat", 8 ],
       { "item": "seatbelt", "prob": 8 },
+      { "item": "five-point_harness", "prob": 2 },
       [ "seat_leather", 1 ],
       [ "saddle", 8 ],
       [ "wheel", 10 ],
