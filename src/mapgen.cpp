@@ -6988,7 +6988,7 @@ void map::rotate( int turns, const bool setpos_safe )
 
     std::unordered_map<std::string, std::string> temp_points = queued_points;
     queued_points.clear();
-    for( std::pair<std::string, std::string> queued_point : temp_points ) {
+    for( std::pair<const std::string, std::string> &queued_point : temp_points ) {
         //This is all just a copy of the section rotating NPCs above
         const tripoint sq = tripoint::from_string( queued_point.second );
         real_coords np_rc;
@@ -7842,7 +7842,7 @@ bool run_mapgen_update_func( const update_mapgen_id &update_mapgen_id, mapgendat
 void set_queued_points()
 {
     global_variables &globvars = get_globals();
-    for( std::pair<std::string, std::string> queued_point : queued_points ) {
+    for( const std::pair<std::string, std::string> &queued_point : queued_points ) {
         globvars.set_global_value( "npctalk_var_" + queued_point.first, queued_point.second );
     }
     queued_points.clear();
