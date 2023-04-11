@@ -5318,7 +5318,7 @@
     "type": "profession",
     "id": "lifeguard",
     "name": "Lifeguard",
-    "description": "Your job was to safeguard the lives of everyone at the beach, but when the swimmers started drowning each other you knew the situation was out of your hands.",
+    "description": "Your job was to safeguard the lives of everyone at the beach, but when the swimmers started drowning each other, you knew the situation was out of your hands.",
     "points": 2,
     "skills": [ { "level": 2, "name": "firstaid" }, { "level": 3, "name": "swimming" } ],
     "traits": [ "OUTDOORSMAN" ],

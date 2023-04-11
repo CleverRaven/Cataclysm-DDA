@@ -276,6 +276,8 @@ void effect_type::extract_effect(
         }
 
         const JsonObject base = j.get_object( MOD_TYPE_STRINGS[cur_mod_type] );
+        // We call this function for every possible type of mod, we can't perform this check
+        base.allow_omitted_members();
 
         for( const auto &action_key : action_keys ) {
             if( !base.has_array( action_key.first ) ) {

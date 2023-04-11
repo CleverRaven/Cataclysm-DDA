@@ -3,6 +3,8 @@
     "type": "enchantment",
     "id": "VULCANIST",
     "condition": "ALWAYS",
+    "name": { "str": "Lava" },
+    "description": "Your Vulcanist abilities grant you good resistance to temperature conditions, and total heat immunity.",
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 30 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ]
   }
 ]

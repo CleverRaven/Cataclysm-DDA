@@ -91,6 +91,7 @@ These special attacks are mostly hardcoded in C++ and are generally not configur
 - ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding.
 - ```BIO_OP_TAKEDOWN``` Takedown attack, bashes either the target's head or torso and inflicts `downed`.
 - ```BITE``` Bite attack that can cause deep infected wounds.  If the attacker is humanoid, the target must be `GRAB`bed before `BITE` can trigger.  See also `bite` below.
+- ```BLOW_WHISTLE``` Blow a whistle creating a sound of volume 40 from the position of the monster.
 - ```BOOMER_GLOW``` Spits glowing bile.
 - ```BOOMER``` Spits bile.
 - ```BRANDISH``` Brandishes a knife at the player.
@@ -197,7 +198,7 @@ These special attacks are defined in [JSON](/data/json/monster_special_attacks),
 | `target_required_effects_all`  | |
 | `target_forbidden_effects_any` | |
 | `target_forbidden_effects_all` | |
-| `attack_upper`                 | Boolean, default true. If false the attack can't target any bodyparts with the `UPPER_LIMB` flag with the regular attack rolls (provided the bodypart is not explicitly targeted). |
+| `attack_upper`                 | Boolean, default true. If false the attack can't target any bodyparts with the `LIMB_UPPER` flag with the regular attack rolls (provided the bodypart is not explicitly targeted). |
 | `range`                        | Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths. |
 | `hitsize_min`                  | Integer, lower bound of limb size this attack can target (if no bodypart targets are explicitly defined).                      |
 | `hitsize_max`                  | Integer, upper bound of limb size this attack can target.                                                                      |
@@ -250,6 +251,7 @@ The monster fires a gun at a target.  If the monster is friendly, it will avoid 
 | `require_targeting_player`  | If true, the monster will need to "target" the player, wasting `targeting_cost` moves, putting the attack on cooldown and making warning sounds, unless it attacked something that needs to be targeted recently.  Gives "grace period" to player.                                                               |
 | `require_targeting_npc`     | As above, but with NPCs.                                                                                              |
 | `require_targeting_monster` | As above, but with monsters.                                                                                          |
+| 'target_moving_vehicles'    | If true, the monster will "target" moving vehicles even if it cannot see the player.
 | `targeting_timeout`         | Targeting status will be applied for this many turns.  Note that targeting applies to turret, not targets.            |
 | `targeting_timeout_extend`  | Successfully attacking will extend the targeting for this many turns.  Can be negative.                               |
 | `targeting_cost`            | Move cost of targeting the player. Only applied if attacking the player and didn't target player within last 5 turns. |

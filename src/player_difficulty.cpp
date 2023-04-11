@@ -7,12 +7,14 @@
 #include "profession.h"
 #include "skill.h"
 
+static const profession_id profession_unemployed( "unemployed" );
 
 player_difficulty::player_difficulty()
 {
     // set up an average NPC
     average = npc();
     reset_npc( average );
+    average.prof = &profession_unemployed.obj();
 }
 
 // creates an npc with similar stats to an avatar for testing
@@ -102,20 +104,27 @@ void player_difficulty::reset_npc( Character &dummy )
     dummy.set_per_bonus( 0 );
 }
 
-double player_difficulty::calc_armor_value( const Character &u, bodypart_id bp )
+double player_difficulty::calc_armor_value( const Character &u )
 {
     // a low damage value to be concerned about early
     // only concerned with bash damage since it is most
     // prevalent early game
 
+    const float head_protection = 0.2f;
+    const float torso_protection = 0.4f;
+    const float arms_protection = 0.2f;
+    const float legs_protection = 0.2f;
 
-
-    float armor_val = 0.0f;
+    // don't want divide by zeroes later
+    float armor_val = 0.01f;
 
     // check any other items the character has on them
     if( u.prof ) {
         for( const item &i : u.prof->items( true, std::vector<trait_id>() ) ) {
-            armor_val += i.resist( damage_type::BASH, false, bp );
+            armor_val += head_protection * i.resist( damage_type::BASH, false, bodypart_id( "head" ) );
+            armor_val += torso_protection * i.resist( damage_type::BASH, false, bodypart_id( "torso" ) );
+            armor_val += arms_protection * i.resist( damage_type::BASH, false, bodypart_id( "arm_r" ) );
+            armor_val += legs_protection * i.resist( damage_type::BASH, false, bodypart_id( "leg_r" ) );
         }
     }
 
@@ -129,39 +138,32 @@ std::string player_difficulty::get_defense_difficulty( const Character &u ) cons
     // the percent margin between result bands
     const float percent_band = 0.5f;
 
-    // guess at the ammount of armor an average clothed person would have
-    float base_armor = 2.0f;
-
     // how much each portion is valued compared to the deviation of others
-    const float standard_movement = 1.0f;
-    const float difficult_movement = 2.0f;
+    // movement is negative since lower is better
+    // small deviations in movement value leads to massive defense value
+    const float standard_movement = -6.0f;
+    const float difficult_movement = -2.0f;
     const float dodge = 1.0f;
-    const float head_protection = 0.2f;
-    const float torso_protection = 0.4f;
-    const float arms_protection = 0.2f;
-    const float legs_protection = 0.2f;
+    const float armor_value = 0.2f;
 
     // calculate move cost on simple ground
-    int player_run_cost = u.run_cost( 100 );
-    int average_run_cost = average.run_cost( 100 );
+    float player_run_cost = static_cast<float>( u.run_cost( 100 ) ) / static_cast<float>
+                            ( u.get_speed() );
+    float average_run_cost = static_cast<float>( average.run_cost( 100 ) ) / static_cast<float>
+                             ( average.get_speed() );
     float per = standard_movement * ( player_run_cost - average_run_cost ) / average_run_cost;
 
     // calculate move cost on simple ground
-    player_run_cost = u.run_cost( 400 );
-    average_run_cost = average.run_cost( 400 );
+    player_run_cost = static_cast<float>( u.run_cost( 400 ) ) / static_cast<float>
+                      ( u.get_speed() );
+    average_run_cost = static_cast<float>( average.run_cost( 400 ) ) / static_cast<float>
+                       ( average.get_speed() );
     per += difficult_movement * ( player_run_cost - average_run_cost ) / average_run_cost;
 
-    // calculate head armor
-    per += head_protection * ( calc_armor_value( u, bodypart_id( "head" ) ) - base_armor ) / base_armor;
-    // calculate torso armor
-    per += torso_protection * ( calc_armor_value( u,
-                                bodypart_id( "torso" ) ) - base_armor ) / base_armor;
-    // calculate arm armor
-    per += arms_protection * ( calc_armor_value( u,
-                               bodypart_id( "arm_r" ) ) - base_armor ) / base_armor;
-    // calculate leg armor
-    per += legs_protection * ( calc_armor_value( u,
-                               bodypart_id( "leg_r" ) ) - base_armor ) / base_armor;
+    // calculate armor value
+    float player_armor = calc_armor_value( u );
+    float average_armor = calc_armor_value( average );
+    per += armor_value * ( player_armor - average_armor ) / average_armor;
     // calculate dodge
     per += dodge * ( u.get_dodge() - average.get_dodge() ) / average.get_dodge();
 
@@ -201,8 +203,9 @@ std::string player_difficulty::get_combat_difficulty( const Character &u ) const
     // the percent margin between result bands
     const float percent_band = 0.5f;
 
-    double npc_dps = calc_dps_value( average );
-    double player_dps = calc_dps_value( u );
+    // dps should be multiplied by speed which is a multiplier
+    double npc_dps = calc_dps_value( average ) * average.get_speed();
+    double player_dps = calc_dps_value( u ) * u.get_speed();
 
     float per = ( player_dps - npc_dps ) / npc_dps;
 
@@ -220,7 +223,7 @@ std::string player_difficulty::get_genetics_difficulty( const Character &u ) con
     // how much traits are valued at
     const int trait_value = 1;
     // the percent margin between result bands
-    const float percent_band = 0.1f;
+    const float percent_band = 2.5f;
 
 
     int genetics_total = u.str_max + u.dex_max + u.per_max + u.int_max;
@@ -238,8 +241,10 @@ std::string player_difficulty::get_genetics_difficulty( const Character &u ) con
         }
     }
 
-    float per = static_cast<float>( genetics_total - average_stats ) / static_cast<float>
-                ( average_stats );
+    // note, not doing a percent calc here just actually evaluating closeness average
+    // we subtract percent band from the average since "average" in the menu goes from
+    // 0 to 1 percent band
+    float per = static_cast<float>( genetics_total - ( average_stats - percent_band ) );
 
     return format_output( percent_band, per );
 }
