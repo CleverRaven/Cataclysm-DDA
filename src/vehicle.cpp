@@ -5606,6 +5606,11 @@ std::vector<item> &vehicle::get_tools( vehicle_part &vp )
     return vp.tools;
 }
 
+const std::vector<item> &vehicle::get_tools( const vehicle_part &vp ) const
+{
+    return vp.tools;
+}
+
 std::map<item, input_event> vehicle::prepare_tools( const vehicle_part &vp ) const
 {
     std::map<item, input_event> res;
@@ -7591,6 +7596,9 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         units::mass m_part_items = 0_gram;
         m_part += vp.part().base.weight();
         for( const item &j : get_items( i ) ) {
+            m_part_items += j.weight();
+        }
+        for( const item &j : get_tools( vp.part() ) ) {
             m_part_items += j.weight();
         }
         if( vp.part().info().cargo_weight_modifier != 100 ) {

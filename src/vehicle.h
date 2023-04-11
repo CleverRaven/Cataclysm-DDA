@@ -1702,6 +1702,7 @@ class vehicle
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );
         std::vector<item> &get_tools( vehicle_part &vp );
+        const std::vector<item> &get_tools( const vehicle_part &vp ) const;
         void dump_items_from_part( size_t index );
 
         // Generates starting items in the car, should only be called when placed on the map
