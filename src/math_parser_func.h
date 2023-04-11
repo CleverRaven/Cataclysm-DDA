@@ -117,6 +117,35 @@ inline double tan( std::vector<double> &params )
     return std::tan( params[0] );
 }
 
+inline double clamp( std::vector<double> &params )
+{
+    if( params[2] < params[1] ) {
+        debugmsg( "clamp called with hi < lo (%f < %f)", params[2], params[1] );
+        return params[0];
+    }
+    return std::clamp( params[0], params[1], params[2] );
+}
+
+inline double floor( std::vector<double> &params )
+{
+    return std::floor( params[0] );
+}
+
+inline double ceil( std::vector<double> &params )
+{
+    return std::ceil( params[0] );
+}
+
+inline double trunc( std::vector<double> &params )
+{
+    return std::trunc( params[0] );
+}
+
+inline double round( std::vector<double> &params )
+{
+    return std::round( params[0] );
+}
+
 constexpr double test_( std::vector<double> &/* params */ )
 {
     return 42;
@@ -129,10 +158,15 @@ template<class D>
 std::function<void( D const &, double )> u_val_ass( char scope,
         std::vector<std::string> const &params );
 
-constexpr std::array<math_func, 11> functions{
+constexpr std::array<math_func, 16> functions{
     math_func{ "abs", 1, abs },
     math_func{ "max", -1, max },
     math_func{ "min", -1, min },
+    math_func{ "clamp", 3, clamp },
+    math_func{ "floor", 1, floor },
+    math_func{ "trunc", 1, trunc },
+    math_func{ "ceil", 1, ceil },
+    math_func{ "round", 1, round },
     math_func{ "rng", 2, math_rng },
     math_func{ "rand", 1, rand },
     math_func{ "sqrt", 1, sqrt },

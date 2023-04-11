@@ -18,6 +18,8 @@
     "type": "enchantment",
     "id": "GAIAS_CHOSEN",
     "condition": "ALWAYS",
+    "name": { "str": "Gaia's Champion" },
+    "description": "Your Gaia's Chosen abilities grant you bigger HP pool, and your enemies impale themselves upon your thorns when they attack you.",
     "values": [ { "value": "MAX_HP", "multiply": 0.3 } ],
     "hit_me_effect": [
       {
