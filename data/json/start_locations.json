@@ -628,5 +628,17 @@
     "id": "nuclear_plant",
     "name": "Nuclear Power Plant",
     "terrain": [ "nuclear_plant_5_5_1", "nuclear_plant_10_5_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_motel",
+    "name": "Motel",
+    "terrain": [ "motel_1", "2fmotel_1", "2fmotel_1_f2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_mobile_home",
+    "name": "Mobile Home",
+    "terrain": [ "trailer_hub_00", "trailer_hub_11", "trailer_caravan_00", "trailer_public_00" ]
   }
 ]

@@ -699,5 +699,104 @@
     "condition": { "and": [ { "u_has_skill": { "skill": "computer", "level": 2 } }, { "one_in_chance": 15 } ] },
     "effect": [ { "u_message": "local_files_simple", "snippet": true, "same_snippet": true, "popup": true } ],
     "false_effect": [ { "u_message": "You found nothing interesting in the local files." } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_surrounded_zombie",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 12, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 12, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 15, "max_radius": 22 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 30 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "scenario_surrounded_zombie_heavy",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 14, "max_radius": 20 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 18, "max_radius": 25 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 20, "max_radius": 30 },
+      { "u_spawn_monster": "GROUP_ZOMBIE", "group": true, "real_count": 1, "min_radius": 20, "max_radius": 30 }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_lone_survivor",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      {
+        "u_message": "They are all dead. The group you were surviving with has been annihilated. Their bodies are still nearby. You are the last one left alive and their screams will haunt you.",
+        "type": "warning",
+        "popup": true
+      },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -100,
+        "max_bonus": -100,
+        "duration": "1440 minutes",
+        "decay_start": "180 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_drunk",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [
+      { "u_add_effect": "drunk", "intensity": 1, "duration": "270 minutes" },
+      {
+        "u_add_morale": "morale_feeling_bad",
+        "bonus": -50,
+        "max_bonus": -50,
+        "duration": "50 minutes",
+        "decay_start": "50 minutes"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_blood",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "SCENARIO_BLOOD" } ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "SCENARIO_BLOOD",
+    "method": "json",
+    "object": { "place_fields": [ { "field": "fd_blood", "x": [ 5, 20 ], "y": [ 5, 20 ], "intensity": [ 1, 3 ], "repeat": 10 } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_fire",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "SCENARIO_FIRE" } ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "SCENARIO_FIRE",
+    "method": "json",
+    "object": { "place_fields": [ { "field": "fd_fire", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 15 } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_scenario_smoke",
+    "eoc_type": "SCENARIO_SPECIFIC",
+    "effect": [ { "mapgen_update": "SCENARIO_SMOKE" } ]
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "SCENARIO_SMOKE",
+    "method": "json",
+    "object": { "place_fields": [ { "field": "fd_smoke", "x": [ 3, 20 ], "y": [ 3, 20 ], "intensity": [ 1, 3 ], "repeat": 60 } ] }
   }
 ]
