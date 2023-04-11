@@ -1857,7 +1857,7 @@ static std::string get_repair_hint( const Character &you, const repair_item_acto
     hint.append( string_format( _( "Tool: <color_cyan>%s</color>" ), main_tool->display_name() ) );
     hint.append( string_format( " | " ) );
     hint.append( string_format( _( "Skill used: <color_cyan>%s (%d)</color>" ),
-                                actor->used_skill.obj().name(), you.get_skill_level( actor->used_skill ) ) );
+                                actor->used_skill.obj().name(), static_cast<int>( you.get_skill_level( actor->used_skill ) ) ) );
     return hint;
 }
 
