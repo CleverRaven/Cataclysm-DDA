@@ -326,8 +326,8 @@ void suffer::while_grabbed( Character &you )
         }
     }
 
-    // if we aren't near something with GROUP_BASH we won't suffocate
-    if( !crowd ) {
+    // if we aren't near two monsters with GROUP_BASH we won't suffocate
+    if( crowd < 2 ) {
         return;
     }
     // Getting crushed against the wall counts as a monster

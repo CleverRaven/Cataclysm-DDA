@@ -306,6 +306,106 @@
   },
   {
     "type": "effect_type",
+    "id": "grabbing_head",
+    "name": [ "Grabbing Head" ],
+    "//": "Grab filter effect for dedicated removal, per-bptype",
+    "desc": [ "You're grabbing the head of somebody." ],
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_eyes",
+    "name": [ "Grabbing Eyes" ],
+    "desc": [ "You've caught the eye of somebody." ],
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_mouth",
+    "name": [ "Grabbing Mouth" ],
+    "desc": [ "You're grabbing the mouth of somebody.  Somehow." ],
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_torso",
+    "name": [ "Grabbing Torso" ],
+    "desc": [ "You're hugging somebody." ],
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_arm_l",
+    "name": [ "Grabbing Left Arm" ],
+    "desc": [ "You're grabbing the left arm of somebody." ],
+    "flags": [ "GRAB_FILTER" ] 
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_arm_r",
+    "name": [ "Grabbing Right Arm" ],
+    "desc": [ "You're grabbing the right arm of somebody." ] ,
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_hand_l",
+    "name": [ "Grabbing Left Hand" ],
+    "desc": [ "You're holding hands(left)." ] ,
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_hand_r",
+    "name": [ "Grabbing Right Hand" ],
+    "desc": [ "You're holding hands(right)." ] ,
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_leg_l",
+    "name": [ "Grabbing Left Leg" ],
+    "desc": [ "You're grabbing the left leg of somebody." ] ,
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_leg_r",
+    "name": [ "Grabbing Right Leg" ],
+    "desc": [ "You're grabbing the right leg of somebody." ] ,
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_foot_l",
+    "name": [ "Grabbing Left Foot" ],
+    "desc": [ "You're grabbing the left foot of somebody." ] ,
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_foot_r",
+    "name": [ "Grabbing Right Foot" ],
+    "desc": [ "You're grabbing the right foot of somebody." ] ,
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_tail",
+    "name": [ "Grabbing Tail" ],
+    "desc": [ "You're grabbing the tail of somebody." ] ,
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "grabbing_appendix",
+    "name": [ "Grabbing Appendix" ],
+    "//": "Null-BP grabbing effect for safety and monsters",
+    "desc": [ "This sounds pretty invasive." ],
+    "flags": [ "GRAB_FILTER" ]
+  },
+  {
+    "type": "effect_type",
     "id": "staggered",
     "name": [ "Staggered" ],
     "//": "Mainly for monsters",
@@ -3048,34 +3148,35 @@
     "type": "effect_type",
     "id": "grabbed",
     "name": [ "Grabbed" ],
-    "desc": [ "You have been grabbed by an attack.\nYou are being held in place, and dodging and blocking are very difficult." ],
+    "desc": [ "You have been grabbed and held in place by an attack.  You're not able to move until breaking the grab, and depending on the strength of your opponent using this limb is difficult to impossible.\nWait in place or attempt to move without attacking to try and remove this effect." ],
     "rating": "bad",
-    "max_duration": "2 s",
-    "max_intensity": 15,
-    "base_mods": { "speed_mod": [ -15 ] },
-    "scaling_mods": { "speed_mod": [ -5 ] },
+    "//": "Removal handled in code, so no max duration needed, intensity set by the grab_strength, all effects are local-only",
+    "max_intensity": 100,
     "show_in_info": true,
     "show_intensity": true,
-    "//": "Monster attacks only grab the torso to keep the intensity check consistent, but assume limbs getting grabbed as well",
+    "//mods": "No swimmin' or manipulatin' with a held limb, other scores start severly debilitated and reach useless at about 50 grab strength",
     "limb_score_mods": [
-      { "limb_score": "manip", "modifier": 0.8, "scaling": -0.05 },
-      { "limb_score": "lift", "modifier": 0.9, "scaling": -0.1 },
-      { "limb_score": "block", "modifier": 0.7, "scaling": -0.1 },
-      { "limb_score": "breathing", "modifier": 0.8, "scaling": -0.1 },
-      { "limb_score": "reaction", "modifier": 0.9, "scaling": -0.1 },
-      { "limb_score": "balance", "modifier": 0.655, "scaling": -0.07 },
-      { "limb_score": "swim", "modifier": 0.8, "scaling": -0.2 }
+      { "limb_score": "manip", "modifier": 0.0 },
+      { "limb_score": "grip", "modifier": 0.0 },
+      { "limb_score": "lift", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "block", "modifier": 0.25, "scaling": -0.01 },
+      { "limb_score": "breathing", "modifier": 0.75, "scaling": -0.005 },
+      { "limb_score": "balance", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "move_speed", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "footing", "modifier": 0.6, "scaling": -0.01 },
+      { "limb_score": "swim", "modifier": 0.0 }
     ],
-    "flags": [ "EFFECT_LIMB_SCORE_MOD" ]
+    "flags": [ "EFFECT_LIMB_SCORE_MOD_LOCAL", "GRAB" ]
   },
   {
     "type": "effect_type",
     "id": "grabbing",
     "name": [ "Grabbing" ],
     "desc": [ "Grabbing another creature and holding them in place." ],
-    "max_duration": "2 s",
-    "max_intensity": 15,
-    "show_in_info": true
+    "max_intensity": 1,
+    "show_in_info": true,
+    "//": "-dodge (can't really miss something holding you",
+    "base_mods": { "dodge_mod": [ -8 ] }
   },
   {
     "type": "effect_type",

@@ -206,6 +206,7 @@ bool Character::try_remove_grab()
         // Iterate through all our grabs and attempt to break them one by one
         for( const effect eff : get_effects_with_flag( json_flag_GRAB ) ) {
             float escape_chance = 1.0f;
+            float grabber_roll = static_cast<float>( eff.get_intensity() );
             // We need to figure out which monster is responsible for this grab early for good messaging
             // For now, one grabber per limb TODO: handle multiple grabbers and decrement intensity
             monster *grabber = nullptr;
@@ -251,12 +252,14 @@ bool Character::try_remove_grab()
             // Stats might get modified by certain grabby effects, check them to be safe
             float stat_factor = std::max( get_str() / 2, get_dex() / 3 );
             float limb_factor = get_modifier( grab_break_limb_mod );
-            escape_chance = skill_factor * limb_factor * 100 + stat_factor;
+            escape_chance = ( skill_factor * limb_factor ) * 100 + stat_factor;
+            grabber_roll = std::max( grabber_roll, escape_chance ) + rng( 1, 10 );
+            escape_chance += grab_break_factor;
             add_msg_debug( debugmode::DF_MATTACK,
-                           "Attempting to break grab on %s, grab intensity %d, skill factor %.1f, limb factor %.1f, stat bonus %.1f, grab break bonus %d, escape chance %.1f, final chance %.1f %%",
-                           eff.get_bp()->name, eff.get_intensity(), skill_factor, limb_factor, stat_factor, grab_break_factor,
+                           "Attempting to break grab on %s, grab strength roll %.1f, skill factor %.1f, limb factor %.1f, stat bonus %.1f, grab break bonus %d, escape chance %.1f, final chance %.1f %%",
+                           eff.get_bp()->name, grabber_roll, skill_factor, limb_factor, stat_factor, grab_break_factor,
                            escape_chance,
-                           escape_chance * 100 / eff.get_intensity() );
+                           escape_chance * 100 / grabber_roll );
             if( torn_pocket ) {
                 escape_chance *= 1.5f;
                 add_msg_debug( debugmode::DF_MATTACK,
@@ -266,7 +269,7 @@ bool Character::try_remove_grab()
 
             // Every attempt burns some stamina - maybe some moves?
             mod_stamina( -5 * eff.get_intensity() );
-            if( x_in_y( escape_chance, eff.get_intensity() ) ) {
+            if( x_in_y( escape_chance, grabber_roll ) ) {
                 grabber->remove_effect( eff.get_bp()->grabbing_effect );
                 grabber->remove_effect( effect_grabbing );
                 add_msg_debug( debugmode::DF_MATTACK, "Removed grab filter effect %s from monster %s",

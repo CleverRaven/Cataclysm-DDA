@@ -301,7 +301,7 @@ void grab::load_grab( const JsonObject &jo )
 {
     optional( jo, false, "grab_strength", grab_strength, -1 );
     optional( jo, false, "pull_chance", pull_chance, 0 );
-    optional( jo, false, "grab_effect", grab_effect, effect_grabbed);
+    optional( jo, false, "grab_effect", grab_effect, effect_grabbed );
     optional( jo, false, "pull_msg_u", pull_msg_u, to_translation( "%s pulls you in!" ) );
     optional( jo, false, "pull_fail_msg_u", pull_fail_msg_u,
               to_translation( "%s strains trying to pull you in but fails!" ) );
@@ -517,18 +517,25 @@ bool melee_actor::call( monster &z ) const
                        "Grab attack targeting bp %s, grab strength %d, pull chance %d", bp_id->name,
                        eff_grab_strength, grab_data.pull_chance );
         // Filter out already-grabbed bodyparts
-        int attempts = 0;
-        while( target->has_effect_with_flag( json_flag_GRAB, bp_id ) ) {
-            // Two attempts per grab to land on an ungrabbed part, fail properly
+        if( target->has_effect_with_flag( json_flag_GRAB, bp_id ) ) {
+            // Iterate through eligable targets to look for a non-grabbed one, fail if none are found
             add_msg_debug( debugmode::DF_MATTACK, "Target bodypart %s already grabbed",
                            bp_id->name );
-            bodypart_str_id bp_hit = body_parts.empty() ?
-                                     target->select_body_part( hitsize_min, hitsize_max, attack_upper, hitspread ).id() :
-                                     *body_parts.pick();
-
-            bodypart_id bp_id = bodypart_id( bp_hit );
-            attempts++;
-            if( attempts == 2 ) {
+            for( const bodypart_id bp : target->get_all_eligable_parts( hitsize_min, hitsize_max,
+                    attack_upper ) ) {
+                if( target->has_effect_with_flag( json_flag_GRAB, bp ) ) {
+                    add_msg_debug( debugmode::DF_MATTACK, "Alternative target bodypart %s already grabbed",
+                                   bp->name );
+                    continue;
+                } else {
+                    bp_hit = bp.id();
+                    bp_id = bp;
+                    add_msg_debug( debugmode::DF_MATTACK, "Retargeted to ungrabbed %s",
+                                   bp->name );
+                }
+            }
+            // Couldn't find an eligable limb, fail loudly
+            if( target->has_effect_with_flag( json_flag_GRAB, bp_id ) ) {
                 target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, mon_name,
                                                body_part_name_accusative( bp_id ) );
                 return true;

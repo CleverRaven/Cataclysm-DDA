@@ -6,12 +6,15 @@
 #include "cata_catch.h"
 #include "cata_scope_helpers.h"
 #include "character.h"
+#include "character_martial_arts.h"
 #include "creature.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "martialarts.h"
 #include "mattack_actors.h"
 #include "mattack_common.h"
+#include "messages.h"
 #include "monattack.h"
 #include "monster.h"
 #include "mtype.h"
@@ -23,11 +26,16 @@
 #include "weather.h"
 #include "weather_type.h"
 #include "game.h"
+#include "type_id.h"
 
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_took_flumed( "took_flumed" );
 
+static const efftype_id effect_grabbed( "grabbed" );
 static const itype_id itype_rock( "rock" );
+static const json_character_flag json_flag_GRAB( "GRAB" );
+static const matype_id style_brawling( "style_brawling" );
+static const skill_id skill_unarmed( "unarmed" );
 
 static const json_character_flag json_flag_TOUGH_FEET( "TOUGH_FEET" );
 
@@ -285,4 +293,405 @@ TEST_CASE( "Mattack dialog condition test", "[mattack]" )
     REQUIRE( you.has_effect( effect_took_flumed ) );
     // Attack fails
     CHECK( !attack->call( test_monster ) );
+}
+
+TEST_CASE( "Grab tests", "[mattack][grab]" )
+{
+    const tripoint target_location = attacker_location + tripoint{ 1, 0, 0 };
+    const tripoint attacker_location_n = target_location + tripoint_north;
+    const tripoint attacker_location_e = target_location + tripoint_east;
+    const tripoint attacker_location_s = target_location + tripoint_south;
+    clear_map();
+    clear_creatures();
+    Character &you = get_player_character();
+    clear_avatar();
+    you.setpos( target_location );
+
+    SECTION( "Weak grabber(s)" ) {
+        // Setup monsters adjacently
+        const std::string monster_type = "mon_debug_grabber";
+        monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+        monster &test_monster_e = spawn_test_monster( monster_type, attacker_location_e );
+        monster &test_monster_n = spawn_test_monster( monster_type, attacker_location_n );
+        test_monster.set_dest( you.get_location() );
+        test_monster_e.set_dest( you.get_location() );
+        test_monster_n.set_dest( you.get_location() );
+        const mattack_actor &attack = test_monster.type->special_attacks.at( "grab" ).operator * ();
+        const mattack_actor &attack_e = test_monster_e.type->special_attacks.at( "grab" ).operator * ();
+        const mattack_actor &attack_n = test_monster.type->special_attacks.at( "grab" ).operator * ();
+
+        REQUIRE( test_monster.get_grab_strength() == 20 );
+        REQUIRE( you.get_str() == 8 );
+        REQUIRE( you.get_skill_level( skill_unarmed ) == 0 );
+
+        SECTION( "Starter character vs one weak grabber" ) {
+            int success = 0;
+            // Start grabbed
+            REQUIRE( attack.call( test_monster ) );
+            // Safety check to ensure grab strength is read and applied correctly
+            for( const effect grab : you.get_effects_with_flag( json_flag_GRAB ) ) {
+                CHECK( grab.get_intensity() == 20 );
+            }
+            for( int i = 0; i < 1000; i++ ) {
+                if( you.try_remove_grab() ) {
+                    // Record success and reapply grab
+                    success++;
+                    you.clear_effects();
+                    you.set_stamina( you.get_stamina_max() );
+                    REQUIRE( attack.call( test_monster ) );
+                }
+            }
+            Messages::clear_messages();
+            // Single zombie grabbing a starting survivor has about 50% chance to release on a turn
+            // Actually higher for non-arm/torso grabs, but bundled works well enough
+            INFO( "You should have about 40% chance to break a weak grab every turn as a starting character" );
+            CHECK( success == Approx( 400 ).margin( 50 ) );
+        }
+        SECTION( "Starter character vs 3 weak grabs at the same time" ) {
+            // Setup 3v1 test
+            you.clear_effects();
+            test_monster.clear_effects();
+            you.set_stamina( you.get_stamina_max() );
+
+            int success = 0;
+            // Start grabbed
+            REQUIRE( attack.call( test_monster ) );
+            REQUIRE( attack_e.call( test_monster_e ) );
+            REQUIRE( attack_n.call( test_monster_n ) );
+            for( int i = 0; i < 1000; i++ ) {
+                REQUIRE( you.get_effects_with_flag( json_flag_GRAB ).size() == 3 );
+                if( you.try_remove_grab() ) {
+                    // Record success if all grabs are broken
+                    success++;
+                }
+                // Reapply grabs
+                you.clear_effects();
+                test_monster.clear_effects();
+                test_monster_e.clear_effects();
+                test_monster_n.clear_effects();
+                you.set_stamina( you.get_stamina_max() );
+                REQUIRE( attack.call( test_monster ) );
+                REQUIRE( attack_e.call( test_monster_e ) );
+                REQUIRE( attack_n.call( test_monster_n ) );
+            }
+            Messages::clear_messages();
+            INFO( "You have about 5% chance to break three weak grabs on a single turn" );
+            CHECK( success == Approx( 50 ).margin( 50 ) );
+        }
+        // Setup lategame character
+        you.set_skill_level( skill_unarmed, 8 );
+        you.martial_arts_data->set_style( style_brawling, true );
+        REQUIRE( you.get_skill_level( skill_unarmed ) == 8 );
+        REQUIRE( you.has_grab_break_tec() );
+
+        you.clear_effects();
+        you.set_stamina( you.get_stamina_max() );
+        test_monster.clear_effects();
+        test_monster_e.clear_effects();
+        test_monster_n.clear_effects();
+        SECTION( "Lategame character against 1 weak grabber" ) {
+            int success = 0;
+            REQUIRE( attack.call( test_monster ) );
+            for( int i = 0; i < 1000; i++ ) {
+                if( you.try_remove_grab() ) {
+                    // Record success and reapply grab
+                    success++;
+                    you.clear_effects();
+                    you.set_stamina( you.get_stamina_max() );
+                    REQUIRE( attack.call( test_monster ) );
+                }
+            }
+            Messages::clear_messages();
+            INFO( "100% chance to break a weak grab as a lategame character with grab breaks" );
+            CHECK( success == Approx( 1000 ).margin( 25 ) );
+        }
+        SECTION( "Lategame character vs 3 weak grabs at the same time" ) {
+            // Setup 3v1 test
+            you.clear_effects();
+            test_monster.clear_effects();
+            you.set_stamina( you.get_stamina_max() );
+
+            int success = 0;
+            // Start grabbed
+            REQUIRE( attack.call( test_monster ) );
+            REQUIRE( attack_e.call( test_monster_e ) );
+            REQUIRE( attack_n.call( test_monster_n ) );
+            for( int i = 0; i < 1000; i++ ) {
+                REQUIRE( you.get_effects_with_flag( json_flag_GRAB ).size() == 3 );
+                if( you.try_remove_grab() ) {
+                    // Record success if all grabs are broken
+                    success++;
+                }
+                // Reapply grabs
+                you.clear_effects();
+                you.set_stamina( you.get_stamina_max() );
+                test_monster.clear_effects();
+                test_monster_e.clear_effects();
+                test_monster_n.clear_effects();
+                REQUIRE( attack.call( test_monster ) );
+                REQUIRE( attack_e.call( test_monster_e ) );
+                REQUIRE( attack_n.call( test_monster_n ) );
+            }
+            Messages::clear_messages();
+            INFO( "99% chance to break three weak grabs on a single turn" );
+            CHECK( success == Approx( 990 ).margin( 25 ) );
+        }
+    }
+    you.normalize();
+    you.set_skill_level( skill_unarmed, 0 );
+    REQUIRE( you.get_skill_level( skill_unarmed ) == 0 );
+    REQUIRE( !you.has_grab_break_tec() );
+    clear_creatures();
+
+    SECTION( "Midline grabbers" ) {
+        // Setup monsters adjacently
+        const std::string monster_type = "mon_debug_grabber_mid";
+        monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+        monster &test_monster_e = spawn_test_monster( monster_type, attacker_location_e );
+        monster &test_monster_n = spawn_test_monster( monster_type, attacker_location_n );
+        test_monster.set_dest( you.get_location() );
+        test_monster_e.set_dest( you.get_location() );
+        test_monster_n.set_dest( you.get_location() );
+        const mattack_actor &attack = test_monster.type->special_attacks.at( "grab" ).operator * ();
+        const mattack_actor &attack_e = test_monster_e.type->special_attacks.at( "grab" ).operator * ();
+        const mattack_actor &attack_n = test_monster.type->special_attacks.at( "grab" ).operator * ();
+
+        REQUIRE( test_monster.get_grab_strength() == 50 );
+        REQUIRE( you.get_str() == 8 );
+        REQUIRE( you.get_skill_level( skill_unarmed ) == 0 );
+
+        SECTION( "Starter character vs one midline grabber" ) {
+            int success = 0;
+            // Start grabbed
+            REQUIRE( attack.call( test_monster ) );
+            // Safety check to ensure grab strength is read and applied correctly
+            for( const effect grab : you.get_effects_with_flag( json_flag_GRAB ) ) {
+                CHECK( grab.get_intensity() == 50 );
+            }
+            for( int i = 0; i < 1000; i++ ) {
+                if( you.try_remove_grab() ) {
+                    success++;
+                    you.clear_effects();
+                    you.set_stamina( you.get_stamina_max() );
+                    REQUIRE( attack.call( test_monster ) );
+                }
+            }
+            Messages::clear_messages();
+            INFO( "You should have about 15% chance to break a mid-strength grab every turn as a starting character" );
+            CHECK( success == Approx( 150 ).margin( 50 ) );
+        }
+        SECTION( "Starter character vs 3 mid grabs at the same time" ) {
+            // Setup 3v1 test
+            you.clear_effects();
+            test_monster.clear_effects();
+            you.set_stamina( you.get_stamina_max() );
+
+            int success = 0;
+            // Start grabbed
+            REQUIRE( attack.call( test_monster ) );
+            REQUIRE( attack_e.call( test_monster_e ) );
+            REQUIRE( attack_n.call( test_monster_n ) );
+            for( int i = 0; i < 1000; i++ ) {
+                REQUIRE( you.get_effects_with_flag( json_flag_GRAB ).size() == 3 );
+                if( you.try_remove_grab() ) {
+                    // Record success if all grabs are broken
+                    success++;
+                }
+                // Reapply grabs
+                you.clear_effects();
+                test_monster.clear_effects();
+                test_monster_e.clear_effects();
+                test_monster_n.clear_effects();
+                you.set_stamina( you.get_stamina_max() );
+                REQUIRE( attack.call( test_monster ) );
+                REQUIRE( attack_e.call( test_monster_e ) );
+                REQUIRE( attack_n.call( test_monster_n ) );
+            }
+            Messages::clear_messages();
+            INFO( "You have about 5% chance to break three midline grabs on a single turn" );
+            CHECK( success == Approx( 50 ).margin( 50 ) );
+        }
+        // Setup lategame character
+        you.set_skill_level( skill_unarmed, 8 );
+        you.martial_arts_data->set_style( style_brawling, true );
+        REQUIRE( you.get_skill_level( skill_unarmed ) == 8 );
+        REQUIRE( you.has_grab_break_tec() );
+
+        you.clear_effects();
+        you.set_stamina( you.get_stamina_max() );
+        test_monster.clear_effects();
+        test_monster_e.clear_effects();
+        test_monster_n.clear_effects();
+        SECTION( "Lategame character against 1 midline grabber" ) {
+            int success = 0;
+            REQUIRE( attack.call( test_monster ) );
+            for( int i = 0; i < 1000; i++ ) {
+                if( you.try_remove_grab() ) {
+                    // Record success and reapply grab
+                    success++;
+                    you.clear_effects();
+                    you.set_stamina( you.get_stamina_max() );
+                    REQUIRE( attack.call( test_monster ) );
+                }
+            }
+            Messages::clear_messages();
+            INFO( "80% chance to break a midline grab as a lategame character with grab breaks" );
+            CHECK( success == Approx( 800 ).margin( 50 ) );
+        }
+        SECTION( "Lategame character vs 3 mid grabs at the same time" ) {
+            // Setup 3v1 test
+            you.clear_effects();
+            test_monster.clear_effects();
+            you.set_stamina( you.get_stamina_max() );
+
+            int success = 0;
+            // Start grabbed
+            REQUIRE( attack.call( test_monster ) );
+            REQUIRE( attack_e.call( test_monster_e ) );
+            REQUIRE( attack_n.call( test_monster_n ) );
+            for( int i = 0; i < 1000; i++ ) {
+                REQUIRE( you.get_effects_with_flag( json_flag_GRAB ).size() == 3 );
+                if( you.try_remove_grab() ) {
+                    // Record success if all grabs are broken
+                    success++;
+                }
+                // Reapply grabs
+                you.clear_effects();
+                you.set_stamina( you.get_stamina_max() );
+                test_monster.clear_effects();
+                test_monster_e.clear_effects();
+                test_monster_n.clear_effects();
+                REQUIRE( attack.call( test_monster ) );
+                REQUIRE( attack_e.call( test_monster_e ) );
+                REQUIRE( attack_n.call( test_monster_n ) );
+            }
+            Messages::clear_messages();
+            INFO( "25% chance to break three mid grabs on a single turn" );
+            CHECK( success == Approx( 250 ).margin( 50 ) );
+        }
+    }
+    you.normalize();
+    you.set_skill_level( skill_unarmed, 0 );
+    REQUIRE( you.get_skill_level( skill_unarmed ) == 0 );
+    REQUIRE( !you.has_grab_break_tec() );
+    clear_creatures();
+
+    SECTION( "Strong grabbers" ) {
+        const std::string monster_type = "mon_debug_grabber_strong";
+        monster &test_monster = spawn_test_monster( monster_type, attacker_location );
+        monster &test_monster_e = spawn_test_monster( monster_type, attacker_location_e );
+        monster &test_monster_n = spawn_test_monster( monster_type, attacker_location_n );
+        test_monster.set_dest( you.get_location() );
+        test_monster_e.set_dest( you.get_location() );
+        test_monster_n.set_dest( you.get_location() );
+        const mattack_actor &attack = test_monster.type->special_attacks.at( "grab" ).operator * ();
+        const mattack_actor &attack_e = test_monster_e.type->special_attacks.at( "grab" ).operator * ();
+        const mattack_actor &attack_n = test_monster.type->special_attacks.at( "grab" ).operator * ();
+
+        REQUIRE( test_monster.get_grab_strength() == 100 );
+        REQUIRE( you.get_str() == 8 );
+        REQUIRE( you.get_skill_level( skill_unarmed ) == 0 );
+
+        SECTION( "Starter character vs one strong grabber" ) {
+            int success = 0;
+            // Start grabbed
+            REQUIRE( attack.call( test_monster ) );
+            // Safety check to ensure grab strength is read and applied correctly
+            for( const effect grab : you.get_effects_with_flag( json_flag_GRAB ) ) {
+                CHECK( grab.get_intensity() == 100 );
+            }
+            for( int i = 0; i < 1000; i++ ) {
+                if( you.try_remove_grab() ) {
+                    success++;
+                    you.clear_effects();
+                    you.set_stamina( you.get_stamina_max() );
+                    REQUIRE( attack.call( test_monster ) );
+                }
+            }
+            Messages::clear_messages();
+            INFO( "You should have about 7,5% chance to break a max-strength grab every turn as a starting character" );
+            CHECK( success == Approx( 75 ).margin( 50 ) );
+        }
+        SECTION( "Starter character vs 3 max-strength grabs at the same time" ) {
+            you.clear_effects();
+            test_monster.clear_effects();
+            you.set_stamina( you.get_stamina_max() );
+
+            int success = 0;
+            // Start grabbed
+            REQUIRE( attack.call( test_monster ) );
+            REQUIRE( attack_e.call( test_monster_e ) );
+            REQUIRE( attack_n.call( test_monster_n ) );
+            for( int i = 0; i < 1000; i++ ) {
+                REQUIRE( you.get_effects_with_flag( json_flag_GRAB ).size() == 3 );
+                if( you.try_remove_grab() ) {
+                    success++;
+                }
+                you.clear_effects();
+                test_monster.clear_effects();
+                test_monster_e.clear_effects();
+                test_monster_n.clear_effects();
+                you.set_stamina( you.get_stamina_max() );
+                REQUIRE( attack.call( test_monster ) );
+                REQUIRE( attack_e.call( test_monster_e ) );
+                REQUIRE( attack_n.call( test_monster_n ) );
+            }
+            Messages::clear_messages();
+            INFO( "You have about 0% chance to break three max-strength grabs on a single turn" );
+            CHECK( success == Approx( 0 ).margin( 25 ) );
+        }
+
+        you.set_skill_level( skill_unarmed, 8 );
+        you.martial_arts_data->set_style( style_brawling, true );
+        REQUIRE( you.get_skill_level( skill_unarmed ) == 8 );
+        REQUIRE( you.has_grab_break_tec() );
+
+        you.clear_effects();
+        you.set_stamina( you.get_stamina_max() );
+        test_monster.clear_effects();
+        test_monster_e.clear_effects();
+        test_monster_n.clear_effects();
+        SECTION( "Lategame character against 1 max-strength grabber" ) {
+            int success = 0;
+            REQUIRE( attack.call( test_monster ) );
+            for( int i = 0; i < 1000; i++ ) {
+                if( you.try_remove_grab() ) {
+                    success++;
+                    you.clear_effects();
+                    you.set_stamina( you.get_stamina_max() );
+                    REQUIRE( attack.call( test_monster ) );
+                }
+            }
+            Messages::clear_messages();
+            INFO( "40% chance to break a max-strength grab as a lategame character with grab breaks" );
+            CHECK( success == Approx( 400 ).margin( 50 ) );
+        }
+        SECTION( "Lategame character vs 3 max-strength grabs at the same time" ) {
+            you.clear_effects();
+            test_monster.clear_effects();
+            you.set_stamina( you.get_stamina_max() );
+
+            int success = 0;
+            REQUIRE( attack.call( test_monster ) );
+            REQUIRE( attack_e.call( test_monster_e ) );
+            REQUIRE( attack_n.call( test_monster_n ) );
+            for( int i = 0; i < 1000; i++ ) {
+                REQUIRE( you.get_effects_with_flag( json_flag_GRAB ).size() == 3 );
+                if( you.try_remove_grab() ) {
+                    success++;
+                }
+                you.clear_effects();
+                you.set_stamina( you.get_stamina_max() );
+                test_monster.clear_effects();
+                test_monster_e.clear_effects();
+                test_monster_n.clear_effects();
+                REQUIRE( attack.call( test_monster ) );
+                REQUIRE( attack_e.call( test_monster_e ) );
+                REQUIRE( attack_n.call( test_monster_n ) );
+            }
+            Messages::clear_messages();
+            INFO( "5% chance to break three max-strength grabs on a single turn" );
+            CHECK( success == Approx( 50 ).margin( 25 ) );
+        }
+    }
 }
