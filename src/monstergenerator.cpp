@@ -918,7 +918,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
-    if( jo.has_object("mount_items") ) {
+    if( jo.has_object( "mount_items" ) ) {
         JsonObject jo_mount_items = jo.get_object( "mount_items" );
         optional( jo_mount_items, was_loaded, "tied", mount_items.tied, itype_id() );
         optional( jo_mount_items, was_loaded, "tack", mount_items.tack, itype_id() );
