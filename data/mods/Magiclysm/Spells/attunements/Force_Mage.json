@@ -50,7 +50,7 @@
         }
       ]
     },
-    "flags": [ "WATERPROOF", "TRADER_AVOID", "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "AURA" ],
+    "flags": [ "WATERPROOF", "TRADER_AVOID", "SEMITANGIBLE", "ONLY_ONE", "OVERSIZE", "AURA", "UNBREAKABLE" ],
     "armor": [
       {
         "encumbrance": 0,

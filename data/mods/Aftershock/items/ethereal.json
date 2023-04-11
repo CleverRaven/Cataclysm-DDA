@@ -11,7 +11,7 @@
     "warmth": 150,
     "color": "green",
     "material": [ "oil" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "WATER_FRIENDLY", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "WATER_FRIENDLY", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "UNBREAKABLE" ],
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" } ] },
     "armor": [
       {
@@ -31,7 +31,7 @@
     "warmth": 150,
     "color": "green",
     "material": [ "oil" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "WATER_FRIENDLY", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "WATER_FRIENDLY", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "UNBREAKABLE" ],
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_warm" }, { "id": "ench_cold_armor" } ] },
     "armor": [
       {
