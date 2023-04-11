@@ -638,7 +638,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     }
 
     for( const auto &pr : min_skill ) {
-        if( ( cqb ? 5 : u.get_skill_level( pr.first ) ) < pr.second ) {
+        if( ( cqb ? 5 : static_cast<int>( u.get_skill_level( pr.first ) ) ) < pr.second ) {
             return false;
         }
     }
@@ -1764,7 +1764,7 @@ bool Character::can_autolearn( const matype_id &ma_id ) const
         const skill_id skill_req( elem.first );
         const int required_level = elem.second;
 
-        if( required_level > get_skill_level( skill_req ) ) {
+        if( required_level > static_cast<int>( get_skill_level( skill_req ) ) ) {
             return false;
         }
     }
