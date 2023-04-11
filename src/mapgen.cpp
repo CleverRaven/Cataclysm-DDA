@@ -491,7 +491,8 @@ static mapgen_factory oter_mapgen;
 
 std::map<nested_mapgen_id, nested_mapgen> nested_mapgens;
 std::map<update_mapgen_id, update_mapgen> update_mapgens;
-static std::unordered_map<std::string, std::string> queued_points;
+static std::unordered_map<std::string, tripoint_abs_ms> queued_points;
+
 template<>
 bool string_id<nested_mapgen>::is_valid() const
 {
@@ -3310,7 +3311,7 @@ class jmapgen_variable : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                     const std::string &/*context*/ ) const override {
             queued_points[name] = dat.m.getglobal( tripoint( x.val, y.val,
-                                                   dat.m.get_abs_sub().z() ) ).to_string();
+                                                   dat.m.get_abs_sub().z() ) );
         }
 };
 
@@ -4696,7 +4697,7 @@ bool jmapgen_setmap::apply( const mapgendata &dat, const point &offset ) const
             break;
             case JMAPGEN_SETMAP_VARIABLE: {
                 tripoint point( x_get(), y_get(), m.get_abs_sub().z() );
-                queued_points[string_val] = m.getabs( point ).to_string();
+                queued_points[string_val] = m.getglobal( point );
             }
             break;
             case JMAPGEN_SETMAP_LINE_TER: {
@@ -6986,15 +6987,14 @@ void map::rotate( int turns, const bool setpos_safe )
     zone_manager &mgr = zone_manager::get_manager();
     mgr.rotate_zones( *this, turns );
 
-    std::unordered_map<std::string, std::string> temp_points = queued_points;
+    std::unordered_map<std::string, tripoint_abs_ms> temp_points = queued_points;
     queued_points.clear();
-    for( std::pair<const std::string, std::string> &queued_point : temp_points ) {
+    for( std::pair<const std::string, tripoint_abs_ms> &queued_point : temp_points ) {
         //This is all just a copy of the section rotating NPCs above
-        const tripoint sq = tripoint::from_string( queued_point.second );
         real_coords np_rc;
-        np_rc.fromabs( sq.xy() );
+        np_rc.fromabs( queued_point.second.xy().raw() );
         // Note: We are rotating the entire overmap square (2x2 of submaps)
-        if( np_rc.om_pos != rc.om_pos || sq.z != abs_sub.z() ) {
+        if( np_rc.om_pos != rc.om_pos || queued_point.second.z() != abs_sub.z() ) {
             continue;
         }
         point old( np_rc.sub_pos );
@@ -7006,7 +7006,7 @@ void map::rotate( int turns, const bool setpos_safe )
         }
         const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
         queued_points[queued_point.first] = tripoint_abs_ms( getabs( tripoint( new_pos,
-                                            abs_sub.z() ) ) ).to_string();
+                                            abs_sub.z() ) ) );
     }
 }
 
@@ -7842,8 +7842,8 @@ bool run_mapgen_update_func( const update_mapgen_id &update_mapgen_id, mapgendat
 void set_queued_points()
 {
     global_variables &globvars = get_globals();
-    for( const std::pair<std::string, std::string> &queued_point : queued_points ) {
-        globvars.set_global_value( "npctalk_var_" + queued_point.first, queued_point.second );
+    for( const std::pair<std::string, tripoint_abs_ms> &queued_point : queued_points ) {
+        globvars.set_global_value( "npctalk_var_" + queued_point.first, queued_point.second.to_string() );
     }
     queued_points.clear();
 }
