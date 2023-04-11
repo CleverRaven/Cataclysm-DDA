@@ -482,7 +482,7 @@ int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context )
 
 float SkillLevelMap::get_progress_level( const skill_id &ident ) const
 {
-    return get_skill_level_object( ident ).exercise();
+    return static_cast<float>( get_skill_level_object( ident ).exercise() ) / 100.0f;
 }
 
 float SkillLevelMap::get_progress_level( const skill_id &ident, const item &context ) const
