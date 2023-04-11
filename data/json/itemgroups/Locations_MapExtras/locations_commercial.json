@@ -55,11 +55,13 @@
     ]
   },
   {
-    "type": "item_group",
-    "id": "public_sink",
-    "//": "Items you might find in the sink of a public place, like a bathroom.",
-      "items": [ { "item": "liquid_soap", "count": [ 1, 4 ], "prob": 70, "charges-min": 1 } ] 
-  },
+  "type": "item_group",
+  "id": "public_sink",
+  "//": "Items you might find in the sink of a public place, like a bathroom.",
+  "items": [
+    { "item": "liquid_soap", "count": [ 1, 4 ], "prob": 70, "charges-min": 1 }
+  ]
+},
   {
     "id": "glass_shop",
     "type": "item_group",
