@@ -11,6 +11,7 @@
 #include "assign.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "generic_factory.h"
 #include "json.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -53,6 +54,8 @@ void activity_type::load( const JsonObject &jo )
     assign( jo, "multi_activity", result.multi_activity_, false );
     assign( jo, "refuel_fires", result.refuel_fires, false );
     assign( jo, "auto_needs", result.auto_needs, false );
+    optional( jo, false, "completion_eoc", result.completion_EOC );
+    optional( jo, false, "do_turn_eoc", result.do_turn_EOC );
 
     std::string activity_level = jo.get_string( "activity_level", "" );
     if( activity_level.empty() ) {
@@ -120,6 +123,7 @@ bool activity_type::call_finish( player_activity *act, Character *you ) const
         sfx::end_activity_sounds();
         return true;
     }
+
     return false;
 }
 

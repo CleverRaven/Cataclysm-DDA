@@ -123,7 +123,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "SIG MCX Rattler SBR" },
-    "description": "This is a short-barreled, gas-operated rifle, with a 5.5 inch barrel, built-in thin folding stock, and full rail mount on the upper receiver.  This particular one is a select-fire military version.",
+    "description": "A short-barreled, gas-operated rifle, with a 5.5 inch barrel, built-in thin folding stock, and full rail mount on the upper receiver.  This particular one is a select-fire military version.",
     "weight": "2590 g",
     "volume": "2850 ml",
     "//": "This is the unfolded version of the weapon. Folded, it's 597 mm",

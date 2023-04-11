@@ -357,6 +357,34 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
 
 }
 
+static int creature_select_menu( const std::vector<Creature *> &talker_list,
+                                 const std::string &prompt,
+                                 const bool everyone = true )
+{
+    if( talker_list.empty() ) {
+        return -1;
+    }
+    const int npc_count = talker_list.size();
+    if( npc_count == 1 ) {
+        return 0;
+    } else {
+        uilist nmenu;
+        nmenu.text = prompt;
+        for( const Creature *elem : talker_list ) {
+            if( elem->is_npc() ) {
+                nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->as_npc()->name_and_activity() );
+            } else {
+                nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->disp_name() );
+            }
+        }
+        if( npc_count > 1 && everyone ) {
+            nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
+        }
+        nmenu.query();
+        return nmenu.ret;
+    }
+}
+
 std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                                    const std::string &prompt,
                                    const std::function<bool( const Character * )> &exclude_func )
@@ -580,9 +608,10 @@ void game::chat()
     Character &player_character = get_player_character();
     int volume = player_character.get_shout_volume();
 
-    const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
+    const std::vector<Creature *> available = get_creatures_if( [&]( const Creature & guy ) {
         // TODO: Get rid of the z-level check when z-level vision gets "better"
-        return u.posz() == guy.posz() && u.sees( guy.pos() ) &&
+        return ( guy.is_npc() || ( guy.is_monster() && guy.as_monster()->has_flag( MF_CONVERSATION ) &&
+                                   !guy.as_monster()->type->chat_topics.empty() ) ) && u.posz() == guy.posz() && u.sees( guy.pos() ) &&
                rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
     const int available_count = available.size();
@@ -634,11 +663,16 @@ void game::chat()
     nmenu.text = std::string( _( "What do you want to do?" ) );
 
     if( !available.empty() ) {
-        const npc *guy = available.front();
+        const Creature *guy = available.front();
+        std::string title;
+        if( guy->is_npc() ) {
+            title = guy->as_npc()->name_and_activity();
+        } else if( guy->is_monster() ) {
+            title = guy->as_monster()->disp_name();
+        }
         nmenu.addentry( NPC_CHAT_TALK, true, 't', available_count == 1 ?
-                        string_format( _( "Talk to %s" ), guy->name_and_activity() ) :
-                        _( "Talk to…" )
-                      );
+                        string_format( _( "Talk to %s" ), title ) :
+                        _( "Talk to…" ) );
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
@@ -695,7 +729,7 @@ void game::chat()
 
     switch( nmenu.ret ) {
         case NPC_CHAT_TALK: {
-            const int npcselect = npc_select_menu( available, _( "Talk to whom?" ), false );
+            const int npcselect = creature_select_menu( available, _( "Talk to whom?" ), false );
             if( npcselect < 0 ) {
                 return;
             }
@@ -2192,6 +2226,26 @@ void talk_effect_fun_t<T>::set_remove_trait( const JsonObject &jo, const std::st
     str_or_var<T> old_trait = get_str_or_var<T>( jo.get_member( member ), member, true );
     function = [is_npc, old_trait]( const T & d ) {
         d.actor( is_npc )->unset_mutation( trait_id( old_trait.evaluate( d ) ) );
+    };
+}
+
+template<class T>
+void talk_effect_fun_t<T>::set_learn_martial_art( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var<T> ma_to_learn = get_str_or_var<T>( jo.get_member( member ), member, true );
+    function = [is_npc, ma_to_learn]( const T & d ) {
+        d.actor( is_npc )->learn_martial_art( matype_id( ma_to_learn.evaluate( d ) ) );
+    };
+}
+
+template<class T>
+void talk_effect_fun_t<T>::set_forget_martial_art( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    str_or_var<T> ma_to_forget = get_str_or_var<T>( jo.get_member( member ), member, true );
+    function = [is_npc, ma_to_forget]( const T & d ) {
+        d.actor( is_npc )->forget_martial_art( matype_id( ma_to_forget.evaluate( d ) ) );
     };
 }
 
@@ -4388,6 +4442,14 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_mutate_category( jo, "u_mutate_category" );
     } else if( jo.has_member( "npc_mutate_category" ) ) {
         subeffect_fun.set_mutate_category( jo, "npc_mutate_category", is_npc );
+    } else if( jo.has_member( "u_learn_martial_art" ) ) {
+        subeffect_fun.set_learn_martial_art( jo, "u_learn_martial_art" );
+    } else if( jo.has_member( "npc_learn_martial_art" ) ) {
+        subeffect_fun.set_learn_martial_art( jo, "npc_learn_martial_art", is_npc );
+    } else if( jo.has_member( "u_forget_martial_art" ) ) {
+        subeffect_fun.set_forget_martial_art( jo, "u_forget_martial_art" );
+    } else if( jo.has_member( "npc_forget_martial_art" ) ) {
+        subeffect_fun.set_forget_martial_art( jo, "npc_forget_martial_art", is_npc );
     } else if( jo.has_int( "u_spend_cash" ) ) {
         subeffect_fun.set_u_spend_cash( jo, "u_spend_cash" );
     } else if( jo.has_string( "npc_change_faction" ) ) {

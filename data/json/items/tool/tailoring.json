@@ -167,7 +167,7 @@
     "id": "needle_steel",
     "type": "TOOL",
     "name": { "str": "needle" },
-    "description": "This is a stainless steel needle.  It would be useful for making clothing and items.",
+    "description": "A stainless steel needle.  It would be useful for making clothing and items.",
     "weight": "8 g",
     "volume": "1 ml",
     "price": 0,
