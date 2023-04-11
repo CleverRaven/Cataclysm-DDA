@@ -489,6 +489,22 @@
     "color": "white"
   },
   {
+    "id": "bundle_nylon",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "bundle of synthetic fabric", "str_pl": "bundles of synthetic fabric" },
+    "description": "Fifty synthetic fabric patches, bundled tightly together for storage.  Disassemble to unpack.",
+    "//": "Weight is 50 x 5750mg per patch",
+    "weight": "287500 mg",
+    "//2": "Volume is 50 x 5ml per patch",
+    "volume": "250ml",
+    "price": 0,
+    "price_postapoc": 500,
+    "material": [ "nylon" ],
+    "symbol": ",",
+    "color": "white"
+  },
+  {
     "id": "bundle_plank",
     "type": "GENERIC",
     "category": "spare_parts",
