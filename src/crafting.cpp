@@ -861,7 +861,7 @@ void Character::start_craft( craft_command &command, const std::optional<tripoin
         return;
     }
     const recipe &making = craft.get_making();
-    if( get_skill_level( command.get_skill_id() ) > making.get_skill_cap() ) {
+    if( static_cast<int>( get_skill_level( command.get_skill_id() ) ) > making.get_skill_cap() ) {
         handle_skill_warning( command.get_skill_id(), true );
     }
 
@@ -983,7 +983,7 @@ bool Character::craft_proficiency_gain( const item &craft, const time_duration &
 
 float Character::get_recipe_weighted_skill_average( const recipe &making ) const
 {
-    int secondary_skill_total = 0;
+    float secondary_skill_total = 0;
     int secondary_difficulty = 0;
     for( const std::pair<const skill_id, int> &count_secondaries : making.required_skills ) {
         // the difficulty of each secondary skill, count_secondaries.second, adds weight:
@@ -992,7 +992,7 @@ float Character::get_recipe_weighted_skill_average( const recipe &making ) const
         secondary_difficulty += count_secondaries.second;
     }
     add_msg_debug( debugmode::DF_CRAFTING,
-                   "For craft %s, has %d secondary skills with difficulty sum %d", making.ident().str(),
+                   "For craft %s, has %g secondary skills with difficulty sum %d", making.ident().str(),
                    secondary_skill_total, secondary_difficulty );
     // The primary required skill counts extra compared to the secondary skills, before factoring in the
     // weight added by the required level.
@@ -2702,7 +2702,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     }
 
     // Player skills should determine how many components are returned
-    int skill_dice = 2 + get_skill_level( dis.skill_used ) * 4;
+    int skill_dice = 2 + round( get_skill_level( dis.skill_used ) * 4 );
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases success rate for disassembling items
