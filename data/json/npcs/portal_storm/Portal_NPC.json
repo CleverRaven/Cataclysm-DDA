@@ -8,7 +8,6 @@
     "class": "NC_PORTAL_PERSON",
     "attitude": 0,
     "mission": 3,
-    "common": false,
     "chat": "TALK_PORTAL_PERSON_1",
     "faction": "no_faction"
   },
@@ -16,6 +15,7 @@
     "type": "npc_class",
     "id": "NC_PORTAL_PERSON",
     "name": { "str": "No class" },
+    "common": false,
     "job_description": "I'm from another world.",
     "traits": [ { "group": "Appearance_Latin" } ],
     "skills": [

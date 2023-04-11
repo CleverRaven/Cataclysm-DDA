@@ -619,7 +619,7 @@
     "type": "terrain",
     "id": "t_card_science_mu",
     "name": "Systems: slate zone card reader",
-    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom and a node graph on a slate background.  You could swipe a security employee badge near it to unlock the gates.",
+    "description": "A smartcard reader.  It sports the stylized symbol of an atom and a node graph on a slate background.  You could swipe a security employee badge near it to unlock the gates.",
     "//": "Tier 3 card for a lab.  High security access.",
     "symbol": "6",
     "color": "dark_gray",

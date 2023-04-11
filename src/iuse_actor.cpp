@@ -2494,7 +2494,9 @@ std::optional<int> holster_actor::use( Character &you, item &it, bool, const tri
             internal_item = *iter;
         }
     } else {
-        internal_item = all_items.front();
+        if( !all_items.empty() ) {
+            internal_item = all_items.front();
+        }
     }
 
     if( pos < -1 ) {
@@ -4297,6 +4299,7 @@ std::optional<int> modify_gunmods_actor::use( Character &p, item &it, bool,
         // set gun to default in case this changes anything
         it.gun_set_mode( gun_mode_DEFAULT );
         p.invoke_item( mods[prompt.ret], "transform", pnt );
+        it.on_contents_changed();
         return 0;
     }
 
@@ -4755,9 +4758,18 @@ std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
 void effect_on_conditons_actor::load( const JsonObject &obj )
 {
     description = obj.get_string( "description" );
+    obj.read( "menu_text", menu_text );
     for( JsonValue jv : obj.get_array( "effect_on_conditions" ) ) {
         eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
+}
+
+std::string effect_on_conditons_actor::get_name() const
+{
+    if( !menu_text.empty() ) {
+        return menu_text.translated();
+    }
+    return iuse_actor::get_name();
 }
 
 void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -4765,9 +4777,13 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
     dump.emplace_back( "DESCRIPTION", description );
 }
 
-std::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool,
+std::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool t,
         const tripoint & ) const
 {
+    if( t ) {
+        return std::nullopt;
+    }
+
     Character *char_ptr = nullptr;
     if( avatar *u = p.as_avatar() ) {
         char_ptr = u;

@@ -107,6 +107,26 @@
   },
   {
     "type": "mutation",
+    "id": "perk_gymrat",
+    "name": { "str": "Gym Rat" },
+    "points": 0,
+    "description": "Your time exercising has gotten you used to being drenched in your own sweat.  Being wet doesn't bother you as much anymore.",
+    "category": [ "perk" ],
+    "wet_protection": [
+      { "part": "head", "neutral": 6 },
+      { "part": "leg_l", "neutral": 8 },
+      { "part": "leg_r", "neutral": 8 },
+      { "part": "foot_l", "neutral": 2 },
+      { "part": "foot_r", "neutral": 2 },
+      { "part": "arm_l", "neutral": 8 },
+      { "part": "arm_r", "neutral": 8 },
+      { "part": "hand_l", "neutral": 12 },
+      { "part": "hand_r", "neutral": 12 },
+      { "part": "torso", "neutral": 10 }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_thick_skull",
     "name": { "str": "Thick Skull" },
     "points": 0,
@@ -143,12 +163,30 @@
   },
   {
     "type": "mutation",
+    "id": "perk_quickdraw",
+    "name": { "str": "Quickdraw" },
+    "points": 0,
+    "description": "Practicing with handguns has improved your draw speed with pretty much everything.  Retrieve objects 25% faster from containers.",
+    "category": [ "perk" ],
+    "obtain_cost_multiplier": 0.75
+  },
+  {
+    "type": "mutation",
     "id": "perk_tuck_and_roll",
     "name": { "str": "Tuck and Roll" },
     "points": 0,
     "description": "At some point you got really good at falling off rooftops.  Take 40% less fall damage.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -0.4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_surgical_strikes",
+    "name": { "str": "Surgical Strikes" },
+    "points": 0,
+    "description": "Careful aim allows you to take down game with little tissue damage.  Enemies you kill tend to stay intact.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": 30.0 } ] } ]
   },
   {
     "type": "mutation",

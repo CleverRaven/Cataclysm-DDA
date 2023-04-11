@@ -1087,7 +1087,11 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
             it.ethereal = true;
         }
 
-        if( player_character.can_wear( it ).success() ) {
+        if( it.ethereal && player_character.is_wearing( it.typeId() ) ) {
+            // Ethereal equipment already exists so just update its duration
+            item *existing_item = player_character.item_worn_with_id( it.typeId() );
+            existing_item->set_var( "ethereal", to_turns<int>( sp.duration_turns( caster ) ) );
+        } else if( player_character.can_wear( it ).success() ) {
             it.set_flag( json_flag_FIT );
             player_character.wear_item( it, false );
         } else if( !player_character.has_wield_conflicts( it ) &&

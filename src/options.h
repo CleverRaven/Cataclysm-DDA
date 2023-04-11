@@ -215,6 +215,9 @@ class options_manager
         std::string migrateOptionName( const std::string &name ) const;
         std::string migrateOptionValue( const std::string &name, const std::string &val ) const;
 
+        // updates the caches in options_cache.h
+        static void update_options_cache();
+
         /**
          * Returns a copy of the options in the "world default" page. The options have their
          * current value, which acts as the default for new worlds.
@@ -419,7 +422,6 @@ struct option_slider {
         static void finalize_all();
         static void check_consistency();
         void load( const JsonObject &jo, const std::string &src );
-        void finalize();
         void check() const;
         static const std::vector<option_slider> &get_all();
 
@@ -471,8 +473,6 @@ struct option_slider {
         int random_level() const;
 };
 
-bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
-
 /** A mapping(string:string) that stores all tileset values.
  * Firsts string is tileset NAME from config.
  * Second string is directory that contain tileset.
@@ -485,6 +485,11 @@ extern std::map<std::string, cata_path> TILESETS;
 extern std::map<std::string, cata_path> SOUNDPACKS;
 
 options_manager &get_options();
+
+inline bool has_option( const std::string &name )
+{
+    return get_options().has_option( name );
+}
 
 template<typename T>
 inline T get_option( const std::string &name )

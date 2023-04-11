@@ -1425,7 +1425,7 @@
     "material": [ "carbide", "qt_steel", "lvl4ballisticglass", "superalloy" ],
     "weight": "9500 g",
     "volume": "4500 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "heavy_atomic_battery_cell" ] } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7000 } } ],
     "ammo": "battery",
     "use_action": {
       "type": "transform",
@@ -1452,7 +1452,10 @@
       "SUN_GLASSES",
       "NO_REPAIR",
       "NANOFAB_REPAIR",
-      "PADDED"
+      "PADDED",
+      "USE_UPS",
+      "NO_UNLOAD",
+      "COMBAT_TOGGLEABLE"
     ],
     "relic_data": { "passive_effects": [ { "id": "ench_climate_control_all" } ] },
     "armor": [
@@ -1461,7 +1464,8 @@
         "encumbrance": 10,
         "coverage": 100,
         "covers": [ "mouth", "eyes" ],
-        "layers": [ "OUTER" ]
+        "layers": [ "OUTER" ],
+        "volume_encumber_modifier": 0
       },
       {
         "material": [
@@ -1473,7 +1477,8 @@
         "encumbrance": 0,
         "coverage": 100,
         "covers": [ "head" ],
-        "layers": [ "OUTER" ]
+        "layers": [ "OUTER" ],
+        "volume_encumber_modifier": 0
       },
       {
         "material": [
@@ -1484,7 +1489,8 @@
         ],
         "encumbrance": 10,
         "coverage": 100,
-        "covers": [ "torso" ]
+        "covers": [ "torso" ],
+        "volume_encumber_modifier": 0
       },
       {
         "material": [
@@ -1494,7 +1500,8 @@
         "//": "hands are lighter armored",
         "encumbrance": 5,
         "coverage": 100,
-        "covers": [ "hand_l", "hand_r" ]
+        "covers": [ "hand_l", "hand_r" ],
+        "volume_encumber_modifier": 0
       },
       {
         "material": [
@@ -1505,7 +1512,8 @@
         "encumbrance": 10,
         "coverage": 100,
         "covers": [ "foot_l", "foot_r" ],
-        "layers": [ "NORMAL", "OUTER" ]
+        "layers": [ "NORMAL", "OUTER" ],
+        "volume_encumber_modifier": 0
       },
       {
         "material": [
@@ -1517,7 +1525,8 @@
         "//": "limbs are lighter armored than torso but still strongly armored this is the non joints so extra hardsteel",
         "encumbrance": 10,
         "coverage": 100,
-        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ]
+        "covers": [ "arm_l", "arm_r", "leg_l", "leg_r" ],
+        "volume_encumber_modifier": 0
       }
     ]
   },
@@ -1553,7 +1562,10 @@
       "GNV_EFFECT",
       "NO_REPAIR",
       "NANOFAB_REPAIR",
-      "PADDED"
+      "PADDED",
+      "USE_UPS",
+      "NO_UNLOAD",
+      "COMBAT_TOGGLEABLE"
     ]
   },
   {
