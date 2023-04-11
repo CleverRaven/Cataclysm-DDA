@@ -198,7 +198,7 @@
     "name": { "str": "Talmud", "str_pl": "volumes of the Talmud" },
     "description": "One of the central texts of Rabbinic Judaism, the Talmud expounds upon the Hebrew Bible with teachings and opinions of thousands of rabbis.",
     "weight": "2041 g",
-    "volume": "1.5 L",
+    "volume": "1500 ml",
     "copy-from": "holybook_abstract",
     "variant_type": "generic",
     "variants": [
