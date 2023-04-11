@@ -40,7 +40,7 @@
         "R": "t_column",
         "s": "t_concrete",
         ".": "t_region_groundcover_urban",
-        "5": "t_museum_glass",
+        "5": "t_wall_glass_alarm",
         "L": "t_door_locked_alarm",
         "4": "t_gutter_downspout",
         "|": "t_brick_wall"

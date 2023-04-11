@@ -10,7 +10,7 @@
       "furniture": { "0": "f_mannequin" },
       "items": {
         "0": [
-          { "item": "alt_pants", "chance": 100 },
+          { "item": "pants", "chance": 100 },
           { "item": "alt_shirts", "chance": 100 },
           { "item": "museum_plaques_visitors", "chance": 100 },
           { "item": "otherworld_gear", "chance": 10 }

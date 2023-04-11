@@ -49,5 +49,18 @@
       { "group": "xe_eater_spells_mid", "prob": 6 },
       { "group": "xe_inventor_spells_mid", "prob": 6 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "otherworld_gear",
+    "//": "Group for museum of Curiosities mannequin items.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "museum_primitive", "prob": 100 },
+      { "group": "museum_misc", "prob": 50 },
+      { "group": "fae_furs", "prob": 12 },
+      { "group": "bannerman_armor", "prob": 6 },
+      { "group": "dreamer_artifact", "prob": 6 }
+    ]
   }
 ]
