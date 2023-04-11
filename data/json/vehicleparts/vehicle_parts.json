@@ -1464,7 +1464,6 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
   },
   {
@@ -1551,7 +1550,6 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
   },
   {
