@@ -403,7 +403,8 @@ static void grant_skills_to_character( Character &you, const recipe &r, int offs
         you.set_knowledge_level( skl.first, apply_offset( skl.second, offset ) );
     }
     // and just in case "used" skill difficulty is higher, set that too
-    int value = apply_offset( std::max( r.difficulty, you.get_skill_level( r.skill_used ) ), offset );
+    int value = apply_offset( std::max( r.difficulty,
+                                        static_cast<int>( you.get_skill_level( r.skill_used ) ) ), offset );
     you.set_skill_level( r.skill_used, value );
     you.set_knowledge_level( r.skill_used, value );
 }

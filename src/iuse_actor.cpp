@@ -1551,7 +1551,8 @@ void salvage_actor::cut_up( Character &p, item_location &cut ) const
     float efficiency = 1.0;
     // Higher fabrication, less chance of entropy, but still a chance.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
-    int entropy_threshold = std::max( 0, 5 - p.get_skill_level( skill_fabrication ) );
+    int entropy_threshold = std::max( 0,
+                                      5 - static_cast<int>( round( p.get_skill_level( skill_fabrication ) ) ) );
     if( rng( 1, 10 ) <= entropy_threshold ) {
         efficiency *= 0.9;
     }

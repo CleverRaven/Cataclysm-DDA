@@ -1652,7 +1652,7 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( J const &jo )
         } else if( checked_value == "skill_level" ) {
             const skill_id skill( jo.get_string( "skill" ) );
             return [is_npc, skill]( const T & d ) {
-                return d.actor( is_npc )->get_skill_level( skill );
+                return static_cast<int>( d.actor( is_npc )->get_skill_level( skill ) );
             };
         } else if( checked_value == "pos_x" ) {
             return [is_npc]( const T & d ) {
