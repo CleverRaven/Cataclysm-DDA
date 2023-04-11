@@ -546,8 +546,13 @@ void math_exp<D>::math_exp_impl::new_var( std::string_view str )
 template<class D>
 void math_exp<D>::math_exp_impl::error( std::string_view str, std::string_view what )
 {
-    std::ptrdiff_t const offset =
-        std::clamp<std::ptrdiff_t>( last_token.data() - str.data(), 0, 80 );
+    std::ptrdiff_t offset =
+        std::max<std::ptrdiff_t>( 0, last_token.data() - str.data() );
+    // center the problematic token on screen if the expression is too long
+    if( offset > 80 ) {
+        str.remove_prefix( offset - 40 );
+        offset = 40;
+    }
     // NOLINTNEXTLINE(cata-translate-string-literal): debug message
     std::string mess = string_format( "Expression parsing failed: %s", what.data() );
     if( last_token == "(" && state.expected == parse_state::expect::oper &&
