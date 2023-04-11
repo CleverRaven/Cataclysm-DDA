@@ -39,7 +39,7 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
     }
 
     // how many levels are we above the requirement?
-    const int lvl = std::max( who.get_skill_level( sk ) - iter->second, 1 );
+    const int lvl = std::max( static_cast<int>( who.get_skill_level( sk ) ) - iter->second, 1 );
 
     // scale xp gain per hour according to relative level
     // 0-1: 60 xp /h
