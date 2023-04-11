@@ -791,7 +791,7 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
     // cap our maximum burst size by ammo and energy
     if( !gun.has_flag( flag_VEHICLE ) ) {
         shots = std::min( shots, gun.shots_remaining( this ) );
-    } else {
+    } else if( gun.ammo_required() ) {
         // This checks ammo only. Vehicle turret energy drain is handled elsewhere.
         shots = std::min( shots, static_cast<int>( gun.ammo_remaining() / gun.ammo_required() ) );
     }
