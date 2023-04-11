@@ -464,6 +464,7 @@
       { "monster": "mon_zombear" },
       { "monster": "mon_zoose" },
       { "monster": "mon_zombull" },
+      { "monster": "mon_zeindeer", "event": "christmas" },
       { "monster": "mon_zombie_medical_regenerating" },
       { "monster": "mon_zombie_brute_winged" },
       { "monster": "mon_spawn_raptor" },
