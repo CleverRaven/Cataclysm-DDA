@@ -1251,6 +1251,11 @@ void veh_interact::do_repair()
                 }
                 nmsg += res.second;
             }
+            if( pt.has_flag( vp_flag::carried_flag ) ) {
+                nmsg += colorize( _( "\nUnracking is required before replacing this part.\n" ),
+                                  c_red );
+                ok = false;
+            }
 
         } else {
             if( !pt.is_repairable() ) {
@@ -2704,7 +2709,7 @@ void veh_interact::display_stats() const
 
     //This lambda handles printing parts in the "Most damaged" and "Needs repair" cases
     //for the veh_interact ui
-    const auto print_part = [&]( const std::string & str, int slot, vehicle_part * pt ) {
+    const auto print_part = [&]( const std::string &str, int slot, vehicle_part * pt ) {
         mvwprintz( w_stats, point( x[slot], y[slot] ), c_light_gray, str );
         int iw = utf8_width( str ) + 1;
         return fold_and_print( w_stats, point( x[slot] + iw, y[slot] ), w[slot], c_light_gray, pt->name() );
