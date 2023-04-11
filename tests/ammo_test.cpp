@@ -10,13 +10,13 @@ static const ammotype ammo_762( "762" );
 static const ammotype ammo_9mm( "9mm" );
 static const ammotype ammo_battery( "battery" );
 
-static const itype_id itype_test_100mm_ammo( "test_100mm_ammo" );
-static const itype_id itype_test_100mm_ammo_relative( "test_100mm_ammo_relative" );
 static const itype_id itype_44army( "44army" );
 static const itype_id itype_9mm( "9mm" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_fish_bait( "fish_bait" );
 static const itype_id itype_pebble( "pebble" );
+static const itype_id itype_test_100mm_ammo( "test_100mm_ammo" );
+static const itype_id itype_test_100mm_ammo_relative( "test_100mm_ammo_relative" );
 static const itype_id itype_thread( "thread" );
 
 // Functions:
