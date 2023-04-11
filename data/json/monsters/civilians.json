@@ -104,5 +104,16 @@
     "melee_dice": 2,
     "melee_dice_sides": 3,
     "melee_damage": [ { "damage_type": "bash", "amount": 4 } ]
+  },
+  {
+    "name": "GROUP_CIVILIANS_STANDARD",
+    "//": "Used for deduplication only, so one does not have to repeat the same standard ratio over and over again",
+    "type": "monstergroup",
+    "monsters": [
+      { "monster": "mon_civilian_stationary", "weight": 30, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_zombiefighter", "weight": 16, "cost_multiplier": 0, "ends": "3 days" },
+      { "monster": "mon_civilian_police", "weight": 4, "cost_multiplier": 3, "ends": "3 days" },
+      { "monster": "mon_civilian_panic", "weight": 60, "cost_multiplier": 0, "ends": "5 days", "pack_size": [ 1, 5 ] }
+    ]
   }
 ]
