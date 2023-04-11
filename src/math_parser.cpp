@@ -250,6 +250,7 @@ class math_exp<D>::math_exp_impl
         void new_var( std::string_view str );
         void maybe_first_argument();
         void error( std::string_view str, std::string_view what );
+        void validate_string( std::string_view str, std::string_view label, std::string_view badlist );
         std::vector<std::string> _get_strings( std::vector<thingie<D>> const &params,
                                                size_t nparams ) const;
 };
@@ -344,6 +345,7 @@ void math_exp<D>::math_exp_impl::parse_string( std::string_view str, parse_state
     if( arity.empty() || !arity.top().stringy ) {
         throw std::invalid_argument( "String arguments can only be used in dialogue functions" );
     }
+    validate_string( str, "string", "\'" );
     output.emplace( std::string{ str } );
     state.set( parse_state::expect::oper, false );
 }
@@ -537,6 +539,7 @@ void math_exp<D>::math_exp_impl::new_var( std::string_view str )
                 debugmsg( "Unknown scope %c in variable %.*s", str[0], str.size(), str.data() );
         }
     }
+    validate_string( scoped, "variable", " \'" );
     output.emplace( std::in_place_type_t<var<D>>(), type, "npctalk_var_" + std::string{ scoped } );
 }
 
@@ -555,6 +558,19 @@ void math_exp<D>::math_exp_impl::error( std::string_view str, std::string_view w
     }
 
     debugmsg( "%s\n\n%.80s\n%*s^\n", mess, str.data(), offset, " " );
+}
+
+template<class D>
+void math_exp<D>::math_exp_impl::validate_string( std::string_view str, std::string_view label,
+        std::string_view badlist )
+{
+    std::string_view::size_type const pos = str.find_first_of( badlist );
+    if( pos != std::string_view::npos ) {
+        last_token.remove_prefix( pos + ( label == "string" ? 1 : 0 ) );
+        // NOLINTNEXTLINE(cata-translate-string-literal): debug message
+        throw std::invalid_argument( string_format( R"(Stray " %c " inside %s operand "%.*s")",
+                                     str[pos], label.data(), str.size(), str.data() ) );
+    }
 }
 
 template<class D>
