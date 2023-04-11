@@ -1,6 +1,7 @@
 [
   {
     "type": "item_group",
+    "subtype": "distribution",
     "id": "alt_shirts",
     "items": [
       [ "alt_tshirt", 80 ],
@@ -27,6 +28,26 @@
       [ "rashguard", 10 ],
       [ "sleeveless_tunic", 5 ],
       [ "poncho", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "display_case_items",
+    "//": "Group for museum of Curiosities display case items.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "museum_primitive", "prob": 200 },
+      { "group": "museum_misc", "prob": 100 },
+      { "group": "xe_dreamer_spells_low", "prob": 12 },
+      { "group": "xe_classless_spells_low", "prob": 25 },
+      { "group": "xe_dreamsmith_spells_low", "prob": 12 },
+      { "group": "xe_eater_spells_low", "prob": 12 },
+      { "group": "xe_inventor_spells_low", "prob": 12 },
+      { "group": "xe_dreamer_spells_mid", "prob": 6 },
+      { "group": "xe_classless_spells_mid", "prob": 12 },
+      { "group": "xe_dreamsmith_spells_mid", "prob": 6 },
+      { "group": "xe_eater_spells_mid", "prob": 6 },
+      { "group": "xe_inventor_spells_mid", "prob": 6 }
     ]
   }
 ]
