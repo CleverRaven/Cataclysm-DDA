@@ -244,26 +244,26 @@ monster::monster( const mtype_id &id ) : monster()
         battery_item = cata::make_value<item>( mech_bat_item );
     }
     if( monster::has_flag( MF_PET_MOUNTABLE ) ) {
-        if( !type->mount_tied_item.is_empty() ) {
-            itype_id tied_item_id = itype_id( type->mount_tied_item );
+        if( !type->mount_items.tied.is_empty() ) {
+            itype_id tied_item_id = itype_id( type->mount_items.tied );
             item tied_item_item = item( tied_item_id, calendar::turn_zero );
             add_effect( effect_leashed, 1_turns, true );
             tied_item = cata::make_value<item>( tied_item_item );
         }
-        if( !type->mount_tack_item.is_empty() ) {
-            itype_id tack_item_id = itype_id( type->mount_tack_item );
+        if( !type->mount_items.tack.is_empty() ) {
+            itype_id tack_item_id = itype_id( type->mount_items.tack );
             item tack_item_item = item( tack_item_id, calendar::turn_zero );
             add_effect( effect_monster_saddled, 1_turns, true );
             tack_item = cata::make_value<item>( tack_item_item );
         }
-        if( !type->mount_armor_item.is_empty() ) {
-            itype_id armor_item_id = itype_id( type->mount_armor_item );
+        if( !type->mount_items.armor.is_empty() ) {
+            itype_id armor_item_id = itype_id( type->mount_items.armor );
             item armor_item_item = item( armor_item_id, calendar::turn_zero );
             add_effect( effect_monster_armor, 1_turns, true );
             armor_item = cata::make_value<item>( armor_item_item );
         }
-        if( !type->mount_storage_item.is_empty() ) {
-            itype_id storage_item_id = itype_id( type->mount_storage_item );
+        if( !type->mount_items.storage.is_empty() ) {
+            itype_id storage_item_id = itype_id( type->mount_items.storage );
             item storage_item_item = item( storage_item_id, calendar::turn_zero );
             add_effect( effect_has_bag, 1_turns, true );
             tack_item = cata::make_value<item>( storage_item_item );
