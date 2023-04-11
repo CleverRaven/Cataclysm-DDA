@@ -2674,6 +2674,19 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
             info.emplace_back( "AMMO", space + _( "Critical multiplier: " ), ammo.critical_multiplier );
         }
+        if( parts->test( iteminfo_parts::AMMO_BARREL_DETAILS ) ) {
+            std::string barrel_details;
+            for( const damage_unit &du : ammo.damage.damage_units ) {
+                barrel_details += enumerate_as_string( du.barrels,
+                []( const barrel_desc & bd ) {
+                    return string_format( "<info>%d %s</info>: %d", convert_length( bd.barrel_length ),
+                                          length_units( bd.barrel_length ), static_cast<int>( bd.amount ) );
+                } );
+            }
+            if( !barrel_details.empty() ) {
+                info.emplace_back( "AMMO", _( "Damage by barrel length: " ), barrel_details );
+            }
+        }
     }
 
     std::vector<std::string> fx;
@@ -2827,6 +2840,14 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
     }
     info.back().bNewLine = true;
+
+    if( mod->barrel_length().value() > 0 ) {
+        if( parts->test( iteminfo_parts::GUN_BARRELLENGTH ) ) {
+            info.emplace_back( "GUN", string_format( _( "Barrel Length: %d %s" ),
+                               convert_length( mod->barrel_length() ), length_units( mod->barrel_length() ) ),
+                               iteminfo::no_flags );
+        }
+    }
 
     if( mod->ammo_required() && curammo->ammo->critical_multiplier != 1.0 ) {
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
@@ -7041,6 +7062,23 @@ units::length item::length() const
     return max;
 }
 
+units::length item::barrel_length() const
+{
+    if( is_gun() ) {
+        units::length l = type->gun->barrel_length;
+        for( const item *mod : mods() ) {
+            if( mod->type->gunmod->location.str() == "barrel" ) {
+                if( mod->type->integral_longest_side > 0_mm ) {
+                    l = mod->type->integral_longest_side;
+                }
+            }
+        }
+        return l;
+    } else {
+        return 0_mm;
+    }
+}
+
 units::volume item::collapsed_volume_delta() const
 {
     units::volume delta_volume = 0_ml;
@@ -10079,19 +10117,51 @@ damage_instance item::gun_damage( bool with_ammo, bool shot ) const
     if( !is_gun() ) {
         return damage_instance();
     }
-    damage_instance ret = type->gun->damage;
+
+    units::length bl = barrel_length();
+    damage_instance ret = type->gun->damage.di_considering_length( bl );
 
     for( const item *mod : gunmods() ) {
-        ret.add( mod->type->gunmod->damage );
+        ret.add( mod->type->gunmod->damage.di_considering_length( bl ) );
     }
 
     if( with_ammo && ammo_data() ) {
         if( shot ) {
-            ret.add( ammo_data()->ammo->shot_damage );
+            ret.add( ammo_data()->ammo->shot_damage.di_considering_length( bl ) );
         } else {
-            ret.add( ammo_data()->ammo->damage );
+            ret.add( ammo_data()->ammo->damage.di_considering_length( bl ) );
         }
     }
+
+    int item_damage = damage_level();
+    if( item_damage > 0 ) {
+        // TODO: This isn't a good solution for multi-damage guns/ammos
+        for( damage_unit &du : ret ) {
+            if( du.amount <= 1.0 ) {
+                continue;
+            }
+            du.amount = std::max<float>( 1.0f, du.amount - item_damage * 2 );
+        }
+    }
+
+    return ret;
+}
+
+damage_instance item::gun_damage( itype_id ammo ) const
+{
+    if( !is_gun() ) {
+        return damage_instance();
+    }
+
+    units::length bl = barrel_length();
+    damage_instance ret = type->gun->damage.di_considering_length( bl );
+
+    for( const item *mod : gunmods() ) {
+        ret.add( mod->type->gunmod->damage.di_considering_length( bl ) );
+    }
+
+    ret.add( ammo->ammo->damage.di_considering_length( bl ) );
+
 
     int item_damage = damage_level();
     if( item_damage > 0 ) {
@@ -10567,26 +10637,36 @@ itype_id item::ammo_default( bool conversion ) const
     return itype_id::NULL_ID();
 }
 
-std::string item::print_ammo( ammotype at ) const
+std::string item::print_ammo( ammotype at, const item *gun ) const
 {
     const item *mag = magazine_current();
     if( mag ) {
-        return mag->print_ammo( at );
+        return mag->print_ammo( at, this );
     } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
         return _( "energy" );
     }
 
+    // for magazines if we have a gun in mind display damage as well
     if( type->magazine ) {
-        return enumerate_as_string( type->magazine->cached_ammos[at],
-        []( const itype_id & id ) {
-            return string_format( "<info>%s</info>", id->nname( 1 ) );
-        } );
+        if( gun ) {
+            return enumerate_as_string( type->magazine->cached_ammos[at],
+            [gun]( const itype_id & id ) {
+                return string_format( "<info>%s(%d)</info>", id->nname( 1 ),
+                                      static_cast<int>( gun->gun_damage( id ).total_damage() ) );
+            } );
+        } else {
+            return enumerate_as_string( type->magazine->cached_ammos[at],
+            []( const itype_id & id ) {
+                return string_format( "<info>%s</info>", id->nname( 1 ) );
+            } );
+        }
     }
 
     if( type->gun ) {
         return enumerate_as_string( type->gun->cached_ammos[at],
-        []( const itype_id & id ) {
-            return string_format( "<info>%s</info>", id->nname( 1 ) );
+        [this]( const itype_id & id ) {
+            return string_format( "<info>%s(%d)</info>", id->nname( 1 ),
+                                  static_cast<int>( gun_damage( id ).total_damage() ) );
         } );
     }
 
