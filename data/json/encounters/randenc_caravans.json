@@ -75,5 +75,81 @@
       ],
       "remove_vehicles": [ { "vehicles": [ "FM_early_pickup" ], "x": [ 1, 15 ], "y": [ 1, 10 ] } ]
     }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_Roadstop_Refugee_add",
+    "recurrence": 3000,
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_near_om_location": "roadstop_a", "range": 30 },
+        "is_day",
+        { "one_in_chance": 10 },
+        { "days_since_cataclysm": 7 },
+        {
+          "not": { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "refugee", "op": "<", "time": "1 d" }
+        },
+        { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
+        { "not": { "days_since_cataclysm": 45 } },
+        { "not": { "is_season": "winter" } }
+      ]
+    },
+    "effect": [
+      { "mapgen_update": "nest_RandEnc_roadstop_a_refugee_add", "om_terrain": "roadstop_a" },
+      { "u_add_var": "RandEnc", "type": "timer", "context": "refugee", "time": true },
+      {
+        "u_location_variable": { "global_val": "randenc_refugee_loc" },
+        "target_params": { "om_terrain": "roadstop_a" }
+      },
+      { "math": [ "RandEnc_Refugee", "=", "1" ] }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_RandEnc_Roadstop_Refugee_remove",
+    "recurrence": 200,
+    "global": true,
+    "condition": {
+      "and": [
+        { "u_compare_time_since_var": "RandEnc", "type": "timer", "context": "refugee", "op": ">", "time": "1 h" },
+        { "not": { "u_near_om_location": "roadstop_a", "range": 2 } },
+        { "math": [ "RandEnc_Refugee", "==", "1" ] }
+      ]
+    },
+    "effect": [
+      {
+        "mapgen_update": "nest_RandEnc_roadstop_a_refugee_remove",
+        "om_terrain": "roadstop_a",
+        "target_var": { "global_val": "randenc_refugee_loc" }
+      },
+      { "math": [ "RandEnc_Refugee", "=", "0" ] }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_roadstop_a_refugee_add",
+    "//": "Adds refugee random encounter at this roadstop",
+    "object": {
+      "place_npcs": [
+        { "class": "NC_caravan_refugee_A", "x": 5, "y": 4 },
+        { "class": "NC_caravan_refugee_B", "x": 4, "y": 1 },
+        { "class": "NC_caravan_refugee_C", "x": 4, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "nest_RandEnc_roadstop_a_refugee_remove",
+    "//": "removes refugee random encounter at this roadstop",
+    "object": {
+      "remove_npcs": [
+        { "class": "NC_caravan_refugee_A", "x": 0, "y": 0 },
+        { "class": "NC_caravan_refugee_B", "x": 0, "y": 0 },
+        { "class": "NC_caravan_refugee_C", "x": 0, "y": 0 }
+      ]
+    }
   }
 ]
