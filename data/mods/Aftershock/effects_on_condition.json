@@ -44,7 +44,6 @@
   },
   {
     "type": "effect_on_condition",
-    "effect_on_conditions": [
       {
         "id": "EOC_ESCAPE_POD_CHAIR",
         "effect": [
