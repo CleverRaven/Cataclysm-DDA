@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 
+#include "body_part_set.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "generic_factory.h"
