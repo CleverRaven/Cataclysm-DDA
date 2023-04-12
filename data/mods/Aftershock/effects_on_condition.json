@@ -44,14 +44,21 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_afs_escape_pod_launch",
-    "effect": [
+    "effect_on_conditions": [
       {
-        "u_location_variable": { "global_val": "new_map" },
-        "target_params": { "om_terrain": "afs_crashed_escape_pod_o", "z": 0, "random": true, "search_range": 100, "min_distance": 10 }
-      },
-      { "u_message": "You are slammed back into the chair as the escape pod launches from the ship.", "popup": true },
-      { "u_teleport": { "global_val": "new_map" }, "force": true }
+        "id": "EOC_ESCAPE_POD_CHAIR",
+        "effect": [
+          {
+            "u_location_variable": { "global_val": "new_map" },
+            "target_params": { "om_terrain": "afs_shelter_1_north", "z": 0, "random": true, "search_range": 5, "min_distance": 0 }
+          },
+          {
+            "u_message": "You strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod drops from the ship, plummeting towards the planet below.",
+            "popup": true
+          },
+          { "u_teleport": { "global_val": "new_map" }, "force": true }
+        ]
+      }
     ]
   }
 ]

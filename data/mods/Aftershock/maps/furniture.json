@@ -1156,25 +1156,6 @@
     "deconstruct": {
       "items": [ { "item": "pipe", "count": 10 }, { "item": "cotton_patchwork", "count": [ 30, 33 ] }, { "item": "rope_6" } ]
     },
-    "required_str": 20,
-    "examine_action": {
-      "type": "effect_on_condition",
-      "effect_on_conditions": [
-        {
-          "id": "EOC_ESCAPE_POD",
-          "effect": [
-            {
-              "u_location_variable": { "global_val": "new_map" },
-              "target_params": { "om_terrain": "afs_crashed_escape_pod", "z": 0, "random": true, "search_range": 40, "min_distance": 0 }
-            },
-            {
-              "u_message": "You strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod drops from the ship, plummeting towards the planet below.",
-              "popup": true
-            },
-            { "u_teleport": { "global_val": "new_map" }, "force": true }
-          ]
-        }
-      ]
-    }
+    "required_str": 20
   }
 ]
