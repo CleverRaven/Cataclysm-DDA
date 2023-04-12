@@ -658,7 +658,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                     bool camp_to_npc = false;
                     bool camp_to_camp = false;
                     for( const camp_reference &i : camps_near_player ) {
-                        if( !( i.camp->has_provides( "radio" ) ) ) {
+                        if( !i.camp->has_provides( "radio" ) ) {
                             continue;
                         }
                         if( camp_to_camp ||
