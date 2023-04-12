@@ -2306,7 +2306,6 @@
     "volume": "2750 ml",
     "price": 35988,
     "price_postapoc": 3000,
-
     "to_hit": -1,
     "material": [ "lc_steel_chain" ],
     "symbol": "[",
