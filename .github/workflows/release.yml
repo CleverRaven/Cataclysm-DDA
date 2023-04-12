@@ -32,10 +32,8 @@ jobs:
     steps:
       - name: Get build timestamp
         id: get-timestamp
-        uses: nanzm/get-time-action@v1.1
-        with:
-          timeZone: 0
-          format: 'YYYY-MM-DD-HHmm'
+        run: |
+          echo "time=$(/bin/date -u "+%Y-%m-%d-%H%M")" >> $GITHUB_OUTPUT
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
@@ -48,7 +46,7 @@ jobs:
           tag: ${{ steps.generate_env_vars.outputs.tag_name }}  
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v5.5
@@ -62,7 +60,7 @@ jobs:
           gh api \
             --method POST \
             -H "Accept: application/vnd.github.v3+json" \
-            /repos/CleverRaven/Cataclysm-DDA/releases/generate-notes \
+            /repos/${{ github.repository }}/releases/generate-notes \
             -f tag_name='${{ steps.generate_env_vars.outputs.tag_name }}' \
             -f target_commitish='master' \
             -q .body > CHANGELOG.md
@@ -184,7 +182,7 @@ jobs:
     env:
         ZSTD_CLEVEL: 17
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Get soundpack
         if: matrix.sound == 1
         run: |

@@ -3817,7 +3817,7 @@ std::string options_manager::migrateOptionValue( const std::string &name,
     return iter_val != iter->second.second.end() ? iter_val->second : val;
 }
 
-static void update_options_cache()
+void options_manager::update_options_cache()
 {
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
@@ -3831,7 +3831,7 @@ static void update_options_cache()
 
     // if the tilesets are identical don't duplicate
     use_far_tiles = ::get_option<bool>( "USE_DISTANT_TILES" ) ||
-                    get_option<std::string>( "TILES" ) == get_option<std::string>( "DISTANT_TILES" );
+                    ::get_option<std::string>( "TILES" ) == ::get_option<std::string>( "DISTANT_TILES" );
     use_tiles_overmap = ::get_option<bool>( "USE_OVERMAP_TILES" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
@@ -3840,6 +3840,15 @@ static void update_options_cache()
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
     keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
     use_pinyin_search = ::get_option<bool>( "USE_PINYIN_SEARCH" );
+
+    cata::options::damage_indicators.clear();
+    for( int i = 0; i < 6; i++ ) {
+        const std::string opt_name = "DAMAGE_INDICATOR_LEVEL_" + std::to_string( i );
+        const std::string val = ::has_option( opt_name )
+                                ? ::get_option<std::string>( opt_name )
+                                : "<color_pink>\?\?</color>";
+        cata::options::damage_indicators.emplace_back( val );
+    }
 }
 
 bool options_manager::save() const

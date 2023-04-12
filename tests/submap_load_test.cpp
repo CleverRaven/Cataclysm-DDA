@@ -797,7 +797,7 @@ static void load_from_jsin( submap &sm, const JsonValue &jsin )
     if( sm_json.has_member( "version" ) ) {
         version = sm_json.get_int( "version" );
     }
-    for( JsonMember member : jsin.get_object() ) {
+    for( JsonMember member : sm_json ) {
         std::string name = member.name();
         if( name != "version" ) {
             sm.load( member, name, version );

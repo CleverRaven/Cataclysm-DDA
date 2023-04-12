@@ -432,7 +432,7 @@ void math_exp<D>::math_exp_impl::new_func()
         }
         std::vector<thingie<D>> params( nparams );
         for( typename std::vector<thingie<D>>::size_type i = 0; i < nparams; i++ ) {
-            params[i] = std::move( output.top() );
+            params[nparams - i - 1] = std::move( output.top() );
             output.pop();
         }
         std::visit( overloaded{

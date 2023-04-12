@@ -131,7 +131,7 @@
     "valid": false,
     "description": "Animists are known for their blood magic, and being a Biomancer you are able to take it another step further by strengthening your blood.  The dark arts have opened to you, and while dangerous, are incredible to behold.",
     "prereqs": [ "BIOMANCER", "ANIMIST" ],
-    "enchantments": [ "BLOOD_MAGE_HEALING" ],
+    "enchantments": [ "BLOOD_MAGE" ],
     "spells_learned": [ [ "banishment_greater", 5 ], [ "demonic_possession", 5 ] ],
     "cancels": [
       "ALCHEMIST",
@@ -240,7 +240,7 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT", "INFECTION_IMMUNE" ]
   },
   {
     "id": "CRUSADER",
@@ -491,7 +491,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "enchantments": [ "GOLEMANCER_BLOCK" ],
+    "enchantments": [ "GOLEMANCER" ],
     "description": "The Golemancer is the ancient myth of the clay golem, made reality from constant use of Animist summons and Earthshaper self-strengthening spells.  Takes some traits from the golems they create, such as immunity to slowing effects.",
     "prereqs": [ "ANIMIST", "EARTHSHAPER" ],
     "spells_learned": [ [ "golem_push", 5 ], [ "summon_golem_clay", 5 ] ],
@@ -776,7 +776,6 @@
     "valid": false,
     "description": "The Radiation mage was discovered as an attunement in the 20th century, closely guarded as a military secret in close relation to the Manhattan Project.  It was declassified in 1989 as a part of the attunement awareness movement, but it is still poorly understood even by the very few researchers that wrote books on attunements.",
     "prereqs": [ "STORMSHAPER", "ANIMIST" ],
-    "enchantments": [ "RADIATION_MAGE_CLAIRVOYANCE" ],
     "spells_learned": [ [ "shortwave", 5 ], [ "gamma_burst", 5 ] ],
     "cancels": [
       "ARTIFICER",
@@ -818,7 +817,7 @@
     "description": "Deeply attuned to the spiritual fabric that shapes and nurtures the natural world, shamans call upon the primeval spirits of nature for aid and advice.  Be careful however, for ancient spirits are fickle and unknowable things.",
     "prereqs": [ "ANIMIST", "DRUID" ],
     "spells_learned": [ [ "butterfly_swarm", 5 ], [ "summon_shambling_mound", 5 ] ],
-    "enchantments": [ "SHAMAN_MANA_REGEN" ],
+    "enchantments": [ "SHAMAN" ],
     "cancels": [
       "ALCHEMIST",
       "BIOTEK",
@@ -899,6 +898,7 @@
     "description": "The Soulfire is a phenomena of the caster's spirit binding to a fragment of a spirit of flame.  This makes it possible for the Soulfire to use its namesake as an element - much like fire, it does burn, but it burns away at the soul instead of the flesh.",
     "spells_learned": [ [ "burn_at_both_ends", 5 ], [ "soul_afterburner", 5 ] ],
     "prereqs": [ "KELVINIST", "ANIMIST" ],
+    "enchantments": [ "SOULFIRE" ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",
@@ -1183,7 +1183,7 @@
     "valid": false,
     "description": "While biomancers focus on both life and death; Wither Mages set their sights on the transitional period between these two stages.  They wield entropy and decay hand and hand, using it to enhance their combat prowess to surgical precision.  This confluence of abilities are what lead to assassin mages gaining this attunement.",
     "prereqs": [ "DRUID", "MAGUS" ],
-    "enchantments": [ "WITHER_MAGE_AP", "WITHER_MAGE_WITHERING" ],
+    "enchantments": [ "WITHER_MAGE" ],
     "spells_learned": [ [ "assassin_strike", 5 ], [ "life_drain", 5 ] ],
     "cancels": [
       "ALCHEMIST",

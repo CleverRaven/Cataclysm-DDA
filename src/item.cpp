@@ -2674,6 +2674,19 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
             info.emplace_back( "AMMO", space + _( "Critical multiplier: " ), ammo.critical_multiplier );
         }
+        if( parts->test( iteminfo_parts::AMMO_BARREL_DETAILS ) ) {
+            std::string barrel_details;
+            for( const damage_unit &du : ammo.damage.damage_units ) {
+                barrel_details += enumerate_as_string( du.barrels,
+                []( const barrel_desc & bd ) {
+                    return string_format( "<info>%d %s</info>: %d", convert_length( bd.barrel_length ),
+                                          length_units( bd.barrel_length ), static_cast<int>( bd.amount ) );
+                } );
+            }
+            if( !barrel_details.empty() ) {
+                info.emplace_back( "AMMO", _( "Damage by barrel length: " ), barrel_details );
+            }
+        }
     }
 
     std::vector<std::string> fx;
@@ -2827,6 +2840,14 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
         }
     }
     info.back().bNewLine = true;
+
+    if( mod->barrel_length().value() > 0 ) {
+        if( parts->test( iteminfo_parts::GUN_BARRELLENGTH ) ) {
+            info.emplace_back( "GUN", string_format( _( "Barrel Length: %d %s" ),
+                               convert_length( mod->barrel_length() ), length_units( mod->barrel_length() ) ),
+                               iteminfo::no_flags );
+        }
+    }
 
     if( mod->ammo_required() && curammo->ammo->critical_multiplier != 1.0 ) {
         if( parts->test( iteminfo_parts::AMMO_DAMAGE_CRIT_MULTIPLIER ) ) {
@@ -5423,10 +5444,10 @@ void item::properties_info( std::vector<iteminfo> &info, const iteminfo_query *p
 
     if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
         // concatenate base and acquired flags...
-        std::vector<flag_id> flags;
-        std::set_union( type->get_flags().begin(), type->get_flags().end(),
-                        get_flags().begin(), get_flags().end(),
-                        std::back_inserter( flags ) );
+        cata::flat_set<flag_id> flags;
+        flags.insert( get_flags().begin(), get_flags().end() );
+        flags.insert( type->get_flags().begin(), type->get_flags().end() );
+        flags.insert( inherited_tags_cache.begin(), inherited_tags_cache.end() );
 
         // ...and display those which have an info description
         for( const flag_id &e : sorted_lex( flags ) ) {
@@ -6424,7 +6445,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         int amt = 0;
         maintext = label( quantity );
         for( const item *mod : is_gun() ? gunmods() : toolmods() ) {
-            if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ) {
+            if( !type->gun || !type->gun->built_in_mods.count( mod->typeId() ) ||
+                !type->gun->default_mods.count( mod->typeId() ) ) {
                 amt++;
             }
         }
@@ -6562,7 +6584,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( is_filthy() ) {
         tagtext += _( " (filthy)" );
     }
-    if( is_gun() && ( has_flag( flag_COLLAPSED_STOCK ) || has_flag( flag_FOLDED_STOCK ) ) ) {
+    if( is_gun() && ( has_flag( flag_COLLAPSED_STOCK ) || has_flag( flag_FOLDED_STOCK ) ) &&
+        with_collapsed ) {
         tagtext += _( " (folded)" );
     }
     if( is_broken() ) {
@@ -7039,6 +7062,23 @@ units::length item::length() const
     units::length max = is_soft() ? 0_mm : type->longest_side;
     max = std::max( contents.item_length_modifier(), max );
     return max;
+}
+
+units::length item::barrel_length() const
+{
+    if( is_gun() ) {
+        units::length l = type->gun->barrel_length;
+        for( const item *mod : mods() ) {
+            if( mod->type->gunmod->location.str() == "barrel" ) {
+                if( mod->type->integral_longest_side > 0_mm ) {
+                    l = mod->type->integral_longest_side;
+                }
+            }
+        }
+        return l;
+    } else {
+        return 0_mm;
+    }
 }
 
 units::volume item::collapsed_volume_delta() const
@@ -8701,46 +8741,9 @@ item::armor_status item::damage_armor_transforms( damage_unit &du ) const
     return armor_status::UNDAMAGED;
 }
 
-nc_color item::damage_color() const
+std::string item::damage_indicator() const
 {
-    switch( damage_level() ) {
-        case 0:
-            return c_green;
-        case 1:
-            return c_light_green;
-        case 2:
-            return c_yellow;
-        case 3:
-            return c_light_red;
-        case 4:
-            return c_red;
-        case 5:
-            return c_dark_gray;
-        default:
-            debugmsg( "damage_level returned unexpected value %d", damage_level() );
-            return c_dark_gray;
-    }
-}
-
-std::string item::damage_symbol() const
-{
-    switch( damage_level() ) {
-        case 0:
-            return _( R"(++)" );
-        case 1:
-            return _( R"(||)" );
-        case 2:
-            return _( R"(|\)" );
-        case 3:
-            return _( R"(|.)" );
-        case 4:
-            return _( R"(\.)" );
-        case 5:
-            return _( R"(XX)" );
-        default:
-            debugmsg( "damage_level returned unexpected value %d", damage_level() );
-            return _( R"(??)" ); // negative damage is invalid
-    }
+    return cata::options::damage_indicators[damage_level()];
 }
 
 std::string item::durability_indicator( bool include_intact ) const
@@ -8765,7 +8768,7 @@ std::string item::durability_indicator( bool include_intact ) const
             }
         }
     } else if( get_option<bool>( "ITEM_HEALTH_BAR" ) ) {
-        outputstring = colorize( damage_symbol(), damage_color() ) + degradation_symbol() + "\u00A0";
+        outputstring = damage_indicator() + degradation_symbol() + "\u00A0";
     } else {
         outputstring = string_format( "%s ", get_base_material().dmg_adj( damage_level() ) );
         if( include_intact && outputstring == " " ) {
@@ -10116,19 +10119,51 @@ damage_instance item::gun_damage( bool with_ammo, bool shot ) const
     if( !is_gun() ) {
         return damage_instance();
     }
-    damage_instance ret = type->gun->damage;
+
+    units::length bl = barrel_length();
+    damage_instance ret = type->gun->damage.di_considering_length( bl );
 
     for( const item *mod : gunmods() ) {
-        ret.add( mod->type->gunmod->damage );
+        ret.add( mod->type->gunmod->damage.di_considering_length( bl ) );
     }
 
     if( with_ammo && ammo_data() ) {
         if( shot ) {
-            ret.add( ammo_data()->ammo->shot_damage );
+            ret.add( ammo_data()->ammo->shot_damage.di_considering_length( bl ) );
         } else {
-            ret.add( ammo_data()->ammo->damage );
+            ret.add( ammo_data()->ammo->damage.di_considering_length( bl ) );
         }
     }
+
+    int item_damage = damage_level();
+    if( item_damage > 0 ) {
+        // TODO: This isn't a good solution for multi-damage guns/ammos
+        for( damage_unit &du : ret ) {
+            if( du.amount <= 1.0 ) {
+                continue;
+            }
+            du.amount = std::max<float>( 1.0f, du.amount - item_damage * 2 );
+        }
+    }
+
+    return ret;
+}
+
+damage_instance item::gun_damage( itype_id ammo ) const
+{
+    if( !is_gun() ) {
+        return damage_instance();
+    }
+
+    units::length bl = barrel_length();
+    damage_instance ret = type->gun->damage.di_considering_length( bl );
+
+    for( const item *mod : gunmods() ) {
+        ret.add( mod->type->gunmod->damage.di_considering_length( bl ) );
+    }
+
+    ret.add( ammo->ammo->damage.di_considering_length( bl ) );
+
 
     int item_damage = damage_level();
     if( item_damage > 0 ) {
@@ -10604,26 +10639,36 @@ itype_id item::ammo_default( bool conversion ) const
     return itype_id::NULL_ID();
 }
 
-std::string item::print_ammo( ammotype at ) const
+std::string item::print_ammo( ammotype at, const item *gun ) const
 {
     const item *mag = magazine_current();
     if( mag ) {
-        return mag->print_ammo( at );
+        return mag->print_ammo( at, this );
     } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
         return _( "energy" );
     }
 
+    // for magazines if we have a gun in mind display damage as well
     if( type->magazine ) {
-        return enumerate_as_string( type->magazine->cached_ammos[at],
-        []( const itype_id & id ) {
-            return string_format( "<info>%s</info>", id->nname( 1 ) );
-        } );
+        if( gun ) {
+            return enumerate_as_string( type->magazine->cached_ammos[at],
+            [gun]( const itype_id & id ) {
+                return string_format( "<info>%s(%d)</info>", id->nname( 1 ),
+                                      static_cast<int>( gun->gun_damage( id ).total_damage() ) );
+            } );
+        } else {
+            return enumerate_as_string( type->magazine->cached_ammos[at],
+            []( const itype_id & id ) {
+                return string_format( "<info>%s</info>", id->nname( 1 ) );
+            } );
+        }
     }
 
     if( type->gun ) {
         return enumerate_as_string( type->gun->cached_ammos[at],
-        []( const itype_id & id ) {
-            return string_format( "<info>%s</info>", id->nname( 1 ) );
+        [this]( const itype_id & id ) {
+            return string_format( "<info>%s(%d)</info>", id->nname( 1 ),
+                                  static_cast<int>( gun_damage( id ).total_damage() ) );
         } );
     }
 
@@ -11658,7 +11703,9 @@ int item::fill_with( const item &contained, const int amount,
 
     item contained_item( contained );
     const bool count_by_charges = contained.count_by_charges();
-    contained_item.charges = count_by_charges ? 1 : -1;
+    if( count_by_charges ) {
+        contained_item.charges = 1;
+    }
     item_location loc;
     item_pocket *pocket = nullptr;
 
@@ -11686,10 +11733,12 @@ int item::fill_with( const item &contained, const int amount,
                                                      pocket->charges_per_remaining_weight( contained_item )
                                                    } );
             }
+
+            if( contained_item.charges == 0 ) {
+                break;
+            }
         }
-        if( contained_item.charges == 0 ) {
-            break;
-        }
+
         if( !pocket->insert_item( contained_item ).success() ) {
             if( count_by_charges ) {
                 debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
@@ -11759,9 +11808,10 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                     item temp( *e );
                     used.push_back( temp );
                     qty -= n;
+                    return VisitResponse::SKIP;
                 }
             }
-            return VisitResponse::SKIP;
+            return VisitResponse::NEXT;
 
         } else if( e->count_by_charges() ) {
             if( e->typeId() == what ) {
