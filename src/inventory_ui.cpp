@@ -595,7 +595,8 @@ const item_category *inventory_entry::get_category_ptr() const
     if( !is_item() ) {
         return nullptr;
     }
-    return &any_item()->get_category_of_contents();
+    custom_category = &any_item()->get_category_of_contents();
+    return custom_category;
 }
 
 bool inventory_column::activatable() const
@@ -3098,7 +3099,7 @@ item_location inventory_pick_selector::execute()
             if( highlight( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-            if( input.action == "SELECT" ) {
+            if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
                 return input.entry->any_item();
             }
         } else if( input.action == "ORGANIZE_MENU" ) {
@@ -3400,7 +3401,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
 
         if( input.entry != nullptr ) {
             highlight( input.entry->any_item() );
-            if( input.action == "SELECT" ) {
+            if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
                 toggle_entry( input.entry );
                 just_selected = input.entry;
             }
@@ -3558,7 +3559,7 @@ void inventory_multiselector::on_input( const inventory_input &input )
 {
     if( input.entry != nullptr ) { // Single Item from mouse
         highlight( input.entry->any_item() );
-        if( input.action == "SELECT" ) {
+        if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
             toggle_entries( count );
         }
     }
@@ -4006,7 +4007,7 @@ int inventory_examiner::execute()
             if( highlight( input.entry->any_item() ) ) {
                 ui_manager::redraw();
             }
-            if( input.action == "SELECT" ) {
+            if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
                 return cleanup();
             }
         }

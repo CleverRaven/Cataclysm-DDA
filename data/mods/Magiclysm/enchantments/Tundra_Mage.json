@@ -2,6 +2,8 @@
   {
     "type": "enchantment",
     "id": "TUNDRA_MAGE",
+    "name": { "str": "Arctic" },
+    "description": "Your Tundra Mage abilities grant you good resistance to temperature conditions.",
     "condition": "ALWAYS",
     "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 30 } ]
   },
@@ -28,7 +30,7 @@
     "id": "freeze_aura",
     "name": [ "Freeze burn" ],
     "desc": [ "Your skin is frozen." ],
-    "max_intensity": 3,
+    "max_intensity": 4,
     "int_add_val": 1,
     "base_mods": { "speed_mod": [ -25 ] },
     "scaling_mods": { "speed_mod": [ -15 ] }
@@ -79,7 +81,7 @@
     "name": { "str": "Freezing Aura (on)" },
     "points": 0,
     "description": "Your body emits a large amount of cold energy, which freezes all enemies near you.",
-    "enchantments": [ "wither_mage_bio_aoe" ],
+    "enchantments": [ "tundra_mage_aoe" ],
     "transform": { "target": "FREEZING_AURA_OFF", "msg_transform": "You suppress your freezing aura.", "active": false, "moves": 10 }
   }
 ]

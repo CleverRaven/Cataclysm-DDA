@@ -809,6 +809,8 @@ Effect | Description
 `u_add_trait, npc_add_trait: `string or [variable object](#variable-object) | Your character or the NPC will gain the trait.
 `u_lose_effect, npc_lose_effect: `string or [variable object](#variable-object) | Your character or the NPC will lose the effect if they have it.
 `u_lose_trait, npc_lose_trait: `string or [variable object](#variable-object) | Your character or the NPC will lose the trait.
+`u_learn_martial_art, npc_learn_martial_art: `string or [variable object](#variable-object) | Your character or the NPC will learn the martial art style.
+`u_forget_martial_art, npc_forget_martial_art: `string or [variable object](#variable-object) | Your character or the NPC will forget the martial art style.
 `u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, either `value: value_str` or `time: true` or `possible_values: string_array` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitrary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.  If `time` is used instead of `value_str`, then the current turn of the game is stored. If `possible_values` is used one of the values given at random will be used.
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
 `u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: `int or [variable object](#variable-object) | Your character or the NPC will adjust the stored variable by `adjustment`.
@@ -966,6 +968,7 @@ Condition | Type | Description
 `"u_female"`<br/>`"npc_female"` | simple string | `true` if the player character or NPC is female.
 `"u_at_om_location"`<br/>`"npc_at_om_location"` | string or [variable object](#variable-object) | `true` if the player character or NPC is standing on an overmap tile with `u_at_om_location`'s id.  The special string `"FACTION_CAMP_ANY"` changes it to return true if the player or NPC is standing on a faction camp overmap tile.  The special string `"FACTION_CAMP_START"` changes it to return true if the overmap tile that the player or NPC is standing on can be turned into a faction camp overmap tile.
 `"u_has_trait"`<br/>`"npc_has_trait"` | string or [variable object](#variable-object) | `true` if the player character or NPC has a specific trait.  Simpler versions of `u_has_any_trait` and `npc_has_any_trait` that only checks for one trait.
+`"u_has_martial_art"`<br/>`"npc_has_martial_art"` | string or [variable object](#variable-object) | `true` if the player character or NPC knows a specific martial arts style.
 `"u_has_flag"`<br/>`"npc_has_flag"` | string or [variable object](#variable-object) | `true` if the player character or NPC has the specified character flag.  The special trait flag `"MUTATION_THRESHOLD"` checks to see if the player or NPC has crossed a mutation threshold.
 `"u_has_any_trait"`<br/>`"npc_has_any_trait"` | array of strings and/or [variable objects](#variable-object) | `true` if the player character or NPC has any trait or mutation in the array. Used to check multiple specific traits.
 `"u_has_var"`, `"npc_has_var"` | string | `"type": type_str`, `"context": context_str`, and `"value": value_str` are required fields in the same dictionary as `"u_has_var"` or `"npc_has_var"`.<br/>`true` is the player character or NPC has a variable set by `"u_add_var"` or `"npc_add_var"` with the string, `type_str`, `context_str`, and `value_str`.
@@ -1243,7 +1246,9 @@ Example:
 
 `"arithmetic"` supports the following operators: `"*"`(multiplication), `"/"`(divison), `"+"`(addition), `"-"`(subtraction), `"%"`(modulus), `"^"`(power) and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
 
-To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or written to follows.
+To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed.
+
+#### List of values that can be read and/or written to
 
 Example | Description
 --- | ---
@@ -1359,13 +1364,36 @@ If `operator` is `==`, `>=`, `<=`, `>`, or `<`, the operation is a comparison:
 ```
 `lhs` and `rhs` are evaluated independently and the result of `operator` is passed on to the parent object.
 
+#### Variables
+Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, and `n_myvar` is scoped on the beta talker.
+
+Examples:
+```JSON
+    "//0": "return value of global var blorgy_counter",
+    { "math": [ "blorgy_counter" ] },
+    "//1": "result, x, and y are global variables",
+    { "math": [ "result", "=", "x + y" ] },
+    "//2": "u_z is the variable z on the alpha talker (avatar)",
+    { "math": [ "result", "=", "( x + y ) * u_z" ] },
+    "//3": "n_crazyness is the variable crazyness on the beta talker (npc)",
+    { "math": [ "n_crazyness * 2", ">=", "( x + y ) * u_z" ] },
+```
+
 #### Constants
 The tokens `π` (and `pi` alias ) and `e` are recognized as mathematical constants and get replaced by their nominal values.
 
 #### Math functions
 Common math functions are supported: 
 
-`abs()`, `sqrt()`, `log()`, `sin()`, `cos()`, and `tan()` take one argument, for example `sin( 2 * pi + 1 )`.
+`abs()`, `sqrt()`, `log()`, `floor()`, `trunc()`, `ceil()`, `round()`, `sin()`, `cos()`, and `tan()` take one argument, for example `sin( 2 * pi + 1 )`.
+
+`floor( x )` returns the smallest integer not greater than x, for example `floor( 1.5 )` is 1, `floor( -1.5 )` is -2
+
+`ceil( x )` returns the smallest integer not less than x, for example `ceil( 1.5 )` is 2, `ceil( -1.5 )` is -1
+
+`trunc( x )` returns the nearest integer closer to zero, for example `trunc( 1.5 )` is 1, `trunc( -1.5 )` is -1
+
+`clamp( x, lo, hi )` clamps x between lo and hi. hi must be greater than lo
 
 `max()` and `min()` take any number of arguments, for example `max( 1, 2, 3 )`.
 
@@ -1400,10 +1428,14 @@ is equivalent to
 { "npc_val": "spell_level", "spell": "test_spell_pew" }
 
 ```
+Most of the values from [arithmetic](#list-of-values-that-can-be-read-andor-written-to) can be used with the shim, both for reading and writing.
 
-
-#### Variables
-Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, and `n_myvar` is scoped on the beta talker.
-
+More examples:
+```JSON
+    { "math": [ "u_val('age')" ] },
+    { "math": [ "u_val('weather: temperature')" ] },
+    { "math": [ "u_val('time: 1 d')" ] },
+    { "math": [ "u_val('proficiency', 'proficiency_id: prof_test', 'format: percent')" ] }
+```
 #### Assignment target
 An assignment target can be either a scoped [variable name](#variables) or a scoped [dialogue function](#dialogue-functions).

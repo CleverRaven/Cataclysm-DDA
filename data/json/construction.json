@@ -7831,5 +7831,17 @@
     "pre_special": "check_empty",
     "post_special": "done_appliance",
     "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_obstacle_rock",
+    "group": "obstacle_rock",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "time": "5 m",
+    "components": [ [ [ "rock_large", 22 ] ] ],
+    "pre_terrain": "t_dirt",
+    "post_terrain": "t_rockyobstacle"
   }
 ]

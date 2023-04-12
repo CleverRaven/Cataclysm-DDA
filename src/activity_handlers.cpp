@@ -1595,10 +1595,12 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     map_stack corpse_pile = here.i_at( pos );
     for( item &corpse : corpse_pile ) {
         const mtype *corpse_mtype = corpse.get_mtype();
+        const bool acid_immune = you->is_immune_damage( damage_type::ACID ) ||
+                                 you->is_immune_field( fd_acid );
         if( !corpse.is_corpse() || !corpse.can_revive() ||
-            ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
-              act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) ) {
-            // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
+            ( ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
+                act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) && !acid_immune ) ) {
+            // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping unprotected
             continue;
         }
 
@@ -2179,12 +2181,15 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
     if( !act->targets.empty() ) {
         ploc = act->targets.data();
     }
-
-    item &main_tool = !w_hack.init( *act ) ?
-                      ploc ?
-                      **ploc : you->i_at( act->index ) : w_hack.get_item();
-
-    item *used_tool = main_tool.get_usable_item( iuse_name_string );
+    item *main_tool = &( !w_hack.init( *act ) ?
+                         ploc ?
+                         **ploc : you->i_at( act->index ) : w_hack.get_item() );
+    if( main_tool == nullptr ) {
+        debugmsg( "Empty main tool for repair" );
+        act->set_to_null();
+        return;
+    }
+    item *used_tool = main_tool->get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for long repair" );
         act->set_to_null();
@@ -2275,7 +2280,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
-        item_location item_loc = game_menus::inv::repair( *you, actor, &main_tool );
+        item_location item_loc = game_menus::inv::repair( *you, actor, main_tool );
 
         if( item_loc == item_location::nowhere ) {
             you->add_msg_if_player( m_info, _( "Never mind." ) );
@@ -3615,6 +3620,12 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                             you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
                         }
                     }
+                }
+            }
+            if( !act->targets.empty() ) {
+                item &it = *act->targets.front();
+                if( !it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
+                    you->consume_charges( it, it.type->charges_to_use() );
                 }
             }
         }

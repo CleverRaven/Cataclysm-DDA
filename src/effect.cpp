@@ -263,7 +263,7 @@ static std::array<const char *, static_cast<size_t>( mod_type::MAX )> MOD_TYPE_S
 };
 
 void effect_type::extract_effect(
-    const JsonObject &j,
+    const std::array<std::optional<JsonObject>, 2> &j,
     const std::string &effect_name,
     const std::vector<std::pair<std::string, mod_action>> &action_keys )
 {
@@ -271,11 +271,11 @@ void effect_type::extract_effect(
 
     for( uint32_t cur_mod_type = 0; cur_mod_type < static_cast<size_t>( mod_type::MAX );
          cur_mod_type++ ) {
-        if( !j.has_object( MOD_TYPE_STRINGS[cur_mod_type] ) ) {
+        if( !j[cur_mod_type].has_value() ) {
             continue;
         }
 
-        const JsonObject base = j.get_object( MOD_TYPE_STRINGS[cur_mod_type] );
+        const JsonObject &base = *j[cur_mod_type];
 
         for( const auto &action_key : action_keys ) {
             if( !base.has_array( action_key.first ) ) {
@@ -310,15 +310,25 @@ void effect_type::extract_effect(
 
 void effect_type::load_mod_data( const JsonObject &j )
 {
+
+    // Fetch the JSON objects at the start so we can do unvisited member checking
+    std::array<std::optional<JsonObject>, 2> to_extract;
+    to_extract[0] = j.has_object( MOD_TYPE_STRINGS[0] ) ?
+                    std::optional<JsonObject>( j.get_object( MOD_TYPE_STRINGS[0] ) ) :
+                    std::nullopt;
+    to_extract[1] = j.has_object( MOD_TYPE_STRINGS[1] ) ?
+                    std::optional<JsonObject>( j.get_object( MOD_TYPE_STRINGS[1] ) ) :
+                    std::nullopt;
+
     // Stats first
-    extract_effect( j, "STR",   { {"str_mod",   mod_action::MIN} } );
-    extract_effect( j, "DEX",   { {"dex_mod",   mod_action::MIN} } );
-    extract_effect( j, "PER",   { {"per_mod",   mod_action::MIN} } );
-    extract_effect( j, "INT",   { {"int_mod",   mod_action::MIN} } );
-    extract_effect( j, "SPEED", { {"speed_mod", mod_action::MIN} } );
+    extract_effect( to_extract, "STR",   { {"str_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "DEX",   { {"dex_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "PER",   { {"per_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "INT",   { {"int_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "SPEED", { {"speed_mod", mod_action::MIN} } );
 
     // Then pain
-    extract_effect( j, "PAIN", {
+    extract_effect( to_extract, "PAIN", {
         { "pain_amount",     mod_action::AMOUNT},
         { "pain_min",        mod_action::MIN},
         { "pain_max",        mod_action::MAX},
@@ -329,7 +339,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then hurt
-    extract_effect( j, "HURT", {
+    extract_effect( to_extract, "HURT", {
         {"hurt_amount",      mod_action::AMOUNT},
         {"hurt_min",         mod_action::MIN},
         {"hurt_max",         mod_action::MAX},
@@ -339,7 +349,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then sleep
-    extract_effect( j, "SLEEP", {
+    extract_effect( to_extract, "SLEEP", {
         {"sleep_amount",      mod_action::AMOUNT},
         {"sleep_min",         mod_action::MIN},
         {"sleep_max",         mod_action::MAX},
@@ -349,7 +359,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then pkill
-    extract_effect( j, "PKILL", {
+    extract_effect( to_extract, "PKILL", {
         {"pkill_amount",      mod_action::AMOUNT},
         {"pkill_min",         mod_action::MIN},
         {"pkill_max",         mod_action::MAX},
@@ -360,7 +370,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then stim
-    extract_effect( j, "STIM", {
+    extract_effect( to_extract, "STIM", {
         {"stim_amount",      mod_action::AMOUNT},
         {"stim_min",         mod_action::MIN},
         {"stim_max",         mod_action::MAX},
@@ -372,7 +382,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then health
-    extract_effect( j, "HEALTH", {
+    extract_effect( to_extract, "HEALTH", {
         {"health_amount",      mod_action::AMOUNT},
         {"health_min",         mod_action::MIN},
         {"health_max",         mod_action::MAX},
@@ -384,7 +394,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then health mod
-    extract_effect( j, "H_MOD", {
+    extract_effect( to_extract, "H_MOD", {
         {"h_mod_amount",      mod_action::AMOUNT},
         {"h_mod_min",         mod_action::MIN},
         {"h_mod_max",         mod_action::MAX},
@@ -396,7 +406,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then radiation
-    extract_effect( j, "RAD", {
+    extract_effect( to_extract, "RAD", {
         {"rad_amount",      mod_action::AMOUNT},
         {"rad_min",         mod_action::MIN},
         {"rad_max",         mod_action::MAX},
@@ -407,7 +417,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then hunger
-    extract_effect( j, "HUNGER", {
+    extract_effect( to_extract, "HUNGER", {
         {"hunger_amount",      mod_action::AMOUNT},
         {"hunger_min",         mod_action::MIN},
         {"hunger_max",         mod_action::MAX},
@@ -419,7 +429,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then thirst
-    extract_effect( j, "THIRST", {
+    extract_effect( to_extract, "THIRST", {
         {"thirst_amount",      mod_action::AMOUNT},
         {"thirst_min",         mod_action::MIN},
         {"thirst_max",         mod_action::MAX},
@@ -431,7 +441,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then thirst
-    extract_effect( j, "PERSPIRATION", {
+    extract_effect( to_extract, "PERSPIRATION", {
         {"perspiration_amount",      mod_action::AMOUNT},
         {"perspiration_min",         mod_action::MIN},
         {"perspiration_max",         mod_action::MAX},
@@ -443,7 +453,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then fatigue
-    extract_effect( j, "FATIGUE", {
+    extract_effect( to_extract, "FATIGUE", {
         {"fatigue_amount",      mod_action::AMOUNT},
         {"fatigue_min",         mod_action::MIN},
         {"fatigue_max",         mod_action::MAX},
@@ -455,7 +465,7 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then stamina
-    extract_effect( j, "STAMINA", {
+    extract_effect( to_extract, "STAMINA", {
         {"stamina_amount",      mod_action::AMOUNT},
         {"stamina_min",         mod_action::MIN},
         {"stamina_max",         mod_action::MAX},
@@ -466,30 +476,30 @@ void effect_type::load_mod_data( const JsonObject &j )
     } );
 
     // Then coughing
-    extract_effect( j, "COUGH", {
+    extract_effect( to_extract, "COUGH", {
         {"cough_chance",      mod_action::CHANCE_TOP},
         {"cough_chance_bot",  mod_action::CHANCE_BOT},
         {"cough_tick",        mod_action::TICK},
     } );
 
     // Then vomiting
-    extract_effect( j, "VOMIT", {
+    extract_effect( to_extract, "VOMIT", {
         {"vomit_chance",      mod_action::CHANCE_TOP},
         {"vomit_chance_bot",  mod_action::CHANCE_BOT},
         {"vomit_tick",        mod_action::TICK},
     } );
 
     // Then healing effects
-    extract_effect( j, "HEAL_RATE",  { {"healing_rate",  mod_action::AMOUNT} } );
-    extract_effect( j, "HEAL_HEAD",  { {"healing_head",  mod_action::AMOUNT} } );
-    extract_effect( j, "HEAL_TORSO", { {"healing_torso", mod_action::AMOUNT} } );
+    extract_effect( to_extract, "HEAL_RATE",  { {"healing_rate",  mod_action::AMOUNT} } );
+    extract_effect( to_extract, "HEAL_HEAD",  { {"healing_head",  mod_action::AMOUNT} } );
+    extract_effect( to_extract, "HEAL_TORSO", { {"healing_torso", mod_action::AMOUNT} } );
 
     // creature stats mod
-    extract_effect( j, "DODGE", { {"dodge_mod", mod_action::MIN} } );
-    extract_effect( j, "HIT",   { {"hit_mod",   mod_action::MIN} } );
-    extract_effect( j, "BASH",  { {"bash_mod",  mod_action::MIN} } );
-    extract_effect( j, "CUT",   { {"cut_mod",   mod_action::MIN} } );
-    extract_effect( j, "SIZE",  { {"size_mod",  mod_action::MIN} } );
+    extract_effect( to_extract, "DODGE", { {"dodge_mod", mod_action::MIN} } );
+    extract_effect( to_extract, "HIT",   { {"hit_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "BASH",  { {"bash_mod",  mod_action::MIN} } );
+    extract_effect( to_extract, "CUT",   { {"cut_mod",   mod_action::MIN} } );
+    extract_effect( to_extract, "SIZE",  { {"size_mod",  mod_action::MIN} } );
 }
 
 double effect_type::get_mod_value( const std::string &type, mod_action action,

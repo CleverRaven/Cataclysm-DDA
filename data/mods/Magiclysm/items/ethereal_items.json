@@ -1282,7 +1282,7 @@
     "name": { "str": "Vegetative Poultice" },
     "looks_like": "leaves",
     "description": "A mixture of bark, moss, and leaves, glowing softly with verdant energy.",
-    "weight": "70 g",
+    "weight": "50 g",
     "volume": "60 ml",
     "price": 1,
     "price_postapoc": 1,

@@ -1,6 +1,7 @@
 #include <memory>
 
 #include "character_id.h"
+#include "character_martial_arts.h"
 #include "effect.h"
 #include "item.h"
 #include "magic.h"
@@ -829,6 +830,11 @@ int talker_character_const::get_body_temp_delta() const
            me_chr_const->get_part_temp_cur( temp_delta( me_chr_const ).first );
 }
 
+bool talker_character_const::knows_martial_art( const matype_id &id ) const
+{
+    return me_chr_const->martial_arts_data->has_martialart( id );
+}
+
 void talker_character::add_bionic( const bionic_id &new_bionic )
 {
     me_chr->add_bionic( new_bionic );
@@ -878,4 +884,14 @@ int talker_character::get_part_hp_max( const bodypart_id &id ) const
 void talker_character::set_part_hp_cur( const bodypart_id &id, int set ) const
 {
     me_chr->set_part_hp_cur( id, set );
+}
+
+void talker_character::learn_martial_art( const matype_id &id ) const
+{
+    me_chr->martial_arts_data->add_martialart( id );
+}
+
+void talker_character::forget_martial_art( const matype_id &id ) const
+{
+    me_chr->martial_arts_data->clear_style( id );
 }

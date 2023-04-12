@@ -801,13 +801,10 @@ inline JsonValue JsonArray::get_next()
 //NOLINTNEXTLINE(modernize-use-equals-default)
 inline JsonObject::~JsonObject()
 {
-    // Unvisited member reporting currently disabled.
-#if 0
 #ifndef CATA_IN_TOOL
-    if( !std::uncaught_exception() && !visited_fields_bitset_.all() ) {
+    if( std::uncaught_exceptions() == 0 && !visited_fields_bitset_.all() ) {
         report_unvisited();
     }
-#endif
 #endif
 }
 

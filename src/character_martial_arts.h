@@ -30,6 +30,7 @@ class character_martial_arts
         void deserialize( const JsonObject &data );
 
         void reset_style();
+        void clear_style( const matype_id &id );
         // checks that style selected is one that is known, otherwise resets it
         void selected_style_check();
         /** Creates the UI and handles player input for picking martial arts styles */

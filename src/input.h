@@ -148,7 +148,7 @@ enum : int {
 };
 } // namespace keycode
 
-constexpr int LEGEND_HEIGHT = 11;
+constexpr int LEGEND_HEIGHT = 8;
 constexpr int BORDER_SPACE = 2;
 
 bool is_mouse_enabled();

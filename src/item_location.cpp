@@ -632,8 +632,8 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         void remove_item() override {
-            on_contents_changed();
             container->remove_item( *target() );
+            container->on_contents_changed();
         }
 
         void on_contents_changed() override {
