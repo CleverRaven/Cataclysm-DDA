@@ -148,7 +148,9 @@
     "base_energy_cost": 200,
     "final_energy_cost": 100,
     "energy_increment": -5,
-    "extra_effects": [ { "id": "firmament_driver_damage" } ]
+    "extra_effects": [ { "id": "firmament_driver_damage" } ],
+    "spell_class": "INVENTOR",
+    "energy_source": "MANA"
   },
   {
     "type": "SPELL",
@@ -165,7 +167,9 @@
     "damage_increment": 2,
     "min_range": 1,
     "max_range": 1,
-    "max_level": 20
+    "max_level": 20,
+    "spell_class": "INVENTOR",
+    "energy_source": "MANA"
   },
   {
     "id": "summon_bio_launcher",
