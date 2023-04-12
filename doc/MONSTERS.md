@@ -72,6 +72,7 @@ Property                 | Description
 `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
 `tracking_distance`      | (integer) Amount of tiles the monster will keep between itself and its current tracked enemy or followed leader. Defaults to `3`.
+`trap_avoids`            | (array of strings) trap_id of traps that are not triggered by this monster. Default behaviour is to trigger all traps.
 `luminance`              | (integer) Amount of light passively emitted by the monster, from `0-10`
 `death_drops`            | (string or item group) Item group to spawn when the monster dies
 `death_function`         | (array of strings) How the monster behaves on death. See JSON_FLAGS
@@ -487,7 +488,7 @@ What makes the monster afraid / angry / what calms it. See [JSON_FLAGS.md](JSON_
 ## "chat_topics"
 (string, optional)
 
-Lists possible chat topics that will be used as dialogue display when talking to a monster, done by `e`xamining it and `c`hatting with it. The creature in question must be friendly to the player in order to talk to it. Monsters can be assigned variables, but cannot trade with the exchange interface. Listing multiple chat topics will cause the game to crash. This must be defined as an array.
+Lists possible chat topics that will be used as dialogue display when talking to a monster, done by `e`xamining it and `c`hatting with it. The creature in question must be friendly to the player in order to talk to it, or have the `CONVERSATION` flag. Alternatively an EOC spell/special attack between a player and monster can start a conversation using the `open_dialogue` effect, see [NPCs.md](NPCs.md) for more details.  Monsters can be assigned variables, but cannot trade with the exchange interface. Listing multiple chat topics will cause the game to crash. This must be defined as an array.
 
 ```JSON
 "chat_topics": [ "TALK_FREE_MERCHANTS_MERCHANT" ]

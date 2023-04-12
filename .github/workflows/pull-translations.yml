@@ -37,6 +37,8 @@ jobs:
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: tx pull --force
+      - name: "Update stats"
+        run: ./lang/update_stats.sh
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:

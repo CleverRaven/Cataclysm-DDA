@@ -456,7 +456,7 @@
     "spoils_in": "4 days",
     "container": "jar_glass_sealed",
     "quench": -1,
-    "description": "This is a serving of crisply brined and canned fish.  Tasty and nutritious.",
+    "description": "A serving of crisply brined and canned fish.  Tasty and nutritious.",
     "material": [ "flesh" ],
     "fun": 7
   },
@@ -1520,7 +1520,7 @@
     "color": "pink",
     "spoils_in": "4 days",
     "container": "jar_glass_sealed",
-    "description": "This is a serving of crisply brined and canned meat.  Tasty and nutritious.",
+    "description": "A serving of crisply brined and canned meat.  Tasty and nutritious.",
     "price": 250,
     "price_postapoc": 300,
     "delete": { "flags": [ "NUTRIENT_OVERRIDE" ] },

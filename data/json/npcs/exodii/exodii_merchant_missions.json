@@ -20,5 +20,214 @@
       "failure": "Fine an' fine.  Come back to this'n if you like to try again."
     },
     "end": { "effect": [ { "u_add_var": "anusfetick", "type": "mission", "context": "completed", "value": "yes" } ] }
+  },
+  {
+    "id": "EXODII_MISSION_CONTACT_HUB",
+    "type": "mission_definition",
+    "name": { "str": "Investigate the Mysterious Bunker" },
+    "goal": "MGOAL_GO_TO_TYPE",
+    "destination": "robofachq_surface_entrance",
+    "start": {
+      "assign_mission_target": {
+        "om_terrain": "robofachq_surface_entrance",
+        "om_special": "hub_01",
+        "reveal_radius": 1,
+        "random": false,
+        "search_range": 240
+      }
+    },
+    "end": {
+      "effect": [
+        { "u_add_var": "u_scouted_bunker", "type": "mission", "context": "completed", "value": "yes" },
+        { "arithmetic": [ { "global_val": "var", "var_name": "exodii_knows_hub01" }, "=", { "const": 1 } ] }
+      ]
+    },
+    "difficulty": 2,
+    "value": 0,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "-",
+      "offer": "-",
+      "accepted": "-",
+      "rejected": "-",
+      "advice": "-",
+      "inquire": "What've ye scolted, then, o'the clunker?",
+      "success": "Aye and fine!  One for the paper-claim an' so.  An I'm ken, these'n's could be a right thorn.  For ol' Rubik's sake, let's hope they be'n't for to drive us out o' your otherlands.",
+      "success_lie": "Hm.  The escoltin' our way be less.  This'n'll yark at the Scythy mayhaps.",
+      "failure": "Fine an' fine.  Come back to this'n if you like to try again."
+    }
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_intro",
+    "type": "talk_topic",
+    "dynamic_line": "Them as offer as can, an it be so. Aye, there's summat the old Scythy been larkin' up Rubik's tailpipe.  B'ain't tass right for a clanker like this'n, but a pop-an-work like you'n, maybe well and suited.",
+    "//~": "Just because you asked, I think we can work something out.  Yes, the Scythean has been bugging me about something.  It's not something a cyborg like me can do, but a mercenary would probably fit the bill.",
+    "responses": [
+      { "text": "What's \"the ol' Scythy\"?", "topic": "TALK_EXODII_MERCHANT_Scythean" },
+      { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_1_explain" },
+      { "text": "Tell me more about this job that you can't do.", "topic": "TALK_EXODII_MERCHANT_mission_1_intro1" },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_explain",
+    "type": "talk_topic",
+    "dynamic_line": "Hat ye kennt our great clanks an' stompers?  There be many a thing we can do right good, but for the supple an' smooth, we b'ain't.  Wish'n we to make a meet-cute, must we first lay out the hempen mats.",
+    "//~": "Have you seen our big stompy quads?  There's a lot of things we're good at, but sneaky and subtle we aren't.  If we want a meet cute, first we've got to lay out the hempen mats.",
+    "responses": [
+      { "text": "Hold up, did you just say \"meet cute\"?", "topic": "TALK_EXODII_MERCHANT_Meetcute" },
+      {
+        "text": "I am guessing it doesn't matter, but what do you mean about hempen mats?",
+        "effect": { "u_add_var": "rubik_personal_questions", "value": "hempen_mats" },
+        "topic": "TALK_EXODII_MERCHANT_Hempen1"
+      },
+      {
+        "text": "OK, fine.  Tell me more about this job that you can't do.",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_intro1"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_intro1",
+    "type": "talk_topic",
+    "dynamic_line": "It be a right coddle to yark, but ol' Rubik'll do as can.  Them as we send a'far, what I'd assert as 'escolts'… explorers?  They's escolted a place with a mite o' promise, an I'm ken.  A wall o' crete-stone, abreast a rattlin' clunker… a 'bunker'.  Not so odd in a deadlands alas, but this'n gots the comin's and goin's.  Sommat's still in there, an' ol' Rubik wonders who.  Be they friend or foe?  What say ye t'helpin' with a mite o' escoltin' y'self?",
+    "//~": "It's a bit hard to explain, but I'll do my best.  The forces we send far out, what I'd call 'escolts'… explorers?  They've scouted a place with a bit of promise, as far as I can tell.  A wall of concrete around a bunker.  That's not so odd in a place like this, but this one has people coming and going.  There's something still in there, and I wonder who.  Are they friendly or not?  What would you think about doing some scouting yourself?",
+    "responses": [
+      { "text": "Why can't one of you do this?", "topic": "TALK_EXODII_MERCHANT_mission_1_explain" },
+      {
+        "text": "Well, today's your lucky day, my metal friend.  I already know the place quite well.",
+        "condition": { "u_has_var": "u_discovered_robofac_intercom", "type": "dialogue", "context": "intercom", "value": "yes" },
+        "topic": "TALK_EXODII_MERCHANT_mission_1_met_hub"
+      },
+      {
+        "text": "What exactly do you want me to do?  Scout out this bunker and contact the people in it?",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_intro2"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I've gotta go.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_intro2",
+    "type": "talk_topic",
+    "dynamic_line": "No, me fruit gum, no!  Make no contact, y'ken?  This be covert.  If ye kennit be safe, traipse along an' for a kennabout, but upon the chimes, speak none and tarry little.",
+    "//~": "No, my friend, no!  Don't make contact, understand?  This is a covert op.  If you see that it's safe you can go in closer and look around, but for goodness' sake, don't talk to anyone and don't linger.",
+    "responses": [
+      {
+        "text": "I get the impression this is important, but I don't know what you mean.",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_intro2_translate"
+      },
+      {
+        "text": "This sounds insanely dangerous.  They could just shoot me on sight.",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_intro3"
+      },
+      {
+        "text": "So you want me to go there, see what's inside the walls, look around a little, and then let you know if I see anything, but if someone tries to talk to me, not mention you or your people?",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_understood"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_intro2_translate",
+    "type": "talk_topic",
+    "dynamic_line": "*pauses for a moment, and lets out a slow sigh, speaking hesitantly as they catch themselves in idioms.  \"Make no contact.  We ken… we think the abroad o'… the outside o' the bunker be safe an'… be safe to explore, for one such as ye, who harks as from this'n land.  A wander in and escolt… a look around we ken as no… no risk.  If ye think ye been spotted, wave along and make no mention of ol' Rubik and the Exodii.  Not afore we be razzed some more o' this rattlin'… this bunker.",
+    "responses": [
+      {
+        "text": "How can you know that it's safe?  What if I'm shot on sight?",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_intro3"
+      },
+      {
+        "text": "So you want me to go there, see what's inside the walls, look around a little, and then let you know if I see anything, but if someone tries to talk to me, not mention you or your people?",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_understood"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_intro3",
+    "type": "talk_topic",
+    "dynamic_line": "Them as we've escolted seems a fair kin, an' we've eyed a scav or two wanderin' the premise unscathed.  If'n the scavs o' the dust can make it in an' out, so should ye be.",
+    "//~": "Our scouts have seen people who look like you wandering in the area safely.  If the scavengers can make it in and out, you should be fine.",
+    "responses": [
+      {
+        "text": "So you want me to go there, see what's inside the walls, look around a little, and then let you know if I see anything, but if someone tries to talk to me, not mention you or your people?",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_understood"
+      },
+      { "text": "Can we talk about something else?", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_understood",
+    "type": "talk_topic",
+    "dynamic_line": "Aye, ye kennit well.",
+    "responses": [
+      {
+        "text": "This is insane.  I can't tell if you're leading me into a trap or not.  What's in it for me?",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_pay_skeptic"
+      },
+      {
+        "text": "Sure.  Don't know what good it'll do you, but I might be willing.  What are you paying?",
+        "topic": "TALK_EXODII_MERCHANT_mission_1_pay_nice"
+      },
+      { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_pay_skeptic",
+    "type": "talk_topic",
+    "dynamic_line": "Rightly a trig barter, an I'm ken.  By ol' Rubik's word, on your saintly march home, for you'll have the pick of the bright and steelies roun' ol' Rubik's shop, choice o' your own finely.  What say?",
+    "//~": "I didn't know you'd be such a hard bargain!  Tell ya what, when you come back, I'll let you in on some of these fancy knick-kacks.",
+    "responses": [
+      { "text": "I'll go check it out.", "effect": { "assign_mission": "EXODII_MISSION_CONTACT_HUB" }, "topic": "TALK_DONE" },
+      { "text": "I'm gonna need to think on this one.  See you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_pay_nice",
+    "type": "talk_topic",
+    "dynamic_line": "Ah, 'tis a fine spark.  F'r a switch an' clock, ol' Rubik can share y'like o' these bright and steelies roun' the shop, choice o' your finely.  What say?",
+    "//~": "That's quite the spirit!  For an exchange, I'll give you some of these shiny tools, whatever you want.  How's that sound?",
+    "responses": [
+      {
+        "text": "I'll go check it out.  Thanks, Rubik.",
+        "effect": { "assign_mission": "EXODII_MISSION_CONTACT_HUB" },
+        "topic": "TALK_DONE"
+      },
+      { "text": "I'm gonna need to think on this one.  I'll see you later, Rubik.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_mission_1_complete",
+    "type": "talk_topic",
+    "dynamic_line": "'Tis a fine an' dandy!  What can ol' Rubik stand ye for, then?",
+    "//~": "That's great!  What would you like as payment?",
+    "responses": [
+      {
+        "text": "Let's see what you have in stock.",
+        "effect": [ { "u_add_faction_trust": 5 }, { "u_spend_cash": -50000 }, "start_trade" ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_DONE"
+      },
+      {
+        "text": "Could I become a cyborg, like yourself?",
+        "condition": { "not": { "u_has_trait": "CBM_Interface" } },
+        "effect": [ { "u_add_faction_trust": 5 } ],
+        "opinion": { "trust": 4, "value": 3 },
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe2"
+      },
+      {
+        "text": "I'm just glad to help, I don't need any payment.",
+        "effect": [ { "u_add_faction_trust": 10 } ],
+        "opinion": { "trust": 7, "value": 5 },
+        "topic": "TALK_DONE"
+      }
+    ]
   }
 ]

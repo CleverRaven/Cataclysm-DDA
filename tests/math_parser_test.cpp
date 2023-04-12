@@ -58,6 +58,8 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
     // functions
     CHECK( testexp.parse( "_test_()" ) ); // nullary test function
     CHECK( testexp.parse( "max()" ) ); // variadic called with zero arguments
+    CHECK( testexp.parse( "clamp( 1, 2, 3 )" ) ); // arguments passed in the right order 🤦
+    CHECK( testexp.eval( d ) == Approx( 2 ) );
     CHECK( testexp.parse( "sin(1)" ) );
     CHECK( testexp.eval( d ) == Approx( std::sin( 1.0 ) ) );
     CHECK( testexp.parse( "sin((1))" ) );
@@ -119,6 +121,8 @@ TEST_CASE( "math_parser_parsing", "[math_parser]" )
         CHECK_FALSE( testexp.parse( "_test_(-)" ) );
         CHECK_FALSE( testexp.parse( "'string'" ) );
         CHECK_FALSE( testexp.parse( "('wrong')" ) );
+        CHECK_FALSE( testexp.parse( "u_val('wr'ong')" ) ); // stray ' inside string
+        CHECK_FALSE( testexp.parse( "2 2*2" ) ); // stray space inside variable name
         CHECK_FALSE( testexp.parse( "2+++2" ) );
         CHECK( testexp.parse( "2+3" ) );
         testexp.assign( d, 10 ); // assignment called on eval tree should not crash

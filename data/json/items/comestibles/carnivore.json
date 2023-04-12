@@ -33,7 +33,7 @@
     "copy-from": "fish",
     "type": "COMESTIBLE",
     "name": { "str": "scrap of fish", "str_pl": "scraps of fish" },
-    "description": "This is a tiny scrap of edible fish.  It's not much, but it'll do in a pinch.",
+    "description": "A tiny scrap of edible fish.  It's not much, but it'll do in a pinch.",
     "cooks_like": "fish_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },

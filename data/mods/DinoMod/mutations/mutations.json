@@ -139,18 +139,13 @@
     "id": "THICKSKIN2",
     "name": { "str": "Tough-Skinned" },
     "points": 3,
-    "description": "Your skin is getting tougher.  Cutting and bash damage are more reduced for you.  Makes you less dextrous though.",
+    "description": "Your skin is getting tougher.  Greatly improves protection against all sorts of damage.  Makes you less dextrous though.",
     "prereqs": "THICKSKIN",
     "cancels": "THINSKIN",
     "category": [ "STEGO", "TYRANT", "HORNS" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 4,
-        "bash": 4,
-        "bullet": 1
-      }
-    ],
+    "changes_to": [ "THICKSKIN3" ],
+    "armor": [ { "part_types": [ "tail" ], "cut": 14, "bash": 10 } ],
+    "integrated_armor": [ "integrated_reptilescales" ],
     "passive_mods": { "dex_mod": -1 }
   },
   {
@@ -158,19 +153,13 @@
     "id": "THICKSKIN3",
     "name": { "str": "Diamond-Skinned" },
     "points": 4,
-    "description": "Your skin is developing Kevlar-like qualities.  Makes you slower though.",
+    "description": "Your skin is developing Kevlar-like qualities.  Makes you slower though, and is rather cumbersome.",
     "prereqs": "THICKSKIN2",
     "cancels": "THINSKIN",
     "threshreq": "THRESH_STEGO",
     "category": [ "STEGO" ],
-    "armor": [
-      {
-        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
-        "cut": 6,
-        "bash": 6,
-        "bullet": 6
-      }
-    ],
+    "armor": [ { "part_types": [ "tail" ], "cut": 24, "bash": 20 } ],
+    "integrated_armor": [ "integrated_stegoskin" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": -0.05 } ] } ]
   },
   {

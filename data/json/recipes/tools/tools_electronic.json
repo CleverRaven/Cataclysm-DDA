@@ -95,7 +95,7 @@
       [ [ "scrap", 4 ] ],
       [ [ "cable", 2 ] ],
       [ [ "pot", 1 ], [ "pot_copper", 1 ] ],
-      [ [ "motor_micro", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "e_scrap", 1 ] ]
     ]
   },
@@ -305,7 +305,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "blade", 2 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ]
@@ -361,7 +361,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "chain", 1 ] ],
-      [ [ "motor_micro", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "metal_tank_little", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "cable", 4 ] ],
@@ -389,7 +389,7 @@
     "components": [
       [ [ "plastic_chunk", 6 ] ],
       [ [ "circsaw_blade", 1 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "cable", 5 ] ]
@@ -649,7 +649,7 @@
     ],
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "motor_small", 1 ] ], [ [ "cable", 12 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "motor_tiny", 1 ] ], [ [ "cable", 12 ] ], [ [ "chain", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -795,7 +795,6 @@
     "components": [
       [ [ "superglue", 4 ], [ "bone_glue", 4 ] ],
       [ [ "antenna", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
       [ [ "motor_micro", 2 ] ],
       [ [ "amplifier", 2 ] ],
       [ [ "receiver", 1 ] ],
