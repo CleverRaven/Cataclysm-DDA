@@ -2,9 +2,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_INVENTOR_RESEARCH_BASE_1",
-    "condition": {
-      "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_1" ]
-    },
+    "condition": { "math": [ "u_val('vitamin', 'name:creative_spark_research')", ">=", "base_difficulty_1" ] },
     "effect": [
       {
         "arithmetic": [ { "u_val": "vitamin", "name": "creative_spark_research" }, "-=", { "u_val": "var", "var_name": "base_difficulty_1" } ]
