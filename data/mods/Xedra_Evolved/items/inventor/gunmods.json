@@ -79,7 +79,6 @@
     "handling_modifier": 5,
     "min_skills": [ [ "weapon", 6 ], [ "deduction", 5 ] ]
   },
-  
   {
     "id": "inventor_lasmod_close_range",
     "type": "GUNMOD",

@@ -184,7 +184,7 @@
   {
     "id": "inventor_leg_weight_on",
     "copy-from": "inventor_leg_weight",
-"name": { "str": "leg weight suspension system" },
+    "name": { "str": "leg weight suspension system" },
     "type": "TOOL_ARMOR",
     "power_draw": "5 W",
     "revert_to": "inventor_leg_weight",
