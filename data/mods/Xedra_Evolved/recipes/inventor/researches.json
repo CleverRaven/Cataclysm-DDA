@@ -43,7 +43,7 @@
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
   {
-    "id": "inventor_research_base_1",
+    "id": "inventor_research_energy_1",
     "name": "novice energy recearch",
     "description": "Research an innovative ways to generate and use energy.",
     "type": "recipe",
@@ -57,7 +57,7 @@
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
   {
-    "id": "inventor_research_base_2",
+    "id": "inventor_research_energy_2",
     "name": "intermediate energy recearch",
     "description": "Research an innovative ways to generate and use energy.",
     "type": "recipe",
@@ -71,7 +71,7 @@
     "subcategory": "CSC_XEDRA_RESEARCH"
   },
   {
-    "id": "inventor_research_base_3",
+    "id": "inventor_research_energy_3",
     "name": "difficult energy recearch",
     "description": "Research an innovative ways to generate and use energy.",
     "type": "recipe",
