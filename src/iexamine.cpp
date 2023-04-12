@@ -4032,8 +4032,7 @@ void trap::examine( const tripoint &examp ) const
         return;
     }
 
-    if( player_character.is_mounted() ) {
-        add_msg( m_warning, _( "You cannot do that while mounted." ) );
+    if( player_character.cant_do_mounted() ) {
         return;
     }
 

@@ -359,9 +359,16 @@ class game
         /** Spawns a hallucination at a determined position of a given monster. */
         bool spawn_hallucination( const tripoint &p, const mtype_id &mt,
                                   std::optional<time_duration> lifespan );
-        /** Finds somewhere to spawn a monster. */
+        /** Spawns a npc at a determined position. */
+        bool spawn_npc( const tripoint &p, const string_id<npc_template> &npc_class, std::string &unique_id,
+                        std::vector<trait_id> &traits, std::optional<time_duration> lifespan );
+        /** Finds somewhere to spawn a monster or npc. */
         bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                      int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed = false );
+                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+                                      bool open_air_allowed = false );
+        bool find_nearby_spawn_point( const tripoint &target, int min_radius,
+                                      int max_radius, tripoint &point, bool outdoor_only, bool indoor_only,
+                                      bool open_air_allowed = false );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
 

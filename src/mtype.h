@@ -105,6 +105,7 @@ enum m_flag : int {
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_SMALLSLUDGETRAIL,    // Causes monster to leave a low intensity, 1 tile sludge pool approximately every other tile when moving
     MF_COLDPROOF,           // Immune to cold damage
+    MF_COMBAT_MOUNT,        // Mount has better chance to ignore hostile monster fear
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
@@ -175,6 +176,7 @@ enum m_flag : int {
     MF_ALWAYS_SEES_YOU,     // This monster always knows where the avatar is
     MF_ALL_SEEING,          // This monster can see everything within its vision range regardless of light or obstacles
     MF_NEVER_WANDER,        // This monster will never join wandering hordes.
+    MF_CONVERSATION,        // This monster can engage in conversation.  Will need to have chat_topics as well.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -345,6 +347,9 @@ struct mtype {
         int armor_biological = -1; /** innate armor vs. biological **/
         ::weakpoints weakpoints;
         weakpoint_families families;
+
+        // Traps avoided by this monster
+        std::set<trap_str_id> trap_avoids;
 
     private:
         std::vector<weakpoints_id> weakpoints_deferred;

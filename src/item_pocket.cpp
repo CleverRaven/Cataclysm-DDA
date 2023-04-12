@@ -1722,11 +1722,11 @@ void item_pocket::overflow( const tripoint &pos )
     }
 }
 
-void item_pocket::on_pickup( Character &guy )
+void item_pocket::on_pickup( Character &guy, item *avoid )
 {
     if( will_spill() ) {
         while( !empty() ) {
-            handle_liquid_or_spill( guy );
+            handle_liquid_or_spill( guy, avoid );
         }
         restack();
     }

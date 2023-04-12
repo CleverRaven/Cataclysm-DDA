@@ -1895,7 +1895,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
-               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-79%)\n" );
+               "Vitamins (RDA): Calcium (6-35%), Iron (0-128%), and Vitamin C (0-56%)\n" );
     }
 }
 
@@ -2458,15 +2458,6 @@ TEST_CASE( "repairable and with what tools", "[iteminfo][repair]" )
     item rock( "test_rock" );
 
     std::vector<iteminfo_parts> repaired = { iteminfo_parts::DESCRIPTION_REPAIREDWITH };
-
-    // TODO: Move reinforcement to a different part flag ? Repair tools interfere here (especially
-    // with Magiclysm, which has enchanted tailor's kit)
-    /*
-    item socks( "test_socks" );
-    CHECK( item_info_str( socks, repaired ) ==
-           "--\n"
-           "* This item can be <color_c_green>reinforced</color>.\n" );
-    */
 
     CHECK( item_info_str( halligan, repaired ) ==
            "--\n"

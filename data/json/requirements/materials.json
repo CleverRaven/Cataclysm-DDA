@@ -45,7 +45,7 @@
     "id": "copper_scrap_equivalent",
     "type": "requirement",
     "//": "Material used for equivalence between one unit of scrap copper and corresponding amount of elemental copper.",
-    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 32 ] ] ]
+    "components": [ [ [ "scrap_copper", 1 ], [ "copper", 50 ] ] ]
   },
   {
     "id": "plant_cordage",
@@ -303,7 +303,7 @@
     "id": "filament_canvas",
     "type": "requirement",
     "//": "Thread for sewing canvas.  Unlike filament_durable it's ok to use a single 10 inch canvas thread for this, but half-length aramid threads are still double.  Kept separate from filament_durable because canvas thread is doubled up for those to alleviate it being a bit weaker than kevlar threading.",
-    "components": [ [ [ "thread_canvas", 2 ], [ "thread_kevlar", 2 ], [ "thread_nomex", 2 ] ] ]
+    "components": [ [ [ "thread_canvas", 1 ], [ "thread_nomex", 2 ], [ "thread_kevlar", 2 ] ] ]
   },
   {
     "id": "glazing",
@@ -416,7 +416,7 @@
     "id": "weights",
     "type": "requirement",
     "//": "Materials used for adding weight to weapons and to other items. The materials should be malleable, ductile and dense.",
-    "components": [ [ [ "lead", 5 ], [ "silver_small", 5 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
+    "components": [ [ [ "lead", 3 ], [ "silver_small", 3 ], [ "gold_small", 3 ], [ "platinum_small", 3 ] ] ]
   },
   {
     "id": "plastics",

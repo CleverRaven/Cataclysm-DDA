@@ -55,6 +55,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "character_martial_arts.h"
+#include "city.h"
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
@@ -593,10 +594,10 @@ void game_ui::init_ui()
     get_options().get_option( "TERMINAL_Y" ).setValue( TERMY * get_scaling_factor() );
     get_options().save();
 #else
-    ensure_term_size();
-
     TERMY = getmaxy( catacurses::stdscr );
     TERMX = getmaxx( catacurses::stdscr );
+
+    ensure_term_size();
 
     // try to make FULL_SCREEN_HEIGHT symmetric according to TERMY
     if( TERMY % 2 ) {
@@ -2634,7 +2635,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint_bub_ms &mo
 
 bool game::is_game_over()
 {
-    if( uquit != QUIT_SUICIDE && uquit != QUIT_NO ) {
+    if( uquit == QUIT_DIED || uquit == QUIT_WATCH ) {
         events().send<event_type::avatar_dies>();
     }
     if( uquit == QUIT_WATCH ) {
@@ -2970,111 +2971,166 @@ bool game::load( const std::string &world )
 
 bool game::load( const save_t &name )
 {
-    background_pane background;
-    static_popup popup;
-    popup.message( "%s", _( "Please wait…\nLoading the save…" ) );
-    ui_manager::redraw();
-    refresh_display();
+    loading_ui ui( true );
+    ui.new_context( _( "Loading the save…" ) );
 
     const cata_path worldpath = PATH_INFO::world_base_save_path_path();
     const cata_path save_file_path = PATH_INFO::world_base_save_path_path() /
                                      ( name.base_path() + SAVE_EXTENSION );
 
-    // Now load up the master game data; factions (and more?)
-    load_master();
-    u = avatar();
-    u.set_save_id( name.decoded_name() );
-    if( !read_from_file( save_file_path, [this, &save_file_path]( std::istream & is ) {
-    unserialize( is, save_file_path );
-    } ) ) {
-        return false;
-    }
+    bool abort = false;
 
-    u.load_map_memory();
-    u.get_avatar_diary()->load();
+    using named_entry = std::pair<std::string, std::function<void()>>;
+    const std::vector<named_entry> entries = {{
+            {
+                _( "Master save" ), [&]()
+                {
+                    // Now load up the master game data; factions (and more?)
+                    load_master();
+                }
+            },
+            {
+                _( "Character save" ), [&]()
+                {
 
-    const cata_path log_filename = worldpath / ( name.base_path() + SAVE_EXTENSION_LOG );
-    read_from_file_optional( log_filename.get_unrelative_path(), [this]( std::istream & is ) {
-        memorial().load( is );
-    } );
+                    u = avatar();
+                    u.set_save_id( name.decoded_name() );
+                    if( !read_from_file(
+                            save_file_path,
+                    [this, &save_file_path]( std::istream & is ) {
+                    unserialize( is, save_file_path );
+                    } ) ) {
+                        abort = true;
+                    }
+                }
+            },
+            {
+                _( "Map memory" ), [&]()
+                {
+                    u.load_map_memory();
+                }
+            },
+            {
+                _( "Diary" ), [&]()
+                {
+                    u.get_avatar_diary()->load();
+                }
+            },
+            {
+                _( "Memorial" ), [&]()
+                {
+                    const cata_path log_filename =
+                    worldpath / ( name.base_path() + SAVE_EXTENSION_LOG );
+                    read_from_file_optional(
+                        log_filename.get_unrelative_path(),
+                    [this]( std::istream & is ) {
+                        memorial().load( is );
+                    } );
+                }
+            },
+            {
+                _( "Finalizing" ), [&]()
+                {
 
 #if defined(__ANDROID__)
-    const cata_path shortcuts_filename = worldpath / ( name.base_path() + SAVE_EXTENSION_SHORTCUTS );
-    if( file_exist( shortcuts_filename ) ) {
-        load_shortcuts( shortcuts_filename );
-    }
+                    const cata_path shortcuts_filename =
+                    worldpath / ( name.base_path() + SAVE_EXTENSION_SHORTCUTS );
+                    if( file_exist( shortcuts_filename ) ) {
+                        load_shortcuts( shortcuts_filename );
+                    }
 #endif
 
-    // Now that the player's worn items are updated, their sight limits need to be
-    // recalculated. (This would be cleaner if u.worn were private.)
-    u.recalc_sight_limits();
+                    // Now that the player's worn items are updated, their sight limits need to be
+                    // recalculated. (This would be cleaner if u.worn were private.)
+                    u.recalc_sight_limits();
 
-    if( !gamemode ) {
-        gamemode = std::make_unique<special_game>();
-    }
+                    if( !gamemode ) {
+                        gamemode = std::make_unique<special_game>();
+                    }
 
-    safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
-    mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
+                    safe_mode = get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF;
+                    mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 
-    init_autosave();
-    get_auto_pickup().load_character(); // Load character auto pickup rules
-    get_auto_notes_settings().load( true ); // Load character auto notes settings
-    get_safemode().load_character(); // Load character safemode rules
-    zone_manager::get_manager().load_zones(); // Load character world zones
-    read_from_file_optional_json( PATH_INFO::world_base_save_path_path() / "uistate.json", [](
-    const JsonValue & jsin ) {
-        uistate.deserialize( jsin.get_object() );
-    } );
-    reload_npcs();
-    validate_npc_followers();
-    validate_mounted_npcs();
-    validate_camps();
-    validate_linked_vehicles();
-    update_map( u );
-    for( item *&e : u.inv_dump() ) {
-        e->set_owner( get_player_character() );
-    }
-    // legacy, needs to be here as we access the map.
-    if( !u.getID().is_valid() ) {
-        // player does not have a real id, so assign a new one,
-        u.setID( assign_npc_id() );
-        // The vehicle stores the IDs of the boarded players, so update it, too.
-        if( u.in_vehicle ) {
-            if( const std::optional<vpart_reference> vp = m.veh_at(
-                        u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
-                vp->part().passenger_id = u.getID();
-            }
+                    init_autosave();
+                    get_auto_pickup().load_character(); // Load character auto pickup rules
+                    get_auto_notes_settings().load( true ); // Load character auto notes settings
+                    get_safemode().load_character(); // Load character safemode rules
+                    zone_manager::get_manager().load_zones(); // Load character world zones
+                    read_from_file_optional_json(
+                        PATH_INFO::world_base_save_path_path() / "uistate.json",
+                    []( const JsonValue & jsin ) {
+                        uistate.deserialize( jsin.get_object() );
+                    } );
+                    reload_npcs();
+                    validate_npc_followers();
+                    validate_mounted_npcs();
+                    validate_camps();
+                    validate_linked_vehicles();
+                    update_map( u );
+                    for( item *&e : u.inv_dump() ) {
+                        e->set_owner( get_player_character() );
+                    }
+                    // legacy, needs to be here as we access the map.
+                    if( !u.getID().is_valid() ) {
+                        // player does not have a real id, so assign a new one,
+                        u.setID( assign_npc_id() );
+                        // The vehicle stores the IDs of the boarded players, so update it, too.
+                        if( u.in_vehicle ) {
+                            if( const std::optional<vpart_reference> vp = m.veh_at(
+                                        u.pos() ).part_with_feature( "BOARDABLE", true ) ) {
+                                vp->part().passenger_id = u.getID();
+                            }
+                        }
+                    }
+
+                    // populate calendar caches now, after active world is set, but before we do
+                    // anything else, to ensure they pick up the correct value from the save's
+                    // worldoptions
+                    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
+                    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
+
+                    calendar::set_eternal_night(
+                        ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
+                    calendar::set_eternal_day(
+                        ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
+
+                    u.reset();
+                    u.recalculate_enchantment_cache();
+                    u.enchantment_cache->activate_passive( u );
+                    events().send<event_type::game_load>( getVersionString() );
+                    time_of_last_load = std::chrono::steady_clock::now();
+                    time_played_at_last_load = std::chrono::seconds( 0 );
+                    std::optional<event_multiset::summaries_type::value_type> last_save =
+                        stats().get_events( event_type::game_save ).last();
+                    if( last_save ) {
+                        auto time_played_it = last_save->first.find( "total_time_played" );
+                        if( time_played_it != last_save->first.end() &&
+                            time_played_it->second.type() == cata_variant_type::chrono_seconds ) {
+                            time_played_at_last_load =
+                                time_played_it->second.get<std::chrono::seconds>();
+                        }
+                    }
+
+                    effect_on_conditions::load_existing_character( u );
+                    // recalculate light level for correctly resuming crafting and disassembly
+                    m.build_map_cache( m.get_abs_sub().z() );
+                }
+            },
         }
+    };
+
+    for( const named_entry &e : entries ) {
+        ui.add_entry( e.first );
     }
 
-    // populate calendar caches now, after active world is set, but before we do
-    // anything else, to ensure they pick up the correct value from the save's
-    // worldoptions
-    calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
-    calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
-
-    calendar::set_eternal_night( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "night" );
-    calendar::set_eternal_day( ::get_option<std::string>( "ETERNAL_TIME_OF_DAY" ) == "day" );
-
-    u.reset();
-    u.recalculate_enchantment_cache();
-    u.enchantment_cache->activate_passive( u );
-    events().send<event_type::game_load>( getVersionString() );
-    time_of_last_load = std::chrono::steady_clock::now();
-    time_played_at_last_load = std::chrono::seconds( 0 );
-    std::optional<event_multiset::summaries_type::value_type> last_save =
-        stats().get_events( event_type::game_save ).last();
-    if( last_save ) {
-        auto time_played_it = last_save->first.find( "total_time_played" );
-        if( time_played_it != last_save->first.end() &&
-            time_played_it->second.type() == cata_variant_type::chrono_seconds ) {
-            time_played_at_last_load = time_played_it->second.get<std::chrono::seconds>();
+    ui.show();
+    for( const named_entry &e : entries ) {
+        e.second();
+        if( abort ) {
+            return false;
         }
+        ui.proceed();
     }
-
-    effect_on_conditions::load_existing_character( u );
-    // recalculate light level for correctly resuming crafting and disassembly
-    m.build_map_cache( m.get_abs_sub().z() );
 
     return true;
 }
@@ -3289,6 +3345,9 @@ bool game::save()
             debugmsg( "game not saved" );
             return false;
         } else {
+            world_generator->last_world_name = world_generator->active_world->world_name;
+            world_generator->last_character_name = u.name;
+            world_generator->save_last_world_info();
             world_generator->active_world->add_save( save_t::from_save_id( u.get_save_id() ) );
             return true;
         }
@@ -4896,6 +4955,21 @@ static bool can_place_monster( const monster &mon, const tripoint &p )
     return mon.will_move_to( p );
 }
 
+static bool can_place_npc( const tripoint &p )
+{
+    creature_tracker &creatures = get_creature_tracker();
+    if( const monster *const critter = creatures.creature_at<monster>( p ) ) {
+        // creature_tracker handles this. The hallucination monster will simply vanish
+        if( !critter->is_hallucination() ) {
+            return false;
+        }
+    }
+    if( creatures.creature_at<Character>( p ) ) {
+        return false;
+    }
+    return !g->is_dangerous_tile( p );
+}
+
 static std::optional<tripoint> choose_where_to_place_monster( const monster &mon,
         const tripoint_range<tripoint> &range )
 {
@@ -4991,7 +5065,7 @@ void game::clear_zombies()
 }
 
 bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
-                                    int max_radius, tripoint &point, bool outdoor_only, bool open_air_allowed )
+                                    int max_radius, tripoint &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
 {
     tripoint target_point;
     //find a legal outdoor place to spawn based on the specified radius,
@@ -5002,6 +5076,29 @@ bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, 
         if( can_place_monster( monster( mt->id ), target_point ) &&
             ( open_air_allowed || get_map().has_floor( target_point ) ) &&
             ( !outdoor_only || get_map().is_outside( target_point ) ) &&
+            ( !indoor_only || !get_map().is_outside( target_point ) ) &&
+            rl_dist( target_point, target ) >= min_radius ) {
+            point = target_point;
+            return true;
+        }
+    }
+    return false;
+}
+
+
+bool game::find_nearby_spawn_point( const tripoint &target, int min_radius,
+                                    int max_radius, tripoint &point, bool outdoor_only, bool indoor_only, bool open_air_allowed )
+{
+    tripoint target_point;
+    //find a legal outdoor place to spawn based on the specified radius,
+    //we just try a bunch of random points and use the first one that works, it none do then no spawn
+    for( int attempts = 0; attempts < 75; attempts++ ) {
+        target_point = target + tripoint( rng( -max_radius, max_radius ),
+                                          rng( -max_radius, max_radius ), 0 );
+        if( can_place_npc( target_point ) &&
+            ( open_air_allowed || get_map().has_floor( target_point ) ) &&
+            ( !outdoor_only || get_map().is_outside( target_point ) ) &&
+            ( !indoor_only || !get_map().is_outside( target_point ) ) &&
             rl_dist( target_point, target ) >= min_radius ) {
             point = target_point;
             return true;
@@ -5073,6 +5170,37 @@ bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt,
     //Don't attempt to place phantasms inside of other creatures
     if( !get_creature_tracker().creature_at( phantasm->pos(), true ) ) {
         return critter_tracker->add( phantasm );
+    } else {
+        return false;
+    }
+}
+
+bool game::spawn_npc( const tripoint &p, const string_id<npc_template> &npc_class,
+                      std::string &unique_id,
+                      std::vector<trait_id> &traits, std::optional<time_duration> lifespan )
+{
+    if( !unique_id.empty() && g->unique_npc_exists( unique_id ) ) {
+        get_avatar().add_msg_debug_if_player( debugmode::DF_NPC, "NPC with unique id %s already exists.",
+                                              unique_id );
+        return false;
+    }
+    shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
+    tmp->normalize();
+    tmp->load_npc_template( npc_class );
+    tmp->spawn_at_precise( tripoint_abs_ms( get_map().getabs( p ) ) );
+    if( !get_creature_tracker().creature_at( p, true ) ) {
+        overmap_buffer.insert_npc( tmp );
+        for( const trait_id &new_trait : traits ) {
+            tmp->set_mutation( new_trait );
+        }
+        if( !unique_id.empty() ) {
+            tmp->set_unique_id( unique_id );
+        }
+        if( lifespan.has_value() ) {
+            tmp->set_summon_time( lifespan.value() );
+        }
+        load_npcs();
+        return true;
     } else {
         return false;
     }
@@ -5844,17 +5972,17 @@ void game::examine( const tripoint &examp, bool with_pickup )
                 if( monexamine::mfriend_menu( *mon ) ) {
                     return;
                 }
+            } else if( mon->has_flag( MF_CONVERSATION ) && !mon->type->chat_topics.empty() ) {
+                get_avatar().talk_to( get_talker_for( mon ) );
             }
-        } else if( u.is_mounted() ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
+        } else {
+            u.cant_do_mounted();
         }
         npc *np = dynamic_cast<npc *>( c );
-        if( np != nullptr && !u.is_mounted() ) {
+        if( np != nullptr && !u.cant_do_mounted() ) {
             if( npc_menu( *np ) ) {
                 return;
             }
-        } else if( np != nullptr && u.is_mounted() ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
         }
     }
 
@@ -5888,15 +6016,11 @@ void game::examine( const tripoint &examp, bool with_pickup )
     const tripoint player_pos = u.pos();
 
     if( m.has_furn( examp ) ) {
-        if( u.is_mounted() ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
-        } else {
+        if( !u.cant_do_mounted() ) {
             xfurn_t.examine( u, examp );
         }
     } else {
-        if( u.is_mounted() && xter_t.can_examine( examp ) ) {
-            add_msg( m_warning, _( "You cannot do that while mounted." ) );
-        } else {
+        if( xter_t.can_examine( examp ) && !u.is_mounted() ) {
             xter_t.examine( u, examp );
         }
     }
@@ -10499,10 +10623,11 @@ point game::place_player( const tripoint &dest_loc, bool quick )
             }
         } else if( pulp_butcher == "pulp" || pulp_butcher == "pulp_adjacent" ||
                    pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
+            const bool acid_immune = u.is_immune_damage( damage_type::ACID ) || u.is_immune_field( fd_acid );
             const auto pulp = [&]( const tripoint & pos ) {
                 for( const item &maybe_corpse : m.i_at( pos ) ) {
                     if( maybe_corpse.is_corpse() && maybe_corpse.can_revive() &&
-                        !maybe_corpse.get_mtype()->bloodType().obj().has_acid ) {
+                        ( !maybe_corpse.get_mtype()->bloodType().obj().has_acid || acid_immune ) ) {
 
                         if( pulp_butcher == "pulp_zombie_only" || pulp_butcher == "pulp_adjacent_zombie_only" ) {
                             if( !maybe_corpse.get_mtype()->has_flag( MF_REVIVES ) ) {
@@ -11462,7 +11587,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( !force && movez == -1 && !here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, u.pos() ) ) {
-        if( wall_cling && here.passable( stairs ) ) {
+        if( wall_cling && !here.has_floor_or_support( u.pos() ) ) {
             climbing = true;
             u.set_activity_level( EXTRA_EXERCISE );
             u.mod_stamina( -750 );

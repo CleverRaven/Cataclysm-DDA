@@ -136,7 +136,6 @@ struct limb_score {
 };
 
 struct bp_limb_score {
-    limb_score_id id = limb_score_id::NULL_ID();
     float score = 0.0f;
     float max = 0.0f;
 };
@@ -217,7 +216,7 @@ struct body_part_type {
 
     private:
         // limb score values
-        std::vector<bp_limb_score> limb_scores;
+        std::map<limb_score_id, bp_limb_score> limb_scores;
         damage_instance damage;
 
     public:

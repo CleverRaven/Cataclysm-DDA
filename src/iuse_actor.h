@@ -763,13 +763,13 @@ class repair_item_actor : public iuse_actor
 
         enum repair_type : int {
             RT_NOTHING = 0,
-            RT_REPAIR,          // Just repairing damage
-            RT_REFIT,           // Refitting
-            RT_DOWNSIZING,      // When small, reduce clothing to small size
-            RT_UPSIZING,        // When normal, increase clothing to normal size
-            RT_REINFORCE,       // Getting damage below 0
-            RT_PRACTICE,        // Wanted to reinforce, but can't
-            NUM_REPAIR_TYPES
+            RT_REPAIR = 1,          // Just repairing damage
+            RT_REFIT = 2,           // Refitting
+            RT_DOWNSIZING = 3,      // When small, reduce clothing to small size
+            RT_UPSIZING = 4,        // When normal, increase clothing to normal size
+            // value of 5 obsoleted, previously used for reinforcing
+            RT_PRACTICE = 6,        // Wanted to reinforce, but can't
+            NUM_REPAIR_TYPES = 7
         };
 
         /** Attempts to repair target item with selected tool */
@@ -1103,6 +1103,7 @@ class effect_on_conditons_actor : public iuse_actor
     public:
         std::vector<effect_on_condition_id> eocs;
         std::string description;
+        translation menu_text;
         explicit effect_on_conditons_actor( const std::string &type = "effect_on_conditions" ) : iuse_actor(
                 type ) {}
 
@@ -1110,6 +1111,7 @@ class effect_on_conditons_actor : public iuse_actor
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character &p, item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
+        std::string get_name() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
 #endif // CATA_SRC_IUSE_ACTOR_H

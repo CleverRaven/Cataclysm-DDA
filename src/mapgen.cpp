@@ -21,6 +21,7 @@
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character_id.h"
+#include "city.h"
 #include "clzones.h"
 #include "colony.h"
 #include "common_types.h"
@@ -144,7 +145,6 @@ static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
 static const oter_str_id oter_lab_finale( "lab_finale" );
 static const oter_str_id oter_lab_stairs( "lab_stairs" );
-static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
 static const oter_str_id oter_sewer_es( "sewer_es" );
 static const oter_str_id oter_sewer_esw( "sewer_esw" );
 static const oter_str_id oter_sewer_ew( "sewer_ew" );
@@ -807,7 +807,7 @@ mapgen_function_json_base::mapgen_function_json_base(
     , total_size( mapgensize )
     , objects( m_offset, mapgensize, total_size )
 {
-    jsobj.allow_omitted_members();
+    this->jsobj.allow_omitted_members();
 }
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
@@ -6246,9 +6246,6 @@ void map::draw_connections( const mapgendata &dat )
             }
         }
     } else if( terrain_type->get_type_id() == oter_type_sewer ) {
-        if( dat.above() == oter_road_nesw_manhole ) {
-            ter_set( point( rng( SEEX - 2, SEEX + 1 ), rng( SEEY - 2, SEEY + 1 ) ), t_ladder_up );
-        }
         if( ( dat.north()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 0 ) ) {
             for( int j = 0; j < SEEY - 3; j++ ) {

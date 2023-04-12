@@ -465,6 +465,12 @@ item Character::item_worn_with_flag( const flag_id &f ) const
     return worn.item_worn_with_flag( f );
 }
 
+item *Character::item_worn_with_id( const itype_id &i )
+{
+    return worn.item_worn_with_id( i );
+}
+
+
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     return worn.wearing_something_on( bp );
@@ -920,6 +926,18 @@ item outfit::item_worn_with_flag( const flag_id &f ) const
         }
     }
     return it_with_flag;
+}
+
+item *outfit::item_worn_with_id( const itype_id &i )
+{
+    item *it_with_id = nullptr;
+    for( item &it : worn ) {
+        if( it.typeId() == i ) {
+            it_with_id = &it;
+            break;
+        }
+    }
+    return it_with_id;
 }
 
 std::list<item> outfit::get_visible_worn_items( const Character &guy ) const

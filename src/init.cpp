@@ -22,6 +22,7 @@
 #include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "character_modifier.h"
+#include "city.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
@@ -162,7 +163,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
         auto it = data.begin();
         for( size_t idx = 0; idx != n; ++idx ) {
             try {
-                JsonObject jo = it->first;
+                const JsonObject &jo = it->first;
                 load_object( jo, it->second );
             } catch( const JsonError &err ) {
                 debugmsg( "(json-error)\n%s", err.what() );

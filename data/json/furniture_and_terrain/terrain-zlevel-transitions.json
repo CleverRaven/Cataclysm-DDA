@@ -124,6 +124,7 @@
     "name": "stairs",
     "description": "A flight of stairs leading down.",
     "symbol": ">",
+    "looks_like": "t_stairs_down",
     "color": "yellow",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "GOES_DOWN", "PLACE_ITEM" ]
