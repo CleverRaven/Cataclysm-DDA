@@ -9030,7 +9030,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
-    "tools": [ [ [ "food_processor", 20 ] ] ] ,
+    "tools": [ [ [ "food_processor", 20 ] ] ],
     "components": [
       [ [ "flour", 1 ] ],
       [
