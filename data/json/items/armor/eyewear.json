@@ -56,7 +56,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "coverage": 95, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "fitover_sunglasses",
@@ -76,7 +76,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "VARSIZE", "FRAGILE" ],
-    "armor": [ { "encumbrance": 1, "coverage": 90, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "coverage": 90, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "glasses_bal",
@@ -304,7 +304,7 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "WATER_FRIENDLY", "SUN_GLASSES", "FRAGILE", "SKINTIGHT" ],
-    "armor": [ { "encumbrance": 1, "coverage": 85, "covers": [ "eyes" ], "rigid_layer_only": true } ]
+    "armor": [ { "coverage": 85, "covers": [ "eyes" ], "rigid_layer_only": true } ]
   },
   {
     "id": "sunglasses_bifocal",
