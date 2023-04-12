@@ -18,7 +18,7 @@
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 19 ] ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NPC_THROWN" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -32,16 +32,15 @@
     "price_postapoc": 50000,
     "material": [ "moon_tears" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "weapon_category": [ "MEDIEVAL_SWORDS", "LONG_SWORDS", "FENCING_WEAPONRY" ],
     "weight": "1214 g",
     "volume": "2750 ml",
     "longest_side": "130 cm",
-    "bashing": 8,
-    "cutting": 42,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "line", "balance": "good" },
     "category": "weapons",
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
+    "melee_damage": { "bash": 8, "stab": 42 }
   },
   {
     "id": "winter_lord_estoc",
@@ -121,7 +120,7 @@
     "color": "light_gray",
     "techniques": [ "RAPID" ],
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 21 ] ],
-    "flags": [ "STAB", "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE", "TRADER_AVOID" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_KNIFE", "NONCONDUCTIVE", "TRADER_AVOID" ],
     "weapon_category": [ "KNIVES" ]
   },
   {
@@ -414,7 +413,6 @@
     "//": "You actually can use it with any weapon, because enchantment applied always, both when you wear it or if you wield it, but it doesn't matter, because iirc fists has one of the biggest attack speed in the game, which is the only thing that matter here.",
     "copy-from": "dreamforged_knuckle",
     "proportional": { "bashing": 0.5 },
-    "cutting": 3,
     "relic_data": { "passive_effects": [ { "id": "BERSERKING" } ] },
     "armor": [
       {
@@ -423,7 +421,8 @@
         "covers": [ "hand_l", "hand_r" ],
         "specifically_covers": [ "hand_fingers_l", "hand_fingers_r" ]
       }
-    ]
+    ],
+    "melee_damage": { "cut": 3 }
   },
   {
     "type": "GENERIC",

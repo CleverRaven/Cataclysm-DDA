@@ -29,14 +29,14 @@
     "volume": "500 ml",
     "weight": "970 g",
     "to_hit": 2,
-    "bashing": 2,
     "price_postapoc": 124000,
     "qualities": [ [ "HAMMER", 1 ] ],
     "flags": [ "ONLY_ONE", "DURABLE_MELEE", "NONCONDUCTIVE", "FLAMING" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 7 } ] } ]
     },
-    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ]
+    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ],
+    "melee_damage": { "bash": 2 }
   },
   {
     "type": "GENERIC",
@@ -72,13 +72,13 @@
     "material": [ "steel", "leather" ],
     "volume": "1 L",
     "weight": "981 g",
-    "bashing": 16,
     "to_hit": 1,
     "price_postapoc": 145000,
     "qualities": [ [ "HAMMER", 2 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "OVERSIZE", "MESSY" ],
-    "armor_data": { "armor": [ { "encumbrance": 8, "coverage": 20, "covers": [ "hand_r" ] } ] }
+    "armor_data": { "armor": [ { "encumbrance": 8, "coverage": 20, "covers": [ "hand_r" ] } ] },
+    "melee_damage": { "bash": 16 }
   },
   {
     "type": "GENERIC",
@@ -90,11 +90,11 @@
     "material": [ "stone", "leather", "steel" ],
     "volume": "500 ml",
     "weight": "873 g",
-    "bashing": 13,
     "to_hit": 1,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "TRADER_AVOID", "MAGIC_FOCUS", "NONCONDUCTIVE" ],
-    "armor_data": { "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ] }
+    "armor_data": { "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "hand_r" ] } ] },
+    "melee_damage": { "bash": 13 }
   }
 ]

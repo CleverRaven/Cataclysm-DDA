@@ -685,14 +685,13 @@
     "longest_side": "130 cm",
     "price": 3900,
     "to_hit": 2,
-    "bashing": 6,
-    "cutting": 21,
     "material": [ "wood", "bone" ],
     "symbol": "/",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "IMPALE" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "melee_damage": { "bash": 6, "stab": 21 }
   },
   {
     "id": "rune_biomancer_weapon_adept",
@@ -706,8 +705,6 @@
     "longest_side": "130 cm",
     "price": 3900,
     "to_hit": 3,
-    "bashing": 9,
-    "cutting": 25,
     "material": [ "hflesh", "bone" ],
     "symbol": "/",
     "color": "light_gray",
@@ -721,7 +718,8 @@
       "need_wielding": true,
       "moves": 400
     },
-    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
+    "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "melee_damage": { "bash": 9, "stab": 25 }
   },
   {
     "id": "rune_technomancer_weapon",
@@ -734,8 +732,6 @@
     "volume": "440 ml",
     "longest_side": "65 cm",
     "price": 3900,
-    "bashing": 22,
-    "cutting": 1,
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
@@ -743,7 +739,8 @@
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 3 ], [ "HAMMER_FINE", 1 ], [ "WRENCH", 2 ], [ "WRENCH_FINE", 2 ], [ "PRYING_NAIL", 1 ] ],
     "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "TRADER_AVOID", "MAGIC_FOCUS" ],
-    "weapon_category": [ "HOOKING_WEAPONRY" ]
+    "weapon_category": [ "HOOKING_WEAPONRY" ],
+    "melee_damage": { "bash": 22, "cut": 1 }
   },
   {
     "id": "rune_technomancer_weapon_adept",
@@ -756,8 +753,6 @@
     "volume": "550 ml",
     "longest_side": "65 cm",
     "price": 5000,
-    "bashing": 27,
-    "cutting": 1,
     "material": [ "steel" ],
     "symbol": "/",
     "color": "light_gray",
@@ -771,7 +766,8 @@
     "use_action": [
       [ "CROWBAR", 0 ],
       { "type": "cast_spell", "spell_id": "mirror_image", "no_fail": true, "level": 10, "need_wielding": true }
-    ]
+    ],
+    "melee_damage": { "bash": 27, "cut": 1 }
   },
   {
     "id": "rune_magus_weapon",
@@ -785,12 +781,12 @@
     "longest_side": "185 cm",
     "price": 3900,
     "to_hit": 4,
-    "bashing": 29,
     "material": [ "wood", "diamond" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "melee_damage": { "bash": 29 }
   },
   {
     "id": "rune_magus_weapon_adept",
@@ -804,7 +800,6 @@
     "longest_side": "185 cm",
     "price": 15000,
     "to_hit": 4,
-    "bashing": 34,
     "material": [ "wood", "diamond" ],
     "symbol": "/",
     "relic_data": {
@@ -812,7 +807,8 @@
     },
     "color": "brown",
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR", "TRADER_AVOID", "MAGIC_FOCUS" ],
+    "melee_damage": { "bash": 34 }
   },
   {
     "id": "rune_kelvinist_weapon",
@@ -875,15 +871,14 @@
     "longest_side": "90 cm",
     "price": 3900,
     "to_hit": -1,
-    "bashing": 33,
-    "cutting": 22,
     "material": [ "wood", "copper", "silver" ],
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 1 ], [ "BUTCHER", -20 ] ],
     "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ],
+    "melee_damage": { "bash": 33, "cut": 22 }
   },
   {
     "id": "rune_stormshaper_weapon_adept",
@@ -897,8 +892,6 @@
     "price": 55800,
     "price_postapoc": 21000,
     "to_hit": 0,
-    "bashing": 40,
-    "cutting": 27,
     "material": [ "wood", "copper", "silver" ],
     "symbol": "/",
     "color": "brown",
@@ -912,7 +905,8 @@
     "flags": [ "DURABLE_MELEE", "NO_UNLOAD", "NO_RELOAD", "SHEATH_AXE", "TRADER_AVOID", "MAGIC_FOCUS", "HYGROMETER", "BAROMETER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
-    "charges_per_use": 1
+    "charges_per_use": 1,
+    "melee_damage": { "bash": 40, "cut": 27 }
   },
   {
     "id": "rune_animist_weapon",
@@ -924,15 +918,14 @@
     "volume": "500 ml",
     "longest_side": "25 cm",
     "price": 3000,
-    "bashing": 2,
-    "cutting": 13,
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 11 ] ],
     "weapon_category": [ "KNIVES" ],
-    "flags": [ "STAB", "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ]
+    "flags": [ "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "melee_damage": { "bash": 2, "stab": 13 }
   },
   {
     "id": "rune_animist_weapon_adept",
@@ -944,8 +937,6 @@
     "volume": "500 ml",
     "longest_side": "25 cm",
     "price": 15000,
-    "bashing": 7,
-    "cutting": 30,
     "material": [ "wood", "steel" ],
     "symbol": ";",
     "color": "light_gray",
@@ -955,7 +946,8 @@
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "PAIN", "multiply": -0.3 } ] } ]
     },
-    "flags": [ "STAB", "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ]
+    "flags": [ "SHEATH_KNIFE", "MAGIC_FOCUS", "TRADER_AVOID" ],
+    "melee_damage": { "bash": 7, "stab": 30 }
   },
   {
     "type": "GENERIC",
@@ -981,8 +973,8 @@
     },
     "volume": "750 ml",
     "longest_side": "60 cm",
-    "bashing": 24,
-    "price": 34000
+    "price": 34000,
+    "melee_damage": { "bash": 24 }
   },
   {
     "type": "GENERIC",
@@ -1008,8 +1000,8 @@
     },
     "volume": "3 L",
     "longest_side": "150 cm",
-    "bashing": 29,
-    "price": 34000
+    "price": 34000,
+    "melee_damage": { "bash": 29 }
   },
   {
     "id": "grim_reaper_scythe",
@@ -1023,8 +1015,6 @@
     "volume": "3550 ml",
     "longest_side": "150 cm",
     "price": 10000,
-    "bashing": 17,
-    "cutting": 45,
     "to_hit": { "grip": "weapon", "length": "long", "surface": "point", "balance": "neutral" },
     "material": [ "steel", "wood" ],
     "symbol": "/",
@@ -1047,6 +1037,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "crystallized_mana": 3 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "24 h", "regenerate_ammo": true } },
     "charges_per_use": 1,
-    "use_action": [ { "type": "cast_spell", "spell_id": "rupture", "no_fail": true, "level": 10, "need_wielding": true } ]
+    "use_action": [ { "type": "cast_spell", "spell_id": "rupture", "no_fail": true, "level": 10, "need_wielding": true } ],
+    "melee_damage": { "bash": 17, "cut": 45 }
   }
 ]

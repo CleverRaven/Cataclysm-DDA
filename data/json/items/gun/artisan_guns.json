@@ -20,11 +20,11 @@
       "barrel_volume": "-500 ml"
     },
     "valid_mod_locations": [ [ "mechanism", 4 ], [ "sling", 1 ], [ "underbarrel mount", 1 ] ],
-    "bashing": 30,
     "to_hit": { "grip": "solid", "length": "short", "surface": "any", "balance": "uneven" },
     "qualities": [ [ "HAMMER", 1 ] ],
     "extend": { "flags": [ "DURABLE_MELEE" ] },
-    "weapon_category": [ "MACES" ]
+    "weapon_category": [ "MACES" ],
+    "melee_damage": { "bash": 30 }
   },
   {
     "id": "pulverizer",
@@ -96,11 +96,11 @@
     "relative": { "dispersion": 180 },
     "valid_mod_locations": [  ],
     "to_hit": { "grip": "weapon", "length": "hand", "surface": "point", "balance": "neutral" },
-    "cutting": 16,
     "qualities": [ [ "CUT", 2 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 14 ] ],
     "techniques": [ "RAPID" ],
-    "flags": [ "STAB", "DURABLE_MELEE", "ALLOWS_BODY_BLOCK" ],
+    "flags": [ "DURABLE_MELEE", "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS", "KNIVES" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "32": 2 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "32": 2 } } ],
+    "melee_damage": { "stab": 16 }
   }
 ]

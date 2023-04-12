@@ -23,7 +23,6 @@
     "price": 0,
     "price_postapoc": 0,
     "to_hit": -3,
-    "bashing": 8,
     "material": [ "flesh" ],
     "symbol": ";",
     "color": "white_magenta",
@@ -36,7 +35,8 @@
       "moves": 150,
       "skills": [ "electronics", "firstaid" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE" ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "mon_meat_hunk",

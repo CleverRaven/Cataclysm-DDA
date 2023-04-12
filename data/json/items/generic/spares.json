@@ -126,10 +126,10 @@
     "material": [ "steel" ],
     "weight": "7 kg",
     "volume": "3 L",
-    "bashing": 16,
     "to_hit": -4,
     "price": 10000,
-    "price_postapoc": 2000
+    "price_postapoc": 2000,
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "nitrogen_membrane_filter",
@@ -140,10 +140,10 @@
     "material": [ "steel" ],
     "weight": "2 kg",
     "volume": "500 ml",
-    "bashing": 12,
     "longest_side": "60 cm",
     "price": 40000,
-    "price_postapoc": 2000
+    "price_postapoc": 2000,
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "magnet",
@@ -169,9 +169,9 @@
     "material": [ "steel" ],
     "weight": "4 kg",
     "volume": "500 ml",
-    "bashing": 16,
     "price": 5000,
-    "price_postapoc": 2000
+    "price_postapoc": 2000,
+    "melee_damage": { "bash": 16 }
   },
   {
     "id": "hd_pipe_fittings",

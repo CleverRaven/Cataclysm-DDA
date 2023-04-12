@@ -49,7 +49,6 @@
     "longest_side": "20 cm",
     "price": "10 kUSD",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
@@ -64,7 +63,8 @@
       }
     ],
     "use_action": { "type": "cast_spell", "spell_id": "afs_clairvoyance_cone", "no_fail": true, "level": 5 },
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP" ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "afs_motion_sensor",
@@ -76,7 +76,6 @@
     "price": "6 kUSD",
     "longest_side": "20 cm",
     "to_hit": -2,
-    "bashing": 6,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "yellow",
@@ -110,7 +109,8 @@
       "need_charges": 1,
       "active": true,
       "msg": "The %s screen flashes on."
-    }
+    },
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "afs_motion_sensor_on",
@@ -278,13 +278,13 @@
     "price": 100000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 5,
     "material": [ "plastic", "aluminum" ],
     "qualities": [ [ "BOIL", 1 ] ],
     "symbol": ",",
     "color": "light_green",
     "use_action": [ "HOTPLATE_ATOMIC" ],
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "afs_power_cutter",
@@ -296,8 +296,6 @@
     "price": 100000,
     "price_postapoc": 10000,
     "to_hit": -3,
-    "bashing": 7,
-    "cutting": 3,
     "material": [ "steel", "plastic", "diamond" ],
     "symbol": "/",
     "looks_like": "circsaw_off",
@@ -306,7 +304,8 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": { "target": "afs_power_cutter_on", "msg": "You rev up the power cutter!", "active": true, "type": "transform" },
-    "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
+    "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 7, "cut": 3 }
   },
   {
     "id": "afs_power_cutter_on",
@@ -314,12 +313,12 @@
     "type": "TOOL",
     "name": { "str": "power cutter (on)", "str_pl": "power cutters (on)" },
     "description": "A huge, gas-powered saw with a diamond blade, currently a whirling blur.  It's consuming gasoline, but can be used as a fantastic tool for cutting metal.  You can also use it as a terrifying weapon, if you're into that sort of thing.",
-    "cutting": 80,
     "turns_per_charge": 3,
     "revert_to": "afs_power_cutter",
     "use_action": { "target": "afs_power_cutter", "msg": "Your power cutter falls quiet.", "menu_text": "Turn off", "type": "transform" },
     "qualities": [ [ "CUT", 2 ], [ "SAW_M", 20 ], [ "SAW_M_FINE", 1 ], [ "BUTCHER", -70 ] ],
-    "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 7, "cut": 80 }
   },
   {
     "id": "afs_murdersaw",
@@ -331,8 +330,6 @@
     "price": 100000,
     "price_postapoc": 30000,
     "to_hit": -3,
-    "bashing": 6,
-    "cutting": 3,
     "material": [ "steel", "plastic", "diamond" ],
     "symbol": "/",
     "looks_like": "circsaw_off",
@@ -341,7 +338,8 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": { "target": "afs_murdersaw_on", "msg": "You rev up the murdersaw!", "active": true, "type": "transform" },
-    "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ]
+    "flags": [ "ALWAYS_TWOHAND", "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 3 }
   },
   {
     "id": "afs_murdersaw_on",
@@ -349,13 +347,13 @@
     "type": "TOOL",
     "name": { "str": "murdersaw (on)", "str_pl": "murdersaws (on)" },
     "description": "This fearsome weapon is currently whirring loudly and shaking with the force of its own power.  Use it to turn it off.",
-    "cutting": 80,
     "to_hit": 2,
     "turns_per_charge": 5,
     "revert_to": "afs_murdersaw",
     "use_action": { "target": "afs_murdersaw", "msg": "Your murdersaw falls quiet.", "menu_text": "Turn off", "type": "transform" },
     "qualities": [ [ "CUT", 2 ], [ "SAW_M", 10 ], [ "BUTCHER", -50 ] ],
-    "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "ALWAYS_TWOHAND", "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "melee_damage": { "bash": 6, "cut": 80 }
   },
   {
     "type": "GENERIC",
@@ -367,8 +365,8 @@
     "material": [ "steel" ],
     "weight": "840 g",
     "volume": "500 ml",
-    "bashing": 5,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "UPS_off",
@@ -537,11 +535,11 @@
     "color": "light_green",
     "use_action": { "type": "deploy_furn", "furn_type": "f_nano_forge" },
     "to_hit": -2,
-    "bashing": 5,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 5000 } } ],
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "material": [ "superalloy" ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "nano_pseudo_forge",
@@ -552,12 +550,12 @@
     "volume": "11356 ml",
     "price": 20000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "plastic", "steel" ],
     "qualities": [ [ "NANO_FORGE", 1 ] ],
     "symbol": "H",
     "color": "light_gray",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "diamond_press",
@@ -574,9 +572,9 @@
     "color": "light_green",
     "use_action": { "type": "deploy_furn", "furn_type": "f_diamond_press" },
     "to_hit": -2,
-    "bashing": 5,
     "material": [ "superalloy" ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE" ],
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "pseudo_diamond_press",
@@ -587,12 +585,12 @@
     "volume": "11356 ml",
     "price": 20000,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "plastic", "steel" ],
     "qualities": [ [ "DIAMONDPRESS", 1 ] ],
     "symbol": "H",
     "color": "light_gray",
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "mil_mess_kit",
@@ -605,7 +603,6 @@
     "price": 6000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 4,
     "material": [ "superalloy", "ceramic" ],
     "symbol": ";",
     "color": "green",
@@ -621,6 +618,7 @@
         "flag_restriction": [ "BATTERY_MEDIUM" ],
         "default_magazine": "medium_plus_battery_cell"
       }
-    ]
+    ],
+    "melee_damage": { "bash": 4 }
   }
 ]

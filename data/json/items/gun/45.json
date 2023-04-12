@@ -26,7 +26,6 @@
     "price": 310000,
     "price_postapoc": 3500,
     "to_hit": -2,
-    "bashing": 9,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -52,7 +51,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "default_mods": [ "folding_stock" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tdi_mag", "glock_21mag", "glock_21mag26" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "tdi_mag", "glock_21mag", "glock_21mag26" ] } ],
+    "melee_damage": { "bash": 9 }
   },
   {
     "id": "hk_ump45",
@@ -77,7 +77,6 @@
     "price": 290000,
     "price_postapoc": 3000,
     "to_hit": -2,
-    "bashing": 11,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -104,7 +103,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "default_mods": [ "folding_stock" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ump45mag", "ump45_makeshiftmag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ump45mag", "ump45_makeshiftmag" ] } ],
+    "melee_damage": { "bash": 11 }
   },
   {
     "id": "m1911",
@@ -135,7 +135,6 @@
     "price": 78400,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 12,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
@@ -146,7 +145,8 @@
     "blackpowder_tolerance": 48,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag", "m1911bigmag" ] } ]
+    "pocket_data": [ { "magazine_well": "250 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "m1911mag", "m1911bigmag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "mac_10",
@@ -170,7 +170,6 @@
     "price": 180000,
     "price_postapoc": 2500,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -196,7 +195,8 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac10mag", "smg_45_mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "mac10mag", "smg_45_mag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "rifle_45",
@@ -212,7 +212,6 @@
     "price": 10000,
     "price_postapoc": 500,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -238,7 +237,8 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 1 } } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "hk_usc45",
@@ -252,7 +252,6 @@
     "longest_side": "900 mm",
     "price": 160000,
     "price_postapoc": 3100,
-    "bashing": 12,
     "range": 20,
     "material": [ "steel", "plastic" ],
     "symbol": "(",
@@ -276,7 +275,8 @@
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usc10mag", "usc15mag", "usc20mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "usc10mag", "usc15mag", "usc20mag" ] } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "smg_45",
@@ -292,7 +292,6 @@
     "price": 20000,
     "price_postapoc": 1500,
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel" ],
     "color": "dark_gray",
     "ammo": [ "45" ],
@@ -317,7 +316,8 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smg_45_mag", "mac10mag" ] } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "smg_45_mag", "mac10mag" ] } ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "surv_hand_cannon",
@@ -333,7 +333,6 @@
     "price": 60000,
     "price_postapoc": 750,
     "to_hit": -3,
-    "bashing": 12,
     "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -344,7 +343,8 @@
     "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 5,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 5 } } ],
+    "melee_damage": { "bash": 12 }
   },
   {
     "id": "tommygun",
@@ -368,7 +368,6 @@
     "price": 450000,
     "price_postapoc": 2750,
     "to_hit": -2,
-    "bashing": 10,
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
@@ -401,7 +400,8 @@
         "pocket_type": "MAGAZINE_WELL",
         "item_restriction": [ "thompson_mag", "thompson_bigmag", "thompson_drum", "thompson_makeshiftmag" ]
       }
-    ]
+    ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "usp_45",
@@ -456,7 +456,6 @@
     "longest_side": "224 mm",
     "price": 80000,
     "price_postapoc": 2250,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "color": "dark_gray",
     "ammo": [ "45" ],
@@ -465,7 +464,8 @@
     "min_cycle_recoil": 540,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "240 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppq45mag" ] } ]
+    "pocket_data": [ { "magazine_well": "240 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "ppq45mag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "hptjhp",
@@ -489,7 +489,6 @@
     "price": 7500,
     "price_postapoc": 2000,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel", "zinc" ],
     "color": "dark_gray",
     "ammo": [ "45" ],
@@ -498,7 +497,8 @@
     "min_cycle_recoil": 540,
     "flags": [ "ALLOWS_BODY_BLOCK" ],
     "weapon_category": [ "AUTOMATIC_PISTOLS" ],
-    "pocket_data": [ { "magazine_well": "353 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjhpmag" ] } ]
+    "pocket_data": [ { "magazine_well": "353 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "hptjhpmag" ] } ],
+    "melee_damage": { "bash": 8 }
   },
   {
     "id": "glock_21",
@@ -523,7 +523,6 @@
     "price": 60200,
     "price_postapoc": 2600,
     "to_hit": -2,
-    "bashing": 8,
     "material": [ "plastic", "steel" ],
     "symbol": "(",
     "color": "dark_gray",
@@ -534,6 +533,7 @@
     "min_cycle_recoil": 450,
     "pocket_data": [
       { "magazine_well": "107 ml", "pocket_type": "MAGAZINE_WELL", "item_restriction": [ "glock_21mag", "glock_21mag26" ] }
-    ]
+    ],
+    "melee_damage": { "bash": 8 }
   }
 ]

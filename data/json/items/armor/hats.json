@@ -487,7 +487,6 @@
     "volume": "2500 ml",
     "price": 1200,
     "price_postapoc": 250,
-    "bashing": 6,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "hat_ball",
@@ -688,7 +687,8 @@
         "weight": 1,
         "append": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "hat_hard_hooded",
@@ -700,7 +700,6 @@
     "volume": "2750 ml",
     "price": 1200,
     "price_postapoc": 300,
-    "bashing": 6,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "hat_hard",
@@ -872,7 +871,8 @@
         "weight": 1,
         "append": true
       }
-    ]
+    ],
+    "melee_damage": { "bash": 6 }
   },
   {
     "id": "hat_hunting",

@@ -11,8 +11,8 @@
     "weight": "100 g",
     "volume": "50 ml",
     "material": [ "plastic" ],
-    "bashing": 1,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 1 }
   },
   {
     "id": "soap_holder",
@@ -34,7 +34,7 @@
     "//": "the end of the world doesn't mean everyone is okay with having ZZ Top beards.  disposable razors are a hot commodity.  The razor also loses the Cutting 1 quality.  Don't ask how we confirmed this.",
     "weight": "110 g",
     "material": [ "plastic", "steel" ],
-    "cutting": 2
+    "melee_damage": { "bash": 1, "cut": 2 }
   },
   {
     "id": "toothbrush_plain",
@@ -224,8 +224,8 @@
     "volume": "2100 ml",
     "//": "the volume is pretty bulky, but this is an old fashioned model.",
     "material": [ "wood", "rubber" ],
-    "bashing": 5,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 5 }
   },
   {
     "id": "plunger_futuristic",
@@ -239,8 +239,8 @@
     "weight": "680 g",
     "volume": "2400 ml",
     "material": [ "plastic" ],
-    "bashing": 2,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 2 }
   },
   {
     "id": "toilet_paper",
@@ -285,8 +285,8 @@
     "volume": "500 ml",
     "weight": "680 g",
     "material": [ "plastic", "steel" ],
-    "bashing": 3,
-    "to_hit": -1
+    "to_hit": -1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "curling_iron",
@@ -300,8 +300,8 @@
     "volume": "250 ml",
     "weight": "590 g",
     "material": [ "ceramic", "steel" ],
-    "bashing": 3,
-    "to_hit": 1
+    "to_hit": 1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "brush_toilet",
@@ -315,8 +315,8 @@
     "volume": "500 ml",
     "weight": "160 g",
     "material": [ "steel", "plastic" ],
-    "bashing": 3,
-    "to_hit": 1
+    "to_hit": 1,
+    "melee_damage": { "bash": 3 }
   },
   {
     "id": "comb_lice",

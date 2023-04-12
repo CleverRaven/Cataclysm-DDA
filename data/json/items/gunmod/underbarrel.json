@@ -10,7 +10,6 @@
     "price_postapoc": 500,
     "install_time": "1 m",
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "brown",
@@ -18,7 +17,8 @@
     "mod_targets": [ "rifle", "launcher" ],
     "handling_modifier": 18,
     "min_skills": [ [ "weapon", 2 ] ],
-    "flags": [ "BIPOD", "SLOW_WIELD" ]
+    "flags": [ "BIPOD", "SLOW_WIELD" ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "bipod_mod",
@@ -43,7 +43,6 @@
     "price_postapoc": 500,
     "install_time": "20 m",
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "aluminum" ],
     "symbol": ":",
     "color": "brown",
@@ -57,7 +56,8 @@
       "target": "bipod_handguard_deployed",
       "moves": 120
     },
-    "min_skills": [ [ "weapon", 2 ] ]
+    "min_skills": [ [ "weapon", 2 ] ],
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "bipod_handguard_deployed",
@@ -91,7 +91,6 @@
     "price_postapoc": 500,
     "install_time": "20 m",
     "to_hit": -1,
-    "bashing": 10,
     "material": [ "aluminum", "plastic" ],
     "symbol": ":",
     "color": "brown",
@@ -100,7 +99,8 @@
     "handling_modifier": 6,
     "dispersion_modifier": -5,
     "min_skills": [ [ "weapon", 2 ] ],
-    "weight_multiplier": 0.95
+    "weight_multiplier": 0.95,
+    "melee_damage": { "bash": 10 }
   },
   {
     "id": "combination_gun_shotgun",
@@ -200,7 +200,6 @@
     "price_postapoc": 500,
     "install_time": "0 s",
     "to_hit": -1,
-    "cutting": 10,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
@@ -215,7 +214,8 @@
     "mod_targets": [ "shotgun", "rifle" ],
     "mode_modifier": [ [ "REACH", "bayonet", 2, [ "MELEE", "REACH_ATTACK" ] ] ],
     "qualities": [ [ "CUT", 1 ], [ "COOK", 1 ], [ "BUTCHER", -18 ] ],
-    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "STAB", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "SLOW_WIELD", "IRREMOVABLE", "ALLOWS_REMOTE_USE" ],
+    "melee_damage": { "stab": 10 }
   },
   {
     "id": "inter_bayonet_folded",
@@ -224,7 +224,6 @@
     "copy-from": "inter_bayonet",
     "description": "The weapon's integrated bayonet has been folded for storage.",
     "longest_side": "22 cm",
-    "cutting": 0,
     "integral_longest_side": "0 cm",
     "use_action": {
       "type": "transform",
@@ -234,7 +233,8 @@
       "moves": 120
     },
     "mode_modifier": [  ],
-    "flags": [ "IRREMOVABLE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "IRREMOVABLE", "ALLOWS_REMOTE_USE" ],
+    "melee_damage": {  }
   },
   {
     "id": "ksg_aux_shotgun",
@@ -608,7 +608,6 @@
     "price_postapoc": 1000,
     "install_time": "5 m",
     "to_hit": -4,
-    "cutting": 6,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_gray",
@@ -617,7 +616,8 @@
     "min_skills": [ [ "weapon", 2 ], [ "melee", 1 ] ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 15 ] ],
     "mode_modifier": [ [ "REACH", "bayonet", 1, [ "MELEE" ] ] ],
-    "flags": [ "STAB" ]
+    "flags": [  ],
+    "melee_damage": { "stab": 6 }
   },
   {
     "id": "rm121aux",

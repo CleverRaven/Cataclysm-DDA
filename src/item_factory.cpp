@@ -225,9 +225,11 @@ void Item_factory::finalize_pre( itype &obj )
         obj.item_tags.insert( flag_NO_REPAIR );
     }
 
-    if( obj.has_flag( flag_STAB ) || obj.has_flag( flag_SPEAR ) ) {
-        std::swap( obj.melee[damage_cut],
-                   obj.melee[damage_stab] );
+    finalize_damage_map( obj.melee );
+
+    if( obj.has_flag( flag_STAB ) ) {
+        debugmsg( "The \"STAB\" flag used on %s is obsolete. Add a \"stab\" value in the \"melee_damage\" object instead.",
+                  obj.id.c_str() );
     }
 
     // add usage methods (with default values) based upon qualities
@@ -3813,8 +3815,9 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "stackable", def.stackable_, strict );
     assign( jo, "integral_volume", def.integral_volume );
     assign( jo, "integral_longest_side", def.integral_longest_side, false, 0_mm );
-    assign( jo, "bashing", def.melee[damage_bash], strict, 0.f );
-    assign( jo, "cutting", def.melee[damage_cut], strict, 0.f );
+    if( jo.has_object( "melee_damage" ) ) {
+        def.melee = load_damage_map( jo.get_object( "melee_damage" ) );
+    }
     if( jo.has_int( "to_hit" ) ) {
         assign( jo, "to_hit", def.m_to_hit, strict );
     } else if( jo.has_object( "to_hit" ) ) {
