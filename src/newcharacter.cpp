@@ -881,6 +881,8 @@ void Character::initialize()
 
     // Restart cardio accumulator
     reset_cardio_acc();
+
+    recalc_speed_bonus();
 }
 
 void avatar::initialize( character_type type )

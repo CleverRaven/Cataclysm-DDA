@@ -228,6 +228,11 @@
     "monsters": [ { "monster": "mon_albertonykus_hatchling" } ]
   },
   {
+    "name": "GROUP_EGG_therizinosaurus",
+    "type": "monstergroup",
+    "monsters": [ { "monster": "mon_therizinosaurus_hatchling" } ]
+  },
+  {
     "name": "GROUP_EGG_nothronychus",
     "type": "monstergroup",
     "monsters": [ { "monster": "mon_nothronychus_hatchling" } ]
