@@ -4,6 +4,7 @@
 #include <limits>
 #include <list>
 #include <memory>
+#include <optional>
 #include <string>
 
 #include "avatar.h"
@@ -574,7 +575,7 @@ bool melee_actor::call( monster &z ) const
                 Character *foe = dynamic_cast<Character *>( target );
                 const optional_vpart_position veh_part = here.veh_at( target->pos() );
                 if( foe && foe->in_vehicle && veh_part ) {
-                    const cata::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
+                    const std::optional<vpart_reference> vp_seatbelt = veh_part.avail_part_with_feature( "SEATBELT" );
                     if( vp_seatbelt ) {
                         z.moves -= move_cost * 2;
                         foe->add_msg_player_or_npc( msg_type, _( "%1s tries to drag you, but is stopped by your %2s!" ),
@@ -631,7 +632,7 @@ bool melee_actor::call( monster &z ) const
                 // So if they leave them on open air, make them fall
                 here.creature_on_trap( *target );
 
-                target->add_msg_player_or_npc( msg_type, grab_data.pull_msg_u, grab_data.pull_msg_npc, mon_name );
+                target->add_msg_player_or_npc( msg_type, grab_data.pull_msg_u, grab_data.pull_msg_npc, mon_name, target->disp_name() );
             } else {
                 // Fail and reset the cooldown if we're too chonky
                 target->add_msg_player_or_npc( msg_type, grab_data.pull_fail_msg_u, grab_data.pull_fail_msg_npc,
