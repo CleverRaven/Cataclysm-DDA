@@ -163,7 +163,7 @@
     "shape": "blast",
     "skill": "deduction",
     "flags": [ "SOMATIC", "CONCENTRATE" ],
-	"damage_type": "pure",
+    "damage_type": "pure",
     "min_damage": 20,
     "max_damage": 60,
     "damage_increment": 2,
