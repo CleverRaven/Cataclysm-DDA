@@ -119,6 +119,9 @@ tags
 /lang/json/*
 !/lang/json/README
 
+# Languag translation stats intermediate files
+/lang/stats/
+
 # Netbeans IDE folders
 nbproject/
 

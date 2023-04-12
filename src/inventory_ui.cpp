@@ -595,7 +595,8 @@ const item_category *inventory_entry::get_category_ptr() const
     if( !is_item() ) {
         return nullptr;
     }
-    return &any_item()->get_category_of_contents();
+    custom_category = &any_item()->get_category_of_contents();
+    return custom_category;
 }
 
 bool inventory_column::activatable() const

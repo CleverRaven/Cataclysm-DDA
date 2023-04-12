@@ -71,6 +71,13 @@
   },
   {
     "type": "character_mod",
+    "id": "move_mode_move_cost_mod",
+    "description": "Move mode move cost modifier",
+    "mod_type": "x",
+    "value": { "builtin": "move_mode_move_cost_modifier" }
+  },
+  {
+    "type": "character_mod",
     "id": "stamina_move_cost_mod",
     "description": "Stamina move cost modifier",
     "mod_type": "x",
