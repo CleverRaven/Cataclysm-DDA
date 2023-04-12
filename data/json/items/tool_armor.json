@@ -1781,7 +1781,7 @@
     "type": "TOOL_ARMOR",
     "name": { "str": "XL gas mask" },
     "category": "clothing",
-    "description": "A rather roomy mask with filters attached, designed to accommodate exotic anatomy.  Provides excellent protection from smoke, tear gas, and other contaminants.  It must be prepared before use.",
+    "description": "A rather roomy gas mask that covers the face and eyes.  Provides excellent protection from smoke, tear gas, and other contaminants.  It must be prepared before use.",
     "weight": "1397 g",
     "volume": "1500 ml",
     "price": 25000,
