@@ -168,8 +168,8 @@
     "min_range": 1,
     "max_range": 1,
     "max_level": 20,
-	"base_energy_cost": 200,
-	"final_energy_cost": 100,
+    "base_energy_cost": 200,
+    "final_energy_cost": 100,
     "energy_increment": -5,
     "spell_class": "INVENTOR",
     "energy_source": "MANA"
