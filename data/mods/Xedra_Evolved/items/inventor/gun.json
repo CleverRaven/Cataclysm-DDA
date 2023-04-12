@@ -152,7 +152,7 @@
     "armor": [
       { "encumbrance": [ 20, 22 ], "coverage": 70, "covers": [ "torso" ], "specifically_covers": [ "torso_hanging_back" ] }
     ],
-    "flags": [ "TRADER_AVOID", "PADDED" ]
+    "flags": [ "TRADER_AVOID", "PADDED", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
     "id": "bio_warhead",

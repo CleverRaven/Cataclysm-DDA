@@ -1,9 +1,19 @@
 [
   {
-    "id": "compute_standard",
+    "id": "compute_low",
     "type": "requirement",
-    "//": "Standardized computer usage for recipes",
-    "tools": [ [ [ "laptop", 10 ] ], [ [ "software_math", -1 ] ], [ [ "software_electronics_reference", -1 ] ] ]
+    "tools": [ [ [ "laptop", 20 ] ], [ [ "software_math", -1 ] ] ]
+  },
+  {
+    "id": "compute_medium",
+    "type": "requirement",
+    "tools": [ [ [ "laptop", 30] ], [ [ "software_math", -1 ] ], [ [ "software_electronics_reference", -1 ] ] ]
+  },
+  {
+    "id": "compute_high",
+    "type": "requirement",
+    "qualities": [ { "id": "AI_TOOL", "level": 1 } ],
+    "tools": [ [ [ "laptop", 40 ] ], [ [ "software_math", -1 ] ], [ [ "software_electronics_reference", -1 ] ] ]
   },
   {
     "id": "surface_heat",
