@@ -237,8 +237,6 @@ static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
-
 static const flag_id json_flag_POWER_CORD( "POWER_CORD" );
 
 static const furn_str_id furn_f_translocator_buoy( "f_translocator_buoy" );
@@ -314,6 +312,7 @@ static const itype_id itype_weather_reader( "weather_reader" );
 
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
 

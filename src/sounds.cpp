@@ -91,6 +91,8 @@ static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_wind( "wind" );
 static const itype_id itype_weapon_fire_suppressed( "weapon_fire_suppressed" );
 
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
+
 static const material_id material_bone( "bone" );
 static const material_id material_flesh( "flesh" );
 static const material_id material_hflesh( "hflesh" );
@@ -176,8 +178,6 @@ static const ter_str_id ter_t_underbrush_harvested_autumn( "t_underbrush_harvest
 static const ter_str_id ter_t_underbrush_harvested_spring( "t_underbrush_harvested_spring" );
 static const ter_str_id ter_t_underbrush_harvested_summer( "t_underbrush_harvested_summer" );
 static const ter_str_id ter_t_underbrush_harvested_winter( "t_underbrush_harvested_winter" );
-
-static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
