@@ -636,7 +636,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                 see_color = c_light_red;
             } else {
                 // TODO: better range calculation than just elevation.
-                const int base_range = 100;
+                const int base_range = 200;
                 float send_elev_boost = ( 1 + ( player_character.pos().z * 0.1 ) );
                 float recv_elev_boost = ( 1 + ( pos().z * 0.1 ) );
                 if( ( square_dist( player_character.global_sm_location(),
@@ -655,9 +655,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                                 player_character.global_sm_location(), send_range * radio_tower_boost );
                     const std::vector<camp_reference> &camps_near_npc = overmap_buffer.get_camps_near(
                                 global_sm_location(), recv_range * radio_tower_boost );
-                    bool camp_to_npc = false, camp_to_camp = false;
+                    bool camp_to_npc = false;
+                    bool camp_to_camp = false;
                     for( const camp_reference &i : camps_near_player ) {
-                        if( !( i.camp ->has_provides( "radio" ) ) ) {
+                        if( !( i.camp->has_provides( "radio" ) ) ) {
                             continue;
                         }
                         if( camp_to_camp ||
