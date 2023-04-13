@@ -631,7 +631,7 @@
   {
     "id": "heater_gun",
     "type": "TOOL",
-    "name": { "str": "\"Boiler\"" },
+    "name": { "str": "\"Boiler\"", "str_pl": "\"Boilers\"" },
     "description": "Rifle size tool, that can concentrate heat in a pretty huge range.  You can use it both to heat your food, or to heat the tissues of your enemies.",
     "weight": "1908 g",
     "volume": "3130 ml",

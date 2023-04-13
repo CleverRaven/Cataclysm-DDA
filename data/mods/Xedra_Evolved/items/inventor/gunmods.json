@@ -3,7 +3,7 @@
     "id": "trinket_damage",
     "type": "GUNMOD",
     "name": { "str": "projectile accelerator" },
-    "description": "Small barrel trinket, that held off from your gun.  It convert the fraction of your energy into tiniest magnetic force to increase the speed of projectile, that leaves the barrel,  for a bit.  The effect is almost negligible, so you draw a small skull on it as a joke.",
+    "description": "Small barrel trinket, that held off from your gun.  It convert the fraction of your energy into tiniest magnetic force to increase the speed of projectile, that leaves the barrel, for a bit.  The effect is almost negligible, so you draw a small skull on it as a joke.",
     "weight": "68 g",
     "volume": "119 ml",
     "install_time": "2 m",
@@ -100,7 +100,7 @@
   {
     "id": "inventor_lasmod_long_range",
     "type": "GUNMOD",
-    "name": { "str": "focusing lens" },
+    "name": { "str": "focusing lens", "str_pl": "focusing lenses" },
     "description": "Modified weapon lens, that increase the range of the weapon in price of its damage.",
     "weight": "380 g",
     "volume": "250 ml",

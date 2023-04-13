@@ -255,10 +255,10 @@
           "has": "WORN",
           "condition": "ACTIVE",
           "values": [
-            { "value": "ARMOR_CUT", "multiply": -40 },
-            { "value": "ARMOR_BASH", "multiply": -40 },
-            { "value": "ARMOR_STAB", "multiply": -40 },
-            { "value": "ARMOR_BULLET", "multiply": -40 }
+            { "value": "ARMOR_CUT", "multiply": -0.5 },
+            { "value": "ARMOR_BASH", "multiply": -0.5 },
+            { "value": "ARMOR_STAB", "multiply": -0.5 },
+            { "value": "ARMOR_BULLET", "multiply": -0.5 }
           ]
         }
       ]
@@ -291,9 +291,8 @@
     "id": "aura_force_on",
     "type": "TOOL_ARMOR",
     "copy-from": "aura_force",
-    "name": { "str": "force shield (on)", "str_pl": "force shield (on)" },
-    "power_draw": "500 W",
-    "//": "16 minutes for medium battery",
+    "name": { "str": "force shield (on)", "str_pl": "force shields (on)" },
+    "power_draw": "250 W",
     "use_action": [ { "ammo_scale": 0, "target": "aura_force", "msg": "Thoroid stops working.", "type": "transform" } ]
   },
   {
@@ -367,7 +366,7 @@
     "id": "vision_halo_on",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "electronic halo (on)" },
+    "name": { "str": "electronic halo (on)", "str_pl": "electronic halos (on)" },
     "copy-from": "vision_halo",
     "power_draw": "500 W",
     "revert_to": "vision_halo",

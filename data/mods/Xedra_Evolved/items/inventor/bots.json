@@ -2,7 +2,7 @@
   {
     "id": "bot_sniperbot",
     "type": "TOOL",
-    "name": { "str": "inactive sniper bot", "str_pl": "inactive sniper bot" },
+    "name": { "str": "inactive sniper bot" },
     "description": "Compressed sniper century.  Ludicrious, physical law violating compression allow to fit them into small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",
     "volume": "500 ml",
@@ -20,7 +20,7 @@
   {
     "id": "bot_shotgunbot",
     "type": "TOOL",
-    "name": { "str": "inactive shotgun bot", "str_pl": "inactive shotgun bot" },
+    "name": { "str": "inactive shotgun bot" },
     "description": "Compressed sniper century.  Ludicrious, physical law violating compression allow to fit them into small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",
     "volume": "500 ml",
@@ -38,7 +38,7 @@
   {
     "id": "bot_meleebot",
     "type": "TOOL",
-    "name": { "str": "inactive melee bot", "str_pl": "inactive melee bot" },
+    "name": { "str": "inactive melee bot" },
     "description": "Compressed sniper century.  Ludicrious, physical law violating compression allow to fit them into small metal cylinder, but the weight compression is not as effective.",
     "weight": "5 kg",
     "volume": "500 ml",
