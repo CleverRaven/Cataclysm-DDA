@@ -3,21 +3,24 @@
     "type": "palette",
     "id": "sewers",
     "terrain": {
-      "o": [ "t_sewage_pipe" ],
-      "p": [ "t_sewage_pump" ],
-      "-": [ "t_bridge" ],
-      "#": [ "t_grate" ],
-      "+": [ "t_bars" ],
-      "~": [ "t_sewage" ],
-      "_": [ [ "t_moss", 2 ], [ "t_dirt", 3 ], [ "t_dirtmound", 1 ], [ "t_sewage", 10 ] ],
-      "|": [ "t_concrete_wall" ],
-      "I": [ "t_wall_metal" ],
-      "W": [ "t_soil" ],
-      "r": [ "t_metal_floor" ],
-      "L": [ [ "t_door_bar_o", 1 ], [ "t_door_bar_locked", 5 ] ],
-      "D": [ "t_door_metal_c" ],
-      ".": [ "t_metal_floor" ]
+      " ": "t_soil",
+      "|": "t_concrete_wall",
+      "I": "t_wall_metal",
+      "=": "t_metal_railing",
+      "L": [ [ "t_door_bar_locked", 2 ], [ "t_door_bar_c", 2 ], "t_door_bar_o" ],
+      "D": "t_door_metal_c",
+      "+": "t_bars",
+      ".": "t_metal_floor",
+      "r": "t_metal_floor",
+      "~": "t_sewage",
+      "_": [ [ "t_moss", 2 ], [ "t_dirtmound", 4 ], [ "t_sewage", 4 ] ],
+      "-": "t_bridge",
+      "#": "t_grate",
+      "<": "t_ladder_up",
+      "o": "t_sewage_pipe",
+      "p": "t_sewage_pump"
     },
+    "furniture": { "r": "f_utility_shelf", "/": "f_rubble" },
     "items": {
       "_": [
         { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
@@ -26,6 +29,6 @@
       ],
       "r": [ { "item": "sewage_plant", "chance": 15 }, { "item": "os_items", "chance": 45, "repeat": [ 1, 3 ] } ]
     },
-    "furniture": { "r": [ "f_rack" ] }
+    "monster": { "~": { "group": "GROUP_SEWER", "chance": 2 } }
   }
 ]

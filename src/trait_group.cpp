@@ -122,7 +122,7 @@ void trait_group::debug_spawn()
 Trait_list Trait_creation_data::create() const
 {
     RecursionList rec;
-    auto result = create( rec );
+    trait_group::Trait_list result = create( rec );
     return result;
 }
 

@@ -252,7 +252,7 @@ void catacurses::init_interface()
     }
 #if !defined(__CYGWIN__)
     // ncurses mouse registration
-    mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, nullptr );
+    mousemask( ALL_MOUSE_EVENTS | REPORT_MOUSE_POSITION, nullptr );
 #endif
     // our curses wrapper does not support changing this behavior, ncurses must
     // behave exactly like the wrapper, therefore:
@@ -263,6 +263,11 @@ void catacurses::init_interface()
     // TODO: error checking
     start_color();
     init_colors();
+}
+
+bool catacurses::supports_256_colors()
+{
+    return COLORS >= 256;
 }
 
 void input_manager::pump_events()
@@ -337,16 +342,23 @@ input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyb
                 rval.mouse_pos = point( event.x, event.y );
                 if( event.bstate & BUTTON1_CLICKED ) {
                     rval.add_input( MouseInput::LeftButtonReleased );
+                } else if( event.bstate & BUTTON1_PRESSED ) {
+                    rval.add_input( MouseInput::LeftButtonPressed );
                 } else if( event.bstate & BUTTON3_CLICKED ) {
                     rval.add_input( MouseInput::RightButtonReleased );
-                } else if( event.bstate & REPORT_MOUSE_POSITION ) {
+                    // If curses version is prepared for a 5-button mouse, enable mousewheel
+#if defined(BUTTON5_PRESSED)
+                } else if( event.bstate & BUTTON4_PRESSED ) {
+                    rval.add_input( MouseInput::ScrollWheelUp );
+                } else if( event.bstate & BUTTON5_PRESSED ) {
+                    rval.add_input( MouseInput::ScrollWheelDown );
+#endif
+                } else {
                     rval.add_input( MouseInput::Move );
                     if( input_timeout > 0 ) {
                         // Mouse movement seems to clear ncurses timeout
                         set_timeout( input_timeout );
                     }
-                } else {
-                    rval.type = input_event_t::error;
                 }
             } else {
                 rval.type = input_event_t::error;
@@ -440,34 +452,32 @@ void ensure_term_size()
     // do not use ui_adaptor here to avoid re-entry
     const int minHeight = EVEN_MINIMUM_TERM_HEIGHT;
     const int minWidth = EVEN_MINIMUM_TERM_WIDTH;
-    int maxy = getmaxy( catacurses::stdscr );
-    int maxx = getmaxx( catacurses::stdscr );
 
-    while( maxy < minHeight || maxx < minWidth ) {
+    while( TERMY < minHeight || TERMX < minWidth ) {
         catacurses::erase();
-        if( maxy < minHeight && maxx < minWidth ) {
-            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white,
+        if( TERMY < minHeight && TERMX < minWidth ) {
+            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
                             _( "Whoa!  Your terminal is tiny!  This game requires a minimum terminal size of "
                                "%dx%d to work properly.  %dx%d just won't do.  Maybe a smaller font would help?" ),
-                            minWidth, minHeight, maxx, maxy );
-        } else if( maxx < minWidth ) {
-            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white,
+                            minWidth, minHeight, TERMX, TERMY );
+        } else if( TERMX < minWidth ) {
+            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
                             _( "Oh!  Hey, look at that.  Your terminal is just a little too narrow.  This game "
                                "requires a minimum terminal size of %dx%d to function.  It just won't work "
                                "with only %dx%d.  Can you stretch it out sideways a bit?" ),
-                            minWidth, minHeight, maxx, maxy );
+                            minWidth, minHeight, TERMX, TERMY );
         } else {
-            fold_and_print( catacurses::stdscr, point_zero, maxx, c_white,
+            fold_and_print( catacurses::stdscr, point_zero, TERMX, c_white,
                             _( "Woah, woah, we're just a little short on space here.  The game requires a "
                                "minimum terminal size of %dx%d to run.  %dx%d isn't quite enough!  Can you "
                                "make the terminal just a smidgen taller?" ),
-                            minWidth, minHeight, maxx, maxy );
+                            minWidth, minHeight, TERMX, TERMY );
         }
         catacurses::refresh();
         // do not use input_manager or input_context here to avoid re-entry
         getch();
-        maxy = getmaxy( catacurses::stdscr );
-        maxx = getmaxx( catacurses::stdscr );
+        TERMY = getmaxy( catacurses::stdscr );
+        TERMX = getmaxx( catacurses::stdscr );
     }
 }
 

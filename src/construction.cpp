@@ -67,9 +67,11 @@ static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
 
 static const construction_category_id construction_category_ALL( "ALL" );
-static const construction_category_id  construction_category_APPLIANCE( "APPLIANCE" );
+static const construction_category_id construction_category_APPLIANCE( "APPLIANCE" );
 static const construction_category_id construction_category_FILTER( "FILTER" );
 static const construction_category_id construction_category_REPAIR( "REPAIR" );
+
+static const construction_str_id construction_constr_veh( "constr_veh" );
 
 static const flag_id json_flag_FILTHY( "FILTHY" );
 static const flag_id json_flag_PIT( "PIT" );
@@ -110,7 +112,6 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const trap_str_id tr_firewood_source( "tr_firewood_source" );
 static const trap_str_id tr_practice_target( "tr_practice_target" );
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 static const vpart_id vpart_frame_vertical_2( "frame_vertical_2" );
 
@@ -390,12 +391,10 @@ construction_id construction_menu( const bool blueprint )
     const inventory &total_inv = player_character.crafting_inventory();
 
     input_context ctxt( "CONSTRUCTION" );
-    ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", to_translation( "Move cursor down" ) );
-    ctxt.register_action( "RIGHT", to_translation( "Move tab right" ) );
-    ctxt.register_action( "LEFT", to_translation( "Move tab left" ) );
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
+    ctxt.register_action( "NEXT_TAB" );
+    ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SCROLL_STAGE_UP" );
     ctxt.register_action( "SCROLL_STAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
@@ -777,63 +776,17 @@ construction_id construction_menu( const bool blueprint )
                 update_info = true;
                 update_cat = true;
             }
-        } else if( action == "DOWN" ) {
+        } else if( navigate_ui_list( action, select, scroll_rate, recmax, true ) ) {
             update_info = true;
-            if( select < recmax - 1 ) {
-                select++;
-            } else {
-                select = 0;
-            }
-        } else if( action == "UP" ) {
-            update_info = true;
-            if( select > 0 ) {
-                select--;
-            } else {
-                select = recmax - 1;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            update_info = true;
-            if( select == recmax - 1 ) {
-                select = 0;
-            } else if( select + scroll_rate >= recmax ) {
-                select = recmax - 1;
-            } else {
-                select += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            update_info = true;
-            if( select == 0 ) {
-                select = recmax - 1;
-            } else if( select <= scroll_rate ) {
-                select = 0;
-            } else {
-                select += -scroll_rate;
-            }
-        } else if( action == "LEFT" ) {
+        } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
             update_info = true;
             update_cat = true;
-            tabindex--;
-            if( tabindex < 0 ) {
-                tabindex = tabcount - 1;
-            }
-        } else if( action == "RIGHT" ) {
-            update_info = true;
-            update_cat = true;
-            tabindex = ( tabindex + 1 ) % tabcount;
-        } else if( action == "SCROLL_STAGE_UP" ) {
-            if( current_construct_breakpoint > 0 ) {
-                current_construct_breakpoint--;
-            }
-            if( current_construct_breakpoint < 0 ) {
-                current_construct_breakpoint = 0;
-            }
-        } else if( action == "SCROLL_STAGE_DOWN" ) {
-            if( current_construct_breakpoint < total_project_breakpoints - 1 ) {
-                current_construct_breakpoint++;
-            }
-            if( current_construct_breakpoint >= total_project_breakpoints ) {
-                current_construct_breakpoint = total_project_breakpoints - 1;
-            }
+            tabindex = increment_and_wrap( tabindex, action == "RIGHT" ||
+                                           action == "NEXT_TAB", tabcount );
+        } else if( action == "SCROLL_STAGE_UP" || action == "SCROLL_STAGE_DOWN" ) {
+            current_construct_breakpoint = increment_and_clamp( current_construct_breakpoint,
+                                           action == "SCROLL_STAGE_DOWN",
+                                           total_project_breakpoints - 1 );
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "TOGGLE_UNAVAILABLE_CONSTRUCTIONS" ) {
@@ -853,7 +806,7 @@ construction_id construction_menu( const bool blueprint )
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
                         ui.reset();
-                        place_construction( constructs[select] );
+                        place_construction( { constructs[select] } );
                         uistate.last_construction = constructs[select];
                     }
                     exit = true;
@@ -951,26 +904,25 @@ bool can_construct_furn_ter( const construction &con, furn_id const &f, ter_id c
 
 bool can_construct( const construction &con, const tripoint_bub_ms &p )
 {
-    // see if the special pre-function checks out
-    bool place_okay = con.pre_special( p );
-    // see if the terrain type checks out
-    place_okay &= has_pre_terrain( con, p );
-    // see if the flags check out
-    map &here = get_map();
-    furn_id f = here.furn( p );
-    ter_id t = here.ter( p );
-    place_okay &= can_construct_furn_ter( con, f, t );
+    const map &here = get_map();
+    const furn_id f = here.furn( p );
+    const ter_id t = here.ter( p );
+
+    if( !con.pre_special( p ) ||                 // pre-function
+        !has_pre_terrain( con, p ) ||            // terrain type
+        !can_construct_furn_ter( con, f, t ) ) { // flags
+        return false;
+    }
+
     // make sure the construction would actually do something
     if( !con.post_terrain.empty() ) {
         if( con.post_is_furniture ) {
-            furn_id f = furn_id( con.post_terrain );
-            place_okay &= here.furn( p ) != f;
+            return f != furn_id( con.post_terrain );
         } else {
-            ter_id t = ter_id( con.post_terrain );
-            place_okay &= here.ter( p ) != t;
+            return t != ter_id( con.post_terrain );
         }
     }
-    return place_okay;
+    return true;
 }
 
 bool can_construct( const construction &con )
@@ -984,22 +936,26 @@ bool can_construct( const construction &con )
     return false;
 }
 
-void place_construction( const construction_group_str_id &group )
+void place_construction( std::vector<construction_group_str_id> const &groups )
 {
     avatar &player_character = get_avatar();
     const inventory &total_inv = player_character.crafting_inventory();
 
-    std::vector<construction *> cons = constructions_by_group( group );
     std::map<tripoint_bub_ms, const construction *> valid;
+    std::vector<construction *> cons;
     map &here = get_map();
-    // TODO: fix point types
-    for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
-        for( const auto *con : cons ) {
-            if( p != player_character.pos_bub() && can_construct( *con, p ) &&
-                player_can_build( player_character, total_inv, *con, true ) ) {
-                valid[ p ] = con;
+    for( construction_group_str_id const &group : groups ) {
+        std::vector<construction *> const temp = constructions_by_group( group );
+        // TODO: fix point types
+        for( const tripoint_bub_ms &p : here.points_in_radius( player_character.pos_bub(), 1 ) ) {
+            for( const auto *con : temp ) {
+                if( p != player_character.pos_bub() && can_construct( *con, p ) &&
+                    player_can_build( player_character, total_inv, *con, true ) ) {
+                    valid[ p ] = con;
+                }
             }
         }
+        std::move( temp.begin(), temp.end(), std::back_inserter( cons ) );
     }
 
     shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
@@ -1012,7 +968,7 @@ void place_construction( const construction_group_str_id &group )
     } );
     g->add_draw_callback( draw_valid );
 
-    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
+    const std::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {
         return;
     }
@@ -1029,7 +985,7 @@ void place_construction( const construction_group_str_id &group )
     partial_con *pre_c = here.partial_con_at( pnt );
     if( pre_c ) {
         add_msg( m_info,
-                 _( "There is already an unfinished construction there, examine it to continue working on it" ) );
+                 _( "There is already an unfinished construction there, examine it to continue working on it." ) );
         return;
     }
     std::list<item> used;
@@ -1037,30 +993,16 @@ void place_construction( const construction_group_str_id &group )
     // create the partial construction struct
     partial_con pc;
     pc.id = con.id;
-    // Set the trap that has the examine function
-    // Special handling for constructions that take place on existing traps.
-    // Basically just don't add the unfinished construction trap.
-    // TODO: handle this cleaner, instead of adding a special case to pit iexamine.
-    if( here.tr_at( pnt ).is_null() ) {
-        here.trap_set( pnt, tr_unfinished_construction );
-    }
-    const bool is_appliance = con.category == construction_category_APPLIANCE;
-    // Use up the components
-    for( const auto &it : con.requirements->get_components() ) {
-        if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
-            // appliances require a base item in the construction
+    if( player_character.has_trait( trait_DEBUG_HS ) ) {
+        // Gift components
+        for( const auto &it : con.requirements->get_components() ) {
             used.emplace_back( item( it.front().type ) );
-        } else {
+        }
+    } else {
+        // Use up the components
+        for( const auto &it : con.requirements->get_components() ) {
             std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
             used.splice( used.end(), tmp );
-        }
-    }
-    // If player has debug hammerspace while building an appliance, they won't get
-    // the appliance they want unless lastconsumed points to the appliance's base itype
-    if( is_appliance && player_character.has_trait( trait_DEBUG_HS ) ) {
-        const std::vector<std::vector<item_comp> > &comp_list = con.requirements->get_components();
-        if( !comp_list.empty() && !comp_list.front().empty() ) {
-            player_character.lastconsumed = comp_list.front().front().type;
         }
     }
     pc.components = used;
@@ -1083,9 +1025,6 @@ void complete_construction( Character *you )
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( here.tr_at( terp ) == tr_unfinished_construction ) {
-            here.remove_trap( terp );
-        }
         if( you->is_npc() ) {
             npc *guy = dynamic_cast<npc *>( you );
             guy->current_activity_id = activity_id::NULL_ID();
@@ -1119,13 +1058,11 @@ void complete_construction( Character *you )
             award_xp( *elem );
         }
     }
-    if( here.tr_at( terp ) == tr_unfinished_construction ) {
-        here.remove_trap( terp );
-    }
 
-    //We need to keep the partial_con when building appliance to get the component items
-    //It will be removed in done_appliance()
-    if( pc->id->category != construction_category_APPLIANCE ) {
+    // partial_con contains components for vehicle and appliance construction
+    // it's removal is handled in done_appliance() / done_vehicle
+    if( pc->id->category != construction_category_APPLIANCE &&
+        pc->id->str_id != construction_constr_veh ) {
         here.partial_con_remove( terp );
     }
 
@@ -1426,7 +1363,7 @@ static vpart_id vpart_from_item( const itype_id &item_id )
     return vpart_frame_vertical_2;
 }
 
-void construct::done_vehicle( const tripoint_bub_ms &p, Character &who )
+void construct::done_vehicle( const tripoint_bub_ms &p, Character & )
 {
     std::string name = string_input_popup()
                        .title( _( "Enter new vehicle name:" ) )
@@ -1437,16 +1374,31 @@ void construct::done_vehicle( const tripoint_bub_ms &p, Character &who )
     }
 
     map &here = get_map();
+    partial_con *pc = here.partial_con_at( p );
+    if( !pc ) {
+        debugmsg( "constructing failed: can't find partial construction" );
+        return;
+    }
+
+    const std::list<item> components = pc->components;
+    here.partial_con_remove( p );
+
+    if( components.size() != 1 ) {
+        debugmsg( "constructing failed: components size expected 1 actual %d", components.size() );
+        return;
+    }
+
     // TODO: fix point types
     vehicle *veh = here.add_vehicle( vehicle_prototype_none, p.raw(), 270_degrees, 0, 0 );
 
     if( !veh ) {
-        debugmsg( "error constructing vehicle" );
+        debugmsg( "constructing failed: add_vehicle returned null" );
         return;
     }
+    item base = components.front();
+
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( who.has_trait( trait_DEBUG_HS ) ?
-                       STATIC( itype_id( "frame" ) ) : who.lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( base.typeId() ), std::move( base ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -1513,7 +1465,7 @@ void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
             continue;
         }
         const vehicle &veh_target = vp->vehicle();
-        if( veh_target.has_tag( flag_APPLIANCE ) || veh_target.has_tag( flag_WIRING ) ) {
+        if( veh_target.is_appliance() || veh_target.has_tag( flag_WIRING ) ) {
             if( connected_vehicles.find( &veh_target ) == connected_vehicles.end() ) {
                 // TODO: fix point types
                 veh->connect( p.raw(), trip.raw() );
@@ -1523,22 +1475,26 @@ void construct::done_wiring( const tripoint_bub_ms &p, Character &/*who*/ )
     }
 }
 
-void construct::done_appliance( const tripoint_bub_ms &p, Character &who )
+void construct::done_appliance( const tripoint_bub_ms &p, Character & )
 {
     map &here = get_map();
     partial_con *pc = here.partial_con_at( p );
-    cata::optional<item> base = cata::nullopt;
-    const vpart_id &vpart = vpart_appliance_from_item( who.lastconsumed );
-    if( pc ) {
-        for( item &obj : pc->components ) {
-            if( obj.typeId() == vpart->base_item ) {
-                base = obj;
-            }
-        }
-    } else {
-        debugmsg( "partial construction not found" );
+    if( !pc ) {
+        debugmsg( "constructing failed: can't find partial construction" );
+        return;
     }
+
+    const std::list<item> components = pc->components;
     here.partial_con_remove( p );
+
+    if( components.size() != 1 ) {
+        debugmsg( "constructing failed: components size expected 1 actual %d", components.size() );
+        return;
+    }
+
+    const item &base = components.front();
+    const vpart_id &vpart = vpart_appliance_from_item( base.typeId() );
+
     // TODO: fix point types
     place_appliance( p.raw(), vpart, base );
 }
@@ -1574,7 +1530,22 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
             here.furn_set( p, f.deconstruct.furn_set );
         }
         add_msg( _( "The %s is disassembled." ), f.name() );
-        here.spawn_items( p, item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
+        item &item_here = here.i_at( p ).size() != 1 ? null_item_reference() : here.i_at( p ).only_item();
+        const std::vector<item *> drop = here.spawn_items( p,
+                                         item_group::items_from( f.deconstruct.drop_group, calendar::turn ) );
+        // if furniture has liquid in it and deconstructs into watertight containers then fill them
+        if( f.has_flag( "LIQUIDCONT" ) && item_here.made_of( phase_id::LIQUID ) ) {
+            for( item *it : drop ) {
+                if( it->get_remaining_capacity_for_liquid( item_here ) <= 0 ) {
+                    continue;
+                }
+                item_here.charges -= it->fill_with( item_here, item_here.charges, false, true, true );
+                if( item_here.charges <= 0 ) {
+                    here.i_rem( p, &item_here );
+                    break;
+                }
+            }
+        }
         // HACK: Hack alert.
         // Signs have cosmetics associated with them on the submap since
         // furniture can't store dynamic data to disk. To prevent writing
@@ -1594,17 +1565,6 @@ void construct::done_deconstruct( const tripoint_bub_ms &p, Character &player_ch
                 return;
             }
             done_deconstruct( top, player_character );
-        }
-        avatar &player_character = get_avatar();
-        if( t.id.id() == t_console_broken )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 20, 4 );
-            }
-        }
-        if( t.id.id() == t_console )  {
-            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
-                player_character.practice( skill_electronics, 40, 8 );
-            }
         }
         here.ter_set( p, t.deconstruct.ter_set );
         add_msg( _( "The %s is disassembled." ), t.name() );
@@ -2029,23 +1989,27 @@ void load_construction( const JsonObject &jo )
             { "do_turn_exhume", construct::do_turn_exhume },
         }
     };
-    std::map<std::string, void( * )( const tripoint_bub_ms & )> explain_fail_map;
-    if( jo.has_string( "pre_special" ) &&
-        jo.get_string( "pre_special" )  == std::string( "check_deconstruct" ) ) {
-        explain_fail_map[""] = construct::failure_deconstruct;
-    } else {
-        explain_fail_map[""] = construct::failure_standard;
-    }
+    static const std::map<std::string, void( * )( const tripoint_bub_ms & )>
+    explain_fail_map = {{
+            { "standard", construct::failure_standard },
+            { "deconstruct", construct::failure_deconstruct },
+        }
+    };
+
+    const std::string failure_fallback = jo.get_string( "pre_special", "" ) == "check_deconstruct"
+                                         ? "deconstruct" : "standard";
 
     assign_or_debugmsg( con.pre_special, jo.get_string( "pre_special", "" ), pre_special_map );
     assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
     assign_or_debugmsg( con.do_turn_special, jo.get_string( "do_turn_special", "" ),
                         do_turn_special_map );
-    assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", "" ), explain_fail_map );
+    assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", failure_fallback ),
+                        explain_fail_map );
     con.vehicle_start = jo.get_bool( "vehicle_start", false );
 
     con.on_display = jo.get_bool( "on_display", true );
     con.dark_craftable = jo.get_bool( "dark_craftable", false );
+    con.strict = jo.get_bool( "strict", false );
 
     constructions.push_back( con );
     construction_id_map.emplace( con.str_id, con.id );
@@ -2166,7 +2130,11 @@ void finalize_constructions()
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        frame_items.emplace_back( vp.base_item, 1 );
+        if( vp.get_id().str() == "frame" ) {
+            frame_items.insert( frame_items.begin(), { vp.base_item, 1 } );
+        } else {
+            frame_items.emplace_back( vp.base_item, 1 );
+        }
     }
 
     if( frame_items.empty() ) {
@@ -2291,10 +2259,7 @@ build_reqs get_build_reqs_for_furn_ter_ids(
         const construction &build = build_data.first.obj();
         const int count = build_data.second;
         total_reqs.time += build.time * count;
-        if( total_reqs.reqs.find( build.requirements ) == total_reqs.reqs.end() ) {
-            total_reqs.reqs[build.requirements] = 0;
-        }
-        total_reqs.reqs[build.requirements] += count;
+        total_reqs.raw_reqs[build.requirements] += count;
         for( const auto &req_skill : build.required_skills ) {
             auto it = total_reqs.skills.find( req_skill.first );
             if( it == total_reqs.skills.end() || it->second < req_skill.second ) {

@@ -80,6 +80,8 @@
     "armor_cut": 2,
     "armor_bullet": 3,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
+    "weakpoint_sets": [ "wps_humanoid_body" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM" ]
   },
@@ -104,6 +106,7 @@
     "melee_dice_sides": 2,
     "dodge": 6,
     "harvest": "demihuman",
+    "families": [ "prof_wp_demihuman" ],
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "fear_triggers": [ "HURT", "FIRE" ],
     "tracking_distance": 8,

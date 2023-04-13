@@ -20,7 +20,7 @@ Vehicle prototypes do not currently accept copy-from
     { "x": 0, "y": 0, "part": "seat" },    // positive y is to the right
     { "x": 0, "y": 0, "part": "controls"}, // See vehicle_parts.json for part ids
     { "x": 0, "y": 1, "parts": [ "frame", "seat" ] }, // Arrays of parts on the same space
-    { "x": 0, "y": 1, "parts": [ { "part": "tank", "fuel": "gasoline" }, "battery_car" },
+    { "x": 0, "y": 1, "parts": [ { "part": "tank", "fuel": "gasoline" }, "battery_car" ] },
     { "x": 0, "y": 1, "part": "stereo" },  // parts arrays and part may be mixed on the same space
     { "x": 1, "y": 0, "parts": [ "frame_cover", "wheel_mount_medium", "wheel" ] },
     { "x": 1, "y": 1, "parts": [ "frame_cross", "wheel_mount_medium", "wheel" ] },
@@ -32,6 +32,9 @@ Vehicle prototypes do not currently accept copy-from
     { "x": 0, "y": 0, "item_groups": "army_uniform" }, // item or items from an item_group
     { "x": 0, "y": 1, "items": [ "matchbook", "2x4" ] }, // all items in the list spawn
     { "x": 0, "y": 0, "item_groups": [ "army_uniform", "rare_guns" ] } all item_groups are processed
+]
+"zones": [
+    { "x": -3, "y": 0, "type": "LOOT_AMMO" }
 ]
 ```
 
@@ -73,3 +76,9 @@ the optional keyword "chance" provides an X in 100 chance that a particular item
 If a single item is specified through `"items"`, an itype variant for it can be specified through `"variant"`.
 
 Multiple lines of items may share the same X and Y values.
+
+### Zones list
+The zones list contains an arbitrary number of lines. Each line is of the form:
+    { "x": X, "y": Y, "type": ZONE_ID }
+where ZONE_ID is any valid zone id such as `LOOT_UNSORTED`.
+These zones are only placed if the vehicle has a faction owner.

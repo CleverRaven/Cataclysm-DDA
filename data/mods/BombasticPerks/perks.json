@@ -1,0 +1,248 @@
+[
+  {
+    "type": "mutation_type",
+    "id": "perk"
+  },
+  {
+    "type": "mutation",
+    "id": "perk_perk_menu",
+    "name": { "str": "Open Perk Menu" },
+    "points": 0,
+    "description": "Direct access to the perk menu.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_open_perk_menu" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_STR_UP",
+    "name": { "str": "Stronger" },
+    "points": 0,
+    "description": "Have you been working out?  +1 Strength.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_DEX_UP",
+    "name": { "str": "Faster" },
+    "points": 0,
+    "description": "Have you been doing cardio?  +1 Dexterity.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_INT_UP",
+    "name": { "str": "Smarter" },
+    "points": 0,
+    "description": "Have you been reading?  +1 Intelligence.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_PER_UP",
+    "name": { "str": "Sharper" },
+    "points": 0,
+    "description": "Have you been staring out into the middle distance?  +1 Perception.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 1 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_holdout_pocket",
+    "name": { "str": "Holdout Pocket" },
+    "points": 0,
+    "description": "Never leave home without it!  You have a secret pocket no one knows about that can easily store a weapon.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_holdout_pocket" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_built_tough",
+    "name": { "str": "Built Tough" },
+    "points": 0,
+    "description": "You're like a walking tank!  Take 5% less damage from all sources.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [
+          { "value": "ARMOR_ACID", "multiply": -0.05 },
+          { "value": "ARMOR_BASH", "multiply": -0.05 },
+          { "value": "ARMOR_BIO", "multiply": -0.05 },
+          { "value": "ARMOR_BULLET", "multiply": -0.05 },
+          { "value": "ARMOR_COLD", "multiply": -0.05 },
+          { "value": "ARMOR_CUT", "multiply": -0.05 },
+          { "value": "ARMOR_ELEC", "multiply": -0.05 },
+          { "value": "ARMOR_HEAT", "multiply": -0.05 },
+          { "value": "ARMOR_STAB", "multiply": -0.05 }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_hauler",
+    "name": { "str": "Hauler" },
+    "points": 0,
+    "description": "All that hauling has paid off.  You can carry 10kg of additional items.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "CARRY_WEIGHT", "add": 10000 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_vacationer",
+    "name": { "str": "Vacationer" },
+    "points": 0,
+    "description": "Every day in the apocalypse is just like the beach.  You are more comfortable in cold and warm weather.",
+    "category": [ "perk" ],
+    "enchantments": [
+      {
+        "condition": "ALWAYS",
+        "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 10 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 10 } ]
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_gymrat",
+    "name": { "str": "Gym Rat" },
+    "points": 0,
+    "description": "Your time exercising has gotten you used to being drenched in your own sweat.  Being wet doesn't bother you as much anymore.",
+    "category": [ "perk" ],
+    "wet_protection": [
+      { "part": "head", "neutral": 6 },
+      { "part": "leg_l", "neutral": 8 },
+      { "part": "leg_r", "neutral": 8 },
+      { "part": "foot_l", "neutral": 2 },
+      { "part": "foot_r", "neutral": 2 },
+      { "part": "arm_l", "neutral": 8 },
+      { "part": "arm_r", "neutral": 8 },
+      { "part": "hand_l", "neutral": 12 },
+      { "part": "hand_r", "neutral": 12 },
+      { "part": "torso", "neutral": 10 }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_thick_skull",
+    "name": { "str": "Thick Skull" },
+    "points": 0,
+    "description": "You've taken so many blows to the head you've lost count.  You've got additional skull armor.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_thick_skull" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_way_openpalm",
+    "name": { "str": "Way of the Open Palm" },
+    "points": 0,
+    "description": "You've dealt enough blows that your hands have callused, and your knifehand strikes are sharp enough to draw blood.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_hand_openpalm" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_way_closedfist",
+    "name": { "str": "Way of the Closed Fist" },
+    "points": 0,
+    "description": "You've dealt enough blows that your hands have callused, and your hammerfist strikes are as strong as a real hammer.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_hand_closedfist" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_way_pinchedfingers",
+    "name": { "str": "Way of the Pinched Fingers" },
+    "points": 0,
+    "description": "You've dealt enough blows that your hands have callused, your spearhand strikes can pierce armor, and your grip can turn bolts barehanded.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_hand_pinchedfingers" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_quickdraw",
+    "name": { "str": "Quickdraw" },
+    "points": 0,
+    "description": "Practicing with handguns has improved your draw speed with pretty much everything.  Retrieve objects 25% faster from containers.",
+    "category": [ "perk" ],
+    "obtain_cost_multiplier": 0.75
+  },
+  {
+    "type": "mutation",
+    "id": "perk_tuck_and_roll",
+    "name": { "str": "Tuck and Roll" },
+    "points": 0,
+    "description": "At some point you got really good at falling off rooftops.  Take 40% less fall damage.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -0.4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_surgical_strikes",
+    "name": { "str": "Surgical Strikes" },
+    "points": 0,
+    "description": "Careful aim allows you to take down game with little tissue damage.  Enemies you kill tend to stay intact.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": 30.0 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_bloody_mess",
+    "name": { "str": "Bloody Mess" },
+    "points": 0,
+    "description": "For whatever reason you seem to always make a real mess of things.  Enemies you kill tend to explode into a mess of viscera.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": -1000.0 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_tingly",
+    "name": { "str": "Tingly" },
+    "points": 0,
+    "description": "Ever since the apocalypse you get a funny feeling during storms and have trouble trusting small appliances.  You usually have a pretty good idea where they are though.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SIGHT_RANGE_ELECTRIC", "add": 4.0 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_jumpy",
+    "name": { "str": "Jumpy" },
+    "points": 0,
+    "description": "You've not been the same since the apocalypse, almost everything makes you jump.  You are just a bit quicker to act though.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.03 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_hobbyist",
+    "name": { "str": "Hobbyist" },
+    "points": 0,
+    "description": "No work, no social obligations, lots of time to focus on your hobbies.  You feel like you've been picking up skills faster recently.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 5.0 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_recycler",
+    "name": { "str": "Recycler" },
+    "points": 0,
+    "description": "Even with no one around you feel obligated to clean up the streets.  You find full cans of soda in the weirdest places.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_queue_can_finder" ],
+    "deactivated_eocs": [ "EOC_deque_can_finder" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_popeye",
+    "name": { "str": "Of sailors and spinach" },
+    "points": 0,
+    "description": "You spent several years on the high sea and now your muscles visibly swell and clench when you eat raw spinach.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_spinach_consumption" ]
+  }
+]

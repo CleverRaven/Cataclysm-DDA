@@ -106,8 +106,8 @@ class medical_column
 {
     public:
         medical_column() = default;
-        medical_column( const int column_id, const point COLUMN_START,
-                        const std::pair<int, int> COLUMN_BOUNDS )
+        medical_column( const int column_id, const point &COLUMN_START,
+                        const std::pair<int, int> &COLUMN_BOUNDS )
             : column_id( column_id ), COLUMN_BOUNDS( COLUMN_BOUNDS ), COLUMN_START( COLUMN_START ) {}
 
         void draw_column( const catacurses::window &window, const int BORDER_START,
@@ -337,8 +337,8 @@ static void draw_medical_titlebar( const catacurses::window &window, avatar *pla
 
 // Displays a summary of each bodypart's health, including a display for a few 'statuses'
 static medical_column draw_health_summary( const int column_count, avatar *player,
-        const point COLUMN_START,
-        const std::pair<int, int> COLUMN_BOUNDS )
+        const point &COLUMN_START,
+        const std::pair<int, int> &COLUMN_BOUNDS )
 {
     medical_column health_column = medical_column( column_count, COLUMN_START, COLUMN_BOUNDS );
     const int max_width = health_column.max_width();
@@ -374,11 +374,14 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
             detail += string_format( _( "[ %s ]" ), colorize( _( "BROKEN" ), c_red ) );
             hp_str = "==%==";
         } else if( no_feeling ) {
-            if( current_hp < maximal_hp * 0.25 ) {
+            const float cur_hp_pcnt = current_hp / static_cast<float>( maximal_hp );
+            if( cur_hp_pcnt < 0.125f ) {
                 hp_str = colorize( _( "Very Bad" ), c_red );
-            } else if( current_hp < maximal_hp * 0.5 ) {
+            } else if( cur_hp_pcnt < 0.375f ) {
                 hp_str = colorize( _( "Bad" ), c_light_red );
-            } else if( current_hp < maximal_hp * 0.75 ) {
+            } else if( cur_hp_pcnt < 0.625f ) {
+                hp_str = colorize( _( "So-so" ), c_yellow );
+            } else if( cur_hp_pcnt < 0.875f ) {
                 hp_str = colorize( _( "Okay" ), c_light_green );
             } else {
                 hp_str = colorize( _( "Good" ), c_green );
@@ -498,8 +501,8 @@ static medical_column draw_health_summary( const int column_count, avatar *playe
 
 // Displays a summary list of all visible effects.
 static medical_column draw_effects_summary( const int column_count, avatar *player,
-        const point COLUMN_START,
-        const std::pair<int, int> COLUMN_BOUNDS )
+        const point &COLUMN_START,
+        const std::pair<int, int> &COLUMN_BOUNDS )
 {
     medical_column effects_column = medical_column( column_count, COLUMN_START, COLUMN_BOUNDS );
     const int max_width = effects_column.max_width();
@@ -512,7 +515,7 @@ static medical_column draw_effects_summary( const int column_count, avatar *play
         effects_column.add_column_line( selection_line( name, eff.disp_desc(), max_width ) );
     }
 
-    const float bmi = player->get_bmi();
+    const float bmi = player->get_bmi_fat();
 
     if( bmi < character_weight_category::underweight ) {
         std::string starvation_name;
@@ -541,16 +544,18 @@ static medical_column draw_effects_summary( const int column_count, avatar *play
         effects_column.add_column_line( selection_line( starvation_name, starvation_text, max_width ) );
     }
 
-    if( player->has_trait( trait_TROGLO ) && g->is_in_sunlight( player->pos() ) &&
-        get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
-        effects_column.add_column_line( selection_line( "In Sunlight", "The sunlight irritates you.\n",
-                                        max_width ) );
-    } else if( player->has_trait( trait_TROGLO2 ) && g->is_in_sunlight( player->pos() ) ) {
-        effects_column.add_column_line( selection_line( "In Sunlight",
-                                        "The sunlight irritates you badly.\n", max_width ) );
-    } else if( player->has_trait( trait_TROGLO3 ) && g->is_in_sunlight( player->pos() ) ) {
+    if( player->has_trait( trait_TROGLO3 ) && g->is_in_sunlight( player->pos() ) ) {
         effects_column.add_column_line( selection_line( "In Sunlight",
                                         "The sunlight irritates you terribly.\n", max_width ) );
+    } else if( player->has_trait( trait_TROGLO2 ) && g->is_in_sunlight( player->pos() ) &&
+               incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::low ) {
+        effects_column.add_column_line( selection_line( "In Sunlight",
+                                        "The sunlight irritates you badly.\n", max_width ) );
+    } else if( ( player->has_trait( trait_TROGLO ) || player->has_trait( trait_TROGLO2 ) ) &&
+               g->is_in_sunlight( player->pos() ) &&
+               incident_sun_irradiance( get_weather().weather_id, calendar::turn ) > irradiance::moderate ) {
+        effects_column.add_column_line( selection_line( "In Sunlight", "The sunlight irritates you.\n",
+                                        max_width ) );
     }
 
     for( addiction &elem : player->addictions ) {
@@ -569,8 +574,8 @@ static medical_column draw_effects_summary( const int column_count, avatar *play
 
 // Displays a summary list of the player's statistics.
 static medical_column draw_stats_summary( const int column_count, avatar *player,
-        const point COLUMN_START,
-        const std::pair<int, int> COLUMN_BOUNDS )
+        const point &COLUMN_START,
+        const std::pair<int, int> &COLUMN_BOUNDS )
 {
     medical_column stats_column = medical_column( column_count, COLUMN_START, COLUMN_BOUNDS );
     const int max_width = stats_column.max_width();
@@ -665,7 +670,7 @@ static medical_column draw_stats_summary( const int column_count, avatar *player
     }
 
     for( const std::pair<const std::string, int> &speed_effect : speed_effects ) {
-        nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
+        nc_color col = speed_effect.second > 0 ? c_green : c_red;
         speed_detail_str += colorize( string_format( _( "%s    %s%d%%\n" ), speed_effect.first,
                                       ( speed_effect.second > 0 ? "+" : "-" ),
                                       std::abs( speed_effect.second ) ), col );
@@ -738,7 +743,7 @@ void avatar::disp_medical()
     int info_lines = 0;
 
     // Cursor
-    int cursor_bounds[3]; // Number of selectable rows in each column
+    std::array<int, 3> cursor_bounds; // Number of selectable rows in each column
     point cursor;
 
     ui_adaptor ui;

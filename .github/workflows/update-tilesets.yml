@@ -14,26 +14,6 @@ jobs:
     if: github.repository == 'CleverRaven/Cataclysm-DDA'
     runs-on: ubuntu-latest
     steps:
-      - name: "Generate PR body/tileset update changelog"
-        id: pr-changelog
-        run: |
-          printf '#### Summary\nNone\n\nAutomatic tilesets updates from:\n\n#### https://github.com/I-am-Erk/CDDA-Tilesets\n' >> pr-body
-          gh release view -R I-am-Erk/CDDA-Tilesets --json body --jq .body >> pr-body
-          echo "---" >> pr-body
-          printf '#### https://github.com/pixel-32/CDDA-tileset\n' >> pr-body
-          gh release view -R pixel-32/CDDA-tileset --json body --jq .body >> pr-body
-          sed -i "s/## What's Changed/**What's Changed**/g" pr-body
-          sed -i "s/## New Contributors/**New Contributors**/g" pr-body
-          sed -i '/Full Changelog/d' pr-body
-
-          CHANGELOG=$(cat pr-body)
-          CHANGELOG="${CHANGELOG//'%'/'%25'}"
-          CHANGELOG="${CHANGELOG//$'\n'/'%0A'}"
-          CHANGELOG="${CHANGELOG//$'\r'/'%0D'}"
-
-          echo "::set-output name=pr-body::$CHANGELOG"
-          rm -f pr-body
-
       - uses: actions/checkout@v3
       - name: "Get current date"
         uses: 1466587594/get-current-time@v2
@@ -65,4 +45,4 @@ jobs:
           delete-branch: true
           base: master
           title: Routine tileset updates on ${{ steps.current-date.outputs.formattedTime }}
-          body: ${{ steps.pr-changelog.outputs.pr-body }}
+          body: "#### Summary\nNone\nAutomatic tileset updates from:\n\n**https://github.com/I-am-Erk/CDDA-Tilesets/releases**\nAltica, BrownLikeBears, ChibiUltica, HollowMoon, Larwick_Overmap, MshockXotto+, NeoDaysTileset, RetroDaysTileset, SmashButton_iso, SurveyorsMap\n\n---\n\n**https://github.com/pixel-32/CDDA-tileset/releases**\nCuteclysm"

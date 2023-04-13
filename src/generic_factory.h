@@ -11,6 +11,7 @@
 #include "assign.h"
 #include "cached_options.h"
 #include "catacharset.h"
+#include "cata_scope_helpers.h"
 #include "cata_type_traits.h"
 #include "debug.h"
 #include "enum_bitset.h"
@@ -226,7 +227,7 @@ class generic_factory
                         def = ab->second;
                     } else {
                         def.was_loaded = false;
-                        deferred.emplace_back( jo.get_source_location(), src );
+                        deferred.emplace_back( jo, src );
                         jo.allow_omitted_members();
                         return false;
                     }
@@ -633,18 +634,18 @@ inline void mandatory( const JsonObject &jo, const bool was_loaded, const std::s
  * Similarly, if it can use a += operator against it's own type, the non-dummy
  * handle_relative template is constructed.
  */
-template<typename T, typename = cata::void_t<>>
+template<typename T, typename = std::void_t<>>
 struct supports_proportional : std::false_type { };
 
 template<typename T>
-struct supports_proportional<T, cata::void_t<decltype( std::declval<T &>() *= std::declval<float>() )>> :
+struct supports_proportional<T, std::void_t<decltype( std::declval<T &>() *= std::declval<float>() )>> :
 std::true_type {};
 
-template<typename T, typename = cata::void_t<>>
+template<typename T, typename = std::void_t<>>
 struct supports_relative : std::false_type { };
 
 template<typename T>
-struct supports_relative < T, cata::void_t < decltype( std::declval<T &>() += std::declval<T &>() )
+struct supports_relative < T, std::void_t < decltype( std::declval<T &>() += std::declval<T &>() )
 >> : std::true_type {};
 
 // Explicitly specialize these templates for a couple types
@@ -1229,7 +1230,7 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
             , flag_type( flag_type ) {
         }
 
-        T get_next( JsonValue jv ) const {
+        T get_next( const JsonValue &jv ) const {
             const std::string flag = jv;
             const auto iter = flag_map.find( flag );
 
@@ -1261,7 +1262,7 @@ class enum_flags_reader : public generic_typed_reader<enum_flags_reader<E>>
         explicit enum_flags_reader( const std::string &flag_type ) : flag_type( flag_type ) {
         }
 
-        E get_next( JsonValue jv ) const {
+        E get_next( const JsonValue &jv ) const {
             const std::string flag = jv.get_string();
             try {
                 return io::string_to_enum<E>( flag );
@@ -1313,7 +1314,7 @@ class text_style_check_reader : public generic_typed_reader<text_style_check_rea
 
         explicit text_style_check_reader( allow_object object_allowed = allow_object::yes );
 
-        std::string get_next( JsonValue jv ) const;
+        std::string get_next( const JsonValue &jv ) const;
 
     private:
         allow_object object_allowed;

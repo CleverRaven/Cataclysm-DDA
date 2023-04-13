@@ -12,21 +12,20 @@ env:
 jobs:
   confirm-bug:
     if: ${{ !github.event.issue.pull_request }}
-    name: Confirm bug - Comment command
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
       - name: Set-up Comvent
-        uses: rytswd/comvent@v0.3
+        uses: rytswd/comvent@v0.5.2
         id: comvent
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           config-path: .github/comment-commands.yml
 
       - if: steps.comvent.outputs.confirm-bug != ''
-        name: Handle confirmed command - Label
+        name: Handle confirmation command - Label
         run: |
           gh issue edit "$ISSUE_NUMBER" --remove-label "(S1 - Need Confirmation)"
           gh issue edit "$ISSUE_NUMBER" --add-label "(S2 - Confirmed)"

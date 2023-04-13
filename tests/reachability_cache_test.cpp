@@ -1,17 +1,18 @@
 #include <functional>
 #include <new>
+#include <optional>
 #include <ostream>
 #include <utility>
 #include <vector>
 
 #include "cached_options.h"
 #include "cata_catch.h"
+#include "cata_scope_helpers.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "map_iterator.h"
 #include "map_test_case.h"
 #include "mapdata.h"
-#include "optional.h"
 #include "options_helpers.h"
 #include "point.h"
 

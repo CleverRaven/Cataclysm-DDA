@@ -40,7 +40,7 @@
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
     "name": { "str": "Glock .40 S&W/.357 SIG 15-round magazine" },
-    "description": "A compact light-weight polymer magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
+    "description": "A compact, light-weight polymer magazine for use with Glock pistols chambered for .40 S&W or .357 SIG.",
     "weight": "125 g",
     "volume": "250 ml",
     "price": 3200,

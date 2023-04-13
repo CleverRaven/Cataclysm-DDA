@@ -11,11 +11,6 @@
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "beetle",
-    "//": "TODO assign base faction and/or attitude"
-  },
-  {
-    "type": "MONSTER_FACTION",
     "name": "turtle",
     "//": "TODO assign base faction and/or attitude"
   }

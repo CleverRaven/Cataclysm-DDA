@@ -1,0 +1,45 @@
+[
+  {
+    "id": "BGSS_EVACUEE_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I made it to one of those <swear> caves, but it was almost worse than what I left behind.  Escaped from there, been on the run since.",
+    "responses": [
+      {
+        "text": "How did you survive on the run?",
+        "topic": "BGSS_EVACUEE_1_STORY2",
+        "condition": { "not": { "days_since_cataclysm": 90 } },
+        "effect": { "npc_add_effect": "BGSS_EVACUEE_1_earlymeeting", "duration": "PERMANENT" },
+        "//": "If you talk to this NPC any time before day 90, the game flags him as an NPC you met 'early' and never gives you the 'late' convo options"
+      },
+      {
+        "text": "How did you survive on the run?",
+        "condition": { "days_since_cataclysm": 90 },
+        "topic": "BGSS_EVACUEE_1_STORY2"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_EVACUEE_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Not exactly.  After a while, I got brave.  I started venturing into the swamps, picking off giant bugs here and there.  I learned about traveling in at night to avoid a bunch, and that got me pretty far.  Eventually I cleared out a cozy little area for myself and started really feeling comfortable.  I guess I got a bit complacent.",
+    "responses": [
+      { "text": "Complacent?", "topic": "BGSS_EVACUEE_1_STORY4" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_EVACUEE_1_STORY4",
+    "type": "talk_topic",
+    "dynamic_line": "I thought I had those damned bugs figured out.  I got braver, started heading out by day more and more.  A bunch of deer and a bear had turned and chased me down.  It was brutal.  I got out of there, but I had to leave everything and start over.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "CWH_EVACUEE_1_IDEAS1",
+    "type": "talk_topic",
+    "dynamic_line": "What happened?  I'm not really sure.  You must know about the riots and all that, that the leadership totally failed to contain.  I don't have a good guess what caused that.  I thought it was the usual stuff at first, and I gotta admit, I was sort of excited and scared it was the start of a revolution.  Not excited enough to join in though, and I guess anyone who was is probably dead now.  I tried to wait it alone, packed a little bag, but I saw a rioter get back up and fight with crazy injuries.  I don't know how many people really believed it at first, but I took that as my sign and ran for a nearby cave I knew.  I don't know exactly what happened after that.  I thought others would be there but it was just me.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

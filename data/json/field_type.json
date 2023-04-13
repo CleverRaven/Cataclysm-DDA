@@ -93,7 +93,7 @@
       }
     ],
     "description_affix": "covered_in",
-    "immunity_data": { "traits": [ "WEB_WALKER" ] },
+    "immunity_data": { "flags": [ "WEBWALK" ] },
     "immune_mtypes": [ "mon_spider_web", "mon_spider_web_s", "mon_mutant_arthropod" ],
     "decrease_intensity_on_contact": true,
     "priority": 2,
@@ -158,7 +158,7 @@
       { "name": "pool of acid", "color": "green" }
     ],
     "description_affix": "covered_in",
-    "immunity_data": { "traits": [ "ACIDPROOF" ] },
+    "immunity_data": { "flags": [ "ACID_IMMUNE" ] },
     "underwater_age_speedup": "2 minutes",
     "has_acid": true,
     "priority": 2,
@@ -262,7 +262,7 @@
     "half_life": "30 minutes",
     "phase": "liquid",
     "display_field": true,
-    "immunity_data": { "traits": [ "GASTROPOD_FOOT" ] },
+    "immunity_data": { "flags": [ "SLUDGE_IMMUNE" ] },
     "looks_like": "fd_sap"
   },
   {
@@ -940,6 +940,7 @@
       { "//": "repeat last entry" }
     ],
     "description_affix": "illuminated_by",
+    "immunity_data": { "immunity_flags_worn_any": [ [ "sensor", "FLASH_PROTECTION" ], [ "sensor", "BLIND" ] ], "flags": [ "BLIND" ] },
     "priority": 4,
     "half_life": "1 turns",
     "phase": "plasma",
@@ -1140,23 +1141,6 @@
     "looks_like": "fd_smoke"
   },
   {
-    "id": "fd_bees",
-    "type": "field_type",
-    "legacy_enum_id": 37,
-    "intensity_levels": [
-      { "name": "some bees", "sym": "8", "dangerous": true },
-      { "name": "swarm of bees", "color": "light_gray" },
-      { "name": "angry swarm of bees", "color": "dark_gray" }
-    ],
-    "percent_spread": 5,
-    "outdoor_age_speedup": "0 turns",
-    "dirty_transparency_cache": true,
-    "priority": 8,
-    "half_life": "100 minutes",
-    "display_items": false,
-    "display_field": true
-  },
-  {
     "id": "fd_incendiary",
     "type": "field_type",
     "legacy_enum_id": 38,
@@ -1305,7 +1289,7 @@
     "outdoor_age_speedup": "5 turns",
     "dirty_transparency_cache": true,
     "has_fume": true,
-    "immunity_data": { "traits": [ "M_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ], [ "eyes", 15 ] ] },
+    "immunity_data": { "flags": [ "MYCUS_IMMUNE" ], "body_part_env_resistance": [ [ "mouth", 15 ], [ "sensor", 15 ] ] },
     "priority": 8,
     "half_life": "4 minutes",
     "phase": "gas",
@@ -1636,5 +1620,16 @@
     "half_life": "1 seconds",
     "phase": "solid",
     "display_field": false
+  },
+  {
+    "id": "fd_churned_earth",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "churned earth", "sym": "^", "color": "brown", "dangerous": false } ],
+    "half_life": "1 minute",
+    "accelerated_decay": true,
+    "display_field": true,
+    "display_items": true,
+    "phase": "solid",
+    "looks_like": "t_dirtmound"
   }
 ]

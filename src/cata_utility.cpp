@@ -2,6 +2,7 @@
 
 #include <cctype>
 #include <clocale>
+#include <cwctype>
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -11,15 +12,18 @@
 #include <stdexcept>
 #include <string>
 
+#include "cached_options.h"
 #include "catacharset.h"
-#include "cata_utility.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "filesystem.h"
 #include "json.h"
+#include "json_loader.h"
 #include "ofstream_wrapper.h"
 #include "options.h"
 #include "output.h"
+#include "path_info.h"
+#include "pinyin.h"
 #include "rng.h"
 #include "translations.h"
 #include "unicode.h"
@@ -86,7 +90,14 @@ bool lcmatch( const std::string &str, const std::string &qry )
     }
     // Then try removing accents from str ONLY
     std::for_each( u32_str.begin(), u32_str.end(), remove_accent );
-    return u32_str.find( u32_qry ) != std::u32string::npos;
+    if( u32_str.find( u32_qry ) != std::u32string::npos ) {
+        return true;
+    }
+    if( use_pinyin_search ) {
+        // Finally, try to convert the string to pinyin and compare
+        return pinyin::pinyin_match( u32_str, u32_qry );
+    }
+    return false;
 }
 
 bool lcmatch( const translation &str, const std::string &qry )
@@ -282,6 +293,30 @@ bool write_to_file( const std::string &path, const std::function<void( std::ostr
     }
 }
 
+void write_to_file( const cata_path &path, const std::function<void( std::ostream & )> &writer )
+{
+    // Any of the below may throw. ofstream_wrapper will clean up the temporary path on its own.
+    ofstream_wrapper fout( path.get_unrelative_path(), std::ios::binary );
+    writer( fout.stream() );
+    fout.close();
+}
+
+bool write_to_file( const cata_path &path, const std::function<void( std::ostream & )> &writer,
+                    const char *const fail_message )
+{
+    try {
+        write_to_file( path, writer );
+        return true;
+
+    } catch( const std::exception &err ) {
+        if( fail_message ) {
+            popup( _( "Failed to write %1$s to \"%2$s\": %3$s" ), fail_message,
+                   path.generic_u8string().c_str(), err.what() );
+        }
+        return false;
+    }
+}
+
 ofstream_wrapper::ofstream_wrapper( const fs::path &path, const std::ios::openmode mode )
     : path( path )
 
@@ -325,98 +360,186 @@ std::istream &safe_getline( std::istream &ins, std::string &str )
     }
 }
 
+namespace
+{
+
+std::string read_compressed_file_to_string( std::istream &fin )
+{
+    std::string outstring;
+
+    std::ostringstream deflated_contents_stream;
+    std::string str;
+
+    deflated_contents_stream << fin.rdbuf();
+    str = deflated_contents_stream.str();
+
+    z_stream zs;
+    memset( &zs, 0, sizeof( zs ) );
+
+    if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
+        throw std::runtime_error( "inflateInit failed while decompressing." );
+    }
+
+    zs.next_in = reinterpret_cast<unsigned char *>( const_cast<char *>( str.data() ) );
+    zs.avail_in = str.size();
+
+    int ret;
+    std::array<char, 32768> outbuffer;
+
+    // get the decompressed bytes blockwise using repeated calls to inflate
+    do {
+        zs.next_out = reinterpret_cast<Bytef *>( outbuffer.data() );
+        zs.avail_out = sizeof( outbuffer );
+
+        ret = inflate( &zs, 0 );
+
+        if( outstring.size() < static_cast<size_t>( zs.total_out ) ) {
+            outstring.append( outbuffer.data(),
+                              zs.total_out - outstring.size() );
+        }
+
+    } while( ret == Z_OK );
+
+    inflateEnd( &zs );
+
+    if( ret != Z_STREAM_END ) { // an error occurred that was not EOF
+        std::ostringstream oss;
+        oss << "Exception during zlib decompression: (" << ret << ") "
+            << zs.msg;
+        throw std::runtime_error( oss.str() );
+    }
+    return outstring;
+}
+
+} // namespace
+
+bool read_from_file( const cata_path &path, const std::function<void( std::istream & )> &reader )
+{
+    return read_from_file( path.get_unrelative_path(), reader );
+}
+
+bool read_from_file( const fs::path &path, const std::function<void( std::istream & )> &reader )
+{
+    std::unique_ptr<std::istream> finp = read_maybe_compressed_file( path );
+    if( !finp ) {
+        return false;
+    }
+    try {
+        reader( *finp );
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
+        return false;
+    }
+    return true;
+}
+
 bool read_from_file( const std::string &path, const std::function<void( std::istream & )> &reader )
 {
+    return read_from_file( fs::u8path( path ), reader );
+}
+
+std::unique_ptr<std::istream> read_maybe_compressed_file( const std::string &path )
+{
+    return read_maybe_compressed_file( fs::u8path( path ) );
+}
+
+std::unique_ptr<std::istream> read_maybe_compressed_file( const fs::path &path )
+{
     try {
-        cata::ifstream fin( fs::u8path( path ), std::ios::binary );
+        cata::ifstream fin( path, std::ios::binary );
         if( !fin ) {
             throw std::runtime_error( "opening file failed" );
         }
 
         // check if file is gzipped
         // (byte1 == 0x1f) && (byte2 == 0x8b)
-        char header[2];
-        fin.read( header, 2 );
+        std::array<char, 2> header;
+        fin.read( header.data(), 2 );
         fin.clear();
         fin.seekg( 0, std::ios::beg ); // reset read position
 
         if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
-            std::ostringstream deflated_contents_stream;
-            std::string str;
-
-            deflated_contents_stream << fin.rdbuf();
-            str = deflated_contents_stream.str();
-
-            z_stream zs;
-            memset( &zs, 0, sizeof( zs ) );
-
-            if( inflateInit2( &zs, MAX_WBITS | 16 ) != Z_OK ) {
-                throw( std::runtime_error( "inflateInit failed while decompressing." ) );
-            }
-
-            zs.next_in = reinterpret_cast<unsigned char *>( const_cast<char *>( str.data() ) );
-            zs.avail_in = str.size();
-
-            int ret;
-            char outbuffer[32768];
-            std::string outstring;
-
-            // get the decompressed bytes blockwise using repeated calls to inflate
-            do {
-                zs.next_out = reinterpret_cast<Bytef *>( outbuffer );
-                zs.avail_out = sizeof( outbuffer );
-
-                ret = inflate( &zs, 0 );
-
-                if( outstring.size() < static_cast<size_t>( zs.total_out ) ) {
-                    outstring.append( outbuffer,
-                                      zs.total_out - outstring.size() );
-                }
-
-            } while( ret == Z_OK );
-
-            inflateEnd( &zs );
-
-            if( ret != Z_STREAM_END ) { // an error occurred that was not EOF
-                std::ostringstream oss;
-                oss << "Exception during zlib decompression: (" << ret << ") "
-                    << zs.msg;
-                throw( std::runtime_error( oss.str() ) );
-            }
-
+            std::string outstring = read_compressed_file_to_string( fin );
             std::stringstream inflated_contents_stream;
             inflated_contents_stream.write( outstring.data(), outstring.size() );
-
-            reader( inflated_contents_stream );
+            return std::make_unique<std::stringstream>( std::move( inflated_contents_stream ) );
         } else {
-            reader( fin );
+            return std::make_unique<cata::ifstream>( std::move( fin ) );
         }
         if( fin.bad() ) {
             throw std::runtime_error( "reading file failed" );
         }
-        return true;
 
     } catch( const std::exception &err ) {
-        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.c_str(), err.what() );
-        return false;
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
     }
+    return nullptr;
 }
 
-bool read_from_file_json( const std::string &path, const std::function<void( JsonIn & )> &reader )
+std::unique_ptr<std::istream> read_maybe_compressed_file( const cata_path &path )
 {
-    return read_from_file( path, [&]( std::istream & fin ) {
-        JsonIn jsin( fin, path );
-        reader( jsin );
-    } );
+    return read_maybe_compressed_file( path.get_unrelative_path() );
 }
 
-bool read_from_file_json( const std::string &path,
+std::optional<std::string> read_whole_file( const std::string &path )
+{
+    return read_whole_file( fs::u8path( path ) );
+}
+
+std::optional<std::string> read_whole_file( const fs::path &path )
+{
+    std::string outstring;
+    try {
+        cata::ifstream fin( path, std::ios::binary );
+        if( !fin ) {
+            throw std::runtime_error( "opening file failed" );
+        }
+
+        // check if file is gzipped
+        // (byte1 == 0x1f) && (byte2 == 0x8b)
+        std::array<char, 2> header;
+        fin.read( header.data(), 2 );
+        fin.clear();
+        fin.seekg( 0, std::ios::beg ); // reset read position
+
+        if( ( header[0] == '\x1f' ) && ( header[1] == '\x8b' ) ) {
+            outstring = read_compressed_file_to_string( fin );
+        } else {
+            fin.seekg( 0, std::ios_base::end );
+            std::streamoff size = fin.tellg();
+            fin.seekg( 0 );
+
+            outstring.resize( size );
+            fin.read( outstring.data(), size );
+        }
+        if( fin.bad() ) {
+            throw std::runtime_error( "reading file failed" );
+        }
+
+        return std::optional<std::string>( std::move( outstring ) );
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(), err.what() );
+    }
+    return std::nullopt;
+}
+
+std::optional<std::string> read_whole_file( const cata_path &path )
+{
+    return read_whole_file( path.get_unrelative_path() );
+}
+
+bool read_from_file_json( const cata_path &path,
                           const std::function<void( const JsonValue & )> &reader )
 {
-    return read_from_file( path, [&]( std::istream & fin ) {
-        JsonIn jsin( fin, path );
-        reader( jsin.get_value() );
-    } );
+    try {
+        JsonValue jo = json_loader::from_path( path );
+        reader( jo );
+        return true;
+    } catch( const std::exception &err ) {
+        debugmsg( _( "Failed to read from \"%1$s\": %2$s" ), path.generic_u8string().c_str(),
+                  err.what() );
+        return false;
+    }
 }
 
 bool read_from_file_optional( const std::string &path,
@@ -428,22 +551,25 @@ bool read_from_file_optional( const std::string &path,
     return file_exist( path ) && read_from_file( path, reader );
 }
 
-bool read_from_file_optional_json( const std::string &path,
-                                   const std::function<void( JsonIn & )> &reader )
+bool read_from_file_optional( const fs::path &path,
+                              const std::function<void( std::istream & )> &reader )
 {
-    return read_from_file_optional( path, [&]( std::istream & fin ) {
-        JsonIn jsin( fin, path );
-        reader( jsin );
-    } );
+    // Note: slight race condition here, but we'll ignore it. Worst case: the file
+    // exists and got removed before reading it -> reading fails with a message
+    // Or file does not exists, than everything works fine because it's optional anyway.
+    return file_exist( path ) && read_from_file( path, reader );
 }
 
-bool read_from_file_optional_json( const std::string &path,
+bool read_from_file_optional( const cata_path &path,
+                              const std::function<void( std::istream & )> &reader )
+{
+    return read_from_file_optional( path.get_unrelative_path(), reader );
+}
+
+bool read_from_file_optional_json( const cata_path &path,
                                    const std::function<void( const JsonValue & )> &reader )
 {
-    return read_from_file_optional( path, [&]( std::istream & fin ) {
-        JsonIn jsin( fin, path );
-        reader( jsin.get_value() );
-    } );
+    return file_exist( path.get_unrelative_path() ) && read_from_file_json( path, reader );
 }
 
 std::string obscure_message( const std::string &str, const std::function<char()> &f )
@@ -457,6 +583,7 @@ std::string obscure_message( const std::string &str, const std::function<char()>
     std::wstring w_gibberish_wide = utf8_to_wstr( gibberish_wide );
     std::wstring w_str = utf8_to_wstr( str );
     // a trailing NULL terminator is necessary for utf8_width function
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char transformation[2] = { 0 };
     for( size_t i = 0; i < w_str.size(); ++i ) {
         transformation[0] = f();
@@ -493,10 +620,10 @@ std::string serialize_wrapper( const std::function<void( JsonOut & )> &callback 
     return buffer.str();
 }
 
-void deserialize_wrapper( const std::function<void( JsonIn & )> &callback, const std::string &data )
+void deserialize_wrapper( const std::function<void( const JsonValue & )> &callback,
+                          const std::string &data )
 {
-    std::istringstream buffer( data );
-    JsonIn jsin( buffer );
+    JsonValue jsin = json_loader::from_string( data );
     callback( jsin );
 }
 
@@ -523,17 +650,25 @@ bool string_empty_or_whitespace( const std::string &s )
     } );
 }
 
-std::string join( const std::vector<std::string> &strings, const std::string &joiner )
+std::vector<std::string> string_split( const std::string &string, char delim )
 {
-    std::ostringstream buffer;
+    std::vector<std::string> elems;
 
-    for( auto a = strings.begin(); a != strings.end(); ++a ) {
-        if( a != strings.begin() ) {
-            buffer << joiner;
-        }
-        buffer << *a;
+    if( string.empty() ) {
+        return elems; // Well, that was easy.
     }
-    return buffer.str();
+
+    std::stringstream ss( string );
+    std::string item;
+    while( std::getline( ss, item, delim ) ) {
+        elems.push_back( item );
+    }
+
+    if( string.back() == delim ) {
+        elems.emplace_back( "" );
+    }
+
+    return elems;
 }
 
 template<>
@@ -673,4 +808,22 @@ int bucket_index_from_weight_list( const std::vector<int> &weights )
         index++;
     }
     return index;
+}
+
+template<>
+std::string io::enum_to_string<aggregate_type>( aggregate_type agg )
+{
+    switch( agg ) {
+        // *INDENT-OFF*
+        case aggregate_type::FIRST:   return "first";
+        case aggregate_type::LAST:    return "last";
+        case aggregate_type::MIN:     return "min";
+        case aggregate_type::MAX:     return "max";
+        case aggregate_type::SUM:     return "sum";
+        case aggregate_type::AVERAGE: return "average";
+        // *INDENT-ON*
+        case aggregate_type::num_aggregate_types:
+            break;
+    }
+    cata_fatal( "Invalid aggregate type." );
 }

@@ -82,35 +82,36 @@ static void reset_proficiencies( Character &dummy, const proficiency_id &prof )
 
 TEST_CASE( "weakpoint_basic", "[monster][weakpoint]" )
 {
+    constexpr float epsilon = 0.225f;
     // Debug Monster has two weakpoints at 25% each, one leaves 0 armor the other 25 bullet armor, down from 100 bullet armor
     weakpoint_report wr1 = damage_monster( debug_mon, damage_instance( damage_type::BULLET, 100.0f,
                                            0.0f ), 1000 );
-    CHECK( wr1.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( 0.20f ) );
-    CHECK( wr1.AveDam( "the knee" ) == Approx( 75.0f ).epsilon( 0.20f ) ); // 25 armor
-    CHECK( wr1.PercHits( "the bugs" ) == Approx( 0.25f ).epsilon( 0.20f ) );
-    CHECK( wr1.AveDam( "the bugs" ) == Approx( 100.0f ).epsilon( 0.20f ) ); // No armor
-    CHECK( wr1.PercHits( "" ) == Approx( 0.50f ).epsilon( 0.20f ) );
-    CHECK( wr1.AveDam( "" ) == Approx( 0.0f ).epsilon( 0.20f ) ); // Full 100 armor
+    CHECK( wr1.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( epsilon ) );
+    CHECK( wr1.AveDam( "the knee" ) == Approx( 75.0f ).epsilon( epsilon ) ); // 25 armor
+    CHECK( wr1.PercHits( "the bugs" ) == Approx( 0.25f ).epsilon( epsilon ) );
+    CHECK( wr1.AveDam( "the bugs" ) == Approx( 100.0f ).epsilon( epsilon ) ); // No armor
+    CHECK( wr1.PercHits( "" ) == Approx( 0.50f ).epsilon( epsilon ) );
+    CHECK( wr1.AveDam( "" ) == Approx( 0.0f ).epsilon( epsilon ) ); // Full 100 armor
 
     // With 25 ap, adjust no weakpoint and the knee damage
     weakpoint_report wr2 = damage_monster( debug_mon, damage_instance( damage_type::BULLET, 100.0f,
                                            25.0f ), 1000 );
-    CHECK( wr2.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( 0.20f ) );
-    CHECK( wr2.AveDam( "the knee" ) == Approx( 100.0f ).epsilon( 0.20f ) ); // 25 armor with 25 ap
-    CHECK( wr2.PercHits( "the bugs" ) == Approx( 0.25f ).epsilon( 0.20f ) );
-    CHECK( wr2.AveDam( "the bugs" ) == Approx( 100.0f ).epsilon( 0.20f ) ); // No armor with 25 ap
-    CHECK( wr2.PercHits( "" ) == Approx( 0.50f ).epsilon( 0.20f ) );
-    CHECK( wr2.AveDam( "" ) == Approx( 25.0f ).epsilon( 0.20f ) ); // Full 100 armor with 25 ap
+    CHECK( wr2.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( epsilon ) );
+    CHECK( wr2.AveDam( "the knee" ) == Approx( 100.0f ).epsilon( epsilon ) ); // 25 armor with 25 ap
+    CHECK( wr2.PercHits( "the bugs" ) == Approx( 0.25f ).epsilon( epsilon ) );
+    CHECK( wr2.AveDam( "the bugs" ) == Approx( 100.0f ).epsilon( epsilon ) ); // No armor with 25 ap
+    CHECK( wr2.PercHits( "" ) == Approx( 0.50f ).epsilon( epsilon ) );
+    CHECK( wr2.AveDam( "" ) == Approx( 25.0f ).epsilon( epsilon ) ); // Full 100 armor with 25 ap
 
     // No cut armordebug_mon
     weakpoint_report wr3 = damage_monster( debug_mon, damage_instance( damage_type::CUT, 100.0f,
                                            0.0f ), 1000 );
-    CHECK( wr3.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( 0.20f ) );
-    CHECK( wr3.AveDam( "the knee" ) == Approx( 100.0f ).epsilon( 0.20f ) );
-    CHECK( wr3.PercHits( "the bugs" ) == Approx( 0.25f ).epsilon( 0.20f ) );
-    CHECK( wr3.AveDam( "the bugs" ) == Approx( 100.0f ).epsilon( 0.20f ) );
-    CHECK( wr3.PercHits( "" ) == Approx( 0.50f ).epsilon( 0.20f ) );
-    CHECK( wr3.AveDam( "" ) == Approx( 100.0f ).epsilon( 0.20f ) );
+    CHECK( wr3.PercHits( "the knee" ) == Approx( 0.25f ).epsilon( epsilon ) );
+    CHECK( wr3.AveDam( "the knee" ) == Approx( 100.0f ).epsilon( epsilon ) );
+    CHECK( wr3.PercHits( "the bugs" ) == Approx( 0.25f ).epsilon( epsilon ) );
+    CHECK( wr3.AveDam( "the bugs" ) == Approx( 100.0f ).epsilon( epsilon ) );
+    CHECK( wr3.PercHits( "" ) == Approx( 0.50f ).epsilon( epsilon ) );
+    CHECK( wr3.AveDam( "" ) == Approx( 100.0f ).epsilon( epsilon ) );
 }
 
 TEST_CASE( "weakpoint_practice", "[monster][weakpoint]" )
@@ -143,19 +144,19 @@ TEST_CASE( "Check order of weakpoint set application", "[monster][weakpoint]" )
     for( const weakpoint &wp : mon_test_zombie_cop->weakpoints.weakpoint_list ) {
         if( wp.id == "test_head" ) {
             has_wp_head = true;
-            CHECK( wp.name == "inline head" );
+            CHECK( wp.get_name() == "inline head" );
         } else if( wp.id == "test_eye" ) {
             has_wp_eye = true;
-            CHECK( wp.name == "humanoid eye" );
+            CHECK( wp.get_name() == "humanoid eye" );
         } else if( wp.id == "test_neck" ) {
             has_wp_neck = true;
-            CHECK( wp.name == "special neck" );
+            CHECK( wp.get_name() == "special neck" );
         } else if( wp.id == "test_arm" ) {
             has_wp_arm = true;
-            CHECK( wp.name == "inline arm" );
+            CHECK( wp.get_name() == "inline arm" );
         } else if( wp.id == "test_leg" ) {
             has_wp_leg = true;
-            CHECK( wp.name == "inline leg" );
+            CHECK( wp.get_name() == "inline leg" );
         }
     }
     REQUIRE( has_wp_head );

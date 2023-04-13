@@ -2,13 +2,14 @@
 #include "calendar.h" // IWYU pragma: associated
 
 #include <iomanip>
+#include <optional>
 #include <string>
 #include <unordered_set>
 
+#include "cata_scope_helpers.h"
 #include "hash_utils.h"
 #include "line.h"
 #include "options_helpers.h"
-#include "optional.h"
 #include "output.h"
 #include "stringmaker.h"
 #include "units_utility.h"
@@ -352,7 +353,7 @@ TEST_CASE( "sunrise and sunset", "[sun][sunrise][sunset][equinox][solstice]" )
 
 static rl_vec2d checked_sunlight_angle( const time_point &t )
 {
-    const cata::optional<rl_vec2d> opt_angle = sunlight_angle( t );
+    const std::optional<rl_vec2d> opt_angle = sunlight_angle( t );
     REQUIRE( opt_angle );
     return *opt_angle;
 }

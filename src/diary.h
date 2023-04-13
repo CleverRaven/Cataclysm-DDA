@@ -15,6 +15,7 @@
 #include "units.h"
 
 enum class time_accuracy;
+class JsonValue;
 
 /// <summary>
 /// diary page, to save current character progression
@@ -82,7 +83,6 @@ class diary
         /*maps description to position in change list*/
         std::map<int, std::string> desc_map; // NOLINT(cata-serialize)
 
-
         //methods
     public:
         diary();
@@ -96,8 +96,7 @@ class diary
         bool store();
         void load();
         void serialize( std::ostream &fout );
-        void deserialize( std::istream &fin );
-        void deserialize( JsonIn &jsin );
+        void deserialize( const JsonValue &jsin );
         void serialize( JsonOut &jsout );
 
     private:

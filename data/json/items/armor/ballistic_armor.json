@@ -112,6 +112,7 @@
     "color": "dark_gray",
     "material_thickness": 25,
     "non_functional": "destroyed_large_ceramic_plate",
+    "damage_verb": "makes a crunch, something has shifted",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 2, "coverage": 45, "covers": [ "torso" ], "specifically_covers": [ "torso_upper" ] } ]
   },
@@ -132,7 +133,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
     "armor": [
       {
         "material": [
@@ -166,7 +167,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 3,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
     "armor": [
       {
         "material": [
@@ -200,7 +201,7 @@
     "symbol": ",",
     "color": "dark_gray",
     "material_thickness": 6.35,
-    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR" ],
+    "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "STURDY" ],
     "armor": [
       {
         "material": [ { "type": "qt_steel", "covered_by_mat": 100, "thickness": 6.35 } ],
@@ -260,6 +261,7 @@
     "color": "dark_gray",
     "material_thickness": 25,
     "non_functional": "destroyed_medium_ceramic_plate",
+    "damage_verb": "makes a crunch, something has shifted",
     "flags": [ "ABLATIVE_MEDIUM", "CANT_WEAR" ],
     "armor": [ { "encumbrance": 1, "coverage": 35, "covers": [ "torso" ], "specifically_covers": [ "torso_lower" ] } ]
   },
@@ -326,6 +328,25 @@
     "weight": "7 kg",
     "volume": "8 L",
     "material": [ "nylon", "kevlar_layered" ],
+    "variant_type": "generic",
+    "variants": [
+      {
+        "id": "ballistic_vest_heavy_military",
+        "name": { "str": "heavy ballistic vest" },
+        "description": "It's styled in a dark olive color.",
+        "color": "light_green",
+        "weight": 4,
+        "append": true
+      },
+      {
+        "id": "ballistic_vest_heavy_xedra",
+        "name": { "str": "XEDRA containment armor" },
+        "description": "It's black with IR reflective markings and a large XE on the right shoulder.",
+        "color": "light_green",
+        "weight": 0,
+        "append": true
+      }
+    ],
     "use_action": [ { "type": "attach_molle", "size": 10 }, { "type": "detach_molle" } ],
     "pocket_data": [
       {
@@ -687,7 +708,8 @@
         "max_contains_weight": "3 kg",
         "max_item_length": "25 cm",
         "moves": 50,
-        "description": "Low-profile zipper storage pouch."
+        "description": "Low-profile zipper storage pouch.",
+        "volume_encumber_modifier": 0.4
       }
     ]
   },
@@ -783,7 +805,8 @@
         "max_contains_weight": "500 g",
         "max_item_length": "13 cm",
         "moves": 40,
-        "description": "Shoulder-mounted radio pouch."
+        "description": "Shoulder-mounted radio pouch.",
+        "volume_encumber_modifier": 0.4
       },
       {
         "pocket_type": "CONTAINER",
@@ -792,7 +815,8 @@
         "max_item_length": "15 cm",
         "holster": true,
         "moves": 20,
-        "description": "Hook for a glowstick."
+        "description": "Hook for a glowstick.",
+        "volume_encumber_modifier": 0.4
       }
     ]
   },
@@ -836,21 +860,24 @@
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
-        "moves": 120
+        "moves": 120,
+        "volume_encumber_modifier": 0.4
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
-        "moves": 120
+        "moves": 120,
+        "volume_encumber_modifier": 0.4
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "10 ml",
         "max_contains_weight": "50 g",
         "max_item_length": "13 cm",
-        "moves": 120
+        "moves": 120,
+        "volume_encumber_modifier": 0
       }
     ],
     "armor": [
@@ -906,21 +933,24 @@
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
-        "moves": 120
+        "moves": 120,
+        "volume_encumber_modifier": 0.4
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "500 ml",
         "max_contains_weight": "1 kg",
         "max_item_length": "13 cm",
-        "moves": 120
+        "moves": 120,
+        "volume_encumber_modifier": 0.4
       },
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "10 ml",
         "max_contains_weight": "50 g",
         "max_item_length": "13 cm",
-        "moves": 120
+        "moves": 120,
+        "volume_encumber_modifier": 0
       }
     ],
     "armor": [

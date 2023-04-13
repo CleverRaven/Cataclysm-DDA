@@ -17,6 +17,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <regex>
 #include <set>
 #include <sstream>
@@ -27,6 +28,7 @@
 
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -34,7 +36,6 @@
 #include "get_version.h"
 #include "input.h"
 #include "mod_manager.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
@@ -230,6 +231,7 @@ std::string filter_name( debug_filter value )
         case DF_CHARACTER: return "DF_CHARACTER";
         case DF_CHAR_CALORIES: return "DF_CHAR_CALORIES";
         case DF_CHAR_HEALTH: return "DF_CHAR_HEALTH";
+        case DF_CRAFTING: return "DF_CRAFTING";
         case DF_CREATURE: return "DF_CREATURE";
         case DF_EFFECT: return "DF_EFFECT";
         case DF_EXPLOSION: return "DF_EXPLOSION";
@@ -241,6 +243,7 @@ std::string filter_name( debug_filter value )
         case DF_MATTACK: return "DF_MATTACK";
         case DF_MELEE: return "DF_MELEE";
         case DF_MONSTER: return "DF_MONSTER";
+        case DF_MUTATION: return "DF_MUTATION";
         case DF_NPC: return "DF_NPC";
         case DF_OVERMAP: return "DF_OVERMAP";
         case DF_RADIO: return "DF_RADIO";
@@ -416,7 +419,7 @@ struct time_info {
         using char_t = typename Stream::char_type;
         using base   = std::basic_ostream<char_t>;
 
-        static_assert( std::is_base_of<base, Stream>::value, "" );
+        static_assert( std::is_base_of<base, Stream>::value );
 
         out << std::setfill( '0' );
         out << std::setw( 2 ) << t.hours << ':' << std::setw( 2 ) << t.minutes << ':' <<
@@ -816,6 +819,7 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
 {
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                          "abcdefghijklmnopqrstuvwxyz"
                                          "01234567890_./-+";
@@ -863,7 +867,7 @@ static std::string debug_resolve_binary( const std::string &binary, std::ostream
     return binary;
 }
 
-static cata::optional<uintptr_t> debug_compute_load_offset(
+static std::optional<uintptr_t> debug_compute_load_offset(
     const std::string &binary, const std::string &symbol,
     const std::string &offset_within_symbol_s, void *address, std::ostream &out )
 {
@@ -883,19 +887,19 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
 
     // We need to try calling nm in two different ways, because one
     // works for executables and the other for libraries.
-    const char *nm_variants[] = { "nm", "nm -D" };
+    std::array<const char *, 2> nm_variants = { "nm", "nm -D" };
     for( const char *nm_variant : nm_variants ) {
         std::ostringstream cmd;
         cmd << nm_variant << ' ' << binary << " 2>&1";
         FILE *nm = popen( cmd.str().c_str(), "re" );
         if( !nm ) {
             out << "    backtrace: popen(nm) failed: " << strerror( errno ) << "\n";
-            return cata::nullopt;
+            return std::nullopt;
         }
 
-        char buf[1024];
-        while( fgets( buf, sizeof( buf ), nm ) ) {
-            std::string line( buf );
+        std::array<char, 1024> buf;
+        while( fgets( buf.data(), buf.size(), nm ) ) {
+            std::string line( buf.data() );
             while( !line.empty() && isspace( line.end()[-1] ) ) {
                 line.erase( line.end() - 1 );
             }
@@ -914,7 +918,7 @@ static cata::optional<uintptr_t> debug_compute_load_offset(
         pclose( nm );
     }
 
-    return cata::nullopt;
+    return std::nullopt;
 }
 #endif
 
@@ -1033,6 +1037,7 @@ static std::map<DWORD64, backtrace_module_info_t> bt_module_info_map;
 #endif
 #elif !defined(__ANDROID__) && !defined(LIBBACKTRACE)
 static constexpr int bt_cnt = 20;
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 static void *bt[bt_cnt];
 #endif
 
@@ -1251,16 +1256,16 @@ void debug_write_backtrace( std::ostream &out )
             out << "    backtrace: popen(addr2line) failed\n";
             return false;
         }
-        char buf[1024];
-        while( fgets( buf, sizeof( buf ), addr2line ) ) {
+        std::array<char, 1024> buf;
+        while( fgets( buf.data(), buf.size(), addr2line ) ) {
             out.write( "    ", 4 );
             // Strip leading directories for source file path
-            char search_for[] = "/src/";
-            char *buf_end = buf + strlen( buf );
-            char *src = std::find_end( buf, buf_end,
+            const char *search_for = "/src/";
+            char *buf_end = buf.data() + strlen( buf.data() );
+            char *src = std::find_end( buf.data(), buf_end,
                                        search_for, search_for + strlen( search_for ) );
             if( src == buf_end ) {
-                src = buf;
+                src = buf.data();
             } else {
                 out << "…";
             }
@@ -1314,7 +1319,7 @@ void debug_write_backtrace( std::ostream &out )
                 std::string symbol_name( symbolNameStart, symbolNameEnd );
                 std::string offset_within_symbol( offsetStart, offsetEnd );
 
-                cata::optional<uintptr_t> offset =
+                std::optional<uintptr_t> offset =
                     debug_compute_load_offset( binary_name, symbol_name, offset_within_symbol,
                                                bt[i], out );
                 if( offset ) {
@@ -1704,7 +1709,6 @@ static std::string windows_version()
             }
         }
 
-
         RegCloseKey( handle_key );
     }
 
@@ -1801,7 +1805,7 @@ std::string game_info::mods_loaded()
         return string_format( "%s [%s]", mod->name(), mod->ident.str() );
     } );
 
-    return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
+    return string_join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
 }
 
 std::string game_info::game_report()

@@ -1,0 +1,29 @@
+[
+  {
+    "id": "BGSS_NO_PAST_3_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "This is gonna sound crazy, but I woke up in the forest in the middle of nowhere, freezing cold, about a week before I met you.  I had a splitting headache, no clothes, and absolutely no memory of anything.  Like, I know stuff.  I can talk, I have skills and understanding… but I don't remember where any of it comes from.  I'm not even sure my name is real or if I made it up.",
+    "responses": [
+      { "text": "What do you think happened?", "topic": "BGSS_NO_PAST_3_STORY2" },
+      { "text": "That does sound a little crazy…", "topic": "BGSS_NO_PAST_3_CRAZY" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_NO_PAST_3_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Well, not having a memory is weird as heck, but I'll be honest: I think it might be better?  With what's going on, I bet you my memories weren't happy ones.  I just have this feeling.  Maybe losing my mind is a mercy.  Hell, maybe it's some kind of psychotic break and my brain did this to itself.  To be honest with you I think I'd rather focus on surviving, and not worry about it.",
+    "responses": [
+      { "text": "That does sound a little crazy…", "topic": "BGSS_NO_PAST_3_CRAZY" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_NO_PAST_3_CRAZY",
+    "type": "talk_topic",
+    "dynamic_line": "I know it's nuts.  It sounds like fake amnesia from an old story.  Is there an old story with fake amnesia or did I just make that up?",
+    "responses": [ { "text": "What were you saying before?", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

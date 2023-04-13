@@ -22,12 +22,6 @@
   },
   {
     "type": "item_group",
-    "id": "ig_vp_xlframe",
-    "subtype": "collection",
-    "entries": [ { "item": "material_aluminium_ingot", "count": [ 1, 4 ] } ]
-  },
-  {
-    "type": "item_group",
     "id": "ig_vp_hdframe",
     "subtype": "collection",
     "entries": [
@@ -113,8 +107,7 @@
     "rolling_resistance": 1.5,
     "wheel_type": "off-road",
     "description": "Attach this part to a beast of burden to allow it to pull your vehicle.",
-    "size": 25,
-    "power": 0,
+    "power": "0 W",
     "location": "structure",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -152,7 +145,7 @@
     "item": "pipe",
     "m2c": 90,
     "description": "A metal handle, a creature with hands could use it to push a vehicle.",
-    "power": 0,
+    "power": "0 W",
     "location": "structure",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "100 s", "using": [ [ "welding_standard", 2 ] ] },
@@ -162,30 +155,6 @@
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
     "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_human", "STEERABLE", "UNMOUNT_ON_DAMAGE" ],
     "damage_reduction": { "all": 2 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "tracker",
-    "name": { "str": "tracking device" },
-    "symbol": "*",
-    "categories": [ "other" ],
-    "color": "red",
-    "broken_symbol": "#",
-    "broken_color": "light_gray",
-    "damage_modifier": 10,
-    "durability": 20,
-    "description": "A small transmitter that lets you locate the vehicle on the map.",
-    "item": "veh_tracker",
-    "//": "10W GPS transponder like an XPC-TR",
-    "epower": -10,
-    "folded_volume": "500 ml",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
-    },
-    "flags": [ "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
-    "breaks_into": "ig_vp_device"
   },
   {
     "type": "vehicle_part",
@@ -200,10 +169,10 @@
     "damage_modifier": 60,
     "durability": 95,
     "description": "A small but comfortable bed.",
-    "size": 200,
+    "size": "50 L",
     "item": "mattress",
     "comfort": 4,
-    "floor_bedding_warmth": 300,
+    "floor_bedding_warmth": 700,
     "location": "center",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 2 ] ] },
@@ -237,7 +206,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "flags": [ "MOUNTABLE", "FOLDABLE" ],
+    "flags": [ "MOUNTABLE" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },
@@ -345,7 +314,7 @@
     "folded_volume": "12500 ml",
     "item": "foldwoodframe",
     "location": "center",
-    "flags": [ "AISLE", "BOARDABLE", "FOLDABLE" ]
+    "flags": [ "AISLE", "BOARDABLE" ]
   },
   {
     "type": "vehicle_part",
@@ -359,7 +328,7 @@
     "broken_color": "light_gray",
     "durability": 400,
     "description": "An aisle.  A hatch lets you access a cargo space beneath it.",
-    "size": 350,
+    "size": "87500 ml",
     "item": "cargo_aisle",
     "location": "center",
     "requirements": {
@@ -389,7 +358,7 @@
       "install": { "time": "5 m", "components": [ [ [ "string_6", 2 ], [ "duct_tape", 25 ] ] ] },
       "repair": { "skills": [ [ "tailor", 1 ] ], "time": "150 s", "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ] }
     },
-    "flags": [ "ROOF", "FOLDABLE" ],
+    "flags": [ "ROOF" ],
     "breaks_into": "ig_vp_cloth"
   },
   {
@@ -457,7 +426,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
+    "flags": [ "SHARP", "PROTRUSION" ],
     "breaks_into": [ { "item": "steel_chunk", "prob": 50 } ]
   },
   {
@@ -480,7 +449,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
+    "flags": [ "SHARP", "PROTRUSION" ],
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 12 }
   },
@@ -498,7 +467,7 @@
     "description": "A computer system hooked up to the steering and engine of the vehicle to allow it to follow simple paths.",
     "item": "programmable_autopilot",
     "looks_like": "cam_control",
-    "epower": -15,
+    "epower": "-15 W",
     "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT" ],
     "requirements": {
       "install": {
@@ -563,7 +532,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
-    "flags": [ "FOLDABLE", "HANDHELD_BATTERY_MOUNT" ],
+    "flags": [ "HANDHELD_BATTERY_MOUNT" ],
     "breaks_into": [ { "item": "power_supply", "prob": 50 }, { "item": "scrap", "count": [ 1, 4 ] } ],
     "damage_reduction": { "all": 4, "bash": 5 }
   },
@@ -603,9 +572,9 @@
     "damage_modifier": 80,
     "durability": 580,
     "description": "A small nuclear reactor.  When loaded with plutonium cells and turned on, will generate a lot of electrical power.",
-    "power": 100,
+    "power": "100 W",
     "//": "Here it is a multiplier on power efficiency - 1 unit of plutonium is 100 units of battery",
-    "epower": 149200,
+    "epower": "149200 W",
     "fuel_type": "plut_cell",
     "item": "minireactor",
     "location": "fuel_source",
@@ -640,8 +609,8 @@
     "durability": 100,
     "description": "A small fridge.  When turned on, it will cool the food inside, extending the time until the food spoils.",
     "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
-    "epower": -30,
-    "size": 300,
+    "epower": "-30 W",
+    "size": "75 L",
     "item": "minifridge",
     "location": "center",
     "requirements": {
@@ -658,6 +627,7 @@
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "plastic_chunk", "count": [ 3, 6 ] },
       { "item": "hose", "prob": 50 },
       { "item": "motor_tiny", "prob": 25 }
     ],
@@ -675,8 +645,8 @@
     "looks_like": "minifridge",
     "damage_modifier": 80,
     "durability": 100,
-    "epower": -45,
-    "size": 300,
+    "epower": "-45 W",
+    "size": "75 L",
     "item": "minifreezer",
     "location": "center",
     "requirements": {
@@ -693,6 +663,7 @@
       { "item": "steel_lump", "count": [ 8, 13 ] },
       { "item": "steel_chunk", "count": [ 8, 13 ] },
       { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "plastic_chunk", "count": [ 5, 8 ] },
       { "item": "hose", "prob": 50 },
       { "item": "motor_tiny", "prob": 25 }
     ],
@@ -711,9 +682,9 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "A small washing machine.  With detergent, water, and some electrical power, you could clean a lot of clothes.  'e'xamine the tile with the washing machine to use it.",
-    "epower": -400,
-    "size": 160,
+    "epower": "-400 W",
     "item": "washing_machine",
+    "size": "40 L",
     "location": "center",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -745,9 +716,9 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "A small dishwasher.  With detergent, water, and some electrical power, you could clean your dishes… or something more useful like a CBM dripping with zombie gore.  'e'xamine the tile with the dishwasher to use it.",
-    "epower": -400,
-    "size": 160,
+    "epower": "-400 W",
     "item": "dishwasher",
+    "size": "40 L",
     "location": "center",
     "looks_like": "washing_machine",
     "requirements": {
@@ -780,9 +751,9 @@
     "damage_modifier": 80,
     "durability": 100,
     "description": "This is an autoclave.  It's useful for sterilizing things like CBMs.  'e'xamine the tile with the autoclave to use it.",
-    "epower": -1500,
-    "size": 11,
+    "epower": "-1500 W",
     "item": "vh_autoclave",
+    "size": "76 L",
     "location": "center",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
@@ -809,7 +780,7 @@
     "broken_color": "brown",
     "damage_modifier": 80,
     "durability": 350,
-    "size": 800,
+    "size": "200 L",
     "//": "200 L storage based on an average sedan trunk being around 400 L, and our cars having two tiles.  We should get a taller trunk for SUVs and similar.",
     "item": "frame",
     "location": "center",
@@ -834,7 +805,7 @@
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 50,
-    "size": 300,
+    "size": "75 L",
     "item": "frame_wood_light",
     "location": "center",
     "flags": [ "CARGO", "BOARDABLE", "COVERED" ],
@@ -857,7 +828,7 @@
     "broken_color": "brown",
     "damage_modifier": 60,
     "durability": 70,
-    "size": 150,
+    "size": "37500 ml",
     "item": "frame_wood",
     "location": "center",
     "requirements": {
@@ -882,7 +853,7 @@
     "damage_modifier": 60,
     "durability": 65,
     "folded_volume": "1500 ml",
-    "size": 120,
+    "size": "30 L",
     "item": "foldwoodframe",
     "location": "center",
     "requirements": {
@@ -890,7 +861,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE", "LOCKABLE_CARGO" ],
+    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
     "damage_reduction": { "all": 4 }
   },
@@ -906,7 +877,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 60,
     "durability": 145,
-    "size": 80,
+    "size": "20 L",
     "item": "v_table",
     "location": "center",
     "requirements": {
@@ -935,7 +906,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 60,
     "durability": 145,
-    "size": 80,
+    "size": "20 L",
     "item": "w_table",
     "location": "center",
     "requirements": {
@@ -964,7 +935,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 30,
     "durability": 70,
-    "size": 80,
+    "size": "20 L",
     "item": "foldwoodframe",
     "folded_volume": "12500 ml",
     "location": "center",
@@ -973,7 +944,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "FOLDABLE" ],
+    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF" ],
     "breaks_into": [
       { "item": "2x4", "count": [ 1, 6 ] },
       { "item": "splinter", "count": [ 4, 6 ] },
@@ -993,7 +964,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 60,
     "durability": 300,
-    "size": 120,
+    "size": "30 L",
     "item": "workbench",
     "location": "center",
     "requirements": {
@@ -1001,7 +972,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
+    "flags": [ "CARGO", "BOARDABLE", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [
       { "item": "pipe", "count": [ 4, 6 ] },
       { "item": "sheet_metal", "count": [ 0, 1 ] },
@@ -1019,7 +990,7 @@
     "copy-from": "workbench",
     "durability": 295,
     "bonus": 15,
-    "epower": -50,
+    "epower": "-50 W",
     "item": "workbench_with_recharger",
     "location": "center",
     "requirements": {
@@ -1027,7 +998,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "repair_welding_standard", 3 ] ] }
     },
-    "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH", "ENABLED_DRAINS_EPOWER", "RECHARGE" ],
+    "flags": [ "CARGO", "MOUNTABLE", "FLAT_SURF", "WORKBENCH", "ENABLED_DRAINS_EPOWER", "RECHARGE" ],
     "breaks_into": [
       { "item": "pipe", "count": [ 4, 6 ] },
       { "item": "sheet_metal", "count": [ 0, 1 ] },
@@ -1039,7 +1010,7 @@
       { "item": "e_scrap", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
-    "size": 118,
+    "size": "29500 ml",
     "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "29L" },
     "damage_reduction": { "all": 29 }
   },
@@ -1107,7 +1078,7 @@
     "item": "plastic_boat_hull",
     "location": "under",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 40 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "soldering_standard", 15 ] ] }
     },
@@ -1155,12 +1126,12 @@
     "item": "carbonfiber_boat_hull",
     "location": "under",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 40 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 7 ] ], "time": "60 m", "using": [ [ "adhesive", 3 ] ] }
     },
     "flags": [ "FLOATS", "BOARDABLE" ],
-    "breaks_into": [ { "item": "sheet_kevlar", "count": [ 1, 3 ] } ],
+    "breaks_into": [ { "item": "rigid_kevlar_plate", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 14 }
   },
   {
@@ -1171,19 +1142,22 @@
     "looks_like": "inflatable_airbag",
     "categories": [ "hull" ],
     "color": "green",
-    "size": 60,
+    "size": "15 L",
     "broken_symbol": "#",
     "broken_color": "light_gray",
     "durability": 50,
     "item": "inflatable_section",
     "location": "structure",
     "folded_volume": "750 ml",
+    "folding_time": "60 seconds",
+    "unfolding_tools": [ "hand_pump" ],
+    "unfolding_time": "150 seconds",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "MOUNTABLE", "FOLDABLE", "BOARDABLE", "CARGO", "NO_INSTALL_PLAYER", "NO_UNINSTALL" ],
+    "flags": [ "MOUNTABLE", "BOARDABLE", "CARGO", "NO_INSTALL_PLAYER", "NO_UNINSTALL" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
     "damage_reduction": { "bash": 10 }
   },
@@ -1201,12 +1175,15 @@
     "item": "inflatable_airbag",
     "location": "under",
     "folded_volume": "750 ml",
+    "folding_time": "60 seconds",
+    "unfolding_tools": [ "hand_pump" ],
+    "unfolding_time": "150 seconds",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ], [ "drilling_standard", 10 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "adhesive_rubber", 2 ], [ "tire_rubber", 2 ] ] }
     },
-    "flags": [ "FLOATS", "VARIABLE_SIZE", "FOLDABLE", "NO_INSTALL_PLAYER", "NO_UNINSTALL" ],
+    "flags": [ "FLOATS", "VARIABLE_SIZE", "NO_INSTALL_PLAYER", "NO_UNINSTALL" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 10, 20 ] } ],
     "damage_reduction": { "bash": 10 }
   },
@@ -1221,7 +1198,7 @@
     "broken_color": "red",
     "damage_modifier": 50,
     "durability": 20,
-    "power": 800,
+    "power": "800 W",
     "fuel_type": "wind",
     "noise_factor": 1,
     "m2c": 90,
@@ -1234,17 +1211,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m" },
       "repair": { "skills": [ [ "tailor", 1 ] ], "time": "150 s", "using": [ [ "sewing_standard", 50 ], [ "fabric_standard", 1 ] ] }
     },
-    "flags": [
-      "ENGINE",
-      "CONTROLS",
-      "FOLDABLE",
-      "PROTRUSION",
-      "E_STARTS_INSTANTLY",
-      "WIND_POWERED",
-      "OVER",
-      "STABLE",
-      "UNMOUNT_ON_DAMAGE"
-    ],
+    "flags": [ "ENGINE", "CONTROLS", "PROTRUSION", "E_STARTS_INSTANTLY", "WIND_POWERED", "OVER", "STABLE", "UNMOUNT_ON_DAMAGE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] }, { "item": "cotton_patchwork", "count": [ 5, 10 ] } ]
   },
   {
@@ -1258,7 +1225,7 @@
     "broken_color": "red",
     "damage_modifier": 50,
     "durability": 50,
-    "power": 800,
+    "power": "800 W",
     "fuel_type": "muscle",
     "muscle_power_factor": 40,
     "noise_factor": 8,
@@ -1272,7 +1239,7 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "6 m" },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m" }
     },
-    "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "E_STARTS_INSTANTLY" ],
+    "flags": [ "ENGINE", "CONTROLS", "MUSCLE_ARMS", "E_STARTS_INSTANTLY" ],
     "breaks_into": [ { "item": "splinter", "count": [ 2, 4 ] } ],
     "damage_reduction": { "all": 5 }
   },
@@ -1296,7 +1263,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "CONTROL_ANIMAL", "FOLDABLE" ],
+    "flags": [ "CONTROL_ANIMAL" ],
     "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ]
   },
   {
@@ -1323,7 +1290,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 8 ], [ "vehicle_wrench_1", 1 ], [ "vehicle_screw", 1 ] ]
       }
     },
-    "flags": [ "CONTROLS", "FOLDABLE" ],
+    "flags": [ "CONTROLS" ],
     "breaks_into": [
       { "item": "steel_lump" },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
@@ -1345,7 +1312,7 @@
     "durability": 125,
     "description": "A frame containing some lights and controls.",
     "bonus": 10,
-    "epower": -25,
+    "epower": "-25 W",
     "item": "vehicle_dashboard",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ], "time": "350 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1367,7 +1334,7 @@
     "color": "red",
     "durability": 400,
     "//": "700W average assuming relatively small target-actual difference",
-    "epower": -700,
+    "epower": "-700 W",
     "bonus": 10,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ], "time": "2 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1386,7 +1353,7 @@
     "name": { "str": "small vehicle-mounted heater" },
     "item": "mountable_heater_small",
     "//": "going with half energy draw based on difference between small and large space heaters",
-    "epower": -350,
+    "epower": "-350 W",
     "bonus": 10,
     "folded_volume": "3750 ml",
     "requirements": {
@@ -1394,7 +1361,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "FOLDABLE" ],
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER" ],
     "emissions": [ "emit_hot_air2_stream" ],
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 }
@@ -1410,7 +1377,7 @@
     "categories": [ "utility" ],
     "color": "light_cyan",
     "durability": 400,
-    "epower": -120,
+    "epower": "-120 W",
     "bonus": 10,
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ], "time": "2 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -1435,7 +1402,7 @@
     "damage_modifier": 10,
     "durability": 50,
     "bonus": 10,
-    "epower": -25,
+    "epower": "-25 W",
     "item": "electronics_controls",
     "description": "Some switches and knobs to control the vehicle's electrical systems.",
     "folded_volume": "750 ml",
@@ -1444,7 +1411,7 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "350 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "80 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 10 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "FOLDABLE", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "CTRL_ELECTRONIC", "DOME_LIGHT", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": "ig_vp_device",
     "damage_reduction": { "all": 6 }
   },
@@ -1488,7 +1455,7 @@
     "durability": 35,
     "description": "A belt, attached to a seat.",
     "folded_volume": "500 ml",
-    "bonus": 25,
+    "bonus": 10,
     "item": "rope_6",
     "location": "on_seat",
     "requirements": {
@@ -1496,7 +1463,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
+    "flags": [ "SEATBELT", "SIMPLE_PART" ],
     "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
   },
@@ -1512,7 +1479,7 @@
     "damage_modifier": 10,
     "durability": 35,
     "description": "A bunch of electronics that make it difficult to start the vehicle without the proper key, and that will sound an alarm if you try.  The alarm can be disabled.",
-    "epower": -10,
+    "epower": "-10 W",
     "bonus": 120,
     "folded_volume": "250 ml",
     "item": "processor",
@@ -1529,7 +1496,7 @@
         "qualities": [ { "id": "SCREW_FINE", "level": 1 } ]
       }
     },
-    "flags": [ "ON_CONTROLS", "SECURITY", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
+    "flags": [ "ON_CONTROLS", "SECURITY", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": "ig_vp_device"
   },
   {
@@ -1544,8 +1511,8 @@
     "damage_modifier": 10,
     "durability": 35,
     "description": "Electronic module that automatically switches combustion and electric engines on and off minimizing fuel consumption and optimizing power output and battery charge rate.  Must be turned on to work.  Simplified ruleset: 1. When throttling, maximize acceleration.  2. Keep battery at 90%.  3. Minimize fuel consumption.",
-    "epower": -25,
-    "folded_volume": 1,
+    "epower": "-25 W",
+    "folded_volume": "250 ml",
     "item": "processor",
     "requirements": {
       "install": {
@@ -1559,7 +1526,7 @@
         "qualities": [ { "id": "SCREW_FINE", "level": 1 } ]
       }
     },
-    "flags": [ "ON_CONTROLS", "FOLDABLE", "ENABLED_DRAINS_EPOWER", "SMART_ENGINE_CONTROLLER" ],
+    "flags": [ "ON_CONTROLS", "ENABLED_DRAINS_EPOWER", "SMART_ENGINE_CONTROLLER" ],
     "breaks_into": "ig_vp_device"
   },
   {
@@ -1583,7 +1550,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
+    "flags": [ "SEATBELT", "SIMPLE_PART" ],
     "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
     "damage_reduction": { "bash": 15 }
   },
@@ -1651,7 +1618,7 @@
     "damage_modifier": 10,
     "durability": 50,
     "description": "A water wheel.",
-    "epower": 80,
+    "epower": "80 W",
     "item": "water_wheel",
     "location": "center",
     "flags": [ "WATER_WHEEL", "OBSTACLE" ],
@@ -1676,7 +1643,7 @@
     "damage_modifier": 10,
     "durability": 80,
     "description": "A large water wheel with wooden supports.",
-    "epower": 180,
+    "epower": "180 W",
     "item": "xl_water_wheel",
     "location": "center",
     "flags": [ "WATER_WHEEL", "OBSTACLE", "EXTRA_DRAG" ],
@@ -1700,7 +1667,7 @@
     "damage_modifier": 10,
     "durability": 20,
     "description": "A solar panel.",
-    "epower": 50,
+    "epower": "50 W",
     "item": "solar_panel",
     "location": "on_roof",
     "requirements": {
@@ -1732,7 +1699,7 @@
     "damage_modifier": 10,
     "durability": 15,
     "description": "A small wind turbine.",
-    "epower": 1,
+    "epower": "1 W",
     "item": "wind_turbine",
     "location": "on_roof",
     "requirements": {
@@ -1765,10 +1732,10 @@
     "damage_modifier": 10,
     "durability": 70,
     "description": "A large wind turbine with stabilizing legs.  Will cause extra drag on the vehicle.",
-    "epower": 3,
+    "epower": "3 W",
     "item": "xl_wind_turbine",
     "location": "on_roof",
-    "power": -3000,
+    "power": "-3000 W",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "450 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "450 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
@@ -1797,8 +1764,7 @@
     "proportional": { "epower": 0.4, "durability": 0.5 },
     "folded_volume": "2 L",
     "description": "A small array of solar panels designed to be able to fold into one another.",
-    "item": "folding_solar_panel",
-    "extend": { "flags": [ "FOLDABLE" ] }
+    "item": "folding_solar_panel"
   },
   {
     "type": "vehicle_part",
@@ -1892,6 +1858,38 @@
   },
   {
     "type": "vehicle_part",
+    "id": "compact_ASRG_containment",
+    "name": { "str": "advanced Stirling radioisotope generator" },
+    "looks_like": "f_compact_ASRG_containment",
+    "symbol": "0",
+    "categories": [ "energy" ],
+    "color": "green_white",
+    "broken_symbol": "#",
+    "broken_color": "blue",
+    "damage_modifier": 80,
+    "durability": 400,
+    "description": "A military ASRG covered in heavy plating.  Provides constant albeit low power to your car.",
+    "epower": "130 W",
+    "location": "center",
+    "item": "compact_ASRG_containment",
+    "requirements": {
+      "repair": {
+        "skills": [ [ "mechanics", 7 ] ],
+        "time": "60 m",
+        "using": [ [ "repair_welding_standard", 5 ], [ "soldering_standard", 5 ] ]
+      }
+    },
+    "flags": [ "OBSTACLE", "RADIOACTIVE", "COVERED", "PERPETUAL", "REACTOR" ],
+    "breaks_into": [
+      { "item": "scrap", "count": [ 4, 16 ] },
+      { "item": "steel_chunk", "count": [ 1, 6 ] },
+      { "item": "plutonium", "charges": [ 0, 2 ] },
+      { "item": "lead", "charges": [ 12, 18 ] }
+    ],
+    "damage_reduction": { "all": 58 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "water_faucet",
     "name": { "str": "water faucet" },
     "symbol": "u",
@@ -1911,7 +1909,6 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "2 m", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
     "pseudo_tools": [ { "id": "water_faucet" } ],
-    "flags": [ "FOLDABLE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 6 }
   },
@@ -1934,7 +1931,6 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "repair_welding_standard", 1 ] ] }
     },
-    "flags": [ "FOLDABLE" ],
     "pseudo_tools": [ { "id": "towel", "hotkey": "t" } ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "cotton_patchwork", "count": [ 1, 6 ] } ]
   },
@@ -2072,7 +2068,7 @@
     "location": "armor",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] }
+      "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal_cut_resistant", 1 ] ] }
     },
     "flags": [ "ARMOR", "NO_REPAIR" ],
     "breaks_into": [
@@ -2103,7 +2099,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "HORN", "FOLDABLE" ],
+    "flags": [ "HORN" ],
     "breaks_into": [ { "item": "scrap", "prob": 50 } ]
   },
   {
@@ -2170,7 +2166,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 1 ] ] }
     },
-    "flags": [ "BEEPER", "ODDTURN", "FOLDABLE" ],
+    "flags": [ "BEEPER", "ODDTURN" ],
     "breaks_into": "ig_vp_device"
   },
   {
@@ -2290,7 +2286,7 @@
     "broken_symbol": "#",
     "broken_color": "dark_gray",
     "durability": 250,
-    "size": 2000,
+    "size": "500 L",
     "//": "Based roughly on a quarter of a 2m x 1.2m pickup truck bed, assuming a reasonable amount of piling up (about 80cm, ie. sticking up around 20cm over the sides if really stacked).  Could definitely use more subtypes.",
     "item": "cargo_rack",
     "location": "center",
@@ -2319,7 +2315,7 @@
     "broken_color": "dark_gray",
     "durability": 250,
     "description": "A cargo space for carrying livestock.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
-    "size": 800,
+    "size": "200 L",
     "item": "livestock_carrier",
     "location": "center",
     "requirements": {
@@ -2343,7 +2339,7 @@
     "name": { "str": "animal compartment" },
     "durability": 125,
     "description": "A large locker for transporting smaller animals.  'e'xamine it to capture an animal next to you, or to release the animal currently contained.  When selecting an animal to capture, choose its tile relative to you, not the part.",
-    "size": 200,
+    "size": "50 L",
     "item": "animal_locker",
     "flags": [ "CARGO", "COVERED", "CAPTURE_MONSTER_VEH", "OBSTACLE" ],
     "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 3, 4 ] } ]
@@ -2369,7 +2365,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 8 ] ] }
     },
-    "flags": [ "INTERNAL", "RECHARGE", "FOLDABLE" ],
+    "flags": [ "INTERNAL", "RECHARGE" ],
     "folded_volume": "2 L",
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 0, 2 ] },
@@ -2409,7 +2405,7 @@
     "durability": 60,
     "damage_reduction": { "bash": 5 },
     "description": "A stereo system.  When turned on, it plays music, improving your mood.",
-    "epower": -50,
+    "epower": "-50 W",
     "bonus": 80,
     "item": "stereo",
     "requirements": {
@@ -2432,7 +2428,7 @@
     "damage_modifier": 0,
     "durability": 40,
     "description": "A collection of electronic bells.  Use the vehicle's controls to turn it on or off.  When turned on, it makes noise, attracting neighborhood children.",
-    "epower": -50,
+    "epower": "-50 W",
     "item": "chimes",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -2459,7 +2455,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": 1,
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "Thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
@@ -2478,7 +2474,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": 1,
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "A long orange extension cord for connecting appliances.  Currently plugged in.",
@@ -2497,7 +2493,7 @@
     "broken_symbol": "*",
     "broken_color": "dark_gray",
     "damage_modifier": 10,
-    "epower": 1,
+    "epower": "1 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "durability": 120,
     "description": "An extra long 30m orange extension cord for connecting outdoor appliances.  Currently plugged in.",
@@ -2518,7 +2514,7 @@
     "damage_modifier": 10,
     "durability": 120,
     "description": "Very thick copper cable with leads on either end.  Attach one end to one vehicle and the other to another, and you can transfer electrical power between the two.",
-    "epower": 5,
+    "epower": "5 kW",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "item": "jumper_cable_heavy",
     "requirements": { "removal": { "time": "5 s" } },
@@ -2551,7 +2547,7 @@
     "color": "yellow",
     "broken_symbol": "*",
     "broken_color": "dark_gray",
-    "epower": 0,
+    "epower": "0 W",
     "//": "Epower for POWER_TRANSFER stuff is how much percentage-wise loss there is in transmission",
     "damage_modifier": 10,
     "durability": 120,
@@ -2637,7 +2633,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "SHARP", "PROTRUSION", "FOLDABLE" ],
+    "flags": [ "SHARP", "PROTRUSION" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 7 ] } ]
   },
   {
@@ -2760,7 +2756,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 3 ] ] }
     },
-    "flags": [ "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ],
+    "flags": [ "DOOR_MOTOR", "UNMOUNT_ON_DAMAGE" ],
     "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] } ],
     "damage_reduction": { "all": 12 }
   },
@@ -2787,7 +2783,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 5 ] ]
       }
     },
-    "flags": [ "CONTROLS", "REMOTE_CONTROLS", "FOLDABLE" ],
+    "flags": [ "CONTROLS", "REMOTE_CONTROLS" ],
     "breaks_into": [ { "item": "motor_tiny" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ]
   },
   {
@@ -2804,7 +2800,7 @@
     "description": "An LCD attached to one or more cameras.  When turned on, it lets you see from the cameras, but drains power from the vehicle's batteries.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
     "folded_volume": "2500 ml",
     "item": "camera_control",
-    "epower": -20,
+    "epower": "-20 W",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -2829,7 +2825,7 @@
     "bonus": 24,
     "item": "omnicamera",
     "//": "Cameras without a DVR can run on under 10W",
-    "epower": -10,
+    "epower": "-10 W",
     "location": "on_roof",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -2838,6 +2834,33 @@
     },
     "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ],
     "breaks_into": [ { "item": "e_scrap", "count": [ 4, 16 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "omnicamera_reinforced",
+    "copy-from": "omnicam",
+    "looks_like": "omnicam",
+    "name": { "str": "reinforced security camera" },
+    "symbol": "o",
+    "categories": [ "operations" ],
+    "color": "light_red",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "durability": 300,
+    "description": "A small camera encased in a protective metal cage.  Will relay what it can see to a camera control station.",
+    "folded_volume": "2 L",
+    "bonus": 24,
+    "item": "omnicamera_reinforced",
+    "epower": "-10 W",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 4 ] ] }
+    },
+    "flags": [ "VISION", "CAMERA", "ENABLED_DRAINS_EPOWER" ],
+    "breaks_into": [ { "item": "e_scrap", "count": [ 6, 20 ] }, { "item": "plastic_chunk", "count": [ 2, 8 ] } ]
   },
   {
     "type": "vehicle_part",
@@ -2863,7 +2886,7 @@
         "using": [ [ "repair_welding_standard", 1 ], [ "soldering_standard", 3 ] ]
       }
     },
-    "flags": [ "REMOTE_CONTROLS", "OBSTACLE", "FOLDABLE" ],
+    "flags": [ "REMOTE_CONTROLS", "OBSTACLE" ],
     "breaks_into": [
       { "item": "motor_tiny", "count": [ 1, 3 ] },
       { "item": "steel_chunk", "count": [ 1, 3 ] },
@@ -2881,7 +2904,7 @@
     "broken_color": "dark_gray",
     "durability": 20,
     "description": "A clock, so you know what time it is.",
-    "epower": 0,
+    "epower": "0 W",
     "folded_volume": "250 ml",
     "item": "wristwatch",
     "requirements": {
@@ -2889,7 +2912,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "WATCH", "ALARMCLOCK", "FOLDABLE" ],
+    "flags": [ "WATCH", "ALARMCLOCK" ],
     "breaks_into": [ { "item": "scrap", "prob": 50 } ],
     "damage_reduction": { "bash": 5 }
   },
@@ -2906,7 +2929,7 @@
     "damage_modifier": 5,
     "durability": 80,
     "description": "A funnel that will collect rainwater into the tank beneath it.",
-    "size": 200,
+    "bonus": 200,
     "item": "leather_funnel",
     "location": "on_roof",
     "folded_volume": "250 ml",
@@ -2915,7 +2938,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "FUNNEL", "FOLDABLE" ],
+    "flags": [ "FUNNEL" ],
     "breaks_into": [ { "item": "leather", "count": [ 1, 2 ] } ]
   },
   {
@@ -2931,7 +2954,7 @@
     "damage_modifier": 5,
     "durability": 60,
     "description": "A funnel that will collect rainwater into the tank beneath it.",
-    "size": 240,
+    "bonus": 240,
     "item": "birchbark_funnel",
     "location": "on_roof",
     "folded_volume": "250 ml",
@@ -2940,7 +2963,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "FUNNEL", "FOLDABLE" ],
+    "flags": [ "FUNNEL" ],
     "breaks_into": [ { "item": "birchbark", "count": [ 1, 2 ] } ]
   },
   {
@@ -2956,7 +2979,7 @@
     "damage_modifier": 5,
     "durability": 80,
     "description": "A funnel that will collect rainwater into the tank beneath it.",
-    "size": 200,
+    "bonus": 200,
     "item": "makeshift_funnel",
     "location": "on_roof",
     "folded_volume": "250 ml",
@@ -2965,7 +2988,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "3 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "flags": [ "FUNNEL", "FOLDABLE" ],
+    "flags": [ "FUNNEL" ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ]
   },
   {
@@ -2980,7 +3003,7 @@
     "damage_modifier": 5,
     "durability": 200,
     "description": "A funnel that will collect rainwater into the tank beneath it.",
-    "size": 300,
+    "bonus": 300,
     "item": "funnel",
     "location": "on_roof",
     "requirements": {
@@ -3004,7 +3027,7 @@
     "damage_modifier": 30,
     "durability": 300,
     "description": "A funnel that will collect rainwater into the tank beneath it.",
-    "size": 400,
+    "bonus": 400,
     "item": "metal_funnel",
     "location": "on_roof",
     "requirements": {
@@ -3027,8 +3050,8 @@
     "broken_color": "dark_gray",
     "durability": 100,
     "description": "A scoop.  Use the vehicle controls to turn it on or off.  When turned on, it will scoop up loose items that it travels over until it's full.",
-    "epower": -10,
-    "size": 400,
+    "epower": "-10 W",
+    "size": "100 L",
     "damage_modifier": 10,
     "item": "v_scoop_item",
     "requirements": {
@@ -3061,7 +3084,7 @@
       "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "15 m", "using": [ [ "adhesive", 1 ], [ "soldering_standard", 2 ] ] }
     },
     "flags": [  ],
-    "pseudo_tools": [ { "id": "pseudo_water_purifier", "hotkey": "p" } ],
+    "pseudo_tools": [ { "id": "water_purifier", "hotkey": "p" } ],
     "breaks_into": [ { "item": "plastic_chunk", "count": [ 1, 2 ] } ],
     "damage_reduction": { "all": 26 }
   },
@@ -3079,7 +3102,7 @@
     "description": "A plow.  Use the vehicle controls to turn it on or off.  When turned on, it will create a furrow in any dirt it travels over, making it suitable for planting seeds.  It should be placed in front of any seed drills on the vehicle.",
     "item": "v_plow_item",
     "location": "under",
-    "power": -300,
+    "power": "-300 W",
     "transform_terrain": { "pre_flags": [ "PLOWABLE" ], "post_terrain": "t_dirtmound" },
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
@@ -3104,8 +3127,8 @@
     "description": "A seed drill.  Use the vehicle controls to turn it on or off.  You can load it with seeds by examining it.  When turned on, it will drop seeds as the vehicle moves, or plant them in furrowed dirt.  It should be placed behind any plows on the vehicle, and any wheels should be placed so they won't run over the plants.",
     "item": "v_planter_item",
     "location": "structure",
-    "size": 50,
-    "power": -700,
+    "size": "12500 ml",
+    "power": "-700 W",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -3129,8 +3152,8 @@
     "description": "A seed drill.  Use the vehicle controls to turn it on or off.  You can load it with seeds by examining it.  When turned on, it will drop seeds as the vehicle moves, or plant them in furrowed dirt.  It should be placed behind any plows on the vehicle, and any wheels should be placed so they won't run over the plants.",
     "item": "v_planter_item_advanced",
     "location": "structure",
-    "power": -700,
-    "size": 70,
+    "power": "-700 W",
+    "size": "17500 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -3156,7 +3179,7 @@
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
-    "power": -700,
+    "power": "-700 W",
     "durability": 200,
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants that it travels over.  It should be placed in front of any plows in the vehicle for efficient operation.  It does not include cargo space of its own so you need install a cargo space of some kind elsewhere in the vehicle.",
     "item": "v_reaper_item",
@@ -3181,13 +3204,13 @@
     "broken_color": "light_blue",
     "damage_modifier": 120,
     "bonus": 7,
-    "power": -1050,
+    "power": "-1050 W",
     "durability": 200,
     "//": "No need to mention re drag - already provided by EXTRA_DRAG flag.",
     "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants and store them in the vehicle's cargo.  It should be placed in front of any plows in the vehicle for efficient operation.  It has internal cargo space for collecting the harvest.",
     "item": "v_reaper_item_advanced",
     "location": "under",
-    "size": 350,
+    "size": "87500 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -3222,7 +3245,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "12 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "6 m", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CARGO_LOCKING", "FOLDABLE", "INTERNAL" ],
+    "flags": [ "CARGO_LOCKING", "INTERNAL" ],
     "breaks_into": [ { "item": "clockworks", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "damage_reduction": { "all": 60 }
   },
@@ -3245,7 +3268,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m", "using": "vehicle_weld_removal" },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m", "using": [ [ "repair_welding_standard", 2 ] ] }
     },
-    "flags": [ "TURRET_MOUNT", "FOLDABLE" ],
+    "flags": [ "TURRET_MOUNT" ],
     "breaks_into": [ { "item": "scrap", "count": [ 1, 4 ] } ],
     "damage_reduction": { "all": 54 }
   },
@@ -3260,11 +3283,11 @@
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 50,
-    "epower": -250,
+    "epower": "-250 W",
     "item": "turret_controls",
     "description": "A set of motor, camera, and an AI unit which allows for tracking targets, friend-or-foe identification, and firing the connected turret in full automatic mode.  When installed over the turret, it will enable auto targeting mode for said turret.",
     "folded_volume": "750 ml",
-    "flags": [ "ENABLED_DRAINS_EPOWER", "TURRET_CONTROLS", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ],
+    "flags": [ "ENABLED_DRAINS_EPOWER", "TURRET_CONTROLS", "UNMOUNT_ON_DAMAGE" ],
     "requirements": {
       "install": {
         "time": "40 m",
@@ -3299,5 +3322,87 @@
     "flags": [ "FLOATS" ],
     "breaks_into": "ig_vp_sheet_metal",
     "damage_reduction": { "all": 18 }
+  },
+  {
+    "id": "plugged_3in_ordnance_rifle",
+    "type": "vehicle_part",
+    "name": { "str": "plugged 3-inch ordnance rifle" },
+    "symbol": "t",
+    "description": "Unfortunately, some responsible killjoy poured concrete in the barrel of this historic cannon to make it safe for display.",
+    "durability": 400,
+    "damage_modifier": 80,
+    "location": "on_roof",
+    "categories": [ "warfare" ],
+    "item": "cannon_3in_ordnance",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "breaks_into": [ { "item": "scrap", "count": 72 }, { "item": "steel_chunk", "count": 30 }, { "item": "steel_lump", "count": 10 } ],
+    "requirements": {
+      "install": { "time": "100 s", "skills": [ [ "mechanics", 3 ], [ "launcher", 1 ] ] },
+      "removal": { "time": "50 s", "skills": [ [ "mechanics", 2 ] ] }
+    },
+    "flags": [  ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "stowed_fridge",
+    "name": { "str": "tied-down fridge" },
+    "symbol": "F",
+    "categories": [ "other" ],
+    "color": "white",
+    "broken_symbol": "*",
+    "broken_color": "light_gray",
+    "damage_modifier": 5,
+    "durability": 200,
+    "description": "A fridge, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
+    "bonus": 300,
+    "item": "stowed_fridge",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
+    },
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 8, 13 ] },
+      { "item": "steel_chunk", "count": [ 8, 13 ] },
+      { "item": "scrap", "count": [ 8, 13 ] },
+      { "item": "hose", "prob": 50 },
+      { "item": "motor_tiny", "prob": 25 }
+    ],
+    "damage_reduction": { "all": 32 },
+    "flags": [ "EXTRA_DRAG" ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "stowed_freezer",
+    "name": { "str": "tied-down freezer" },
+    "symbol": "F",
+    "categories": [ "other" ],
+    "color": "white",
+    "broken_symbol": "*",
+    "broken_color": "light_gray",
+    "damage_modifier": 5,
+    "durability": 200,
+    "description": "A chest freezer, secured to the roof for transportation.  Not functional, but easier than carrying it with your hands.",
+    "bonus": 300,
+    "item": "stowed_freezer",
+    "location": "on_roof",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "10 m" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "5 m" }
+    },
+    "breaks_into": [
+      { "item": "sheet_metal", "count": [ 1, 4 ] },
+      { "item": "sheet_metal_small", "count": [ 8, 12 ] },
+      { "item": "steel_chunk", "count": [ 0, 3 ] },
+      { "item": "scrap", "count": [ 2, 8 ] },
+      { "item": "cable", "charges": [ 1, 2 ] },
+      { "item": "pipe_fittings", "count": [ 1, 3 ] },
+      { "item": "hose", "count": 1 },
+      { "item": "cu_pipe", "count": [ 2, 4 ] },
+      { "item": "scrap_copper", "count": [ 1, 2 ] }
+    ],
+    "damage_reduction": { "all": 32 },
+    "flags": [ "EXTRA_DRAG" ]
   }
 ]

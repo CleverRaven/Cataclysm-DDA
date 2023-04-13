@@ -8,7 +8,6 @@
     "symbol": "LINE_XOXO",
     "looks_like": "t_wall_metal",
     "color": "light_gray",
-    "connects_to": "WALL",
     "move_cost": 0,
     "coverage": 100,
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
@@ -112,7 +111,7 @@
     "color": "yellow",
     "description": "The glass panel that would have covered this porthole has been broken, allowing unfettered access to the rooms within.",
     "close": "t_wall_prefab_bglass_shutters",
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL", "SMALL_PASSAGE", "WINDOW" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_WITH_WALL", "SMALL_PASSAGE", "WINDOW" ],
     "roof": "t_metal_flat_roof",
     "bash": {
       "str_min": 20,

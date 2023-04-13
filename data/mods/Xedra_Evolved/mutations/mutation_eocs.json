@@ -6,7 +6,7 @@
     "recurrence": [ "5 h", "120 h" ],
     "condition": {
       "and": [
-        { "compare_int": [ "moon", "==", { "const": 3 } ] },
+        { "compare_num": [ "moon", "==", { "const": 3 } ] },
         { "or": [ { "u_has_trait": "EGGSAC_SURVIVABLE" }, { "u_has_trait": "EGGSAC_FATAL" } ] }
       ]
     },
@@ -145,6 +145,20 @@
           "condition": { "u_has_trait": "THRESH_SPIDER" },
           "effect": [ { "u_lose_trait": "MANIFESTED_DESTINY_SPIDER" } ]
         }
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "consume_human_blood",
+    "condition": { "u_has_trait": "VAMPIRE" },
+    "effect": [
+      {
+        "arithmetic": [
+          { "u_val": "vitamin", "name": "human_blood_vitamin" },
+          "+=",
+          { "arithmetic": [ { "rand": 100 }, "+", { "const": 500 } ] }
+        ]
       }
     ]
   }

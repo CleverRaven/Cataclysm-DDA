@@ -16,6 +16,7 @@
 
 // tests both variants of string_starts_with
 template <std::size_t N>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 bool test_string_starts_with( const std::string &s1, const char( &s2 )[N] )
 {
     CAPTURE( s1, s2, N );
@@ -27,6 +28,7 @@ bool test_string_starts_with( const std::string &s1, const char( &s2 )[N] )
 
 // tests both variants of string_ends_with
 template <std::size_t N>
+// NOLINTNEXTLINE(modernize-avoid-c-arrays)
 bool test_string_ends_with( const std::string &s1, const char( &s2 )[N] )
 {
     CAPTURE( s1, s2, N );
@@ -71,7 +73,7 @@ TEST_CASE( "string_ends_with_benchmark", "[.][utility][benchmark]" )
 TEST_CASE( "string_ends_with_season_suffix", "[utility]" )
 {
     constexpr size_t suffix_len = 15;
-    // NOLINTNEXTLINE(cata-use-mdarray)
+    // NOLINTNEXTLINE(cata-use-mdarray,modernize-avoid-c-arrays)
     constexpr char season_suffix[4][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"
     };

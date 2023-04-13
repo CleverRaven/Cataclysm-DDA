@@ -64,5 +64,22 @@
     "valid_targets": [ "hostile", "ally", "self", "ground" ],
     "shape": "blast",
     "effect": "attack"
+  },
+  {
+    "id": "consume_human_blood",
+    "type": "SPELL",
+    "name": "Consume human blood",
+    "description": "You consume human blood to keep the thirst at bay.",
+    "valid_targets": [ "self" ],
+    "effect": "effect_on_condition",
+    "effect_str": "consume_human_blood",
+    "shape": "blast",
+    "energy_source": "NONE",
+    "skill": "deduction",
+    "base_casting_time": 500,
+    "base_energy_cost": 0,
+    "components": "spell_components_human_blood",
+    "flags": [ "SILENT", "NO_LEGS", "NO_FAIL" ],
+    "difficulty": 0
   }
 ]

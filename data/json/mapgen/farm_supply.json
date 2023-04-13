@@ -1,0 +1,869 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 150,
+    "om_terrain": [ [ "farm_supply_1", "farm_supply_2" ], [ "farm_supply_3", "farm_supply_4" ] ],
+    "//": "Fully stocked, unlooted variant.",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "________________________________________________",
+        "__________________________________________,,,,,,",
+        "__________________________________________,,,,,,",
+        "__________________________________________,,,Ü,,",
+        "_____Ù____________________________________,,,,,,",
+        "__________________________________________,,,,,,",
+        "__________________________________________,,,,,,",
+        "__________________________________________,,,,,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,,,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,Ü,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,,,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,,,,",
+        "_,,,,,_,__Ú_,__Ú_,__Û_,____,__Ú_,__Û_,__Ú_,,,,,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,,,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,Ü,,",
+        "_,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        "_,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        " f...f   # SS #&&&&&&&&&# SS #&&&&&&# SS #&&&&# ",
+        " v..Dv   b SS b /   /   b SS b  /   & SS &  / & ",
+        " v..Dv / b SS b        /b SS b    / & SS &    & ",
+        " v...v   # SS #&&&&&&&&&# SS #&&&&&&# SS #&&&&# ",
+        " |x|||===||!!|||||||||||||!!||====|||fFFffffffv ",
+        " |........^rr^mVØØ..õõõõg^rr^.......|....úúúúùv ",
+        " W.1.1.2.2.rr.............rr..ww.dd.|........ùv ",
+        " |.1.1.2.2.rr..$..$..$..$.rr..oo.ee.|^...^^..ùv ",
+        " |.1.1.2.2.rr..c..c..c..c.rr........|^...ýý..ùv ",
+        " |.........rr.............rr........|^...üü..ùv ",
+        " |.rrrrrrrrrrrrrrrrrrrrrrrrr.00..00.|^...ÌÌ..ùv ",
+        " |.rrrrrrrrrrrrrrrrrrrrrrrrr........|^........v ",
+        " |.........rr.............rr.ÉÉÉÉÉÉ.|.........v ",
+        " W.3333333.rr.6.6..77..88.rr........|..ÁÁÁÁÁÁ.v ",
+        " |.........rr.6.6..77..88.rr.éééééé.|..ÓÓÓÓÓÓ.v ",
+        " |.3333333.rr.6.6.........rr........|.........v ",
+        " |.........rr.......BBB...rr.êêêêêê.|..ÎÎÎÎÎÎ.v ",
+        " |..g......rr.............rr........|..÷÷÷÷÷÷.v ",
+        " |..c.n.çç.rr.9.9.9.9.9.9.rr.ëëëëëë.|.........v ",
+        " |..c.n....rr.9.9.9.9.9.9.rr........|..ææææææ.v ",
+        " W..c.n.çç.rr.9.9.9.9.9.9.rr.ÈÈÈÈÈÈ.|.........v ",
+        " |.........rr.............rr........|..^^^^^^.v ",
+        " |.rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr!..^^^^^^.v ",
+        " |.rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr!.........v ",
+        " |.............rr........||+||||||x||..ËËËËËË.v ",
+        " |.......4.4.4.rr.55..55.|..^|þHH..g|.........v ",
+        " |.cc$c..4.4.4.rr........|...|.....q|..ÍÍÍÍÍÍ.v ",
+        " |.......4.4.4.rr.55..55.|g..|.pp..j|..ÏÏÏÏÏÏ.v ",
+        "<|.ààáá^.................|s.T|z.h...|.........v ",
+        " ||||||||||||W|||||||W|||||||||X||x||ffffffffff ",
+        "                                                "
+      ],
+      "palettes": [ "farm_supply_palette" ],
+      "terrain": { "<": "t_ladder_up" },
+      "toilets": { "T": {  } },
+      "items": {
+        "à": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "guns_rifle_common_display", "prob": 40 }, { "group": "guns_shotgun_common_display", "prob": 60 } ]
+          },
+          "chance": 100,
+          "repeat": [ 0, 3 ]
+        },
+        "á": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "ammo_rifle_common_collection", "prob": 25 },
+              { "group": "ammo_shotgun_common_collection", "prob": 40 },
+              { "group": "mags_rifle_common_gunstore", "prob": 35 }
+            ]
+          },
+          "chance": 100,
+          "repeat": [ 0, 5 ]
+        },
+        "ç": { "item": "fishing_items", "chance": 100, "repeat": [ 0, 2 ] },
+        "n": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "item": "fishing_hook_basic", "prob": 70 }, { "item": "fish_bait", "prob": 30 } ]
+          },
+          "chance": 80,
+          "repeat": [ 0, 3 ]
+        },
+        "1": { "item": "petstore_shelves", "chance": 80, "repeat": [ 0, 3 ] },
+        "2": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "dishes_utility", "prob": 40 },
+              { "group": "dishes_dining", "prob": 15 },
+              { "group": "kitchen_appliances", "prob": 15 },
+              { "group": "silverware", "prob": 15 },
+              { "group": "dinnerware", "prob": 15 }
+            ]
+          },
+          "chance": 70,
+          "repeat": [ 0, 3 ]
+        },
+        "3": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "camping", "prob": 40 },
+              { "group": "hiking", "prob": 40 },
+              { "group": "tools_survival", "prob": 5 },
+              { "group": "tools_tailor", "prob": 5 },
+              { "group": "tools_hunting", "prob": 5 },
+              { "group": "book_survival", "prob": 5 }
+            ]
+          },
+          "chance": 100,
+          "repeat": [ 0, 3 ]
+        },
+        "4": { "item": "sports", "chance": 50, "repeat": [ 0, 4 ] },
+        "5": {
+          "item": { "subtype": "collection", "entries": [ { "group": "toy_store", "prob": 95 }, { "group": "child_hats", "prob": 5 } ] },
+          "chance": 70,
+          "repeat": [ 0, 3 ]
+        },
+        "6": { "item": "clothing_outdoor_shoes", "chance": 70, "repeat": [ 0, 2 ] },
+        "7": { "item": "clothing_watch", "chance": 60, "repeat": [ 1, 2 ] },
+        "8": { "item": "clothing_glasses", "chance": 60, "repeat": [ 1, 2 ] },
+        "9": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "clothing_outdoor_torso", "prob": 45 },
+              { "group": "clothing_outdoor_pants", "prob": 45 },
+              { "group": "underwear", "prob": 10 }
+            ]
+          },
+          "chance": 70,
+          "repeat": [ 0, 2 ]
+        },
+        "0": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "salty_snacks", "prob": 75 },
+              { "group": "candy_chocolate", "prob": 20 },
+              { "group": "liquor_and_spirits", "prob": 5 }
+            ]
+          },
+          "chance": 70,
+          "repeat": [ 0, 4 ]
+        },
+        "É": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "tools_common", "prob": 40 },
+              { "group": "tools_entry", "prob": 5 },
+              { "group": "consumer_electronics", "prob": 25 },
+              { "group": "ammo_any_batteries_full", "prob": 25 },
+              { "group": "tools_lighting", "prob": 5 }
+            ]
+          },
+          "chance": 80,
+          "repeat": [ 0, 4 ]
+        },
+        "é": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "tools_tailor", "prob": 50 },
+              { "item": "thread", "count": [ 5, 20 ], "prob": 10 },
+              { "item": "cotton_patchwork", "count": [ 20, 50 ], "prob": 10 },
+              { "item": "felt_patch", "count": [ 5, 25 ], "prob": 10 },
+              { "item": "leather", "count": [ 3, 15 ], "prob": 10 },
+              { "group": "sewing_group", "prob": 10 }
+            ]
+          },
+          "chance": 80,
+          "repeat": [ 0, 6 ]
+        },
+        "ê": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "tools_plumbing", "prob": 70 }, { "group": "plumbing_bulk", "prob": 30 } ]
+          },
+          "chance": 80,
+          "repeat": [ 0, 5 ]
+        },
+        "ë": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "tools_carpentry", "prob": 70 }, { "group": "supplies_woodcrafts", "prob": 30 } ]
+          },
+          "chance": 80,
+          "repeat": [ 0, 5 ]
+        },
+        "È": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "tools_mechanic", "prob": 70 }, { "group": "supplies_electronics", "prob": 30 } ]
+          },
+          "chance": 80,
+          "repeat": [ 0, 5 ]
+        },
+        "Ë": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "tools_earthworking", "prob": 90 }, { "group": "tools_entry", "prob": 10 } ]
+          },
+          "chance": 80,
+          "repeat": [ 0, 3 ]
+        },
+        "æ": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "farming_tools", "prob": 50 }, { "group": "farm_supply_wire", "prob": 50 } ]
+          },
+          "chance": 100,
+          "repeat": [ 0, 7 ]
+        },
+        "÷": { "item": "farming_seeds", "chance": 100, "repeat": [ 3, 12 ] },
+        "Î": {
+          "item": { "subtype": "collection", "entries": [ { "group": "fertilizers", "prob": 80 }, { "item": "fungicide", "prob": 20 } ] },
+          "chance": 100,
+          "repeat": [ 0, 6 ]
+        },
+        "ù": { "item": "farm_supply_soil_and_sand", "chance": 100, "repeat": [ 1, 6 ] },
+        "ú": { "item": "farm_supply_rocks", "chance": 100, "repeat": [ 1, 6 ] },
+        "Ï": { "item": "farm_supply_quicklime_and_saltpetre", "chance": 40, "repeat": [ 1, 4 ] },
+        "Í": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "farm_supply_animal_feed", "prob": 93 }, { "group": "farm_supply_riding_gear", "prob": 7 } ]
+          },
+          "chance": 80,
+          "repeat": [ 1, 4 ]
+        },
+        "Ø": {
+          "item": { "subtype": "collection", "entries": [ { "group": "hardware_books", "prob": 80 }, { "group": "novels", "prob": 20 } ] },
+          "chance": 100,
+          "repeat": [ 0, 4 ]
+        },
+        "õ": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "log", "prob": 50, "count": [ 5, 10 ] },
+              { "item": "stick_long", "prob": 30, "count": [ 10, 20 ] },
+              { "item": "stick", "prob": 20, "count": [ 5, 10 ] }
+            ]
+          },
+          "chance": 70,
+          "repeat": [ 0, 4 ]
+        },
+        "p": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "office_supplies", "prob": 70 },
+              { "group": "office_breakroom", "prob": 20 },
+              { "group": "office", "prob": 10 }
+            ]
+          },
+          "chance": 100,
+          "repeat": [ 1, 3 ]
+        },
+        "s": { "item": "coffee_bathroom", "chance": 40 },
+        "þ": { "item": "SUS_fridge_breakroom", "chance": 80 },
+        "q": { "item": "file_room", "chance": 100, "repeat": [ 1, 5 ] },
+        ".": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 600 },
+              { "group": "floor_trash", "prob": 2 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
+          "chance": 100
+        },
+        "r": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 600 },
+              { "group": "floor_trash", "prob": 2 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
+          "chance": 100
+        },
+        "_": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 300 },
+              { "group": "trash", "prob": 1 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
+          "chance": 100
+        },
+        ",": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 300 },
+              { "group": "trash", "prob": 1 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
+          "chance": 100
+        },
+        "g": { "item": "trash", "chance": 70, "repeat": [ 0, 2 ] },
+        "D": { "item": "trash", "chance": 70, "repeat": [ 0, 3 ] },
+        "$": { "item": "cash_register_random", "chance": 100 },
+        "V": { "item": "vending_drink_items", "chance": 70, "repeat": [ 3, 10 ] },
+        "c": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "office_supplies", "prob": 80 },
+              { "group": "book_survival", "prob": 10 },
+              { "group": "supplies_hardware", "prob": 10 }
+            ]
+          },
+          "chance": 10
+        },
+        "z": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "stash_drugs", "prob": 70 },
+              { "group": "jewelry_safe", "prob": 25 },
+              { "group": "my_precious", "prob": 5 }
+            ]
+          },
+          "chance": 100
+        },
+        "O": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "item": "null", "prob": 400 }, { "group": "trash", "prob": 2 }, { "item": "football", "prob": 1 } ]
+          },
+          "chance": 100
+        }
+      },
+      "place_monster": [
+        { "group": "GROUP_VANILLA", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_POLICE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 0, 3 ] },
+        { "group": "GROUP_VANILLA", "x": [ 24, 47 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 1, 4 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 26, 44 ], "chance": 80, "repeat": [ 0, 7 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 24, 46 ], "y": [ 26, 44 ], "chance": 80, "repeat": [ 0, 7 ] },
+        { "group": "FERAL_HUMANS", "x": [ 32, 34 ], "y": [ 43, 44 ], "chance": 80 }
+      ],
+      "vehicles": {
+        "Ü": { "vehicle": "farm_vehicles", "chance": 50, "rotation": 180 },
+        "Ú": { "vehicle": "parkinglotbasic", "chance": 15, "rotation": 90 },
+        "Û": { "vehicle": "parkinglotbasic", "chance": 20, "rotation": 90, "status": 1 },
+        "Ù": { "vehicle": "industrial_transport", "chance": 10, "rotation": 180 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ [ "farm_supply_roof_1", "farm_supply_roof_2" ], [ "farm_supply_roof_3", "farm_supply_roof_4" ] ],
+    "weight": 150,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        "                                                ",
+        " ?--------------------------------------------? ",
+        " ?............................................? ",
+        " ?............................................? ",
+        " ?.............~~~~~~~~~......................? ",
+        " ?.............~~~~~~~~~......................? ",
+        " ?............................................? ",
+        " ?............................................? ",
+        " ?............................................? ",
+        " ?.............................~~.............? ",
+        " ?.............................~~.............? ",
+        " ?.............................~~.............? ",
+        " ?.............................~~.............? ",
+        " ?.............~~~~~~~~~.......~~.............? ",
+        " ?.............~~~~~~~~~.......~~.............? ",
+        " ?.............................~~.............? ",
+        " ?.............................~~.............? ",
+        " ?.............................~~.............? ",
+        " ?............................................? ",
+        " ?............................................? ",
+        " ?............................................? ",
+        " ?............................................? ",
+        " ?............................................? ",
+        " ?............................................? ",
+        " ?............................................? ",
+        ">?............................................? ",
+        " ?--------------------------------------------? ",
+        "                                                "
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        " ": "t_open_air",
+        "~": "t_glass_roof",
+        "?": "t_metal__railing_v",
+        "-": "t_metal__railing_h",
+        ">": "t_ladder_down"
+      },
+      "place_nested": [
+        {
+          "chunks": [
+            [ "roof_2x2_utilities_b", 20 ],
+            [ "roof_2x2_utilities_c", 10 ],
+            [ "roof_2x2_utilities_d", 35 ],
+            [ "roof_2x2_utilities", 35 ]
+          ],
+          "x": [ 26, 30 ],
+          "y": [ 40, 44 ]
+        },
+        {
+          "chunks": [ [ "roof_2x2_infrastructure", 50 ], [ "roof_2x2_infrastructure_2", 50 ] ],
+          "x": [ 26, 30 ],
+          "y": [ 25, 35 ]
+        },
+        {
+          "chunks": [ [ "null", 70 ], [ "roof_3x3_wine", 15 ], [ "roof_6x6_survivor", 15 ] ],
+          "x": [ 4, 9 ],
+          "y": [ 26, 40 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "weight": 200,
+    "om_terrain": [ [ "farm_supply_looted_1", "farm_supply_looted_2" ], [ "farm_supply_looted_3", "farm_supply_looted_4" ] ],
+    "//": "Looted variant. Guns, some camping supplies, and some other equipment is missing.",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "________________________________________________",
+        "__________________________________________,,,,,,",
+        "__________________________________________,,,,,,",
+        "__________________________________________,,,Ü,,",
+        "_____Ù____________________________________,,,,,,",
+        "__________________________________________,,,,,,",
+        "__________________________________________,,,,,,",
+        "__________________________________________,,,,,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,,,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,Ü,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,,,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,,,,",
+        "_,,,,,_,__Ú_,__Ú_,__Û_,____,__Ú_,__Û_,__Ú_,,,,,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,,,,",
+        "_,,,,,_,____,____,____,____,____,____,____,,,Ü,,",
+        "_,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        "_,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
+        " f...f   # SS #&&&&&&&&&# SS #&&&&&&# SS #&&&&# ",
+        " v..Dv   b SS b /   /   b SS b  /   & SS &  / & ",
+        " v..Dv / b SS b        /b SS b    / & SS &    & ",
+        " v...v   # SS #&&&&&&&&&# SS #&&&&&&# SS #&&&&# ",
+        " |x|||===||!!|||||||||||||!!||====|||fFFffffffv ",
+        " |........^rr^mVØØ..õõõõg^rr^.......|....úúúúùv ",
+        " W.1.1.2.2.rr.............rr..ww.dd.|........ùv ",
+        " |.1.1.2.2.rr..$..$..$..$.rr..oo.ee.|^...^^..ùv ",
+        " |.1.1.2.2.rr..c..c..c..c.rr........|^...ýý..ùv ",
+        " |.........rr.............rr........|^...üü..ùv ",
+        " |.rrrrrrrrrrrrrrrrrrrrrrrrr.00..00.|^...ÌÌ..ùv ",
+        " |.rrrrrrrrrrrrrrrrrrrrrrrrr........|^........v ",
+        " |.........rr.............rr.ÉÉÉÉÉÉ.|.........v ",
+        " W.3333333.rr.6.6..77..88.rr........|..ÁÁÁÁÁÁ.v ",
+        " |.........rr.6.6..77..88.rr.éééééé.|..ÓÓÓÓÓÓ.v ",
+        " |.3333333.rr.6.6.........rr........|.........v ",
+        " |.........rr.......BBB...rr.êêêêêê.|..ÎÎÎÎÎÎ.v ",
+        " |..g......rr.............rr........|..÷÷÷÷÷÷.v ",
+        " |..c.n.çç.rr.9.9.9.9.9.9.rr.ëëëëëë.|.........v ",
+        " |..c.n....rr.9.9.9.9.9.9.rr........|..ææææææ.v ",
+        " W..c.n.çç.rr.9.9.9.9.9.9.rr.ÈÈÈÈÈÈ.|.........v ",
+        " |.........rr.............rr........|..^^^^^^.v ",
+        " |.rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr!..^^^^^^.v ",
+        " |.rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr!.........v ",
+        " |.............rr........||+||||||x||..ËËËËËË.v ",
+        " |.......4.4.4.rr.55..55.|..^|þHH..g|.........v ",
+        " |.cc$c..4.4.4.rr........|...|.....q|..ÍÍÍÍÍÍ.v ",
+        " |.......4.4.4.rr.55..55.|g..|.pp..j|..ÏÏÏÏÏÏ.v ",
+        "<|.ààáá^.................|s.T|z.h...|.........v ",
+        " ||||||||||||W|||||||W|||||||||X||x||ffffffffff ",
+        "                                                "
+      ],
+      "palettes": [ "farm_supply_palette", "farm_supply_looted_palette" ],
+      "terrain": { "<": "t_ladder_up" },
+      "toilets": { "T": {  } },
+      "items": {
+        "à": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "guns_rifle_common_display", "prob": 40 }, { "group": "guns_shotgun_common_display", "prob": 60 } ]
+          },
+          "chance": 7,
+          "repeat": [ 0, 2 ]
+        },
+        "á": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "ammo_rifle_common_collection", "prob": 25 },
+              { "group": "ammo_shotgun_common_collection", "prob": 40 },
+              { "group": "mags_rifle_common_gunstore", "prob": 35 }
+            ]
+          },
+          "chance": 7,
+          "repeat": [ 0, 4 ]
+        },
+        "ç": { "item": "fishing_items", "chance": 100, "repeat": [ 0, 2 ] },
+        "n": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "item": "fishing_hook_basic", "prob": 70 }, { "item": "fish_bait", "prob": 30 } ]
+          },
+          "chance": 100,
+          "repeat": [ 0, 2 ]
+        },
+        "1": { "item": "petstore_shelves", "chance": 70, "repeat": [ 0, 3 ] },
+        "2": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "dishes_utility", "prob": 40 },
+              { "group": "dishes_dining", "prob": 15 },
+              { "group": "kitchen_appliances", "prob": 15 },
+              { "group": "silverware", "prob": 15 },
+              { "group": "dinnerware", "prob": 15 }
+            ]
+          },
+          "chance": 70,
+          "repeat": [ 0, 3 ]
+        },
+        "3": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "camping", "prob": 40 },
+              { "group": "hiking", "prob": 40 },
+              { "group": "tools_survival", "prob": 5 },
+              { "group": "tools_tailor", "prob": 5 },
+              { "group": "tools_hunting", "prob": 5 },
+              { "group": "book_survival", "prob": 5 }
+            ]
+          },
+          "chance": 20,
+          "repeat": [ 0, 2 ]
+        },
+        "4": { "item": "sports", "chance": 50, "repeat": [ 0, 4 ] },
+        "5": {
+          "item": { "subtype": "collection", "entries": [ { "group": "toy_store", "prob": 95 }, { "group": "child_hats", "prob": 5 } ] },
+          "chance": 70,
+          "repeat": [ 0, 3 ]
+        },
+        "6": { "item": "clothing_outdoor_shoes", "chance": 40, "repeat": [ 0, 2 ] },
+        "7": { "item": "clothing_watch", "chance": 60, "repeat": [ 0, 2 ] },
+        "8": { "item": "clothing_glasses", "chance": 60, "repeat": [ 0, 2 ] },
+        "9": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "clothing_outdoor_torso", "prob": 45 },
+              { "group": "clothing_outdoor_pants", "prob": 45 },
+              { "group": "underwear", "prob": 10 }
+            ]
+          },
+          "chance": 60,
+          "repeat": [ 0, 2 ]
+        },
+        "0": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "salty_snacks", "prob": 75 },
+              { "group": "candy_chocolate", "prob": 20 },
+              { "group": "liquor_and_spirits", "prob": 5 }
+            ]
+          },
+          "chance": 70,
+          "repeat": [ 0, 4 ]
+        },
+        "É": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "tools_common", "prob": 40 },
+              { "group": "tools_entry", "prob": 5 },
+              { "group": "consumer_electronics", "prob": 25 },
+              { "group": "ammo_any_batteries_full", "prob": 25 },
+              { "group": "tools_lighting", "prob": 5 }
+            ]
+          },
+          "chance": 50,
+          "repeat": [ 0, 3 ]
+        },
+        "é": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "tools_tailor", "prob": 50 },
+              { "item": "thread", "count": [ 5, 20 ], "prob": 10 },
+              { "item": "cotton_patchwork", "count": [ 20, 50 ], "prob": 10 },
+              { "item": "felt_patch", "count": [ 5, 25 ], "prob": 10 },
+              { "item": "leather", "count": [ 3, 15 ], "prob": 10 },
+              { "group": "sewing_group", "prob": 10 }
+            ]
+          },
+          "chance": 80,
+          "repeat": [ 0, 6 ]
+        },
+        "ê": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "tools_plumbing", "prob": 70 }, { "group": "plumbing_bulk", "prob": 30 } ]
+          },
+          "chance": 80,
+          "repeat": [ 0, 5 ]
+        },
+        "ë": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "tools_carpentry", "prob": 70 }, { "group": "supplies_woodcrafts", "prob": 30 } ]
+          },
+          "chance": 60,
+          "repeat": [ 0, 5 ]
+        },
+        "È": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "tools_mechanic", "prob": 70 }, { "group": "supplies_electronics", "prob": 30 } ]
+          },
+          "chance": 60,
+          "repeat": [ 0, 5 ]
+        },
+        "Ë": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "tools_earthworking", "prob": 90 }, { "group": "tools_entry", "prob": 10 } ]
+          },
+          "chance": 80,
+          "repeat": [ 0, 3 ]
+        },
+        "æ": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "farming_tools", "prob": 50 }, { "group": "farm_supply_wire", "prob": 50 } ]
+          },
+          "chance": 90,
+          "repeat": [ 0, 7 ]
+        },
+        "÷": { "item": "farming_seeds", "chance": 100, "repeat": [ 3, 12 ] },
+        "Î": {
+          "item": { "subtype": "collection", "entries": [ { "group": "fertilizers", "prob": 80 }, { "item": "fungicide", "prob": 20 } ] },
+          "chance": 90,
+          "repeat": [ 0, 6 ]
+        },
+        "ù": { "item": "farm_supply_soil_and_sand", "chance": 100, "repeat": [ 1, 6 ] },
+        "ú": { "item": "farm_supply_rocks", "chance": 100, "repeat": [ 1, 6 ] },
+        "Ï": { "item": "farm_supply_quicklime_and_saltpetre", "chance": 35, "repeat": [ 1, 4 ] },
+        "Í": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "group": "farm_supply_animal_feed", "prob": 93 }, { "group": "farm_supply_riding_gear", "prob": 7 } ]
+          },
+          "chance": 80,
+          "repeat": [ 1, 4 ]
+        },
+        "Ø": {
+          "item": { "subtype": "collection", "entries": [ { "group": "hardware_books", "prob": 80 }, { "group": "novels", "prob": 20 } ] },
+          "chance": 100,
+          "repeat": [ 0, 4 ]
+        },
+        "õ": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "log", "prob": 50, "count": [ 5, 10 ] },
+              { "item": "stick_long", "prob": 30, "count": [ 10, 20 ] },
+              { "item": "stick", "prob": 20, "count": [ 5, 10 ] }
+            ]
+          },
+          "chance": 60,
+          "repeat": [ 0, 4 ]
+        },
+        "p": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "office_supplies", "prob": 70 },
+              { "group": "office_breakroom", "prob": 20 },
+              { "group": "office", "prob": 10 }
+            ]
+          },
+          "chance": 100,
+          "repeat": [ 1, 3 ]
+        },
+        "s": { "item": "coffee_bathroom", "chance": 40 },
+        "þ": { "item": "SUS_fridge_breakroom", "chance": 50 },
+        "q": { "item": "file_room", "chance": 100, "repeat": [ 1, 5 ] },
+        ".": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 500 },
+              { "group": "floor_trash", "prob": 2 },
+              { "group": "ammo_casings", "prob": 1 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
+          "chance": 100
+        },
+        "r": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 500 },
+              { "group": "floor_trash", "prob": 2 },
+              { "group": "ammo_casings", "prob": 1 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
+          "chance": 100
+        },
+        "_": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 200 },
+              { "group": "trash", "prob": 1 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
+          "chance": 100
+        },
+        ",": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "item": "null", "prob": 200 },
+              { "group": "trash", "prob": 1 },
+              { "group": "farm_supply_floor_surprises", "prob": 1 }
+            ]
+          },
+          "chance": 100
+        },
+        "g": { "item": "trash", "chance": 70, "repeat": [ 0, 2 ] },
+        "D": { "item": "trash", "chance": 70, "repeat": [ 0, 3 ] },
+        "$": { "item": "cash_register_looted", "chance": 50 },
+        "V": { "item": "vending_drink_items", "chance": 20, "repeat": [ 0, 8 ] },
+        "c": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "office_supplies", "prob": 80 },
+              { "group": "book_survival", "prob": 10 },
+              { "group": "supplies_hardware", "prob": 10 }
+            ]
+          },
+          "chance": 10
+        },
+        "z": {
+          "item": {
+            "subtype": "collection",
+            "entries": [
+              { "group": "stash_drugs", "prob": 70 },
+              { "group": "jewelry_safe", "prob": 25 },
+              { "group": "my_precious", "prob": 5 }
+            ]
+          },
+          "chance": 30
+        },
+        "O": {
+          "item": {
+            "subtype": "collection",
+            "entries": [ { "item": "null", "prob": 400 }, { "group": "trash", "prob": 5 }, { "item": "football", "prob": 1 } ]
+          },
+          "chance": 100
+        }
+      },
+      "place_monster": [
+        { "group": "GROUP_VANILLA", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 50, "repeat": [ 2, 5 ] },
+        { "group": "GROUP_POLICE", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 100, "repeat": [ 1, 3 ] },
+        { "group": "GROUP_VANILLA", "x": [ 24, 47 ], "y": [ 0, 23 ], "chance": 60, "repeat": [ 2, 4 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 26, 44 ], "chance": 60, "repeat": [ 3, 8 ] },
+        { "group": "GROUP_ZOMBIE", "x": [ 24, 46 ], "y": [ 26, 44 ], "chance": 80, "repeat": [ 3, 8 ] },
+        { "group": "FERAL_HUMANS", "x": [ 32, 34 ], "y": [ 43, 44 ], "chance": 100 }
+      ],
+      "place_corpses": [ { "group": "FERAL_HUMANS", "x": 7, "y": 42 } ],
+      "vehicles": {
+        "Ü": { "vehicle": "farm_vehicles", "chance": 50, "rotation": 180 },
+        "Ú": { "vehicle": "parkinglotbasic", "chance": 15, "rotation": 90 },
+        "Û": { "vehicle": "parkinglotbasic", "chance": 20, "rotation": 90, "status": 1 },
+        "Ù": { "vehicle": "industrial_transport", "chance": 10, "rotation": 180 }
+      },
+      "place_liquids": [
+        { "liquid": "gasoline", "x": [ 0, 23 ], "y": [ 0, 17 ], "amount": [ 1, 50 ], "chance": 1 },
+        { "liquid": "gasoline", "x": [ 24, 40 ], "y": [ 0, 17 ], "amount": [ 1, 50 ], "chance": 1 }
+      ],
+      "nested": {
+        "à": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "á": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "ç": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "n": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "1": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "2": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "3": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "4": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "5": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "6": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "7": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "8": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "9": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "0": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "É": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "é": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "ê": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "ë": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "È": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "Ë": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "æ": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "÷": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "Î": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "Ø": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "õ": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "$": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] },
+        "W": { "chunks": [ [ "1x1_bash", 10 ], [ "null", 90 ] ] }
+      },
+      "place_nested": [ { "chunks": [ "farm_supply_fence_destruction" ], "x": 24, "y": 24 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "farm_supply_fence_destruction",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "set": [ { "point": "bash", "x": 22, "y": [ 0, 20 ] }, { "point": "bash", "x": 22, "y": [ 0, 20 ], "repeat": [ 0, 1 ] } ]
+    }
+  }
+]

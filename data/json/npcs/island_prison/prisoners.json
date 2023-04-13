@@ -38,10 +38,13 @@
     "id": "NC_THUG_PRISONER",
     "name": { "str": "Prisoner" },
     "job_description": "I'm here to kick ass.",
+    "common": false,
     "traits": [
       { "group": "BG_survival_story_CRIMINAL" },
       { "group": "NPC_starting_traits" },
-      { "group": "Appearance_demographics" }
+      { "group": "Appearance_demographics" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" }
     ],
     "bonus_str": { "rng": [ 2, 4 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },

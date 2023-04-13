@@ -2,6 +2,7 @@
   {
     "type": "overlay_order",
     "overlay_ordering": [
+      { "id": [ "eye_color" ], "order": 250 },
       {
         "id": [
           "THRESH_CATTLE",
@@ -83,6 +84,7 @@
         ],
         "order": 1500
       },
+      { "id": [ "SHELL", "SHELL2", "SHELL3" ], "order": 1520 },
       {
         "id": [
           "FACIAL_HAIR_NONE",
@@ -209,10 +211,7 @@
       },
       { "id": [ "FANGS", "MANDIBLES", "SABER_TEETH" ], "order": 7500 },
       { "id": [ "FORKED_TONGUE" ], "order": 8000 },
-      {
-        "id": [ "PROF_CYBERCOP", "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ],
-        "order": 8500
-      },
+      { "id": [ "PROF_FED", "PROF_PD_DET", "PROF_POLICE", "PROF_SWAT", "PHEROMONE_INSECT" ], "order": 8500 },
       { "id": [ "EXODII_BODY_1" ], "order": 10000 }
     ]
   }

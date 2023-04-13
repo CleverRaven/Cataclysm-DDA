@@ -319,7 +319,6 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     practice();
 }
 
-
 void SkillLevel::knowledge_train( int amount, int npc_knowledge )
 {
     float level_gap = 1.0f;
@@ -401,14 +400,9 @@ bool SkillLevel::rust( int rust_resist, float rust_multiplier )
 
     _rustAccumulator += rust_amount;
     _exercise -= rust_amount;
-    const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
-        if( rust_type == "vanilla" || rust_type == "int" ) {
-            _exercise = ( 100 * 100 * pow( unadjustedLevel(), 2U ) ) - 1;
-            --_level;
-        } else {
-            _exercise = 0;
-        }
+        _exercise = ( 100 * 100 * pow( unadjustedLevel(), 2U ) ) - 1;
+        --_level;
     }
 
     return false;
@@ -482,7 +476,7 @@ int SkillLevelMap::get_skill_level( const skill_id &ident ) const
 
 int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context ) const
 {
-    const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+    const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
     return get_skill_level( id );
 }
 
@@ -493,7 +487,7 @@ int SkillLevelMap::get_knowledge_level( const skill_id &ident ) const
 
 int SkillLevelMap::get_knowledge_level( const skill_id &ident, const item &context ) const
 {
-    const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+    const skill_id id = context.is_null() ? ident : context.contextualize_skill( ident );
     return get_knowledge_level( id );
 }
 

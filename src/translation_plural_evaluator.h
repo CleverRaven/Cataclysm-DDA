@@ -4,6 +4,7 @@
 
 #if defined(LOCALIZE)
 
+#include <array>
 #include <limits>
 #include <stack>
 #include <vector>
@@ -92,7 +93,7 @@ class TranslationPluralRulesEvaluator
 
         struct ExprNode {
             std::size_t n_children;
-            ExprNode *children[3];
+            std::array<ExprNode *, 3> children;
             ExprToken token;
             ExprNode() : n_children( 0 ), children{ nullptr, nullptr, nullptr } {}
             void AddChild( ExprNode *child );

@@ -3451,6 +3451,7 @@ class colony : private element_allocator_type
             if COLONY_CONSTEXPR( std::is_trivial<group_pointer_type>::value &&
                                  std::is_trivial<aligned_pointer_type>::value &&
                                  std::is_trivial<skipfield_pointer_type>::value ) {
+                // NOLINTNEXTLINE(modernize-avoid-c-arrays)
                 char temp[sizeof( colony )];
                 std::memcpy( &temp, static_cast<void *>( this ), sizeof( colony ) );
                 std::memcpy( static_cast<void *>( this ), static_cast<void *>( &source ), sizeof( colony ) );

@@ -36,5 +36,20 @@
     "intensity": 3,
     "qty": 300,
     "chance": 100
+  },
+  {
+    "id": "emit_electric_sparks",
+    "type": "emit",
+    "field": "fd_electricity",
+    "intensity": 1,
+    "qty": 10
+  },
+  {
+    "id": "emit_eshaper_dust",
+    "type": "emit",
+    "field": "fd_eshaper_dust",
+    "intensity": 1,
+    "qty": 22,
+    "chance": 100
   }
 ]

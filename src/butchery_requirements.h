@@ -28,7 +28,7 @@ class butchery_requirements
         string_id<butchery_requirements> id;
         std::vector<std::pair<string_id<butchery_requirements>, mod_id>> src;
 
-        // tries to find the requirement with the highest speed bonus. if it fails it returns cata::nullopt
+        // tries to find the requirement with the highest speed bonus. if it fails it returns std::nullopt
         std::pair<float, requirement_id> get_fastest_requirements(
             const read_only_visitable &crafting_inv, creature_size size, butcher_type butcher ) const;
 

@@ -8,7 +8,7 @@ An "artifact" is a special game item with unique "magic" effects.  It uses a bas
 
 The procedural generation of artifacts is defined in Json. The object looks like the following:
 ```json
-{
+  {
     "type": "relic_procgen_data",
     "id": "cult",
     "charge_types": [
@@ -23,24 +23,24 @@ The procedural generation of artifacts is defined in Json. The object looks like
     ],
     "active_procgen_values": [ { "weight": 100, "spell_id": "AEA_PAIN" } ],
     "passive_add_procgen_values": [
-        {
-            "weight": 100,
-            "min_value": -1,
-            "max_value": 1,
-            "type": "STRENGTH",
-            "increment": 1,
-            "power_per_increment": 250
-        }
+      {
+        "weight": 100,
+        "min_value": -1,
+        "max_value": 1,
+        "type": "STRENGTH",
+        "increment": 1,
+        "power_per_increment": 250
+      }
     ],
     "passive_mult_procgen_values": [
-        {
-            "weight": 100,
-            "min_value": -1.5,
-            "max_value": 1.5,
-            "type": "STRENGTH",
-            "increment": 0.1,
-            "power_per_increment": 250
-        }
+      {
+        "weight": 100,
+        "min_value": -1.5,
+        "max_value": 1.5,
+        "type": "STRENGTH",
+        "increment": 0.1,
+        "power_per_increment": 250
+      }
     ],
     "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
     "items": [ { "weight": 100, "item": "spoon" } ]
@@ -101,3 +101,12 @@ This provides a list of possible items that this artifact can spawn as, if it ap
 
 ## Power Level
 An artifact's power level is a summation of its attributes. For example, each point of strength addition in the above object, the artifact is a +250 power, so an artifact with +2 strength would have a power level of 500. similarly, if an artifact had a strength multiplier of 0.8, it would have a power level of -500.
+
+## Resonance
+Resonance is an enchantment assigned to artifacts, and is always equal to the artifact's power, being assigned according to the final power of the artifact after its main properties have been generated.  Although artifacts do not have to have resonance (and will not have resonance unless explicitly assigned) all vanilla artifacts with the sole exception of the "Exposed-Wiring Prototype" have resonance, as should any future artifacts added to the game.  Resonance is always at least zero, so a purely detrimental artifact cannot be used to "lower" your resonance although a mixed artifact is less resonant than a purely positive one.
+
+Resonance is assigned to artifacts in the JSON responsible for adding them to mapgen, where artifacts are given a power level and a set of procgen data to draw from. If flagged as true, this artifact will have resonance. If it does not include this optional flag, it will default to false.
+
+Resonance represents the potential dangers of artifacts on the human body to counterbalance their positive effects.  For the purposes of lore, artifacts should primarily cause such resonance effects when they are affecting a human body - such as when carried or wielded by the PC.  Resonance effects are currently hardcoded, and scale with the amount of resonance you have, beginning at 2,000 resonance (2,000 total power of artifacts carried).  Resonance of 2,000 causes an effect roughly every hour, but effect also occur more frequently the more resonance you have, becoming 100% more common for every whole 2,000 resonance. There are 4 "tiers" of effects in increasing severity kicking in at 2,000, 4,500, 7,500, 12,500 resonance. Each "tier" of resonance has a 50% chance to downgrade to a lower tier of severity. Example: you have 8,000 resonance. There is a 50% chance you will suffer a tier 3 resonance effect, a 25% chance you will suffer a tier 2 resonance effect, and a 25% chance you will suffer a tier 1 effect. If you had 4,000 resonance it would be a 50% chance to get a tier 2 effect and a 50% chance to get a tier 1 effect.
+
+These effects should be relatively vague - it should not be explicitly clear that carrying multiple artifacts is what's causing a player's misfortune, but it should be implied due to the effects not happening until the player picks up a bunch of cool-looking napkins and rubick's cubes.  Tier 1 effects are nausea, low-strength hallucinations, and minor pain. Tier 2 effects are minor radiation (blocked by rad resistant gear), safe micro-teleports and a very loud noise.  Tier 3 effects include severe pain, severe radiation (not fully blockable by gear), and unsafe teleportation.  Tier 4 effects include hounds of Tindalos, incorporeal, and creating a tear in reality. The resonance factor of an artifact should be measurable, even if the other properties of the artifact are not, although at time of writing there is no way to do so.

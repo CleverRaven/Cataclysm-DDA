@@ -193,6 +193,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     u.grab_point = next_grab;
 
     m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
+    m.rebuild_vehicle_level_caches();
 
     if( grabbed_vehicle ) {
         m.level_vehicle( *grabbed_vehicle );

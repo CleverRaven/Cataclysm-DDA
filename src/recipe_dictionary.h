@@ -15,7 +15,7 @@
 #include "recipe.h"
 #include "type_id.h"
 
-class JsonIn;
+class JsonArray;
 class JsonObject;
 class JsonOut;
 
@@ -39,6 +39,8 @@ class recipe_dictionary
         const std::set<const recipe *> &all_blueprints() const {
             return blueprints;
         }
+
+        std::map<recipe_id, const recipe *> find_obsoletes( const itype_id &item_id ) const;
 
         size_t size() const;
         std::map<recipe_id, recipe>::const_iterator begin() const;
@@ -76,6 +78,7 @@ class recipe_dictionary
         std::set<const recipe *> autolearn;
         std::set<const recipe *> nested;
         std::set<const recipe *> blueprints;
+        std::map<const itype_id, const recipe *> obsoletes;
         std::unordered_set<itype_id> items_on_loops;
 
         static void finalize_internal( std::map<recipe_id, recipe> &obj );
@@ -157,8 +160,8 @@ class recipe_subset
         /** Find hidden recipes */
         std::vector<const recipe *> hidden() const;
 
-        /** Find current nested recipes by the index */
-        std::vector<const recipe *> nested( int index ) const;
+        /** Find expanded recipes */
+        std::vector<const recipe *> expanded() const;
 
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search(
@@ -172,8 +175,9 @@ class recipe_subset
         recipe_subset intersection( const recipe_subset &subset ) const;
         /** Set difference between recipe_subsets */
         recipe_subset difference( const recipe_subset &subset ) const;
+        recipe_subset difference( const std::set<const recipe *> &recipe_set ) const;
         /** Find recipes producing the item */
-        std::vector<const recipe *> search_result( const itype_id &item ) const;
+        std::vector<const recipe *> recipes_that_produce( const itype_id &item ) const;
 
         size_t size() const {
             return recipes.size();
@@ -201,6 +205,6 @@ class recipe_subset
 };
 
 void serialize( const recipe_subset &value, JsonOut &jsout );
-void deserialize( recipe_subset &value, JsonIn &jsin );
+void deserialize( recipe_subset &value, const JsonArray &ja );
 
 #endif // CATA_SRC_RECIPE_DICTIONARY_H

@@ -16,7 +16,8 @@
       ":": "t_secretdoor_metal_c",
       ";": "t_secretdoor_metal_o",
       "~": "t_water_pump",
-      "t": "t_metal_floor"
+      "t": "t_metal_floor",
+      "é": "t_metal_floor"
     },
     "furniture": {
       "A": "f_air_filter",
@@ -27,9 +28,11 @@
       "C": "f_cupboard",
       "d": "f_dresser",
       "D": "f_desk",
+      "2": "f_desk",
       "e": "f_ergometer_mechanical",
       "E": "f_exercise",
       "F": "f_fridge",
+      "é": "f_freezer",
       "f": "f_sofa",
       "G": "f_generator_broken",
       "h": "f_chair",
@@ -116,7 +119,8 @@
       "^": { "item": "shelter", "chance": 30 },
       "{": [ { "item": "lmoe_guns", "chance": 90 }, { "item": "ammo", "chance": 30, "repeat": [ 2, 8 ] } ],
       "}": [ { "item": "novels", "chance": 90, "repeat": [ 3, 8 ] }, { "item": "religious_books", "chance": 25 } ]
-    }
+    },
+    "nested": { "2": { "chunks": [ "prepper_1_computer" ] } }
   },
   {
     "type": "palette",

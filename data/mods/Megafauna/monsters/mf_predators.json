@@ -120,6 +120,7 @@
     "harvest": "mammal_fur",
     "reproduction": { "baby_monster": "mon_sabcat_cub", "baby_count": 2, "baby_timer": 720 },
     "baby_flags": [ "SPRING" ],
+    "dissect": "dissect_feline_sample_single",
     "petfood": { "food": [ "CATFOOD" ], "feed": "The %s seems to like you!  It emits a growling purr as you pet it." },
     "flags": [
       "SEES",
@@ -204,6 +205,7 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED", "PLAYER_NEAR_BABY" ],
     "fear_triggers": [ "FIRE" ],
     "harvest": "mammal_fur",
+    "dissect": "dissect_feline_sample_single",
     "reproduction": { "baby_monster": "mon_cave_lion_cub", "baby_count": 3, "baby_timer": 720 },
     "baby_flags": [ "SPRING" ],
     "flags": [

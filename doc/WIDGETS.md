@@ -62,7 +62,7 @@ all about widgets: what they do, and how to use them.
 
 All "custom" sidebar UI elements are defined in objects called widgets. A widget can display a
 variety of player character attributes in numeric or text form, or as a bar graph of arbitrary
-width. A widget can also group other widgets together in a horizontal or vertical layout.
+width or height. A widget can also group other widgets together in a horizontal or vertical layout.
 
 Widget instances are defined by JSON data, with the main game sidebar widgets and layouts being in
 `data/json/ui/sidebar.json`. You may customize yours by editing this file, or by loading a mod that
@@ -119,7 +119,7 @@ linked sections:
 
 | field                   | type                  | description
 | --                      | --                    | --
-| arrange                 | string                | For "layout" style, display child widgets as "rows", "columns" or "minimum_columns"
+| arrange                 | string                | For "layout" style, display child widgets as "rows", "columns" or "minimum_columns"; for ["graph style"](#graph-style) draw vertical ("rows") or horizontal ("columns")
 | bodypart                | string                | For "bp_*" variables, body part id like "leg_r" or "torso"
 | separator               | string                | The string used to separate the label from the widget data. Children will inherit if this is not defined. Mandatory if style is "sidebar".
 | padding                 | int                   | Amount of padding between columns for this widget. Children will inherit if this is not defined. Mandatory if style is "sidebar".
@@ -426,6 +426,24 @@ are determined.
 
 Also see [Graph widgets](#graph-widgets) for some predefined ones you can use or extend.
 
+#### Vertical graphs
+
+By setting the `arrange` property to `rows`, graphs can be displayed vertically.
+For vertical graphs, `height` should be used instead of `width`.
+
+```json
+{
+  "arrange": "rows",
+  "height": 5,
+  "width": 1,
+  "symbols": ".▁▂▃▄▅▆▇█"
+}
+```
+
+> Note: As with other multi-line widgets, the `width` needs to be set to achieve narrow packing.
+
+Vertical graphs do not work well with the `label` property.
+Best to disable labels, and make a custom `text` style widget to place above or below bars.
 
 ### Text style
 
@@ -458,7 +476,7 @@ The below widget is a prime example of a text widget, and is used to display a p
       "id": "parched",
       "text": "Parched",
       "color": "light_red",
-      "condition": { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
+      "condition": { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 520 } ] }
     },
     {
       "id": "dehydrated",
@@ -466,8 +484,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "light_red",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 240 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 520 } ] }
         ]
       }
     },
@@ -477,8 +495,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "yellow",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 80 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 240 } ] }
         ]
       }
     },
@@ -488,8 +506,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "yellow",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">", { "const": 40 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 80 } ] }
         ]
       }
     },
@@ -499,8 +517,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "white",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": 0 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<=", { "const": 40 } ] }
         ]
       }
     },
@@ -510,8 +528,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "green",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": -20 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<", { "const": 0 } ] }
         ]
       }
     },
@@ -521,8 +539,8 @@ The below widget is a prime example of a text widget, and is used to display a p
       "color": "green",
       "condition": {
         "and": [
-          { "compare_int": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
-          { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
+          { "compare_num": [ { "u_val": "thirst" }, ">=", { "const": -60 } ] },
+          { "compare_num": [ { "u_val": "thirst" }, "<", { "const": -20 } ] }
         ]
       }
     },
@@ -530,7 +548,7 @@ The below widget is a prime example of a text widget, and is used to display a p
       "id": "turgid",
       "text": "Turgid",
       "color": "green",
-      "condition": { "compare_int": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
+      "condition": { "compare_num": [ { "u_val": "thirst" }, "<", { "const": -60 } ] }
     }
   ]
 },

@@ -93,18 +93,17 @@ item vehicle_part::properties_to_item() const
         tmp.active = true;
     }
 
-    // force rationalization of damage values to the middle value of each damage level so
-    // that parts will stack nicely
-    tmp.set_damage( tmp.damage_level() * itype::damage_scale );
+    // quantize damage to the middle of each damage_level so that items will stack nicely
+    tmp.set_damage( ( tmp.damage_level() - 0.5 ) * itype::damage_scale );
     return tmp;
 }
 
 std::string vehicle_part::name( bool with_prefix ) const
 {
-    auto res = info().name();
+    std::string res = info().name();
 
     if( base.engine_displacement() > 0 ) {
-        res.insert( 0, string_format( _( "%2.1fL " ), base.engine_displacement() / 100.0 ) );
+        res.insert( 0, string_format( _( "%gL " ), base.engine_displacement() / 100.0 ) );
 
     } else if( wheel_diameter() > 0 ) {
         res.insert( 0, string_format( _( "%d\" " ), wheel_diameter() ) );
@@ -123,8 +122,7 @@ std::string vehicle_part::name( bool with_prefix ) const
     }
 
     if( with_prefix ) {
-        res.insert( 0, colorize( base.damage_symbol(),
-                                 base.damage_color() ) + base.degradation_symbol() + " " );
+        res.insert( 0, base.damage_indicator() + base.degradation_symbol() + " " );
     }
     return res;
 }
@@ -154,14 +152,9 @@ int vehicle_part::max_damage() const
     return base.max_damage();
 }
 
-int vehicle_part::damage_floor( bool allow_negative ) const
+bool vehicle_part::is_repairable() const
 {
-    return base.damage_floor( allow_negative );
-}
-
-int vehicle_part::damage_level( int dmg ) const
-{
-    return base.damage_level( dmg );
+    return !is_broken() && base.repairable_levels() > 0 && info().is_repairable();
 }
 
 double vehicle_part::health_percent() const
@@ -190,7 +183,7 @@ bool vehicle_part::is_cleaner_on() const
 
 bool vehicle_part::is_unavailable( const bool carried ) const
 {
-    return is_broken() || ( has_flag( carried_flag ) && carried );
+    return is_broken() || ( has_flag( vp_flag::carried_flag ) && carried );
 }
 
 bool vehicle_part::is_available( const bool carried ) const
@@ -337,33 +330,27 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
     return base.ammo_consume( qty, pos, nullptr );
 }
 
-double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
+units::energy vehicle_part::consume_energy( const itype_id &ftype, units::energy wanted_energy )
 {
-    if( base.empty() || !is_fuel_store() ) {
-        return 0.0f;
+    if( !is_fuel_store() ) {
+        return 0_J;
     }
 
-    item &fuel = base.legacy_front();
-    if( fuel.typeId() == ftype ) {
-        cata_assert( fuel.is_fuel() );
-        // convert energy density in MJ/L to J/ml
-        const double energy_p_mL = fuel.fuel_energy() * 1000;
-        const int ml_to_use = static_cast<int>( std::floor( energy_j / energy_p_mL ) );
-        int charges_to_use = fuel.charges_per_volume( ml_to_use * 1_ml );
+    for( item *const fuel : base.all_items_top() ) {
+        if( fuel->typeId() != ftype || !fuel->is_fuel() ) {
+            continue;
+        }
+        const units::energy energy_per_charge = fuel->fuel_energy();
+        const int charges_wanted = static_cast<int>( wanted_energy / energy_per_charge );
+        const int charges_to_use = std::min( charges_wanted, fuel->charges );
+        fuel->charges -= charges_to_use;
+        if( fuel->charges == 0 ) {
+            base.remove_item( *fuel );
+        }
 
-        if( !charges_to_use ) {
-            return 0.0;
-        }
-        if( charges_to_use >= fuel.charges ) {
-            charges_to_use = fuel.charges;
-            base.clear_items();
-        } else {
-            fuel.charges -= charges_to_use;
-        }
-        item fuel_consumed( ftype, calendar::turn, charges_to_use );
-        return energy_p_mL * units::to_milliliter<int>( fuel_consumed.volume( true ) );
+        return charges_to_use * energy_per_charge;
     }
-    return 0.0;
+    return 0_J;
 }
 
 bool vehicle_part::can_reload( const item &obj ) const
@@ -429,22 +416,18 @@ void vehicle_part::process_contents( map &here, const tripoint &pos, const bool 
 {
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
-    if( base.has_item_with( []( const item & it ) {
-    return it.needs_processing();
-    } ) ) {
-        temperature_flag flag = temperature_flag::NORMAL;
-        if( e_heater ) {
-            flag = temperature_flag::HEATER;
-        }
-        if( enabled && info().has_flag( VPFLAG_FRIDGE ) ) {
-            flag = temperature_flag::FRIDGE;
-        } else if( enabled && info().has_flag( VPFLAG_FREEZER ) ) {
-            flag = temperature_flag::FREEZER;
-        } else if( enabled && info().has_flag( VPFLAG_HEATED_TANK ) ) {
-            flag = temperature_flag::HEATER;
-        }
-        base.process( here, nullptr, pos, 1, flag );
+    temperature_flag flag = temperature_flag::NORMAL;
+    if( e_heater ) {
+        flag = temperature_flag::HEATER;
     }
+    if( enabled && info().has_flag( VPFLAG_FRIDGE ) ) {
+        flag = temperature_flag::FRIDGE;
+    } else if( enabled && info().has_flag( VPFLAG_FREEZER ) ) {
+        flag = temperature_flag::FREEZER;
+    } else if( enabled && info().has_flag( VPFLAG_HEATED_TANK ) ) {
+        flag = temperature_flag::HEATER;
+    }
+    base.process( here, nullptr, pos, 1, flag );
 }
 
 bool vehicle_part::fill_with( item &liquid, int qty )
@@ -629,14 +612,14 @@ void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_
 {
     int dur = pt.info().durability;
     if( qty == dur || dur <= 0 ) {
-        pt.base.set_damage( keep_degradation ? pt.base.damage_floor( false ) : 0 );
+        pt.base.set_damage( keep_degradation ? pt.base.degradation() : 0 );
 
     } else if( qty == 0 ) {
         pt.base.set_damage( pt.base.max_damage() );
 
     } else {
         int amt = pt.base.max_damage() - pt.base.max_damage() * qty / dur;
-        amt = std::max( amt, pt.base.damage_floor( false ) );
+        amt = std::max( amt, pt.base.degradation() );
         pt.base.set_damage( amt );
     }
     if( !keep_degradation ) {
@@ -650,14 +633,13 @@ void vehicle::set_hp( vehicle_part &pt, int qty, bool keep_degradation, int new_
     }
 }
 
-bool vehicle::mod_hp( vehicle_part &pt, int qty, damage_type dt )
+bool vehicle::mod_hp( vehicle_part &pt, int qty )
 {
-    int dur = pt.info().durability;
-    if( dur > 0 ) {
-        return pt.base.mod_damage( -( pt.base.max_damage() * qty / dur ), dt );
-    } else {
+    const int dur = pt.info().durability;
+    if( dur <= 0 ) {
         return false;
     }
+    return pt.base.mod_damage( -qty * pt.base.max_damage() / dur );
 }
 
 bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
@@ -681,7 +663,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
 
     // TODO: check fuel for combustion engines
 
-    if( pt.info().epower < 0 && fuel_left( fuel_type_battery, true ) <= 0 ) {
+    if( pt.info().epower < 0_W && fuel_left( fuel_type_battery ) <= 0 ) {
         if( alert ) {
             add_msg( m_bad, _( "Insufficient power to enable %s" ), pt.name() );
         }
@@ -717,8 +699,7 @@ bool vehicle::assign_seat( vehicle_part &pt, const npc &who )
 
 std::string vehicle_part::carried_name() const
 {
-    if( carry_names.empty() ) {
-        return std::string();
-    }
-    return carry_names.top().substr( name_offset );
+    return carried_stack.empty()
+           ? std::string()
+           : carried_stack.top().veh_name;
 }

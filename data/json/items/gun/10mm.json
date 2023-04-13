@@ -46,7 +46,7 @@
     "looks_like": "glock_19",
     "type": "GUN",
     "name": { "str": "compact Glock pistol" },
-    "description": "A small pistol accepting Glock magazines and chambered in 10mm.  Because of it size, it is easy to carry, but it has rather fierce recoil.",
+    "description": "A small pistol accepting Glock magazines and chambered in 10mm.  Because of its size, it is easy to carry, but it has rather fierce recoil.",
     "variant_type": "gun",
     "variants": [
       {
@@ -86,7 +86,7 @@
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Glock pistol" },
-    "description": "This is a semi-automatic pistol chambered in 10mm, and accepting Glock magazines.",
+    "description": "A semi-automatic pistol chambered in 10mm and accepting Glock magazines.",
     "variant_type": "gun",
     "variants": [
       {
@@ -98,7 +98,7 @@
       {
         "id": "glock_40",
         "name": { "str": "Glock 40 MOS" },
-        "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly even harder hitting ammo, and the extra slide length means the sights are a little easier to use.  It also features Glock's Modular Optic System, making aftermarket optics much easier to mount.",
+        "description": "A full-sized, long-slide version of the highly successful Glock, chambered in hard-hitting 10mm Auto.  The extra barrel length makes for slightly more accurate and powerful shots, and the extra slide length means the sights are a little easier to use.  It also features Glock's Modular Optic System, making aftermarket optics much easier to mount.",
         "ascii_picture": "glock_40mos",
         "weight": 1
       }
@@ -127,13 +127,13 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "name": { "str": "BA10 rifle" },
-    "description": "A semi-automatic rifle, chambered in 10mm, accepting BA10 magazines.",
+    "description": "A semi-automatic rifle chambered in 10mm and accepting BA10 magazines.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "hk_mp5_10_semi",
         "name": { "str": "BA10" },
-        "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the guns' usage was shortlived, a handful of clones were made and sold occasionally.  This semi-automatic clone manufactured by Brethren Arms features a welded on M1913 rail and a collapsible arm brace.",
+        "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the gun's usage was short-lived, a handful of clones were made and sold occasionally.  This semi-automatic clone manufactured by Brethren Arms features a welded-on M1913 rail and a collapsible arm brace.",
         "weight": 1
       }
     ],
@@ -163,7 +163,7 @@
       {
         "id": "m1911_10",
         "name": { "str": "Colt Delta Elite" },
-        "description": "A modernized, match-grade variant of the venerable M1911 chambered in hard-hitting 10mm Auto.  Early variants were known to crack frames; modern 1911's, like this one, are slotted to prevent such crack formation.",
+        "description": "A modernized, match-grade variant of the venerable M1911 chambered in hard-hitting 10mm Auto.  Early variants were known to crack frames; modern 1911s, like this one, are slotted to prevent such crack formation.",
         "weight": 1
       }
     ],
@@ -191,7 +191,7 @@
     "looks_like": "cz75",
     "type": "GUN",
     "name": { "str": "EAA Witness pistol" },
-    "description": "A semi-automatic pistol chambered in 10mm, and accepting EAA Witness magazines.",
+    "description": "A semi-automatic pistol chambered in 10mm and accepting EAA Witness magazines.",
     "variant_type": "gun",
     "variants": [
       {
@@ -222,7 +222,7 @@
     "looks_like": "p226_357sig",
     "type": "GUN",
     "name": { "str": "SIG pistol" },
-    "description": "A semi-automatic pistol chambered in 10mmm, and accepting SIG magazines.",
+    "description": "A semi-automatic pistol chambered in 10mmm and accepting SIG magazines.",
     "variant_type": "gun",
     "variants": [
       {
@@ -254,7 +254,7 @@
     "looks_like": "glock_19",
     "type": "GUN",
     "name": { "str": "XD-M pistol" },
-    "description": "A semi-automatic pistol chambered in 10mm, and accepting XD-M magazines",
+    "description": "A semi-automatic pistol chambered in 10mm and accepting XD-M magazines",
     "variant_type": "gun",
     "variants": [
       {
@@ -291,7 +291,7 @@
       "so, I'm calling it a glock smg."
     ],
     "name": { "str": "Glock SMG" },
-    "description": "This is a submachine gun chambered in 10mm, accepting Glock magazines.",
+    "description": "A submachine gun chambered in 10mm, accepting Glock magazines.",
     "variant_type": "gun",
     "variants": [
       {

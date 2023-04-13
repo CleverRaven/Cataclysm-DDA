@@ -10,6 +10,7 @@
 #include <functional>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <utility>
 #include <vector>
 
@@ -30,7 +31,6 @@
 #include "mapdata.h"
 #include "math_defines.h"
 #include "monster.h"
-#include "optional.h"
 #include "pixel_minimap_projectors.h"
 #include "sdl_utils.h"
 #include "vehicle.h"
@@ -214,8 +214,10 @@ pixel_minimap::~pixel_minimap() = default;
 
 void pixel_minimap::set_type( pixel_minimap_type type )
 {
-    this->type = type;
-    reset();
+    if( this->type != type ) {
+        this->type = type;
+        reset();
+    }
 }
 
 void pixel_minimap::set_settings( const pixel_minimap_settings &settings )

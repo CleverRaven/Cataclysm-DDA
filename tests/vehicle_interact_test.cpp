@@ -66,7 +66,7 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     CHECK( can_repair == expect_craftable );
 }
 
-TEST_CASE( "repair_vehicle_part" )
+TEST_CASE( "repair_vehicle_part", "[vehicle]" )
 {
     SECTION( "welder" ) {
         std::vector<item> tools;

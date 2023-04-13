@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <functional>
 #include <map>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <utility>
@@ -20,7 +21,7 @@
 #include "event_subscriber.h"
 #include "game_constants.h"
 #include "json.h"
-#include "optional.h"
+#include "json_loader.h"
 #include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"
@@ -204,9 +205,9 @@ TEST_CASE( "stats_tracker_event_time_bounds", "[stats]" )
 
 static void send_game_start( event_bus &b, const character_id &u_id )
 {
-    b.send<event_type::game_start>(
-        u_id, "Avatar name", /*is_male=*/false, profession_id::NULL_ID(), "CUSTOM_PROFESSION",
-        "VERION_STRING" );
+    b.send<event_type::game_start>( "VERION_STRING" );
+    b.send<event_type::game_avatar_new>( /*is_new_game=*/true, /*is_debug=*/false, u_id,
+            "Avatar name", /*is_male=*/false, profession_id::NULL_ID(), "CUSTOM_PROFESSION" );
 }
 
 TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
@@ -694,7 +695,7 @@ TEST_CASE( "achievements_tracker", "[stats]" )
         } else {
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
                    "<color_c_red>Rude awakening</color>\n"
-                   "  <color_c_red>Failed Year 1, Spring, day 1 0001.00</color>\n"
+                   "  <color_c_red>Failed Year 1, Spring, day 1 0010.00</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         }
 
@@ -708,7 +709,11 @@ TEST_CASE( "achievements_tracker", "[stats]" )
                "  <color_c_green>Kill no characters</color>\n" );
 
         CHECK( achievements_completed.empty() );
-        CHECK( achievements_failed.empty() );
+        if( time_since_game_start < 1_minutes ) {
+            CHECK( achievements_failed.empty() );
+        } else {
+            CHECK( achievements_failed.count( a_kill_in_first_minute ) );
+        }
         b.send( avatar_zombie_kill );
 
         if( time_since_game_start < 1_minutes ) {
@@ -974,8 +979,7 @@ TEST_CASE( "legacy_stats_tracker_save_loading", "[stats]" )
             "score_distance_walked"
         ]
     })";
-    std::istringstream is( json_string );
-    JsonIn jsin( is );
+    JsonValue jsin = json_loader::from_string( json_string );
     stats_tracker s;
     s.deserialize( jsin.get_object() );
     CHECK( s.get_events( event_type::character_triggers_trap ).count() == 2 );

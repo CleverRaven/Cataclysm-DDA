@@ -10,12 +10,14 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
 #include "basecamp.h"
+#include "city.h"
 #include "coordinates.h"
 #include "cube_direction.h"
 #include "enums.h"
@@ -24,19 +26,16 @@
 #include "mdarray.h"
 #include "memory_fast.h"
 #include "mongroup.h"
-#include "monster.h"
-#include "omdata.h"
-#include "optional.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
 
-class JsonIn;
+class JsonArray;
 class JsonObject;
 class JsonOut;
+class cata_path;
 class character_id;
-class map_extra;
 class npc;
 class overmap_connection;
 struct regional_settings;
@@ -46,45 +45,6 @@ namespace pf
 template<typename Point>
 struct directed_path;
 } // namespace pf
-
-generic_factory<city> &get_city_factory();
-
-struct city {
-    void load( const JsonObject &, const std::string & );
-    void check() const;
-    static void load_city( const JsonObject &, const std::string & );
-    static void finalize();
-    static void check_consistency();
-    static const std::vector<city> &get_all();
-    static void reset();
-
-    city_id id;
-    bool was_loaded = false;
-
-    int database_id = 0;
-    // location of the city (in overmap coordinates)
-    point_abs_om pos_om;
-    // location of the city (in overmap terrain coordinates)
-    point_om_omt pos;
-    // original population
-    int population = 0;
-    int size = -1;
-    std::string name;
-
-    explicit city( const point_om_omt &P = point_om_omt(), int S = -1 );
-
-    explicit operator bool() const {
-        return size >= 0;
-    }
-
-    bool operator==( const city &rhs ) const {
-        return id == rhs.id ||
-               database_id == rhs.database_id ||
-               ( pos_om == rhs.pos_om && pos == rhs.pos ) ;
-    }
-
-    int get_distance_from( const tripoint_om_omt &p ) const;
-};
 
 struct om_note {
     std::string text;
@@ -110,8 +70,8 @@ enum class radio_type : int {
 
 extern std::map<radio_type, std::string> radio_type_names;
 
-static constexpr int RADIO_MIN_STRENGTH = 120;
-static constexpr int RADIO_MAX_STRENGTH = 360;
+constexpr int RADIO_MIN_STRENGTH = 120;
+constexpr int RADIO_MAX_STRENGTH = 360;
 
 struct radio_tower {
     // local (to the containing overmap) submap coordinates
@@ -199,7 +159,7 @@ struct pos_dir {
     pos_dir opposite() const;
 
     void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+    void deserialize( const JsonArray &ja );
 
     bool operator==( const pos_dir &r ) const;
     bool operator<( const pos_dir &r ) const;
@@ -250,10 +210,10 @@ class overmap
          * Returns @ref invalid_tripoint if no suitable place has been found.
          */
         tripoint_om_omt find_random_omt( const std::pair<std::string, ot_match_type> &target,
-                                         cata::optional<city> target_city = cata::nullopt ) const;
+                                         std::optional<city> target_city = std::nullopt ) const;
         tripoint_om_omt find_random_omt( const std::string &omt_base_type,
                                          ot_match_type match_type = ot_match_type::type,
-                                         cata::optional<city> target_city = cata::nullopt ) const {
+                                         std::optional<city> target_city = std::nullopt ) const {
             return find_random_omt( std::make_pair( omt_base_type, match_type ), std::move( target_city ) );
         }
         /**
@@ -269,7 +229,7 @@ class overmap
         const oter_id &ter( const tripoint_om_omt &p ) const;
         // ter_unsafe is UB when out of bounds.
         const oter_id &ter_unsafe( const tripoint_om_omt &p ) const;
-        cata::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
+        std::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         std::string *join_used_at( const om_pos_dir & );
         std::vector<oter_id> predecessors( const tripoint_om_omt & );
         void set_seen( const tripoint_om_omt &p, bool val );
@@ -361,15 +321,11 @@ class overmap
         std::vector<basecamp> camps;
         std::vector<city> cities;
         std::map<string_id<overmap_connection>, std::vector<tripoint_om_omt>> connections_out;
-        cata::optional<basecamp *> find_camp( const point_abs_omt &p );
+        std::optional<basecamp *> find_camp( const point_abs_omt &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( const shared_ptr_fast<npc> &who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
         shared_ptr_fast<npc> erase_npc( const character_id &id );
-
-        void for_each_npc( const std::function<void( npc & )> &callback );
-        void for_each_npc( const std::function<void( const npc & )> &callback ) const;
-
         shared_ptr_fast<npc> find_npc( const character_id &id ) const;
         shared_ptr_fast<npc> find_npc_by_unique_id( const std::string &id ) const;
         const std::vector<shared_ptr_fast<npc>> &get_npcs() const {
@@ -407,8 +363,8 @@ class overmap
         // Records mapgen parameters required at the overmap special level
         // These are lazily evaluated; empty optional means that they have yet
         // to be evaluated.
-        cata::colony<cata::optional<mapgen_arguments>> mapgen_arg_storage;
-        std::unordered_map<tripoint_om_omt, cata::optional<mapgen_arguments> *> mapgen_args_index;
+        cata::colony<std::optional<mapgen_arguments>> mapgen_arg_storage;
+        std::unordered_map<tripoint_om_omt, std::optional<mapgen_arguments> *> mapgen_args_index;
 
         // Records the joins that were chosen during placement of a mutable
         // special, so that it can be queried later by mapgen
@@ -433,11 +389,13 @@ class overmap
         std::unordered_multimap<tripoint_om_sm, monster> monster_map;
 
         // parse data in an opened overmap file
-        void unserialize( std::istream &fin );
+        void unserialize( const cata_path &file_name, std::istream &fin );
+        void unserialize( const JsonObject &jsobj );
         // parse data in an opened omap file
-        void unserialize_omap( std::istream &fin );
+        void unserialize_omap( const JsonValue &jsin, const cata_path &json_path );
         // Parse per-player overmap view data.
-        void unserialize_view( std::istream &fin );
+        void unserialize_view( const cata_path &file_name, std::istream &fin );
+        void unserialize_view( const JsonObject &jsobj );
         // Save data in an opened overmap file
         void serialize( std::ostream &fout ) const;
         // Save per-player overmap view data.
@@ -462,10 +420,6 @@ class overmap
         void move_nemesis();
         void place_nemesis( const tripoint_abs_omt & );
         bool remove_nemesis(); // returns true if nemesis found and removed
-
-        static bool obsolete_terrain( const std::string &ter );
-        void convert_terrain(
-            const std::unordered_map<tripoint_om_omt, std::string> &needs_conversion );
 
         // Overall terrain
         void place_river( const point_om_omt &pa, const point_om_omt &pb );
@@ -517,7 +471,7 @@ class overmap
                        const tripoint_om_omt &p ) const;
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
-        cata::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
+        std::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
         void chip_rock( const tripoint_om_omt &p );
 
         void polish_river();
@@ -567,11 +521,14 @@ class overmap
         // Spawns a new mongroup (to be called by worldgen code)
         void spawn_mon_group( const mongroup &group, int radius );
 
-        void load_monster_groups( JsonIn &jsin );
-        void load_legacy_monstergroups( JsonIn &jsin );
+        void load_monster_groups( const JsonArray &jsin );
+        void load_legacy_monstergroups( const JsonArray &jsin );
         void save_monster_groups( JsonOut &jo ) const;
     public:
-        static void load_obsolete_terrains( const JsonObject &jo );
+        static void load_oter_id_migration( const JsonObject &jo );
+        static void reset_oter_id_migrations();
+        static bool is_oter_id_obsolete( const std::string &oterid );
+        void migrate_oter_ids( const std::unordered_map<tripoint_om_omt, std::string> &points );
 };
 
 bool is_river( const oter_id &ter );

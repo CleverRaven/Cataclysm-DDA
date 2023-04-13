@@ -1,0 +1,22 @@
+[
+  {
+    "id": "BGSS_LOST_PARTNER_1_NOWAY",
+    "type": "talk_topic",
+    "dynamic_line": "Haha, yeah, I can see why you'd think that.  I don't mean it's a good apocalypse.  I just mean that at least now I know what I'm doing every day.  I'd still kill a hundred giant bugs for a warm bed and some time alone with… sorry.  Let's change the subject.",
+    "responses": [
+      { "text": "Tell me about those plant monsters.", "topic": "BGSS_LOST_PARTNER_1_TRIFFIDS" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LOST_PARTNER_1_TRIFFIDS",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, have you seen them yet?  They're these <shitty> walking flowers with a big <swear> stinger in the middle.  They travel in packs.  They hate the giant insects except bees for whatever reason, and we were using them for cover to clear a horde of them.  Unfortunately, turns out the plants are better trackers than the bugs.  They almost seemed intelligent… I barely made it out, only because they were, uh, distracted.",
+    "responses": [
+      { "text": "I'm sorry you lost someone.", "topic": "BGSS_LOST_PARTNER_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

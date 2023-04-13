@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <memory>
+#include <optional>
 #include <ostream>
 #include <queue>
 #include <set>
@@ -72,7 +73,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -111,7 +111,6 @@ static const activity_id ACT_BUTCHER( "ACT_BUTCHER" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
 static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
-static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
@@ -167,12 +166,12 @@ static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
-static const activity_id ACT_WASH( "ACT_WASH" );
 
 static const ammotype ammo_battery( "battery" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -199,6 +198,7 @@ static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
+static const quality_id qual_FISHING_ROD( "FISHING_ROD" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_firstaid( "firstaid" );
@@ -241,7 +241,6 @@ activity_handlers::do_turn_functions = {
     { ACT_CONSUME_FOOD_MENU, consume_food_menu_do_turn },
     { ACT_CONSUME_DRINK_MENU, consume_drink_menu_do_turn },
     { ACT_CONSUME_MEDS_MENU, consume_meds_menu_do_turn },
-    { ACT_CONSUME_FUEL_MENU, consume_fuel_menu_do_turn },
     { ACT_VIEW_RECIPE, view_recipe_do_turn },
     { ACT_MOVE_LOOT, move_loot_do_turn },
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
@@ -308,9 +307,7 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_FOOD_MENU, eat_menu_finish },
     { ACT_CONSUME_DRINK_MENU, eat_menu_finish },
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
-    { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_VIEW_RECIPE, view_recipe_finish },
-    { ACT_WASH, washing_finish },
     { ACT_JACKHAMMER, jackhammer_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_PULL_CREATURE, pull_creature_finish },
@@ -362,7 +359,7 @@ static bool check_butcher_dissect( const int roll )
     // Roll is reduced by corpse damage level, but to no less then 0
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Roll = %i", roll );
     add_msg_debug( debugmode::DF_ACT_BUTCHER, "Failure chance = %f%%",
-                   ( 19.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
+                   ( 10.0f / ( 10.0f + roll * 5.0f ) ) * 100.0f );
     const bool failed = x_in_y( 10, ( 10 + roll * 5 ) );
     return !failed;
 }
@@ -722,6 +719,35 @@ static double butchery_dissect_yield_mult( int skill_level, int dex, int tool_qu
            0.2 * clamp( dex_score, 0.0, 1.0 );
 }
 
+static std::vector<item> create_charge_items( const itype *drop, int count,
+        const harvest_entry &entry, const item *corpse_item, const Character &you )
+{
+    std::vector<item> objs;
+    while( count > 0 ) {
+        item obj( drop, calendar::turn, 1 );
+        obj.charges = std::min( count, 1000_liter / obj.volume() );
+        count -= obj.charges;
+
+        if( obj.has_temperature() ) {
+            obj.set_item_temperature( corpse_item->temperature );
+            if( obj.goes_bad() ) {
+                obj.set_rot( corpse_item->get_rot() );
+            }
+        }
+        for( const flag_id &flg : entry.flags ) {
+            obj.set_flag( flg );
+        }
+        for( const fault_id &flt : entry.faults ) {
+            obj.faults.emplace( flt );
+        }
+        if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
+            obj.set_var( "activity_var", you.name );
+        }
+        objs.push_back( obj );
+    }
+    return objs;
+}
+
 // Returns false if the calling function should abort
 static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Character &you,
                                     butcher_type action )
@@ -790,17 +816,19 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
         practice += ( 4 + butchery ) / entry_count;
         const float min_num = entry.base_num.first + butchery * entry.scale_num.first;
         const float max_num = entry.base_num.second + butchery * entry.scale_num.second;
+
         int roll = 0;
         // mass_ratio will override the use of base_num, scale_num, and max
         if( entry.mass_ratio != 0.00f ) {
             roll = static_cast<int>( std::round( entry.mass_ratio * monster_weight ) );
             roll = corpse_damage_effect( roll, entry.type, corpse_item->damage_level() );
-        } else if( action != butcher_type::DISSECT ) {
+        } else {
             roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
             // will not give less than min_num defined in the JSON
             roll = std::max<int>( corpse_damage_effect( roll, entry.type, corpse_item->damage_level() ),
                                   entry.base_num.first );
         }
+
         itype_id drop_id = itype_id::NULL_ID();
         const itype *drop = nullptr;
         if( entry.type->is_itype() ) {
@@ -951,23 +979,10 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
                     liquid_handler::handle_all_liquid( obj, 1 );
                 }
             } else if( drop->count_by_charges() ) {
-                item obj( drop, calendar::turn, roll );
-                if( obj.has_temperature() ) {
-                    obj.set_item_temperature( corpse_item->temperature );
-                    if( obj.goes_bad() ) {
-                        obj.set_rot( corpse_item->get_rot() );
-                    }
+                std::vector<item> objs = create_charge_items( drop, roll, entry, corpse_item, you );
+                for( item &obj : objs ) {
+                    here.add_item_or_charges( you.pos(), obj );
                 }
-                for( const flag_id &flg : entry.flags ) {
-                    obj.set_flag( flg );
-                }
-                for( const fault_id &flt : entry.faults ) {
-                    obj.faults.emplace( flt );
-                }
-                if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_BUTCHER ) {
-                    obj.set_var( "activity_var", you.name );
-                }
-                here.add_item_or_charges( you.pos(), obj );
             } else {
                 item obj( drop, calendar::turn );
                 obj.set_mtype( &mt );
@@ -1057,6 +1072,8 @@ static bool butchery_drops_harvest( item *corpse_item, const mtype &mt, Characte
             }
         }
     }
+
+    you.invalidate_crafting_inventory();
     return true;
 }
 
@@ -1318,15 +1335,15 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
             case liquid_target_type::VEHICLE: {
                 const optional_vpart_position vp = here.veh_at( act_ref.coords.at( 1 ) );
                 if( act_ref.values.size() > 4 && vp ) {
-                    const vpart_reference vpr( vp->vehicle(), act_ref.values.at( 4 ) );
+                    const vpart_reference vpr( vp->vehicle(), act_ref.values[4] );
                     veh = &vp->vehicle();
-                    part = act_ref.values.at( 4 );
+                    part = act_ref.values[4];
                     if( source_veh &&
-                        source_veh->fuel_left( liquid.typeId(), false, ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
+                        source_veh->fuel_left( liquid.typeId(), ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
                 {
                     return &veh->part( part ) != &pa;
                     }
-                                                                                                                           } : return_true<const vehicle_part &> ) ) <= 0 ) {
+                                                                                                                    } : return_true<const vehicle_part &> ) ) <= 0 ) {
                         act_ref.set_to_null();
                         return;
                     }
@@ -1365,6 +1382,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         switch( source_type ) {
             case liquid_source_type::VEHICLE:
                 if( part_num != -1 ) {
+                    const vehicle_part &pt = source_veh->part( part_num );
+                    if( pt.is_leaking() && !pt.ammo_remaining() ) {
+                        act_ref.set_to_null(); // leaky tank spilled while we were transferring
+                        return;
+                    }
                     source_veh->drain( part_num, removed_charges );
                     liquid.charges = veh_charges - removed_charges;
                     // If there's no liquid left in this tank we're done, otherwise
@@ -1377,7 +1399,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                         if( act_ref.str_values.empty() ) {
                             act_ref.str_values.emplace_back( );
                         }
-                        act_ref.str_values.at( 0 ) = serialize( liquid );
+                        act_ref.str_values[0] = serialize( liquid );
                     }
                 } else {
                     source_veh->drain( liquid.typeId(), removed_charges, ( veh ? std::function<bool( vehicle_part & )> { [&]( vehicle_part & pa )
@@ -1573,17 +1595,19 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     map_stack corpse_pile = here.i_at( pos );
     for( item &corpse : corpse_pile ) {
         const mtype *corpse_mtype = corpse.get_mtype();
+        const bool acid_immune = you->is_immune_damage( damage_type::ACID ) ||
+                                 you->is_immune_field( fd_acid );
         if( !corpse.is_corpse() || !corpse.can_revive() ||
-            ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
-              act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) ) {
-            // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping
+            ( ( std::find( act->str_values.begin(), act->str_values.end(), "auto_pulp_no_acid" ) !=
+                act->str_values.end() && corpse_mtype->bloodType().obj().has_acid ) && !acid_immune ) ) {
+            // Don't smash non-rezing corpses //don't smash acid zombies when auto pulping unprotected
             continue;
         }
 
         while( corpse.damage() < corpse.max_damage() ) {
             // Increase damage as we keep smashing ensuring we eventually smash the target.
             if( x_in_y( pulp_power, corpse.volume() / units::legacy_volume_factor ) ) {
-                corpse.inc_damage( damage_type::BASH );
+                corpse.inc_damage();
                 if( corpse.damage() == corpse.max_damage() ) {
                     num_corpses++;
                 }
@@ -1667,7 +1691,7 @@ void activity_handlers::start_fire_finish( player_activity *act, Character *you 
         return;
     }
 
-    it.ammo_consume( it.type->charges_to_use(), tripoint_zero, you );
+    it.activation_consume( 1, you->pos(), you );
 
     you->practice( skill_survival, act->index, 5 );
 
@@ -1739,7 +1763,7 @@ static bool magic_train( player_activity *act, Character *you )
             spell &studying = you->magic->get_spell( sp_id );
             const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
             const int xp = roll_remainder( studying.exp_modifier( *you ) * expert_multiplier );
-            studying.gain_exp( xp );
+            studying.gain_exp( *you, xp );
             you->add_msg_if_player( m_good, _( "You learn a little about the spell: %s" ),
                                     sp_id->name );
         } else {
@@ -1885,7 +1909,7 @@ void activity_handlers::vehicle_finish( player_activity *act, Character *you )
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *you ) ) {
                     point int_p( act->values[ 2 ], act->values[ 3 ] );
-                    if( vp->vehicle().has_tag( "APPLIANCE" ) ) {
+                    if( vp->vehicle().is_appliance() ) {
                         g->exam_appliance( vp->vehicle(), int_p );
                     } else {
                         g->exam_vehicle( vp->vehicle(), int_p );
@@ -1982,17 +2006,18 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
     int non_combustion_started = 0;
     const bool take_control = act->values[0];
 
-    for( size_t e = 0; e < veh->engines.size(); ++e ) {
-        if( veh->is_engine_on( e ) ) {
+    for( const int p : veh->engines ) {
+        vehicle_part &vp = veh->part( p );
+        if( veh->is_engine_on( vp ) ) {
             attempted++;
-            if( !veh->is_engine_type( e, itype_muscle ) &&
-                !veh->is_engine_type( e, itype_animal ) ) {
+            if( !veh->is_engine_type( vp, itype_muscle ) &&
+                !veh->is_engine_type( vp, itype_animal ) ) {
                 non_muscle_attempted++;
             }
-            if( veh->start_engine( e ) ) {
+            if( veh->start_engine( vp ) ) {
                 started++;
-                if( !veh->is_engine_type( e, itype_muscle ) &&
-                    !veh->is_engine_type( e, itype_animal ) ) {
+                if( !veh->is_engine_type( vp, itype_muscle ) &&
+                    !veh->is_engine_type( vp, itype_animal ) ) {
                     non_muscle_started++;
                 } else {
                     non_combustion_started++;
@@ -2036,14 +2061,14 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
 
 enum class repeat_type : int {
     // INIT should be zero. In some scenarios (vehicle welder), activity value default to zero.
-    INIT = 0,    // Haven't found repeat value yet.
-    ONCE,        // Repeat just once
-    FOREVER,     // Repeat for as long as possible
-    FULL,        // Repeat until damage==0
-    EVENT,       // Repeat until something interesting happens
-    REFIT_ONCE,  // Try refitting once
-    REFIT_FULL,  // Reapeat until item fits
-    CANCEL,      // Stop repeating
+    INIT = 0,       // Haven't found repeat value yet.
+    ONCE = 1,       // Repeat just once
+    // value 2 obsolete - previously used for reinforcement
+    FULL = 3,       // Repeat until damage==0
+    EVENT = 4,      // Repeat until something interesting happens
+    REFIT_ONCE = 5, // Try refitting once
+    REFIT_FULL = 6, // Reapeat until item fits
+    CANCEL = 7,     // Stop repeating
 };
 
 using I = std::underlying_type_t<repeat_type>;
@@ -2069,17 +2094,15 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
     rmenu.text = title;
 
     rmenu.addentry( static_cast<int>( repeat_type::ONCE ), true, '1', _( "Repeat once" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::FOREVER ), true, '2',
-                    _( "Repeat until reinforced" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::FULL ), true, '3',
-                    _( "Repeat until fully repaired, but don't reinforce" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '4',
+    rmenu.addentry( static_cast<int>( repeat_type::FULL ), true, '2',
+                    _( "Repeat until fully repaired" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::EVENT ), true, '3',
                     _( "Repeat until success/failure/level up" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::REFIT_ONCE ), can_refit, '5',
+    rmenu.addentry( static_cast<int>( repeat_type::REFIT_ONCE ), can_refit, '4',
                     _( "Attempt to refit once" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::REFIT_FULL ), can_refit, '6',
+    rmenu.addentry( static_cast<int>( repeat_type::REFIT_FULL ), can_refit, '5',
                     _( "Repeat until refitted" ) );
-    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '7', _( "Back to item selection" ) );
+    rmenu.addentry( static_cast<int>( repeat_type::INIT ), true, '6', _( "Back to item selection" ) );
 
     rmenu.selected = last_selection - repeat_type::ONCE;
     rmenu.query();
@@ -2095,10 +2118,10 @@ static repeat_type repeat_menu( const std::string &title, repeat_type last_selec
 // Note: similar hack could be used to implement all sorts of vehicle pseudo-items
 //  and possibly CBM pseudo-items too.
 struct weldrig_hack {
-    cata::optional<vpart_reference> part;
+    std::optional<vpart_reference> part;
     item pseudo;
 
-    weldrig_hack() : part( cata::nullopt ) { }
+    weldrig_hack() : part( std::nullopt ) { }
 
     bool init( const player_activity &act ) {
         if( act.coords.empty() || act.str_values.size() < 2 ) {
@@ -2156,14 +2179,17 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
     item_location *ploc = nullptr;
 
     if( !act->targets.empty() ) {
-        ploc = &act->targets[0];
+        ploc = act->targets.data();
     }
-
-    item &main_tool = !w_hack.init( *act ) ?
-                      ploc ?
-                      **ploc : you->i_at( act->index ) : w_hack.get_item();
-
-    item *used_tool = main_tool.get_usable_item( iuse_name_string );
+    item *main_tool = &( !w_hack.init( *act ) ?
+                         ploc ?
+                         **ploc : you->i_at( act->index ) : w_hack.get_item() );
+    if( main_tool == nullptr ) {
+        debugmsg( "Empty main tool for repair" );
+        act->set_to_null();
+        return;
+    }
+    item *used_tool = main_tool->get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
         debugmsg( "Lost tool used for long repair" );
         act->set_to_null();
@@ -2188,6 +2214,16 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         const int old_level = you->get_skill_level( actor->used_skill );
         const repair_item_actor::attempt_hint attempt = actor->repair( *you, *used_tool,
                 fix_location, repeat == repeat_type::REFIT_ONCE || repeat == repeat_type::REFIT_FULL );
+
+        // If the item being repaired has been destroyed stop further
+        // processing in case the items being used for the repair was
+        // contained by the item being repaired, which will result
+        // in the tool being invalid
+        if( attempt == repair_item_actor::AS_DESTROYED ) {
+            act->set_to_null();
+            return;
+        }
+
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
                 used_tool->ammo_consume( used_tool->ammo_required(), ploc->position(), you );
@@ -2207,8 +2243,8 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         // Print message explaining why we stopped
         // But only if we didn't destroy the item (because then it's obvious)
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
-        const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT ||
-                                            destroyed || !actor->can_repair_target( *you, *fix_location, !destroyed );
+        const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT || destroyed ||
+                                            !actor->can_repair_target( *you, *fix_location, !destroyed, true );
         if( cannot_continue_repair ) {
             // Cannot continue to repair target, select another target.
             // **Warning**: as soon as the item is popped back, it is destroyed and can't be used anymore!
@@ -2225,8 +2261,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
         const bool need_input =
             ( repeat == repeat_type::ONCE ) ||
             ( repeat == repeat_type::EVENT && event_happened ) ||
-            ( repeat == repeat_type::FULL && ( cannot_continue_repair ||
-                                               fix_location->damage() <= fix_location->damage_floor( false ) ) ) ||
+            ( repeat == repeat_type::FULL && cannot_continue_repair ) ||
             ( repeat == repeat_type::REFIT_ONCE ) ||
             ( repeat == repeat_type::REFIT_FULL && !can_refit );
         if( need_input ) {
@@ -2245,14 +2280,14 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
-        item_location item_loc = game_menus::inv::repair( *you, actor, &main_tool );
+        item_location item_loc = game_menus::inv::repair( *you, actor, main_tool );
 
         if( item_loc == item_location::nowhere ) {
             you->add_msg_if_player( m_info, _( "Never mind." ) );
             act->set_to_null();
             return;
         }
-        if( actor->can_repair_target( *you, *item_loc, true ) ) {
+        if( actor->can_repair_target( *you, *item_loc, true, true ) ) {
             act->targets.emplace_back( item_loc );
             repeat = repeat_type::INIT;
         }
@@ -2319,7 +2354,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                                 ammo_remaining, used_tool->ammo_capacity( current_ammo ),
                                 ammo_name,
                                 used_tool->ammo_required() );
-        title += string_format( _( "Materials available: %s\n" ), join( material_list, ", " ) );
+        title += string_format( _( "Materials available: %s\n" ), string_join( material_list, ", " ) );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
                                 actor->used_skill.obj().name(), level );
         title += string_format( _( "Success chance: <color_light_blue>%.1f</color>%%\n" ),
@@ -2343,8 +2378,7 @@ void repair_item_finish( player_activity *act, Character *you, bool no_menu )
                 you->activity.targets.pop_back();
                 return;
             }
-            if( repeat == repeat_type::FULL &&
-                fix.damage() <= fix.damage_floor( false ) ) {
+            if( repeat == repeat_type::FULL && fix.damage() <= fix.degradation() ) {
                 const char *msg = fix.damage_level() > 0 ?
                                   _( "Your %s is repaired as much as possible, considering the degradation." ) :
                                   _( "Your %s is already fully repaired." );
@@ -2399,10 +2433,10 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     }
 
     item_location &target = act->targets[ 0 ];
+    const fault_id fault( act->name );
 
-    const auto f = target->faults.find( fault_id( act->name ) );
-    if( f == target->faults.end() ) {
-        debugmsg( "item %s does not have fault %s", target->tname(), act->name );
+    if( target->faults.count( fault ) == 0 ) {
+        debugmsg( "item %s does not have fault %s", target->tname(), fault.str() );
         return;
     }
 
@@ -2411,16 +2445,17 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         return;
     }
 
-    const mending_method *method = fault_id( act->name )->find_mending_method( act->str_values[0] );
+    const mending_method *method = fault->find_mending_method( act->str_values[0] );
     if( !method ) {
         debugmsg( "invalid mending_method id for ACT_MEND_ITEM." );
         return;
     }
 
-    const inventory inv = you->crafting_inventory();
-    const requirement_data &reqs = method->requirements.obj();
+    const inventory &inv = you->crafting_inventory();
+    const requirement_data reqs = method->get_requirements();
     if( !reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
         add_msg( m_info, _( "You are currently unable to mend the %s." ), target->tname() );
+        return;
     }
     for( const auto &e : reqs.get_components() ) {
         you->consume_items( e );
@@ -2430,7 +2465,7 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     }
     you->invalidate_crafting_inventory();
 
-    target->faults.erase( *f );
+    target->faults.erase( fault );
     if( method->turns_into ) {
         target->faults.emplace( *method->turns_into );
     }
@@ -2438,8 +2473,14 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
     if( method->also_mends ) {
         target->faults.erase( *method->also_mends );
     }
-    if( act->name == "fault_gun_blackpowder" || act->name == "fault_gun_dirt" ) {
-        target->set_var( "dirt", 0 );
+    for( const std::pair<const std::string, std::string> &pair : method->set_variables ) {
+        target->set_var( pair.first, pair.second );
+    }
+
+    const std::string start_durability = target->durability_indicator( true );
+    item &fix = *target.get_item();
+    for( int i = 0; i < method->heal_stages.value_or( 0 ); i++ ) {
+        fix.mod_damage( -itype::damage_scale );
     }
 
     //get skill list from mending method, iterate through and give xp
@@ -2447,7 +2488,8 @@ void activity_handlers::mend_item_finish( player_activity *act, Character *you )
         you->practice( e.first, 10, static_cast<int>( e.second * 1.25 ) );
     }
 
-    add_msg( m_good, method->success_msg.translated(), target->tname() );
+    add_msg( m_good, method->success_msg.translated(), target->tname( 1, false ),
+             start_durability, target->durability_indicator( true ) );
 }
 
 void activity_handlers::toolmod_add_finish( player_activity *act, Character *you )
@@ -2470,7 +2512,7 @@ void activity_handlers::toolmod_add_finish( player_activity *act, Character *you
 void activity_handlers::eat_menu_do_turn( player_activity *, Character * )
 {
     avatar &player_character = get_avatar();
-    avatar_action::eat( player_character, game_menus::inv::consume( player_character ) );
+    avatar_action::eat_or_use( player_character, game_menus::inv::consume( player_character ) );
 }
 
 void activity_handlers::consume_food_menu_do_turn( player_activity *, Character * )
@@ -2488,13 +2530,7 @@ void activity_handlers::consume_drink_menu_do_turn( player_activity *, Character
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, Character * )
 {
     avatar &player_character = get_avatar();
-    avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
-}
-
-void activity_handlers::consume_fuel_menu_do_turn( player_activity *, Character * )
-{
-    avatar &player_character = get_avatar();
-    avatar_action::eat( player_character, game_menus::inv::consume_fuel( player_character ), true );
+    avatar_action::eat_or_use( player_character, game_menus::inv::consume_meds( player_character ) );
 }
 
 void activity_handlers::view_recipe_do_turn( player_activity *act, Character *you )
@@ -2525,7 +2561,7 @@ void activity_handlers::view_recipe_do_turn( player_activity *act, Character *yo
         return;
     }
 
-    you->craft( cata::nullopt, id );
+    you->craft( std::nullopt, id );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, Character *you )
@@ -2632,12 +2668,18 @@ void activity_handlers::fish_do_turn( player_activity *act, Character *you )
     item &it = *act->targets.front();
     int fish_chance = 1;
     int survival_skill = you->get_skill_level( skill_survival );
-    if( it.has_flag( flag_FISH_POOR ) ) {
-        survival_skill += dice( 1, 6 );
-    } else if( it.has_flag( flag_FISH_GOOD ) ) {
-        // Much better chances with a good fishing implement.
-        survival_skill += dice( 4, 9 );
-        survival_skill *= 2;
+    switch( it.get_quality( qual_FISHING_ROD ) ) {
+        case 1:
+            survival_skill += dice( 1, 6 );
+            break;
+        case 2:
+            // Much better chances with a good fishing implement.
+            survival_skill += dice( 4, 9 );
+            survival_skill *= 2;
+            break;
+        default:
+            debugmsg( "ERROR: Invalid FISHING_ROD tool quality on %s", item::nname( it.typeId() ) );
+            break;
     }
     std::vector<monster *> fishables = g->get_fishable_monsters( act->coord_set );
     // Fish are always there, even if it doesn't seem like they are visible!
@@ -2843,7 +2885,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
             }
             if( !bps.empty() ) {
                 for( const bodypart_id &bp : bps ) {
-                    you->make_bleed( effect_source::empty(), bp, 1_turns, difficulty, true );
+                    you->add_effect( effect_bleed,  1_minutes * difficulty, bp, false, true );
                     you->apply_damage( nullptr, bp, 20 * difficulty );
 
                     if( u_see ) {
@@ -2856,7 +2898,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                     }
                 }
             } else {
-                you->make_bleed( effect_source::empty(), bodypart_id( "bp_null" ), 1_turns, difficulty, true );
+                you->add_effect( effect_bleed,  1_minutes * difficulty, bodypart_str_id::NULL_ID(), false, true );
                 you->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }
@@ -2885,7 +2927,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 add_msg( m_info, _( "The Autodoc attempts to carefully extract the bionic." ) );
             }
 
-            if( cata::optional<bionic *> bio = you->find_bionic_by_uid( act->values[2] ) ) {
+            if( std::optional<bionic *> bio = you->find_bionic_by_uid( act->values[2] ) ) {
                 you->perform_uninstall( **bio, act->values[0], act->values[1], act->values[3] );
             } else {
                 debugmsg( _( "Tried to uninstall bionic with UID %s, but you don't have this bionic installed." ),
@@ -2902,7 +2944,7 @@ void activity_handlers::operation_do_turn( player_activity *act, Character *you 
                 const bionic_id upbid = bid->upgraded_bionic;
                 // TODO: Let the user pick bionic to upgrade if multiple candidates exist
                 bionic_uid upbio_uid = 0;
-                if( cata::optional<bionic *> bio = you->find_bionic_by_type( upbid ) ) {
+                if( std::optional<bionic *> bio = you->find_bionic_by_type( upbid ) ) {
                     upbio_uid = ( *bio )->get_uid();
                 }
 
@@ -3055,10 +3097,10 @@ void activity_handlers::build_do_turn( player_activity *act, Character *you )
     const int old_counter = pc->counter;
 
     // Base moves for construction with no speed modifier or assistants
-    // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( 1, built.time );
+    // Clamp to >= 100 to prevent division by 0 or int overflow on characters with high speed;
+    const double base_total_moves = std::max( 100, built.time );
     // Current expected total moves, includes construction speed modifiers and assistants
-    const double cur_total_moves = std::max( 1, built.adjusted_time() );
+    const double cur_total_moves = std::max( 100, built.adjusted_time() );
     // Delta progress in moves adjusted for current crafting speed
     const double delta_progress = you->get_moves() * base_total_moves / cur_total_moves;
     // Current progress in moves
@@ -3116,7 +3158,6 @@ void activity_handlers::multiple_dis_do_turn( player_activity *act, Character *y
 {
     generic_multi_activity_handler( *act, *you );
 }
-
 
 void activity_handlers::vehicle_deconstruction_do_turn( player_activity *act, Character *you )
 {
@@ -3499,11 +3540,11 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
 
     // if level != 1 then we need to set the spell's level
     if( level_override != -1 ) {
-        spell_being_cast.set_level( level_override );
+        spell_being_cast.set_level( *you, level_override );
     }
 
     // choose target for spell before continuing
-    const cata::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
+    const std::optional<tripoint> target = act->coords.empty() ? spell_being_cast.select_target(
             you ) : get_map().getlocal( act->coords.front() );
     if( target ) {
         // npcs check for target viability
@@ -3515,9 +3556,9 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
             if( !success ) {
                 you->add_msg_if_player( game_message_params{ m_bad, gmf_bypass_cooldown },
                                         _( "You lose your concentration!" ) );
-                if( !spell_being_cast.is_max_level() && level_override == -1 ) {
+                if( !spell_being_cast.is_max_level( *you ) && level_override == -1 ) {
                     // still get some experience for trying
-                    spell_being_cast.gain_exp( exp_gained / 5 );
+                    spell_being_cast.gain_exp( *you, exp_gained / 5 );
                     you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
                                             spell_being_cast.xp() );
                 }
@@ -3561,15 +3602,15 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
 
             }
             if( level_override == -1 ) {
-                if( !spell_being_cast.is_max_level() ) {
+                if( !spell_being_cast.is_max_level( *you ) ) {
                     // reap the reward
                     int old_level = spell_being_cast.get_level();
                     if( old_level == 0 ) {
-                        spell_being_cast.gain_level();
+                        spell_being_cast.gain_level( *you );
                         you->add_msg_if_player( m_good,
                                                 _( "Something about how this spell works just clicked!  You gained a level!" ) );
                     } else {
-                        spell_being_cast.gain_exp( exp_gained );
+                        spell_being_cast.gain_exp( *you, exp_gained );
                         you->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
                                                 spell_being_cast.xp() );
                     }
@@ -3579,6 +3620,12 @@ void activity_handlers::spellcasting_finish( player_activity *act, Character *yo
                             you->add_msg_if_player( m_good, _( "You gained a level in %s!" ), spell_being_cast.name() );
                         }
                     }
+                }
+            }
+            if( !act->targets.empty() ) {
+                item &it = *act->targets.front();
+                if( !it.has_flag( flag_USE_PLAYER_ENERGY ) ) {
+                    you->consume_charges( it, it.type->charges_to_use() );
                 }
             }
         }
@@ -3608,9 +3655,9 @@ void activity_handlers::study_spell_do_turn( player_activity *act, Character *yo
         // Gain some experience from studying
         const int xp = roll_remainder( studying.exp_modifier( *you ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
-        studying.gain_exp( xp );
-        bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty(), true );
-        if( leveled_up && studying.get_difficulty() < you->get_skill_level( studying.skill() ) ) {
+        studying.gain_exp( *you, xp );
+        bool leveled_up = you->practice( studying.skill(), xp, studying.get_difficulty( *you ), true );
+        if( leveled_up && studying.get_difficulty( *you ) < you->get_skill_level( studying.skill() ) ) {
             you->handle_skill_warning( studying.skill(),
                                        true ); // show the skill warning on level up, since we suppress it in practice() above
         }

@@ -4,8 +4,17 @@
     "copy-from": "spice",
     "type": "COMESTIBLE",
     "name": { "str_sp": "chili powder" },
-    "description": "Chilly P, Yo!  Not edible on its own, but it could be used to make seasoning.",
+    "description": "Chili P, yo!  Not edible on its own, but it could be used to make seasoning.",
     "color": "red"
+  },
+  {
+    "id": "garlic_powder",
+    "copy-from": "spice",
+    "type": "COMESTIBLE",
+    "name": { "str_sp": "garlic powder" },
+    "description": "Garlic that has been dehydrated and ground into a powder.  A must-have seasoning in any pantry.",
+    "weight": "1 g",
+    "color": "white"
   },
   {
     "id": "hot_sauce",
@@ -13,7 +22,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "DRINK",
     "name": { "str_sp": "hot sauce" },
-    "description": "Flamin' hot sauce.  Bad idea to eat on its own.  You should probably wash your hands after handling.",
+    "description": "Flamin' hot sauce.  It'd be a bad idea to drink it on its own.  You should probably wash your hands after handling it, too.",
     "weight": "6 g",
     "charges": 50,
     "volume": "250 ml",
@@ -170,7 +179,7 @@
     "copy-from": "spice",
     "type": "COMESTIBLE",
     "name": { "str_sp": "mustard powder" },
-    "description": "A fragnant yellow powder.  Not edible in this form.",
+    "description": "A fragrant yellow powder.  Not edible in this form.",
     "color": "red"
   },
   {

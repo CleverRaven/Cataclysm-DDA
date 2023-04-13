@@ -46,8 +46,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "wheel",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
@@ -57,8 +57,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_slick",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "15 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
@@ -68,8 +68,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_motorbike",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
@@ -79,8 +79,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_motorbike_or",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
@@ -90,8 +90,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_wide",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
@@ -101,8 +101,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "wheel_wide_or",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
@@ -112,8 +112,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "wheel_bicycle",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
@@ -123,8 +123,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "wheel_bicycle_or",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "5 m",
     "autolearn": true,
     "qualities": [ { "id": "PRESSURIZATION", "level": 1 } ],
@@ -134,8 +134,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "deflated_wheel",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "15 m",
     "autolearn": true,
     "reversible": true,
@@ -146,8 +146,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "deflated_wheel_slick",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "15 m",
     "autolearn": true,
     "reversible": true,
@@ -158,8 +158,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "deflated_wheel_motorbike",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "10 m",
     "autolearn": true,
     "reversible": true,
@@ -170,8 +170,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "deflated_wheel_motorbike_or",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "10 m",
     "autolearn": true,
     "reversible": true,
@@ -182,8 +182,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "deflated_wheel_wide",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "15 m",
     "autolearn": true,
     "reversible": true,
@@ -194,8 +194,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "deflated_wheel_wide_or",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "15 m",
     "autolearn": true,
     "reversible": true,
@@ -206,8 +206,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "deflated_wheel_bicycle",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "5 m",
     "autolearn": true,
     "reversible": true,
@@ -218,8 +218,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "deflated_wheel_bicycle_or",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_VEHICLE",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "time": "5 m",
     "autolearn": true,
     "reversible": true,
@@ -372,7 +372,7 @@
       [ [ "condensor_coil", 1 ] ],
       [ [ "evaporator_coil", 1 ] ],
       [ [ "thermostat", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "refrigerant_tank", 1 ] ],
       [ [ "plastic_chunk", 10 ] ]
     ]
@@ -440,7 +440,7 @@
       [ [ "condensor_coil", 1 ] ],
       [ [ "evaporator_coil", 1 ] ],
       [ [ "thermostat", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "refrigerant_tank", 1 ] ],
       [ [ "plastic_chunk", 8 ] ]
     ]
@@ -543,7 +543,7 @@
       [ [ "scrap", 4 ] ],
       [ [ "steel_chunk", 2 ] ],
       [ [ "metal_tank", 1 ] ],
-      [ [ "motor_small", 1 ] ]
+      [ [ "motor_tiny", 1 ] ]
     ],
     "byproducts": [ [ "scrap", 6 ] ]
   },
@@ -677,6 +677,30 @@
     "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "hand_paddles",
+    "id_suffix": "blade_from_log",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "3 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_W", "level": 1 },
+      { "id": "CUT", "level": 2 },
+      { "id": "CHISEL_WOOD", "level": 1 }
+    ],
+    "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 3, "skill_penalty": 0 } ],
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "log", 1 ] ],
+      [ [ "nail", 2 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
+    ]
   },
   {
     "result": "cargo_aisle",
@@ -830,8 +854,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "foldframe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "30 m",
@@ -844,8 +868,8 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "foldwoodframe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "30 m",
@@ -895,7 +919,7 @@
     "skills_required": [ "mechanics", 3 ],
     "difficulty": 6,
     "time": "8 h",
-    "proficiencies": [ { "proficiency": "prof_blacksmithing", "time_multiplier": 10.0 } ],
+    "proficiencies": [ { "proficiency": "prof_blacksmithing", "time_multiplier": 10 } ],
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "SAW_M", "level": 2 } ],
@@ -920,46 +944,60 @@
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "frame",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "45 m",
-    "proficiencies": [ { "proficiency": "prof_blacksmithing", "time_multiplier": 10.0 } ],
+    "proficiencies": [ { "proficiency": "prof_blacksmithing", "time_multiplier": 10 } ],
     "reversible": true,
     "autolearn": true,
     "using": [ [ "steel_standard", 20 ] ],
     "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
+      [
+        [ "welder", 50 ],
+        [ "welding_kit", 50 ],
+        [ "welder_crude", 75 ],
+        [ "toolset", 75 ],
+        [ "forge", 50 ],
+        [ "oxy_torch", 10 ]
+      ]
     ]
   },
   {
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "hdframe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "1 h 30 m",
-    "proficiencies": [ { "proficiency": "prof_blacksmithing", "time_multiplier": 10.0 } ],
+    "proficiencies": [ { "proficiency": "prof_blacksmithing", "time_multiplier": 10 } ],
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 1 } ],
     "using": [ [ "steel_standard", 100 ] ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
+      [
+        [ "welder", 50 ],
+        [ "welding_kit", 50 ],
+        [ "welder_crude", 75 ],
+        [ "toolset", 75 ],
+        [ "forge", 50 ],
+        [ "oxy_torch", 10 ]
+      ]
     ]
   },
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "frame_wood",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "20 m",
@@ -973,8 +1011,8 @@
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "frame_wood_light",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "time": "15 m",
     "reversible": true,
@@ -1053,7 +1091,16 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
+    "tools": [
+      [
+        [ "welder", 100 ],
+        [ "welding_kit", 100 ],
+        [ "welder_crude", 150 ],
+        [ "toolset", 150 ],
+        [ "forge", 100 ],
+        [ "oxy_torch", 20 ]
+      ]
+    ],
     "components": [ [ [ "steel_lump", 8 ] ] ]
   },
   {
@@ -1070,7 +1117,16 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "tools": [
+      [
+        [ "welder", 50 ],
+        [ "welding_kit", 50 ],
+        [ "welder_crude", 75 ],
+        [ "toolset", 75 ],
+        [ "forge", 50 ],
+        [ "oxy_torch", 10 ]
+      ]
+    ],
     "components": [ [ [ "steel_lump", 4 ] ] ]
   },
   {
@@ -1087,7 +1143,16 @@
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ], [ "textbook_mechanics", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
+    "tools": [
+      [
+        [ "welder", 100 ],
+        [ "welding_kit", 100 ],
+        [ "welder_crude", 150 ],
+        [ "toolset", 150 ],
+        [ "forge", 100 ],
+        [ "oxy_torch", 20 ]
+      ]
+    ],
     "components": [ [ [ "steel_lump", 8 ], [ "steel_plate", 1 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "spike", 4 ] ] ]
   },
   {
@@ -1104,7 +1169,16 @@
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "GLARE", "level": 1 }, { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "tools": [ [ [ "welder", 100 ], [ "welder_crude", 150 ], [ "toolset", 150 ], [ "forge", 200 ], [ "oxy_torch", 20 ] ] ],
+    "tools": [
+      [
+        [ "welder", 100 ],
+        [ "welding_kit", 100 ],
+        [ "welder_crude", 150 ],
+        [ "toolset", 150 ],
+        [ "forge", 200 ],
+        [ "oxy_torch", 20 ]
+      ]
+    ],
     "components": [ [ [ "steel_lump", 24 ] ] ]
   },
   {
@@ -1205,7 +1279,7 @@
       [ [ "frame", 1 ] ],
       [ [ "sheet_metal", 4 ] ],
       [ [ "element", 4 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "cable", 10 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "pipe_fittings", 2 ] ],
@@ -1228,7 +1302,14 @@
     "qualities": [ { "id": "GLARE", "level": 1 } ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "welder", 50 ], [ "welder_crude", 75 ], [ "toolset", 75 ], [ "forge", 50 ], [ "oxy_torch", 10 ] ]
+      [
+        [ "welder", 50 ],
+        [ "welding_kit", 50 ],
+        [ "welder_crude", 75 ],
+        [ "toolset", 75 ],
+        [ "forge", 50 ],
+        [ "oxy_torch", 10 ]
+      ]
     ],
     "components": [ [ [ "scrap_aluminum", 45 ], [ "material_aluminium_ingot", 4 ] ] ]
   },
@@ -1236,19 +1317,18 @@
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "foldxlframe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "120 m",
-    "reversible": true,
     "autolearn": true,
-    "using": [ [ "welding_standard", 6 ] ],
+    "using": [ [ "welding_alloys", 6 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
+      { "proficiency": "prof_welding_basic", "skill_penalty": 0.5 },
       { "proficiency": "prof_welding" }
     ],
-    "components": [ [ [ "material_aluminium_ingot", 4 ], [ "scrap_aluminum", 35 ] ] ]
+    "components": [ [ [ "material_aluminium_ingot", 3 ], [ "scrap_aluminum", 34 ] ] ]
   }
 ]

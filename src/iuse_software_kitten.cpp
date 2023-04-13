@@ -4,13 +4,13 @@
 #include <chrono>
 #include <cstdlib>  // Needed for rand()
 #include <functional>
+#include <optional>
 #include <string>
 #include <thread>
 #include <vector>
 
 #include "cuboid_rectangle.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "rng.h"
 #include "text_snippets.h"
@@ -24,6 +24,7 @@ static constexpr int KITTEN = 1;
 robot_finds_kitten::robot_finds_kitten()
 {
     ret = false;
+    // NOLINTNEXTLINE(modernize-avoid-c-arrays)
     char ktile[83] =
         "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#&()*+./:;=?![]{|}y";
 

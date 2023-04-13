@@ -6,6 +6,7 @@
 #include <functional>
 #include <iterator>
 #include <numeric>
+#include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -18,7 +19,6 @@
 #include "debug.h"
 #include "input.h"
 #include "json.h"
-#include "optional.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
@@ -35,17 +35,14 @@ help &get_help()
 
 void help::load()
 {
-    read_from_file_optional_json( PATH_INFO::help(), [&]( JsonIn & jsin ) {
+    read_from_file_optional_json( PATH_INFO::help(), [&]( const JsonValue & jsin ) {
         deserialize( jsin );
     } );
 }
 
-void help::deserialize( JsonIn &jsin )
+void help::deserialize( const JsonArray &ja )
 {
-    jsin.start_array();
-    while( !jsin.end_array() ) {
-        JsonObject jo = jsin.get_object();
-
+    for( JsonObject jo : ja ) {
         if( jo.get_string( "type" ) != "help" ) {
             debugmsg( "object with type other than \"type\" found in help text file" );
             continue;
@@ -57,7 +54,7 @@ void help::deserialize( JsonIn &jsin )
         translation name;
         jo.read( "name", name );
 
-        help_texts[jo.get_int( "order" )] = std::make_pair( name, messages );
+        help_texts[ jo.get_int( "order" ) ] = std::make_pair( name, messages );
     }
 }
 
@@ -193,7 +190,7 @@ void help::display_help() const
 
         // Mouse selection
         if( action == "MOUSE_MOVE" || action == "SELECT" ) {
-            cata::optional<point> coord = ctxt.get_coordinates_text( w_help );
+            std::optional<point> coord = ctxt.get_coordinates_text( w_help );
             if( !!coord ) {
                 int cnt = run_for_point_in<int, point>( opt_map, *coord,
                 [&sel]( const std::pair<int, inclusive_rectangle<point>> &p ) {

@@ -15,62 +15,6 @@
     "breaks_into": [ { "item": "steel_lump", "count": [ 4, 6 ] }, { "item": "scrap", "count": [ 4, 6 ] } ]
   },
   {
-    "id": "afs_mounted_emp_gun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted XM34 EMP projector" },
-    "item": "afs_xm34",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
-    "id": "afs_mounted_gibs_shotgun",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted Gibson S86" },
-    "item": "afs_gibs_shotgun",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
-    "id": "afs_mounted_Accipitermg",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted Accipiter Hawk-00" },
-    "item": "afs_Accipitermg",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
-    "id": "afs_laser_rifle",
-    "copy-from": "turret",
-    "type": "vehicle_part",
-    "name": { "str": "mounted A7 laser rifle" },
-    "item": "afs_a7",
-    "color": "magenta",
-    "broken_color": "magenta",
-    "breaks_into": [ { "item": "scrap", "count": 9 }, { "item": "steel_chunk", "count": 4 }, { "item": "steel_lump", "count": 1 } ],
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ] }
-    }
-  },
-  {
     "type": "vehicle_part",
     "id": "afs_crude_plating",
     "name": { "str": "crude plating" },
@@ -108,7 +52,7 @@
     "description": "A large and complex dashboard mounted with steering controls and several LCD touch screens for controlling vehicle systems.",
     "bonus": 10,
     "item": "afs_control_station",
-    "epower": -125,
+    "epower": "-125 W",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
@@ -141,8 +85,7 @@
     "type": "vehicle_part",
     "name": { "str": "mounted external tank (200L)" },
     "item": "55gal_drum",
-    "location": "center",
-    "size": 200000
+    "location": "center"
   },
   {
     "abstract": "afs_lightweight_frame",
@@ -235,6 +178,8 @@
     "durability": 75,
     "symbol": "H",
     "folded_volume": "10 L",
+    "folding_time": "1 minute",
+    "unfolding_time": "1 minute",
     "description": "An ultralight titanium foldable framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
     "breaks_into": [ { "item": "afs_scrap_titanium", "count": [ 1, 3 ] } ],
     "requirements": {
@@ -242,7 +187,7 @@
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ]
+    "flags": [ "INITIAL_PART", "MOUNTABLE" ]
   },
   {
     "id": "afs_lightweight_foldable_frame_cover",
@@ -350,7 +295,7 @@
     "broken_color": "dark_gray",
     "durability": 250,
     "description": "A cargo space for carrying robots.  'e'xamine it to capture a robot next to you, or to release the robot currently contained.  When selecting a robot to capture, choose its tile relative to you, not the part.",
-    "size": 800,
+    "size": "200 L",
     "item": "robot_carrier",
     "location": "center",
     "requirements": {
@@ -378,7 +323,7 @@
     "damage_modifier": 10,
     "durability": 200,
     "description": "A gantry for supporting an exosuit upright during maintenance and repair.  Includes the specialized tools needed for complex repairs and will also charge the suit's power when active.",
-    "size": 800,
+    "size": "200 L",
     "bonus": 600,
     "item": "afs_metal_rig",
     "location": "center",

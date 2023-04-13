@@ -31,14 +31,44 @@
   },
   {
     "type": "ammunition_type",
+    "id": "afs_25mm_smart",
+    "name": "25mm microjet",
+    "default": "afs_25mm_smart"
+  },
+  {
+    "type": "ammunition_type",
     "id": "afs_10mm",
     "name": "10mm",
     "default": "afs_10mm_caseless_JHP"
   },
   {
     "type": "ammunition_type",
+    "id": "afs_10mm_smart",
+    "name": "10mm microjet",
+    "default": "afs_10mm_smart"
+  },
+  {
+    "type": "ammunition_type",
     "id": "afs_7.50mm",
     "name": "7.50mm",
     "default": "afs_7.50mm_caseless"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "afs_82mm_flashbulb",
+    "name": "82x225mm flashbulb",
+    "default": "afs_82mm_flashbulb"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "metal_rail",
+    "name": "ferrous rail projectile",
+    "default": "steel_rail"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "afs_5x50",
+    "name": "5x50mm flechette",
+    "default": "afs_5x50dart"
   }
 ]

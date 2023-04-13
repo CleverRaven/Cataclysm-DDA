@@ -49,3 +49,8 @@
 # insert space padding around parentheses on the inside only
 --pad-paren-in
 
+# exclude src/third-party
+--exclude=src/third-party
+
+# but don't be sad about no tests/src/third-party
+--ignore-exclude-errors-x

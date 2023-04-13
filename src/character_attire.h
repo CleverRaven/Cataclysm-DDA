@@ -69,19 +69,20 @@ class outfit
         bool is_wearing_on_bp( const itype_id &clothing, const bodypart_id &bp ) const;
         bool covered_with_flag( const flag_id &f, const body_part_set &parts ) const;
         bool wearing_something_on( const bodypart_id &bp ) const;
+        bool wearing_fitting_on( const bodypart_id &bp ) const;
         bool worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         bool worn_with_flag( const flag_id &f ) const;
         bool is_worn_item_visible( std::list<item>::const_iterator worn_item,
                                    const body_part_set &worn_item_body_parts ) const;
         // will someone get shocked by zapback
         bool hands_conductive() const;
-        bool in_climate_control() const;
         bool can_pickVolume( const item &it, bool ignore_pkt_settings = true ) const;
         side is_wearing_shoes( const bodypart_id &bp ) const;
-        bool is_wearing_helmet() const;
+        bool is_barefoot() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
-        cata::optional<const item *> item_worn_with_inv_let( char invlet ) const;
+        item *item_worn_with_id( const itype_id &i );
+        std::optional<const item *> item_worn_with_inv_let( char invlet ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();
         // find the best clothing weapon when unarmed modifies
@@ -96,7 +97,6 @@ class outfit
         void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item,
                           const Character &guy ) const;
         std::list<item> get_visible_worn_items( const Character &guy ) const;
-        double footwear_factor() const;
         int swim_modifier( int swim_skill ) const;
         bool natural_attack_restricted_on( const bodypart_id &bp ) const;
         bool natural_attack_restricted_on( const sub_bodypart_id &bp ) const;
@@ -142,7 +142,7 @@ class outfit
         bool adjust_worn( npc &guy );
         float clothing_wetness_mult( const bodypart_id &bp ) const;
         void damage_mitigate( const bodypart_id &bp, damage_unit &dam ) const;
-        float damage_resist( damage_type dt, bodypart_id bp, bool to_self = false ) const;
+        float damage_resist( damage_type dmg_type, const bodypart_id &bp, bool to_self = false ) const;
         // sums the coverage of items that do not have the listed flags
         int coverage_with_flags_exclude( const bodypart_id &bp, const std::vector<flag_id> &flags ) const;
         int get_coverage( bodypart_id bp,
@@ -164,10 +164,10 @@ class outfit
             const itype_id &it, int quantity, std::list<item> &used,
             const std::function<bool( const item & )> &filter, Character &wearer );
         std::list<item>::iterator position_to_wear_new_item( const item &new_item );
-        cata::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
+        std::optional<std::list<item>::iterator> wear_item( Character &guy, const item &to_wear,
                 bool interactive, bool do_calc_encumbrance, bool do_sort_items = true, bool quiet = false );
         /** Calculate and return any bodyparts that are currently uncomfortable. */
-        std::unordered_set<bodypart_id> where_discomfort() const;
+        std::unordered_set<bodypart_id> where_discomfort( const Character &guy ) const;
         // used in game::wield
         void insert_item_at_index( const item &clothing, int index );
         void append_radio_items( std::list<item *> &rc_items );
@@ -203,6 +203,8 @@ class outfit
         void on_item_wear( Character &guy );
         // used in the pickup code in the STASH section
         void pickup_stash( const item &newit, int &remaining_charges, bool ignore_pkt_settings = false );
+        void add_stash( Character &guy, const item &newit, int &remaining_charges,
+                        bool ignore_pkt_settings = false );
         // used for npc generation
         void set_fitted();
         std::vector<item> available_pockets() const;
@@ -218,13 +220,9 @@ class outfit
 
         std::vector<item_location> top_items_loc( Character &guy );
         std::vector<item_location> all_items_loc( Character &guy );
-        item_location adv_inv_get_container( item_location container, const advanced_inv_area &area,
-                                             Character &guy );
-        void adv_inv_move_all_items( Character &player_character, advanced_inventory_pane &spane,
-                                     drop_locations &dropped, drop_locations &dropped_favorite );
 
         // gets item position. not translated for worn index. DEPRECATE ME!
-        cata::optional<int> get_item_position( const item &it ) const;
+        std::optional<int> get_item_position( const item &it ) const;
         // finds the top level item at the position in the list. DEPRECATE ME!
         const item &i_at( int position ) const;
 

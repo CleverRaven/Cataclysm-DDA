@@ -19,8 +19,8 @@
 #include "to_string_id.h"
 #include "type_id.h"
 
-class JsonIn;
 class JsonOut;
+class JsonValue;
 template <typename E> struct enum_traits;
 
 enum class mutagen_technique : int;
@@ -490,7 +490,7 @@ class cata_variant
         }
 
         void serialize( JsonOut & ) const;
-        void deserialize( JsonIn & );
+        void deserialize( const JsonValue &jsin );
 
 #define CATA_VARIANT_OPERATOR(op) \
     friend bool operator op( const cata_variant &l, const cata_variant &r ) { \

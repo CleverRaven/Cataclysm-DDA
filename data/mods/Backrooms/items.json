@@ -24,5 +24,68 @@
         "max_contains_weight": "50 kg"
       }
     ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "many_years_old_newspaper",
+    "category": "books",
+    "copy-from": "many_years_old_newspaper",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "backrooms_ancient_news",
+    "description": "A single sheet of newspaper broadsheet.  The date on it is so old it seems actually impossible for it to have lasted this long in such good condition.  Most of the information on there is shockingly uninteresting for an artifact so old, but one thing catches your eye briefly."
+  },
+  {
+    "type": "GENERIC",
+    "id": "years_old_newspaper",
+    "category": "books",
+    "copy-from": "years_old_newspaper",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "backrooms_very_old_news",
+    "description": "A single sheet of newspaper broadsheet.  The date on it suggests it's decades old, but miraculously it appears to be much newer.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly."
+  },
+  {
+    "type": "GENERIC",
+    "id": "one_year_old_newspaper",
+    "copy-from": "one_year_old_newspaper",
+    "category": "books",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "backrooms_unknown_news",
+    "description": "A single sheet of newspaper broadsheet.  It doesn't look like any newspaper you're familiar with and the text on it makes no sense…"
+  },
+  {
+    "type": "GENERIC",
+    "id": "months_old_newspaper",
+    "category": "books",
+    "copy-from": "months_old_newspaper",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "backrooms_old_news",
+    "description": "A single sheet of newspaper broadsheet.  It was printed a few years ago.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly."
+  },
+  {
+    "type": "GENERIC",
+    "id": "weeks_old_newspaper",
+    "category": "books",
+    "copy-from": "weeks_old_newspaper",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "backrooms_lost_people_news",
+    "description": "A single sheet of newspaper broadsheet.  There seems to be an important article about a missing person."
+  },
+  {
+    "type": "GENERIC",
+    "id": "newest_newspaper",
+    "category": "books",
+    "copy-from": "newest_newspaper",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "backrooms_recent_news",
+    "description": "A single sheet of newspaper broadsheet.  It was printed within the last few months.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly."
+  },
+  {
+    "type": "GENERIC",
+    "id": "survnote",
+    "category": "books",
+    "copy-from": "survnote",
+    "name": { "str": "survivor's note" },
+    "snippet_category": "backrooms_note",
+    "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting."
   }
 ]

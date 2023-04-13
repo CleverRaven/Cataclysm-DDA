@@ -158,7 +158,7 @@ struct achievement_requirement {
     achievement_comparison comparison;
     cata_variant target;
     requirement_visibility visibility = requirement_visibility::always;
-    cata::optional<translation> description;
+    std::optional<translation> description;
 
     bool becomes_false = false; // NOLINT(cata-serialize)
 
@@ -431,6 +431,7 @@ void achievement::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "description", description_ );
     optional( jo, was_loaded, "hidden_by", hidden_by_ );
     optional( jo, was_loaded, "time_constraint", time_constraint_ );
+    optional( jo, was_loaded, "manually_given", manually_given_ );
     mandatory( jo, was_loaded, "requirements", requirements_ );
 }
 
@@ -461,8 +462,8 @@ void achievement::check() const
         }
     }
 
-    // handled with debug mode
-    if( id == achievement_achievement_arcade_mode ) {
+    // handled with debug mode or given by EOC
+    if( is_manually_given() ) {
         all_requirements_become_false = false;
     }
 
@@ -476,14 +477,14 @@ void achievement::check() const
     }
 }
 
-static cata::optional<std::string> text_for_requirement(
+static std::optional<std::string> text_for_requirement(
     const achievement_requirement &req,
     const cata_variant &current_value,
     achievement_completion ach_completed )
 {
     bool is_satisfied = req.satisfied_by( current_value );
     if( !req.is_visible( ach_completed, is_satisfied ) ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     nc_color c = is_satisfied ? c_green : c_yellow;
     std::string result;
@@ -505,12 +506,12 @@ static cata::optional<std::string> text_for_requirement(
     return colorize( result, c );
 }
 
-static std::string format_requirements( const std::vector<cata::optional<std::string>> &req_texts,
+static std::string format_requirements( const std::vector<std::optional<std::string>> &req_texts,
                                         nc_color c )
 {
     bool some_missing = false;
     std::string result;
-    for( const cata::optional<std::string> &req_text : req_texts ) {
+    for( const std::optional<std::string> &req_text : req_texts ) {
         if( req_text ) {
             result += "  " + *req_text + "\n";
         } else {
@@ -547,7 +548,7 @@ class requirement_watcher : stat_watcher
             return requirement_->satisfied_by( current_value_ );
         }
 
-        cata::optional<std::string> ui_text() const {
+        std::optional<std::string> ui_text() const {
             return text_for_requirement( *requirement_, current_value_,
                                          achievement_completion::pending );
         }
@@ -616,7 +617,7 @@ std::string achievement_state::ui_text( const achievement *ach ) const
     // If these two vectors are of different sizes then the definition must
     // have changed since it was completed / failed, so we don't print any
     // requirements info.
-    std::vector<cata::optional<std::string>> req_texts;
+    std::vector<std::optional<std::string>> req_texts;
     if( final_values.size() == reqs.size() ) {
         for( size_t i = 0; i < final_values.size(); ++i ) {
             req_texts.push_back( text_for_requirement( reqs[i], final_values[i], completion ) );
@@ -749,7 +750,7 @@ std::string achievement_tracker::ui_text() const
     }
 
     // Next: the requirements
-    std::vector<cata::optional<std::string>> req_texts;
+    std::vector<std::optional<std::string>> req_texts;
     for( const std::unique_ptr<requirement_watcher> &watcher : watchers_ ) {
         req_texts.push_back( watcher->ui_text() );
     }
@@ -797,12 +798,12 @@ void achievements_tracker::report_achievement( const achievement *a, achievement
         tracker_it->second.current_values()
     }
     );
+    trackers_.erase( tracker_it );
     if( comp == achievement_completion::completed ) {
         achievement_attained_callback_( a, is_enabled() );
     } else if( comp == achievement_completion::failed ) {
         achievement_failed_callback_( a, is_enabled() );
     }
-    trackers_.erase( tracker_it );
 }
 
 achievement_completion achievements_tracker::is_completed( const achievement_id &id ) const

@@ -89,7 +89,7 @@ void Character::handle_contents_changed( const std::vector<item_location> &conta
         if( loc.has_parent() ) {
             item_location parent_loc = loc.parent_item();
             item_loc_with_depth parent( parent_loc );
-            item_pocket *const pocket = parent_loc->contained_where( *loc );
+            item_pocket *const pocket = loc.parent_pocket();
             pocket->unseal();
             bool exists = false;
             auto it = sorted_containers.lower_bound( parent );
@@ -221,6 +221,44 @@ item_location Character::i_add( item it, bool /* should_stack */, const item *av
         }
     } else {
         return added;
+    }
+}
+
+ret_val<item_location> Character::i_add_or_fill( item &it, bool should_stack, const item *avoid,
+        const item *original_inventory_item, const bool allow_drop,
+        const bool allow_wield, bool ignore_pkt_settings )
+{
+    item_location loc = item_location::nowhere;
+    bool success = false;
+    if( it.count_by_charges() && it.charges >= 2 && !ignore_pkt_settings ) {
+        const int last_charges = it.charges;
+        int new_charge = last_charges;
+        this->worn.add_stash( *this, it, new_charge, false );
+
+        if( new_charge < last_charges ) {
+            it.charges = new_charge;
+            success = true;
+        } else {
+            success = false;
+        }
+        if( new_charge >= 1 ) {
+            if( !allow_wield || !wield( it ) ) {
+                if( allow_drop ) {
+                    loc = item_location( map_cursor( pos() ), &get_map().add_item_or_charges( pos(), it ) );
+                }
+            } else {
+                loc = item_location( *this, &weapon );
+            }
+        }
+        if( success ) {
+            return ret_val<item_location>::make_success( loc );
+        } else {
+            return ret_val<item_location>::make_failure( loc );
+        }
+    } else {
+        loc = i_add( it, should_stack, avoid, original_inventory_item, allow_drop, allow_wield,
+                     ignore_pkt_settings );
+        return ret_val<item_location>::make_success( loc );
     }
 }
 
@@ -370,7 +408,7 @@ int Character::get_item_position( const item *it ) const
         return -1;
     }
 
-    cata::optional<int> pos = worn.get_item_position( *it );
+    std::optional<int> pos = worn.get_item_position( *it );
     if( pos ) {
         return worn_position_to_index( *pos );
     }
@@ -391,7 +429,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
         return;
     }
 
-    const cata::optional<vpart_reference> vp = get_map().veh_at(
+    const std::optional<vpart_reference> vp = get_map().veh_at(
                 target ).part_with_feature( "CARGO", false );
     if( rl_dist( pos(), target ) > 1 || !( stash || get_map().can_put_items( target ) )
         || ( vp.has_value() && vp->part().is_cleaner_on() ) ) {
@@ -458,7 +496,7 @@ bool Character::has_active_item( const itype_id &id ) const
 
 ret_val<void> Character::can_drop( const item &it ) const
 {
-    if( it.has_flag( flag_NO_UNWIELD ) ) {
+    if( it.has_flag( flag_NO_UNWIELD ) || it.has_flag( flag_INTEGRATED ) ) {
         return ret_val<void>::make_failure( _( "You cannot drop your %s." ), it.tname() );
     }
     return ret_val<void>::make_success();

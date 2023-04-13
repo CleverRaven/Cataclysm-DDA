@@ -172,7 +172,7 @@
         "&": { "item": "trash", "chance": 55, "repeat": 2 },
         "{": { "item": "trash", "chance": 20 }
       },
-      "place_vehicles": [ { "chance": 60, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "forklift", "x": 16, "y": 10 } ]
+      "place_vehicles": [ { "chance": 60, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "forklift_vehicles", "x": 16, "y": 10 } ]
     }
   },
   {

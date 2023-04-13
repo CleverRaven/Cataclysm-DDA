@@ -2024,7 +2024,7 @@
   {
     "type": "speech",
     "speaker": [ "mon_eyebot", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"You have right to remain silent!\"",
+    "sound": "\"You have the right to remain silent!\"",
     "volume": 15
   },
   {
@@ -2229,7 +2229,7 @@
   {
     "type": "speech",
     "speaker": [ "foodperson_mask", "mon_mi_go", "mon_mi_go_slaver" ],
-    "sound": "\"Foodplace: Don’t get caught in the web of unsafe diet.\"",
+    "sound": "\"Foodplace: Don’t get caught in the web of an unsafe diet.\"",
     "volume": 15
   },
   {
@@ -2696,44 +2696,51 @@
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_big_pappy" ],
-    "sound": "\"I'm 'bout to walk 15 miles both ways across yer ass!\"",
-    "volume": 35
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"STOP RESISTING!!!\"",
+    "volume": 25
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"Do you want a cookie, honey?\"",
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"GET ON THE GROUND, NOW!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"HANDS WHERE I CAN SEE THEM!!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"STOP IN THE NAME OF THE LAW!!!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_feral_cop", "mon_mi_go", "mon_mi_go_slaver" ],
+    "sound": "\"YOU ARE UNDER ARREST!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "//": "This appears twice intentionally, to give it more frequency.",
+    "speaker": [ "mon_feral_cop" ],
+    "sound": "\"STOP RESISTING!!!\"",
+    "volume": 25
+  },
+  {
+    "type": "speech",
+    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "sound": "crackling sounds.",
     "volume": 20
   },
   {
     "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"You're looking feverish.  Let grandma make you some soup.\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"The nice doctor told me he had invented an anti-aging powder!\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"Are you here to bring me home?\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"Give gramma some sugar!\"",
-    "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": [ "mon_feral_granny" ],
-    "sound": "\"That's my purse!  I don't know you!\"",
+    "speaker": [ "mon_zombie_brute_shocker", "mon_zombie_electric", "mon_zombie_nullfield", "mon_skeleton_electric" ],
+    "sound": "high-pitched hum.",
     "volume": 20
   }
 ]

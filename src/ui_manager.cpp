@@ -2,14 +2,15 @@
 
 #include <functional>
 #include <iterator>
+#include <optional>
 #include <vector>
 
 #include "cached_options.h"
 #include "cata_assert.h"
+#include "cata_scope_helpers.h"
 #include "cata_utility.h"
 #include "cursesdef.h"
 #include "game_ui.h"
-#include "optional.h"
 #include "point.h"
 #include "sdltiles.h" // IWYU pragma: keep
 
@@ -19,7 +20,7 @@ static bool redraw_in_progress = false;
 static bool showing_debug_message = false;
 static bool restart_redrawing = false;
 #if defined( TILES )
-static cata::optional<SDL_Rect> prev_clip_rect;
+static std::optional<SDL_Rect> prev_clip_rect;
 #endif
 static ui_stack_t ui_stack;
 
@@ -57,7 +58,7 @@ ui_adaptor::ui_adaptor( ui_adaptor::debug_message_ui ) : disabling_uis_below( tr
         SDL_RenderGetClipRect( renderer.get(), &prev_clip_rect.value() );
         SDL_RenderSetClipRect( renderer.get(), nullptr );
     } else {
-        prev_clip_rect = cata::nullopt;
+        prev_clip_rect = std::nullopt;
     }
 #endif
     // The debug message might be shown during a normal UI's redraw callback,
@@ -401,7 +402,7 @@ void ui_adaptor::redraw_invalidated()
                 first_enabled = ui_stack_copy->begin() + ( first_enabled - ui_stack_orig->begin() );
                 ui_stack_orig = &*ui_stack_copy;
             }
-            cata::optional<point> cursor_pos;
+            std::optional<point> cursor_pos;
             for( auto it = first_enabled; !restart_redrawing && it != ui_stack_orig->end(); ++it ) {
                 ui_adaptor &ui = *it;
                 if( ui.invalidated ) {

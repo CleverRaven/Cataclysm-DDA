@@ -275,7 +275,7 @@
     "type": "MONSTER",
     "name": { "str": "mannequin decoy" },
     "description": "A human-sized mannequin, speaking pre-recorded phrases.",
-    "looks_like": "mon_shia",
+    "looks_like": "mon_hallucinator",
     "default_faction": "factionless",
     "species": [ "UNKNOWN" ],
     "volume": "62500 ml",

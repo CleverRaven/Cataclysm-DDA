@@ -48,7 +48,6 @@ struct MonsterGroupEntry {
                        int new_pack_max, const spawn_data &new_data, const time_duration &new_starts,
                        const time_duration &new_ends, holiday new_event )
         : name( id )
-        , group( mongroup_id() )
         , frequency( new_freq )
         , cost_multiplier( new_cost )
         , pack_minimum( new_pack_min )
@@ -62,8 +61,7 @@ struct MonsterGroupEntry {
     MonsterGroupEntry( const mongroup_id &id, int new_freq, int new_cost, int new_pack_min,
                        int new_pack_max, const spawn_data &new_data, const time_duration &new_starts,
                        const time_duration &new_ends, holiday new_event )
-        : name( mtype_id() )
-        , group( id )
+        : group( id )
         , frequency( new_freq )
         , cost_multiplier( new_cost )
         , pack_minimum( new_pack_min )
@@ -186,7 +184,7 @@ struct mongroup {
     using archive_type_tag = io::object_archive_tag;
 
     void deserialize( const JsonObject &jo );
-    void deserialize_legacy( JsonIn &json );
+    void deserialize_legacy( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
 };
 
@@ -203,7 +201,8 @@ class MonsterGroupManager
         static void LoadMonsterWhitelist( const JsonObject &jo );
         static void FinalizeMonsterGroups();
         static std::vector<MonsterGroupResult> GetResultFromGroup( const mongroup_id &group,
-                int *quantity = nullptr, bool *mon_found = nullptr, bool is_recursive = false );
+                int *quantity = nullptr, bool *mon_found = nullptr, bool is_recursive = false,
+                bool *returned_default = nullptr, bool use_pack_size = false );
         static bool IsMonsterInGroup( const mongroup_id &group, const mtype_id &monster );
         static bool isValidMonsterGroup( const mongroup_id &group );
         static const mongroup_id &Monster2Group( const mtype_id &monster );

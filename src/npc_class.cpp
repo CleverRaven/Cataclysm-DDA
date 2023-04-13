@@ -312,7 +312,7 @@ void npc_class::load( const JsonObject &jo, const std::string & )
     }
 
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
-    optional( jo, was_loaded, "sells_belongings", sells_belongings );
+    optional( jo, was_loaded, "sells_belongings", sells_belongings, true );
     /* Mutation rounds can be specified as follows:
      *   "mutation_rounds": {
      *     "ANY" : { "constant": 1 },
