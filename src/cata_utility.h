@@ -63,6 +63,12 @@ inline int fast_floor( double v )
     return static_cast<int>( v ) - ( v < static_cast<int>( v ) );
 }
 
+constexpr bool float_equals( double l, double r )
+{
+    constexpr double epsilon = std::numeric_limits<double>::epsilon() * 100;
+    return l + epsilon >= r && r + epsilon >= l;
+}
+
 /**
  * Round a value up at a given decimal place.
  *

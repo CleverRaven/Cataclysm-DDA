@@ -209,6 +209,7 @@ struct eoc_math {
         decrease,
 
         equal,
+        not_equal,
         less,
         equal_or_less,
         greater,
