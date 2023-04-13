@@ -168,6 +168,8 @@
     "name": { "str": "seat belt" },
     "description": "A length of synthetic fiber weaved into a flat band, usually used to securely fasten passenger inside vehicles.",
     "material": "nylon",
+    "weight": "800 g",
+    "volume": "250 ml",
     "armor_data": {
       "armor": [
         {
@@ -179,7 +181,6 @@
         }
       ]
     },
-    "proportional": { "weight": 6, "volume": 6, "price": 6 },
     "pocket_data": [
       {
         "//": "Universal pocket, can store almost anything sans liquid, at the price of high move and encumbrance cost.",
