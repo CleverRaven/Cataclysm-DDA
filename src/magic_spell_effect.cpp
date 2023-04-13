@@ -1096,7 +1096,7 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
             it.set_flag( json_flag_FIT );
             player_character.wear_item( it, false );
         } else if( !player_character.has_wield_conflicts( it ) &&
-        	       !player_character.martial_arts_data->keep_hands_free && //No wield if hands free
+                   !player_character.martial_arts_data->keep_hands_free && //No wield if hands free
                    player_character.wield( it, 0 ) ) {
             // nothing to do
         } else {
