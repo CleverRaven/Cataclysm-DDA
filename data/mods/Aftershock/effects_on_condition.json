@@ -51,7 +51,7 @@
         "target_params": { "om_terrain": "afs_crashed_escape_pod", "z": 0, "random": true, "search_range": 100, "min_distance": 0 }
       },
       {
-        "u_message": "You strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod drops from the ship, plummeting towards the planet below.",
+        "u_message": "You make sure there are no lose items in the pod that would become projectiles during launch before you strap yourself into the escape pod seat and press the launch button.  With an incredibly loud roar and a massive acceleration that presses you into the seat, the escape pod fires from the ship, plummeting towards the planet below.",
         "popup": true
       },
       { "u_teleport": { "global_val": "new_map" }, "force": true }
