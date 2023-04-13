@@ -47,6 +47,6 @@
     "type": "item_group",
     "id": "ammo_box_338lapua",
     "container-item": "ammunition_box_223",
-    "items": [ { "item": "338lapua_fmjbt", "count": 1, "charges-min": 5, "charges-max": 5 } ]
+    "items": [ { "item": "338lapua_fmjbt", "count": 1, "charges-min": 10, "charges-max": 10 } ]
   }
 ]
