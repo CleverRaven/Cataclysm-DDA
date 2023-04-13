@@ -210,7 +210,7 @@ class inventory_entry
         void reset_entry_cell_cache() const;
 
     private:
-        const item_category *custom_category = nullptr;
+        mutable item_category const *custom_category = nullptr;
     protected:
         // indents the entry if it is contained in an item
         bool _indent = true;

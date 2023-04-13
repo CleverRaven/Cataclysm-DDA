@@ -93,56 +93,75 @@ void print_list_scrollable( catacurses::window *win, const std::string &text, in
     print_list_scrollable( win, list, selection, active, border, color_error );
 }
 
-void draw_diary_border( catacurses::window *win, const nc_color &color = c_white )
+// Print multiple strings, stacked vertically downwards from the specified point
+template<typename ...Ts>
+void mvwprintwa( const catacurses::window &win, point p, Ts... args )
 {
-    wattron( *win, color );
+    for( auto string : {
+             args...
+         } ) {
+        mvwprintw( win, p, string );
+        p += point_south;
+    }
+}
 
+void draw_diary_border( catacurses::window *win )
+{
     const point max( getmaxx( *win ) - 1, getmaxy( *win ) - 1 );
-    const int midx = max.x / 2;
-    for( int i = 4; i <= max.y - 4; i++ ) {
-        mvwprintw( *win, point( 0, i ), "||||" );
-        mvwprintw( *win, point( max.x - 3, i ), "||||" );
-        mvwprintw( *win, point( midx, i ), " | " );
+    const point mid = max / 2;
+    // left, right vertical lines
+    for( int i = 0; i < 4; i++ ) {
+        mvwvline( *win, point( 0     + i, 4 ), '|', max.y - 4 - 4 + 1 );
+        mvwvline( *win, point( max.x - i, 4 ), '|', max.y - 4 - 4 + 1 );
     }
-    for( int i = 4; i <= max.x - 4; i++ ) {
-        if( !( i >= midx && i <= midx + 2 ) ) {
-            mvwprintw( *win, point( i, 0 ), "____" );
-            mvwprintw( *win, point( i, max.y - 2 ), "____" );
-            mvwprintw( *win, point( i, max.y - 1 ), "====" );
-            mvwprintw( *win, point( i, max.y ), "----" );
-        }
-    }
+    // middle vertical line
+    mvwvline( *win,     point( mid.x,     4 ), '|', max.y - 4 - 4 + 1 );
+    // top horizontal line
+    mvwhline( *win,     point( 4,         0 ), '_', max.x - 4 - 4 + 1 );
+    // bottom horizontal lines
+    mvwhline( *win,     point( 4, max.y - 2 ), '_', max.x - 4 - 4 + 1 );
+    mvwhline( *win,     point( 4, max.y - 1 ), '=', max.x - 4 - 4 + 1 );
+    mvwhline( *win,     point( 4, max.y - 0 ), '-', max.x - 4 - 4 + 1 );
+
+    wattron( *win, BORDER_COLOR );
     //top left corner
-    mvwprintw( *win, point_zero, "    " );
-    mvwprintw( *win, point_south, ".-/|" );
-    mvwprintw( *win, point( 0, 2 ), "||||" );
-    mvwprintw( *win, point( 0, 3 ), "||||" );
-    //bottom left corner
-    mvwprintw( *win, point( 0, max.y - 3 ), "||||" );
-    mvwprintw( *win, point( 0, max.y - 2 ), "||||" );
-    mvwprintw( *win, point( 0, max.y - 1 ), "||/=" );
-    mvwprintw( *win, point( 0, max.y - 0 ), "`'--" );
-    //top right corner
-    mvwprintw( *win, point( max.x - 3, 0 ), "    " );
-    mvwprintw( *win, point( max.x - 3, 1 ), "|\\-." );
-    mvwprintw( *win, point( max.x - 3, 2 ), "||||" );
-    mvwprintw( *win, point( max.x - 3, 3 ), "||||" );
-    //bottom right corner
-    mvwprintw( *win, max + point( -3, -3 ), "||||" );
-    mvwprintw( *win, max + point( -3, -2 ), "||||" );
-    mvwprintw( *win, max + point( -3, -1 ), "=\\||" );
-    mvwprintw( *win, max + point( -3, 0 ), "--''" );
-    //mid top
-    mvwprintw( *win, point( midx, 0 ), "   " );
-    mvwprintw( *win, point( midx, 1 ), "\\ /" );
-    mvwprintw( *win, point( midx, 2 ), " | " );
-    mvwprintw( *win, point( midx, 3 ), " | " );
-    //mid bottom
-    mvwprintw( *win, point( midx, max.y - 3 ), " | " );
-    mvwprintw( *win, point( midx, max.y - 2 ), " | " );
-    mvwprintw( *win, point( midx, max.y - 1 ), "\\|/" );
-    mvwprintw( *win, point( midx, max.y - 0 ), "___" );
-    wattroff( *win, color );
+    mvwprintwa( *win, point_zero,
+                "    ",
+                ".-/|",
+                "||||",
+                "||||" );
+    // bottom left corner
+    mvwprintwa( *win, point( 0, max.y - 3 ),
+                "||||",
+                "||||",
+                "||/=",
+                "`'--" );
+    // top right corner
+    mvwprintwa( *win, point( max.x - 3, 0 ),
+                "    ",
+                "|\\-.",
+                "||||",
+                "||||" );
+    // bottom right corner
+    mvwprintwa( *win, max + point( -3, -3 ),
+                "||||",
+                "||||",
+                "=\\||",
+                "--''" );
+    // top middle
+    mvwprintwa( *win, point( mid.x - 1, 0 ),
+                "   ",
+                "\\ /",
+                " | ",
+                " | " );
+    // bottom middle
+    mvwprintwa( *win, point( mid.x - 1, max.y - 3 ),
+                " | ",
+                " | ",
+                "\\|/",
+                "___" );
+
+    wattroff( *win, BORDER_COLOR );
 }
 } // namespace
 
@@ -226,7 +245,7 @@ void diary::show_diary_ui( diary *c_diary )
         const point &beg = beg_and_max.first;
         const point &max = beg_and_max.second;
 
-        w_pages = catacurses::newwin( max.y + 5, max.x * 3 / 10, point( beg.x - 5 - max.x * 3 / 10,
+        w_pages = catacurses::newwin( max.y + 5, max.x * 3 / 10 + 1, point( beg.x - 5 - max.x * 3 / 10,
                                       beg.y - 2 ) );
 
         ui.position_from_window( w_pages );
@@ -279,8 +298,8 @@ void diary::show_diary_ui( diary *c_diary )
         const point &beg = beg_and_max.first;
         const point &max = beg_and_max.second;
 
-        w_info = catacurses::newwin( ( max.y / 2 - 4 > 7 ) ? 7 : max.y / 2 - 4, max.x + 9, beg + point( -4,
-                                     4 + max.y ) );
+        w_info = catacurses::newwin( std::clamp( 3, max.y / 2 - 4, 7 ), max.x + 9, beg + point( -4,
+                                     3 + max.y + ( max.y > 12 ) ) );
 
         ui.position_from_window( w_info );
     } );
@@ -291,8 +310,8 @@ void diary::show_diary_ui( diary *c_diary )
         draw_border( w_info );
         center_print( w_info, 0, c_light_gray, string_format( _( "Info" ) ) );
         if( currwin == window_mode::CHANGE_WIN || currwin == window_mode::TEXT_WIN ) {
-            fold_and_print( w_info, point_south_east, getmaxx( w_info ) - 2, c_white, string_format( "%s",
-                            c_diary->get_desc_map()[selected[window_mode::CHANGE_WIN]] ) );
+            fold_and_print( w_info, point_south_east, getmaxx( w_info ) - 2, c_white,
+                            c_diary->get_desc_map()[selected[window_mode::CHANGE_WIN]] );
         }
 
         wnoutrefresh( w_info );

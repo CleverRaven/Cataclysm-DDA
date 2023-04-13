@@ -122,8 +122,7 @@ std::string vehicle_part::name( bool with_prefix ) const
     }
 
     if( with_prefix ) {
-        res.insert( 0, colorize( base.damage_symbol(),
-                                 base.damage_color() ) + base.degradation_symbol() + " " );
+        res.insert( 0, base.damage_indicator() + base.degradation_symbol() + " " );
     }
     return res;
 }
