@@ -885,7 +885,7 @@ void load_soundset()
         loading_ui ui( false );
         DynamicDataLoader::get_instance().load_data_from_path( soundpack_path, "core", ui );
     } catch( const std::exception &err ) {
-        dbg( D_ERROR ) << "failed to load sounds: " << err.what();
+        debugmsg( "failed to load sounds: %s", err.what() );
     }
 
     // Preload sound effects
