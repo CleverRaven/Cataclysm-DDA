@@ -2,11 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_SHOPKEEPER_1",
-    "dynamic_line": {
-      "npc_has_trait": "BGR_Asatro",
-      "yes": "Hallo, reisendre.  What can I get for you?",
-      "no": "<neutral_greet>"
-    },
+    "dynamic_line": { "npc_has_trait": "BGR_Asatro", "yes": "Hallo, reisendre.  What can I get for you?", "no": "<neutral_greet>" },
     "speaker_effect": { "effect": { "npc_first_topic": "TALK_VALHALLIST_SHOPKEEPER_2" } },
     "responses": [
       { "text": "Who are you, exactly?", "topic": "TALK_VALHALLIST_SHOPKEEPER_WHO" },
@@ -122,9 +118,9 @@
       "yes": "Our leader should be around here somewhere, likely in their hall.  They're the ones who could guide you proper.  Gudene vil det!",
       "no": "The head honcho should be in that big hall over there, or around here somewhere.  You'll have to ask them about joining."
     },
-    "responses": [   
+    "responses": [
       { "text": "Thanks.  Let's talk about something else.", "topic": "TALK_VALHALLIST_SHOPKEEPER_2" },
-      { "text": "Thanks.", "topic": "TALK_DONE" } 
+      { "text": "Thanks.", "topic": "TALK_DONE" }
     ]
   },
   {

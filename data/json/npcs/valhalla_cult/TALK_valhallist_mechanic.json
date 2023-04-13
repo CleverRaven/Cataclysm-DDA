@@ -2,11 +2,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MECHANIC_1",
-    "dynamic_line": {
-      "npc_has_trait": "BGR_Asatro",
-      "yes": "Hallo, reisendre.  What is it you want?",
-      "no": "<neutral_greet>"
-    },
+    "dynamic_line": { "npc_has_trait": "BGR_Asatro", "yes": "Hallo, reisendre.  What is it you want?", "no": "<neutral_greet>" },
     "speaker_effect": { "effect": { "npc_first_topic": "TALK_VALHALLIST_MECHANIC_2" } },
     "responses": [
       { "text": "Who are you, exactly?", "topic": "TALK_VALHALLIST_MECHANIC_WHO" },
@@ -24,9 +20,9 @@
     },
     "responses": [
       {
-        "text": "What is that purpose?", 
+        "text": "What is that purpose?",
         "condition": { "npc_has_trait": "BGR_Asatro" },
-        "topic": "TALK_VALHALLIST_MECHANIC_PURPOSE" 
+        "topic": "TALK_VALHALLIST_MECHANIC_PURPOSE"
       },
       { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_MECHANIC_Job" },
       { "text": "I have to go.", "topic": "TALK_DONE" }

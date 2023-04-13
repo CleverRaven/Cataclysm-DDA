@@ -7922,10 +7922,7 @@
     "locations": [ "land" ],
     "city_distance": [ 8, 30 ],
     "occurrences": [ 30, 70 ],
-    "eoc": {
-      "id": "EOC_VALHALLA_CULT_GENERATE",
-      "condition": { "days_since_cataclysm": 7 } 
-    },
+    "eoc": { "id": "EOC_VALHALLA_CULT_GENERATE", "condition": { "days_since_cataclysm": 7 } },
     "flags": [ "CLASSIC", "UNIQUE", "MAN_MADE" ]
   },
   {
