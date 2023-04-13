@@ -1,0 +1,22 @@
+[
+    {
+        "id": "portal_clothes",
+        "type": "ARMOR",
+        "name": { "str": "clothes" },
+        "description": "A strange facsimile of clothing as if something remembered in a dream.  It drapes over your body, not touching it, but still engulfing you.",
+        "weight": "0 g",
+        "volume": "0 L",
+        "price": 0,
+        "price_postapoc": 0,
+        "material": [ "memories" ],
+        "symbol": "[",
+        "looks_like": "jumpsuit",
+        "color": "light_gray",
+        "armor": [
+          { "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ], "coverage": 100, "encumbrance": 0 }
+        ],
+        "warmth": 0,
+        "material_thickness": 0.2,
+        "flags": [ "AURA", "FRAGILE" ]
+    }
+]

@@ -569,14 +569,17 @@
     "name": { "str": "Impossible Shape Attack" },
     "description": "Hurts you mentally.",
     "copy-from": "base_portal",
-    "min_range": 6,
-    "max_range": 6,
+    "min_range": 1,
+    "max_range": 60,
     "effect_str": "EOC_impossible_shape_attack"
   },
   {
     "type": "effect_on_condition",
     "id": "EOC_impossible_shape_attack",
-    "condition": "u_can_see",
+    "condition": { "and": [ 
+      "u_can_see",
+      { "math": [ "u_madness", ">", "10" ] } 
+    ]},
     "effect": [
       { "u_add_effect": "nightmares", "duration": "18 hours" },
       { "u_add_effect": "disrupted_sleep", "duration": "18 hours" },
@@ -587,7 +590,13 @@
         "duration": "36 hours",
         "decay_start": "24 hours"
       },
-      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] }
+      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 3 } ] },
+      { "math": [ "u_madness", "=", "0" ] },
+      { "u_message": "Your mind lurches, the shapes and figures dance across your vision, you feel like your head is going to explode."}
+    ], "false_effect" : [
+      { "math": [ "u_pain", "+=", "3" ] },
+      { "math": [ "u_madness", "++" ] },
+      { "u_message": "You can't look away from the impossible shape, staring at it is making you feel sick, you have to get away!"}
     ]
   },
   {
