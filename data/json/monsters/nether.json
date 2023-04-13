@@ -1291,8 +1291,8 @@
   {
     "id": "mon_hallucinator",
     "type": "MONSTER",
-    "name": { "str": "storm roamer" },
-    "description": "Their greater than human countenance festers in the deepest recesses of your mind.  It grows ever closer.",
+    "name": { "str": "person" },
+    "description": "Their dubiously human countenance festers in the deepest recesses of your mind.  They grow ever closer.",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER" ],
     "volume": "62500 ml",
