@@ -312,9 +312,9 @@ static const itype_id itype_weather_reader( "weather_reader" );
 
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 static const json_character_flag json_flag_HYPEROPIC( "HYPEROPIC" );
-static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 static const json_character_flag json_flag_MYOPIC( "MYOPIC" );
 static const json_character_flag json_flag_MYOPIC_IN_LIGHT( "MYOPIC_IN_LIGHT" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
