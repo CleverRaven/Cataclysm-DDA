@@ -2,7 +2,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MEMBER_1",
-    "dynamic_line": "Hallo, reisendre.  What is it you want?",
+    "dynamic_line": {
+      "npc_has_trait": "BGR_Asatro",
+      "yes": "Hallo, reisendre.  What is it you want?",
+      "no": "<neutral_greet>"
+    },
     "speaker_effect": { "effect": { "npc_first_topic": "TALK_VALHALLIST_MEMBER_2" } },
     "responses": [
       { "text": "Who are you, exactly?", "topic": "TALK_VALHALLIST_MEMBER_WHO" },
@@ -13,10 +17,15 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MEMBER_2",
-    "dynamic_line": "Hello again.  What's up?",
+    "dynamic_line": {
+      "npc_has_trait": "BGR_Asatro",
+      "yes": "Welcome again, reisendre.",
+      "no": "<neutral_greet>"
+    },
     "responses": [
       { "text": "I'm sorry, who are you again?", "topic": "TALK_VALHALLIST_MEMBER_WHO" },
       { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_MEMBER_Job" },
+      { "text": "How did you wind up here again?", "topic": "TALK_VALHALLIST_MEMBER_Story" },
       {
         "text": "Do you mind if we just talk a bit?",
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } },
@@ -28,9 +37,18 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MEMBER_WHO",
-    "dynamic_line": "I'm a wanderer like you who found purpose and a home with the gods.  I'm not who I was, but somebody new.",
+    "dynamic_line": {
+      "npc_has_trait": "BGR_Asatro",
+      "yes": "I'm a wanderer like you who found purpose and a home with the gods.  I'm not who I was, but somebody new.",
+      "no": "I'm just someone looking to make a living for myself these days, and not get eaten by a horde of <zombie>s.  So, here I am."
+    },
     "responses": [
-      { "text": "What is that purpose?", "topic": "TALK_VALHALLIST_MEMBER_PURPOSE" },
+      {
+        "text": "What is that purpose?", 
+        "condition": { "npc_has_trait": "BGR_Asatro" },
+        "topic": "TALK_VALHALLIST_MEMBER_PURPOSE" 
+      },
+      { "text": "How did you wind up here?", "topic": "TALK_VALHALLIST_MEMBER_Story" },
       { "text": "I have to go.", "topic": "TALK_DONE" }
     ]
   },
@@ -46,17 +64,44 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MEMBER_Job",
-    "dynamic_line": "This is our holy henge devoted to the gods.  Here we stay between pillaging the ruins of the old world, perform our rites for divine favor, and feast in merriment.  We all help each other in these trying times, united in our divine strength and sharp blades.",
+    "dynamic_line": {
+      "npc_has_trait": "BGR_Asatro",
+      "yes": "This is our holy henge devoted to the gods.  Here we stay between pillaging the ruins of the old world, perform our rites for divine favor, and feast in merriment.  We all help each other in these trying times, united in our divine strength and sharp blades.",
+      "no": "This is where we live these days.  It's some giant fortess that somebody wanted to make into a reenactment place, but it never got finished.  We finished construction and started living out of it, hauling anything we might scavenege back here.  We've done pretty well for ourselves, haven't had any problems with <zombie>s or bandits yet."
+    },
     "responses": [
       { "text": "How could I get in on this?", "topic": "TALK_VALHALLIST_MEMBER_Join" },
+      { "text": "What's your story?", "topic": "TALK_VALHALLIST_MEMBER_Story" },
+      { "text": "Let's talk about something else.", "topic": "TALK_VALHALLIST_MEMBER_2" },
       { "text": "Enjoy yourself then, I have to go.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MEMBER_Join",
-    "dynamic_line": "Our leader should be around here somewhere, likely in their hall.  They're the ones who could guide you proper.  Gudene vil det!",
-    "responses": [ { "text": "Thanks.", "topic": "TALK_DONE" } ]
+    "dynamic_line": {
+      "npc_has_trait": "BGR_Asatro",
+      "yes": "Our leader should be around here somewhere, likely in their hall.  They're the ones who could guide you proper.  Gudene vil det!",
+      "no": "The head honcho should be in that big hall over there, or around here somewhere.  You'll have to ask them about joining."
+    },
+    "responses": [   
+      { "text": "Thanks.  Let's talk about something else.", "topic": "TALK_VALHALLIST_MEMBER_2" },
+      { "text": "Thanks.", "topic": "TALK_DONE" } 
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_VALHALLIST_MEMBER_Story",
+    "dynamic_line": {
+      "npc_has_trait": "BGSS_Valhallist_AgSci",
+      "yes": "Half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a fort up this way and so when things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Others have come and gone since then, but we've held out.",
+      "no": "I came from one of those government evac camps, when things all went <swear> sideways.  A bunch of us jumped ship before everything went down, and we met a group of grad students wandering down this way.  One of them was really into Norse stuff, started preaching about religion and gods.  A lot of people believed them, so we joined up."
+    },
+    "responses": [
+      { "text": "Let's not focus on the past too much.", "topic": "TALK_VALHALLIST_MEMBER_2" },
+      { "text": "Any way I could join in?", "topic": "TALK_VALHALLIST_MEMBER_Join" },
+      { "text": "I have to go.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",

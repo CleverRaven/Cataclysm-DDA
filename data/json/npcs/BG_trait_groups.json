@@ -150,6 +150,20 @@
     ]
   },
   {
+    "//": "A catch-all background distribution group for the Valhallists.  Eventually, these should be implemented with the standard background trait groups.",
+    "type": "trait_group",
+    "id": "BG_survival_story_VALHALLIST",
+    "subtype": "distribution",
+    "traits": [ { "trait": "BGSS_Valhallist_AgSci" }, { "trait": "BGSS_FEMA_Evacuee_1" } ]
+  },
+  {
+    "//": "A catch-all religious distribution group for the Valhallists.  Eventually, these could tie in with other NPCs.",
+    "type": "trait_group",
+    "id": "BG_religion_VALHALLIST",
+    "subtype": "distribution",
+    "traits": [ { "trait": "BGR_Asatro" }, { "trait": "BGR_Atheistic" } ]
+  },
+  {
     "//": "This group is for Cyborgs rescued down in the Lab.",
     "type": "trait_group",
     "id": "BG_survival_story_CYBORG",

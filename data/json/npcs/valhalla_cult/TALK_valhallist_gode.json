@@ -17,6 +17,7 @@
     "responses": [
       { "text": "I'm sorry, who are you again?", "topic": "TALK_VALHALLIST_GODE_WHO" },
       { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_GODE_Job" },
+      { "text": "How did you get here again?", "topic": "TALK_VALHALLIST_GODE_Story" },
       {
         "text": "Do you mind if we just talk a bit?",
         "condition": { "not": { "npc_has_effect": "asked_to_socialize" } },
@@ -43,6 +44,7 @@
     "responses": [
       { "text": "What are you a prophet of?", "topic": "TALK_VALHALLIST_GODE_Religion" },
       { "text": "What is that purpose?", "topic": "TALK_VALHALLIST_GODE_PURPOSE" },
+      { "text": "How did you get here?", "topic": "TALK_VALHALLIST_GODE_Story" },
       { "text": "I have to go.", "topic": "TALK_DONE" }
     ]
   },
@@ -51,6 +53,7 @@
     "id": "TALK_VALHALLIST_GODE_PURPOSE",
     "dynamic_line": "That purpose is to serve the true lords of this world, and enter Valhalla on some coming day.  There I will not worry about the wandering dead, but see the might of battle and feast with those worthy.  Odin the Allfather will smile on me that day, and everyone I brought with me.",
     "responses": [
+      { "text": "How did you get here?", "topic": "TALK_VALHALLIST_GODE_Story" },
       { "text": "Let's talk about something else.", "topic": "TALK_VALHALLIST_GODE_2" },
       { "text": "Good luck with that.", "topic": "TALK_DONE" }
     ]
@@ -62,7 +65,18 @@
     "responses": [
       { "text": "What are you guiding them toward?", "topic": "TALK_VALHALLIST_GODE_Religion" },
       { "text": "How could I get in on this?", "topic": "TALK_VALHALLIST_GODE_Join" },
+      { "text": "How did you get here?", "topic": "TALK_VALHALLIST_GODE_Story" },
       { "text": "Enjoy yourself then, I have to go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_VALHALLIST_GODE_Story",
+    "dynamic_line": "Half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a fort up this way and so when things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Others have come and gone since then, but we've held out.",
+    "responses": [
+      { "text": "Let's not focus on the past too much.", "topic": "TALK_VALHALLIST_GODE_2" },
+      { "text": "Any way I could join in?", "topic": "TALK_VALHALLIST_GODE_Join" },
+      { "text": "I have to go.", "topic": "TALK_DONE" }
     ]
   },
   {

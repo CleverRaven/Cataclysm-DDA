@@ -2,7 +2,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MECHANIC_1",
-    "dynamic_line": "Hallo, reisendre.  What is it you want?",
+    "dynamic_line": {
+      "npc_has_trait": "BGR_Asatro",
+      "yes": "Hallo, reisendre.  What is it you want?",
+      "no": "<neutral_greet>"
+    },
     "speaker_effect": { "effect": { "npc_first_topic": "TALK_VALHALLIST_MECHANIC_2" } },
     "responses": [
       { "text": "Who are you, exactly?", "topic": "TALK_VALHALLIST_MECHANIC_WHO" },
@@ -13,9 +17,18 @@
   {
     "type": "talk_topic",
     "id": "TALK_VALHALLIST_MECHANIC_WHO",
-    "dynamic_line": "Oh you know, half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a fort up this way and so when things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Some others have come and gone depending on if they feel like life here and a new religion work for them, but that group formed the core of the mechanics here.  We've got a purpose now.",
+    "dynamic_line": {
+      "npc_has_trait": "BGR_Asatro",
+      "yes": "Oh you know, half of us were from the Ag-Sci program at U Amherst, we'd heard some friends talk about a fort up this way and so when things got really hairy we started wandering this direction.  It was a hell of a journey and we lost several of our friends and found some other refugees on the way.  Some others have come and gone depending on if they feel like life here and a new religion work for them, but that group formed the core of the mechanics here.  We've got a purpose now.",
+      "no": "I'm just someone looking to make a living for myself these days, and not get eaten by a horde of <zombie>s.  So, here I am, fixing all the bikes and machinery we have."
+    },
     "responses": [
-      { "text": "What is that purpose?", "topic": "TALK_VALHALLIST_MECHANIC_PURPOSE" },
+      {
+        "text": "What is that purpose?", 
+        "condition": { "npc_has_trait": "BGR_Asatro" },
+        "topic": "TALK_VALHALLIST_MECHANIC_PURPOSE" 
+      },
+      { "text": "What's your deal here?", "topic": "TALK_VALHALLIST_MECHANIC_Job" },
       { "text": "I have to go.", "topic": "TALK_DONE" }
     ]
   },

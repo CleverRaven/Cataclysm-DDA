@@ -436,13 +436,13 @@
     }
   },
   {
-    "id": "MISSION_VALHALLISTS_GET_25L_acetylene",
+    "id": "MISSION_VALHALLISTS_GET_25L_oxyacetylene",
     "type": "mission_definition",
-    "name": { "str": "Obtain 25 liters of acetylene" },
+    "name": { "str": "Obtain 25 liters of oxyacetylene" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
-    "item": "acetylene",
+    "item": "oxyacetylene",
     "count": 100,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_VALHALLISTS_GET_100_welding_rod_steel",
@@ -450,8 +450,8 @@
     "//": "15% upcharge for a delivery fee.",
     "has_generic_rewards": false,
     "dialogue": {
-      "describe": "Bring me 25 liters of acetylene.",
-      "offer": "With all the repairs we've been doing around here, my team is running low on welding gas.  Without it, I can't fix any busted bikes or make any new ones, so I need you to get me twenty-five liters of acetylene.  I'll pay you well for it.",
+      "describe": "Bring me 25 liters of oxyacetylene.",
+      "offer": "With all the repairs we've been doing around here, my team is running low on welding gas.  Without it, I can't fix any busted bikes or make any new ones, so I need you to get me twenty-five liters of oxyacetylene.  I'll pay you well for it.",
       "accepted": "Thanks, <name_g>.",
       "rejected": "Those bikes are vital to our operations, we'll collapse without them.",
       "advice": "I'd check a garage in town.",
@@ -477,7 +477,7 @@
     "has_generic_rewards": false,
     "dialogue": {
       "describe": "Bring me 100 steel welding rods.",
-      "offer": "The acetylene pulled us through, but now we're out of welding rods.  If you could get about 100, I'll buy 'em.",
+      "offer": "The oxyacetylene pulled us through, but now we're out of welding rods.  If you could get about 100, I'll buy 'em.",
       "accepted": "Thanks, <name_g>.",
       "rejected": "I can't work without them, ya know.",
       "advice": "I'd check a garage in town, or you could make your own.",
