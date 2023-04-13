@@ -230,6 +230,7 @@
     "roof": "t_wood_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "open": "t_door_o",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_LOCK_THE_DOOR" ] },
     "deconstruct": {
       "ter_set": "t_door_frame",
       "items": [
@@ -2153,6 +2154,7 @@
     "roof": "t_metal_roof",
     "flags": [ "NOITEM", "DOOR", "CONNECT_WITH_WALL", "BLOCK_WIND", "SUPPORTS_ROOF" ],
     "open": "t_door_metal_o",
+    "examine_action": { "type": "effect_on_condition", "effect_on_conditions": [ "EOC_LOCK_THE_DOOR" ] },
     "oxytorch": {
       "result": "t_mdoor_frame",
       "duration": "14 seconds",

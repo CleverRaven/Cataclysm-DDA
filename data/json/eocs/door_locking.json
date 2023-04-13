@@ -1,0 +1,26 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_LOCK_THE_DOOR",
+    "condition": { "not": "u_is_outside" },
+    "effect": [
+      { "u_location_variable": { "global_val": "door_to_close" }, "min_radius": 1, "max_radius": 1 },
+      {
+        "u_transform_radius": 1,
+        "ter_furn_transform": "lock_the_door",
+        "target_var": { "global_val": "door_to_close" }
+      },
+      { "u_assign_activity": "ACT_GENERIC_EOC", "duration": "2 seconds" },
+      { "u_message": "You rotate the deadbolt lock, and close the door from the inside." }
+    ],
+    "false_effect": { "u_message": "Can't close the door from the inside." }
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "lock_the_door",
+    "terrain": [
+      { "valid_terrain": [ "t_door_c" ], "result": [ "t_door_locked" ] },
+      { "valid_terrain": [ "t_door_metal_c" ], "result": [ "t_door_metal_pickable" ] }
+    ]
+  }
+]
