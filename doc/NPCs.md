@@ -1406,7 +1406,15 @@ Function composition is also supported, for example `sin( rng(0, max( 0.5, u_sin
 #### Dialogue functions
 Dialogue functions take single-quoted strings as arguments and can return or manipulate game values. They are scoped just like [variables](#variables).
 
-This section is a work in progress as functions are ported from `arithmetic` to `math`. There is a `val()` shim available that can replace `u_val` and `npc_val`:
+This section is a work in progress as functions are ported from `arithmetic` to `math`.
+
+| Function | Eval | Assign |Scopes | Description |
+|----------|------|--------|-------|-------------|
+| pain     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
+
+
+##### u_val shim
+There is a `val()` shim available that can cover the missing arithmetic functions from `u_val` and `npc_val`:
 
 ```JSON
 { "math": [ "u_val('stamina')" ] }
