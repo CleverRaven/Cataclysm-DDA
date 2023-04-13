@@ -1666,10 +1666,6 @@ std::function<double( const T & )> conditional_t<T>::get_get_dbl( J const &jo )
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->posz();
             };
-        } else if( checked_value == "pain" ) {
-            return [is_npc]( const T & d ) {
-                return d.actor( is_npc )->pain_cur();
-            };
         } else if( checked_value == "power" ) {
             return [is_npc]( const T & d ) {
                 // Energy in milijoule
@@ -2288,11 +2284,6 @@ conditional_t<T>::get_set_dbl( const J &jo, const std::optional<dbl_or_var_part<
             return [is_npc, min, max]( const T & d, double input ) {
                 d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), d.actor( is_npc )->posy(),
                                                       handle_min_max<T>( d, input, min, max ) ) );
-            };
-        } else if( checked_value == "pain" ) {
-            return [is_npc, min, max]( const T & d, double input ) {
-                d.actor( is_npc )->mod_pain( handle_min_max<T>( d, input, min,
-                                             max ) - d.actor( is_npc )->pain_cur() );
             };
         } else if( checked_value == "power" ) {
             return [is_npc, min, max]( const T & d, double input ) {
