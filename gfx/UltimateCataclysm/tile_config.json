@@ -14838,7 +14838,6 @@
       "sprite_offset_y": -27,
       "tiles": [
         { "id": "rid_mon_horse", "fg": [ { "weight": 1, "sprite": 9869 }, { "weight": 1, "sprite": 9870 } ] },
-        { "id": "rid_mon_horse_police", "fg": [ { "weight": 1, "sprite": 9869 }, { "weight": 1, "sprite": 9870 } ] },
         { "id": "rid_mon_cow", "fg": 9868 }
       ]
     },
