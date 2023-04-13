@@ -609,7 +609,6 @@ bool main_menu::opening_screen()
     player_character = avatar();
 
     int sel_line = 0;
-    size_t last_world_pos = 0;
 
     // Make [Load Game] the default cursor position if there's game save available
     if( !world_generator->get_all_worlds().empty() ) {
@@ -651,7 +650,8 @@ bool main_menu::opening_screen()
         input_event sInput = ctxt.get_raw_input();
 
         // check automatic menu shortcuts
-        for( int i = 0; static_cast<size_t>( i ) < vMenuHotkeys.size(); ++i ) {
+        bool match = false;
+        for( int i = 0; static_cast<size_t>( i ) < vMenuHotkeys.size() && !match; ++i ) {
             for( const std::string &hotkey : vMenuHotkeys[i] ) {
                 if( sInput.text == hotkey && sel1 != i ) {
                     sel1 = i;
@@ -662,25 +662,31 @@ bool main_menu::opening_screen()
                     } else if( i == getopt( main_menu_opts::QUIT ) ) {
                         action = "QUIT";
                     }
+                    match = true;
+                    break;
                 }
             }
         }
         if( sel1 == getopt( main_menu_opts::SETTINGS ) ) {
-            for( int i = 0; static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
+            for( int i = 0; !match && static_cast<size_t>( i ) < vSettingsSubItems.size(); ++i ) {
                 for( const std::string &hotkey : vSettingsHotkeys[i] ) {
                     if( sInput.text == hotkey ) {
                         sel2 = i;
                         action = "CONFIRM";
+                        match = true;
+                        break;
                     }
                 }
             }
         }
         if( sel1 == getopt( main_menu_opts::NEWCHAR ) ) {
-            for( int i = 0; static_cast<size_t>( i ) < vNewGameSubItems.size(); ++i ) {
+            for( int i = 0; !match && static_cast<size_t>( i ) < vNewGameSubItems.size(); ++i ) {
                 for( const std::string &hotkey : vNewGameHotkeys[i] ) {
                     if( sInput.text == hotkey ) {
                         sel2 = i;
                         action = "CONFIRM";
+                        match = true;
+                        break;
                     }
                 }
             }
@@ -702,22 +708,25 @@ bool main_menu::opening_screen()
                         action = "CONFIRM";
                     }
                     ui_manager::redraw();
+                    match = true;
                     break;
                 }
             }
-            for( const auto &it : main_menu_sub_button_map ) {
-                if( coord.has_value() && it.first.contains( coord.value() ) ) {
-                    if( sel1 != it.second.first || sel2 != it.second.second ) {
-                        on_move();
+            if( !match ) {
+                for( const auto &it : main_menu_sub_button_map ) {
+                    if( coord.has_value() && it.first.contains( coord.value() ) ) {
+                        if( sel1 != it.second.first || sel2 != it.second.second ) {
+                            on_move();
+                        }
+                        sel1 = it.second.first;
+                        sel2 = it.second.second;
+                        sel_line = 0;
+                        if( action == "SELECT" ) {
+                            action = "CONFIRM";
+                        }
+                        ui_manager::redraw();
+                        break;
                     }
-                    sel1 = it.second.first;
-                    sel2 = it.second.second;
-                    sel_line = 0;
-                    if( action == "SELECT" ) {
-                        action = "CONFIRM";
-                    }
-                    ui_manager::redraw();
-                    break;
                 }
             }
         }
@@ -1072,7 +1081,11 @@ void main_menu::world_tab( const std::string &worldname )
 {
     // Create world
     if( sel2 == 0 ) {
-        world_generator->make_new_world();
+        WORLD *world = world_generator->make_new_world();
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        if( world->world_name < world_generator->all_worldnames()[last_world_pos] ) {
+            last_world_pos++;
+        }
         return;
     }
 
@@ -1094,6 +1107,10 @@ void main_menu::world_tab( const std::string &worldname )
 
     auto clear_world = [this, &worldname]( bool do_delete ) {
         world_generator->delete_world( worldname, do_delete );
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
+        if( last_world_pos > 0 && worldname <= world_generator->all_worldnames()[last_world_pos] ) {
+            last_world_pos--;
+        }
         savegames.clear();
         MAPBUFFER.clear();
         overmap_buffer.clear();

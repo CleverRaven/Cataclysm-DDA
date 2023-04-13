@@ -1246,7 +1246,9 @@ Example:
 
 `"arithmetic"` supports the following operators: `"*"`(multiplication), `"/"`(divison), `"+"`(addition), `"-"`(subtraction), `"%"`(modulus), `"^"`(power) and the following results `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
 
-To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed. A list of values that can be read and/or written to follows.
+To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. For vars only `global_val` is also allowed.
+
+#### List of values that can be read and/or written to
 
 Example | Description
 --- | ---
@@ -1362,13 +1364,36 @@ If `operator` is `==`, `>=`, `<=`, `>`, or `<`, the operation is a comparison:
 ```
 `lhs` and `rhs` are evaluated independently and the result of `operator` is passed on to the parent object.
 
+#### Variables
+Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, and `n_myvar` is scoped on the beta talker.
+
+Examples:
+```JSON
+    "//0": "return value of global var blorgy_counter",
+    { "math": [ "blorgy_counter" ] },
+    "//1": "result, x, and y are global variables",
+    { "math": [ "result", "=", "x + y" ] },
+    "//2": "u_z is the variable z on the alpha talker (avatar)",
+    { "math": [ "result", "=", "( x + y ) * u_z" ] },
+    "//3": "n_crazyness is the variable crazyness on the beta talker (npc)",
+    { "math": [ "n_crazyness * 2", ">=", "( x + y ) * u_z" ] },
+```
+
 #### Constants
 The tokens `π` (and `pi` alias ) and `e` are recognized as mathematical constants and get replaced by their nominal values.
 
 #### Math functions
 Common math functions are supported: 
 
-`abs()`, `sqrt()`, `log()`, `sin()`, `cos()`, and `tan()` take one argument, for example `sin( 2 * pi + 1 )`.
+`abs()`, `sqrt()`, `log()`, `floor()`, `trunc()`, `ceil()`, `round()`, `sin()`, `cos()`, and `tan()` take one argument, for example `sin( 2 * pi + 1 )`.
+
+`floor( x )` returns the smallest integer not greater than x, for example `floor( 1.5 )` is 1, `floor( -1.5 )` is -2
+
+`ceil( x )` returns the smallest integer not less than x, for example `ceil( 1.5 )` is 2, `ceil( -1.5 )` is -1
+
+`trunc( x )` returns the nearest integer closer to zero, for example `trunc( 1.5 )` is 1, `trunc( -1.5 )` is -1
+
+`clamp( x, lo, hi )` clamps x between lo and hi. hi must be greater than lo
 
 `max()` and `min()` take any number of arguments, for example `max( 1, 2, 3 )`.
 
@@ -1403,10 +1428,14 @@ is equivalent to
 { "npc_val": "spell_level", "spell": "test_spell_pew" }
 
 ```
+Most of the values from [arithmetic](#list-of-values-that-can-be-read-andor-written-to) can be used with the shim, both for reading and writing.
 
-
-#### Variables
-Tokens that aren't numbers, [constants](#constants), [functions](#math-functions), or mathematical symbols are treated as dialogue variables. They are scoped by their name so `myvar` is a variable in the global scope, `u_myvar` is scoped on the alpha talker, and `n_myvar` is scoped on the beta talker.
-
+More examples:
+```JSON
+    { "math": [ "u_val('age')" ] },
+    { "math": [ "u_val('weather: temperature')" ] },
+    { "math": [ "u_val('time: 1 d')" ] },
+    { "math": [ "u_val('proficiency', 'proficiency_id: prof_test', 'format: percent')" ] }
+```
 #### Assignment target
 An assignment target can be either a scoped [variable name](#variables) or a scoped [dialogue function](#dialogue-functions).

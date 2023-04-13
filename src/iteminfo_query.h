@@ -57,6 +57,7 @@ enum class iteminfo_parts : size_t {
     MAGAZINE_COMPATABILITY,
     MAGAZINE_RELOAD,
 
+    AMMO_BARREL_DETAILS,
     AMMO_REMAINING_OR_TYPES,
     AMMO_DAMAGE_VALUE,
     AMMO_DAMAGE_PROPORTIONAL,
@@ -75,6 +76,7 @@ enum class iteminfo_parts : size_t {
     DESCRIPTION_AUX_GUNMOD_HEADER,
 
     GUN_USEDSKILL,
+    GUN_BARRELLENGTH,
     GUN_CAPACITY,
     GUN_TYPE,
     GUN_MAGAZINE,

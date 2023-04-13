@@ -1187,6 +1187,9 @@ void avatar_action::use_item( avatar &you, item_location &loc, std::string const
             parent_pocket->handle_liquid_or_spill( you, loc.parent_item().get_item() );
         }
     }
+    if( loc ) {
+        loc.on_contents_changed();
+    }
 
     you.recoil = MAX_RECOIL;
 

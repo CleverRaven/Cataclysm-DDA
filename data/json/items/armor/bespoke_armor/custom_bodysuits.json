@@ -64,6 +64,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
+    "ammo": "battery",
     "armor": [
       {
         "material": [

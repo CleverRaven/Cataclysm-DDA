@@ -987,7 +987,7 @@
       { "item": "scrap", "count": [ 4, 7 ] },
       { "item": "element", "count": [ 0, 2 ] },
       { "item": "glass_shard", "prob": 50 },
-      { "item": "motor_small", "prob": 25 }
+      { "item": "motor_micro", "prob": 25 }
     ]
   },
   {
