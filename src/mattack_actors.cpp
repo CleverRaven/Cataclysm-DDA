@@ -632,7 +632,8 @@ bool melee_actor::call( monster &z ) const
                 // So if they leave them on open air, make them fall
                 here.creature_on_trap( *target );
 
-                target->add_msg_player_or_npc( msg_type, grab_data.pull_msg_u, grab_data.pull_msg_npc, mon_name, target->disp_name() );
+                target->add_msg_player_or_npc( msg_type, grab_data.pull_msg_u, grab_data.pull_msg_npc, mon_name,
+                                               target->disp_name() );
             } else {
                 // Fail and reset the cooldown if we're too chonky
                 target->add_msg_player_or_npc( msg_type, grab_data.pull_fail_msg_u, grab_data.pull_fail_msg_npc,
