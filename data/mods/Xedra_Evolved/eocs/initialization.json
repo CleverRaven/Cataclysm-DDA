@@ -1,0 +1,29 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VARIABLE_INIT",
+    "eoc_type": "EVENT",
+    "required_event": "game_start",
+    "condition": { "not": { "math": [ "XE_INITIALIZATION", "=", "1" ] } },
+    "effect": [ { "queue_eocs": "EOC_XE_VARIABLE_INITIALIZATION", "time_in_future": 30 } ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_XE_VARIABLE_INITIALIZATION",
+    "condition": { "not": { "math": [ "XE_INITIALIZATION", "=", "1" ] } },
+    "effect": [
+      { "math": [ "base_difficulty_1", "=", "5" ] },
+      { "math": [ "base_difficulty_2", "=", "10" ] },
+      { "math": [ "base_difficulty_3", "=", "15" ] },
+      { "math": [ "energy_difficulty_1", "=", "7" ] },
+      { "math": [ "energy_difficulty_2", "=", "13" ] },
+      { "math": [ "energy_difficulty_3", "=", "20" ] },
+      { "math": [ "AI_difficulty_1", "=", "10" ] },
+      { "math": [ "dimension_difficulty_1", "=", "10" ] },
+      { "math": [ "XE_INITIALIZATION", "=", "1" ] },
+      { "queue_eocs": "EOC_XE_VARIABLE_INITIALIZATION", "time_in_future": "30 seconds" },
+      { "u_message": "Initialization successfull" }
+    ],
+    "false_effect": [ { "u_message": "Initialization unsuccessfull" } ]
+  }
+]
