@@ -427,5 +427,15 @@
     "result": "xs_k_gambeson_hood",
     "type": "recipe",
     "obsolete": true
+  },
+  {
+    "type": "uncraft",
+    "result": "bio_power_armor_interface",
+    "obsolete": true
+  },
+  {
+    "type": "uncraft",
+    "result": "bio_power_armor_interface_mkII",
+    "obsolete": true
   }
 ]
