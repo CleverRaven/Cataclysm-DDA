@@ -354,7 +354,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
                 g->safe_mode != SAFE_MODE_OFF ) {
                 add_msg( m_warning,
-                         _( "Switch off safe mode to attack the %s." ), critter.name() );
+                         _( "Not attacking the %s -- safe mode is on!  (%2$s to turn it off)" ), critter.name(),
+                         press_x( ACTION_TOGGLE_SAFEMODE ) );
                 return false;
             }
 
