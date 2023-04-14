@@ -2086,9 +2086,7 @@
     "id": "SWIPE",
     "name": "Swipe",
     "unarmed_weapons_allowed": true,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 1.5 }
-    ],
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.5 } ],
     "messages": [ "You claw %s", "<npcname> claws %s" ],
     "description": "150% moves",
     "attack_vectors": [ "WEAPON", "HAND" ]
