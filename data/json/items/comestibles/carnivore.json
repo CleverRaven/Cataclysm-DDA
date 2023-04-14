@@ -46,6 +46,7 @@
     "name": { "str": "cooked scrap of fish", "str_pl": "cooked scraps of fish" },
     "parasites": 0,
     "spoils_in": "1 day",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
     "calories": 51
   },
   {
