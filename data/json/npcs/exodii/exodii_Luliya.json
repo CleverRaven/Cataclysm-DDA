@@ -9,20 +9,19 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_LULIYA",
-    "faction": "exodii",
-    "traits": [
-      { "trait": "EXODII_BODY_2" },
-      { "trait": "IGNORE_SOUND" },
-      { "trait": "NO_BASH" },
-      { "trait": "RETURN_TO_START_POS" }
-    ]
+    "faction": "exodii"
   },
   {
     "type": "npc_class",
     "id": "NC_EXODII_TYPE_2_Materials",
     "name": { "str": "Cyborg, type 2" },
     "job_description": "I'm a cyborg.",
-    "traits": [ { "trait": "EXODII_BODY_2" } ],
+    "traits": [
+      { "trait": "EXODII_BODY_2" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],
     "common": false,
     "bonus_str": { "rng": [ 0, 6 ] },
     "bonus_dex": { "rng": [ 0, 6 ] },
