@@ -55,5 +55,11 @@
     "recurrence": { "math": [ "math_test_result" ] },
     "global": true,
     "effect": { "u_message": "test recurrence" }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_increment_var",
+    "//": "tests adding a variable to the player",
+    "effect": [ { "math": [ "u_activitiy_incrementer", "++" ] } ]
   }
 ]

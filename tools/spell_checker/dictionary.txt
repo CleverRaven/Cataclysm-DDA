@@ -869,6 +869,7 @@ enervating
 enfranchisement
 enjoyability
 entropic
+envenom
 envenomations
 envenomed
 eocs
@@ -2790,6 +2791,7 @@ tetrahedron
 th
 thawb
 themm
+therizinosaurus
 thermochemistry
 thermoplastics
 theropod

@@ -53,14 +53,10 @@ enum units_type {
     VU_WIND
 };
 
-/**
- * Round a floating point value down to the nearest integer
- *
- * Optimized floor function, similar to std::floor but faster.
- */
-inline int fast_floor( double v )
+constexpr bool float_equals( double l, double r )
 {
-    return static_cast<int>( v ) - ( v < static_cast<int>( v ) );
+    constexpr double epsilon = std::numeric_limits<double>::epsilon() * 100;
+    return l + epsilon >= r && r + epsilon >= l;
 }
 
 /**

@@ -357,6 +357,34 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
 
 }
 
+static int creature_select_menu( const std::vector<Creature *> &talker_list,
+                                 const std::string &prompt,
+                                 const bool everyone = true )
+{
+    if( talker_list.empty() ) {
+        return -1;
+    }
+    const int npc_count = talker_list.size();
+    if( npc_count == 1 ) {
+        return 0;
+    } else {
+        uilist nmenu;
+        nmenu.text = prompt;
+        for( const Creature *elem : talker_list ) {
+            if( elem->is_npc() ) {
+                nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->as_npc()->name_and_activity() );
+            } else {
+                nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->disp_name() );
+            }
+        }
+        if( npc_count > 1 && everyone ) {
+            nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
+        }
+        nmenu.query();
+        return nmenu.ret;
+    }
+}
+
 std::vector<int> npcs_select_menu( const std::vector<Character *> &npc_list,
                                    const std::string &prompt,
                                    const std::function<bool( const Character * )> &exclude_func )
@@ -580,9 +608,10 @@ void game::chat()
     Character &player_character = get_player_character();
     int volume = player_character.get_shout_volume();
 
-    const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
+    const std::vector<Creature *> available = get_creatures_if( [&]( const Creature & guy ) {
         // TODO: Get rid of the z-level check when z-level vision gets "better"
-        return u.posz() == guy.posz() && u.sees( guy.pos() ) &&
+        return ( guy.is_npc() || ( guy.is_monster() && guy.as_monster()->has_flag( MF_CONVERSATION ) &&
+                                   !guy.as_monster()->type->chat_topics.empty() ) ) && u.posz() == guy.posz() && u.sees( guy.pos() ) &&
                rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
     const int available_count = available.size();
@@ -634,11 +663,16 @@ void game::chat()
     nmenu.text = std::string( _( "What do you want to do?" ) );
 
     if( !available.empty() ) {
-        const npc *guy = available.front();
+        const Creature *guy = available.front();
+        std::string title;
+        if( guy->is_npc() ) {
+            title = guy->as_npc()->name_and_activity();
+        } else if( guy->is_monster() ) {
+            title = guy->as_monster()->disp_name();
+        }
         nmenu.addentry( NPC_CHAT_TALK, true, 't', available_count == 1 ?
-                        string_format( _( "Talk to %s" ), guy->name_and_activity() ) :
-                        _( "Talk to…" )
-                      );
+                        string_format( _( "Talk to %s" ), title ) :
+                        _( "Talk to…" ) );
     }
     nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
     nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
@@ -695,7 +729,7 @@ void game::chat()
 
     switch( nmenu.ret ) {
         case NPC_CHAT_TALK: {
-            const int npcselect = npc_select_menu( available, _( "Talk to whom?" ), false );
+            const int npcselect = creature_select_menu( available, _( "Talk to whom?" ), false );
             if( npcselect < 0 ) {
                 return;
             }
@@ -2730,6 +2764,48 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
 }
 
 template<class T>
+void talk_effect_fun_t<T>::set_location_variable_adjust( const JsonObject &jo,
+        const std::string &member )
+{
+    dbl_or_var<T> dov_z_adjust = get_dbl_or_var<T>( jo, "z_adjust", false, 0 );
+    dbl_or_var<T> dov_x_adjust = get_dbl_or_var<T>( jo, "x_adjust", false, 0 );
+    dbl_or_var<T> dov_y_adjust = get_dbl_or_var<T>( jo, "y_adjust", false, 0 );
+    bool z_override = jo.get_bool( "z_override", false );
+    bool overmap_tile = jo.get_bool( "overmap_tile", false );
+
+    std::optional<var_info> input_var = read_var_info( jo.get_object( member ) );
+
+    std::optional<var_info> output_var;
+    if( jo.has_member( "output_var" ) ) {
+        output_var = read_var_info( jo.get_object( "output_var" ) );
+    }
+    function = [input_var, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override,
+               output_var, overmap_tile ]( const T & d ) {
+        tripoint_abs_ms target_pos = get_tripoint_from_var( input_var, d );
+
+        if( overmap_tile ) {
+            target_pos = target_pos + tripoint( dov_x_adjust.evaluate( d ) * coords::map_squares_per(
+                                                    coords::omt ), dov_y_adjust.evaluate( d ) * coords::map_squares_per( coords::omt ), 0 );
+        } else {
+            target_pos = target_pos + tripoint( dov_x_adjust.evaluate( d ), dov_y_adjust.evaluate( d ), 0 );
+        }
+
+        if( z_override ) {
+            target_pos = tripoint_abs_ms( target_pos.xy(), dov_z_adjust.evaluate( d ) );
+        } else {
+            target_pos = target_pos + tripoint( 0, 0, dov_z_adjust.evaluate( d ) );
+        }
+        if( output_var.has_value() ) {
+            write_var_value( output_var.value().type, output_var.value().name,
+                             d.actor( output_var.value().type == var_type::npc ), target_pos.to_string() );
+        } else {
+            write_var_value( input_var.value().type, input_var.value().name,
+                             d.actor( input_var.value().type == var_type::npc ), target_pos.to_string() );
+        }
+    };
+}
+
+template<class T>
 void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -4491,6 +4567,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_location_variable( jo, "u_location_variable", false );
     } else if( jo.has_object( "npc_location_variable" ) ) {
         subeffect_fun.set_location_variable( jo, "npc_location_variable", true );
+    } else if( jo.has_object( "location_variable_adjust" ) ) {
+        subeffect_fun.set_location_variable_adjust( jo, "location_variable_adjust" );
     } else if( jo.has_int( "u_set_hp" ) ) {
         subeffect_fun.set_hp( jo, "u_set_hp", false );
     } else if( jo.has_int( "npc_set_hp" ) ) {
