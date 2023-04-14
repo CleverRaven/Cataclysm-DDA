@@ -16,6 +16,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_utility.h"
 #include "character.h"
 #include "coordinates.h"
 #include "dialogue.h"
@@ -2699,6 +2700,8 @@ void eoc_math<T>::from_json( const JsonObject &jo, std::string const &member )
             action = oper::mod_assign;
         } else if( oper == "==" ) {
             action = oper::equal;
+        } else if( oper == "!=" ) {
+            action = oper::not_equal;
         } else if( oper == "<" ) {
             action = oper::less;
         } else if( oper == "<=" ) {
@@ -2749,8 +2752,9 @@ double eoc_math<T>::act( T const &d ) const
             lhs.assign( d, mhs.eval( d ) - 1 );
             break;
         case oper::equal:
-            // FIXME: float comparison
-            return lhs.eval( d ) == rhs.eval( d );
+            return float_equals( lhs.eval( d ), rhs.eval( d ) );
+        case oper::not_equal:
+            return !float_equals( lhs.eval( d ), rhs.eval( d ) );
         case oper::less:
             return lhs.eval( d ) < rhs.eval( d );
         case oper::equal_or_less:
