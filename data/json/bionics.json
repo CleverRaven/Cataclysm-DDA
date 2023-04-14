@@ -968,9 +968,8 @@
   {
     "id": "bio_flashlight_highmode",
     "type": "bionic",
-    "name": { "str": "Cranial Flashlight High-Intensity Mode" },
+    "name": { "str": "Ultrabright Flashlight" },
     "description": "You can greatly intensify the power of your bionic flashlight to be much brighter at a much higher power cost.",
-    "occupied_bodyparts": [ [ "head", 1 ] ],
     "act_cost": "12 J",
     "react_cost": "12 J",
     "time": "1 s",
