@@ -351,6 +351,13 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                     return false;
                 }
             }
+            if( critter.attitude_to( you ) == Creature::Attitude::NEUTRAL &&
+                g->safe_mode != SAFE_MODE_OFF ) {
+                add_msg( m_warning,
+                         _( "Switch off safe mode to attack the %s." ), critter.name() );
+                return false;
+            }
+
             you.melee_attack( critter, true );
             if( critter.is_hallucination() ) {
                 critter.die( &you );
