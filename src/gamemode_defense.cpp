@@ -73,11 +73,9 @@ static constexpr int SPECIAL_WAVE_CHANCE = 5;
 // Don't use a special wave with < X monsters
 static constexpr int SPECIAL_WAVE_MIN = 5;
 
-#define SELCOL(n) (selection == (n) ? c_yellow : c_blue)
+#define SELCOL(n) (selection == (n) ? c_yellow : c_light_blue)
 #define TOGCOL(n, b) (selection == (n) ? ((b) ? c_light_green : c_yellow) :\
                       ((b) ? c_green : c_dark_gray))
-#define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
-                     ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
 static std::string caravan_category_name( caravan_category cat );
 static std::vector<itype_id> caravan_items( caravan_category cat );
@@ -500,16 +498,15 @@ void defense_game::setup()
     } );
     ui.mark_resize();
 
-    int selection = 1;
-    int selection_max = 20;
+    int selection = 0;
+    int num_selections = 20;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         refresh_setup( w, selection );
     } );
 
     input_context ctxt( "DEFENSE_SETUP" );
-    ctxt.register_action( "UP", to_translation( "Previous option" ) );
-    ctxt.register_action( "DOWN", to_translation( "Next option" ) );
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "LEFT", to_translation( "Cycle option value" ) );
     ctxt.register_action( "RIGHT", to_translation( "Cycle option value" ) );
     ctxt.register_action( "CONFIRM", to_translation( "Toggle option" ) );
@@ -528,78 +525,39 @@ void defense_game::setup()
             } else {
                 return;
             }
-        } else if( action == "DOWN" ) {
-            if( selection == selection_max ) {
-                selection = 1;
-            } else {
-                selection++;
-            }
-        } else if( action == "UP" ) {
-            if( selection == 1 ) {
-                selection = selection_max;
-            } else {
-                selection--;
-            }
+        } else if( navigate_ui_list( action, selection, 5, num_selections, true ) ) {
         } else {
             switch( selection ) {
-                case 1:
+                case 0:
                     // Scenario selection
-                    if( action == "RIGHT" ) {
-                        if( style == static_cast<defense_style>( NUM_DEFENSE_STYLES - 1 ) ) {
-                            style = static_cast<defense_style>( 1 );
-                        } else {
-                            style = static_cast<defense_style>( style + 1 );
-                        }
-                    }
-                    if( action == "LEFT" ) {
-                        if( style == static_cast<defense_style>( 1 ) ) {
-                            style = static_cast<defense_style>( NUM_DEFENSE_STYLES - 1 );
-                        } else {
-                            style = static_cast<defense_style>( style - 1 );
-                        }
+                    if( action == "LEFT" || action == "RIGHT" ) {
+                        style = increment_and_wrap( style, action == "RIGHT", NUM_DEFENSE_STYLES );
                     }
                     init_to_style( style );
                     break;
 
-                case 2:
+                case 1:
                     // Location selection
-                    if( action == "RIGHT" ) {
-                        if( location == static_cast<defense_location>( NUM_DEFENSE_LOCATIONS - 1 ) ) {
-                            location = static_cast<defense_location>( 1 );
-                        } else {
-                            location = static_cast<defense_location>( location + 1 );
-                        }
+                    if( action == "LEFT" || action == "RIGHT" ) {
+                        location = increment_and_wrap( location, action == "RIGHT", NUM_DEFENSE_LOCATIONS );
                     }
-                    if( action == "LEFT" ) {
-                        if( location == static_cast<defense_location>( 1 ) ) {
-                            location = static_cast<defense_location>( NUM_DEFENSE_LOCATIONS - 1 );
-                        } else {
-                            location = static_cast<defense_location>( location - 1 );
-                        }
+                    break;
+
+                case 2:
+                    // Difficulty of the first wave
+                    if( action == "LEFT" || action == "RIGHT" ) {
+                        initial_difficulty = increment_and_clamp( initial_difficulty, action == "RIGHT" ? 5 : -5, 1000 );
                     }
                     break;
 
                 case 3:
-                    // Difficulty of the first wave
-                    if( action == "LEFT" && initial_difficulty > 10 ) {
-                        initial_difficulty -= 5;
-                    }
-                    if( action == "RIGHT" && initial_difficulty < 995 ) {
-                        initial_difficulty += 5;
+                    // Wave Difficulty
+                    if( action == "LEFT" || action == "RIGHT" ) {
+                        wave_difficulty = increment_and_clamp( wave_difficulty, action == "RIGHT" ? 5 : -5, 1000 );
                     }
                     break;
 
                 case 4:
-                    // Wave Difficulty
-                    if( action == "LEFT" && wave_difficulty > 10 ) {
-                        wave_difficulty -= 5;
-                    }
-                    if( action == "RIGHT" && wave_difficulty < 995 ) {
-                        wave_difficulty += 5;
-                    }
-                    break;
-
-                case 5:
                     if( action == "LEFT" && time_between_waves > 5_minutes ) {
                         time_between_waves -= 5_minutes;
                     }
@@ -608,43 +566,31 @@ void defense_game::setup()
                     }
                     break;
 
-                case 6:
-                    if( action == "LEFT" && waves_between_caravans > 1 ) {
-                        waves_between_caravans -= 1;
+                case 5:
+                    if( action == "LEFT" || action == "RIGHT" ) {
+                        waves_between_caravans = increment_and_clamp( waves_between_caravans, action == "RIGHT", 1, 50 );
                     }
-                    if( action == "RIGHT" && waves_between_caravans < 50 ) {
-                        waves_between_caravans += 1;
+                    break;
+
+                case 6:
+                    if( action == "LEFT" || action == "RIGHT" ) {
+                        initial_cash = increment_and_clamp( initial_cash, action == "LEFT" ? -100 : 100, 1000000 );
                     }
                     break;
 
                 case 7:
-                    if( action == "LEFT" && initial_cash > 0 ) {
-                        initial_cash -= 100;
-                    }
-                    if( action == "RIGHT" && initial_cash < 1000000 ) {
-                        initial_cash += 100;
+                    if( action == "LEFT" || action == "RIGHT" ) {
+                        cash_per_wave = increment_and_clamp( cash_per_wave, action == "LEFT" ? -100 : 100, 1000000 );
                     }
                     break;
 
                 case 8:
-                    if( action == "LEFT" && cash_per_wave > 0 ) {
-                        cash_per_wave -= 100;
-                    }
-                    if( action == "RIGHT" && cash_per_wave < 1000000 ) {
-                        cash_per_wave += 100;
+                    if( action == "LEFT" || action == "RIGHT" ) {
+                        cash_increase = increment_and_clamp( cash_increase, action == "LEFT" ? -50 : 50, 1000000 );
                     }
                     break;
 
                 case 9:
-                    if( action == "LEFT" && cash_increase > 0 ) {
-                        cash_increase -= 50;
-                    }
-                    if( action == "RIGHT" && cash_increase < 1000000 ) {
-                        cash_increase += 50;
-                    }
-                    break;
-
-                case 10:
                     if( action == "CONFIRM" ) {
                         zombies = !zombies;
                         specials = false;
@@ -653,62 +599,62 @@ void defense_game::setup()
                     mvwprintz( w, point( 14, 18 ), c_yellow, _( "Special Zombies" ) );
                     break;
 
-                case 11:
+                case 10:
                     if( action == "CONFIRM" ) {
                         specials = !specials;
                         zombies = false;
                     }
                     break;
 
-                case 12:
+                case 11:
                     if( action == "CONFIRM" ) {
                         spiders = !spiders;
                     }
                     break;
 
-                case 13:
+                case 12:
                     if( action == "CONFIRM" ) {
                         triffids = !triffids;
                     }
                     break;
 
-                case 14:
+                case 13:
                     if( action == "CONFIRM" ) {
                         robots = !robots;
                     }
                     break;
 
-                case 15:
+                case 14:
                     if( action == "CONFIRM" ) {
                         subspace = !subspace;
                     }
                     break;
 
-                case 16:
+                case 15:
                     if( action == "CONFIRM" ) {
                         hunger = !hunger;
                     }
                     break;
 
-                case 17:
+                case 16:
                     if( action == "CONFIRM" ) {
                         thirst = !thirst;
                     }
                     break;
 
-                case 18:
+                case 17:
                     if( action == "CONFIRM" ) {
                         sleep = !sleep;
                     }
                     break;
 
-                case 19:
+                case 18:
                     if( action == "CONFIRM" ) {
                         mercenaries = !mercenaries;
                     }
                     break;
 
-                case 20:
+                case 19:
                     if( action == "CONFIRM" ) {
                         allow_save = !allow_save;
                     }
@@ -720,58 +666,58 @@ void defense_game::setup()
 
 void defense_game::refresh_setup( const catacurses::window &w, int selection )
 {
+    // *INDENT-OFF* to preserve column alignment and human readability
     werase( w );
     draw_border( w, c_light_gray, _( "DEFENSE MODE" ), c_light_red );
-    mvwprintz( w, point( 2, 1 ), c_light_red,
-               _( "Press direction keys to cycle, ENTER to toggle, S to start" ) );
-    mvwprintz( w, point( 2, 2 ), c_white, _( "Scenario:" ) );
-    mvwprintz( w, point( 2, 3 ), SELCOL( 1 ), defense_style_name( style ) );
-    mvwprintz( w, point( 28, 3 ), c_light_gray, defense_style_description( style ) );
-    mvwprintz( w, point( 2, 4 ), c_white, _( "Location:" ) );
-    mvwprintz( w, point( 2, 5 ), SELCOL( 2 ), defense_location_name( location ) );
-    mvwprintz( w, point( 28, 5 ), c_light_gray, defense_location_description( location ) );
 
-    mvwprintz( w, point( 2, 7 ), c_white, _( "Initial Difficulty:" ) );
-    mvwprintz( w, point( NUMALIGN( initial_difficulty ), 7 ), SELCOL( 3 ), "%d", initial_difficulty );
-    mvwprintz( w, point( 28, 7 ), c_light_gray, _( "The difficulty of the first wave." ) );
-    mvwprintz( w, point( 2, 8 ), c_white, _( "Wave Difficulty:" ) );
-    mvwprintz( w, point( NUMALIGN( wave_difficulty ), 8 ), SELCOL( 4 ), "%d", wave_difficulty );
-    mvwprintz( w, point( 28, 8 ), c_light_gray, _( "The increase of difficulty with each wave." ) );
+    mvwprintz( w, point(  2,  1 ), c_light_red,  _( "Press direction keys to cycle, ENTER to toggle, S to start" ) );
+    mvwprintz( w, point(  2,  2 ), c_white,      _( "Scenario:" ) );
+    mvwprintz( w, point(  2,  3 ), SELCOL(  0 ), defense_style_name( style ) );
+    mvwprintz( w, point( 28,  3 ), c_light_gray, defense_style_description( style ) );
+    mvwprintz( w, point(  2,  4 ), c_white,      _( "Location:" ) );
+    mvwprintz( w, point(  2,  5 ), SELCOL(  1 ), defense_location_name( location ) );
+    mvwprintz( w, point( 28,  5 ), c_light_gray, defense_location_description( location ) );
 
-    mvwprintz( w, point( 2, 10 ), c_white, _( "Time b/w Waves:" ) );
-    mvwprintz( w, point( NUMALIGN( to_minutes<int>( time_between_waves ) ), 10 ), SELCOL( 5 ),
-               "%d", to_minutes<int>( time_between_waves ) );
+    mvwprintz( w, point(  2,  7 ), c_white,      _( "Initial Difficulty:" ) );
+    mvwprintz( w, point( 20,  7 ), SELCOL(  2 ), "%5d", initial_difficulty );
+    mvwprintz( w, point( 28,  7 ), c_light_gray, _( "The difficulty of the first wave." ) );
+    mvwprintz( w, point(  2,  8 ), c_white,      _( "Wave Difficulty:" ) );
+    mvwprintz( w, point( 20,  8 ), SELCOL(  3 ), "%5d", wave_difficulty );
+    mvwprintz( w, point( 28,  8 ), c_light_gray, _( "The increase of difficulty with each wave." ) );
+
+    mvwprintz( w, point(  2, 10 ), c_white,      _( "Time b/w Waves:" ) );
+    mvwprintz( w, point( 20, 10 ), SELCOL(  4 ), "%5d", to_minutes<int>( time_between_waves ) );
     mvwprintz( w, point( 28, 10 ), c_light_gray, _( "The time, in minutes, between waves." ) );
-    mvwprintz( w, point( 2, 11 ), c_white, _( "Waves b/w Caravans:" ) );
-    mvwprintz( w, point( NUMALIGN( waves_between_caravans ), 11 ), SELCOL( 6 ), "%d",
-               waves_between_caravans );
+    mvwprintz( w, point(  2, 11 ), c_white,      _( "Waves b/w Caravans:" ) );
+    mvwprintz( w, point( 20, 11 ), SELCOL(  5 ), "%5d", waves_between_caravans );
     mvwprintz( w, point( 28, 11 ), c_light_gray, _( "The number of waves in between caravans." ) );
 
-    mvwprintz( w, point( 2, 13 ), c_white, _( "Initial Cash:" ) );
-    mvwprintz( w, point( NUMALIGN( initial_cash ), 13 ), SELCOL( 7 ), "%d", initial_cash / 100 );
+    mvwprintz( w, point(  2, 13 ), c_white,      _( "Initial Cash:" ) );
+    mvwprintz( w, point( 20, 13 ), SELCOL(  6 ), "%5d", initial_cash / 100 );
     mvwprintz( w, point( 28, 13 ), c_light_gray, _( "The amount of money the player starts with." ) );
-    mvwprintz( w, point( 2, 14 ), c_white, _( "Cash for 1st Wave:" ) );
-    mvwprintz( w, point( NUMALIGN( cash_per_wave ), 14 ), SELCOL( 8 ), "%d", cash_per_wave / 100 );
+    mvwprintz( w, point(  2, 14 ), c_white,      _( "Cash for 1st Wave:" ) );
+    mvwprintz( w, point( 20, 14 ), SELCOL(  7 ), "%5d", cash_per_wave / 100 );
     mvwprintz( w, point( 28, 14 ), c_light_gray, _( "The cash awarded for the first wave." ) );
-    mvwprintz( w, point( 2, 15 ), c_white, _( "Cash Increase:" ) );
-    mvwprintz( w, point( NUMALIGN( cash_increase ), 15 ), SELCOL( 9 ), "%d", cash_increase / 100 );
+    mvwprintz( w, point(  2, 15 ), c_white,      _( "Cash Increase:" ) );
+    mvwprintz( w, point( 20, 15 ), SELCOL(  8 ), "%5d", cash_increase / 100 );
     mvwprintz( w, point( 28, 15 ), c_light_gray, _( "The increase in the award each wave." ) );
 
-    mvwprintz( w, point( 2, 17 ), c_white, _( "Enemy Selection:" ) );
-    mvwprintz( w, point( 2, 18 ), TOGCOL( 10, zombies ), _( "Zombies" ) );
-    mvwprintz( w, point( 14, 18 ), TOGCOL( 11, specials ), _( "Special Zombies" ) );
-    mvwprintz( w, point( 34, 18 ), TOGCOL( 12, spiders ), _( "Spiders" ) );
-    mvwprintz( w, point( 46, 18 ), TOGCOL( 13, triffids ), _( "Triffids" ) );
-    mvwprintz( w, point( 59, 18 ), TOGCOL( 14, robots ), _( "Robots" ) );
-    mvwprintz( w, point( 70, 18 ), TOGCOL( 15, subspace ), _( "Subspace" ) );
+    mvwprintz( w, point(  2, 17 ), c_white,                _( "Enemy Selection:" ) );
+    mvwprintz( w, point(  2, 18 ), TOGCOL(  9, zombies ),  _( "Zombies" ) );
+    mvwprintz( w, point( 14, 18 ), TOGCOL( 10, specials ), _( "Special Zombies" ) );
+    mvwprintz( w, point( 34, 18 ), TOGCOL( 11, spiders ),  _( "Spiders" ) );
+    mvwprintz( w, point( 46, 18 ), TOGCOL( 12, triffids ), _( "Triffids" ) );
+    mvwprintz( w, point( 59, 18 ), TOGCOL( 13, robots ),   _( "Robots" ) );
+    mvwprintz( w, point( 70, 18 ), TOGCOL( 14, subspace ), _( "Subspace" ) );
 
-    mvwprintz( w, point( 2, 20 ), c_white, _( "Needs:" ) );
-    mvwprintz( w, point( 2, 21 ), TOGCOL( 16, hunger ), _( "Food" ) );
-    mvwprintz( w, point( 14, 21 ), TOGCOL( 17, thirst ), _( "Water" ) );
-    mvwprintz( w, point( 34, 21 ), TOGCOL( 18, sleep ), _( "Sleep" ) );
-    mvwprintz( w, point( 46, 21 ), TOGCOL( 19, mercenaries ), _( "Mercenaries" ) );
-    mvwprintz( w, point( 59, 21 ), TOGCOL( 20, allow_save ), _( "Allow save" ) );
+    mvwprintz( w, point(  2, 20 ), c_white,                   _( "Needs:" ) );
+    mvwprintz( w, point(  2, 21 ), TOGCOL( 15, hunger ),      _( "Food" ) );
+    mvwprintz( w, point( 14, 21 ), TOGCOL( 16, thirst ),      _( "Water" ) );
+    mvwprintz( w, point( 34, 21 ), TOGCOL( 17, sleep ),       _( "Sleep" ) );
+    mvwprintz( w, point( 46, 21 ), TOGCOL( 18, mercenaries ), _( "Mercenaries" ) );
+    mvwprintz( w, point( 59, 21 ), TOGCOL( 19, allow_save ),  _( "Allow save" ) );
     wnoutrefresh( w );
+    // *INDENT-ON*
 }
 
 std::string defense_style_name( defense_style style )
@@ -861,9 +807,9 @@ std::string defense_location_description( defense_location location )
         case DEFLOC_NULL:
             return "NULL Bug.  (defense.cpp:defense_location_description)";
         case DEFLOC_HOSPITAL:
-            return                 _( "One entrance and many rooms.  Some medical supplies." );
+            return                 _( "One entrance and many rooms, some medical supplies." );
         case DEFLOC_WORKS:
-            return                 _( "Easily fortifiable building.  Lots of useful tools." );
+            return                 _( "Easily fortifiable building, lots of useful tools." );
         case DEFLOC_MALL:
             return                 _( "A large building with various supplies." );
         case DEFLOC_BAR:

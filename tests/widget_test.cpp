@@ -9,7 +9,6 @@
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "options_helpers.h"
 #include "weather.h"
@@ -53,7 +52,6 @@ static const move_mode_id move_mode_walk( "walk" );
 static const trait_id trait_GOODHEARING( "GOODHEARING" );
 static const trait_id trait_NIGHTVISION( "NIGHTVISION" );
 
-static const weather_type_id weather_acid_rain( "acid_rain" );
 static const weather_type_id weather_cloudy( "cloudy" );
 static const weather_type_id weather_drizzle( "drizzle" );
 static const weather_type_id weather_portal_storm( "portal_storm" );
@@ -1579,17 +1577,17 @@ TEST_CASE( "outer armor widget", "[widget][armor]" )
     // Wearing something covering torso
     ava.worn.wear_item( ava, item( "test_zentai" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
-           "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
+           "Torso Armor: <color_c_green>++</color>\u00A0test zentai (poor fit)" );
 
     // Wearing socks doesn't affect the torso
     ava.worn.wear_item( ava, item( "test_socks" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
-           "Torso Armor: <color_c_light_green>||</color>\u00A0test zentai (poor fit)" );
+           "Torso Armor: <color_c_green>++</color>\u00A0test zentai (poor fit)" );
 
     // Wearing something else on the torso
     ava.worn.wear_item( ava, item( "test_hazmat_suit" ), false, false );
     CHECK( torso_armor_w.layout( ava ) ==
-           "Torso Armor: <color_c_light_green>||</color>\u00A0TEST hazmat suit (poor fit)" );
+           "Torso Armor: <color_c_green>++</color>\u00A0TEST hazmat suit (poor fit)" );
 }
 
 TEST_CASE( "radiation badge widget", "[widget][radiation]" )
@@ -1604,7 +1602,8 @@ TEST_CASE( "radiation badge widget", "[widget][radiation]" )
 
     // Acquire and wear a radiation badge
     item rad_badge( itype_rad_badge );
-    item *rad_badge_worn = & **ava.worn.wear_item( ava, rad_badge, false, false );
+    auto rad_badge_iter = *ava.worn.wear_item( ava, rad_badge, false, false );
+    item *rad_badge_worn = & *rad_badge_iter;
 
     // Color indicator is shown when character has radiation badge
     rad_badge_worn->irradiation = 0;
@@ -1930,11 +1929,6 @@ TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
         SECTION( "snowing" ) {
             scoped_weather_override forecast( weather_snowing );
             CHECK( weather_w.layout( ava ) == "Weather: <color_c_white>Snowing</color>" );
-        }
-
-        SECTION( "acid rain" ) {
-            scoped_weather_override forecast( weather_acid_rain );
-            CHECK( weather_w.layout( ava ) == "Weather: <color_c_green>Acid Rain</color>" );
         }
 
         SECTION( "portal storm" ) {

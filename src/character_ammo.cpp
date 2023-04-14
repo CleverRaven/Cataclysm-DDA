@@ -61,7 +61,7 @@ bool Character::can_reload( const item &it, const item *ammo ) const
     }
 
     if( it.is_ammo_belt() ) {
-        const cata::optional<itype_id> &linkage = it.type->magazine->linkage;
+        const std::optional<itype_id> &linkage = it.type->magazine->linkage;
         if( linkage && !has_charges( *linkage, 1 ) ) {
             return false;
         }
@@ -443,15 +443,9 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
         qty = 1;
     }
 
-    // If necessary create duplicate with appropriate number of charges
-    item obj = ammo;
-    obj = obj.split( qty );
-    if( obj.is_null() ) {
-        obj = ammo;
-    }
     // No base cost for handling ammo - that's already included in obtain cost
     // We have the ammo in our hands right now
-    int mv = item_handling_cost( obj, true, 0 );
+    int mv = item_handling_cost( ammo, true, 0, qty );
 
     if( ammo.has_flag( flag_MAG_BULKY ) ) {
         mv *= 1.5; // bulky magazines take longer to insert

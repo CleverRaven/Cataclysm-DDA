@@ -315,6 +315,7 @@
       ",": "f_rack",
       ";": "f_sofa",
       "@": "f_desk",
+      "}": "f_room_divider",
       "_": "f_console",
       "₸": "f_pool_table",
       "*": "f_region_flower",
@@ -417,10 +418,5 @@
       "k": "f_sink"
     },
     "toilets": { "&": {  } }
-  },
-  {
-    "type": "palette",
-    "id": "retirement_community_sewer_palette",
-    "terrain": { ".": "t_sewage", "|": "t_sewage_pipe", "-": "t_grate", "w": "t_bridge", "<": "t_ladder_up" }
   }
 ]

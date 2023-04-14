@@ -1015,7 +1015,7 @@ class JsonOut
 class TextJsonObject
 {
     private:
-        std::map<std::string, int> positions;
+        std::map<std::string, int, std::less<>> positions;
         int start;
         int end_;
         bool final_separator;
@@ -1024,11 +1024,11 @@ class TextJsonObject
         mutable bool report_unvisited_members = true;
         mutable bool reported_unvisited_members = false;
 #endif
-        void mark_visited( const std::string &name ) const;
+        void mark_visited( std::string_view name ) const;
         void report_unvisited() const;
 
         TextJsonIn *jsin;
-        int verify_position( const std::string &name,
+        int verify_position( std::string_view name,
                              bool throw_exception = true ) const;
 
     public:
@@ -1064,8 +1064,8 @@ class TextJsonObject
         [[noreturn]] void throw_error( const std::string &err ) const;
         [[noreturn]] void throw_error_at( const std::string &name, const std::string &err ) const;
         // seek to a value and return a pointer to the TextJsonIn (member must exist)
-        TextJsonIn *get_raw( const std::string &name ) const;
-        TextJsonValue get_member( const std::string &name ) const;
+        TextJsonIn *get_raw( std::string_view name ) const;
+        TextJsonValue get_member( std::string_view name ) const;
         json_source_location get_source_location() const;
 
         // values by name
@@ -1575,7 +1575,7 @@ void add_array_to_set( std::set<std::string> &, const TextJsonObject &json,
 std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 
 template<typename T>
-void serialize( const cata::optional<T> &obj, JsonOut &jsout )
+void serialize( const std::optional<T> &obj, JsonOut &jsout )
 {
     if( obj ) {
         jsout.write( *obj );
@@ -1585,7 +1585,7 @@ void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 }
 
 template<typename T>
-void deserialize( cata::optional<T> &obj, const TextJsonValue &jsin )
+void deserialize( std::optional<T> &obj, const TextJsonValue &jsin )
 {
     if( jsin.test_null() ) {
         obj.reset();

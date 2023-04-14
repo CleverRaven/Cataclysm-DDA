@@ -7,6 +7,7 @@
 #include "game_constants.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
 class JsonObject;
 class activity_type;
@@ -41,8 +42,10 @@ class activity_type
         bool refuel_fires = false;
         bool auto_needs = false;
         float activity_level = NO_EXERCISE;
-
     public:
+        effect_on_condition_id completion_EOC;
+        effect_on_condition_id do_turn_EOC;
+
         const activity_id &id() const {
             return id_;
         }

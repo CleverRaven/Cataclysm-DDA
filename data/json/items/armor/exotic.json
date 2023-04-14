@@ -14,6 +14,7 @@
     "color": "dark_gray",
     "material_thickness": 10,
     "non_functional": "migo_plate",
+    "damage_verb": "crumbles as blood oozes from its insides",
     "flags": [ "ABLATIVE_LARGE", "CANT_WEAR", "TRADER_AVOID" ],
     "armor": [
       {
@@ -43,6 +44,7 @@
     "color": "dark_gray",
     "material_thickness": 8,
     "non_functional": "migo_plate_undergrown",
+    "damage_verb": "crumbles as blood oozes from its insides",
     "//": "transforms over a day",
     "countdown_interval": 86400,
     "countdown_action": { "type": "transform", "target": "migo_plate_overgrown", "msg": "The iridescent carapace plate expands as it grows." },
@@ -75,6 +77,7 @@
     "color": "dark_gray",
     "material_thickness": 6,
     "non_functional": "migo_plate_naked",
+    "damage_verb": "crumbles as blood oozes from its insides",
     "//": "transforms over a day",
     "countdown_interval": 86400,
     "countdown_action": { "type": "transform", "target": "migo_plate", "msg": "The iridescent carapace plate expands as it grows." },

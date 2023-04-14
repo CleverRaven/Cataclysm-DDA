@@ -268,7 +268,7 @@ void ma_technique::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "attack_vectors_random", attack_vectors_random, {} );
 
     for( JsonValue jv : jo.get_array( "eocs" ) ) {
-        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     reqs.load( jo, src );
@@ -305,9 +305,10 @@ void ma_buff::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "bonus_blocks", blocks_bonus, 0 );
 
     optional( jo, was_loaded, "quiet", quiet, false );
-    optional( jo, was_loaded, "throw_immune", throw_immune, false );
     optional( jo, was_loaded, "stealthy", stealthy, false );
     optional( jo, was_loaded, "melee_bash_damage_cap_bonus", melee_bash_damage_cap_bonus, false );
+
+    optional( jo, was_loaded, "flags", flags );
 
     reqs.load( jo, src );
     bonuses.load( jo );
@@ -348,7 +349,7 @@ class ma_buff_reader : public generic_typed_reader<ma_buff_reader>
         }
 };
 
-void martialart::load( const JsonObject &jo, const std::string & )
+void martialart::load( const JsonObject &jo, const std::string &src )
 {
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
@@ -374,37 +375,37 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
     for( JsonValue jv : jo.get_array( "static_eocs" ) ) {
-        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        static_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onmove_eocs" ) ) {
-        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onmove_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onpause_eocs" ) ) {
-        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onpause_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onhit_eocs" ) ) {
-        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onhit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onattack_eocs" ) ) {
-        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onattack_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "ondodge_eocs" ) ) {
-        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        ondodge_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onblock_eocs" ) ) {
-        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onblock_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "ongethit_eocs" ) ) {
-        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        ongethit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onmiss_eocs" ) ) {
-        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onmiss_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "oncrit_eocs" ) ) {
-        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        oncrit_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
     for( JsonValue jv : jo.get_array( "onkill_eocs" ) ) {
-        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        onkill_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     optional( jo, was_loaded, "techniques", techniques, string_id_reader<::ma_technique> {} );
@@ -861,8 +862,6 @@ ma_buff::ma_buff()
     dodges_bonus = 0; // extra dodges, like karate
     blocks_bonus = 0; // extra blocks, like karate
 
-    throw_immune = false;
-
 }
 
 efftype_id ma_buff::get_effect_id() const
@@ -936,10 +935,6 @@ float ma_buff::damage_mult( const Character &u, damage_type dt ) const
 {
     return bonuses.get_mult( u, affected_stat::DAMAGE, dt );
 }
-bool ma_buff::is_throw_immune() const
-{
-    return throw_immune;
-}
 bool ma_buff::is_melee_bash_damage_cap_bonus() const
 {
     return melee_bash_damage_cap_bonus;
@@ -951,6 +946,16 @@ bool ma_buff::is_quiet() const
 bool ma_buff::is_stealthy() const
 {
     return stealthy;
+}
+
+bool ma_buff::has_flag( const json_character_flag &flag ) const
+{
+    for( const json_character_flag &q : flags ) {
+        if( q == flag ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool ma_buff::can_melee() const
@@ -1682,12 +1687,22 @@ float Character::mabuff_attack_cost_mult() const
     return ret;
 }
 
-bool Character::is_throw_immune() const
+bool Character::has_mabuff_flag( const json_character_flag &flag ) const
 {
-    return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
-        return b.is_throw_immune();
+    return search_ma_buff_effect( *effects, [flag]( const ma_buff & b, const effect & ) {
+        return b.has_flag( flag );
     } );
 }
+
+int Character::count_mabuff_flag( const json_character_flag &flag ) const
+{
+    int ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, flag]( const ma_buff & b, const effect & ) {
+        ret += b.has_flag( flag );
+    } );
+    return ret;
+}
+
 bool Character::is_melee_bash_damage_cap_bonus() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
@@ -2082,8 +2097,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 std::vector<std::string> &weaps = weaps_by_cat[weapon_category_OTHER_INVALID_WEAP_CAT];
                 weaps.erase( std::unique( weaps.begin(), weaps.end() ), weaps.end() );
                 buffer += std::string( "<header>" ) + _( "OTHER" ) + std::string( ":</header> " );
-                buffer += enumerate_as_string( weaps );
+                buffer += enumerate_as_string( weaps ) + "\n";
             }
+            buffer += "--\n";
         }
 
         catacurses::window w;
@@ -2117,14 +2133,11 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
 
         scrollbar sb;
 
-        input_context ict;
-        sb.set_draggable( ict );
-        ict.register_action( "UP" );
-        ict.register_action( "DOWN" );
-        ict.register_action( "PAGE_UP" );
-        ict.register_action( "PAGE_DOWN" );
-        ict.register_action( "QUIT" );
-        ict.register_action( "HELP_KEYBINDINGS" );
+        input_context ctxt;
+        sb.set_draggable( ctxt );
+        ctxt.register_navigate_ui_list();
+        ctxt.register_action( "QUIT" );
+        ctxt.register_action( "HELP_KEYBINDINGS" );
 
         ui.on_redraw( [&]( const ui_adaptor & ) {
             werase( w );
@@ -2142,29 +2155,16 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         } );
 
         do {
-            if( selected < 0 || iLines < height ) {
-                selected = 0;
-            } else if( selected >= iLines - height ) {
-                selected = iLines - height;
-            }
-
             ui_manager::redraw();
-            const int scroll_lines = catacurses::getmaxy( w ) - 4;
-            std::string action = ict.handle_input();
+            const size_t scroll_lines = catacurses::getmaxy( w ) - 3;
+            std::string action = ctxt.handle_input();
 
             if( action == "QUIT" ) {
                 break;
-            } else if( sb.handle_dragging( action, ict.get_coordinates_text( catacurses::stdscr ),
-                                           selected ) ) {
-                // Scrollbar has handled action
-            } else if( action == "DOWN" ) {
-                selected++;
-            } else if( action == "UP" ) {
-                selected--;
-            } else if( action == "PAGE_DOWN" ) {
-                selected += scroll_lines;
-            } else if( action == "PAGE_UP" ) {
-                selected -= scroll_lines;
+            } else if( sb.handle_dragging( action, ctxt.get_coordinates_text( catacurses::stdscr ),
+                                           selected )
+                       || navigate_ui_list( action, selected, scroll_lines, iLines - height + 1, false ) ) {
+                // NO FURTHER ACTION REQUIRED
             }
         } while( true );
     }

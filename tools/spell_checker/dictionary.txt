@@ -8,13 +8,11 @@ accessorizing
 acclimatization
 accoustrement
 accuracies
-accurize
-accurized
-accurizing 
 achelousaurus
 acho
 acidball
 acrocanthosaurus
+acrostic
 acrylamide
 activatable
 actuated
@@ -44,11 +42,14 @@ agape
 agelessness
 agender
 aggregates
+ahimsa
 airgun
 airhorn
 airjack
 airsoft
 airworthy
+aketon
+aketons
 alamosaurus
 alate
 alates
@@ -56,6 +57,7 @@ alay
 albertonykus
 albertosaurus
 alchemic
+alchemies
 aldosterone
 alembic
 alexandrite
@@ -78,6 +80,7 @@ alinagerimi
 altamente
 alternators
 alumentum
+aluminized
 amargasaurus
 ambusher
 amigara
@@ -366,6 +369,7 @@ brined
 bringin
 broadhead
 broadswords
+brobdignagian
 bronchodilator
 bronchospasm
 bubblicious
@@ -387,8 +391,9 @@ burdocks
 burette
 burnback
 burnin
-burs
 butadiene
+butternut
+butternuts
 buttstock
 buzzcut
 buzzz
@@ -443,6 +448,7 @@ cdda
 cegamente
 centric
 centrosaurus
+centrum
 cepa
 cephalopod
 cephalothorax
@@ -551,6 +557,7 @@ compsognathus
 concavities
 concealability
 concealable
+concentrator
 concentrically
 concerningly
 condensor
@@ -581,6 +588,7 @@ corporality
 corporeality
 corvid
 corythosaurus
+cosplayers
 countermine
 countertime
 couters
@@ -597,6 +605,7 @@ creped
 criniere
 cripplingly
 crispier
+crossbeams
 crossbuck
 crossfit
 crossguard
@@ -667,6 +676,7 @@ debugged
 decap
 decelerates
 deceptived
+dedicational
 defatted
 deforming
 dehina
@@ -709,6 +719,7 @@ devourer
 devs
 dewlap
 dextrous
+dharmachakra
 dieselpunk
 diffract
 diffracting
@@ -720,6 +731,7 @@ dimestore
 diminute
 dimorphism
 dimorphodon
+dioceses
 diodes
 dioicus
 dionaea
@@ -861,11 +873,13 @@ enervating
 enfranchisement
 enjoyability
 entropic
+envenom
 envenomations
 envenomed
 eocs
 eolocanth
 eoraptor
+eou
 epicuticle
 epistemology
 eppies
@@ -880,6 +894,7 @@ erythrocytes
 erzeugen
 escalier
 eset
+esous
 espatier
 espatiers
 esque
@@ -893,6 +908,7 @@ euoplocephalus
 eusocial
 evacs
 evacuee
+evangelized
 everburning
 everfrost
 eviscerations
@@ -969,6 +985,7 @@ fightin
 filenames
 fileset
 filmstrip
+finial
 finned
 fireboots
 firebrick
@@ -1008,6 +1025,7 @@ flechettes
 fleshier
 fletched
 fletching
+flexibility
 flightworthy
 flim
 flintknapping
@@ -1032,6 +1050,7 @@ foodborne
 foodburger
 foodcart
 footgear
+footrest
 forager
 foregrip
 foregrips
@@ -1065,6 +1084,7 @@ frostburnt
 frostnipped
 frostrimed
 froths
+frybread
 ft
 fuckn
 fuckwits
@@ -1327,6 +1347,7 @@ hypochlorite
 hypogaea
 ibalalehu
 ichor
+ichthys
 idkont
 ifoundramsesthecat
 ignitable
@@ -1391,6 +1412,7 @@ intoxicative
 inulin
 inverts
 invlets
+ios
 ironshod
 irradiance
 irremovable
@@ -1421,6 +1443,7 @@ jointer
 jointing
 jort
 jorts
+jpg
 jtest
 junglefowl
 junipers
@@ -1474,6 +1497,7 @@ knapping
 knifehand
 knifemaker
 knockback
+knockin
 knotweed
 knowium
 knuckleduster
@@ -1625,10 +1649,12 @@ malting
 manafusion
 manageably
 manball
+manca
 mancae
 manfriendwich
 manhack
 manhacks
+manoomin
 manuc
 manwich
 mapgen
@@ -1665,6 +1691,7 @@ megalith
 megastore
 membranous
 mendacium
+menorah
 mesenterium
 meshwork
 messily
@@ -1702,6 +1729,7 @@ midden
 mideast
 mideastern
 midgame
+midground 
 midrange
 midsentence
 migo
@@ -1835,6 +1863,7 @@ nearsightedness
 necco
 neckbeard
 neckin
+neckwear
 necro
 necrowolf
 nectivore
@@ -2096,6 +2125,7 @@ plink
 plinker
 plinking
 plushie
+plushies
 pm
 podling
 podlings
@@ -2116,6 +2146,7 @@ polymorph
 polymorphed
 polypous
 polysexual
+polytheistic
 pomelos
 pomes
 ponderously
@@ -2402,6 +2433,7 @@ saltworks
 salvager
 salved
 samghati
+samsara
 sandleather
 sapience
 saproling
@@ -2442,8 +2474,8 @@ scutcher
 scutellosaurus
 scuttles
 sealab
-sealabs
 sealable
+sealabs
 seater
 secretively
 secubot
@@ -2560,6 +2592,7 @@ sommat
 somniferum
 soother
 sorrowfully
+soteriological
 soundpack
 sourness
 sp
@@ -2707,6 +2740,7 @@ superpositional
 supersoldier
 supersoldiers
 suppurated
+surcoat
 survivalcraft
 survivalists
 susurrate
@@ -2770,6 +2804,7 @@ tetrahedron
 th
 thawb
 themm
+therizinosaurus
 thermochemistry
 thermoplastics
 theropod
@@ -2834,6 +2869,7 @@ travelogue
 travelpack
 traversal
 travois
+treatin
 treelines
 trenchcoat
 trenchcoats
@@ -2929,6 +2965,7 @@ unipolar
 universalism
 unjacketed
 unkept
+unlife
 unlivable
 unlively
 unlives
@@ -3146,6 +3183,7 @@ youre
 yourselves
 youthful 
 yowl
+yoyos
 yugg
 yukata
 yulecat
@@ -3183,3 +3221,4 @@ zweitimber
 zygomaticus
 zzz
 zzzzchzzzzchurzzz
+zzzzchzzzzchurzzzpileus

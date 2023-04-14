@@ -141,6 +141,7 @@
     "//": "Itemgroup for lore snippet items in Xedra Offices and Labs.",
     "entries": [
       { "item": "report_march_lord", "prob": 10 },
+      { "item": "border_patrol_files", "prob": 10 },
       { "item": "green_postit_field_agent", "prob": 40 },
       { "item": "agent_postit_gray", "prob": 50 },
       { "item": "agent_postit_migo", "prob": 20 }
@@ -150,23 +151,25 @@
     "type": "item_group",
     "id": "fae_furs",
     "items": [
-      [ "hat_fur", 300 ],
-      [ "hat_faux_fur", 300 ],
+      [ "hat_fur", 30 ],
+      [ "hat_faux_fur", 30 ],
       [ "sleeveless_trenchcoat_fur", 10 ],
       [ "sleeveless_duster_fur", 10 ],
       [ "sleeveless_trenchcoat_faux_fur", 10 ],
-      [ "coat_fur_sf", 100 ],
-      [ "coat_faux_fur", 300 ],
-      [ "coat_fur", 300 ],
-      [ "gloves_fur", 300 ],
-      [ "boots_fur", 200 ],
-      [ "trenchcoat_faux_fur", 50 ],
-      [ "duster_faux_fur", 50 ],
-      [ "pants_faux_fur", 50 ],
-      [ "boots_glimmer_fur", 5 ],
-      [ "cloak_glimmer_fur", 5 ],
+      [ "coat_fur_sf", 50 ],
+      [ "coat_faux_fur", 30 ],
+      [ "coat_fur", 30 ],
+      [ "gloves_fur", 30 ],
+      [ "boots_fur", 20 ],
+      [ "trenchcoat_faux_fur", 10 ],
+      [ "duster_faux_fur", 10 ],
+      [ "pants_faux_fur", 10 ],
+      [ "boots_glimmer_fur", 8 ],
+      [ "cloak_glimmer_fur", 10 ],
       [ "coat_glimmer_fur", 1 ],
-      [ "duster_glimmer_fur", 1 ]
+      [ "duster_glimmer_fur", 1 ],
+      [ "sleeveless_duster_glimmer_fur", 1 ],
+      [ "sleeveless_trenchcoat_glimmer_fur", 1 ]
     ]
   },
   {
@@ -192,7 +195,10 @@
       { "item": "xl_mt_chainmail_hands", "prob": 20 },
       { "item": "xl_mt_chainmail_legs", "prob": 20 },
       { "item": "xl_mt_chainmail_vest", "prob": 20 },
-      { "item": "xl_mt_chainmail_feet", "prob": 20 }
+      { "item": "xl_mt_chainmail_feet", "prob": 20 },
+      { "item": "xl_boots_glimmer_fur", "prob": 20 },
+      { "item": "xl_coat_glimmer_fur", "prob": 20 },
+      { "item": "xl_duster_glimmer_fur", "prob": 20 }
     ]
   },
   {
@@ -242,7 +248,10 @@
       { "item": "xs_mt_chainmail_hood", "prob": 20 },
       { "item": "xs_mt_chainmail_hands", "prob": 20 },
       { "item": "xs_mt_chainmail_legs", "prob": 20 },
-      { "item": "xs_mt_chainmail_vest", "prob": 20 }
+      { "item": "xs_mt_chainmail_vest", "prob": 20 },
+      { "item": "xs_boots_glimmer_fur", "prob": 20 },
+      { "item": "xs_coat_glimmer_fur", "prob": 20 },
+      { "item": "xs_duster_glimmer_fur", "prob": 20 }
     ]
   },
   {
@@ -306,6 +315,24 @@
       { "item": "glock17_22", "prob": 10, "charges": [ 0, 22 ] },
       { "item": "glock_drum_50rd", "prob": 20, "charges": [ 0, 50 ] },
       { "item": "glock_drum_100rd", "prob": 5, "charges": [ 0, 100 ] }
+    ]
+  },
+  {
+    "id": "blood_containers",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      [ "flask_hip", 100 ],
+      [ "bowl_skull", 100 ],
+      { "item": "blood", "prob": 40, "container-item": "flask_hip" },
+      { "item": "blood", "prob": 20, "container-item": "2lcanteen" },
+      { "item": "blood", "prob": 40, "container-item": "bag_iv" },
+      { "item": "blood", "prob": 40, "container-item": "bottle_glass" },
+      { "item": "blood", "prob": 30, "container-item": "bottle_plastic" },
+      { "item": "blood", "prob": 20, "container-item": "bottle_plastic_small" },
+      { "item": "blood", "prob": 20, "container-item": "camelbak" },
+      { "item": "blood", "prob": 20, "container-item": "canteen" },
+      { "item": "blood", "prob": 10, "container-item": "thermos" }
     ]
   }
 ]

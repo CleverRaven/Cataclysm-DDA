@@ -57,7 +57,13 @@
         "................................................"
       ],
       "palettes": [ "hospital_2" ],
-      "terrain": { ".": "t_soil", "°": "t_wall_metal", ";": "t_door_metal_locked", "˽": "t_card_reader_broken", "-": "t_metal_floor" },
+      "terrain": {
+        ".": "t_soil",
+        "°": "t_wall_metal",
+        ";": [ "t_door_metal_locked", "t_door_metal_elocked" ],
+        "˽": "t_card_reader_broken",
+        "-": "t_metal_floor"
+      },
       "furniture": { "`": "f_dishwasher", "³": "f_rack" },
       "items": {
         "p": [

@@ -5175,6 +5175,32 @@
   },
   {
     "type": "construction",
+    "id": "app_water_wheel",
+    "group": "place_water_wheel",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "water_wheel", 1 ] ] ],
+    "pre_terrain": "t_water_moving_sh",
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_xl_water_wheel",
+    "group": "place_xl_water_wheel",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "xl_water_wheel", 1 ] ] ],
+    "pre_terrain": "t_water_moving_sh",
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
     "id": "app_heater_large",
     "group": "place_heater_large",
     "category": "APPLIANCE",
@@ -7510,7 +7536,6 @@
   {
     "type": "construction",
     "id": "hang_heavy_punching_bag",
-    "description": "A hefty leather bag in an oblong shape, suspended from a ceiling mount with a steel chain.  It can be used for exercise and combat training, with the notable advantage that it doesn't fight back.",
     "group": "hang_heavy_punching_bag",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -7782,5 +7807,41 @@
     "pre_special": "check_empty",
     "post_terrain": "f_chair_white",
     "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_oxygen_concentrator",
+    "group": "place_oxygen_concentrator",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "oxygen_concentrator", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_hd_compressor_unit",
+    "group": "place_hd_compressor_unit",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "hd_compressor_unit", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_obstacle_rock",
+    "group": "obstacle_rock",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "time": "5 m",
+    "components": [ [ [ "rock_large", 22 ] ] ],
+    "pre_terrain": "t_dirt",
+    "post_terrain": "t_rockyobstacle"
   }
 ]

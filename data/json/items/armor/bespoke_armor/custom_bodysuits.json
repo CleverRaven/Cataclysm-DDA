@@ -64,6 +64,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
+    "ammo": "battery",
     "armor": [
       {
         "material": [
@@ -106,14 +107,7 @@
     "material_thickness": 4,
     "valid_mods": [ "steel_padded" ],
     "relic_data": {
-      "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] },
-        {
-          "has": "WORN",
-          "condition": "ACTIVE",
-          "values": [ { "value": "CLIMATE_CONTROL_HEAT", "add": 50 }, { "value": "CLIMATE_CONTROL_CHILL", "add": 50 } ]
-        }
-      ]
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "well_distributed" ] }, { "id": "ench_climate_control_all" } ]
     },
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "USES_BIONIC_POWER", "MUNDANE" ]

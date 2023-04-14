@@ -113,7 +113,6 @@ void material_type::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "rotting", _rotting, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
     optional( jsobj, was_loaded, "uncomfortable", _uncomfortable, false );
-    optional( jsobj, was_loaded, "reinforces", _reinforces, false );
 
     for( JsonArray pair : jsobj.get_array( "vitamins" ) ) {
         _vitamins.emplace( vitamin_id( pair.get_string( 0 ) ), pair.get_float( 1 ) );
@@ -174,7 +173,7 @@ std::string material_type::name() const
     return _name.translated();
 }
 
-cata::optional<itype_id> material_type::salvaged_into() const
+std::optional<itype_id> material_type::salvaged_into() const
 {
     return _salvaged_into;
 }
@@ -213,10 +212,8 @@ std::string material_type::cut_dmg_verb() const
 std::string material_type::dmg_adj( int damage ) const
 {
     if( damage <= 0 ) {
-        // not damaged (+/- reinforced)
-        return std::string();
+        return std::string(); // not damaged
     }
-
     // apply bounds checking
     return _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].translated();
 }
@@ -298,7 +295,7 @@ int material_type::breathability() const
     return material_type::breathability_to_rating( _breathability );
 }
 
-cata::optional<int> material_type::wind_resist() const
+std::optional<int> material_type::wind_resist() const
 {
     return _wind_resist;
 }
@@ -321,11 +318,6 @@ bool material_type::soft() const
 bool material_type::uncomfortable() const
 {
     return _uncomfortable;
-}
-
-bool material_type::reinforces() const
-{
-    return _reinforces;
 }
 
 fuel_data material_type::get_fuel_data() const

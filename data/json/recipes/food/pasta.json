@@ -28,7 +28,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 3 } ],
-    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "//": "There are ways to cook pasta that don't require boiling the water, and they are a lot more efficient, so this uses surface_heat",
     "//1": "pasta by weight is 5u flour, 1u for the cheese + heating the water (2u)",
     "components": [

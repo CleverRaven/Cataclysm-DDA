@@ -657,7 +657,7 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "unarmed_weapons_allowed": false,
-        "throw_immune": true
+        "flags": [ "DOWNED_RECOVERY" ]
       }
     ],
     "ondodge_buffs": [

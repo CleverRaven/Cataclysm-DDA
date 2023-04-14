@@ -1,3 +1,5 @@
+#include <cstring>
+#include <set>
 #include <vector>
 
 #if defined(_WIN32)
@@ -24,8 +26,8 @@ namespace
 {
 // Try to match language code to a supported game language by prefix
 // For example, "fr_CA.UTF-8" -> "fr"
-// Returns cata::nullopt if the language is not supported by the game
-cata::optional<std::string> matchGameLanguage( const std::string &lang )
+// Returns std::nullopt if the language is not supported by the game
+std::optional<std::string> matchGameLanguage( const std::string &lang )
 {
     const std::vector<options_manager::id_and_option> available_languages =
         get_options().get_option( "USE_LANG" ).getItems();
@@ -34,7 +36,7 @@ cata::optional<std::string> matchGameLanguage( const std::string &lang )
             return available_language.first;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 }
 } // namespace
 #endif
@@ -42,7 +44,7 @@ cata::optional<std::string> matchGameLanguage( const std::string &lang )
 namespace SystemLocale
 {
 
-cata::optional<std::string> Language()
+std::optional<std::string> Language()
 {
 #if defined(_WIN32)
     /* "Useful" links:
@@ -84,12 +86,12 @@ cata::optional<std::string> Language()
             return lang.first;
         }
     }
-    return cata::nullopt;
+    return std::nullopt;
 #elif defined(__APPLE__)
     // Get the user's language list (in order of preference)
     CFArrayRef langs = CFLocaleCopyPreferredLanguages();
     if( CFArrayGetCount( langs ) == 0 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
 
     CFStringRef lang = static_cast<CFStringRef>( CFArrayGetValueAtIndex( langs, 0 ) );
@@ -102,7 +104,7 @@ cata::optional<std::string> Language()
         std::vector<char> lang_code_raw_slow( length, '\0' );
         bool success = CFStringGetCString( lang, lang_code_raw_slow.data(), length, kCFStringEncodingUTF8 );
         if( !success ) {
-            return cata::nullopt;
+            return std::nullopt;
         }
         lang_code = lang_code_raw_slow.data();
     }
@@ -132,7 +134,7 @@ cata::optional<std::string> Language()
     const char *ans_c_str = env->GetStringUTFChars( ans, 0 );
     if( ans_c_str == nullptr ) {
         // fail-safe if retrieving Java string failed
-        return cata::nullopt;
+        return std::nullopt;
     }
     const std::string lang( ans_c_str );
     env->ReleaseStringUTFChars( ans, ans_c_str );
@@ -148,16 +150,16 @@ cata::optional<std::string> Language()
 #else
     const char *locale = setlocale( LC_ALL, nullptr );
     if( locale == nullptr ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
-    if( strcmp( locale, "C" ) == 0 ) {
+    if( std::strcmp( locale, "C" ) == 0 ) {
         return "en";
     }
     return matchGameLanguage( locale );
 #endif
 }
 
-cata::optional<bool> UseMetricSystem()
+std::optional<bool> UseMetricSystem()
 {
 #if defined(_WIN32)
     // https://docs.microsoft.com/en-us/globalization/locale/units-of-measurement
@@ -165,7 +167,7 @@ cata::optional<bool> UseMetricSystem()
     if( GetLocaleInfo( LOCALE_USER_DEFAULT, LOCALE_IMEASURE | LOCALE_RETURN_NUMBER,
                        reinterpret_cast<LPSTR>( &measurementUnit ),
                        sizeof( measurementUnit ) / sizeof( TCHAR ) ) == 0 ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     // measurementUnit == 0 => Metric System
     // measurementUnit == 1 => Imperial System
@@ -179,9 +181,9 @@ cata::optional<bool> UseMetricSystem()
     if( !measurement.empty() ) {
         return measurement.front() == 1;
     }
-    return cata::nullopt;
+    return std::nullopt;
 #else
-    return cata::nullopt;
+    return std::nullopt;
 #endif
 }
 

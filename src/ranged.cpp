@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <tuple>
@@ -54,7 +55,6 @@
 #include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"
@@ -493,7 +493,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     ui.you = &you;
     ui.mode = target_ui::TargetMode::Spell;
     ui.casting = &casting;
-    ui.range = casting.range();
+    ui.range = casting.range( you );
     ui.no_fail = no_fail;
     ui.no_mana = no_mana;
 
@@ -934,12 +934,20 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             break;
         }
 
-        if( !current_ammo.is_null() ) {
-            cycle_action( gun, current_ammo, pos() );
+
+        // Vehicle turrets drain vehicle battery and do not care about this
+        if( !gun.has_flag( flag_VEHICLE ) ) {
+            const units::energy energ_req = gun.get_gun_energy_drain();
+            const units::energy drained = gun.energy_consume( energ_req, pos(), this );
+            if( drained < energ_req ) {
+                debugmsg( "Unexpected shortage of energy whilst firing %s. Required: %i J, drained: %i J",
+                          gun.tname(), units::to_joule( energ_req ), units::to_joule( drained ) );
+                break;
+            }
         }
 
-        if( !gun.has_flag( flag_VEHICLE ) ) {
-            consume_ups( gun.get_gun_ups_drain() );
+        if( !current_ammo.is_null() ) {
+            cycle_action( gun, current_ammo, pos() );
         }
 
         if( gun_skill == skill_launcher ) {
@@ -1106,9 +1114,9 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     return std::max( 0, dispersion );
 }
 
-static cata::optional<int> character_throw_assist( const Character &guy )
+static std::optional<int> character_throw_assist( const Character &guy )
 {
-    cata::optional<int> throw_assist = cata::nullopt;
+    std::optional<int> throw_assist = std::nullopt;
     if( guy.is_mounted() ) {
         auto *mons = guy.mounted_creature.get();
         if( mons->mech_str_addition() != 0 ) {
@@ -1131,7 +1139,7 @@ static int throwing_skill_adjusted( const Character &guy )
 
 int Character::thrown_item_adjusted_damage( const item &thrown ) const
 {
-    const cata::optional<int> throw_assist = character_throw_assist( *this );
+    const std::optional<int> throw_assist = character_throw_assist( *this );
     const bool do_railgun = has_active_bionic( bio_railgun ) && thrown.made_of_any( ferric ) &&
                             !throw_assist;
 
@@ -1186,7 +1194,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
 }
 
 dealt_projectile_attack Character::throw_item( const tripoint &target, const item &to_throw,
-        const cata::optional<tripoint> &blind_throw_from_pos )
+        const std::optional<tripoint> &blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
     item thrown = to_throw;
@@ -1197,7 +1205,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
     const int throwing_skill = get_skill_level( skill_throw );
     const units::volume volume = to_throw.volume();
     const units::mass weight = to_throw.weight();
-    const cata::optional<int> throw_assist = character_throw_assist( *this );
+    const std::optional<int> throw_assist = character_throw_assist( *this );
 
     if( !throw_assist ) {
         const int stamina_cost = get_standard_stamina_cost( &thrown );
@@ -1323,7 +1331,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
         practice( skill_throw, 5, 2 );
     }
     // Reset last target pos
-    last_target_pos = cata::nullopt;
+    last_target_pos = std::nullopt;
     recoil = MAX_RECOIL;
 
     return dealt_attack;
@@ -1456,38 +1464,16 @@ static aim_type get_default_aim_type()
 }
 
 using RatingVector = std::vector<std::tuple<double, char, std::string>>;
+
 static std::string get_colored_bar( const double val, const int width, const std::string &label,
                                     RatingVector::iterator begin, RatingVector::iterator end )
 {
-    std::string result;
-
-    result.reserve( width );
-    if( !label.empty() ) {
-        result += label;
-        result += ' ';
-    }
-    const int bar_width = width - utf8_width( result ) - 2; // - 2 for the brackets
-
-    result += '[';
-    if( bar_width > 0 ) {
-        int used_width = 0;
-        for( auto it( begin ); it != end; ++it ) {
-            const double factor = std::min( 1.0, std::max( 0.0, std::get<0>( *it ) * val ) );
-            const int seg_width = static_cast<int>( factor * bar_width ) - used_width;
-
-            if( seg_width <= 0 ) {
-                continue;
-            }
-            used_width += seg_width;
-            result += string_format( "<color_%s>", std::get<2>( *it ) );
-            result.insert( result.end(), seg_width, std::get<1>( *it ) );
-            result += "</color>";
-        }
-        result.insert( result.end(), bar_width - used_width, ' ' );
-    }
-    result += ']';
-
-    return result;
+    return get_labeled_bar<RatingVector::iterator>( val, width, label, begin, end,
+    []( RatingVector::iterator it, int seg_width ) -> std::string {
+        std::string result = string_format( "<color_%s>", std::get<2>( *it ) );
+        result.insert( result.end(), seg_width, std::get<1>( *it ) );
+        result += "</color>";
+        return result;} );
 }
 
 static double target_size_in_moa( int range, double size )
@@ -1597,6 +1583,15 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         aim_types = you.get_aim_types( weapon );
     }
 
+    // predict how long it'll take to reach from current recoil
+    // to the ui's selected default aim mode threshold.
+    const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
+            ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
+
+    const int selected_steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+
+    const int throw_moves = throw_cost( you, weapon );
+
     for( const aim_type &aim_type : aim_types ) {
         const std::vector<input_event> keys = ctxt.keys_bound_to( aim_type.action.empty() ? "FIRE" :
                                               aim_type.action, /*maximum_modifier_count=*/1 );
@@ -1607,20 +1602,11 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         prediction.hotkey = ( keys.empty() ? input_event() : keys.front() ).short_description();
 
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
-            prediction.moves = throw_cost( you, weapon );
+            prediction.moves = throw_moves;
         } else {
             prediction.moves = you.gun_engagement_moves( weapon, aim_type.threshold, you.recoil, target )
                                + time_to_attack( you, *weapon.type );
         }
-        // predict how long it'll take to reach from current recoil
-        // to the current aim mode's threshold.
-        const recoil_prediction aim_to_type = predict_recoil( you, weapon, target,
-                                              ui.get_sight_dispersion(), aim_type, you.recoil );
-
-        // predict how long it'll take to reach from current recoil
-        // to the ui's selected default aim mode threshold.
-        const recoil_prediction aim_to_selected = predict_recoil( you, weapon, target,
-                ui.get_sight_dispersion(), ui.get_selected_aim_type(), you.recoil );
 
         // if the default method is "behind" the selected; e.g. you are in immediate
         // firing mode with almost close no chances of hitting, but UI has selected
@@ -1631,8 +1617,12 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
         // no-op.
         if( prediction.is_default ) {
             prediction.moves += aim_to_selected.moves;
-            prediction.steadiness = calc_steadiness( you, weapon, pos, aim_to_selected.recoil );
+            prediction.steadiness = selected_steadiness;
         } else {
+            // predict how long it'll take to reach from current recoil
+            // to the current aim mode's threshold.
+            const recoil_prediction aim_to_type = ( aim_type == ui.get_selected_aim_type() ) ? aim_to_selected :
+                                                  predict_recoil( you, weapon, target, ui.get_sight_dispersion(), aim_type, you.recoil );
             prediction.steadiness = calc_steadiness( you, weapon, pos, aim_to_type.recoil );
         }
 
@@ -1659,6 +1649,40 @@ static std::vector<aim_type_prediction> calculate_ranged_chances(
     return aim_outputs;
 }
 
+static void print_confidence_ratings( const catacurses::window &w,
+                                      const std::vector<confidence_rating> &ratings, int &line_number, int width, int &column_number,
+                                      nc_color col )
+{
+    for( const confidence_rating &cr : ratings ) {
+        std::string label = pgettext( "aim_confidence", cr.label.c_str() );
+        std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol, label );
+        int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
+        if( ( width - column_number ) < line_len ) {
+            column_number = 1;
+            line_number++;
+        }
+        print_colored_text( w, point( column_number, line_number ), col, col, symbols );
+        column_number += line_len;
+    }
+    line_number++;
+}
+
+static void print_confidence_rating_bar( const catacurses::window &w,
+        aim_type_prediction prediction, int &line_number, int width, nc_color col )
+{
+    RatingVector confidence_ratings;
+    std::transform( prediction.ratings.begin(), prediction.ratings.end(),
+                    std::back_inserter( confidence_ratings ),
+    [&]( const confidence_rating & config ) {
+        return std::make_tuple( config.aim_level, config.symbol, config.color );
+    } );
+
+    const std::string &confidence_bar = get_colored_bar( prediction.confidence, width, "",
+                                        confidence_ratings.begin(), confidence_ratings.end() );
+
+    print_colored_text( w, point( 1, line_number++ ), col, col, confidence_bar );
+}
+
 static int print_ranged_chance( const catacurses::window &w, int line_number,
                                 const std::vector<aim_type_prediction> &aim_chances )
 {
@@ -1678,7 +1702,8 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
     nc_color col = c_light_gray;
 
     // Start printing by panel type, inside each branch whether to output numbers or "bars"
-    if( panel_type == "legacy_labels_narrow_sidebar" ) {
+    if( panel_type == "legacy_labels_narrow_sidebar" || panel_type == "legacy_compact_sidebar" ) {
+        bool narrow = panel_type == "legacy_labels_narrow_sidebar";
         // TODO: who uses this? this is broken likely since work started
         // on sidebar widgets and yet nobody complains...
         std::vector<std::string> t_aims( 4 );
@@ -1686,103 +1711,9 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
         int aim_iter = 0;
         int conf_iter = 0;
         if( !display_numbers ) {
-            width -= bars_pad;
             int column_number = 1;
-            for( const confidence_rating &cr : aim_chances.front().ratings ) {
-                std::string label = pgettext( "aim_confidence", cr.label.c_str() );
-                std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol, label );
-                int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
-                if( ( width + bars_pad - column_number ) < line_len ) {
-                    column_number = 1;
-                    line_number++;
-                }
-                print_colored_text( w, point( column_number, line_number ), col, col, symbols );
-                column_number += line_len;
-            }
-            line_number++;
-        } else {
-            std::string symbols = _( " <color_green>Great</color> <color_light_gray>Normal</color>"
-                                     " <color_magenta>Graze</color> <color_dark_gray>Miss</color> <color_light_blue>Moves</color>" );
-            fold_and_print( w, point( 1, line_number++ ), width + bars_pad,
-                            c_dark_gray, symbols );
-            int len = utf8_width( symbols ) - 121; // to subtract color codes
-            if( len > width + bars_pad ) {
-                line_number++;
-            }
-            for( int i = 0; i < width; i++ ) {
-                mvwprintw( w, point( i + 1, line_number ), "-" );
-            }
-        }
-        for( const aim_type_prediction &out : sorted ) {
-            if( display_numbers ) {
-                t_aims[aim_iter] = string_format( "<color_dark_gray>%s:</color>", out.name );
-                t_confidence[( aim_iter * 5 ) + 4] = string_format( "<color_light_blue>%d</color>", out.moves );
-            } else {
-                print_colored_text( w, point( 1, line_number ), col, col, string_format( _( "%s %s:" ), out.name,
-                                    _( "Aim" ) ) );
-                right_print( w, line_number++, 1, c_light_blue, _( "Moves" ) );
-                right_print( w, line_number, 1, c_light_blue, string_format( "%d", out.moves ) );
-            }
-
-            if( display_numbers ) {
-                int last_chance = 0;
-                conf_iter = 0;
-                for( const confidence_rating &cr : aim_chances.front().ratings ) {
-                    int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * out.confidence ) - last_chance;
-                    last_chance += chance;
-                    t_confidence[conf_iter + ( aim_iter * 5 )] = string_format( "<color_%s>%3d%%</color>", cr.color,
-                            chance );
-                    conf_iter++;
-                    if( conf_iter == 3 ) {
-                        t_confidence[conf_iter + ( aim_iter * 5 )] = string_format( "<color_%s>%3d%%</color>", "dark_gray",
-                                100 - last_chance );
-                    }
-                }
-                aim_iter++;
-            } else {
-                std::vector<std::tuple<double, char, std::string>> confidence_ratings;
-                std::transform( out.ratings.begin(), out.ratings.end(), std::back_inserter( confidence_ratings ),
-                [&]( const confidence_rating & config ) {
-                    return std::make_tuple( config.aim_level, config.symbol, config.color );
-                } );
-
-                print_colored_text( w, point( 1, line_number++ ), col, col, get_colored_bar( out.confidence, width,
-                                    "", confidence_ratings.begin(), confidence_ratings.end() ) );
-            }
-        }
-
-        // Draw tables for compact Numbers display
-        if( display_numbers ) {
-            const std::string divider = "|";
-            int left_pad = 8;
-            int columns = 5;
-            insert_table( w, left_pad, ++line_number, columns, c_light_gray, divider, true, t_confidence );
-            insert_table( w, 0, line_number, 1, c_light_gray, "", false, t_aims );
-            line_number = line_number + 4; // 4 to account for the tables
-        }
-        return line_number;
-    } else if( panel_type == "legacy_compact_sidebar" ) {
-        // TODO: who uses this? this is broken likely since work started
-        // on sidebar widgets and yet nobody complains...
-        std::vector<std::string> t_aims( 4 );
-        std::vector<std::string> t_confidence( 20 );
-        int aim_iter = 0;
-        int conf_iter = 0;
-        if( !display_numbers ) {
+            print_confidence_ratings( w, aim_chances.front().ratings, line_number, width, column_number, col );
             width -= bars_pad;
-            int column_number = 1;
-            for( const confidence_rating &cr : aim_chances.front().ratings ) {
-                std::string label = pgettext( "aim_confidence", cr.label.c_str() );
-                std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol, label );
-                int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
-                if( ( width + bars_pad - column_number ) < line_len ) {
-                    column_number = 1;
-                    line_number++;
-                }
-                print_colored_text( w, point( column_number, line_number ), col, col, symbols );
-                column_number += line_len;
-            }
-            line_number++;
         } else {
             std::string symbols = _( " <color_green>Great</color> <color_light_gray>Normal</color>"
                                      " <color_magenta>Graze</color> <color_dark_gray>Miss</color> <color_light_blue>Moves</color>" );
@@ -1795,7 +1726,6 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                 mvwprintw( w, point( i + 1, line_number ), "-" );
             }
         }
-
         for( const aim_type_prediction &out : sorted ) {
             if( display_numbers ) {
                 t_aims[aim_iter] = string_format( "<color_dark_gray>%s:</color>", out.name );
@@ -1810,7 +1740,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
             if( display_numbers ) {
                 int last_chance = 0;
                 conf_iter = 0;
-                for( const confidence_rating &cr : out.ratings ) {
+                for( const confidence_rating &cr : narrow ? aim_chances.front().ratings : out.ratings ) {
                     int chance = std::min<int>( 100, 100.0 * ( cr.aim_level ) * out.confidence ) - last_chance;
                     last_chance += chance;
                     t_confidence[conf_iter + ( aim_iter * 5 )] = string_format( "<color_%s>%3d%%</color>", cr.color,
@@ -1823,14 +1753,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
                 }
                 aim_iter++;
             } else {
-                std::vector<std::tuple<double, char, std::string>> confidence_ratings;
-                std::transform( out.ratings.begin(), out.ratings.end(), std::back_inserter( confidence_ratings ),
-                [&]( const confidence_rating & config ) {
-                    return std::make_tuple( config.aim_level, config.symbol, config.color );
-                } );
-
-                print_colored_text( w, point( 1, line_number++ ), col, col, get_colored_bar( out.confidence, width,
-                                    "", confidence_ratings.begin(), confidence_ratings.end() ) );
+                print_confidence_rating_bar( w, out, line_number, width, col );
             }
         }
 
@@ -1862,19 +1785,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
             column_number += utf8_width( label ) + 1; // 1 for whitespace after 'Symbols:'
         }
 
-        for( const confidence_rating &cr : sorted.front().ratings ) {
-            std::string label = pgettext( "aim_confidence", cr.label.c_str() );
-            std::string symbols = string_format( "<color_%s>%s</color> = %s", cr.color, cr.symbol,
-                                                 label );
-            int line_len = utf8_width( label ) + 5; // 5 for '# = ' and whitespace at end
-            if( ( width + bars_pad - column_number ) < line_len ) {
-                column_number = 1;
-                line_number++;
-            }
-            print_colored_text( w, point( column_number, line_number ), col, col, symbols );
-            column_number += line_len;
-        }
-        line_number++;
+        print_confidence_ratings( w, sorted.front().ratings, line_number, width, column_number, col );
 
         for( const aim_type_prediction &out : sorted ) {
             std::string col_hl = out.is_default ? "light_green" : "light_gray";
@@ -1893,17 +1804,7 @@ static int print_ranged_chance( const catacurses::window &w, int line_number,
 
                 line_number += fold_and_print_from( w, point( 1, line_number ), width, 0, c_dark_gray, line );
             } else {
-                std::vector<std::tuple<double, char, std::string>> confidence_ratings;
-                std::transform( out.ratings.begin(), out.ratings.end(),
-                                std::back_inserter( confidence_ratings ),
-                [&]( const confidence_rating & config ) {
-                    return std::make_tuple( config.aim_level, config.symbol, config.color );
-                } );
-
-                const std::string &confidence_bar = get_colored_bar( out.confidence, width, "",
-                                                    confidence_ratings.begin(), confidence_ratings.end() );
-
-                print_colored_text( w, point( 1, line_number++ ), col, col, confidence_bar );
+                print_confidence_rating_bar( w, out, line_number, width, col );
             }
         }
 
@@ -2597,7 +2498,7 @@ target_handler::trajectory target_ui::run()
             if( status != Status::Good ) {
                 continue;
             }
-            bool can_skip_confirm = mode == TargetMode::Spell && casting->damage() <= 0;
+            bool can_skip_confirm = mode == TargetMode::Spell && casting->damage( player_character ) <= 0;
             if( !can_skip_confirm && !confirm_non_enemy_target() ) {
                 continue;
             }
@@ -2653,7 +2554,7 @@ target_handler::trajectory target_ui::run()
             break;
         }
         case ExitCode::Fire: {
-            bool harmful = !( mode == TargetMode::Spell && casting->damage() <= 0 );
+            bool harmful = !( mode == TargetMode::Spell && casting->damage( player_character ) <= 0 );
             on_target_accepted( harmful );
             break;
         }
@@ -2762,7 +2663,7 @@ void target_ui::init_window_and_input()
 
 bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_redraw )
 {
-    cata::optional<tripoint> mouse_pos;
+    std::optional<tripoint> mouse_pos;
     const auto shift_view_or_cursor = [this]( const tripoint & delta ) {
         if( this->shifting_view ) {
             this->set_view_offset( this->you->view_offset + delta );
@@ -2786,7 +2687,7 @@ bool target_ui::handle_cursor_movement( const std::string &action, bool &skip_re
                 set_view_offset( you->view_offset + edge_scroll );
             }
         }
-    } else if( const cata::optional<tripoint> delta = ctxt.get_direction( action ) ) {
+    } else if( const std::optional<tripoint> delta = ctxt.get_direction( action ) ) {
         // Shift view/cursor with directional keys
         shift_view_or_cursor( *delta );
     } else if( action == "SELECT" &&
@@ -2928,15 +2829,15 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
         switch( casting->shape() ) {
             case spell_shape::blast:
                 spell_aoe = spell_effect::spell_effect_blast(
-                                spell_effect::override_parameters( *casting ), src, dst );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             case spell_shape::cone:
                 spell_aoe = spell_effect::spell_effect_cone(
-                                spell_effect::override_parameters( *casting ), src, dst );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             case spell_shape::line:
                 spell_aoe = spell_effect::spell_effect_line(
-                                spell_effect::override_parameters( *casting ), src, dst );
+                                spell_effect::override_parameters( *casting, get_player_character() ), src, dst );
                 break;
             default:
                 spell_aoe.clear();
@@ -3315,7 +3216,7 @@ bool target_ui::action_switch_mode()
         // gun mode select
         const std::map<gun_mode_id, gun_mode> all_gun_modes = relevant->gun_all_modes();
         int skip = menu.ret - firing_modes_range.first;
-        for( std::pair<gun_mode_id, gun_mode> it : all_gun_modes ) {
+        for( const std::pair<const gun_mode_id, gun_mode> &it : all_gun_modes ) {
             if( skip-- == 0 ) {
                 if( relevant->gun_current_mode().melee() ) {
                     refresh = true;
@@ -3838,10 +3739,10 @@ void target_ui::panel_spell_info( int &text_y )
     }
     print_colored_text( w_target, point( 1, text_y++ ), clr, clr, fail_str );
 
-    if( casting->aoe() > 0 ) {
+    if( casting->aoe( get_player_character() ) > 0 ) {
         nc_color color = c_light_gray;
         const std::string fx = casting->effect();
-        const std::string aoes = casting->aoe_string();
+        const std::string aoes = casting->aoe_string( get_player_character() );
         if( fx == "attack" || fx == "area_pull" || fx == "area_push" || fx == "ter_transform" ) {
 
             if( casting->shape() == spell_shape::cone ) {
@@ -3853,13 +3754,14 @@ void target_ui::panel_spell_info( int &text_y )
             } else {
                 text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, color,
                                           _( "Effective Spell Radius: %s%s" ), aoes,
-                                          casting->in_aoe( src, dst ) ? colorize( _( " WARNING!  IN RANGE" ), c_red ) : "" );
+                                          casting->in_aoe( src, dst, get_player_character() ) ? colorize( _( " WARNING!  IN RANGE" ),
+                                                  c_red ) : "" );
             }
         }
     }
 
     mvwprintz( w_target, point( 1, text_y++ ), c_light_red, _( "Damage: %s" ),
-               casting->damage_string() );
+               casting->damage_string( get_player_character() ) );
 
     text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2, clr,
                               casting->description() );
@@ -3977,8 +3879,8 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    if( gmode->get_gun_ups_drain() > 0_kJ ) {
-        const units::energy ups_drain = gmode->get_gun_ups_drain();
+    if( gmode->get_gun_energy_drain() > 0_kJ ) {
+        const units::energy energy_drain = gmode->get_gun_energy_drain();
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
@@ -3986,27 +3888,21 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                 is_mech_weapon = true;
             }
         }
-        if( !is_mech_weapon ) {
-            if( you.available_ups() < ups_drain ) {
-                messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
-                                        gmode->tname(), units::to_kilojoule( ups_drain ) ) );
-                result = false;
-            }
-        } else {
-            if( you.available_ups() < ups_drain ) {
+
+        if( gmode->energy_remaining( &you ) < energy_drain ) {
+            result = false;
+            if( is_mech_weapon ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
-                result = false;
+            } else if( gmode->has_flag( flag_USES_BIONIC_POWER ) ) {
+                messages.push_back( string_format(
+                                        _( "You need at least %2$d kJ of bionic power to fire the %1$s!" ),
+                                        gmode->tname(), units::to_kilojoule( energy_drain ) ) );
+            } else if( gmode->has_flag( flag_USE_UPS ) ) {
+                messages.push_back( string_format(
+                                        _( "You need a UPS with at least %2$d kJ to fire the %1$s!" ),
+                                        gmode->tname(), units::to_kilojoule( energy_drain ) ) );
             }
-        }
-        // Workaround for guns that use ups and normal ammo at same time.
-        // Remove once guns can support use of multiple ammo at once
-        if( !gmode->ammo_default().is_null() &&
-            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() &&
-            !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
-            result = false;
-            messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         }
     }
 

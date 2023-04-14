@@ -1,0 +1,42 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_spinach_consumption",
+    "condition": { "u_has_items": { "item": "spinach", "count": 1 } },
+    "effect": [
+      { "u_consume_item": "spinach" },
+      {
+        "u_cast_spell": {
+          "id": "spell_strength_of_spinach",
+          "message": "You swallow the spinach raw and grow visibly stronger, for a short while."
+        },
+        "targeted": true
+      }
+    ],
+    "false_effect": [ { "u_message": "You don't have any spinach!" } ]
+  },
+  {
+    "id": "spell_strength_of_spinach",
+    "type": "SPELL",
+    "name": "Strength in Spinach",
+    "description": "You gain the strength of a sailor.",
+    "valid_targets": [ "self" ],
+    "min_duration": 6000,
+    "max_duration": 6000,
+    "max_level": 1,
+    "flags": [ "SILENT", "SOMATIC", "NO_LEGS", "NO_PROJECTILE" ],
+    "shape": "blast",
+    "effect": "attack",
+    "effect_str": "spinach_strength"
+  },
+  {
+    "type": "effect_type",
+    "id": "spinach_strength",
+    "name": [ "Strength of Spinach" ],
+    "desc": [ "You have the strength of a Sailor!" ],
+    "apply_message": "You feel strong!",
+    "remove_message": "Your strength deflates.",
+    "rating": "good",
+    "base_mods": { "str_mod": [ 2 ] }
+  }
+]

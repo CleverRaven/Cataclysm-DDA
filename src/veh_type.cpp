@@ -260,7 +260,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
 /**
  * Reads engine info from a JsonObject.
  */
-void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObject &jo,
+void vpart_info::load_engine( std::optional<vpslot_engine> &eptr, const JsonObject &jo,
                               const itype_id &fuel_type )
 {
     vpslot_engine e_info{};
@@ -293,7 +293,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, const JsonObj
     cata_assert( eptr );
 }
 
-void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObject &jo )
+void vpart_info::load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo )
 {
     vpslot_rotor rotor_info{};
     if( roptr ) {
@@ -304,7 +304,7 @@ void vpart_info::load_rotor( cata::optional<vpslot_rotor> &roptr, const JsonObje
     cata_assert( roptr );
 }
 
-void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObject &jo )
+void vpart_info::load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo )
 {
     vpslot_wheel wh_info{};
     if( whptr ) {
@@ -341,7 +341,7 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, const JsonObje
     cata_assert( whptr );
 }
 
-void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, const JsonObject &jo )
+void vpart_info::load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo )
 {
     vpslot_workbench wb_info{};
     if( wbptr ) {
@@ -622,8 +622,8 @@ static int gun_battery_mags_drain( const itype &guntype )
             }
         }
     }
-    if( guntype.gun->ups_charges > 0 && charges_used > 0 ) {
-        debugmsg( "%s uses both UPS charges and battery magazines", guntype.nname( 1 ) );
+    if( guntype.gun->energy_drain > 0_kJ && charges_used > 0 ) {
+        debugmsg( "%s uses both energy and battery magazines", guntype.nname( 1 ) );
     }
     return charges_used;
 }
@@ -643,9 +643,9 @@ static std::string get_looks_like( const vpart_info &vpi, const itype &it )
         return false;
     };
 
-    if( it.gun->ups_charges > 0 && has_light_ammo( it.gun->ammo ) ) {
+    if( it.gun->energy_drain > 0_kJ && has_light_ammo( it.gun->ammo ) ) {
         return "mounted_hk_g80"; // railguns
-    } else if( vpi.has_flag( "USE_BATTERIES" ) || it.gun->ups_charges > 0 ) {
+    } else if( vpi.has_flag( "USE_BATTERIES" ) || it.gun->energy_drain > 0_kJ ) {
         return "laser_rifle"; // generic energy weapons
     } else if( vpi.has_flag( "USE_TANKS" ) ) {
         return "watercannon"; // liquid sprayers (flamethrower, foam gun etc)
@@ -778,6 +778,16 @@ void vpart_info::finalize()
             // Everything else
             e.second.z_order = 0;
             e.second.list_order = 5;
+        }
+        std::set<std::pair<itype_id, int>> &pt = e.second.pseudo_tools;
+        for( auto it = pt.begin(); it != pt.end(); /* blank */ ) {
+            const itype_id &tool = it->first;
+            if( !tool.is_valid() ) {
+                debugmsg( "invalid pseudo tool itype_id '%s' on '%s'", tool.str(), e.first.str() );
+                pt.erase( it++ );
+            } else {
+                ++it;
+            }
         }
     }
 }
@@ -1232,7 +1242,7 @@ int vpart_info::rotor_diameter() const
     return 0;
 }
 
-const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
+const std::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
 }

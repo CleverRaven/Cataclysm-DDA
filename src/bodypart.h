@@ -136,7 +136,6 @@ struct limb_score {
 };
 
 struct bp_limb_score {
-    limb_score_id id = limb_score_id::NULL_ID();
     float score = 0.0f;
     float max = 0.0f;
 };
@@ -217,7 +216,7 @@ struct body_part_type {
 
     private:
         // limb score values
-        std::vector<bp_limb_score> limb_scores;
+        std::map<limb_score_id, bp_limb_score> limb_scores;
         damage_instance damage;
 
     public:
@@ -526,64 +525,6 @@ class bodypart
 
         void serialize( JsonOut &json ) const;
         void deserialize( const JsonObject &jo );
-};
-
-class body_part_set
-{
-    private:
-
-        cata::flat_set<bodypart_str_id> parts;
-
-        explicit body_part_set( const cata::flat_set<bodypart_str_id> &other ) : parts( other ) { }
-
-    public:
-        body_part_set() = default;
-        body_part_set( std::initializer_list<bodypart_str_id> bps ) {
-            for( const bodypart_str_id &bp : bps ) {
-                set( bp );
-            }
-        }
-        body_part_set unify_set( const body_part_set &rhs );
-        body_part_set intersect_set( const body_part_set &rhs );
-
-        body_part_set make_intersection( const body_part_set &rhs ) const;
-        body_part_set substract_set( const body_part_set &rhs );
-
-        void fill( const std::vector<bodypart_id> &bps );
-
-        bool test( const bodypart_str_id &bp ) const {
-            return parts.count( bp ) > 0;
-        }
-        void set( const bodypart_str_id &bp ) {
-            parts.insert( bp );
-        }
-        void reset( const bodypart_str_id &bp ) {
-            parts.erase( bp );
-        }
-        bool any() const {
-            return !parts.empty();
-        }
-        bool none() const {
-            return parts.empty();
-        }
-        size_t count() const {
-            return parts.size();
-        }
-
-        cata::flat_set<bodypart_str_id>::iterator begin() const {
-            return parts.begin();
-        }
-
-        cata::flat_set<bodypart_str_id>::iterator end() const {
-            return parts.end();
-        }
-
-        void clear() {
-            parts.clear();
-        }
-
-        void serialize( JsonOut &s ) const;
-        void deserialize( const JsonValue &s );
 };
 
 /** Returns the new id for old token */
