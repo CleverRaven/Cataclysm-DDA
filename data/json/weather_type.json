@@ -285,13 +285,12 @@
     "precip": "light",
     "rains": false,
     "sound_category": "silent",
-    "priority": 30,
+    "priority": 1000,
     "condition": {
       "and": [
-        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 95 } ] },
-        { "compare_num": [ { "weather": "windpower" }, ">=", { "const": 11 } ] },
-        { "compare_num": [ { "weather": "windpower" }, "<", { "const": 0 } ] },
-        { "compare_num": [ { "global_val": "var", "var_name": "temp_drop_rate" }, ">", { "const": 0 } ] }
+        { "math": [ "u_val( 'weather:windpower' )", ">", "12" ] },
+        { "math": [ "u_val( 'weather:windpower' )", "<", "0" ] },
+        { "math": [ "dew_point_factor", "<", "35" ] }
       ]
     }
   },
@@ -311,33 +310,33 @@
     "precip": "heavy",
     "rains": false,
     "sound_category": "silent",
-    "priority": 1,
+    "priority": 1000,
     "required_weathers": [ "mist" ],
     "condition": {
       "and": [
-        { "compare_num": [ { "weather": "humidity" }, ">=", { "const": 95 } ] },
-        { "compare_num": [ { "weather": "windpower" }, ">=", { "const": 11 } ] },
-        { "compare_num": [ { "weather": "windpower" }, "<", { "const": 0 } ] },
-        { "compare_num": [ { "global_val": "var", "var_name": "temp_drop_rate" }, ">", { "const": 1 } ] }
+        { "math": [ "u_val( 'weather:windpower' )", ">", "12" ] },
+        { "math": [ "u_val( 'weather:windpower' )", "<", "0" ] },
+        { "math": [ "dew_point_factor", "<=", "2.5" ] }
       ]
     }
   },
   {
     "type": "effect_on_condition",
-    "id": "EOC_CALCULATE_TEMP_DROP_RATE",
-    "recurrence": [ "30 minutes", "60 minutes" ],
-    "//": "we compare the temperature of previous calculation with current temperature, to check how big the temperature drop, then save the current temperature to use in the next check",
+    "id": "EOC_DEW_POINT_FACTOR",
+    "recurrence": [ "15 minutes", "30 minutes" ],
+    "//": "First and second math calculate the dew point, the third calculate how close the weather to the point it can form a fog",
+    "//2": "dew_point_factor is a difference between actual temperature and the dew point.  the closer it gets to zero, the bigger probability to cause a mist or dew, starting somewhere from 2,5 centigrade or 5 fahrenheit, to zero",
     "effect": [
       {
-        "arithmetic": [
-          { "global_val": "var", "var_name": "temp_drop_rate" },
+        "math": [
+          "dprhx",
           "=",
-          {
-            "arithmetic": [ { "global_val": "var", "var_name": "previous_temp" }, "-", { "weather": "temperature" } ]
-          }
+          "log ( u_val( 'weather:humidity' ) / 100 ) + 17.625 * u_val( 'weather:temperature' ) / ( 469.5 + u_val( 'weather:temperature' ) )"
         ]
       },
-      { "arithmetic": [ { "global_val": "var", "var_name": "previous_temp" }, "=", { "weather": "temperature" } ] }
+      { "math": [ "dew_point", "=", "469.5 * dprhx / ( 17.625 - dprhx )" ] },
+      { "math": [ "dew_point_factor", "=", "u_val('weather: temperature') - ( dew_point )" ] },
+      { "u_message": "dew_point_factor: <global_val:dew_point_factor>,\n", "type": "debug" }
     ]
   },
   {
