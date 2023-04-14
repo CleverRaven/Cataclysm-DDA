@@ -288,7 +288,7 @@ void widget_clause::load( const JsonObject &jo )
     color = color_from_string( clr );
 
     if( jo.has_member( "condition" ) ) {
-        read_condition<dialogue>( jo, "condition", condition, false );
+        read_condition( jo, "condition", condition, false );
         has_condition = true;
     }
 

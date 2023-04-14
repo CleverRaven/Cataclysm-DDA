@@ -402,7 +402,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
     assign( jo, "destination", target_id, strict );
 
     if( jo.has_member( "goal_condition" ) ) {
-        read_condition<struct dialogue>( jo, "goal_condition", goal_condition, true );
+        read_condition( jo, "goal_condition", goal_condition, true );
     }
 
     optional( jo, was_loaded, "invisible_on_complete", invisible_on_complete, false );
