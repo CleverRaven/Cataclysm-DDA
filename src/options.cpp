@@ -1541,7 +1541,7 @@ void options_manager::add_options_general()
     add_empty_line();
 
     add( "SAFEMODE", "general", to_translation( "Safe mode" ),
-         to_translation( "If true, will hold the game and display a warning if a hostile monster/NPC is approaching. This will also prevent attacking neutral creatures on move. " ),
+         to_translation( "If true, will hold the game and display a warning if a hostile monster/NPC is approaching.  This will also prevent attacking neutral creatures on move." ),
          true
        );
 
