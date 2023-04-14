@@ -384,8 +384,8 @@
     "entries": [
       { "item": "syrup", "prob": 20 },
       { "item": "molasses", "prob": 15 },
-      { "item": "cooking_oil", "prob": 20 },
-      { "item": "cooking_oil2", "prob": 20 },
+      { "item": "cooking_oil", "prob": 40 },
+      { "item": "cooking_oil2", "prob": 40 },
       { "item": "honey_bottled", "prob": 15 },
       { "item": "honey_glassed", "prob": 5 },
       { "item": "jar_glass_sealed", "prob": 20 },
