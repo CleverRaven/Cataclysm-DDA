@@ -290,7 +290,7 @@
       "and": [
         { "math": [ "u_val( 'weather:windpower' )", ">", "12" ] },
         { "math": [ "u_val( 'weather:windpower' )", "<", "0" ] },
-        { "math": [ "dew_point_factor", "<", "35" ] }
+        { "math": [ "dew_point_factor", "<", "5" ] }
       ]
     }
   },
