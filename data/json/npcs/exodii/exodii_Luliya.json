@@ -15,7 +15,8 @@
       { "trait": "IGNORE_SOUND" },
       { "trait": "NO_BASH" },
       { "trait": "RETURN_TO_START_POS" }
-    ],  },
+    ]
+  },
   {
     "type": "npc_class",
     "id": "NC_EXODII_TYPE_2_Materials",
