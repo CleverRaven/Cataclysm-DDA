@@ -177,20 +177,6 @@ bool set_update_mapgen( const JsonObject &jo,
 bool load_funcs( const JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
 } // namespace mission_util
 
-struct mission_goal_condition_context {
-    mission_goal_condition_context() = default;
-    std::unique_ptr<talker> alpha;
-    std::unique_ptr<talker> beta;
-    bool has_alpha = false;
-    bool has_beta = false;
-    std::vector<mission *> missions_assigned;
-    mutable std::string reason;
-    bool by_radio = false;
-    talker *actor( const bool is_beta ) const {
-        return ( is_beta ? beta : alpha ).get();
-    }
-};
-
 struct mission_type {
     public:
         // Matches it to a mission_type_id above
@@ -244,7 +230,7 @@ struct mission_type {
         std::map<std::string, translation> dialogue;
 
         // A dynamic goal condition invoked by MGOAL_CONDITION.
-        std::function<bool( const mission_goal_condition_context & )> goal_condition;
+        std::function<bool( const struct dialogue & )> goal_condition;
 
         mission_type() = default;
 
@@ -269,7 +255,7 @@ struct mission_type {
          */
         static const std::vector<mission_type> &get_all();
 
-        bool test_goal_condition( const mission_goal_condition_context &d ) const;
+        bool test_goal_condition( const struct dialogue &d ) const;
 
         static void reset();
         static void load_mission_type( const JsonObject &jo, const std::string &src );

@@ -620,4 +620,3 @@ void math_exp<D>::assign( D const &d, double val ) const
 }
 
 template class math_exp<dialogue>;
-template class math_exp<mission_goal_condition_context>;

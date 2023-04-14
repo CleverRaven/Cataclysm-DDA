@@ -78,10 +78,5 @@ std::function<void( D const &, double )> u_val_ass( char scope,
 template std::function<double( dialogue const & )>
 u_val<dialogue>( char scope,
                  std::vector<std::string> const &params );
-template std::function<double( mission_goal_condition_context const & )>
-u_val<mission_goal_condition_context>( char scope,
-                                       std::vector<std::string> const &params );
 template std::function<void( dialogue const &, double )>
-u_val_ass( char, std::vector<std::string> const & );
-template std::function<void( mission_goal_condition_context const &, double )>
 u_val_ass( char, std::vector<std::string> const & );

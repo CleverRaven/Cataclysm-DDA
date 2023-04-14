@@ -5,7 +5,6 @@
 #include <string_view>
 
 struct dialogue;
-struct mission_goal_condition_context;
 
 template<class D>
 class math_exp
@@ -28,6 +27,5 @@ class math_exp
 };
 
 extern template class math_exp<dialogue>;
-extern template class math_exp<mission_goal_condition_context>;
 
 #endif // CATA_SRC_MATH_PARSER_H

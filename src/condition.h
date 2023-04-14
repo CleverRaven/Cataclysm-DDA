@@ -233,18 +233,11 @@ struct conditional_t {
 
 extern template std::function<double( const dialogue & )>
 conditional_t<dialogue>::get_get_dbl<>( kwargs_shim const & );
-extern template std::function<double( const mission_goal_condition_context & )>
-conditional_t<mission_goal_condition_context>::get_get_dbl<>( kwargs_shim const & );
 
 extern template std::function<void( const dialogue &, double )>
 conditional_t<dialogue>::get_set_dbl<>( const kwargs_shim &,
                                         const std::optional<dbl_or_var_part<dialogue>> &,
                                         const std::optional<dbl_or_var_part<dialogue>> &, bool );
-extern template std::function<void( const mission_goal_condition_context &, double )>
-conditional_t<mission_goal_condition_context>::get_set_dbl<>( const kwargs_shim &,
-        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
-        const std::optional<dbl_or_var_part<mission_goal_condition_context>> &,
-        bool );
 
 #if !defined(MACOSX)
 extern template struct conditional_t<dialogue>;
@@ -257,10 +250,6 @@ extern template duration_or_var<dialogue> get_duration_or_var( const JsonObject 
 extern template std::string get_talk_varname<dialogue>( const JsonObject &jo,
         const std::string &member,
         bool check_value, dbl_or_var<dialogue> &default_val );
-extern template struct conditional_t<mission_goal_condition_context>;
-extern template void read_condition<mission_goal_condition_context>( const JsonObject &jo,
-        const std::string &member_name,
-        std::function<bool( const mission_goal_condition_context & )> &condition, bool default_val );
 extern template struct talk_effect_fun_t<dialogue>;
 #endif
 
