@@ -10,8 +10,12 @@
     "mission": 7,
     "chat": "TALK_LULIYA",
     "faction": "exodii",
-    "traits": [ { "trait": "IGNORE_SOUND" }, { "trait": "NO_BASH" }, { "trait": "RETURN_TO_START_POS" } ]
-  },
+    "traits": [
+      { "trait": "EXODII_BODY_2" },
+      { "trait": "IGNORE_SOUND" },
+      { "trait": "NO_BASH" },
+      { "trait": "RETURN_TO_START_POS" }
+    ],  },
   {
     "type": "npc_class",
     "id": "NC_EXODII_TYPE_2_Materials",
