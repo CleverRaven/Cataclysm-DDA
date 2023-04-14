@@ -119,7 +119,7 @@ dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &mem
     return ret_val;
 }
 
-dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string member, bool required,
+dbl_or_var get_dbl_or_var( const JsonObject &jo, const std::string &member, bool required,
                            double default_val )
 {
     dbl_or_var ret_val;
@@ -173,7 +173,7 @@ duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::s
     return ret_val;
 }
 
-duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
+duration_or_var get_duration_or_var( const JsonObject &jo, const std::string &member, bool required,
                                      time_duration default_val )
 {
     duration_or_var ret_val;
@@ -614,7 +614,7 @@ void conditional_t::set_has_effect( const JsonObject &jo, const std::string &mem
         bp.str_val = "";
     }
     condition = [effect_id, intensity, bp, is_npc]( dialogue const & d ) {
-        bodypart_id bid = bp.evaluate( d ) == "" ? get_bp_from_str( d.reason ) : bodypart_id( bp.evaluate(
+        bodypart_id bid = bp.evaluate( d ).empty() ? get_bp_from_str( d.reason ) : bodypart_id( bp.evaluate(
                               d ) );
         effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id.evaluate( d ) ), bid );
         return !target.is_null() && intensity.evaluate( d ) <= target.get_intensity();
@@ -1815,10 +1815,10 @@ std::function<double( dialogue const & )> conditional_t::get_get_dbl( J const &j
                          loc]( const Creature & critter ) {
                     if( critter.is_monster() ) {
                         // friendly to the player, not a target for us
-                        return static_cast<const monster *>( &critter )->friendly == 0 &&
+                        return critter.as_monster()->friendly == 0 &&
                                radius >= rl_dist( critter.get_location(), loc ) &&
-                               ( id.evaluate( d ) == "" ||
-                                 static_cast<const monster *>( &critter )->type->id == mtype_id( id.evaluate( d ) ) );
+                               ( id.evaluate( d ).empty() ||
+                                 critter.as_monster()->type->id == mtype_id( id.evaluate( d ) ) );
                     }
                     return false;
                 } );
@@ -2830,24 +2830,18 @@ conditional_t::conditional_t( const JsonObject &jo )
     if( jo.has_array( "and" ) ) {
         std::vector<conditional_t> and_conditionals = parse_array( jo, "and" );
         found_sub_member = true;
-        condition = [and_conditionals]( dialogue const & d ) {
-            for( const auto &cond : and_conditionals ) {
-                if( !cond( d ) ) {
-                    return false;
-                }
-            }
-            return true;
+        condition = [acs = std::move( and_conditionals )]( dialogue const & d ) {
+            return std::all_of( acs.begin(), acs.end(), [&d]( conditional_t const & cond ) {
+                return cond( d );
+            } );
         };
     } else if( jo.has_array( "or" ) ) {
         std::vector<conditional_t> or_conditionals = parse_array( jo, "or" );
         found_sub_member = true;
-        condition = [or_conditionals]( dialogue const & d ) {
-            for( const auto &cond : or_conditionals ) {
-                if( cond( d ) ) {
-                    return true;
-                }
-            }
-            return false;
+        condition = [ocs = std::move( or_conditionals )]( dialogue const & d ) {
+            return std::any_of( ocs.begin(), ocs.end(), [&d]( conditional_t const & cond ) {
+                return cond( d );
+            } );
         };
     } else if( jo.has_object( "not" ) ) {
         JsonObject cond = jo.get_object( "not" );

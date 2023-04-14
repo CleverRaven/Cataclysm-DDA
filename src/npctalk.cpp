@@ -2051,9 +2051,9 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
     actor( true )->store_chosen_training( chosen.skill, chosen.style, chosen.dialogue_spell,
                                           chosen.proficiency );
     const bool success = chosen.trial.roll( *this );
-    const auto &effects = success ? chosen.success : chosen.failure;
+    talk_effect_t const &effects = success ? chosen.success : chosen.failure;
     talk_topic ret_topic =  effects.apply( *this );
-    effects.update_missions( *this );
+    talk_effect_t::update_missions( *this );
     return ret_topic;
 }
 
@@ -2114,7 +2114,7 @@ talk_trial::talk_trial( const JsonObject &jo )
         jo.throw_error_at( "type", "invalid talk trial type" );
     }
     type = iter->second;
-    if( !( type == TALK_TRIAL_NONE || type == TALK_TRIAL_CONDITION ) ) {
+    if( type != TALK_TRIAL_NONE && type != TALK_TRIAL_CONDITION ) {
         difficulty = jo.get_int( "difficulty" );
     }
     if( type == TALK_TRIAL_SKILL_CHECK ) {
@@ -4143,7 +4143,7 @@ void talk_effect_fun_t::set_spawn_npc( const JsonObject &jo, const std::string &
         std::string cur_unique_id = unique_id.evaluate( d );
         std::vector<trait_id> cur_traits( traits.size() );
         for( const str_or_var &cur_trait : traits ) {
-            cur_traits.emplace_back( trait_id( cur_trait.evaluate( d ) ) );
+            cur_traits.emplace_back( cur_trait.evaluate( d ) );
         }
         std::optional<time_duration> lifespan;
         tripoint target_pos = d.actor( is_npc )->pos();

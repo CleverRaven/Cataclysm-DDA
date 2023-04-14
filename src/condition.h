@@ -57,12 +57,12 @@ const std::unordered_set<std::string> complex_conds = { {
 
 str_or_var get_str_or_var( const JsonValue &jv, const std::string &member, bool required = true,
                            const std::string &default_val = "" );
-dbl_or_var get_dbl_or_var( const JsonObject &jo, std::string member, bool required = true,
+dbl_or_var get_dbl_or_var( const JsonObject &jo, const std::string &member, bool required = true,
                            double default_val = 0.0 );
 dbl_or_var_part get_dbl_or_var_part( const JsonValue &jv, const std::string &member,
                                      bool required = true,
                                      double default_val = 0.0 );
-duration_or_var get_duration_or_var( const JsonObject &jo, std::string member,
+duration_or_var get_duration_or_var( const JsonObject &jo, const std::string &member,
                                      bool required = true,
                                      time_duration default_val = 0_seconds );
 duration_or_var_part get_duration_or_var_part( const JsonValue &jv, const std::string &member,
