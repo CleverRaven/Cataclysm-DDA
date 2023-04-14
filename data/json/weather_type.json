@@ -285,7 +285,7 @@
     "precip": "light",
     "rains": false,
     "sound_category": "silent",
-    "priority": 1000,
+    "priority": 40,
     "condition": {
       "and": [
         { "math": [ "u_val( 'weather:windpower' )", ">", "12" ] },
@@ -310,7 +310,7 @@
     "precip": "heavy",
     "rains": false,
     "sound_category": "silent",
-    "priority": 1000,
+    "priority": 40,
     "required_weathers": [ "mist" ],
     "condition": {
       "and": [
