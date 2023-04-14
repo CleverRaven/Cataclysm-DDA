@@ -890,7 +890,7 @@ static void draw_speed_info( const catacurses::window &w_info,
 {
     werase( w_info );
 
-    if( line < 0 || line >= speedlist.size() ) {
+    if( line >= speedlist.size() ) {
         wnoutrefresh( w_info );
         return;
     }
