@@ -1799,7 +1799,7 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
     map &here = get_map();
     item &best_prying = you.best_item_with_quality( qual_PRY );
     item &best_lockpick = you.best_item_with_quality( qual_LOCKPICK );
-    cata::optional<vpart_position> veh = here.veh_at( examp );
+    optional_vpart_position veh = here.veh_at( examp );
     int locked_part = -1;
 
     // Check if the locked thing is a lockable door part.

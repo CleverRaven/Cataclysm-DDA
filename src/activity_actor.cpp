@@ -2213,7 +2213,7 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     const tripoint target = here.getlocal( this->target );
     const ter_id ter_type = here.ter( target );
     const furn_id furn_type = here.furn( target );
-    cata::optional<vpart_position> const veh = here.veh_at( target );
+    optional_vpart_position const veh = here.veh_at( target );
     int locked_part = -1;
     ter_id new_ter_type;
     furn_id new_furn_type;
