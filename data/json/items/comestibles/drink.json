@@ -1323,7 +1323,7 @@
     "price": 95,
     "price_postapoc": 10,
     "material": [ { "type": "water", "portion": 833 }, { "type": "junk", "portion": 167 } ],
-    "volume": "265 ml",
+    "volume": "250 ml",
     "phase": "liquid",
     "fun": 2,
     "freezing_point": -5
