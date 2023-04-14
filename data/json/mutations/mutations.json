@@ -3243,7 +3243,7 @@
     "visibility": 4,
     "ugliness": 4,
     "mixed_effect": true,
-	"//": "Didn't integrate-ize tentacle rakes because they are hardcoded, waiting for limb rework.",
+    "//": "Didn't integrate-ize tentacle rakes because they are hardcoded, waiting for limb rework.",
     "description": "Your upper tentacles have grown large, hook-barbed rakes on the ends.  They're quite vicious, but really aren't suited for fine manipulation.",
     "encumbrance_always": [ [ "hand_l", 20 ], [ "hand_r", 20 ] ],
     "prereqs": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
