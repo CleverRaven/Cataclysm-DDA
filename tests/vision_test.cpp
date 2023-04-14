@@ -19,6 +19,7 @@
 #include "map_test_case.h"
 #include "mapdata.h"
 #include "mtype.h"
+#include "options_helpers.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -148,6 +149,7 @@ struct vision_test_case {
                       const time_point &time ) : setup( setup ), expected_results( expectedResults ), time( time ) {}
 
     void test_all() const {
+        scoped_weather_override weather_clear( WEATHER_CLEAR );
         Character &player_character = get_player_character();
         g->place_player( tripoint( 60, 60, 0 ) );
         player_character.worn.clear(); // Remove any light-emitting clothing
