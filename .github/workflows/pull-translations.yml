@@ -21,7 +21,7 @@ jobs:
               await github.rest.git.deleteRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                ref: "i18n"
+                ref: "heads/i18n"
               })
             } catch (error) {
               console.log(error)
@@ -37,6 +37,8 @@ jobs:
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: tx pull --force
+      - name: "Update stats"
+        run: ./lang/update_stats.sh
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:

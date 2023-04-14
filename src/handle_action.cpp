@@ -195,7 +195,7 @@ class user_turn
             if( turn_duration <= 0.005 ) {
                 return 0;
             }
-            auto now = std::chrono::steady_clock::now();
+            std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
             std::chrono::milliseconds elapsed_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
             return elapsed_ms.count() / ( 10.0 * turn_duration );
@@ -303,7 +303,6 @@ input_context game::get_player_input( std::string &action )
                 /*
                 Location to add rain drop animation bits! Since it refreshes w_terrain it can be added to the animation section easily
                 Get tile information from above's weather information:
-                WEATHER_ACID_DRIZZLE | WEATHER_ACID_RAIN = "weather_acid_drop"
                 WEATHER_DRIZZLE | WEATHER_LIGHT_DRIZZLE | WEATHER_RAINY | WEATHER_RAINSTORM | WEATHER_THUNDER | WEATHER_LIGHTNING = "weather_rain_drop"
                 WEATHER_FLURRIES | WEATHER_SNOW | WEATHER_SNOWSTORM = "weather_snowflake"
                 */
@@ -464,8 +463,9 @@ static void pldrive( const tripoint &p )
         return;
     }
     if( !remote ) {
-        const bool has_animal_controls = veh->part_with_feature( part, "CONTROL_ANIMAL", true ) >= 0;
-        const bool has_controls = veh->part_with_feature( part, "CONTROLS", true ) >= 0;
+        const vehicle_part &vp = veh->part( part );
+        const bool has_animal_controls = veh->part_with_feature( vp.mount, "CONTROL_ANIMAL", true ) >= 0;
+        const bool has_controls = veh->part_with_feature( vp.mount, "CONTROLS", true ) >= 0;
         const bool has_animal = veh->has_engine_type( fuel_type_animal, false ) &&
                                 veh->has_harnessed_animal();
         if( !has_controls && !has_animal_controls ) {
@@ -517,9 +517,9 @@ static void pldrive( point d )
 static void open()
 {
     avatar &player_character = get_avatar();
-    const cata::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
-                                            pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
-                                            ACTION_OPEN, false );
+    const std::optional<tripoint> openp_ = choose_adjacent_highlight( _( "Open where?" ),
+                                           pgettext( "no door, gate, curtain, etc.", "There is nothing that can be opened nearby." ),
+                                           ACTION_OPEN, false );
 
     if( !openp_ ) {
         return;
@@ -601,9 +601,9 @@ static void open()
 
 static void close()
 {
-    if( const cata::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
-            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
-            ACTION_CLOSE, false ) ) {
+    if( const std::optional<tripoint> pnt = choose_adjacent_highlight( _( "Close where?" ),
+                                            pgettext( "no door, gate, etc.", "There is nothing that can be closed nearby." ),
+                                            ACTION_CLOSE, false ) ) {
         doors::close_door( get_map(), get_player_character(), *pnt );
     }
 }
@@ -625,7 +625,7 @@ static void grab()
         return;
     }
 
-    const cata::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
+    const std::optional<tripoint> grabp_ = choose_adjacent( _( "Grab where?" ) );
     if( !grabp_ ) {
         add_msg( _( "Never mind." ) );
         return;
@@ -661,7 +661,7 @@ static void grab()
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( here.has_furn( grabp ) ) { // If not, grab furniture if present
         if( !here.furn( grabp ).obj().is_movable() ) {
-            add_msg( _( "You can not grab the %s" ), here.furnname( grabp ) );
+            add_msg( _( "You can not grab the %s." ), here.furnname( grabp ) );
             return;
         }
         you.grab( object_type::FURNITURE, grabp - you.pos() );
@@ -730,7 +730,7 @@ static void smash()
     }
 
     const bool allow_floor_bash = debug_mode; // Should later become "true"
-    const cata::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
+    const std::optional<tripoint> smashp_ = choose_adjacent( _( "Smash where?" ), allow_floor_bash );
     if( !smashp_ ) {
         return;
     }
@@ -1612,12 +1612,12 @@ static void cast_spell()
 
     spell &sp = *player_character.magic->get_spells()[spell_index];
 
-    player_character.cast_spell( sp, false, cata::nullopt );
+    player_character.cast_spell( sp, false, std::nullopt );
 }
 
 // returns true if the spell was assigned
 bool Character::cast_spell( spell &sp, bool fake_spell,
-                            const cata::optional<tripoint> &target = cata::nullopt )
+                            const std::optional<tripoint> &target = std::nullopt )
 {
     if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
         !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
@@ -1688,7 +1688,7 @@ bool bionic::activate_spell( Character &caster ) const
         // the return value tells us if the spell fails. if it has no spell it can't fail
         return true;
     }
-    spell sp = id->spell_on_activate->get_spell();
+    spell sp = id->spell_on_activate->get_spell( caster );
     return caster.cast_spell( sp, true );
 }
 
@@ -1958,7 +1958,7 @@ static std::map<action_id, std::string> get_actions_disabled_mounted()
 }
 
 bool game::do_regular_action( action_id &act, avatar &player_character,
-                              const cata::optional<tripoint> &mouse_target )
+                              const std::optional<tripoint> &mouse_target )
 {
     item_location weapon = player_character.get_wielded_item();
     const bool in_shell = player_character.has_active_mutation( trait_SHELL2 )
@@ -2130,7 +2130,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
                     // If we found tiles with open air, prompt player with query on direction they want to climb
                     if( !pts.empty() ) {
-                        const cata::optional<tripoint> pnt = point_selection_menu( pts, false );
+                        const std::optional<tripoint> pnt = point_selection_menu( pts, false );
                         if( !pnt ) {
                             break;
                         }
@@ -2255,7 +2255,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             break;
 
         case ACTION_COMPARE:
-            game_menus::inv::compare( player_character, cata::nullopt );
+            game_menus::inv::compare( player_character, std::nullopt );
             break;
 
         case ACTION_ORGANIZE:
@@ -2378,13 +2378,12 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             drop_in_direction( player_character.pos() );
             break;
         case ACTION_DIR_DROP:
-            if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
+            if( const std::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
                 if( *pnt != player_character.pos() && in_shell ) {
                     add_msg( m_info, _( "You can't drop things to another tile while you're in your shell." ) );
                 } else {
                     drop_in_direction( *pnt );
                 }
-                drop_in_direction( *pnt );
             }
             break;
         case ACTION_BIONICS:
@@ -2574,10 +2573,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_DIARY:
             diary::show_diary_ui( u.get_avatar_diary() );
-            break;
-
-        case ACTION_SCORES:
-            show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
             break;
 
         case ACTION_FACTIONS:
@@ -2848,7 +2843,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    cata::optional<tripoint> mouse_target;
+    std::optional<tripoint> mouse_target;
 
     if( uquit == QUIT_WATCH && action == "QUIT" ) {
         uquit = QUIT_DIED;
@@ -2924,7 +2919,7 @@ bool game::handle_action()
                 return false;
             }
 
-            const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(), true );
+            const std::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain, ter_view_p.xy(), true );
             if( !mouse_pos ) {
                 return false;
             }
@@ -2966,7 +2961,7 @@ bool game::handle_action()
             const int ch = evt.get_first_input();
             if( !get_option<bool>( "NO_UNKNOWN_COMMAND_MSG" ) ) {
                 std::string msg = string_format( _( "Unknown command: \"%s\" (%ld)" ), evt.long_description(), ch );
-                if( const cata::optional<std::string> hint =
+                if( const std::optional<std::string> hint =
                         press_x_if_bound( ACTION_KEYBINDINGS ) ) {
                     msg = string_format( "%s\n%s", msg,
                                          string_format( _( "%s at any time to see and edit keybindings relevant to "

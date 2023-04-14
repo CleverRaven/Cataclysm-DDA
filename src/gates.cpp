@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <memory>
+#include <optional>
 #include <set>
 #include <vector>
 
@@ -22,7 +23,6 @@
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "point.h"
 #include "translations.h"

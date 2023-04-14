@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <functional>
 #include <iosfwd>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -10,7 +11,6 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
-#include "optional.h"
 #include "output.h"
 #include "point.h"
 #include "string_formatter.h"
@@ -30,12 +30,12 @@ smart_controller_settings::smart_controller_settings( bool &enabled, int &batter
         int &battery_hi ) : enabled( enabled ), battery_lo( battery_lo ), battery_hi( battery_hi ) {}
 
 smart_controller_ui::smart_controller_ui( smart_controller_settings initial_settings ) :
-    win( init_window() ), input_ctx( "SMART_ENGINE_CONTROLLER" ), settings( initial_settings )
+    win( init_window() ), ctxt( "SMART_ENGINE_CONTROLLER" ), settings( initial_settings )
 {
-    input_ctx.register_directions();
-    input_ctx.register_action( "QUIT" );
-    input_ctx.register_action( "CONFIRM" );
-    input_ctx.register_action( "NEXT_TAB" );
+    ctxt.register_directions();
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "CONFIRM" );
+    ctxt.register_action( "NEXT_TAB" );
 }
 
 void smart_controller_ui::refresh()
@@ -117,14 +117,14 @@ void smart_controller_ui::refresh()
                                    "Use [<color_yellow>%s</color> or <color_yellow>%s</color>] to switch between sliders.\n"
                                    "Use [<color_yellow>%s</color> and <color_yellow>%s</color>] to move sliders."
                                    "Use [<color_yellow>%s</color>] to apply changes and quit." ),
-                                input_ctx.get_desc( "UP" ),
-                                input_ctx.get_desc( "DOWN" ),
-                                input_ctx.get_desc( "CONFIRM" ),
-                                input_ctx.get_desc( "NEXT_TAB" ),
-                                input_ctx.get_desc( "CONFIRM" ),
-                                input_ctx.get_desc( "LEFT" ),
-                                input_ctx.get_desc( "RIGHT" ),
-                                input_ctx.get_desc( "QUIT" ) );
+                                ctxt.get_desc( "UP" ),
+                                ctxt.get_desc( "DOWN" ),
+                                ctxt.get_desc( "CONFIRM" ),
+                                ctxt.get_desc( "NEXT_TAB" ),
+                                ctxt.get_desc( "CONFIRM" ),
+                                ctxt.get_desc( "LEFT" ),
+                                ctxt.get_desc( "RIGHT" ),
+                                ctxt.get_desc( "QUIT" ) );
 
     int keys_text_w =  WIDTH - 2;
     int keys_text_lines_n = foldstring( keys_text, keys_text_w ).size();
@@ -149,7 +149,7 @@ void smart_controller_ui::control()
 
     do {
         ui_manager::redraw();
-        action = input_ctx.handle_input();
+        action = ctxt.handle_input();
 
         if( action == "CONFIRM" || ( action == "NEXT_TAB" &&
                                      selection == smart_controller_ui_selection::lo_and_hi_slider ) ) {
@@ -171,9 +171,8 @@ void smart_controller_ui::control()
 
                     break;
             }
-        } else  if( action == "DOWN" || action == "UP" ) {
-            const int dy = action == "DOWN" ? 1 : -1;
-            selection  = ( selection + MENU_ITEMS_N + dy ) % MENU_ITEMS_N;
+        } else if( action == "UP" || action == "DOWN" ) {
+            selection = increment_and_wrap( selection, action == "DOWN", MENU_ITEMS_N );
         } else if( selection == smart_controller_ui_selection::lo_and_hi_slider && ( action == "LEFT" ||
                    action == "RIGHT" ) ) {
             const int dx = action == "RIGHT" ? 1 : -1;

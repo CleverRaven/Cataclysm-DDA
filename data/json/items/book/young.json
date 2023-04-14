@@ -45,7 +45,7 @@
       },
       {
         "id": "fairyat_111",
-        "text": "This is an illustrated fairy tale book about a conversation between a mouse and a cat."
+        "text": "An illustrated fairy tale book about a conversation between a mouse and a cat."
       },
       {
         "id": "fairyat_112",
@@ -62,7 +62,7 @@
       },
       {
         "id": "fairyat_222",
-        "text": "This is a well illustrated fairy tale about a war between the birds and the beasts, with particulars on the wartime conduct and eventual fate of the bat."
+        "text": "A well illustrated fairy tale about a war between the birds and the beasts, with particulars on the wartime conduct and eventual fate of the bat."
       },
       {
         "id": "fairyat_285",
@@ -96,14 +96,14 @@
       },
       {
         "id": "fairyat_555",
-        "text": "This is a collection of fairy tale stories warning against the consequences of extreme greed."
+        "text": "A collection of fairy tale stories warning against the consequences of extreme greed."
       },
       {
         "id": "fairyat_570",
         "text": "This fable book is titled \"The Rabbit Herd.\"  Inside are woodcut illustrations of a peasant boy playing his flute for a mob of mischievous hares."
       },
       { "id": "fairyat_591", "text": "This book is titled \"The Thieving Pot: Folktales of the Arab World.\"" },
-      { "id": "fairyat_653", "text": "This is a book of legends collected by Traveller Johnny Cassidy in the 1960s." },
+      { "id": "fairyat_653", "text": "A book of legends collected by Traveller Johnny Cassidy in the 1960s." },
       { "id": "fairyat_758", "text": "A book by the Brothers Grimm, titled \"Eve's Unequal Children.\"" },
       { "id": "fairyat_766", "text": "This book of fables expands upon the legend of the Seven Sleepers of Ephesus." },
       {
@@ -205,7 +205,7 @@
     "id": "book_fict_hard_ya_btwo",
     "type": "BOOK",
     "name": { "str": "Betrayal Takes Two", "str_pl": "copies of Betrayal" },
-    "description": "This is a hard cover book for older teens.  The two main characters pull a cruel prank on their classmates, and are brought together both by their frantic efforts to avoid being caught and their shared sense of guilt.",
+    "description": "A hard cover book for older teens.  The two main characters pull a cruel prank on their classmates, and are brought together both by their frantic efforts to avoid being caught and their shared sense of guilt.",
     "//isbn13": 9780385755924,
     "copy-from": "book_fict_hard_ya_quiddity"
   },

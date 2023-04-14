@@ -275,6 +275,7 @@
         [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 6 } ],
         [ "EOC_PORTAL_GRASS_CHANGE", { "const": 10 } ],
         [ "EOC_PORTAL_MESSAGE", { "const": 10 } ],
+        [ "EOC_PORTAL_NPC", { "const": 1 } ],
         [ "EOC_PORTAL_ARTIFACT_WEAK", { "const": 1 } ]
       ]
     }
@@ -308,6 +309,7 @@
         [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 4 } ],
         [ "EOC_PORTAL_SMOKE", { "const": 4 } ],
         [ "EOC_PORTAL_MESSAGE", { "const": 14 } ],
+        [ "EOC_PORTAL_NPC", { "const": 1 } ],
         [ "EOC_PORTAL_ARTIFACT_MEDIUM", { "const": 1 } ]
       ]
     }
@@ -338,6 +340,7 @@
         [ "EOC_PORTAL_LIGHT", { "const": 4 } ],
         [ "EOC_PORTAL_TELEPORT_STUCK_START", { "const": 2 } ],
         [ "EOC_PORTAL_MESSAGE", { "const": 10 } ],
+        [ "EOC_PORTAL_NPC", { "const": 1 } ],
         [ "EOC_PORTAL_ARTIFACT_STRONG", { "const": 1 } ]
       ]
     }
@@ -1105,5 +1108,22 @@
     "type": "effect_on_condition",
     "id": "EOC_PORTAL_DUNGEON_PUNISHMENT_NARROW_VIEWPOINT",
     "effect": { "u_add_effect": "narrow_viewpoint", "duration": { "global_val": "ps_effect_length" } }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_PORTAL_NPC",
+    "effect": [
+      {
+        "u_spawn_npc": "portal_person",
+        "real_count": 1,
+        "hallucination_count": 2,
+        "outdoor_only": true,
+        "min_radius": 3,
+        "max_radius": 5,
+        "lifespan": [ "1 minutes", "3 minutes" ],
+        "spawn_message": "A person steps nearby from somewhere else.",
+        "spawn_message_plural": "Several identical people walk nearby from nowhere."
+      }
+    ]
   }
 ]

@@ -7,6 +7,7 @@
 #include <iosfwd>
 #include <map>
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -16,8 +17,8 @@
 #include "input.h"
 #include "inventory.h"
 #include "item_location.h"
+#include "mapdata.h"
 #include "memory_fast.h"
-#include "optional.h"
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
@@ -102,8 +103,8 @@ class veh_interact
 
         weak_ptr_fast<ui_adaptor> ui;
 
-        cata::optional<std::string> title;
-        cata::optional<std::string> msg;
+        std::optional<std::string> title;
+        std::optional<std::string> msg;
 
         bool ui_hidden = false;
 
@@ -283,6 +284,10 @@ class veh_interact
          * Can be converted to a vector<vehicle_part>.
          * Updated whenever the cursor moves. */
         std::vector<int> parts_here;
+
+        /* Terrain at current square.
+         * Updated whenever the cursor moves. */
+        ter_t terrain_here;
 
         /* called by exec() */
         void cache_tool_availability();

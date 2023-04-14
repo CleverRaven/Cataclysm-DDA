@@ -24,7 +24,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_c4_hack",
@@ -51,7 +51,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_flashbang_hack",
@@ -78,7 +78,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_gasbomb_hack",
@@ -105,7 +105,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_grenade_hack",
@@ -132,7 +132,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_antimateriel",
@@ -155,7 +155,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_manhack",
@@ -182,7 +182,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_mininuke_hack",
@@ -209,7 +209,7 @@
       "place_randomly": true,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_rifleturret",
@@ -232,7 +232,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_crows_m240",
@@ -255,7 +255,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_turret_riot",
@@ -278,7 +278,7 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     },
-    "flags": [ "SINGLE_USE" ]
+    "flags": [ "SINGLE_USE", "NO_SALVAGE" ]
   },
   {
     "id": "bot_turret",
@@ -750,7 +750,7 @@
     "id": "bot_turret_speaker",
     "type": "TOOL",
     "name": { "str": "inactive loudspeaker" },
-    "description": "This is an inactive automated loudspeaker.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the loudspeaker will continuously shout pre-recorded messages.",
+    "description": "An inactive automated loudspeaker.  Using this item involves placing it on the ground and turning it on.  If reprogrammed and rewired successfully, the loudspeaker will continuously shout pre-recorded messages.",
     "weight": "100 kg",
     "volume": "50500 ml",
     "price": 500000,

@@ -227,7 +227,7 @@
     "weight": "81500 g",
     "hp": 55,
     "speed": 70,
-    "attack_cost ": 70,
+    "attack_cost": 70,
     "material": [ "flesh" ],
     "symbol": "p",
     "color": "green",
@@ -536,6 +536,7 @@
         "fake_dex": 4,
         "fake_per": 4,
         "require_targeting_player": false,
+        "target_moving_vehicles": true,
         "description": "The vicious vicuña spits a glob of acid!",
         "ranges": [ [ 2, 10, "DEFAULT" ] ]
       },

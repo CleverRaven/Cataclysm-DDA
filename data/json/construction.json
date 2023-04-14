@@ -1861,7 +1861,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ],
     "pre_terrain": "t_brick_wall",
     "post_terrain": "t_embrasure_brick"
   },
@@ -1890,7 +1890,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ],
     "pre_terrain": "t_adobe_brick_wall",
     "post_terrain": "t_embrasure_adobe_brick"
   },
@@ -4577,7 +4577,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ] ],
     "components": [ [ [ "2x4", 8 ], [ "log", 8 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "byproducts": [ { "group": "digging_soil_loam_50L", "count": 40 } ],
     "activity_level": "EXTRA_EXERCISE",
@@ -4598,7 +4598,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ] ],
     "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "byproducts": [ { "group": "mining_rock" } ],
     "activity_level": "EXTRA_EXERCISE",
@@ -4662,7 +4662,7 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ],
+      [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 2112 ] ],
       [
         "miner_hat",
         "hat_hard",
@@ -5170,6 +5170,32 @@
     "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
     "components": [ [ [ "xl_wind_turbine", 1 ] ] ],
     "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_water_wheel",
+    "group": "place_water_wheel",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "water_wheel", 1 ] ] ],
+    "pre_terrain": "t_water_moving_sh",
+    "post_special": "done_appliance",
+    "activity_level": "MODERATE_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_xl_water_wheel",
+    "group": "place_xl_water_wheel",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [ [ [ "xl_water_wheel", 1 ] ] ],
+    "pre_terrain": "t_water_moving_sh",
     "post_special": "done_appliance",
     "activity_level": "MODERATE_EXERCISE"
   },
@@ -6517,7 +6543,7 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 3 ] ],
     "time": "300 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 1848 ] ] ],
     "byproducts": [ { "group": "mining_rock" } ],
     "pre_terrain": "t_rock_floor",
     "post_terrain": "t_pit",
@@ -7359,7 +7385,7 @@
     "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
     "pre_terrain": "t_rock_roof",
     "post_terrain": "t_skylight_frame",
-    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 50 ] ] ]
+    "tools": [ [ [ "pickaxe", -1 ], [ "bronze_pickaxe", -1 ], [ "jackhammer", 50 ], [ "elec_jackhammer", 660 ] ] ]
   },
   {
     "type": "construction",
@@ -7510,7 +7536,6 @@
   {
     "type": "construction",
     "id": "hang_heavy_punching_bag",
-    "description": "A hefty leather bag in an oblong shape, suspended from a ceiling mount with a steel chain.  It can be used for exercise and combat training, with the notable advantage that it doesn't fight back.",
     "group": "hang_heavy_punching_bag",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -7782,5 +7807,41 @@
     "pre_special": "check_empty",
     "post_terrain": "f_chair_white",
     "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_oxygen_concentrator",
+    "group": "place_oxygen_concentrator",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "oxygen_concentrator", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "app_hd_compressor_unit",
+    "group": "place_hd_compressor_unit",
+    "category": "APPLIANCE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "5 m",
+    "components": [ [ [ "hd_compressor_unit", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_special": "done_appliance",
+    "activity_level": "LIGHT_EXERCISE"
+  },
+  {
+    "type": "construction",
+    "id": "constr_obstacle_rock",
+    "group": "obstacle_rock",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "survival", 1 ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "time": "5 m",
+    "components": [ [ [ "rock_large", 22 ] ] ],
+    "pre_terrain": "t_dirt",
+    "post_terrain": "t_rockyobstacle"
   }
 ]

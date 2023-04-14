@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <set>
 #include <string>
 #include <utility>
@@ -32,7 +33,6 @@
 #include "memory_fast.h"
 #include "mtype.h"
 #include "npc.h"
-#include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -115,8 +115,8 @@ faction_price_rule faction_price_rules_reader::get_next( JsonValue &jv )
     faction_price_rule ret( icg_entry_reader::_part_get_next( jo ) );
     optional( jo, false, "markup", ret.markup, 1.0 );
     optional( jo, false, "premium", ret.premium, 1.0 );
-    optional( jo, false, "fixed_adj", ret.fixed_adj, cata::nullopt );
-    optional( jo, false, "price", ret.price, cata::nullopt );
+    optional( jo, false, "fixed_adj", ret.fixed_adj, std::nullopt );
+    optional( jo, false, "price", ret.price, std::nullopt );
     return ret;
 }
 
@@ -572,10 +572,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string mission_string;
     if( has_companion_mission() ) {
         std::string dest_string;
-        cata::optional<tripoint_abs_omt> dest = get_mission_destination();
+        std::optional<tripoint_abs_omt> dest = get_mission_destination();
         if( dest ) {
             basecamp *dest_camp;
-            cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->xy() );
+            std::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->xy() );
             if( temp_camp ) {
                 dest_camp = *temp_camp;
                 dest_string = _( "traveling to: " ) + dest_camp->camp_name();
@@ -602,7 +602,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     tripoint_abs_omt guy_abspos = global_omt_location();
     basecamp *temp_camp = nullptr;
     if( assigned_camp ) {
-        cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
+        std::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
         if( bcp ) {
             temp_camp = *bcp;
         }
@@ -640,9 +640,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                 }
             }
             // if camp that player is at, has a radio tower
-            cata::optional<basecamp *> player_camp =
-                overmap_buffer.find_camp( player_character.global_omt_location().xy() );
-            if( const cata::optional<basecamp *> player_camp = overmap_buffer.find_camp(
+            if( const std::optional<basecamp *> player_camp = overmap_buffer.find_camp(
                         player_character.global_omt_location().xy() ) ) {
                 if( ( *player_camp )->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
@@ -767,9 +765,9 @@ void faction_manager::display() const
     tab_mode tab = tab_mode::FIRST_TAB;
     size_t selection = 0;
     input_context ctxt( "FACTION_MANAGER" );
-    ctxt.register_cardinal();
-    ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "CONFIRM" );
@@ -965,7 +963,7 @@ void faction_manager::display() const
         // create a list of faction camps
         camps.clear();
         for( tripoint_abs_omt elem : player_character.camps ) {
-            cata::optional<basecamp *> p = overmap_buffer.find_camp( elem.xy() );
+            std::optional<basecamp *> p = overmap_buffer.find_camp( elem.xy() );
             if( !p ) {
                 continue;
             }
@@ -974,7 +972,7 @@ void faction_manager::display() const
         }
         lore.clear();
         for( const auto &elem : player_character.get_snippets() ) {
-            cata::optional<translation> name = SNIPPET.get_name_by_id( elem );
+            std::optional<translation> name = SNIPPET.get_name_by_id( elem );
             if( !name->empty() ) {
                 lore.emplace_back( elem, name->translated() );
             } else {
@@ -1028,29 +1026,12 @@ void faction_manager::display() const
 
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
-        if( action == "NEXT_TAB" || action == "RIGHT" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) + 1 );
-            if( tab >= tab_mode::NUM_TABS ) {
-                tab = tab_mode::FIRST_TAB;
-            }
+        if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
+            // necessary to use increment_and_wrap
+            static_assert( static_cast<int>( tab_mode::FIRST_TAB ) == 0 );
+            tab = increment_and_wrap( tab, action == "RIGHT" || action == "NEXT_TAB", tab_mode::NUM_TABS );
             selection = 0;
-        } else if( action == "PREV_TAB" || action == "LEFT" ) {
-            tab = static_cast<tab_mode>( static_cast<int>( tab ) - 1 );
-            if( tab < tab_mode::FIRST_TAB ) {
-                tab = tab_mode::LAST_TAB;
-            }
-            selection = 0;
-        } else if( action == "DOWN" ) {
-            selection++;
-            if( selection >= active_vec_size ) {
-                selection = 0;
-            }
-        } else if( action == "UP" ) {
-            if( selection == 0 ) {
-                selection = active_vec_size == 0 ? 0 : active_vec_size - 1;
-            } else {
-                selection--;
-            }
+        } else if( navigate_ui_list( action, selection, 10, active_vec_size, true ) ) {
         } else if( action == "CONFIRM" ) {
             if( tab == tab_mode::TAB_FOLLOWERS && guy ) {
                 if( guy->has_companion_mission() ) {

@@ -56,9 +56,6 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
 // *INDENT-ON*
 } // namespace io
 
-constexpr units::volume pocket_data::max_volume_for_container;
-constexpr units::mass pocket_data::max_weight_for_container;
-
 std::vector<item_pocket::favorite_settings> item_pocket::pocket_presets;
 
 std::string pocket_data::check_definition() const
@@ -1212,6 +1209,7 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
 
     // ablative pockets have their contents displayed earlier in the UI
     if( !is_ablative() ) {
+        std::vector<std::pair<item const *, int>> counted_contents;
         bool contents_header = false;
         for( const item &contents_item : contents ) {
             if( !contents_header ) {
@@ -1226,8 +1224,27 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
                                    contents_item.color_in_inventory() ) );
                 info.emplace_back( vol_to_info( cont_type_str, desc + space, contents_item.volume() ) );
             } else {
-                info.emplace_back( "DESCRIPTION", colorize( space + contents_item.display_name(),
-                                   contents_item.color_in_inventory() ) );
+                bool found = false;
+                for( std::pair<item const *, int> &content : counted_contents ) {
+                    if( content.first->display_stacked_with( contents_item ) ) {
+                        content.second += 1;
+                        found = true;
+                    }
+                }
+                if( !found ) {
+                    std::pair<item const *, int> new_content( &contents_item, 1 );
+                    counted_contents.push_back( new_content );
+                }
+            }
+        }
+        for( std::pair<item const *, int> content : counted_contents ) {
+            if( content.second > 1 ) {
+                info.emplace_back( "DESCRIPTION",
+                                   space + std::to_string( content.second ) + " " + colorize( content.first->display_name(
+                                               content.second ), content.first->color_in_inventory() ) );
+            } else {
+                info.emplace_back( "DESCRIPTION", space + colorize( content.first->display_name(),
+                                   content.first->color_in_inventory() ) );
             }
         }
     }
@@ -1576,7 +1593,7 @@ bool item_pocket::can_reload_with( const item &ammo, const bool now ) const
     return false;
 }
 
-cata::optional<item> item_pocket::remove_item( const item &it )
+std::optional<item> item_pocket::remove_item( const item &it )
 {
     item ret( it );
     const size_t sz = contents.size();
@@ -1584,7 +1601,7 @@ cata::optional<item> item_pocket::remove_item( const item &it )
         return &rhs == &it;
     } );
     if( sz == contents.size() ) {
-        return cata::nullopt;
+        return std::nullopt;
     } else {
         return ret;
     }
@@ -1607,10 +1624,10 @@ bool item_pocket::remove_internal( const std::function<bool( item & )> &filter,
     return false;
 }
 
-cata::optional<item> item_pocket::remove_item( const item_location &it )
+std::optional<item> item_pocket::remove_item( const item_location &it )
 {
     if( !it ) {
-        return cata::nullopt;
+        return std::nullopt;
     }
     return remove_item( *it );
 }
@@ -1705,11 +1722,11 @@ void item_pocket::overflow( const tripoint &pos )
     }
 }
 
-void item_pocket::on_pickup( Character &guy )
+void item_pocket::on_pickup( Character &guy, item *avoid )
 {
     if( will_spill() ) {
         while( !empty() ) {
-            handle_liquid_or_spill( guy );
+            handle_liquid_or_spill( guy, avoid );
         }
         restack();
     }
@@ -1965,7 +1982,7 @@ std::list<item> &item_pocket::edit_contents()
 }
 
 ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
-        const bool into_bottom )
+        const bool into_bottom, bool restack_charges )
 {
     ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
             ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
@@ -1976,7 +1993,9 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it,
         } else {
             contents.push_back( it );
         }
-        restack();
+        if( restack_charges ) {
+            restack();
+        }
     }
     return ret;
 }
@@ -2247,7 +2266,7 @@ units::volume pocket_data::max_contains_volume() const
 
 void item_pocket::favorite_settings::clear()
 {
-    preset_name = cata::nullopt;
+    preset_name = std::nullopt;
     priority_rating = 0;
     item_whitelist.clear();
     item_blacklist.clear();
@@ -2456,7 +2475,7 @@ void item_pocket::favorite_settings::set_preset_name( const std::string &s )
     preset_name = s;
 }
 
-const cata::optional<std::string> &item_pocket::favorite_settings::get_preset_name() const
+const std::optional<std::string> &item_pocket::favorite_settings::get_preset_name() const
 {
     return preset_name;
 }

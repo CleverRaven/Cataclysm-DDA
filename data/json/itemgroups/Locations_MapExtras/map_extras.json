@@ -31,6 +31,7 @@
       { "group": "college_camping", "prob": 80 },
       { "group": "SUS_book_nonf_soft", "prob": 20 },
       { "item": "pride_flag", "prob": 5 },
+      { "item": "national_flag", "prob": 4 },
       { "item": "corpse", "damage": 4 }
     ]
   },

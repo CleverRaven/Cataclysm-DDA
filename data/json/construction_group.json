@@ -1301,6 +1301,16 @@
   },
   {
     "type": "construction_group",
+    "id": "place_water_wheel",
+    "name": "Place Water Wheel"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_xl_water_wheel",
+    "name": "Place Large Water Wheel"
+  },
+  {
+    "type": "construction_group",
     "id": "place_small_battery",
     "name": "Place Small Battery"
   },
@@ -1708,5 +1718,20 @@
     "type": "construction_group",
     "id": "place_chair_wood_white",
     "name": "Place a white wooden chair"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_oxygen_concentrator",
+    "name": "Place Oxygen Concentrator"
+  },
+  {
+    "type": "construction_group",
+    "id": "place_hd_compressor_unit",
+    "name": "Place High Pressure Compressor Unit"
+  },
+  {
+    "type": "construction_group",
+    "id": "obstacle_rock",
+    "name": "Build a Rocky Obstacle"
   }
 ]

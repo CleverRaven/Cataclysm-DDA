@@ -9,6 +9,7 @@
 #include <map>
 #include <memory>
 #include <new>
+#include <optional>
 #include <ostream>
 #include <set>
 #include <stdexcept>
@@ -20,6 +21,7 @@
 #include "cata_assert.h"
 #include "catacharset.h"
 #include "character_id.h"
+#include "city.h"
 #include "clzones.h"
 #include "colony.h"
 #include "common_types.h"
@@ -58,7 +60,6 @@
 #include "mongroup.h"
 #include "npc.h"
 #include "omdata.h"
-#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
@@ -144,7 +145,6 @@ static const oter_str_id oter_lab( "lab" );
 static const oter_str_id oter_lab_core( "lab_core" );
 static const oter_str_id oter_lab_finale( "lab_finale" );
 static const oter_str_id oter_lab_stairs( "lab_stairs" );
-static const oter_str_id oter_road_nesw_manhole( "road_nesw_manhole" );
 static const oter_str_id oter_sewer_es( "sewer_es" );
 static const oter_str_id oter_sewer_esw( "sewer_esw" );
 static const oter_str_id oter_sewer_ew( "sewer_ew" );
@@ -268,7 +268,7 @@ void map::generate( const tripoint &p, const time_point &when )
                 if( !mgr.name ) {
                     continue;
                 }
-                if( const cata::optional<tripoint> pt =
+                if( const std::optional<tripoint> pt =
                 random_point( *this, [this]( const tripoint & n ) {
                 return passable( n );
                 } ) ) {
@@ -807,7 +807,7 @@ mapgen_function_json_base::mapgen_function_json_base(
     , total_size( mapgensize )
     , objects( m_offset, mapgensize, total_size )
 {
-    jsobj.allow_omitted_members();
+    this->jsobj.allow_omitted_members();
 }
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;
@@ -1213,7 +1213,7 @@ class mapgen_value
 
         struct param_source : value_source {
             std::string param_name;
-            cata::optional<StringId> fallback;
+            std::optional<StringId> fallback;
 
             explicit param_source( const JsonObject &jo )
                 : param_name( jo.get_string( "param" ) ) {
@@ -3097,8 +3097,8 @@ class jmapgen_sealed_item : public jmapgen_piece
     public:
         mapgen_value<furn_id> furniture;
         jmapgen_int chance;
-        cata::optional<jmapgen_spawn_item> item_spawner;
-        cata::optional<jmapgen_item_group> item_group_spawner;
+        std::optional<jmapgen_spawn_item> item_spawner;
+        std::optional<jmapgen_item_group> item_group_spawner;
         jmapgen_sealed_item( const JsonObject &jsi, const std::string &context )
             : furniture( jsi.get_member( "furniture" ) )
             , chance( jsi, "chance", 100, 100 ) {
@@ -5693,7 +5693,7 @@ void map::draw_lab( mapgendata &dat )
                     tripoint_range<tripoint> options =
                     points_in_rectangle( { 6, 6, abs_sub.z() },
                     { SEEX * 2 - 7, SEEY * 2 - 7, abs_sub.z() } );
-                    cata::optional<tripoint> center = random_point(
+                    std::optional<tripoint> center = random_point(
                     options, [&]( const tripoint & p ) {
                         return tr_at( p ).is_null();
                     } );
@@ -6246,9 +6246,6 @@ void map::draw_connections( const mapgendata &dat )
             }
         }
     } else if( terrain_type->get_type_id() == oter_type_sewer ) {
-        if( dat.above() == oter_road_nesw_manhole ) {
-            ter_set( point( rng( SEEX - 2, SEEX + 1 ), rng( SEEY - 2, SEEY + 1 ) ), t_ladder_up );
-        }
         if( ( dat.north()->get_type_id() == oter_type_subway ) &&
             !connects_to( terrain_type, 0 ) ) {
             for( int j = 0; j < SEEY - 3; j++ ) {
@@ -6484,37 +6481,39 @@ std::vector<item *> map::place_items(
             tries++;
         } while( is_valid_terrain( p ) && tries < 20 );
         if( tries < 20 ) {
+            auto add_res_itm = [this, &p, &res]( const item & itm ) {
+                item &it = add_item_or_charges( p, itm );
+                if( !it.is_null() ) {
+                    res.push_back( &it );
+                }
+            };
+
             for( const item &itm : item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate ) ) {
                 const float item_cat_spawn_rate = std::max( 0.0f, item_category_spawn_rate( itm ) );
-                // for items with category spawn rate less than or equal to 1, roll a dice to see if they should spawn
-                if( item_cat_spawn_rate <= 1 ) {
-                    if( rng_float( 0.1f, 1 ) <= item_cat_spawn_rate ) {
-                        item &it = add_item_or_charges( p, itm );
-                        if( !it.is_null() ) {
-                            res.push_back( &it );
-                        }
+                if( item_cat_spawn_rate == 0.0f ) {
+                    continue;
+                } else if( item_cat_spawn_rate < 1.0f ) {
+                    // for items with category spawn rate less than 1, roll a dice to see if they should spawn
+                    if( rng_float( 0.0f, 1.0f ) <= item_cat_spawn_rate ) {
+                        add_res_itm( itm );
                     }
-                    // for items with category spawn rate more than 1, spawn item at least one time...
                 } else {
-                    item &it = add_item_or_charges( p, itm );
-                    if( !it.is_null() ) {
-                        res.push_back( &it );
-                    }
+                    // for items with category spawn rate more or equal to 1, spawn item at least one time...
+                    add_res_itm( itm );
 
-                    // ...then create a list with items from the same item group and remove all items with differing category from that list
-                    // so if the original item was e.g. from 'guns' category, the list will contain only items from the 'guns' category...
-                    Item_list extra_spawn = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
-                    extra_spawn.erase( std::remove_if( extra_spawn.begin(), extra_spawn.end(), [&itm]( item & it ) {
-                        return it.get_category_of_contents() != itm.get_category_of_contents();
-                    } ), extra_spawn.end() );
+                    if( item_cat_spawn_rate > 1.0f ) {
+                        // ...then create a list with items from the same item group and remove all items with differing category from that list
+                        // so if the original item was e.g. from 'guns' category, the list will contain only items from the 'guns' category...
+                        Item_list extra_spawn = item_group::items_from( group_id, turn, spawn_flags::use_spawn_rate );
+                        extra_spawn.erase( std::remove_if( extra_spawn.begin(), extra_spawn.end(), [&itm]( item & it ) {
+                            return it.get_category_of_contents() != itm.get_category_of_contents();
+                        } ), extra_spawn.end() );
 
-                    // ...then add a chance to spawn additional items from the list, amount is based on the item category spawn rate
-                    for( int i = 0; i < item_cat_spawn_rate; i++ ) {
-                        for( const item &it : extra_spawn ) {
-                            if( rng( 1, 100 ) <= chance ) {
-                                item &new_item = add_item_or_charges( p, it );
-                                if( !new_item.is_null() ) {
-                                    res.push_back( &new_item );
+                        // ...then add a chance to spawn additional items from the list, amount is based on the item category spawn rate
+                        for( int i = 0; i < item_cat_spawn_rate; i++ ) {
+                            for( const item &it : extra_spawn ) {
+                                if( rng( 1, 100 ) <= chance ) {
+                                    add_res_itm( it );
                                 }
                             }
                         }

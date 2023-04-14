@@ -348,6 +348,13 @@
       "ELECTRICSTORAGE",
       "PORTABLE_GAME",
       {
+        "type": "effect_on_conditions",
+        "//menu_text": "Dig into local files and logs",
+        "description": "You can take a look at the local files stored on this laptop.",
+        "//need_charges_msg": "The laptop's batteries need more charge.",
+        "effect_on_conditions": [ "EOC_READ_LOCAL_FILES" ]
+      },
+      {
         "target": "laptop_screen_lit",
         "msg": "You light up the screen.",
         "menu_text": "Light up the screen",
@@ -386,6 +393,13 @@
       "EBOOKREAD",
       "ELECTRICSTORAGE",
       "PORTABLE_GAME",
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Dig into local files and logs",
+        "description": "You can take a look at the local files stored on this laptop.",
+        "//need_charges_msg": "The laptop's batteries need more charge.",
+        "effect_on_conditions": [ "EOC_READ_LOCAL_FILES" ]
+      },
       {
         "ammo_scale": 0,
         "target": "laptop",
@@ -561,6 +575,13 @@
       "EBOOKSAVE",
       "EBOOKREAD",
       {
+        "type": "effect_on_conditions",
+        "//menu_text": "Dig into local files and logs",
+        "description": "You can take a look at the local files stored on this smartphone.",
+        "//need_charges_msg": "The smartphone's charge is too low.",
+        "effect_on_conditions": [ "EOC_READ_LOCAL_FILES" ]
+      },
+      {
         "target": "smart_phone_flashlight",
         "msg": "You activate the flashlight app.",
         "menu_text": "Turn on flashlight",
@@ -605,6 +626,13 @@
       "EINKTABLETPC",
       "EBOOKSAVE",
       "EBOOKREAD",
+      {
+        "type": "effect_on_conditions",
+        "menu_text": "Dig into local files and logs",
+        "description": "You can take a look at the local files stored on this smartphone.",
+        "//need_charges_msg": "The smartphone's charge is too low.",
+        "effect_on_conditions": [ "EOC_READ_LOCAL_FILES" ]
+      },
       {
         "ammo_scale": 0,
         "target": "smart_phone",

@@ -284,7 +284,6 @@ void user_interface::show()
 
     const int iHeaderHeight = 4;
     int iContentHeight = 0;
-    const int iTotalCols = 2;
 
     catacurses::window w_border;
     catacurses::window w_header;
@@ -311,7 +310,7 @@ void user_interface::show()
 
     size_t iTab = 0;
     int iLine = 0;
-    int iColumn = 1;
+    bool bLeftColumn = true;
     int iStartPos = 0;
     Character &player_character = get_player_character();
 
@@ -357,7 +356,7 @@ void user_interface::show()
         }
         mvwprintz( w_header, point( 1, 3 ), c_white, "#" );
         mvwprintz( w_header, point( 8, 3 ), c_white, _( "Rules" ) );
-        mvwprintz( w_header, point( 52, 3 ), c_white, _( "I/E" ) );
+        mvwprintz( w_header, point( 52, 3 ), c_white, _( "Inc/Exc" ) );
 
         rule_list &cur_rules = tabs[iTab].new_rules;
         int locx = 17;
@@ -396,8 +395,7 @@ void user_interface::show()
         // display auto pickup
         for( int i = iStartPos; i < static_cast<int>( cur_rules.size() ); i++ ) {
             if( i >= iStartPos &&
-                i < iStartPos + ( iContentHeight > static_cast<int>( cur_rules.size() ) ?
-                                  static_cast<int>( cur_rules.size() ) : iContentHeight ) ) {
+                i < iStartPos + std::min<int>( iContentHeight, cur_rules.size() ) ) {
                 nc_color cLineColor = cur_rules[i].bActive ? c_white : c_light_gray;
 
                 mvwprintz( w, point( 1, i - iStartPos ), cLineColor, "%d", i + 1 );
@@ -409,10 +407,10 @@ void user_interface::show()
                     wprintz( w, c_yellow, "   " );
                 }
 
-                wprintz( w, iLine == i && iColumn == 1 ? hilite( cLineColor ) : cLineColor, "%s",
+                wprintz( w, iLine == i && bLeftColumn ? hilite( cLineColor ) : cLineColor, "%s",
                          cur_rules[i].sRule.empty() ? _( "<empty rule>" ) : cur_rules[i].sRule );
 
-                mvwprintz( w, point( 52, i - iStartPos ), iLine == i && iColumn == 2 ?
+                mvwprintz( w, point( 52, i - iStartPos ), iLine == i && !bLeftColumn ?
                            hilite( cLineColor ) : cLineColor, "%s",
                            cur_rules[i].bExclude ? _( "Exclude" ) :  _( "Include" ) );
             }
@@ -423,9 +421,8 @@ void user_interface::show()
 
     bStuffChanged = false;
     input_context ctxt( "AUTO_PICKUP" );
-    ctxt.register_cardinal();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
+    ctxt.register_leftright();
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     if( tabs.size() > 1 ) {
@@ -474,36 +471,7 @@ void user_interface::show()
             iLine = 0;
         } else if( action == "QUIT" ) {
             break;
-        } else if( action == "DOWN" ) {
-            iLine++;
-            iColumn = 1;
-            if( iLine >= recmax ) {
-                iLine = 0;
-            }
-        } else if( action == "UP" ) {
-            iLine--;
-            iColumn = 1;
-            if( iLine < 0 ) {
-                iLine = cur_rules.size() - 1;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( iLine == recmax - 1 ) {
-                iLine = 0;
-            } else if( iLine + scroll_rate >= recmax ) {
-                iLine = recmax - 1;
-            } else {
-                iLine += +scroll_rate;
-                iColumn = 1;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( iLine == 0 ) {
-                iLine = recmax - 1;
-            } else if( iLine <= scroll_rate ) {
-                iLine = 0;
-            } else {
-                iLine += -scroll_rate;
-                iColumn = 1;
-            }
+        } else if( navigate_ui_list( action, iLine, scroll_rate, recmax, true ) ) {
         } else if( action == "REMOVE_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
             cur_rules.erase( cur_rules.begin() + iLine );
@@ -535,7 +503,7 @@ void user_interface::show()
             }
             ui_manager::redraw();
 
-            if( iColumn == 1 || action == "ADD_RULE" ) {
+            if( bLeftColumn || action == "ADD_RULE" ) {
                 ui_adaptor help_ui;
                 catacurses::window w_help;
                 const auto init_help_window = [&]( ui_adaptor & help_ui ) {
@@ -585,7 +553,7 @@ void user_interface::show()
                     cur_rules.pop_back();
                     iLine = old_iLine;
                 }
-            } else if( iColumn == 2 ) {
+            } else if( !bLeftColumn ) {
                 bStuffChanged = true;
                 cur_rules[iLine].bExclude = !cur_rules[iLine].bExclude;
             }
@@ -595,29 +563,19 @@ void user_interface::show()
         } else if( action == "DISABLE_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
             cur_rules[iLine].bActive = false;
-        } else if( action == "LEFT" ) {
-            iColumn--;
-            if( iColumn < 1 ) {
-                iColumn = iTotalCols;
-            }
-        } else if( action == "RIGHT" ) {
-            iColumn++;
-            if( iColumn > iTotalCols ) {
-                iColumn = 1;
-            }
+        } else if( action == "LEFT" || action == "RIGHT" ) {
+            bLeftColumn = !bLeftColumn;
         } else if( action == "MOVE_RULE_UP" && currentPageNonEmpty ) {
             bStuffChanged = true;
             if( iLine < recmax - 1 ) {
                 std::swap( cur_rules[iLine], cur_rules[iLine + 1] );
                 iLine++;
-                iColumn = 1;
             }
         } else if( action == "MOVE_RULE_DOWN" && currentPageNonEmpty ) {
             bStuffChanged = true;
             if( iLine > 0 ) {
                 std::swap( cur_rules[iLine], cur_rules[iLine - 1] );
                 iLine--;
-                iColumn = 1;
             }
         } else if( action == "TEST_RULE" && currentPageNonEmpty && !player_character.name.empty() ) {
             cur_rules[iLine].test_pattern();
@@ -718,9 +676,7 @@ void rule::test_pattern() const
     int iLine = 0;
 
     input_context ctxt( "AUTO_PICKUP_TEST" );
-    ctxt.register_updown();
-    ctxt.register_action( "PAGE_UP", to_translation( "Fast scroll up" ) );
-    ctxt.register_action( "PAGE_DOWN", to_translation( "Fast scroll down" ) );
+    ctxt.register_navigate_ui_list();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
@@ -742,8 +698,7 @@ void rule::test_pattern() const
         // display auto pickup
         for( int i = iStartPos; i < static_cast<int>( vMatchingItems.size() ); i++ ) {
             if( i >= iStartPos &&
-                i < iStartPos + ( iContentHeight > static_cast<int>( vMatchingItems.size() ) ?
-                                  static_cast<int>( vMatchingItems.size() ) : iContentHeight ) ) {
+                i < iStartPos + std::min<int>( iContentHeight, vMatchingItems.size() ) ) {
                 nc_color cLineColor = c_white;
 
                 mvwprintz( w_test_rule_content, point( 0, i - iStartPos ), cLineColor, "%d", i + 1 );
@@ -768,32 +723,7 @@ void rule::test_pattern() const
         const int recmax = static_cast<int>( vMatchingItems.size() );
         const int scroll_rate = recmax > 20 ? 10 : 3;
         const std::string action = ctxt.handle_input();
-        if( action == "DOWN" ) {
-            iLine++;
-            if( iLine >= recmax ) {
-                iLine = 0;
-            }
-        } else if( action == "UP" ) {
-            iLine--;
-            if( iLine < 0 ) {
-                iLine = recmax - 1;
-            }
-        } else if( action == "PAGE_DOWN" ) {
-            if( iLine == recmax - 1 ) {
-                iLine = 0;
-            } else if( iLine + scroll_rate >= recmax ) {
-                iLine = recmax - 1;
-            } else {
-                iLine += +scroll_rate;
-            }
-        } else if( action == "PAGE_UP" ) {
-            if( iLine == 0 ) {
-                iLine = recmax - 1;
-            } else if( iLine <= scroll_rate ) {
-                iLine = 0;
-            } else {
-                iLine += -scroll_rate;
-            }
+        if( navigate_ui_list( action, iLine, scroll_rate, recmax, true ) ) {
         } else if( action == "QUIT" ) {
             break;
         }

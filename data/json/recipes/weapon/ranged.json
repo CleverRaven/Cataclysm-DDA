@@ -1116,7 +1116,7 @@
       [ [ "sheet_metal_small", 12 ] ],
       [ [ "pipe", 6 ] ],
       [ [ "chain", 1 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "cable", 4 ] ],
       [ [ "spring", 7 ] ],
@@ -1382,7 +1382,7 @@
       [ [ "steel_tiny", 1, "LIST" ] ],
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
       [ [ "fletching", 2, "LIST" ] ],
-      [ [ "lead", 7 ] ]
+      [ [ "lead", 4 ] ]
     ]
   },
   {

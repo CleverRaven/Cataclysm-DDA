@@ -66,10 +66,14 @@ static bool audio_muted = false;
 #endif
 
 static weather_type_id previous_weather;
-static cata::optional<bool> previous_is_night;
+#if defined(SDL_SOUND)
+static std::optional<bool> previous_is_night;
+#endif
 static float g_sfx_volume_multiplier = 1.0f;
-static auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
-static auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
+static std::chrono::high_resolution_clock::time_point start_sfx_timestamp =
+    std::chrono::high_resolution_clock::now();
+static std::chrono::high_resolution_clock::time_point end_sfx_timestamp =
+    std::chrono::high_resolution_clock::now();
 static auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
 static activity_id act;
 static std::pair<std::string, std::string> engine_external_id_and_variant;
@@ -118,10 +122,6 @@ static const ter_str_id ter_t_grass_tall( "t_grass_tall" );
 static const ter_str_id ter_t_grass_white( "t_grass_white" );
 static const ter_str_id ter_t_grate( "t_grate" );
 static const ter_str_id ter_t_guardrail_bg_dp( "t_guardrail_bg_dp" );
-static const ter_str_id ter_t_machinery_electronic( "t_machinery_electronic" );
-static const ter_str_id ter_t_machinery_heavy( "t_machinery_heavy" );
-static const ter_str_id ter_t_machinery_light( "t_machinery_light" );
-static const ter_str_id ter_t_machinery_old( "t_machinery_old" );
 static const ter_str_id ter_t_metal_floor( "t_metal_floor" );
 static const ter_str_id ter_t_moss( "t_moss" );
 static const ter_str_id ter_t_ov_smreb_cage( "t_ov_smreb_cage" );
@@ -877,23 +877,24 @@ void sfx::do_vehicle_engine_sfx()
     const bool indoors = !is_creature_outside( player_character );
     const bool night = is_night( calendar::turn );
 
-    for( size_t e = 0; e < veh->engines.size(); ++e ) {
-        if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_internal",
-                                        veh->part_info( veh->engines[ e ] ).get_id().str(),
-                                        seas_str, indoors, night ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal",
-                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
-            } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "muscle" );
-            } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "wind" );
-            } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
-                id_and_variant = std::make_pair( "engine_working_internal", "electric" );
-            } else {
-                id_and_variant = std::make_pair( "engine_working_internal", "combustion" );
-            }
+    for( const int p : veh->engines ) {
+        const vehicle_part &vp = veh->part( p );
+        if( !veh->is_engine_on( vp ) ) {
+            continue;
         }
+        std::string variant = vp.info().get_id().str();
+        if( sfx::has_variant_sound( "engine_working_internal", variant, seas_str, indoors, night ) ) {
+            // has special sound variant for this vpart id
+        } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
+            variant = "muscle";
+        } else if( veh->is_engine_type( vp, fuel_type_wind ) ) {
+            variant = "wind";
+        } else if( veh->is_engine_type( vp, fuel_type_battery ) ) {
+            variant = "electric";
+        } else {
+            variant = "combustion";
+        }
+        id_and_variant = std::make_pair( "engine_working_internal", variant );
     }
 
     if( !is_channel_playing( ch ) ) {
@@ -1020,23 +1021,24 @@ void sfx::do_vehicle_exterior_engine_sfx()
     const bool indoors = !is_creature_outside( player_character );
     const bool night = is_night( calendar::turn );
 
-    for( size_t e = 0; e < veh->engines.size(); ++e ) {
-        if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_external",
-                                        veh->part_info( veh->engines[ e ] ).get_id().str(),
-                                        seas_str, indoors, night ) ) {
-                id_and_variant = std::make_pair( "engine_working_external",
-                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
-            } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "muscle" );
-            } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "wind" );
-            } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
-                id_and_variant = std::make_pair( "engine_working_external", "electric" );
-            } else {
-                id_and_variant = std::make_pair( "engine_working_external", "combustion" );
-            }
+    for( const int p : veh->engines ) {
+        const vehicle_part &vp = veh->part( p );
+        if( !veh->is_engine_on( vp ) ) {
+            continue;
         }
+        std::string variant = vp.info().get_id().str();
+        if( sfx::has_variant_sound( "engine_working_external", variant, seas_str, indoors, night ) ) {
+            // has special sound variant for this vpart id
+        } else if( veh->is_engine_type( vp, fuel_type_muscle ) ) {
+            variant = "muscle";
+        } else if( veh->is_engine_type( vp, fuel_type_wind ) ) {
+            variant = "wind";
+        } else if( veh->is_engine_type( vp, fuel_type_battery ) ) {
+            variant = "electric";
+        } else {
+            variant = "combustion";
+        }
+        id_and_variant = std::make_pair( "engine_working_external", variant );
     }
 
     if( is_channel_playing( ch ) ) {
@@ -1286,7 +1288,7 @@ void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
         if( std::any_of( mods.begin(), mods.end(),
         []( const item * e ) {
         return e->type->gunmod->loudness < 0;
-    } ) ) {
+    } ) && firing.gun_skill().str() != "archery" ) {
             weapon_id = itype_weapon_fire_suppressed;
         }
 
@@ -1765,10 +1767,6 @@ void sfx::do_footstep()
             ter_t_guardrail_bg_dp,
             ter_t_slide,
             ter_t_conveyor,
-            ter_t_machinery_light,
-            ter_t_machinery_heavy,
-            ter_t_machinery_old,
-            ter_t_machinery_electronic,
         };
         static const std::set<ter_str_id> chain_fence = {
             ter_t_chainfence,
@@ -1776,8 +1774,8 @@ void sfx::do_footstep()
 
         const auto play_plmove_sound_variant = [&]( const std::string & variant,
                                                const std::string & season,
-                                               const cata::optional<bool> &indoors,
-        const cata::optional<bool> &night ) {
+                                               const std::optional<bool> &indoors,
+        const std::optional<bool> &night ) {
             play_variant_sound( "plmove", variant, season, indoors, night,
                                 heard_volume, 0_degrees, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
@@ -1983,7 +1981,7 @@ void sfx::do_player_death_hurt( const Character &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle( const std::string & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, const std::string &,
-                              const cata::optional<bool> &, const cata::optional<bool> &, int ) { }
+                              const std::optional<bool> &, const std::optional<bool> &, int ) { }
 /*@}*/
 
 #endif // if defined(SDL_SOUND)

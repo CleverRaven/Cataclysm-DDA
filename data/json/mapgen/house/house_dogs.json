@@ -1,14 +1,5 @@
 [
   {
-    "name": "GROUP_DOGS",
-    "type": "monstergroup",
-    "monsters": [
-      { "monster": "mon_null", "weight": 730 },
-      { "monster": "mon_zombie_dog", "weight": 135, "cost_multiplier": 0, "pack_size": [ 5, 8 ] },
-      { "monster": "mon_dog_zombie_rot", "weight": 135, "cost_multiplier": 1, "pack_size": [ 1, 4 ] }
-    ]
-  },
-  {
     "id": "dogfight",
     "type": "item_group",
     "subtype": "collection",
@@ -18,7 +9,8 @@
       { "item": "postman_hat" },
       { "group": "underwear" },
       { "item": "dress_shoes" },
-      { "item": "corpse" }
+      { "item": "corpse" },
+      { "group": "mail_postal" }
     ]
   },
   {
@@ -67,7 +59,7 @@
         { "group": "guns_pistol_common", "x": 4, "y": 10, "chance": 5, "ammo": 90, "magazine": 100 },
         { "group": "dogfight", "x": 18, "y": 17, "chance": 95 }
       ],
-      "place_monsters": [ { "monster": "GROUP_DOGS", "x": [ 7, 21 ], "y": [ 13, 21 ], "chance": 1 } ]
+      "place_monster": [ { "group": "GROUP_DOGS", "x": [ 9, 21 ], "y": [ 13, 21 ], "repeat": [ 3, 7 ] } ]
     }
   },
   {

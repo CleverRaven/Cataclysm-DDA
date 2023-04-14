@@ -81,7 +81,7 @@
     "id": "polesaw_off",
     "type": "TOOL",
     "name": { "str": "polesaw (off)", "str_pl": "polesaws (off)" },
-    "description": "This is a lumbering tool intended for trimming hedges and tree branches at a distance.  If loaded with gas, using this item will cause it to turn on, making it into an unwieldy polearm.",
+    "description": "A lumbering tool intended for trimming hedges and tree branches at a distance.  If loaded with gas, using this item will cause it to turn on, making it into an unwieldy polearm.",
     "weight": "9525 g",
     "volume": "2500 ml",
     "longest_side": "275 cm",

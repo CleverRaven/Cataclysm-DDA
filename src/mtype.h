@@ -5,6 +5,7 @@
 #include <iosfwd>
 #include <array>
 #include <map>
+#include <optional>
 #include <set>
 #include <string>
 #include <vector>
@@ -17,7 +18,6 @@
 #include "enums.h"
 #include "magic.h"
 #include "mattack_common.h"
-#include "optional.h"
 #include "pathfinding.h"
 #include "shearing.h"
 #include "speed_description.h"
@@ -105,6 +105,7 @@ enum m_flag : int {
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_SMALLSLUDGETRAIL,    // Causes monster to leave a low intensity, 1 tile sludge pool approximately every other tile when moving
     MF_COLDPROOF,           // Immune to cold damage
+    MF_COMBAT_MOUNT,        // Mount has better chance to ignore hostile monster fear
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
     MF_ELECTRONIC,          // e.g. a robot; affected by EMP blasts, and other stuff
@@ -123,7 +124,6 @@ enum m_flag : int {
     MF_REVIVES,             // Monster corpse will revive after a short period of time
     MF_VERMIN,              // Obsolete flag labeling "nuisance" or "scenery" monsters, now used to prevent loading the same.
     MF_NOGIB,               // Creature won't leave gibs / meat chunks when killed with huge damage.
-    MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
     MF_BILE_BLOOD,          // Makes monster bleed bile.
@@ -148,6 +148,7 @@ enum m_flag : int {
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
     MF_CANPLAY,             // This monster can be played with if it's a pet.
+    MF_CAN_BE_CULLED,       // This monster can be culled if it's a pet.
     MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
     MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
     MF_DOGFOOD,             // This monster will respond to the dog whistle.
@@ -175,6 +176,7 @@ enum m_flag : int {
     MF_ALWAYS_SEES_YOU,     // This monster always knows where the avatar is
     MF_ALL_SEEING,          // This monster can see everything within its vision range regardless of light or obstacles
     MF_NEVER_WANDER,        // This monster will never join wandering hordes.
+    MF_CONVERSATION,        // This monster can engage in conversation.  Will need to have chat_topics as well.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -346,6 +348,9 @@ struct mtype {
         ::weakpoints weakpoints;
         weakpoint_families families;
 
+        // Traps avoided by this monster
+        std::set<trap_str_id> trap_avoids;
+
     private:
         std::vector<weakpoints_id> weakpoints_deferred;
         ::weakpoints weakpoints_deferred_inline;
@@ -409,14 +414,14 @@ struct mtype {
         mtype_id upgrade_into;
         mongroup_id upgrade_group;
         mtype_id burn_into;
-        cata::optional<int> upgrade_multi_range;
+        std::optional<int> upgrade_multi_range;
         bool upgrade_null_despawn;
 
         mtype_id zombify_into; // mtype_id this monster zombifies into
         mtype_id fungalize_into; // mtype_id this monster fungalize into
 
         // Monster reproduction variables
-        cata::optional<time_duration> baby_timer;
+        std::optional<time_duration> baby_timer;
         int baby_count;
         mtype_id baby_monster;
         itype_id baby_egg;
@@ -424,7 +429,7 @@ struct mtype {
 
         // Monster biosignature variables
         itype_id biosig_item;
-        cata::optional<time_duration> biosig_timer;
+        std::optional<time_duration> biosig_timer;
 
         // All the bools together for space efficiency
 

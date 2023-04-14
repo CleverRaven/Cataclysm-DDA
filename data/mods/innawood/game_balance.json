@@ -1,0 +1,16 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_CITIES",
+    "info": "Allows to place cities during overmap generation.",
+    "stype": "bool",
+    "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "OVERMAP_PLACE_ROADS",
+    "info": "Allows to place procgen roads during overmap generation.",
+    "stype": "bool",
+    "value": false
+  }
+]
