@@ -3,6 +3,7 @@
 #define CATA_SRC_CATA_UTILITY_H
 
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <ctime>
 #include <functional>
