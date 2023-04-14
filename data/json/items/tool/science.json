@@ -1433,10 +1433,7 @@
         {
           "id": "EOC_MIGO_BIO_TECH_PAIN",
           "condition": { "npc_has_var": "function", "type": "mbt", "context": "f", "value": "pain" },
-          "effect": [
-            { "u_message": "You feel your aches and pains fade away!" },
-            { "arithmetic": [ { "u_val": "pain" }, "-=", { "const": 30 } ] }
-          ]
+          "effect": [ { "u_message": "You feel your aches and pains fade away!" }, { "math": [ "u_pain()", "-=", "30" ] } ]
         },
         {
           "id": "EOC_MIGO_BIO_TECH_FATIGUE",
