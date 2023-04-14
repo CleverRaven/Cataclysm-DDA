@@ -2083,16 +2083,6 @@
   },
   {
     "type": "technique",
-    "id": "SWIPE",
-    "name": "Swipe",
-    "unarmed_weapons_allowed": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 1.5 } ],
-    "messages": [ "You claw %s", "<npcname> claws %s" ],
-    "description": "150% moves",
-    "attack_vectors": [ "WEAPON", "HAND" ]
-  },
-  {
-    "type": "technique",
     "id": "tec_debug_slow",
     "name": "slow strike",
     "unarmed_allowed": true,
