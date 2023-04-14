@@ -3201,7 +3201,7 @@
     "visibility": 3,
     "ugliness": 5,
     "purifiable": false,
-    "integrated_armor": [ "integrated_claws_rat" ],
+    "integrated_armor": [ "integrated_claws_st" ],
     "description": "Your paws are bone, muscle, and claw with a thin layer of skin and fur.  They might as well be made of stainless steel.",
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS_RAT" ],
