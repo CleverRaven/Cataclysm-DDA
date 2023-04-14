@@ -1421,7 +1421,7 @@
     "components": [
       [ [ "protein_powder", 1 ] ],
       [ [ "water_clean", 1 ] ],
-      [ [ "lemonade_powder", 1 ], [ "sweet_fruit_like", 1, "LIST" ], [ "coconut", 1 ] ]
+      [ [ "lemonade_powder", 1 ], [ "sweet_fruit_like", 1, "LIST" ], [ "coconut_flesh", 1 ] ]
     ]
   },
   {
@@ -2960,7 +2960,7 @@
       { "proficiency": "prof_preservation" },
       { "proficiency": "prof_food_canning" }
     ],
-    "components": [ [ [ "coconut", 2 ] ], [ [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "coconut_flesh", 10 ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3012,7 +3012,7 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
-    "result": "oj",
+    "result": "oj_fresh",
     "byproducts": [ [ "juice_pulp", 2 ] ],
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -3158,7 +3158,7 @@
     "time": "30 s",
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [ [ [ "oj", 1 ], [ "cranberry_juice", 1 ] ], [ [ "vodka", 1 ] ] ]
+    "components": [ [ [ "oj", 1 ], [ "oj_fresh", 1 ], [ "cranberry_juice", 1 ] ], [ [ "vodka", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -5727,8 +5727,7 @@
         [ "dry_veggy", 2 ],
         [ "dry_corn", 2 ],
         [ "can_pineapple", 2 ],
-        [ "irradiated_pineapple", 2 ],
-        [ "pineapple", 2 ]
+        [ "pineapple_chunks", 2 ]
       ],
       [
         [ "sauce_pesto", 1 ],
@@ -5926,7 +5925,7 @@
     "components": [
       [
         [ "sweet_fruit_like", 2, "LIST" ],
-        [ "coconut", 2 ],
+        [ "coconut_flesh", 2 ],
         [ "corn_kernels", 3 ],
         [ "rehydrated_corn_kernels", 3 ],
         [ "honeydew", 3 ],
@@ -7608,7 +7607,7 @@
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 2, "LIST" ] ] ],
-    "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "coconut", 1 ] ] ]
+    "components": [ [ [ "sweet_fruit", 1, "LIST" ], [ "coconut_flesh", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -7768,8 +7767,7 @@
         [ "carrot", 2 ],
         [ "irradiated_carrot", 2 ],
         [ "carrot_wild", 2 ],
-        [ "pineapple", 1 ],
-        [ "irradiated_pineapple", 1 ],
+        [ "pineapple_chunks", 1 ],
         [ "cranberries", 1 ],
         [ "irradiated_cranberries", 1 ],
         [ "raspberries", 1 ],
@@ -8626,11 +8624,7 @@
     "charges": 15,
     "autolearn": true,
     "flags": [ "BLIND_HARD" ],
-    "components": [
-      [ [ "oj", 1 ], [ "lemonade", 1 ], [ "apple_cider", 1 ], [ "cranberry_juice", 1 ], [ "juice", 1 ] ],
-      [ [ "weak_liquor", 1, "LIST" ] ],
-      [ [ "hard_liquor_chem", 1, "LIST" ] ]
-    ]
+    "components": [ [ [ "sweet_juice", 1, "LIST" ] ], [ [ "weak_liquor", 1, "LIST" ] ], [ [ "hard_liquor_chem", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -9016,6 +9010,36 @@
         [ "buckwheat", 1 ],
         [ "acorns_cooked", 10 ],
         [ "roasted_cattail_rhizome", 2 ],
+        [ "dry_rice", 5 ],
+        [ "dry_wild_rice", 5 ],
+        [ "chestnut_roasted", 12 ]
+      ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "id_suffix": "with_from_food_processor",
+    "result": "bread_flour",
+    "category": "CC_*",
+    "subcategory": "CSC_*_NESTED",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "11 m 15 s",
+    "charges": 16,
+    "autolearn": true,
+    "batch_time_factors": [ 83, 3 ],
+    "flags": [ "BLIND_EASY" ],
+    "tools": [ [ [ "food_processor", 20 ] ] ],
+    "components": [
+      [ [ "flour", 1 ] ],
+      [
+        [ "wheat", 1 ],
+        [ "buckwheat", 1 ],
+        [ "barley", 1 ],
+        [ "acorns_cooked", 10 ],
+        [ "oats", 4 ],
+        [ "starch", 1 ],
         [ "dry_rice", 5 ],
         [ "dry_wild_rice", 5 ],
         [ "chestnut_roasted", 12 ]
@@ -10117,7 +10141,7 @@
     "components": [
       [ [ "protein_powder", 1 ] ],
       [ [ "milk_standard", 1, "LIST" ], [ "lf_milk_standard", 1, "LIST" ] ],
-      [ [ "lemonade_powder", 1 ], [ "sweet_fruit_like", 1, "LIST" ], [ "coconut", 1 ] ]
+      [ [ "lemonade_powder", 1 ], [ "sweet_fruit_like", 1, "LIST" ], [ "coconut_flesh", 1 ] ]
     ]
   },
   {

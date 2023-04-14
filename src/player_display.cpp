@@ -33,6 +33,7 @@
 #include "pimpl.h"
 #include "profession.h"
 #include "proficiency.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -45,8 +46,6 @@
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
-static const json_character_flag json_flag_ECTOTHERM( "ECTOTHERM" );
-
 static const skill_id skill_bashing( "bashing" );
 static const skill_id skill_cutting( "cutting" );
 static const skill_id skill_dodge( "dodge" );
@@ -54,7 +53,6 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_stabbing( "stabbing" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
@@ -63,6 +61,7 @@ static const std::string title_STATS = translate_marker( "STATS" );
 static const std::string title_ENCUMB = translate_marker( "ENCUMBRANCE AND WARMTH" );
 static const std::string title_EFFECTS = translate_marker( "EFFECTS" );
 static const std::string title_SPEED = translate_marker( "SPEED" );
+static const std::string title_MOVE_COST = translate_marker( "MOVE COST" );
 static const std::string title_SKILLS = translate_marker( "SKILLS" );
 static const std::string title_BIONICS = translate_marker( "BIONICS" );
 static const std::string title_TRAITS = translate_marker( "TRAITS" );
@@ -296,6 +295,7 @@ namespace
 enum class player_display_tab : int {
     stats,
     encumbrance,
+    speed,
     skills,
     traits,
     bionics,
@@ -877,6 +877,46 @@ static void draw_skills_tab( ui_adaptor &ui, const catacurses::window &w_skills,
     wnoutrefresh( w_skills );
 }
 
+struct speedlist_entry {
+    bool is_speed;
+    std::string description;
+    int val;
+    bool percent;
+};
+
+static void draw_speed_info( const catacurses::window &w_info,
+                             unsigned int line,
+                             const std::vector<speedlist_entry> &speedlist )
+{
+    werase( w_info );
+
+    if( line >= speedlist.size() ) {
+        wnoutrefresh( w_info );
+        return;
+    }
+
+    if( speedlist[line].val != 0 ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_info, point( 1, 0 ), c_light_gray,
+                   //~ One of a list of reasons speed or movecost are being changed
+                   _( "Cause: %s" ), speedlist[line].description );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_info, point( 1, 1 ), c_light_gray,
+                   //~ speed or movecost reduced by a constant or percentage
+                   speedlist[line].val < 0 ? _( "Effect: %1$s reduced by %2$d%3$c" ) :
+                   //~ speed or movecost increased by a constant or percentage
+                   _( "Effect: %1$s increased by %2$d%3$c" ),
+                   speedlist[line].is_speed ? _( "Speed" ) : _( "Move Cost" ),
+                   std::abs( speedlist[line].val ),
+                   speedlist[line].percent ? '%' : ' ' );
+    } else {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        mvwprintz( w_info, point( 1, 0 ), c_light_gray, speedlist[line].description );
+    }
+
+    wnoutrefresh( w_info );
+}
+
 static void draw_skills_info( const catacurses::window &w_info, const Character &you,
                               unsigned int line,
                               const std::vector<HeaderSkill> &skillslist )
@@ -888,8 +928,6 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
         selectedSkill = skillslist[line].skill;
     }
 
-    werase( w_info );
-
     if( selectedSkill ) {
         const SkillLevel &level = you.get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
@@ -900,110 +938,106 @@ static void draw_skills_info( const catacurses::window &w_info, const Character 
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, info_text );
     }
+
     wnoutrefresh( w_info );
 }
 
-static void draw_speed_tab( const catacurses::window &w_speed,
-                            const Character &you,
-                            const std::map<std::string, int> &speed_effects )
+static std::vector<speedlist_entry> get_speedlist_entries( const Character &you, int &move_cost,
+        const std::map<std::string, int> &speed_effects )
 {
-    werase( w_speed );
-    // Finally, draw speed.
-    center_print( w_speed, 0, c_light_gray, _( title_SPEED ) );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w_speed, point( 1, 1 ), c_light_gray, _( "Base Move Cost:" ) );
-    mvwprintz( w_speed, point( 1, 2 ), c_light_gray, _( "Current Speed:" ) );
-    int newmoves = you.get_speed();
-    int pen = 0;
-    unsigned int line = 3;
-    if( you.weight_carried() > you.weight_capacity() ) {
-        pen = 25 * ( you.weight_carried() - you.weight_capacity() ) / you.weight_capacity();
-        mvwprintz( w_speed, point( 1, line ), c_red,
-                   pgettext( "speed penalty", "Overburdened        -%2d%%" ), pen );
-        ++line;
-    }
-    pen = you.get_pain_penalty().speed;
-    if( pen >= 1 ) {
-        mvwprintz( w_speed, point( 1, line ), c_red,
-                   pgettext( "speed penalty", "Pain                -%2d%%" ), pen );
-        ++line;
-    }
-    if( you.get_thirst() > 40 ) {
-        pen = std::abs( Character::thirst_speed_penalty( you.get_thirst() ) );
-        mvwprintz( w_speed, point( 1, line ), c_red,
-                   pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
-        ++line;
-    }
-    if( you.kcal_speed_penalty() < 0 ) {
-        pen = std::abs( you.kcal_speed_penalty() );
-        const std::string inanition = you.get_bmi_fat() < character_weight_category::underweight ?
-                                      _( "Starving" ) : _( "Underfed" );
-        //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
-        mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
-                   left_justify( inanition, 20 ), pen );
-        ++line;
-    }
-    if( you.has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( you.pos() ) ) {
-        pen = ( g->light_level( you.posz() ) >= 12 ? 5 : 10 );
-        mvwprintz( w_speed, point( 1, line ), c_red,
-                   pgettext( "speed penalty", "Out of Sunlight     -%2d%%" ), pen );
-        ++line;
-    }
+    std::vector<speedlist_entry> entries;
 
-    const float temperature_speed_modifier = you.mutation_value( "temperature_speed_modifier" );
-    if( temperature_speed_modifier != 0 ) {
-        const int climate_control = you.enchantment_cache->get_value_add(
-                                        enchant_vals::mod::CLIMATE_CONTROL_HEAT );
-        nc_color pen_color;
-        std::string pen_sign;
-        const units::temperature player_local_temp = get_weather().get_temperature( you.pos() );
-        if( you.has_flag( json_flag_ECTOTHERM ) &&
-            player_local_temp > units::from_fahrenheit( 65 - climate_control ) ) {
-            pen_color = c_green;
-            pen_sign = "+";
-        } else if( player_local_temp < units::from_fahrenheit( 65 - climate_control ) ) {
-            pen_color = c_red;
-            pen_sign = "-";
-        }
-        if( !pen_sign.empty() ) {
-            pen = ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) *
-                  temperature_speed_modifier;
-            mvwprintz( w_speed, point( 1, line ), pen_color,
-                       //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
-                       pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );
-            ++line;
+    for( const speed_bonus_effect &effect : you.get_speed_bonus_effects() ) {
+        if( effect.bonus != 0 ) {
+            const speedlist_entry entry { true, effect.description, effect.bonus, false };
+            entries.push_back( entry );
         }
     }
 
-    const int speed_modifier = you.get_enchantment_speed_bonus();
-
-    if( speed_modifier != 0 ) {
-        mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Bio/Mut/Effects     +%2d" ), speed_modifier );
-        ++line;
-    }
-
+    //FIXME I think these are already included above. Need more testing.
     for( const std::pair<const std::string, int> &speed_effect : speed_effects ) {
-        nc_color col = speed_effect.second > 0 ? c_green : c_red;
-        mvwprintz( w_speed, point( 1, line ), col, "%s", speed_effect.first );
-        mvwprintz( w_speed, point( 21, line ), col, ( speed_effect.second > 0 ? "+" : "-" ) );
-        mvwprintz( w_speed, point( std::abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
-                   std::abs( speed_effect.second ) );
-        ++line;
+        if( speed_effect.second != 0 ) {
+            const speedlist_entry entry { true, speed_effect.first, speed_effect.second, false };
+            entries.push_back( entry );
+        }
     }
 
-    int runcost = you.run_cost( 100 );
-    nc_color col = runcost <= 100 ? c_green : c_red;
-    mvwprintz( w_speed, point( 21 + ( runcost >= 100 ? 0 : ( runcost < 10 ? 2 : 1 ) ), 1 ), col,
-               "%d", runcost );
-    col = ( newmoves >= 100 ? c_green : c_red );
-    mvwprintz( w_speed, point( 21 + ( newmoves >= 100 ? 0 : ( newmoves < 10 ? 2 : 1 ) ), 2 ), col,
-               "%d", newmoves );
+    float movecost = 100;
+    for( const run_cost_effect &effect : you.run_cost_effects( movecost ) ) {
+        const int percent = std::trunc( effect.times * 100 - 100 ); // truncate toward 0%
+        const int constant = std::trunc( effect.plus ); // truncate toward 0
+        if( ( effect.times != 1.0 && percent == 0 ) || ( effect.plus != 0 && constant == 0 ) ) {
+            continue; // negligible effect
+        }
+        const speedlist_entry entry { false, effect.description, percent != 0 ? percent : constant, percent != 0 };
+        entries.push_back( entry );
+    }
+    move_cost = static_cast<int>( movecost );
+
+    return entries;
+}
+
+static void draw_speed_tab( ui_adaptor &ui, const catacurses::window &w_speed,
+                            const unsigned line, const player_display_tab curtab,
+                            const Character &you,
+                            const std::vector<speedlist_entry> &speedlist, const int move_cost )
+{
+    //FIXME this tab needs to support scrolling
+    werase( w_speed );
+    const bool is_current_tab = curtab == player_display_tab::speed;
+    if( is_current_tab ) {
+        ui.set_cursor( w_speed, point( 0, 2 ) );
+    }
+
+    const int speed = you.get_speed();
+    center_print( w_speed, 0, c_light_gray, string_format( "%s: <color_%s>%d</color>",
+                  _( title_SPEED ), speed >= 100 ? "light_green" : "red", speed ) );
+    center_print( w_speed, 1, c_light_gray, string_format( "%s: <color_%s>%d</color>",
+                  _( title_MOVE_COST ), move_cost <= 100 ? "light_green" : "red", move_cost ) );
+
+    const int height = getmaxy( w_speed ) - 2;
+    const bool do_draw_scrollbar = height < static_cast<int>( speedlist.size() );
+    const int width = getmaxx( w_speed ) - 1 - ( do_draw_scrollbar ? 1 : 0 );
+    const auto& [i_start, i_end] = subindex_around_cursor( speedlist.size(), height, line,
+                                   is_current_tab );
+
+    for( size_t i = i_start; i < static_cast<size_t>( i_end ); ++i ) {
+        const bool highlight_line = is_current_tab && i == line;
+        const point pos( 1, 2 + i - i_start );
+        if( highlight_line ) {
+            ui.set_cursor( w_speed, pos );
+        }
+        const speedlist_entry entry = speedlist[i];
+
+        // +speed is good, -movecost is good
+        const nc_color col = entry.is_speed == ( entry.val > 0 ) ? c_light_green : c_red;
+        const nc_color hcol = highlight_line ? hilite( col ) : col;
+        mvwprintz( w_speed, pos, hcol, "%s", entry.description );
+        //~ single character abbreviations for Speed and Move Cost
+        mvwprintz( w_speed, pos + point( 18, 0 ), hcol, "%s", entry.is_speed ? _( "S" ) : _( "M" ) );
+        if( entry.val != 0 ) {
+            const char prefix = entry.val < 0 ? '-' : '+';
+            const char suffix = entry.percent ? '%' : ' ';
+            if( entry.val < 1000 ) {
+                mvwprintz( w_speed, pos + point( 19, 0 ), hcol, "%c%3d%c", prefix, std::abs( entry.val ), suffix );
+            } else {
+                // broken limbs can cause this
+                mvwprintz( w_speed, pos + point( 19, 0 ), hcol, "%c!!!%c", prefix, suffix );
+            }
+        }
+    }
+
+    if( do_draw_scrollbar ) {
+        draw_scrollbar( w_speed, i_start, height, speedlist.size(), point( width + 1, 2 ),
+                        c_white, true );
+    }
+
     wnoutrefresh( w_speed );
 }
 
 static void draw_info_window( const catacurses::window &w_info, const Character &you,
                               const unsigned line, const unsigned info_line, const player_display_tab curtab,
+                              const std::vector<speedlist_entry> &speedlist,
                               const std::vector<trait_and_var> &traitslist,
                               const std::vector<bionic_grouping> &bionicslist,
                               const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
@@ -1015,6 +1049,9 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             break;
         case player_display_tab::encumbrance:
             draw_encumbrance_info( w_info, you, line, info_line );
+            break;
+        case player_display_tab::speed:
+            draw_speed_info( w_info, line, speedlist );
             break;
         case player_display_tab::skills:
             draw_skills_info( w_info, you, line, skillslist );
@@ -1037,7 +1074,8 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
 }
 
 static void draw_tip( const catacurses::window &w_tip, const Character &you,
-                      const std::string &race, const input_context &ctxt, bool customize_character )
+                      const std::string &race, const input_context &ctxt, bool customize_character,
+                      int &tip_btn_highlight )
 {
     werase( w_tip );
 
@@ -1062,18 +1100,25 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
                    you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
     }
 
+    const auto btn_color = [&tip_btn_highlight]( const int btn_to_draw ) {
+        if( tip_btn_highlight == btn_to_draw ) {
+            return h_light_gray;
+        } else {
+            return c_light_gray;
+        }
+    };
 
     if( customize_character ) {
-        right_print( w_tip, 0, 16, c_light_gray, string_format(
+        right_print( w_tip, 0, 16, btn_color( 0 ), string_format(
                          _( "[<color_yellow>%s</color>] Customize " ),
                          ctxt.get_desc( "SWITCH_GENDER" ) ) );
     }
 
-    right_print( w_tip, 0, 6, c_light_gray, string_format(
+    right_print( w_tip, 0, 6, btn_color( 1 ), string_format(
                      _( "[<color_yellow>%s</color>] Morale" ),
                      ctxt.get_desc( "morale" ) ) );
 
-    right_print( w_tip, 0, 1, c_light_gray, string_format(
+    right_print( w_tip, 0, 1, btn_color( 2 ), string_format(
                      _( "[<color_yellow>%s</color>]" ),
                      ctxt.get_desc( "HELP_KEYBINDINGS" ) ) );
 
@@ -1094,16 +1139,81 @@ static void skip_skill_headers( const std::vector<HeaderSkill> &skillslist, unsi
     }
 }
 
+static void on_customize_character( Character &you )
+{
+    uilist cmenu;
+    cmenu.title = _( "Customize Character" );
+    cmenu.addentry( 1, true, 'y', _( "Change gender" ) );
+    cmenu.addentry( 2, true, 'n', _( "Change name" ) );
+
+    cmenu.query();
+    if( cmenu.ret == 1 ) {
+        you.male = !you.male;
+        popup( _( "Gender set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
+    } else if( cmenu.ret == 2 ) {
+        std::string filterstring = you.play_name.value_or( std::string() );
+        string_input_popup popup;
+        popup
+        .title( _( "New name ( leave empty to reset ):" ) )
+        .width( 85 )
+        .edit( filterstring );
+        if( popup.confirmed() ) {
+            if( filterstring.empty() ) {
+                you.play_name.reset();
+            } else {
+                you.play_name = filterstring;
+            }
+        }
+    }
+}
+
+static int get_line_count( player_display_tab curtab,
+                           Character &you,
+                           const std::vector<speedlist_entry> &speedlist,
+                           std::vector<trait_and_var> &traitslist,
+                           const std::vector<bionic_grouping> &bionicslist,
+                           const std::vector<std::pair<std::string,
+                           std::string>> &effect_name_and_text,
+                           const std::vector<HeaderSkill> &skillslist )
+{
+    switch( curtab ) {
+        case player_display_tab::stats:
+            return 9;
+        case player_display_tab::encumbrance: {
+            const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
+            return bps.size();
+        }
+        case player_display_tab::speed:
+            return speedlist.size();
+        case player_display_tab::traits:
+            return traitslist.size();
+        case player_display_tab::bionics:
+            return bionicslist.size();
+        case player_display_tab::effects:
+            return effect_name_and_text.size();
+        case player_display_tab::skills:
+            return skillslist.size();
+        case player_display_tab::proficiencies:
+            return you.display_proficiencies().size();
+        case player_display_tab::num_tabs:
+            cata_fatal( "Invalid curtab" );
+    }
+    return 0;
+}
+
 static bool handle_player_display_action( Character &you, unsigned int &line,
         unsigned int &info_line,
         player_display_tab &curtab, input_context &ctxt, const ui_adaptor &ui_tip,
         const ui_adaptor &ui_info, const ui_adaptor &ui_stats, const ui_adaptor &ui_encumb,
-        const ui_adaptor &ui_traits, const ui_adaptor &ui_bionics, const ui_adaptor &ui_effects,
-        const ui_adaptor &ui_skills, const ui_adaptor &ui_proficiencies,
+        const ui_adaptor &ui_speed, const ui_adaptor &ui_traits, const ui_adaptor &ui_bionics,
+        const ui_adaptor &ui_effects, const ui_adaptor &ui_skills, const ui_adaptor &ui_proficiencies,
+        const std::vector<speedlist_entry> &speedlist,
         std::vector<trait_and_var> &traitslist,
         const std::vector<bionic_grouping> &bionicslist,
         const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
-        const std::vector<HeaderSkill> &skillslist, bool customize_character )
+        const std::vector<HeaderSkill> &skillslist, bool customize_character,
+        const std::vector<catacurses::window *> &windows, const catacurses::window &w_tip,
+        int &tip_btn_selected )
 {
     const auto invalidate_tab = [&]( const player_display_tab tab ) {
         switch( tab ) {
@@ -1112,6 +1222,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                 break;
             case player_display_tab::encumbrance:
                 ui_encumb.invalidate_ui();
+                break;
+            case player_display_tab::speed:
+                ui_speed.invalidate_ui();
                 break;
             case player_display_tab::traits:
                 ui_traits.invalidate_ui();
@@ -1133,34 +1246,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         }
     };
 
-    unsigned int line_count = 0;
-    switch( curtab ) {
-        case player_display_tab::stats:
-            line_count = 9;
-            break;
-        case player_display_tab::encumbrance: {
-            const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
-            line_count = bps.size();
-            break;
-        }
-        case player_display_tab::traits:
-            line_count = traitslist.size();
-            break;
-        case player_display_tab::bionics:
-            line_count = bionicslist.size();
-            break;
-        case player_display_tab::effects:
-            line_count = effect_name_and_text.size();
-            break;
-        case player_display_tab::skills:
-            line_count = skillslist.size();
-            break;
-        case player_display_tab::proficiencies:
-            line_count = you.display_proficiencies().size();
-            break;
-        case player_display_tab::num_tabs:
-            cata_fatal( "Invalid curtab" );
-    }
+    unsigned int line_count = get_line_count( curtab, you, speedlist, traitslist, bionicslist,
+                              effect_name_and_text, skillslist );
+
     if( line_count > 0 ) {
         line = std::clamp( line, 0U, line_count - 1 );
         if( curtab == player_display_tab::skills ) {
@@ -1174,6 +1262,10 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     const std::string action = ctxt.handle_input();
 
     if( navigate_ui_list( action, line, 3, line_count, true ) ) {
+        if( tip_btn_selected != -1 ) {
+            tip_btn_selected = -1;
+            ui_tip.invalidate_ui();
+        }
         if( curtab == player_display_tab::skills ) {
             const bool inc = action == "DOWN" || action == "PAGE_DOWN" || action == "SCROLL_DOWN" ||
                              action == "HOME";
@@ -1182,7 +1274,42 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         info_line = 0;
         invalidate_tab( curtab );
         ui_info.invalidate_ui();
+    } else if( action == "MOUSE_MOVE" ) {
+        int orig_tip_btn = tip_btn_selected;
+        tip_btn_selected = -1;
+        std::optional<point> p;
+        for( size_t i = 0; i < windows.size(); i++ ) {
+            p = ctxt.get_coordinates_text( *windows[i] );
+            if( p.has_value() && window_contains_point_relative( *windows[i], p.value() ) ) {
+                invalidate_tab( curtab );
+                curtab = player_display_tab( i );
+                invalidate_tab( curtab );
+                line_count = get_line_count( curtab, you, speedlist, traitslist, bionicslist, effect_name_and_text,
+                                             skillslist );
+                line = std::clamp( p.value().y - 1, 0, int( line_count ) );
+                ui_info.invalidate_ui();
+                break;
+            }
+        }
+        p = ctxt.get_coordinates_text( w_tip );
+        if( p.has_value() && window_contains_point_relative( w_tip, p.value() ) ) {
+            int rightX = catacurses::getmaxx( w_tip ) - p.value().x;
+            if( rightX  > 1 && rightX < 5 ) {
+                tip_btn_selected = 2;
+            } else if( rightX >= 7 && rightX < 17 ) {
+                tip_btn_selected = 1;
+            } else if( customize_character && rightX > 17  && rightX <= 30 ) {
+                tip_btn_selected = 0;
+            }
+        }
+        if( orig_tip_btn != tip_btn_selected ) {
+            ui_tip.invalidate_ui();
+        }
     } else if( action == "LEFT" || action == "PREV_TAB" || action == "RIGHT" || action == "NEXT_TAB" ) {
+        if( tip_btn_selected != -1 ) {
+            tip_btn_selected = -1;
+            ui_tip.invalidate_ui();
+        }
         invalidate_tab( curtab );
         curtab = increment_and_wrap( curtab, ( action == "RIGHT" ||
                                                action == "NEXT_TAB" ), player_display_tab::num_tabs );
@@ -1199,14 +1326,52 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         }
     } else if( action == "QUIT" ) {
         done = true;
-    } else if( action == "CONFIRM" ) {
+    } else if( action == "CONFIRM" || action == "SELECT" ) {
+        bool header_clicked = false;
+        if( action == "SELECT" ) {
+            header_clicked = false;
+            int mouse_line = -1;
+            if( curtab < player_display_tab::num_tabs ) {
+                std::optional<point> p = ctxt.get_coordinates_text( *windows[int( curtab )] );
+                if( p.has_value() && window_contains_point_relative( *windows[int( curtab )], p.value() ) ) {
+                    mouse_line = std::clamp( p.value().y - 1, 0, int( line_count ) );
+                    header_clicked = p.value().y == 0;
+                    if( curtab == player_display_tab::skills && skillslist[mouse_line].is_header ) {
+                        mouse_line = -1;
+                    }
+                }
+            }
+            if( tip_btn_selected != -1 ) {
+                switch( tip_btn_selected ) {
+                    case 0:
+                        if( customize_character ) {
+                            on_customize_character( you );
+                        }
+                        break;
+                    case 1:
+                        if( you.is_avatar() ) {
+                            you.as_avatar()->disp_morale();
+                        }
+                        break;
+                    case 2:
+                        ctxt.display_menu();
+                        break;
+                }
+                return done;
+            } else if( mouse_line == -1 ) {
+                return done;
+            }
+        }
         switch( curtab ) {
             default:
                 break;
             case player_display_tab::stats:
-                if( line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) && you.is_avatar() ) {
+                if( header_clicked ) {
+                    display_bodygraph( you );
+                } else if( line < 4 && get_option<bool>( "STATS_THROUGH_KILLS" ) && you.is_avatar() ) {
                     you.as_avatar()->upgrade_stat_prompt( static_cast<character_stat>( line ) );
                 }
+
                 invalidate_tab( curtab );
                 break;
             case player_display_tab::skills: {
@@ -1244,30 +1409,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     } else if( action == "VIEW_BODYSTAT" ) {
         display_bodygraph( you );
     } else if( customize_character && action == "SWITCH_GENDER" ) {
-        uilist cmenu;
-        cmenu.title = _( "Customize Character" );
-        cmenu.addentry( 1, true, 'y', _( "Change gender" ) );
-        cmenu.addentry( 2, true, 'n', _( "Change name" ) );
-
-        cmenu.query();
-        if( cmenu.ret == 1 ) {
-            you.male = !you.male;
-            popup( _( "Gender set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
-        } else if( cmenu.ret == 2 ) {
-            std::string filterstring = you.play_name.value_or( std::string() );
-            string_input_popup popup;
-            popup
-            .title( _( "New name ( leave empty to reset ):" ) )
-            .width( 85 )
-            .edit( filterstring );
-            if( popup.confirmed() ) {
-                if( filterstring.empty() ) {
-                    you.play_name.reset();
-                } else {
-                    you.play_name = filterstring;
-                }
-            }
-        }
+        on_customize_character( you );
     } else if( action == "SCROLL_INFOBOX_UP" ) {
         if( info_line > 0 ) {
             --info_line;
@@ -1476,6 +1618,9 @@ void Character::disp_info( bool customize_character )
 
     input_context ctxt( "PLAYER_INFO" );
     ctxt.register_navigate_ui_list();
+    ctxt.register_action( "COORDINATE" );
+    ctxt.register_action( "SELECT" );
+    ctxt.register_action( "MOUSE_MOVE" );
     ctxt.register_action( "LEFT", to_translation( "Cycle to next category" ) );
     ctxt.register_action( "RIGHT", to_translation( "Cycle to previous category" ) );
     ctxt.register_action( "NEXT_TAB", to_translation( "Cycle to next category" ) );
@@ -1506,11 +1651,15 @@ void Character::disp_info( bool customize_character )
         }
     }
 
+    int move_cost;
+    std::vector<speedlist_entry> speedlist = get_speedlist_entries( *this, move_cost, speed_effects );
+
     border_helper borders;
 
     player_display_tab curtab = player_display_tab::stats;
     unsigned int line = 0;
     unsigned int info_line = 0;
+    int tip_btn_highlight = -1;
 
     catacurses::window w_tip;
     ui_adaptor ui_tip;
@@ -1521,7 +1670,7 @@ void Character::disp_info( bool customize_character )
     ui_tip.mark_resize();
     ui_tip.on_redraw( [&]( ui_adaptor & ui_tip ) {
         ui_tip.disable_cursor();
-        draw_tip( w_tip, *this, race, ctxt, customize_character );
+        draw_tip( w_tip, *this, race, ctxt, customize_character, tip_btn_highlight );
     } );
 
     // STATS
@@ -1721,7 +1870,7 @@ void Character::disp_info( bool customize_character )
         wnoutrefresh( w_info_border );
         ui_info.disable_cursor();
         draw_info_window( w_info, *this, line, info_line, curtab,
-                          traitslist, bionicslist, effect_name_and_text, skillslist );
+                          speedlist, traitslist, bionicslist, effect_name_and_text, skillslist );
     } );
 
     // SPEED
@@ -1742,17 +1891,20 @@ void Character::disp_info( bool customize_character )
         borders.draw_border( w_speed_border );
         wnoutrefresh( w_speed_border );
         ui_speed.disable_cursor();
-        draw_speed_tab( w_speed, *this, speed_effects );
+        draw_speed_tab( ui_speed, w_speed, line, curtab, *this, speedlist, move_cost );
     } );
 
     bool done = false;
+
+    std::vector<catacurses::window *> windows{ &w_stats, &w_encumb, & w_skills, &w_traits, &w_bionics, &w_effects, &w_proficiencies };
 
     do {
         ui_manager::redraw_invalidated();
 
         done = handle_player_display_action( *this, line, info_line, curtab, ctxt, ui_tip, ui_info,
-                                             ui_stats, ui_encumb, ui_traits, ui_bionics, ui_effects,
-                                             ui_skills, ui_proficiencies, traitslist, bionicslist,
-                                             effect_name_and_text, skillslist, customize_character );
+                                             ui_stats, ui_encumb, ui_speed, ui_traits, ui_bionics, ui_effects,
+                                             ui_skills, ui_proficiencies, speedlist, traitslist, bionicslist,
+                                             effect_name_and_text, skillslist, customize_character,
+                                             windows, w_tip, tip_btn_highlight );
     } while( !done );
 }

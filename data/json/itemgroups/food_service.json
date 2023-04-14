@@ -204,11 +204,11 @@
     "//": "Alcohol you'd find in at a still or moonshine camp",
     "subtype": "distribution",
     "entries": [
-      { "item": "brandied_fruit", "prob": 75, "repeat": [ 3, 6 ] },
-      { "item": "moonshine", "prob": 86, "repeat": [ 3, 6 ] },
-      { "item": "beer", "prob": 80, "repeat": [ 3, 6 ] },
-      { "item": "fruit_wine", "prob": 40, "repeat": [ 3, 6 ] },
-      { "item": "brandy", "prob": 20, "repeat": [ 3, 6 ] }
+      { "item": "brandied_fruit", "prob": 75 },
+      { "item": "moonshine", "prob": 86 },
+      { "item": "beer", "prob": 80 },
+      { "item": "fruit_wine", "prob": 40 },
+      { "item": "brandy", "prob": 20 }
     ]
   },
   {
@@ -1087,8 +1087,8 @@
       { "item": "flour", "charges": [ 1, 175 ], "prob": 13, "container-item": "bag_plastic" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
-      [ "cooking_oil", 20 ],
-      [ "cooking_oil2", 20 ],
+      [ "cooking_oil", 50 ],
+      [ "cooking_oil2", 50 ],
       [ "cookbook", 8 ],
       [ "cookbook_italian", 9 ],
       [ "cornmeal", 3 ],
@@ -1127,8 +1127,8 @@
       { "item": "flour", "charges": [ 1, 175 ], "prob": 13, "container-item": "bag_plastic" },
       [ "soysauce", 25 ],
       [ "hot_sauce", 25 ],
-      [ "cooking_oil", 20 ],
-      [ "cooking_oil2", 20 ],
+      [ "cooking_oil", 40 ],
+      [ "cooking_oil2", 40 ],
       [ "cookbook", 8 ],
       [ "cookbook_daintydishes", 9 ],
       [ "cornmeal", 3 ],

@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "damage.h"
 #include "dialogue_helpers.h"
@@ -30,6 +31,7 @@ class JsonOut;
 class nc_color;
 class spell;
 class time_duration;
+
 struct dealt_projectile_attack;
 struct requirement_data;
 
@@ -75,7 +77,6 @@ enum class spell_flag : int {
     EXTRA_EFFECTS_FIRST, // the extra effects are cast before the main spell.
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
     NO_FAIL, // this spell cannot fail when you cast it
-    WITH_CONTAINER, // items spawned with container
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     IGNITE_FLAMMABLE, // if spell effect area has any thing flammable, a fire will be produced
     MUST_HAVE_CLASS_TO_LEARN, // you can't learn the spell unless you already have the class.

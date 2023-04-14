@@ -279,18 +279,15 @@ class item : public visitable
         item &ammo_unset();
 
         /**
-         * Filter setting damage constrained by @ref min_damage and @ref max_damage
-         * @note this method does not invoke the @ref on_damage callback
-         * @return same instance to allow method chaining
-         */
-        item &set_damage( int qty );
+        * Sets item damage constrained by [@ref degradation and @ref max_damage]
+        */
+        void set_damage( int qty );
 
         /**
-         * Filter setting degradation constrained by 0 and @ref max_damage
-         * @note this method also sets the damage to qty if damage is less than qty
-         * @return same instance to allow method chaining
-         */
-        item &set_degradation( int qty );
+        * Sets item's degradation constrained by [0 and @ref max_damage]
+        * If item damage is lower it is raised up to @ref degradation
+        */
+        void set_degradation( int qty );
 
         /**
          * Splits a count-by-charges item always leaving source item with minimum of 1 charge
@@ -641,6 +638,7 @@ class item : public visitable
                               int charges_in_vol = -1 ) const;
 
         units::length length() const;
+        units::length barrel_length() const;
 
         /**
          * Simplified, faster volume check for when processing time is important and exact volume is not.
@@ -1207,11 +1205,6 @@ class item : public visitable
          * @param threshold Item is flammable if it provides more fuel than threshold.
          */
         bool flammable( int threshold = 0 ) const;
-        /**
-        * Whether the item can be repaired beyond normal health.
-        */
-        bool reinforceable() const;
-        /*@}*/
 
         /**
         * Helper function to retrieve any applicable resistance bonuses from item mods.
@@ -1312,70 +1305,36 @@ class item : public visitable
         /** How much degradation has the item accumulated? */
         int degradation() const;
 
-        /** Used when spawning the item. Sets a random degradation within [0, damage]. */
+        // Sets a random degradation within [0, damage), used when spawning the item
         void rand_degradation();
 
-        /**
-         * Scale item damage to the given number of levels. This function is
-         * here mostly for back-compatibility. It should not be used when
-         * doing continuous math with the damage value: use damage() instead.
-         *
-         * For example, for min_damage = -1000, max_damage = 4000
-         *   damage       level
-         *   -1000 ~   -1    -1
-         *              0     0
-         *       1 ~ 1333     1
-         *    1334 ~ 2666     2
-         *    2667 ~ 3999     3
-         *           4000     4
-         *
-         * @param dmg If specified, get the damage level of "dmg" instead of
-         * this item's current damage.
-         */
-        int damage_level( int dmg = INT_MIN ) const;
+        // @see itype::damage_level()
+        int damage_level() const;
 
-        /**
-        * Returns a scaling value for armor values based on damage taken
-        */
-        float damage_scaling( bool to_self = false ) const;
-
-        /**
-         * Get the minimum possible damage this item can be repaired to,
-         * accounting for degradation.
-         * @param allow_negative If true, get the damage floor for reinforcement
-         */
-        int damage_floor( bool allow_negative ) const;
-
-        /** Minimum amount of damage to an item (state of maximum repair) */
-        int min_damage() const;
-
-        /** Maximum amount of damage to an item (state before destroyed) */
+        // @return 0 if item is count_by_charges() or 4000 ( value of itype::damage_max_ )
         int max_damage() const;
 
         /**
-         * Relative item health.
-         * Returns 1 for undamaged ||items, values in the range (0, 1) for damaged items
-         * and values above 1 for reinforced ++items.
-         */
+        * Returns how many damage levels can be repaired on this item
+        * Example: item with  100 damage returns 1 (  100 -> 0 )
+        * Example: item with 2100 damage returns 3 ( 2100 -> 1100 -> 100 -> 0 )
+        */
+        int repairable_levels() const;
+
+        // @return 1 for undamaged items or remaining hp divided by max hp in range [0, 1)
         float get_relative_health() const;
 
         /**
          * Apply damage to const itemrained by @ref min_damage and @ref max_damage
          * @param qty maximum amount by which to adjust damage (negative permissible)
-         * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed
          */
-        bool mod_damage( int qty, damage_type dt );
-        /// same as other mod_damage, but uses @ref damage_type::NONE as damage type.
         bool mod_damage( int qty );
 
         /**
-         * Increment item damage by @ref itype::damage_scale constrained by @ref max_damage
-         * @param dt type of damage which may be passed to @ref on_damage callback
+         * Same as mod_damage( itype::damage_scale ), advances item to next damage level
          * @return whether item should be destroyed
          */
-        bool inc_damage( damage_type dt );
-        /// same as other inc_damage, but uses @ref damage_type::NONE as damage type.
         bool inc_damage();
 
         enum class armor_status {
@@ -1399,11 +1358,8 @@ class item : public visitable
          */
         armor_status damage_armor_transforms( damage_unit &du ) const;
 
-        /** Provide color for UI display dependent upon current item damage level */
-        nc_color damage_color() const;
-
-        /** Provide prefix symbol for UI display dependent upon current item damage level */
-        std::string damage_symbol() const;
+        // @return colorize()-ed damage indicator as string, e.g. "<color_green>++</color>"
+        std::string damage_indicator() const;
 
         /**
          * Provides a prefix for the durability state of the item. with ITEM_HEALTH_BAR enabled,
@@ -1723,16 +1679,6 @@ class item : public visitable
          * Callback when contents of the item are affected in any way other than just processing.
          */
         void on_contents_changed();
-
-        /**
-         * Callback immediately **before** an item is damaged
-         * @param qty maximum damage that will be applied (constrained by @ref max_damage)
-         * @param dt type of damage (or damage_type::NONE)
-         */
-        void on_damage( int qty, damage_type dt );
-
-        // Callback invoked after the item's damage is changed or after deserialization
-        void on_damage_changed();
 
         bool use_relic( Character &guy, const tripoint &pos );
         bool has_relic_recharge() const;
@@ -2273,14 +2219,22 @@ class item : public visitable
 
         void clear_itype_variant();
 
-        /** Quantity of energy currently loaded in tool or battery */
-        units::energy energy_remaining() const;
+        /**
+         * Quantity of shots in the gun. Looks at both ammo and available energy.
+         * @param carrier is used for UPS and bionic power
+         */
+        int shots_remaining( const Character *carrier ) const;
+
+        /**
+         * Energy available from battery/UPS/bionics
+         * @param carrier is used for UPS and bionic power.
+         */
+        units::energy energy_remaining( const Character *carrier = nullptr ) const;
 
 
         /**
-         * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
-         * If UPS/bionic power does not matter then the carrier can be nullptr
-         * @param carrier is used for UPS and bionic power
+         * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod.
+         * @param carrier is used for UPS and bionic power for tools
          */
         int ammo_remaining( const Character *carrier = nullptr ) const;
 
@@ -2337,6 +2291,17 @@ class item : public visitable
         int ammo_consume( int qty, const tripoint &pos, Character *carrier );
 
         /**
+         * Consume energy (if available) and return the amount of energy that was consumed
+         * Consume order: battery, UPS, bionic
+         * When consuming energy from batteries the consumption will round up by adding 1 kJ. More energy may be consumed than required.
+         * @param qty amount of energy that should be consumed
+         * @param pos current location of item, used for ejecting magazines and similar effects
+         * @param carrier holder of the item, used for getting UPS and bionic power
+         * @return amount of energy consumed which will be between 0 kJ and qty+1 kJ
+         */
+        units::energy energy_consume( units::energy qty, const tripoint &pos, Character *carrier );
+
+        /**
          * Consume ammo to activate item qty times (if available) and return the amount of ammo that was consumed
          * Consume order: loaded items, UPS, bionic
          * @param qty number of times to consume item activation charges
@@ -2366,7 +2331,7 @@ class item : public visitable
          *  @return itype_id::NULL_ID() if item does have a magazine for a specific ammo type */
         itype_id ammo_default( bool conversion = true ) const;
         // format a string with all the ammo that this mag can use
-        std::string print_ammo( ammotype at ) const;
+        std::string print_ammo( ammotype at, const item *gun = nullptr ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
          * @param conversion whether to include the effect of any flags or mods which convert the type
@@ -2493,6 +2458,7 @@ class item : public visitable
          * Returns empty instance on non-gun items.
          */
         damage_instance gun_damage( bool with_ammo = true, bool shot = false ) const;
+        damage_instance gun_damage( itype_id ammo ) const;
         /**
          * The minimum force required to cycle the gun, can be overridden by mods
          */
@@ -2623,7 +2589,15 @@ class item : public visitable
         time_point birthday() const;
         void set_birthday( const time_point &bday );
         void handle_pickup_ownership( Character &c );
+
+        /**
+         * Get gun energy drain. Includes modifiers from gunmods.
+         * @return energy drained per shot
+         */
+        units::energy get_gun_energy_drain() const;
         units::energy get_gun_ups_drain() const;
+        units::energy get_gun_bionic_drain() const;
+
         void validate_ownership() const;
         inline void set_old_owner( const faction_id &temp_owner ) {
             old_owner = temp_owner;

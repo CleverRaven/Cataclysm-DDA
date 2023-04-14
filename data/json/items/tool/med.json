@@ -23,7 +23,6 @@
     "description": "A wet wipe saturated with alcohol and stored in a sterile package.  Used for personal hygiene or disinfecting small wounds.",
     "weight": "5 g",
     "volume": "1 ml",
-    "freezing_point": -48,
     "price": 10,
     "price_postapoc": 6,
     "symbol": ",",

@@ -500,9 +500,8 @@ std::pair<int, int> Character::fun_for( const item &comest, bool ignore_already_
         fun = fun - 13;
     }
 
-    if( has_active_bionic( bio_taste_blocker ) &&
-        get_power_level() > units::from_kilojoule( std::abs( comest.get_comestible_fun() ) ) &&
-        fun < 0 ) {
+    if( fun < 0 && has_active_bionic( bio_taste_blocker ) &&
+        get_power_level() > units::from_kilojoule( std::abs( comest.get_comestible_fun() ) ) ) {
         fun = 0;
     }
 
@@ -1057,8 +1056,9 @@ static bool eat( item &food, Character &you, bool force )
         you.use_charges( food.get_comestible()->tool, 1 );
     }
 
-    if( you.has_active_bionic( bio_taste_blocker ) ) {
-        you.mod_power_level( units::from_kilojoule( -std::abs( food.get_comestible_fun() ) ) );
+    if( you.has_active_bionic( bio_taste_blocker ) && food.get_comestible_fun() < 0 &&
+        you.get_power_level() > units::from_kilojoule( std::abs( food.get_comestible_fun() ) ) ) {
+        you.mod_power_level( units::from_kilojoule( food.get_comestible_fun() ) );
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !you.has_trait( trait_M_IMMUNE ) ) {
@@ -1161,11 +1161,6 @@ void Character::modify_stimulation( const islot_comestible &comest )
 void Character::modify_fatigue( const islot_comestible &comest )
 {
     mod_fatigue( -comest.fatigue_mod );
-}
-
-void Character::modify_radiation( const islot_comestible &comest )
-{
-    irradiate( comest.radiation );
 }
 
 void Character::modify_addiction( const islot_comestible &comest )
@@ -1467,7 +1462,6 @@ bool Character::consume_effects( item &food )
     }
     modify_stimulation( comest );
     modify_fatigue( comest );
-    modify_radiation( comest );
     modify_addiction( comest );
     modify_morale( food, nutr );
 
@@ -1727,7 +1721,6 @@ static bool consume_med( item &target, Character &you )
         you.modify_health( comest );
         you.modify_stimulation( comest );
         you.modify_fatigue( comest );
-        you.modify_radiation( comest );
         you.modify_addiction( comest );
         you.modify_morale( target );
         activate_consume_eocs( you, target );
@@ -1748,8 +1741,7 @@ trinary Character::consume( item &target, bool force )
         add_msg_if_player( m_info, _( "You do not have that item." ) );
         return trinary::NONE;
     }
-    if( is_underwater() && !has_trait( trait_WATERSLEEP ) ) {
-        add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+    if( !has_trait( trait_WATERSLEEP ) && cant_do_underwater() ) {
         return trinary::NONE;
     }
 

@@ -342,6 +342,7 @@
     "symbol": "[",
     "looks_like": "legrig",
     "color": "brown",
+    "ammo": "battery",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",

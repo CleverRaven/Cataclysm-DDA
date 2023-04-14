@@ -30,6 +30,7 @@
 #include "cata_utility.h"
 #include "character_attire.h"
 #include "character_id.h"
+#include "city.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
@@ -43,7 +44,6 @@
 #include "item_pocket.h"
 #include "magic_enchantment.h"
 #include "memory_fast.h"
-#include "overmap.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "point.h"
@@ -304,6 +304,13 @@ struct aim_type {
     std::string help;
     bool has_threshold;
     int threshold;
+    bool operator==( const aim_type &other ) const {
+        return has_threshold == other.has_threshold &&
+               threshold == other.threshold &&
+               name == other.name &&
+               action == other.action &&
+               help == other.help;
+    }
 };
 
 struct special_attack {
@@ -398,12 +405,27 @@ struct pocket_data_with_parent {
     int nested_level;
 };
 
+struct speed_bonus_effect {
+    std::string description;
+    int bonus = 0;
+};
+
+struct run_cost_effect {
+    std::string description;
+    float times = 1.0;
+    float plus = 0;
+};
+
 class Character : public Creature, public visitable
 {
     public:
         Character( const Character & ) = delete;
         Character &operator=( const Character & ) = delete;
         ~Character() override;
+
+        // initialize avatar and avatar mocks
+        void initialize();
+
 
         Character *as_character() override {
             return this;
@@ -493,6 +515,12 @@ class Character : public Creature, public visitable
         int get_per_bonus() const;
         int get_int_bonus() const;
 
+    private:
+        /** Modifiers to character speed, with descriptions */
+        std::vector<speed_bonus_effect> speed_bonus_effects;
+
+    public:
+        std::vector<speed_bonus_effect> get_speed_bonus_effects() const;
         int get_speed() const override;
         int get_enchantment_speed_bonus() const;
         // Strength modified by limb lifting score
@@ -513,6 +541,10 @@ class Character : public Creature, public visitable
         void mod_dex_bonus( int ndex );
         void mod_per_bonus( int nper );
         void mod_int_bonus( int nint );
+
+        /** Setters for stats shared with other creatures */
+        using Creature::mod_speed_bonus;
+        void mod_speed_bonus( int nspeed, const std::string &desc );
 
         // Prints message(s) about current health
         void print_health() const;
@@ -1175,15 +1207,23 @@ class Character : public Creature, public visitable
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait( const trait_id &b ) const;
         /** Returns true if player has a trait with a flag */
-        int count_trait_flag( const json_character_flag &b ) const;
+        bool has_trait_flag( const json_character_flag &b ) const;
         /** Returns true if player has a bionic with a flag */
-        int count_bionic_with_flag( const json_character_flag &flag ) const;
+        bool has_bionic_with_flag( const json_character_flag &flag ) const;
         /** Returns true if the player has any bodypart with a flag */
+        bool has_bodypart_with_flag( const json_character_flag &flag ) const;
+        /** Returns count of traits with a flag */
+        int count_trait_flag( const json_character_flag &b ) const;
+        /** Returns count of bionics with a flag */
+        int count_bionic_with_flag( const json_character_flag &flag ) const;
+        /** Returns count of bodyparts with a flag */
         int count_bodypart_with_flag( const json_character_flag &flag ) const;
         /** This is to prevent clang complaining about overloading a virtual function, the creature version uses monster flags so confusion is unlikely. */
         using Creature::has_flag;
-        /** Returns true if player has a trait, bionic or effect with a flag */
-        int has_flag( const json_character_flag &flag ) const;
+        /** Returns true if player has a trait, bionic, effect, bodypart, or martial arts buff with a flag */
+        bool has_flag( const json_character_flag &flag ) const;
+        /** Returns the count of traits, bionics, effects, bodyparts, and martial arts buffs with a flag */
+        int count_flag( const json_character_flag &flag ) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
         trait_id trait_by_invlet( int ch ) const;
 
@@ -1225,6 +1265,7 @@ class Character : public Creature, public visitable
 
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
+        bool cant_do_mounted( bool msg = true ) const;
         bool is_mounted() const;
         bool check_mount_will_move( const tripoint &dest_loc );
         bool check_mount_is_spooked();
@@ -1357,6 +1398,8 @@ class Character : public Creature, public visitable
         int mabuff_attack_cost_penalty() const;
         /** Returns the multiplier on move cost of attacks. */
         float mabuff_attack_cost_mult() const;
+        /** Returns true if player has a MA buff with a flag */
+        bool has_mabuff_flag( const json_character_flag &flag ) const;
         /* Returns the number of MA buffs with the flag*/
         int count_mabuff_flag( const json_character_flag &flag ) const;
 
@@ -1725,10 +1768,11 @@ class Character : public Creature, public visitable
          * @param it Item to calculate handling cost for
          * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
          * @param base_cost Cost due to storage type.
+         * @param charges_in_it the amount of charges to be handled (default is whole)
          * @return cost in moves ranging from 0 to MAX_HANDLING_COST
          */
         int item_handling_cost( const item &it, bool penalties = true,
-                                int base_cost = INVENTORY_HANDLING_PENALTY ) const;
+                                int base_cost = INVENTORY_HANDLING_PENALTY, int charges_in_it = -1 ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required when storing an item in a container
@@ -2137,6 +2181,8 @@ class Character : public Creature, public visitable
         /** Returns the first worn item with a given flag. */
         item item_worn_with_flag( const flag_id &flag, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &flag ) const;
+        /** Returns pointer of the first worn item with a given id. */
+        item *item_worn_with_id( const itype_id &id );
 
         // drawing related stuff
         /**
@@ -2836,8 +2882,11 @@ class Character : public Creature, public visitable
         // Put corpse+inventory on defined om tile
         void place_corpse( const tripoint_abs_omt &om_target );
 
+        /** Modifies the movement cost and returns a list of effects */
+        std::vector<run_cost_effect> run_cost_effects( float &movecost ) const;
         /** Returns the player's modified base movement cost */
-        int  run_cost( int base_cost, bool diag = false ) const;
+        int run_cost( int base_cost, bool diag = false ) const;
+
         const pathfinding_settings &get_pathfinding_settings() const override;
         std::set<tripoint> get_path_avoid() const override;
         /**

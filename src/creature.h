@@ -40,6 +40,7 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+class body_part_set;
 class Character;
 class JsonObject;
 class JsonOut;
@@ -506,6 +507,7 @@ class Creature : public viewer
 
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
+        bool cant_do_underwater( bool msg = true ) const;
         virtual bool is_underwater() const;
         bool is_likely_underwater() const; // Should eventually be virtual, although not pure
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
@@ -1191,11 +1193,14 @@ class Creature : public viewer
 
         std::unordered_map<std::string, std::string> &get_values();
         void clear_killer();
-
+        // summoned creatures via spells
+        void set_summon_time( const time_duration &length );
+        // handles removing the creature if the timer runs out
+        void decrement_summon_timer();
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
-
+        std::optional<time_point> lifespan_end = std::nullopt;
         /**
          * Processes one effect on the Creature.
          * Must not remove the effect, but can set it up for removal.

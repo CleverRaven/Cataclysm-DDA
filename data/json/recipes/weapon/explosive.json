@@ -11,7 +11,13 @@
     "proficiencies": [ { "proficiency": "prof_intro_chemistry" } ],
     "components": [
       [ [ "jar_glass_sealed", 1 ], [ "clay_canister", 2 ], [ "flask_glass", 2 ] ],
-      [ [ "any_strong_acid", 2, "LIST" ], [ "blood_acid", 2 ] ],
+      [
+        [ "any_strong_acid", 2, "LIST" ],
+        [ "blood_acid", 2 ],
+        [ "blood_acid_underground", 2 ],
+        [ "blood_acid_plant", 2 ],
+        [ "blood_acid_insect", 2 ]
+      ],
       [ [ "cordage_short", 1, "LIST" ] ]
     ]
   },

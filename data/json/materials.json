@@ -639,7 +639,6 @@
     "specific_heat_solid": 0.02,
     "latent_heat": 205,
     "soft": true,
-    "reinforces": true,
     "bash_resist": 1,
     "cut_resist": 1,
     "bullet_resist": 1,
@@ -661,6 +660,17 @@
   },
   {
     "type": "material",
+    "//": "similar to layered kevlar, cotton sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "cotton_quilted",
+    "name": "Quilted Cotton",
+    "copy-from": "cotton",
+    "bash_resist": 2,
+    "cut_resist": 2,
+    "bullet_resist": 1.5,
+    "wind_resist": 75
+  },
+  {
+    "type": "material",
     "id": "denim",
     "name": "Denim",
     "//": "Denim clothing is usually measured in oz rather than mm thickness.  For our purposes, assume 6 oz denim is equal to 0.4mm and scale up from there.",
@@ -669,7 +679,6 @@
     "specific_heat_solid": 0.02,
     "latent_heat": 205,
     "soft": true,
-    "reinforces": true,
     "bash_resist": 2,
     "cut_resist": 2.25,
     "bullet_resist": 2,
@@ -698,7 +707,6 @@
     "specific_heat_solid": 0.02,
     "latent_heat": 205,
     "soft": true,
-    "reinforces": true,
     "bash_resist": 2,
     "cut_resist": 2.5,
     "bullet_resist": 2,
@@ -717,6 +725,24 @@
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 }
     ]
+  },
+  {
+    "type": "material",
+    "//": "similar to layered kevlar, canvas sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "canvas_quilted",
+    "name": "Quilted Canvas",
+    "copy-from": "canvas",
+    "bash_resist": 2,
+    "cut_resist": 3,
+    "bullet_resist": 2,
+    "wind_resist": 90
+  },
+  {
+    "type": "material",
+    "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
+    "id": "canvas_quilted_2",
+    "copy-from": "canvas_quilted",
+    "name": "Quilted Canvas"
   },
   {
     "type": "material",
@@ -1306,7 +1332,6 @@
     "name": "Kevlar",
     "density": 1.4,
     "soft": true,
-    "reinforces": true,
     "specific_heat_liquid": 0.82,
     "specific_heat_solid": 0.45,
     "latent_heat": 273,
@@ -1396,7 +1421,6 @@
     "specific_heat_solid": 1.5,
     "latent_heat": 273,
     "soft": true,
-    "reinforces": true,
     "bash_resist": 1,
     "cut_resist": 3,
     "bullet_resist": 2,
@@ -1426,13 +1450,13 @@
     "specific_heat_solid": 1.5,
     "latent_heat": 273,
     "soft": true,
-    "bash_resist": 3,
+    "bash_resist": 2,
     "cut_resist": 2,
     "bullet_resist": 1,
     "acid_resist": 6,
     "fire_resist": 1,
     "chip_resist": 10,
-    "breathability": "SECOND_SKIN",
+    "breathability": "AVERAGE",
     "wind_resist": 90,
     "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
@@ -1454,7 +1478,6 @@
     "specific_heat_solid": 1.7,
     "latent_heat": 27,
     "soft": true,
-    "reinforces": true,
     "bash_resist": 2,
     "cut_resist": 2,
     "bullet_resist": 2,
@@ -1751,6 +1774,26 @@
     "specific_heat_solid": 1.2,
     "latent_heat": 10,
     "soft": true,
+    "bash_resist": 1,
+    "cut_resist": 1,
+    "bullet_resist": 1,
+    "acid_resist": 0,
+    "fire_resist": 20,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged"
+  },
+  {
+    "type": "material",
+    "id": "salt",
+    "name": "Salt",
+    "density": 2.16,
+    "specific_heat_liquid": 0.88,
+    "specific_heat_solid": 0.92,
+    "//": "The specific heats are random numbers I found online.  I am not a native speaker and have no idea what I'm looking for.  If someone has better numbers please correct this.",
+    "latent_heat": 10,
+    "soft": false,
     "bash_resist": 1,
     "cut_resist": 1,
     "bullet_resist": 1,
@@ -2310,7 +2353,6 @@
     "specific_heat_solid": 1.7,
     "latent_heat": 42,
     "soft": true,
-    "reinforces": true,
     "bash_resist": 1,
     "cut_resist": 1,
     "bullet_resist": 3,
@@ -2328,6 +2370,24 @@
       { "fuel": 1, "smoke": 1, "burn": 1 },
       { "fuel": 1, "smoke": 1, "burn": 2 }
     ]
+  },
+  {
+    "type": "material",
+    "//": "similar to layered kevlar, nylon sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "nylon_quilted",
+    "name": "Quilted Nylon",
+    "copy-from": "nylon",
+    "bash_resist": 1.5,
+    "cut_resist": 2,
+    "bullet_resist": 3,
+    "wind_resist": 65
+  },
+  {
+    "type": "material",
+    "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
+    "id": "nylon_quilted_2",
+    "copy-from": "nylon_quilted",
+    "name": "Quilted Nylon"
   },
   {
     "type": "material",
@@ -2659,7 +2719,6 @@
     "specific_heat_solid": 0.02,
     "latent_heat": 273,
     "soft": true,
-    "reinforces": true,
     "bash_resist": 1,
     "cut_resist": 1,
     "bullet_resist": 1,
@@ -2679,6 +2738,24 @@
       { "fuel": 1, "smoke": 1, "burn": 5 }
     ],
     "burn_products": [ [ "corpse_ash", 0.035 ] ]
+  },
+  {
+    "type": "material",
+    "//": "similar to layered kevlar, wool sewn in a way to extend its protectiveness. stopgap material for gambesons until material protection is more thoroughly reworked.",
+    "id": "wool_quilted",
+    "name": "Quilted Wool",
+    "copy-from": "wool",
+    "bash_resist": 2,
+    "cut_resist": 2,
+    "bullet_resist": 1.5,
+    "wind_resist": 65
+  },
+  {
+    "type": "material",
+    "//": "duplicate material used to give gambesons an extra 95% coverage layer without causing weirdness",
+    "id": "wool_quilted_2",
+    "copy-from": "wool_quilted",
+    "name": "Quilted Wool"
   },
   {
     "type": "material",

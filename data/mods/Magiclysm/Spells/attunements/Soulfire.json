@@ -35,16 +35,27 @@
     "type": "SPELL",
     "name": "Soul Burn",
     "description": "This is a description for a spell the player will never see.",
-    "effect": "spawn_item",
-    "effect_str": "soul_burn_item",
+    "effect": "attack",
+    "effect_str": "soul_burn",
     "shape": "blast",
-    "min_damage": 1,
-    "max_damage": 1,
-    "valid_targets": [ "none" ],
+    "min_damage": 0,
+    "max_damage": 0,
+    "valid_targets": [ "self" ],
     "max_level": 35,
-    "min_duration": 2880000,
-    "max_duration": 1440000,
-    "duration_increment": -41143
+    "min_duration": 1080000,
+    "max_duration": 540000,
+    "duration_increment": -30000
+  },
+  {
+    "id": "soul_burn",
+    "type": "effect_type",
+    "name": [ "Soul Burn" ],
+    "desc": [
+      "A little of your soul has been burned away, leaving you in a weakened state.  The soul heals quickly, but your body has problem with regeneration while the soul is weak."
+    ],
+    "rating": "bad",
+    "show_intensity": false,
+    "enchantments": [ { "values": [ { "value": "REGEN_HP", "multiply": -0.7 } ] } ]
   },
   {
     "id": "soul_afterburner",
@@ -55,15 +66,12 @@
     "flags": [ "VERBAL", "SILENT", "MUST_HAVE_CLASS_TO_LEARN" ],
     "effect": "mod_moves",
     "shape": "blast",
-    "min_damage": 750,
-    "damage_increment": 50,
-    "max_damage": 2500,
+    "min_damage": 1500,
+    "damage_increment": 200,
+    "max_damage": 7500,
     "max_level": 35,
     "difficulty": 6,
-    "base_casting_time": 5,
     "spell_class": "SOULFIRE",
-    "energy_source": "HP",
-    "base_energy_cost": 30,
     "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true } ]
   }
 ]

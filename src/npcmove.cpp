@@ -111,7 +111,6 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_catch_up( "catch_up" );
 static const efftype_id effect_disinfected( "disinfected" );
-static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
 static const efftype_id effect_infected( "infected" );
@@ -906,11 +905,6 @@ void npc::move()
             add_msg_debug( debugmode::DF_NPC, "NPC %s: investigating sound at x(%d) y(%d)", get_name(),
                            ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
         }
-    } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
-        tripoint return_guard_pos = *ai_cache.guard_pos;
-        add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
-                       return_guard_pos.x, return_guard_pos.y );
-        action = npc_return_to_guard_pos;
     } else {
         // No present danger
         cleanup_on_no_danger();
@@ -921,6 +915,12 @@ void npc::move()
         if( action == npc_undecided ) {
             action = address_player();
             print_action( "address_player %s", action );
+        }
+        if( action == npc_undecided && ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
+            tripoint return_guard_pos = *ai_cache.guard_pos;
+            add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
+                           return_guard_pos.x, return_guard_pos.y );
+            action = npc_return_to_guard_pos;
         }
     }
 
@@ -1894,11 +1894,9 @@ npc_action npc::address_needs( float danger )
             return npc_noop;
         }
     }
-    //Does the hallucination needs to disappear ?
-    if( is_hallucination() && player_character.sees( *this ) ) {
-        if( !player_character.has_effect( effect_hallu ) ) {
-            die( nullptr );
-        }
+    //Hallucinations have a chance of disappearing each turn
+    if( is_hallucination() && one_in( 25 ) ) {
+        die( nullptr );
     }
 
     if( danger > NPC_DANGER_VERY_LOW ) {

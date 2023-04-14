@@ -85,7 +85,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
         }
 
         if( vp.is_repairable() && who.meets_skill_requirements( info.repair_skills ) ) {
-            const requirement_data reqs = info.repair_requirements() * vp.repairable_levels();
+            const requirement_data reqs = info.repair_requirements() * vp.get_base().repairable_levels();
             if( reqs.can_make_with_inventory( inv, is_crafting_component ) ) {
                 repairable_cache[&vp] = repairable_status::repairable;
             }
@@ -99,7 +99,7 @@ vehicle_part &most_repairable_part( vehicle &veh, Character &who, bool only_repa
         const vehicle_part &vpb = b.part();
         return ( repairable_cache[&vpb] > repairable_cache[&vpa] ) ||
                ( repairable_cache[&vpb] == repairable_cache[&vpa] &&
-                 vpb.repairable_levels() > vpa.repairable_levels() );
+                 vpb.get_base().repairable_levels() > vpa.get_base().repairable_levels() );
     } );
     if( high_damage_iterator == vp_range.end() ||
         high_damage_iterator->part().removed ||
@@ -120,7 +120,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
 
     const requirement_data reqs = pt.is_broken()
                                   ? vp.install_requirements()
-                                  : vp.repair_requirements() * pt.repairable_levels();
+                                  : vp.repair_requirements() * pt.get_base().repairable_levels();
 
     const inventory &inv = who.crafting_inventory( who.pos(), PICKUP_RANGE, !who.is_npc() );
     inventory map_inv;
@@ -157,8 +157,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who, const std::str
 
     // If part is broken, it will be destroyed and references invalidated
     std::string partname = pt.name( false );
-    const std::string startdurability = colorize( pt.get_base().damage_symbol(),
-                                        pt.get_base().damage_color() );
+    const std::string startdurability = pt.get_base().damage_indicator();
     bool wasbroken = pt.is_broken();
     if( wasbroken ) {
         const units::angle dir = pt.direction;

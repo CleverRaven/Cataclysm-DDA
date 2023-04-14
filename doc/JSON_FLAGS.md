@@ -394,7 +394,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```BIONIC_ARMOR_INTERFACE``` This bionic can provide power to powered armor.
 - ```BIONIC_FAULTY``` This bionic is a "faulty" bionic.
-- ```BIONIC_GUN``` This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects.
+- ```BIONIC_GUN``` This bionic is a gun bionic and activating it will fire it.  Prevents all other activation effects including power draw by bionic.
 - ```BIONIC_NPC_USABLE``` The NPC AI knows how to use this CBM, and it can be installed on an NPC.
 - ```BIONIC_POWER_SOURCE``` This bionic is a power source bionic.
 - ```BIONIC_SLEEP_FRIENDLY``` This bionic won't prompt the user to turn it off if they try to sleep while it's active.
@@ -490,7 +490,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WEBBED_HANDS``` You have webbings on your hands, supporting your swimming speed.
 - ```WEB_RAPPEL``` You can rappel down staircases and sheer drops of any height.
 - ```WALL_CLING``` You can ascend/descend sheer cliffs as long as the tile above borders at least one wall. Chance to slip and fall each step.
-- ```WALL_CLING_FOURTH``` Same as `WALL_CLING`, but you need four instances of the flag for it to function (ex. four bodyparts with the flag).
 - ```WINGS_1``` You have 50% chance to ignore falling traps (including ledges).
 - ```WINGS_2``` You have 100% chance to ignore falling traps (including ledges).  Requires two flag instances.
 
@@ -752,7 +751,6 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```BIONIC_WEAPON``` ... This bionic is a weapon bionic and activating it will create (or destroy) its fake_item in the user's hands. Prevents all other activation effects.
 - ```BIONIC_ARMOR_INTERFACE``` ... This bionic can provide power to powered armor.
 - ```BIONIC_SLEEP_FRIENDLY``` ... This bionic won't provide a warning if the player tries to sleep while it's active.
-- ```BIONIC_GUN``` ... This bionic is a gun bionic and activating it will fire it. Prevents all other activation effects.
 - ```CONDUCTIVE``` ... Item is considered as conducting electricity, even if material it's made of is non-conductive. Opposite of `NONCONDUCTIVE`.
 - ```CORPSE``` ... Flag used to spawn various human corpses during the mapgen.
 - ```CRUTCHES``` ... Item with this flag helps characters not to fall down if their legs are broken.
@@ -1037,6 +1035,7 @@ Other monster flags.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```ACID_BLOOD``` Makes monster bleed acid. Does not automatically dissolve in a pool of acid on death.
 - ```ALL_SEEING``` Can see every creature within its vision (highest of day/night vision counts) on the same Z-level.
+- ```ALWAYS_SEES_YOU``` This monster always knows where the avatar is
 - ```ALWAYS_VISIBLE``` This monster can always be seen regardless of line of sight or light level.
 - ```ANIMAL``` Is an _animal_ for purposes of the `Animal Empathy` trait.
 - ```AQUATIC``` Confined to water.
@@ -1054,6 +1053,8 @@ Other monster flags.
 - ```CANPLAY``` This creature can be played with if it's a pet.
 - ```CLIMBS``` Can climb over fences or similar obstacles quickly.
 - ```COLDPROOF``` Immune to cold damage.
+- ```CONVERSATION``` This monster can engage in conversation.  Will need to have chat_topics as well.
+- ```DEADLY_VIRUS``` This monster can inflict the zombie_virus effect
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```DIGS``` Digs through the ground. Will not travel through non-diggable terrain such as roads.
 - ```DOGFOOD``` Can be ordered to attack with a dog whistle.
@@ -1089,6 +1090,7 @@ Other monster flags.
 - ```MILITARY_MECH``` Is a military-grade mech.
 - ```MILKABLE``` Produces milk when milked.
 - ```NEMESIS``` Tags Nemesis enemies for the HAS_NEMESIS mutation.
+- ```NEVER_WANDER``` This monster will never join wandering hordes.
 - ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 - ```NOT_HALLUCINATION``` This monster does not appear while the player is hallucinating.
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
@@ -1131,6 +1133,7 @@ Other monster flags.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
 - ```SWIMS``` Treats water as 50 movement point terrain.
+- ```VAMP_VIRUS``` This monster can inflict the vampire_virus effect
 - ```VENOM``` Attack may poison the player.
 - ```VERMIN``` Obsolete flag for inconsequential monsters, now prevents loading.
 - ```WARM``` Warm blooded.
@@ -1357,9 +1360,9 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIO_MOD``` The item has been made into a radio-activated item.
 - ```RECHARGE``` Gain charges when placed in a cargo area with a recharge station.
 - ```SAFECRACK``` This item can be used to unlock safes.
-- ```USES_BIONIC_POWER``` The item has no charges of its own, and runs off of the player's bionic power.
+- ```USES_BIONIC_POWER``` Allows item to use energy from player bionic power to satisfy its `energy_drain`. Tools can also consume bionic power instead of battery ammo.
 - ```USE_PLAYER_ENERGY``` Item with `use_action` that `cast_spell` consumes the specified `base_energy_cost`.
-- ```USE_UPS``` Item charges from an UPS / it uses the charges of an UPS instead of its own.
+- ```USE_UPS``` Allows item to use energy from UPS to satisfy its `energy_drain`.  Tools can also consume UPS instead of battery ammo.
 - ```WATER_EXTINGUISH``` Is extinguishable in water or under precipitation. Converts items (requires "reverts_to" or use_action "transform" to be set).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```WIND_EXTINGUISH``` This item will be extinguished by the wind.
@@ -1384,7 +1387,6 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```NO_PARASITES``` Invalidates parasites count set in food->type->comestible->parasites
 - ```QUARTERED``` Corpse was quartered into parts. Affects butcher results, weight, volume.
 - ```REVIVE_SPECIAL``` Corpses revives when the player is nearby.
-- ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```WARM``` A hidden flag used to track an item's journey to/from hot, buffers between HOT and cold.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 

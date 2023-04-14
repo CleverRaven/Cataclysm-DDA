@@ -107,6 +107,26 @@
   },
   {
     "type": "mutation",
+    "id": "perk_gymrat",
+    "name": { "str": "Gym Rat" },
+    "points": 0,
+    "description": "Your time exercising has gotten you used to being drenched in your own sweat.  Being wet doesn't bother you as much anymore.",
+    "category": [ "perk" ],
+    "wet_protection": [
+      { "part": "head", "neutral": 6 },
+      { "part": "leg_l", "neutral": 8 },
+      { "part": "leg_r", "neutral": 8 },
+      { "part": "foot_l", "neutral": 2 },
+      { "part": "foot_r", "neutral": 2 },
+      { "part": "arm_l", "neutral": 8 },
+      { "part": "arm_r", "neutral": 8 },
+      { "part": "hand_l", "neutral": 12 },
+      { "part": "hand_r", "neutral": 12 },
+      { "part": "torso", "neutral": 10 }
+    ]
+  },
+  {
+    "type": "mutation",
     "id": "perk_thick_skull",
     "name": { "str": "Thick Skull" },
     "points": 0,
@@ -116,12 +136,57 @@
   },
   {
     "type": "mutation",
+    "id": "perk_way_openpalm",
+    "name": { "str": "Way of the Open Palm" },
+    "points": 0,
+    "description": "You've dealt enough blows that your hands have callused, and your knifehand strikes are sharp enough to draw blood.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_hand_openpalm" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_way_closedfist",
+    "name": { "str": "Way of the Closed Fist" },
+    "points": 0,
+    "description": "You've dealt enough blows that your hands have callused, and your hammerfist strikes are as strong as a real hammer.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_hand_closedfist" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_way_pinchedfingers",
+    "name": { "str": "Way of the Pinched Fingers" },
+    "points": 0,
+    "description": "You've dealt enough blows that your hands have callused, your spearhand strikes can pierce armor, and your grip can turn bolts barehanded.",
+    "category": [ "perk" ],
+    "integrated_armor": [ "integrated_hand_pinchedfingers" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_quickdraw",
+    "name": { "str": "Quickdraw" },
+    "points": 0,
+    "description": "Practicing with handguns has improved your draw speed with pretty much everything.  Retrieve objects 25% faster from containers.",
+    "category": [ "perk" ],
+    "obtain_cost_multiplier": 0.75
+  },
+  {
+    "type": "mutation",
     "id": "perk_tuck_and_roll",
     "name": { "str": "Tuck and Roll" },
     "points": 0,
     "description": "At some point you got really good at falling off rooftops.  Take 40% less fall damage.",
     "category": [ "perk" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "FALL_DAMAGE", "multiply": -0.4 } ] } ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_surgical_strikes",
+    "name": { "str": "Surgical Strikes" },
+    "points": 0,
+    "description": "Careful aim allows you to take down game with little tissue damage.  Enemies you kill tend to stay intact.",
+    "category": [ "perk" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "OVERKILL_DAMAGE", "add": 30.0 } ] } ]
   },
   {
     "type": "mutation",
@@ -153,7 +218,7 @@
   {
     "type": "mutation",
     "id": "perk_hobbyist",
-    "name": { "str": "Hobyist" },
+    "name": { "str": "Hobbyist" },
     "points": 0,
     "description": "No work, no social obligations, lots of time to focus on your hobbies.  You feel like you've been picking up skills faster recently.",
     "category": [ "perk" ],
@@ -169,5 +234,15 @@
     "active": true,
     "activated_eocs": [ "EOC_queue_can_finder" ],
     "deactivated_eocs": [ "EOC_deque_can_finder" ]
+  },
+  {
+    "type": "mutation",
+    "id": "perk_popeye",
+    "name": { "str": "Of sailors and spinach" },
+    "points": 0,
+    "description": "You spent several years on the high sea and now your muscles visibly swell and clench when you eat raw spinach.",
+    "category": [ "perk" ],
+    "active": true,
+    "activated_eocs": [ "EOC_spinach_consumption" ]
   }
 ]

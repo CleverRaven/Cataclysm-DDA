@@ -351,7 +351,7 @@
     "harvest": "zombie_meatslug",
     "//": "Add a demihuman alien anatomy for things like flaming eye's and Mi-go, polyps and other lovecraftian horrors from other dimensions",
     "special_attacks": [ [ "STARE", 12 ] ],
-    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
+    "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD", "PACIFIST" ]
   },
   {
     "id": "mon_flying_polyp",
@@ -769,7 +769,7 @@
     "id": "mon_shadow",
     "type": "MONSTER",
     "name": { "str": "shadow" },
-    "description": "This is an animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, trying to forcefully supplant your own.",
+    "description": "An animate shadow.  Looking like nothing more than an errant patch of normal shadow, it draws your attention by the way it moves subtly and whispers softly in the back of your mind.  Strange intrusive thoughts accompany the quiet murmur, trying to forcefully supplant your own.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 2,
@@ -814,7 +814,7 @@
     "id": "mon_shadow_snake",
     "type": "MONSTER",
     "name": { "str": "shadow snake" },
-    "description": "This is an animate shadow in the form of a long and sinuous snake.  Translucent and dark, it glides silently across the floor, wriggling and flexing as it moves.",
+    "description": "An animate shadow in the form of a long and sinuous snake.  Translucent and dark, it glides silently across the floor, wriggling and flexing as it moves.",
     "default_faction": "nether",
     "bodytype": "snake",
     "species": [ "NETHER" ],
@@ -935,7 +935,7 @@
     "id": "mon_yugg",
     "type": "MONSTER",
     "name": { "str": "yugg" },
-    "description": "This is a huge, slimy worm-like creature.  Its pale, flattened head drips an oily mucus as it breaches the ground, searching for prey.  Its pinkish mouth opens and closes, revealing long fangs glistening with ropey strands of saliva, which leave smoldering stains wherever they drip.",
+    "description": "A huge, slimy worm-like creature.  Its pale, flattened head drips an oily mucus as it breaches the ground, searching for prey.  Its pinkish mouth opens and closes, revealing long fangs glistening with ropey strands of saliva, which leave smoldering stains wherever they drip.",
     "default_faction": "nether",
     "bodytype": "snake",
     "species": [ "NETHER" ],
@@ -1317,7 +1317,6 @@
       {
         "type": "spell",
         "spell_data": { "id": "spell_conjure_memories" },
-        "max_range": 3,
         "cooldown": 30,
         "monster_message": "The creature screams \"SOMEONE HELP ME, ANYONE!\"."
       }
@@ -1361,7 +1360,7 @@
     "id": "mon_hallucinator",
     "type": "MONSTER",
     "name": { "str": "person" },
-    "description": "A common human, that looks exactly like humans do.  You can see it.  It can see you.  You know it knows you can see it.  It knows you know you can see it.  It moves towards you.",
+    "description": "A common human.  It looks exactly like a human looks.  You can see them.  They can see you.  You know they know you can see them.  They know you know you can see them.  They move towards you.",
     "//": "it must be spooky, but god im bad in this stuff",
     "default_faction": "nether_player_hate",
     "species": [ "NETHER_EMANATION" ],
@@ -1382,6 +1381,7 @@
       "SEES",
       "HEARS",
       "ACIDPROOF",
+      "CAN_OPEN_DOORS",
       "FIREPROOF",
       "LOUDMOVES",
       "SLUDGEPROOF",

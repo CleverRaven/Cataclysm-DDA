@@ -185,6 +185,8 @@ static const character_modifier_id character_modifier_limb_str_mod( "limb_str_mo
 static const character_modifier_id
 character_modifier_melee_stamina_cost_mod( "melee_stamina_cost_mod" );
 static const character_modifier_id
+character_modifier_move_mode_move_cost_mod( "move_mode_move_cost_mod" );
+static const character_modifier_id
 character_modifier_ranged_dispersion_vision_mod( "ranged_dispersion_vision_mod" );
 static const character_modifier_id
 character_modifier_stamina_move_cost_mod( "stamina_move_cost_mod" );
@@ -1461,7 +1463,7 @@ void Character::mount_creature( monster &z )
 
 bool Character::check_mount_will_move( const tripoint &dest_loc )
 {
-    if( !is_mounted() ) {
+    if( !is_mounted() || mounted_creature->has_flag( MF_COMBAT_MOUNT ) ) {
         return true;
     }
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
@@ -1489,10 +1491,12 @@ bool Character::check_mount_is_spooked()
     // -0.25% per point of dexterity (low -1%, average -2%, high -3%, extreme -3.5%)
     // -0.1% per point of strength ( low -0.4%, average -0.8%, high -1.2%, extreme -1.4% )
     // / 2 if horse has full tack and saddle.
+    // / 2 if mount has the monster flag COMBAT_MOUNT
     // Monster in spear reach monster and average stat (8) player on saddled horse, 14% -2% -0.8% / 2 = ~5%
     if( mounted_creature && mounted_creature->type->has_fear_trigger( mon_trigger::HOSTILE_CLOSE ) ) {
         const creature_size mount_size = mounted_creature->get_size();
         const bool saddled = mounted_creature->has_effect( effect_monster_saddled );
+        const bool combat_mount = mounted_creature->has_flag( MF_COMBAT_MOUNT );
         for( const monster &critter : g->all_monsters() ) {
             double chance = 1.0;
             Attitude att = critter.attitude_to( *this );
@@ -1508,6 +1512,9 @@ bool Character::check_mount_is_spooked()
                 if( saddled ) {
                     chance /= 2;
                 }
+                if( combat_mount ) {
+                    chance /= 2;
+                }
                 chance = std::max( 1.0, chance );
                 if( x_in_y( chance, 100.0 ) ) {
                     forced_dismount();
@@ -1515,6 +1522,18 @@ bool Character::check_mount_is_spooked()
                 }
             }
         }
+    }
+    return false;
+}
+
+bool Character::cant_do_mounted( bool msg ) const
+{
+    if( is_mounted() ) {
+        if( msg ) {
+            add_msg_player_or_npc( m_info, _( "You can't do that while mounted." ),
+                                   _( "<npcname> can't do that while mounted." ) );
+        }
+        return true;
     }
     return false;
 }
@@ -1735,10 +1754,10 @@ bool Character::uncanny_dodge()
 
     const bool can_dodge_bio = get_power_level() >= trigger_cost &&
                                has_active_bionic( bio_uncanny_dodge );
-    const bool can_dodge_mut = get_stamina() >= 300 && count_trait_flag( json_flag_UNCANNY_DODGE );
+    const bool can_dodge_mut = get_stamina() >= 300 && has_trait_flag( json_flag_UNCANNY_DODGE );
     const bool can_dodge_both = get_power_level() >= ( trigger_cost / 2 ) &&
                                 has_active_bionic( bio_uncanny_dodge ) &&
-                                get_stamina() >= 150 && count_trait_flag( json_flag_UNCANNY_DODGE );
+                                get_stamina() >= 150 && has_trait_flag( json_flag_UNCANNY_DODGE );
 
     if( !( can_dodge_bio || can_dodge_mut || can_dodge_both ) ) {
         return false;
@@ -3210,9 +3229,6 @@ void Character::apply_skill_boost()
 
 void Character::do_skill_rust()
 {
-    if( get_option<std::string>( "SKILL_RUST" ) == "off" ) {
-        return;
-    }
     for( std::pair<const skill_id, SkillLevel> &pair : *_skills ) {
         const Skill &aSkill = *pair.first;
         SkillLevel &skill_level_obj = pair.second;
@@ -3239,17 +3255,10 @@ void Character::do_skill_rust()
         }
 
         const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::SKILL_RUST_RESIST, 0 );
-        const int oldSkillLevel = skill_level_obj.level();
         if( skill_level_obj.rust( rust_resist, mutation_value( "skill_rust_multiplier" ) ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
-        }
-        const int newSkill = skill_level_obj.level();
-        if( newSkill < oldSkillLevel ) {
-            add_msg_if_player( m_bad,
-                               _( "Your practical skill in %s may need some refreshing.  It has dropped to %d." ), aSkill.name(),
-                               newSkill );
         }
     }
 }
@@ -6178,7 +6187,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
     if( mending_options.empty() ) {
         if( interactive ) {
             add_msg( m_info, _( "The %s doesn't have any faults to mend." ), obj->tname() );
-            if( obj->damage() > obj->damage_floor( false ) ) {
+            if( obj->damage() > obj->degradation() ) {
                 const std::set<itype_id> &rep = obj->repaired_with();
                 if( rep.empty() ) {
                     add_msg( m_info, _( "It is damaged, but cannot be repaired." ) );
@@ -6330,7 +6339,7 @@ float Character::leak_level() const
         if( it->has_flag( flag_RADIOACTIVE ) ) {
             if( it->has_flag( flag_LEAK_ALWAYS ) ) {
                 ret += to_gram( it->weight() ) / 250.f;
-            } else if( it->has_flag( flag_LEAK_DAM ) && it->damage() > 0 ) {
+            } else if( it->has_flag( flag_LEAK_DAM ) ) {
                 ret += it->damage_level();
             }
         }
@@ -6435,7 +6444,8 @@ void Character::burn_move_stamina( int moves )
 
     burn_ratio *= move_mode->stamina_mult();
     mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * get_modifier(
-                     character_modifier_stamina_move_cost_mod ) );
+                     character_modifier_stamina_move_cost_mod ) * get_modifier(
+                     character_modifier_move_mode_move_cost_mod ) );
     add_msg_debug( debugmode::DF_CHARACTER, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
@@ -6706,12 +6716,13 @@ bool Character::consume_charges( item &used, int qty )
     return false;
 }
 
-int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
+int Character::item_handling_cost( const item &it, bool penalties, int base_cost,
+                                   int charges_in_it ) const
 {
     int mv = base_cost;
     if( penalties ) {
         // 40 moves per liter, up to 200 at 5 liters
-        mv += std::min( 200, it.volume() / 20_ml );
+        mv += std::min( 200, it.volume( false, false, charges_in_it ) / 20_ml );
     }
 
     if( weapon.typeId() == itype_e_handcuffs ) {
@@ -7362,10 +7373,12 @@ std::string Character::weapname() const
 
 std::string Character::weapname_simple() const
 {
+    //To make wield state consistent, gun_nam; when calling tname, is disabling 'with_collapsed' flag
     if( weapon.is_gun() ) {
         gun_mode current_mode = weapon.gun_current_mode();
         const bool no_mode = !current_mode.target;
-        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname();
+        std::string gun_name = no_mode ? weapon.display_name() : current_mode->tname( 1, true, 0, true,
+                               false );
         return gun_name;
 
     } else if( !is_armed() ) {
@@ -8659,8 +8672,9 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
             if( imenu.ret < 0 || static_cast<size_t>( imenu.ret ) >= tmp.size() ) {
                 break;
             }
-            tmp[imenu.ret]->use_amount( it, quantity, ret, filter );
-            remove_item( *tmp[imenu.ret] );
+            if( tmp[imenu.ret]->use_amount( it, quantity, ret, filter ) ) {
+                remove_item( *tmp[imenu.ret] );
+            }
             tmp.erase( tmp.begin() + imenu.ret );
         }
     }
@@ -9253,117 +9267,179 @@ int Character::run_cost( int base_cost, bool diag ) const
 {
     float movecost = static_cast<float>( base_cost );
     if( diag ) {
-        movecost *= 0.7071f; // because everything here assumes 100 is base
+        movecost /= M_SQRT2; // because effect logic assumes 100 base cost
     }
+    run_cost_effects( movecost );
+    if( diag ) {
+        movecost *= M_SQRT2;
+    }
+    return static_cast<int>( movecost );
+}
+
+std::vector<run_cost_effect> Character::run_cost_effects( float &movecost ) const
+{
+    std::vector<run_cost_effect> effects;
+
+    auto run_cost_effect_add = [&movecost, &effects]( float mod, const std::string & desc ) {
+        if( mod != 0 ) {
+            run_cost_effect effect { desc, 1.0, mod };
+            effects.push_back( effect );
+            movecost += mod;
+        }
+    };
+
+    auto run_cost_effect_mul = [&movecost, &effects]( float mod, const std::string & desc ) {
+        if( mod != 1.0 ) {
+            run_cost_effect effect { desc, mod, 0.0 };
+            effects.push_back( effect );
+            movecost *= mod;
+        }
+    };
+
     const bool flatground = movecost < 105;
     map &here = get_map();
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() );
     const bool on_fungus = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() );
 
-    if( !is_mounted() ) {
-        if( movecost > 105 ) {
-            movecost *= mutation_value( "movecost_obstacle_modifier" );
+    if( is_mounted() ) {
+        return effects;
+    }
 
-            if( has_proficiency( proficiency_prof_parkour ) ) {
-                movecost *= .5;
-            }
+    if( movecost > 105 ) {
+        run_cost_effect_mul( mutation_value( "movecost_obstacle_modifier" ),
+                             _( "Obstacle Muts" ) );
 
-            if( movecost < 100 ) {
-                movecost = 100;
-            }
-        }
-        if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
-            if( movecost > 75 ) {
-                // Mycal characters are faster on their home territory, even through things like shrubs
-                movecost = 75;
-            }
+        if( has_proficiency( proficiency_prof_parkour ) ) {
+            run_cost_effect_mul( 0.5, _( "Parkour" ) );
         }
 
-        movecost *= get_modifier( is_prone() ? character_modifier_crawl_speed_movecost_mod :
-                                  character_modifier_limb_run_cost_mod );
-
-        movecost *= mutation_value( "movecost_modifier" );
-        if( flatground ) {
-            movecost *= mutation_value( "movecost_flatground_modifier" );
+        if( movecost < 100 ) {
+            run_cost_effect effect { _( "Bonuses Capped" ) };
+            effects.push_back( effect );
+            movecost = 100;
         }
-        if( has_trait( trait_PADDED_FEET ) && is_barefoot() ) {
-            movecost *= .9f;
-        }
-
-        if( worn_with_flag( flag_SLOWS_MOVEMENT ) ) {
-            movecost *= 1.1f;
-        }
-        if( worn_with_flag( flag_FIN ) ) {
-            movecost *= 1.5f;
-        }
-        if( worn_with_flag( flag_ROLLER_INLINE ) ) {
-            if( on_road ) {
-                if( is_running() ) {
-                    movecost *= 0.5f;
-                } else if( is_walking() ) {
-                    movecost *= 0.85f;
-                }
-            } else {
-                movecost *= 1.5f;
-            }
-        }
-        // Quad skates might be more stable than inlines,
-        // but that also translates into a slower speed when on good surfaces.
-        if( worn_with_flag( flag_ROLLER_QUAD ) ) {
-            if( on_road ) {
-                if( is_running() ) {
-                    movecost *= 0.7f;
-                } else if( is_walking() ) {
-                    movecost *= 0.85f;
-                }
-            } else {
-                movecost *= 1.3f;
-            }
-        }
-        // Skates with only one wheel (roller shoes) are fairly less stable
-        // and fairly slower as well
-        if( worn_with_flag( flag_ROLLER_ONE ) ) {
-            if( on_road ) {
-                if( is_running() ) {
-                    movecost *= 0.85f;
-                } else if( is_walking() ) {
-                    movecost *= 0.9f;
-                }
-            } else {
-                movecost *= 1.1f;
-            }
-        }
-
-        // ROOTS3 does slow you down as your roots are probing around for nutrients,
-        // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
-        // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-        const bool mutfeet = has_flag( json_flag_TOUGH_FEET ) || worn_with_flag( flag_TOUGH_FEET );
-        if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
-            movecost += 8;
-        }
-        if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
-            movecost += 8;
-        }
-
-        if( ( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
-            here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) && is_barefoot() ) {
-            movecost += 10;
-        }
-
-        movecost = calculate_by_enchantment( movecost, enchant_vals::mod::MOVE_COST );
-        movecost /= get_modifier( character_modifier_stamina_move_cost_mod );
-
-        if( !is_mounted() && !is_prone() && has_effect( effect_downed ) ) {
-            movecost *= get_modifier( character_modifier_crawl_speed_movecost_mod ) * 2.5;
+    }
+    if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
+        if( movecost > 75 ) {
+            // Mycal characters are faster on their home territory, even through things like shrubs
+            run_cost_effect_add( 75 - movecost, _( "Mycus on Fungus" ) );
         }
     }
 
-    if( diag ) {
-        movecost *= M_SQRT2;
+    if( is_prone() ) {
+        run_cost_effect_mul( get_modifier( character_modifier_crawl_speed_movecost_mod ),
+                             _( "Crawling" ) );
+    } else {
+        run_cost_effect_mul( get_modifier( character_modifier_limb_run_cost_mod ),
+                             _( "Encum./Wounds" ) );
     }
 
-    return static_cast<int>( movecost );
+    run_cost_effect_mul( mutation_value( "movecost_modifier" ), _( "Mutations" ) );
+
+    if( flatground ) {
+        run_cost_effect_mul( mutation_value( "movecost_flatground_modifier" ),
+                             _( "Flat Ground Mut." ) );
+    }
+
+    if( has_trait( trait_PADDED_FEET ) && is_barefoot() ) {
+        run_cost_effect_mul( 0.9f, _( "Bare Padded Feet" ) );
+    }
+
+    if( worn_with_flag( flag_SLOWS_MOVEMENT ) ) {
+        run_cost_effect_mul( 1.1f, _( "Tight Clothing" ) );
+    }
+
+    if( worn_with_flag( flag_FIN ) ) {
+        run_cost_effect_mul( 1.5f, _( "Swim Fins" ) );
+    }
+
+    if( worn_with_flag( flag_ROLLER_INLINE ) ) {
+        if( on_road ) {
+            if( is_running() ) {
+                run_cost_effect_mul( 0.5f, _( "Inline Skates" ) );
+            } else if( is_walking() ) {
+                run_cost_effect_mul( 0.85f, _( "Inline Skates" ) );
+            }
+        } else {
+            run_cost_effect_mul( 1.5f, _( "Inline Skates" ) );
+        }
+    }
+
+    // Quad skates might be more stable than inlines,
+    // but that also translates into a slower speed when on good surfaces.
+    if( worn_with_flag( flag_ROLLER_QUAD ) ) {
+        if( on_road ) {
+            if( is_running() ) {
+                run_cost_effect_mul( 0.7f, _( "Roller Skates" ) );
+            } else if( is_walking() ) {
+                run_cost_effect_mul( 0.85f, _( "Roller Skates" ) );
+            }
+        } else {
+            run_cost_effect_mul( 1.3f, _( "Roller Skates" ) );
+        }
+    }
+
+    // Skates with only one wheel (roller shoes) are fairly less stable
+    // and fairly slower as well
+    if( worn_with_flag( flag_ROLLER_ONE ) ) {
+        if( on_road ) {
+            if( is_running() ) {
+                run_cost_effect_mul( 0.85f, _( "Heelys" ) );
+            } else if( is_walking() ) {
+                run_cost_effect_mul( 0.9f, _( "Heelys" ) );
+            }
+        } else {
+            run_cost_effect_mul( 1.1f, _( "Heelys" ) );
+        }
+    }
+
+    // ROOTS3 does slow you down as your roots are probing around for nutrients,
+    // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
+    // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
+    const bool mutfeet = has_flag( json_flag_TOUGH_FEET ) || worn_with_flag( flag_TOUGH_FEET );
+    bool no_left_shoe = false;
+    bool no_right_shoe = false;
+    if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
+        no_left_shoe = true;
+    }
+    if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
+        no_right_shoe = true;
+    }
+    if( no_left_shoe && no_right_shoe ) {
+        run_cost_effect_add( 16, _( "No Shoes" ) );
+    } else if( no_left_shoe ) {
+        run_cost_effect_add( 8, _( "No Left Shoe" ) );
+    } else if( no_right_shoe ) {
+        run_cost_effect_add( 8, _( "No Right Shoe" ) );
+    }
+
+    if( ( has_trait( trait_ROOTS3 ) || has_trait( trait_CHLOROMORPH ) ) &&
+        here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) && is_barefoot() ) {
+        run_cost_effect_add( 10, _( "Roots" ) );
+    }
+
+    run_cost_effect_add( enchantment_cache->get_value_add( enchant_vals::mod::MOVE_COST ),
+                         _( "Enchantments" ) );
+    run_cost_effect_mul( 1.0 + enchantment_cache->get_value_multiply( enchant_vals::mod::MOVE_COST ),
+                         _( "Enchantments" ) );
+
+    run_cost_effect_mul( 1.0 / get_modifier( character_modifier_stamina_move_cost_mod ),
+                         _( "Stamina" ) );
+
+    run_cost_effect_mul( 1.0 / get_modifier( character_modifier_move_mode_move_cost_mod ),
+                         //TODO get these strings from elsewhere
+                         is_running() ? _( "Running" ) :
+                         is_crouching() ? _( "Crouching" ) :
+                         is_prone() ? _( "Prone" ) : _( "Walking" )
+                       );
+
+    if( !is_mounted() && !is_prone() && has_effect( effect_downed ) ) {
+        run_cost_effect_mul( get_modifier( character_modifier_crawl_speed_movecost_mod ) * 2.5,
+                             _( "Downed" ) );
+    }
+
+    return effects;
 }
 
 void Character::place_corpse()
@@ -10540,6 +10616,23 @@ int Character::book_fun_for( const item &book, const Character &p ) const
     return fun_bonus;
 }
 
+bool Character::has_bionic_with_flag( const json_character_flag &flag ) const
+{
+    for( const bionic &bio : *my_bionics ) {
+        if( bio.info().has_flag( flag ) ) {
+            return true;
+        }
+        if( bio.info().activated ) {
+            if( ( bio.info().has_active_flag( flag ) && has_active_bionic( bio.id ) ) ||
+                ( bio.info().has_inactive_flag( flag ) && !has_active_bionic( bio.id ) ) ) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 int Character::count_bionic_with_flag( const json_character_flag &flag ) const
 {
     int ret = 0;
@@ -10558,6 +10651,19 @@ int Character::count_bionic_with_flag( const json_character_flag &flag ) const
     return ret;
 }
 
+bool Character::has_bodypart_with_flag( const json_character_flag &flag ) const
+{
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( bp->has_flag( flag ) ) {
+            return true;
+        }
+        if( get_part( bp )->has_conditional_flag( flag ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int Character::count_bodypart_with_flag( const json_character_flag &flag ) const
 {
     int ret = 0;
@@ -10572,11 +10678,24 @@ int Character::count_bodypart_with_flag( const json_character_flag &flag ) const
     return ret;
 }
 
-int Character::has_flag( const json_character_flag &flag ) const
+bool Character::has_flag( const json_character_flag &flag ) const
 {
     // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
-    return count_trait_flag( flag ) + count_bionic_with_flag( flag ) + has_effect_with_flag(
-               flag ) + count_bodypart_with_flag( flag ) + count_mabuff_flag( flag );
+    return has_trait_flag( flag ) ||
+           has_bionic_with_flag( flag ) ||
+           has_effect_with_flag( flag ) ||
+           has_bodypart_with_flag( flag ) ||
+           has_mabuff_flag( flag );
+}
+
+int Character::count_flag( const json_character_flag &flag ) const
+{
+    // If this is a performance problem create a map of flags stored for a character and updated on trait, mutation, bionic add/remove, activate/deactivate, effect gain/loss
+    return count_trait_flag( flag ) +
+           count_bionic_with_flag( flag ) +
+           has_effect_with_flag( flag ) +
+           count_bodypart_with_flag( flag ) +
+           count_mabuff_flag( flag );
 }
 
 bool Character::is_driving() const
@@ -10831,8 +10950,23 @@ int Character::thirst_speed_penalty( int thirst )
     return static_cast<int>( multi_lerp( thirst_thresholds, thirst ) );
 }
 
+std::vector<speed_bonus_effect> Character::get_speed_bonus_effects() const
+{
+    return speed_bonus_effects;
+}
+
+void Character::mod_speed_bonus( int nspeed, const std::string &desc )
+{
+    if( nspeed != 0 ) {
+        speed_bonus_effect effect { desc, nspeed };
+        speed_bonus_effects.push_back( effect );
+        speed_bonus += nspeed;
+    }
+}
+
 void Character::recalc_speed_bonus()
 {
+    speed_bonus_effects.clear();
     // Minus some for weight...
     int carry_penalty = 0;
     units::mass weight_cap = weight_capacity();
@@ -10842,34 +10976,36 @@ void Character::recalc_speed_bonus()
     if( weight_carried() > weight_cap ) {
         carry_penalty = 25 * ( weight_carried() - weight_cap ) / weight_cap;
     }
-    mod_speed_bonus( -carry_penalty );
+    mod_speed_bonus( -carry_penalty, _( "Weight Carried" ) );
 
-    mod_speed_bonus( +get_speedydex_bonus( get_dex() ) );
+    mod_speed_bonus( +get_speedydex_bonus( get_dex() ), _( "Dexterity" ) );
 
-    mod_speed_bonus( -get_pain_penalty().speed );
+    mod_speed_bonus( -get_pain_penalty().speed, _( "Pain" ) );
 
     if( get_thirst() > 40 ) {
-        mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
+        mod_speed_bonus( thirst_speed_penalty( get_thirst() ), _( "Thirst" ) );
     }
     // when underweight, you get slower. cumulative with hunger
-    mod_speed_bonus( kcal_speed_penalty() );
+    mod_speed_bonus( kcal_speed_penalty(), _( "Underweight" ) );
 
     for( const auto &maps : *effects ) {
         for( const auto &i : maps.second ) {
             bool reduced = resists_effect( i.second );
-            mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
+            //TODO try disp_short_desc() or disp_short_desc(true) if disp_name doesn't work well
+            mod_speed_bonus( i.second.get_mod( "SPEED", reduced ), i.second.disp_name() );
         }
     }
 
     // add martial arts speed bonus
-    mod_speed_bonus( mabuff_speed_bonus() );
+    mod_speed_bonus( mabuff_speed_bonus(), _( "Martial Art" ) );
 
     // Not sure why Sunlight Dependent is here, but OK
     // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
     // Threshold-crossing has its charms ;-)
     if( g != nullptr ) {
         if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
-            mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
+            //FIXME get trait name directly
+            mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ), _( "Sunlight Dependent" ) );
         }
         const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
         if( temperature_speed_modifier != 0 ) {
@@ -10878,18 +11014,20 @@ void Character::recalc_speed_bonus()
             if( has_flag( json_flag_ECTOTHERM ) ||
                 player_local_temp < units::from_fahrenheit( 65 - climate_control ) ) {
                 mod_speed_bonus( ( units::to_fahrenheit( player_local_temp ) - 65 + climate_control ) *
-                                 temperature_speed_modifier );
+                                 temperature_speed_modifier, _( "Ectothermic" ) );
             }
         }
     }
     const int prev_speed_bonus = get_speed_bonus();
-    set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
-                                 get_speed() ) - get_speed_base() ) );
-    enchantment_speed_bonus = get_speed_bonus() - prev_speed_bonus;
+    const int speed_bonus_with_enchant = std::round( enchantment_cache->modify_value(
+            enchant_vals::mod::SPEED,
+            get_speed() ) - get_speed_base() );
+    enchantment_speed_bonus = speed_bonus_with_enchant - prev_speed_bonus;
+    mod_speed_bonus( enchantment_speed_bonus, _( "Bio/Mut/Etc Effects" ) );
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
     if( get_speed_bonus() < min_speed_bonus ) {
-        set_speed_bonus( min_speed_bonus );
+        mod_speed_bonus( min_speed_bonus - get_speed_bonus(), _( "Penalty Cap" ) );
     }
 }
 

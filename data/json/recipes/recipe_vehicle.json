@@ -372,7 +372,7 @@
       [ [ "condensor_coil", 1 ] ],
       [ [ "evaporator_coil", 1 ] ],
       [ [ "thermostat", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "refrigerant_tank", 1 ] ],
       [ [ "plastic_chunk", 10 ] ]
     ]
@@ -440,7 +440,7 @@
       [ [ "condensor_coil", 1 ] ],
       [ [ "evaporator_coil", 1 ] ],
       [ [ "thermostat", 1 ] ],
-      [ [ "motor_tiny", 1 ] ],
+      [ [ "motor_micro", 1 ] ],
       [ [ "refrigerant_tank", 1 ] ],
       [ [ "plastic_chunk", 8 ] ]
     ]
@@ -543,7 +543,7 @@
       [ [ "scrap", 4 ] ],
       [ [ "steel_chunk", 2 ] ],
       [ [ "metal_tank", 1 ] ],
-      [ [ "motor_small", 1 ] ]
+      [ [ "motor_tiny", 1 ] ]
     ],
     "byproducts": [ [ "scrap", 6 ] ]
   },
@@ -1279,7 +1279,7 @@
       [ [ "frame", 1 ] ],
       [ [ "sheet_metal", 4 ] ],
       [ [ "element", 4 ] ],
-      [ [ "motor_small", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
       [ [ "cable", 10 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "pipe_fittings", 2 ] ],

@@ -45,14 +45,37 @@
         "topic": "TALK_PERK_MENU_VACATIONER"
       },
       {
+        "condition": { "not": { "u_has_trait": "perk_gymrat" } },
+        "text": "Gain [<trait_name:perk_gymrat>]",
+        "topic": "TALK_PERK_MENU_GYMRAT"
+      },
+      {
         "condition": { "not": { "u_has_trait": "perk_thick_skull" } },
         "text": "Gain [<trait_name:perk_thick_skull>]",
         "topic": "TALK_PERK_MENU_THICK_SKULL"
       },
       {
-        "condition": { "not": { "u_has_trait": "perk_bloody_mess" } },
-        "text": "Gain [<trait_name:perk_bloody_mess>]",
-        "topic": "TALK_PERK_MENU_BLOODY_MESS"
+        "condition": {
+          "not": {
+            "or": [
+              { "u_has_trait": "perk_way_openpalm" },
+              { "u_has_trait": "perk_way_closedfist" },
+              { "u_has_trait": "perk_way_pinchedfingers" }
+            ]
+          }
+        },
+        "text": "Gain [Way Of The Fist]",
+        "topic": "TALK_PERK_MENU_WAYOFTHEFIST"
+      },
+      {
+        "condition": { "not": { "or": [ { "u_has_trait": "perk_bloody_mess" }, { "u_has_trait": "perk_surgical_strikes" } ] } },
+        "text": "Gain [Killing Style]",
+        "topic": "TALK_PERK_MENU_KILLINGSTYLE"
+      },
+      {
+        "condition": { "not": { "u_has_trait": "perk_quickdraw" } },
+        "text": "Gain [<trait_name:perk_quickdraw>]",
+        "topic": "TALK_PERK_MENU_QUICKDRAW"
       },
       {
         "condition": { "not": { "u_has_trait": "perk_tuck_and_roll" } },
@@ -74,6 +97,12 @@
         "text": "Gain [<trait_name:perk_hobbyist>]",
         "topic": "TALK_PERK_MENU_HOBBYIST"
       },
+      {
+        "condition": { "not": { "u_has_trait": "perk_popeye" } },
+        "text": "Gain [<trait_name:perk_popeye>]",
+        "topic": "TALK_PERK_MENU_POPEYE"
+      },
+      { "text": "Settings", "topic": "TALK_PERK_MENU_CONFIG" },
       { "text": "Quit.", "topic": "TALK_DONE" }
     ]
   },
@@ -92,6 +121,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_STR_UP" },
@@ -113,6 +143,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_DEX_UP" },
@@ -134,6 +165,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_INT_UP" },
@@ -155,6 +187,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_PER_UP" },
@@ -176,6 +209,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_holdout_pocket" },
@@ -197,6 +231,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_built_tough" },
@@ -218,6 +253,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_hauler" },
@@ -239,9 +275,42 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_vacationer" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_GYMRAT",
+    "dynamic_line": "<trait_name:perk_gymrat>: \"<trait_description:perk_gymrat>\"\nRequires athletics 3.",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                { "or": [ { "u_has_skill": { "skill": "swimming", "level": 3 } } ] }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_gymrat" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }
@@ -260,6 +329,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_thick_skull" },
@@ -274,16 +344,158 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_PERK_MENU_BLOODY_MESS",
-    "dynamic_line": "<trait_name:perk_bloody_mess>: \"<trait_description:perk_bloody_mess>\"",
+    "id": "TALK_PERK_MENU_WAYOFTHEFIST",
+    "dynamic_line": "<trait_name:perk_way_openpalm>: \"<trait_description:perk_way_openpalm>\"\nRequires unarmed 2 and cutting 1.\n\n<trait_name:perk_way_closedfist>: \"<trait_description:perk_way_closedfist>\"\nRequires unarmed 2 and bashing 1.\n\n<trait_name:perk_way_pinchedfingers>: \"<trait_description:perk_way_pinchedfingers>\"\nRequires unarmed 2 and piercing 1.",
+    "responses": [
+      {
+        "text": "Select Perk Variant <trait_name:perk_way_openpalm>.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                {
+                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "cutting", "level": 1 } } ]
+                }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_way_openpalm" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      {
+        "text": "Select Perk Variant <trait_name:perk_way_closedfist>.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                {
+                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "bashing", "level": 1 } } ]
+                }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_way_closedfist" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      {
+        "text": "Select Perk Variant <trait_name:perk_way_pinchedfingers>.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                {
+                  "and": [ { "u_has_skill": { "skill": "unarmed", "level": 2 } }, { "u_has_skill": { "skill": "stabbing", "level": 1 } } ]
+                }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_way_pinchedfingers" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_KILLINGSTYLE",
+    "dynamic_line": "<trait_name:perk_bloody_mess>: \"<trait_description:perk_bloody_mess>\"\nNo requirements.\n<trait_name:perk_surgical_strikes>: \"<trait_description:perk_surgical_strikes>\"\nRequires melee or marksmanship 2.",
+    "responses": [
+      {
+        "text": "Select Perk Variant <trait_name:perk_bloody_mess>.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_bloody_mess" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      {
+        "text": "Select Perk Variant <trait_name:perk_surgical_strikes>.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                {
+                  "or": [ { "u_has_skill": { "skill": "melee", "level": 2 } }, { "u_has_skill": { "skill": "gun", "level": 2 } } ]
+                }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_surgical_strikes" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_QUICKDRAW",
+    "dynamic_line": "<trait_name:perk_quickdraw>: \"<trait_description:perk_quickdraw>\"\nRequires handguns 2.",
     "responses": [
       {
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
-        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "condition": {
+          "and": [
+            {
+              "or": [
+                { "compare_num": [ { "u_val": "var", "var_name": "no_prerecs" }, ">", { "const": 0 } ] },
+                { "or": [ { "u_has_skill": { "skill": "pistol", "level": 2 } } ] }
+              ]
+            },
+            { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] }
+          ]
+        },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
-          { "u_add_trait": "perk_bloody_mess" },
+          { "u_add_trait": "perk_quickdraw" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }
@@ -302,6 +514,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_tuck_and_roll" },
@@ -323,6 +536,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_tingly" },
@@ -344,6 +558,7 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_jumpy" },
@@ -365,9 +580,32 @@
         "text": "Select Perk.",
         "topic": "TALK_PERK_MENU_MAIN",
         "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
         "failure_topic": "TALK_PERK_MENU_FAIL",
         "effect": [
           { "u_add_trait": "perk_hobbyist" },
+          {
+            "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
+          }
+        ]
+      },
+      { "text": "Go Back.", "topic": "TALK_PERK_MENU_MAIN" },
+      { "text": "Quit.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_PERK_MENU_POPEYE",
+    "dynamic_line": "<trait_name:perk_popeye>: \"<trait_description:perk_popeye>\"",
+    "responses": [
+      {
+        "text": "Select Perk.",
+        "topic": "TALK_PERK_MENU_MAIN",
+        "condition": { "compare_num": [ { "u_val": "var", "var_name": "num_perks" }, ">", { "const": 0 } ] },
+        "failure_explanation": "Requirements Not Met",
+        "failure_topic": "TALK_PERK_MENU_FAIL",
+        "effect": [
+          { "u_add_trait": "perk_popeye" },
           {
             "arithmetic": [ { "u_val": "var", "var_name": "num_perks" }, "=", { "u_val": "var", "var_name": "num_perks" }, "-", { "const": 1 } ]
           }
