@@ -1056,8 +1056,8 @@
       }
     ],
     "relic_data": {
-		"passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
-	}
+      "passive_effects": [ { "has": "WORN", "condition": { "not": "u_has_weapon" }, "values": [ { "value": "ATTACK_SPEED", "add": 20 } ] } ]
+    }
   },
   {
     "id": "integrated_talons",
