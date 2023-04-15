@@ -6791,7 +6791,6 @@ int vehicle::damage( map &here, int p, int dmg, damage_type type, bool aimed )
 
     // Parts integrated inside a door or board are protected by boards and closed doors
     if( part_flag( target_part, "BOARD_INTERNAL" ) ) {
-        int strongest_board_part = -1;
         int strongest_board_durability = INT_MIN;
         for( const int part : parts_here ) {
             if( part_flag( part, "FULL_BOARD" ) ||
