@@ -33,7 +33,7 @@ jobs:
           echo "date=$( date +"%Y-%m-%d" -d $CURR_DATE )" >> $GITHUB_OUTPUT
           echo "old_date=$LAST_WEEK" >> $GITHUB_OUTPUT
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3.10.0
+        uses: peter-evans/create-pull-request@v4
         with:
           commit-message: Weekly Changelog ${{ steps.getting-changes.outputs.old_date }} to ${{ steps.getting-changes.outputs.date }}
           committer: David Seguin <davidseguin@live.ca>

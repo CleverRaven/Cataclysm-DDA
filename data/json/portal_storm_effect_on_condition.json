@@ -558,7 +558,7 @@
         "u_message": "You awake with a start from what must have been a violent and horrifying daydream.  Your body aches as if the wounds were real.",
         "type": "bad"
       },
-      { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 30 } ] },
+      { "math": [ "u_pain()", "+=", "30" ] },
       { "u_set_field": "fd_blood", "radius": 2 }
     ]
   },

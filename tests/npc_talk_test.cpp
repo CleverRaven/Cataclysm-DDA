@@ -1268,7 +1268,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 16 ].text == "Cash equals 13" );
     CHECK( d.responses[ 17 ].text == "Owed amount equals 14" );
     CHECK( d.responses[ 18 ].text == "Driving skill more than or equal to 5" );
-    // TODO: Relaibly test the random number generator.
+    // TODO: Reliably test the random number generator.
     CHECK( d.responses[ 19 ].text == "Temperature is 21." );
     CHECK( d.responses[ 20 ].text == "Windpower is 15." );
     CHECK( d.responses[ 21 ].text == "Humidity is 16." );

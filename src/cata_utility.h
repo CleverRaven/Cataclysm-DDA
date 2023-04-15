@@ -3,6 +3,7 @@
 #define CATA_SRC_CATA_UTILITY_H
 
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <ctime>
 #include <functional>
@@ -10,6 +11,9 @@
 #include <map>
 #include <memory>
 #include <numeric>
+#include <optional>
+#include <ostream>
+#include <sstream>
 #include <string> // IWYU pragma: keep
 #include <type_traits>
 #include <unordered_set>
@@ -17,7 +21,6 @@
 #include <vector>
 
 #include "enums.h"
-#include "json.h"
 #include "path_info.h"
 
 class JsonOut;
@@ -454,6 +457,10 @@ inline bool string_ends_with( const std::string &s1, const char( &s2 )[N] )
 }
 
 bool string_empty_or_whitespace( const std::string &s );
+
+/** strcmp, but for string_view objects.  In C++20 this can be replaced with
+ * operator<=> */
+int string_view_cmp( std::string_view, std::string_view );
 
 /** Used as a default filter in various functions */
 template<typename T>

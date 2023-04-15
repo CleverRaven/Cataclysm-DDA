@@ -10310,9 +10310,9 @@ int item::ammo_remaining( const Character *carrier ) const
         }
     }
 
-    // UPS/bionic power can replace battery ammo requirement.
+    // UPS/bionic power can replace ammo requirement.
     // Only for tools. Guns should always use energy_drain for electricity use.
-    if( carrier != nullptr && type->tool && type->tool->ammo_id.count( ammo_battery ) ) {
+    if( carrier != nullptr && type->tool ) {
         if( has_flag( flag_USES_BIONIC_POWER ) ) {
             ret += units::to_kilojoule( carrier->get_power_level() );
         }
@@ -10473,9 +10473,9 @@ int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
         qty -= charg_used;
     }
 
-    // Modded tools can consume UPS/bionic energy instead of (battery)ammo.
+    // Modded tools can consume UPS/bionic energy instead of ammo.
     // Guns handle energy in energy_consume()
-    if( carrier != nullptr && type->tool && type->tool->ammo_id.count( ammo_battery ) ) {
+    if( carrier != nullptr && type->tool ) {
         units::energy wanted_energy = units::from_kilojoule( qty );
 
         if( has_flag( flag_USE_UPS ) ) {
@@ -11295,6 +11295,9 @@ float item::simulate_burn( fire_data &frd ) const
 
 bool item::burn( fire_data &frd )
 {
+    if( has_flag( flag_UNBREAKABLE ) ) {
+        return false;
+    }
     float burn_added = simulate_burn( frd );
 
     if( burn_added <= 0 ) {
