@@ -155,7 +155,6 @@
   {
     "id": "rope_makeshift_30",
     "copy-from": "vine_30",
-    "copy-from": "vine_30",
     "type": "GENERIC",
     "name": { "str": "long cordage rope" },
     "description": "A 30-foot (or about 9 m) long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things, such as suspending large corpses for butchering.  Wear it over a shoulder and tie items to it as a temporary carrying solution.",
