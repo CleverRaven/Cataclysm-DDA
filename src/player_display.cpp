@@ -890,6 +890,11 @@ static void draw_speed_info( const catacurses::window &w_info,
 {
     werase( w_info );
 
+    if( line >= speedlist.size() ) {
+        wnoutrefresh( w_info );
+        return;
+    }
+
     if( speedlist[line].val != 0 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_info, point( 1, 0 ), c_light_gray,

@@ -2764,6 +2764,48 @@ void talk_effect_fun_t<T>::set_location_variable( const JsonObject &jo, const st
 }
 
 template<class T>
+void talk_effect_fun_t<T>::set_location_variable_adjust( const JsonObject &jo,
+        const std::string &member )
+{
+    dbl_or_var<T> dov_z_adjust = get_dbl_or_var<T>( jo, "z_adjust", false, 0 );
+    dbl_or_var<T> dov_x_adjust = get_dbl_or_var<T>( jo, "x_adjust", false, 0 );
+    dbl_or_var<T> dov_y_adjust = get_dbl_or_var<T>( jo, "y_adjust", false, 0 );
+    bool z_override = jo.get_bool( "z_override", false );
+    bool overmap_tile = jo.get_bool( "overmap_tile", false );
+
+    std::optional<var_info> input_var = read_var_info( jo.get_object( member ) );
+
+    std::optional<var_info> output_var;
+    if( jo.has_member( "output_var" ) ) {
+        output_var = read_var_info( jo.get_object( "output_var" ) );
+    }
+    function = [input_var, dov_x_adjust, dov_y_adjust, dov_z_adjust, z_override,
+               output_var, overmap_tile ]( const T & d ) {
+        tripoint_abs_ms target_pos = get_tripoint_from_var( input_var, d );
+
+        if( overmap_tile ) {
+            target_pos = target_pos + tripoint( dov_x_adjust.evaluate( d ) * coords::map_squares_per(
+                                                    coords::omt ), dov_y_adjust.evaluate( d ) * coords::map_squares_per( coords::omt ), 0 );
+        } else {
+            target_pos = target_pos + tripoint( dov_x_adjust.evaluate( d ), dov_y_adjust.evaluate( d ), 0 );
+        }
+
+        if( z_override ) {
+            target_pos = tripoint_abs_ms( target_pos.xy(), dov_z_adjust.evaluate( d ) );
+        } else {
+            target_pos = target_pos + tripoint( 0, 0, dov_z_adjust.evaluate( d ) );
+        }
+        if( output_var.has_value() ) {
+            write_var_value( output_var.value().type, output_var.value().name,
+                             d.actor( output_var.value().type == var_type::npc ), target_pos.to_string() );
+        } else {
+            write_var_value( input_var.value().type, input_var.value().name,
+                             d.actor( input_var.value().type == var_type::npc ), target_pos.to_string() );
+        }
+    };
+}
+
+template<class T>
 void talk_effect_fun_t<T>::set_transform_radius( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
@@ -4525,6 +4567,8 @@ void talk_effect_t<T>::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_location_variable( jo, "u_location_variable", false );
     } else if( jo.has_object( "npc_location_variable" ) ) {
         subeffect_fun.set_location_variable( jo, "npc_location_variable", true );
+    } else if( jo.has_object( "location_variable_adjust" ) ) {
+        subeffect_fun.set_location_variable_adjust( jo, "location_variable_adjust" );
     } else if( jo.has_int( "u_set_hp" ) ) {
         subeffect_fun.set_hp( jo, "u_set_hp", false );
     } else if( jo.has_int( "npc_set_hp" ) ) {

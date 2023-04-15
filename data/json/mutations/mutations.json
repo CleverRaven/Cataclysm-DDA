@@ -814,7 +814,7 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "SLOWLEARNER" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 15 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "multiply": 0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -1477,7 +1477,7 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FASTLEARNER" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": -15 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "multiply": -0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -4380,9 +4380,9 @@
     "type": "effect_on_condition",
     "id": "PAINREC1_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "compare_int": [ { "u_val": "pain" }, ">", { "const": 0 } ] }, { "u_has_trait": "PAINREC1" } ] },
+    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC1" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC1" } },
-    "effect": [ { "arithmetic": [ { "u_val": "pain" }, "-=", { "const": 3 } ] } ]
+    "effect": [ { "math": [ "u_pain()", "-=", "3" ] } ]
   },
   {
     "type": "mutation",
@@ -4399,9 +4399,9 @@
     "type": "effect_on_condition",
     "id": "PAINREC2_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "compare_int": [ { "u_val": "pain" }, ">", { "const": 0 } ] }, { "u_has_trait": "PAINREC2" } ] },
+    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC2" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC2" } },
-    "effect": [ { "arithmetic": [ { "u_val": "pain" }, "-=", { "const": 4 } ] } ]
+    "effect": [ { "math": [ "u_pain()", "-=", "4" ] } ]
   },
   {
     "type": "mutation",
@@ -4417,9 +4417,9 @@
     "type": "effect_on_condition",
     "id": "PAINREC3_EOC",
     "recurrence": "1 m",
-    "condition": { "and": [ { "compare_int": [ { "u_val": "pain" }, ">", { "const": 0 } ] }, { "u_has_trait": "PAINREC3" } ] },
+    "condition": { "and": [ { "math": [ "u_pain()", ">", "0" ] }, { "u_has_trait": "PAINREC3" } ] },
     "deactivate_condition": { "not": { "u_has_trait": "PAINREC3" } },
-    "effect": [ { "arithmetic": [ { "u_val": "pain" }, "-=", { "const": 5 } ] } ]
+    "effect": [ { "math": [ "u_pain()", "-=", "5" ] } ]
   },
   {
     "type": "mutation",
@@ -4464,7 +4464,8 @@
     "prereqs2": [ "PAINREC3" ],
     "threshreq": [ "THRESH_MEDICAL" ],
     "//": "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
-    "category": [ "MEDICAL" ]
+    "category": [ "MEDICAL" ],
+    "flags": [ "PAIN_IMMUNE" ]
   },
   {
     "type": "mutation",
