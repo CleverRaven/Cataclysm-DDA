@@ -1103,6 +1103,7 @@ class effect_on_conditons_actor : public iuse_actor
     public:
         std::vector<effect_on_condition_id> eocs;
         std::string description;
+        translation menu_text;
         explicit effect_on_conditons_actor( const std::string &type = "effect_on_conditions" ) : iuse_actor(
                 type ) {}
 
@@ -1110,6 +1111,7 @@ class effect_on_conditons_actor : public iuse_actor
         void load( const JsonObject &obj ) override;
         std::optional<int> use( Character &p, item &it, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
+        std::string get_name() const override;
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
 #endif // CATA_SRC_IUSE_ACTOR_H

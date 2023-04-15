@@ -807,7 +807,7 @@ mapgen_function_json_base::mapgen_function_json_base(
     , total_size( mapgensize )
     , objects( m_offset, mapgensize, total_size )
 {
-    jsobj.allow_omitted_members();
+    this->jsobj.allow_omitted_members();
 }
 
 mapgen_function_json_base::~mapgen_function_json_base() = default;

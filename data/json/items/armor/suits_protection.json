@@ -2212,7 +2212,7 @@
         "coverage": 72,
         "encumbrance": 8,
         "layers": [ "BELTED" ],
-        "warmth": 20
+        "//warmth": 20
       }
     ]
   },
@@ -2267,7 +2267,7 @@
         "coverage": 72,
         "encumbrance": 8,
         "layers": [ "BELTED" ],
-        "warmth": 20
+        "//warmth": 20
       }
     ]
   },
@@ -2613,7 +2613,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 25,
-        "warmth": 50
+        "//warmth": 50
       },
       {
         "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
@@ -2622,7 +2622,7 @@
         "coverage": 72,
         "encumbrance": 8,
         "layers": [ "BELTED" ],
-        "warmth": 20
+        "//warmth": 20
       }
     ]
   },
@@ -2682,7 +2682,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 15,
-        "warmth": 30
+        "//warmth": 30
       },
       {
         "material": [ { "type": "canvas_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
@@ -2691,7 +2691,7 @@
         "coverage": 72,
         "encumbrance": 8,
         "layers": [ "BELTED" ],
-        "warmth": 20
+        "//warmth": 20
       }
     ]
   },
@@ -2752,7 +2752,7 @@
         "coverage": 72,
         "encumbrance": 8,
         "layers": [ "BELTED" ],
-        "warmth": 20
+        "//warmth": 20
       }
     ]
   },
@@ -2826,8 +2826,8 @@
   {
     "id": "gambeson_gloves_canvas",
     "//": "roughly 0.25mm per sheet of canvas making this 8 layers, sheets are 1x2 feet. 4 sheets total",
-    "/1": "human hands assumed to be about 1 sq ft total, 76g (canvas) x 8 (layers) x 0.5 (surface area) = 304g",
-    "/2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (684 g)",
+    "//1": "human hands assumed to be about 1 sq ft total, 76g (canvas) x 8 (layers) x 0.5 (surface area) = 304g",
+    "//2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (684 g)",
     "type": "ARMOR",
     "name": { "str": "canvas arming mittens", "str_pl": "pairs of canvas arming mittens" },
     "description": "Very thick canvas gauntlets worn in lieu of metal or leather armor.  Though they make it hard to do anything other than swing a weapon, and they're very warm, they offer excellent protection.",
@@ -3165,7 +3165,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 21,
-        "warmth": 50
+        "//warmth": 50
       },
       {
         "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
@@ -3174,7 +3174,7 @@
         "coverage": 72,
         "encumbrance": 7,
         "layers": [ "BELTED" ],
-        "warmth": 20
+        "//warmth": 20
       }
     ]
   },
@@ -3234,7 +3234,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 10,
-        "warmth": 30
+        "//warmth": 30
       },
       {
         "material": [ { "type": "nylon_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
@@ -3243,7 +3243,7 @@
         "coverage": 72,
         "encumbrance": 7,
         "layers": [ "BELTED" ],
-        "warmth": 20
+        "//warmth": 20
       }
     ]
   },
@@ -3304,7 +3304,7 @@
         "coverage": 72,
         "encumbrance": 7,
         "layers": [ "BELTED" ],
-        "warmth": 20
+        "//warmth": 20
       }
     ]
   },
@@ -3378,8 +3378,8 @@
   {
     "id": "gambeson_gloves_nylon",
     "//": "roughly 0.25mm per sheet of nylon making this 8 layers, sheets are 1x2 feet. 4 sheets total",
-    "/1": "human hands assumed to be about 1 sq ft total, 54g (nylon) x 8 (layers) x 0.5 (surface area) = 216g",
-    "/2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (486 g)",
+    "//1": "human hands assumed to be about 1 sq ft total, 54g (nylon) x 8 (layers) x 0.5 (surface area) = 216g",
+    "//2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (486 g)",
     "type": "ARMOR",
     "name": { "str": "nylon arming mittens", "str_pl": "pairs of nylon arming mittens" },
     "description": "Very thick nylon gauntlets worn in lieu of metal or leather armor.  Though they make it hard to do anything other than swing a weapon, and they're very warm, they offer excellent protection.",
@@ -3722,7 +3722,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 23,
-        "warmth": 55
+        "//warmth": 55
       },
       {
         "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
@@ -3731,7 +3731,7 @@
         "coverage": 72,
         "encumbrance": 8,
         "layers": [ "BELTED" ],
-        "warmth": 22
+        "//warmth": 22
       }
     ]
   },
@@ -3792,7 +3792,7 @@
         "covers": [ "arm_l", "arm_r" ],
         "coverage": 100,
         "encumbrance": 23,
-        "warmth": 33
+        "//warmth": 33
       },
       {
         "material": [ { "type": "wool_quilted", "covered_by_mat": 100, "thickness": 2.0 } ],
@@ -3801,7 +3801,7 @@
         "coverage": 72,
         "encumbrance": 8,
         "layers": [ "BELTED" ],
-        "warmth": 22
+        "//warmth": 22
       }
     ]
   },
@@ -3863,7 +3863,7 @@
         "coverage": 72,
         "encumbrance": 8,
         "layers": [ "BELTED" ],
-        "warmth": 20
+        "//warmth": 20
       }
     ]
   },
@@ -3939,10 +3939,10 @@
     "id": "gambeson_gloves_wool",
     "//": "This is made out of quilts rather than sheets because felt is very low density and would need to be very thick - general wool has 1.4g/cm^3 however.",
     "//0": "I am treating this as though it were made of canvas or nylon sheets with a density of 1.4 instead of 1.6 or 1.14.",
-    "/1": "human hands assumed to be about 1 sq ft total, 65g (wool) x 8 (layers) x 0.5 (surface area) = 260g",
-    "/2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (585 g)",
+    "//1": "human hands assumed to be about 1 sq ft total, 65g (wool) x 8 (layers) x 0.5 (surface area) = 260g",
+    "//2": "on top of that, additional 2x as thick layer on about 60% of the hand, so adding another 5 sheets for 9 total (585 g)",
     "type": "ARMOR",
-    "name": { "str": "canvas wool arming mittens", "str_pl": "pairs of wool arming mittens" },
+    "name": { "str": "wool arming mittens", "str_pl": "pairs of wool arming mittens" },
     "description": "Very thick wool gauntlets worn in lieu of metal or leather armor.  Though they make it hard to do anything other than swing a weapon, and they're very warm, they offer excellent protection.",
     "weight": "585 g",
     "volume": "500 ml",
@@ -4515,6 +4515,7 @@
     "name": { "str": "nomad plate armor" },
     "description": "A full body multilayered suit of plate armor with a 4mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "ammo": "battery",
     "armor": [
       {
         "material": [
@@ -4584,6 +4585,7 @@
     "name": { "str": "nomad light plate armor" },
     "description": "A full body multilayered light suit of plate armor with a 2mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "ammo": "battery",
     "armor": [
       {
         "material": [
@@ -4653,6 +4655,7 @@
     "name": { "str": "nomad heavy plate armor" },
     "description": "A full body multilayered heavy suit of plate armor with a 6mm thick chest piece.  The medium steel has been quenched, tempered and affixed over a full-body layered suit of weight-distributing straps.  The armor has an integrated breathable lycra jumpsuit and the torso has a spall liner of aramid panels.  Electronics run below the surface and circulate cool air to the skin, drawing power from your internal CBM reservoir.",
     "material": [ "qt_steel", "qt_steel_chain", "lycra", "kevlar" ],
+    "ammo": "battery",
     "armor": [
       {
         "material": [

@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 
+#include "body_part_set.h"
 #include "bodypart.h"
 #include "damage.h"
 #include "dialogue_helpers.h"
@@ -30,6 +31,7 @@ class JsonOut;
 class nc_color;
 class spell;
 class time_duration;
+
 struct dealt_projectile_attack;
 struct requirement_data;
 

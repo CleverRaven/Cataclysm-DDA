@@ -47,7 +47,7 @@
     "skills": [
       { "skill": "firstaid", "bonus": 3 },
       { "skill": "cooking", "bonus": 5 },
-      { "skill": "fabrication", "bonus2": 5 },
+      { "skill": "fabrication", "bonus": 5 },
       { "skill": "survival", "bonus": 2 },
       { "skill": "melee", "bonus": 5 },
       { "skill": "bashing", "bonus": 4 },

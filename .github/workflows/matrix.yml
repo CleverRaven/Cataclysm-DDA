@@ -245,9 +245,7 @@ jobs:
     steps:
     - name: checkout repository
       if: ${{ env.SKIP == 'false' }}
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 1
+      uses: actions/checkout@v3
     - name: install dependencies (ubuntu)
       if: ${{ env.SKIP == 'false' && runner.os == 'Linux' }}
       run: |
@@ -295,7 +293,7 @@ jobs:
       shell: bash
     - name: ccache cache files
       if: ${{ env.SKIP == 'false' && ( runner.os == 'Linux' || runner.os == 'macOS' ) }}
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ${{ steps.get-vars.outputs.ccache-path }}
         # double-dash after compiler is not a typo, it is to disambiguate between g++-<date> and g++-11-<date> for restore key prefix matching
@@ -329,18 +327,18 @@ jobs:
         echo ${{ github.event.number }} > pull_request_id
         echo "false" > ${{ env.ARCHIVE_SUCCESS }}
       if: ${{ env.ARCHIVE_SUCCESS && failure() }}
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3.1.2
       if: ${{ always() && env.ARCHIVE_SUCCESS }}
       with:
         name: pull_request_id
         path: pull_request_id
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3.1.2
       if: ${{ always() && env.ARCHIVE_SUCCESS }}
       with:
         name: ${{ env.ARCHIVE_SUCCESS }}
         path: ${{ env.ARCHIVE_SUCCESS }}
     - name: upload artifacts if failed
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3.1.2
       if: failure()
       with:
         name: cata_test

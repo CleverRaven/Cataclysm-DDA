@@ -6475,7 +6475,6 @@ void unload_loot_activity_actor::do_turn( player_activity &act, Character &you )
                             continue;
                         }
                         you.gunmod_remove( *it->first, *mod );
-                        move_item( you, *mod, 1, src_loc, src_loc, this_veh, this_part );
                         if( you.moves <= 0 ) {
                             return;
                         }

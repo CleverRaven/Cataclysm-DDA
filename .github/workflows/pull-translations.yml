@@ -13,7 +13,7 @@ jobs:
         run: |
           curl -sL https://github.com/transifex/cli/releases/download/v1.6.4/tx-linux-amd64.tar.gz | sudo tar zxvf - -C /usr/bin tx
       - name: "Delete existing i18n branch"
-        uses: actions/github-script@v6
+        uses: actions/github-script@v6.3.3
         with:
           github-token: ${{ secrets.TX_PR_CREATOR }}
           script: |
@@ -37,6 +37,8 @@ jobs:
         env:
           TX_TOKEN: ${{ secrets.TX_TOKEN }}
         run: tx pull --force
+      - name: "Update stats"
+        run: ./lang/update_stats.sh
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with:

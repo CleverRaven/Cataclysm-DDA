@@ -379,5 +379,20 @@
     "id": [ "m26_mass_standalone" ],
     "type": "MIGRATION",
     "replace": "small_shotgun"
+  },
+  {
+    "id": [ "feral_militia_gun" ],
+    "type": "MIGRATION",
+    "replace": "feral_rifle"
+  },
+  {
+    "id": [ "feral_jackboot_gun" ],
+    "type": "MIGRATION",
+    "replace": "feral_shotgun"
+  },
+  {
+    "id": [ "feral_m9" ],
+    "type": "MIGRATION",
+    "replace": "feral_pistol"
   }
 ]

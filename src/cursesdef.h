@@ -130,7 +130,9 @@ void endwin();
 void mvwaddch( const window &win, const point &p, chtype ch );
 void wclear( const window &win );
 void curs_set( int visibility );
+// Set specified color, possibly including bold/blink attributes, for the window
 void wattron( const window &win, const nc_color &attrs );
+// Reset window color to white on black, no bold, no blink
 void wattroff( const window &win, nc_color attrs );
 void waddch( const window &win, chtype ch );
 int getmaxy( const window &win );

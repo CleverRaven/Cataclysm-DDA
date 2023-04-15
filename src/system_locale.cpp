@@ -1,3 +1,5 @@
+#include <cstring>
+#include <set>
 #include <vector>
 
 #if defined(_WIN32)
@@ -150,7 +152,7 @@ std::optional<std::string> Language()
     if( locale == nullptr ) {
         return std::nullopt;
     }
-    if( strcmp( locale, "C" ) == 0 ) {
+    if( std::strcmp( locale, "C" ) == 0 ) {
         return "en";
     }
     return matchGameLanguage( locale );
