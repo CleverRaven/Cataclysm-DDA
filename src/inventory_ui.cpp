@@ -3513,7 +3513,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
 
         if( input.entry != nullptr ) {
             highlight( input.entry->any_item() );
-            if( input.action == "SELECT" ) {
+            if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
                 toggle_entry( input.entry );
                 just_selected = input.entry;
             } else if( input.action != "MOUSE_MOVE" ) {
@@ -3673,7 +3673,7 @@ void inventory_multiselector::on_input( const inventory_input &input )
 {
     if( input.entry != nullptr ) { // Single Item from mouse
         highlight( input.entry->any_item() );
-        if( input.action == "SELECT" ) {
+        if( input.action == "SELECT" || input.action == "ANY_INPUT" ) {
             toggle_entries( count );
         }
     }
