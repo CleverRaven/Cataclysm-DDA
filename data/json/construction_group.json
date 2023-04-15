@@ -1728,5 +1728,10 @@
     "type": "construction_group",
     "id": "place_hd_compressor_unit",
     "name": "Place High Pressure Compressor Unit"
+  },
+  {
+    "type": "construction_group",
+    "id": "obstacle_rock",
+    "name": "Build a Rocky Obstacle"
   }
 ]

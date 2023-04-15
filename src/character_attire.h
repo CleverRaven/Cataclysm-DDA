@@ -81,6 +81,7 @@ class outfit
         bool is_barefoot() const;
         item item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const;
         item item_worn_with_flag( const flag_id &f ) const;
+        item *item_worn_with_id( const itype_id &i );
         std::optional<const item *> item_worn_with_inv_let( char invlet ) const;
         // get the best blocking value with the flag that allows worn.
         item *best_shield();

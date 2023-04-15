@@ -17,20 +17,13 @@
     "components": [
       [ [ "veggy_any_corn_uncooked", 8, "LIST" ] ],
       [ [ "salt", 7 ], [ "seasoning_salt", 7 ], [ "soysauce", 4 ] ],
-      [
-        [ "seasoning_italian", 7 ],
-        [ "wild_herbs", 7 ],
-        [ "pepper", 7 ],
-        [ "cinnamon", 7 ],
-        [ "curry_powder", 7 ],
-        [ "mustard_powder", 7 ]
-      ],
+      [ [ "seasoning_italian", 7 ], [ "wild_herbs", 7 ], [ "pepper", 7 ], [ "cinnamon", 7 ], [ "mustard_powder", 7 ] ],
       [ [ "any_butter_or_oil", 4, "LIST" ] ],
       [ [ "bell_pepper", 1 ] ],
       [ [ "onion", 1 ] ],
       [ [ "cheese", 6 ], [ "can_cheese", 6 ], [ "cheese_hard", 6 ] ],
       [ [ "garlic_clove", 1 ] ],
-      [ [ "chilly-p", 7 ] ]
+      [ [ "chilly-p", 7 ], [ "curry_powder", 7 ] ]
     ]
   },
   {

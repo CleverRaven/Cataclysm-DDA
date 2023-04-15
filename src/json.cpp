@@ -128,7 +128,7 @@ TextJsonObject::TextJsonObject( TextJsonIn &j )
     final_separator = jsin->get_ate_separator();
 }
 
-void TextJsonObject::mark_visited( const std::string &name ) const
+void TextJsonObject::mark_visited( const std::string_view name ) const
 {
 #ifndef CATA_IN_TOOL
     visited_members.emplace( name );
@@ -194,12 +194,12 @@ void TextJsonObject::copy_visited_members( const TextJsonObject &rhs ) const
 #endif
 }
 
-int TextJsonObject::verify_position( const std::string &name,
+int TextJsonObject::verify_position( const std::string_view name,
                                      const bool throw_exception ) const
 {
     if( !jsin ) {
         if( throw_exception ) {
-            throw JsonError( std::string( "member lookup on empty object: " ) + name );
+            throw JsonError( str_cat( "member lookup on empty object: ", name ) );
         }
         // 0 is always before the opening brace,
         // so it will never indicate a valid member position
@@ -209,7 +209,7 @@ int TextJsonObject::verify_position( const std::string &name,
     if( iter == positions.end() ) {
         if( throw_exception ) {
             jsin->seek( start );
-            jsin->error( "member not found: " + name );
+            jsin->error( str_cat( "member not found: ", name ) );
         }
         // 0 is always before the opening brace,
         // so it will never indicate a valid member position
@@ -292,7 +292,7 @@ void TextJsonObject::throw_error( const std::string &err ) const
     jsin->error( err );
 }
 
-TextJsonIn *TextJsonObject::get_raw( const std::string &name ) const
+TextJsonIn *TextJsonObject::get_raw( const std::string_view name ) const
 {
     int pos = verify_position( name );
     mark_visited( name );
@@ -2307,11 +2307,11 @@ TextJsonIn &TextJsonValue::seek() const
     return jsin_;
 }
 
-TextJsonValue TextJsonObject::get_member( const std::string &name ) const
+TextJsonValue TextJsonObject::get_member( const std::string_view name ) const
 {
     const auto iter = positions.find( name );
     if( !jsin || iter == positions.end() ) {
-        throw_error( "missing required field \"" + name + "\" in object: " + str() );
+        throw_error( str_cat( "missing required field \"", name, "\" in object: ", str() ) );
     }
     mark_visited( name );
     return TextJsonValue( *jsin, iter->second );

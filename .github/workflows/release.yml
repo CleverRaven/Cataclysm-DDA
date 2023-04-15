@@ -32,10 +32,8 @@ jobs:
     steps:
       - name: Get build timestamp
         id: get-timestamp
-        uses: nanzm/get-time-action@v1.1
-        with:
-          timeZone: 0
-          format: 'YYYY-MM-DD-HHmm'
+        run: |
+          echo "time=$(/bin/date -u "+%Y-%m-%d-%H%M")" >> $GITHUB_OUTPUT
       - name: Generate environmental variables
         id: generate_env_vars
         run: |
@@ -62,7 +60,7 @@ jobs:
           gh api \
             --method POST \
             -H "Accept: application/vnd.github.v3+json" \
-            /repos/CleverRaven/Cataclysm-DDA/releases/generate-notes \
+            /repos/${{ github.repository }}/releases/generate-notes \
             -f tag_name='${{ steps.generate_env_vars.outputs.tag_name }}' \
             -f target_commitish='master' \
             -q .body > CHANGELOG.md
@@ -195,7 +193,7 @@ jobs:
         uses: lukka/get-cmake@latest
       - name: Install dependencies (windows msvc) (1/3)
         if: runner.os == 'Windows'
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.3.1
       - name: Install dependencies (windows msvc) (2/3)
         if: runner.os == 'Windows'
         uses: lukka/run-vcpkg@v11

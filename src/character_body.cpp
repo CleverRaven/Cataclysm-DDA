@@ -62,6 +62,7 @@ static const json_character_flag json_flag_HEAT_IMMUNE( "HEAT_IMMUNE" );
 static const json_character_flag json_flag_IGNORE_TEMP( "IGNORE_TEMP" );
 static const json_character_flag json_flag_LIMB_LOWER( "LIMB_LOWER" );
 static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
+static const json_character_flag json_flag_PAIN_IMMUNE( "PAIN_IMMUNE" );
 
 static const trait_id trait_BARK( "BARK" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
@@ -74,7 +75,6 @@ static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
 static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
@@ -1100,7 +1100,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
     // If this is an NPC, the player is the one examining them and so the fact
     // that they can't self-diagnose effectively doesn't matter
-    bool no_feeling = is_avatar() && has_trait( trait_NOPAIN );
+    bool no_feeling = is_avatar() && has_flag( json_flag_PAIN_IMMUNE );
 
     for( size_t i = 0; i < parts.size(); i++ ) {
         const healable_bp &e = parts[i];

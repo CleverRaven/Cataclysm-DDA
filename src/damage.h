@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "units.h"
 #include "type_id.h"
 
 class JsonArray;
@@ -39,6 +40,15 @@ struct enum_traits<damage_type> {
     static constexpr damage_type last = damage_type::NUM;
 };
 
+struct barrel_desc {
+    units::length barrel_length;
+    float amount;
+
+    barrel_desc();
+    barrel_desc( units::length bl, float amt ) : barrel_length( bl ), amount( amt ) {}
+    void deserialize( const JsonObject &jo );
+};
+
 struct damage_unit {
     damage_type type;
     float amount;
@@ -48,6 +58,8 @@ struct damage_unit {
 
     float unconditional_res_mult;
     float unconditional_damage_mult;
+
+    std::vector<barrel_desc> barrels;
 
     damage_unit( damage_type dt, float amt, float arpen = 0.0f, float arpen_mult = 1.0f,
                  float dmg_mult = 1.0f, float unc_arpen_mult = 1.0f, float unc_dmg_mult = 1.0f ) :
@@ -72,6 +84,9 @@ struct damage_instance {
     float total_damage() const;
     void clear();
     bool empty() const;
+
+    // calculates damage taking barrel length into consideration for the amount
+    damage_instance di_considering_length( units::length barrel_length ) const;
 
     std::vector<damage_unit>::iterator begin();
     std::vector<damage_unit>::const_iterator begin() const;

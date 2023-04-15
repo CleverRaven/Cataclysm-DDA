@@ -1251,6 +1251,11 @@ void veh_interact::do_repair()
                 }
                 nmsg += res.second;
             }
+            if( pt.has_flag( vp_flag::carried_flag ) ) {
+                nmsg += colorize( _( "\nUnracking is required before replacing this part.\n" ),
+                                  c_red );
+                ok = false;
+            }
 
         } else {
             if( !pt.is_repairable() ) {
