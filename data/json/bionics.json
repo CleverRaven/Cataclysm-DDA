@@ -960,6 +960,7 @@
     "act_cost": "2 J",
     "react_cost": "2 J",
     "time": "1 s",
+    "included": true,
     "flags": [ "BIONIC_TOGGLED" ],
     "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "LUMINATION", "add": 60 } ] } ],
     "auto_deactivates": [ "bio_flashlight_highmode" ],
