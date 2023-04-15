@@ -19,7 +19,10 @@
     "variants": [
       {
         "id": "alt_broadway_tshirt2",
-        "name": { "str": "Seven Faceless Voids for Seven Brothers t-shirt", "str_pl": "Seven Faceless Voids for Seven Brothers t-shirts" },
+        "name": {
+          "str": "Seven Faceless Voids for Seven Brothers t-shirt",
+          "str_pl": "Seven Faceless Voids for Seven Brothers t-shirts"
+        },
         "description": "A pink t-shirt with seven ominous figures in bridal wear facing towards seven identical men.  There are tears running down from the eyes of the men.",
         "weight": 1
       },
