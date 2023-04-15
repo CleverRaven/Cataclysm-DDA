@@ -290,12 +290,8 @@ void suffer::while_underwater( Character &you )
         you.oxygen += 12;
     }
     if( you.oxygen <= 5 ) {
-        if( you.has_bionic( bio_gills ) && you.activate_bionic( bio_gills ) ) {
-            you.add_msg_if_player( m_good, _( "Your bionic turns on to stop you from drowning." ) );
-        } else {
-            you.add_msg_if_player( m_bad, _( "You're drowning!" ) );
-            you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
-        }
+        you.add_msg_if_player( m_bad, _( "You're drowning!" ) );
+        you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
     }
     if( you.has_trait( trait_FRESHWATEROSMOSIS ) &&
         !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
