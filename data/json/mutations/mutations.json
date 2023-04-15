@@ -814,7 +814,7 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "SLOWLEARNER" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 15 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "multiply": 0.15 } ] } ]
   },
   {
     "type": "mutation",
@@ -1477,7 +1477,7 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "FASTLEARNER" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": -15 } ] } ]
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "multiply": -0.15 } ] } ]
   },
   {
     "type": "mutation",
