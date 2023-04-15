@@ -165,7 +165,7 @@
     ],
     "tools": [
       [ [ "water_boiling_heat", 6, "LIST" ] ],
-      [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ] ],
+      [ [ "pressure_cooker", -1 ], [ "small_pressure_vessel", -1 ], [ "makeshift_pressure_cooker", -1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "can_sealer", -1 ] ],
       [ [ "tongs", -1 ] ]
