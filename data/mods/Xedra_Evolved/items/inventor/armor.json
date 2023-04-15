@@ -195,7 +195,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "jump driver" },
-    "description": "Heavily mechanized boots with small integrated battery inside.  Upon activation make you jump higher and farther.",
+    "description": "Heavily mechanized boots with small integrated battery slot inside.  Upon activation make you jump higher and farther.",
     "weight": "1657 g",
     "volume": "1500 ml",
     "material": [ "steel", "copper" ],
