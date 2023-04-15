@@ -485,12 +485,13 @@ struct mtype {
         /** Emission sources that cycle each turn the monster remains alive */
         std::map<emit_id, time_duration> emit_fields;
 
+        /** Mount-specific items this monster spawns with */
+        mount_item_data mount_items;
+
         /**
          * If this monster is a rideable mech with enhanced strength, this is the strength it gives to the player
          */
         int mech_str_bonus = 0;
-
-        mount_item_data mount_items;
 
         // Grinding cap for training player's melee skills when hitting this monster, defaults to MAX_SKILL.
         int melee_training_cap;
