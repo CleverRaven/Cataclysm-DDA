@@ -3306,7 +3306,7 @@ std::optional<int> iuse::pick_lock( Character *p, item *it, bool, const tripoint
     time_duration duration = 5_seconds;
     if( !it->has_flag( flag_PERFECT_LOCKPICK ) ) {
         duration = std::max( 30_seconds,
-                             ( 10_minutes - time_duration::from_minutes( qual + you.dex_cur / 4 +
+                             ( 10_minutes - time_duration::from_minutes( qual + static_cast<float>( you.dex_cur ) / 4.0f +
                                      you.get_skill_level( skill_traps ) ) ) * duration_proficiency_factor );
     }
 
