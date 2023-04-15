@@ -294,9 +294,6 @@
     "variants": [
       {
         "id": "sig_mosquito",
-        "looks_like": "glock_17",
-        "type": "GUN",
-        "reload_noise_volume": 10,
         "name": { "str_sp": "SIG Mosquito" },
         "description": "A popular, small .22 LR pistol.  One of the many polymer frame pistols produced during the late 20th and early 21st centuries; it has an underbarrel rail.",
         "weight": 1
@@ -375,13 +372,13 @@
     "id": "j22",
     "looks_like": "glock_17",
     "type": "GUN",
+    "copy-from": "pistol_backup",
     "name": { "str": "cheap .22 caliber pistol" },
     "description": "Made from only the cheapest of budget metals, firing one of the weakest cartridges, and having a hearty laugh at the concept of user safety, this .22 caliber pocket pistol is of questionable utility at best.  Affordably priced before the Cataclysm, the pistol’s price point was arguably its only positive element, an element which pertains zero bearing on your current situation.",
     "variant_type": "gun",
     "variants": [
       {
         "id": "j22",
-        "copy-from": "pistol_backup",
         "name": { "str": "Jennings J-22" },
         "description": "One of the quintessential 'Saturday night specials', the Jennings J-22 was very affordably priced with its injection-molded zinc slide and frame.  Intended to fill the void left after small pocket pistols were banned from import, these were more commonly used by criminals unfazed by their glaring safety issues.",
         "weight": 1
