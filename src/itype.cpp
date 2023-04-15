@@ -109,7 +109,7 @@ int itype::damage_level( int damage ) const
     return std::clamp( 1 + 4 * damage / damage_max(), 0, 5 );
 }
 
-bool itype::has_any_quality( const std::string &quality ) const
+bool itype::has_any_quality( const std::string_view quality ) const
 {
     return std::any_of( qualities.begin(),
     qualities.end(), [&quality]( const std::pair<quality_id, int> &e ) {

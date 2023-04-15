@@ -1181,7 +1181,7 @@ struct itype {
         std::map<quality_id, int> charged_qualities;
 
         // True if this has given quality or charged_quality (regardless of current charge).
-        bool has_any_quality( const std::string &quality ) const;
+        bool has_any_quality( std::string_view quality ) const;
 
         // Properties are assigned to the type (belong to the item definition)
         std::map<std::string, std::string> properties;
@@ -1427,8 +1427,8 @@ struct itype {
         bool is_basic_component() const;
 };
 
-void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );
-void load_charge_migration_blacklist( const JsonObject &jo, const std::string &src );
-void load_temperature_removal_blacklist( const JsonObject &jo, const std::string &src );
+void load_charge_removal_blacklist( const JsonObject &jo, std::string_view src );
+void load_charge_migration_blacklist( const JsonObject &jo, std::string_view src );
+void load_temperature_removal_blacklist( const JsonObject &jo, std::string_view src );
 
 #endif // CATA_SRC_ITYPE_H

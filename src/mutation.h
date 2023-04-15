@@ -89,7 +89,7 @@ struct mut_transform {
     /** subtracted from @ref Creature::moves when transformation is successful */
     int moves = 0;
     mut_transform();
-    bool load( const JsonObject &jsobj, const std::string &member );
+    bool load( const JsonObject &jsobj, std::string_view member );
 };
 
 struct reflex_activation_data {

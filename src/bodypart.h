@@ -109,7 +109,7 @@ struct limb_score {
     public:
         static void load_limb_scores( const JsonObject &jo, const std::string &src );
         static void reset();
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         static const std::vector<limb_score> &get_all();
 
         const limb_score_id &getId() const {
@@ -335,7 +335,7 @@ struct body_part_type {
         // if secondary is true instead returns a part from only the secondary sublocations
         sub_bodypart_id random_sub_part( bool secondary ) const;
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
         void finalize();
         void check() const;
 

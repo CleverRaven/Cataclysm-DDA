@@ -431,7 +431,7 @@ class monster : public Creature
         /** Test whether the monster has the specified special regardless of readiness. */
         bool has_special( const std::string &special_name ) const;
         /** Test whether the specified special is ready. */
-        bool special_available( const std::string &special_name ) const;
+        bool special_available( std::string_view special_name ) const;
 
         void process_turn() override;
         /** Resets the value of all bonus fields to 0, clears special effect flags. */
@@ -588,7 +588,7 @@ class monster : public Creature
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
         int hp = 0;
-        std::map<std::string, mon_special_attack> special_attacks;
+        std::map<std::string, mon_special_attack, std::less<>> special_attacks;
         std::optional<tripoint_abs_ms> goal;
         bool dead = false;
         /** Normal upgrades **/

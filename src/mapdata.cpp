@@ -336,7 +336,7 @@ map_bash_info::map_bash_info() : str_min( -1 ), str_max( -1 ),
     drop_group( Item_spawn_data_EMPTY_GROUP ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
+bool map_bash_info::load( const JsonObject &jsobj, const std::string_view member,
                           map_object_type obj_type, const std::string &context )
 {
     if( !jsobj.has_object( member ) ) {
@@ -401,7 +401,7 @@ bool map_bash_info::load( const JsonObject &jsobj, const std::string &member,
 map_deconstruct_info::map_deconstruct_info() : can_do( false ), deconstruct_above( false ),
     ter_set( ter_str_id::NULL_ID() ), furn_set( furn_str_id::NULL_ID() ) {}
 
-bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &member,
+bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string_view member,
                                  bool is_furniture, const std::string &context )
 {
     if( !jsobj.has_object( member ) ) {
@@ -421,7 +421,7 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     return true;
 }
 
-bool map_shoot_info::load( const JsonObject &jsobj, const std::string &member, bool was_loaded )
+bool map_shoot_info::load( const JsonObject &jsobj, const std::string_view member, bool was_loaded )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -450,7 +450,7 @@ bool map_shoot_info::load( const JsonObject &jsobj, const std::string &member, b
 furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
     allowed_volume( units::volume_max ) {}
 
-bool furn_workbench_info::load( const JsonObject &jsobj, const std::string &member )
+bool furn_workbench_info::load( const JsonObject &jsobj, const std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 
@@ -464,7 +464,7 @@ bool furn_workbench_info::load( const JsonObject &jsobj, const std::string &memb
 plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_id::NULL_ID() ),
     growth_multiplier( 1.0f ), harvest_multiplier( 1.0f ) {}
 
-bool plant_data::load( const JsonObject &jsobj, const std::string &member )
+bool plant_data::load( const JsonObject &jsobj, const std::string_view member )
 {
     JsonObject j = jsobj.get_object( member );
 

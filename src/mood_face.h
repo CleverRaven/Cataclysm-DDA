@@ -18,7 +18,7 @@ class mood_face
         static void load_mood_faces( const JsonObject &jo, const std::string &src );
         static void reset();
 
-        void load( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, std::string_view src );
 
         static const std::vector<mood_face> &get_all();
 

@@ -2071,7 +2071,7 @@ size_t worldfactory::get_world_index( const std::string &name )
 }
 
 // Helper predicate to exclude files from deletion when resetting a world directory.
-static bool isForbidden( const std::string &candidate )
+static bool isForbidden( const std::string_view candidate )
 {
     return candidate.find( PATH_INFO::worldoptions() ) != std::string::npos ||
            candidate.find( "mods.json" ) != std::string::npos;
