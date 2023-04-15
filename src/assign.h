@@ -39,7 +39,7 @@ class is_optional : public detail::is_optional_helper<typename std::decay<T>::ty
 };
 
 void report_strict_violation( const JsonObject &jo, const std::string &message,
-                              const std::string &name );
+                              std::string_view name );
 
 template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
 bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false,
@@ -94,7 +94,7 @@ bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict 
 bool assign( const JsonObject &jo, const std::string &name, bool &val, bool strict = false );
 
 template <typename T, typename std::enable_if<std::is_arithmetic<T>::value, int>::type = 0>
-bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val,
+bool assign( const JsonObject &jo, const std::string_view name, std::pair<T, T> &val,
              bool strict = false, T lo = std::numeric_limits<T>::lowest(), T hi = std::numeric_limits<T>::max() )
 {
     std::pair<T, T> out;
@@ -133,7 +133,7 @@ bool assign( const JsonObject &jo, const std::string &name, std::pair<T, T> &val
 // handled below in a separate function.
 template < typename T, typename std::enable_if < std::is_class<T>::value &&!is_optional<T>::value,
            int >::type = 0 >
-bool assign( const JsonObject &jo, const std::string &name, T &val, bool strict = false )
+bool assign( const JsonObject &jo, std::string_view name, T &val, bool strict = false )
 {
     T out;
     if( !jo.read( name, out ) ) {
@@ -154,7 +154,7 @@ namespace details
 {
 
 template <typename T, typename Set>
-bool assign_set( const JsonObject &jo, const std::string &name, Set &val )
+bool assign_set( const JsonObject &jo, const std::string_view name, Set &val )
 {
     JsonObject add = jo.get_object( "extend" );
     add.allow_omitted_members();
@@ -192,14 +192,14 @@ bool assign_set( const JsonObject &jo, const std::string &name, Set &val )
 
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    const JsonObject &jo, const std::string &name, std::set<T> &val, bool = false )
+    const JsonObject &jo, const std::string_view name, std::set<T> &val, bool = false )
 {
     return details::assign_set<T, std::set<T>>( jo, name, val );
 }
 
 template <typename T>
 typename std::enable_if<std::is_constructible<T, std::string>::value, bool>::type assign(
-    const JsonObject &jo, const std::string &name, cata::flat_set<T> &val, bool = false )
+    const JsonObject &jo, const std::string_view name, cata::flat_set<T> &val, bool = false )
 {
     return details::assign_set<T, cata::flat_set<T>>( jo, name, val );
 }

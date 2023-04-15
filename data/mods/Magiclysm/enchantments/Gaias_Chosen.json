@@ -80,7 +80,7 @@
     "effect": [
       { "u_teleport": { "u_val": "dust_reborn_teleport" } },
       { "u_lose_trait": "DUST_REBORN" },
-      { "arithmetic": [ { "u_val": "pain" }, "=", { "const": 0 } ] },
+      { "math": [ "u_pain()", "=", "0" ] },
       { "arithmetic": [ { "u_val": "stored_kcal" }, "=", { "const": 15000 } ] },
       { "arithmetic": [ { "u_val": "thirst" }, "=", { "const": 0 } ] },
       { "arithmetic": [ { "u_val": "vitamin", "name": "bad_food" }, "=", { "const": 0 } ] },

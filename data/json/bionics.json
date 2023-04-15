@@ -28,7 +28,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
     "act_cost": "1 J",
     "react_cost": "1 J",
-    "trigger_cost": "25 kJ",
+    "trigger_cost": "5 J",
     "time": "1 s"
   },
   {

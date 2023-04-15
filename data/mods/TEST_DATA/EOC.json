@@ -58,6 +58,23 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "EOC_mess_pass",
+    "effect": { "math": [ "weighted_var", "=", "1" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_mess_fail",
+    "effect": { "math": [ "weighted_var", "=", "-999" ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_math_weighted_list",
+    "effect": {
+      "weighted_list_eocs": [ [ "EOC_mess_pass", { "math": [ "u_pain()" ] } ], [ "EOC_mess_fail", { "math": [ "u_val('stamina')" ] } ] ]
+    }
+  },
+  {
+    "type": "effect_on_condition",
     "id": "EOC_increment_var",
     "//": "tests adding a variable to the player",
     "effect": [ { "math": [ "u_activitiy_incrementer", "++" ] } ]
