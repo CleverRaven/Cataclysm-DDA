@@ -285,17 +285,12 @@ void suffer::while_underwater( Character &you )
     if( !you.has_flag( json_flag_GILLS ) ) {
         you.oxygen--;
     }
-    if( you.oxygen < 12 && you.worn_with_flag( flag_REBREATHER ) ) {
+    if( you.oxygen < 12 && ( you.worn_with_flag( flag_REBREATHER ) || you.has_flag( flag_REBREATHER ) ) ) {
         you.oxygen += 12;
     }
     if( you.oxygen <= 5 ) {
-        if( you.has_bionic( bio_gills ) && you.get_power_level() >= bio_gills->power_trigger ) {
-            you.oxygen += 5;
-            you.mod_power_level( -bio_gills->power_trigger );
-        } else {
-            you.add_msg_if_player( m_bad, _( "You're drowning!" ) );
-            you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
-        }
+        you.add_msg_if_player( m_bad, _( "You're drowning!" ) );
+        you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
     }
     if( you.has_trait( trait_FRESHWATEROSMOSIS ) &&
         !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
@@ -730,7 +725,7 @@ void suffer::from_asthma( Character &you, const int current_stim )
     bool auto_use = you.has_charges( itype_inhaler, 1 ) || you.has_charges( itype_oxygen_tank, 1 ) ||
                     you.has_charges( itype_smoxygen_tank, 1 );
     bool oxygenator = you.has_bionic( bio_gills ) &&
-                      you.get_power_level() >= ( bio_gills->power_trigger / 8 );
+                      you.get_power_level() >= ( bio_gills->power_trigger );
     if( you.underwater ) {
         you.oxygen = you.oxygen / 2;
         auto_use = false;
@@ -749,8 +744,8 @@ void suffer::from_asthma( Character &you, const int current_stim )
                           map_inv.has_charges( itype_smoxygen_tank, 1 );
         // check if character has an oxygenator first
         if( oxygenator ) {
-            you.mod_power_level( -bio_gills->power_trigger / 8 );
-            you.add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
+            you.mod_power_level( -bio_gills->power_trigger );
+            you.add_msg_if_player( m_info, _( "You use your bionic to clear it up, "
                                               "then go back to sleep." ) );
         } else if( auto_use  && !you.has_bionic( bio_sleep_shutdown ) ) {
             if( you.use_charges_if_avail( itype_inhaler, 1 ) ) {
