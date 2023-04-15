@@ -74,14 +74,14 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SOLDIER_UPGRADE",
-    "default": "mon_zombie_kevlar_1",
+    "default": "mon_zombie_kevlar_0",
     "//": "Masters pick from here when upgrading.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
       { "monster": "mon_zombie_soldier_blackops_1", "weight": 250 },
       { "monster": "mon_zombie_soldier_acid_1", "weight": 200 },
       { "monster": "mon_zombie_soldier_acid_2", "weight": 250 },
       { "monster": "mon_bestial_stalker", "weight": 250 },
-      { "monster": "mon_zombie_kevlar_1", "weight": 200 },
+      { "monster": "mon_zombie_kevlar_0", "weight": 200 },
       { "monster": "mon_boomer", "weight": 25 },
       { "monster": "mon_zombie_hollow", "weight": 25 },
       { "monster": "mon_skeleton", "weight": 50 }
