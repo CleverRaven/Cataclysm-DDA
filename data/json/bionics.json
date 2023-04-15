@@ -1000,14 +1000,7 @@
     "act_cost": "250 J",
     "react_cost": "250 J",
     "time": "1 s",
-    "enchantments": [
-      {
-        "condition": "ACTIVE",
-        "values": [
-          { "value": "REGEN_STAMINA", "multiply": 1.0 }
-        ]
-      }
-    ],
+    "enchantments": [ { "condition": "ACTIVE", "values": [ { "value": "REGEN_STAMINA", "multiply": 1.0 } ] } ],
     "active_flags": [ "REBREATHER" ]
   },
   {

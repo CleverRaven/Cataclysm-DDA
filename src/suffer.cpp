@@ -285,7 +285,8 @@ void suffer::while_underwater( Character &you )
     if( !you.has_flag( json_flag_GILLS ) ) {
         you.oxygen--;
     }
-    if( you.oxygen < 12 && ( you.worn_with_flag( flag_REBREATHER ) || you.has_flag( flag_REBREATHER ) ) ) {
+    if( you.oxygen < 12 && ( you.worn_with_flag( flag_REBREATHER ) ||
+                             you.has_flag( flag_REBREATHER ) ) ) {
         you.oxygen += 12;
     }
     if( you.oxygen <= 5 ) {
