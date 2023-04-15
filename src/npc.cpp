@@ -1896,7 +1896,7 @@ void npc::decide_needs()
     if( weapon && weapon->is_gun() ) {
         units::energy energy_drain = weapon->get_gun_energy_drain();
         if( energy_drain > 0_kJ ) {
-            units::energy energy_charges = weapon->energy_remaining( this )
+            units::energy energy_charges = weapon->energy_remaining( this );
             needrank[need_ammo] = static_cast<double>( energy_charges / energy_drain );
         } else {
             const ammotype ammo_type = weapon->ammo_type();

@@ -1477,7 +1477,7 @@ void npc::evaluate_best_weapon( const Creature *target )
         }
         if( rules.has_flag( ally_rule::use_guns ) ) {
             for( const std::pair<const gun_mode_id, gun_mode> &mode : it->gun_all_modes() ) {
-				units::energy available_energy = it->energy_remaining( this );
+                units::energy available_energy = it->energy_remaining( this );
                 if( !( mode.second.melee() || mode.second.flags.count( "NPC_AVOID" ) ||
                        !can_use( *mode.second.target ) ||
                        ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
