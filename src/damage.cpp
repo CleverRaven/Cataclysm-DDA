@@ -136,6 +136,28 @@ float damage_instance::total_damage() const
     }
     return ret;
 }
+
+//This returns the damage from this damage_instance. The damage done to the target will be reduced by their armor.
+damage_instance damage_instance::di_considering_length( units::length barrel_length ) const
+{
+
+    if( barrel_length == 0_mm ) {
+        return *this;
+    }
+
+    damage_instance di = damage_instance();
+    di.damage_units = this->damage_units;
+    for( damage_unit &du : di.damage_units ) {
+        if( !du.barrels.empty() ) {
+            std::vector<std::pair<float, float>> lerp_points;
+            for( const barrel_desc &b : du.barrels ) {
+                lerp_points.emplace_back( static_cast<float>( b.barrel_length.value() ), b.amount );
+            }
+            du.amount = multi_lerp( lerp_points, barrel_length.value() );
+        }
+    }
+    return di;
+}
 void damage_instance::clear()
 {
     damage_units.clear();
@@ -172,6 +194,14 @@ void damage_instance::add( const damage_unit &added_du )
 
         du.unconditional_res_mult *= added_du.unconditional_res_mult;
         du.unconditional_damage_mult *= added_du.unconditional_damage_mult;
+
+        if( added_du.barrels.empty() ) {
+            if( du.barrels.empty() ) {
+                du.barrels = added_du.barrels;
+            } else {
+                debugmsg( "Tried to add two sets of barrel definitions for damage together, this is not currently supported." );
+            }
+        }
     }
 }
 
@@ -410,7 +440,12 @@ static damage_unit load_damage_unit( const JsonObject &curr )
     float unc_armor_mul = curr.get_float( "constant_armor_multiplier", 1.0f );
     float unc_damage_mul = curr.get_float( "constant_damage_multiplier", 1.0f );
 
-    return damage_unit( dt, amount, arpen, armor_mul, damage_mul, unc_armor_mul, unc_damage_mul );
+    damage_unit du( dt, amount, arpen, armor_mul, damage_mul, unc_armor_mul,
+                    unc_damage_mul );
+
+    optional( curr, false, "barrels", du.barrels );
+
+    return du;
 }
 
 static damage_unit load_damage_unit_inherit( const JsonObject &curr, const damage_instance &parent )
@@ -446,6 +481,9 @@ static damage_unit load_damage_unit_inherit( const JsonObject &curr, const damag
     }
     if( !curr.has_float( "constant_damage_multiplier" ) ) {
         ret.unconditional_damage_mult = parent_du.unconditional_damage_mult;
+    }
+    if( !curr.has_array( "barrels" ) ) {
+        ret.barrels = parent_du.barrels;
     }
 
     return ret;
@@ -564,4 +602,12 @@ void damage_over_time_data::deserialize( const JsonObject &jo )
     jo.read( "amount", amount );
     jo.read( "duration", duration );
     jo.read( "bodyparts", bps );
+}
+
+barrel_desc::barrel_desc() = default;
+
+void barrel_desc::deserialize( const JsonObject &jo )
+{
+    mandatory( jo, false, "barrel_length", barrel_length );
+    mandatory( jo, false, "amount", amount );
 }

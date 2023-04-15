@@ -9,6 +9,14 @@
   },
   {
     "type": "GENERIC",
+    "id": "border_patrol_files",
+    "name": { "str_sp": "border patrol files" },
+    "description": "A folder filled with pages.",
+    "copy-from": "survnote",
+    "snippet_category": "border_patrol_files"
+  },
+  {
+    "type": "GENERIC",
     "id": "green_postit_field_agent",
     "copy-from": "survnote",
     "name": { "str": "post-it note" },

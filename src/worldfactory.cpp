@@ -2028,6 +2028,7 @@ void load_external_option( const JsonObject &jo )
     if( jo.has_member( "info" ) ) {
         jo.get_string( "info" );
     }
+    options_manager::update_options_cache();
 }
 
 mod_manager &worldfactory::get_mod_manager()

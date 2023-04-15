@@ -2,6 +2,7 @@
 
 #include <set>
 
+#include "damage.h"
 #include "item.h"
 #include "type_id.h"
 
@@ -14,6 +15,8 @@ static const itype_id itype_9mm( "9mm" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_fish_bait( "fish_bait" );
 static const itype_id itype_pebble( "pebble" );
+static const itype_id itype_test_100mm_ammo( "test_100mm_ammo" );
+static const itype_id itype_test_100mm_ammo_relative( "test_100mm_ammo_relative" );
 static const itype_id itype_thread( "thread" );
 
 // Functions:
@@ -193,6 +196,27 @@ TEST_CASE( "ammo default", "[ammo][ammo_default]" )
         // Revolver ammo is "44paper" but default ammunition type is "44army"
         CHECK( colt.ammo_default() == itype_44army );
         CHECK( lemat.ammo_default() == itype_44army );
+    }
+}
+
+TEST_CASE( "barrel test", "[ammo][weapon]" )
+{
+    SECTION( "basic ammo and barrel length test" ) {
+        item base_gun( "test_glock_super_long" );
+        CHECK( base_gun.gun_damage( itype_test_100mm_ammo ).total_damage() == 65 );
+    }
+
+    SECTION( "basic ammo and mod length test" ) {
+        item base_gun( "test_glock_super_long" );
+        item gun_mod( "barrel_glock_short" );
+        REQUIRE( base_gun.put_in( gun_mod, item_pocket::pocket_type::MOD ).success() );
+        REQUIRE( base_gun.barrel_length().value() == 100 );
+        CHECK( base_gun.gun_damage( itype_test_100mm_ammo ).total_damage() == 60 );
+    }
+
+    SECTION( "inherited ammo and barrel length test" ) {
+        item base_gun( "test_glock_super_long" );
+        CHECK( base_gun.gun_damage( itype_test_100mm_ammo_relative ).total_damage() == 66 );
     }
 }
 

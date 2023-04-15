@@ -175,7 +175,7 @@ class effect_type
         }
 
         void extract_effect(
-            const JsonObject &j,
+            const std::array<std::optional<JsonObject>, 2> &j,
             const std::string &effect_name,
             const std::vector<std::pair<std::string, mod_action>> &action_keys );
 
