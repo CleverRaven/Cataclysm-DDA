@@ -160,7 +160,6 @@ static const ammotype ammo_battery( "battery" );
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
 static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
-static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_hydraulics( "bio_hydraulics" );
 static const bionic_id bio_memory( "bio_memory" );
@@ -6502,18 +6501,6 @@ void Character::update_stamina( int turns )
     }
 
     const int max_stam = get_stamina_max();
-    if( get_power_level() >= 3_kJ && has_active_bionic( bio_gills ) ) {
-        int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
-                                   max_stam - get_stamina() - stamina_recovery * turns );
-        // so the effective recovery is up to 5x default
-        bonus = std::min( bonus, 4 * static_cast<int>( effective_regen_rate ) );
-        if( bonus > 0 ) {
-            stamina_recovery += bonus;
-            bonus /= 10;
-            bonus = std::max( bonus, 1 );
-            mod_power_level( units::from_kilojoule( -bonus ) );
-        }
-    }
 
     // Roll to determine actual stamina recovery over this period
     int recover_amount = std::ceil( stamina_recovery * turns );
