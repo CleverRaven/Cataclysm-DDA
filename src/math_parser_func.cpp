@@ -1,5 +1,4 @@
 #include "math_parser_func.h"
-#include "math_parser_shim.h"
 
 #include <exception>
 #include <string_view>
@@ -7,6 +6,8 @@
 
 #include "condition.h"
 #include "dialogue.h"
+#include "math_parser_diag.h"
+#include "math_parser_shim.h"
 #include "mission.h"
 
 std::vector<std::string_view> tokenize( std::string_view str, std::string_view separators,
@@ -33,6 +34,17 @@ std::vector<std::string_view> tokenize( std::string_view str, std::string_view s
         start = pos + 1;
     }
     return ret;
+}
+
+bool is_beta( char scope )
+{
+    switch( scope ) {
+        case 'n':
+            return true;
+        case 'u':
+        default:
+            return false;
+    }
 }
 
 template<class D>

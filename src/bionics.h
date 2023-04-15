@@ -184,7 +184,7 @@ struct bionic_data {
     itype_id itype() const;
 
     bool was_loaded = false;
-    void load( const JsonObject &obj, const std::string & );
+    void load( const JsonObject &obj, const std::string &src );
     static void load_bionic( const JsonObject &jo, const std::string &src );
     static const std::vector<bionic_data> &get_all();
     static void check_bionic_consistency();

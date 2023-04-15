@@ -83,6 +83,7 @@ struct talk_effect_fun_t {
         void set_npc_cbm_reserve_rule( const JsonObject &jo, const std::string &member );
         void set_npc_cbm_recharge_rule( const JsonObject &jo, const std::string &member );
         void set_location_variable( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_location_variable_adjust( const JsonObject &jo, const std::string &member );
         void set_transform_radius( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_transform_line( const JsonObject &jo, const std::string &member );
         void set_place_override( const JsonObject &jo, const std::string &member );
@@ -209,6 +210,7 @@ struct eoc_math {
         decrease,
 
         equal,
+        not_equal,
         less,
         equal_or_less,
         greater,

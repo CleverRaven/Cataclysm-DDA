@@ -3167,7 +3167,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     }
 
     for( JsonValue jv : jo.get_array( "consumption_effect_on_conditions" ) ) {
-        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
+        slot.consumption_eocs.push_back( effect_on_conditions::load_inline_eoc( jv, src ) );
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {

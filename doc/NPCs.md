@@ -816,6 +816,7 @@ Effect | Description
 `u_adjust_var, npc_adjust_var`: `var_name, type: type_str`, `context: context_str`, `adjustment: `int or [variable object](#variable-object) | Your character or the NPC will adjust the stored variable by `adjustment`.
 `set_string_var`: string or [variable object](#variable-object) or array of either, `target_var: ` [variable object](#variable-object) | Store string from `set_string_var` in the variable object `target_var`. If an array is provided a random element will be used.
 `u_location_variable, npc_location_variable`: `target_var`, (*optional* `min_radius: `int or [variable object](#variable-object)) , (*optional* `max_radius: ` int or [variable object](#variable-object)), (*optional* `outdoor_only: outdoor_only_bool`), (*optional* `target_params: assign_mission_target` parameters), (*optional* `z_adjust: ` int or [variable object](#variable-object)), (*optional* `x_adjust: `string or [variable object](#variable-object)), (*optional* `y_adjust: `int or [variable object](#variable-object)), (*optional* `z_override: bool`) | If `target_params` is defined it will be used to find a tile. See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters. Otherwise targets a point between `min_radius_int`( or `min_radius_variable_object`)(defaults to 0) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 0) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. The chosen point will be saved to `target_var` which is a `variable_object`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise. x_adjust and y_adjust are added to the final position.
+`location_variable_adjust`: `target_var`, (*optional* `z_adjust: ` int or [variable object](#variable-object)), (*optional* `x_adjust: `string or [variable object](#variable-object)), (*optional* `y_adjust: `int or [variable object](#variable-object)), (*optional* `z_override: bool`), (*optional* `output_var: `[variable object](#variable-object)), (*optional* `overmap_tile: bool`) | Adjusts `target_var` which is a `variable_object` most likely made using `u_location_variable`.  `z_adjust` will be used as the Z value if `z_override`(defaults false) is true or added to the current z value otherwise.  x_adjust and y_adjust are added to the final position.  If `output_var` is provided the adjusted value will be save to it instead of `target_var`.  If `overmap_tile`(defaults false) is true, the adjustments will be made in overmap tiles rather than map tiles.
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `u_learn_recipe: `string or [variable object](#variable-object)  | Your character will learn and memorize the recipe.
@@ -1277,7 +1278,6 @@ Example | Description
 `"u_val": "effect_intensity"` | Intensity of an effect.  `effect` is the id of the effect to test and `bodypart` is optionally the body part to look at.  If the effect is not present a -1 is returned.
 `"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
 `"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
-`"u_val": "pain"` | Pain level.
 `"u_val": "power"` | Bionic power in millijoule.
 `"u_val": "power_max"` | Max bionic power in millijoule. Can be read but not written to.
 `"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
@@ -1406,7 +1406,15 @@ Function composition is also supported, for example `sin( rng(0, max( 0.5, u_sin
 #### Dialogue functions
 Dialogue functions take single-quoted strings as arguments and can return or manipulate game values. They are scoped just like [variables](#variables).
 
-This section is a work in progress as functions are ported from `arithmetic` to `math`. There is a `val()` shim available that can replace `u_val` and `npc_val`:
+This section is a work in progress as functions are ported from `arithmetic` to `math`.
+
+| Function | Eval | Assign |Scopes | Description |
+|----------|------|--------|-------|-------------|
+| pain     |  ✅  |   ✅   | u, n  | Return or set pain<br/> Example:<br/>`{ "math": [ "n_pain()", "=", "u_pain() + 9000" ] }`|
+
+
+##### u_val shim
+There is a `val()` shim available that can cover the missing arithmetic functions from `u_val` and `npc_val`:
 
 ```JSON
 { "math": [ "u_val('stamina')" ] }
