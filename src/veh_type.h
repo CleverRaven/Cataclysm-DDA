@@ -136,6 +136,10 @@ struct vpslot_workbench {
     units::volume allowed_volume = 0_ml;
 };
 
+struct vpslot_toolkit {
+    std::set<itype_id> allowed_types;
+};
+
 struct transform_terrain_data {
     std::set<std::string> pre_flags;
     std::string post_terrain;
@@ -239,6 +243,7 @@ class vpart_info
         static void load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo );
         static void load_workbench( std::optional<vpslot_workbench> &wbptr, const JsonObject &jo );
         static void load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObject &jo );
+        static void load_toolkit( std::optional<vpslot_toolkit> &tkptr, const JsonObject &jo );
         static void load( const JsonObject &jo, const std::string &src );
         static void finalize();
         static void check();
@@ -263,13 +268,6 @@ class vpart_info
             return bitflags.test( flag );
         }
         void set_flag( const std::string &flag );
-
-        bool has_tool( const itype_id &tool ) const {
-            return std::find_if( pseudo_tools.cbegin(),
-            pseudo_tools.cend(), [&tool]( std::pair<itype_id, int>p ) {
-                return p.first == tool;
-            } ) != pseudo_tools.cend();
-        }
 
         /** Gets all categories of this part */
         const std::set<std::string> &get_categories() const;
@@ -328,6 +326,7 @@ class vpart_info
          * Getter for optional workbench info
          */
         const std::optional<vpslot_workbench> &get_workbench_info() const;
+        const std::optional<vpslot_toolkit> &get_toolkit_info() const;
 
         std::set<std::pair<itype_id, int>> get_pseudo_tools() const;
 
@@ -366,6 +365,7 @@ class vpart_info
         std::optional<vpslot_wheel> wheel_info;
         std::optional<vpslot_rotor> rotor_info;
         std::optional<vpslot_workbench> workbench_info;
+        std::optional<vpslot_toolkit> toolkit_info;
 
         /** Unique identifier for this part */
         vpart_id id;

@@ -304,6 +304,17 @@ void vpart_info::load_rotor( std::optional<vpslot_rotor> &roptr, const JsonObjec
     cata_assert( roptr );
 }
 
+void vpart_info::load_toolkit( std::optional<vpslot_toolkit> &tkptr, const JsonObject &jo )
+{
+    vpslot_toolkit toolkit_info{};
+    if( tkptr ) {
+        toolkit_info = *tkptr;
+    }
+    assign( jo, "allowed_tools", toolkit_info.allowed_types );
+    tkptr = toolkit_info;
+    cata_assert( tkptr );
+}
+
 void vpart_info::load_wheel( std::optional<vpslot_wheel> &whptr, const JsonObject &jo )
 {
     vpslot_wheel wh_info{};
@@ -541,6 +552,10 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
 
     if( def.has_flag( "WORKBENCH" ) ) {
         load_workbench( def.workbench_info, jo );
+    }
+
+    if( def.has_flag( "VEH_TOOLS" ) ) {
+        load_toolkit( def.toolkit_info, jo );
     }
 
     if( jo.has_string( "abstract" ) ) {
@@ -787,6 +802,17 @@ void vpart_info::finalize()
                 pt.erase( it++ );
             } else {
                 ++it;
+            }
+        }
+        if( e.second.toolkit_info.has_value() ) {
+            std::set<itype_id> &pt = e.second.toolkit_info->allowed_types;
+            for( auto it = pt.begin(); it != pt.end(); /* blank */ ) {
+                if( !it->is_valid() ) {
+                    debugmsg( "invalid itype_id '%s' on 'allowed_tools' of vpart '%s'", it->str(), e.first.str() );
+                    pt.erase( it++ );
+                } else {
+                    ++it;
+                }
             }
         }
     }
@@ -1072,12 +1098,18 @@ int vpart_info::format_description( std::string &msg, const nc_color &format_col
                                        base.gun_damage().total_damage() );
     }
 
-    if( !pseudo_tools.empty() ) {
-        append_desc( std::string( "\n" ) + _( "Provides:" ) + " <color_cyan>" +
-                     enumerate_as_string( pseudo_tools.begin(), pseudo_tools.end(),
-        []( const std::pair<itype_id, int> &p ) {
+    if( !get_pseudo_tools().empty() ) {
+        append_desc( string_format( "\n%s<color_cyan>%s</color>", _( "Provides: " ),
+        enumerate_as_string( get_pseudo_tools(), []( const std::pair<itype_id, int> &p ) {
             return p.first.obj().nname( 1 );
-        } ) + "</color>" );
+        } ) ) );
+    }
+
+    if( get_toolkit_info() && !get_toolkit_info()->allowed_types.empty() ) {
+        append_desc( string_format( "\n%s<color_cyan>%s</color>", _( "Allows connecting: " ),
+        enumerate_as_string( get_toolkit_info()->allowed_types, []( const itype_id & it ) {
+            return it->nname( 1 );
+        } ) ) );
     }
 
     if( !long_descrip.empty() ) {
@@ -1245,6 +1277,11 @@ int vpart_info::rotor_diameter() const
 const std::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
 {
     return workbench_info;
+}
+
+const std::optional<vpslot_toolkit> &vpart_info::get_toolkit_info() const
+{
+    return toolkit_info;
 }
 
 std::set<std::pair<itype_id, int>> vpart_info::get_pseudo_tools() const
